@@ -18,7 +18,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/changelog/page/1'));
 
-        $response = $this->controller()->actionChangeLogRecord('page', 1);
+        $response = $this->controller()->changeLogRecord('page', 1);
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('components/panel-change-record.twig', $response->getTemplateName());
@@ -29,7 +29,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/dashboardnews'));
 
-        $response = $this->controller()->actionDashboardNews($this->getRequest());
+        $response = $this->controller()->dashboardNews($this->getRequest());
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('components/panel-news.twig', $response->getTemplateName());
@@ -40,7 +40,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/lastmodified/page/1'));
 
-        $response = $this->controller()->actionLastModified('page', 1);
+        $response = $this->controller()->lastModified('page', 1);
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('components/panel-lastmodified.twig', $response->getTemplateName());
@@ -51,7 +51,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/latestactivity'));
 
-        $response = $this->controller()->actionLatestActivity($this->getRequest());
+        $response = $this->controller()->latestActivity($this->getRequest());
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('components/panel-activity.twig', $response->getTemplateName());
@@ -60,7 +60,7 @@ class GeneralTest extends ControllerUnitTest
 
     /**
      * @covers \Bolt\Storage::getUri
-     * @covers \Bolt\Controller\Async\General::actionMakeUri
+     * @covers \Bolt\Controller\Async\General::makeUri
      */
     public function testMakeUri()
     {
@@ -74,7 +74,7 @@ class GeneralTest extends ControllerUnitTest
             'fulluri'         => true,
         )));
 
-        $response = $this->controller()->actionMakeUri($this->getRequest());
+        $response = $this->controller()->makeUri($this->getRequest());
 
         $this->assertSame('/page/' . $record->values['slug'], $response);
     }
@@ -85,7 +85,7 @@ class GeneralTest extends ControllerUnitTest
             'q' => 'sho'
         )));
 
-        $response = $this->controller()->actionOmnisearch($this->getRequest());
+        $response = $this->controller()->omnisearch($this->getRequest());
 
         $this->assertTrue($response instanceof JsonResponse);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -101,7 +101,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/populartags'));
 
-        $response = $this->controller()->actionPopularTags($this->getRequest(), 'tags');
+        $response = $this->controller()->popularTags($this->getRequest(), 'tags');
 
         $this->assertTrue($response instanceof JsonResponse);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -120,7 +120,7 @@ class GeneralTest extends ControllerUnitTest
     public function testTags()
     {
         //         $this->setRequest(Request::create('/async/tags/tags'));
-//         $response = $this->controller()->actionTags($this->getRequest(), 'tags');
+//         $response = $this->controller()->tags($this->getRequest(), 'tags');
 
 //         $this->assertTrue($response instanceof JsonResponse);
 //         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());

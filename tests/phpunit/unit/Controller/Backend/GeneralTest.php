@@ -19,7 +19,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/bolt/about'));
 
-        $response = $this->controller()->actionAbout();
+        $response = $this->controller()->about();
 
         $this->assertEquals('about/about.twig', $response->getTemplateName());
     }
@@ -40,13 +40,13 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/clearcache'));
         $this->checkTwigForTemplate($this->getApp(), 'clearcache/clearcache.twig');
 
-        $this->controller()->actionClearCache();
+        $this->controller()->clearCache();
         $this->assertNotEmpty($this->getFlashBag()->get('error'));
 
         $this->setRequest(Request::create('/bolt/clearcache'));
         $this->checkTwigForTemplate($this->getApp(), 'clearcache/clearcache.twig');
 
-        $this->controller()->actionClearCache();
+        $this->controller()->clearCache();
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
     }
 
@@ -71,7 +71,7 @@ class GeneralTest extends ControllerUnitTest
         $this->setService('render', $twig);
 
         $this->setRequest(Request::create('/bolt'));
-        $this->controller()->actionDashboard($this->getRequest());
+        $this->controller()->dashboard($this->getRequest());
     }
 
     public function testOmnisearch()
@@ -81,20 +81,20 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/omnisearch', 'GET', array('q' => 'test')));
         $this->checkTwigForTemplate($this->getApp(), 'omnisearch/omnisearch.twig');
 
-        $this->controller()->actionOmnisearch($this->getRequest());
+        $this->controller()->omnisearch($this->getRequest());
     }
 
     public function testPrefill()
     {
         $this->setRequest(Request::create('/bolt/prefill'));
-        $response = $this->controller()->actionPrefill($this->getRequest());
+        $response = $this->controller()->prefill($this->getRequest());
         $context = $response->getContext();
         $this->assertEquals(3, count($context['context']['contenttypes']));
         $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
 
         // Test the post
         $this->setRequest(Request::create('/bolt/prefill', 'POST', array('contenttypes' => 'pages')));
-        $response = $this->controller()->actionPrefill($this->getRequest());
+        $response = $this->controller()->prefill($this->getRequest());
         $this->assertEquals('/bolt/prefill', $response->getTargetUrl());
 
         // Test for the Exception if connection fails to the prefill service
@@ -124,7 +124,7 @@ class GeneralTest extends ControllerUnitTest
         $this->setService('logger.system', $logger);
 
         $this->setRequest(Request::create('/bolt/prefill', 'POST', array('contenttypes' => 'pages')));
-        $this->controller()->actionPrefill($this->getRequest());
+        $this->controller()->prefill($this->getRequest());
     }
 
     public function testTranslation()
@@ -133,7 +133,7 @@ class GeneralTest extends ControllerUnitTest
 
         // Render new translation file
         $this->setRequest(Request::create('/bolt/tr/contenttypes/en_CY'));
-        $response = $this->controller()->actionTranslation($this->getRequest(), 'contenttypes', 'en_CY');
+        $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
 
         $this->assertTrue($response instanceof BoltResponse, 'Response is not instance of BoltResponse');
         $this->assertEquals('editlocale/editlocale.twig', $response->getTemplateName());
@@ -152,7 +152,7 @@ class GeneralTest extends ControllerUnitTest
             )
         ));
 
-        $response = $this->controller()->actionTranslation($this->getRequest(), 'contenttypes', 'en_CY');
+        $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
 
         $this->assertTrue($response instanceof RedirectResponse);
         $this->assertTrue($response->isRedirect('/bolt/tr/contenttypes/en_CY'));
@@ -170,7 +170,7 @@ class GeneralTest extends ControllerUnitTest
                 )
             )
         ));
-        $this->controller()->actionTranslation($this->getRequest(), 'contenttypes', 'en_CY');
+        $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
 
         $this->assertTrue($response instanceof RedirectResponse, 'Response is not instance of RedirectResponse');
         $errors = $this->getFlashBag()->get('error');

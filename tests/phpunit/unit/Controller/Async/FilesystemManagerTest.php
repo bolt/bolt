@@ -17,7 +17,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     public function testBrowse()
     {
         $this->setRequest(Request::create('/async/browse'));
-        $response = $this->controller()->actionBrowse($this->getRequest(), 'files', '/');
+        $response = $this->controller()->browse($this->getRequest(), 'files', '/');
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -31,7 +31,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'parent'     => '',
             'foldername' => '__phpunit_test_delete_me',
         )));
-        $response = $this->controller()->actionCreateFolder($this->getRequest());
+        $response = $this->controller()->createFolder($this->getRequest());
 
         $this->assertTrue($response);
     }
@@ -42,7 +42,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 //             'namespace' => 'files',
 //             'filename'  => 'foo.txt',
 //         )));
-//         $response = $this->controller()->actionDeleteFile($this->getRequest());
+//         $response = $this->controller()->deleteFile($this->getRequest());
 
 //         $this->assertTrue($response);
     }
@@ -53,7 +53,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 //             'namespace' => 'files',
 //             'filename'  => 'foo.txt',
 //         )));
-//         $response = $this->controller()->actionDuplicateFile($this->getRequest());
+//         $response = $this->controller()->duplicateFile($this->getRequest());
 
 //         $this->assertTrue($response);
     }
@@ -63,7 +63,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         //$this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
         $this->setRequest(Request::create('/async/filebrowser'));
 
-        $response = $this->controller()->actionRecordBrowser('pages');
+        $response = $this->controller()->recordBrowser('pages');
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('recordbrowser/recordbrowser.twig', $response->getTemplateName());
@@ -76,7 +76,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'term' => '*',
         )));
 
-        $response = $this->controller()->actionFilesAutoComplete($this->getRequest());
+        $response = $this->controller()->filesAutoComplete($this->getRequest());
 
         $this->assertTrue($response instanceof JsonResponse);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -89,7 +89,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'parent'     => '',
             'foldername' => '__phpunit_test_delete_me',
         )));
-        $response = $this->controller()->actionRemoveFolder($this->getRequest());
+        $response = $this->controller()->removeFolder($this->getRequest());
 
         $this->assertTrue($response);
     }
@@ -102,7 +102,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 //             'oldname'   => 'foo.txt',
 //             'newname'   => 'bar.txt',
 //         )));
-//         $response = $this->controller()->actionRenameFile($this->getRequest());
+//         $response = $this->controller()->renameFile($this->getRequest());
 
 //         $this->assertTrue($response);
     }
@@ -115,7 +115,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 //             'oldname'   => 'foo',
 //             'newname'   => 'bar',
 //         )));
-//         $response = $this->controller()->actionRenameFolder($this->getRequest());
+//         $response = $this->controller()->renameFolder($this->getRequest());
 
 //         $this->assertTrue($response);
     }

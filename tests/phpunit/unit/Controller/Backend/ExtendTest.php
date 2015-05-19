@@ -30,37 +30,37 @@ class ExtendTest extends ControllerUnitTest
         $this->getService('twig.loader.filesystem')->prependPath(TEST_ROOT . '/app/view/twig');
 
         $this->setRequest(Request::create('/bolt/extend'));
-        $response = $this->controller()->actionOverview($this->getRequest());
+        $response = $this->controller()->overview($this->getRequest());
         $this->assertEquals('extend/extend.twig', $response->getTemplateName());
 
-        $response = $this->controller()->actionInstallPackage($this->getRequest());
+        $response = $this->controller()->installPackage($this->getRequest());
         $this->assertEquals('extend/install-package.twig', $response->getTemplateName());
 
         $this->setRequest(Request::create('/', 'GET', array('package' => 'bolt/theme-2014')));
-        $controller = $this->getMock('Bolt\Controller\Backend\Extend', array('actionInstallInfo', 'actionPackageInfo', 'actionCheck'));
+        $controller = $this->getMock('Bolt\Controller\Backend\Extend', array('installInfo', 'packageInfo', 'check'));
         $controller->expects($this->any())
-            ->method('actionInstallInfo')
+            ->method('installInfo')
             ->will($this->returnValue(new Response('{"dev": [{"name": "bolt/theme-2014","version": "dev-master"}],"stable": []}')));
 
-        $response = $controller->actionInstallInfo($this->getRequest());
+        $response = $controller->installInfo($this->getRequest());
         $this->assertNotEmpty($response);
 
         $this->setRequest(Request::create('/', 'GET', array('package' => 'bolt/theme-2014', 'version' => 'dev-master')));
         $controller->expects($this->any())
-            ->method('actionPackageInfo')
+            ->method('packageInfo')
             ->will($this->returnValue(new Response('{"name":"bolt\/theme-2014","version":"unknown","type":"unknown","descrip":""}')));
 
-        $response = $controller->actionPackageInfo($this->getRequest());
+        $response = $controller->packageInfo($this->getRequest());
         $this->assertNotEmpty($response);
         $content = json_decode($response->getContent());
         $this->assertAttributeNotEmpty('name', $content);
 
         $this->setRequest(Request::create('/'));
         $controller->expects($this->any())
-            ->method('actionCheck')
+            ->method('check')
             ->will($this->returnValue(new Response('{"updates":[],"installs":[]}')));
 
-        $response = $controller->actionCheck($this->getRequest());
+        $response = $controller->check($this->getRequest());
         $this->assertNotEmpty($response);
     }
 
@@ -70,7 +70,7 @@ class ExtendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/extend'));
         $this->checkTwigForTemplate($this->getApp(), 'extend/extend.twig');
 
-        $response = $this->controller()->actionOverview($this->getRequest());
+        $response = $this->controller()->overview($this->getRequest());
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
@@ -81,7 +81,7 @@ class ExtendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/extend/installPackage'));
         $this->checkTwigForTemplate($this->getApp(), 'extend/install-package.twig');
 
-        $response = $response = $this->controller()->actionInstallPackage($this->getRequest());
+        $response = $response = $this->controller()->installPackage($this->getRequest());
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
@@ -96,7 +96,7 @@ class ExtendTest extends ControllerUnitTest
         $this->allowLogin($this->getApp());
 
         $this->setRequest(Request::create('/bolt/extend/installInfo?package=test&bolt=2.0.0'));
-        $response = $this->controller()->actionInstallInfo($this->getRequest());
+        $response = $this->controller()->installInfo($this->getRequest());
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $parsedOutput = json_decode($response->getContent());

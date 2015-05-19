@@ -26,7 +26,7 @@ class DatabaseTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/dbcheck'));
         $this->checkTwigForTemplate($this->getApp(), 'dbcheck/dbcheck.twig');
 
-        $this->controller()->actionCheck($this->getRequest());
+        $this->controller()->check($this->getRequest());
     }
 
     public function testUpdate()
@@ -46,21 +46,21 @@ class DatabaseTest extends ControllerUnitTest
         ResourceManager::$theApp = $this->getApp();
 
         $this->setRequest(Request::create('/bolt/dbupdate', 'POST', array('return' => 'edit')));
-        $response = $this->controller()->actionUpdate($this->getRequest());
+        $response = $this->controller()->update($this->getRequest());
 
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
         $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->setRequest(Request::create('/bolt/dbupdate', 'POST', array('return' => 'edit')));
-        $response = $this->controller()->actionUpdate($this->getRequest());
+        $response = $this->controller()->update($this->getRequest());
 
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
         $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->setRequest(Request::create('/bolt/dbupdate', 'POST'));
-        $response = $this->controller()->actionUpdate($this->getRequest());
+        $response = $this->controller()->update($this->getRequest());
 
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
         $this->assertEquals('/bolt/dbupdate_result?messages=null', $response->getTargetUrl());
@@ -73,7 +73,7 @@ class DatabaseTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/dbupdate_result'));
         $this->checkTwigForTemplate($this->getApp(), 'dbcheck/dbcheck.twig');
 
-        $this->controller()->actionUpdateResult($this->getRequest());
+        $this->controller()->updateResult($this->getRequest());
     }
 
     /**

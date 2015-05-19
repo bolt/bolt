@@ -18,7 +18,7 @@ class UsersTest extends ControllerUnitTest
     public function testAdmin()
     {
         $this->setRequest(Request::create('/bolt/users'));
-        $response = $this->controller()->actionAdmin($this->getRequest());
+        $response = $this->controller()->admin($this->getRequest());
 
         $context = $response->getContext();
         $this->assertNotNull($context['context']['users']);
@@ -32,7 +32,7 @@ class UsersTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/useredit/1'));
 
         // This one should redirect because of permission failure
-        $response = $this->controller()->actionEdit($this->getRequest(), 1);
+        $response = $this->controller()->edit($this->getRequest(), 1);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we allow the permsission check to return true
@@ -42,7 +42,7 @@ class UsersTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('permissions', $perms);
 
-        $response = $this->controller()->actionEdit($this->getRequest(), 1);
+        $response = $this->controller()->edit($this->getRequest(), 1);
         $context = $response->getContext();
         $this->assertEquals('edit', $context['context']['kind']);
         $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
@@ -50,7 +50,7 @@ class UsersTest extends ControllerUnitTest
 
         // Test that an empty user gives a create form
         $this->setRequest(Request::create('/bolt/useredit'));
-        $response = $this->controller()->actionEdit($this->getRequest(), null);
+        $response = $this->controller()->edit($this->getRequest(), null);
         $context = $response->getContext();
         $this->assertEquals('create', $context['context']['kind']);
     }
@@ -88,7 +88,7 @@ class UsersTest extends ControllerUnitTest
             )
         ));
 
-        $response = $this->controller()->actionEdit($this->getRequest(), 1);
+        $response = $this->controller()->edit($this->getRequest(), 1);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
     }
 
@@ -107,7 +107,7 @@ class UsersTest extends ControllerUnitTest
 
         // Because we have users in the database this should exit at first attempt
         $this->setRequest(Request::create('/bolt/userfirst'));
-        $response = $this->controller()->actionFirst($this->getRequest());
+        $response = $this->controller()->first($this->getRequest());
         $this->assertEquals('/bolt', $response->getTargetUrl());
 
         // Now we delete the users
@@ -115,7 +115,7 @@ class UsersTest extends ControllerUnitTest
         $this->getService('users')->users = array();
 
         $this->setRequest(Request::create('/bolt/userfirst'));
-        $response = $this->controller()->actionFirst($this->getRequest());
+        $response = $this->controller()->first($this->getRequest());
         $context = $response->getContext();
         $this->assertEquals('create', $context['context']['kind']);
 
@@ -136,7 +136,7 @@ class UsersTest extends ControllerUnitTest
                 )
             )
         ));
-        $response = $this->controller()->actionFirst($this->getRequest());
+        $response = $this->controller()->first($this->getRequest());
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }
 
@@ -144,7 +144,7 @@ class UsersTest extends ControllerUnitTest
     {
         // First test should exit/redirect with no anti CSRF token
         $this->setRequest(Request::create('/bolt/user/disable/2'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'disable', 1);
+        $response = $this->controller()->modify($this->getRequest(), 'disable', 1);
         $info = $this->getFlashBag()->get('info');
 
         $this->assertRegExp('/An error occurred/', $info[0]);
@@ -165,7 +165,7 @@ class UsersTest extends ControllerUnitTest
 
         // This request should fail because the user doesnt exist.
         $this->setRequest(Request::create('/bolt/user/disable/2'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'disable', 42);
+        $response = $this->controller()->modify($this->getRequest(), 'disable', 42);
 
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('error');
@@ -173,7 +173,7 @@ class UsersTest extends ControllerUnitTest
 
         // This check will fail because we are operating on the current user
         $this->setRequest(Request::create('/bolt/user/disable/1'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'disable', 1);
+        $response = $this->controller()->modify($this->getRequest(), 'disable', 1);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/yourself/', $err[0]);
@@ -184,7 +184,7 @@ class UsersTest extends ControllerUnitTest
 
         // And retry the operation that will work now
         $this->setRequest(Request::create('/bolt/user/disable/2'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'disable', $editor['id']);
+        $response = $this->controller()->modify($this->getRequest(), 'disable', $editor['id']);
 
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/is disabled/', $info[0]);
@@ -192,21 +192,21 @@ class UsersTest extends ControllerUnitTest
 
         // Now try to enable the user
         $this->setRequest(Request::create('/bolt/user/enable/2'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'enable', $editor['id']);
+        $response = $this->controller()->modify($this->getRequest(), 'enable', $editor['id']);
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/is enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Try a non-existent action, make sure we get an error
         $this->setRequest(Request::create('/bolt/user/enhance/2'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'enhance', $editor['id']);
+        $response = $this->controller()->modify($this->getRequest(), 'enhance', $editor['id']);
         $info = $this->getFlashBag()->get('error');
         $this->assertRegExp('/No such action/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we run a delete action
         $this->setRequest(Request::create('/bolt/user/delete/2'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'delete', $editor['id']);
+        $response = $this->controller()->modify($this->getRequest(), 'delete', $editor['id']);
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/is deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
@@ -223,7 +223,7 @@ class UsersTest extends ControllerUnitTest
         $this->setService('permissions', $perms);
 
         $this->setRequest(Request::create('/bolt/user/disable/' . $editor['id']));
-        $response = $this->controller()->actionModify($this->getRequest(), 'disable', $editor['id']);
+        $response = $this->controller()->modify($this->getRequest(), 'disable', $editor['id']);
 
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('error');
@@ -257,19 +257,19 @@ class UsersTest extends ControllerUnitTest
 
         // This mocks a failure and ensures the error is reported
         $this->setRequest(Request::create('/bolt/user/disable/2'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'disable', 2);
+        $response = $this->controller()->modify($this->getRequest(), 'disable', 2);
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be disabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/user/enable/2'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'enable', 2);
+        $response = $this->controller()->modify($this->getRequest(), 'enable', 2);
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/user/delete/2'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'delete', 2);
+        $response = $this->controller()->modify($this->getRequest(), 'delete', 2);
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
@@ -282,7 +282,7 @@ class UsersTest extends ControllerUnitTest
         $user = $this->getService('users')->getUser(1);
         $this->getService('users')->setCurrentUser($user);
         $this->setRequest(Request::create('/bolt/profile'));
-        $response = $this->controller()->actionProfile($this->getRequest());
+        $response = $this->controller()->profile($this->getRequest());
         $context = $response->getContext();
         $this->assertEquals('edituser/edituser.twig', $response->getTemplateName());
         $this->assertEquals('profile', $context['context']['kind']);
@@ -303,7 +303,7 @@ class UsersTest extends ControllerUnitTest
             )
         ));
 
-        $response = $this->controller()->actionProfile($this->getRequest());
+        $response = $this->controller()->profile($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
     }
 
@@ -339,14 +339,14 @@ class UsersTest extends ControllerUnitTest
                 )
             )
         ));
-        $response = $this->controller()->actionEdit($this->getRequest(), 1);
+        $response = $this->controller()->edit($this->getRequest(), 1);
         $this->assertEquals('/bolt/login', $response->getTargetUrl());
     }
 
     public function testViewRoles()
     {
         $this->setRequest(Request::create('/bolt/roles'));
-        $response = $this->controller()->actionViewRoles();
+        $response = $this->controller()->viewRoles();
         $context = $response->getContext();
         $this->assertEquals('roles/roles.twig', $response->getTemplateName());
         $this->assertNotEmpty($context['context']['global_permissions']);

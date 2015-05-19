@@ -30,7 +30,7 @@ class AuthenticationTest extends ControllerUnitTest
 
         $this->getService('users')->currentuser = array('username' => 'test', 'roles' => array());
         $this->addDefaultUser($this->getApp());
-        $response = $this->controller()->actionPostLogin($this->getRequest());
+        $response = $this->controller()->postLogin($this->getRequest());
 
         $this->assertTrue($response->isRedirect('/bolt'));
     }
@@ -52,7 +52,7 @@ class AuthenticationTest extends ControllerUnitTest
 
         $this->getService('users')->currentuser = array('username' => 'test', 'email' => 'test@example.com', 'roles' => array());
         $this->addDefaultUser($this->getApp());
-        $response = $this->controller()->actionPostLogin($this->getRequest());
+        $response = $this->controller()->postLogin($this->getRequest());
 
         $this->assertTrue($response->isRedirect('/bolt'));
     }
@@ -73,16 +73,16 @@ class AuthenticationTest extends ControllerUnitTest
         $this->setService('authentication', $authentication);
 
         $this->checkTwigForTemplate($this->getApp(), 'login/login.twig');
-        $this->controller()->actionPostLogin($this->getRequest());
+        $this->controller()->postLogin($this->getRequest());
 
         // Test missing data fails
         $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'fake')));
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'Invalid request');
-        $this->controller()->actionPostLogin($this->getRequest());
+        $this->controller()->postLogin($this->getRequest());
 
         $this->setRequest(Request::create('/bolt/login', 'POST', array()));
         $this->checkTwigForTemplate($this->getApp(), 'error.twig');
-        $this->controller()->actionPostLogin($this->getRequest());
+        $this->controller()->postLogin($this->getRequest());
     }
 
     public function testLoginSuccess()
@@ -97,7 +97,7 @@ class AuthenticationTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'login')));
 
-        $response = $this->controller()->actionPostLogin($this->getRequest());
+        $response = $this->controller()->postLogin($this->getRequest());
         $this->assertRegExp('|Redirecting to /bolt|', $response->getContent());
     }
 
@@ -118,13 +118,13 @@ class AuthenticationTest extends ControllerUnitTest
 
         // Test missing username fails
         $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'reset')));
-        $response = $this->controller()->actionPostLogin($this->getRequest());
+        $response = $this->controller()->postLogin($this->getRequest());
         $flash = $this->getFlashBag()->get('error');
         $this->assertRegExp('/Please provide a username/i', $flash[0]);
 
         // Test normal operation
         $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'reset', 'username' => 'admin')));
-        $response = $this->controller()->actionPostLogin($this->getRequest());
+        $response = $this->controller()->postLogin($this->getRequest());
         $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
     }
 
@@ -138,7 +138,7 @@ class AuthenticationTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/logout', 'POST', array()));
 
-        $response = $this->controller()->actionLogout();
+        $response = $this->controller()->logout();
         $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
     }
 
@@ -152,7 +152,7 @@ class AuthenticationTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/resetpassword'));
 
-        $response = $this->controller()->actionResetPassword($this->getRequest());
+        $response = $this->controller()->resetPassword($this->getRequest());
         $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
     }
 

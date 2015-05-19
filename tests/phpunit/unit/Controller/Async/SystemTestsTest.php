@@ -19,7 +19,7 @@ class SystemTestsTest extends ControllerUnitTest
         $this->getService('users')->setCurrentUser( $this->getService('users')->getUser('admin'));
         $this->setRequest(Request::create('/async/email/test/admin'));
 
-        $response = $this->controller()->actionEmailNotification($this->getRequest(), 'test');
+        $response = $this->controller()->emailNotification($this->getRequest(), 'test');
 
         $this->assertTrue($response instanceof Response);
         $this->assertSame('["Done"]', $response->getContent());

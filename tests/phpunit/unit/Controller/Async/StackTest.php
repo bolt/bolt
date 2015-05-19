@@ -19,7 +19,7 @@ class StackTest extends ControllerUnitTest
         $this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
         $this->setRequest(Request::create('/async/addstack/foo'));
 
-        $response = $this->controller()->actionAddStack($this->getRequest());
+        $response = $this->controller()->addStack($this->getRequest());
 
         $this->assertTrue($response);
     }
@@ -29,7 +29,7 @@ class StackTest extends ControllerUnitTest
         $this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
         $this->setRequest(Request::create('/async/showstack'));
 
-        $response = $this->controller()->actionShowStack($this->getRequest());
+        $response = $this->controller()->showStack($this->getRequest());
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('components/panel-stack.twig', $response->getTemplateName());

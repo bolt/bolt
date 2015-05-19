@@ -27,11 +27,11 @@ class LogTest extends ControllerUnitTest
         $this->setService('logger.manager', $log);
 
         $this->setRequest(Request::create('/bolt/changelog', 'GET', array('action' => 'trim')));
-        $response = $this->controller()->actionChangeOverview($this->getRequest());
+        $response = $this->controller()->changeOverview($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->setRequest(Request::create('/bolt/changelog', 'GET', array('action' => 'clear')));
-        $response = $this->controller()->actionChangeOverview($this->getRequest());
+        $response = $this->controller()->changeOverview($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->assertEquals('/bolt/changelog', $response->getTargetUrl());
@@ -51,8 +51,8 @@ class LogTest extends ControllerUnitTest
 
         // Test valid entry
         $this->setRequest(Request::create('/bolt/changelog/pages/1/1'));
-        $response = $this->controller()->actionChangeRecord($this->getRequest(), 'pages', 1, 1);
-        //                               actionChangeRecord($request, $contenttype, $contentid, $id)
+        $response = $this->controller()->changeRecord($this->getRequest(), 'pages', 1, 1);
+        //                               changeRecord($request, $contenttype, $contentid, $id)
 
         $context = $response->getContext();
         $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $context['context']['entry']);
@@ -60,7 +60,7 @@ class LogTest extends ControllerUnitTest
         // Test non-existing entry
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'exist');
         $this->setRequest(Request::create('/bolt/changelog/pages/1/100'));
-        $response = $this->controller()->actionChangeRecord($this->getRequest(), 'pages', 1, 100);
+        $response = $this->controller()->changeRecord($this->getRequest(), 'pages', 1, 100);
         $context = $response->getContext();
     }
 
@@ -70,7 +70,7 @@ class LogTest extends ControllerUnitTest
 
         // First test tests without any changelogs available
         $this->setRequest(Request::create('/bolt/changelog/pages'));
-        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', null);
+        $response = $this->controller()->changeRecordListing($this->getRequest(), 'pages', null);
 
         $context = $response->getContext();
         $this->assertEquals(0, count($context['context']['entries']));
@@ -80,7 +80,7 @@ class LogTest extends ControllerUnitTest
 
         // Search for a specific record where the content object doesn't exist
         $this->setRequest(Request::create('/bolt/changelog/pages/1'));
-        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', 200);
+        $response = $this->controller()->changeRecordListing($this->getRequest(), 'pages', 200);
 
         $context = $response->getContext();
         $this->assertEquals('Page #200', $context['context']['title']);
@@ -93,7 +93,7 @@ class LogTest extends ControllerUnitTest
 
         // Now handle all the other request variations
         $this->setRequest(Request::create('/bolt/changelog'));
-        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), null, null);
+        $response = $this->controller()->changeRecordListing($this->getRequest(), null, null);
 
         $context = $response->getContext();
         $this->assertEquals('All content types', $context['context']['title']);
@@ -101,7 +101,7 @@ class LogTest extends ControllerUnitTest
         $this->assertEquals(1, $context['context']['pagecount']);
 
         $this->setRequest(Request::create('/bolt/changelog/pages'));
-        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', null);
+        $response = $this->controller()->changeRecordListing($this->getRequest(), 'pages', null);
 
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['title']);
@@ -109,7 +109,7 @@ class LogTest extends ControllerUnitTest
         $this->assertEquals(1, $context['context']['pagecount']);
 
         $this->setRequest(Request::create('/bolt/changelog/pages/1'));
-        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', '1');
+        $response = $this->controller()->changeRecordListing($this->getRequest(), 'pages', '1');
 
         $context = $response->getContext();
         $this->assertEquals($content['title'], $context['context']['title']);
@@ -118,14 +118,14 @@ class LogTest extends ControllerUnitTest
 
         // Test pagination
         $this->setRequest(Request::create('/bolt/changelog/pages', 'GET', array('page' => 'all')));
-        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', null);
+        $response = $this->controller()->changeRecordListing($this->getRequest(), 'pages', null);
 
         $context = $response->getContext();
         $this->assertNull($context['context']['currentpage']);
         $this->assertNull($context['context']['pagecount']);
 
         $this->setRequest(Request::create('/bolt/changelog/pages', 'GET', array('page' => '1')));
-        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', null);
+        $response = $this->controller()->changeRecordListing($this->getRequest(), 'pages', null);
         $context = $response->getContext();
         $this->assertEquals(1, $context['context']['currentpage']);
 
@@ -133,7 +133,7 @@ class LogTest extends ControllerUnitTest
         $originalTitle = $content['title'];
         $this->getService('storage')->deleteContent('pages', 1);
         $this->setRequest(Request::create('/bolt/changelog/pages/1'));
-        $response = $this->controller()->actionChangeRecordListing($this->getRequest(), 'pages', '1');
+        $response = $this->controller()->changeRecordListing($this->getRequest(), 'pages', '1');
 
         $context = $response->getContext();
         $this->assertEquals($originalTitle, $context['context']['title']);
@@ -155,11 +155,11 @@ class LogTest extends ControllerUnitTest
         $this->setService('logger.manager', $log);
 
         $this->setRequest(Request::create('/bolt/systemlog', 'GET', array('action' => 'trim')));
-        $response = $this->controller()->actionSystemOverview($this->getRequest());
+        $response = $this->controller()->systemOverview($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->setRequest(Request::create('/bolt/systemlog', 'GET', array('action' => 'clear')));
-        $response = $this->controller()->actionSystemOverview($this->getRequest());
+        $response = $this->controller()->systemOverview($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->assertEquals('/bolt/systemlog', $response->getTargetUrl());

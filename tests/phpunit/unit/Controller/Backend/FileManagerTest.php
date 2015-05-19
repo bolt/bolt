@@ -19,7 +19,7 @@ class FileManagerTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/bolt/file/edit/config/config.yml'));
 
-        $response = $this->controller()->actionEdit($this->getRequest(), 'config', 'config.yml');
+        $response = $this->controller()->edit($this->getRequest(), 'config', 'config.yml');
 
         $this->assertEquals('editfile/editfile.twig', $response->getTemplateName());
     }
@@ -29,7 +29,7 @@ class FileManagerTest extends ControllerUnitTest
         $this->removeCSRF($this->getApp());
         $this->setRequest(Request::create('/bolt/files'));
 
-        $response = $this->controller()->actionManage($this->getRequest(), 'files', '');
+        $response = $this->controller()->manage($this->getRequest(), 'files', '');
         $context = $response->getContext();
 
         $this->assertEquals('', $context['context']['path']);
@@ -61,7 +61,7 @@ class FileManagerTest extends ControllerUnitTest
             )
         ));
 
-        $response = $this->controller()->actionManage($this->getRequest(), 'files', '');
+        $response = $this->controller()->manage($this->getRequest(), 'files', '');
     }
 
     /**

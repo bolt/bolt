@@ -18,7 +18,7 @@ class RecordsTest extends ControllerUnitTest
     public function testDelete()
     {
         $this->setRequest(Request::create('/bolt/deletecontent/pages/4'));
-        $response = $this->controller()->actionDelete($this->getRequest(), 'pages', 4);
+        $response = $this->controller()->delete($this->getRequest(), 'pages', 4);
 
         // This one should fail for permissions
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
@@ -32,7 +32,7 @@ class RecordsTest extends ControllerUnitTest
         $this->setService('users', $users);
 
         // This one should get killed by the anti CSRF check
-        $response = $this->controller()->actionDelete($this->getRequest(), 'pages', 4);
+        $response = $this->controller()->delete($this->getRequest(), 'pages', 4);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $err[0]);
@@ -43,7 +43,7 @@ class RecordsTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('authentication', $authentication);
 
-        $response = $this->controller()->actionDelete($this->getRequest(), 'pages', 4);
+        $response = $this->controller()->delete($this->getRequest(), 'pages', 4);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/has been deleted/', $err[0]);
@@ -53,7 +53,7 @@ class RecordsTest extends ControllerUnitTest
     {
         // First test will fail permission so we check we are kicked back to the dashboard
         $this->setRequest(Request::create('/bolt/editcontent/pages/4'));
-        $response = $this->controller()->actionEdit($this->getRequest(), 'pages', 4);
+        $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $this->assertEquals('/bolt', $response->getTargetUrl());
 
         // Since we're the test user we won't automatically have permission to edit.
@@ -64,14 +64,14 @@ class RecordsTest extends ControllerUnitTest
         $this->setService('users', $users);
 
         $this->setRequest(Request::create('/bolt/editcontent/pages/4'));
-        $response = $this->controller()->actionEdit($this->getRequest(), 'pages', 4);
+        $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
         $this->assertInstanceOf('Bolt\Content', $context['context']['content']);
 
         // Test creation
         $this->setRequest(Request::create('/bolt/editcontent/pages'));
-        $response = $this->controller()->actionEdit($this->getRequest(), 'pages', null);
+        $response = $this->controller()->edit($this->getRequest(), 'pages', null);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
         $this->assertInstanceOf('Bolt\Content', $context['context']['content']);
@@ -79,7 +79,7 @@ class RecordsTest extends ControllerUnitTest
 
         // Test that non-existent throws a redirect
         $this->setRequest(Request::create('/bolt/editcontent/pages/310'));
-        $response = $this->controller()->actionEdit($this->getRequest(), 'pages', 310);
+        $response = $this->controller()->edit($this->getRequest(), 'pages', 310);
         $this->assertEquals(302, $response->getStatusCode());
     }
 
@@ -94,7 +94,7 @@ class RecordsTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/editcontent/pages/4', 'GET', array('duplicate' => true)));
         $original = $this->getService('storage')->getContent('pages/4');
-        $response = $this->controller()->actionEdit($this->getRequest(), 'pages', 4);
+        $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $context = $response->getContext();
 
         // Check that correct fields are equal in new object
@@ -123,7 +123,7 @@ class RecordsTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST'));
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'Something went wrong');
-        $this->controller()->actionEdit($this->getRequest(), 'showcases', 3);
+        $this->controller()->edit($this->getRequest(), 'showcases', 3);
     }
 
     public function testEditPermissions()
@@ -142,7 +142,7 @@ class RecordsTest extends ControllerUnitTest
 
         // We should get kicked here because we dont have permissions to edit this
         $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST'));
-        $response = $this->controller()->actionEdit($this->getRequest(), 'showcases', 3);
+        $response = $this->controller()->edit($this->getRequest(), 'showcases', 3);
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }
 
@@ -162,7 +162,7 @@ class RecordsTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST', array('floatfield' => 1.2)));
         //$original = $this->getService('storage')->getContent('showcases/3');
-        $response = $this->controller()->actionEdit($this->getRequest(), 'showcases', 3);
+        $response = $this->controller()->edit($this->getRequest(), 'showcases', 3);
         $this->assertEquals('/bolt/overview/showcases', $response->getTargetUrl());
     }
 
@@ -183,7 +183,7 @@ class RecordsTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/editcontent/pages/4?returnto=ajax', 'POST'));
         $original = $this->getService('storage')->getContent('pages/4');
-        $response = $this->controller()->actionEdit($this->getRequest(), 'pages', 4);
+        $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $returned = json_decode($response->getContent());
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\JsonResponse', $response);
@@ -196,7 +196,7 @@ class RecordsTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/content/held/pages/3'));
 
         // This one should fail for lack of permission
-        $response = $this->controller()->actionModify($this->getRequest(), 'held', 'pages', 3);
+        $response = $this->controller()->modify($this->getRequest(), 'held', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/right privileges/', $err[0]);
@@ -208,7 +208,7 @@ class RecordsTest extends ControllerUnitTest
         $this->setService('users', $users);
 
         // This one should fail for the second permission check `isContentStatusTransitionAllowed`
-        $response = $this->controller()->actionModify($this->getRequest(), 'held', 'pages', 3);
+        $response = $this->controller()->modify($this->getRequest(), 'held', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/right privileges/', $err[0]);
@@ -217,14 +217,14 @@ class RecordsTest extends ControllerUnitTest
             ->method('isContentStatusTransitionAllowed')
             ->will($this->returnValue(true));
 
-        $response = $this->controller()->actionModify($this->getRequest(), 'held', 'pages', 3);
+        $response = $this->controller()->modify($this->getRequest(), 'held', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/has been changed/', $err[0]);
 
         // Test an invalid action fails
         $this->setRequest(Request::create('/bolt/content/fake/pages/3'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'fake', 'pages', 3);
+        $response = $this->controller()->modify($this->getRequest(), 'fake', 'pages', 3);
         $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/No such action/', $err[0]);
 
@@ -238,7 +238,7 @@ class RecordsTest extends ControllerUnitTest
 
         $this->setService('storage', $storage);
 
-        $response = $this->controller()->actionModify($this->getRequest(), 'held', 'pages', 3);
+        $response = $this->controller()->modify($this->getRequest(), 'held', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be modified/', $err[0]);
@@ -248,7 +248,7 @@ class RecordsTest extends ControllerUnitTest
         // passes on the the deleteContent method that is enough to indicate that
         // the work of this method is done.
         $this->setRequest(Request::create('/bolt/content/delete/pages/3'));
-        $response = $this->controller()->actionModify($this->getRequest(), 'delete', 'pages', 3);
+        $response = $this->controller()->modify($this->getRequest(), 'delete', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $err[0]);
@@ -257,14 +257,14 @@ class RecordsTest extends ControllerUnitTest
     public function testOverview()
     {
         $this->setRequest(Request::create('/bolt/overview/pages'));
-        $response = $this->controller()->actionOverview($this->getRequest(), 'pages');
+        $response = $this->controller()->overview($this->getRequest(), 'pages');
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
         $this->assertGreaterThan(1, count($context['context']['multiplecontent']));
 
         // Test the the default records per page can be set
         $this->setRequest(Request::create('/bolt/overview/showcases'));
-        $response = $this->controller()->actionOverview($this->getRequest(), 'showcases');
+        $response = $this->controller()->overview($this->getRequest(), 'showcases');
 
         // Test redirect when user isn't allowed.
         $users = $this->getMock('Bolt\Users', array('isAllowed'), array($this->getApp()));
@@ -274,7 +274,7 @@ class RecordsTest extends ControllerUnitTest
         $this->setService('users', $users);
 
         $this->setRequest(Request::create('/bolt/overview/pages'));
-        $response = $this->controller()->actionOverview($this->getRequest(), 'pages');
+        $response = $this->controller()->overview($this->getRequest(), 'pages');
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }
 
@@ -288,7 +288,7 @@ class RecordsTest extends ControllerUnitTest
                 'taxonomy-chapters' => 'main'
             )
         ));
-        $response = $this->controller()->actionOverview($this->getRequest(), 'pages');
+        $response = $this->controller()->overview($this->getRequest(), 'pages');
         $context = $response->getContext();
         $this->assertArrayHasKey('filter', $context['context']);
         $this->assertEquals('Lorem', $context['context']['filter'][0]);
@@ -298,7 +298,7 @@ class RecordsTest extends ControllerUnitTest
     public function testRelated()
     {
         $this->setRequest(Request::create('/bolt/relatedto/showcases/1'));
-        $response = $this->controller()->actionRelated($this->getRequest(), 'showcases', 1);
+        $response = $this->controller()->related($this->getRequest(), 'showcases', 1);
         $context = $response->getContext();
         $this->assertEquals(1, $context['context']['id']);
         $this->assertEquals('Showcase', $context['context']['name']);
@@ -309,13 +309,13 @@ class RecordsTest extends ControllerUnitTest
 
         // Now we specify we want to see pages
         $this->setRequest(Request::create('/bolt/relatedto/showcases/1', 'GET', array('show' => 'pages')));
-        $response = $this->controller()->actionRelated($this->getRequest(), 'showcases', 1);
+        $response = $this->controller()->related($this->getRequest(), 'showcases', 1);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['show_contenttype']['name']);
 
         // Try a request where there are no relations
         $this->setRequest(Request::create('/bolt/relatedto/pages/1'));
-        $response = $this->controller()->actionRelated($this->getRequest(), 'pages', 1);
+        $response = $this->controller()->related($this->getRequest(), 'pages', 1);
         $context = $response->getContext();
         $this->assertNull($context['context']['relations']);
 
@@ -327,7 +327,7 @@ class RecordsTest extends ControllerUnitTest
         $this->setService('users', $users);
 
         $this->setRequest(Request::create('/bolt/relatedto/showcases/1'));
-        $response = $this->controller()->actionRelated($this->getRequest(), 'showcases', 1);
+        $response = $this->controller()->related($this->getRequest(), 'showcases', 1);
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }
 

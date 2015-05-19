@@ -38,7 +38,7 @@ class UploadTest extends ControllerUnitTest
             array()
         ));
 
-        $response = $this->controller()->actionUploadNamspace($this->getRequest(), 'files');
+        $response = $this->controller()->uploadNamspace($this->getRequest(), 'files');
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         // We haven't posted a file so an empty resultset should be returned
@@ -49,7 +49,7 @@ class UploadTest extends ControllerUnitTest
     public function testUpload()
     {
         $request = $this->getFileRequest();
-        $response = $this->controller()->actionUploadNamspace($request, 'files');
+        $response = $this->controller()->uploadNamspace($request, 'files');
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $content = json_decode($response->getContent());
@@ -74,7 +74,7 @@ class UploadTest extends ControllerUnitTest
             array()
         ));
 
-        $response = $this->controller()->actionUploadNamspace($this->getRequest(), 'files');
+        $response = $this->controller()->uploadNamspace($this->getRequest(), 'files');
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         $content = json_decode($response->getContent());
@@ -90,7 +90,7 @@ class UploadTest extends ControllerUnitTest
 
         $this->setExpectedException('RuntimeException', 'Unable to write to upload destination');
 
-        $this->controller()->actionUploadNamspace($this->getRequest(), 'files');
+        $this->controller()->uploadNamspace($this->getRequest(), 'files');
     }
 
     public function testHandlerParsing()
@@ -111,7 +111,7 @@ class UploadTest extends ControllerUnitTest
             array()
         ));
 
-        $response = $this->controller()->actionUploadNamspace($this->getRequest(), 'files');
+        $response = $this->controller()->uploadNamspace($this->getRequest(), 'files');
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
@@ -135,7 +135,7 @@ class UploadTest extends ControllerUnitTest
 
         // Not properly implemented as yet, this will need to be revisited on implementation
         $this->setExpectedException('League\Flysystem\FileNotFoundException', 'File not found at path: logo.png');
-        $this->controller()->actionUploadNamspace($this->getRequest(), 'files');
+        $this->controller()->uploadNamspace($this->getRequest(), 'files');
     }
 
     public function testFileObjectUploads()
@@ -150,7 +150,7 @@ class UploadTest extends ControllerUnitTest
             ),
             array()
         ));
-        $response = $this->controller()->actionUploadNamspace($this->getRequest(), 'files');
+        $response = $this->controller()->uploadNamspace($this->getRequest(), 'files');
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
