@@ -765,7 +765,7 @@ class Extensions
         }
 
         // Add jQuery
-        $zone = null;
+        $zone = Zone::FRONTEND;
         /** @var RequestStack $requestStack */
         $requestStack = $this->app['request_stack'];
         if ($request = $requestStack->getCurrentRequest()) {
