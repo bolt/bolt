@@ -136,7 +136,7 @@ class Authentication extends BackendBase
             'bolt_authtoken',
             $token,
             time() + $this->getOption('general/cookies_lifetime'),
-            '/',
+            $this->app['resources']->getUrl('root'),
             $this->getOption('general/cookies_domain'),
             $this->getOption('general/enforce_ssl'),
             true
