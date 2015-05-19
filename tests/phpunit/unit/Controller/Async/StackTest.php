@@ -17,7 +17,7 @@ class StackTest extends ControllerUnitTest
     public function testAddStack()
     {
         $this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
-        $this->setRequest(Request::create('/async/addstack/foo'));
+        $this->setRequest(Request::create('/async/stack/add/foo'));
 
         $response = $this->controller()->addStack($this->getRequest());
 
@@ -27,7 +27,7 @@ class StackTest extends ControllerUnitTest
     public function testShowStack()
     {
         $this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
-        $this->setRequest(Request::create('/async/showstack'));
+        $this->setRequest(Request::create('/async/stack/show'));
 
         $response = $this->controller()->showStack($this->getRequest());
 
