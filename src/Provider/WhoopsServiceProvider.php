@@ -56,7 +56,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
             );
         });
 
-        $app['whoops.handler.page.request_info'] = $app->protect(function ($app) {
+        $app['whoops.handler.page.request_info'] = $app->protect(function () use ($app) {
             /** @var RequestStack $requestStack */
             $requestStack = $app['request_stack'];
             if (!$request = $requestStack->getCurrentRequest()) {
