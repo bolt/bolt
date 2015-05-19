@@ -15,12 +15,12 @@ class Stack extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/addstack/{filename}', 'addStack')
+        $c->get('/stack/add/{filename}', 'addStack')
             ->assert('filename', '.*')
-            ->bind('addstack');
+            ->bind('stack/add');
 
-        $c->get('/showstack', 'showStack')
-            ->bind('showstack');
+        $c->get('/stack/show', 'showStack')
+            ->bind('stack/show');
     }
 
     /**
