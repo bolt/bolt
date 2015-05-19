@@ -22,6 +22,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
             $run = new Run();
             $run->allowQuit(false);
             $run->pushHandler($app['whoops.handler']);
+
             return $run;
         });
 
@@ -41,6 +42,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
             $handler = new PrettyPageHandler();
             $handler->addDataTableCallback('Bolt Application', $app['whoops.handler.page.app_info']);
             $handler->addDataTableCallback('Request', $app['whoops.handler.page.request_info']);
+
             return $handler;
         });
 
@@ -60,6 +62,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
             if (!$request = $requestStack->getCurrentRequest()) {
                 return array();
             }
+
             return array(
                 'URI'          => $request->getUri(),
                 'Request URI'  => $request->getRequestUri(),
@@ -75,9 +78,9 @@ class WhoopsServiceProvider implements ServiceProviderInterface
             );
         });
 
-
         $app['whoops.listener'] = $app->share(function ($app) {
             $showWhileLoggedOff = $app['config']->get('general/debug_show_loggedoff', false);
+
             return new WhoopsListener(
                 $app['whoops'],
                 $app['session'],

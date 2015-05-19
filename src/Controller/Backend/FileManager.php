@@ -256,7 +256,7 @@ class FileManager extends BackendBase
                 }
             } else {
                 $result = array(
-                    'ok' => false,
+                    'ok'  => false,
                     'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", array('%s' => $file->getPath()))
                 );
             }

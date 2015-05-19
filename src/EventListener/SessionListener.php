@@ -69,7 +69,7 @@ class SessionListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            KernelEvents::REQUEST => array('onRequest', 127), // Right after Session is set in Request
+            KernelEvents::REQUEST  => array('onRequest', 127), // Right after Session is set in Request
             KernelEvents::RESPONSE => 'onResponse',
         );
     }

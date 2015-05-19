@@ -3,9 +3,7 @@ namespace Bolt\Controller\Backend;
 
 use Bolt\Content;
 use Bolt\Translation\Translator as Trans;
-use Cocur\Slugify\Slugify;
 use Silex\ControllerCollection;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
