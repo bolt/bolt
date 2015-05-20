@@ -101,7 +101,7 @@ class Records extends BackendBase
             $returnTo = $request->get('returnto');
             $editReferrer = $request->get('editreferrer');
 
-            return $this->app['storage.record_modifier']->handleSaveRequest($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
+            return $this->recordModifier()->handleSaveRequest($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
         }
 
         if ($new) {
@@ -119,7 +119,7 @@ class Records extends BackendBase
 
         // We're doing a GET
         $duplicate = $request->query->get('duplicate', false);
-        $context = $this->app['storage.record_modifier']->handleEditRequest($content, $contenttype, $id, $new, $duplicate);
+        $context = $this->recordModifier()->handleEditRequest($content, $contenttype, $id, $new, $duplicate);
 
         return $this->render('editcontent/editcontent.twig', $context);
     }
@@ -164,7 +164,7 @@ class Records extends BackendBase
         $title = $content->getTitle();
 
         if (!$this->isAllowed("contenttype:$contenttypeslug:edit:$id") ||
-        !$this->app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttypeslug, $id)) {
+        !$this->getUsers()->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttypeslug, $id)) {
             $this->flashes()->error(Trans::__('You do not have the right privileges to edit that record.'));
 
             return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
@@ -359,8 +359,16 @@ class Records extends BackendBase
             $tmpreferrer .= '?' . $tmp['query'];
         }
 
-        if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer === $this->app['resources']->getUrl('bolt'))) {
+        if (strpos($tmpreferrer, '/overview/') !== false || ($tmpreferrer === $this->resources()->getUrl('bolt'))) {
             $this->app['twig']->addGlobal('editreferrer', $tmpreferrer);
         }
+    }
+
+    /**
+     * @return \Bolt\Storage\RecordModifier
+     */
+    protected function recordModifier()
+    {
+        return $this->app['storage.record_modifier'];
     }
 }

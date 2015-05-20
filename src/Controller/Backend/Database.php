@@ -36,7 +36,7 @@ class Database extends BackendBase
      */
     public function check()
     {
-        list($messages, $hints) = $this->app['integritychecker']->checkTablesIntegrity(true, $this->app['logger']);
+        list($messages, $hints) = $this->integrityChecker()->checkTablesIntegrity(true, $this->app['logger']);
 
         $context = array(
             'modifications_made'     => null,
@@ -56,7 +56,7 @@ class Database extends BackendBase
      */
     public function update(Request $request)
     {
-        $output = $this->app['integritychecker']->repairTables();
+        $output = $this->integrityChecker()->repairTables();
 
         // If 'return=edit' is passed, we should return to the edit screen.
         // We do redirect twice, yes, but that's because the newly saved
@@ -91,5 +91,13 @@ class Database extends BackendBase
         );
 
         return $this->render('dbcheck/dbcheck.twig', $context);
+    }
+
+    /**
+     * @return \Bolt\Database\IntegrityChecker
+     */
+    protected function integrityChecker()
+    {
+        return $this->app['integritychecker'];
     }
 }

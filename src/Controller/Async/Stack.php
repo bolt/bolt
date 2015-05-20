@@ -32,7 +32,7 @@ class Stack extends AsyncBase
      */
     public function addStack($filename)
     {
-        $this->app['stack']->add($filename);
+        $this->stack()->add($filename);
 
         return true;
     }
@@ -50,8 +50,8 @@ class Stack extends AsyncBase
         $options = $request->query->get('options', false);
 
         $context = array(
-            'stack'     => $this->app['stack']->listitems($count),
-            'filetypes' => $this->app['stack']->getFileTypes(),
+            'stack'     => $this->stack()->listitems($count),
+            'filetypes' => $this->stack()->getFileTypes(),
             'namespace' => $this->app['upload.namespace'],
             'canUpload' => $this->getUsers()->isAllowed('files:uploads')
         );
@@ -72,5 +72,13 @@ class Stack extends AsyncBase
         }
 
         return $this->render($twig, array('context' => $context));
+    }
+
+    /**
+     * @return \Bolt\Stack
+     */
+    protected function stack()
+    {
+        return $this->app['stack'];
     }
 }

@@ -184,8 +184,6 @@ class FilesystemManager extends AsyncBase
 
         $files = $this->getFilesystemManager()->search($term, $extensions);
 
-        $this->app['debug'] = false;
-
         return $this->json($files);
     }
 
@@ -203,7 +201,7 @@ class FilesystemManager extends AsyncBase
 
             foreach ($records as $record) {
                 $results[$contenttype][] = array(
-                    'title' => $record->gettitle(),
+                    'title' => $record->getTitle(),
                     'id'    => $record->id,
                     'link'  => $record->link()
                 );
@@ -277,23 +275,5 @@ class FilesystemManager extends AsyncBase
         } catch (\Exception $e) {
             return false;
         }
-    }
-
-    /**
-     * Middleware function to do some tasks that should be done for all
-     * asynchronous requests.
-     */
-    public function before(Request $request)
-    {
-        // Start the 'stopwatch' for the profiler.
-        $this->app['stopwatch']->start('bolt.async.before');
-
-        // If there's no active session, don't do anything.
-        if (!$this->getAuthentication()->isValidSession()) {
-            $this->abort(Response::HTTP_UNAUTHORIZED, 'You must be logged in to use this.');
-        }
-
-        // Stop the 'stopwatch' for the profiler.
-        $this->app['stopwatch']->stop('bolt.async.before');
     }
 }

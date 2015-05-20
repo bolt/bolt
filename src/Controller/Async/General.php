@@ -206,10 +206,10 @@ class General extends AsyncBase
      */
     public function popularTags(Request $request, $taxonomytype)
     {
-        $table = $this->getOption('general/database/prefix', 'bolt_');
+        $table = $this->getOption('general/database/prefix');
         $table .= 'taxonomy';
 
-        $query = $this->app['db']->createQueryBuilder()
+        $query = $this->createQueryBuilder()
             ->select('slug, COUNT(slug) AS count')
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
@@ -245,9 +245,7 @@ class General extends AsyncBase
      */
     public function readme($filename)
     {
-        $paths = $this->app['resources']->getPaths();
-
-        $filename = $paths['extensionspath'] . '/vendor/' . $filename;
+        $filename = $this->resources()->getPath('extensions/vendor/' . $filename);
 
         // don't allow viewing of anything but "readme.md" files.
         if (strtolower(basename($filename)) != 'readme.md') {
@@ -274,10 +272,10 @@ class General extends AsyncBase
      */
     public function tags($taxonomytype)
     {
-        $table = $this->getOption('general/database/prefix', 'bolt_');
+        $table = $this->getOption('general/database/prefix');
         $table .= 'taxonomy';
 
-        $query = $this->app['db']->createQueryBuilder()
+        $query = $this->createQueryBuilder()
             ->select("DISTINCT $table.slug")
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
@@ -300,7 +298,7 @@ class General extends AsyncBase
      */
     public function widget($key)
     {
-        $html = $this->app['extensions']->renderWidget($key);
+        $html = $this->getExtensions()->renderWidget($key);
 
         return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }
@@ -314,8 +312,11 @@ class General extends AsyncBase
      */
     private function getNews($hostname)
     {
+        /** @var \Bolt\Cache $cache */
+        $cache = $this->app['cache'];
+
         // Cached for two hours.
-        $news = $this->app['cache']->fetch('dashboardnews');
+        $news = $cache->fetch('dashboardnews');
 
         // If not cached, get fresh news.
         if ($news !== false) {
@@ -352,7 +353,7 @@ class General extends AsyncBase
                         }
                     }
 
-                    $this->app['cache']->save('dashboardnews', $news, 7200);
+                    $cache->save('dashboardnews', $news, 7200);
                 } else {
                     $this->app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
                 }

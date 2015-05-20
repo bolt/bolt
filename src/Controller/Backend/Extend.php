@@ -7,7 +7,6 @@ use Bolt\Translation\Translator as Trans;
 use Silex;
 use Silex\ControllerCollection;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -76,21 +75,21 @@ class Extend extends BackendBase
     /**
      * Check a package.
      *
-     * @param Request $request
-     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function check(Request $request)
+    public function check()
     {
-        return new JsonResponse($this->app['extend.manager']->checkPackage());
+        return $this->json($this->manager()->checkPackage());
     }
 
     /**
      * Generate a copy of a theme package.
      *
      * @param Request $request
+
+     * @throws PackageManagerException
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function generateTheme(Request $request)
     {
@@ -105,8 +104,8 @@ class Extend extends BackendBase
             $newName = basename($theme);
         }
 
-        $source = $this->app['resources']->getPath('extensions') . '/vendor/' . $theme;
-        $destination = $this->app['resources']->getPath('themebase') . '/' . $newName;
+        $source = $this->resources()->getPath('extensions/vendor/' . $theme);
+        $destination = $this->resources()->getPath('extensions/themebase/' . $newName);
         if (is_dir($source)) {
             try {
                 $filesystem = new Filesystem();
@@ -142,7 +141,7 @@ class Extend extends BackendBase
         $package = $request->get('package');
         $version = $request->get('version');
 
-        $response = $this->app['extend.manager']->requirePackage(
+        $response = $this->manager()->requirePackage(
             array(
                 'name'    => $package,
                 'version' => $version
@@ -153,9 +152,9 @@ class Extend extends BackendBase
             $this->app['extensions.stats']->recordInstall($package, $version);
             $this->app['logger.system']->info("Installed $package $version", array('event' => 'extensions'));
 
-            return new Response($this->app['extend.manager']->getOutput());
+            return new Response($this->manager()->getOutput());
         } else {
-            throw new PackageManagerException($this->app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($this->manager()->getOutput(), $response);
         }
     }
 
@@ -164,20 +163,18 @@ class Extend extends BackendBase
      *
      * Equivalent to `composer install`
      *
-     * @param Request $request
-     *
      * @throws PackageManagerException
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function installAll(Request $request)
+    public function installAll()
     {
-        $response = $this->app['extend.manager']->installPackages();
+        $response = $this->manager()->installPackages();
 
         if ($response === 0) {
-            return new Response($this->app['extend.manager']->getOutput());
+            return new Response($this->manager()->getOutput());
         } else {
-            throw new PackageManagerException($this->app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($this->manager()->getOutput(), $response);
         }
     }
 
@@ -186,15 +183,11 @@ class Extend extends BackendBase
      *
      * Partially equivalent to `composer show -i`
      *
-     * @param Request $request
-     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function installed(Request $request)
+    public function installed()
     {
-        $result = $this->app['extend.manager']->getAllPackages();
-
-        return new JsonResponse($result);
+        return $this->json($this->manager()->getAllPackages());
     }
 
     /**
@@ -215,37 +208,27 @@ class Extend extends BackendBase
             $versions = array('error' => true, 'dev' => array(), 'stable' => array());
         }
 
-        return new JsonResponse($versions);
+        return $this->json($versions);
     }
 
     /**
      * Package install chooser modal.
      *
-     * @param Request $request
-     *
-     * @return string
+     * @return \Bolt\Response\BoltResponse
      */
-    public function installPackage(Request $request)
+    public function installPackage()
     {
-        return $this->app['render']->render(
-            'extend/install-package.twig',
-            $this->getRenderContext()
-        );
+        return $this->render('extend/install-package.twig', $this->getRenderContext());
     }
 
     /**
      * The main 'Extend' page.
      *
-     * @param Request $request
-     *
-     * @return string
+     * @return \Bolt\Response\BoltResponse
      */
-    public function overview(Request $request)
+    public function overview()
     {
-        return $this->app['render']->render(
-            'extend/extend.twig',
-            $this->getRenderContext()
-        );
+        return $this->render('extend/extend.twig', $this->getRenderContext());
     }
 
     /**
@@ -259,9 +242,9 @@ class Extend extends BackendBase
     {
         $package = $request->get('package');
         $version = $request->get('version');
-        $response = $this->app['extend.manager']->showPackage('installed', $package, $version);
+        $response = $this->manager()->showPackage('installed', $package, $version);
 
-        return new JsonResponse($this->app['extend.manager']->formatPackageResponse($response));
+        return $this->json($this->manager()->formatPackageResponse($response));
     }
 
     /**
@@ -283,9 +266,9 @@ class Extend extends BackendBase
         if ($response === 0) {
             $this->app['logger.system']->info("Updated $package", array('event' => 'extensions'));
 
-            return new JsonResponse($this->app['extend.manager']->getOutput());
+            return $this->json($this->manager()->getOutput());
         } else {
-            throw new PackageManagerException($this->app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($this->manager()->getOutput(), $response);
         }
     }
 
@@ -296,32 +279,31 @@ class Extend extends BackendBase
      *
      * @throws PackageManagerException
      *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function uninstall(Request $request)
     {
         $package = $request->get('package');
 
-        $response = $this->app['extend.manager']->removePackage(array($package));
+        $response = $this->manager()->removePackage(array($package));
 
         if ($response === 0) {
             $this->app['logger.system']->info("Uninstalled $package", array('event' => 'extensions'));
 
-            return new Response($this->app['extend.manager']->getOutput());
+            return new Response($this->manager()->getOutput());
         } else {
-            throw new PackageManagerException($this->app['extend.manager']->getOutput(), $response);
+            throw new PackageManagerException($this->manager()->getOutput(), $response);
         }
     }
 
     /**
      * Get render parameters for Twig.
-     *     *
      *
      * @return array
      */
     private function getRenderContext()
     {
-        $extensionsPath = $this->app['resources']->getPath('extensions');
+        $extensionsPath = $this->resources()->getPath('extensions');
 
         return array(
             'messages'       => $this->app['extend.manager']->messages,
@@ -331,5 +313,13 @@ class Extend extends BackendBase
             'extensionsPath' => $extensionsPath,
             'site'           => $this->app['extend.site']
         );
+    }
+
+    /**
+     * @return \Bolt\Composer\PackageManager
+     */
+    protected function manager()
+    {
+        return $this->app['extend.manager'];
     }
 }

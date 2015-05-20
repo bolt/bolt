@@ -2,7 +2,6 @@
 namespace Bolt\Controller\Async;
 
 use Silex\ControllerCollection;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,7 +30,7 @@ class SystemTests extends AsyncBase
     public function emailNotification(Request $request, $type)
     {
         if ($type !== 'test') {
-            return new JsonResponse(['Invalid notification type.'], Response::HTTP_NO_CONTENT);
+            return $this->json(['Invalid notification type.'], Response::HTTP_NO_CONTENT);
         }
 
         $user = $this->getUsers()->getCurrentUser();
@@ -59,6 +58,6 @@ class SystemTests extends AsyncBase
 
         $this->app['mailer']->send($message);
 
-        return new JsonResponse(['Done'], Response::HTTP_OK);
+        return $this->json(['Done'], Response::HTTP_OK);
     }
 }

@@ -47,11 +47,9 @@ class Users extends BackendBase
     /**
      * All users admin page.
      *
-     * @param Request $request The Symfony Request
-     *
      * @return \Bolt\Response\BoltResponse
      */
-    public function admin(Request $request)
+    public function admin()
     {
         $currentuser = $this->getUser();
         $users = $this->getUsers()->getUsers();
@@ -259,13 +257,12 @@ class Users extends BackendBase
     /**
      * Perform modification actions on users.
      *
-     * @param Request $request The Symfony Request
      * @param string  $action  The action
      * @param integer $id      The user ID
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function modify(Request $request, $action, $id)
+    public function modify($action, $id)
     {
         if (!$this->checkAntiCSRFToken()) {
             $this->flashes()->info(Trans::__('An error occurred.'));
@@ -504,10 +501,10 @@ class Users extends BackendBase
      */
     private function setUserFormValidation(FormBuilder $form, $addusername = false)
     {
-        $app = $this->app;
+        $users = $this->getUsers();
         $form->addEventListener(
             FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($app, $addusername) {
+            function (FormEvent $event) use ($addusername, $users) {
                 $form = $event->getForm();
                 $id = $form['id']->getData();
                 $pass1 = $form['password']->getData();
@@ -539,18 +536,18 @@ class Users extends BackendBase
                     }
 
                     // Usernames must be unique.
-                    if (!$this->getUsers()->checkAvailability('username', $form['username']->getData(), $id)) {
+                    if (!$users->checkAvailability('username', $form['username']->getData(), $id)) {
                         $form['username']->addError(new FormError(Trans::__('page.edit-users.error.username-used')));
                     }
                 }
 
                 // Email addresses must be unique.
-                if (!$this->getUsers()->checkAvailability('email', $form['email']->getData(), $id)) {
+                if (!$users->checkAvailability('email', $form['email']->getData(), $id)) {
                     $form['email']->addError(new FormError(Trans::__('page.edit-users.error.email-used')));
                 }
 
                 // Displaynames must be unique.
-                if (!$this->getUsers()->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
+                if (!$users->checkAvailability('displayname', $form['displayname']->getData(), $id)) {
                     $form['displayname']->addError(new FormError(Trans::__('page.edit-users.error.displayname-used')));
                 }
             }

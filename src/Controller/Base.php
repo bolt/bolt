@@ -299,4 +299,22 @@ abstract class Base implements ControllerProviderInterface
     {
         return $this->app['templatechooser'];
     }
+
+    /**
+     * Return a new Query Builder.
+     *
+     * @return \Doctrine\DBAL\Query\QueryBuilder
+     */
+    protected function createQueryBuilder()
+    {
+        return $this->app['db']->createQueryBuilder();
+    }
+
+    /**
+     * @return \Bolt\Configuration\ResourceManager
+     */
+    protected function resources()
+    {
+        return $this->app['resources'];
+    }
 }

@@ -46,18 +46,18 @@ class Log extends BackendBase
         $action = $request->query->get('action');
 
         if ($action == 'clear') {
-            $this->app['logger.manager']->clear('change');
+            $this->manager()->clear('change');
             $this->flashes()->success(Trans::__('The change log has been cleared.'));
 
             return $this->redirectToRoute('changelog');
         } elseif ($action == 'trim') {
-            $this->app['logger.manager']->trim('change');
+            $this->manager()->trim('change');
             $this->flashes()->success(Trans::__('The change log has been trimmed.'));
 
             return $this->redirectToRoute('changelog');
         }
 
-        $activity = $this->app['logger.manager']->getActivity('change', 16);
+        $activity = $this->manager()->getActivity('change', 16);
 
         return $this->render('activity/changelog.twig', array('entries' => $activity));
     }
@@ -74,14 +74,14 @@ class Log extends BackendBase
      */
     public function changeRecord(Request $request, $contenttype, $contentid, $id)
     {
-        $entry = $this->app['logger.manager.change']->getChangelogEntry($contenttype, $contentid, $id);
+        $entry = $this->changeLog()->getChangelogEntry($contenttype, $contentid, $id);
         if (empty($entry)) {
             $error = Trans::__("The requested changelog entry doesn't exist.");
 
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
-        $prev = $this->app['logger.manager.change']->getPrevChangelogEntry($contenttype, $contentid, $id);
-        $next = $this->app['logger.manager.change']->getNextChangelogEntry($contenttype, $contentid, $id);
+        $prev = $this->changeLog()->getPrevChangelogEntry($contenttype, $contentid, $id);
+        $next = $this->changeLog()->getNextChangelogEntry($contenttype, $contentid, $id);
 
         $context = array(
             'contenttype' => array('slug' => $contenttype),
@@ -141,8 +141,8 @@ class Log extends BackendBase
             // Case 1: No content type given, show from *all* items.
             // This is easy:
             $title = Trans::__('All content types');
-            $logEntries = $this->app['logger.manager.change']->getChangelog($options);
-            $itemcount = $this->app['logger.manager.change']->countChangelog($options);
+            $logEntries = $this->changeLog()->getChangelog($options);
+            $itemcount = $this->changeLog()->countChangelog();
         } else {
             // We have a content type, and possibly a contentid.
             $contenttypeObj = $this->getContentType($contenttype);
@@ -151,8 +151,8 @@ class Log extends BackendBase
                 $options['contentid'] = $contentid;
             }
             // Getting a slice of data and the total count
-            $logEntries = $this->app['logger.manager.change']->getChangelogByContentType($contenttype, $options);
-            $itemcount = $this->app['logger.manager.change']->countChangelogByContentType($contenttype, $options);
+            $logEntries = $this->changeLog()->getChangelogByContentType($contenttype, $options);
+            $itemcount = $this->changeLog()->countChangelogByContentType($contenttype, $options);
 
             // The page title we're sending to the template depends on a few
             // things: if no contentid is given, we'll use the plural form
@@ -211,12 +211,12 @@ class Log extends BackendBase
         $action = $request->query->get('action');
 
         if ($action == 'clear') {
-            $this->app['logger.manager']->clear('system');
+            $this->manager()->clear('system');
             $this->flashes()->success(Trans::__('The system log has been cleared.'));
 
             return $this->redirectToRoute('systemlog');
         } elseif ($action == 'trim') {
-            $this->app['logger.manager']->trim('system');
+            $this->manager()->trim('system');
             $this->flashes()->success(Trans::__('The system log has been trimmed.'));
 
             return $this->redirectToRoute('systemlog');
@@ -225,8 +225,24 @@ class Log extends BackendBase
         $level = $request->query->get('level');
         $context = $request->query->get('context');
 
-        $activity = $this->app['logger.manager']->getActivity('system', 16, $level, $context);
+        $activity = $this->manager()->getActivity('system', 16, $level, $context);
 
         return $this->render('activity/systemlog.twig', array('entries' => $activity));
+    }
+
+    /**
+     * @return \Bolt\Logger\ChangeLog
+     */
+    protected function changeLog()
+    {
+        return $this->app['logger.manager.change'];
+    }
+
+    /**
+     * @return \Bolt\Logger\Manager
+     */
+    protected function manager()
+    {
+        return $this->app['logger.manager'];
     }
 }

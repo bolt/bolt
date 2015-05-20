@@ -9,7 +9,6 @@ use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -83,15 +82,11 @@ class General extends BackendBase
     /**
      * Dashboard or 'root' route.
      *
-     * @param Request $request The Symfony Request
-     *
      * @return \Bolt\Response\BoltResponse
      */
-    public function dashboard(Request $request)
+    public function dashboard()
     {
-        $context = $this->getLatest();
-
-        return $this->render('dashboard/dashboard.twig', $context);
+        return $this->render('dashboard/dashboard.twig', $this->getLatest());
     }
 
     /**
@@ -303,7 +298,7 @@ class General extends BackendBase
 
         // Clear any warning for file not found, we are creating it here
         // we'll set an error if someone still submits the form and write is not allowed
-        $this->app['logger.flash']->clear();
+        $this->flashes()->clear();
 
         try {
             $fs = new Filesystem();

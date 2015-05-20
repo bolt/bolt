@@ -84,7 +84,7 @@ class Authentication extends BackendBase
      */
     public function logout()
     {
-        $user = $this->getSession()->get('user');
+        $user = $request->getSession()->get('user');
         $this->app['logger.system']->info('Logged out: ' . $user['displayname'], array('event' => 'authentication'));
 
         $this->getAuthentication()->logout();
@@ -136,7 +136,7 @@ class Authentication extends BackendBase
             $this->app['token.authentication.name'],
             $token,
             time() + $this->getOption('general/cookies_lifetime'),
-            $this->app['resources']->getUrl('root'),
+            $this->resources()->getUrl('root'), // TODO Can this be $request->getBasePath()?
             $this->getOption('general/cookies_domain'),
             $this->getOption('general/enforce_ssl'),
             true

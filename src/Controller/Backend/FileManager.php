@@ -6,6 +6,7 @@ use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use League\Flysystem\File;
 use League\Flysystem\FileNotFoundException;
+use League\Flysystem\FilesystemInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -62,7 +63,7 @@ class FileManager extends BackendBase
             $namespace = 'config';
         }
 
-        /** @var \League\Flysystem\FilesystemInterface $filesystem */
+        /** @var FilesystemInterface $filesystem */
         $filesystem = $this->getFilesystemManager()->getFilesystem($namespace);
 
         if (!$filesystem->authorized($file)) {
@@ -70,7 +71,7 @@ class FileManager extends BackendBase
             $this->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
-        /** @var \League\Flysystem\File $file */
+        /** @var File $file */
         $file = $filesystem->get($file);
         $type = Lib::getExtension($file->getPath());
 
@@ -345,11 +346,11 @@ class FileManager extends BackendBase
     /**
      * Check if the file can be written to and notify if not.
      *
-     * @param \League\Flysystem\File $file
+     * @param File $file
      *
      * @return boolean
      */
-    private function isWriteable(\League\Flysystem\File $file)
+    private function isWriteable(File $file)
     {
         if ($file->getVisibility() !== 'public') {
             $this->flashes()->info(
@@ -370,14 +371,13 @@ class FileManager extends BackendBase
      * i.e., if we're editing config.yml, we also want to check for
      * config.yml.dist and config_local.yml
      *
-     * @param \League\Flysystem\FilesystemInterface $filesystem
-     * @param \League\Flysystem\File                $file
+     * @param FilesystemInterface $filesystem
+     * @param File $file
      *
      * @return array
      */
-    private function getFileGroup(\League\Flysystem\FilesystemInterface $filesystem, \League\Flysystem\File $file)
+    private function getFileGroup(FilesystemInterface $filesystem, File $file)
     {
-        // .
         $basename = str_replace('.yml', '', str_replace('_local', '', $file->getPath()));
         $filegroup = array();
         if ($filesystem->has($basename . '.yml')) {
