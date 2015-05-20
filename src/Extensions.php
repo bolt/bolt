@@ -419,17 +419,29 @@ class Extensions
      * Add a particular CSS file to the output. This will be inserted before the
      * other css files.
      *
-     * @param string  $filename File name to add to href=""
-     * @param boolean $late     True to add to the end of the HTML <body>
-     * @param integer $priority Loading priority
+     * @param string $filename File name to add to href=""
+     * @param array  $options  'late'     - True to add to the end of the HTML <body>
+     *                         'priority' - Loading priority
+     *                         'attrib'   - A string containing either/or 'defer', and 'async'
      */
-    public function addCss($filename, $late = false, $priority = 0)
+    public function addCss($filename, $options = array())
     {
+        // Handle pre-2.2 function parameters, namely $late and $priority
+        if (!is_array($options)) {
+            $args = func_get_args();
+
+            $options = array(
+                'late'     => isset($args[1]) ? isset($args[1]) : false,
+                'priority' => isset($args[2]) ? isset($args[2]) : 0,
+                'attrib'   => false
+            );
+        }
+
         $this->assets['css'][md5($filename)] = array(
             'filename' => $filename,
-            'late'     => $late,
-            'priority' => $priority,
-            'attrib'   => false
+            'late'     => isset($options['late'])     ? $options['late']     : false,
+            'priority' => isset($options['priority']) ? $options['priority'] : 0,
+            'attrib'   => isset($options['attrib'])   ? $options['attrib']   : false
         );
     }
 
@@ -440,7 +452,7 @@ class Extensions
      * @param string $filename File name to add to src=""
      * @param array  $options  'late'     - True to add to the end of the HTML <body>
      *                         'priority' - Loading priority
-     *                         'attrib'   - Either 'defer', or 'async'
+     *                         'attrib'   - A string containing either/or 'defer', and 'async'
      */
     public function addJavascript($filename, $options = array())
     {
