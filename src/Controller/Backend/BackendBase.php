@@ -24,17 +24,6 @@ abstract class BackendBase extends Base
         return $c;
     }
 
-    /**
-     * Adds a flash message to the current session for type.
-     *
-     * @param string $type    The type
-     * @param string $message The message
-     */
-    protected function addFlash($type, $message)
-    {
-        $this->app['session']->getFlashBag()->add($type, $message);
-    }
-
     protected function render($template, array $variables = array(), array $globals = array())
     {
         if (!isset($variables['context'])) {
