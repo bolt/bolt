@@ -1,9 +1,10 @@
 <?php
 namespace Bolt\EventListener;
 
-use Bolt\Logger\FlashLoggerInterface;
+use Bolt\Logger\FlashBagAttachableInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -14,17 +15,18 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class SessionListener implements EventSubscriberInterface
 {
-    /** @var FlashLoggerInterface */
+    /** @var FlashBagAttachableInterface */
     protected $flashLogger;
+    /** @var boolean */
     protected $debug;
 
     /**
      * SessionListener constructor.
      *
-     * @param FlashLoggerInterface $flashLogger
-     * @param bool                 $debug
+     * @param FlashBagAttachableInterface $flashLogger
+     * @param boolean              $debug
      */
-    public function __construct(FlashLoggerInterface $flashLogger, $debug)
+    public function __construct(FlashBagAttachableInterface $flashLogger, $debug)
     {
         $this->flashLogger = $flashLogger;
         $this->debug = $debug;
@@ -44,22 +46,30 @@ class SessionListener implements EventSubscriberInterface
         $session = $request->getSession();
         if (($this->debug || $request->hasPreviousSession()) && !$session->isStarted()) {
             $session->start();
+            $this->attachFlashBag($session);
         }
     }
 
     /**
-     * Flush flash logger messages to session if it is started
+     * Attach session's flash bag to flash logger if it is started
      *
-     * @param FilterResponseEvent $event
+     * @param GetResponseEvent|FilterResponseEvent $event
      */
-    public function onResponse(FilterResponseEvent $event)
+    public function onEvent($event)
     {
         if (!$event->isMasterRequest()) {
             return;
         }
         $session = $event->getRequest()->getSession();
-        if ($session instanceof Session && $session->isStarted()) {
-            $this->flashLogger->flush($session->getFlashBag());
+        if ($session && $session->isStarted()) {
+            $this->attachFlashBag($session);
+        }
+    }
+
+    protected function attachFlashBag(SessionInterface $session)
+    {
+        if (!$this->flashLogger->isFlashBagAttached() && $session instanceof Session) {
+            $this->flashLogger->attachFlashBag($session->getFlashBag());
         }
     }
 
@@ -69,8 +79,17 @@ class SessionListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            KernelEvents::REQUEST  => array('onRequest', 127), // Right after Session is set in Request
-            KernelEvents::RESPONSE => 'onResponse',
+            KernelEvents::REQUEST  => array(
+                array('onRequest', 127), // Right after Session is set in Request
+                // For Session started in kernel.request events
+                array('onEvent', -1024),
+            ),
+            KernelEvents::RESPONSE => array(
+                // For Session started in controller
+                array('onEvent', 1000),
+                // For Session started in kernel.response events
+                array('onEvent', -1000), // Before StreamedResponseListener (Same as SaveSessionListener)
+            )
         );
     }
 }

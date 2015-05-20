@@ -13,23 +13,19 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FlashLogger implements FlashLoggerInterface
+class FlashLogger implements FlashLoggerInterface, FlashBagAttachableInterface
 {
-    const DANGER  = 'danger';
-    const ERROR   = 'error';
-    const INFO    = 'info';
-    const SUCCESS = 'success';
-    const WARNING = 'warning';
-
     /** @var array $flash */
-    private $flashes = [];
+    protected $flashes = [];
+    /** @var FlashBagInterface|null */
+    protected $flashBag;
 
     /**
      * {@inheritdoc}
      */
     public function danger($message)
     {
-        $this->queue(self::DANGER, $message);
+        $this->add(self::DANGER, $message);
     }
 
     /**
@@ -37,7 +33,7 @@ class FlashLogger implements FlashLoggerInterface
      */
     public function error($message)
     {
-        $this->queue(self::ERROR, $message);
+        $this->add(self::ERROR, $message);
     }
 
     /**
@@ -45,7 +41,7 @@ class FlashLogger implements FlashLoggerInterface
      */
     public function info($message)
     {
-        $this->queue(self::INFO, $message);
+        $this->add(self::INFO, $message);
     }
 
     /**
@@ -53,7 +49,7 @@ class FlashLogger implements FlashLoggerInterface
      */
     public function success($message)
     {
-        $this->queue(self::SUCCESS, $message);
+        $this->add(self::SUCCESS, $message);
     }
 
     /**
@@ -61,7 +57,7 @@ class FlashLogger implements FlashLoggerInterface
      */
     public function warning($message)
     {
-        $this->queue(self::WARNING, $message);
+        $this->add(self::WARNING, $message);
     }
 
     /**
@@ -69,6 +65,9 @@ class FlashLogger implements FlashLoggerInterface
      */
     public function has($type)
     {
+        if ($this->flashBag) {
+            return $this->flashBag->has($type);
+        }
         return array_key_exists($type, $this->flashes) && $this->flashes[$type];
     }
 
@@ -77,6 +76,10 @@ class FlashLogger implements FlashLoggerInterface
      */
     public function get($type, array $default = array())
     {
+        if ($this->flashBag) {
+            return $this->flashBag->get($type, $default);
+        }
+
         if (!$this->has($type)) {
             return $default;
         }
@@ -93,33 +96,55 @@ class FlashLogger implements FlashLoggerInterface
      */
     public function clear()
     {
-        return $this->flashes = [];
+        if ($this->flashBag) {
+            $this->flashBag->clear();
+            return;
+        }
+        $this->flashes = [];
     }
 
     /**
-     * Queue a FlashBag message.
+     * Add a message.
      *
-     * @param string $level
+     * @param string $type
      * @param string $message
      */
-    public function queue($level, $message)
+    public function add($type, $message)
     {
-        $this->flashes[$level][] = $message;
+        if ($this->flashBag) {
+            $this->flashBag->add($type, $message);
+            return;
+        }
+        $this->flashes[$type][] = $message;
     }
 
     /**
-     * We iterate as some flashes might validly be set in Twig and we shouldn't
-     * wipe them.
-     *
      * {@inheritdoc}
      */
-    public function flush(FlashBagInterface $bag)
+    public function attachFlashBag(FlashBagInterface $flashBag)
     {
+        if ($this->flashBag) {
+            return;
+        }
+        $this->flashBag = $flashBag;
+
+        // We iterate as some flashes might validly be set in Twig
+        // and we shouldn't wipe them.
         foreach ($this->flashes as $type => $messages) {
             foreach ($messages as $message) {
-                $bag->add($type, $message);
+                $flashBag->add($type, $message);
             }
-            unset ($this->flashes[$type]);
+            unset($this->flashes[$type]);
         }
+    }
+
+    /**
+     * Return whether a FlashBag has been attached
+     *
+     * @return bool
+     */
+    public function isFlashBagAttached()
+    {
+        return (bool)$this->flashBag;
     }
 }

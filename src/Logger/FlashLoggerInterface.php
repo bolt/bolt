@@ -2,15 +2,20 @@
 
 namespace Bolt\Logger;
 
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-
 /**
  * FlashBag logger interface.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
  */
 interface FlashLoggerInterface
 {
+    const DANGER  = 'danger';
+    const ERROR   = 'error';
+    const INFO    = 'info';
+    const SUCCESS = 'success';
+    const WARNING = 'warning';
+
     /**
      * Display a 'danger' message.
      *
@@ -47,6 +52,14 @@ interface FlashLoggerInterface
     public function warning($message);
 
     /**
+     * Add a message.
+     *
+     * @param string $type
+     * @param string $message
+     */
+    public function add($type, $message);
+
+    /**
      * Get a message from the stack.
      *
      * @param string $type
@@ -69,11 +82,4 @@ interface FlashLoggerInterface
      * Clear out messages.
      */
     public function clear();
-
-    /**
-     * Flush stored flashes to the Symfony FlashBag.
-     *
-     * @param FlashBagInterface $bag
-     */
-    public function flush(FlashBagInterface $bag);
 }
