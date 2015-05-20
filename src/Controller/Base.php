@@ -154,7 +154,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return \Symfony\Component\HttpFoundation\Session\Session
      */
-    protected function getSession()
+    protected function session()
     {
         return $this->app['session'];
     }
@@ -192,7 +192,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function checkAntiCSRFToken($token = '')
     {
-        return $this->app['authentication']->checkAntiCSRFToken($token);
+        return $this->authentication()->checkAntiCSRFToken($token);
     }
 
     /**
@@ -200,7 +200,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return \Bolt\Extensions
      */
-    protected function getExtensions()
+    protected function extensions()
     {
         return $this->app['extensions'];
     }
@@ -210,7 +210,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return \Bolt\Filesystem\Manager
      */
-    protected function getFilesystemManager()
+    protected function filesystem()
     {
         return $this->app['filesystem'];
     }
@@ -225,9 +225,9 @@ abstract class Base implements ControllerProviderInterface
     protected function getUser($id = null)
     {
         if ($id === null) {
-            return $this->app['users']->getCurrentUser();
+            return $this->users()->getCurrentUser();
         }
-        return $this->app['users']->getUser($id);
+        return $this->users()->getUser($id);
     }
 
     /**
@@ -235,7 +235,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return \Bolt\Users
      */
-    protected function getUsers()
+    protected function users()
     {
         return $this->app['users'];
     }
@@ -245,7 +245,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return \Bolt\AccessControl\Authentication
      */
-    protected function getAuthentication()
+    protected function authentication()
     {
         return $this->app['authentication'];
     }

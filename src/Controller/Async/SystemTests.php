@@ -33,7 +33,7 @@ class SystemTests extends AsyncBase
             return $this->json(['Invalid notification type.'], Response::HTTP_NO_CONTENT);
         }
 
-        $user = $this->getUsers()->getCurrentUser();
+        $user = $this->users()->getCurrentUser();
 
         // Create an email
         $mailhtml = $this->render(

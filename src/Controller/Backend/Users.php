@@ -52,8 +52,8 @@ class Users extends BackendBase
     public function admin()
     {
         $currentuser = $this->getUser();
-        $users = $this->getUsers()->getUsers();
-        $sessions = $this->getAuthentication()->getActiveSessions();
+        $users = $this->users()->getUsers();
+        $sessions = $this->authentication()->getActiveSessions();
 
         foreach ($users as $name => $user) {
             if (($key = array_search(Permissions::ROLE_EVERYONE, $user['roles'], true)) !== false) {
@@ -93,7 +93,7 @@ class Users extends BackendBase
                 return $this->redirectToRoute('users');
             }
         } else {
-            $user = $this->getUsers()->getEmptyUser();
+            $user = $this->users()->getEmptyUser();
         }
 
         $enabledoptions = array(
@@ -205,12 +205,12 @@ class Users extends BackendBase
     public function first(Request $request)
     {
         // We should only be here for creating the first user
-        if ($this->app['integritychecker']->checkUserTableIntegrity() && $this->getUsers()->hasUsers()) {
+        if ($this->app['integritychecker']->checkUserTableIntegrity() && $this->users()->hasUsers()) {
             return $this->redirectToRoute('dashboard');
         }
 
         // Get and empty user array
-        $user = $this->getUsers()->getEmptyUser();
+        $user = $this->users()->getEmptyUser();
 
         // Add a note, if we're setting up the first user using SQLite.
         $dbdriver = $this->getOption('general/database/driver');
@@ -295,7 +295,7 @@ class Users extends BackendBase
         switch ($action) {
 
             case 'disable':
-                if ($this->getUsers()->setEnabled($id, 0)) {
+                if ($this->users()->setEnabled($id, 0)) {
                     $this->app['logger.system']->info("Disabled user '{$user['displayname']}'.", array('event' => 'security'));
 
                     $this->flashes()->info(Trans::__("User '%s' is disabled.", array('%s' => $user['displayname'])));
@@ -305,7 +305,7 @@ class Users extends BackendBase
                 break;
 
             case 'enable':
-                if ($this->getUsers()->setEnabled($id, 1)) {
+                if ($this->users()->setEnabled($id, 1)) {
                     $this->app['logger.system']->info("Enabled user '{$user['displayname']}'.", array('event' => 'security'));
                     $this->flashes()->info(Trans::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
                 } else {
@@ -315,7 +315,7 @@ class Users extends BackendBase
 
             case 'delete':
 
-                if ($this->checkAntiCSRFToken() && $this->getUsers()->deleteUser($id)) {
+                if ($this->checkAntiCSRFToken() && $this->users()->deleteUser($id)) {
                     $this->app['logger.system']->info("Deleted user '{$user['displayname']}'.", array('event' => 'security'));
                     $this->flashes()->info(Trans::__("User '%s' is deleted.", array('%s' => $user['displayname'])));
                 } else {
@@ -358,7 +358,7 @@ class Users extends BackendBase
             if ($form->isValid()) {
                 $user = $form->getData();
 
-                $res = $this->getUsers()->saveUser($user);
+                $res = $this->users()->saveUser($user);
                 $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
                 if ($res) {
                     $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
@@ -501,7 +501,7 @@ class Users extends BackendBase
      */
     private function setUserFormValidation(FormBuilder $form, $addusername = false)
     {
-        $users = $this->getUsers();
+        $users = $this->users();
         $form->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($addusername, $users) {
@@ -576,10 +576,10 @@ class Users extends BackendBase
                 $user['roles'] = array(Permissions::ROLE_ROOT);
             } else {
                 $id = isset($user['id']) ? $user['id'] : null;
-                $user['roles'] = $this->getUsers()->filterManipulatableRoles($id, $user['roles']);
+                $user['roles'] = $this->users()->filterManipulatableRoles($id, $user['roles']);
             }
 
-            $res = $this->getUsers()->saveUser($user);
+            $res = $this->users()->saveUser($user);
 
             if (!$firstuser) {
                 $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));

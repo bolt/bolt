@@ -72,7 +72,7 @@ abstract class BackendBase extends Base
         // Test if we have a valid users in our table
         $hasUsers = false;
         if ($tableExists) {
-            $hasUsers = $this->getUsers()->hasUsers();
+            $hasUsers = $this->users()->hasUsers();
         }
 
         // If the users table is present, but there are no users, and we're on
@@ -92,21 +92,21 @@ abstract class BackendBase extends Base
         }
 
         // Confirm the user is enabled or bounce them
-        if ($this->getUsers()->getCurrentUser() && !$this->getUsers()->isEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
+        if ($this->users()->getCurrentUser() && !$this->users()->isEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
             $app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
 
             return $this->redirectToRoute('logout');
         }
 
         // Check if there's at least one 'root' user, and otherwise promote the current user.
-        $this->getUsers()->checkForRoot();
+        $this->users()->checkForRoot();
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        if (!$this->getAuthentication()->isValidSession() && !$this->getUsers()->isAllowed($route)) {
+        if (!$this->authentication()->isValidSession() && !$this->users()->isAllowed($route)) {
             $app['logger.flash']->info(Trans::__('Please log on.'));
 
             return $this->redirectToRoute('login');
-        } elseif (!$this->getUsers()->isAllowed($roleRoute)) {
+        } elseif (!$this->users()->isAllowed($roleRoute)) {
             $app['logger.flash']->error(Trans::__('You do not have the right privileges to view that page.'));
 
             return $this->redirectToRoute('dashboard');

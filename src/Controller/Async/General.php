@@ -298,7 +298,7 @@ class General extends AsyncBase
      */
     public function widget($key)
     {
-        $html = $this->getExtensions()->renderWidget($key);
+        $html = $this->extensions()->renderWidget($key);
 
         return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
     }

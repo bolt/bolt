@@ -84,10 +84,10 @@ class Authentication extends BackendBase
      */
     public function logout()
     {
-        $user = $request->getSession()->get('user');
+        $user = $this->session()->get('user');
         $this->app['logger.system']->info('Logged out: ' . $user['displayname'], array('event' => 'authentication'));
 
-        $this->getAuthentication()->logout();
+        $this->authentication()->logout();
 
         $response = $this->redirectToRoute('login');
         $response->headers->clearCookie($this->app['token.authentication.name']);
@@ -105,7 +105,7 @@ class Authentication extends BackendBase
      */
     public function resetPassword(Request $request)
     {
-        $this->getAuthentication()->resetPasswordConfirm($request->get('token'));
+        $this->authentication()->resetPasswordConfirm($request->get('token'));
 
         return $this->redirectToRoute('login');
     }
@@ -121,7 +121,7 @@ class Authentication extends BackendBase
      */
     private function handlePostLogin(Request $request, $username, $password)
     {
-        $token = $this->getAuthentication()->login($username, $password);
+        $token = $this->authentication()->login($username, $password);
 
         if ($token === false) {
             return $this->getLogin($request);
@@ -129,7 +129,7 @@ class Authentication extends BackendBase
 
         // Log in, if credentials are correct.
         $this->app['logger.system']->info('Logged in: ' . $username, array('event' => 'authentication'));
-        $retreat = $this->getSession()->get('retreat', array('route' => 'dashboard', 'params' => array()));
+        $retreat = $this->session()->get('retreat', array('route' => 'dashboard', 'params' => array()));
         $response = $this->redirectToRoute($retreat['route'], $retreat['params']);
         $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
         $response->headers->setCookie(new Cookie(
@@ -159,7 +159,7 @@ class Authentication extends BackendBase
         if (empty($username)) {
             $this->flashes()->error(Trans::__('Please provide a username'));
         } else {
-            $this->getAuthentication()->resetPasswordRequest($username);
+            $this->authentication()->resetPasswordRequest($username);
             $response = $this->redirectToRoute('login');
             $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
 

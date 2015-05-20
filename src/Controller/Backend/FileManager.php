@@ -64,7 +64,7 @@ class FileManager extends BackendBase
         }
 
         /** @var FilesystemInterface $filesystem */
-        $filesystem = $this->getFilesystemManager()->getFilesystem($namespace);
+        $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         if (!$filesystem->authorized($file)) {
             $error = Trans::__("You don't have correct permissions to edit the file '%s'.", array('%s' => $file));
@@ -137,7 +137,7 @@ class FileManager extends BackendBase
         $formview   = false;
         $uploadview = true;
 
-        $filesystem = $this->getFilesystemManager()->getFilesystem($namespace);
+        $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         if (!$filesystem->authorized($path)) {
             $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));

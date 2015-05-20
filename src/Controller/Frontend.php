@@ -194,9 +194,9 @@ class Frontend extends ConfigurableBase
         if (!empty($liveEditor)) {
             $jsFile = $this->app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js';
             $cssFile = $this->app['resources']->getUrl('app') . 'view/css/liveeditor.css';
-            $this->getExtensions()->insertSnippet(SnippetLocation::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
-            $this->getExtensions()->addJavascript($jsFile, array('late' => false, 'priority' => 1));
-            $this->getExtensions()->addCss($cssFile, false, 5);
+            $this->extensions()->insertSnippet(SnippetLocation::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
+            $this->extensions()->addJavascript($jsFile, array('late' => false, 'priority' => 1));
+            $this->extensions()->addCss($cssFile, false, 5);
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'

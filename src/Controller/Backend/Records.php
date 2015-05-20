@@ -164,7 +164,7 @@ class Records extends BackendBase
         $title = $content->getTitle();
 
         if (!$this->isAllowed("contenttype:$contenttypeslug:edit:$id") ||
-        !$this->getUsers()->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttypeslug, $id)) {
+        !$this->users()->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttypeslug, $id)) {
             $this->flashes()->error(Trans::__('You do not have the right privileges to edit that record.'));
 
             return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));

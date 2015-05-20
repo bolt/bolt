@@ -62,7 +62,7 @@ class FilesystemManager extends AsyncBase
         // No trailing slashes in the path.
         $path = rtrim($path, '/');
 
-        $filesystem = $this->getFilesystemManager()->getFilesystem($namespace);
+        $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
@@ -115,7 +115,7 @@ class FilesystemManager extends AsyncBase
         $folderName = $request->request->get('foldername');
 
         try {
-            return $this->getFilesystemManager()->createDir("$namespace://$parentPath$folderName");
+            return $this->filesystem()->createDir("$namespace://$parentPath$folderName");
         } catch (\Exception $e) {
             return false;
         }
@@ -134,7 +134,7 @@ class FilesystemManager extends AsyncBase
         $filename = $request->request->get('filename');
 
         try {
-            return $this->getFilesystemManager()->delete("$namespace://$filename");
+            return $this->filesystem()->delete("$namespace://$filename");
         } catch (FileNotFoundException $e) {
             return false;
         }
@@ -152,7 +152,7 @@ class FilesystemManager extends AsyncBase
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
-        $filesystem = $this->getFilesystemManager()->getFilesystem($namespace);
+        $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         $extensionPos = strrpos($filename, '.');
         $destination = substr($filename, 0, $extensionPos) . '_copy' . substr($filename, $extensionPos);
@@ -182,7 +182,7 @@ class FilesystemManager extends AsyncBase
         $term = $request->get('term');
         $extensions = $request->query->get('ext');
 
-        $files = $this->getFilesystemManager()->search($term, $extensions);
+        $files = $this->filesystem()->search($term, $extensions);
 
         return $this->json($files);
     }
@@ -229,7 +229,7 @@ class FilesystemManager extends AsyncBase
         $folderName = $request->request->get('foldername');
 
         try {
-            return $this->getFilesystemManager()->deleteDir("$namespace://$parentPath$folderName");
+            return $this->filesystem()->deleteDir("$namespace://$parentPath$folderName");
         } catch (\Exception $e) {
             return false;
         }
@@ -250,7 +250,7 @@ class FilesystemManager extends AsyncBase
         $newName    = $request->request->get('newname');
 
         try {
-            return $this->getFilesystemManager()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
+            return $this->filesystem()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
         } catch (\Exception $e) {
             return false;
         }
@@ -271,7 +271,7 @@ class FilesystemManager extends AsyncBase
         $newName    = $request->request->get('newname');
 
         try {
-            return $this->getFilesystemManager()->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
+            return $this->filesystem()->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
         } catch (\Exception $e) {
             return false;
         }
