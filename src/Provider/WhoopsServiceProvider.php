@@ -26,7 +26,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
             return $run;
         });
 
-        $app['whoops.handler'] = $app->share(function ($app) {
+        $app['whoops.handler'] = $app->share(function () use ($app) {
             if (PHP_SAPI === 'cli') {
                 return $app['whoops.handler.cli'];
             } else {
@@ -38,7 +38,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
             return new PlainTextHandler();
         });
 
-        $app['whoops.handler.page'] = $app->share(function ($app) {
+        $app['whoops.handler.page'] = $app->share(function () use ($app) {
             $handler = new PrettyPageHandler();
             $handler->addDataTableCallback('Bolt Application', $app['whoops.handler.page.app_info']);
             $handler->addDataTableCallback('Request', $app['whoops.handler.page.request_info']);
@@ -46,7 +46,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
             return $handler;
         });
 
-        $app['whoops.handler.page.app_info'] = $app->protect(function ($app) {
+        $app['whoops.handler.page.app_info'] = $app->protect(function () use ($app) {
             return array(
                 'Charset'           => $app['charset'],
                 'Locale'            => $app['locale'],
@@ -78,7 +78,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
             );
         });
 
-        $app['whoops.listener'] = $app->share(function ($app) {
+        $app['whoops.listener'] = $app->share(function () use ($app) {
             $showWhileLoggedOff = $app['config']->get('general/debug_show_loggedoff', false);
 
             return new WhoopsListener(
