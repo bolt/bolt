@@ -170,17 +170,13 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Shortcut for {@see \Bolt\Users::isAllowed}
+     * Returns the Authentication object.
      *
-     * @param string      $what
-     * @param string|null $contenttype
-     * @param int|null    $contentid
-     *
-     * @return bool
+     * @return \Bolt\AccessControl\Authentication
      */
-    protected function isAllowed($what, $contenttype = null, $contentid = null)
+    protected function authentication()
     {
-        return $this->app['users']->isAllowed($what, $contenttype, $contentid);
+        return $this->app['authentication'];
     }
 
     /**
@@ -216,6 +212,16 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
+     * Returns the Users object.
+     *
+     * @return \Bolt\Users
+     */
+    protected function users()
+    {
+        return $this->app['users'];
+    }
+
+    /**
      * Return current user or user by ID
      *
      * @param int|null $id
@@ -231,23 +237,17 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Returns the Users object.
+     * Shortcut for {@see \Bolt\Users::isAllowed}
      *
-     * @return \Bolt\Users
-     */
-    protected function users()
-    {
-        return $this->app['users'];
-    }
-
-    /**
-     * Returns the Authentication object.
+     * @param string      $what
+     * @param string|null $contenttype
+     * @param int|null    $contentid
      *
-     * @return \Bolt\AccessControl\Authentication
+     * @return bool
      */
-    protected function authentication()
+    protected function isAllowed($what, $contenttype = null, $contentid = null)
     {
-        return $this->app['authentication'];
+        return $this->users()->isAllowed($what, $contenttype, $contentid);
     }
 
     /**
