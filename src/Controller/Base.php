@@ -166,7 +166,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function flashes()
     {
-        $this->app['logger.flash'];
+        return $this->app['logger.flash'];
     }
 
     /**
