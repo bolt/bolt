@@ -1,4 +1,4 @@
-# app/resources/translations/de_DE/contenttypes.de_DE.yml – generated on 2014-11-13 23:08:19 UTC
+# app/resources/translations/de_DE/contenttypes.de_DE.yml – generated on 2015-05-18 11:09:08 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the
@@ -10,25 +10,18 @@
 
 #  no unused messages
 #  no untranslated messages
-#   7 untranslated keyword based messages
+#  no untranslated keyword based messages
 #  no translations
-#  96 keyword based translations
+# 106 keyword based translations
 
-#--- 7 untranslated keyword based messages ------------------------------------
-
-"contenttypes.entries.group.content": "Inhalt"
-"contenttypes.entries.group.media":  "Medien"
-"contenttypes.pages.group.content":  "Inhalt"
-"contenttypes.showcases.group.files":  "Dateien"
-"contenttypes.showcases.group.media":  "Medien"
-"contenttypes.showcases.group.other":  "Sonstiges"
-"contenttypes.showcases.group.text":  "Text"
-
-#--- 96 keyword based translations --------------------------------------------
+#--- 106 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
         description: "Der Datentyp **Einträge** kann beispielsweise für _„News“_ oder _„Blogpostings“_ verwendet werden. Er hat einen Teaser, der für eine Inhaltsangabe in den Auflistungsseiten verwendet werden kann, und den Besucher zum Rest des Eintrages führt. Er verfügt auch über Felder für ein Bild oder wahlweise ein Video. Um die Felder dieses Datentyps zu ändern bearbeiten sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor ihrer Wahl oder gehen sie über den Eintrag „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
+        group:
+            content: "Inhalt"
+            media: "Medien"
         name:
             plural: "Einträge"
             singular: "Eintrag"
@@ -53,6 +46,7 @@ contenttypes:
             overview: "Übersicht Einträge"
             publish: "Eintrag veröffentlichen"
             recent: "Letzte Einträge"
+            recent-changes-one: "Neueste Änderungen an Eintrag"
             recently-edited: "Zuletzt bearbeitete Einträge"
             reserved-name: "Beim Datentyp „Einträge“ wurde der Feldname „%field%“ gesetzt. Da dies ein reservierter Name ist, bitte in contenttypes.yml den Namen ändern."
             save: "Eintrag speichern"
@@ -64,6 +58,8 @@ contenttypes:
             wrong-use-field: "Beim Datentyp „Einträge“ wurde das Feld „%field%“ auf „uses: %uses%“ gesetzt, leider exististiert das Feld „%uses%“ nicht. Bitte contenttypes.yml bearbeiten dies korrigieren."
     pages:
         description: "Der Datentyp **Seiten** kann für eher „statische“ Seiten ihrer Webseite verwendet werden, wie beispielsweise _„Über uns“_, _„Kontakt“_ oder eine _„Haftungsablehnung“_. Um die Felder dieses Datentyps zu ändern bearbeiten sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor ihrer Wahl oder gehen sie über den Eintrag „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
+        group:
+            content: "Inhalt"
         name:
             plural: "Seiten"
             singular: "Seite"
@@ -88,6 +84,7 @@ contenttypes:
             overview: "Seiten Übersicht"
             publish: "Seite veröffentlichen"
             recent: "Letzte Seiten"
+            recent-changes-one: "Neueste Änderungen an Seite"
             recently-edited: "Zuletzt bearbeitete Seiten"
             reserved-name: "Beim Datentyp „Seiten“ wurde der Feldname „%field%“ gesetzt. Da dies ein reservierter Name ist, bitte in contenttypes.yml den Namen ändern."
             save: "Seite speichern"
@@ -99,6 +96,11 @@ contenttypes:
             wrong-use-field: "Beim Datentyp „Seiten“ wurde das Feld „%field%“ auf „uses: %uses%“ gesetzt, leider exististiert das Feld „%uses%“ nicht. Bitte contenttypes.yml bearbeiten dies korrigieren."
     showcases:
         description: "Der Datentyp **Showcases** zeigt alle verfügbaren Feldtypen auf. Praktisch eher weniger von Nutzen, aber gut um etwas über die verfügaren Felder und ihre Verwendung zu lernen. Um die Felder dieses Datentyps zu ändern bearbeiten sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor ihrer Wahl oder gehen sie über den Eintrag „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
+        group:
+            files: "Dateien"
+            media: "Medien"
+            other: "Sonstiges"
+            text: "Text"
         name:
             plural: "Showcases"
             singular: "Showcase"
@@ -123,6 +125,7 @@ contenttypes:
             overview: "Showcases Übersicht"
             publish: "Showcase veröffentlichen"
             recent: "Neue Showcases"
+            recent-changes-one: "Neueste Änderungen an Showcase"
             recently-edited: "Kürzlich bearbeitete Showcases"
             reserved-name: "Beim Datentyp „Showcases“ wurde der Feldname „%field%“ gesetzt. Da dies ein reservierter Name ist, bitte in contenttypes.yml den Namen ändern."
             save: "Showcase speichern"
