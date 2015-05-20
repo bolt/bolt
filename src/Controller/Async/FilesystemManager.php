@@ -82,7 +82,7 @@ class FilesystemManager extends AsyncBase
             $filesystem->listContents($path);
         } catch (\Exception $e) {
             $msg = Trans::__("Folder '%s' could not be found, or is not readable.", array('%s' => $path));
-            $this->addFlash('error', $msg);
+            $this->flashes()->error($msg);
         }
 
         list($files, $folders) = $filesystem->browse($path, $this->app);

@@ -159,7 +159,7 @@ class FileManager extends BackendBase
             $validFolder = true;
             $uploadview = false;
         } else {
-            $this->addFlash('error', Trans::__("The folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+            $this->flashes()->error(Trans::__("The folder '%s' could not be found, or is not readable.", array('%s' => $path)));
             $formview = false;
             $validFolder = false;
         }
@@ -277,7 +277,7 @@ class FileManager extends BackendBase
     {
         $form->submit($request);
         if (!$form->isValid()) {
-            $this->addFlash('error', Trans::__('Files could not be uploaded.'));
+            $this->flashes()->error(Trans::__('Files could not be uploaded.'));
 
             return;
         }
@@ -302,8 +302,7 @@ class FileManager extends BackendBase
                     $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
                 }
                 $extensionList = implode(' ', $extensionList);
-                $this->addFlash(
-                    'error',
+                $this->flashes()->error(
                     Trans::__("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:", array('%file%' => $filename))
                     . $extensionList
                 );
@@ -329,8 +328,7 @@ class FileManager extends BackendBase
         $result = $handler->process($fileToProcess);
 
         if ($result->isValid()) {
-            $this->addFlash(
-                'info',
+            $this->flashes()->info(
                 Trans::__("File '%file%' was uploaded successfully.", array('%file%' => $filename))
             );
 
@@ -339,7 +337,7 @@ class FileManager extends BackendBase
             $result->confirm();
         } else {
             foreach ($result->getMessages() as $message) {
-                $this->addFlash('error', (string) $message);
+                $this->flashes()->error((string) $message);
             }
         }
     }
@@ -354,8 +352,7 @@ class FileManager extends BackendBase
     private function isWriteable(\League\Flysystem\File $file)
     {
         if ($file->getVisibility() !== 'public') {
-            $this->addFlash(
-                'info',
+            $this->flashes()->info(
                 Trans::__(
                     "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
                     array('%s' => $file->getPath())

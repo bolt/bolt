@@ -90,7 +90,7 @@ class Users extends BackendBase
 
             // Verify the current user has access to edit this user
             if (!$this->app['permissions']->isAllowedToManipulate($user, $currentuser)) {
-                $this->addFlash('error', Trans::__('You do not have the right privileges to edit that user.'));
+                $this->flashes()->error(Trans::__('You do not have the right privileges to edit that user.'));
 
                 return $this->redirectToRoute('users');
             }
@@ -168,7 +168,7 @@ class Users extends BackendBase
             if ($user !== false && $user['id'] === $currentuser['id'] && $user['username'] !== $currentuser['username']) {
                 // If the current user changed their own login name, the session is effectively
                 // invalidated. If so, we must redirect to the login page with a flash message.
-                $this->addFlash('error', Trans::__('page.edit-users.message.change-self'));
+                $this->flashes()->error(Trans::__('page.edit-users.message.change-self'));
 
                 return $this->redirectToRoute('login');
             } elseif ($user !== false) {
@@ -267,14 +267,14 @@ class Users extends BackendBase
     public function modify(Request $request, $action, $id)
     {
         if (!$this->checkAntiCSRFToken()) {
-            $this->addFlash('info', Trans::__('An error occurred.'));
+            $this->flashes()->info(Trans::__('An error occurred.'));
 
             return $this->redirectToRoute('users');
         }
         $user = $this->getUser($id);
 
         if (!$user) {
-            $this->addFlash('error', 'No such user.');
+            $this->flashes()->error('No such user.');
 
             return $this->redirectToRoute('users');
         }
@@ -282,14 +282,14 @@ class Users extends BackendBase
         // Prevent the current user from enabling, disabling or deleting themselves
         $currentuser = $this->getUser();
         if ($currentuser['id'] == $user['id']) {
-            $this->addFlash('error', Trans::__("You cannot '%s' yourself.", array('%s', $action)));
+            $this->flashes()->error(Trans::__("You cannot '%s' yourself.", array('%s', $action)));
 
             return $this->redirectToRoute('users');
         }
 
         // Verify the current user has access to edit this user
         if (!$this->app['permissions']->isAllowedToManipulate($user, $currentuser)) {
-            $this->addFlash('error', Trans::__('You do not have the right privileges to edit that user.'));
+            $this->flashes()->error(Trans::__('You do not have the right privileges to edit that user.'));
 
             return $this->redirectToRoute('users');
         }
@@ -300,18 +300,18 @@ class Users extends BackendBase
                 if ($this->getUsers()->setEnabled($id, 0)) {
                     $this->app['logger.system']->info("Disabled user '{$user['displayname']}'.", array('event' => 'security'));
 
-                    $this->addFlash('info', Trans::__("User '%s' is disabled.", array('%s' => $user['displayname'])));
+                    $this->flashes()->info(Trans::__("User '%s' is disabled.", array('%s' => $user['displayname'])));
                 } else {
-                    $this->addFlash('info', Trans::__("User '%s' could not be disabled.", array('%s' => $user['displayname'])));
+                    $this->flashes()->info(Trans::__("User '%s' could not be disabled.", array('%s' => $user['displayname'])));
                 }
                 break;
 
             case 'enable':
                 if ($this->getUsers()->setEnabled($id, 1)) {
                     $this->app['logger.system']->info("Enabled user '{$user['displayname']}'.", array('event' => 'security'));
-                    $this->addFlash('info', Trans::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
+                    $this->flashes()->info(Trans::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
                 } else {
-                    $this->addFlash('info', Trans::__("User '%s' could not be enabled.", array('%s' => $user['displayname'])));
+                    $this->flashes()->info(Trans::__("User '%s' could not be enabled.", array('%s' => $user['displayname'])));
                 }
                 break;
 
@@ -319,14 +319,14 @@ class Users extends BackendBase
 
                 if ($this->checkAntiCSRFToken() && $this->getUsers()->deleteUser($id)) {
                     $this->app['logger.system']->info("Deleted user '{$user['displayname']}'.", array('event' => 'security'));
-                    $this->addFlash('info', Trans::__("User '%s' is deleted.", array('%s' => $user['displayname'])));
+                    $this->flashes()->info(Trans::__("User '%s' is deleted.", array('%s' => $user['displayname'])));
                 } else {
-                    $this->addFlash('info', Trans::__("User '%s' could not be deleted.", array('%s' => $user['displayname'])));
+                    $this->flashes()->info(Trans::__("User '%s' could not be deleted.", array('%s' => $user['displayname'])));
                 }
                 break;
 
             default:
-                $this->addFlash('error', Trans::__("No such action for user '%s'.", array('%s' => $user['displayname'])));
+                $this->flashes()->error(Trans::__("No such action for user '%s'.", array('%s' => $user['displayname'])));
 
         }
 
@@ -363,9 +363,9 @@ class Users extends BackendBase
                 $res = $this->getUsers()->saveUser($user);
                 $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
                 if ($res) {
-                    $this->addFlash('success', Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
+                    $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
                 } else {
-                    $this->addFlash('error', Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
+                    $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
                 }
 
                 return $this->redirectToRoute('profile');
@@ -614,9 +614,9 @@ class Users extends BackendBase
             }
 
             if ($res) {
-                $this->addFlash('success', Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
+                $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
             } else {
-                $this->addFlash('error', Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
+                $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
             }
 
             return $user;

@@ -72,9 +72,9 @@ class General extends BackendBase
 
         if (!empty($result['failedfiles'])) {
             $output .= ' ' . Trans::__('%s files could not be deleted. You should delete them manually.', array('%s' => $result['failedfiles']));
-            $this->addFlash('error', $output);
+            $this->flashes()->error($output);
         } else {
-            $this->addFlash('success', $output);
+            $this->flashes()->success($output);
         }
 
         return $this->render('clearcache/clearcache.twig');
@@ -150,15 +150,15 @@ class General extends BackendBase
 
             try {
                 $content = $this->app['storage']->preFill($contenttypes);
-                $this->addFlash('success', $content);
+                $this->flashes()->success($content);
             } catch (RequestException $e) {
                 $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
-                $this->addFlash('error', $msg);
+                $this->flashes()->error($msg);
                 $this->app['logger.system']->error($msg, array('event' => 'storage'));
             } catch (V3RequestException $e) {
                 /** @deprecated removed when PHP 5.3 support is dropped */
                 $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
-                $this->addFlash('error', $msg);
+                $this->flashes()->error($msg);
                 $this->app['logger.system']->error($msg, array('event' => 'storage'));
             }
 
@@ -296,7 +296,7 @@ class General extends BackendBase
             Yaml::parse($contents);
         } catch (ParseException $e) {
             $msg = Trans::__("File '%s' could not be saved: ", array('%s' => $tr['shortPath']));
-            $this->addFlash('error', $msg . $e->getMessage());
+            $this->flashes()->error($msg . $e->getMessage());
 
             return false;
         }
@@ -310,13 +310,13 @@ class General extends BackendBase
             $fs->dumpFile($tr['path'], $contents);
         } catch (IOException $e) {
             $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", array('%s' => $tr['shortPath']));
-            $this->addFlash('error', $msg);
+            $this->flashes()->error($msg);
             $tr['writeallowed'] = false;
             return false;
         }
 
         $msg = Trans::__("File '%s' has been saved.", array('%s' => $tr['shortPath']));
-        $this->addFlash('info', $msg);
+        $this->flashes()->info($msg);
 
         return $this->redirectToRoute('translation', array('domain' => $tr['domain'], 'tr_locale' => $tr['locale']));
     }

@@ -47,12 +47,12 @@ class Log extends BackendBase
 
         if ($action == 'clear') {
             $this->app['logger.manager']->clear('change');
-            $this->addFlash('success', Trans::__('The change log has been cleared.'));
+            $this->flashes()->success(Trans::__('The change log has been cleared.'));
 
             return $this->redirectToRoute('changelog');
         } elseif ($action == 'trim') {
             $this->app['logger.manager']->trim('change');
-            $this->addFlash('success', Trans::__('The change log has been trimmed.'));
+            $this->flashes()->success(Trans::__('The change log has been trimmed.'));
 
             return $this->redirectToRoute('changelog');
         }
@@ -212,12 +212,12 @@ class Log extends BackendBase
 
         if ($action == 'clear') {
             $this->app['logger.manager']->clear('system');
-            $this->addFlash('success', Trans::__('The system log has been cleared.'));
+            $this->flashes()->success(Trans::__('The system log has been cleared.'));
 
             return $this->redirectToRoute('systemlog');
         } elseif ($action == 'trim') {
             $this->app['logger.manager']->trim('system');
-            $this->addFlash('success', Trans::__('The system log has been trimmed.'));
+            $this->flashes()->success(Trans::__('The system log has been trimmed.'));
 
             return $this->redirectToRoute('systemlog');
         }

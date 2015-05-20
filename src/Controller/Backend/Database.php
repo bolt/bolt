@@ -27,10 +27,6 @@ class Database extends BackendBase
             ->bind('dbupdate_result');
     }
 
-    /*
-     * Routes
-     */
-
     /**
      * Check the database for missing tables and columns.
      *
@@ -72,7 +68,7 @@ class Database extends BackendBase
             } else {
                 $content = Trans::__('Your database is now up to date.');
             }
-            $this->addFlash('success', $content);
+            $this->flashes()->success($content);
 
             return $this->redirectToRoute('fileedit', array('file' => 'app/config/contenttypes.yml'));
         } else {

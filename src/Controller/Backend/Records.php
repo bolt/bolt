@@ -59,11 +59,11 @@ class Records extends BackendBase
             $title = $content->getTitle();
 
             if (!$this->isAllowed("contenttype:$contenttypeslug:delete:$id")) {
-                $this->addFlash('error', Trans::__('Permission denied', array()));
+                $this->flashes()->error(Trans::__('Permission denied', array()));
             } elseif ($this->checkAntiCSRFToken() && $this->app['storage']->deleteContent($contenttypeslug, $id)) {
-                $this->addFlash('info', Trans::__("Content '%title%' has been deleted.", array('%title%' => $title)));
+                $this->flashes()->info(Trans::__("Content '%title%' has been deleted.", array('%title%' => $title)));
             } else {
-                $this->addFlash('info', Trans::__("Content '%title%' could not be deleted.", array('%title%' => $title)));
+                $this->flashes()->info(Trans::__("Content '%title%' could not be deleted.", array('%title%' => $title)));
             }
         }
 
@@ -111,7 +111,7 @@ class Records extends BackendBase
 
             if (empty($content)) {
                 // Record not found, advise and redirect to the dashboard
-                $this->addFlash('error', Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttypeslug)));
+                $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttypeslug)));
 
                 return $this->redirectToRoute('dashboard');
             }
@@ -141,7 +141,7 @@ class Records extends BackendBase
 
         // This shoudln't happen
         if (!$this->getContentType($contenttypeslug)) {
-            $this->addFlash('error', Trans::__('Attempt to modify invalid Contenttype.'));
+            $this->flashes()->error(Trans::__('Attempt to modify invalid Contenttype.'));
 
             return $this->redirectToRoute('dashboard');
         }
@@ -154,7 +154,7 @@ class Records extends BackendBase
         );
 
         if (!isset($actionStatuses[$action])) {
-            $this->addFlash('error', Trans::__('No such action for content.'));
+            $this->flashes()->error(Trans::__('No such action for content.'));
 
             return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
         }
@@ -165,15 +165,15 @@ class Records extends BackendBase
 
         if (!$this->isAllowed("contenttype:$contenttypeslug:edit:$id") ||
         !$this->app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttypeslug, $id)) {
-            $this->addFlash('error', Trans::__('You do not have the right privileges to edit that record.'));
+            $this->flashes()->error(Trans::__('You do not have the right privileges to edit that record.'));
 
             return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
         }
 
         if ($this->app['storage']->updateSingleValue($contenttypeslug, $id, 'status', $newStatus)) {
-            $this->addFlash('info', Trans::__("Content '%title%' has been changed to '%newStatus%'", array('%title%' => $title, '%newStatus%' => $newStatus)));
+            $this->flashes()->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", array('%title%' => $title, '%newStatus%' => $newStatus)));
         } else {
-            $this->addFlash('info', Trans::__("Content '%title%' could not be modified.", array('%title%' => $title)));
+            $this->flashes()->info(Trans::__("Content '%title%' could not be modified.", array('%title%' => $title)));
         }
 
         return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
@@ -192,7 +192,7 @@ class Records extends BackendBase
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes'
         // for Editors.
         if (!$this->isAllowed('contenttype:' . $contenttypeslug)) {
-            $this->addFlash('error', Trans::__('You do not have the right privileges to view that page.'));
+            $this->flashes()->error(Trans::__('You do not have the right privileges to view that page.'));
 
             return $this->redirectToRoute('dashboard');
         }
@@ -254,7 +254,7 @@ class Records extends BackendBase
     {
         // Make sure the user is allowed to see this page, based on 'allowed contenttypes' for Editors.
         if (!$this->isAllowed('contenttype:' . $contenttypeslug)) {
-            $this->addFlash('error', Trans::__('You do not have the right privileges to edit that record.'));
+            $this->flashes()->error(Trans::__('You do not have the right privileges to edit that record.'));
 
             return $this->redirectToRoute('dashboard');
         }
@@ -335,7 +335,7 @@ class Records extends BackendBase
         $perm = $new ? "contenttype:$contenttypeslug:create" : "contenttype:$contenttypeslug:edit:$id";
         if (!$this->isAllowed($perm)) {
             $action = $new ? 'create' : 'edit';
-            $this->addFlash('error', Trans::__("You do not have the right privileges to $action that record."));
+            $this->flashes()->error(Trans::__("You do not have the right privileges to $action that record."));
 
             return $this->redirectToRoute('dashboard');
         }

@@ -157,7 +157,7 @@ class Authentication extends BackendBase
     {
         // Send a password request mail, if username exists.
         if (empty($username)) {
-            $this->addFlash('error', Trans::__('Please provide a username'));
+            $this->flashes()->error(Trans::__('Please provide a username'));
         } else {
             $this->getAuthentication()->resetPasswordRequest($username);
             $response = $this->redirectToRoute('login');

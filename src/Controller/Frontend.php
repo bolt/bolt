@@ -52,7 +52,7 @@ class Frontend extends ConfigurableBase
         // If there are no users in the users table, or the table doesn't exist. Repair
         // the DB, and let's add a new user.
         if (!$this->app['users']->getUsers()) {
-            $this->addFlash('info', Trans::__('There are no users in the database. Please create the first user.'));
+            $this->flashes()->info(Trans::__('There are no users in the database. Please create the first user.'));
 
             return $this->redirectToRoute('useredit', array('id' => ''));
         }

@@ -160,14 +160,13 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Adds a flash message to the current session for type.
+     * Gets the flash logger
      *
-     * @param string $type    The type
-     * @param string $message The message
+     * @return \Bolt\Logger\FlashLoggerInterface
      */
-    protected function addFlash($type, $message)
+    protected function flashes()
     {
-        $this->app['logger.flash']->{$type}($message);
+        $this->app['logger.flash'];
     }
 
     /**
