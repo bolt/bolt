@@ -1,6 +1,9 @@
-# Database setup. The driver can be either sqlite, mysql or postgres. For
-# SQLite, only the databasename is required, while MySQL and PostgreSQL also
-# require username, password and perhaps a hostname.
+# Database setup. The driver can be either 'sqlite', 'mysql' or 'postgres'.
+#
+# For SQLite, only the databasename is required. However, MySQL and PostgreSQL
+# also require 'username', 'password', and optionally 'hostname' if the database
+# server is not on the same host as the web server.
+#
 # If you're trying out Bolt, just keep it set to SQLite for now.
 database:
     driver: sqlite
@@ -10,74 +13,105 @@ database:
 sitename: A sample site
 payoff: The amazing payoff goes here
 
-# The theme to use. Be sure to copy the {theme_path}/base-2014 folder, and change the
-# name here accordingly. Don't edit the templates in theme/base-2014, because
-# they _will_ get updated in next releases
+# The theme to use. Be sure to copy the {theme_path}/base-2014 folder, and
+# change the name here accordingly.
+#
+# Don't edit the templates in theme/base-2014, because they _will_ get updated
+# in next releases
 theme: base-2014
 
 # The locale that'll be used by the application. If no locale is set the
-# fallback locale is 'en_GB'. For available options, see: http://docs.bolt.cm/locales
-# In some cases it may be needed to specify (non-standard) variations of the locale
-# to get everything to work as desired. This can be done as [nl_NL, Dutch_Netherlands]
-# When specifying multiple locale, make sure the first is a standard locale
+# fallback locale is 'en_GB'. For available options, see: 
+# http://docs.bolt.cm/locales
+#
+# In some cases it may be needed to specify (non-standard) variations of the 
+# locale to get everything to work as desired.
+#
+# This can be done as [nl_NL, Dutch_Netherlands] when specifying multiple
+# locales, ensure the first is a standard locale.
 locale: en_GB
 #timezone: UTC
 
-# Set maintenance mode true or false
-# While in maintenance mode, only users of level editor or higher can access the site.
-# All other visitors are presented with a notice that the site is currently offline.
-# The default template file can be found in /app/theme_defaults/ and overridden with
-# this option using your own theme. Note: If you've changed the filename, and
-# your changes do not show up on the website, be sure to check for a config.yml
-# file in your theme's folder. If a template is set there, it will override the
-# setting here.
+# Set maintenance mode on or off.
+#
+# While in maintenance mode, only users of level editor or higher can access the
+# site.
+#
+# All other visitors are presented with a notice that the site is currently
+# offline.
+#
+# The default template file can be found in /app/theme_defaults/ and overridden
+# with this option using your own theme.
+#
+# Note: If you've changed the filename, and your changes do not show up on the
+#       website, be sure to check for a config.ymlfile in your theme's folder.
+#       If a template is set there, it will override the setting here.
 maintenance_mode: false
 maintenance_template: maintenance_default.twig
 
 # The hour of the day for the internal cron task scheduler to run daily, weekly,
-# monthly and yearly jobs.    Default: 3 (3 am)
+# monthly and yearly jobs.
+#
+# Default: 3 (3 am)
 cron_hour: 3
 
 # If your site is reachable under different urls (say, both blog.example.org/
-# as well as example.org/), it's a good idea to set one of these as the canonical,
-# so it's clear which is the primary address of the site. If you include `https://`,
-# it will be included in the canonical urls.
+# as well as example.org/), it's a good idea to set one of these as the
+# canonical, so it's clear which is the primary address of the site. 
+#
+# If you include `https://`, it will be included in the canonical urls.
 #canonical: example.org
 
-# Bolt can insert a <link rel="shortcut icon"> for all pages on the site. Note
-# that the location given is relative to the currently selected theme. If you
-# want to set the icon yourself, just don't enable the following line.
+# Bolt can insert a <link rel="shortcut icon"> for all pages on the site. 
+
+# Note: The location given is relative to the currently selected theme. If
+#       you want to set the icon yourself, just don't enable the following line.
 #favicon: images/favicon-bolt.ico
 
 # The default content to use for the homepage, and the template to render it
-# with. Note: If you've changed the filename, and your changes do not show up on
-# the website, be sure to check for a config.yml file in your theme's folder. If
-# a template is set there, it will override the setting here.
+# with. 
+#
+# Note: If you've changed the filename, and your changes do not show up on
+#       the website, be sure to check for a config.yml file in your theme's
+#       folder. If a template is set there, it will override the setting here.
 homepage: page/1
 homepage_template: index.twig
 
-# The default content for the 404 page. Uses the 'record_template' template by default.
-# Make sure this is set to an existing record, otherwise visitors will get an error-page
-# when the request a non-existing page.
+# The default content for the 404 page. Uses the 'record_template' template by
+# default.
+#
+# Make sure this is set to an existing record, otherwise visitors will get an
+# error-page when the request a non-existing page.
 #
 # Note 1: The record specified in this parameter must be set to 'published'
-# Note 2: If you are logged on, and debug is set to 'true', you will NOT see the 404 page!
+# Note 2: If you are logged on, and debug is set to 'true', you will NOT see the
+#         404 page!
 notfound: page/not-found
 
 # The default template and amount of records to use for listing-pages on the
-# site. Can be overridden for each contenttype and for each record, if it has a
-# 'templateselect' field. Note: If you've changed the filename, and your changes
-# do not show up on the website, be sure to check for a config.yml file in your
-# theme's folder. If a template is set there, it will override the setting here.
+# site. 
+#
+# Can be overridden for each contenttype and for each record, if it has a
+# 'templateselect' field. 
+#
+# Note: If you've changed the filename, and your changes do not show up on the
+#       website, be sure to check for a config.yml file in your theme's folder.
+#       If a template is set there, it will override the setting here.
 record_template: record.twig
 
-# The default template and amount of records to use for listing-pages on the site.
+# The default template and amount of records to use for listing-pages on the
+# site.
+#
 # Can be overridden for each contenttype.
-# Note: sorting on TAXONOMY-pages will give unexpected results, if it has a pager
-# If you need sorting on those, make sure you display all the records on one page.
-# Note: If you've changed the filename, and your changes do not show up on the
-# website, be sure to check for a config.yml file in your theme's folder. If a
-# template is set there, it will override the setting here.
+#
+# Note 1: Sorting on TAXONOMY-pages will give unexpected results, if it has a
+#         pager.
+#         If you need sorting on those, make sure you display all the records on one
+#         page.
+#
+# Note 2: If you've changed the filename, and your changes do not show up on the
+#         website, be sure to check for a config.yml file in your theme's
+#         folder. If a template is set there, it will override the setting here.
 listing_template: listing.twig
 listing_records: 6
 listing_sort: datepublish DESC
@@ -88,10 +122,11 @@ listing_sort: datepublish DESC
 taxonomy_sort: DESC
 
 # Template for showing the search results. If not defined, uses the settings for
-# listing_template and listing_records. Note: If you've changed the filename,
-# and your changes do not show up on the website, be sure to check for a
-# config.yml file in your theme's folder. If a template is set there, it will
-# override the setting here.
+# listing_template and listing_records.
+#
+# Note: If you've changed the filename, and your changes do not show up on the
+#       website, be sure to check for a config.yml file in your theme's folder.
+#       If a template is set there, it will override the setting here.
 search_results_template: listing.twig
 search_results_records: 10
 
@@ -103,15 +138,20 @@ add_jquery: false
 recordsperpage: 10
 
 # Settings for caching in parts of Bolt.
-# - config: Caches the parsed .yml files from /app/config. It's updated immediately when of the
-#     files changes on disk. There should be no good reason to turn this off.
-# - templates: Caches rendered templates.
-# - request: Caches entire rendered pages like '/page/about', but only on GET requests.
-# - duration: the duration (in minutes) for the 'templates' and 'request' options. default is 10 minutes.
-#     note that the duration is set on storing the cache. By lowering this value you will not invalidate
-#     currently cached items.
-# - authenticated: cache 'templates' and 'request' for logged-on users. In most cases you should *NOT* enable
-#     this, because it will cause side-effects if the website shows different content to authenticated users.
+# - config:        Caches the parsed .yml files from /app/config. It's updated 
+#                  immediately when one of the files changes on disk. There 
+#                  should be no good reason to turn this off.
+# - templates:     Caches rendered templates.
+# - request:       Caches entire rendered pages like '/page/about', but only on 
+#                  GET requests.
+# - duration:      The duration (in minutes) for the 'templates' and 'request'
+#                  options. default is 10 minutes. Note that the duration is set
+#                  on storing the cache. By lowering this value you will not
+#                  invalidate currently cached items.
+# - authenticated: Cache 'templates' and 'request' for logged-on users. In most
+#                  cases you should *NOT* enable this, because it will cause
+#                  side-effects if the website shows different content to
+#                  authenticated users.
 caching:
     config: true
     templates: true
@@ -120,19 +160,28 @@ caching:
     authenticated: false
 
 # Set 'enabled' to 'true' to log all content changes in the database.
+#
 # Unless you need to rigorously monitor every change to your site's content, it
 # is recommended to keep this disabled.
 changelog:
     enabled: false
 
-# Default settings for thumbnails. Quality should be between 0 (horrible, small file) and
-# 100 (best, huge file). Cropping is one of either crop, fit, borders, resize.
-# default_thumbnail is the default size of images, when using {{ record.image|thumbnail() }}
-# default_image is the default size of images, when using {{ record.image|image() }}
-# allow_upscale determines whether small images will be enlarged to fit the requested dimensions.
-# browser_cache_time sets the amount of seconds that the browser will cache images for.
-# Set it to activate browser caching
-# Note: if you change these values, you might need to clear the cache before they show up.
+# Default settings for thumbnails. 
+#
+# Quality should be between 0 (horrible, small file) and 100 (best, huge file). 
+#
+# cropping:           One of either crop, fit, borders, resize.
+# default_thumbnail:  The default size of images, when using 
+#                     {{ record.image|thumbnail() }}
+# default_image:      The default size of images, when using
+#                     {{ record.image|image() }}
+# allow_upscale:      Determines whether small images will be enlarged to fit
+#                     the requested dimensions.
+# browser_cache_time: Sets the amount of seconds that the browser will cache 
+#                     images for. Set it to activate browser caching.
+#
+# Note: If you change these values, you might need to clear the cache before
+#       they show up.
 thumbnails:
     default_thumbnail: [ 160, 120 ]
     default_image: [ 1000, 750 ]
@@ -162,22 +211,30 @@ htmlcleaner:
 #     replacement: '-'
 #     lowercase: true
 
-# File types that are acceptable for upload in either 'file' fields or through the 'files' screen.
+# File types that are acceptable for upload in either 'file' fields or through
+# the 'files' screen.
 
-# The following is the default list of file-types that can be uploaded through the 'files' screen.
+# The following is the default list of file-types that can be uploaded through
+# the 'files' screen.
 accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
 
-# Alternatively, if you wish to limit these, uncomment the following list instead;
-# it includes file types that are harder to exploit.
+# Alternatively, if you wish to limit these, uncomment the following list 
+# instead. It includes file types that are harder to exploit.
 # accept_file_types: [ gif, jpg, jpeg, png, txt, md, pdf, epub, mp3, svg ]
 
+# If you want to 'brand' the Bolt backend for a client, you can change some key
+# variables here, that determine the name of the backend, and adds a primary
+# support/contact link to the footer.
 #
-# If you want to 'brand' the Bolt backend for a client, you can change some key variables
-# here, that determine the name of the backend, and adds a primary support/contact link
-# to the footer. Additionally you can change the mount-point for the backend, either for
-# convenience or to obscure it from prying eyes. The Bolt backend is accessible as /bolt/
-# by default, if you change it here, it will only be accessible through the value set in
-# 'path'. Keep the path simple: lowercase only, no extra slashes or other special characters.
+# Additionally you can change the mount 
+# point for the backend, either for convenience or to obscure it from prying 
+# eyes.
+#
+# The Bolt backend is accessible as /bolt/ by default, if you change it here, 
+# it will only be accessible through the value set in 'path'.
+#
+# Keep the path simple: lowercase only, no extra slashes or other special
+# characters.
 # branding:
 #     name: SuperCMS
 #     path: /admin
@@ -197,7 +254,9 @@ debug_enable_whoops: true # change this to false to use PHP's built-in error han
 
 # System debug logging
 # This will enable intensive logging of Silex functions and will be very hard on
-# performance and log file size.    The log file will be created in your cache directory
+# performance and log file size.    The log file will be created in your cache
+# directory.
+#
 # Enable this for short time periods only when diagnosing system issues.
 # The level can be either: DEBUG, INFO, NOTICE, WARNING, ERROR, CRITICAL, ALERT, EMERGENCY
 debuglog:
@@ -209,11 +268,13 @@ debuglog:
 # when foo doesn't exist.
 strict_variables: false
 
-# There are several options for giving editors more options to insert images, video,
-# etc in the Wysiwyg areas. But, as you give them more options, that means they also have
-# more ways of breaking the preciously designed layout. By default the most 'dangerous'
-# options are set to 'false'. If you choose to enable them for your editors, please
-# instruct them thoroughly on their responsibility not to break the layout.
+# There are several options for giving editors more options to insert images,
+# video, etc in the WYSIWYG areas. But, as you give them more options, that
+# means they also have more ways of breaking the preciously designed layout.
+#
+# By default the most 'dangerous' options are set to 'false'. If you choose to
+# enable them for your editors, please instruct them thoroughly on their
+# responsibility not to break the layout.
 wysiwyg:
     images: false
     anchor: false
@@ -238,13 +299,15 @@ wysiwyg:
 liveeditor: true
 
 # Use the 'mailoptions' setting to configure how Bolt sends email: using 'smtp'
-# or PHP's built-in `mail()`-function. Note that the latter might _seem_ easier,
-# but it's been disabled by a lot of webhosts, in order to prevent spam from
-# wrongly configured scripts. If you use it, your mail might disappear into a
-# black hole, without producing any errors. Generally speaking, using 'smtp' is
-# the better option, so use that if possible. Protip: If your webhost does not
-# support SMTP, sign up for a (free) Mandrill account at https://mandrill.com/
-# for sending emails reliably.
+# or PHP's built-in `mail()`-function.
+
+# Note that the latter might _seem_ easier, but it's been disabled by a lot of
+# webhosts, in order to prevent spam from wrongly configured scripts. If you use
+# it, your mail might disappear into a black hole, without producing any errors.
+# Generally speaking, using 'smtp' is the better option, so use that if possible.
+#
+# Protip: If your webhost does not support SMTP, sign up for a (free) Mandrill
+# account at https://mandrill.com/ for sending emails reliably.
 
 # mailoptions:
 #     transport: smtp
@@ -262,74 +325,96 @@ liveeditor: true
 #     transport: mail
 #     spool: false
 
-# Bolt allows some modifications to how 'strict' login sessions are. For every option
-# that is set to true, it becomes harder for a bad-willing person to spoof your login
-# session. However, it also requires you to re-authenticate more often if you change
-# location(ip-address) or your browser has frequent upgrades. Only change these if
-# you know what you're doing, and you're having issues with the default settings.
-# note: if you change any of these, all current users will automatically be logged off.
+# Bolt allows some modifications to how 'strict' login sessions are. For every
+# option that is set to true, it becomes harder for a bad-willing person to
+# spoof your login session. However, it also requires you to re-authenticate
+# more often if you change location(ip-address) or your browser has frequent
+# upgrades. Only change these if you know what you're doing, and you're having
+# issues with the default settings.
+#
+# Note: If you change any of these, all current users will automatically be
+#       logged off.
 cookies_use_remoteaddr: true
 cookies_use_browseragent: false
 cookies_use_httphost: true
 
-# The length of time a user stays 'logged in'. Change to 0 to end the session when the browser
-# is closed. The default is 1209600: two weeks in seconds.
+# The length of time a user stays 'logged in'. Change to 0 to end the session
+# when the browser is closed.
+#
+# The default is 1209600 (two weeks, in seconds).
 cookies_lifetime: 1209600
 
-# Set the session cookie to a specific domain. Leave blank, unless you know what you're doing.
+# Set the session cookie to a specific domain. Leave blank, unless you know what
+# you're doing.
+#
 # When set incorrectly, you might not be able to log on at all.
-# If you'd like it to be valid for all subdomains of 'www.example.org', set this to '.example.org'.
+#
+# If you'd like it to be valid for all subdomains of 'www.example.org', set this
+# to '.example.org'.
 cookies_domain:
 
-# If your system is using a custom session configuration (such as a redis handler from a
-# PHP extension) then we need to disable our session storage handler. In that case, set
-# this setting to false. Do not change this, unless you know what you're doing!
+# If your system is using a custom session configuration (such as a Redis 
+# handler from a PHP extension) then we need to disable our session storage
+# handler. In that case, set this setting to false.
 # See: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
+#
+# Do not change this, unless you know what you're doing!
 session_use_storage_handler: true
 
-# The hash_strength determines the amount of iterations for encrypting passwords. A higher number means
-# a harder to decrypt password, but takes longer to compute. '8' is the minimum, '10' is the default,
-# '12' is better.
+# The hash_strength determines the amount of iterations for encrypting 
+# passwords.
+#
+# A higher number means a harder to decrypt password, but takes longer to
+# compute. '8' is the minimum, '10' is the default, '12' is better.
 hash_strength: 10
 
-# Bolt sets the `X-Frame-Options` and `Frame-Options` to `SAMEORIGIN` by default, to prevent
-# clickjacking. When you uncomment the following line and set it to 'false', you will prevent
-# the setting of these headers.
+# Bolt sets the `X-Frame-Options` and `Frame-Options` to `SAMEORIGIN` by
+# default, to prevent. 
+#
+# Setting this to 'false', will prevent the setting of these headers.
 # headers:
 #     x_frame_options: true
 
-# Bolt uses extensions.bolt.cm to fetch it's extensions by default. You can change that URL here.
-# Do not change this, unless you know what you're doing, and understand the associated risks. If
-# you use 'http://extensions.bolt.cm', Bolt will not use SSL, increasing the risk for a MITM
-# attack.
+# Bolt uses extensions.bolt.cm to fetch it's extensions by default. You can
+# change that URL here.
 #
-# For the stability option, you can choose either 'dev' or 'stable'. Setting this to 'dev' will allow you to
-# install dev-master versions of extensions.
+# Do not change this, unless you know what you're doing, and understand the
+# associated risks. If you use 'http://extensions.bolt.cm', Bolt will not use
+# SSL, increasing the risk for a MITM attacks.
+#
+# For the stability option, you can choose either 'dev' or 'stable'. Setting
+# this to 'dev' will allow you to install dev-master versions of extensions.
 extensions:
     site: 'https://extensions.bolt.cm/'
     stability: stable
     enabled: true
 
-# Enforce SSL: if set, all but the front-end pages will enforce an SSL
-# connection (and redirect to HTTPS if you attempt to visit the backend over
+# Enforcing the use of SSL. If set, all but the front-end pages will enforce an
+# SSL connection (and redirect to HTTPS if you attempt to visit the backend over
 # plain HTTP).
 # enforce_ssl: true
 
 # If configured, Bolt will trust X-Forwarded-XXX headers from the listed IP
 # addresses and ranges when determining whether the current request is
 # 'secure'.
+#
 # This is required to correctly determine the current hostname and protocol
 # (HTTP vs. HTTPS) when running behind some proxy, e.g. a load balancer, cache,
 # or SSL proxy.
-# List the IP addresses or subnets that you know are such proxies. Note that
-# allowing hosts here that may not be trusted proxies is a security risk.
-# If you do not understand what this does, it is probably best to not touch it.
+#
+# List the IP addresses or subnets that you know are such proxies.
+#
+# Note: Allowing hosts here that may not be trusted proxies is a security risk.
+#       If you do not understand what this does, it is probably best to not
+#       touch it.
 # trustProxies:
 #     - 127.0.0.1
 #     - 10.0.0.0/8
 
-# Theme file path where themes are. They are under /theme in project's root folder
-# by default but can be relocated. This case you should define theme_path accordingly.
+# Theme file path where themes are. They are under /theme in project's root
+# folder by default but can be relocated. This case you should define theme_path
+# accordingly.
+#
 # Make sure the path exists, and be aware that you'll get a new 'theme' folder on any
 # subsequent Bolt update. Changing this setting is not advised.
 # theme_path: theme
