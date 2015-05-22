@@ -3,10 +3,15 @@ namespace Bolt\Tests\Controller;
 
 use Bolt\Content;
 use Bolt\Controller\Frontend;
+use Bolt\Controller\Zone;
 use Bolt\Response\BoltResponse;
 use Bolt\Storage;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Class to test correct operation of src/Controller/Frontend.
@@ -18,6 +23,23 @@ use Symfony\Component\HttpFoundation\Request;
  **/
 class FrontendTest extends ControllerUnitTest
 {
+    /**
+     * @covers Zone::get
+     * @covers Zone::isFrontend
+     */
+    public function testControllerZone()
+    {
+        $app = $this->getApp();
+        $this->setRequest(Request::create('/'));
+
+        $request = $this->getRequest();
+        $kernel = $this->getMock('Symfony\\Component\\HttpKernel\\HttpKernelInterface');
+        $app['dispatcher']->dispatch(KernelEvents::REQUEST, new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST));
+
+        $this->assertEquals('frontend', Zone::get($request));
+        $this->assertTrue(Zone::isFrontend($request));
+    }
+
     public function testDefaultHomepageTemplate()
     {
         $this->setRequest(Request::create('/'));

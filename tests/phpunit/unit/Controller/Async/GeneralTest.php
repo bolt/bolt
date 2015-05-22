@@ -1,11 +1,16 @@
 <?php
 namespace Bolt\Tests\Controller\Async;
 
+use Bolt\Controller\Zone;
 use Bolt\Response\BoltResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Class to test correct operation of src/Controller/Async/General.
@@ -14,6 +19,24 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 class GeneralTest extends ControllerUnitTest
 {
+    /**
+     * @covers Zone::get
+     * @covers Zone::isAsync
+     */
+    public function testControllerZone()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        $this->setRequest(Request::create('/async'));
+        $request = $this->getRequest();
+
+        $kernel = $this->getMock('Symfony\\Component\\HttpKernel\\HttpKernelInterface');
+        $app['dispatcher']->dispatch(KernelEvents::REQUEST, new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST));
+
+        $this->assertEquals('async', Zone::get($request));
+        $this->assertTrue(Zone::isAsync($request));
+    }
+
     public function testChangeLogRecord()
     {
         $this->setRequest(Request::create('/async/changelog/page/1'));

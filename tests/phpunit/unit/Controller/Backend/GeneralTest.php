@@ -1,11 +1,16 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Controller\Zone;
 use Bolt\Response\BoltResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Class to test correct operation of src/Controller/Backend/Backend.
@@ -15,6 +20,23 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 class GeneralTest extends ControllerUnitTest
 {
+    /**
+     * @covers Zone::get
+     * @covers Zone::isBackend
+     */
+    public function testControllerZone()
+    {
+        $app = $this->getApp();
+        $this->setRequest(Request::create('/bolt'));
+
+        $request = $this->getRequest();
+        $kernel = $this->getMock('Symfony\\Component\\HttpKernel\\HttpKernelInterface');
+        $app['dispatcher']->dispatch(KernelEvents::REQUEST, new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST));
+
+        $this->assertEquals('backend', Zone::get($request));
+        $this->assertTrue(Zone::isBackend($request));
+    }
+
     public function testAbout()
     {
         $this->setRequest(Request::create('/bolt/about'));
