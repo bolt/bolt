@@ -37,6 +37,18 @@ class GeneralTest extends ControllerUnitTest
         $this->assertTrue(Zone::isAsync($request));
     }
 
+    public function testAsyncBaseRoute()
+    {
+        $app = $this->getApp();
+        $this->allowLogin($app);
+        $this->setRequest(Request::create('/async'));
+
+        $response = $this->controller()->async();
+
+        $this->assertJson($response->getContent());
+        $this->assertEquals('["OK"]', $response->getContent());
+    }
+
     public function testChangeLogRecord()
     {
         $this->setRequest(Request::create('/async/changelog/page/1'));
