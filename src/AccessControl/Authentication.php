@@ -340,13 +340,7 @@ class Authentication
     {
         $this->app['logger.flash']->info(Trans::__('You have been logged out.'));
         $this->app['session']->remove('user');
-
-        try {
-            $this->app['session']->migrate(true);
-        } catch (\Exception $e) {
-            // @deprecated remove exception handler in Bolt 3
-            // @see: https://bugs.php.net/bug.php?id=63379
-        }
+        $this->app['session']->migrate(true);
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
         try {
@@ -493,13 +487,7 @@ class Authentication
         $user = $this->app['users']->getUser($user['id']);
 
         $user['sessionkey'] = $this->getAuthToken($user['username']);
-
-        try {
-            $this->app['session']->migrate(true);
-        } catch (\Exception $e) {
-            // @deprecated remove exception handler in Bolt 3
-            // @see: https://bugs.php.net/bug.php?id=63379
-        }
+        $this->app['session']->migrate(true);
 
         $this->app['session']->set('user', $user);
         $this->app['logger.flash']->success(Trans::__("You've been logged on successfully."));
