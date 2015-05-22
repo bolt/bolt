@@ -18,6 +18,9 @@ class General extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
+        $c->get('/', 'async')
+            ->bind('async');
+
         $c->get('/changelog/{contenttype}/{contentid}', 'changeLogRecord')
             ->value('contenttype', '')
             ->value('contentid', '0')
@@ -51,6 +54,17 @@ class General extends AsyncBase
 
         $c->get('/widget/{key}', 'widget')
             ->bind('widget');
+    }
+
+    /**
+     * Default route binder for asynchronous requests.
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function async()
+    {
+        $confirm = ['OK'];
+        return $this->json($confirm);
     }
 
     /**
