@@ -57,7 +57,7 @@ class Authentication
         $this->hostName  = $request->getHost();
         $this->remoteIP  = $request->getClientIp() ?: '127.0.0.1';
         $this->userAgent = $request->server->get('HTTP_USER_AGENT');
-        $this->authToken = $request->cookies->get('bolt_authtoken');
+        $this->authToken = $request->cookies->get($this->app['token.authentication.name']);
     }
 
     /**
@@ -184,7 +184,7 @@ class Authentication
      */
     public function getAntiCSRFToken()
     {
-        $seed = $this->app['request']->cookies->get('bolt_session');
+        $seed = $this->app['request']->cookies->get($this->app['token.session.name']);
 
         if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
             $seed .= '-' . $this->remoteIP;
@@ -328,7 +328,7 @@ class Authentication
         } else {
             // Implementation note:
             // This needs to be caught in the controller and the authtoken
-            // cookie deleted: $response->headers->clearCookie('bolt_authtoken');
+            // cookie deleted: $response->headers->clearCookie($this->app['token.authentication.name']);
             return false;
         }
     }

@@ -90,7 +90,7 @@ class Authentication extends BackendBase
         $this->getAuthentication()->logout();
 
         $response = $this->redirectToRoute('login');
-        $response->headers->clearCookie('bolt_authtoken');
+        $response->headers->clearCookie($this->app['token.authentication.name']);
 
         return $response;
     }
@@ -133,7 +133,7 @@ class Authentication extends BackendBase
         $response = $this->redirectToRoute($retreat['route'], $retreat['params']);
         $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
         $response->headers->setCookie(new Cookie(
-            'bolt_authtoken',
+            $this->app['token.authentication.name'],
             $token,
             time() + $this->getOption('general/cookies_lifetime'),
             $this->app['resources']->getUrl('root'),

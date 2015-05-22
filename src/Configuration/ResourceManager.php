@@ -367,7 +367,7 @@ class ResourceManager
         }
 
         $this->setRequest('protocol', $protocol);
-        $hostname = $request->server->get('HTTP_HOST');
+        $hostname = $request->server->get('HTTP_HOST', 'localhost');
         $this->setRequest('hostname', $hostname);
         $current = $request->getBasePath() . $request->getPathInfo();
         $this->setUrl('current', $current);

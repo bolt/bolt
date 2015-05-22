@@ -56,7 +56,6 @@ class Application extends Silex\Application
         $this['resources']->setApp($this);
         $this->initConfig();
         $this->initLogger();
-        $this->initSession();
         $this['resources']->initialize();
 
         $this['debug'] = $this['config']->get('general/debug', false);
@@ -77,11 +76,10 @@ class Application extends Silex\Application
 
     protected function initSession()
     {
-        $this->register(
-            new Silex\Provider\SessionServiceProvider(),
-            array(
+        $this->register(new Provider\TokenServiceProvider())
+            ->register(new Silex\Provider\SessionServiceProvider(), array(
                 'session.storage.options' => array(
-                    'name'            => 'bolt_session',
+                    'name'            => $this['token.session.name'],
                     'cookie_path'     => $this['resources']->getUrl('root'),
                     'cookie_domain'   => $this['config']->get('general/cookies_domain'),
                     'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
@@ -100,6 +98,9 @@ class Application extends Silex\Application
 
     public function initialize()
     {
+        // Set up session handling
+        $this->initSession();
+
         // Set up locale and translations.
         $this->initLocale();
 
