@@ -39,11 +39,20 @@ class Authentication
         // Hashstrength has a default of '10', don't allow less than '8'.
         $this->hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
 
-        /*
-         * Get the IP stored earlier in the request cycle. If it's missing we're on CLI so use localhost
-         *
-         * @see discussion in https://github.com/bolt/bolt/pull/3031
-         */
+        // Handle broken request set up
+        $this->setRequest();
+    }
+
+    /**
+     * Get the IP stored earlier in the request cycle. If it's missing we're on
+     * the CLI, so use localhost.
+     *
+     * @deprecated to be removed in Bolt 3.0
+     *
+     * @see discussion in https://github.com/bolt/bolt/pull/3031
+     */
+    private function setRequest()
+    {
         $request = Request::createFromGlobals();
         $this->hostName  = $request->getHost();
         $this->remoteIP  = $request->getClientIp() ?: '127.0.0.1';
@@ -219,17 +228,17 @@ class Authentication
     {
         // Check if we are dealing with an e-mail or an username
         if (false === strpos($user, '@')) {
-            $column   = 'username';
-            $lookup   = $this->app['slugify']->slugify($user);
+            $column = 'username';
+            $lookup = $this->app['slugify']->slugify($user);
         } else {
-            $column   = 'email';
-            $lookup   = $user;
+            $column = 'email';
+            $lookup = $user;
         }
 
         // For once we don't use getUser(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE %s = ?', $this->getTableName('users'), $column);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-        $user = $this->app['db']->executeQuery($query, array($lookup), array(\PDO::PARAM_STR))->fetch();
+        $user  = $this->app['db']->executeQuery($query, array($lookup), array(\PDO::PARAM_STR))->fetch();
 
         if (empty($user)) {
             $this->app['logger.flash']->error(Trans::__('Username or password not correct. Please check your input.'));
@@ -572,7 +581,7 @@ class Authentication
     /**
      * Set the Authtoken cookie and DB-entry. If it's already present, update it.
      *
-     * @return void
+     * @return string
      */
     private function setAuthToken()
     {
