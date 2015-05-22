@@ -11,9 +11,11 @@ class BackendManagerCest
 {
     /** @var array */
     protected $user;
+    /** @var array */
+    protected $tokenNames;
 
     /** @var array */
-    private $cookies = array('bolt_authtoken' => '', 'bolt_session' => '');
+    private $cookies = [];
 
     /**
      * @param \AcceptanceTester $I
@@ -21,6 +23,7 @@ class BackendManagerCest
     public function _before(\AcceptanceTester $I)
     {
         $this->user = Fixtures::get('users');
+        $this->tokenNames = Fixtures::get('tokenNames');
     }
 
     /**
@@ -40,8 +43,8 @@ class BackendManagerCest
         $I->wantTo("Login as 'manager' user");
 
         $I->loginAs($this->user['manager']);
-        $this->cookies['bolt_authtoken'] = $I->grabCookie('bolt_authtoken');
-        $this->cookies['bolt_session'] = $I->grabCookie('bolt_session');
+        $this->cookies[$this->tokenNames['authtoken']] = $I->grabCookie($this->tokenNames['authtoken']);
+        $this->cookies[$this->tokenNames['session']] = $I->grabCookie($this->tokenNames['session']);
 
         $I->see('Dashboard');
     }
@@ -56,8 +59,8 @@ class BackendManagerCest
         $I->wantTo("Publish the 'About' page as 'manager' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/editcontent/pages/1');
 
         $I->see('Woop woop woop!');
@@ -80,8 +83,8 @@ class BackendManagerCest
         $I->wantTo("Publish the 'About' page as 'manager' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/editcontent/pages/2');
 
         $I->see("Easy for editors, and a developer's dream cms");
@@ -104,8 +107,8 @@ class BackendManagerCest
         $I->wantTo("Publish the 'Contact' page with 'templatefields' as 'manager' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/editcontent/pages/3');
 
         $I->see('This is the contact text');

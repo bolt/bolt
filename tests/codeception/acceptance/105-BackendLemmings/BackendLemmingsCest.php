@@ -12,9 +12,11 @@ class BackendLemmingsCest
 {
     /** @var array */
     protected $user;
+    /** @var array */
+    protected $tokenNames;
 
     /** @var array */
-    private $cookies = array('bolt_authtoken' => '', 'bolt_session' => '');
+    private $cookies = [];
 
     /**
      * @param \AcceptanceTester $I
@@ -22,6 +24,7 @@ class BackendLemmingsCest
     public function _before(\AcceptanceTester $I)
     {
         $this->user = Fixtures::get('users');
+        $this->tokenNames = Fixtures::get('tokenNames');
     }
 
     /**
@@ -41,8 +44,8 @@ class BackendLemmingsCest
         $I->wantTo("Login as 'lemmings' user");
 
         $I->loginAs($this->user['lemmings']);
-        $this->cookies['bolt_authtoken'] = $I->grabCookie('bolt_authtoken');
-        $this->cookies['bolt_session'] = $I->grabCookie('bolt_session');
+        $this->cookies[$this->tokenNames['authtoken']] = $I->grabCookie($this->tokenNames['authtoken']);
+        $this->cookies[$this->tokenNames['session']] = $I->grabCookie($this->tokenNames['session']);
 
         $I->see('Dashboard');
     }
@@ -63,8 +66,8 @@ class BackendLemmingsCest
         $I->wantTo("Set permissions/global/dashboard to empty and be redirected to the homepage");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/file/edit/config/permissions.yml');
 
         $yaml = $I->getLemmingsPermissions();

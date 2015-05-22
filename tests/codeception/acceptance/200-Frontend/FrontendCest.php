@@ -1,5 +1,7 @@
 <?php
 
+use Codeception\Util\Fixtures;
+
 /**
  * Frontend navigation and render tests
  *
@@ -9,12 +11,15 @@ class FrontendCest
 {
     /** @var array */
     protected $user;
+    /** @var array */
+    protected $tokenNames;
 
     /**
      * @param \AcceptanceTester $I
      */
     public function _before(\AcceptanceTester $I)
     {
+        $this->tokenNames = Fixtures::get('tokenNames');
     }
 
     /**
@@ -56,7 +61,7 @@ class FrontendCest
 
         $I->amOnPage('');
 
-        $I->dontSeeCookie('bolt_session');
+        $I->dontSeeCookie($this->tokenNames['session']);
     }
 
     /**

@@ -12,9 +12,11 @@ class BackendAdminCest
 {
     /** @var array */
     protected $user;
+    /** @var array */
+    protected $tokenNames;
 
     /** @var array */
-    private $cookies = array('bolt_authtoken' => '', 'bolt_session' => '');
+    private $cookies = [];
 
     /**
      * @param \AcceptanceTester $I
@@ -22,6 +24,7 @@ class BackendAdminCest
     public function _before(\AcceptanceTester $I)
     {
         $this->user = Fixtures::get('users');
+        $this->tokenNames = Fixtures::get('tokenNames');
     }
 
     /**
@@ -41,8 +44,8 @@ class BackendAdminCest
         $I->wantTo('log into the backend as Admin');
 
         $I->loginAs($this->user['admin']);
-        $this->cookies['bolt_authtoken'] = $I->grabCookie('bolt_authtoken');
-        $this->cookies['bolt_session'] = $I->grabCookie('bolt_session');
+        $this->cookies[$this->tokenNames['authtoken']] = $I->grabCookie($this->tokenNames['authtoken']);
+        $this->cookies[$this->tokenNames['session']] = $I->grabCookie($this->tokenNames['session']);
 
         $I->see('Dashboard');
         $I->see('Configuration', Locator::href('/bolt/users'));
@@ -59,8 +62,8 @@ class BackendAdminCest
         $I->wantTo("Create an 'editor' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/users');
 
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
@@ -93,8 +96,8 @@ class BackendAdminCest
         $I->wantTo("Create a 'manager' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/users');
 
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
@@ -127,8 +130,8 @@ class BackendAdminCest
         $I->wantTo("Create a 'developer' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/users');
 
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
@@ -161,8 +164,8 @@ class BackendAdminCest
         $I->wantTo("Create a 'lemmings' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/users');
 
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
@@ -195,8 +198,8 @@ class BackendAdminCest
         $I->wantTo("Fail creating a user where password matches user and display names and email address is invalid.");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/users');
 
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
@@ -231,8 +234,8 @@ class BackendAdminCest
         $I->wantTo("edit config.yml and set 'canonical', 'notfound' and 'changelog'");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/file/edit/config/config.yml');
 
         $yaml = $I->getUpdatedConfig();
@@ -256,8 +259,8 @@ class BackendAdminCest
         $I->loginAs($this->user['admin']);
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/file/edit/config/contenttypes.yml');
 
         $yaml = $I->getUpdatedContenttypes();
@@ -279,8 +282,8 @@ class BackendAdminCest
         $I->wantTo("update the database and add the new 'Resources' Contenttype");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/dbcheck');
 
         $I->see('The database needs to be updated/repaired');
@@ -303,8 +306,8 @@ class BackendAdminCest
         $I->wantTo("create a 404 'not-found' record");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/editcontent/resources');
 
         $I->see('New Resource', 'h1');
@@ -332,8 +335,8 @@ class BackendAdminCest
         $I->wantTo('make sure the admin user can view all content types');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt');
 
         // Pages
@@ -367,8 +370,8 @@ class BackendAdminCest
         $I->wantTo('edit permissions.yml and restrict access to certain Contenttypes');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/file/edit/config/permissions.yml');
 
         $yaml = $I->getUpdatedPermissions();
@@ -389,8 +392,8 @@ class BackendAdminCest
         $I->wantTo('edit taxonomy.yml and reorder category options');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/file/edit/config/taxonomy.yml');
 
         $yaml = $I->getUpdatedTaxonomy();
@@ -411,8 +414,8 @@ class BackendAdminCest
         $I->wantTo('edit menu.yml and reorder category options');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/file/edit/config/menu.yml');
 
         $yaml = $I->getUpdatedMenu();
@@ -434,8 +437,8 @@ class BackendAdminCest
         $I->wantTo('edit routing.yml and add a pagebinding route');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/file/edit/config/routing.yml');
 
         $yaml = $I->getUpdatedRouting();
@@ -458,8 +461,8 @@ class BackendAdminCest
         $I->wantTo('use the system log interface.');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/systemlog');
 
         // Layout
@@ -486,8 +489,8 @@ class BackendAdminCest
         $I->wantTo('use the change log interface.');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/changelog');
 
         // Layout
@@ -513,8 +516,8 @@ class BackendAdminCest
         $I->wantTo('flush the cache.');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/clearcache');
 
         $I->see('Deleted');
@@ -532,8 +535,8 @@ class BackendAdminCest
         $I->wantTo('log out of the backend as Admin');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt');
 
         $I->see('Dashboard');

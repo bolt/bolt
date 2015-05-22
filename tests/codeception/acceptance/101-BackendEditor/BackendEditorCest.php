@@ -12,9 +12,11 @@ class BackendEditorCest
 {
     /** @var array */
     protected $user;
+    /** @var array */
+    protected $tokenNames;
 
     /** @var array */
-    private $cookies = array('bolt_authtoken' => '', 'bolt_session' => '');
+    private $cookies = [];
 
     /**
      * @param \AcceptanceTester $I
@@ -22,6 +24,7 @@ class BackendEditorCest
     public function _before(\AcceptanceTester $I)
     {
         $this->user = Fixtures::get('users');
+        $this->tokenNames = Fixtures::get('tokenNames');
     }
 
     /**
@@ -41,8 +44,8 @@ class BackendEditorCest
         $I->wantTo("Login as 'editor' user");
 
         $I->loginAs($this->user['editor']);
-        $this->cookies['bolt_authtoken'] = $I->grabCookie('bolt_authtoken');
-        $this->cookies['bolt_session'] = $I->grabCookie('bolt_session');
+        $this->cookies[$this->tokenNames['authtoken']] = $I->grabCookie($this->tokenNames['authtoken']);
+        $this->cookies[$this->tokenNames['session']] = $I->grabCookie($this->tokenNames['session']);
 
         $I->see('Dashboard');
     }
@@ -57,8 +60,8 @@ class BackendEditorCest
         $I->wantTo('make sure the page editor user can only see certain menus');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt');
 
         $I->see('View Pages');
@@ -91,8 +94,8 @@ class BackendEditorCest
         $I->wantTo("Create and edit Pages as the 'editor' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt');
 
         $I->see('New Page');
@@ -123,8 +126,8 @@ class BackendEditorCest
         $I->wantTo("Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on create");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/editcontent/pages/1');
 
         $I->seeInField('#title',  'A PAGE I MADE');
@@ -142,8 +145,8 @@ class BackendEditorCest
         $I->wantTo("be denied permission to publish Pages as the 'editor' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/editcontent/pages/1');
 
         $I->see('Actions for this Page');
@@ -173,8 +176,8 @@ class BackendEditorCest
         $I->wantTo("Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on save");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/editcontent/pages/1');
 
         $I->seeInField('#title',  'A Page I Made');
@@ -192,8 +195,8 @@ class BackendEditorCest
         $I->wantTo("be denied permission to edit Entries as the 'editor' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/editcontent/entries/');
 
         $I->see('You do not have the right privileges');
@@ -209,8 +212,8 @@ class BackendEditorCest
         $I->wantTo("Create an 'About' page as the 'editor' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt');
 
         $I->see('New Page');
@@ -242,8 +245,8 @@ class BackendEditorCest
         $I->wantTo('Create a contact page with templatefields');
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt');
 
         $I->see('New Page');

@@ -57,3 +57,9 @@ Fixtures::add('backups', [
     INSTALL_ROOT . '/app/database/bolt.db'                                     => false,
     INSTALL_ROOT . '/theme/base-2014/_footer.twig'                             => true,
 ]);
+
+// Session and authentication tokens
+Fixtures::add('tokenNames', [
+    'session'   => 'bolt_session_' . md5('localhost:8123/'),
+    'authtoken' => 'bolt_authtoken_' . md5('localhost:8123/'),
+]);
