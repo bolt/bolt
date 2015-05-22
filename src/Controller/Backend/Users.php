@@ -250,6 +250,7 @@ class Users extends BackendBase
             'form'        => $form->createView(),
             'note'        => $note,
             'displayname' => $user['displayname'],
+            'sitename' => $this->getOption('general/sitename'),
         );
 
         return $this->render('firstuser/firstuser.twig', $context);
