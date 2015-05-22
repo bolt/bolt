@@ -2,6 +2,7 @@
 namespace Bolt\Tests;
 
 use Bolt\Application;
+use Bolt\AccessControl\Authentication;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
 use Bolt\Storage;
@@ -153,10 +154,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function allowLogin($app)
     {
         $this->addDefaultUser($app);
-        $users = $this->getMock('Bolt\Users', array('isValidSession', 'isAllowed', 'isEnabled'), array($app));
-        $users->expects($this->any())
-            ->method('isValidSession')
-            ->will($this->returnValue(true));
+        $users = $this->getMock('Bolt\Users', array('isAllowed', 'isEnabled'), array($app));
 
         $users->expects($this->any())
             ->method('isAllowed')
@@ -167,6 +165,13 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $app['users'] = $users;
+
+        $auth = $this->getMock('Bolt\AccessControl\Authentication', array('isValidSession'), array($app));
+        $auth->expects($this->any())
+            ->method('isValidSession')
+            ->will($this->returnValue(true));
+
+        $app['authentication'] = $auth;
     }
 
     protected function getTwigHandlers($app)
