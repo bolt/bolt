@@ -223,6 +223,36 @@ class Users
     }
 
     /**
+     * Set a random password for user / reset password. Accepts email or username
+     *
+     * @param string $username
+     *
+     * @return string|boolean new password or FALSE when no match for username
+     */
+    public function setRandomPassword($username)
+    {
+        $password = false;
+        $user = $this->getUser($username);
+
+        if (!empty($user)) {
+            $password = $this->app['randomgenerator']->generateString(12);
+
+            $hasher = new PasswordHash($this->hashStrength, true);
+            $hashedpassword = $hasher->HashPassword($password);
+
+            $update = array(
+                'password'       => $hashedpassword,
+                'shadowpassword' => '',
+                'shadowtoken'    => '',
+                'shadowvalidity' => null
+            );
+            $this->db->update($this->usertable, $update, array('id' => $user['id']));
+        }
+
+        return $password;
+    }
+
+    /**
      * @deprecated Since Bolt 2.3 and will be removed in Bolt 3.
      */
     public function resetPasswordRequest($username)
