@@ -274,7 +274,7 @@ class Application extends Silex\Application
                 'twig.loader.filesystem',
                 function (\Twig_Loader_Filesystem $filesystem, Application $app) {
                     $filesystem->addPath(
-                        $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Symfony/Bundle/WebProfilerBundle/Resources/views',
+                        $app['resources']->getPath('root') . '/vendor/symfony/web-profiler-bundle/Resources/views/Profiler/',
                         'WebProfiler'
                     );
                     $filesystem->addPath($app['resources']->getPath('app') . '/view', 'BoltProfiler');
