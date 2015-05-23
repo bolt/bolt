@@ -84,7 +84,8 @@ class Application extends Silex\Application
                     'cookie_domain'   => $this['config']->get('general/cookies_domain'),
                     'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
                     'cookie_httponly' => true
-                )
+                ),
+                'session.test' => isset($this['session.test']) ? $this['session.test'] : false
             )
         );
 
