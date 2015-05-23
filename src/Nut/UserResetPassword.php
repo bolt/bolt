@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Nut command to reset a user password
  */
-class UserResetPass extends BaseCommand
+class UserResetPassword extends BaseCommand
 {
     /**
      * @see \Symfony\Component\Console\Command\Command::configure()
@@ -17,7 +17,7 @@ class UserResetPass extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('user:reset-pass')
+            ->setName('user:reset-password')
             ->setDescription('Reset a user password.')
             ->addArgument('username', InputArgument::REQUIRED,
                 'The username (loginname or e-mail address) you wish to reset the password for.');
