@@ -15,7 +15,7 @@
  */
 
 /**
- * Version must be greater than 5.3.3.
+ * Version must be greater than 5.4.16.
  *
  * Note, we use `dirname(__FILE__)` instead of `__DIR__`. The latter was introduced "only" in
  * PHP 5.3, and we need to be able to show the notice to the poor souls who are still on PHP 5.2.
@@ -23,7 +23,7 @@
  * @see: https://github.com/bolt/bolt/issues/1531
  * @see: https://github.com/bolt/bolt/issues/3371
  */
-if (version_compare(PHP_VERSION, '5.3.3', '<')) {
+if (version_compare(PHP_VERSION, '5.4.16', '<')) {
     require dirname(__FILE__) . '/app/legacy.php';
     return false;
 }
