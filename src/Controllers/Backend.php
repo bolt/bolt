@@ -1085,7 +1085,11 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+        // get the parameters from the URL of the previous page, so we can return to it.
+        $redirectParameters = Lib::getQueryParameters($app['request']->server->get('HTTP_REFERER'));
+        $redirectParameters['contenttypeslug'] = $contenttype['slug'];
+
+        return Lib::redirect('overview', $redirectParameters);
     }
 
     /**
@@ -1108,6 +1112,10 @@ class Backend implements ControllerProviderInterface
         $content = $app['storage']->getContent($contenttype['slug'] . '/' . $id);
         $title = $content->getTitle();
 
+        // get the parameters from the URL of the previous page, so we can return to it.
+        $redirectParameters = Lib::getQueryParameters($app['request']->server->get('HTTP_REFERER'));
+        $redirectParameters['contenttypeslug'] = $contenttype['slug'];
+
         // map actions to new statuses
         $actionStatuses = array(
             'held'    => 'held',
@@ -1117,7 +1125,7 @@ class Backend implements ControllerProviderInterface
         if (!isset($actionStatuses[$action])) {
             $app['session']->getFlashBag()->add('error', Trans::__('No such action for content.'));
 
-            return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+            return Lib::redirect('overview', $redirectParameters);
         }
         $newStatus = $actionStatuses[$action];
 
@@ -1125,7 +1133,7 @@ class Backend implements ControllerProviderInterface
             !$app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttype['slug'], $id)) {
             $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that record.'));
 
-            return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+            return Lib::redirect('overview', $redirectParameters);
         }
 
         if ($app['storage']->updateSingleValue($contenttype['slug'], $id, 'status', $newStatus)) {
@@ -1134,7 +1142,7 @@ class Backend implements ControllerProviderInterface
             $app['session']->getFlashBag()->add('info', Trans::__("Content '%title%' could not be modified.", array('%title%' => $title)));
         }
 
-        return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
+        return Lib::redirect('overview', $redirectParameters);
     }
 
     /**
