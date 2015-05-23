@@ -517,19 +517,33 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Add a CSS file to the rendered HTML.
      *
-     * @param string  $filename File name to add to href=""
-     * @param boolean $late     True to add to the end of the HTML <body>
-     * @param integer $priority Loading priority
+     * @param string $filename File name to add to href=""
+     * @param array  $options  'late'     - True to add to the end of the HTML <body>
+     *                         'priority' - Loading priority
+     *                         'attrib'   - A string containing either/or 'defer', and 'async'
      */
-    public function addCSS($filename, $late = false, $priority = 0)
+    public function addCSS($filename, $options = array())
     {
-        // check if the file exists.
+        // Handle pre-2.2 function parameters, namely $late and $priority
+        if (!is_array($options)) {
+            $args = func_get_args();
+
+            $options = array(
+                'late'     => isset($args[1]) ? isset($args[1]) : false,
+                'priority' => isset($args[2]) ? isset($args[2]) : 0,
+            );
+
+            $message = 'addCSS() called with deprecated function parameters by ' . $this->getName();
+            $this->app['logger.system']->error($message, array('event' => 'deprecated'));
+        }
+
+        // Check if the file exists.
         if (file_exists($this->basepath . '/' . $filename)) {
-            // file is located relative to the current extension.
-            $this->app['extensions']->addCss($this->getBaseUrl() . $filename, $late, $priority);
+            // File is located relative to the current extension.
+            $this->app['extensions']->addCss($this->getBaseUrl() . $filename, $options);
         } elseif (file_exists($this->app['paths']['themepath'] . '/' . $filename)) {
-            // file is located relative to the theme path.
-            $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename, $late, $priority);
+            // File is located relative to the theme path.
+            $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename, $options);
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
