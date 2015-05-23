@@ -12,8 +12,7 @@ class PrefillServiceProvider implements ServiceProviderInterface
     {
         $app['prefill'] = $app->share(
             function ($app) {
-                /** @deprecated remove $app['deprecated.php'] for PHP 5.3 derp */
-                $prefill = new Prefill($app['guzzle.client'], $app['deprecated.php']);
+                $prefill = new Prefill($app['guzzle.client']);
 
                 return $prefill;
             }
