@@ -33,6 +33,17 @@ class BoltProfilerServiceProvider implements ServiceProviderInterface
                 ),
             )
         );
+
+        $app['twig.loader.filesystem'] = $app->share(
+            $app->extend(
+                'twig.loader.filesystem',
+                function (\Twig_Loader_Filesystem $filesystem, Application $app) {
+                    $filesystem->addPath($app['resources']->getPath('app') . '/view', 'BoltProfiler');
+
+                    return $filesystem;
+                }
+            )
+        );
     }
 
     public function boot(Application $app)

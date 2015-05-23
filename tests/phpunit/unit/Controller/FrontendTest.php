@@ -363,12 +363,6 @@ class FrontendTest extends BoltUnitTest
         $app['request'] = $request;
 
         // Test that the failure gets logged too.
-        $logger = $this->getMock('Bolt\DataCollector\TwigDataCollector', array('setTrackedValue'), array($app));
-        $logger->expects($this->once())
-            ->method('setTrackedValue')
-            ->with('templateerror');
-        $app['twig.logger'] = $logger;
-
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'failed');
         $controller = new Frontend();
         $response = $controller->template($app, 'nonexistent');

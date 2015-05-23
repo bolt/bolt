@@ -426,24 +426,18 @@ class Frontend
             // Log it
             $app['logger.system']->error($error, array('event' => 'twig'));
 
-            // Set the template error
-            $this->setTemplateError($app, $error);
-
             // Abort ship
             return $app->abort(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
         }
     }
 
     /**
-     * Set the TwigDataCollector templatechosen parameter if enabled.
+     * @deprecated to be removed in Bolt 3.0
      *
      * @param \Silex\Application $app
      * @param string             $error
      */
     protected function setTemplateError(Silex\Application $app, $error)
     {
-        if (isset($app['twig.logger'])) {
-            $app['twig.logger']->setTrackedValue('templateerror', $error);
-        }
     }
 }
