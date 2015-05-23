@@ -187,6 +187,22 @@ class Library
     }
 
     /**
+     * Get an array of the query parameters
+     *
+     * @param string $url
+     *
+     * @return array
+     */
+    public static function getQueryParameters($url)
+    {
+        $parsedUrl = parse_url($url);
+        parse_str($parsedUrl['query'], $parameters);
+        $parameters = array_diff($parameters, array(''));
+
+        return $parameters;
+    }
+
+    /**
      * Create a simple redirect to a page / path.
      *
      * @param string $path
