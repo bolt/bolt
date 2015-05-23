@@ -911,7 +911,7 @@ class Content implements \ArrayAccess
             try {
                 return $this->app['safe_render']->render($snippet, $this->getTemplateContext());
             } catch(\Exception $e) {
-                return $snippet;
+                return $e->getMessage();
             }
         }
 
