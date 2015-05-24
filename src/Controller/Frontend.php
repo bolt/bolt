@@ -270,7 +270,7 @@ class Frontend extends ConfigurableBase
      * @param string  $taxonomytype The taxonomy type slug
      * @param string  $slug         The taxonomy slug
      *
-     * @return BoltResponse
+     * @return BoltResponse|false
      */
     public function taxonomy($request, $taxonomytype, $slug)
     {

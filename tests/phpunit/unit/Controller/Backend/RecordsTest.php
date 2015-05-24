@@ -1,11 +1,8 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Content;
-use Bolt\Controller\Backend\Records;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class to test correct operation of src/Controller/Backend/Records.
@@ -224,7 +221,7 @@ class RecordsTest extends ControllerUnitTest
 
         // Test an invalid action fails
         $this->setRequest(Request::create('/bolt/content/fake/pages/3'));
-        $response = $this->controller()->modify($this->getRequest(), 'fake', 'pages', 3);
+        $this->controller()->modify($this->getRequest(), 'fake', 'pages', 3);
         $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/No such action/', $err[0]);
 
@@ -264,7 +261,7 @@ class RecordsTest extends ControllerUnitTest
 
         // Test the the default records per page can be set
         $this->setRequest(Request::create('/bolt/overview/showcases'));
-        $response = $this->controller()->overview($this->getRequest(), 'showcases');
+        $this->controller()->overview($this->getRequest(), 'showcases');
 
         // Test redirect when user isn't allowed.
         $users = $this->getMock('Bolt\Users', array('isAllowed'), array($this->getApp()));

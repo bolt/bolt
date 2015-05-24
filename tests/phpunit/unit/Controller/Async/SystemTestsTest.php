@@ -1,9 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Async;
 
-use Bolt\Response\BoltResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

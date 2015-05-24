@@ -1,10 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\AccessControl\Permissions;
 use Bolt\Tests\Controller\ControllerUnitTest;
-use Bolt\Users;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -18,7 +15,7 @@ class UsersTest extends ControllerUnitTest
     public function testAdmin()
     {
         $this->setRequest(Request::create('/bolt/users'));
-        $response = $this->controller()->admin($this->getRequest());
+        $response = $this->controller()->admin();
 
         $context = $response->getContext();
         $this->assertNotNull($context['context']['users']);
@@ -144,7 +141,7 @@ class UsersTest extends ControllerUnitTest
     {
         // First test should exit/redirect with no anti CSRF token
         $this->setRequest(Request::create('/bolt/user/disable/2'));
-        $response = $this->controller()->modify($this->getRequest(), 'disable', 1);
+        $response = $this->controller()->modify('disable', 1);
         $info = $this->getFlashBag()->get('info');
 
         $this->assertRegExp('/An error occurred/', $info[0]);
@@ -165,7 +162,7 @@ class UsersTest extends ControllerUnitTest
 
         // This request should fail because the user doesnt exist.
         $this->setRequest(Request::create('/bolt/user/disable/2'));
-        $response = $this->controller()->modify($this->getRequest(), 'disable', 42);
+        $response = $this->controller()->modify('disable', 42);
 
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('error');
@@ -173,7 +170,7 @@ class UsersTest extends ControllerUnitTest
 
         // This check will fail because we are operating on the current user
         $this->setRequest(Request::create('/bolt/user/disable/1'));
-        $response = $this->controller()->modify($this->getRequest(), 'disable', 1);
+        $response = $this->controller()->modify('disable', 1);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/yourself/', $err[0]);
@@ -184,7 +181,7 @@ class UsersTest extends ControllerUnitTest
 
         // And retry the operation that will work now
         $this->setRequest(Request::create('/bolt/user/disable/2'));
-        $response = $this->controller()->modify($this->getRequest(), 'disable', $editor['id']);
+        $response = $this->controller()->modify('disable', $editor['id']);
 
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/is disabled/', $info[0]);
@@ -192,21 +189,21 @@ class UsersTest extends ControllerUnitTest
 
         // Now try to enable the user
         $this->setRequest(Request::create('/bolt/user/enable/2'));
-        $response = $this->controller()->modify($this->getRequest(), 'enable', $editor['id']);
+        $response = $this->controller()->modify('enable', $editor['id']);
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/is enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Try a non-existent action, make sure we get an error
         $this->setRequest(Request::create('/bolt/user/enhance/2'));
-        $response = $this->controller()->modify($this->getRequest(), 'enhance', $editor['id']);
+        $response = $this->controller()->modify('enhance', $editor['id']);
         $info = $this->getFlashBag()->get('error');
         $this->assertRegExp('/No such action/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we run a delete action
         $this->setRequest(Request::create('/bolt/user/delete/2'));
-        $response = $this->controller()->modify($this->getRequest(), 'delete', $editor['id']);
+        $response = $this->controller()->modify('delete', $editor['id']);
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/is deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
@@ -223,7 +220,7 @@ class UsersTest extends ControllerUnitTest
         $this->setService('permissions', $perms);
 
         $this->setRequest(Request::create('/bolt/user/disable/' . $editor['id']));
-        $response = $this->controller()->modify($this->getRequest(), 'disable', $editor['id']);
+        $response = $this->controller()->modify('disable', $editor['id']);
 
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
         $err = $this->getFlashBag()->get('error');
@@ -257,19 +254,19 @@ class UsersTest extends ControllerUnitTest
 
         // This mocks a failure and ensures the error is reported
         $this->setRequest(Request::create('/bolt/user/disable/2'));
-        $response = $this->controller()->modify($this->getRequest(), 'disable', 2);
+        $response = $this->controller()->modify('disable', 2);
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be disabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/user/enable/2'));
-        $response = $this->controller()->modify($this->getRequest(), 'enable', 2);
+        $response = $this->controller()->modify('enable', 2);
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be enabled/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         $this->setRequest(Request::create('/bolt/user/delete/2'));
-        $response = $this->controller()->modify($this->getRequest(), 'delete', 2);
+        $response = $this->controller()->modify('delete', 2);
         $info = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
@@ -303,7 +300,7 @@ class UsersTest extends ControllerUnitTest
             )
         ));
 
-        $response = $this->controller()->profile($this->getRequest());
+        $this->controller()->profile($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
     }
 

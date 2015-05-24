@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\Controller\Backend\Log;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,7 +26,7 @@ class LogTest extends ControllerUnitTest
         $this->setService('logger.manager', $log);
 
         $this->setRequest(Request::create('/bolt/changelog', 'GET', array('action' => 'trim')));
-        $response = $this->controller()->changeOverview($this->getRequest());
+        $this->controller()->changeOverview($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->setRequest(Request::create('/bolt/changelog', 'GET', array('action' => 'clear')));
@@ -45,6 +44,7 @@ class LogTest extends ControllerUnitTest
         $this->getService('config')->set('general/changelog/enabled', true);
 
         $this->setRequest(Request::create('/bolt/editcontent/pages/1'));
+        /** @var \Bolt\Content $record */
         $record = $this->getService('storage')->getContent('pages/1');
         $record->setValue('title', 'Clippy was here!');
         $this->getService('storage')->saveContent($record, 'Saving');
@@ -61,7 +61,7 @@ class LogTest extends ControllerUnitTest
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'exist');
         $this->setRequest(Request::create('/bolt/changelog/pages/1/100'));
         $response = $this->controller()->changeRecord($this->getRequest(), 'pages', 1, 100);
-        $context = $response->getContext();
+        $response->getContext();
     }
 
     public function testChangeRecordListing()
@@ -87,6 +87,7 @@ class LogTest extends ControllerUnitTest
 
         // This block generates a changelog on the page in question so we have something to test.
         $this->setRequest(Request::create('/'));
+        /** @var \Bolt\Content $content */
         $content = $this->getService('storage')->getContent('pages/1');
         $content->setValues(array('status' => 'draft', 'ownerid' => 99));
         $this->getService('storage')->saveContent($content, 'Test Suite Update');
@@ -155,7 +156,7 @@ class LogTest extends ControllerUnitTest
         $this->setService('logger.manager', $log);
 
         $this->setRequest(Request::create('/bolt/systemlog', 'GET', array('action' => 'trim')));
-        $response = $this->controller()->systemOverview($this->getRequest());
+        $this->controller()->systemOverview($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->setRequest(Request::create('/bolt/systemlog', 'GET', array('action' => 'clear')));

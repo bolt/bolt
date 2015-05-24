@@ -73,7 +73,7 @@ class General extends AsyncBase
      * @param string  $contenttype
      * @param integer $contentid
      *
-     * @return string
+     * @return BoltResponse
      */
     public function changeLogRecord($contenttype, $contentid)
     {
@@ -97,7 +97,7 @@ class General extends AsyncBase
      *
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return BoltResponse
      */
     public function dashboardNews(Request $request)
     {
@@ -141,7 +141,7 @@ class General extends AsyncBase
     /**
      * Get the 'latest activity' for the dashboard.
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return BoltResponse
      */
     public function latestActivity()
     {

@@ -3,7 +3,6 @@ namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Response\BoltResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,7 +18,7 @@ class StackTest extends ControllerUnitTest
         $this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
         $this->setRequest(Request::create('/async/stack/add/foo'));
 
-        $response = $this->controller()->addStack($this->getRequest());
+        $response = $this->controller()->addStack('foo');
 
         $this->assertTrue($response);
     }
@@ -37,7 +36,7 @@ class StackTest extends ControllerUnitTest
     }
 
     /**
-     * @return \Bolt\Controller\Async\General
+     * @return \Bolt\Controller\Async\Stack
      */
     protected function controller()
     {

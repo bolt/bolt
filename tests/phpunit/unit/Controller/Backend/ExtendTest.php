@@ -30,13 +30,14 @@ class ExtendTest extends ControllerUnitTest
         $this->getService('twig.loader.filesystem')->prependPath(TEST_ROOT . '/app/view/twig');
 
         $this->setRequest(Request::create('/bolt/extend'));
-        $response = $this->controller()->overview($this->getRequest());
+        $response = $this->controller()->overview();
         $this->assertEquals('extend/extend.twig', $response->getTemplateName());
 
-        $response = $this->controller()->installPackage($this->getRequest());
+        $response = $this->controller()->installPackage();
         $this->assertEquals('extend/install-package.twig', $response->getTemplateName());
 
         $this->setRequest(Request::create('/', 'GET', array('package' => 'bolt/theme-2014')));
+        /** @var \Bolt\Controller\Backend\Extend|\PHPUnit_Framework_MockObject_MockObject $controller */
         $controller = $this->getMock('Bolt\Controller\Backend\Extend', array('installInfo', 'packageInfo', 'check'));
         $controller->expects($this->any())
             ->method('installInfo')
@@ -60,7 +61,7 @@ class ExtendTest extends ControllerUnitTest
             ->method('check')
             ->will($this->returnValue(new Response('{"updates":[],"installs":[]}')));
 
-        $response = $controller->check($this->getRequest());
+        $response = $controller->check();
         $this->assertNotEmpty($response);
     }
 
@@ -70,7 +71,7 @@ class ExtendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/extend'));
         $this->checkTwigForTemplate($this->getApp(), 'extend/extend.twig');
 
-        $response = $this->controller()->overview($this->getRequest());
+        $response = $this->controller()->overview();
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
@@ -81,7 +82,7 @@ class ExtendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/extend/installPackage'));
         $this->checkTwigForTemplate($this->getApp(), 'extend/install-package.twig');
 
-        $response = $response = $this->controller()->installPackage($this->getRequest());
+        $response = $this->controller()->installPackage();
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }

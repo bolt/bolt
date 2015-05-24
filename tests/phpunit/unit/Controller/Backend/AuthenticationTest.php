@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
-use Bolt\AccessControl\Authentication;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -118,7 +117,7 @@ class AuthenticationTest extends ControllerUnitTest
 
         // Test missing username fails
         $this->setRequest(Request::create('/bolt/login', 'POST', array('action' => 'reset')));
-        $response = $this->controller()->postLogin($this->getRequest());
+        $this->controller()->postLogin($this->getRequest());
         $flash = $this->getFlashBag()->get('error');
         $this->assertRegExp('/Please provide a username/i', $flash[0]);
 

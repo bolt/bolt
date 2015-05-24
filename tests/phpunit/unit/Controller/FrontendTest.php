@@ -2,14 +2,12 @@
 namespace Bolt\Tests\Controller;
 
 use Bolt\Content;
-use Bolt\Controller\Frontend;
 use Bolt\Controller\Zone;
 use Bolt\Response\BoltResponse;
 use Bolt\Storage;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -239,7 +237,7 @@ class FrontendTest extends ControllerUnitTest
     public function testPreview()
     {
         $this->setRequest(Request::create('/pages'));
-        $response = $this->controller()->listing($this->getRequest(), 'pages/test');
+        $this->controller()->listing($this->getRequest(), 'pages/test');
 
         $templates = $this->getMock('Bolt\TemplateChooser', array('record'), array($this->getApp()));
         $templates
@@ -446,7 +444,7 @@ class FrontendTest extends ControllerUnitTest
         $this->setService('prefill', $prefillMock);
 
         $storage = new Storage($app);
-        $storage->prefill(array('showcases'));
+        $storage->preFill(array('showcases'));
     }
 
     /**

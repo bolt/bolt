@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -86,7 +85,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/latestactivity'));
 
-        $response = $this->controller()->latestActivity($this->getRequest());
+        $response = $this->controller()->latestActivity();
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('components/panel-activity.twig', $response->getTemplateName());

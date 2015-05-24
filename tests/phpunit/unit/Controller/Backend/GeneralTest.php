@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -87,13 +86,13 @@ class GeneralTest extends ControllerUnitTest
 
         $twig->expects($this->any())
             ->method('render')
-            ->will($this->returnCallBack($testHandler));
+            ->will($this->returnCallback($testHandler));
         $this->allowLogin($this->getApp());
 
         $this->setService('render', $twig);
 
         $this->setRequest(Request::create('/bolt'));
-        $this->controller()->dashboard($this->getRequest());
+        $this->controller()->dashboard();
     }
 
     public function testOmnisearch()
@@ -200,7 +199,7 @@ class GeneralTest extends ControllerUnitTest
     }
 
     /**
-     * @return \Bolt\Controller\Backend\Backend
+     * @return \Bolt\Controller\Backend\General
      */
     protected function controller()
     {

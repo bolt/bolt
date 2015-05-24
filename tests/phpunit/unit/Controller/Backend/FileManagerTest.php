@@ -2,8 +2,6 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Tests\Controller\ControllerUnitTest;
-use League\Flysystem\File;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -61,7 +59,7 @@ class FileManagerTest extends ControllerUnitTest
             )
         ));
 
-        $response = $this->controller()->manage($this->getRequest(), 'files', '');
+        $this->controller()->manage($this->getRequest(), 'files', '');
     }
 
     /**
