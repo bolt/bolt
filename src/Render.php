@@ -170,7 +170,7 @@ class Render
 
         // Don't use the cache, if we're currently logged in. (unless explicitly enabled in config.yml
         if (!$this->app['config']->get('general/caching/authenticated') &&
-            $this->app['users']->getCurrentUsername() !== '') {
+            $this->app['users']->getCurrentUsername() !== null) {
             return false;
         }
 
