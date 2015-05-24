@@ -79,7 +79,7 @@ class DatabaseExport extends BaseCommand
      */
     private function checkContinue(InputInterface $input, OutputInterface $output)
     {
-        /** @var \Composer\Command\Helper\DialogHelper $dialog */
+        /** @var \Symfony\Component\Console\Helper\DialogHelper $dialog */
         $dialog   = $this->getHelperSet()->get('dialog');
         $confirm  = $input->getOption('no-interaction');
         $question = '<question>Are you sure you want to continue with the export?</question> ';

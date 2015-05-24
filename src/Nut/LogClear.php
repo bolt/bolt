@@ -27,7 +27,7 @@ class LogClear extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var \Composer\Command\Helper\DialogHelper $dialog */
+        /** @var \Symfony\Component\Console\Helper\DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
 
         $force = $input->getOption('force');
