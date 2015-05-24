@@ -247,6 +247,11 @@ class Users
                 'shadowvalidity' => null
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
+
+            $this->app['logger.system']->error(
+                "Password for user \"{$user['username']}\" was reset via Nut.",
+                array('event' => 'authentication')
+            );
         }
 
         return $password;
