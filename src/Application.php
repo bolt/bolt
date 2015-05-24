@@ -335,8 +335,22 @@ class Application extends Silex\Application
         $factory = new RandomLib\Factory();
         $this['randomgenerator'] = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
 
+        // Set up forms and use a secure CSRF secret
+        $this->register(new Silex\Provider\FormServiceProvider());
+        $this['form.secret'] = $this->share(function ($app) {
+            if (!$this['session']->isStarted()) {
+                return;
+            } elseif ($secret = $this['session']->get('form.secret')) {
+                return $secret;
+            } else {
+                $secret = $this['randomgenerator']->generate(32);
+                $this['session']->set('form.secret', $secret);
+
+                return $secret;
+            }
+        });
+
         $this->register(new Silex\Provider\UrlGeneratorServiceProvider())
-            ->register(new Silex\Provider\FormServiceProvider())
             ->register(new Silex\Provider\ValidatorServiceProvider())
             ->register(new Provider\RoutingServiceProvider())
             ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing

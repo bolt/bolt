@@ -42,6 +42,7 @@ class SessionListener implements EventSubscriberInterface
         if (!$event->isMasterRequest()) {
             return;
         }
+
         $request = $event->getRequest();
         $session = $request->getSession();
         if (($this->debug || $request->hasPreviousSession()) && !$session->isStarted()) {
@@ -60,6 +61,7 @@ class SessionListener implements EventSubscriberInterface
         if (!$event->isMasterRequest()) {
             return;
         }
+
         $session = $event->getRequest()->getSession();
         if ($session && $session->isStarted()) {
             $this->attachFlashBag($session);

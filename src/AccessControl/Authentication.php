@@ -91,7 +91,7 @@ class Authentication
      */
     public function checkValidSession()
     {
-        if ($currentuser = $this->app['session']->get('user')) {
+        if ($this->app['session']->isStarted() && $currentuser = $this->app['session']->get('user')) {
             $this->app['users']->setCurrentUser($currentuser);
 
             if ($database = $this->app['users']->getUser($currentuser['id'])) {
@@ -340,7 +340,8 @@ class Authentication
     {
         $this->app['logger.flash']->info(Trans::__('You have been logged out.'));
         $this->app['session']->remove('user');
-        $this->app['session']->migrate(true);
+        $this->app['session']->invalidate(0);
+        $this->app['session']->save();
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
         try {
