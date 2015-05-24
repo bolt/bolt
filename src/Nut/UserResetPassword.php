@@ -3,6 +3,7 @@
 namespace Bolt\Nut;
 
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -20,7 +21,9 @@ class UserResetPassword extends BaseCommand
             ->setName('user:reset-password')
             ->setDescription('Reset a user password.')
             ->addArgument('username', InputArgument::REQUIRED,
-                'The username (loginname or e-mail address) you wish to reset the password for.');
+                'The username (loginname or e-mail address) you wish to reset the password for.')
+            ->addOption('no-interaction', 'n', InputOption::VALUE_NONE,
+                'Do not ask for confirmation');
     }
 
     /**
@@ -29,6 +32,15 @@ class UserResetPassword extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $username = $input->getArgument('username');
+
+        /** @var \Symfony\Component\Console\Helper\DialogHelper $dialog */
+        $dialog = $this->getHelperSet()->get('dialog');
+        $confirm  = $input->getOption('no-interaction');
+        $question = "<question>Are you sure you want to reset the password for \"{$username}\"?</question>";
+
+        if (!$confirm && !$dialog->askConfirmation($output, $question, false)) {
+            return false;
+        }
 
         $password = $this->app['users']->setRandomPassword($username);
 
