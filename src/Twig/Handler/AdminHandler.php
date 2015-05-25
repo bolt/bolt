@@ -43,7 +43,7 @@ class AdminHandler
 
         foreach ($path as $key) {
             if (!isset($part[$key])) {
-                $part[$key] = array();
+                $part[$key] = [];
             }
 
             $part = & $part[$key];
@@ -157,7 +157,7 @@ class AdminHandler
      */
     public function randomQuote()
     {
-        $quotes = array(
+        $quotes = [
             "Complexity is your enemy. Any fool can make something complicated. It is hard to make something simple.#Richard Branson",
             "It takes a lot of effort to make things look effortless.#Mark Pilgrim",
             "Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away.#Antoine de Saint-Exupéry",
@@ -184,7 +184,7 @@ class AdminHandler
             "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity.#Charles Mingus",
             "Keep it simple, stupid.#Kelly Johnson",
             "There's a big difference between making a simple product and making a product simple.#Des Traynor"
-        );
+        ];
 
         $randomquote = explode('#', $quotes[array_rand($quotes, 1)]);
 
@@ -209,9 +209,9 @@ class AdminHandler
             return null;
         }
 
-        $matches = array();
+        $matches = [];
         if (preg_match('/ ([a-z0-9_-]+\.yml)/i', $str, $matches)) {
-            $path = Lib::path('fileedit', array('namespace' => 'config', 'file' => $matches[1]));
+            $path = Lib::path('fileedit', ['namespace' => 'config', 'file' => $matches[1]]);
             $link = sprintf(' <a href="%s">%s</a>', $path, $matches[1]);
             $str = preg_replace('/ ([a-z0-9_-]+\.yml)/i', $link, $str);
         }

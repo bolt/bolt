@@ -6,7 +6,7 @@ class SetcontentTokenParser extends \Twig_TokenParser
 {
     protected function convertToViewArguments(\Twig_Node_Expression_Array $array)
     {
-        $arguments = array();
+        $arguments = [];
 
         foreach (array_chunk($array->getIterator()->getArrayCopy(), 2) as $pair) {
             if (count($pair) == 2) {
@@ -24,7 +24,7 @@ class SetcontentTokenParser extends \Twig_TokenParser
     {
         $lineno = $token->getLine();
 
-        $arguments = new \Twig_Node_Expression_Array(array(), $lineno);
+        $arguments = new \Twig_Node_Expression_Array([], $lineno);
         $wherearguments = null;
 
         // name - the new variable with the results

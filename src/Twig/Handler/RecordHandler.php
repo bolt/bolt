@@ -116,7 +116,7 @@ class RecordHandler
             }
         } elseif (is_array($content)) {
             // Assume it's an array, strip some common fields that we don't need, implode the rest.
-            $stripKeys = array(
+            $stripKeys = [
                 'id',
                 'slug',
                 'datecreated',
@@ -127,7 +127,7 @@ class RecordHandler
                 'contenttype',
                 'status',
                 'taxonomy'
-            );
+            ];
 
             foreach ($stripKeys as $key) {
                 unset($content[$key]);
@@ -179,7 +179,7 @@ class RecordHandler
         $current = isset($content->relation[$contenttype]) ? $content->relation[$contenttype] : null;
 
         // We actually only need the 'order' in options.
-        $options = array();
+        $options = [];
         if (!empty($relationoptions['order'])) {
             $options['order'] = $relationoptions['order'];
             $options['limit'] = 10000;
@@ -221,7 +221,7 @@ class RecordHandler
         // Get the active themeconfig
         $appConfig = $this->app['config']->getConfig();
         $themeConfig = $appConfig['theme'];
-        $files = array();
+        $files = [];
 
         // Check: Are the templates for template chooser defined?
         if (!empty($themeConfig['templateselect'])) {
@@ -279,15 +279,15 @@ class RecordHandler
 
         $thisPager = empty($pagerName) ? array_pop($pager) : $pager[$pagerName];
 
-        $context = array(
+        $context = [
             'pager' => $thisPager,
             'surr'  => $surr,
             'class' => $class,
-        );
+        ];
 
         /* Little hack to avoid doubling this function and having context without breaking frontend */
         if ($template == 'backend') {
-            $context = array('context' => $context);
+            $context = ['context' => $context];
             $template = 'components/pager.twig';
         }
 
@@ -307,13 +307,13 @@ class RecordHandler
     public function selectField($content, $fieldname, $startempty = false, $keyname = 'id')
     {
         if ($startempty) {
-            $retval = array();
+            $retval = [];
         } else {
-            $retval = array('');
+            $retval = [''];
         }
         foreach ($content as $c) {
             if (is_array($fieldname)) {
-                $row = array();
+                $row = [];
                 foreach ($fieldname as $fn) {
                     if (isset($c->values[$fn])) {
                         $row[] = $c->values[$fn];
