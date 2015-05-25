@@ -24,7 +24,7 @@ class Search implements PluginInterface
     {
         $extensions = explode(",", $extensions);
         $allFiles = $this->filesystem->listContents('', true);
-        $files = array();
+        $files = [];
 
         foreach ($allFiles as $file) {
             if ($file['type'] == 'file' &&

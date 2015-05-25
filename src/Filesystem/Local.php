@@ -9,11 +9,11 @@ class Local extends LocalBase
 {
     const VISIBILITY_READONLY = 'readonly';
 
-    protected static $permissions = array(
+    protected static $permissions = [
         'public'    => 0755,
         'readonly'  => 0744,
         'private'   => 0700
-    );
+    ];
 
     public function __construct($root)
     {
@@ -111,7 +111,7 @@ class Local extends LocalBase
             return false;
         }
 
-        return array('path' => $dirname, 'type' => 'dir');
+        return ['path' => $dirname, 'type' => 'dir'];
     }
 
     public function deleteDir($dirname)

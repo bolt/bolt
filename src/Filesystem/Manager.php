@@ -17,7 +17,7 @@ class Manager extends MountManager
     {
         $this->app = $app;
         parent::__construct(
-            array(
+            [
                 'root'       => $app['resources']->getPath('root'),
                 'app'        => $app['resources']->getPath('app'),
                 'default'    => $app['resources']->getPath('files'),
@@ -25,7 +25,7 @@ class Manager extends MountManager
                 'config'     => $app['resources']->getPath('config'),
                 'theme'      => $app['resources']->getPath('themebase'),
                 'extensions' => $app['resources']->getPath('extensionspath'),
-            )
+            ]
         );
     }
 
@@ -84,7 +84,7 @@ class Manager extends MountManager
         try {
             return parent::filterPrefix($arguments);
         } catch (\InvalidArgumentException $e) {
-            return array(static::DEFAULT_PREFIX, $arguments);
+            return [static::DEFAULT_PREFIX, $arguments];
         }
     }
 }
