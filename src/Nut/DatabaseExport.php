@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DatabaseExport extends BaseCommand
 {
     /** @var array Contenttypes in use */
-    private $contenttypes = array();
+    private $contenttypes = [];
 
     protected function configure()
     {

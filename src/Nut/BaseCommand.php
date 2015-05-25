@@ -41,7 +41,7 @@ abstract class BaseCommand extends Command
     protected function auditLog($source, $message)
     {
         if ($this->app['config']->get('general/auditlog/enabled', true)) {
-            $this->app['logger.system']->info($message, array('event' => 'nut', 'source' => $source));
+            $this->app['logger.system']->info($message, ['event' => 'nut', 'source' => $source]);
         }
     }
 }

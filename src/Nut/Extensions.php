@@ -26,17 +26,17 @@ class Extensions extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $installed = $this->app['extend.manager']->showPackage('installed');
-        $rows = array();
+        $rows = [];
 
         foreach ($installed as $ext) {
             /** @var \Composer\Package\CompletePackageInterface $package */
             $package = $ext['package'];
-            $rows[] = array($package->getPrettyName(), $package->getPrettyVersion(), $package->getType(), $package->getDescription());
+            $rows[] = [$package->getPrettyName(), $package->getPrettyVersion(), $package->getType(), $package->getDescription()];
         }
 
         $table = $this->getHelper('table');
         $table
-            ->setHeaders(array('Name', 'Version', 'Type',  'Description'))
+            ->setHeaders(['Name', 'Version', 'Type',  'Description'])
             ->setRows($rows);
         $table->render($output);
     }

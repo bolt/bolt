@@ -16,10 +16,10 @@ use Symfony\Component\HttpFoundation\File\File;
 class DatabaseImport extends BaseCommand
 {
     /** @var array YAML to import to records */
-    private $yaml = array();
+    private $yaml = [];
 
     /** @var array Contenttypes in use */
-    private $contenttypes = array();
+    private $contenttypes = [];
 
     protected function configure()
     {

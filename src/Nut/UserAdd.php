@@ -39,7 +39,7 @@ class UserAdd extends BaseCommand
 
         $this->app['users']->getUsers();
         $user = $this->app['users']->getEmptyUser();
-        $user['roles'] = array($role);
+        $user['roles'] = [$role];
         $user['username'] = $username;
         $user['password'] = $password;
         $user['displayname'] = $displayname;
