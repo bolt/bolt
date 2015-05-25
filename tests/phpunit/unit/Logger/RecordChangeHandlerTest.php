@@ -29,11 +29,11 @@ class RecordChangeHandlerTest extends BoltUnitTest
         $log->addRecord(
             Logger::DEBUG,
             'test',
-            array(
+            [
                 'action' => 'UPDATE',
-                'old'    => array('title' => 'test'),
-                'new'    => array('title' => 'test2')
-            )
+                'old'    => ['title' => 'test'],
+                'new'    => ['title' => 'test2']
+            ]
         );
         $this->assertEquals('bolt_log_change', \PHPUnit_Framework_Assert::readAttribute($handler, 'tablename'));
     }
@@ -65,12 +65,12 @@ class RecordChangeHandlerTest extends BoltUnitTest
         $log->addRecord(
             Logger::DEBUG,
             'test',
-            array(
+            [
                 'action'  => 'UPDATE',
                 'comment' => 'An Update',
-                'old'     => array('title' => 'test'),
-                'new'     => array('title' => 'test2')
-            )
+                'old'     => ['title' => 'test'],
+                'new'     => ['title' => 'test2']
+            ]
         );
     }
 
@@ -78,6 +78,6 @@ class RecordChangeHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $handler = new RecordChangeHandler($app, Logger::WARNING);
-        $this->assertFalse($handler->handle(array('level' => 100)));
+        $this->assertFalse($handler->handle(['level' => 100]));
     }
 }

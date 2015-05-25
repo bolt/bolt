@@ -14,29 +14,29 @@ class ChangeLogItemTest extends BoltUnitTest
     public function testSetup()
     {
         $app = $this->getApp();
-        $cl = new ChangeLogItem($app, array('id' => 5, 'title' => 'test'));
+        $cl = new ChangeLogItem($app, ['id' => 5, 'title' => 'test']);
     }
 
     public function testGetters()
     {
         $app = $this->getApp();
-        $cl = new ChangeLogItem($app, array('id' => 5, 'title' => 'test'));
+        $cl = new ChangeLogItem($app, ['id' => 5, 'title' => 'test']);
         $this->assertTrue(isset($cl->mutation_type));
         $this->assertFalse(isset($cl->nonexistent));
         $this->assertEquals(5, $cl->id);
         $this->setExpectedException('InvalidArgumentException');
         $test = $cl->nonexistent;
 
-        $users = $this->getMock('Bolt\Users', array('getUser'), array($app));
+        $users = $this->getMock('Bolt\Users', ['getUser'], [$app]);
         $users->expects($this->any())
             ->method('getUser')
-            ->will($this->returnValue(array('displayname' => 'Tester', 'username' => 'test')));
+            ->will($this->returnValue(['displayname' => 'Tester', 'username' => 'test']));
 
         $app['users'] = $users;
 
         $cl = new ChangeLogItem(
             $app,
-            array(
+            [
                 'id'          => 5,
                 'date'        => date('Y-m'),
                 'title'       => 'test',
@@ -46,7 +46,7 @@ class ChangeLogItemTest extends BoltUnitTest
                 'contenttype' => 'showcases',
                 'contentid'   => 1,
                 'comment'     => 'a test'
-            )
+            ]
         );
         $this->assertEquals('test', $cl->title);
         $this->assertEquals(1, $cl->contentid);
@@ -57,16 +57,16 @@ class ChangeLogItemTest extends BoltUnitTest
     public function testGetMutationType()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('getUser'), array($app));
+        $users = $this->getMock('Bolt\Users', ['getUser'], [$app]);
         $users->expects($this->any())
             ->method('getUser')
-            ->will($this->returnValue(array('displayname' => 'Tester', 'username' => 'test')));
+            ->will($this->returnValue(['displayname' => 'Tester', 'username' => 'test']));
 
         $app['users'] = $users;
 
         $cl = new ChangeLogItem(
             $app,
-            array(
+            [
                 'id'          => 5,
                 'date'        => date('Y-m'),
                 'title'       => 'test',
@@ -75,7 +75,7 @@ class ChangeLogItemTest extends BoltUnitTest
                 'diff'        => '{"title":["test","test2"]}',
                 'contenttype' => 'showcases',
                 'contentid'   => 1,
-            )
+            ]
         );
 
         $this->assertEquals('UPDATE', $cl->mutation_type);
@@ -85,16 +85,16 @@ class ChangeLogItemTest extends BoltUnitTest
     public function testStandardChangeField()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('getUser'), array($app));
+        $users = $this->getMock('Bolt\Users', ['getUser'], [$app]);
         $users->expects($this->any())
             ->method('getUser')
-            ->will($this->returnValue(array('displayname' => 'Tester', 'username' => 'test')));
+            ->will($this->returnValue(['displayname' => 'Tester', 'username' => 'test']));
 
         $app['users'] = $users;
 
         $cl = new ChangeLogItem(
             $app,
-            array(
+            [
                 'id'            => 5,
                 'date'          => date('Y-m-d'),
                 'title'         => 'test',
@@ -104,7 +104,7 @@ class ChangeLogItemTest extends BoltUnitTest
                 'contentid'     => 1,
                 'diff'          => '{"title":["test","test2"]}',
                 'comment'       => 'test update'
-            )
+            ]
         );
 
         $changes = $cl->changedfields;
@@ -118,7 +118,7 @@ class ChangeLogItemTest extends BoltUnitTest
 
         $cl = new ChangeLogItem(
             $app,
-            array(
+            [
                 'id'            => 5,
                 'date'          => date('Y-m-d'),
                 'title'         => 'test',
@@ -127,7 +127,7 @@ class ChangeLogItemTest extends BoltUnitTest
                 'contentid'     => 1,
                 'diff'          => '{"body":["<p>test</p>","<p>test2</p>"]}',
                 'comment'       => 'test update'
-            )
+            ]
         );
 
         $changes = $cl->changedfields;
@@ -141,7 +141,7 @@ class ChangeLogItemTest extends BoltUnitTest
 
         $cl = new ChangeLogItem(
             $app,
-            array(
+            [
                 'id'            => 5,
                 'date'          => date('Y-m-d'),
                 'title'         => 'test',
@@ -150,7 +150,7 @@ class ChangeLogItemTest extends BoltUnitTest
                 'contentid'     => 1,
                 'diff'          => '{"video":["{\"url\":\"http://example.com\"}","{\"url\":\"http://example.com/2\"}"]}',
                 'comment'       => 'test update'
-            )
+            ]
         );
 
         $changes = $cl->changedfields;
@@ -164,7 +164,7 @@ class ChangeLogItemTest extends BoltUnitTest
 
         $cl = new ChangeLogItem(
             $app,
-            array(
+            [
                 'id'            => 5,
                 'date'          => date('Y-m-d'),
                 'title'         => 'test',
@@ -173,7 +173,7 @@ class ChangeLogItemTest extends BoltUnitTest
                 'contentid'     => 1,
                 'diff'          => '{"geolocation":["{\"address\":\"1 My Street\"}","{\"address\":\"2 My Street\"}"]}',
                 'comment'       => 'test geo'
-            )
+            ]
         );
 
         $changes = $cl->changedfields;
@@ -187,7 +187,7 @@ class ChangeLogItemTest extends BoltUnitTest
 
         $cl = new ChangeLogItem(
             $app,
-            array(
+            [
                 'id'            => 5,
                 'date'          => date('Y-m-d'),
                 'title'         => 'test',
@@ -196,7 +196,7 @@ class ChangeLogItemTest extends BoltUnitTest
                 'contentid'     => 1,
                 'diff'          => '{"imagelist":["{\"filename\":\"test.jpg\"}","{\"filename\":\"test2.jpg\"}"]}',
                 'comment'       => 'test imagelist'
-            )
+            ]
         );
 
         $changes = $cl->changedfields;
@@ -210,7 +210,7 @@ class ChangeLogItemTest extends BoltUnitTest
 
         $cl = new ChangeLogItem(
             $app,
-            array(
+            [
                 'id'            => 5,
                 'date'          => date('Y-m-d'),
                 'title'         => 'test',
@@ -219,7 +219,7 @@ class ChangeLogItemTest extends BoltUnitTest
                 'contentid'     => 1,
                 'diff'          => '{"image":["{\"file\":\"test.jpg\"}","{\"file\":\"test2.jpg\"}"]}',
                 'comment'       => 'test imagelist'
-            )
+            ]
         );
 
         $changes = $cl->changedfields;
@@ -233,7 +233,7 @@ class ChangeLogItemTest extends BoltUnitTest
 
         $cl = new ChangeLogItem(
             $app,
-            array(
+            [
                 'id'            => 5,
                 'date'          => date('Y-m-d'),
                 'title'         => 'test',
@@ -242,7 +242,7 @@ class ChangeLogItemTest extends BoltUnitTest
                 'contentid'     => 1,
                 'diff'          => '{"multiselect":["[\"val1\",\"val2\"]","[\"val3\",\"val4\"]"]}',
                 'comment'       => 'test multiselect'
-            )
+            ]
         );
 
         $changes = $cl->changedfields;
@@ -253,7 +253,7 @@ class ChangeLogItemTest extends BoltUnitTest
     public function testOffsets()
     {
         $app = $this->getApp();
-        $cl = new ChangeLogItem($app, array('id' => 5, 'title' => 'test', 'mutation_type' => 'UPDATE'));
+        $cl = new ChangeLogItem($app, ['id' => 5, 'title' => 'test', 'mutation_type' => 'UPDATE']);
 
         $this->assertEquals(5, $cl['id']);
         $this->assertTrue(isset($cl['id']));

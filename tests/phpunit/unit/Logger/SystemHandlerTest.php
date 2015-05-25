@@ -26,7 +26,7 @@ class SystemHandlerTest extends BoltUnitTest
         $app['db'] = $db;
 
         $log->pushHandler($handler);
-        $log->addRecord(Logger::DEBUG, 'test', array('id' => 5, 'title' => 'test'));
+        $log->addRecord(Logger::DEBUG, 'test', ['id' => 5, 'title' => 'test']);
         $this->assertEquals('bolt_log_system', \PHPUnit_Framework_Assert::readAttribute($handler, 'tablename'));
     }
 
@@ -44,7 +44,7 @@ class SystemHandlerTest extends BoltUnitTest
             ->with($this->equalTo("bolt_log_system"));
         $app['db'] = $db;
 
-        $log->addRecord(Logger::DEBUG, 'test', array('id' => 5, 'title' => 'test'));
+        $log->addRecord(Logger::DEBUG, 'test', ['id' => 5, 'title' => 'test']);
     }
 
     public function testHandleWithException()
@@ -61,13 +61,13 @@ class SystemHandlerTest extends BoltUnitTest
             ->with($this->equalTo("bolt_log_system"));
         $app['db'] = $db;
 
-        $log->addRecord(Logger::DEBUG, 'test', array('event' => '', 'exception' => new \Exception()));
+        $log->addRecord(Logger::DEBUG, 'test', ['event' => '', 'exception' => new \Exception()]);
     }
 
     public function testNotHandling()
     {
         $app = $this->getApp();
         $handler = new SystemHandler($app, Logger::WARNING);
-        $this->assertFalse($handler->handle(array('level' => 100)));
+        $this->assertFalse($handler->handle(['level' => 100]));
     }
 }

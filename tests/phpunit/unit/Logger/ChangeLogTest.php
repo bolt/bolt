@@ -22,8 +22,8 @@ class ChangeLogTest extends BoltUnitTest
 
         $content = $storage->getContentObject('pages');
         $storage->saveContent($content, 'pages');
-        $logs = $app['logger.manager.change']->getChangeLog(array('limit' => 1, 'offset' => 0, 'order' => 'id'));
-        $logs2 = $app['logger.manager.change']->getChangeLog(array('limit' => 1));
+        $logs = $app['logger.manager.change']->getChangeLog(['limit' => 1, 'offset' => 0, 'order' => 'id']);
+        $logs2 = $app['logger.manager.change']->getChangeLog(['limit' => 1]);
         $this->assertEquals(1, count($logs));
         $this->assertEquals(1, count($logs2));
     }
@@ -38,27 +38,27 @@ class ChangeLogTest extends BoltUnitTest
     public function testGetChangelogByContentType()
     {
         $app = $this->getApp();
-        $log = $app['logger.manager.change']->getChangeLogByContentType('pages', array('limit' => 1, 'offset' => 0, 'order' => 'id'));
+        $log = $app['logger.manager.change']->getChangeLogByContentType('pages', ['limit' => 1, 'offset' => 0, 'order' => 'id']);
         $this->assertEquals(1, count($log));
     }
 
     public function testGetChangelogByContentTypeArray()
     {
         $app = $this->getApp();
-        $log = $app['logger.manager.change']->getChangeLogByContentType(array('slug' => 'pages'), array('limit' => 1, 'contentid' => 1));
+        $log = $app['logger.manager.change']->getChangeLogByContentType(['slug' => 'pages'], ['limit' => 1, 'contentid' => 1]);
         $this->assertEquals(1, count($log));
     }
 
     public function testCountChangelogByContentType()
     {
         $app = $this->getApp();
-        $count = $app['logger.manager.change']->countChangelogByContentType('pages', array());
+        $count = $app['logger.manager.change']->countChangelogByContentType('pages', []);
         $this->assertGreaterThan(0, $count);
 
-        $count = $app['logger.manager.change']->countChangelogByContentType('pages', array('contentid' => 1));
+        $count = $app['logger.manager.change']->countChangelogByContentType('pages', ['contentid' => 1]);
         $this->assertGreaterThan(0, $count);
 
-        $count = $app['logger.manager.change']->countChangelogByContentType(array('slug' => 'pages'), array('id' => 1));
+        $count = $app['logger.manager.change']->countChangelogByContentType(['slug' => 'pages'], ['id' => 1]);
         $this->assertGreaterThan(0, $count);
     }
 
@@ -66,7 +66,7 @@ class ChangeLogTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        //$all = $app['logger.manager.change']->getChangeLogByContentType('pages', array());
+        //$all = $app['logger.manager.change']->getChangeLogByContentType('pages', []);
 
         $log = $app['logger.manager.change']->getChangeLogEntry('pages', 1, 1);
         $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $log);
@@ -85,9 +85,9 @@ class ChangeLogTest extends BoltUnitTest
         $content = $storage->getContent('pages/1');
         $this->assertInstanceOf('\Bolt\Content', $content);
 
-        $content->setValues(array('status' => 'draft', 'ownerid' => 99));
+        $content->setValues(['status' => 'draft', 'ownerid' => 99]);
         $storage->saveContent($content, 'Test Suite Update');
-        $content->setValues(array('status' => 'published', 'ownerid' => 1));
+        $content->setValues(['status' => 'published', 'ownerid' => 1]);
         $storage->saveContent($content, 'Test Suite Update');
 
         $log = $app['logger.manager.change']->getNextChangelogEntry('pages', 1, 1);
