@@ -87,7 +87,7 @@ class Authentication
      * is still valid for the device on which it was created, and that the username,
      * ip-address are still the same.
      *
-     * @return boolean
+     * @return boolean|string
      */
     public function checkValidSession()
     {
@@ -191,7 +191,7 @@ class Authentication
     /**
      * Return whether or not the current session is valid.
      *
-     * @return boolean
+     * @return boolean|string
      */
     public function isValidSession()
     {
