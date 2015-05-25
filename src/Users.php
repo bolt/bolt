@@ -398,7 +398,7 @@ class Users
     {
         $currentuser = $this->getCurrentUser();
 
-        return $currentuser[$property];
+        return isset($currentuser[$property]) ? $currentuser[$property] : null;
     }
 
     /**
