@@ -37,12 +37,12 @@ class ResourceManager
     protected $requestObject;
 
     /** @var AbsolutePathInterface[] */
-    protected $paths = array();
+    protected $paths = [];
 
-    protected $urls = array();
+    protected $urls = [];
 
     /** @var string[] */
-    protected $request = array();
+    protected $request = [];
 
     /** @var LowLevelChecks|null */
     protected $verifier;
@@ -188,7 +188,7 @@ class ResourceManager
      */
     public function getPathObject($name)
     {
-        $parts = array();
+        $parts = [];
         if (strpos($name, '/') !== false) {
             $parts = explode('/', $name);
             $name = array_shift($parts);
@@ -218,7 +218,7 @@ class ResourceManager
      */
     public function hasPath($name)
     {
-        $parts = array();
+        $parts = [];
         if (strpos($name, '/') !== false) {
             $parts = explode('/', $name);
             $name = array_shift($parts);

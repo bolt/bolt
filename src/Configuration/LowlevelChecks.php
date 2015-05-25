@@ -9,21 +9,21 @@ class LowlevelChecks
     public $config;
     public $disableApacheChecks = false;
 
-    public $checks = array(
+    public $checks = [
         'magicQuotes',
         'safeMode',
         'cache',
         'apache'
-    );
+    ];
 
-    public $configChecks = array(
+    public $configChecks = [
         'config',
         'menu',
         'contenttypes',
         'taxonomy',
         'routing',
         'permissions'
-    );
+    ];
 
     public $magicQuotes;
     public $safeMode;
@@ -54,7 +54,7 @@ class LowlevelChecks
     public function removeCheck($check)
     {
         if (in_array($check, $this->checks)) {
-            $this->checks = array_diff($this->checks, array($check));
+            $this->checks = array_diff($this->checks, [$check]);
         }
     }
 
@@ -184,7 +184,7 @@ class LowlevelChecks
             return;
         }
 
-        if (!in_array($driver, array('pdo_mysql', 'pdo_pgsql'))) {
+        if (!in_array($driver, ['pdo_mysql', 'pdo_pgsql'])) {
             throw LowLevelDatabaseException::unsupportedDriver($driver);
         }
 
