@@ -50,11 +50,11 @@ class BoltLibraryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $loader = $app['twig.loader'];
-        $app['twig']->render('error.twig', array('context' => array(
+        $app['twig']->render('error.twig', ['context' => [
             'class'   => 'BoltResponse',
             'message' => 'Clippy is bent out of shape',
             'code'    => '1555'
-        )));
+        ]]);
         $templates = Library::parseTwigTemplates($loader);
 
         $this->assertEquals(1, count($templates));
@@ -76,12 +76,12 @@ class BoltLibraryTest extends BoltUnitTest
             '/pages/content',
             Library::path(
                 'contentlink',
-                array('contenttypeslug' => 'pages', 'slug' => 'content')
+                ['contenttypeslug' => 'pages', 'slug' => 'content']
             )
         );
 
         $query = "testing=yes";
-        $this->assertEquals("/search?testing=yes", Library::path("search", array(), $query));
+        $this->assertEquals("/search?testing=yes", Library::path("search", [], $query));
     }
 
     public function testRedirect()
@@ -98,7 +98,7 @@ class BoltLibraryTest extends BoltUnitTest
         $app = $this->getApp();
         $request = Request::createFromGlobals();
         $app->handle($request);
-        $response = Library::redirect('contentlink', array('contenttypeslug' => 'pages', 'slug' => 'content'));
+        $response = Library::redirect('contentlink', ['contenttypeslug' => 'pages', 'slug' => 'content']);
         $this->assertEquals('/pages/content', $response->headers->get('Location'));
     }
 
