@@ -3,8 +3,8 @@ namespace Bolt\Extensions;
 
 class TwigProxy extends \Twig_Extension
 {
-    public $functions = array();
-    public $filters = array();
+    public $functions = [];
+    public $filters = [];
     public $name;
 
     public function __construct($name)
