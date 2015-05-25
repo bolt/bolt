@@ -29,15 +29,15 @@ class Cache extends FilesystemCache
     /**
      * @var string[] regular expressions for replacing disallowed characters in file name
      */
-    private $disallowedCharacterPatterns = array(
+    private $disallowedCharacterPatterns = [
         '/\-/', // replaced to disambiguate original `-` and `-` derived from replacements
         '/[^a-zA-Z0-9\-_\[\]]/' // also excludes non-ascii chars (not supported, depending on FS)
-    );
+    ];
 
     /**
      * @var string[] replacements for disallowed file characters
      */
-    private $replacementCharacters = array('__', '-');
+    private $replacementCharacters = ['__', '-'];
 
     /**
      * Set up the object. Initialize the proper folder for storing the files.
@@ -59,7 +59,7 @@ class Cache extends FilesystemCache
                 $this->clearCache();
             }
         } catch (\Exception $e) {
-            $app['logger.system']->critical($e->getMessage(), array('event' => 'exception', 'exception' => $e));
+            $app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
             throw $e;
         }
     }
@@ -98,14 +98,14 @@ class Cache extends FilesystemCache
      */
     public function clearCache()
     {
-        $result = array(
+        $result = [
             'successfiles'   => 0,
             'failedfiles'    => 0,
-            'failed'         => array(),
+            'failed'         => [],
             'successfolders' => 0,
             'failedfolders'  => 0,
             'log'            => ''
-        );
+        ];
 
         // Clear Doctrine's folder.
         $this->flushAll();
@@ -139,7 +139,7 @@ class Cache extends FilesystemCache
         $dir = dir($currentfolder);
 
         while (($entry = $dir->read()) !== false) {
-            $exclude = array('.', '..', 'index.html', '.gitignore', '.version');
+            $exclude = ['.', '..', 'index.html', '.gitignore', '.version'];
 
             if (in_array($entry, $exclude)) {
                 continue;

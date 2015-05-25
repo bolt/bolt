@@ -118,7 +118,7 @@ class Library
 
         preg_match_all('| => (.+\.twig)|i', $str, $matches);
 
-        $templates = array();
+        $templates = [];
 
         foreach ($matches[1] as $match) {
             $templates[] = str_replace($app['resources']->getPath('rootpath'), '', $match);
@@ -136,7 +136,7 @@ class Library
      *
      * @return string
      */
-    public static function path($path, $param = array(), $add = '')
+    public static function path($path, $param = [], $add = '')
     {
         $app = ResourceManager::getApp();
 
@@ -145,7 +145,7 @@ class Library
         }
 
         if (empty($param)) {
-            $param = array();
+            $param = [];
         }
 
         return $app['url_generator']->generate($path, $param) . $add;
@@ -160,7 +160,7 @@ class Library
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public static function redirect($path, $param = array(), $add = '')
+    public static function redirect($path, $param = [], $add = '')
     {
         return ResourceManager::getApp()->redirect(self::path($path, $param, $add));
     }

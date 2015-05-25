@@ -18,8 +18,8 @@ class Stack
     const MAX_ITEMS = 10;
 
     private $items;
-    private $imagetypes = array('jpg', 'jpeg', 'png', 'gif');
-    private $documenttypes = array('doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv');
+    private $imagetypes = ['jpg', 'jpeg', 'png', 'gif'];
+    private $documenttypes = ['doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'];
     private $app;
 
     public function __construct(Silex\Application $app)
@@ -36,7 +36,7 @@ class Stack
             $stackItems = Lib::smartUnserialize($currentuser['stack']);
         }
         if (!is_array($stackItems)) {
-            $stackItems = array();
+            $stackItems = [];
         }
 
         // intersect the allowed types with the types set
@@ -137,7 +137,7 @@ class Stack
         $themepath = $this->app['paths']['themebasepath'];
 
         $items = $this->items;
-        $list = array();
+        $list = [];
 
         foreach ($items as $item) {
             $extension = strtolower(Lib::getExtension($item));
@@ -167,7 +167,7 @@ class Stack
                 continue;
             }
 
-            $thisitem = array(
+            $thisitem = [
                 'basename'    => basename($item),
                 'extension'   => $extension,
                 'filepath'    => str_replace("files/", "", $item),
@@ -177,7 +177,7 @@ class Stack
                 'filesize'    => Lib::formatFilesize(filesize($fullpath)),
                 'modified'    => date("Y/m/d H:i:s", filemtime($fullpath)),
                 'permissions' => util::full_permissions($fullpath)
-            );
+            ];
 
             $thisitem['info'] = sprintf(
                 "%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>",

@@ -19,7 +19,7 @@ class Users
     public $config;
     public $usertable;
     public $authtokentable;
-    public $users = array();
+    public $users = [];
     public $currentuser;
 
     /** @var \Silex\Application $app */
@@ -47,7 +47,7 @@ class Users
     public function saveUser($user)
     {
         // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = array(
+        $allowedcolumns = [
                 'id',
                 'username',
                 'password',
@@ -58,7 +58,7 @@ class Users
                 'enabled',
                 'stack',
                 'roles',
-            );
+            ];
 
         // unset columns we don't need to store.
         foreach (array_keys($user) as $key) {
@@ -102,7 +102,7 @@ class Users
 
         // Make sure the 'stack' is set.
         if (empty($user['stack'])) {
-            $user['stack'] = json_encode(array());
+            $user['stack'] = json_encode([]);
         } elseif (is_array($user['stack'])) {
             $user['stack'] = json_encode($user['stack']);
         }
@@ -120,7 +120,7 @@ class Users
 
             return $this->db->insert($this->usertable, $user);
         } else {
-            return $this->db->update($this->usertable, $user, array('id' => $user['id']));
+            return $this->db->update($this->usertable, $user, ['id' => $user['id']]);
         }
     }
 
@@ -180,10 +180,10 @@ class Users
 
             return false;
         } else {
-            $res = $this->db->delete($this->usertable, array('id' => $user['id']));
+            $res = $this->db->delete($this->usertable, ['id' => $user['id']]);
 
             if ($res) {
-                $this->db->delete($this->authtokentable, array('username' => $user['username']));
+                $this->db->delete($this->authtokentable, ['username' => $user['username']]);
             }
 
             return $res;
@@ -253,7 +253,7 @@ class Users
      */
     public function getEmptyUser()
     {
-        $user = array(
+        $user = [
             'id'             => '',
             'username'       => '',
             'password'       => '',
@@ -267,7 +267,7 @@ class Users
             'shadowvalidity' => '',
             'failedlogins'   => 0,
             'throttleduntil' => ''
-        );
+        ];
 
         return $user;
     }
@@ -286,7 +286,7 @@ class Users
                 ->from($this->usertable);
 
             try {
-                $this->users = array();
+                $this->users = [];
                 $tempusers = $queryBuilder->execute()->fetchAll();
 
                 foreach ($tempusers as $user) {
@@ -296,7 +296,7 @@ class Users
 
                     $roles = json_decode($this->users[$key]['roles']);
                     if (!is_array($roles)) {
-                        $roles = array();
+                        $roles = [];
                     }
                     // add "everyone" role to, uhm, well, everyone.
                     $roles[] = Permissions::ROLE_EVERYONE;
@@ -363,7 +363,7 @@ class Users
             $user['password'] = '**dontchange**';
             $user['roles'] = json_decode($user['roles']);
             if (!is_array($user['roles'])) {
-                $user['roles'] = array();
+                $user['roles'] = [];
             }
             // add "everyone" role to, uhm, well, everyone.
             $user['roles'][] = Permissions::ROLE_EVERYONE;
@@ -441,7 +441,7 @@ class Users
                         ->select('enabled')
                         ->from($this->usertable)
                         ->where('id = :id')
-                        ->setParameters(array(':id' => $id));
+                        ->setParameters([':id' => $id]);
 
         return (boolean) $query->execute()->fetchColumn();
     }
@@ -525,7 +525,7 @@ class Users
         }
 
         // Remove the role from the $user['roles'] array.
-        $user['roles'] = array_diff($user['roles'], array((string) $role));
+        $user['roles'] = array_diff($user['roles'], [(string) $role]);
 
         return $this->saveUser($user);
     }
@@ -541,14 +541,14 @@ class Users
      */
     public function filterManipulatableRoles($id, array $newRoles)
     {
-        $oldRoles = array();
+        $oldRoles = [];
         if ($id && $user = $this->getUser($id)) {
             $oldRoles = $user['roles'];
         }
 
         $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($this->getCurrentUser());
 
-        $roles = array();
+        $roles = [];
         // Remove roles if the current user can manipulate that role
         foreach ($oldRoles as $role) {
             if ($role === Permissions::ROLE_EVERYONE) {

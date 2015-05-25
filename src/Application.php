@@ -28,7 +28,7 @@ class Application extends Silex\Application
     /**
      * @param array $values
      */
-    public function __construct(array $values = array())
+    public function __construct(array $values = [])
     {
         $values['bolt_version'] = '2.3.0';
         $values['bolt_name'] = 'alpha 1';
@@ -65,7 +65,7 @@ class Application extends Silex\Application
         $this['edittitle'] = '';
 
         // Initialise the JavaScipt data gateway
-        $this['jsdata'] = array();
+        $this['jsdata'] = [];
     }
 
     protected function initConfig()
@@ -77,16 +77,16 @@ class Application extends Silex\Application
     protected function initSession()
     {
         $this->register(new Provider\TokenServiceProvider())
-            ->register(new Silex\Provider\SessionServiceProvider(), array(
-                'session.storage.options' => array(
+            ->register(new Silex\Provider\SessionServiceProvider(), [
+                'session.storage.options' => [
                     'name'            => $this['token.session.name'],
                     'cookie_path'     => $this['resources']->getUrl('root'),
                     'cookie_domain'   => $this['config']->get('general/cookies_domain'),
                     'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
                     'cookie_httponly' => true
-                ),
+                ],
                 'session.test' => isset($this['session.test']) ? $this['session.test'] : false
-            )
+            ]
         );
 
         // Disable Silex's built-in native filebased session handler, and fall back to
@@ -124,13 +124,13 @@ class Application extends Silex\Application
         $this->initExtensions();
 
         // Initialise the global 'before' handler.
-        $this->before(array($this, 'beforeHandler'));
+        $this->before([$this, 'beforeHandler']);
 
         // Initialise the global 'after' handler.
-        $this->after(array($this, 'afterHandler'));
+        $this->after([$this, 'afterHandler']);
 
         // Calling for BC. Initialise the 'error' handler.
-        $this->error(array($this, 'errorHandler'));
+        $this->error([$this, 'errorHandler']);
     }
 
     /**
@@ -138,17 +138,17 @@ class Application extends Silex\Application
      */
     public function initLogger()
     {
-        $this->register(new LoggerServiceProvider(), array());
+        $this->register(new LoggerServiceProvider(), []);
 
         // Debug log
         if ($this['config']->get('general/debuglog/enabled')) {
             $this->register(
                 new Silex\Provider\MonologServiceProvider(),
-                array(
+                [
                     'monolog.name'    => 'bolt',
                     'monolog.level'   => constant('Monolog\Logger::' . strtoupper($this['config']->get('general/debuglog/level'))),
                     'monolog.logfile' => $this['resources']->getPath('cache') . '/' . $this['config']->get('general/debuglog/filename')
-                )
+                ]
             );
         }
     }
@@ -160,9 +160,9 @@ class Application extends Silex\Application
     {
         $this->register(
             new Silex\Provider\DoctrineServiceProvider(),
-            array(
+            [
                 'db.options' => $this['config']->get('general/database')
-            )
+            ]
         );
         $this->register(new Database\InitListener());
 
@@ -170,7 +170,7 @@ class Application extends Silex\Application
 
         $this->register(
             new Silex\Provider\HttpCacheServiceProvider(),
-            array('http_cache.cache_dir' => $this['resources']->getPath('cache'))
+            ['http_cache.cache_dir' => $this['resources']->getPath('cache')]
         );
     }
 
@@ -188,7 +188,7 @@ class Application extends Silex\Application
         // A ConnectionException or DriverException could be thrown, we'll catch DBALException to be safe.
         } catch (DBALException $e) {
             // Trap double exceptions caused by throwing a new LowlevelException
-            set_exception_handler(array('\Bolt\Exception\LowlevelException', 'nullHandler'));
+            set_exception_handler(['\Bolt\Exception\LowlevelException', 'nullHandler']);
 
             /*
              * Using Driver here since Platform may try to connect
@@ -254,11 +254,11 @@ class Application extends Silex\Application
         // Register the Silex/Symfony web debug toolbar.
         $this->register(
             new Silex\Provider\WebProfilerServiceProvider(),
-            array(
+            [
                 'profiler.cache_dir'    => $this['resources']->getPath('cache') . '/profiler',
                 'profiler.mount_prefix' => '/_profiler', // this is the default
                 'web_profiler.debug_toolbar.enable' => false,
-            )
+            ]
         );
         $this->register(new DebugToolbarEnabler());
 
@@ -272,7 +272,7 @@ class Application extends Silex\Application
         // in 1.0.6 and fixed in https://github.com/silexphp/Silex-WebProfiler/pull/63
         $this['data_collector.templates'] = array_merge(
             $this['data_collector.templates'],
-            array(array('twig', '@WebProfiler/Collector/twig.html.twig'))
+            [['twig', '@WebProfiler/Collector/twig.html.twig']]
         );
     }
 
@@ -280,7 +280,7 @@ class Application extends Silex\Application
     {
         $configLocale = $this['config']->get('general/locale', Application::DEFAULT_LOCALE);
         if (!is_array($configLocale)) {
-            $configLocale = array($configLocale);
+            $configLocale = [$configLocale];
         }
 
         // $app['locale'] should only be a single value.
@@ -293,9 +293,9 @@ class Application extends Silex\Application
         $this['timezone_offset'] = date('P');
 
         // Set default locale, for Bolt
-        $locale = array();
+        $locale = [];
         foreach ($configLocale as $value) {
-            $locale = array_merge($locale, array(
+            $locale = array_merge($locale, [
                 $value . '.UTF-8',
                 $value . '.utf8',
                 $value,
@@ -303,14 +303,14 @@ class Application extends Silex\Application
                 Application::DEFAULT_LOCALE . '.utf8',
                 Application::DEFAULT_LOCALE,
                 substr(Application::DEFAULT_LOCALE, 0, 2)
-            ));
+            ]);
         }
 
         setlocale(LC_ALL, array_unique($locale));
 
         $this->register(
             new Silex\Provider\TranslationServiceProvider(),
-            array('locale_fallbacks' => array(Application::DEFAULT_LOCALE))
+            ['locale_fallbacks' => [Application::DEFAULT_LOCALE]]
         );
 
         // Loading stub functions for when intl / IntlDateFormatter isn't available.
@@ -486,7 +486,7 @@ class Application extends Silex\Application
      *
      * @return string The generated path
      */
-    public function generatePath($route, $parameters = array())
+    public function generatePath($route, $parameters = [])
     {
         return $this['url_generator']->generate($route, $parameters);
     }

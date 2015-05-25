@@ -46,9 +46,9 @@ abstract class BaseExtension implements ExtensionInterface
         $this->extensionConfig = null;
         $this->composerJsonLoaded = false;
 
-        $this->functionlist = array();
-        $this->filterlist = array();
-        $this->snippetlist = array();
+        $this->functionlist = [];
+        $this->filterlist = [];
+        $this->snippetlist = [];
     }
 
     /**
@@ -191,17 +191,15 @@ abstract class BaseExtension implements ExtensionInterface
         if (!is_array($this->extensionConfig)) {
             $composerjson = $this->getComposerJSON();
             if (is_array($composerjson)) {
-                $this->extensionConfig = array(strtolower($composerjson['name']) => array(
+                $this->extensionConfig = [strtolower($composerjson['name']) => [
                     'name' => $this->getName(),
                     'json' => $composerjson
-                ));
+                ]];
             } else {
-                $this->extensionConfig = array(
-                    $this->getName() => array(
-                        'name' => $this->getName(),
-                        'json' => array()
-                    )
-                );
+                $this->extensionConfig = [$this->getName() => [
+                    'name' => $this->getName(),
+                    'json' => []
+                ]];
             }
         }
 
@@ -216,7 +214,7 @@ abstract class BaseExtension implements ExtensionInterface
      */
     protected function getDefaultConfig()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -275,7 +273,7 @@ abstract class BaseExtension implements ExtensionInterface
             $configdir = dirname($configfile);
             $message = "Couldn't read $configfile. Please correct file " .
                        "permissions and ensure the $configdir directory readable.";
-            $this->app['logger.system']->critical($message, array('event' => 'extensions'));
+            $this->app['logger.system']->critical($message, ['event' => 'extensions']);
             $this->app['logger.flash']->error($message);
 
             return false;
@@ -294,14 +292,14 @@ abstract class BaseExtension implements ExtensionInterface
         } catch (IOException $e) {
             $message = 'Unable to create extension configuration directory at ' . dirname($configfile);
             $this->app['logger.flash']->error($message);
-            $this->app['logger.system']->error($message, array('event' => 'exception', 'exception' => $e));
+            $this->app['logger.system']->error($message, ['event' => 'exception', 'exception' => $e]);
         }
 
         // If config.yml.dist exists, attempt to copy it to config.yml.
         if (is_readable($configdistfile) && is_dir(dirname($configfile))) {
             if (copy($configdistfile, $configfile)) {
                 // Success!
-                $this->app['logger.system']->info("Copied $configdistfile to $configfile", array('event' => 'extensions'));
+                $this->app['logger.system']->info("Copied $configdistfile to $configfile", ['event' => 'extensions']);
 
                 return true;
             } else {
@@ -310,7 +308,7 @@ abstract class BaseExtension implements ExtensionInterface
                 $message = "Couldn't copy $configdistfile to $configfile: " .
                 "File is not writable. Create the file manually, " .
                 "or make the $configdir directory writable.";
-                $this->app['logger.system']->critical($message, array('event' => 'extensions'));
+                $this->app['logger.system']->critical($message, ['event' => 'extensions']);
                 $this->app['logger.flash']->error($message);
 
                 return false;
@@ -391,10 +389,10 @@ abstract class BaseExtension implements ExtensionInterface
      * @param string $callback
      * @param array  $options
      */
-    public function addTwigFunction($name, $callback, $options = array())
+    public function addTwigFunction($name, $callback, $options = [])
     {
         $this->initializeTwig();
-        $this->twigExtension->addTwigFunction(new \Twig_SimpleFunction($name, array($this, $callback), $options));
+        $this->twigExtension->addTwigFunction(new \Twig_SimpleFunction($name, [$this, $callback], $options));
     }
 
     /**
@@ -404,10 +402,10 @@ abstract class BaseExtension implements ExtensionInterface
      * @param string $callback
      * @param array  $options
      */
-    public function addTwigFilter($name, $callback, $options = array())
+    public function addTwigFilter($name, $callback, $options = [])
     {
         $this->initializeTwig();
-        $this->twigExtension->addTwigFilter(new \Twig_SimpleFilter($name, array($this, $callback), $options));
+        $this->twigExtension->addTwigFilter(new \Twig_SimpleFilter($name, [$this, $callback], $options));
     }
 
     protected function initializeTwig()
@@ -420,10 +418,10 @@ abstract class BaseExtension implements ExtensionInterface
     public function getTwigExtensions()
     {
         if ($this->twigExtension) {
-            return array($this->twigExtension);
+            return [$this->twigExtension];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -485,19 +483,19 @@ abstract class BaseExtension implements ExtensionInterface
      *                         'priority' - Loading priority
      *                         'attrib'   - Either 'defer', or 'async'
      */
-    public function addJavascript($filename, $options = array())
+    public function addJavascript($filename, $options = [])
     {
         // Handle pre-2.2 function parameters, namely $late and $priority
         if (!is_array($options)) {
             $args = func_get_args();
 
-            $options = array(
+            $options = [
                 'late'     => isset($args[1]) ? isset($args[1]) : false,
                 'priority' => isset($args[2]) ? isset($args[2]) : 0,
-            );
+            ];
 
             $message = 'addJavascript() called with deprecated function parameters by ' . $this->getName();
-            $this->app['logger.system']->error($message, array('event' => 'deprecated'));
+            $this->app['logger.system']->error($message, ['event' => 'deprecated']);
         }
 
         // check if the file exists.
@@ -510,7 +508,7 @@ abstract class BaseExtension implements ExtensionInterface
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
-            $this->app['logger.system']->error($message, array('event' => 'extensions'));
+            $this->app['logger.system']->error($message, ['event' => 'extensions']);
         }
     }
 
@@ -522,19 +520,19 @@ abstract class BaseExtension implements ExtensionInterface
      *                         'priority' - Loading priority
      *                         'attrib'   - A string containing either/or 'defer', and 'async'
      */
-    public function addCSS($filename, $options = array())
+    public function addCSS($filename, $options = [])
     {
         // Handle pre-2.2 function parameters, namely $late and $priority
         if (!is_array($options)) {
             $args = func_get_args();
 
-            $options = array(
+            $options = [
                 'late'     => isset($args[1]) ? isset($args[1]) : false,
                 'priority' => isset($args[2]) ? isset($args[2]) : 0,
-            );
+            ];
 
             $message = 'addCSS() called with deprecated function parameters by ' . $this->getName();
-            $this->app['logger.system']->error($message, array('event' => 'deprecated'));
+            $this->app['logger.system']->error($message, ['event' => 'deprecated']);
         }
 
         // Check if the file exists.
@@ -547,7 +545,7 @@ abstract class BaseExtension implements ExtensionInterface
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
-            $this->app['logger.system']->error($message, array('event' => 'extensions'));
+            $this->app['logger.system']->error($message, ['event' => 'extensions']);
         }
     }
 
@@ -600,7 +598,7 @@ abstract class BaseExtension implements ExtensionInterface
     public function parseSnippet($callback, $var1 = "", $var2 = "", $var3 = "")
     {
         if (method_exists($this, $callback)) {
-            return call_user_func(array($this, $callback), $var1, $var2, $var3);
+            return call_user_func([$this, $callback], $var1, $var2, $var3);
         } else {
             return false;
         }
@@ -671,7 +669,7 @@ abstract class BaseExtension implements ExtensionInterface
     public function parseWidget($callback, $var1 = '', $var2 = '', $var3 = '')
     {
         if (method_exists($this, $callback)) {
-            return call_user_func(array($this, $callback), $var1, $var2, $var3);
+            return call_user_func([$this, $callback], $var1, $var2, $var3);
         } else {
             return false;
         }
@@ -686,7 +684,7 @@ abstract class BaseExtension implements ExtensionInterface
     {
         $this->app['nut.commands'] = array_merge(
             $this->app['nut.commands'],
-            array($command)
+            [$command]
         );
     }
 }
