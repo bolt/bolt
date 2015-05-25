@@ -194,8 +194,9 @@
             if (fieldType === 'html') {
                 fieldValue = $(this).html();
 
-                if (_.has(ckeditor.instances, fieldName)) {
-                    ckeditor.instances[fieldName].setData(fieldValue);
+                var fieldId = field.attr('id');
+                if (_.has(ckeditor.instances, fieldId)) {
+                    ckeditor.instances[fieldId].setData(fieldValue);
                 }
             }else{
                 fieldValue = liveEditor.cleanText($(this), fieldType);
