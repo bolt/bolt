@@ -25,7 +25,7 @@ class UsersTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addNewUser($app, 'admin', 'Admin', 'root');
         $this->addNewUser($app, 'editor', 'Editor', 'editor');
-        $this->user = array('id' => 2, 'username' => 'editor', 'email' => 'editor@example.com');
+        $this->user = ['id' => 2, 'username' => 'editor', 'email' => 'editor@example.com'];
     }
 
     /**
@@ -34,8 +34,8 @@ class UsersTest extends BoltUnitTest
     public function testGetUserById()
     {
         // Setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
-        $users->users = array($this->user);
+        $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
+        $users->users = [$this->user];
 
         // Run test
         $result = $users->getUser(2);
@@ -52,8 +52,8 @@ class UsersTest extends BoltUnitTest
     public function testGetUserByUnknownId()
     {
         // Setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
-        $users->users = array($this->user);
+        $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
+        $users->users = [$this->user];
 
         // Run test
         $result = $users->getUser(0);
@@ -68,8 +68,8 @@ class UsersTest extends BoltUnitTest
     public function testGetUserByUsername()
     {
         // Setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
-        $users->users = array($this->user);
+        $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
+        $users->users = [$this->user];
 
         // Run test
         $result = $users->getUser('editor');
@@ -86,8 +86,8 @@ class UsersTest extends BoltUnitTest
     public function testGetUserByUnknownUsername()
     {
         // Setup test
-        $users = $this->getMock('Bolt\Users', array('getUsers'), array($this->getApp()));
-        $users->users = array($this->user);
+        $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
+        $users->users = [$this->user];
 
         // Run test
         $result = $users->getUser('anotheruser');
