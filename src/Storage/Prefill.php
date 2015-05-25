@@ -45,9 +45,9 @@ class Prefill
 
         if ($this->deprecated) {
             /** @deprecated remove when PHP 5.3 support is dropped */
-            return $this->client->get($uri, array('timeout' => 10))->send()->getBody(true);
+            return $this->client->get($uri, ['timeout' => 10])->send()->getBody(true);
         } else {
-            return $this->client->get($uri, array('timeout' => 10))->getBody(true);
+            return $this->client->get($uri, ['timeout' => 10])->getBody(true);
         }
     }
 }

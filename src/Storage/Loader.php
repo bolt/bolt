@@ -7,18 +7,18 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
 
 /**
- * This class works on an instance of QueryBuilder transforming the query to the  
- * needs of the field handlers. 
+ * This class works on an instance of QueryBuilder transforming the query to the
+ * needs of the field handlers.
  */
 class Loader
 {
-    
-    
-    public $handlers = array();
-    
+
+
+    public $handlers = [];
+
     /**
      *  @param array source data
-     * 
+     *
      *  @return Object Entity
      */
     public function load(QueryBuilder $qb, ClassMetadata $metadata)
@@ -30,8 +30,8 @@ class Loader
 
         return $qb;
     }
-    
-    
 
-    
+
+
+
 }

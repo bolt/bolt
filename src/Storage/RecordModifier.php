@@ -52,7 +52,7 @@ class RecordModifier
 
         // If we have an ID now, this is an existing record
         if ($id) {
-            $content = $this->app['storage']->getContent($contenttypeslug, array('id' => $id, 'status' => '!'));
+            $content = $this->app['storage']->getContent($contenttypeslug, ['id' => $id, 'status' => '!']);
             $oldStatus = $content['status'];
         } else {
             $content = $this->app['storage']->getContentObject($contenttypeslug);
@@ -82,8 +82,8 @@ class RecordModifier
             // Save the record
             return $this->saveContentRecord($content, $contenttype, $new, $comment, $returnTo, $editReferrer);
         } else {
-            $this->app['logger.flash']->error(Trans::__('contenttypes.generic.error-saving', array('%contenttype%' => $contenttypeslug)));
-            $this->app['logger.system']->error('Save error: ' . $content->getTitle(), array('event' => 'content'));
+            $this->app['logger.flash']->error(Trans::__('contenttypes.generic.error-saving', ['%contenttype%' => $contenttypeslug]));
+            $this->app['logger.system']->error('Save error: ' . $content->getTitle(), ['event' => 'content']);
         }
     }
 
@@ -106,11 +106,11 @@ class RecordModifier
 
         // Log the change
         if ($new) {
-            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-new', array('%contenttype%' => $contenttype['slug'])));
-            $this->app['logger.system']->info('Created: ' . $content->getTitle(), array('event' => 'content'));
+            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contenttype['slug']]));
+            $this->app['logger.system']->info('Created: ' . $content->getTitle(), ['event' => 'content']);
         } else {
-            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-changes', array('%contenttype%' => $contenttype['slug'])));
-            $this->app['logger.system']->info('Saved: ' . $content->getTitle(), array('event' => 'content'));
+            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contenttype['slug']]));
+            $this->app['logger.system']->info('Saved: ' . $content->getTitle(), ['event' => 'content']);
         }
 
         /*
@@ -119,9 +119,9 @@ class RecordModifier
          */
         if ($returnTo) {
             if ($returnTo === 'new') {
-                return new RedirectResponse($this->generateUrl('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id)));
+                return new RedirectResponse($this->generateUrl('editcontent', ['contenttypeslug' => $contenttype['slug'], 'id' => $id]));
             } elseif ($returnTo === 'saveandnew') {
-                return new RedirectResponse($this->generateUrl('editcontent', array('contenttypeslug' => $contenttype['slug'])));
+                return new RedirectResponse($this->generateUrl('editcontent', ['contenttypeslug' => $contenttype['slug']]));
             } elseif ($returnTo === 'ajax') {
                 return $this->createJsonUpdate($contenttype, $id);
             }
@@ -132,7 +132,7 @@ class RecordModifier
         if ($editReferrer) {
             return new RedirectResponse($editReferrer);
         } else {
-            return new RedirectResponse($this->generateUrl('overview', array('contenttypeslug' => $contenttype['slug'])));
+            return new RedirectResponse($this->generateUrl('overview', ['contenttypeslug' => $contenttype['slug']]));
         }
     }
 
@@ -160,7 +160,7 @@ class RecordModifier
                 switch ($values['type']) {
                     case 'select':
                         if (isset($values['multiple']) && $values['multiple'] === true) {
-                            $formValues[$key] = array();
+                            $formValues[$key] = [];
                         }
                         break;
 
@@ -197,9 +197,9 @@ class RecordModifier
         Response::closeOutputBuffers(0, false);
 
         // Get our record after POST_SAVE hooks are dealt with and return the JSON
-        $content = $this->app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true, 'status' => '!'));
+        $content = $this->app['storage']->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!']);
 
-        $val = array();
+        $val = [];
 
         foreach ($content->values as $key => $value) {
             // Some values are returned as \Twig_Markup and JSON can't deal with that
@@ -252,8 +252,8 @@ class RecordModifier
         $contenttypeslug = $contenttype['slug'];
 
         $oldStatus = $content['status'];
-        $allStatuses = array('published', 'held', 'draft', 'timed');
-        $allowedStatuses = array();
+        $allStatuses = ['published', 'held', 'draft', 'timed'];
+        $allowedStatuses = [];
         foreach ($allStatuses as $status) {
             if ($this->app['users']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeslug, $id)) {
                 $allowedStatuses[] = $status;
@@ -262,7 +262,7 @@ class RecordModifier
 
         // For duplicating a record, clear base field values
         if ($duplicate) {
-            $content->setValues(array(
+            $content->setValues([
                 'id'            => '',
                 'slug'          => '',
                 'datecreated'   => '',
@@ -271,9 +271,9 @@ class RecordModifier
                 'datechanged'   => '',
                 'username'      => '',
                 'ownerid'       => '',
-            ));
+            ]);
 
-            $this->app['logger.flash']->info(Trans::__('contenttypes.generic.duplicated-finalize', array('%contenttype%' => $contenttypeslug)));
+            $this->app['logger.flash']->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contenttypeslug]));
         }
 
         // Set the users and the current owner of this content.
@@ -295,19 +295,19 @@ class RecordModifier
         $templateFieldTemplates = $this->getTempateFieldTemplates($contenttype, $content);
 
         // Information flags about what the record contains
-        $info = array(
+        $info = [
             'hasIncomingRelations' => is_array($content->relation),
             'hasRelations'         => isset($contenttype['relations']),
             'hasTabs'              => $contenttype['groups'] !== false,
             'hasTaxonomy'          => isset($contenttype['taxonomy']),
             'hasTemplateFields'    => $content->hasTemplateFields()
-        );
+        ];
 
         // Generate tab groups
         $groups = $this->createGroupTabs($contenttype, $content, $info);
 
         // Build context for Twig
-        $context = array(
+        $context = [
             'contenttype'    => $contenttype,
             'content'        => $content,
             'allowed_status' => $allowedStatuses,
@@ -316,14 +316,14 @@ class RecordModifier
             'fieldtemplates' => $templateFieldTemplates,
             'can_upload'     => $this->app['users']->isAllowed('files:uploads'),
             'groups'         => $groups,
-            'has'            => array(
+            'has'            => [
                 'incoming_relations' => $info['hasIncomingRelations'],
                 'relations'          => $info['hasRelations'],
                 'tabs'               => $info['hasTabs'],
                 'taxonomy'           => $info['hasTaxonomy'],
                 'templatefields'     => $info['hasTemplateFields'],
-            ),
-        );
+            ],
+        ];
 
         return $context;
     }
@@ -360,12 +360,12 @@ class RecordModifier
      */
     private function getTempateFieldTemplates(array $contenttype, Content $content)
     {
-        $templateFieldTemplates = array();
+        $templateFieldTemplates = [];
 
         if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
             $templateFieldTemplates = array_keys($templateFieldsConfig);
             // Special case for default template
-            $toRepair = array();
+            $toRepair = [];
             foreach ($contenttype['fields'] as $name => $field) {
                 if ($field['type'] === 'templateselect' && !empty($content->values[$name])) {
                     $toRepair[$name] = $content->values[$name];
@@ -395,8 +395,8 @@ class RecordModifier
      */
     private function createGroupTabs(array $contenttype, Content $content, $info)
     {
-        $groups = array();
-        $groupIds = array();
+        $groups = [];
+        $groupIds = [];
 
         $addGroup = function ($group, $label) use (&$groups, &$groupIds) {
             $nr = count($groups) + 1;
@@ -404,20 +404,20 @@ class RecordModifier
             if (isset($groupIds[$id]) || $id === 'tab') {
                 $id .= '-' . $nr;
             }
-            $groups[$group] = array(
+            $groups[$group] = [
                 'label'     => $label,
                 'id'        => $id,
                 'is_active' => $nr === 1,
-            );
+            ];
             $groupIds[$id] = 1;
         };
 
-        foreach ($contenttype['groups'] ? $contenttype['groups'] : array('ungrouped') as $group) {
+        foreach ($contenttype['groups'] ? $contenttype['groups'] : ['ungrouped'] as $group) {
             if ($group === 'ungrouped') {
                 $addGroup($group, Trans::__('contenttypes.generic.group.ungrouped'));
             } elseif ($group !== 'meta' && $group !== 'relations' && $group !== 'taxonomy') {
-                $default = array('DEFAULT' => ucfirst($group));
-                $key = array('contenttypes', $contenttype['slug'], 'group', $group);
+                $default = ['DEFAULT' => ucfirst($group)];
+                $key = ['contenttypes', $contenttype['slug'], 'group', $group];
                 $addGroup($group, Trans::__($key, $default));
             }
         }
@@ -448,7 +448,7 @@ class RecordModifier
      *
      * @return string
      */
-    private function generateUrl($name, $params = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    private function generateUrl($name, $params = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         /** @var UrlGeneratorInterface $generator */
         $generator = $this->app['url_generator'];
