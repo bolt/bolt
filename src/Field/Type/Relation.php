@@ -4,6 +4,7 @@ namespace Bolt\Field\Type;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\EntityProxy;
+use Bolt\Storage\QuerySet;
 use Bolt\Mapping\ClassMetadata;
 
 
@@ -26,9 +27,10 @@ class Relation extends FieldTypeBase
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
         $field = $this->mapping['fieldname'];
+        $target = $this->mapping['target'];
         $boltname = $metadata->getBoltName();
         $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
-            ->leftJoin('content', 'bolt_relations', $field, "content.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
+            ->leftJoin('content', $target, $field, "content.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
             ->addGroupBy("content.id");    
     }
     
@@ -52,15 +54,65 @@ class Relation extends FieldTypeBase
      * Handle the persist event.
      *
      */
-    public function persist(QueryBuilder $qb, $entity, EntityManager $em = null)
+    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
     {
         $field = $this->mapping['fieldname'];
+        $target = $this->mapping['target'];
         $accessor = "get".$field;
-        $relations = $entity->$accessor();
+        $relations = (array)$entity->$accessor();
         
-        foreach($relations as $relation) {
-            // Insert / Update relations to the db here
-        }        
+        // Fetch existing relations
+
+        $existingQuery = $em->createQueryBuilder()
+                            ->select('*')
+                            ->from($target)
+                            ->where('from_id = ?')
+                            ->andWhere('from_contenttype = ?')
+                            ->andWhere('to_contenttype = ?')
+                            ->setParameter(0, $entity->id)
+                            ->setParameter(1, $entity->getContenttype())
+                            ->setParameter(2, $field);
+        $result = $existingQuery->execute()->fetchAll();
+        $existing = array_map(function($el) {return $el['to_id'];}, $result);
+        $proposed = array_map(function($el) {return $el->reference;}, $relations);
+        
+        $toInsert = array_diff($proposed, $existing);
+        $toDelete = array_diff($existing, $proposed);
+
+        
+        foreach($toInsert as $item) {
+            $ins = $em->createQueryBuilder()->insert($target);
+            $ins->values([
+                'from_id' => '?',
+                'from_contenttype' => '?',
+                'to_contenttype' => '?',
+                'to_id' => '?'
+            ])->setParameters([
+                0 => $entity->id,
+                1 => $entity->getContenttype(),
+                2 => $field,
+                3 => $item
+            ]);
+            
+            $queries->append($ins);
+        }
+        
+        
+        foreach($toDelete as $item) {
+            $del = $em->createQueryBuilder()->delete($target);
+            $del->where('from_id=?')
+                ->andWhere('from_contenttype=?')
+                ->andWhere('to_contenttype=?')
+                ->andWhere('to_id=?')
+                ->setParameters([
+                0 => $entity->id,
+                1 => $entity->getContenttype(),
+                2 => $field,
+                3 => $item
+            ]);
+            
+            $queries->append($del);
+        }
         
     }
     
