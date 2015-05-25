@@ -3,6 +3,7 @@ namespace Bolt\Field\Type;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\QuerySet;
 use Bolt\Mapping\ClassMetadata;
 
 
@@ -29,7 +30,7 @@ interface FieldTypeInterface
      *
      * @return void
      */
-    public function persist(QueryBuilder $query, $entity);
+    public function persist(QuerySet $queries, $entity, EntityManager $em = null);
     
     /**
      * Handle or ignore the hydrate event.

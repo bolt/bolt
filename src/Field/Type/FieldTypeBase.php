@@ -2,8 +2,9 @@
 namespace Bolt\Field\Type;
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use Bolt\Storage\EntityManager;
 use Bolt\Mapping\ClassMetadata;
+use Bolt\Storage\EntityManager;
+use Bolt\Storage\QuerySet;
 
 /**
  * This is an abstract class for a field type that handles
@@ -38,7 +39,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
      *
      * @return void
      */
-    public function persist(QueryBuilder $query, $entity)
+    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
     {
         
     }
