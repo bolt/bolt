@@ -21,7 +21,6 @@ class FieldSaveTest extends BoltUnitTest
     public function testRelationsSave()
     {
         $app = $this->getApp();
-        $this->addNewUser($app, 'admin', 'Admin', 'admin');;
         $app['integritychecker']->repairTables();
         $this->addSomeContent();
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
@@ -34,6 +33,7 @@ class FieldSaveTest extends BoltUnitTest
             $this->assertNotEmpty($entry->slug);
         }
         
+        $record->setEntries([]);
         $em->save($record);
         
               
