@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\Event;
  *
  * To create a listener you need to something similar in your class:
  *      use Bolt\Events\CronEvents;
- *      $this->app['dispatcher']->addListener(CronEvents::CRON_INTERVAL, array($this, 'myJobCallbackMethod'));
+ *      $this->app['dispatcher']->addListener(CronEvents::CRON_INTERVAL, [$this, 'myJobCallbackMethod']);
  *
  * CRON_INTERVAL should be replace with one of the following:
  *      * CRON_HOURLY
@@ -36,7 +36,7 @@ class Cron extends Event
     private $param;
 
     /** @var array The next elegible run time for each interim. */
-    private $nextRunTime;
+    private $jobs;
 
     /** @var boolean True for a required database insert. */
     private $insert;
@@ -51,25 +51,27 @@ class Cron extends Event
     private $cronHour;
 
     /** @var array */
-    public $lastruns = array();
+    public $lastruns = [];
 
     /**
      * @param Application     $app
      * @param OutputInterface $output
      * @param array           $param
      */
-    public function __construct(Silex\Application $app, OutputInterface $output = null, $param = array())
+    public function __construct(Silex\Application $app, OutputInterface $output = null, $param = [])
     {
         $this->app = $app;
         $this->output = $output;
         $this->param = $param;
         $this->runtime = time();
-        $this->nextRunTime = array(
-            CronEvents::CRON_HOURLY  => 0,
-            CronEvents::CRON_DAILY   => 0,
-            CronEvents::CRON_WEEKLY  => 0,
-            CronEvents::CRON_MONTHLY => 0,
-            CronEvents::CRON_YEARLY  => 0);
+
+        $this->jobs = [
+            CronEvents::CRON_HOURLY  => ['nextRunTime' => 0, 'message' => 'Running Cron Hourly Jobs'],
+            CronEvents::CRON_DAILY   => ['nextRunTime' => 0, 'message' => 'Running Cron Daily Jobs'],
+            CronEvents::CRON_WEEKLY  => ['nextRunTime' => 0, 'message' => 'Running Cron Weekly Jobs'],
+            CronEvents::CRON_MONTHLY => ['nextRunTime' => 0, 'message' => 'Running Cron Monthly Jobs'],
+            CronEvents::CRON_YEARLY  => ['nextRunTime' => 0, 'message' => 'Running Cron Yearly Jobs'],
+        ];
 
         $this->setTableName();
 
@@ -93,64 +95,30 @@ class Cron extends Event
         $event = new CronEvent($this->app, $this->output);
 
         // Process event listeners
-        if ($this->isExecutable(CronEvents::CRON_HOURLY)) {
-            $this->notify("Running Cron Hourly Jobs");
-
-            try {
-                $this->app['dispatcher']->dispatch(CronEvents::CRON_HOURLY, $event);
-            } catch (\Exception $e) {
-                $this->handleError($e, CronEvents::CRON_HOURLY);
-            }
-
-            $this->setLastRun(CronEvents::CRON_HOURLY);
+        foreach ($this->jobs as $name => $data) {
+            $this->executeSingle($event, $name, $data);
         }
+    }
 
-        if ($this->isExecutable(CronEvents::CRON_DAILY)) {
-            $this->notify("Running Cron Daily Jobs");
-
-            try {
-                $this->app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $event);
-            } catch (\Exception $e) {
-                $this->handleError($e, CronEvents::CRON_DAILY);
-            }
-
-            $this->setLastRun(CronEvents::CRON_DAILY);
-        }
-
-        if ($this->isExecutable(CronEvents::CRON_WEEKLY)) {
-            $this->notify("Running Cron Weekly Jobs");
+    /**
+     * Run a single cron dispatcher.
+     *
+     * @param CronEvent $event
+     * @param string    $name
+     * @param array     $data
+     */
+    private function executeSingle(CronEvent $event, $name, array $data)
+    {
+        if ($this->isExecutable($name)) {
+            $this->notify($data['message']);
 
             try {
-                $this->app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $event);
+                $this->app['dispatcher']->dispatch($name, $event);
             } catch (\Exception $e) {
-                $this->handleError($e, CronEvents::CRON_WEEKLY);
+                $this->handleError($e, $name);
             }
 
-            $this->setLastRun(CronEvents::CRON_WEEKLY);
-        }
-
-        if ($this->isExecutable(CronEvents::CRON_MONTHLY)) {
-            $this->notify("Running Cron Monthly Jobs");
-
-            try {
-                $this->app['dispatcher']->dispatch(CronEvents::CRON_MONTHLY, $event);
-            } catch (\Exception $e) {
-                $this->handleError($e, CronEvents::CRON_MONTHLY);
-            }
-
-            $this->setLastRun(CronEvents::CRON_MONTHLY);
-        }
-
-        if ($this->isExecutable(CronEvents::CRON_YEARLY)) {
-            $this->notify("Running Cron Yearly Jobs");
-
-            try {
-                $this->app['dispatcher']->dispatch(CronEvents::CRON_YEARLY, $event);
-            } catch (\Exception $e) {
-                $this->handleError($e, CronEvents::CRON_YEARLY);
-            }
-
-            $this->setLastRun(CronEvents::CRON_YEARLY);
+            $this->setLastRun($name);
         }
     }
 
@@ -163,12 +131,12 @@ class Cron extends Event
      */
     private function isExecutable($name)
     {
-        if ($this->param['run'] && $this->param['event'] == $name) {
+        if ($this->param['run'] && $this->param['event'] === $name) {
             return true;
         } elseif ($this->app['dispatcher']->hasListeners($name)) {
-            if ($name == CronEvents::CRON_HOURLY && $this->nextRunTime[CronEvents::CRON_HOURLY] <= $this->runtime) {
+            if ($name === CronEvents::CRON_HOURLY && $this->jobs[CronEvents::CRON_HOURLY]['nextRunTime'] <= $this->runtime) {
                 return true;
-            } elseif (time() > $this->cronHour && $this->nextRunTime[$name] <= $this->runtime) {
+            } elseif (time() > $this->cronHour && $this->jobs[$name]['nextRunTime'] <= $this->runtime) {
                 // Only run non-hourly event jobs if we've passed our cron hour today
                 return true;
             }
@@ -209,7 +177,7 @@ class Cron extends Event
             $this->output->writeln("<info>{$msg}</info>");
         }
 
-        $this->app['logger.system']->info("$msg", array('event' => 'cron'));
+        $this->app['logger.system']->info("$msg", ['event' => 'cron']);
     }
 
     /**
@@ -219,13 +187,13 @@ class Cron extends Event
      */
     private function setTableName()
     {
-        $prefix = $this->app['config']->get('general/database/prefix', "bolt_");
+        $prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
 
         if ($prefix[strlen($prefix) - 1] != "_") {
             $prefix .= "_";
         }
 
-        $this->tablename = $prefix . "cron";
+        $this->tablename = $prefix . 'cron';
     }
 
     /**
@@ -235,7 +203,7 @@ class Cron extends Event
      */
     private function getNextRunTimes()
     {
-        foreach (array_keys($this->nextRunTime) as $interim) {
+        foreach (array_keys($this->jobs) as $interim) {
             // Handle old style naming
             $oldname = strtolower(str_replace('cron.', '', $interim));
 
@@ -245,16 +213,16 @@ class Cron extends Event
                 "WHERE (interim = :interim OR interim = :oldname) " .
                 "ORDER BY lastrun DESC";
 
-            $result = $this->app['db']->fetchAssoc($query, array('interim' => $interim, 'oldname' => $oldname));
+            $result = $this->app['db']->fetchAssoc($query, ['interim' => $interim, 'oldname' => $oldname]);
 
             // If we get an empty result for the interim, set it to the current
             // run time and notify the update method to do an INSERT rather than
             // an UPDATE.
             if (empty($result)) {
-                $this->nextRunTime[$interim] = $this->runtime;
+                $this->jobs[$interim]['nextRunTime'] = $this->runtime;
                 $this->insert[$interim] = true;
             } else {
-                $this->nextRunTime[$interim] = $this->getNextIterimRunTime($interim, $result['lastrun']);
+                $this->jobs[$interim]['nextRunTime'] = $this->getNextIterimRunTime($interim, $result['lastrun']);
 
                 // @TODO remove this in v3.0
                 // Update old record types
@@ -310,16 +278,16 @@ class Cron extends Event
     private function setLastRun($interim)
     {
         // Define the mapping
-        $map = array(
+        $map = [
             'interim'   => $interim,
             'lastrun'   => date('Y-m-d H:i:s', $this->runtime),
-        );
+        ];
 
         // Insert or update as required
         if ($this->insert[$interim] === true) {
             $this->app['db']->insert($this->tablename, $map);
         } else {
-            $this->app['db']->update($this->tablename, $map, array('interim' => $interim));
+            $this->app['db']->update($this->tablename, $map, ['interim' => $interim]);
         }
     }
 
@@ -340,6 +308,6 @@ class Cron extends Event
         $this->output->writeln('<error>' . $e->getTraceAsString() . '</error>');
 
         // Application log
-        $this->app['logger.system']->error("$interim job failed: " . substr($e->getTraceAsString(), 0, 1024), array('event' => 'cron'));
+        $this->app['logger.system']->error("$interim job failed: " . substr($e->getTraceAsString(), 0, 1024), ['event' => 'cron']);
     }
 }
