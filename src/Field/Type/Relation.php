@@ -16,10 +16,10 @@ use Bolt\Mapping\ClassMetadata;
  */
 class Relation extends FieldTypeBase
 {
-    
+
     /**
      * Handle the load event.
-     * 
+     *
      * @param QueryBuilder $query
      *
      * @return void
@@ -31,9 +31,9 @@ class Relation extends FieldTypeBase
         $boltname = $metadata->getBoltName();
         $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
             ->leftJoin('content', $target, $field, "content.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
-            ->addGroupBy("content.id");    
+            ->addGroupBy("content.id");
     }
-    
+
     /**
      * Handle the hydrate event.
      *
@@ -42,14 +42,14 @@ class Relation extends FieldTypeBase
     {
         $field = $this->mapping['fieldname'];
         $relations = array_filter(explode(',', $data[$field]));
-        $values = array();
+        $values = [];
         foreach($relations as $id) {
             $values[] = new EntityProxy($field, $id, $em);
         }
         $entity->$field = $values;
     }
-    
-    
+
+
     /**
      * Handle the persist event.
      *
@@ -60,7 +60,7 @@ class Relation extends FieldTypeBase
         $target = $this->mapping['target'];
         $accessor = "get".$field;
         $relations = (array)$entity->$accessor();
-        
+
         // Fetch existing relations
 
         $existingQuery = $em->createQueryBuilder()
@@ -75,11 +75,11 @@ class Relation extends FieldTypeBase
         $result = $existingQuery->execute()->fetchAll();
         $existing = array_map(function($el) {return $el['to_id'];}, $result);
         $proposed = array_map(function($el) {return $el->reference;}, $relations);
-        
+
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
 
-        
+
         foreach($toInsert as $item) {
             $ins = $em->createQueryBuilder()->insert($target);
             $ins->values([
@@ -93,11 +93,11 @@ class Relation extends FieldTypeBase
                 2 => $field,
                 3 => $item
             ]);
-            
+
             $queries->append($ins);
         }
-        
-        
+
+
         foreach($toDelete as $item) {
             $del = $em->createQueryBuilder()->delete($target);
             $del->where('from_id=?')
@@ -110,12 +110,12 @@ class Relation extends FieldTypeBase
                 2 => $field,
                 3 => $item
             ]);
-            
+
             $queries->append($del);
         }
-        
+
     }
-    
+
     /**
      * Returns the name of the field type.
      *
@@ -125,19 +125,19 @@ class Relation extends FieldTypeBase
     {
         return 'relation';
     }
-    
-    
+
+
     /**
      * Get platform specific group_concat token for provided column
      *
      * @param string $column
-     * 
+     *
      * @return string
      **/
     protected function getPlatformGroupConcat($column, $alias, QueryBuilder $query)
     {
         $platform = $query->getConnection()->getDatabasePlatform()->getName();
-        
+
         switch ($platform) {
             case 'mysql':
                 return "GROUP_CONCAT(DISTINCT $column) as $alias";
@@ -146,11 +146,11 @@ class Relation extends FieldTypeBase
             case 'postgresql':
                 return "string_agg(distinct $column, ',') as $alias";
         }
-        
-        
+
+
     }
 
-    
 
-    
+
+
 }

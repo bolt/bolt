@@ -30,6 +30,6 @@ class Base implements FieldInterface
 
     public function getStorageOptions()
     {
-        return array();
+        return [];
     }
 }
