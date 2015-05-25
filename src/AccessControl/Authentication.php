@@ -340,8 +340,7 @@ class Authentication
     {
         $this->app['logger.flash']->info(Trans::__('You have been logged out.'));
         $this->app['session']->remove('user');
-        $this->app['session']->invalidate(0);
-        $this->app['session']->save();
+        $this->app['session']->migrate(true);
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
         try {
