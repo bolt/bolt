@@ -16,7 +16,7 @@ class ExtensionsDisableTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $runner = $this->getMock("Bolt\Composer\PackageManager", array('removePackage'), array($app));
+        $runner = $this->getMock("Bolt\Composer\PackageManager", ['removePackage'], [$app]);
         $runner->expects($this->any())
             ->method('removePackage')
             ->will($this->returnValue(0));
@@ -26,7 +26,7 @@ class ExtensionsDisableTest extends BoltUnitTest
         $command = new ExtensionsDisable($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array('name' => 'test'));
+        $tester->execute(['name' => 'test']);
         $result = $tester->getDisplay();
         $this->assertEquals(0, trim($result));
     }

@@ -23,18 +23,18 @@ class ExtensionsTest extends BoltUnitTest
         $testPackage->setDescription('An extension');
         $testPackage->setType('bolt-extension');
 
-        $runner = $this->getMock("Bolt\Composer\PackageManager", array('showPackage'), array($app));
+        $runner = $this->getMock("Bolt\Composer\PackageManager", ['showPackage'], [$app]);
         $runner->expects($this->any())
             ->method('showPackage')
-            ->will($this->returnValue(array( 'test' => array('package' => $testPackage) )));
+            ->will($this->returnValue(['test' => ['package' => $testPackage]]));
 
         $app['extend.manager'] = $runner;
 
         $command = new Extensions($app);
-        $command->setHelperSet(new HelperSet(array(new TableHelper())));
+        $command->setHelperSet(new HelperSet([new TableHelper()]));
         $tester = new CommandTester($command);
 
-        $tester->execute(array());
+        $tester->execute([]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/Name.*Version/', $result);
         $this->assertRegExp('/test.*1.0/', $result);

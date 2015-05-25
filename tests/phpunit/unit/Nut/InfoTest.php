@@ -18,7 +18,7 @@ class InfoTest extends BoltUnitTest
         $command = new Info($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array());
+        $tester->execute([]);
         $result = $tester->getDisplay();
         $this->assertRegExp("/(PHP Version|HipHop)/", $result);
     }

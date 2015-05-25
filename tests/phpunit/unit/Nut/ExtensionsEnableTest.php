@@ -16,7 +16,7 @@ class ExtensionsEnableTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $runner = $this->getMock("Bolt\Composer\PackageManager", array('requirePackage'), array($app));
+        $runner = $this->getMock("Bolt\Composer\PackageManager", ['requirePackage'], [$app]);
         $runner->expects($this->any())
             ->method('requirePackage')
             ->will($this->returnValue(0));
@@ -26,7 +26,7 @@ class ExtensionsEnableTest extends BoltUnitTest
         $command = new ExtensionsEnable($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array('name' => 'test', 'version' => '1.0'));
+        $tester->execute(['name' => 'test', 'version' => '1.0']);
         $result = $tester->getDisplay();
         $this->assertRegExp('/[Done]/', trim($result));
     }

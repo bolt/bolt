@@ -19,12 +19,12 @@ class ConfigGetTest extends BoltUnitTest
 
         $command = new ConfigGet($app);
         $tester = new CommandTester($command);
-        $tester->execute(array('key' => 'sitename', '--file' => 'config.yml'));
+        $tester->execute(['key' => 'sitename', '--file' => 'config.yml']);
         $this->assertEquals("sitename: A sample site\n", $tester->getDisplay());
 
         // test invalid
         $tester = new CommandTester($command);
-        $tester->execute(array('key' => 'nonexistent', '--file' => 'config.yml'));
+        $tester->execute(['key' => 'nonexistent', '--file' => 'config.yml']);
         $this->assertEquals("The key 'nonexistent' was not found in config.yml.\n", $tester->getDisplay());
     }
 
@@ -34,7 +34,7 @@ class ConfigGetTest extends BoltUnitTest
         $command = new ConfigGet($app);
         $tester = new CommandTester($command);
         $app['resources']->setPath('config', PHPUNIT_ROOT . '/resources');
-        $tester->execute(array('key' => 'sitename'));
+        $tester->execute(['key' => 'sitename']);
         $this->assertEquals("sitename: A sample site\n", $tester->getDisplay());
     }
 

@@ -18,17 +18,17 @@ class DatabaseCheckTest extends BoltUnitTest
         $command = new DatabaseCheck($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array());
+        $tester->execute([]);
         $result = $tester->getDisplay();
         $this->assertEquals("The database is OK.", trim($result));
 
         // Now introduce some changes
-        $app['config']->set('contenttypes/newcontent', array(
+        $app['config']->set('contenttypes/newcontent', [
             'tablename' => 'newcontent',
-            'fields'    => array('title' => array('type' => 'text'))
-        ));
+            'fields'    => ['title' => ['type' => 'text']]
+        ]);
 
-        $tester->execute(array());
+        $tester->execute([]);
         $result = $tester->getDisplay();
         $this->assertRegExp("/Table `bolt_newcontent` is not present/", $result);
     }

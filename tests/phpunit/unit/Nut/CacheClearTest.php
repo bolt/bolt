@@ -18,7 +18,7 @@ class CacheClearTest extends BoltUnitTest
         $app['cache'] = $this->getCacheMock();
         $command = new CacheClear($app);
         $tester = new CommandTester($command);
-        $tester->execute(array());
+        $tester->execute([]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/Deleted 1 file/', $result);
     }
@@ -30,7 +30,7 @@ class CacheClearTest extends BoltUnitTest
         $command = new CacheClear($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array());
+        $tester->execute([]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/files could not be deleted/', $result);
         $this->assertRegExp('/test.txt/', $result);
@@ -40,10 +40,10 @@ class CacheClearTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $path = $app['resources']->getPath('cache');
-        $good = array('successfiles' => 1, 'failedfiles' => 0);
-        $bad = array('successfiles' => 0, 'failedfiles' => 1, 'failed' => array('test.txt'));
+        $good = ['successfiles' => 1, 'failedfiles' => 0];
+        $bad = ['successfiles' => 0, 'failedfiles' => 1, 'failed' => ['test.txt']];
 
-        $cache = $this->getMock('Bolt\Cache', array('clearCache'), array($path, $app));
+        $cache = $this->getMock('Bolt\Cache', ['clearCache'], [$path, $app]);
         $cache->expects($this->any())
             ->method('clearCache')
             ->will($this->returnValue($$type));

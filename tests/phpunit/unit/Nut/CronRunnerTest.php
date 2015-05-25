@@ -18,7 +18,7 @@ class CronRunnerTest extends BoltUnitTest
         $command = new CronRunner($app);
         $tester = new CommandTester($command);
 
-        $events = array();
+        $events = [];
         $app['dispatcher']->addListener(
             'cron.Hourly',
             function () use (&$events) {
@@ -31,7 +31,7 @@ class CronRunnerTest extends BoltUnitTest
         $this->assertContains('cron.Hourly', $events);
 
         // Test no event doesn't run
-        $tester->execute(array());
+        $tester->execute([]);
         $this->assertEquals(1, count($events));
     }
 }

@@ -18,7 +18,7 @@ class TestRunnerTest extends BoltUnitTest
         $command = new TestRunner($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array());
+        $tester->execute([]);
         $result = $tester->getDisplay();
         $this->assertRegExp("/phpunit/", $result);
     }
