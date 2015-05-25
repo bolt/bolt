@@ -49,17 +49,17 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $config = new Standard(TEST_ROOT);
         $config->verify();
 
-        $bolt = new Application(array('resources' => $config));
+        $bolt = new Application(['resources' => $config]);
         $bolt['session.test'] = true;
         $bolt['debug'] = false;
         $bolt['config']->set(
             'general/database',
-            array(
+            [
                 'driver' => 'pdo_sqlite',
                 'prefix' => 'bolt_',
                 'user'   => 'test',
                 'path'   => TEST_ROOT . '/bolt.db'
-            )
+            ]
         );
         $bolt['config']->set('general/canonical', 'bolt.dev');
         $bolt['resources']->setPath('files', PHPUNIT_ROOT . '/resources/files');
@@ -95,13 +95,13 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             return $existingUser;
         }
 
-        $user = array(
+        $user = [
             'username'    => 'admin',
             'password'    => 'password',
             'email'       => 'admin@example.com',
             'displayname' => 'Admin',
-            'roles'       => array('admin'),
-        );
+            'roles'       => ['admin'],
+        ];
 
         $app['users']->saveUser(array_merge($app['users']->getEmptyUser(), $user));
 
@@ -110,21 +110,21 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function addNewUser($app, $username, $displayname, $role)
     {
-        $user = array(
+        $user = [
             'username'    => $username,
             'password'    => 'password',
             'email'       => $username.'@example.com',
             'displayname' => $displayname,
-            'roles'       => array($role),
-        );
+            'roles'       => [$role],
+        ];
 
         $app['users']->saveUser(array_merge($app['users']->getEmptyUser(), $user));
-        $app['users']->users = array();
+        $app['users']->users = [];
     }
 
     protected function getMockTwig()
     {
-        $twig = $this->getMock('Twig_Environment', array('render', 'fetchCachedRequest'));
+        $twig = $this->getMock('Twig_Environment', ['render', 'fetchCachedRequest']);
         $twig->expects($this->any())
             ->method('fetchCachedRequest')
             ->will($this->returnValue(false));
@@ -147,7 +147,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function allowLogin($app)
     {
         $this->addDefaultUser($app);
-        $users = $this->getMock('Bolt\Users', array('isAllowed', 'isEnabled'), array($app));
+        $users = $this->getMock('Bolt\Users', ['isAllowed', 'isEnabled'], [$app]);
 
         $users->expects($this->any())
             ->method('isAllowed')
@@ -159,7 +159,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
         $app['users'] = $users;
 
-        $auth = $this->getMock('Bolt\AccessControl\Authentication', array('isValidSession'), array($app));
+        $auth = $this->getMock('Bolt\AccessControl\Authentication', ['isValidSession'], [$app]);
         $auth->expects($this->any())
             ->method('isValidSession')
             ->will($this->returnValue(true));
@@ -169,7 +169,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function getTwigHandlers($app)
     {
-        return new \Pimple(array(
+        return new \Pimple([
             'admin'  => $app->share(function () use ($app) { return new AdminHandler($app); }),
             'array'  => $app->share(function () use ($app) { return new ArrayHandler($app); }),
             'html'   => $app->share(function () use ($app) { return new HtmlHandler($app); }),
@@ -178,13 +178,13 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             'text'   => $app->share(function () use ($app) { return new TextHandler($app); }),
             'user'   => $app->share(function () use ($app) { return new UserHandler($app); }),
             'utils'  => $app->share(function () use ($app) { return new UtilsHandler($app); }),
-        ));
+        ]);
     }
 
     protected function removeCSRF($app)
     {
         // Symfony forms need a CSRF token so we have to mock this too
-        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('form'));
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', ['isCsrfTokenValid', 'generateCsrfToken'], ['form']);
         $csrf->expects($this->any())
             ->method('isCsrfTokenValid')
             ->will($this->returnValue(true));
@@ -200,11 +200,11 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $app['config']->set('taxonomy/categories/options', array('news'));
+        $app['config']->set('taxonomy/categories/options', ['news']);
         $prefillMock = new LoripsumMock();
         $app['prefill'] = $prefillMock;
 
         $storage = new Storage($app);
-        $storage->prefill(array('showcases', 'pages'));
+        $storage->prefill(['showcases', 'pages']);
     }
 }
