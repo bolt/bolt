@@ -9,113 +9,113 @@ namespace Bolt\Tests\Extensions\Mock;
  */
 class Logger
 {
-    public $logs = array();
+    public $logs = [];
 
     public function add($message, $level)
     {
         $this->logs[] =  $message;
     }
 
-    public function addRecord($level, $message, array $context = array())
+    public function addRecord($level, $message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function addDebug($message, array $context = array())
+    public function addDebug($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function addInfo($message, array $context = array())
+    public function addInfo($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function addNotice($message, array $context = array())
+    public function addNotice($message, array $context = [])
     {
         $this->logs[] = $message;
     }
-    public function addWarning($message, array $context = array())
-    {
-        $this->logs[] = $message;
-    }
-
-    public function addError($message, array $context = array())
+    public function addWarning($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function addCritical($message, array $context = array())
+    public function addError($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function addAlert($message, array $context = array())
+    public function addCritical($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function addEmergency($message, array $context = array())
+    public function addAlert($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function debug($message, array $context = array())
+    public function addEmergency($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function info($message, array $context = array())
+    public function debug($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function notice($message, array $context = array())
+    public function info($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function warn($message, array $context = array())
+    public function notice($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function warning($message, array $context = array())
+    public function warn($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function err($message, array $context = array())
+    public function warning($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function error($message, array $context = array())
+    public function err($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function crit($message, array $context = array())
+    public function error($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function critical($message, array $context = array())
+    public function crit($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function alert($message, array $context = array())
+    public function critical($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function emerg($message, array $context = array())
+    public function alert($message, array $context = [])
     {
         $this->logs[] = $message;
     }
 
-    public function emergency($message, array $context = array())
+    public function emerg($message, array $context = [])
+    {
+        $this->logs[] = $message;
+    }
+
+    public function emergency($message, array $context = [])
     {
         $this->logs[] = $message;
     }

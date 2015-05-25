@@ -12,7 +12,7 @@ class SnippetCallbackExtension extends Extension
 {
     public function getSnippets()
     {
-        return array(array(SnippetLocation::START_OF_HEAD, 'snippetCallBack' ));
+        return [[SnippetLocation::START_OF_HEAD, 'snippetCallBack' ]];
     }
 
     public function getName()
@@ -25,13 +25,13 @@ class SnippetCallbackExtension extends Extension
         return '<meta name="test-snippet" />';
     }
 
-    public function parseSnippet($callback, $var1 = "", $var2 = "", $var3 = "")
+    public function parseSnippet($callback, $var1 = '', $var2 = '', $var3 = '')
     {
-        return call_user_func(array($this, $callback), $var1, $var2, $var3);
+        return call_user_func([$this, $callback], $var1, $var2, $var3);
     }
 
-    public function parseWidget($callback, $var1 = "", $var2 = "", $var3 = "")
+    public function parseWidget($callback, $var1 = '', $var2 = '', $var3 = '')
     {
-        return call_user_func(array($this, $callback), $var1, $var2, $var3);
+        return call_user_func([$this, $callback], $var1, $var2, $var3);
     }
 }

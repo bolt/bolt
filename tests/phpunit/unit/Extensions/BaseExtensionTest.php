@@ -37,7 +37,7 @@ class BaseExtensionTest extends BoltUnitTest
     public function testSetup()
     {
         $app = $this->getApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
         $this->assertNotEmpty($ext->getBasePath());
         $this->assertNotEmpty($ext->getBaseUrl());
         $this->assertEquals('mockobject', $ext->getMachineName());
@@ -56,30 +56,30 @@ class BaseExtensionTest extends BoltUnitTest
     public function testGetBasePath()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
         $this->assertNotEmpty(strpos($ext->getBasePath()->string(), 'MockObject'));
     }
 
     public function testGetBaseUrl()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
         $this->assertEquals(0, strpos($ext->getBaseUrl(), '/extensions'));
     }
 
     public function testGetComposerNameDefault()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
         $this->assertNull($ext->getComposerName());
     }
 
     public function testGetComposerName()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
         $this->assertNull($ext->getComposerName());
-        $ext->setComposerConfiguration(array('name' => 'valuefrommock'));
+        $ext->setComposerConfiguration(['name' => 'valuefrommock']);
 
         $this->assertEquals('valuefrommock', $ext->getComposerName());
     }
@@ -87,11 +87,11 @@ class BaseExtensionTest extends BoltUnitTest
     public function testGetMachineName()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
 
         // Machine name calculated from the Class name in this case MockObject
         $this->assertEquals('mockobject', $ext->getMachineName());
-        $ext->setComposerConfiguration(array('name' => 'valuefrommock'));
+        $ext->setComposerConfiguration(['name' => 'valuefrommock']);
         $this->assertEquals('valuefrommock', $ext->getMachineName());
     }
 
@@ -101,16 +101,16 @@ class BaseExtensionTest extends BoltUnitTest
             $this->markTestSkipped('Revist this test when exception handling stablises.');
         }
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
         $this->setExpectedException(get_class(new \PHPUnit_Framework_Error('', 0, '', 1)));
         $ext->setComposerConfiguration('stringsinvalid');
     }
 
     public function testGetExtensionConfig()
     {
-        $config = array('name' => 'mock', 'description' => 'mocking');
+        $config = ['name' => 'mock', 'description' => 'mocking'];
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
         $ext->setComposerConfiguration($config);
         $result = $ext->getExtensionConfig();
         $this->assertArrayHasKey('mock', $result);
@@ -150,7 +150,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $ext = new Mock\ExtendedExtension($app);
 
-        $logger = $this->getMock('Monolog\Logger', array('critical'), array($app));
+        $logger = $this->getMock('Monolog\Logger', ['critical'], [$app]);
 
         $logger->expects($this->any())
             ->method('critical')
@@ -176,7 +176,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $ext = new Mock\ExtendedExtension($app);
 
-        $logger = $this->getMock('Monolog\Logger', array('info'), array($app));
+        $logger = $this->getMock('Monolog\Logger', ['info'], [$app]);
 
         $logger->expects($this->any())
             ->method('info')
@@ -213,7 +213,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $ext = new Mock\ExtendedExtension($app);
 
-        $logger = $this->getMock('Monolog\Logger', array('critical'), array($app));
+        $logger = $this->getMock('Monolog\Logger', ['critical'], [$app]);
 
         $logger->expects($this->any())
             ->method('critical')
@@ -248,8 +248,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function testAddTwigFunction()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $ext->addTwigFunction('test', array($this, 'testAddTwigFunction'));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $ext->addTwigFunction('test', [$this, 'testAddTwigFunction']);
         $loadedExt = $ext->getTwigExtensions();
         $builtin = $loadedExt[0];
         $this->assertEquals(1, count($builtin->getFunctions()));
@@ -258,8 +258,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function testAddTwigFilter()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $ext->addTwigFilter('test', array($this, 'testAddTwigFilter'));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $ext->addTwigFilter('test', [$this, 'testAddTwigFilter']);
         $loadedExt = $ext->getTwigExtensions();
         $builtin = $loadedExt[0];
         $this->assertEquals(1, count($builtin->getFilters()));
@@ -268,22 +268,22 @@ class BaseExtensionTest extends BoltUnitTest
     public function testAddSnippet()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('insertSnippet'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['insertSnippet'], [$app]);
 
         $handler->expects($this->once())
             ->method('insertSnippet');
 
         $app['extensions'] = $handler;
 
-        $ext->addSnippet('test', array($this, 'testAddSnippet'));
+        $ext->addSnippet('test', [$this, 'testAddSnippet']);
     }
 
     public function testAddJquery()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('addJquery'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['addJquery'], [$app]);
 
         $handler->expects($this->once())
             ->method('addJquery');
@@ -296,8 +296,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function testDisableJquery()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('disableJquery'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['disableJquery'], [$app]);
 
         $handler->expects($this->once())
             ->method('disableJquery');
@@ -310,8 +310,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function testGetAssets()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('getAssets'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['getAssets'], [$app]);
 
         $handler->expects($this->once())
             ->method('getAssets');
@@ -325,10 +325,10 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $app->initialize();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('addJavascript'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['addJavascript'], [$app]);
 
-        $logger = $this->getMock('Bolt\Logger\Manager', array('error'), array($app));
+        $logger = $this->getMock('Bolt\Logger\Manager', ['error'], [$app]);
 
         $logger->expects($this->once())
             ->method('error');
@@ -343,8 +343,8 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $app->initialize();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('addJavascript'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['addJavascript'], [$app]);
 
         $handler->expects($this->once())
             ->method('addJavascript')
@@ -364,8 +364,8 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $app->initialize();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('addJavascript'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['addJavascript'], [$app]);
 
         $handler->expects($this->once())
             ->method('addJavascript')
@@ -390,8 +390,8 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $app->initialize();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $logger = $this->getMock('Bolt\Logger\Manager', array('error'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $logger = $this->getMock('Bolt\Logger\Manager', ['error'], [$app]);
 
         $logger->expects($this->once())
             ->method('error');
@@ -405,8 +405,8 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $app->initialize();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('addCss'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['addCss'], [$app]);
 
         $handler->expects($this->once())
             ->method('addCss')
@@ -426,8 +426,8 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $app->initialize();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('addCss'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['addCss'], [$app]);
 
         $handler->expects($this->once())
             ->method('addCss')
@@ -451,8 +451,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function testAddMenuOption()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app), '', true, true, true, array('addMenuOption'));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app], '', true, true, true, ['addMenuOption']);
 
         $handler->expects($this->once())
             ->method('addMenuOption');
@@ -465,8 +465,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function testHasMenuOption()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('hasMenuOption'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['hasMenuOption'], [$app]);
 
         $handler->expects($this->once())
             ->method('hasMenuOption');
@@ -479,8 +479,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function testGetMenuOption()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('getMenuOption'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['getMenuOption'], [$app]);
 
         $handler->expects($this->once())
             ->method('getMenuOption');
@@ -493,7 +493,7 @@ class BaseExtensionTest extends BoltUnitTest
     public function testParseSnippet()
     {
         $app = $this->makeApp();
-        $ext = $this->getMock('Bolt\Tests\Extensions\Mock\ExtendedExtension', array('acallback'), array($app));
+        $ext = $this->getMock('Bolt\Tests\Extensions\Mock\ExtendedExtension', ['acallback'], [$app]);
 
         $ext->expects($this->once())
             ->method('acallback');
@@ -505,21 +505,21 @@ class BaseExtensionTest extends BoltUnitTest
     public function testAddWidget()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $handler = $this->getMock('Bolt\Extensions', array('insertWidget'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $handler = $this->getMock('Bolt\Extensions', ['insertWidget'], [$app]);
         $handler->expects($this->once())
             ->method('insertWidget')
             ->with($this->equalTo('testWidget'));
 
         $app['extensions'] = $handler;
 
-        $ext->addWidget('testWidget', 'widgetLocation', array($this, 'testAddWidget'));
+        $ext->addWidget('testWidget', 'widgetLocation', [$this, 'testAddWidget']);
     }
 
     public function testRequireUserLevel()
     {
         $app = $this->getApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app), '', true, true, true, array('requireUserPermission'));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app], '', true, true, true, ['requireUserPermission']);
 
         $ext->expects($this->once())
             ->method('requireUserPermission');
@@ -530,8 +530,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function testRequireUserPermission()
     {
         $app = $this->getApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $users = $this->getMock('Bolt\Users', array('isAllowed'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
 
         $users->expects($this->once())
             ->method('isAllowed')
@@ -545,8 +545,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function testRequireUserPermissionRedirect()
     {
         $app = $this->getApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $users = $this->getMock('Bolt\Users', array('isAllowed'), array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
 
         $users->expects($this->once())
             ->method('isAllowed')
@@ -561,7 +561,7 @@ class BaseExtensionTest extends BoltUnitTest
     public function testParseWidget()
     {
         $app = $this->makeApp();
-        $ext = $this->getMock('Bolt\Tests\Extensions\Mock\ExtendedExtension', array('acallback'), array($app));
+        $ext = $this->getMock('Bolt\Tests\Extensions\Mock\ExtendedExtension', ['acallback'], [$app]);
 
         $ext->expects($this->once())
             ->method('acallback');
@@ -573,7 +573,7 @@ class BaseExtensionTest extends BoltUnitTest
     public function testParseWidgetFails()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
 
         $this->assertFalse($ext->parseWidget('fakecallback'));
     }
@@ -581,8 +581,8 @@ class BaseExtensionTest extends BoltUnitTest
     public function testAddNutCommand()
     {
         $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', array($app));
-        $command = $this->getMock('Symfony\Component\Console\Command\Command', null, array('mockCommand'));
+        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
+        $command = $this->getMock('Symfony\Component\Console\Command\Command', null, ['mockCommand']);
         $provider = new NutServiceProvider($app);
         $app->register($provider);
         $app->boot();

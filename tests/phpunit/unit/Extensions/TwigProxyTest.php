@@ -15,8 +15,8 @@ class TwigProxyTest extends BoltUnitTest
     {
         $twig = new TwigProxy('mytest');
 
-        $func = $this->getMock('\Twig_SimpleFunction', null, array('test', function () {}));
-        $filter = $this->getMock('\Twig_SimpleFilter', null, array('testfilter', function () {}));
+        $func = $this->getMock('\Twig_SimpleFunction', null, ['test', function () {}]);
+        $filter = $this->getMock('\Twig_SimpleFilter', null, ['testfilter', function () {}]);
         $twig->addTwigFunction($func);
         $twig->addTwigFilter($filter);
 
