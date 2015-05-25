@@ -147,7 +147,7 @@ class Frontend
                 $e->getMessage()
             );
             // Log it
-            $app['logger.system']->error($error, array('event' => 'twig'));
+            $app['logger.system']->error($error, ['event' => 'twig']);
             // Set the template error
             $this->setTemplateError($app, $error);
             // Abort ship
