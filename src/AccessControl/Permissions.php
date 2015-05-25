@@ -2,6 +2,7 @@
 
 namespace Bolt\AccessControl;
 
+use Bolt\Content;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 
