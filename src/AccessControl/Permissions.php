@@ -46,7 +46,7 @@ class Permissions
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
-        $this->rqcache = array();
+        $this->rqcache = [];
     }
 
     /**
@@ -58,7 +58,7 @@ class Permissions
     {
         // Log the message if enabled
         if ($this->app['config']->get('general/debug_permission_audit_mode', false)) {
-            $this->app['logger.system']->addInfo($msg, array('event' => 'authentication'));
+            $this->app['logger.system']->addInfo($msg, ['event' => 'authentication']);
         }
     }
 
@@ -73,11 +73,11 @@ class Permissions
     public function getDefinedRoles()
     {
         $roles = $this->app['config']->get('permissions/roles');
-        $roles[self::ROLE_ROOT] = array(
+        $roles[self::ROLE_ROOT] = [
             'label'       => 'Root',
             'description' => Trans::__('Built-in superuser role, automatically grants all permissions'),
             'builtin'     => true
-        );
+        ];
 
         return $roles;
     }
@@ -98,25 +98,25 @@ class Permissions
     {
         switch ($roleName) {
             case self::ROLE_ANONYMOUS:
-                return array(
+                return [
                     'label'       => Trans::__('Anonymous'),
                     'description' => Trans::__('Built-in role, automatically granted at all times, even if no user is logged in'),
                     'builtin'     => true,
-                );
+                ];
 
             case self::ROLE_EVERYONE:
-                return array(
+                return [
                     'label'       => Trans::__('Everybody'),
                     'description' => Trans::__('Built-in role, automatically granted to every registered user'),
                     'builtin'     => true,
-                );
+                ];
 
             case self::ROLE_OWNER:
-                return array(
+                return [
                     'label'       => Trans::__('Owner'),
                     'description' => Trans::__('Built-in role, only valid in the context of a resource, and automatically assigned to the owner of that resource.'),
                     'builtin'     => true,
-                );
+                ];
 
             default:
                 $roles = $this->getDefinedRoles();
@@ -173,7 +173,7 @@ class Permissions
      */
     public function getManipulatableRoles(array $currentUser)
     {
-        $manipulatableRoles = array();
+        $manipulatableRoles = [];
 
         foreach ($this->getDefinedRoles() as $roleName => $role) {
             if ($this->checkPermission($currentUser['roles'], 'manipulate', 'roles-hierarchy', $roleName)) {
@@ -301,7 +301,7 @@ class Permissions
     {
         $roles = $this->getRolesByGlobalPermission($permissionName);
         if (!is_array($roles)) {
-            $this->app['logger.system']->addInfo("Configuration error: $permissionName is not granted to any roles.", array('event' => 'authentication'));
+            $this->app['logger.system']->addInfo("Configuration error: $permissionName is not granted to any roles.", ['event' => 'authentication']);
 
             return false;
         }
@@ -322,7 +322,7 @@ class Permissions
     {
         // Can current user manipulate role?
         if (is_string($role)) {
-            $permissions = $this->app['config']->get("permissions/roles-hierarchy/$permissionName/$role", array());
+            $permissions = $this->app['config']->get("permissions/roles-hierarchy/$permissionName/$role", []);
 
             return in_array($roleName, $permissions);
         }
@@ -330,7 +330,7 @@ class Permissions
         // Can current user manipulate user?
         $user = $role;
         foreach ($user['roles'] as $role) {
-            $permissions = $this->app['config']->get("permissions/roles-hierarchy/$permissionName/$role", array());
+            $permissions = $this->app['config']->get("permissions/roles-hierarchy/$permissionName/$role", []);
             if (in_array($roleName, $permissions)) {
                 return true;
             }
@@ -396,14 +396,14 @@ class Permissions
         // - otherwise, the permission is denied
         $overrideRoles = $this->app['config']->get("permissions/contenttype-all/$permissionName");
         if (!is_array($overrideRoles)) {
-            $overrideRoles = array();
+            $overrideRoles = [];
         }
         $contenttypeRoles = $this->app['config']->get("permissions/contenttypes/$contenttype/$permissionName");
         if (!is_array($contenttypeRoles)) {
             $contenttypeRoles = $this->app['config']->get("permissions/contenttype-default/$permissionName");
         }
         if (!is_array($contenttypeRoles)) {
-            $contenttypeRoles = array();
+            $contenttypeRoles = [];
         }
         $effectiveRoles = array_unique(array_merge($overrideRoles, $contenttypeRoles));
 
@@ -427,7 +427,7 @@ class Permissions
             $userRoles = $user['roles'];
             $userRoles[] = Permissions::ROLE_EVERYONE;
         } else {
-            $userRoles = array();
+            $userRoles = [];
         }
         $userRoles[] = Permissions::ROLE_ANONYMOUS;
 
@@ -563,12 +563,12 @@ class Permissions
     private function isAllowedSingle($what, $user, $userRoles, $contenttype = null, $contentid = null)
     {
         if ($contenttype !== null) {
-            $parts = array(
-                        'contenttype',
-                        $contenttype,
-                        $what,
-                        $contentid,
-                        );
+            $parts = [
+                'contenttype',
+                $contenttype,
+                $what,
+                $contentid,
+            ];
         } else {
             $parts = explode(':', $what);
         }
@@ -627,7 +627,7 @@ class Permissions
                     if (is_array($contenttype)) {
                         $contenttype = $contenttype['slug'];
                     }
-                    $content = $this->app['storage']->getContent("$contenttype/$contentid", array('hydrate' => false));
+                    $content = $this->app['storage']->getContent("$contenttype/$contentid", ['hydrate' => false]);
                     if (intval($content['ownerid']) &&
                         (intval($content['ownerid']) === intval($user['id']))) {
                         $userRoles[] = Permissions::ROLE_OWNER;

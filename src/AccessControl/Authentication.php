@@ -119,8 +119,8 @@ class Authentication
         $key = $this->getAuthToken($currentuser['username']);
 
         if ($key != $currentuser['sessionkey']) {
-            $this->app['logger.system']->error("Keys don't match. Invalidating session: $key != " . $currentuser['sessionkey'], array('event' => 'authentication'));
-            $this->app['logger.system']->info("Automatically logged out user '" . $currentuser['username'] . "': Session data didn't match.", array('event' => 'authentication'));
+            $this->app['logger.system']->error("Keys don't match. Invalidating session: $key != " . $currentuser['sessionkey'], ['event' => 'authentication']);
+            $this->app['logger.system']->info("Automatically logged out user '" . $currentuser['username'] . "': Session data didn't match.", ['event' => 'authentication']);
             $this->logout();
 
             return false;
@@ -225,7 +225,7 @@ class Authentication
         // For once we don't use getUser(), because we need the password.
         $query = sprintf('SELECT * FROM %s WHERE %s = ?', $this->getTableName('users'), $column);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-        $user  = $this->app['db']->executeQuery($query, array($lookup), array(\PDO::PARAM_STR))->fetch();
+        $user  = $this->app['db']->executeQuery($query, [$lookup], [\PDO::PARAM_STR])->fetch();
 
         if (empty($user)) {
             $this->app['logger.flash']->error(Trans::__('Username or password not correct. Please check your input.'));
@@ -275,7 +275,7 @@ class Authentication
         try {
             $query = sprintf('SELECT * FROM %s WHERE token=? AND ip=? AND useragent=?', $this->getTableName('authtoken'));
             $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-            $row = $this->app['db']->executeQuery($query, array($authtoken, $remoteip, $browser), array(\PDO::PARAM_STR))->fetch();
+            $row = $this->app['db']->executeQuery($query, [$authtoken, $remoteip, $browser], [\PDO::PARAM_STR])->fetch();
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
@@ -290,16 +290,16 @@ class Authentication
         if ($checksalt === $row['token']) {
             $user = $this->app['users']->getUser($row['username']);
 
-            $update = array(
+            $update = [
                 'lastseen'       => date('Y-m-d H:i:s'),
                 'lastip'         => $this->remoteIP,
                 'failedlogins'   => 0,
                 'throttleduntil' => $this->throttleUntil(0)
-            );
+            ];
 
             // Attempt to update the last login, but don't break on failure.
             try {
-                $this->app['db']->update($this->getTableName('users'), $update, array('id' => $user['id']));
+                $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
             } catch (DBALException $e) {
                 // Oops. User will get a warning on the dashboard about tables that need to be repaired.
             }
@@ -331,18 +331,18 @@ class Authentication
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
         try {
-            $this->app['db']->delete($this->getTableName('authtoken'), array('username' => $this->app['users']->getCurrentUserProperty('username')));
+            $this->app['db']->delete($this->getTableName('authtoken'), ['username' => $this->app['users']->getCurrentUserProperty('username')]);
         } catch (\Exception $e) {
             // Nope. No auth tokens to be deleted. .
         }
     }
 
     /**
-     * Set a random password for user / reset password. Accepts email or username
+     * Set a random password for user.
      *
-     * @param string $username
+     * @param string $username User specified by ID, username or email address.
      *
-     * @return string|boolean new password or FALSE when no match for username
+     * @return string|boolean New password or FALSE when no match for username.
      */
     public function setRandomPassword($username)
     {
@@ -355,17 +355,18 @@ class Authentication
             $hasher = new PasswordHash($this->hashStrength, true);
             $hashedpassword = $hasher->HashPassword($password);
 
-            $update = array(
+            $update = [
                 'password'       => $hashedpassword,
                 'shadowpassword' => '',
                 'shadowtoken'    => '',
                 'shadowvalidity' => null
-            );
-            $this->app['db']->update($this->getTableName('users'), $update, array('id' => $user['id']));
+            ];
 
-            $this->app['logger.system']->error(
-                "Password for user \"{$user['username']}\" was reset via Nut.",
-                array('event' => 'authentication')
+            $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
+
+            $this->app['logger.system']->info(
+                "Password for user '{$user['username']}' was reset via Nut.",
+                ['event' => 'authentication']
             );
         }
 
@@ -388,24 +389,24 @@ class Authentication
         // Let's see if the token is valid, and it's been requested within two hours.
         $query = sprintf('SELECT * FROM %s WHERE shadowtoken = ? AND shadowvalidity > ?', $this->getTableName('users'));
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-        $user = $this->app['db']->executeQuery($query, array($token, $now), array(\PDO::PARAM_STR))->fetch();
+        $user = $this->app['db']->executeQuery($query, [$token, $now], [\PDO::PARAM_STR])->fetch();
 
         if (!empty($user)) {
 
             // allright, we can reset this user.
             $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
 
-            $update = array(
+            $update = [
                 'password'       => $user['shadowpassword'],
                 'shadowpassword' => '',
                 'shadowtoken'    => '',
                 'shadowvalidity' => null
-            );
-            $this->app['db']->update($this->getTableName('users'), $update, array('id' => $user['id']));
+            ];
+            $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
         } else {
 
             // That was not a valid token, or too late, or not from the correct IP.
-            $this->app['logger.system']->error('Somebody tried to reset a password with an invalid token.', array('event' => 'authentication'));
+            $this->app['logger.system']->error('Somebody tried to reset a password with an invalid token.', ['event' => 'authentication']);
             $this->app['logger.flash']->error(Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
         }
     }
@@ -438,23 +439,23 @@ class Authentication
             );
 
             // Set the shadow password and related stuff in the database.
-            $update = array(
+            $update = [
                 'shadowpassword' => $shadowhashed,
                 'shadowtoken'    => $shadowtoken . '-' . str_replace('.', '-', $this->remoteIP),
                 'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours'))
-            );
-            $this->app['db']->update($this->getTableName('users'), $update, array('id' => $user['id']));
+            ];
+            $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
 
             // Compile the email with the shadow password and reset link.
             $mailhtml = $this->app['render']->render(
                 'mail/passwordreset.twig',
-                array(
+                [
                     'user'           => $user,
                     'shadowpassword' => $shadowpassword,
                     'shadowtoken'    => $shadowtoken,
                     'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours')),
                     'shadowlink'     => $shadowlink
-                )
+                ]
             );
 
             $subject = sprintf('[ Bolt / %s ] Password reset.', $this->app['config']->get('general/sitename'));
@@ -462,24 +463,24 @@ class Authentication
             $message = $this->app['mailer']
                 ->createMessage('message')
                 ->setSubject($subject)
-                ->setFrom(array($this->app['config']->get('general/mailoptions/senderMail', $user['email']) => $this->app['config']->get('general/mailoptions/senderName', $this->app['config']->get('general/sitename'))))
-                ->setTo(array($user['email'] => $user['displayname']))
+                ->setFrom([$this->app['config']->get('general/mailoptions/senderMail', $user['email']) => $this->app['config']->get('general/mailoptions/senderName', $this->app['config']->get('general/sitename'))])
+                ->setTo([$user['email'] => $user['displayname']])
                 ->setBody(strip_tags($mailhtml))
                 ->addPart($mailhtml, 'text/html');
 
             $recipients = $this->app['mailer']->send($message);
 
             if ($recipients) {
-                $this->app['logger.system']->info("Password request sent to '" . $user['displayname'] . "'.", array('event' => 'authentication'));
+                $this->app['logger.system']->info("Password request sent to '" . $user['displayname'] . "'.", ['event' => 'authentication']);
             } else {
-                $this->app['logger.system']->error("Failed to send password request sent to '" . $user['displayname'] . "'.", array('event' => 'authentication'));
+                $this->app['logger.system']->error("Failed to send password request sent to '" . $user['displayname'] . "'.", ['event' => 'authentication']);
                 $this->app['logger.flash']->error(Trans::__("Failed to send password request. Please check the email settings."));
             }
         }
 
         // For safety, this is the message we display, regardless of whether $user exists.
         if ($recipients === false || $recipients > 0) {
-            $this->app['logger.flash']->info(Trans::__("A password reset link has been sent to '%user%'.", array('%user%' => $username)));
+            $this->app['logger.flash']->info(Trans::__("A password reset link has been sent to '%user%'.", ['%user%' => $username]));
         }
 
         return true;
@@ -492,16 +493,16 @@ class Authentication
      */
     protected function updateUserLogin($user)
     {
-        $update = array(
+        $update = [
             'lastseen'       => date('Y-m-d H:i:s'),
             'lastip'         => $this->remoteIP,
             'failedlogins'   => 0,
             'throttleduntil' => $this->throttleUntil(0)
-        );
+        ];
 
         // Attempt to update the last login, but don't break on failure.
         try {
-            $this->app['db']->update($this->getTableName('users'), $update, array('id' => $user['id']));
+            $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
@@ -541,17 +542,17 @@ class Authentication
     private function loginFailed($user)
     {
         $this->app['logger.flash']->error(Trans::__('Username or password not correct. Please check your input.'));
-        $this->app['logger.system']->info("Failed login attempt for '" . $user['displayname'] . "'.", array('event' => 'authentication'));
+        $this->app['logger.system']->info("Failed login attempt for '" . $user['displayname'] . "'.", ['event' => 'authentication']);
 
         // Update the failed login attempts, and perhaps throttle the logins.
-        $update = array(
+        $update = [
             'failedlogins'   => $user['failedlogins'] + 1,
             'throttleduntil' => $this->throttleUntil($user['failedlogins'] + 1)
-        );
+        ];
 
         // Attempt to update the last login, but don't break on failure.
         try {
-            $this->app['db']->update($this->getTableName('users'), $update, array('id' => $user['id']));
+            $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
@@ -596,7 +597,7 @@ class Authentication
     private function setAuthToken()
     {
         $salt = $this->app['randomgenerator']->generateString(12);
-        $token = array(
+        $token = [
             'username'  => $this->app['users']->getCurrentUserProperty('username'),
             'token'     => $this->getAuthToken($this->app['users']->getCurrentUserProperty('username'), $salt),
             'salt'      => $salt,
@@ -604,19 +605,19 @@ class Authentication
             'ip'        => $this->remoteIP,
             'lastseen'  => date('Y-m-d H:i:s'),
             'useragent' => $this->userAgent
-        );
+        ];
 
         try {
             // Check if there's already a token stored for this name / IP combo.
             $query = sprintf('SELECT id FROM %s WHERE username=? AND ip=? AND useragent=?', $this->getTableName('authtoken'));
             $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-            $row = $this->app['db']->executeQuery($query, array($token['username'], $token['ip'], $token['useragent']), array(\PDO::PARAM_STR))->fetch();
+            $row = $this->app['db']->executeQuery($query, [$token['username'], $token['ip'], $token['useragent']], [\PDO::PARAM_STR])->fetch();
 
             // Update or insert the row.
             if (empty($row)) {
                 $this->app['db']->insert($this->getTableName('authtoken'), $token);
             } else {
-                $this->app['db']->update($this->getTableName('authtoken'), $token, array('id' => $row['id']));
+                $this->app['db']->update($this->getTableName('authtoken'), $token, ['id' => $row['id']]);
             }
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
