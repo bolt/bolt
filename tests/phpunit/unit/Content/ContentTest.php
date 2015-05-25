@@ -18,7 +18,7 @@ class ContentTest extends BoltUnitTest
         $content = new Content($app, 'pages');
 
         $content->setValue('title', 'Test Page');
-        $content->setValue('image', array('file' => 'image1.jpg', 'title' => 'Test image'));
+        $content->setValue('image', ['file' => 'image1.jpg', 'title' => 'Test image']);
 
         $values = $content->getValues(true);
 
