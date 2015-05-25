@@ -29,7 +29,7 @@ templatefields:
             type: text
             label: Section 1
         section_2:
-            type: text
+            type: html
             label: Section 2
         image:
             type: image
