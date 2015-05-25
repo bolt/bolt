@@ -26,7 +26,7 @@ class Frontend extends ConfigurableBase
 {
     protected function getConfigurationRoutes()
     {
-        return $this->app['config']->get('routing', array());
+        return $this->app['config']->get('routing', []);
     }
 
     protected function addRoutes(ControllerCollection $c)
@@ -54,7 +54,7 @@ class Frontend extends ConfigurableBase
         if (!$this->app['users']->getUsers()) {
             $this->flashes()->info(Trans::__('There are no users in the database. Please create the first user.'));
 
-            return $this->redirectToRoute('useredit', array('id' => ''));
+            return $this->redirectToRoute('useredit', ['id' => '']);
         }
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
@@ -93,9 +93,10 @@ class Frontend extends ConfigurableBase
 
         $template = $this->templateChooser()->homepage();
 
-        $globals = array(
+        $globals = [
             'records' => $content,
-        );
+        ];
+
         if (is_array($content)) {
             $first = current($content);
             $globals[$first->contenttype['slug']] = $content;
@@ -104,7 +105,7 @@ class Frontend extends ConfigurableBase
             $globals[$content->contenttype['singular_slug']] = $content;
         }
 
-        return $this->render($template, array(), $globals);
+        return $this->render($template, [], $globals);
     }
 
     /**
@@ -134,11 +135,11 @@ class Frontend extends ConfigurableBase
         $slug = $this->app['slugify']->slugify($slug);
 
         // First, try to get it by slug.
-        $content = $this->getContent($contenttype['slug'], array('slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)));
+        $content = $this->getContent($contenttype['slug'], ['slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)]);
 
         if (!$content && is_numeric($slug)) {
             // And otherwise try getting it by ID
-            $content = $this->getContent($contenttype['slug'], array('id' => $slug, 'returnsingle' => true));
+            $content = $this->getContent($contenttype['slug'], ['id' => $slug, 'returnsingle' => true]);
         }
 
         // No content, no page!
@@ -161,17 +162,17 @@ class Frontend extends ConfigurableBase
         }
 
         // Setting the editlink
-        $this->app['editlink'] = $this->generateUrl('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $content->id));
+        $this->app['editlink'] = $this->generateUrl('editcontent', ['contenttypeslug' => $contenttype['slug'], 'id' => $content->id]);
         $this->app['edittitle'] = $content->getTitle();
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
-        $globals = array(
+        $globals = [
             'record'                      => $content,
             $contenttype['singular_slug'] => $content
-        );
+        ];
 
-        return $this->render($template, array(), $globals);
+        return $this->render($template, [], $globals);
     }
 
     /**
@@ -195,7 +196,7 @@ class Frontend extends ConfigurableBase
             $jsFile = $this->app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js';
             $cssFile = $this->app['resources']->getUrl('app') . 'view/css/liveeditor.css';
             $this->extensions()->insertSnippet(SnippetLocation::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
-            $this->extensions()->addJavascript($jsFile, array('late' => false, 'priority' => 1));
+            $this->extensions()->addJavascript($jsFile, ['late' => false, 'priority' => 1]);
             $this->extensions()->addCss($cssFile, false, 5);
         }
 
@@ -204,11 +205,11 @@ class Frontend extends ConfigurableBase
 
         // Make sure we can also access it as {{ page.title }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
-        $globals = array(
+        $globals = [
             'record'                      => $content,
             $contenttype['singular_slug'] => $content
-        );
-        $response = $this->render($template, array(), $globals);
+        ];
+        $response = $this->render($template, [], $globals);
 
         // Chrome (unlike Firefox and Internet Explorer) has a feature that helps prevent
         // XSS attacks for uncareful people. It blocks embeds, links and src's that have
@@ -248,19 +249,19 @@ class Frontend extends ConfigurableBase
         $page = $request->query->get($pagerid, $request->query->get('page', 1));
         $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $this->getOption('general/listing_records'));
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $this->getOption('general/listing_sort'));
-        $content = $this->getContent($contenttype['slug'], array('limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true));
+        $content = $this->getContent($contenttype['slug'], ['limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true]);
 
         $template = $this->templateChooser()->listing($contenttype);
 
         // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
-        $globals = array(
+        $globals = [
             'records'            => $content,
             $contenttype['slug'] => $content,
             'contenttype'        => $contenttype['name']
-        );
+        ];
 
-        return $this->render($template, array(), $globals);
+        return $this->render($template, [], $globals);
     }
 
     /**
@@ -289,14 +290,14 @@ class Frontend extends ConfigurableBase
         $page = $query->get($pagerid, $query->get('page', 1));
         $amount = $this->getOption('general/listing_records');
         $order = $this->getOption('general/listing_sort');
-        $content = $this->app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
+        $content = $this->app['storage']->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
 
         // See https://github.com/bolt/bolt/pull/2310
         if (
                 ($taxonomy['behaves_like'] === 'tags' && !$content) ||
                 (
-                    in_array($taxonomy['behaves_like'], array('categories', 'grouping')) &&
-                    !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : array())
+                    in_array($taxonomy['behaves_like'], ['categories', 'grouping']) &&
+                    !in_array($slug, isset($taxonomy['options']) ? array_keys($taxonomy['options']) : [])
                 )
             ) {
             $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
@@ -319,14 +320,14 @@ class Frontend extends ConfigurableBase
             }
         }
 
-        $globals = array(
+        $globals = [
             'records'      => $content,
             'slug'         => $name,
             'taxonomy'     => $this->getOption('taxonomy/' . $taxonomyslug),
             'taxonomytype' => $taxonomyslug
-        );
+        ];
 
-        return $this->render($template, array(), $globals);
+        return $this->render($template, [], $globals);
     }
 
     /**
@@ -357,7 +358,7 @@ class Frontend extends ConfigurableBase
         $limit = $pageSize;
 
         // set-up filters from URL
-        $filters = array();
+        $filters = [];
         foreach ($request->query->all() as $key => $value) {
             if (strpos($key, '_') > 0) {
                 list($contenttypeslug, $field) = explode('_', $key, 2);
@@ -366,9 +367,9 @@ class Frontend extends ConfigurableBase
                 } else {
                     $contenttype = $this->getContentType($contenttypeslug);
                     if (is_array($contenttype)) {
-                        $filters[$contenttypeslug] = array(
+                        $filters[$contenttypeslug] = [
                             $field => $value
-                        );
+                        ];
                     }
                 }
             }
@@ -379,7 +380,7 @@ class Frontend extends ConfigurableBase
 
         $result = $this->app['storage']->searchContent($q, null, $filters, $limit, $offset);
 
-        $pager = array(
+        $pager = [
             'for'          => $context,
             'count'        => $result['no_of_results'],
             'totalpages'   => ceil($result['no_of_results'] / $pageSize),
@@ -387,19 +388,19 @@ class Frontend extends ConfigurableBase
             'showing_from' => $offset + 1,
             'showing_to'   => $offset + count($result['results']),
             'link'         => '/search?q=' . rawurlencode($q) . '&page_search='
-        );
+        ];
 
         $this->app['storage']->setPager($context, $pager);
 
-        $globals = array(
+        $globals = [
             'records'      => $result['results'],
             $context       => $result['query']['use_q'],
             'searchresult' => $result
-        );
+        ];
 
         $template = $this->templateChooser()->search();
 
-        return $this->render($template, array(), $globals);
+        return $this->render($template, [], $globals);
     }
 
     /**
