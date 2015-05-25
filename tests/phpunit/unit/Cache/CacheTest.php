@@ -56,20 +56,20 @@ class CacheTest extends BoltUnitTest
      */
     public static function setProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'bar',
                 'bar'
-            ),
-            array(
-                array('foo' => 'bar', 'baz' => 'meh'),
-                array('foo' => 'bar', 'baz' => 'meh')
-            ),
-            array(
+            ],
+            [
+                ['foo' => 'bar', 'baz' => 'meh'],
+                ['foo' => 'bar', 'baz' => 'meh']
+            ],
+            [
                 new FooObject(),
                 new FooObject()
-            )
-        );
+            ]
+        ];
     }
 
     /**
