@@ -65,8 +65,8 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::REQUEST => array('onRequest', 126), // Right after SessionListener
-        );
+        return [
+            KernelEvents::REQUEST => ['onRequest', 126], // Right after SessionListener
+        ];
     }
 }
