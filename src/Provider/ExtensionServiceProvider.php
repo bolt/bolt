@@ -50,7 +50,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         $app['extend.info'] = $app->share(
             function ($app) {
-                return new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls'], $app['deprecated.php']);
+                return new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
             }
         );
     }

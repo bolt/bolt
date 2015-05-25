@@ -121,20 +121,12 @@ class GeneralTest extends ControllerUnitTest
         // Test for the Exception if connection fails to the prefill service
         $store = $this->getMock('Bolt\Storage', array('preFill'), array($this->getApp()));
 
-        if ($this->getService('deprecated.php')) {
-            $store->expects($this->any())
-                ->method('preFill')
-                ->will($this->returnCallback(function () {
-                    throw new \Guzzle\Http\Exception\RequestException();
-            }));
-        } else {
-            $guzzleRequest = new \GuzzleHttp\Message\Request('GET', '');
-            $store->expects($this->any())
-                ->method('preFill')
-                ->will($this->returnCallback(function () use ($guzzleRequest) {
-                    throw new \GuzzleHttp\Exception\RequestException('', $guzzleRequest);
-            }));
-        }
+        $guzzleRequest = new \GuzzleHttp\Message\Request('GET', '');
+        $store->expects($this->any())
+            ->method('preFill')
+            ->will($this->returnCallback(function () use ($guzzleRequest) {
+                throw new \GuzzleHttp\Exception\RequestException('', $guzzleRequest);
+        }));
 
         $this->setService('storage', $store);
 

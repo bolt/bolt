@@ -4,7 +4,6 @@ namespace Bolt\Controller\Backend;
 use Bolt\Helpers\Input;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
-use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -147,11 +146,6 @@ class General extends BackendBase
                 $content = $this->app['storage']->preFill($contenttypes);
                 $this->flashes()->success($content);
             } catch (RequestException $e) {
-                $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
-                $this->flashes()->error($msg);
-                $this->app['logger.system']->error($msg, array('event' => 'storage'));
-            } catch (V3RequestException $e) {
-                /** @deprecated removed when PHP 5.3 support is dropped */
                 $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
                 $this->flashes()->error($msg);
                 $this->app['logger.system']->error($msg, array('event' => 'storage'));

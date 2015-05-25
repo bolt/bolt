@@ -2,7 +2,6 @@
 namespace Bolt\Controller\Async;
 
 use Bolt\Response\BoltResponse;
-use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -330,12 +329,7 @@ class General extends AsyncBase
             $this->app['logger.system']->info('Fetching from remote server: ' . $source, array('event' => 'news'));
 
             try {
-                if ($this->app['deprecated.php']) {
-                    $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], null, $curl['options'])->send()->getBody(true);
-                } else {
-                    $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], array(), $curl['options'])->getBody(true);
-                }
-
+                $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], array(), $curl['options'])->getBody(true);
                 $fetchedNewsItems = json_decode($fetchedNewsData);
 
                 if ($fetchedNewsItems) {
@@ -360,14 +354,6 @@ class General extends AsyncBase
 
                 return $news;
             } catch (RequestException $e) {
-                $this->app['logger.system']->critical(
-                    'Error occurred during newsfeed fetch',
-                    array('event' => 'exception', 'exception' => $e)
-                );
-
-                return array('error' => array('type' => 'error', 'title' => 'Unable to fetch news!', 'teaser' => "<p>Unable to connect to $source</p>"));
-            } catch (V3RequestException $e) {
-                /** @deprecated remove with the end of PHP 5.3 support */
                 $this->app['logger.system']->critical(
                     'Error occurred during newsfeed fetch',
                     array('event' => 'exception', 'exception' => $e)

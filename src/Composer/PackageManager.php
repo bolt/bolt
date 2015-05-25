@@ -13,8 +13,6 @@ use Bolt\Composer\Action\ShowPackage;
 use Bolt\Composer\Action\UpdatePackage;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use Guzzle\Http\Exception\CurlException as CurlException;
-use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
 use Silex\Application;
 
@@ -551,37 +549,10 @@ class PackageManager
         }
 
         try {
-            /** @deprecated remove when PHP 5.3 support is dropped */
-            if ($this->app['deprecated.php']) {
-                /** @var $response \Guzzle\Http\Message\Response  */
-                $response = $this->app['guzzle.client']->head($uri, null, array('query' => $query))->send();
-            } else {
-                /** @var $reponse \GuzzleHttp\Message\Response */
-                $response = $this->app['guzzle.client']->head($uri, array(), array('query' => $query));
-            }
+            /** @var $reponse \GuzzleHttp\Message\Response */
+            $response = $this->app['guzzle.client']->head($uri, array(), array('query' => $query));
 
             return $response->getStatusCode();
-        } catch (CurlException $e) {
-            if ($e->getErrorNo() === 60) {
-                // Eariler versions of libcurl support only SSL, whereas we require TLS.
-                // In this case, downgrade our composer to use HTTP
-                $this->factory->downgradeSsl = true;
-
-                $this->messages[] = Trans::__("cURL library doesn't support TLS. Downgrading to HTTP.");
-
-                return 200;
-            } else {
-                $this->messages[] = Trans::__(
-                    "cURL experienced an error: %errormessage%",
-                    array('%errormessage%' => $e->getMessage())
-                );
-            }
-        } catch (V3RequestException $e) {
-            /** @deprecated remove when PHP 5.3 support is dropped */
-            $this->messages[] = Trans::__(
-                "Testing connection to extension server failed: %errormessage%",
-                array('%errormessage%' => $e->getMessage())
-            );
         } catch (RequestException $e) {
             $this->messages[] = Trans::__(
                 "Testing connection to extension server failed: %errormessage%",
