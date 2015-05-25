@@ -490,7 +490,7 @@ class Authentication
     private function deleteExpiredSessions()
     {
         try {
-            $stmt = $this->app['db']->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->authtokentable));
+            $stmt = $this->app['db']->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->getTableName('authtoken')));
             $stmt->bindValue('now', date('Y-m-d H:i:s'));
             $stmt->execute();
         } catch (DBALException $e) {
