@@ -60,12 +60,13 @@ class CoverageComparator
         // Build the process
         $process = $builder
             ->setArguments(
-                array(
+                [
                     '--configuration',
                     $this->xmlfile,
                     '--coverage-php',
                     $output,
-                    $test))
+                    $test
+                ])
             ->getProcess()
             ->setTimeout(0)
             ->enableOutput();
@@ -98,7 +99,7 @@ class CoverageComparator
     private function getCoverageStats(\PHP_CodeCoverage $codeCoverage)
     {
         $report = $codeCoverage->getReport();
-        $classCoverage = array();
+        $classCoverage = [];
 
         foreach ($report as $item) {
             if (!$item instanceof \PHP_CodeCoverage_Report_Node_File) {
@@ -135,33 +136,33 @@ class CoverageComparator
                 }
 
                 if ($coveredClassStatements != 0) {
-                    $classCoverage[$namespace . $className] = array(
+                    $classCoverage[$namespace . $className] = [
                         'namespace'         => $namespace,
                         'className '        => $className,
                         'methodsCovered'    => $coveredMethods,
                         'methodCount'       => $classMethods,
                         'statementsCovered' => $coveredClassStatements,
                         'statementCount'    => $classStatements,
-                    );
+                    ];
                 }
             }
         }
 
-        return array(
-            'classes'  => array(
+        return [
+            'classes'  => [
                 'total'  => $report->getNumClassesAndTraits(),
                 'tested' => $report->getNumTestedClassesAndTraits()
-            ),
-            'methods'  => array(
+            ],
+            'methods'  => [
                 'total'  => $report->getNumMethods(),
                 'tested' => $report->getNumTestedMethods()
-            ),
-            'lines'    => array(
+            ],
+            'lines'    => [
                 'total'  => $report->getNumExecutableLines(),
                 'tested' => $report->getNumExecutedLines()
-            ),
+            ],
             'coverage' => $classCoverage
-        );
+        ];
     }
 
     /**
@@ -182,12 +183,12 @@ class CoverageComparator
         $codeCoverage = unserialize(file_get_contents($afterFile));
         $after = $this->getCoverageStats($codeCoverage);
 
-        $increase = array(
+        $increase = [
             'classes'  => 0,
             'methods'  => 0,
             'lines'    => 0,
-            'coverage' => array()
-        );
+            'coverage' => []
+        ];
 
         $deltaBefore = $before['classes']['total'] - $before['classes']['tested'];
         $deltaAfter = $after['classes']['total'] - $after['classes']['tested'];
@@ -312,9 +313,9 @@ class Git
             $this->config = $parser->parse(file_get_contents($filename) . "\n");
         }
 
-        $this->guzzleDefaults = array();
+        $this->guzzleDefaults = [];
         if (isset($this->config['github']['token'])) {
-            $this->guzzleDefaults = array('query' => array('access_token' => $this->config['github']['token']));
+            $this->guzzleDefaults = ['query' => ['access_token' => $this->config['github']['token']]];
         }
     }
 
@@ -348,7 +349,7 @@ class Git
         $this->output->write("<info>Adding $name as a remote</info>", true);
 
         // Build the process
-        $process = $this->builder->setArguments(array('remote', 'add', $name, $url))
+        $process = $this->builder->setArguments(['remote', 'add', $name, $url])
             ->getProcess()
             ->enableOutput();
 
@@ -376,7 +377,7 @@ class Git
         $this->output->write("<info>Deleting $name as a remote</info>", true);
 
         // Build the process
-        $process = $this->builder->setArguments(array('remote', 'remove', $name))
+        $process = $this->builder->setArguments(['remote', 'remove', $name])
             ->getProcess()
             ->enableOutput();
 
@@ -404,10 +405,10 @@ class Git
     {
         if ($name) {
             $this->output->write("<info>Checking out $branch $name/$branch</info>", true);
-            $this->builder->setArguments(array('checkout', '-b', $branch, "$name/$branch"));
+            $this->builder->setArguments(['checkout', '-b', $branch, "$name/$branch"]);
         } else {
             $this->output->write("<info>Checking out $branch</info>", true);
-            $this->builder->setArguments(array('checkout', $branch));
+            $this->builder->setArguments(['checkout', $branch]);
         }
 
         // Build the process
@@ -439,13 +440,13 @@ class Git
     {
         if ($remote && $branch) {
             $this->output->write("<info>Pulling $remote $branch</info>", true);
-            $this->builder->setArguments(array('pull', $remote, $branch));
+            $this->builder->setArguments(['pull', $remote, $branch]);
         } elseif ($remote) {
             $this->output->write("<info>Pulling $remote</info>", true);
-            $this->builder->setArguments(array('pull', $remote));
+            $this->builder->setArguments(['pull', $remote]);
         } else {
             $this->output->write("<info>Pulling branches remote</info>", true);
-            $this->builder->setArguments(array('pull'));
+            $this->builder->setArguments(['pull']);
         }
 
         // Build the process
@@ -476,7 +477,7 @@ class Git
     {
         $this->output->write("<info>Removing $branch</info>", true);
 
-        $this->builder->setArguments(array('branch', '-D', $branch));
+        $this->builder->setArguments(['branch', '-D', $branch]);
 
         // Build the process
          $process = $this->builder
@@ -504,7 +505,7 @@ class Git
     {
         $this->output->write("<info>Fetching all</info>", true);
 
-        $process = $this->builder->setArguments(array('fetch', '--all'))
+        $process = $this->builder->setArguments(['fetch', '--all'])
             ->getProcess()
             ->enableOutput();
 
@@ -604,12 +605,12 @@ class CoverageCommand
      */
     private function help()
     {
-        $this->output->write(array(
+        $this->output->write([
             '<info>php tests/scripts/coverage.php [PR number] [test]</info>',
             '<info>Where:</info>',
             '<info>    [PR number] - GitHub PR number (required)</info>',
             '<info>    [test]      - Directory or file to limit tests to (optional)</info>'
-        ), true);
+        ], true);
         exit;
     }
 
