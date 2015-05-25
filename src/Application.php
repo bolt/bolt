@@ -34,6 +34,9 @@ class Application extends Silex\Application
         $values['bolt_name'] = 'alpha 1';
         $values['bolt_released'] = false; // `true` for stable releases, `false` for alpha, beta and RC.
 
+        /** @internal Parameter to track a deprecated PHP version */
+        $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
+
         parent::__construct($values);
 
         $this->register(new PathServiceProvider());
