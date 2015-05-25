@@ -7,9 +7,27 @@ namespace Bolt\Routing;
  * flushes to include an (unwanted) trailing slash.
  *
  * This fixes that trailing slash.
+ *
+ * @author Carson Full <carsonfull@gmail.com>
  */
-class ControllerCollection extends \Silex\ControllerCollection
+class ControllerCollection extends \Silex\ControllerCollection implements DefaultControllerClassAwareInterface
 {
+    /** @var string|object $defaultControllerClass */
+    protected $defaultControllerClass;
+
+    public function setDefaultControllerClass($class)
+    {
+        $this->defaultControllerClass = $class;
+    }
+
+    public function match($pattern, $to = null)
+    {
+        if ($this->defaultControllerClass && is_string($to) && method_exists($this->defaultControllerClass, $to)) {
+            $to = array($this->defaultControllerClass, $to);
+        }
+        return parent::match($pattern, $to);
+    }
+
     public function flush($prefix = '')
     {
         $routes = parent::flush($prefix);

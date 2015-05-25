@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt;
+use Bolt\Controller\Zone;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Helpers\Str;
@@ -10,6 +11,7 @@ use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
 use Monolog\Logger;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class Extensions
 {
@@ -276,16 +278,53 @@ class Extensions
     {
         $name = $extension->getName();
 
-        // Attempt to get extension YAML config
+        try {
+            $this->loadExtensionConfig($extension, $name);
+            $this->loadExtensionInitialize($extension, $name);
+            $this->loadExtensionTwigGlobal($extension, $name);
+            $this->loadExtensionTwig($extension, $name);
+            $this->loadExtensionSnippets($extension, $name);
+        } catch (\Exception $e) {
+            // Should be already caught, go into slient mode
+        }
+
+        // Flag the extension as initialised
+        $this->initialized[$name] = $extension;
+
+        // If an extension makes it known it sends email, increase the counter
+        if (is_callable(array($extension, 'sendsMail')) && $extension->sendsMail()) {
+            $this->mailsenders++;
+        }
+    }
+
+    /**
+     * Attempt to get extension YAML config.
+     *
+     * @param ExtensionInterface $extension
+     * @param string             $name
+     *
+     * @throws \Exception
+     */
+    private function loadExtensionConfig(ExtensionInterface $extension, $name)
+    {
         try {
             $extension->getConfig();
         } catch (\Exception $e) {
             $this->logInitFailure('Failed to load YAML config', $name, $e, Logger::ERROR);
-
-            return;
+            throw $e;
         }
+    }
 
-        // Call extension initialize()
+    /**
+     * Initialise the extension.
+     *
+     * @param ExtensionInterface $extension
+     * @param string             $name
+     *
+     * @throws \Exception
+     */
+    private function loadExtensionInitialize(ExtensionInterface $extension, $name)
+    {
         try {
             $extension->initialize();
 
@@ -300,36 +339,90 @@ class Extensions
 
                             return $twig;
                         }
-                    )
-                );
+                ));
             }
         } catch (\Exception $e) {
             $this->logInitFailure('Initialisation failed', $name, $e, Logger::ERROR);
 
-            return;
+            throw $e;
         }
+    }
 
-        // Flag the extension as initialised
-        $this->initialized[$name] = $extension;
-
-        // If an extension makes it known it sends email, increase the counter
-        if (is_callable(array($extension, 'sendsMail')) && $extension->sendsMail()) {
-            $this->mailsenders++;
-        }
-
-        // Get the extension defined snippets
+    /**
+     * Get the extension defined snippets.
+     *
+     * @param ExtensionInterface $extension
+     * @param string             $name
+     *
+     * @throws \Exception
+     */
+    private function loadExtensionSnippets(ExtensionInterface $extension, $name)
+    {
         try {
-            $this->getSnippets($name);
+            $snippets = $extension->getSnippets();
+
+            if (!empty($snippets)) {
+                foreach ($snippets as $snippet) {
+                    // Make sure 'snippet[2]' is the correct name.
+                    $snippet[2] = $name;
+                    if (!isset($snippet[3])) {
+                        $snippet[3] = '';
+                    }
+                    $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3]);
+                }
+            }
+
         } catch (\Exception $e) {
             $this->logInitFailure('Snippet loading failed', $name, $e, Logger::ERROR);
 
-            return;
+            throw $e;
         }
+    }
 
-        // Add Twig extensions
+    /**
+     * Add an object of this extension to the global Twig scope.
+     *
+     * @param ExtensionInterface $extension
+     * @param string             $name
+     *
+     * @throws \Exception
+     */
+    private function loadExtensionTwigGlobal(ExtensionInterface $extension, $name)
+    {
+        try {
+            $namespace = $this->getNamespace($extension);
+            if (!empty($namespace)) {
+                $this->app['twig'] = $this->app->share(
+                    $this->app->extend(
+                        'twig',
+                        function (\Twig_Environment $twig) use ($namespace, $extension) {
+                            $twig->addGlobal($namespace, $extension);
+
+                            return $twig;
+                        }
+                ));
+            }
+        } catch (\Exception $e) {
+            $this->logInitFailure('Initialisation failed', $name, $e, Logger::ERROR);
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Add Twig extensions.
+     *
+     * @param ExtensionInterface $extension
+     * @param string             $name
+     *
+     * @throws \Exception
+     */
+    private function loadExtensionTwig(ExtensionInterface $extension, $name)
+    {
         if (!is_callable(array($extension, 'getTwigExtensions'))) {
             return;
         }
+
         /** @var \Twig_Extension[] $extensions */
         $twigExtensions = $extension->getTwigExtensions();
         $addTwigExFunc = array($this, 'addTwigExtension');
@@ -342,8 +435,7 @@ class Extensions
 
                         return $twig;
                     }
-                )
-            );
+            ));
 
             if (!is_callable(array($extension, 'isSafe')) || !$extension->isSafe()) {
                 continue;
@@ -356,8 +448,7 @@ class Extensions
 
                         return $twig;
                     }
-                )
-            );
+            ));
         }
     }
 
@@ -573,25 +664,6 @@ class Extensions
     }
 
     /**
-     * Call the 'getSnippets' function of an initialized extension, and make sure the snippets are initialized.
-     */
-    public function getSnippets($extensionname)
-    {
-        $snippets = $this->initialized[$extensionname]->getSnippets();
-
-        if (!empty($snippets)) {
-            foreach ($snippets as $snippet) {
-                // Make sure 'snippet[2]' is the correct name.
-                $snippet[2] = $extensionname;
-                if (!isset($snippet[3])) {
-                    $snippet[3] = '';
-                }
-                $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3]);
-            }
-        }
-    }
-
-    /**
      * Insert a snippet. And by 'insert' we actually mean 'add it to the queue, to be processed later'.
      *
      * @param        $location
@@ -692,11 +764,14 @@ class Extensions
             }
         }
 
-        // While this looks slightly illogical, our CLI tests want to see that
-        // jQuery can be inserted, but we don't want it inserted on either the
-        // backend or AJAX requests.
-        $end = $this->app['config']->getWhichEnd();
-        if ($this->addjquery === true && ($end === 'frontend' || $end === 'cli')) {
+        // Add jQuery
+        $zone = Zone::FRONTEND;
+        /** @var RequestStack $requestStack */
+        $requestStack = $this->app['request_stack'];
+        if ($request = $requestStack->getCurrentRequest()) {
+            $zone = Zone::get($request);
+        }
+        if ($this->addjquery && $zone === Zone::FRONTEND) {
             $html = $this->insertJquery($html);
         }
 
@@ -1115,8 +1190,7 @@ class Extensions
 
         $this->app['logger.system']->addRecord($level, sprintf("%s for %s: %s", $msg, $extensionName, $e->getMessage()), $context);
 
-        $this->app['session']->getFlashBag()->add(
-            'error',
+        $this->app['logger.flash']->error(
             Trans::__("[Extension error] $msg for %ext%: %error%", array('%ext%' => $extensionName, '%error%' => $e->getMessage()))
         );
     }

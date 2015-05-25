@@ -2,8 +2,11 @@
 namespace Bolt\Tests;
 
 use Bolt\Application;
+use Bolt\AccessControl\Authentication;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
+use Bolt\Storage;
+use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Twig\Handler\AdminHandler;
 use Bolt\Twig\Handler\ArrayHandler;
 use Bolt\Twig\Handler\HtmlHandler;
@@ -21,7 +24,6 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
-
 abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 {
     protected function resetDb()
@@ -37,22 +39,19 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     {
         $bolt = $this->makeApp();
         $bolt->initialize();
+        $bolt->boot();
 
         return $bolt;
     }
 
     protected function makeApp()
     {
-        $sessionMock = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
-        ->setMethods(array('clear'))
-        ->setConstructorArgs(array(new MockFileSessionStorage()))
-        ->getMock();
-
         $config = new Standard(TEST_ROOT);
         $config->verify();
 
         $bolt = new Application(array('resources' => $config));
-        $bolt['deprecated.php'] = version_compare(PHP_VERSION, '5.4.0', '<');
+        $bolt['session.test'] = true;
+        $bolt['debug'] = false;
         $bolt['config']->set(
             'general/database',
             array(
@@ -63,8 +62,6 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             )
         );
         $bolt['config']->set('general/canonical', 'bolt.dev');
-
-        $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', PHPUNIT_ROOT . '/resources/files');
         $bolt['slugify'] = Slugify::create();
 
@@ -73,6 +70,9 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function rmdir($dir)
     {
+        if (!is_dir($dir)) {
+            return;
+        }
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::CHILD_FIRST
@@ -84,24 +84,42 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 unlink($file->getPathname());
             }
         }
+        rmdir($dir);
     }
 
     protected function addDefaultUser(Application $app)
     {
-        //check if default user exists before adding
+        // Check if default user exists before adding
         $existingUser = $app['users']->getUser('admin');
         if (false !== $existingUser) {
             return $existingUser;
         }
-        $user = $app['users']->getEmptyUser();
-        $user['roles'] = array('admin');
-        $user['username'] = 'admin';
-        $user['password'] = 'password';
-        $user['email'] = 'test@example.com';
-        $user['displayname'] = 'Admin';
-        $app['users']->saveUser($user);
+
+        $user = array(
+            'username'    => 'admin',
+            'password'    => 'password',
+            'email'       => 'admin@example.com',
+            'displayname' => 'Admin',
+            'roles'       => array('admin'),
+        );
+
+        $app['users']->saveUser(array_merge($app['users']->getEmptyUser(), $user));
 
         return $user;
+    }
+
+    protected function addNewUser($app, $username, $displayname, $role)
+    {
+        $user = array(
+            'username'    => $username,
+            'password'    => 'password',
+            'email'       => $username.'@example.com',
+            'displayname' => $displayname,
+            'roles'       => array($role),
+        );
+
+        $app['users']->saveUser(array_merge($app['users']->getEmptyUser(), $user));
+        $app['users']->users = array();
     }
 
     protected function getMockTwig()
@@ -129,10 +147,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function allowLogin($app)
     {
         $this->addDefaultUser($app);
-        $users = $this->getMock('Bolt\Users', array('isValidSession', 'isAllowed', 'isEnabled'), array($app));
-        $users->expects($this->any())
-            ->method('isValidSession')
-            ->will($this->returnValue(true));
+        $users = $this->getMock('Bolt\Users', array('isAllowed', 'isEnabled'), array($app));
 
         $users->expects($this->any())
             ->method('isAllowed')
@@ -143,6 +158,13 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $app['users'] = $users;
+
+        $auth = $this->getMock('Bolt\AccessControl\Authentication', array('isValidSession'), array($app));
+        $auth->expects($this->any())
+            ->method('isValidSession')
+            ->will($this->returnValue(true));
+
+        $app['authentication'] = $auth;
     }
 
     protected function getTwigHandlers($app)
@@ -159,18 +181,30 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         ));
     }
 
-    protected function addNewUser($app, $username, $displayname, $role)
+    protected function removeCSRF($app)
     {
-        $user = $app['users']->getEmptyUser();
+        // Symfony forms need a CSRF token so we have to mock this too
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('form'));
+        $csrf->expects($this->any())
+            ->method('isCsrfTokenValid')
+            ->will($this->returnValue(true));
 
-        unset($user['id']);
-        $user['username']    = $username;
-        $user['displayname'] = $displayname;
-        $user['email']       = $username.'@example.com';
-        $user['password']    = 'password';
-        $user['roles']       = array($role);
+        $csrf->expects($this->any())
+            ->method('generateCsrfToken')
+            ->will($this->returnValue('xyz'));
 
-        $app['users']->saveUser($user);
-        $app['users']->users = array();
+        $app['form.csrf_provider'] = $csrf;
+    }
+
+    protected function addSomeContent()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $app['config']->set('taxonomy/categories/options', array('news'));
+        $prefillMock = new LoripsumMock();
+        $app['prefill'] = $prefillMock;
+
+        $storage = new Storage($app);
+        $storage->prefill(array('showcases', 'pages'));
     }
 }

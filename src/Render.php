@@ -44,21 +44,16 @@ class Render
      * @param array  $vars     array of context variables
      * @param array  $globals  array of global variables
      *
-     * @return mixed
+     * @return \Bolt\Response\BoltResponse
      */
     public function render($template, $vars = array(), $globals = array())
     {
-        // Start the 'stopwatch' for the profiler.
-        $this->app['stopwatch']->start('bolt.render', 'template');
-
         $response = BoltResponse::create(
             $this->app[$this->twigKey]->loadTemplate($template),
             $vars,
             $globals
         );
-
-        // Stop the 'stopwatch' for the profiler.
-        $this->app['stopwatch']->stop('bolt.render');
+        $response->setStopwatch($this->app['stopwatch']);
 
         return $response;
     }
@@ -83,11 +78,11 @@ class Render
     /**
      * Retrieve a fully cached page from cache.
      *
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\Response|boolean
      */
     public function fetchCachedRequest()
     {
-        $result = null;
+        $response = false;
         if ($this->checkCacheConditions('request', true)) {
             $key = md5($this->app['request']->getPathInfo() . $this->app['request']->getQueryString());
 
@@ -95,17 +90,17 @@ class Render
 
             // If we have a result, prepare a Response.
             if (!empty($result)) {
-                // Note that we set the cache-control header to _half_ the maximum duration,
-                // otherwise a proxy/cache might keep the cache twice as long in the worst case
-                // scenario, and now it's only 50% max, but likely less
-                $headers = array(
-                    'Cache-Control' => 's-maxage=' . ($this->cacheDuration() / 2),
-                );
-                $result = new Response($result, Response::HTTP_OK, $headers);
+                $response = new Response($result, Response::HTTP_OK);
+
+                // Note that we set the cache-control header to _half_ the
+                // maximum duration, otherwise a proxy/cache might keep the
+                // cache twice as long in the worst case scenario, and now it's
+                // only 50% max, but likely less
+                $response->setSharedMaxAge($this->cacheDuration() / 2);
             }
         }
 
-        return $result;
+        return $response;
     }
 
     /**
@@ -116,8 +111,8 @@ class Render
     public function cacheRequest($html)
     {
         if ($this->checkCacheConditions('request')) {
-            // This is where the magic happens.. We also store it with an empty 'template' name,
-            // So we can later fetch it by its request.
+            // This is where the magic happens.. We also store it with an empty
+            // 'template' name, so we can later fetch it by its request.
             $key = md5($this->app['request']->getPathInfo() . $this->app['request']->getQueryString());
             $this->app['cache']->save($key, $html, $this->cacheDuration());
         }
@@ -150,11 +145,6 @@ class Render
         // Do not cache in "safe" mode: we don't want to accidentally bleed
         // sensitive data from a previous unsafe run.
         if ($this->safe) {
-            return false;
-        }
-
-        // Only cache pages in the frontend.
-        if ($this->app['config']->getWhichEnd() !== 'frontend') {
             return false;
         }
 

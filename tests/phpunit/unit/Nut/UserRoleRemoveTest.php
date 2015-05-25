@@ -22,7 +22,7 @@ class UserRoleRemoveTest extends BoltUnitTest
         $tester->execute(array('username' => 'test', 'role' => 'admin'));
         $result = $tester->getDisplay();
 
-        $this->assertRegexp("/no longer has role/", trim($result));
+        $this->assertRegExp("/no longer has role/", trim($result));
     }
 
     public function testRemoveFail()
@@ -34,7 +34,7 @@ class UserRoleRemoveTest extends BoltUnitTest
 
         $tester->execute(array('username' => 'test', 'role' => 'admin'));
         $result = $tester->getDisplay();
-        $this->assertRegexp("/Could not remove role/", trim($result));
+        $this->assertRegExp("/Could not remove role/", trim($result));
     }
 
     public function testRemoveNonexisting()
@@ -46,7 +46,7 @@ class UserRoleRemoveTest extends BoltUnitTest
 
         $tester->execute(array('username' => 'test', 'role' => 'admin'));
         $result = $tester->getDisplay();
-        $this->assertRegexp("/ already doesn't have role/", trim($result));
+        $this->assertRegExp("/ already doesn't have role/", trim($result));
     }
 
     protected function getUserMock($app, $remove = false, $has = false)

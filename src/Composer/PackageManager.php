@@ -88,7 +88,7 @@ class PackageManager
     /**
      * @var string[]
      */
-    public $messages = array();
+    private $messages = array();
 
     public function __construct(Application $app)
     {
@@ -102,6 +102,11 @@ class PackageManager
 
         // Set up
         $this->setup();
+    }
+
+    public function getMessages()
+    {
+        return $this->messages;
     }
 
     /**

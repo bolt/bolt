@@ -28,6 +28,6 @@ class ExtensionsEnableTest extends BoltUnitTest
 
         $tester->execute(array('name' => 'test', 'version' => '1.0'));
         $result = $tester->getDisplay();
-        $this->assertRegexp('/[Done]/', trim($result));
+        $this->assertRegExp('/[Done]/', trim($result));
     }
 }

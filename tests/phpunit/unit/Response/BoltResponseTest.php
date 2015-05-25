@@ -10,30 +10,30 @@ class BoltResponseTest extends BoltUnitTest
     public function testCreate()
     {
         $app = $this->getApp();
-        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array('foo' => 'bar'));
+        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), $this->getContext());
 
         $this->assertInstanceOf('Bolt\Response\BoltResponse', $response);
         $this->assertEquals(200, $response->getStatusCode());
         $context = $response->getContext();
-        $this->assertEquals('bar', $context['foo']);
+        $this->assertEquals('1555', $context['context']['code']);
     }
 
     public function testToString()
     {
         $app = $this->getApp();
-        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array('foo' => 'bar'));
-        $this->assertRegexp("#Bolt - Fatal error.#", (string)$response);
+        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), $this->getContext());
+        $this->assertRegExp("#Bolt - Fatal error.#", (string) $response);
     }
-    
+
     public function testSetTemplate()
     {
         $app = $this->getApp();
-        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array('foo' => 'bar'));
+        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), $this->getContext());
         $newTwig = $app['twig']->loadTemplate('error.twig');
         $response->setTemplate($newTwig);
         $this->assertSame($newTwig, $response->getTemplate());
     }
-    
+
     public function testSetContext()
     {
         $app = $this->getApp();
@@ -46,16 +46,25 @@ class BoltResponseTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array(), array('foo' => 'test'));
+        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array(), $this->getContext());
 
         $globalContext = $response->getGlobalContext();
-        $this->assertEquals('test', $globalContext['foo']);
+        $this->assertEquals('1555', $globalContext['context']['code']);
     }
-    
+
     public function testGetTemplateName()
     {
         $app = $this->getApp();
         $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array());
         $this->assertEquals('error.twig', $response->getTemplateName());
+    }
+
+    protected function getContext()
+    {
+        return array('context' => array(
+            'class'   => 'BoltResponse',
+            'message' => 'Clippy is bent out of shape',
+            'code'    => '1555'
+        ));
     }
 }

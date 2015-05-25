@@ -12,9 +12,11 @@ class BackendAdminLoginWithEmailCest
 {
     /** @var array */
     protected $user;
+    /** @var array */
+    protected $tokenNames;
 
     /** @var array */
-    private $cookies = array('bolt_authtoken' => '', 'bolt_session' => '');
+    private $cookies = [];
 
     /**
      * @param \AcceptanceTester $I
@@ -22,6 +24,7 @@ class BackendAdminLoginWithEmailCest
     public function _before(\AcceptanceTester $I)
     {
         $this->user = Fixtures::get('users');
+        $this->tokenNames = Fixtures::get('tokenNames');
     }
 
     /**
@@ -42,8 +45,8 @@ class BackendAdminLoginWithEmailCest
 
         $I->loginWithEmailAs($this->user['admin']);
 
-        $this->cookies['bolt_authtoken'] = $I->grabCookie('bolt_authtoken');
-        $this->cookies['bolt_session'] = $I->grabCookie('bolt_session');
+        $this->cookies[$this->tokenNames['authtoken']] = $I->grabCookie($this->tokenNames['authtoken']);
+        $this->cookies[$this->tokenNames['session']] = $I->grabCookie($this->tokenNames['session']);
 
         $I->see('Dashboard');
         $I->see('Configuration', Locator::href('/bolt/users'));

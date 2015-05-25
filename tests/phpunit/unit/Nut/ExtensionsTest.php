@@ -36,7 +36,7 @@ class ExtensionsTest extends BoltUnitTest
 
         $tester->execute(array());
         $result = $tester->getDisplay();
-        $this->assertRegexp('/Name.*Version/', $result);
-        $this->assertRegexp('/test.*1.0/', $result);
+        $this->assertRegExp('/Name.*Version/', $result);
+        $this->assertRegExp('/test.*1.0/', $result);
     }
 }

@@ -65,6 +65,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // Now test with debug enabled
         $app = $this->getApp();
+        $app['debug'] = true;
         $handlers = $this->getTwigHandlers($app);
         $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals($list, $twig->printDump($list));
@@ -89,6 +90,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // Debug mode
         $app = $this->getApp();
+        $app['debug'] = true;
         $handlers = $this->getTwigHandlers($app);
         $twig = new TwigExtension($app, $handlers, false);
         $this->assertNotEmpty($twig->printBacktrace());

@@ -33,6 +33,12 @@ Fixtures::add('users', [
         'password'    => '~n0Tne1k&nGu3$$',
         'email'       => 'developer@example.com',
         'displayname' => 'Developer Person'
+    ],
+    'lemmings' => [
+        'username'    => 'lemmings',
+        'password'    => 'MikeDaillyDavidJones',
+        'email'       => 'lemmings@example.com',
+        'displayname' => 'Lemmings Person'
     ]
 ]);
 
@@ -50,4 +56,10 @@ Fixtures::add('backups', [
     BOLT_ROOT . '/app/resources/translations/en_GB/contenttypes.en_GB.yml'     => true,
     INSTALL_ROOT . '/app/database/bolt.db'                                     => false,
     INSTALL_ROOT . '/theme/base-2014/_footer.twig'                             => true,
+]);
+
+// Session and authentication tokens
+Fixtures::add('tokenNames', [
+    'session'   => 'bolt_session_' . md5('localhost:8123/'),
+    'authtoken' => 'bolt_authtoken_' . md5('localhost:8123/'),
 ]);

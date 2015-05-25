@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Logger\ChangeLog;
 use Bolt\Logger\DeprecatedLog;
+use Bolt\Logger\FlashLogger;
 use Bolt\Logger\Handler\RecordChangeHandler;
 use Bolt\Logger\Handler\SystemHandler;
 use Bolt\Logger\Manager;
@@ -62,6 +63,15 @@ class LoggerServiceProvider implements ServiceProviderInterface
                 $handler = new FirePHPHandler();
                 $handler->setFormatter(new WildfireFormatter());
                 $log->pushHandler($handler);
+
+                return $log;
+            }
+        );
+
+        // System log
+        $app['logger.flash'] = $app->share(
+            function ($app) {
+                $log = new FlashLogger();
 
                 return $log;
             }

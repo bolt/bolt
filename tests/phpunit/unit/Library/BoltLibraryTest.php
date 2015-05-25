@@ -50,7 +50,11 @@ class BoltLibraryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $loader = $app['twig.loader'];
-        $template = $app['twig']->render('error.twig');
+        $app['twig']->render('error.twig', array('context' => array(
+            'class'   => 'BoltResponse',
+            'message' => 'Clippy is bent out of shape',
+            'code'    => '1555'
+        )));
         $templates = Library::parseTwigTemplates($loader);
 
         $this->assertEquals(1, count($templates));
@@ -106,9 +110,9 @@ class BoltLibraryTest extends BoltUnitTest
         $app['request'] = $request;
 
         $response = Library::redirect('login');
-        $this->assertNotEmpty($app['session']->get('retreat'));
-        $retreat = $app['session']->get('retreat');
-        $this->assertEquals('homepage', $retreat['route']);
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\RedirectResponse', $response);
+        $this->assertRegExp('|Redirecting to /bolt/login|', $response->getContent());
+        $this->assertTrue($response->isRedirect(), "Response isn't a valid redirect condition.");
     }
 
     /**

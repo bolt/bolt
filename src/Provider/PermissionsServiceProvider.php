@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Permissions;
+use Bolt\AccessControl\Permissions;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 

@@ -21,10 +21,7 @@ class BootstrapGeneratorTest extends BoltUnitTest
 
     public function tearDown()
     {
-        if (is_dir($this->workspace . '/public3')) {
-            $this->rmdir($this->workspace . '/public3');
-            rmdir($this->workspace . '/public3');
-        }
+        $this->rmdir($this->workspace . '/public3');
         @unlink($this->workspace . '/index.php');
     }
 

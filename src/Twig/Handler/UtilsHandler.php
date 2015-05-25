@@ -25,21 +25,6 @@ class UtilsHandler
     }
 
     /**
-     *  Switch the debugbar 'on' or 'off'. Note: this has no influence on the
-     * 'debug' setting itself. When 'debug' is off, setting this to 'on', will
-     * _not_ show the debugbar.
-     *
-     * @param boolean $value
-     */
-    public function debugBar($value)
-    {
-        // Make sure it's actually true or false;
-        $value = ($value) ? true : false;
-
-        $this->app['debugbar'] = $value;
-    }
-
-    /**
      * Check if a file exists.
      *
      * @param string  $fn

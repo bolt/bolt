@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Provider;
 
+use Bolt\AccessControl\Permissions;
 use Bolt\Provider\PermissionsServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
@@ -16,7 +17,7 @@ class PermissionsServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new PermissionsServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Permissions', $app['permissions']);
+        $this->assertInstanceOf('Bolt\AccessControl\Permissions', $app['permissions']);
         $app->boot();
     }
 }

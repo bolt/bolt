@@ -34,7 +34,7 @@
 
         if (newName.length && newName !== name) {
             exec(
-                'renamefile',
+                'file/rename',
                 {
                     namespace: namespace,
                     parent: parentPath,
@@ -61,7 +61,7 @@
     {
         if (confirm(bolt.data('files.msg.delete_file', {'%FILENAME%': filename}))) {
             exec(
-                'deletefile',
+                'file/delete',
                 {
                     namespace: namespace,
                     filename: filename
@@ -91,7 +91,7 @@
      */
     files.duplicateFile = function (namespace, filename) {
         exec(
-            'duplicatefile',
+            'file/duplicate',
             {
                 namespace: namespace,
                 filename: filename

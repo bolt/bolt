@@ -13,42 +13,42 @@
 # possible, only add NEW routes above or below these.
 
 homepage:
-    path: '/'
+    path: /
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::homepage'
+        _controller: controller.frontend:homepage
 
 search:
-    path: '/search'
+    path: /search
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::search'
+        _controller: controller.frontend:search
 
 preview:
-    path: '/preview/{contenttypeslug}'
+    path: /preview/{contenttypeslug}
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::preview'
+        _controller: controller.frontend:preview
     requirements:
-        contenttypeslug: 'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
+        contenttypeslug: controller.requirement:anyContentType
 
 contentlink:
-    path: '/{contenttypeslug}/{slug}'
+    path: /{contenttypeslug}/{slug}
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::record'
+        _controller: controller.frontend:record
     requirements:
-        contenttypeslug: 'Bolt\Controllers\Routing::getAnyContentTypeRequirement'
+        contenttypeslug: controller.requirement:anyContentType
 
 taxonomylink:
-    path: '/{taxonomytype}/{slug}'
+    path: /{taxonomytype}/{slug}
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::taxonomy'
+        _controller: controller.frontend:taxonomy
     requirements:
-        taxonomytype: 'Bolt\Controllers\Routing::getAnyTaxonomyTypeRequirement'
+        taxonomytype: controller.requirement:anyTaxonomyType
 
 contentlisting:
-    path: '/{contenttypeslug}'
+    path: /{contenttypeslug}
     defaults:
-        _controller: 'Bolt\Controllers\Frontend::listing'
+        _controller: controller.frontend:listing
     requirements:
-        contenttypeslug: 'Bolt\Controllers\Routing::getPluralContentTypeRequirement'
+        contenttypeslug: controller.requirement:pluralContentTypes
 
 # ------------------------------------------------------------------------------
 # Place your own routes here, that have a LOWER priority than the default routes.
@@ -61,32 +61,32 @@ contentlisting:
 # Example to route old '.html' pages to pages genereated by bolt.
 
 # oldpages:
-#     path: '/{slug}.html'
+#     path: /{slug}.html
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
-#         contenttypeslug: 'page'
+#         _controller: controller.frontend:record
+#         contenttypeslug: page
 #     requirements:
-#         slug: '[a-z0-9-_]+'
+#         slug: [a-z0-9-_]+
 
 
 # Example route with a host requirement
 
 # example:
-#     path: '/example'
+#     path: /example
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
-#         contenttypeslug: 'page'
-#         slug: 'example'
-#     host: 'www.mydomain.org'
+#         _controller: controller.frontend:record
+#         contenttypeslug: page
+#         slug: example
+#     host: www.mydomain.org
 
 
 # Example override for a specific contenttype
 
 # pagebinding:
-#     path: '/{slug}'
+#     path: /{slug}
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
-#         contenttypeslug: 'page'
+#         _controller: controller.frontend:record
+#         contenttypeslug: page
 #     contenttype: pages
 
 
@@ -94,12 +94,12 @@ contentlisting:
 # Example single record override
 
 # aboutbinding:
-#     path: '/about'
+#     path: /about
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
-#         contenttypeslug: 'page'
-#         slug: 'about'
-#     recordslug: 'page/about'
+#         _controller: controller.frontend:record
+#         contenttypeslug: page
+#         slug: about
+#     recordslug: page/about
 
 
 
@@ -110,23 +110,23 @@ contentlisting:
 # default route /showcase/foo-bar as well.
 
 # chapterbinding:
-#     path: '/{chapters}/{slug}'
+#     path: /{chapters}/{slug}
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
-#         contenttypeslug: 'showcases'
-#         chapters: 'showcase'
+#         _controller: controller.frontend:record
+#         contenttypeslug: showcases
+#         chapters: showcase
 #     requirements:
-#         chapters: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['chapters', 'showcase'] ]
+#         chapters: [ controller.requirement:singleTaxonomy, [chapters, showcase] ]
 #     contenttype: showcases
 
 # categorybinding:
-#     path: '/{categories}/{slug}'
+#     path: /{categories}/{slug}
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::record'
-#         contenttypeslug: 'showcases'
-#         categories': 'none'
+#         _controller: controller.frontend:record
+#         contenttypeslug: showcases
+#         categories: none
 #     requirements:
-#         categories: [ 'Bolt\Controllers\Routing::getTaxonomyRequirement', ['categories', 'none'] ]
+#         categories: [ controller.requirement:singleTaxonomy, [categories] ]
 #     contenttype: showcases
 
 
@@ -142,9 +142,7 @@ contentlisting:
 # Note that you can still load and render content from within the template.
 
 # templatebinding:
-#     path: '/static-page/'
+#     path: /static-page
 #     defaults:
-#         _controller: 'Bolt\Controllers\Frontend::template'
-#         template: 'static-page'
-
-
+#         _controller: controller.frontend:template
+#         template: static-page

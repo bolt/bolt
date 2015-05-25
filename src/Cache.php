@@ -114,8 +114,7 @@ class Cache extends FilesystemCache
         $this->clearCacheHelper($this->getDirectory(), '', $result);
 
         // Clear the thumbs folder.
-        $app = ResourceManager::getApp();
-        $this->clearCacheHelper($app['resources']->getPath('web') . '/thumbs', '', $result);
+        $this->clearCacheHelper($this->app['resources']->getPath('web') . '/thumbs', '', $result);
 
         return $result;
     }

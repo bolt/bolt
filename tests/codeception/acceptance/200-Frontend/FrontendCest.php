@@ -1,5 +1,7 @@
 <?php
 
+use Codeception\Util\Fixtures;
+
 /**
  * Frontend navigation and render tests
  *
@@ -9,12 +11,15 @@ class FrontendCest
 {
     /** @var array */
     protected $user;
+    /** @var array */
+    protected $tokenNames;
 
     /**
      * @param \AcceptanceTester $I
      */
     public function _before(\AcceptanceTester $I)
     {
+        $this->tokenNames = Fixtures::get('tokenNames');
     }
 
     /**
@@ -41,7 +46,22 @@ class FrontendCest
         $I->see('Recent Showcases');
         $I->dontSee('Recent Resources');
 
+        $I->see('A Page I Made', 'h1');
         $I->see('Built with Bolt, tested with Codeception', 'footer');
+    }
+
+    /**
+     * Check that Bolt doesn't set any session cookies when we're not logged in.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function checkNoSessionCookieTest(\AcceptanceTester $I)
+    {
+        $I->wantTo('see that there are no session cookies set.');
+
+        $I->amOnPage('');
+
+        $I->dontSeeCookie($this->tokenNames['session']);
     }
 
     /**

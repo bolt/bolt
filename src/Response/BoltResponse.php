@@ -3,6 +3,7 @@
 namespace Bolt\Response;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Twig_Template as Template;
 
 /**
@@ -17,6 +18,8 @@ class BoltResponse extends Response
     protected $template;
     protected $context = array();
     protected $compiled = false;
+    /** @var Stopwatch|null */
+    protected $stopwatch;
 
     /**
      * Constructor.
@@ -50,6 +53,11 @@ class BoltResponse extends Response
     public static function create($template = null, $context = array(), $globals = array(), $status = 200, $headers = array())
     {
         return new static($template, $context, $globals, $status, $headers);
+    }
+
+    public function setStopwatch(Stopwatch $stopwatch)
+    {
+        $this->stopwatch = $stopwatch;
     }
 
     /**
@@ -187,8 +195,14 @@ class BoltResponse extends Response
      */
     public function compile()
     {
+        if ($this->stopwatch) {
+            $this->stopwatch->start('bolt.render', 'template');
+        }
         $output = $this->template->render($this->context);
         $this->setContent($output);
         $this->compiled = true;
+        if ($this->stopwatch) {
+            $this->stopwatch->stop('bolt.render');
+        }
     }
 }

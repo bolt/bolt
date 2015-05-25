@@ -12,9 +12,11 @@ class BackendDeveloperCest
 {
     /** @var array */
     protected $user;
+    /** @var array */
+    protected $tokenNames;
 
     /** @var array */
-    private $cookies = array('bolt_authtoken' => '', 'bolt_session' => '');
+    private $cookies = [];
 
     /**
      * @param \AcceptanceTester $I
@@ -22,6 +24,7 @@ class BackendDeveloperCest
     public function _before(\AcceptanceTester $I)
     {
         $this->user = Fixtures::get('users');
+        $this->tokenNames = Fixtures::get('tokenNames');
     }
 
     /**
@@ -41,8 +44,8 @@ class BackendDeveloperCest
         $I->wantTo("Login as 'developer' user");
 
         $I->loginAs($this->user['developer']);
-        $this->cookies['bolt_authtoken'] = $I->grabCookie('bolt_authtoken');
-        $this->cookies['bolt_session'] = $I->grabCookie('bolt_session');
+        $this->cookies[$this->tokenNames['authtoken']] = $I->grabCookie($this->tokenNames['authtoken']);
+        $this->cookies[$this->tokenNames['session']] = $I->grabCookie($this->tokenNames['session']);
 
         $I->see('Dashboard');
     }
@@ -57,8 +60,8 @@ class BackendDeveloperCest
         $I->wantTo("Use the 'File management -> Uploaded Files' interface as the 'developer' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/files');
 
         $file = 'blur-flowers-home-1093.jpg';
@@ -83,8 +86,8 @@ class BackendDeveloperCest
         $I->wantTo("Use the 'File management -> View / edit templates' interface as the 'developer' user");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/files/theme');
 
         // Inspect the landing page
@@ -118,8 +121,8 @@ class BackendDeveloperCest
         $I->wantTo("See that the 'developer' user can edit and save the _footer.twig template file.");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/file/edit/theme/base-2014/_footer.twig');
 
         // Put _footer.twig into edit mode
@@ -151,8 +154,8 @@ class BackendDeveloperCest
         $I->wantTo("See that the 'developer' user can edit and save a translation.");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/tr');
 
         // Go into edit mode
@@ -184,8 +187,8 @@ class BackendDeveloperCest
         $I->wantTo("See that the 'developer' user can edit translation long messages.");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/tr/infos');
 
         // Go into edit mode
@@ -215,8 +218,8 @@ class BackendDeveloperCest
         $I->wantTo("See that the 'developer' user can edit translation Contenttype messages.");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/tr/contenttypes');
 
         // Go into edit mode
@@ -247,8 +250,8 @@ class BackendDeveloperCest
         $I->wantTo("See that the 'developer' user can view installed extensions.");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/extend');
 
         $I->see('Currently Installed Extensions', 'h2');
@@ -268,8 +271,8 @@ class BackendDeveloperCest
         $I->wantTo("See that the 'developer' user can configure installed extensions.");
 
         // Set up the browser
-        $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
-        $I->setCookie('bolt_session', $this->cookies['bolt_session']);
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('bolt/files/config/extensions');
 
         $I->see('tester-events.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/tester-events.bolt.yml'));

@@ -14,11 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ChangeLogTest extends BoltUnitTest
 {
-    public function testSetup()
-    {
-        $this->resetDb();
-    }
-
     public function testGetChangelog()
     {
         $app = $this->getApp();

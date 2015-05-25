@@ -72,7 +72,7 @@
         filename = filename.replace(/files\//ig, '');
 
         $.ajax({
-            url: bolt.conf('paths.async') + 'addstack/' + filename,
+            url: bolt.conf('paths.async') + 'stack/add/' + filename,
             type: 'GET',
             success: function (result) {
                 // Move all current items one down, and remove the last one.

@@ -53,6 +53,29 @@ class YamlHelper extends \Codeception\Module
     /**
      * Update the permissions.yml array that we'll use.
      *
+     * @return string
+     */
+    public function getUpdatedPermissions()
+    {
+        return $this->getYamlString($this->getBasePermissions(), 3);
+    }
+
+    /**
+     * Get the Lemmings worthy permissions.yml array that we'll use.
+     *
+     * @return string
+     */
+    public function getLemmingsPermissions()
+    {
+        $permissions = $this->getBasePermissions();
+        $permissions['global']['dashboard'] = [];
+
+        return $this->getYamlString($permissions, 3);
+    }
+
+    /**
+     * Update the permissions.yml array that we'll use.
+     *
      * The intended layout is presently:
      *
      * ```
@@ -87,7 +110,7 @@ class YamlHelper extends \Codeception\Module
      *
      * @return string
      */
-    public function getUpdatedPermissions()
+    private function getBasePermissions()
     {
         $permissions = $this->readYaml('permissions.yml');
 
@@ -125,7 +148,7 @@ class YamlHelper extends \Codeception\Module
             ]
         ];
 
-        return $this->getYamlString($permissions, 3);
+        return $permissions;
     }
 
     /**

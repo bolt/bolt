@@ -16,7 +16,7 @@ class CronServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new CronServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Controllers\Cron', $app['cron']);
+        $this->assertInstanceOf('Bolt\Cron', $app['cron']);
         $app->boot();
     }
 }

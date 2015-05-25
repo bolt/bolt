@@ -2,13 +2,13 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Controllers\Cron;
-use Silex\Application;
+use Bolt\Cron;
+use Silex;
 use Silex\ServiceProviderInterface;
 
 class CronServiceProvider implements ServiceProviderInterface
 {
-    public function register(Application $app)
+    public function register(Silex\Application $app)
     {
         $app['cron'] = $app->share(
             function ($app) {
@@ -19,7 +19,7 @@ class CronServiceProvider implements ServiceProviderInterface
         );
     }
 
-    public function boot(Application $app)
+    public function boot(Silex\Application $app)
     {
     }
 }
