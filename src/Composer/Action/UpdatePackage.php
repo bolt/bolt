@@ -37,7 +37,7 @@ final class UpdatePackage
      *
      * @return int 0 on success or a positive error code on failure
      */
-    public function execute(array $packages = array(), array $options = array())
+    public function execute(array $packages = [], array $options = [])
     {
         /** @var $composer \Composer\Composer */
         $composer = $this->app['extend.manager']->getComposer();
@@ -92,7 +92,7 @@ final class UpdatePackage
             return $install->run();
         } catch (\Exception $e) {
             $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
-            $this->app['logger.system']->critical($msg, array('event' => 'exception', 'exception' => $e));
+            $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
 
             throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
         }

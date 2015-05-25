@@ -81,7 +81,7 @@ final class InstallPackage
             return $install->run();
         } catch (\Exception $e) {
             $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
-            $this->app['logger.system']->critical($msg, array('event' => 'exception', 'exception' => $e));
+            $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
             throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
         }
     }

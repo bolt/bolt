@@ -47,7 +47,7 @@ final class Factory extends PackageManager
     /**
      * @var array
      */
-    public $messages = array();
+    public $messages = [];
 
     /**
      * @param \Silex\Application $app
@@ -74,7 +74,7 @@ final class Factory extends PackageManager
             try {
                 $this->composer = \Composer\Factory::create($this->getIO(), $this->options['composerjson'], true);
             } catch (\Exception $e) {
-                $this->app['logger.system']->critical($e->getMessage(), array('event' => 'exception', 'exception' => $e));
+                $this->app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
             }
 
             if ($this->downgradeSsl) {
@@ -159,13 +159,13 @@ final class Factory extends PackageManager
             return null;
         }
 
-        return array(
+        return [
             'name'          => $name,
             'version'       => $package->getVersion(),
             'prettyversion' => $package->getPrettyVersion(),
             'package'       => $package,
             'requirever'    => $versionSelector->findRecommendedRequireVersion($package)
-        );
+        ];
     }
 
     /**

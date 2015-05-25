@@ -37,7 +37,7 @@ final class BoltExtendJson
      * @param string $file
      * @param array  $data
      */
-    public function execute($file, array $data = array())
+    public function execute($file, array $data = [])
     {
         $this->initJson($file, $data);
     }
@@ -48,7 +48,7 @@ final class BoltExtendJson
      * @param string $file
      * @param array  $data
      */
-    public function initJson($file, array $data = array())
+    public function initJson($file, array $data = [])
     {
         $jsonFile = new JsonFile($file);
         $jsonFile->write($data);
@@ -79,7 +79,7 @@ final class BoltExtendJson
             // Error
             $this->messages[] = Trans::__(
                 "The Bolt extensions file '%composerjson%' isn't readable.",
-                array('%composerjson%' => $this->options['composerjson'])
+                ['%composerjson%' => $this->options['composerjson']]
             );
 
             $app['extend.writeable'] = false;
@@ -92,25 +92,25 @@ final class BoltExtendJson
 
         // Enforce standard settings
         $json['repositories']['packagist'] = false;
-        $json['repositories']['bolt'] = array(
+        $json['repositories']['bolt'] = [
             'type' => 'composer',
             'url'  => $app['extend.site'] . 'satis/'
-        );
+        ];
         $json['minimum-stability'] = $app['config']->get('general/extensions/stability', 'stable');
         $json['prefer-stable'] = true;
-        $json['config'] = array(
+        $json['config'] = [
             'discard-changes'   => true,
             'preferred-install' => 'dist'
-        );
+        ];
         $json['provide']['bolt/bolt'] = $app['bolt_version'];
-        $json['extra'] = array('bolt-web-path' => $pathToWeb);
-        $json['autoload'] = array(
-            'psr-4' => array('Bolt\\Composer\\' => '')
-        );
-        $json['scripts'] = array(
+        $json['extra'] = ['bolt-web-path' => $pathToWeb];
+        $json['autoload'] = [
+            'psr-4' => ['Bolt\\Composer\\' => '']
+        ];
+        $json['scripts'] = [
             'post-package-install' => 'Bolt\\Composer\\ExtensionInstaller::handle',
             'post-package-update'  => 'Bolt\\Composer\\ExtensionInstaller::handle'
-        );
+        ];
 
         // Write out the file, but only if it's actually changed, and if it's writable.
         if ($json != $jsonorig) {
@@ -120,7 +120,7 @@ final class BoltExtendJson
             } catch (\Exception $e) {
                 $this->messages[] = Trans::__(
                     'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
-                    array('%repository%' => $app['extend.site'])
+                    ['%repository%' => $app['extend.site']]
                 );
             }
         }

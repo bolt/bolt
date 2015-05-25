@@ -67,7 +67,7 @@ final class ShowPackage
         switch ($type) {
             case 'self':
                 $package = $composer->getPackage();
-                $repos = $installedRepo = new ArrayRepository(array($package));
+                $repos = $installedRepo = new ArrayRepository([$package]);
                 break;
 
             case 'platform':
@@ -94,35 +94,35 @@ final class ShowPackage
             default:
                 if ($composer) {
                     $localRepo = $composer->getRepositoryManager()->getLocalRepository();
-                    $installedRepo = new CompositeRepository(array($localRepo, $platformRepo));
-                    $merged = array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories());
+                    $installedRepo = new CompositeRepository([$localRepo, $platformRepo]);
+                    $merged = array_merge([$installedRepo], $composer->getRepositoryManager()->getRepositories());
                     $repos = new CompositeRepository($merged);
                 } else {
                     // No composer.json found in the current directory, showing available packages from default repos.
                     $defaultRepos = Factory::createDefaultRepositories($io);
                     $installedRepo = $platformRepo;
-                    $repos = new CompositeRepository(array_merge(array($installedRepo), $defaultRepos));
+                    $repos = new CompositeRepository(array_merge([$installedRepo], $defaultRepos));
                 }
         }
 
         // Single package or single version.
         if (!empty($package)) {
             if (is_object($package)) {
-                return array($package->getName() => array(
+                return [$package->getName() => [
                     'package'  => $package,
                     'versions' => $package->getVersion()
-                ));
+                ]];
             } else {
                 return $this->getPackage($installedRepo, $repos, $package, $version);
             }
         }
 
-        $packages = array();
+        $packages = [];
 
         if ($repos instanceof CompositeRepository) {
             $repos = $repos->getRepositories();
         } elseif (!is_array($repos)) {
-            $repos = array($repos);
+            $repos = [$repos];
         }
 
         foreach ($repos as $repo) {
@@ -137,10 +137,10 @@ final class ShowPackage
                         || !is_object($packages[$type][$package->getName()])
                         || version_compare($packages[$type][$package->getName()]->getVersion(), $package->getVersion(), '<')
                     ) {
-                        $packages[$package->getName()] = array(
+                        $packages[$package->getName()] = [
                             'package'  => $package,
                             'versions' => $package->getVersion()
-                        );
+                        ];
                     }
                 }
             }
@@ -177,7 +177,7 @@ final class ShowPackage
         $pool->addRepository($repos);
 
         $matchedPackage = null;
-        $versions = array();
+        $versions = [];
         $matches = $pool->whatProvides($name, $constraint);
         foreach ($matches as $index => $package) {
             // Skip providers/replacers.
@@ -198,17 +198,17 @@ final class ShowPackage
         // Select prefered package according to policy rules.
         if (!$matchedPackage
             && !empty($matches)
-            && $prefered = $policy->selectPreferredPackages($pool, array(), $matches)
+            && $prefered = $policy->selectPreferredPackages($pool, [], $matches)
         ) {
             $matchedPackage = $pool->literalToPackage($prefered[0]);
         }
 
         // If we have package result, return them.
         if ($matchedPackage) {
-            return array($matchedPackage->getName() => array(
+            return [$matchedPackage->getName() => [
                 'package'  => $matchedPackage,
                 'versions' => $versions
-            ));
+            ]];
         }
 
         return null;
