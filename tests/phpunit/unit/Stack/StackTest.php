@@ -15,7 +15,7 @@ class StackTest extends BoltUnitTest
     public function testSetup()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('getCurrentUser', 'saveUser'), array($app));
+        $users = $this->getMock('Bolt\Users', ['getCurrentUser', 'saveUser'], [$app]);
         $app['users'] = $users;
         $stack = new Stack($app);
         $stack->add('mytestfile');
@@ -32,7 +32,7 @@ class StackTest extends BoltUnitTest
     public function testDuplicates()
     {
         $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', array('getCurrentUser', 'saveUser'), array($app));
+        $users = $this->getMock('Bolt\Users', ['getCurrentUser', 'saveUser'], [$app]);
         $app['users'] = $users;
         $stack = new Stack($app);
         $stack->add('mytestfile');
@@ -46,7 +46,7 @@ class StackTest extends BoltUnitTest
         $app['resources']->setPath('files', PHPUNIT_ROOT . '/resources/stack');
         $app->initialize();
 
-        $users = $this->getMock('Bolt\Users', array('getCurrentUser', 'saveUser'), array($app));
+        $users = $this->getMock('Bolt\Users', ['getCurrentUser', 'saveUser'], [$app]);
         $app['users'] = $users;
         $stack = new Stack($app);
 
