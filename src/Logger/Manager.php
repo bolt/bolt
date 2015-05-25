@@ -145,19 +145,19 @@ class Manager
             $rowcount = $query->execute()->fetch();
 
             // Set up the pager
-            $pager = array(
+            $pager = [
                     'for'          => 'activity',
                     'count'        => $rowcount['count'],
                     'totalpages'   => ceil($rowcount['count'] / $amount),
                     'current'      => $page,
                     'showing_from' => ($page - 1) * $amount + 1,
                     'showing_to'   => ($page - 1) * $amount + count($rows)
-            );
+            ];
 
             $this->app['storage']->setPager('activity', $pager);
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-            $rows = array();
+            $rows = [];
         }
 
         if ($log == 'change') {
@@ -190,10 +190,10 @@ class Manager
             }
             $query
                 ->where($where)
-                ->setParameters(array(
+                ->setParameters([
                     ':level'   => $level,
                     ':context' => $context
-                ));
+                ]);
         }
 
         return $query;

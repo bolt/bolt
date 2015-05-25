@@ -70,23 +70,23 @@ class SystemHandler extends AbstractProcessingHandler
         ) {
             $trace = $e->getTrace();
             $source = json_encode(
-                array(
+                [
                     'file'     => $e->getFile(),
                     'line'     => $e->getLine(),
                     'class'    => $trace['class'],
                     'function' => $trace['function'],
                     'message'  => $e->getMessage()
-                )
+                ]
             );
         } elseif ($this->app['debug']) {
             $backtrace = debug_backtrace();
             $backtrace = $backtrace[3];
 
             $source = json_encode(
-                array(
+                [
                     'file'     => str_replace($this->app['resources']->getPath('root'), '', $backtrace['file']),
                     'line'     => $backtrace['line']
-                )
+                ]
             );
         } else {
             $source = '';
@@ -99,7 +99,7 @@ class SystemHandler extends AbstractProcessingHandler
 
         $this->app['db']->insert(
             $this->tablename,
-            array(
+            [
                 'level'      => $record['level'],
                 'date'       => $record['datetime']->format('Y-m-d H:i:s'),
                 'message'    => $record['message'],
@@ -109,7 +109,7 @@ class SystemHandler extends AbstractProcessingHandler
                 'ip'         => $this->app['request']->getClientIp() ? : '127.0.0.1',
                 'context'    => isset($record['context']['event']) ? $record['context']['event'] : '',
                 'source'     => $source
-            )
+            ]
         );
     }
 

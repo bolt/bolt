@@ -77,32 +77,32 @@ class RecordChangeHandler extends AbstractProcessingHandler
         if (empty($record['context']['old']) && empty($record['context']['new'])) {
             throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
         }
-        if (empty($record['context']['old']) && in_array($record['context']['action'], array('UPDATE', 'DELETE'))) {
+        if (empty($record['context']['old']) && in_array($record['context']['action'], ['UPDATE', 'DELETE'])) {
             throw new \Exception("Cannot log action '{$record['context']['action']}' when old content doesn't exist");
         }
-        if (empty($record['context']['new']) && in_array($record['context']['action'], array('INSERT', 'UPDATE'))) {
+        if (empty($record['context']['new']) && in_array($record['context']['action'], ['INSERT', 'UPDATE'])) {
             throw new \Exception("Cannot log action '{$record['context']['action']}' when new content is empty");
         }
 
-        $data = array();
+        $data = [];
         switch ($record['context']['action']) {
             case 'UPDATE':
                 $diff = DeepDiff::diff($record['context']['old'], $record['context']['new']);
                 foreach ($diff as $item) {
                     list($k, $old, $new) = $item;
                     if (isset($record['context']['new'][$k])) {
-                        $data[$k] = array($old, $new);
+                        $data[$k] = [$old, $new];
                     }
                 }
                 break;
             case 'INSERT':
                 foreach ($record['context']['new'] as $k => $val) {
-                    $data[$k] = array(null, $val);
+                    $data[$k] = [null, $val];
                 }
                 break;
             case 'DELETE':
                 foreach ($record['context']['old'] as $k => $val) {
-                    $data[$k] = array($val, null);
+                    $data[$k] = [$val, null];
                 }
                 break;
         }
@@ -132,7 +132,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
         try {
             $this->app['db']->insert(
                 $this->tablename,
-                array(
+                [
                     'date'          => $record['datetime']->format('Y-m-d H:i:s'),
                     'ownerid'       => $user['id'],
                     'title'         => $title,
@@ -141,7 +141,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
                     'mutation_type' => $record['context']['action'],
                     'diff'          => $str,
                     'comment'       => $record['context']['comment']
-                )
+                ]
             );
         } catch (\Exception $e) {
             // Nothing.
@@ -154,7 +154,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
     private function initialize()
     {
         $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix', "bolt_"), 'log_change');
-        $this->allowed = array('INSERT', 'UPDATE', 'DELETE');
+        $this->allowed = ['INSERT', 'UPDATE', 'DELETE'];
         $this->initialized = true;
     }
 }
