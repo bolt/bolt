@@ -76,19 +76,19 @@ class General extends AsyncBase
      */
     public function changeLogRecord($contenttype, $contentid)
     {
-        $options = array(
+        $options = [
             'contentid' => $contentid,
             'limit'     => 4,
             'order'     => 'date',
             'direction' => 'DESC'
-        );
+        ];
 
-        $context = array(
+        $context = [
             'contenttype' => $contenttype,
             'entries'     => $this->app['logger.manager.change']->getChangelogByContentType($contenttype, $options)
-        );
+        ];
 
-        return $this->render('components/panel-change-record.twig', array('context' => $context));
+        return $this->render('components/panel-change-record.twig', ['context' => $context]);
     }
 
     /**
@@ -104,15 +104,15 @@ class General extends AsyncBase
 
         // One 'alert' and one 'info' max. Regular info-items can be disabled,
         // but Alerts can't.
-        $context = array(
+        $context = [
             'alert'       => empty($news['alert']) ? null : $news['alert'],
             'information' => empty($news['information']) ? null : $news['information'],
             'error'       => empty($news['error']) ? null : $news['error'],
             'disable'     => $this->getOption('general/backend/news/disable')
-        );
+        ];
 
-        $response = $this->render('components/panel-news.twig', array('context' => $context));
-        $response->setCache(array('s_maxage' => '3600', 'public' => true));
+        $response = $this->render('components/panel-news.twig', ['context' => $context]);
+        $response->setCache(['s_maxage' => '3600', 'public' => true]);
 
         return $response;
     }
@@ -147,10 +147,10 @@ class General extends AsyncBase
         $change = $this->app['logger.manager']->getActivity('change', 8);
         $system = $this->app['logger.manager']->getActivity('system', 8, null, 'authentication');
 
-        $response = $this->render('components/panel-activity.twig', array('context' => array(
+        $response = $this->render('components/panel-activity.twig', ['context' => [
             'change' => $change,
             'system' => $system,
-        )));
+        ]]);
         $response->setPublic()->setSharedMaxAge(3600);
 
         return $response;
@@ -187,7 +187,7 @@ class General extends AsyncBase
         $query = $request->query->get('q', '');
 
         if (strlen($query) < 3) {
-            return $this->json(array());
+            return $this->json([]);
         }
 
         $options = $this->app['omnisearch']->query($query);
@@ -215,9 +215,9 @@ class General extends AsyncBase
             ->groupBy('slug')
             ->orderBy('count', 'DESC')
             ->setMaxResults($request->query->getInt('limit', 20))
-            ->setParameters(array(
+            ->setParameters([
                 ':taxonomytype' => $taxonomytype
-            ));
+            ]);
 
         $results = $query->execute()->fetchAll();
 
@@ -259,7 +259,7 @@ class General extends AsyncBase
         // Parse the field as Markdown, return HTML
         $html = $this->app['markdown']->text($readme);
 
-        return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
+        return new Response($html, Response::HTTP_OK, ['Cache-Control' => 's-maxage=180, public']);
     }
 
     /**
@@ -279,9 +279,9 @@ class General extends AsyncBase
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
             ->orderBy('slug', 'ASC')
-            ->setParameters(array(
+            ->setParameters([
                 ':taxonomytype' => $taxonomytype
-            ));
+            ]);
 
         $results = $query->execute()->fetchAll();
 
@@ -299,7 +299,7 @@ class General extends AsyncBase
     {
         $html = $this->extensions()->renderWidget($key);
 
-        return new Response($html, Response::HTTP_OK, array('Cache-Control' => 's-maxage=180, public'));
+        return new Response($html, Response::HTTP_OK, ['Cache-Control' => 's-maxage=180, public']);
     }
 
     /**
@@ -319,21 +319,21 @@ class General extends AsyncBase
 
         // If not cached, get fresh news.
         if ($news !== false) {
-            $this->app['logger.system']->info('Using cached data', array('event' => 'news'));
+            $this->app['logger.system']->info('Using cached data', ['event' => 'news']);
 
             return $news;
         } else {
             $source = 'http://news.bolt.cm/';
             $curl = $this->getDashboardCurlOptions($hostname, $source);
 
-            $this->app['logger.system']->info('Fetching from remote server: ' . $source, array('event' => 'news'));
+            $this->app['logger.system']->info('Fetching from remote server: ' . $source, ['event' => 'news']);
 
             try {
-                $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], array(), $curl['options'])->getBody(true);
+                $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], [], $curl['options'])->getBody(true);
                 $fetchedNewsItems = json_decode($fetchedNewsData);
 
                 if ($fetchedNewsItems) {
-                    $news = array();
+                    $news = [];
 
                     // Iterate over the items, pick the first news-item that
                     // applies and the first alert we need to show
@@ -349,17 +349,17 @@ class General extends AsyncBase
 
                     $cache->save('dashboardnews', $news, 7200);
                 } else {
-                    $this->app['logger.system']->error('Invalid JSON feed returned', array('event' => 'news'));
+                    $this->app['logger.system']->error('Invalid JSON feed returned', ['event' => 'news']);
                 }
 
                 return $news;
             } catch (RequestException $e) {
                 $this->app['logger.system']->critical(
                     'Error occurred during newsfeed fetch',
-                    array('event' => 'exception', 'exception' => $e)
+                    ['event' => 'exception', 'exception' => $e]
                 );
 
-                return array('error' => array('type' => 'error', 'title' => 'Unable to fetch news!', 'teaser' => "<p>Unable to connect to $source</p>"));
+                return ['error' => ['type' => 'error', 'title' => 'Unable to fetch news!', 'teaser' => "<p>Unable to connect to $source</p>"]];
             }
         }
     }
@@ -386,22 +386,22 @@ class General extends AsyncBase
         );
 
         // Standard option(s)
-        $options = array('CURLOPT_CONNECTTIMEOUT' => 5);
+        $options = ['CURLOPT_CONNECTTIMEOUT' => 5];
 
         // Options valid if using a proxy
         if ($this->getOption('general/httpProxy')) {
-            $proxies = array(
+            $proxies = [
                 'CURLOPT_PROXY'        => $this->getOption('general/httpProxy/host'),
                 'CURLOPT_PROXYTYPE'    => 'CURLPROXY_HTTP',
                 'CURLOPT_PROXYUSERPWD' => $this->getOption('general/httpProxy/user') . ':' .
                 $this->getOption('general/httpProxy/password')
-            );
+            ];
         }
 
-        return array(
+        return [
             'url'     => $url,
             'options' => $proxies ? array_merge($options, $proxies) : $options
-        );
+        ];
     }
 
     /**
@@ -418,7 +418,7 @@ class General extends AsyncBase
         $contenttype = $this->getContentType($contenttypeslug);
 
         // get the changelog for the requested contenttype.
-        $options = array('limit' => 5, 'order' => 'date', 'direction' => 'DESC');
+        $options = ['limit' => 5, 'order' => 'date', 'direction' => 'DESC'];
 
         if (intval($contentid) == 0) {
             $isFiltered = false;
@@ -429,14 +429,14 @@ class General extends AsyncBase
 
         $changelog = $this->app['logger.manager.change']->getChangelogByContentType($contenttype['slug'], $options);
 
-        $context = array(
+        $context = [
             'changelog'   => $changelog,
             'contenttype' => $contenttype,
             'contentid'   => $contentid,
             'filtered'    => $isFiltered,
-        );
+        ];
 
-        $response = $this->render('components/panel-lastmodified.twig', array('context' => $context));
+        $response = $this->render('components/panel-lastmodified.twig', ['context' => $context]);
         $response->setPublic()->setSharedMaxAge(60);
 
         return $response;
@@ -455,14 +455,14 @@ class General extends AsyncBase
         $contenttype = $this->getContentType($contenttypeslug);
 
         // Get the 'latest' from the requested contenttype.
-        $latest = $this->getContent($contenttype['slug'], array('limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false));
+        $latest = $this->getContent($contenttype['slug'], ['limit' => 5, 'order' => 'datechanged DESC', 'hydrate' => false]);
 
-        $context = array(
+        $context = [
             'latest'      => $latest,
             'contenttype' => $contenttype
-        );
+        ];
 
-        $response = $this->render('components/panel-lastmodified.twig', array('context' => $context));
+        $response = $this->render('components/panel-lastmodified.twig', ['context' => $context]);
         $response->setPublic()->setSharedMaxAge(60);
 
         return $response;

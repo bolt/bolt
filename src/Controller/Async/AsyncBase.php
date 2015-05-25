@@ -20,7 +20,7 @@ abstract class AsyncBase extends Base
         $c = parent::connect($app);
         $c->value(Zone::KEY, Zone::ASYNC);
 
-        $c->before(array($this, 'before'));
+        $c->before([$this, 'before']);
 
         return $c;
     }

@@ -38,11 +38,11 @@ class SystemTests extends AsyncBase
         // Create an email
         $mailhtml = $this->render(
             'email/pingtest.twig',
-            array(
+            [
                 'sitename' => $this->getOption('general/sitename'),
                 'user'     => $user['displayname'],
                 'ip'       => $request->getClientIp()
-            )
+            ]
         )->getContent();
 
         $senderMail = $this->getOption('general/mailoptions/senderMail', 'bolt@' . $request->getHost());
@@ -51,8 +51,8 @@ class SystemTests extends AsyncBase
         $message = $this->app['mailer']
             ->createMessage('message')
             ->setSubject('Test email from ' . $this->getOption('general/sitename'))
-            ->setFrom(array($senderMail  => $senderName))
-            ->setTo(array($user['email'] => $user['displayname']))
+            ->setFrom([$senderMail  => $senderName])
+            ->setTo([$user['email'] => $user['displayname']])
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html');
 

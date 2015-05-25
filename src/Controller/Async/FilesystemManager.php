@@ -69,7 +69,7 @@ class FilesystemManager extends AsyncBase
         $key = $request->query->get('key');
 
         // Get the pathsegments, so we can show the path.
-        $pathsegments = array();
+        $pathsegments = [];
         $cumulative = '';
         if (!empty($path)) {
             foreach (explode('/', $path) as $segment) {
@@ -81,23 +81,23 @@ class FilesystemManager extends AsyncBase
         try {
             $filesystem->listContents($path);
         } catch (\Exception $e) {
-            $msg = Trans::__("Folder '%s' could not be found, or is not readable.", array('%s' => $path));
+            $msg = Trans::__("Folder '%s' could not be found, or is not readable.", ['%s' => $path]);
             $this->flashes()->error($msg);
         }
 
         list($files, $folders) = $filesystem->browse($path, $this->app);
 
-        $context = array(
+        $context = [
             'namespace'    => $namespace,
             'files'        => $files,
             'folders'      => $folders,
             'pathsegments' => $pathsegments,
             'key'          => $key
-        );
+        ];
 
         return $this->render('files_async/files_async.twig',
-            array('context' => $context),
-            array('title', Trans::__('Files in %s', array('%s' => $path)))
+            ['context' => $context],
+            ['title', Trans::__('Files in %s', ['%s' => $path])]
         );
     }
 
@@ -194,25 +194,25 @@ class FilesystemManager extends AsyncBase
      */
     public function recordBrowser()
     {
-        $results = array();
+        $results = [];
 
         foreach ($this->app['storage']->getContentTypes() as $contenttype) {
-            $records = $this->getContent($contenttype, array('published' => true, 'hydrate' => false));
+            $records = $this->getContent($contenttype, ['published' => true, 'hydrate' => false]);
 
             foreach ($records as $record) {
-                $results[$contenttype][] = array(
+                $results[$contenttype][] = [
                     'title' => $record->getTitle(),
                     'id'    => $record->id,
                     'link'  => $record->link()
-                );
+                ];
             }
         }
 
-        $context = array(
+        $context = [
             'results' => $results,
-        );
+        ];
 
-        return $this->render('recordbrowser/recordbrowser.twig', array('context' => $context));
+        return $this->render('recordbrowser/recordbrowser.twig', ['context' => $context]);
     }
 
     /**
