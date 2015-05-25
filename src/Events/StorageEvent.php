@@ -54,7 +54,7 @@ class StorageEvent extends GenericEvent
      * @param Bolt\Content|array $subject   A Content object that is being saved or deleted
      * @param array              $arguments Arguments to store in the event.
      */
-    public function __construct($subject = null, array $arguments = array())
+    public function __construct($subject = null, array $arguments = [])
     {
         $this->subject = $subject;
         $this->arguments = $arguments;

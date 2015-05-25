@@ -24,7 +24,7 @@ class MountEvent extends Event
      *
      * @var array
      */
-    protected $priorities = array();
+    protected $priorities = [];
 
     /**
      * @param Application $app
@@ -51,7 +51,7 @@ class MountEvent extends Event
      */
     public function mount($prefix, $controllers, $priority = 0)
     {
-        $this->priorities[$priority][] = array($prefix, $controllers);
+        $this->priorities[$priority][] = [$prefix, $controllers];
     }
 
     /**
