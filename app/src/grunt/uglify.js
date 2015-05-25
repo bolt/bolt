@@ -72,7 +72,7 @@ module.exports = {
         files: [{
             expand: true,
             ext: '.min.js',
-            cwd: '<%= path.src.lib %>/datepicker',
+            cwd: '<%= path.src.bower %>/jquery-ui/ui/i18n',
             src: '*.js',
             dest: '<%= path.dest.js %>/locale/datepicker',
             rename: function (destBase, destPath) {
