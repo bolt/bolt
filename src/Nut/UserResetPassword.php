@@ -35,14 +35,14 @@ class UserResetPassword extends BaseCommand
 
         /** @var \Symfony\Component\Console\Helper\DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
-        $confirm  = $input->getOption('no-interaction');
+        $confirm = $input->getOption('no-interaction');
         $question = "<question>Are you sure you want to reset the password for \"{$username}\"?</question>";
 
         if (!$confirm && !$dialog->askConfirmation($output, $question, false)) {
             return false;
         }
 
-        $password = $this->app['users']->setRandomPassword($username);
+        $password = $this->app['authentication']->setRandomPassword($username);
 
         if ($password !== false) {
             $output->writeln("<info>New password for {$username} is {$password}</info>");
