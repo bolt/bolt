@@ -20,10 +20,10 @@ class BoltDataCollectorTest extends BoltUnitTest
         $request = Request::create(
             '/',
             'GET',
-            array(),
-            array(),
-            array(),
-            array()
+            [],
+            [],
+            [],
+            []
         );
 
         $response = $app->handle($request);
