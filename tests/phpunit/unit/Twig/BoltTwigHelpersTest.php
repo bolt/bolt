@@ -145,7 +145,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->assertEquals('…', mb_substr($excerpt1, -1, 1, 'UTF-8'));
 
         // If passed an object excerpt will try to call an excerpt() method on it
-        $mock = $this->getMock('Bolt\Content', array('excerpt'), array($app));
+        $mock = $this->getMock('Bolt\Content', ['excerpt'], [$app]);
         $mock->expects($this->any())
             ->method('excerpt')
             ->will($this->returnValue('called'));
@@ -156,11 +156,11 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // Note: Current behaviour is that an ArrayObject will be treated as an array:
         // values are 'glued' together, and excerpt is created from that. If we change
         // that behaviour, the test below should be uncommented again.
-        // // $obj = new \ArrayObject(array('info' => 'A test title', 'body' => $this->getDummyText()));
-        // $this->assertFalse($twig->excerpt($obj));
+//         $obj = new \ArrayObject(['info' => 'A test title', 'body' => $this->getDummyText()]);
+//         $this->assertFalse($twig->excerpt($obj));
 
         // Check that array works.
-        $sample = array('info' => 'A test title', 'body' => $this->getDummyText());
+        $sample = ['info' => 'A test title', 'body' => $this->getDummyText()];
         $excerpt4 = $twig->excerpt($sample);
         $this->assertRegExp('/' . $sample['info'] . '/', $excerpt4);
 
@@ -240,7 +240,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $handlers = $this->getTwigHandlers($app);
         $twig = new TwigExtension($app, $handlers, false);
         $snippet = 'Hello {{item}}';
-        $this->assertEquals('Hello World', $twig->twig($snippet, array('item' => 'World')));
+        $this->assertEquals('Hello World', $twig->twig($snippet, ['item' => 'World']));
     }
 
     public function testDecorateTT()
@@ -264,12 +264,12 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
         $twig = new TwigExtension($app, $handlers, false);
-        $input = array(
-            array('title' => 'Gamma', 'id' => 10, 'date' => '2014-01-19'),
-            array('title' => 'Alpha', 'id' => 10, 'date' => '2014-02-20'),
-            array('title' => 'Beta',  'id' => 8,  'date' => '2014-01-10'),
-            array('title' => 'Delta', 'id' => 6,  'date' => '2014-01-19')
-        );
+        $input = [
+            ['title' => 'Gamma', 'id' => 10, 'date' => '2014-01-19'],
+            ['title' => 'Alpha', 'id' => 10, 'date' => '2014-02-20'],
+            ['title' => 'Beta',  'id' => 8,  'date' => '2014-01-10'],
+            ['title' => 'Delta', 'id' => 6,  'date' => '2014-01-19']
+        ];
         $result = array_values($twig->order($input, 'id'));
         $this->assertEquals('Delta', $result[0]['title']);
         $this->assertEquals('Beta', $result[1]['title']);
@@ -285,7 +285,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
         $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals(1, $twig->first(array(1, 2, 3, 4)));
+        $this->assertEquals(1, $twig->first([1, 2, 3, 4]));
         $this->assertFalse($twig->first(1));
     }
 
@@ -294,7 +294,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
         $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals(4, $twig->last(array(1, 2, 3, 4)));
+        $this->assertEquals(4, $twig->last([1, 2, 3, 4]));
         $this->assertFalse($twig->last(1));
     }
 
@@ -305,7 +305,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->addDefaultUser($app);
         $storage = new Storage($app);
         $content = $storage->getEmptyContent('showcases');
-        $content->setValues(array('title' => 'New Showcase', 'slug' => 'new-showcase', 'status' => 'published'));
+        $content->setValues(['title' => 'New Showcase', 'slug' => 'new-showcase', 'status' => 'published']);
         $storage->saveContent($content);
 
         $phpunit = $this;
@@ -375,19 +375,19 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // First up we seed the database with a showcase and some related entries.
         $content = $storage->getEmptyContent('entries');
-        $content->setValues(array('title' => 'New Entry 1', 'slug' => 'new-entry-1', 'status' => 'published'));
+        $content->setValues(['title' => 'New Entry 1', 'slug' => 'new-entry-1', 'status' => 'published']);
         $storage->saveContent($content);
 
         $content = $storage->getEmptyContent('entries');
-        $content->setValues(array('title' => 'New Entry 2', 'slug' => 'new-entry-2', 'status' => 'published'));
+        $content->setValues(['title' => 'New Entry 2', 'slug' => 'new-entry-2', 'status' => 'published']);
         $storage->saveContent($content);
 
         $content = $storage->getEmptyContent('entries');
-        $content->setValues(array('title' => 'New Entry 3', 'slug' => 'new-entry-3', 'status' => 'published'));
+        $content->setValues(['title' => 'New Entry 3', 'slug' => 'new-entry-3', 'status' => 'published']);
         $storage->saveContent($content);
 
         $content = $storage->getEmptyContent('showcases');
-        $content->setValues(array('title' => 'New Showcase', 'slug' => 'new-showcase', 'status' => 'published'));
+        $content->setValues(['title' => 'New Showcase', 'slug' => 'new-showcase', 'status' => 'published']);
         $content->setRelation('entries', 1);
         $content->setRelation('entries', 2);
         $storage->saveContent($content);
@@ -396,7 +396,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $app->before(
             function ($request, $app) use ($phpunit, $twig, $storage) {
                 $fetched = $storage->getContent('showcases/1');
-                $content = $twig->listContent('entries', array('order' => 'title'), $fetched);
+                $content = $twig->listContent('entries', ['order' => 'title'], $fetched);
                 $phpunit->assertEquals(2, count($content));
                 $phpunit->assertFalse($content[2]['selected']);
             }
@@ -421,7 +421,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
     protected function getDummyText($length = 1000)
     {
-        $words = array('this', 'is', 'a', 'test', 'long', 'string', 'of', 'words', 'and', 'means', 'almost', 'nothing');
+        $words = ['this', 'is', 'a', 'test', 'long', 'string', 'of', 'words', 'and', 'means', 'almost', 'nothing'];
         $longwords = range(1, $length);
         array_walk(
             $longwords,
