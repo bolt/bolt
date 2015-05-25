@@ -83,8 +83,8 @@ class ZoneGuesser implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::REQUEST => array('onKernelRequest', 31), // Right after route is matched
-        );
+        return [
+            KernelEvents::REQUEST => ['onKernelRequest', 31], // Right after route is matched
+        ];
     }
 }

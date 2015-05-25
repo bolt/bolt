@@ -83,9 +83,9 @@ class WhoopsListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             KernelEvents::REQUEST   => 'onRequest',
-            KernelEvents::EXCEPTION => array('onKernelException', 512),
-        );
+            KernelEvents::EXCEPTION => ['onKernelException', 512],
+        ];
     }
 }

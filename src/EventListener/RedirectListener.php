@@ -96,10 +96,10 @@ class RedirectListener implements EventSubscriberInterface
         $route = $request->attributes->get('_route');
 
         if ($response->getTargetUrl() === $this->urlGenerator->generate('login') && $route !== 'logout') {
-            $this->session->set('retreat', array(
+            $this->session->set('retreat', [
                 'route'  => $route,
                 'params' => $request->attributes->get('_route_params'),
-            ));
+            ]);
         } else {
             $this->session->remove('retreat');
         }
@@ -112,8 +112,8 @@ class RedirectListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             KernelEvents::RESPONSE => 'onResponse',
-        );
+        ];
     }
 }
