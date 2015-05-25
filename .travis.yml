@@ -69,10 +69,10 @@ before_script:
   # Create the project
   - composer create-project --working-dir=.tmp/ --no-interaction --prefer-dist
   # Update the Composer Bolt install with the PR files
-  - rsync -av --exclude="autoload*" vendor/ .tmp/vendor/
-  - rsync -av --delete src/ .tmp/vendor/bolt/bolt/src/
-  - rsync -av --delete app/ .tmp/vendor/bolt/bolt/app/
-  - rsync -av --delete tests/ .tmp/vendor/bolt/bolt/tests/
+  - rsync -a --exclude="autoload*" vendor/ .tmp/vendor/
+  - rsync -a --delete src/ .tmp/vendor/bolt/bolt/src/
+  - rsync -a --delete app/ .tmp/vendor/bolt/bolt/app/
+  - rsync -a --delete tests/ .tmp/vendor/bolt/bolt/tests/
 
 script:
   ## Default install tests
