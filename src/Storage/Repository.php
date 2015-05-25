@@ -246,11 +246,13 @@ class Repository implements ObjectRepository
      */
     public function insert($entity)
     {
+        $querySet = new QuerySet();
         $qb = $this->em->createQueryBuilder();
         $qb->insert($this->getTableName());
-        $this->persister->persist($qb, $entity);
+        $querySet->append($qb);
+        $this->persister->persist($querySet, $entity, $this->em);
                 
-        return $qb->execute();
+        return $querySet->execute();
     }
     
     /**
@@ -262,14 +264,17 @@ class Repository implements ObjectRepository
      */
     public function update($entity)
     {
+        $querySet = new QuerySet();
         $qb = $this->em->createQueryBuilder();
-        $qb->update($this->getTableName());
-        $this->persister->persist($qb, $entity, $this->getClassMetadata());
-
-        $qb->where('id = :id')
+        $qb->update($this->getTableName())
+            ->where('id = :id')
             ->setParameter('id', $entity->getId());
+        $querySet->append($qb);
+        $this->persister->persist($querySet, $entity, $this->em);
         
-        return $qb->execute();
+        
+        
+        return $querySet->execute();
     }
     
     
