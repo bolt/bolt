@@ -182,7 +182,7 @@ class MetadataDriver implements MappingDriver
 
         // This loop checks the contenttypes definition for any non-db fields and adds them.
         if ($contentKey) {
-            $this->setRelations($contentKey, $className);
+            $this->setRelations($contentKey, $className, $table);
             $this->setTaxonomies($contentKey, $className);
         }
         
@@ -194,7 +194,7 @@ class MetadataDriver implements MappingDriver
         
     }
     
-    public function setRelations($contentKey, $className)
+    public function setRelations($contentKey, $className, $table)
     {
         if (!isset($this->contenttypes[$contentKey]['relations'])) {
             return;
@@ -209,6 +209,7 @@ class MetadataDriver implements MappingDriver
             $mapping['type'] = 'null';
             $mapping['fieldtype'] = $this->typemap['relation'];
             $mapping['entity'] = $this->resolveClassName($relationKey);
+            $mapping['target'] = $this->integrityChecker->getTableName('relations');
             $this->metadata[$className]['fields'][$relationKey] = $mapping;
             $this->metadata[$className]['fields'][$relationKey]['data'] = $data;
         }
