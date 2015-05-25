@@ -23,7 +23,7 @@ class ControllerCollection extends \Silex\ControllerCollection implements Defaul
     public function match($pattern, $to = null)
     {
         if ($this->defaultControllerClass && is_string($to) && method_exists($this->defaultControllerClass, $to)) {
-            $to = array($this->defaultControllerClass, $to);
+            $to = [$this->defaultControllerClass, $to];
         }
         return parent::match($pattern, $to);
     }
