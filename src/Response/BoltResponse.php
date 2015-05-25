@@ -16,7 +16,7 @@ class BoltResponse extends Response
 {
     /** @var Template */
     protected $template;
-    protected $context = array();
+    protected $context = [];
     protected $compiled = false;
     /** @var Stopwatch|null */
     protected $stopwatch;
@@ -30,7 +30,7 @@ class BoltResponse extends Response
      * @param int      $status   The response status code
      * @param array    $headers  An array of response headers
      */
-    public function __construct(Template $template, array $context = array(), array $globals = array(), $status = 200, $headers = array())
+    public function __construct(Template $template, array $context = [], array $globals = [], $status = 200, $headers = [])
     {
         parent::__construct(null, $status, $headers);
         $this->template = $template;
@@ -50,7 +50,7 @@ class BoltResponse extends Response
      *
      * @return \Bolt\Response\BoltResponse
      */
-    public static function create($template = null, $context = array(), $globals = array(), $status = 200, $headers = array())
+    public static function create($template = null, $context = [], $globals = [], $status = 200, $headers = [])
     {
         return new static($template, $context, $globals, $status, $headers);
     }
