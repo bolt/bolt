@@ -59,7 +59,7 @@ class Log extends BackendBase
 
         $activity = $this->manager()->getActivity('change', 16);
 
-        return $this->render('activity/changelog.twig', array('entries' => $activity));
+        return $this->render('activity/changelog.twig', ['entries' => $activity]);
     }
 
     /**
@@ -83,12 +83,12 @@ class Log extends BackendBase
         $prev = $this->changeLog()->getPrevChangelogEntry($contenttype, $contentid, $id);
         $next = $this->changeLog()->getNextChangelogEntry($contenttype, $contentid, $id);
 
-        $context = array(
-            'contenttype' => array('slug' => $contenttype),
+        $context = [
+            'contenttype' => ['slug' => $contenttype],
             'entry'       => $entry,
             'next_entry'  => $next,
             'prev_entry'  => $prev
-        );
+        ];
 
         return $this->render('changelog/changelogrecordsingle.twig', $context);
     }
@@ -123,10 +123,10 @@ class Log extends BackendBase
         }
 
         // Some options that are the same for all three cases
-        $options = array(
+        $options = [
             'order'     => 'date',
             'direction' => 'DESC'
-        );
+        ];
         if ($limit) {
             $options['limit'] = $limit;
         }
@@ -147,7 +147,7 @@ class Log extends BackendBase
             // We have a content type, and possibly a contentid.
             $contenttypeObj = $this->getContentType($contenttype);
             if ($contentid) {
-                $content = $this->getContent($contenttype, array('id' => $contentid, 'hydrate' => false));
+                $content = $this->getContent($contenttype, ['id' => $contentid, 'hydrate' => false]);
                 $options['contentid'] = $contentid;
             }
             // Getting a slice of data and the total count
@@ -187,14 +187,14 @@ class Log extends BackendBase
         // skip rendering the pager.
         $pagecount = $limit ? ceil($itemcount / $limit) : null;
 
-        $context = array(
-            'contenttype' => array('slug' => $contenttype),
+        $context = [
+            'contenttype' => ['slug' => $contenttype],
             'entries'     => $logEntries,
             'content'     => $content,
             'title'       => $title,
             'currentpage' => $page,
             'pagecount'   => $pagecount
-        );
+        ];
 
         return $this->render('changelog/changelogrecordall.twig', $context);
     }
@@ -227,7 +227,7 @@ class Log extends BackendBase
 
         $activity = $this->manager()->getActivity('system', 16, $level, $context);
 
-        return $this->render('activity/systemlog.twig', array('entries' => $activity));
+        return $this->render('activity/systemlog.twig', ['entries' => $activity]);
     }
 
     /**

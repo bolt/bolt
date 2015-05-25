@@ -67,7 +67,7 @@ class FileManager extends BackendBase
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         if (!$filesystem->authorized($file)) {
-            $error = Trans::__("You don't have correct permissions to edit the file '%s'.", array('%s' => $file));
+            $error = Trans::__("You don't have correct permissions to edit the file '%s'.", ['%s' => $file]);
             $this->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
@@ -77,12 +77,12 @@ class FileManager extends BackendBase
 
         $contents = null;
         if (!$file->exists() || !($contents = $file->read())) {
-            $error = Trans::__("The file '%s' doesn't exist, or is not readable.", array('%s' => $file->getPath()));
+            $error = Trans::__("The file '%s' doesn't exist, or is not readable.", ['%s' => $file->getPath()]);
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
 
         $writeallowed = $this->isWriteable($file);
-        $data = array('contents' => $contents);
+        $data = ['contents' => $contents];
 
         /** @var Form $form */
         $form = $this->createFormBuilder('form', $data)
@@ -101,7 +101,7 @@ class FileManager extends BackendBase
             $additionalpath = '';
         }
 
-        $context = array(
+        $context = [
             'form'           => $form->createView(),
             'filetype'       => $type,
             'file'           => $file->getPath(),
@@ -112,7 +112,7 @@ class FileManager extends BackendBase
             'write_allowed'  => $writeallowed,
             'filegroup'      => $this->getFileGroup($filesystem, $file),
             'datechanged'    => date_format(new \DateTime('@' . $file->getTimestamp()), 'c')
-        );
+        ];
 
         return $this->render('editfile/editfile.twig', $context);
     }
@@ -132,15 +132,15 @@ class FileManager extends BackendBase
         $path = rtrim($path, '/');
 
         // Defaults
-        $files      = array();
-        $folders    = array();
+        $files      = [];
+        $folders    = [];
         $formview   = false;
         $uploadview = true;
 
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
         if (!$filesystem->authorized($path)) {
-            $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", array('%s' => $path));
+            $error = Trans::__("You don't have the correct permissions to display the file or directory '%s'.", ['%s' => $path]);
             $this->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
@@ -160,7 +160,7 @@ class FileManager extends BackendBase
             $validFolder = true;
             $uploadview = false;
         } else {
-            $this->flashes()->error(Trans::__("The folder '%s' could not be found, or is not readable.", array('%s' => $path)));
+            $this->flashes()->error(Trans::__("The folder '%s' could not be found, or is not readable.", ['%s' => $path]));
             $formview = false;
             $validFolder = false;
         }
@@ -171,13 +171,13 @@ class FileManager extends BackendBase
                 ->add(
                     'FileUpload',
                     'file',
-                    array(
+                    [
                         'label'    => Trans::__('Upload a file to this folder'),
                         'multiple' => true,
-                        'attr'     => array(
+                        'attr'     => [
                             'data-filename-placement' => 'inside',
-                            'title'                   => Trans::__('Select file …'))
-                    )
+                            'title'                   => Trans::__('Select file …')]
+                    ]
                 )
                 ->getForm();
 
@@ -185,7 +185,7 @@ class FileManager extends BackendBase
             if ($request->isMethod('POST')) {
                 $this->handleUpload($request, $form, $namespace, $path);
 
-                return $this->redirectToRoute('files', array('path' => $path, 'namespace' => $namespace));
+                return $this->redirectToRoute('files', ['path' => $path, 'namespace' => $namespace]);
             }
 
             if ($uploadview !== false) {
@@ -203,14 +203,14 @@ class FileManager extends BackendBase
             $twig = 'files_ck/files_ck.twig';
         }
 
-        $context = array(
+        $context = [
             'path'         => $path,
             'files'        => $files,
             'folders'      => $folders,
             'pathsegments' => $this->getPathSegments($path),
             'form'         => $formview,
             'namespace'    => $namespace,
-        );
+        ];
 
         return $this->render($twig, $context);
     }
@@ -232,7 +232,7 @@ class FileManager extends BackendBase
         if ($form->isValid()) {
             $data = $form->getData();
             $contents = Input::cleanPostedData($data['contents']) . "\n";
-            $result = array('ok' => true, 'msg' => 'Unhandled state.');
+            $result = ['ok' => true, 'msg' => 'Unhandled state.'];
 
             // Before trying to save a yaml file, check if it's valid.
             if ($type === 'yml') {
@@ -241,7 +241,7 @@ class FileManager extends BackendBase
                     $yamlparser->parse($contents);
                 } catch (ParseException $e) {
                     $result['ok'] = false;
-                    $result['msg'] = Trans::__("File '%s' could not be saved:", array('%s' => $file->getPath())) . $e->getMessage();
+                    $result['msg'] = Trans::__("File '%s' could not be saved:", ['%s' => $file->getPath()]) . $e->getMessage();
                 }
             }
 
@@ -250,16 +250,16 @@ class FileManager extends BackendBase
                 $contents = str_ireplace("\x0D", '', $contents);
 
                 if ($file->update($contents)) {
-                    $result['msg'] = Trans::__("File '%s' has been saved.", array('%s' => $file->getPath()));
+                    $result['msg'] = Trans::__("File '%s' has been saved.", ['%s' => $file->getPath()]);
                     $result['datechanged'] = date_format(new \DateTime('@' . $file->getTimestamp()), 'c');
                 } else {
-                    $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", array('%s' => $file->getPath()));
+                    $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", ['%s' => $file->getPath()]);
                 }
             } else {
-                $result = array(
+                $result = [
                     'ok'  => false,
-                    'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", array('%s' => $file->getPath()))
-                );
+                    'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", ['%s' => $file->getPath()])
+                ];
             }
         }
 
@@ -287,10 +287,10 @@ class FileManager extends BackendBase
         $files = $files['FileUpload'];
 
         foreach ($files as $fileToProcess) {
-            $fileToProcess = array(
+            $fileToProcess = [
                 'name'     => $fileToProcess->getClientOriginalName(),
                 'tmp_name' => $fileToProcess->getPathName()
-            );
+            ];
 
             $originalFilename = $fileToProcess['name'];
             $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
@@ -298,13 +298,13 @@ class FileManager extends BackendBase
             if ($this->app['filepermissions']->allowedUpload($filename)) {
                 $this->processUpload($namespace, $path, $filename, $fileToProcess);
             } else {
-                $extensionList = array();
+                $extensionList = [];
                 foreach ($this->app['filepermissions']->getAllowedUploadExtensions() as $extension) {
                     $extensionList[] = '<code>.' . htmlspecialchars($extension, ENT_QUOTES) . '</code>';
                 }
                 $extensionList = implode(' ', $extensionList);
                 $this->flashes()->error(
-                    Trans::__("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:", array('%file%' => $filename))
+                    Trans::__("File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:", ['%file%' => $filename])
                     . $extensionList
                 );
             }
@@ -330,7 +330,7 @@ class FileManager extends BackendBase
 
         if ($result->isValid()) {
             $this->flashes()->info(
-                Trans::__("File '%file%' was uploaded successfully.", array('%file%' => $filename))
+                Trans::__("File '%file%' was uploaded successfully.", ['%file%' => $filename])
             );
 
             // Add the file to our stack.
@@ -356,7 +356,7 @@ class FileManager extends BackendBase
             $this->flashes()->info(
                 Trans::__(
                     "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                    array('%s' => $file->getPath())
+                    ['%s' => $file->getPath()]
                 )
             );
             return false;
@@ -379,7 +379,7 @@ class FileManager extends BackendBase
     private function getFileGroup(FilesystemInterface $filesystem, File $file)
     {
         $basename = str_replace('.yml', '', str_replace('_local', '', $file->getPath()));
-        $filegroup = array();
+        $filegroup = [];
         if ($filesystem->has($basename . '.yml')) {
             $filegroup[] = basename($basename . '.yml');
         }
@@ -399,7 +399,7 @@ class FileManager extends BackendBase
      */
     private function getPathSegments($path)
     {
-        $pathsegments = array();
+        $pathsegments = [];
         $cumulative = '';
         if (!empty($path)) {
             foreach (explode('/', $path) as $segment) {

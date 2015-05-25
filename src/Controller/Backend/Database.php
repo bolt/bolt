@@ -38,11 +38,11 @@ class Database extends BackendBase
     {
         list($messages, $hints) = $this->integrityChecker()->checkTablesIntegrity(true, $this->app['logger']);
 
-        $context = array(
+        $context = [
             'modifications_made'     => null,
             'modifications_required' => $messages,
             'modifications_hints'    => $hints,
-        );
+        ];
 
         return $this->render('dbcheck/dbcheck.twig', $context);
     }
@@ -70,9 +70,9 @@ class Database extends BackendBase
             }
             $this->flashes()->success($content);
 
-            return $this->redirectToRoute('fileedit', array('file' => 'app/config/contenttypes.yml'));
+            return $this->redirectToRoute('fileedit', ['file' => 'app/config/contenttypes.yml']);
         } else {
-            return $this->redirectToRoute('dbupdate_result', array('messages' => json_encode($output)));
+            return $this->redirectToRoute('dbupdate_result', ['messages' => json_encode($output)]);
         }
     }
 
@@ -85,10 +85,10 @@ class Database extends BackendBase
      */
     public function updateResult(Request $request)
     {
-        $context = array(
+        $context = [
             'modifications_made'     => json_decode($request->get('messages')),
             'modifications_required' => null,
-        );
+        ];
 
         return $this->render('dbcheck/dbcheck.twig', $context);
     }

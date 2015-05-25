@@ -66,10 +66,10 @@ class General extends BackendBase
     {
         $result = $this->app['cache']->clearCache();
 
-        $output = Trans::__('Deleted %s files from cache.', array('%s' => $result['successfiles']));
+        $output = Trans::__('Deleted %s files from cache.', ['%s' => $result['successfiles']]);
 
         if (!empty($result['failedfiles'])) {
-            $output .= ' ' . Trans::__('%s files could not be deleted. You should delete them manually.', array('%s' => $result['failedfiles']));
+            $output .= ' ' . Trans::__('%s files could not be deleted. You should delete them manually.', ['%s' => $result['failedfiles']]);
             $this->flashes()->error($output);
         } else {
             $this->flashes()->success($output);
@@ -98,16 +98,16 @@ class General extends BackendBase
     public function omnisearch(Request $request)
     {
         $query = $request->query->get('q', '');
-        $results = array();
+        $results = [];
 
         if (strlen($query) >= 3) {
             $results = $this->app['omnisearch']->query($query, true);
         }
 
-        $context = array(
+        $context = [
             'query'   => $query,
             'results' => $results
-        );
+        ];
 
         return $this->render('omnisearch/omnisearch.twig', $context);
     }
@@ -122,20 +122,20 @@ class General extends BackendBase
     public function prefill(Request $request)
     {
         // Determine the Contenttypes that we're doing the prefill for
-        $choices = array();
+        $choices = [];
         foreach ($this->getOption('contenttypes') as $key => $cttype) {
             $namekey = 'contenttypes.' . $key . '.name.plural';
-            $name = Trans::__($namekey, array(), 'contenttypes');
+            $name = Trans::__($namekey, [], 'contenttypes');
             $choices[$key] = ($name == $namekey) ? $cttype['name'] : $name;
         }
 
         // Create the form
         $form = $this->createFormBuilder('form')
-            ->add('contenttypes', 'choice', array(
+            ->add('contenttypes', 'choice', [
                 'choices'  => $choices,
                 'multiple' => true,
                 'expanded' => true,
-            ))
+            ])
             ->getForm();
 
         if ($request->isMethod('POST') || $request->get('force') == 1) {
@@ -148,16 +148,16 @@ class General extends BackendBase
             } catch (RequestException $e) {
                 $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
                 $this->flashes()->error($msg);
-                $this->app['logger.system']->error($msg, array('event' => 'storage'));
+                $this->app['logger.system']->error($msg, ['event' => 'storage']);
             }
 
             return $this->redirectToRoute('prefill');
         }
 
-        $context = array(
+        $context = [
             'contenttypes' => $choices,
             'form'         => $form->createView(),
-        );
+        ];
 
         return $this->render('prefill/prefill.twig', $context);
     }
@@ -173,10 +173,10 @@ class General extends BackendBase
      */
     public function translation(Request $request, $domain, $tr_locale)
     {
-        $tr = array(
+        $tr = [
             'domain' => $domain,
             'locale' => $tr_locale
-        );
+        ];
 
         // Get the translation data
         $data = $this->getTranslationData($tr);
@@ -186,10 +186,10 @@ class General extends BackendBase
             ->add(
                 'contents',
                 'textarea',
-                array('constraints' => array(
+                ['constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\Length(array('min' => 10))
-            )))
+                    new Assert\Length(['min' => 10])
+            ]])
             ->getForm();
 
         $form->handleRequest($request);
@@ -200,12 +200,12 @@ class General extends BackendBase
             }
         }
 
-        $context = array(
+        $context = [
             'form'          => $form->createView(),
             'basename'      => basename($tr['shortPath']),
             'filetype'      => 'yml',
             'write_allowed' => $tr['writeallowed'],
-        );
+        ];
 
         return $this->render('editlocale/editlocale.twig', $context);
     }
@@ -224,17 +224,17 @@ class General extends BackendBase
     private function getLatest($limit = null)
     {
         $total  = 0;
-        $latest = array();
+        $latest = [];
         $limit  = $limit ?: $this->getOption('general/recordsperdashboardwidget');
 
         // Get the 'latest' from each of the content types.
         foreach ($this->getOption('contenttypes') as $key => $contenttype) {
             if ($this->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true) {
-                $latest[$key] = $this->getContent($key, array(
+                $latest[$key] = $this->getContent($key, [
                     'limit'   => $limit,
                     'order'   => 'datechanged DESC',
                     'hydrate' => false
-                ));
+                ]);
 
                 if (!empty($latest[$key])) {
                     $total += count($latest[$key]);
@@ -242,10 +242,10 @@ class General extends BackendBase
             }
         }
 
-        return array(
+        return [
             'latest'          => $latest,
             'suggestloripsum' => ($total === 0),
-        );
+        ];
     }
 
     /**
@@ -261,11 +261,11 @@ class General extends BackendBase
 
         list($tr['path'], $tr['shortPath']) = $translation->path();
 
-        $this->app['logger.system']->info('Editing translation: ' . $tr['shortPath'], array('event' => 'translation'));
+        $this->app['logger.system']->info('Editing translation: ' . $tr['shortPath'], ['event' => 'translation']);
 
         $tr['writeallowed'] = $translation->isWriteAllowed();
 
-        return array('contents' => $translation->content());
+        return ['contents' => $translation->content()];
     }
 
     /**
@@ -284,7 +284,7 @@ class General extends BackendBase
         try {
             Yaml::parse($contents);
         } catch (ParseException $e) {
-            $msg = Trans::__("File '%s' could not be saved: ", array('%s' => $tr['shortPath']));
+            $msg = Trans::__("File '%s' could not be saved: ", ['%s' => $tr['shortPath']]);
             $this->flashes()->error($msg . $e->getMessage());
 
             return false;
@@ -298,15 +298,15 @@ class General extends BackendBase
             $fs = new Filesystem();
             $fs->dumpFile($tr['path'], $contents);
         } catch (IOException $e) {
-            $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", array('%s' => $tr['shortPath']));
+            $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", ['%s' => $tr['shortPath']]);
             $this->flashes()->error($msg);
             $tr['writeallowed'] = false;
             return false;
         }
 
-        $msg = Trans::__("File '%s' has been saved.", array('%s' => $tr['shortPath']));
+        $msg = Trans::__("File '%s' has been saved.", ['%s' => $tr['shortPath']]);
         $this->flashes()->info($msg);
 
-        return $this->redirectToRoute('translation', array('domain' => $tr['domain'], 'tr_locale' => $tr['locale']));
+        return $this->redirectToRoute('translation', ['domain' => $tr['domain'], 'tr_locale' => $tr['locale']]);
     }
 }
