@@ -12,9 +12,6 @@
 + ``codemirror`` ⇒
   **[CodeMirror](http://codemirror.net/) (Patched)** – only plugins used
 
-+ ``datepicker`` ⇒
-  **Datepicker locale v?**
-
 + ``jquery-hotkeys`` ⇒
   **[jQuery Hotkeys Plugin](https://github.com/jeresig/jquery.hotkeys) 1.10.3**
 
