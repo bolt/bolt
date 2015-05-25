@@ -142,19 +142,6 @@ class Authentication
     }
 
     /**
-     * Get the user's stored sessions.
-     *
-     * @param string $username
-     *
-     * @return array
-     */
-    private function getStoredSessions($username)
-    {
-        $query = sprintf("SELECT * FROM %s WHERE username = '%s'", $this->getTableName('authtoken'), $username);
-        return $this->app['db']->fetchAll($query);
-    }
-
-    /**
      * Lookup active sessions.
      *
      * @return array
