@@ -33,7 +33,7 @@ class UsersTest extends ControllerUnitTest
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
 
         // Now we allow the permsission check to return true
-        $perms = $this->getMock('Bolt\AccessControl\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
+        $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));
@@ -57,14 +57,14 @@ class UsersTest extends ControllerUnitTest
         $user = $this->getService('users')->getUser(1);
         $this->getService('users')->setCurrentUser($user);
 
-        $perms = $this->getMock('Bolt\AccessControl\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
+        $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));
         $this->setService('permissions', $perms);
 
         // Symfony forms normally need a CSRF token so we have to mock this too
-        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('secret'));
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', ['isCsrfTokenValid', 'generateCsrfToken'], ['secret']);
         $csrf->expects($this->once())
             ->method('isCsrfTokenValid')
             ->will($this->returnValue(true));
@@ -74,15 +74,15 @@ class UsersTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/bolt/useredit/1',
             'POST',
-            array(
-                'form' => array(
+            [
+                'form' => [
                     'id'          => $user['id'],
                     'username'    => $user['username'],
                     'email'       => $user['email'],
                     'displayname' => "Admin Test",
                     '_token'      => 'xyz'
-                )
-            )
+                ]
+            ]
         ));
 
         $response = $this->controller()->edit($this->getRequest(), 1);
@@ -92,7 +92,7 @@ class UsersTest extends ControllerUnitTest
     public function testFirst()
     {
         // Symfony forms need a CSRF token so we have to mock this too
-        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('secret'));
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', ['isCsrfTokenValid', 'generateCsrfToken'], ['secret']);
         $csrf->expects($this->any())
             ->method('isCsrfTokenValid')
             ->will($this->returnValue(true));
@@ -109,7 +109,7 @@ class UsersTest extends ControllerUnitTest
 
         // Now we delete the users
         $this->getService('db')->executeQuery('DELETE FROM bolt_users;');
-        $this->getService('users')->users = array();
+        $this->getService('users')->users = [];
 
         $this->setRequest(Request::create('/bolt/userfirst'));
         $response = $this->controller()->first($this->getRequest());
@@ -122,16 +122,16 @@ class UsersTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/bolt/userfirst',
             'POST',
-            array(
-                'form' => array(
+            [
+                'form' => [
                     'username'              => 'admin',
                     'email'                 => 'test@example.com',
                     'displayname'           => 'Admin',
                     'password'              => 'password',
                     'password_confirmation' => 'password',
                     '_token'                => 'xyz'
-                )
-            )
+                ]
+            ]
         ));
         $response = $this->controller()->first($this->getRequest());
         $this->assertEquals('/bolt', $response->getTargetUrl());
@@ -151,7 +151,7 @@ class UsersTest extends ControllerUnitTest
     public function testModifyValidCsrf()
     {
         // Now we mock the CSRF token to validate
-        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', ['checkAntiCSRFToken'], [$this->getApp()]);
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
@@ -213,7 +213,7 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
         $editor = $this->getService('users')->getUser('editor');
 
-        $perms = $this->getMock('Bolt\AccessControl\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
+        $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(false));
@@ -233,13 +233,13 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
 
         // Now we mock the CSRF token to validate
-        $authentication = $this->getMock('Bolt\AccessControl\Authentication', array('checkAntiCSRFToken'), array($this->getApp()));
+        $authentication = $this->getMock('Bolt\AccessControl\Authentication', ['checkAntiCSRFToken'], [$this->getApp()]);
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
         $this->setService('authentication', $authentication);
 
-        $users = $this->getMock('Bolt\Users', array('setEnabled', 'deleteUser'), array($this->getApp()));
+        $users = $this->getMock('Bolt\Users', ['setEnabled', 'deleteUser'], [$this->getApp()]);
         $users->expects($this->any())
             ->method('setEnabled')
             ->will($this->returnValue(false));
@@ -288,16 +288,16 @@ class UsersTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/bolt/profile',
             'POST',
-            array(
-                'form' => array(
+            [
+                'form' => [
                     'id'                    => 1,
                     'password'              => '',
                     'password_confirmation' => '',
                     'email'                 => $user['email'],
                     'displayname'           => 'Admin Test',
                     '_token'                => 'xyz'
-                )
-            )
+                ]
+            ]
         ));
 
         $this->controller()->profile($this->getRequest());
@@ -309,14 +309,14 @@ class UsersTest extends ControllerUnitTest
         $user = $this->getService('users')->getUser(1);
         $this->getService('users')->setCurrentUser($user);
 
-        $perms = $this->getMock('Bolt\AccessControl\Permissions', array('isAllowedToManipulate'), array($this->getApp()));
+        $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
         $perms->expects($this->any())
             ->method('isAllowedToManipulate')
             ->will($this->returnValue(true));
         $this->setService('permissions', $perms);
 
         // Symfony forms normally need a CSRF token so we have to mock this too
-        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', array('isCsrfTokenValid', 'generateCsrfToken'), array('secret'));
+        $csrf = $this->getMock('Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider', ['isCsrfTokenValid', 'generateCsrfToken'], ['secret']);
         $csrf->expects($this->once())
             ->method('isCsrfTokenValid')
             ->will($this->returnValue(true));
@@ -326,15 +326,15 @@ class UsersTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/bolt/useredit/1',
             'POST',
-            array(
-                'form' => array(
+            [
+                'form' => [
                     'id'          => $user['id'],
                     'username'    => 'admin2',
                     'email'       => $user['email'],
                     'displayname' => $user['displayname'],
                     '_token'      => 'xyz'
-                )
-            )
+                ]
+            ]
         ));
         $response = $this->controller()->edit($this->getRequest(), 1);
         $this->assertEquals('/bolt/login', $response->getTargetUrl());

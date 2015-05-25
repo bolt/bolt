@@ -16,7 +16,7 @@ class LogTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
 
-        $log = $this->getMock('Bolt\Logger\Manager', array('clear', 'trim'), array($this->getApp()));
+        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp()]);
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));
@@ -25,11 +25,11 @@ class LogTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('logger.manager', $log);
 
-        $this->setRequest(Request::create('/bolt/changelog', 'GET', array('action' => 'trim')));
+        $this->setRequest(Request::create('/bolt/changelog', 'GET', ['action' => 'trim']));
         $this->controller()->changeOverview($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
-        $this->setRequest(Request::create('/bolt/changelog', 'GET', array('action' => 'clear')));
+        $this->setRequest(Request::create('/bolt/changelog', 'GET', ['action' => 'clear']));
         $response = $this->controller()->changeOverview($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
@@ -89,7 +89,7 @@ class LogTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
         /** @var \Bolt\Content $content */
         $content = $this->getService('storage')->getContent('pages/1');
-        $content->setValues(array('status' => 'draft', 'ownerid' => 99));
+        $content->setValues(['status' => 'draft', 'ownerid' => 99]);
         $this->getService('storage')->saveContent($content, 'Test Suite Update');
 
         // Now handle all the other request variations
@@ -118,14 +118,14 @@ class LogTest extends ControllerUnitTest
         $this->assertEquals(1, $context['context']['pagecount']);
 
         // Test pagination
-        $this->setRequest(Request::create('/bolt/changelog/pages', 'GET', array('page' => 'all')));
+        $this->setRequest(Request::create('/bolt/changelog/pages', 'GET', ['page' => 'all']));
         $response = $this->controller()->changeRecordListing($this->getRequest(), 'pages', null);
 
         $context = $response->getContext();
         $this->assertNull($context['context']['currentpage']);
         $this->assertNull($context['context']['pagecount']);
 
-        $this->setRequest(Request::create('/bolt/changelog/pages', 'GET', array('page' => '1')));
+        $this->setRequest(Request::create('/bolt/changelog/pages', 'GET', ['page' => '1']));
         $response = $this->controller()->changeRecordListing($this->getRequest(), 'pages', null);
         $context = $response->getContext();
         $this->assertEquals(1, $context['context']['currentpage']);
@@ -146,7 +146,7 @@ class LogTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
 
-        $log = $this->getMock('Bolt\Logger\Manager', array('clear', 'trim'), array($this->getApp()));
+        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp()]);
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));
@@ -155,11 +155,11 @@ class LogTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('logger.manager', $log);
 
-        $this->setRequest(Request::create('/bolt/systemlog', 'GET', array('action' => 'trim')));
+        $this->setRequest(Request::create('/bolt/systemlog', 'GET', ['action' => 'trim']));
         $this->controller()->systemOverview($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
-        $this->setRequest(Request::create('/bolt/systemlog', 'GET', array('action' => 'clear')));
+        $this->setRequest(Request::create('/bolt/systemlog', 'GET', ['action' => 'clear']));
         $response = $this->controller()->systemOverview($this->getRequest());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 

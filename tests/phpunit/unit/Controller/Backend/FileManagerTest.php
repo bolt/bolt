@@ -32,10 +32,10 @@ class FileManagerTest extends ControllerUnitTest
 
         $this->assertEquals('', $context['context']['path']);
         $this->assertEquals('files', $context['context']['namespace']);
-        $this->assertEquals(array(), $context['context']['files']);
+        $this->assertEquals([], $context['context']['files']);
 
         // Try and upload a file
-        $perms = $this->getMock('Bolt\Filesystem\FilePermissions', array('allowedUpload'), array($this->getApp()));
+        $perms = $this->getMock('Bolt\Filesystem\FilePermissions', ['allowedUpload'], [$this->getApp()]);
         $perms->expects($this->any())
             ->method('allowedUpload')
             ->will($this->returnValue(true));
@@ -44,19 +44,19 @@ class FileManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',
-            array(),
-            array(),
-            array(
-                'form' => array(
-                    'FileUpload' => array(
+            [],
+            [],
+            [
+                'form' => [
+                    'FileUpload' => [
                         new UploadedFile(
                             PHPUNIT_ROOT . '/resources/generic-logo-evil.exe',
                             'logo.exe'
                         )
-                    ),
+                    ],
                     '_token'     => 'xyz'
-                )
-            )
+                ]
+            ]
         ));
 
         $this->controller()->manage($this->getRequest(), 'files', '');

@@ -26,11 +26,11 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testCreateFolder()
     {
-        $this->setRequest(Request::create('/async/createfolder', 'POST', array(
+        $this->setRequest(Request::create('/async/createfolder', 'POST', [
             'namespace'  => 'files',
             'parent'     => '',
             'foldername' => '__phpunit_test_delete_me',
-        )));
+        ]));
         $response = $this->controller()->createFolder($this->getRequest());
 
         $this->assertTrue($response);
@@ -38,10 +38,10 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testDeleteFile()
     {
-        //         $this->setRequest(Request::create('/async/file/delete', 'POST', array(
+        //         $this->setRequest(Request::create('/async/file/delete', 'POST', [
 //             'namespace' => 'files',
 //             'filename'  => 'foo.txt',
-//         )));
+//         ]));
 //         $response = $this->controller()->deleteFile($this->getRequest());
 
 //         $this->assertTrue($response);
@@ -49,10 +49,10 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testDuplicateFile()
     {
-        //         $this->setRequest(Request::create('/async/file/duplicate', 'POST', array(
+        //         $this->setRequest(Request::create('/async/file/duplicate', 'POST', [
 //             'namespace' => 'files',
 //             'filename'  => 'foo.txt',
-//         )));
+//         ]));
 //         $response = $this->controller()->duplicateFile($this->getRequest());
 
 //         $this->assertTrue($response);
@@ -72,9 +72,9 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testFilesAutoComplete()
     {
-        $this->setRequest(Request::create('/async/file/autocomplete', 'GET', array(
+        $this->setRequest(Request::create('/async/file/autocomplete', 'GET', [
             'term' => '*',
-        )));
+        ]));
 
         $response = $this->controller()->filesAutoComplete($this->getRequest());
 
@@ -84,11 +84,11 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRemoveFolder()
     {
-        $this->setRequest(Request::create('/async/removefolder', 'POST', array(
+        $this->setRequest(Request::create('/async/removefolder', 'POST', [
             'namespace'  => 'files',
             'parent'     => '',
             'foldername' => '__phpunit_test_delete_me',
-        )));
+        ]));
         $response = $this->controller()->removeFolder($this->getRequest());
 
         $this->assertTrue($response);
@@ -96,12 +96,12 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRenameFile()
     {
-        //         $this->setRequest(Request::create('/async/file/rename', 'POST', array(
+        //         $this->setRequest(Request::create('/async/file/rename', 'POST', [
 //             'namespace' => 'files',
 //             'parent'    => '',
 //             'oldname'   => 'foo.txt',
 //             'newname'   => 'bar.txt',
-//         )));
+//         ]));
 //         $response = $this->controller()->renameFile($this->getRequest());
 
 //         $this->assertTrue($response);
@@ -109,12 +109,12 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRenameFolder()
     {
-        //         $this->setRequest(Request::create('/async/renamefolder', 'POST', array(
+        //         $this->setRequest(Request::create('/async/renamefolder', 'POST', [
 //             'namespace' => 'files',
 //             'parent'    => '',
 //             'oldname'   => 'foo',
 //             'newname'   => 'bar',
-//         )));
+//         ]));
 //         $response = $this->controller()->renameFolder($this->getRequest());
 
 //         $this->assertTrue($response);

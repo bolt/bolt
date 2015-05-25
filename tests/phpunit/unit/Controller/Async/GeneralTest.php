@@ -101,12 +101,12 @@ class GeneralTest extends ControllerUnitTest
         // Set up a fake request for getContent()'s sake
         $this->setRequest(Request::create('/'));
         $record = $this->getService('storage')->getContent('pages/1');
-        $this->setRequest(Request::create('/async/makeuri', 'GET', array(
+        $this->setRequest(Request::create('/async/makeuri', 'GET', [
             'title'           => $record->values['title'],
             'id'              => $record->values['id'],
             'contenttypeslug' => 'pages',
             'fulluri'         => true,
-        )));
+        ]));
 
         $response = $this->controller()->makeUri($this->getRequest());
 
@@ -115,9 +115,9 @@ class GeneralTest extends ControllerUnitTest
 
     public function testOmnisearch()
     {
-        $this->setRequest(Request::create('/async/omnisearch', 'GET', array(
+        $this->setRequest(Request::create('/async/omnisearch', 'GET', [
             'q' => 'sho'
-        )));
+        ]));
 
         $response = $this->controller()->omnisearch($this->getRequest());
 
@@ -180,7 +180,7 @@ class GeneralTest extends ControllerUnitTest
 
     private function getDefaultTags()
     {
-        return array('action', 'adult', 'adventure', 'alpha', 'animals', 'animation', 'anime', 'architecture', 'art',
+        return ['action', 'adult', 'adventure', 'alpha', 'animals', 'animation', 'anime', 'architecture', 'art',
             'astronomy', 'baby', 'batshitinsane', 'biography', 'biology', 'book', 'books', 'business', 'business',
             'camera', 'cars', 'cats', 'cinema', 'classic', 'comedy', 'comics', 'computers', 'cookbook', 'cooking',
             'crime', 'culture', 'dark', 'design', 'digital', 'documentary', 'dogs', 'drama', 'drugs', 'education',
@@ -193,6 +193,6 @@ class GeneralTest extends ControllerUnitTest
             'rock', 'romance', 'rpg', 'satire', 'science', 'sciencefiction', 'scifi', 'security', 'self-help',
             'series', 'software', 'space', 'spirituality', 'sports', 'story', 'suspense', 'technology', 'teen',
             'television', 'terrorism', 'thriller', 'travel', 'tv', 'uk', 'urban', 'us', 'usa', 'vampire', 'video',
-            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies');
+            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies'];
     }
 }
