@@ -13,20 +13,18 @@ class DatabaseProfilerServiceProvider implements ServiceProviderInterface
     {
         $app['data_collector.templates'] = array_merge(
             $app['data_collector.templates'],
-            array(
-                array('db', '@BoltProfiler/toolbar/db.html.twig'),
-            )
+            [['db', '@BoltProfiler/toolbar/db.html.twig']]
         );
 
         $app['data_collectors'] = array_merge(
             $app['data_collectors'],
-            array(
+            [
                 'db' => $app->share(
                     function ($app) {
                         return new DatabaseDataCollector($app['db.logger']);
                     }
                 ),
-            )
+            ]
         );
 
         $app['db.logger'] = $app->share(

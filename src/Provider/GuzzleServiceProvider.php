@@ -13,13 +13,13 @@ class GuzzleServiceProvider implements ServiceProviderInterface
         $app['guzzle.base_url'] = '/';
 
         if (!isset($app['guzzle.plugins'])) {
-            $app['guzzle.plugins'] = array();
+            $app['guzzle.plugins'] = [];
         }
 
         // Register a simple Guzzle Client object (requires absolute URLs when guzzle.base_url is unset)
         $app['guzzle.client'] = $app->share(
             function () use ($app) {
-                $options = array('base_url' => $app['guzzle.base_url']);
+                $options = ['base_url' => $app['guzzle.base_url']];
                 $client = new Client($options);
                 foreach ($app['guzzle.plugins'] as $plugin) {
                     $client->addSubscriber($plugin);

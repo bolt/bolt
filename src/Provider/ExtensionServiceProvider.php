@@ -31,10 +31,10 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         $app['extend.site'] = $app['config']->get('general/extensions/site', 'https://extensions.bolt.cm/');
         $app['extend.repo'] = $app['extend.site'] . 'list.json';
-        $app['extend.urls'] = array(
+        $app['extend.urls'] = [
             'list' => 'list.json',
             'info' => 'info.json'
-        );
+        ];
 
         $extensionsPath = $app['resources']->getPath('extensions');
         $app['extend.writeable'] = is_dir($extensionsPath) && is_writable($extensionsPath) ? true : false;

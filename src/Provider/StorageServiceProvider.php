@@ -17,12 +17,12 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return new Storage($app);
             }
         );
-        
+
         $app['storage'] = $app->share(
             function ($app) {
                 $storage = new EntityManager(
-                    $app['db'], 
-                    $app['dispatcher'], 
+                    $app['db'],
+                    $app['dispatcher'],
                     $app['storage.metadata'],
                     $app['logger.system']
                 );
@@ -31,9 +31,9 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return $storage;
             }
         );
-        
-        
-        $app['storage.typemap'] = array(
+
+
+        $app['storage.typemap'] = [
             'Doctrine\DBAL\Types\StringType' => 'Bolt\Field\Type\Text',
             'Doctrine\DBAL\Types\IntegerType' => 'Bolt\Field\Type\Integer',
             'Doctrine\DBAL\Types\FloatType' => 'Bolt\Field\Type\Float',
@@ -61,12 +61,12 @@ class StorageServiceProvider implements ServiceProviderInterface
             'text' => 'Bolt\Field\Type\Text',
             'textarea' => 'Bolt\Field\Type\Textarea',
             'video' => 'Bolt\Field\Type\Video'
-        );
-        
+        ];
+
         $app['storage.metadata'] = $app->share(
             function ($app) {
                 $meta = new MetadataDriver(
-                    $app['integritychecker'], 
+                    $app['integritychecker'],
                     $app['config']->get('contenttypes'),
                     $app['config']->get('taxonomy'),
                     $app['storage.typemap']
@@ -74,7 +74,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return $meta;
             }
         );
-        
+
     }
 
     public function boot(Application $app)
