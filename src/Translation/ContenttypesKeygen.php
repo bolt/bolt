@@ -54,9 +54,9 @@ class ContenttypesKeygen
      */
     public function __construct(Silex\Application $app, array $translatables, array $savedTranslations)
     {
-        $this->hints = array();
-        $this->translation = array();
-        $this->ctnames = array();
+        $this->hints = [];
+        $this->translation = [];
+        $this->ctnames = [];
         $this->app = $app;
         $this->translatables = $translatables;
         $this->saved = $savedTranslations;
@@ -101,11 +101,11 @@ class ContenttypesKeygen
             $keyprefix = 'contenttypes.' . $this->slugifyKey($ctname) . '.';
 
             // Names & description
-            $setkeys = array(
+            $setkeys = [
                 'name.plural'   => 'name',
                 'name.singular' => 'singular_name',
                 'description'   => 'description',
-            );
+            ];
             foreach ($setkeys as $setkey => $getkey) {
                 $key = $keyprefix . $setkey;
 
@@ -178,7 +178,7 @@ class ContenttypesKeygen
                     $generic = Trans::__($key);
                     // If not translated, add hint
                     if ($generic !== $key) {
-                        $replacement = array();
+                        $replacement = [];
                         if (strpos($generic, '%contenttypes%') !== false) {
                             $replacement['%contenttypes%'] = $ctname;
                         } elseif (strpos($generic, '%contenttype%') !== false) {
@@ -224,6 +224,6 @@ class ContenttypesKeygen
      */
     private function fallback($key)
     {
-        return Trans::__($key, array('DEFAULT' => false), 'contenttypes');
+        return Trans::__($key, ['DEFAULT' => false], 'contenttypes');
     }
 }

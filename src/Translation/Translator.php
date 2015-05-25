@@ -44,7 +44,7 @@ class Translator
      *
      * @return string
      */
-    private static function trans($key, array $params = array(), $domain = 'messages', $locale = null, $default = null)
+    private static function trans($key, array $params = [], $domain = 'messages', $locale = null, $default = null)
     {
         $app = ResourceManager::getApp();
 
@@ -96,7 +96,7 @@ class Translator
     {
         $key = 'contenttypes.' . $contenttype . '.name.' . ($singular ? 'singular' : 'plural');
 
-        $name = self::trans($key, array(), 'contenttypes', $locale);
+        $name = self::trans($key, [], 'contenttypes', $locale);
         if ($name === $key) {
             $app = ResourceManager::getApp();
 
@@ -183,7 +183,7 @@ class Translator
      *
      * @return string
      */
-    public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/($key, array $params = array(), $domain = 'messages', $locale = null)
+    public static function /*@codingStandardsIgnoreStart*/__/*@codingStandardsIgnoreEnd*/($key, array $params = [], $domain = 'messages', $locale = null)
     {
         // If $key is an array, convert it to a sanizized string
         if (is_array($key)) {
