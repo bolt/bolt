@@ -337,7 +337,7 @@ class Application extends Silex\Application
 
         // Set up forms and use a secure CSRF secret
         $this->register(new Silex\Provider\FormServiceProvider());
-        $this['form.secret'] = $this->share(function ($app) {
+        $this['form.secret'] = $this->share(function () {
             if (!$this['session']->isStarted()) {
                 return;
             } elseif ($secret = $this['session']->get('form.secret')) {
@@ -429,21 +429,21 @@ class Application extends Silex\Application
     /**
      * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
      */
-    public function beforeHandler(Request $request)
+    public function beforeHandler()
     {
     }
 
     /**
      * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
      */
-    public function afterHandler(Request $request, Response $response)
+    public function afterHandler()
     {
     }
 
     /**
      * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
      */
-    public function errorHandler(\Exception $exception)
+    public function errorHandler()
     {
     }
 
