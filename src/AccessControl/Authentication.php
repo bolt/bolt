@@ -338,6 +338,41 @@ class Authentication
     }
 
     /**
+     * Set a random password for user / reset password. Accepts email or username
+     *
+     * @param string $username
+     *
+     * @return string|boolean new password or FALSE when no match for username
+     */
+    public function setRandomPassword($username)
+    {
+        $password = false;
+        $user = $this->app['users']->getUser($username);
+
+        if (!empty($user)) {
+            $password = $this->app['randomgenerator']->generateString(12);
+
+            $hasher = new PasswordHash($this->hashStrength, true);
+            $hashedpassword = $hasher->HashPassword($password);
+
+            $update = array(
+                'password'       => $hashedpassword,
+                'shadowpassword' => '',
+                'shadowtoken'    => '',
+                'shadowvalidity' => null
+            );
+            $this->app['db']->update($this->getTableName('users'), $update, array('id' => $user['id']));
+
+            $this->app['logger.system']->error(
+                "Password for user \"{$user['username']}\" was reset via Nut.",
+                array('event' => 'authentication')
+            );
+        }
+
+        return $password;
+    }
+
+    /**
      * Handle a password reset confirmation
      *
      * @param string $token

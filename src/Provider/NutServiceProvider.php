@@ -46,6 +46,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\ExtensionsEnable($app),
                     new Nut\ExtensionsDisable($app),
                     new Nut\UserAdd($app),
+                    new Nut\UserResetPassword($app),
                     new Nut\UserRoleAdd($app),
                     new Nut\UserRoleRemove($app),
                 );
