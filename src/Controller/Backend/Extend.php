@@ -306,7 +306,7 @@ class Extend extends BackendBase
         $extensionsPath = $this->resources()->getPath('extensions');
 
         return array(
-            'messages'       => $this->app['extend.manager']->messages,
+            'messages'       => $this->app['extend.manager']->getMessages(),
             'enabled'        => $this->app['extend.enabled'],
             'writeable'      => $this->app['extend.writeable'],
             'online'         => $this->app['extend.online'],
