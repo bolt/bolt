@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 class Export extends AbstractMigration
 {
     /** @var array */
-    private $contenttypes = array();
+    private $contenttypes = [];
 
     /** @var string */
     private $hash;
@@ -85,7 +85,7 @@ class Export extends AbstractMigration
     {
         // Get all the records for the contenttype
         $records = $this->app['storage']->getContent($contenttype);
-        $data = array();
+        $data = [];
 
         // If we're on the last Contenttype, we want to know when we've got the
         // last record so we can close off if need be
@@ -115,7 +115,7 @@ class Export extends AbstractMigration
      *
      * @return \Bolt\Database\Migration\Export
      */
-    public function checkContenttypeValid($contenttypeslugs = array())
+    public function checkContenttypeValid($contenttypeslugs = [])
     {
         // If nothing is passed in, we assume we're using all conenttypes
         if (empty($contenttypeslugs)) {

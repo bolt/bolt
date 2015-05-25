@@ -25,22 +25,22 @@ abstract class AbstractMigration
     protected $error = false;
 
     /** @var array */
-    protected $errorMessages = array();
+    protected $errorMessages = [];
 
     /** @var boolean */
     protected $warning = false;
 
     /** @var array */
-    protected $warningMessages = array();
+    protected $warningMessages = [];
 
     /** @var boolean */
     protected $notice = false;
 
     /** @var array */
-    protected $noticeMessages = array();
+    protected $noticeMessages = [];
 
     /** @var array */
-    protected $validExtensions = array('json', 'yaml', 'yml');
+    protected $validExtensions = ['json', 'yaml', 'yml'];
 
     /** @var string */
     protected $files;
@@ -225,11 +225,11 @@ abstract class AbstractMigration
         $hash    = md5($files);
         $fileObj = new \SplFileInfo($files);
 
-        $this->files[$hash] = array(
+        $this->files[$hash] = [
             'file'    => $fileObj,
             'type'    => $this->getType($fileObj->getExtension()),
             'handler' => null
-        );
+        ];
 
         return $this;
     }
