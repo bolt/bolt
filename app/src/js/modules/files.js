@@ -17,6 +17,33 @@
     var files = {};
 
     /**
+     * Create a file on the server utilizing an AJAX request.
+     *
+     * @static
+     * @function createFile
+     * @memberof Bolt.files
+     *
+     * @param {string} namespace - The namespace.
+     * @param {string} parentPath - Parent path of the folder to rename.
+     */
+    files.createFile = function (namespace, parentPath)
+    {
+        var fileName = window.prompt(bolt.data('files.msg.create_file'));
+
+        if (fileName.length) {
+            exec(
+                'file/create',
+                {
+                    filename: fileName,
+                    parentPath: parentPath,
+                    namespace: namespace
+                },
+                'Something went wrong creating this file!'
+            );
+        }
+    };
+
+    /**
      * Rename a file on the server utilizing an AJAX request.
      *
      * @static
