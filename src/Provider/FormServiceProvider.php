@@ -70,7 +70,13 @@ class FormServiceProvider implements ServiceProviderInterface
         // Add the Bolt event subscriber extension.
         $app['form.type.extensions'] = $app->share(function ($app) {
             return [
-                new FormEventTypeExtension($app)
+                new FormEventTypeExtension(
+                    $app['session'],
+                    $app['request'],
+                    $app['config'],
+                    $app['session.storage.handler'],
+                    $app['token.session.name']
+                ),
             ];
 
         });

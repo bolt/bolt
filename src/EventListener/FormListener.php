@@ -1,11 +1,14 @@
 <?php
 namespace Bolt\EventListener;
 
-use Silex\Application;
+use Bolt\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
 /**
@@ -15,17 +18,33 @@ use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
  */
 class FormListener implements EventSubscriberInterface
 {
-    /** @var \Silex\Application $app */
-    protected $app;
+    /** @var SessionInterface $session */
+    protected $session;
+    /** @var \Bolt\Config $config */
+    protected $config;
+    /** @var Request $request */
+    protected $request;
+    /** @var NativeFileSessionHandler $handler */
+    protected $handler;
+    /** @var string $tokenName */
+    protected $tokenName;
 
     /**
      * Constructor function.
      *
-     * @param Application $app
+     * @param Session                       $session
+     * @param Request                       $request
+     * @param Config                        $config
+     * @param NativeFileSessionHandler|null $handler
+     * @param string                        $tokenName
      */
-    public function __construct(Application $app)
+    public function __construct(SessionInterface $session, Request $request, Config $config, $handler, $tokenName)
     {
-        $this->app = $app;
+        $this->session   = $session;
+        $this->request   = $request;
+        $this->config    = $config;
+        $this->handler   = $handler;
+        $this->tokenName = $tokenName;
     }
 
     /**
@@ -35,23 +54,21 @@ class FormListener implements EventSubscriberInterface
      */
     public function onFormPreSetData(FormEvent $event)
     {
-    	if (!$this->app['session']->isStarted()) {
-    		// Enable route specific sesion cookies, generally speaking for front end
-	        $this->app['session'] = $this->app->share(function () {
-		        $storage = new NativeSessionStorage(
-		            array(
-		                    'name'            => $this->app['token.session.name'],
-		                    'cookie_path'     => $this->app['request']->getRequestUri(),
-		                    'cookie_domain'   => $this->app['config']->get('general/cookies_domain'),
-		                    'cookie_secure'   => $this->app['config']->get('general/enforce_ssl'),
-		                    'cookie_httponly' => true,
-		            		),
-		            $this->app['session.storage.handler']
-		        );
+        if (!$this->session->isStarted()) {
+            // Enable route specific sesion cookies, generally speaking for front end
+            $storage = new NativeSessionStorage(
+                [
+                    'name'            => $this->tokenName,
+                    'cookie_path'     => $this->request->getRequestUri(),
+                    'cookie_domain'   => $this->config->get('general/cookies_domain'),
+                    'cookie_secure'   => $this->config->get('general/enforce_ssl'),
+                    'cookie_httponly' => true,
+                ],
+                $this->handler
+            );
 
-		        return new Session($storage);
-	        });
-    	}
+            $this->session = new Session($storage);
+        }
     }
 
     /**

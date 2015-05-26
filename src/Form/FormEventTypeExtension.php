@@ -1,10 +1,12 @@
 <?php
 namespace Bolt\Form;
 
+use Bolt\Config;
 use Bolt\EventListener\FormListener;
-use Silex\Application;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Symfony Form subscriber extension.
@@ -13,17 +15,29 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class FormEventTypeExtension extends AbstractTypeExtension
 {
-    /** @var \Silex\Application $app */
-    protected $app;
+    /** @var SessionInterface $session */
+    protected $session;
+    /** @var \Bolt\Config $config */
+    protected $config;
+    /** @var Request $request */
+    protected $request;
+    /** @var NativeFileSessionHandler $handler */
+    protected $handler;
+    /** @var string $tokenName */
+    protected $tokenName;
 
     /**
      * Constructor function.
      *
      * @param Application $app
      */
-    public function __construct(Application $app)
+    public function __construct(SessionInterface $session, Request $request, Config $config, $handler, $tokenName)
     {
-        $this->app = $app;
+        $this->session   = $session;
+        $this->request   = $request;
+        $this->config    = $config;
+        $this->handler   = $handler;
+        $this->tokenName = $tokenName;
     }
 
     /**
@@ -31,7 +45,13 @@ class FormEventTypeExtension extends AbstractTypeExtension
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventSubscriber(new FormListener($this->app));
+        $builder->addEventSubscriber(new FormListener(
+            $this->session,
+            $this->request,
+            $this->config,
+            $this->handler,
+            $this->tokenName
+        ));
     }
 
     /**
