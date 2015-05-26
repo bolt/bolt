@@ -1,14 +1,11 @@
 <?php
 namespace Bolt\Entity;
 
-use Bolt\Entity\Entity;
-
 /**
  * Entity for User.
  */
 class Users extends Entity
 {
-
     protected $id;
     protected $username;
     protected $password;
@@ -24,5 +21,4 @@ class Users extends Entity
     protected $failedlogins = 0;
     protected $throttleduntil;
     protected $roles = [];
-
 }

@@ -1,16 +1,13 @@
 <?php
 namespace Bolt\Entity;
 
-
 /**
  * An abstract class that other entities can inherit. Provides automatic getters and setters along
  * with serialization.
  */
 abstract class Entity
 {
-
     protected $_fields = [];
-
 
     public function __construct($data = [])
     {
@@ -18,7 +15,6 @@ abstract class Entity
             $method = "set".ucfirst($key);
             $this->$method($value);
         }
-
     }
 
     public function __get($key)
@@ -58,22 +54,20 @@ abstract class Entity
     {
         $var = lcfirst(substr($method, 3));
 
-        if (strncasecmp($method, "get", 3) ==0) {
+        if (strncasecmp($method, "get", 3) == 0) {
             if ($this->has($var) && property_exists($this, $var)) {
                 return $this->$var;
             } elseif ($this->has($var)) {
                 return $this->_fields[$var];
             }
-
         }
 
-        if (strncasecmp($method, "serialize", 9) ==0) {
-            $method = 'get'.substr($method,9);
+        if (strncasecmp($method, "serialize", 9) == 0) {
+            $method = 'get'.substr($method, 9);
             return $this->$method();
         }
 
-        if (strncasecmp($method, "set", 3)==0) {
-
+        if (strncasecmp($method, "set", 3) == 0) {
             if ($this->has($var) && property_exists($this, $var)) {
                 $this->$var = $arguments[0];
             } else {
@@ -84,12 +78,13 @@ abstract class Entity
 
     public function __toString()
     {
-      return strval( $this->getId() );
+        return strval($this->getId());
     }
 
-    public function serialize() {
+    public function serialize()
+    {
         $data = [];
-        foreach ($this as $k=>$v) {
+        foreach ($this as $k => $v) {
             if (strpos($k, '_') === 0) {
                 continue;
             }
@@ -97,7 +92,7 @@ abstract class Entity
             $data[$k] = $this->$method();
         }
 
-        foreach ($this->_fields as $k=>$v) {
+        foreach ($this->_fields as $k => $v) {
             $method = "serialize".$k;
             $data[$k] = $this->$method();
         }
@@ -115,7 +110,6 @@ abstract class Entity
         return $this->serialize();
     }
 
-
     public function getName()
     {
         return get_class($this);
@@ -125,38 +119,31 @@ abstract class Entity
      *  An internal method that builds a list of available fields depending on context
      *
      *  @return array
-     *
      **/
     protected function getFields()
     {
         $fields = [];
 
-        foreach ($this as $k=>$v) {
+        foreach ($this as $k => $v) {
             if (strpos($k, '_') !== 0) {
                 $fields[] = $k;
             }
         }
 
-        foreach ($this->_fields as $k=>$v) {
+        foreach ($this->_fields as $k => $v) {
             $fields[] = $k;
         }
 
         return $fields;
-
     }
 
     /**
      *  Boolean check on whether entity has field
      *
      *  @return array
-     *
      **/
     protected function has($field)
     {
         return in_array($field, $this->getFields());
     }
-
-
-
-
 }

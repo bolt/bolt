@@ -1,14 +1,11 @@
 <?php
 namespace Bolt\Entity;
 
-use Bolt\Entity\Entity;
-
 /**
  * Entity for Auth Tokens.
  */
 class Log extends Entity
 {
-    
     protected $id;
     protected $level;
     protected $date;
@@ -23,5 +20,4 @@ class Log extends Entity
     protected $contentid;
     protected $code;
     protected $dump;
-
 }
