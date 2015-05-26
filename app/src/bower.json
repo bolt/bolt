@@ -16,7 +16,7 @@
     },
     "devDependencies": {
         "backbone": "~1.2.0",
-        "bootbox.js": "https://github.com/makeusabrew/bootbox.git#4.3.0",
+        "bootbox.js": "https://github.com/makeusabrew/bootbox.git#4.4.0",
         "jquery-ui": "1.11.4",
         "jquery.cookie": "https://github.com/carhartl/jquery-cookie.git#1.4.1",
         "jquery.formatDateTime": "https://github.com/agschwender/jquery.formatDateTime.git#1.1.6",
