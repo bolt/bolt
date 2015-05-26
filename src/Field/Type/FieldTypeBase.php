@@ -2,6 +2,7 @@
 namespace Bolt\Field\Type;
 
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
 use Bolt\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\QuerySet;
@@ -35,23 +36,41 @@ abstract class FieldTypeBase implements FieldTypeInterface
     }
     
     /**
-     * Handle or ignore the persist event.
+     * Handle the persistentce event. 
      *
      * @return void
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em = null)
     {
+        $key = $this->mapping['fieldname'];
+        $qb = &$queries[0];
+        $valueMethod = 'serialize'.ucfirst($key);
+        $value = $entity->$valueMethod();
         
+        $type = $this->getStorageType();
+        
+        if (null !== $value) {
+            $value = $type->convertToDatabaseValue($value, $qb->getConnection()->getDatabasePlatform());          
+        } else {
+            $value = $this->mapping['default'];
+        }
+        $qb->setValue($key, ":".$key);
+        $qb->set($key, ":".$key);
+        $qb->setParameter($key, $value);
     }
     
     /**
-     * Handle or ignore the hydrate event.
+     * Handle  the hydrate event.
      *
      * @return void
      */
     public function hydrate($data, $entity, EntityManager $em = null)
     {
-        
+        $key = $this->mapping['fieldname'];
+        $type = $this->getStorageType();
+        $val = $data[$key];
+        $value = $type->convertToPHPValue($val, $em->createQueryBuilder()->getConnection()->getDatabasePlatform());
+        $entity->$key = $value;
     }
     
     /**
@@ -72,6 +91,16 @@ abstract class FieldTypeBase implements FieldTypeInterface
     public function getName()
     {
         return 'text';
+    }
+    
+    /**
+     * Returns the name of the Doctrine storage type to use for a field.
+     *
+     * @return Type
+     */
+    public function getStorageType()
+    {
+        return Type::getType($this->mapping['type']);
     }
     
 
