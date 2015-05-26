@@ -79,6 +79,18 @@ class FormServiceProvider implements ServiceProviderInterface
             return [];
         });
 
+        /*
+         * Custom CSRF provider set up.
+         *
+         * Silex 1.2 providers (SessionCsrfProvider and DefaultCsrfProvider) are
+         * deprecated.
+         */
+        $app['form.csrf_provider'] = $app->share(function ($app) {
+            $storage = isset($app['session']) ? new SessionTokenStorage($app['session']) : new NativeSessionTokenStorage();
+
+            return new CsrfTokenManager(null, $storage);
+        });
+
         $app['form.extension.csrf'] = $app->share(function ($app) {
             if (isset($app['translator'])) {
                 return new CsrfExtension($app['form.csrf_provider'], $app['translator']);
@@ -121,18 +133,6 @@ class FormServiceProvider implements ServiceProviderInterface
 
         $app['form.resolved_type_factory'] = $app->share(function ($app) {
             return new ResolvedFormTypeFactory();
-        });
-
-        /*
-         * Custom CSRF provider set up.
-         *
-         * Silex 1.2 providers (SessionCsrfProvider and DefaultCsrfProvider) are
-         * deprecated.
-         */
-        $app['form.csrf_provider'] = $app->share(function ($app) {
-            $storage = isset($app['session']) ? new SessionTokenStorage($app['session']) : new NativeSessionTokenStorage();
-
-            return new CsrfTokenManager(null, $storage);
         });
     }
 

@@ -13,9 +13,6 @@ use Doctrine\DBAL\DBALException;
 use RandomLib;
 use SecurityLib;
 use Silex;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
-use Symfony\Component\Security\Csrf\TokenStorage\NativeSessionTokenStorage;
-use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 use Symfony\Component\Stopwatch;
 
 class Application extends Silex\Application
@@ -335,29 +332,8 @@ class Application extends Silex\Application
         $factory = new RandomLib\Factory();
         $this['randomgenerator'] = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
 
-        // Set up forms and use a secure CSRF secret
-        $this->register(new Silex\Provider\FormServiceProvider());
-        $this['form.secret'] = $this->share(function () {
-            if (!$this['session']->isStarted()) {
-                return;
-            } elseif ($secret = $this['session']->get('form.secret')) {
-                return $secret;
-            } else {
-                $secret = $this['randomgenerator']->generate(32);
-                $this['session']->set('form.secret', $secret);
-
-                return $secret;
-            }
-        });
-
-        // Silex 1.2 providers (SessionCsrfProvider and DefaultCsrfProvider) are deprecated.
-        $this['form.csrf_provider'] = $this->share(function ($this) {
-            $storage = isset($this['session']) ? new SessionTokenStorage($this['session']) : new NativeSessionTokenStorage();
-
-            return new CsrfTokenManager(null, $storage);
-        });
-
         $this->register(new Silex\Provider\UrlGeneratorServiceProvider())
+            ->register(new Provider\FormServiceProvider())
             ->register(new Silex\Provider\ValidatorServiceProvider())
             ->register(new Provider\RoutingServiceProvider())
             ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing
