@@ -26,6 +26,9 @@ class FilesystemManager extends AsyncBase
         $ctr->get('/file/autocomplete', 'filesAutoComplete')
             ->bind('file/autocomplete');
 
+        $ctr->post('/file/create', 'createFile')
+            ->bind('file/create');
+
         $ctr->post('/file/delete', 'deleteFile')
             ->bind('file/delete');
 
@@ -116,6 +119,25 @@ class FilesystemManager extends AsyncBase
 
         try {
             return $this->filesystem()->createDir("$namespace://$parentPath$folderName");
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Create an empty file.
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function createFile(Request $request) {
+        $namespace = $request->request->get('namespace');
+        $parentPath = $request->request->get('parentPath');
+        $filename = $request->request->get('filename');
+
+        try {
+            return $this->filesystem()->put("$namespace://$parentPath/$filename", ' ');
         } catch (\Exception $e) {
             return false;
         }
