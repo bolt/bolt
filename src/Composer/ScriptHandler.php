@@ -7,7 +7,7 @@
 
 namespace Bolt\Composer;
 
-use Composer\Script\CommandEvent;
+use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ScriptHandler
@@ -15,14 +15,11 @@ class ScriptHandler
     /**
      * Install basic assets and create needed directories.
      *
-     * @param CommandEvent $event
-     * @param array|bool   $options
+     * @param Event $event
      */
-    public static function installAssets(CommandEvent $event, $options = false)
+    public static function installAssets(Event $event)
     {
-        if (false === $options) {
-            $options = self::getOptions($event);
-        }
+        $options = self::getOptions($event);
         $webDir = $options['bolt-web-dir'];
         $dirMode = $options['bolt-dir-mode'];
         if (is_string($dirMode)) {
@@ -57,7 +54,7 @@ class ScriptHandler
         }
 
         // The first check handles the case where the bolt-web-dir is different to the root.
-        // If thie first works, then the second won't need to run
+        // If the first works, then the second won't need to run
         if (!$filesystem->exists(getcwd() . '/extensions/')) {
             $filesystem->mkdir(getcwd() . '/extensions/', $dirMode);
         }
@@ -74,36 +71,39 @@ class ScriptHandler
             $filesystem->mkdir($appDir . '/cache/',    $dirMode);
             $filesystem->mkdir($appDir . '/config/',   $dirMode);
         }
+
+        $event->getIO()->write('<info>Installed assets</info>');
     }
 
-    public static function bootstrap(CommandEvent $event)
+    /**
+     * Installing bootstrap file
+     *
+     * @param Event $event
+     */
+    public static function installBootstrap(Event $event)
     {
-        $webroot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', false);
+        $options = self::getOptions($event);
+        $webDir = $options['bolt-web-dir'];
 
-        if ($webroot) {
-            $webname  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
-            $webname  = trim($webname, '/');
-            $assetDir = './' . $webname;
-        } else {
-            $webname  = null;
-            $assetDir = '.';
+        if (!is_dir($webDir)) {
+            $filesystem = new Filesystem();
+            $filesystem->mkdir($webDir, $options['bolt-dir-mode']);
         }
 
-        $generator = new BootstrapGenerator($webroot, $webname);
+        $generator = new BootstrapGenerator($webDir, $webDir);
         $generator->create();
-        $options = array_merge(self::getOptions($event), array('bolt-web-dir' => $assetDir));
-        self::installAssets($event, $options);
-        $event->getIO()->write('<info>Your project has been setup</info>');
+
+        $event->getIO()->write('<info>Installed bootstrap</info>');
     }
 
     /**
      * Get a default set of options.
      *
-     * @param CommandEvent $event
+     * @param Event $event
      *
      * @return array
      */
-    protected static function getOptions(CommandEvent $event)
+    protected static function getOptions(Event $event)
     {
         $options = array_merge(
             array(
