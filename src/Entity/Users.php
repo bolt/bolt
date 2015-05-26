@@ -8,7 +8,7 @@ use Bolt\Entity\Entity;
  */
 class Users extends Entity
 {
-    
+
     protected $id;
     protected $username;
     protected $password;
@@ -16,13 +16,13 @@ class Users extends Entity
     protected $lastseen;
     protected $lastip;
     protected $displayname;
-    protected $stack = array();
+    protected $stack = [];
     protected $enabled = 1;
     protected $shadowpassword = '';
     protected $shadowtoken = '';
     protected $shadowvalidity;
     protected $failedlogins = 0;
     protected $throttleduntil;
-    protected $roles = array();
-    
+    protected $roles = [];
+
 }
