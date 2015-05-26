@@ -39,7 +39,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'Doctrine\DBAL\Types\FloatType' => 'Bolt\Field\Type\Float',
             'Doctrine\DBAL\Types\TextType' => 'Bolt\Field\Type\Textarea',
             'Doctrine\DBAL\Types\DateType' => 'Bolt\Field\Type\Date',
-            'Doctrine\DBAL\Types\DateTimeType' => 'Bolt\Field\Type\DateTime',
+            'Doctrine\DBAL\Types\DateTimeType' => 'Bolt\Field\Type\Datetime',
             'checkbox' => 'Bolt\Field\Type\Checkbox',
             'date' => 'Bolt\Field\Type\Date',
             'datetime' => 'Bolt\Field\Type\DateTime',
