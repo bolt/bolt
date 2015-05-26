@@ -36,21 +36,6 @@ class Persister
             $field = new $mapping['fieldtype']($mapping);
             $field->persist($queries, $entity, $em);
             
-            if ($mapping['type'] !== 'null') {
-                $qb = &$queries[0];
-                $valueMethod = 'serialize'.ucfirst($key);
-                $value = $entity->$valueMethod();
-                $meta = $this->metadata->getFieldMapping($key);
-                $type = Type::getType($meta['type']);
-                if (null !== $value) {
-                    $value = $type->convertToDatabaseValue($value, $qb->getConnection()->getDatabasePlatform());          
-                } else {
-                    $value = $mapping['default'];
-                }
-                $qb->setValue($key, ":".$key);
-                $qb->set($key, ":".$key);
-                $qb->setParameter($key, $value);
-            }
             
         }
         

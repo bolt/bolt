@@ -53,13 +53,6 @@ class Hydrator
             $field = new $mapping['fieldtype']($mapping);
             $field->hydrate($source, $entity, $em);
             
-            if ($mapping['type'] !== 'null') {
-                $type = Type::getType($mapping['type']);
-                $val = $source[$key];
-                $value = $type->convertToPHPValue($val, $qb->getConnection()->getDatabasePlatform());
-                $entity->$key = $value;
-            }
-            
         }
         
         return $entity;
