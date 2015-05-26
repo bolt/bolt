@@ -25,6 +25,13 @@ class Extensions extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (count($this->app['extend.manager']->messages)) {
+            foreach ($this->app['extend.manager']->messages as $message) {
+                $output->writeln(sprintf('<error>%s</error>', $message));
+            }
+            return;
+        }
+
         $installed = $this->app['extend.manager']->showPackage('installed');
         $rows = [];
 
