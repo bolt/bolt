@@ -5,7 +5,7 @@ use Bolt\Config;
 use Bolt\EventListener\FormListener;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
@@ -19,8 +19,8 @@ class FormEventTypeExtension extends AbstractTypeExtension
     protected $session;
     /** @var \Bolt\Config $config */
     protected $config;
-    /** @var Request $request */
-    protected $request;
+    /** @var RequestStack $requestStack */
+    protected $requestStack;
     /** @var NativeFileSessionHandler $handler */
     protected $handler;
     /** @var string $tokenName */
@@ -31,13 +31,13 @@ class FormEventTypeExtension extends AbstractTypeExtension
      *
      * @param Application $app
      */
-    public function __construct(SessionInterface $session, Request $request, Config $config, $handler, $tokenName)
+    public function __construct(SessionInterface $session, RequestStack $requestStack, Config $config, $handler, $tokenName)
     {
-        $this->session   = $session;
-        $this->request   = $request;
-        $this->config    = $config;
-        $this->handler   = $handler;
-        $this->tokenName = $tokenName;
+        $this->session      = $session;
+        $this->requestStack = $requestStack;
+        $this->config       = $config;
+        $this->handler      = $handler;
+        $this->tokenName    = $tokenName;
     }
 
     /**
@@ -47,7 +47,7 @@ class FormEventTypeExtension extends AbstractTypeExtension
     {
         $builder->addEventSubscriber(new FormListener(
             $this->session,
-            $this->request,
+            $this->requestStack,
             $this->config,
             $this->handler,
             $this->tokenName

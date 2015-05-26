@@ -72,7 +72,7 @@ class FormServiceProvider implements ServiceProviderInterface
             return [
                 new FormEventTypeExtension(
                     $app['session'],
-                    $app['request'],
+                    $app['request_stack'],
                     $app['config'],
                     $app['session.storage.handler'],
                     $app['token.session.name']

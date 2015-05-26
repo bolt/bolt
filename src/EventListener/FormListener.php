@@ -5,7 +5,7 @@ use Bolt\Config;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
@@ -22,8 +22,8 @@ class FormListener implements EventSubscriberInterface
     protected $session;
     /** @var \Bolt\Config $config */
     protected $config;
-    /** @var Request $request */
-    protected $request;
+    /** @var RequestStack $requestStack */
+    protected $requestStack;
     /** @var NativeFileSessionHandler $handler */
     protected $handler;
     /** @var string $tokenName */
@@ -33,18 +33,18 @@ class FormListener implements EventSubscriberInterface
      * Constructor function.
      *
      * @param Session                       $session
-     * @param Request                       $request
+     * @param RequestStack                  $request
      * @param Config                        $config
      * @param NativeFileSessionHandler|null $handler
      * @param string                        $tokenName
      */
-    public function __construct(SessionInterface $session, Request $request, Config $config, $handler, $tokenName)
+    public function __construct(SessionInterface $session, RequestStack $requestStack, Config $config, $handler, $tokenName)
     {
-        $this->session   = $session;
-        $this->request   = $request;
-        $this->config    = $config;
-        $this->handler   = $handler;
-        $this->tokenName = $tokenName;
+        $this->session      = $session;
+        $this->requestStack = $requestStack;
+        $this->config       = $config;
+        $this->handler      = $handler;
+        $this->tokenName    = $tokenName;
     }
 
     /**
@@ -54,7 +54,7 @@ class FormListener implements EventSubscriberInterface
      */
     public function onFormPreSetData(FormEvent $event)
     {
-        if ($this->session->isStarted()) {
+        if ($this->session->isStarted() || $this->requestStack->getCurrentRequest() === null) {
             return;
         }
 
@@ -62,7 +62,7 @@ class FormListener implements EventSubscriberInterface
         $storage = new NativeSessionStorage(
             [
                 'name'            => $this->tokenName,
-                'cookie_path'     => $this->request->getRequestUri(),
+                'cookie_path'     => $this->requestStack->getCurrentRequest()->getRequestUri(),
                 'cookie_domain'   => $this->config->get('general/cookies_domain'),
                 'cookie_secure'   => $this->config->get('general/enforce_ssl'),
                 'cookie_httponly' => true,
