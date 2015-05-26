@@ -18,6 +18,7 @@ class ContentRepositoryTest extends BoltUnitTest
     
     public function testConstruct()
     {
+        $this->resetDb();
         $app = $this->getApp();
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository('bolt_showcases');
