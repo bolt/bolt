@@ -275,7 +275,7 @@ class RecordHandler
             return '';
         }
 
-        $pager = &$this->app['storage']->getPager();
+        $pager = $this->app['storage']->getPager();
 
         $thisPager = empty($pagerName) ? array_pop($pager) : $pager[$pagerName];
 
