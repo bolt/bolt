@@ -4,6 +4,7 @@ namespace Bolt\Field\Type;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\QuerySet;
 
 
 /**
@@ -47,6 +48,75 @@ class Taxonomy extends FieldTypeBase
         $field = $this->mapping['fieldname'];
         $taxonomies = array_filter(explode(',', $data[$field]));
         $entity->$field = $taxonomies;
+        
+    }
+    
+    
+    /**
+     * Handle the persist event.
+     *
+     */
+    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    {
+        $field = $this->mapping['fieldname'];
+        $target = $this->mapping['target'];
+        $accessor = "get".$field;
+        $taxonomy = (array)$entity->$accessor();
+                
+        // Fetch existing relations
+
+        $existingQuery = $em->createQueryBuilder()
+                            ->select('*')
+                            ->from($target)
+                            ->where('content_id = ?')
+                            ->andWhere('contenttype = ?')
+                            ->andWhere('taxonomytype = ?')
+                            ->setParameter(0, $entity->id)
+                            ->setParameter(1, $entity->getContenttype())
+                            ->setParameter(2, $field);
+        $result = $existingQuery->execute()->fetchAll();
+
+        $existing = array_map(function($el) {return $el['slug'];}, $result);
+        $proposed = $taxonomy;
+        
+        $toInsert = array_diff($proposed, $existing);
+        $toDelete = array_diff($existing, $proposed);
+        
+        foreach($toInsert as $item) {
+            $ins = $em->createQueryBuilder()->insert($target);
+            $ins->values([
+                'content_id' => '?',
+                'contenttype' => '?',
+                'taxonomytype' => '?',
+                'slug' => '?',
+                'name' => '?'
+            ])->setParameters([
+                0 => $entity->id,
+                1 => $entity->getContenttype(),
+                2 => $field,
+                3 => $item,
+                4 => $this->mapping['data']['options'][$item]
+            ]);
+            
+            $queries->append($ins);
+        }
+        
+        
+        foreach($toDelete as $item) {
+            $del = $em->createQueryBuilder()->delete($target);
+            $del->where('content_id=?')
+                ->andWhere('contenttype=?')
+                ->andWhere('taxonomytype=?')
+                ->andWhere('slug=?')
+                ->setParameters([
+                0 => $entity->id,
+                1 => $entity->getContenttype(),
+                2 => $field,
+                3 => $item
+            ]);
+            
+            $queries->append($del);
+        }        
         
     }
     
