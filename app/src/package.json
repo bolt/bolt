@@ -28,7 +28,7 @@
         "grunt-remove": "~0.1.0",
         "grunt-sass": "~1.0.0",
         "jsdoc": "~3.3.0",
-        "load-grunt-config": "~0.16.0",
+        "load-grunt-config": "~0.17.0",
         "load-grunt-tasks": "~0.6.0",
         "node-sass": "~1.2.3",
         "request": "^2.55.0"
