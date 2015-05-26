@@ -36,9 +36,9 @@ class ExtendTest extends ControllerUnitTest
         $response = $this->controller()->installPackage();
         $this->assertEquals('extend/install-package.twig', $response->getTemplateName());
 
-        $this->setRequest(Request::create('/', 'GET', array('package' => 'bolt/theme-2014')));
+        $this->setRequest(Request::create('/', 'GET', ['package' => 'bolt/theme-2014']));
         /** @var \Bolt\Controller\Backend\Extend|\PHPUnit_Framework_MockObject_MockObject $controller */
-        $controller = $this->getMock('Bolt\Controller\Backend\Extend', array('installInfo', 'packageInfo', 'check'));
+        $controller = $this->getMock('Bolt\Controller\Backend\Extend', ['installInfo', 'packageInfo', 'check']);
         $controller->expects($this->any())
             ->method('installInfo')
             ->will($this->returnValue(new Response('{"dev": [{"name": "bolt/theme-2014","version": "dev-master"}],"stable": []}')));
@@ -46,7 +46,7 @@ class ExtendTest extends ControllerUnitTest
         $response = $controller->installInfo($this->getRequest());
         $this->assertNotEmpty($response);
 
-        $this->setRequest(Request::create('/', 'GET', array('package' => 'bolt/theme-2014', 'version' => 'dev-master')));
+        $this->setRequest(Request::create('/', 'GET', ['package' => 'bolt/theme-2014', 'version' => 'dev-master']));
         $controller->expects($this->any())
             ->method('packageInfo')
             ->will($this->returnValue(new Response('{"name":"bolt\/theme-2014","version":"unknown","type":"unknown","descrip":""}')));
@@ -89,7 +89,7 @@ class ExtendTest extends ControllerUnitTest
 
     public function testInstallInfo()
     {
-        $mockInfo = $this->getMock('Bolt\Extensions\ExtensionsInfoService', array('info'), array(), 'MockInfoService', false);
+        $mockInfo = $this->getMock('Bolt\Extensions\ExtensionsInfoService', ['info'], [], 'MockInfoService', false);
         $mockInfo->expects($this->once())
             ->method('info')
             ->will($this->returnValue($this->packageInfoProvider()));
@@ -107,64 +107,64 @@ class ExtendTest extends ControllerUnitTest
 
     public function packageInfoProvider()
     {
-        $info = array(
+        $info = [
             'package' =>
-                array(
+                [
                     'id'           => '99999',
                     'title'        => 'Test',
                     'source'       => 'https://github.com/',
                     'name'         => 'test',
-                    'keywords'     => array(),
+                    'keywords'     => [],
                     'type'         => 'bolt-extension',
                     'description'  => 'Test',
                     'approved'     => true,
                     'requirements' =>
-                    array(
+                    [
                       'bolt/bolt' => '>=2.0.0,<3.0.0',
-                    ),
+                    ],
                     'versions' =>
-                        array(
+                        [
                           0 => '1.0.0',
                           1 => 'dev-master',
-                        )
-                ),
+                        ]
+                ],
             'version' =>
-                array(
-                    array(
+                [
+                    [
                           'name'               => 'test',
                           'version'            => '1.0.0',
                           'version_normalized' => '1.0.0.0',
                           'source'             =>
-                          array(
+                          [
                             'type'      => 'git',
                             'url'       => 'https://github.com/',
                             'reference' => 'xxx',
-                          ),
+                          ],
                           'require' =>
-                          array(
+                          [
                             'bolt/bolt' => '>=2.0.0,<3.0.0',
-                          ),
+                          ],
                           'type'        => 'bolt-extension',
                           'stability'   => 'stable',
                           'buildStatus' => 'untested',
-                    ),
-                    array(
+                    ],
+                    [
                         'name'               => 'test',
                         'version'            => 'dev-master',
                         'version_normalized' => '9999999-dev',
                         'source'             =>
-                            array(
+                            [
                                 'type'      => 'git',
                                 'url'       => 'https://github.com/',
                                 'reference' => 'XXX',
-                            ),
-                        'require'     => array('bolt/bolt' => '>=2.0.0,<3.0.0'),
+                            ],
+                        'require'     => ['bolt/bolt' => '>=2.0.0,<3.0.0'],
                         'type'        => 'bolt-extension',
                         'stability'   => 'dev',
                         'buildStatus' => 'untested',
-                    )
-                )
-            );
+                    ]
+                ]
+            ];
         // This just ensures that the data matches the internal format of json decoded responses
         return json_decode(json_encode($info));
     }

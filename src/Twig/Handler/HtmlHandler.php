@@ -113,17 +113,17 @@ class HtmlHandler
 
         $config = $this->app['config']->get('general/htmlcleaner');
         $allowed_tags = !empty($config['allowed_tags']) ? $config['allowed_tags'] :
-            array('div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img');
+            ['div', 'p', 'br', 'hr', 's', 'u', 'strong', 'em', 'i', 'b', 'li', 'ul', 'ol', 'blockquote', 'pre', 'code', 'tt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dd', 'dl', 'dh', 'table', 'tbody', 'thead', 'tfoot', 'th', 'td', 'tr', 'a', 'img'];
         $allowed_attributes = !empty($config['allowed_attributes']) ? $config['allowed_attributes'] :
-            array('id', 'class', 'name', 'value', 'href', 'src');
+            ['id', 'class', 'name', 'value', 'href', 'src'];
 
         // Sanitize/clean the HTML.
         $maid = new Maid(
-            array(
+            [
                 'output-format'   => 'html',
                 'allowed-tags'    => $allowed_tags,
                 'allowed-attribs' => $allowed_attributes
-            )
+            ]
         );
         $output = $maid->clean($output);
 
@@ -141,7 +141,7 @@ class HtmlHandler
      *
      * @return string|null
      */
-    public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = array(), $safe)
+    public function menu(\Twig_Environment $env, $identifier = '', $template = '_sub_menu.twig', $params = [], $safe)
     {
         if ($safe) {
             return null;
@@ -150,10 +150,10 @@ class HtmlHandler
         /** @var \Bolt\Helpers\Menu $menu */
         $menu = $this->app['menu']->menu($identifier);
 
-        $twigvars = array(
+        $twigvars = [
             'name' => $menu->getName(),
             'menu' => $menu->getItems()
-        );
+        ];
 
         // If $params is not empty, merge it with twigvars.
         if (!empty($params) && is_array($params)) {
@@ -196,7 +196,7 @@ class HtmlHandler
      *
      * @return string Twig output
      */
-    public function twig($snippet, $extravars = array())
+    public function twig($snippet, $extravars = [])
     {
         return $this->app['safe_render']->render($snippet, $extravars)->getContent();
     }

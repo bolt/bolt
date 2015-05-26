@@ -7,13 +7,13 @@ class DeepDiff
     public static function diff($a, $b)
     {
         if (empty($a)) {
-            $a = array();
+            $a = [];
         }
         if (empty($b)) {
-            $b = array();
+            $b = [];
         }
         $keys = array_keys($a + $b);
-        $result = array();
+        $result = [];
 
         foreach ($keys as $k) {
             if (empty($a[$k])) {
@@ -27,7 +27,7 @@ class DeepDiff
                 $r = $b[$k];
             }
             if ($l != $r) {
-                $result[] = array($k, $l, $r);
+                $result[] = [$k, $l, $r];
             }
         }
 

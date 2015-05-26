@@ -1,18 +1,13 @@
 <?php
 namespace Bolt\Storage;
 
-use Bolt\Events\HydrationEvent;
-use Bolt\Events\StorageEvent;
-use Bolt\Events\StorageEvents;
 use Bolt\Entity\Content;
-
 
 /**
  * A Repository class that handles dynamically created content tables.
  */
 class ContentRepository extends Repository
 {
-    
     public $em;
     public $_class;
     public $entityName;
@@ -49,8 +44,4 @@ class ContentRepository extends Repository
     {
         return new Content($params);
     }
-
-    
-    
-
 }

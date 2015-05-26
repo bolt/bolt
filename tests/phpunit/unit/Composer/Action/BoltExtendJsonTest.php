@@ -13,24 +13,24 @@ use Bolt\Tests\BoltUnitTest;
 class BoltExtendJsonTest extends BoltUnitTest
 {
     public $options;
-    
+
     public function setup()
     {
         $app = $this->getApp();
         $this->options =
-            array(
+            [
                 'basedir'       => $app['resources']->getPath('extensions'),
                 'composerjson'  => $app['resources']->getPath('extensions') . '/composer.json',
-            );
+            ];
     }
-    
+
     public function testConstruct()
     {
         $action = new BoltExtendJson($this->options);
         $this->assertArrayHasKey('basedir', \PHPUnit_Framework_Assert::readAttribute($action, 'options'));
         $this->assertArrayHasKey('composerjson', \PHPUnit_Framework_Assert::readAttribute($action, 'options'));
     }
-    
+
     public function testWrite()
     {
         $app = $this->getApp();
@@ -39,10 +39,10 @@ class BoltExtendJsonTest extends BoltUnitTest
         $action = new BoltExtendJson($manager->getOptions());
         $action->updateJson($app);
     }
-    
+
     public function testExecute()
     {
         $action = new BoltExtendJson($this->options);
-        $action->execute($this->options['composerjson'], array('extra' => array('bolt-test' => true)));
+        $action->execute($this->options['composerjson'], ['extra' => ['bolt-test' => true]]);
     }
 }

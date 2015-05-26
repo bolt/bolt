@@ -10,14 +10,14 @@ class ExtensionWithTwig extends Extension
 {
     public function getName()
     {
-        return "extensionwithtwig";
+        return 'extensionwithtwig';
     }
 
     public function getTwigExtensions()
     {
-        return array(
+        return [
             new TwigExtension(),
             new BadTwigExtension()
-        );
+        ];
     }
 }

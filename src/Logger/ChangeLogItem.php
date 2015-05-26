@@ -28,7 +28,7 @@ class ChangeLogItem implements \ArrayAccess
     private $comment;
     private $changedfields;
 
-    public function __construct(Application $app, $values = array())
+    public function __construct(Application $app, $values = [])
     {
         $this->app = $app;
         $this->setParameters($values);
@@ -43,7 +43,7 @@ class ChangeLogItem implements \ArrayAccess
      */
     public function __isset($key)
     {
-        if (in_array($key, array('mutation_type', 'changedfields'))) {
+        if (in_array($key, ['mutation_type', 'changedfields'])) {
             return true;
         }
 
@@ -241,7 +241,7 @@ class ChangeLogItem implements \ArrayAccess
      */
     private function getChangedFields()
     {
-        $changedfields = array();
+        $changedfields = [];
 
         if (empty($this->diff)) {
             return $changedfields;
@@ -253,18 +253,18 @@ class ChangeLogItem implements \ArrayAccess
 
         //
         foreach ($this->diff as $key => $value) {
-            $changedfields[$key] = array(
+            $changedfields[$key] = [
                 'type'   => 'normal',
                 'label'  => empty($fields[$key]['label']) ? $key : $fields[$key]['label'],
-                'before' => array(
+                'before' => [
                     'raw'    => $value[0],
                     'render' => $value[0]
-                ),
-                'after'  => array(
+                ],
+                'after'  => [
                     'raw'    => $value[1],
                     'render' => $value[1]
-                )
-            );
+                ]
+            ];
 
             switch ($fields[$key]['type']) {
                 case 'text':
@@ -295,19 +295,19 @@ class ChangeLogItem implements \ArrayAccess
                     $before = json_decode($value[0], true);
                     $after  = json_decode($value[1], true);
 
-                    $changedfields[$key]['before']['render'] = array(
+                    $changedfields[$key]['before']['render'] = [
                         'address'           => $before['address'],
                         'latitude'          => $before['latitude'],
                         'longitude'         => $before['longitude'],
                         'formatted_address' => $before['formatted_address']
-                    );
+                    ];
 
-                    $changedfields[$key]['after']['render'] = array(
+                    $changedfields[$key]['after']['render'] = [
                         'address'           => $after['address'],
                         'latitude'          => $after['latitude'],
                         'longitude'         => $after['longitude'],
                         'formatted_address' => $after['formatted_address']
-                    );
+                    ];
 
                     break;
 
@@ -317,14 +317,14 @@ class ChangeLogItem implements \ArrayAccess
                     $before = json_decode($value[0], true);
                     $after  = json_decode($value[1], true);
 
-                    $changedfields[$key]['before']['render'] = array(
+                    $changedfields[$key]['before']['render'] = [
                         'file'  => $before['file'],
                         'title' => $before['title']
-                    );
-                    $changedfields[$key]['after']['render'] = array(
+                    ];
+                    $changedfields[$key]['after']['render'] = [
                         'file'  => $after['file'],
                         'title' => $after['title']
-                    );
+                    ];
 
                     break;
 
@@ -349,23 +349,23 @@ class ChangeLogItem implements \ArrayAccess
                     $before = json_decode($value[0], true);
                     $after  = json_decode($value[1], true);
 
-                    $changedfields[$key]['before']['render'] = array(
+                    $changedfields[$key]['before']['render'] = [
                         'url'       => $before['url'],
                         'title'     => $before['title'],
                         'width'     => $before['width'],
                         'height'    => $before['height'],
                         'html'      => $before['html'],
                         'thumbnail' => $before['thumbnail']
-                    );
+                    ];
 
-                    $changedfields[$key]['after']['render'] = array(
+                    $changedfields[$key]['after']['render'] = [
                         'url'       => $after['url'],
                         'title'     => $after['title'],
                         'width'     => $after['width'],
                         'height'    => $after['height'],
                         'html'      => $after['html'],
                         'thumbnail' => $after['thumbnail']
-                    );
+                    ];
 
                     break;
             }

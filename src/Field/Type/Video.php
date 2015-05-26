@@ -1,10 +1,7 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Bolt\Storage\EntityManager;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
-
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -14,7 +11,6 @@ use Doctrine\DBAL\Types\Type;
  */
 class Video extends FieldTypeBase
 {
-
     /**
      * Returns the name of the field type.
      *
@@ -25,7 +21,6 @@ class Video extends FieldTypeBase
         return 'video';
     }
 
-
     /**
      * Returns the name of the Doctrine storage type to use for a field.
      *
@@ -35,5 +30,4 @@ class Video extends FieldTypeBase
     {
         return Type::getType('json_array');
     }
-    
 }

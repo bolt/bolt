@@ -43,7 +43,7 @@ class ScriptHandler
         $filesystem->remove($targetDir);
         $filesystem->mkdir($targetDir, $dirMode);
 
-        foreach (array('css', 'fonts', 'img', 'js') as $dir) {
+        foreach (['css', 'fonts', 'img', 'js'] as $dir) {
             $filesystem->mirror(__DIR__ . '/../../app/view/' . $dir, $targetDir . '/view/' . $dir);
         }
 
@@ -91,7 +91,7 @@ class ScriptHandler
 
         $generator = new BootstrapGenerator($webroot, $webname);
         $generator->create();
-        $options = array_merge(self::getOptions($event), array('bolt-web-dir' => $assetDir));
+        $options = array_merge(self::getOptions($event), ['bolt-web-dir' => $assetDir]);
         self::installAssets($event, $options);
         $event->getIO()->write('<info>Your project has been setup</info>');
     }
@@ -106,11 +106,11 @@ class ScriptHandler
     protected static function getOptions(CommandEvent $event)
     {
         $options = array_merge(
-            array(
+            [
                 'bolt-web-dir'  => 'web',
                 'bolt-app-dir'  => 'app',
                 'bolt-dir-mode' => 0777
-            ),
+            ],
             $event->getComposer()->getPackage()->getExtra()
         );
 

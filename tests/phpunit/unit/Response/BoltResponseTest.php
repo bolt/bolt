@@ -37,16 +37,16 @@ class BoltResponseTest extends BoltUnitTest
     public function testSetContext()
     {
         $app = $this->getApp();
-        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array());
-        $response->setContext(array('test' => 'tester'));
-        $this->assertEquals(array('test' => 'tester'), $response->getContext());
+        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), []);
+        $response->setContext(['test' => 'tester']);
+        $this->assertEquals(['test' => 'tester'], $response->getContext());
     }
 
     public function testGlobalContext()
     {
         $app = $this->getApp();
 
-        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array(), $this->getContext());
+        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), [], $this->getContext());
 
         $globalContext = $response->getGlobalContext();
         $this->assertEquals('1555', $globalContext['context']['code']);
@@ -55,16 +55,16 @@ class BoltResponseTest extends BoltUnitTest
     public function testGetTemplateName()
     {
         $app = $this->getApp();
-        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), array());
+        $response = BoltResponse::create($app['twig']->loadTemplate('error.twig'), []);
         $this->assertEquals('error.twig', $response->getTemplateName());
     }
 
     protected function getContext()
     {
-        return array('context' => array(
+        return ['context' => [
             'class'   => 'BoltResponse',
             'message' => 'Clippy is bent out of shape',
             'code'    => '1555'
-        ));
+        ]];
     }
 }

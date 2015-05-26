@@ -178,12 +178,12 @@ class Import extends AbstractMigration
         }
 
         // Set up default meta
-        $meta = array(
+        $meta = [
             'slug'        => $slug,
             'datecreated' => date('Y-m-d H:i:s'),
             'datepublish' => $status == 'published' ? date('Y-m-d H:i:s') : null,
             'ownerid'     => 1
-        );
+        ];
 
         $values = Arr::mergeRecursiveDistinct($values, $meta);
 

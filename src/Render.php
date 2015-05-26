@@ -46,7 +46,7 @@ class Render
      *
      * @return \Bolt\Response\BoltResponse
      */
-    public function render($template, $vars = array(), $globals = array())
+    public function render($template, $vars = [], $globals = [])
     {
         $response = BoltResponse::create(
             $this->app[$this->twigKey]->loadTemplate($template),

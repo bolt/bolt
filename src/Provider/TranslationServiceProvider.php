@@ -56,7 +56,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
              */
             foreach ($iterator as $fileInfo) {
                 $ext = Lib::getExtension((string) $fileInfo);
-                if (!$fileInfo->isFile() || !in_array($ext, array('yml', 'xlf'))) {
+                if (!$fileInfo->isFile() || !in_array($ext, ['yml', 'xlf'])) {
                     continue;
                 }
                 list($domain) = explode('.', $fileInfo->getFilename());

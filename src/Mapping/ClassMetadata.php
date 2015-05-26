@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Mapping;
 
-use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
-use Bolt\Storage\NamingStrategyInterface;
 use Bolt\Storage\NamingStrategy;
+use Bolt\Storage\NamingStrategyInterface;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
 
 /**
  * Base metadata class, used to provide info from mapping configuration to Entity objects.
@@ -12,7 +12,6 @@ use Bolt\Storage\NamingStrategy;
  */
 class ClassMetadata implements ClassMetadataInterface
 {
-    
     /**
      * @var string
      */
@@ -39,7 +38,7 @@ class ClassMetadata implements ClassMetadataInterface
     protected $fieldMappings;
     
     /**
-     * Constructor, takes Fully-Qualified Class Name and a Naming Strategy Class 
+     * Constructor, takes Fully-Qualified Class Name and a Naming Strategy Class
      *
      * @return void
      **/
@@ -58,7 +57,7 @@ class ClassMetadata implements ClassMetadataInterface
      *
      * @return string
      */
-    public function getName() 
+    public function getName()
     {
         return $this->name;
     }
@@ -68,7 +67,7 @@ class ClassMetadata implements ClassMetadataInterface
      *
      * @return string
      */
-    public function getTableName() 
+    public function getTableName()
     {
         if ($this->tableName) {
             return $this->tableName;
@@ -81,7 +80,7 @@ class ClassMetadata implements ClassMetadataInterface
      *
      * @return string
      */
-    public function setTableName($tableName) 
+    public function setTableName($tableName)
     {
         return $this->tableName = $tableName;
     }
@@ -91,7 +90,7 @@ class ClassMetadata implements ClassMetadataInterface
      *
      * @return void
      */
-    public function getBoltName() 
+    public function getBoltName()
     {
         return $this->boltname;
     }
@@ -101,7 +100,7 @@ class ClassMetadata implements ClassMetadataInterface
      *
      * @return string
      */
-    public function setBoltName($name) 
+    public function setBoltName($name)
     {
         return $this->boltname = $name;
     }
@@ -111,7 +110,7 @@ class ClassMetadata implements ClassMetadataInterface
      *
      * @return string
      */
-    public function getAliasName() 
+    public function getAliasName()
     {
         return $this->namingStrategy->classToAlias($this->name);
     }
@@ -119,7 +118,7 @@ class ClassMetadata implements ClassMetadataInterface
     
     public function getFieldMapping($fieldName)
     {
-        if ( ! isset($this->fieldMappings[$fieldName])) {
+        if (! isset($this->fieldMappings[$fieldName])) {
             return false;
         }
         return $this->fieldMappings[$fieldName];
@@ -128,12 +127,12 @@ class ClassMetadata implements ClassMetadataInterface
     
     /**
      * Sets the fieldMappings array with metadata.
-     * 
+     *
      * @param array $fieldMappings
      *
      * @return void
      */
-    public function setFieldMappings($fieldMappings) 
+    public function setFieldMappings($fieldMappings)
     {
         $this->fieldMappings = $fieldMappings;
     }
@@ -141,11 +140,11 @@ class ClassMetadata implements ClassMetadataInterface
     
     /**
      * Gets the fieldMappings array.
-     * 
+     *
      *
      * @return array $fieldMappings
      */
-    public function getFieldMappings() 
+    public function getFieldMappings()
     {
         return $this->fieldMappings;
     }
@@ -193,7 +192,6 @@ class ClassMetadata implements ClassMetadataInterface
      */
     public function isIdentifier($fieldName)
     {
-        
     }
 
     /**
@@ -206,9 +204,7 @@ class ClassMetadata implements ClassMetadataInterface
     public function hasField($fieldName)
     {
         return isset($this->fieldMappings[$fieldName]);
-        
     }
-
 
     /**
      * A numerically indexed list of field names of this persistent class.
@@ -234,7 +230,6 @@ class ClassMetadata implements ClassMetadataInterface
      */
     public function getTypeOfField($fieldName)
     {
-        
     }
     
     /**
@@ -244,31 +239,39 @@ class ClassMetadata implements ClassMetadataInterface
      */
     public function getIdentifierFieldNames()
     {
-        
     }
     
     /**** Following methods for interface compatibility, not yet used within Bolt ******/
     
-    public function hasAssociation($fieldName) {}
+    public function hasAssociation($fieldName)
+    {
+    }
     
-    public function isSingleValuedAssociation($fieldName) {}
+    public function isSingleValuedAssociation($fieldName)
+    {
+    }
         
-    public function isCollectionValuedAssociation($fieldName) {}
+    public function isCollectionValuedAssociation($fieldName)
+    {
+    }
     
-    public function getAssociationNames() {}
+    public function getAssociationNames()
+    {
+    }
     
-    public function getAssociationTargetClass($assocName) {}
+    public function getAssociationTargetClass($assocName)
+    {
+    }
 
-    public function isAssociationInverseSide($assocName) {}
+    public function isAssociationInverseSide($assocName)
+    {
+    }
         
-    public function getAssociationMappedByTargetField($assocName) {}
+    public function getAssociationMappedByTargetField($assocName)
+    {
+    }
         
-    public function getIdentifierValues($object) {}
-
-
-
-    
-    
-
-    
+    public function getIdentifierValues($object)
+    {
+    }
 }

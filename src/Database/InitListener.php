@@ -68,7 +68,7 @@ class InitListener implements ServiceProviderInterface, EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array(Events::postConnect);
+        return [Events::postConnect];
     }
 
     public function boot(Application $app)

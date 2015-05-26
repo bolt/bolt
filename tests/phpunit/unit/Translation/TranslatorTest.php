@@ -22,7 +22,7 @@ class TranslatorTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app->boot();
-        $this->assertEquals('testkey.testanother', Translator::__(array('testkey', 'testanother')));
+        $this->assertEquals('testkey.testanother', Translator::__(['testkey', 'testanother']));
     }
 
     public function testMessageTranslate()
@@ -36,15 +36,15 @@ class TranslatorTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app->boot();
-        $this->assertEquals('Delete Page', Translator::__('contenttypes.generic.delete', array('%contenttype%' => 'pages')));
-        $this->assertEquals('Delete Showcase', Translator::__('contenttypes.generic.delete', array('%contenttype%' => 'showcase')));
+        $this->assertEquals('Delete Page', Translator::__('contenttypes.generic.delete', ['%contenttype%' => 'pages']));
+        $this->assertEquals('Delete Showcase', Translator::__('contenttypes.generic.delete', ['%contenttype%' => 'showcase']));
     }
 
     public function testTransDefault()
     {
         $app = $this->getApp();
         $app->boot();
-        $this->assertEquals('Here', Translator::__('nonexistentkey', array('DEFAULT' => 'Here')));
+        $this->assertEquals('Here', Translator::__('nonexistentkey', ['DEFAULT' => 'Here']));
     }
 
     // No translations currently use this, so here as a placeholder
@@ -52,6 +52,6 @@ class TranslatorTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app->boot();
-        $this->assertEquals('nonexistentkey', Translator::__('nonexistentkey', array('NUMBER' => 5)));
+        $this->assertEquals('nonexistentkey', Translator::__('nonexistentkey', ['NUMBER' => 5]));
     }
 }

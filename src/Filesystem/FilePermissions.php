@@ -16,13 +16,13 @@ class FilePermissions
     protected $app;
 
     /** @var string[] List of Filesystem prefixes that are editable. */
-    protected $allowedPrefixes = array();
+    protected $allowedPrefixes = [];
 
     /** @var array Regex list represented editable resources. */
-    protected $allowed = array();
+    protected $allowed = [];
 
     /** @var array Regex list represented resources forbidden for edition. */
-    protected $blocked = array();
+    protected $blocked = [];
 
     /** @var int Maximum upload size allowed by PHP, in bytes. */
     protected $maxUploadSize;
@@ -36,17 +36,17 @@ class FilePermissions
     {
         $this->app = $app;
 
-        $this->allowedPrefixes = array(
+        $this->allowedPrefixes = [
             'config',
             'files',
             'theme',
-        );
+        ];
 
-        $this->blocked = array(
+        $this->blocked = [
             '#.php$#',
             '#\.htaccess#',
             '#\.htpasswd#'
-        );
+        ];
     }
 
     /**

@@ -406,7 +406,7 @@ HTML;
 
     public function testSnippetsWorkWithBadHtml()
     {
-        $locations = array(
+        $locations = [
             SnippetLocation::START_OF_HEAD,
             SnippetLocation::START_OF_BODY,
             SnippetLocation::END_OF_BODY,
@@ -418,7 +418,7 @@ HTML;
             SnippetLocation::AFTER_CSS,
             SnippetLocation::AFTER_JS,
             'madeuplocation'
-        );
+        ];
         foreach ($locations as $location) {
             $app = $this->getApp();
             $template = "<invalid></invalid>";

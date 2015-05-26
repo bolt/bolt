@@ -86,7 +86,7 @@ class PackageManager
     /**
      * @var string[]
      */
-    private $messages = array();
+    private $messages = [];
 
     public function __construct(Application $app)
     {
@@ -138,7 +138,7 @@ class PackageManager
             $response = $this->ping(true);
 
             // @see http://tools.ietf.org/html/rfc2616#section-13.4
-            $httpOk = array(200, 203, 206, 300, 301, 302, 307, 410);
+            $httpOk = [200, 203, 206, 300, 301, 302, 307, 410];
             if (in_array($response, $httpOk)) {
                 $this->app['extend.online'] = true;
             } else {
@@ -286,7 +286,7 @@ class PackageManager
      * Require (install) packages.
      *
      * @param $packages array Associative array of package names/versions to remove
-     *                        Format: array('name' => '', 'version' => '')
+     *                        Format: ['name' => '', 'version' => '']
      *
      * @return integer 0 on success or a positive error code on failure
      */
@@ -358,7 +358,7 @@ class PackageManager
      * @param string $file File to initialise
      * @param array  $data Data to be added as JSON paramter/value pairs
      */
-    public function initJson($file, array $data = array())
+    public function initJson($file, array $data = [])
     {
         if (!$this->initJson) {
             $this->initJson = new BoltExtendJson($this->options);
@@ -374,11 +374,11 @@ class PackageManager
      */
     public function getAllPackages()
     {
-        $packages = array(
-            'installed' => array(),
-            'pending'   => array(),
-            'local'     => array()
-        );
+        $packages = [
+            'installed' => [],
+            'pending'   => [],
+            'local'     => []
+        ];
 
         // Installed Composer packages
         $installed = $this->showPackage('installed');
@@ -389,14 +389,14 @@ class PackageManager
         if ($this->json !== null && !empty($this->json['require'])) {
             foreach ($this->json['require'] as $require => $version) {
                 if (!in_array($require, $keys)) {
-                    $packages['pending'][] = array(
+                    $packages['pending'][] = [
                         'name'     => $require,
                         'version'  => $version,
                         'type'     => 'unknown',
                         'descrip'  => Trans::__('Not yet installed.'),
-                        'authors'  => array(),
-                        'keywords' => array()
-                    );
+                        'authors'  => [],
+                        'keywords' => []
+                    ];
                 }
             }
         }
@@ -410,18 +410,18 @@ class PackageManager
             // Get the Composer configuration
             $json = $ext->getComposerJSON();
             if ($json) {
-                $packages['local'][] = array(
+                $packages['local'][] = [
                     'name'     => $json['name'],
                     'title'    => $ext->getName(),
                     'type'     => $json['type'],
                     'descrip'  => $json['description'],
                     'authors'  => $json['authors'],
                     'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',
-                );
+                ];
             } else {
-                $packages['local'][] = array(
+                $packages['local'][] = [
                     'title'    => $ext->getName(),
-                );
+                ];
             }
         }
 
@@ -437,14 +437,14 @@ class PackageManager
      */
     public function formatPackageResponse(array $packages)
     {
-        $pack = array();
+        $pack = [];
 
         foreach ($packages as $package) {
             /** @var \Composer\Package\CompletePackageInterface $package */
             $package = $package['package'];
             $name = $package->getPrettyName();
             $conf = $this->app['extensions']->getComposerConfig($name);
-            $pack[] = array(
+            $pack[] = [
                 'name'     => $name,
                 'title'    => $conf['name'],
                 'version'  => $package->getPrettyVersion(),
@@ -454,7 +454,7 @@ class PackageManager
                 'keywords' => $package->getKeywords(),
                 'readme'   => $this->linkReadMe($name),
                 'config'   => $this->linkConfig($name)
-            );
+            ];
         }
 
         return $pack;
@@ -500,7 +500,7 @@ class PackageManager
         // Check if we have a config file, and if it's readable. (yet)
         $configfilepath = $this->app['resources']->getPath('extensionsconfig/' . $configfilename);
         if (is_readable($configfilepath)) {
-            return Lib::path('fileedit', array('namespace' => 'config', 'file' => 'extensions/' . $configfilename));
+            return Lib::path('fileedit', ['namespace' => 'config', 'file' => 'extensions/' . $configfilename]);
         }
 
         return null;
@@ -538,25 +538,25 @@ class PackageManager
         $www = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : 'unknown';
 
         if ($addquery) {
-            $query = array(
+            $query = [
                 'bolt_ver'  => $this->app['bolt_version'],
                 'bolt_name' => $this->app['bolt_name'],
                 'php'       => phpversion(),
                 'www'       => $www
-            );
+            ];
         } else {
-            $query = array();
+            $query = [];
         }
 
         try {
             /** @var $reponse \GuzzleHttp\Message\Response */
-            $response = $this->app['guzzle.client']->head($uri, array(), array('query' => $query));
+            $response = $this->app['guzzle.client']->head($uri, [], ['query' => $query]);
 
             return $response->getStatusCode();
         } catch (RequestException $e) {
             $this->messages[] = Trans::__(
                 "Testing connection to extension server failed: %errormessage%",
-                array('%errormessage%' => $e->getMessage())
+                ['%errormessage%' => $e->getMessage()]
             );
         }
 
@@ -568,7 +568,7 @@ class PackageManager
      */
     private function setOptions()
     {
-        $this->options = array(
+        $this->options = [
             'basedir'                => $this->app['resources']->getPath('extensions'),
             'composerjson'           => $this->app['resources']->getPath('extensions') . '/composer.json',
 
@@ -597,7 +597,7 @@ class PackageManager
             'onlyname'              => true,     // only-name - Search only in name
 
             'optimizeautoloader'    => true,     // optimize-autoloader - Optimizes PSR0 and PSR4 packages to be loaded with classmaps too, good for production.
-        );
+        ];
 
         return $this->options;
     }

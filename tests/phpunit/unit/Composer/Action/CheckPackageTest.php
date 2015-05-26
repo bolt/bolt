@@ -18,7 +18,7 @@ class CheckPackageTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $action = new RemovePackage($app);
-        $action->execute(array('gawain/clippy'));
+        $action->execute(['gawain/clippy']);
     }
 
     public function testConstruct()
@@ -48,7 +48,7 @@ class CheckPackageTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $action = new RequirePackage($app);
-        $action->execute(array('name' => 'gawain/clippy', 'version' => '~2.0'));
+        $action->execute(['name' => 'gawain/clippy', 'version' => '~2.0']);
 
         $action = new CheckPackage($app);
         $result = $action->execute();

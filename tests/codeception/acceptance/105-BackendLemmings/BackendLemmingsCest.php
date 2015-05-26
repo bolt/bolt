@@ -1,7 +1,6 @@
 <?php
 
 use Codeception\Util\Fixtures;
-use Codeception\Util\Locator;
 
 /**
  * Backend 'lemmings' test(s)

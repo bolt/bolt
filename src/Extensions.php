@@ -32,7 +32,7 @@ class Extensions
      *
      * @var ExtensionInterface[]
      */
-    private $enabled = array();
+    private $enabled = [];
 
     /**
      * Queue with snippets of HTML to insert.
@@ -53,7 +53,7 @@ class Extensions
      *
      * @var array
      */
-    private $menuoptions = array();
+    private $menuoptions = [];
 
     /**
      * Number of registered extensions that need to be able to send mail.
@@ -89,7 +89,7 @@ class Extensions
      *
      * @var array
      */
-    public $composer = array();
+    public $composer = [];
 
     /**
      * Contains a list of all css and js assets added through addCss and
@@ -105,7 +105,7 @@ class Extensions
     {
         $this->app = $app;
         $this->basefolder = $app['resources']->getPath('extensions');
-        $this->matchedcomments = array();
+        $this->matchedcomments = [];
 
         if ($app['config']->get('general/add_jquery')) {
             $this->addjquery = true;
@@ -113,10 +113,10 @@ class Extensions
             $this->addjquery = false;
         }
 
-        $this->assets = array(
-            'css' => array(),
-            'js'  => array()
-        );
+        $this->assets = [
+            'css' => [],
+            'js'  => []
+        ];
     }
 
     /**
@@ -253,7 +253,7 @@ class Extensions
      */
     public function getComposerConfig($extensionName)
     {
-        return isset($this->composer[$extensionName]) ? $this->composer[$extensionName] : array();
+        return isset($this->composer[$extensionName]) ? $this->composer[$extensionName] : [];
     }
 
     /**
@@ -292,7 +292,7 @@ class Extensions
         $this->initialized[$name] = $extension;
 
         // If an extension makes it known it sends email, increase the counter
-        if (is_callable(array($extension, 'sendsMail')) && $extension->sendsMail()) {
+        if (is_callable([$extension, 'sendsMail']) && $extension->sendsMail()) {
             $this->mailsenders++;
         }
     }
@@ -419,13 +419,13 @@ class Extensions
      */
     private function loadExtensionTwig(ExtensionInterface $extension, $name)
     {
-        if (!is_callable(array($extension, 'getTwigExtensions'))) {
+        if (!is_callable([$extension, 'getTwigExtensions'])) {
             return;
         }
 
         /** @var \Twig_Extension[] $extensions */
         $twigExtensions = $extension->getTwigExtensions();
-        $addTwigExFunc = array($this, 'addTwigExtension');
+        $addTwigExFunc = [$this, 'addTwigExtension'];
         foreach ($twigExtensions as $twigExtension) {
             $this->app['twig'] = $this->app->share(
                 $this->app->extend(
@@ -437,7 +437,7 @@ class Extensions
                     }
             ));
 
-            if (!is_callable(array($extension, 'isSafe')) || !$extension->isSafe()) {
+            if (!is_callable([$extension, 'isSafe']) || !$extension->isSafe()) {
                 continue;
             }
             $this->app['safe_twig'] = $this->app->share(
@@ -515,25 +515,25 @@ class Extensions
      *                         'priority' - Loading priority
      *                         'attrib'   - A string containing either/or 'defer', and 'async'
      */
-    public function addCss($filename, $options = array())
+    public function addCss($filename, $options = [])
     {
         // Handle pre-2.2 function parameters, namely $late and $priority
         if (!is_array($options)) {
             $args = func_get_args();
 
-            $options = array(
+            $options = [
                 'late'     => isset($args[1]) ? isset($args[1]) : false,
                 'priority' => isset($args[2]) ? isset($args[2]) : 0,
                 'attrib'   => false
-            );
+            ];
         }
 
-        $this->assets['css'][md5($filename)] = array(
+        $this->assets['css'][md5($filename)] = [
             'filename' => $filename,
             'late'     => isset($options['late'])     ? $options['late']     : false,
             'priority' => isset($options['priority']) ? $options['priority'] : 0,
             'attrib'   => isset($options['attrib'])   ? $options['attrib']   : false
-        );
+        ];
     }
 
     /**
@@ -545,25 +545,25 @@ class Extensions
      *                         'priority' - Loading priority
      *                         'attrib'   - A string containing either/or 'defer', and 'async'
      */
-    public function addJavascript($filename, $options = array())
+    public function addJavascript($filename, $options = [])
     {
         // Handle pre-2.2 function parameters, namely $late and $priority
         if (!is_array($options)) {
             $args = func_get_args();
 
-            $options = array(
+            $options = [
                 'late'     => isset($args[1]) ? isset($args[1]) : false,
                 'priority' => isset($args[2]) ? isset($args[2]) : 0,
                 'attrib'   => false
-            );
+            ];
         }
 
-        $this->assets['js'][md5($filename)] = array(
+        $this->assets['js'][md5($filename)] = [
             'filename' => $filename,
             'late'     => isset($options['late'])     ? $options['late']     : false,
             'priority' => isset($options['priority']) ? $options['priority'] : 0,
             'attrib'   => isset($options['attrib'])   ? $options['attrib']   : false
-        );
+        ];
     }
 
     /**
@@ -587,7 +587,7 @@ class Extensions
 
         $key = substr(md5(sprintf("%s%s%s%s", $sessionkey, $type, $location, !is_array($callback) ? $callback : get_class($callback[0]) . $callback[1])), 0, 8);
 
-        $this->widgetqueue[] = array(
+        $this->widgetqueue[] = [
             'type'            => $type,
             'location'        => $location,
             'callback'        => $callback,
@@ -597,7 +597,7 @@ class Extensions
             'defer'           => $defer,
             'extraparameters' => $extraparameters,
             'key'             => $key
-        );
+        ];
     }
 
     /**
@@ -675,12 +675,12 @@ class Extensions
     {
         $key = md5($extensionname . $callback . $location);
 
-        $this->snippetqueue[$key] = array(
+        $this->snippetqueue[$key] = [
             'location'        => $location,
             'callback'        => $callback,
             'extension'       => $extensionname,
             'extraparameters' => $extraparameters
-        );
+        ];
     }
 
     /**
@@ -688,7 +688,7 @@ class Extensions
      */
     public function clearSnippetQueue()
     {
-        $this->snippetqueue = array();
+        $this->snippetqueue = [];
     }
 
     public function processSnippetQueue($html)
@@ -696,7 +696,7 @@ class Extensions
         // First, gather all html <!-- comments -->, because they shouldn't be
         // considered for replacements. We use a callback, so we can fill our
         // $this->matchedcomments array
-        $html = preg_replace_callback('/<!--(.*)-->/Uis', array($this, 'pregcallback'), $html);
+        $html = preg_replace_callback('/<!--(.*)-->/Uis', [$this, 'pregcallback'], $html);
 
         // Replace the snippets in the queue.
         foreach ($this->snippetqueue as $item) {
@@ -797,7 +797,7 @@ class Extensions
             // Use http://en.wikipedia.org/wiki/Schwartzian_transform for stable sort
             // We use create_function(), because it's faster than closure
             // decorate
-            array_walk($files, create_function('&$v, $k', '$v = array($v[\'priority\'], $k, $v);'));
+            array_walk($files, create_function('&$v, $k', '$v = [$v[\'priority\'], $k, $v];'));
             // sort
             sort($files);
             // undecorate
@@ -1139,11 +1139,11 @@ class Extensions
         }
 
         if (empty($requiredPermission) || $this->app['users']->isAllowed($requiredPermission)) {
-            $this->menuoptions[$path] = array(
+            $this->menuoptions[$path] = [
                 'label' => $label,
                 'path'  => $path,
                 'icon'  => $icon
-            );
+            ];
         }
     }
 
@@ -1183,15 +1183,15 @@ class Extensions
      */
     protected function logInitFailure($msg, $extensionName, \Exception $e, $level = Logger::CRITICAL)
     {
-        $context = array(
+        $context = [
             'event'     => 'extensions',
             'exception' => $e
-        );
+        ];
 
         $this->app['logger.system']->addRecord($level, sprintf("%s for %s: %s", $msg, $extensionName, $e->getMessage()), $context);
 
         $this->app['logger.flash']->error(
-            Trans::__("[Extension error] $msg for %ext%: %error%", array('%ext%' => $extensionName, '%error%' => $e->getMessage()))
+            Trans::__("[Extension error] $msg for %ext%: %error%", ['%ext%' => $extensionName, '%error%' => $e->getMessage()])
         );
     }
 

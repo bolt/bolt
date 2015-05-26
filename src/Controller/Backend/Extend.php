@@ -142,15 +142,15 @@ class Extend extends BackendBase
         $version = $request->get('version');
 
         $response = $this->manager()->requirePackage(
-            array(
+            [
                 'name'    => $package,
                 'version' => $version
-            )
+            ]
         );
 
         if ($response === 0) {
             $this->app['extensions.stats']->recordInstall($package, $version);
-            $this->app['logger.system']->info("Installed $package $version", array('event' => 'extensions'));
+            $this->app['logger.system']->info("Installed $package $version", ['event' => 'extensions']);
 
             return new Response($this->manager()->getOutput());
         } else {
@@ -198,14 +198,14 @@ class Extend extends BackendBase
     public function installInfo(Request $request)
     {
         $package = $request->get('package');
-        $versions = array('dev' => array(), 'stable' => array());
+        $versions = ['dev' => [], 'stable' => []];
         $info = $this->app['extend.info']->info($package, $this->app['bolt_version']);
         if (isset($info->version)) {
             foreach ($info->version as $version) {
                 $versions[$version->stability][] = $version;
             }
         } else {
-            $versions = array('error' => true, 'dev' => array(), 'stable' => array());
+            $versions = ['error' => true, 'dev' => [], 'stable' => []];
         }
 
         return $this->json($versions);
@@ -259,12 +259,12 @@ class Extend extends BackendBase
     public function update(Request $request)
     {
         $package = $request->get('package') ? $request->get('package') : null;
-        $update = $package ? array($package) : array();
+        $update = $package ? [$package] : [];
 
         $response = $this->app['extend.manager']->updatePackage($update);
 
         if ($response === 0) {
-            $this->app['logger.system']->info("Updated $package", array('event' => 'extensions'));
+            $this->app['logger.system']->info("Updated $package", ['event' => 'extensions']);
 
             return $this->json($this->manager()->getOutput());
         } else {
@@ -285,10 +285,10 @@ class Extend extends BackendBase
     {
         $package = $request->get('package');
 
-        $response = $this->manager()->removePackage(array($package));
+        $response = $this->manager()->removePackage([$package]);
 
         if ($response === 0) {
-            $this->app['logger.system']->info("Uninstalled $package", array('event' => 'extensions'));
+            $this->app['logger.system']->info("Uninstalled $package", ['event' => 'extensions']);
 
             return new Response($this->manager()->getOutput());
         } else {
@@ -305,14 +305,14 @@ class Extend extends BackendBase
     {
         $extensionsPath = $this->resources()->getPath('extensions');
 
-        return array(
+        return [
             'messages'       => $this->app['extend.manager']->getMessages(),
             'enabled'        => $this->app['extend.enabled'],
             'writeable'      => $this->app['extend.writeable'],
             'online'         => $this->app['extend.online'],
             'extensionsPath' => $extensionsPath,
             'site'           => $this->app['extend.site']
-        );
+        ];
     }
 
     /**

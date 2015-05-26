@@ -3,9 +3,9 @@
 namespace Bolt\Mapping;
 
 use Bolt\Database\IntegrityChecker;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Bolt\Mapping\ClassMetadata as BoltClassMetadata;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 
@@ -18,58 +18,57 @@ use Doctrine\DBAL\Types\Type;
  */
 class MetadataDriver implements MappingDriver
 {
-    
     /**
      * IntegrityChecker object
      */
     protected $integrityChecker;
-    
+
     /**
      * Array of contenttypes
      */
     protected $contenttypes;
-    
+
     /**
      * Array of taxonomy configuration
      */
     protected $taxonomies;
-    
+
     /**
      * array of metadata mappings
      */
     protected $metadata;
-    
+
     /**
      * @var array
      */
-    protected $defaultAliases = array(
-        'bolt_authtoken' => 'Bolt\Entity\Authtoken',
-        'bolt_cron' => 'Bolt\Entity\Cron',
-        'bolt_log' => 'Bolt\Entity\Log',
+    protected $defaultAliases = [
+        'bolt_authtoken'  => 'Bolt\Entity\Authtoken',
+        'bolt_cron'       => 'Bolt\Entity\Cron',
+        'bolt_log'        => 'Bolt\Entity\Log',
         'bolt_log_change' => 'Bolt\Entity\LogChange',
         'bolt_log_system' => 'Bolt\Entity\LogSystem',
-        'bolt_relations' => 'Bolt\Entity\Relations',
-        'bolt_taxonomy' => 'Bolt\Entity\Taxonomy',
-        'bolt_users' => 'Bolt\Entity\Users'
-    );
-    
+        'bolt_relations'  => 'Bolt\Entity\Relations',
+        'bolt_taxonomy'   => 'Bolt\Entity\Taxonomy',
+        'bolt_users'      => 'Bolt\Entity\Users'
+    ];
+
     protected $typemap;
-    
-    protected $aliases = array();
-    
+
+    protected $aliases = [];
+
     /**
      *  Keeps a reference of which metadata is not mapped to
      *  a specific entity.
-     * 
-     *  @var array $unmapped 
+     *
+     *  @var array $unmapped
      */
     protected $unmapped;
-    
+
     /**
      * @var string - a default entity for any table not matched
      */
     protected $fallbackEntity = 'Bolt\Entity\Content';
-    
+
     /**
      * @var boolean
      */
@@ -85,10 +84,10 @@ class MetadataDriver implements MappingDriver
         $this->taxonomies = $taxonomies;
         $this->typemap = $typemap;
     }
-    
+
     /**
      * Reads the schema from IntegrityChecker and creates mapping data
-     * 
+     *
      * @return void
      */
     public function initialize()
@@ -99,12 +98,13 @@ class MetadataDriver implements MappingDriver
         }
         $this->initialized = true;
     }
-    
+
     /**
      * Setup some short aliases so non prefixed keys can be used to get metadata
      *
      * @return void
-     * @author 
+     *
+     * @author
      **/
     public function initializeShortAliases()
     {
@@ -112,7 +112,7 @@ class MetadataDriver implements MappingDriver
             $this->aliases[$this->integrityChecker->getKeyForTable($table->getName())] = $table->getName();
         }
     }
-    
+
     /**
      * Getter for aliases
      *
@@ -122,7 +122,7 @@ class MetadataDriver implements MappingDriver
     {
         return $this->aliases;
     }
-    
+
     /**
      * Method will try to find an entity class name to handle data,
      * alternatively falling back to $this->fallbackEntity
@@ -134,23 +134,21 @@ class MetadataDriver implements MappingDriver
         if (class_exists($alias)) {
             return $alias;
         }
-        
+
         if (array_key_exists($alias, $this->aliases)) {
             $class = $this->aliases[$alias];
             if (class_exists($class)) {
                 return $class;
             }
         }
-        
+
         return $this->fallbackEntity;
     }
-    
 
-    
     protected function loadMetadataForTable(Table $table)
     {
         $tblName = $table->getName();
-        
+
         if (isset($this->defaultAliases[$tblName])) {
             $className = $this->defaultAliases[$tblName];
         } else {
@@ -160,11 +158,11 @@ class MetadataDriver implements MappingDriver
 
         $contentKey = $this->integrityChecker->getKeyForTable($tblName);
 
-        $this->metadata[$className] = array();
+        $this->metadata[$className] = [];
         $this->metadata[$className]['identifier'] = $table->getPrimaryKey();
         $this->metadata[$className]['table'] = $table->getName();
         $this->metadata[$className]['boltname'] = $contentKey;
-        foreach ($table->getColumns() as $colName=>$column) {
+        foreach ($table->getColumns() as $colName => $column) {
             $mapping['fieldname'] = $colName;
             $mapping['type'] = $column->getType()->getName();
             $mapping['fieldtype'] = $this->getFieldTypeFor($table->getName(), $column);
@@ -176,26 +174,24 @@ class MetadataDriver implements MappingDriver
             $mapping['default'] = $column->getDefault();
             $mapping['columnDefinition'] = $column->getColumnDefinition();
             $mapping['autoincrement'] = $column->getAutoincrement();
-            
+
             $this->metadata[$className]['fields'][$colName] = $mapping;
             $this->metadata[$className]['fields'][$colName]['data'] = $this->contenttypes[$contentKey]['fields'][$colName];
         }
-        
 
         // This loop checks the contenttypes definition for any non-db fields and adds them.
         if ($contentKey) {
             $this->setRelations($contentKey, $className, $table);
             $this->setTaxonomies($contentKey, $className, $table);
         }
-        
-        foreach ($this->getAliases() as $alias=>$table) {
+
+        foreach ($this->getAliases() as $alias => $table) {
             if (array_key_exists($table, $this->metadata)) {
                 $this->metadata[$alias] = $this->metadata[$table];
             }
         }
-        
     }
-    
+
     public function setRelations($contentKey, $className, $table)
     {
         if (!isset($this->contenttypes[$contentKey]['relations'])) {
@@ -216,17 +212,16 @@ class MetadataDriver implements MappingDriver
             $this->metadata[$className]['fields'][$relationKey]['data'] = $data;
         }
     }
-    
+
     public function setTaxonomies($contentKey, $className, $table)
     {
         if (!isset($this->contenttypes[$contentKey]['taxonomy'])) {
             return;
         }
-        
-        foreach($this->contenttypes[$contentKey]['taxonomy'] as $taxonomytype) {
-            
+
+        foreach ($this->contenttypes[$contentKey]['taxonomy'] as $taxonomytype) {
             $taxonomyConfig = $this->taxonomies[$taxonomytype];
-            
+
             if (isset($taxonomyConfig['alias'])) {
                 $taxonomy = $taxonomyConfig['alias'];
             } else {
@@ -239,18 +234,15 @@ class MetadataDriver implements MappingDriver
             $mapping['target'] = $this->integrityChecker->getTableName('taxonomy');
             $this->metadata[$className]['fields'][$taxonomy] = $mapping;
             $this->metadata[$className]['fields'][$taxonomy]['data'] = $taxonomyConfig;
-            
         }
-        
     }
 
     /**
-     * @param string $className Fully Qualified name or alias
-     * @param ClassMetadata $metadata instance of metadata class to load with data
+     * @param string        $className Fully Qualified name or alias
+     * @param ClassMetadata $metadata  instance of metadata class to load with data
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata = null)
     {
-        
         if (null === $metadata) {
             $fullClassName = $this->resolveClassName($className);
             $metadata = new BoltClassMetadata($fullClassName);
@@ -265,13 +257,11 @@ class MetadataDriver implements MappingDriver
             $metadata->setFieldMappings($data['fields']);
             $metadata->setBoltName($data['boltname']);
             return $metadata;
-            
         } else {
             throw new \Exception("Attempted to load mapping data for unmapped class $className");
         }
-        
     }
-    
+
     /**
      * undocumented function
      *
@@ -284,14 +274,14 @@ class MetadataDriver implements MappingDriver
             $type = $this->contenttypes[$contentKey]['fields'][$column->getName()]['type'];
         } elseif ($column->getType()) {
             $type = get_class($column->getType());
-        } 
-                
+        }
+
         if (isset($this->typemap[$type])) {
             $type = new $this->typemap[$type];
         } else {
             $type = new $this->typemap['text'];
         }
-        
+
         return $type;
     }
 
@@ -304,7 +294,7 @@ class MetadataDriver implements MappingDriver
     {
         return array_keys($this->metadata);
     }
-    
+
     /**
      * Gets a list of tables that are not mapped to specific entities.
      *
@@ -314,7 +304,7 @@ class MetadataDriver implements MappingDriver
     {
         return $this->unmapped;
     }
-    
+
     /**
      * Adds an alias mapping from an internal name to a Fully Qualified Entity.
      *
@@ -327,9 +317,10 @@ class MetadataDriver implements MappingDriver
     {
         $this->defaultAliases[$alias] = $entity;
     }
-    
+
     /**
      * Returns the metadata for a given class name.
+     *
      * @param string $className
      *
      * @return The class metadata.
@@ -342,7 +333,7 @@ class MetadataDriver implements MappingDriver
         if (array_key_exists($className, $this->metadata)) {
             return $this->metadata[$className];
         }
-        
+
         return false;
     }
 

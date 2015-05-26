@@ -1,27 +1,25 @@
 <?php
 namespace Bolt\Storage;
 
-use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\DBAL\Query\QueryBuilder;
-use Bolt\Mapping\ClassMetadata;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
-
+use Bolt\Mapping\ClassMetadata;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * A default repository class that other repositories can inherit to provide more specific features.
  */
 class Repository implements ObjectRepository
 {
-    
     public $em;
     public $_class;
     public $entityName;
     public $hydrator;
     public $persister;
     public $loader;
-    
+
     /**
      * Initializes a new <tt>Repository</tt>.
      *
@@ -35,20 +33,20 @@ class Repository implements ObjectRepository
             $this->_class     = $classMetadata;
             $this->entityName  = $classMetadata->getName();
         }
-        
+
         if (null === $hydrator) {
             $this->setHydrator(new Hydrator($classMetadata));
         }
-        
+
         if (null === $persister) {
             $this->setPersister(new Persister($classMetadata));
         }
-        
+
         if (null === $loader) {
             $this->setLoader(new Loader());
         }
     }
-    
+
     /**
      * Creates a new QueryBuilder instance that is prepopulated for this entity name.
      *
@@ -81,8 +79,8 @@ class Repository implements ObjectRepository
         if ($result) {
             return $this->hydrate($result, $qb);
         }
-        
-        return false;        
+
+        return false;
     }
 
     /**
@@ -92,7 +90,7 @@ class Repository implements ObjectRepository
      */
     public function findAll()
     {
-        return $this->findBy(array());
+        return $this->findBy([]);
     }
 
     /**
@@ -107,21 +105,20 @@ class Repository implements ObjectRepository
      * @param int|null   $limit
      * @param int|null   $offset
      *
-     * @return array The objects.
-     *
      * @throws \UnexpectedValueException
+     *
+     * @return array The objects.
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->findWithCriteria($criteria, $orderBy, $limit, $offset);
         $result = $qb->execute()->fetchAll();
-        
+
         if ($result) {
             return $this->hydrateAll($result, $qb);
         }
-        
+
         return false;
-        
     }
 
     /**
@@ -135,23 +132,23 @@ class Repository implements ObjectRepository
     {
         $qb = $this->findWithCriteria($criteria, $orderBy);
         $result = $qb->execute()->fetch();
-        
+
         if ($result) {
             return $this->hydrate($result, $qb);
         }
-        
+
         return false;
     }
-    
+
     /**
      * Internal method to build a basic select, returns QB object.
-     * 
+     *
      * @return QueryBuilder.
      */
     protected function findWithCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->getLoadQuery();
-        foreach ($criteria as $col=>$val) {
+        foreach ($criteria as $col => $val) {
             $qb->andWhere($this->getAlias().".$col = :$col");
             $qb->setParameter(":$col", $val);
         }
@@ -166,22 +163,21 @@ class Repository implements ObjectRepository
         }
         return $qb;
     }
-    
+
     /**
      * Internal method to initialise and return a QueryBuilder instance.
      * Note that the metadata fields will be passed the instance to modify where appropriate.
-     * 
+     *
      * @return QueryBuilder.
      */
     protected function getLoadQuery()
     {
-       $qb = $this->createQueryBuilder();
-       $this->loader->load($qb, $this->getClassMetadata());
-       
-       return $qb; 
+        $qb = $this->createQueryBuilder();
+        $this->loader->load($qb, $this->getClassMetadata());
+
+        return $qb;
     }
-    
-    
+
     /**
      * Deletes a single object.
      *
@@ -197,14 +193,14 @@ class Repository implements ObjectRepository
             ->delete($this->getTableName())
             ->where("id = :id")
             ->setParameter('id', $entity->getId());
-        
+
         $response = $qb->execute();
         $event = new StorageEvent($entity);
         $this->event()->dispatch(StorageEvents::POST_DELETE, $event);
-        
+
         return $response;
     }
-    
+
     /**
      * Saves a single object.
      *
@@ -215,28 +211,27 @@ class Repository implements ObjectRepository
     public function save($entity)
     {
         $qb = $this->em->createQueryBuilder();
-        
+
         try {
             $existing = $entity->getId();
         } catch (Exception $e) {
             $existing = false;
         }
-        
-        $event = new StorageEvent($entity, array('create' => $existing));
+
+        $event = new StorageEvent($entity, ['create' => $existing]);
         $this->event()->dispatch(StorageEvents::PRE_SAVE, $event);
-        
+
         if ($existing) {
             $response = $this->update($entity);
         } else {
             $response = $this->insert($entity);
         }
-        
+
         $this->event()->dispatch(StorageEvents::POST_SAVE, $event);
-        
+
         return $response;
-                
     }
-    
+
     /**
      * Saves a new object into the database.
      *
@@ -251,10 +246,10 @@ class Repository implements ObjectRepository
         $qb->insert($this->getTableName());
         $querySet->append($qb);
         $this->persister->persist($querySet, $entity, $this->em);
-                
+
         return $querySet->execute();
     }
-    
+
     /**
      * Updates an object into the database.
      *
@@ -271,53 +266,49 @@ class Repository implements ObjectRepository
             ->setParameter('id', $entity->getId());
         $querySet->append($qb);
         $this->persister->persist($querySet, $entity, $this->em);
-        
-        
-        
+
         return $querySet->execute();
     }
-    
-    
-    
+
     /**
      * Internal method to hydrate an Entity Object from fetched data.
-     * 
+     *
      * @return mixed.
      */
     protected function hydrate(array $data, QueryBuilder $qb)
     {
         $preArgs = new HydrationEvent(
-            $data, 
-            array('entity'=>$this->getEntityName(), 'repository' => $this)
+            $data,
+            ['entity' => $this->getEntityName(), 'repository' => $this]
         );
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preArgs);
-        
+
         $entity = $this->hydrator->hydrate($data, $qb, $this->em);
-        
+
         $postArgs = new HydrationEvent(
-            $entity, 
-            array('data'=>$data, 'repository'=>$this)
+            $entity,
+            ['data' => $data, 'repository' => $this]
         );
         $this->event()->dispatch(StorageEvents::POST_HYDRATE, $postArgs);
-        
+
         return $entity;
     }
-    
+
     /**
      * Internal method to hydrate an array of Entity Objects from fetched data.
-     * 
+     *
      * @return mixed.
      */
     protected function hydrateAll(array $data, QueryBuilder $qb)
     {
-        $rows = array();
+        $rows = [];
         foreach ($data as $row) {
-           $rows[] = $this->hydrate($row, $qb); 
+            $rows[] = $this->hydrate($row, $qb);
         }
-        
+
         return $rows;
     }
-    
+
     /**
      * @return void
      */
@@ -325,7 +316,7 @@ class Repository implements ObjectRepository
     {
         $this->hydrator = $hydrator;
     }
-    
+
     /**
      * @return void
      */
@@ -333,8 +324,7 @@ class Repository implements ObjectRepository
     {
         $this->persister = $persister;
     }
-    
-    
+
     /**
      * @return void
      */
@@ -343,8 +333,6 @@ class Repository implements ObjectRepository
         $this->loader = $loader;
     }
 
-
-    
     /**
      * @return string
      */
@@ -360,25 +348,22 @@ class Repository implements ObjectRepository
     {
         return $this->getEntityName();
     }
-    
+
     /**
-     * 
      * @return string
      */
     public function getTableName()
     {
         return $this->getClassMetadata()->getTableName();
     }
-    
+
     /**
-     * 
      * @return string
      */
     public function getAlias()
     {
         return $this->getClassMetadata()->getAliasName();
     }
-
 
     /**
      * @return EntityManager
@@ -387,9 +372,9 @@ class Repository implements ObjectRepository
     {
         return $this->em;
     }
-    
+
     /**
-     * Getter for class metadata 
+     * Getter for class metadata
      *
      * @return ClassMetadata
      */
@@ -397,18 +382,14 @@ class Repository implements ObjectRepository
     {
         return $this->_class;
     }
-    
+
     /**
      * Shortcut method to fetch the Event Manager
-     * 
+     *
      * @return EventManager
      */
     public function event()
     {
         return $this->getEntityManager()->getEventManager();
     }
-    
-    
-    
-
 }

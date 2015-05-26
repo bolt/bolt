@@ -100,8 +100,8 @@ class SnippetListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             KernelEvents::RESPONSE => 'onResponse',
-        );
+        ];
     }
 }

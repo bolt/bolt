@@ -60,15 +60,15 @@ HTML;
 
     protected function checkSummary()
     {
-        $status = array();
+        $status = [];
         $status[] = $this->composerSuffix;
-        $checks = array(
+        $checks = [
             $this->config->getPath('config'),
             $this->config->getPath('database'),
             $this->config->getPath('cache'),
             $this->config->getPath('extensions'),
             $this->config->getPath('web') . '/extensions'
-        );
+        ];
         foreach ($checks as $check) {
             if (is_readable($check) && is_writable($check)) {
                 $status[] = 'ok';

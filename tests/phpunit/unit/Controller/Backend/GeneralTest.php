@@ -48,14 +48,14 @@ class GeneralTest extends ControllerUnitTest
     public function testClearCache()
     {
         $this->allowLogin($this->getApp());
-        $cache = $this->getMock('Bolt\Cache', array('clearCache'), array(__DIR__, $this->getApp()));
+        $cache = $this->getMock('Bolt\Cache', ['clearCache'], [__DIR__, $this->getApp()]);
         $cache->expects($this->at(0))
             ->method('clearCache')
-            ->will($this->returnValue(array('successfiles' => '1.txt', 'failedfiles' => '2.txt')));
+            ->will($this->returnValue(['successfiles' => '1.txt', 'failedfiles' => '2.txt']));
 
         $cache->expects($this->at(1))
             ->method('clearCache')
-            ->will($this->returnValue(array('successfiles' => '1.txt')));
+            ->will($this->returnValue(['successfiles' => '1.txt']));
 
         $this->setService('cache', $cache);
         $this->setRequest(Request::create('/bolt/clearcache'));
@@ -99,7 +99,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
 
-        $this->setRequest(Request::create('/bolt/omnisearch', 'GET', array('q' => 'test')));
+        $this->setRequest(Request::create('/bolt/omnisearch', 'GET', ['q' => 'test']));
         $this->checkTwigForTemplate($this->getApp(), 'omnisearch/omnisearch.twig');
 
         $this->controller()->omnisearch($this->getRequest());
@@ -114,12 +114,12 @@ class GeneralTest extends ControllerUnitTest
         $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
 
         // Test the post
-        $this->setRequest(Request::create('/bolt/prefill', 'POST', array('contenttypes' => 'pages')));
+        $this->setRequest(Request::create('/bolt/prefill', 'POST', ['contenttypes' => 'pages']));
         $response = $this->controller()->prefill($this->getRequest());
         $this->assertEquals('/bolt/prefill', $response->getTargetUrl());
 
         // Test for the Exception if connection fails to the prefill service
-        $store = $this->getMock('Bolt\Storage', array('preFill'), array($this->getApp()));
+        $store = $this->getMock('Bolt\Storage', ['preFill'], [$this->getApp()]);
 
         $guzzleRequest = new \GuzzleHttp\Message\Request('GET', '');
         $store->expects($this->any())
@@ -130,13 +130,13 @@ class GeneralTest extends ControllerUnitTest
 
         $this->setService('storage', $store);
 
-        $logger = $this->getMock('Monolog\Logger', array('error'), array('test'));
+        $logger = $this->getMock('Monolog\Logger', ['error'], ['test']);
         $logger->expects($this->once())
             ->method('error')
             ->with("Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.");
         $this->setService('logger.system', $logger);
 
-        $this->setRequest(Request::create('/bolt/prefill', 'POST', array('contenttypes' => 'pages')));
+        $this->setRequest(Request::create('/bolt/prefill', 'POST', ['contenttypes' => 'pages']));
         $this->controller()->prefill($this->getRequest());
     }
 
@@ -157,12 +157,12 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/bolt/tr/contenttypes/en_CY',
             'POST',
-            array(
-                'form' => array(
+            [
+                'form' => [
                     'contents' => 'test content at least 10 chars',
                     '_token'   => 'xyz'
-                )
-            )
+                ]
+            ]
         ));
 
         $response = $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
@@ -176,12 +176,12 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/bolt/tr/contenttypes/en_CY',
             'POST',
-            array(
-                'form' => array(
+            [
+                'form' => [
                     'contents' => '- this is invalid yaml markup: *thisref',
                     '_token'   => 'xyz'
-                )
-            )
+                ]
+            ]
         ));
         $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');
 

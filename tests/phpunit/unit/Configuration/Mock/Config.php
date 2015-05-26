@@ -8,12 +8,12 @@ namespace Bolt\Tests\Configuration\Mock;
  */
 class Config
 {
-    public $db1 = array(
+    public $db1 = [
         'driver'   => 'pdo_mysql',
         'user'     => 'test',
         'password' => 'test',
         'dbname'   => 'test'
-    );
+    ];
 
     public $value;
 

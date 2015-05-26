@@ -29,12 +29,12 @@ class Config
     protected $data;
 
     /** @var array */
-    protected $defaultConfig = array();
+    protected $defaultConfig = [];
 
     /** @var array */
-    protected $reservedFieldNames = array(
+    protected $reservedFieldNames = [
         'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link', 'templatefields'
-    );
+    ];
 
     /** @var integer */
     protected $cachetimestamp;
@@ -104,7 +104,7 @@ class Config
         $filename = $path . '/' . $filename;
 
         if (!is_readable($filename)) {
-            return array();
+            return [];
         }
 
         $yml = $this->yamlParser->parse(file_get_contents($filename) . "\n");
@@ -113,7 +113,7 @@ class Config
         unset($yml['__nodes']);
 
         // Invalid, non-existing, or empty files return NULL
-        return $yml ?: array();
+        return $yml ?: [];
     }
 
     /**
@@ -134,7 +134,7 @@ class Config
         // Only do something if we get at least one key.
         if (empty($path[0])) {
             $logline = "Config: can't set empty path to '" . (string) $value . "'";
-            $this->app['logger.system']->critical($logline, array('event' => 'config'));
+            $this->app['logger.system']->critical($logline, ['event' => 'config']);
 
             return false;
         }
@@ -143,7 +143,7 @@ class Config
 
         foreach ($path as $key) {
             if (!isset($part[$key])) {
-                $part[$key] = array();
+                $part[$key] = [];
             }
 
             $part = & $part[$key];
@@ -201,7 +201,7 @@ class Config
      */
     public function getConfig()
     {
-        $config = array();
+        $config = [];
 
         $config['general']      = $this->parseGeneral();
         $config['taxonomy']     = $this->parseTaxonomy();
@@ -209,7 +209,7 @@ class Config
         $config['menu']         = $this->parseConfigYaml('menu.yml');
         $config['routing']      = $this->parseConfigYaml('routing.yml');
         $config['permissions']  = $this->parseConfigYaml('permissions.yml');
-        $config['extensions']   = array();
+        $config['extensions']   = [];
 
         // fetch the theme config. requires special treatment due to the path being dynamic
         $this->app['resources']->initializeConfig($config);
@@ -234,9 +234,9 @@ class Config
 
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($general['wysiwyg']['ck']['contentsCss'])) {
-            $general['wysiwyg']['ck']['contentsCss'] = array(
+            $general['wysiwyg']['ck']['contentsCss'] = [
                 1 => $general['wysiwyg']['ck']['contentsCss']
-            );
+            ];
         }
 
         // Make sure old settings for 'accept_file_types' are not still picked up. Before 1.5.4 we used to store them
@@ -312,7 +312,7 @@ class Config
 
             // Make sure the options are $key => $value pairs, and not have implied integers for keys.
             if (!empty($taxonomy['options']) && is_array($taxonomy['options'])) {
-                $options = array();
+                $options = [];
                 foreach ($taxonomy['options'] as $optionkey => $optionvalue) {
                     if (is_numeric($optionkey)) {
                         $optionkey = Slugify::create()->slugify($optionvalue);
@@ -342,7 +342,7 @@ class Config
      */
     protected function parseContentTypes(array $generalConfig)
     {
-        $contentTypes = array();
+        $contentTypes = [];
         $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
         foreach ($tempContentTypes as $key => $contentType) {
             $contentType = $this->parseContentType($key, $contentType, $generalConfig);
@@ -365,13 +365,13 @@ class Config
         $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
 
         if ((isset($themeConfig['templatefields'])) && (is_array($themeConfig['templatefields']))) {
-            $templateContentTypes = array();
+            $templateContentTypes = [];
 
             foreach ($themeConfig['templatefields'] as $template => $templateFields) {
-                $fieldsContenttype = array(
+                $fieldsContenttype = [
                     'fields'        => $templateFields,
                     'singular_name' => 'Template Fields ' . $template
-                );
+                ];
 
                 $templateContentTypes[$template] = $this->parseContentType($template, $fieldsContenttype, $generalConfig);
             }
@@ -453,7 +453,7 @@ class Config
 
         // Make sure taxonomy is an array.
         if (isset($contentType['taxonomy']) && !is_array($contentType['taxonomy'])) {
-            $contentType['taxonomy'] = array($contentType['taxonomy']);
+            $contentType['taxonomy'] = [$contentType['taxonomy']];
         }
 
         // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
@@ -482,7 +482,7 @@ class Config
         $acceptableFileTypes = $generalConfig['accept_file_types'];
 
         $currentGroup = 'ungrouped';
-        $groups = array();
+        $groups = [];
         $hasGroups = false;
 
         foreach ($fields as $key => $field) {
@@ -496,7 +496,7 @@ class Config
                 }
 
                 if (!is_array($field['extensions'])) {
-                    $field['extensions'] = array($field['extensions']);
+                    $field['extensions'] = [$field['extensions']];
                 }
             }
 
@@ -504,13 +504,13 @@ class Config
             if ($field['type'] == 'image' || $field['type'] == 'imagelist') {
                 if (empty($field['extensions'])) {
                     $field['extensions'] = array_intersect(
-                        array('gif', 'jpg', 'jpeg', 'png'),
+                        ['gif', 'jpg', 'jpeg', 'png'],
                         $acceptableFileTypes
                     );
                 }
 
                 if (!is_array($field['extensions'])) {
-                    $field['extensions'] = array($field['extensions']);
+                    $field['extensions'] = [$field['extensions']];
                 }
             }
 
@@ -531,13 +531,13 @@ class Config
 
             // Make sure we have these keys and every field has a group set
             $field = array_replace(
-                array(
+                [
                     'label'   => '',
                     'variant' => '',
                     'default' => '',
                     'pattern' => '',
                     'group'   => $currentGroup,
-                ),
+                ],
                 $field
             );
 
@@ -556,10 +556,10 @@ class Config
         if (isset($fields['slug']) && isset($fields['slug']['uses']) &&
             !is_array($fields['slug']['uses'])
         ) {
-            $fields['slug']['uses'] = array($fields['slug']['uses']);
+            $fields['slug']['uses'] = [$fields['slug']['uses']];
         }
 
-        return array($fields, $hasGroups ? array_keys($groups) : false);
+        return [$fields, $hasGroups ? array_keys($groups) : false];
     }
 
     /**
@@ -586,10 +586,10 @@ class Config
         if ($driver === 'sqlite') {
             $options['driver'] = 'pdo_sqlite';
             $options['randomfunction'] = 'RANDOM()';
-        } elseif (in_array($driver, array('mysql', 'mysqli'))) {
+        } elseif (in_array($driver, ['mysql', 'mysqli'])) {
             $options['driver'] = 'pdo_mysql';
             $options['randomfunction'] = 'RAND()';
-        } elseif (in_array($driver, array('pgsql', 'postgres', 'postgresql'))) {
+        } elseif (in_array($driver, ['pgsql', 'postgres', 'postgresql'])) {
             $options['driver'] = 'pdo_pgsql';
             $options['randomfunction'] = 'RANDOM()';
         }
@@ -679,18 +679,18 @@ class Config
      *
      * @return array
      */
-    protected function parseConnectionParams($params, $defaults = array())
+    protected function parseConnectionParams($params, $defaults = [])
     {
         // Handle host shortcut
         if (is_string($params)) {
-            $params = array('host' => $params);
+            $params = ['host' => $params];
         }
 
         // Convert keys from Bolt
-        $replacements = array(
+        $replacements = [
             'databasename' => 'dbname',
             'username'     => 'user',
-        );
+        ];
         foreach ($replacements as $old => $new) {
             if (isset($params[$old])) {
                 $params[$new] = $params[$old];
@@ -702,14 +702,14 @@ class Config
         $params = array_replace($defaults, $params);
 
         // Filter out invalid keys
-        $validKeys = array(
+        $validKeys = [
             'user', 'password', 'host', 'port', 'dbname', 'charset',      // common
             'path', 'memory',                                             // Qqlite
             'unix_socket', 'driverOptions',                               // MySql
             'sslmode',                                                    // PostgreSQL
             'servicename', 'service', 'pooled', 'instancename', 'server', // Oracle
             'persistent',                                                 // SQL Anywhere
-        );
+        ];
         $params = array_intersect_key($params, array_flip($validKeys));
 
         return $params;
@@ -720,7 +720,7 @@ class Config
      */
     public function checkConfig()
     {
-        $slugs = array();
+        $slugs = [];
 
         $wrongctype = false;
 
@@ -745,7 +745,7 @@ class Config
                 if ($fieldname != 'slug' && in_array($fieldname, $this->reservedFieldNames)) {
                     $error = Trans::__(
                         'contenttypes.generic.reserved-name',
-                        array('%contenttype%' => $key, '%field%' => $fieldname)
+                        ['%contenttype%' => $key, '%field%' => $fieldname]
                     );
                     $this->app['logger.flash']->error($error);
 
@@ -759,7 +759,7 @@ class Config
                         if (!empty($field['uses']) && empty($ct['fields'][$useField]) && !in_array($useField, $this->reservedFieldNames)) {
                             $error = Trans::__(
                                 'contenttypes.generic.wrong-use-field',
-                                array('%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField)
+                                ['%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField]
                             );
                             $this->app['logger.flash']->error($error);
 
@@ -771,9 +771,11 @@ class Config
                 // Make sure the 'type' is in the list of allowed types
                 if (!isset($field['type']) || !$this->fields->has($field['type'])) {
                     $error = Trans::__(
-                        'contenttypes.generic.no-proper-type',
-                        array('%contenttype%' => $key, '%field%' => $fieldname, '%type%' =>
-                         $field['type'])
+                        'contenttypes.generic.no-proper-type', [
+                            '%contenttype%' => $key,
+                            '%field%'       => $fieldname,
+                            '%type%'        => $field['type']
+                        ]
                     );
                     $this->app['logger.flash']->error($error);
                     $wrongctype = true && $this->app['users']->getCurrentUsername();
@@ -799,7 +801,7 @@ class Config
             $this->app['users']->getCurrentUsername()) {
             $msg = Trans::__(
                 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.",
-                array('%link%' => Lib::path('dbcheck'))
+                ['%link%' => Lib::path('dbcheck')]
             );
             $this->app['logger.flash']->error($msg);
 
@@ -812,7 +814,7 @@ class Config
             if ($taxo['slug'] != $key) {
                 $error = Trans::__(
                     "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
-                    array('%taxonomytype%' => $key, '%slug%' => $taxo['slug'])
+                    ['%taxonomytype%' => $key, '%slug%' => $taxo['slug']]
                 );
                 $this->app['logger.flash']->error($error);
 
@@ -826,7 +828,7 @@ class Config
                 if ($count > 1) {
                     $error = Trans::__(
                         "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
-                        array('%slug%' => $slug)
+                        ['%slug%' => $slug]
                     );
                     $this->app['logger.flash']->error($error);
 
@@ -851,33 +853,33 @@ class Config
      */
     protected function getDefaults()
     {
-        return array(
-            'database'                    => array(
+        return [
+            'database'    => [
                 'driver'         => 'sqlite',
                 'host'           => 'localhost',
-                'slaves'         => array(),
+                'slaves'         => [],
                 'dbname'         => 'bolt',
                 'prefix'         => 'bolt_',
                 'charset'        => 'utf8',
                 'randomfunction' => '',
-            ),
+            ],
             'sitename'                    => 'Default Bolt site',
             'homepage'                    => 'page/*',
             'homepage_template'           => 'index.twig',
             'locale'                      => \Bolt\Application::DEFAULT_LOCALE,
             'recordsperpage'              => 10,
             'recordsperdashboardwidget'   => 5,
-            'systemlog'                   => array(
+            'systemlog'                   => [
                 'enabled' => true
-            ),
-            'changelog'                   => array(
+            ],
+            'changelog'                   => [
                 'enabled' => false
-            ),
-            'debuglog'                    => array(
+            ],
+            'debuglog'                    => [
                 'enabled'  => false,
                 'level'    => 'DEBUG',
                 'filename' => 'bolt-debug.log'
-            ),
+            ],
             'debug'                       => false,
             'debug_show_loggedoff'        => false,
             'debug_error_level'           => 6135,
@@ -891,13 +893,13 @@ class Config
             'listing_template'            => 'listing.twig',
             'listing_records'             => '5',
             'listing_sort'                => 'datepublish DESC',
-            'caching'                     => array(
+            'caching'                     => [
                 'config'    => true,
                 'rendering' => false,
                 'templates' => false,
                 'request'   => false
-            ),
-            'wysiwyg'                     => array(
+            ],
+            'wysiwyg'                     => [
                 'images'      => false,
                 'tables'      => false,
                 'fontcolor'   => false,
@@ -911,21 +913,21 @@ class Config
                 'codesnippet' => false,
                 'specialchar' => false,
                 'styles'      => false,
-                'ck'          => array(
+                'ck'          => [
                     'allowedContent'          => true,
                     'autoParagraph'           => true,
-                    'contentsCss'             => array(
+                    'contentsCss'             => [
                         $this->app['resources']->getUrl('app') . 'view/css/ckeditor-contents.css',
                         $this->app['resources']->getUrl('app') . 'view/css/ckeditor.css',
-                    ),
+                    ],
                     'filebrowserWindowWidth'  => 640,
                     'filebrowserWindowHeight' => 480
-                ),
-                'filebrowser' => array(
+                ],
+                'filebrowser' => [
                     'browseUrl'      => $this->app['resources']->getUrl('async') . 'recordbrowser/',
                     'imageBrowseUrl' => $this->app['resources']->getUrl('bolt') . 'files/files'
-                ),
-            ),
+                ],
+            ],
             'liveeditor'                  => true,
             'canonical'                   => !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '',
             'developer_notices'           => false,
@@ -934,26 +936,26 @@ class Config
             'cookies_use_httphost'        => true,
             'cookies_lifetime'            => 14 * 24 * 3600,
             'enforce_ssl'                 => false,
-            'thumbnails'                  => array(
-                'default_thumbnail' => array(160, 120),
-                'default_image'     => array(1000, 750),
+            'thumbnails'                  => [
+                'default_thumbnail' => [160, 120],
+                'default_image'     => [1000, 750],
                 'quality'           => 75,
                 'cropping'          => 'crop',
                 'notfound_image'    => 'view/img/default_notfound.png',
                 'error_image'       => 'view/img/default_error.png'
-            ),
+            ],
             'accept_file_types'           => explode(',', 'twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg'),
             'hash_strength'               => 10,
-            'branding'                    => array(
+            'branding'                    => [
                 'name'        => 'Bolt',
                 'path'        => '/bolt',
-                'provided_by' => array()
-            ),
+                'provided_by' => []
+            ],
             'maintenance_mode'            => false,
-            'headers'                     => array(
+            'headers'                     => [
                 'x_frame_options'     => true
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -966,7 +968,7 @@ class Config
         $themepath = $this->app['resources']->getPath('templatespath');
         $end = $this->getWhichEnd($this->get('general/branding/path'));
 
-        $twigpath = array();
+        $twigpath = [];
 
         // Backend and Async need access to `app/view/twig`
         if ($end == 'backend' || $end == 'async') {
@@ -1013,10 +1015,10 @@ class Config
         // Make sure the paths for CKeditor config are always set correctly.
         $this->set(
             'general/wysiwyg/ck/contentsCss',
-            array(
+            [
                 $app . 'view/css/ckeditor-contents.css',
                 $app . 'view/css/ckeditor.css'
-            )
+            ]
         );
         $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'recordbrowser/');
         $this->set(
@@ -1036,7 +1038,7 @@ class Config
         /* Get the timestamps for the config files. config_local defaults to '0', because if it isn't present,
            it shouldn't trigger an update for the cache, while the others should.
         */
-        $timestamps = array(
+        $timestamps = [
             file_exists($dir . '/config.yml') ? filemtime($dir . '/config.yml') : 10000000000,
             file_exists($dir . '/taxonomy.yml') ? filemtime($dir . '/taxonomy.yml') : 10000000000,
             file_exists($dir . '/contenttypes.yml') ? filemtime($dir . '/contenttypes.yml') : 10000000000,
@@ -1044,7 +1046,7 @@ class Config
             file_exists($dir . '/routing.yml') ? filemtime($dir . '/routing.yml') : 10000000000,
             file_exists($dir . '/permissions.yml') ? filemtime($dir . '/permissions.yml') : 10000000000,
             file_exists($dir . '/config_local.yml') ? filemtime($dir . '/config_local.yml') : 0,
-        );
+        ];
         if (file_exists($this->app['resources']->getPath('cache') . '/config_cache.php')) {
             $this->cachetimestamp = filemtime($this->app['resources']->getPath('cache') . '/config_cache.php');
         } else {

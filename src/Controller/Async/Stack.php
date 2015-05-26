@@ -49,12 +49,12 @@ class Stack extends AsyncBase
         $count = $request->query->get('items', 10);
         $options = $request->query->get('options', false);
 
-        $context = array(
+        $context = [
             'stack'     => $this->stack()->listitems($count),
             'filetypes' => $this->stack()->getFileTypes(),
             'namespace' => $this->app['upload.namespace'],
             'canUpload' => $this->users()->isAllowed('files:uploads')
-        );
+        ];
 
         switch ($options) {
             case 'minimal':
@@ -71,7 +71,7 @@ class Stack extends AsyncBase
                 break;
         }
 
-        return $this->render($twig, array('context' => $context));
+        return $this->render($twig, ['context' => $context]);
     }
 
     /**

@@ -89,7 +89,7 @@ class LogManagerTest extends BoltUnitTest
 
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
-        $queries = array();
+        $queries = [];
         $db->expects($this->any())
             ->method('executeQuery')
             ->will($this->returnCallback(
@@ -115,7 +115,7 @@ class LogManagerTest extends BoltUnitTest
 
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
-        $queries = array();
+        $queries = [];
         $db->expects($this->any())
             ->method('executeQuery')
             ->will($this->returnCallback(
@@ -149,7 +149,7 @@ class LogManagerTest extends BoltUnitTest
 
         $mocker = new DoctrineMockBuilder();
         $db = $mocker->getConnectionMock();
-        $queries = array();
+        $queries = [];
         $db->expects($this->any())
             ->method('executeQuery')
             ->will($this->returnCallback(

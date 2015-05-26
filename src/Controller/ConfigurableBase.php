@@ -81,7 +81,7 @@ abstract class ConfigurableBase extends Base
             $route->value($key, $value);
         }
 
-        foreach ($config['requirements'] ?: array() as $variable => $callback) {
+        foreach ($config['requirements'] ?: [] as $variable => $callback) {
             $callback = $this->callbackResolver->resolveCallback($callback);
             $route->assert($variable, call_user_func($callback));
         }
@@ -161,7 +161,7 @@ abstract class ConfigurableBase extends Base
             } else {
                 return null;
             }
-            $callback = array($cls, substr($callback, 2));
+            $callback = [$cls, substr($callback, 2)];
             $callback = $callbackResolver->resolveCallback($callback);
             return $callback;
         };

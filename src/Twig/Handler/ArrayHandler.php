@@ -81,7 +81,7 @@ class ArrayHandler
             $this->order_ascending_secondary = false;
         }
 
-        uasort($array, array($this, 'orderHelper'));
+        uasort($array, [$this, 'orderHelper']);
 
         return $array;
     }

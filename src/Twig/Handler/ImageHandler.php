@@ -80,7 +80,7 @@ class ImageHandler
             return false;
         }
 
-        $types = array(
+        $types = [
             0 => 'unknown',
             1 => 'gif',
             2 => 'jpeg',
@@ -88,7 +88,7 @@ class ImageHandler
             4 => 'swf',
             5 => 'psd',
             6 => 'bmp'
-        );
+        ];
 
         // Get the dimensions of the image
         $imagesize = getimagesize($fullpath);
@@ -100,7 +100,7 @@ class ImageHandler
             $ar = 0;
         }
 
-        $info = array(
+        $info = [
             'width'       => $imagesize[0],
             'height'      => $imagesize[1],
             'type'        => $types[$imagesize[2]],
@@ -109,7 +109,7 @@ class ImageHandler
             'filename'    => $filename,
             'fullpath'    => realpath($fullpath),
             'url'         => str_replace('//', '/', $this->app['resources']->getUrl('files') . $filename)
-        );
+        ];
 
         /** @var $reader \PHPExif\Reader\Reader */
         $reader = ExifReader::factory(ExifReader::TYPE_NATIVE);
@@ -127,20 +127,20 @@ class ImageHandler
         $gps = explode(',', $gps);
 
         // If the picture is turned by exif, ouput the turned aspectratio
-        if (in_array($exif->getOrientation(), array(6, 7, 8))) {
+        if (in_array($exif->getOrientation(), [6, 7, 8])) {
             $exifturned = $imagesize[1] / $imagesize[0];
         } else {
             $exifturned = $ar;
         }
 
         // Output the relevant EXIF info
-        $info['exif'] = array(
+        $info['exif'] = [
             'latitude'    => isset($gps[0]) ? $gps[0] : false,
             'longitude'   => isset($gps[1]) ? $gps[1] : false,
             'datetime'    => $exif->getCreationDate(),
             'orientation' => $exif->getOrientation(),
             'aspectratio' => $exifturned ? : false
-        );
+        ];
 
         // Landscape if aspectratio > 5:4
         $info['landscape'] = ($ar >= 1.25) ? true : false;
@@ -300,10 +300,7 @@ class ImageHandler
         }
 
         $path = $this->app['url_generator']->generate(
-            'thumb',
-            array(
-                'thumb' => round($width) . 'x' . round($height) . $scale . '/' . $filename,
-            )
+            'thumb', ['thumb' => round($width) . 'x' . round($height) . $scale . '/' . $filename]
         );
 
         return $path;

@@ -45,7 +45,7 @@ abstract class Base implements ControllerProviderInterface
      * @param string  $message    The status message
      * @param array   $headers    An array of HTTP headers
      */
-    protected function abort($statusCode, $message = '', array $headers = array())
+    protected function abort($statusCode, $message = '', array $headers = [])
     {
         $this->app->abort($statusCode, $message, $headers);
     }
@@ -59,7 +59,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return \Bolt\Response\BoltResponse
      */
-    protected function render($template, array $variables = array(), array $globals = array())
+    protected function render($template, array $variables = [], array $globals = [])
     {
         return $this->app['render']->render($template, $variables, $globals);
     }
@@ -73,7 +73,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    protected function json($data = array(), $status = 200, array $headers = array())
+    protected function json($data = [], $status = 200, array $headers = [])
     {
         return new JsonResponse($data, $status, $headers);
     }
@@ -87,7 +87,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return Form
      */
-    protected function createForm($type = 'form', $data = null, array $options = array())
+    protected function createForm($type = 'form', $data = null, array $options = [])
     {
         return $this->app['form.factory']->create($type, $data, $options);
     }
@@ -101,7 +101,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return FormBuilderInterface The form builder
      */
-    protected function createFormBuilder($type = 'form', $data = null, array $options = array())
+    protected function createFormBuilder($type = 'form', $data = null, array $options = [])
     {
         return $this->app['form.factory']->createBuilder($type, $data, $options);
     }
@@ -115,7 +115,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return string
      */
-    protected function generateUrl($name, $params = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    protected function generateUrl($name, $params = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         /** @var UrlGeneratorInterface $generator */
         $generator = $this->app['url_generator'];
@@ -144,7 +144,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    protected function redirectToRoute($route, array $parameters = array(), $status = 302)
+    protected function redirectToRoute($route, array $parameters = [], $status = 302)
     {
         return $this->redirect($this->generateUrl($route, $parameters), $status);
     }
@@ -260,7 +260,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return \Bolt\Content|\Bolt\Content[]
      */
-    protected function getContent($textquery, $parameters = array(), &$pager = array(), $whereparameters = array())
+    protected function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
         return $this->app['storage']->getContent($textquery, $parameters, $pager, $whereparameters);
     }

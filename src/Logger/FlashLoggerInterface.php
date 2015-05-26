@@ -67,7 +67,7 @@ interface FlashLoggerInterface
      *
      * @return array
      */
-    public function get($type, array $default = array());
+    public function get($type, array $default = []);
 
     /**
      * Has messages for a given type?

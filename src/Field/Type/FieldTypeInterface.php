@@ -1,11 +1,10 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Doctrine\DBAL\Query\QueryBuilder;
+use Bolt\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\QuerySet;
-use Bolt\Mapping\ClassMetadata;
-
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -15,10 +14,9 @@ use Bolt\Mapping\ClassMetadata;
  */
 interface FieldTypeInterface
 {
-    
     /**
      * Handle or ignore the load event.
-     * 
+     *
      * @param QueryBuilder $query
      *
      * @return void
@@ -52,6 +50,4 @@ interface FieldTypeInterface
      * @return string The field name
      */
     public function getName();
-
-    
 }

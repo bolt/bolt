@@ -3,17 +3,13 @@
 namespace Bolt\Storage;
 
 use Bolt\Mapping\ClassMetadata;
-use Bolt\Storage\EntityManager;
-use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\Types\Type;
 
 /**
  * Maps raw sql query data to Bolt Entities
  */
 class Hydrator
 {
-    
     protected $handler;
     
     protected $metadata;
@@ -23,7 +19,7 @@ class Hydrator
      * Handlers can be registered to replace default strategy.
      *
      * @param $classHandler A PHP Class that will be used to store Hydrated data.
-     * 
+     *
      * @return void
      **/
     public function __construct(ClassMetadata $metadata)
@@ -32,13 +28,13 @@ class Hydrator
         if (!class_exists($classHandler)) {
             throw new \InvalidArgumentException("Value supplied $classHandler is not a valid class name", 1);
         }
-        $this->handler = $classHandler;  
-        $this->metadata = $metadata; 
+        $this->handler = $classHandler;
+        $this->metadata = $metadata;
     }
     
     /**
      *  @param array source data
-     * 
+     *
      *  @return Object Entity
      */
     public function hydrate(array $source, QueryBuilder $qb, EntityManager $em = null)
@@ -47,16 +43,13 @@ class Hydrator
         $entity = new $classname;
         $entity->setContenttype($this->metadata->getBoltName());
                 
-        foreach ($this->metadata->getFieldMappings() as $key=>$mapping) {
+        foreach ($this->metadata->getFieldMappings() as $key => $mapping) {
             
             // First step is to allow each Bolt field to transform the data.
             $field = new $mapping['fieldtype']($mapping);
             $field->hydrate($source, $entity, $em);
-            
         }
         
         return $entity;
     }
-
-    
 }

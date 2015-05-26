@@ -1,11 +1,10 @@
 <?php
 namespace Bolt\Tests\Storage;
 
-use Bolt\Tests\BoltUnitTest;
+use Bolt\Entity\Content;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Repository;
-use Bolt\Storage\ContentRepository;
-use Bolt\Entity\Content;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Storage/Repository/Content
@@ -14,8 +13,6 @@ use Bolt\Entity\Content;
  */
 class ContentRepositoryTest extends BoltUnitTest
 {
-    
-    
     public function testConstruct()
     {
         $this->resetDb();
@@ -33,8 +30,8 @@ class ContentRepositoryTest extends BoltUnitTest
         $repo = $em->getRepository('showcases');
         
         $showcase = new Content(array(
-            'title' => 'Test Showcase',
-            'slug' => 'test-showcase',
+            'title'  => 'Test Showcase',
+            'slug'   => 'test-showcase',
             'status' => 'published'
         ));
         $res = $repo->save($showcase);
@@ -61,7 +58,7 @@ class ContentRepositoryTest extends BoltUnitTest
         $record->title = "Updated Test Showcase";
         $repo->save($record);
         
-        $record2 = $repo->find(1);        
+        $record2 = $repo->find(1);
         $this->assertEquals('Updated Test Showcase', $record2->title);
         $this->assertEquals('test-showcase', $record2->slug);
         $this->assertEquals('published', $record2->status);
@@ -88,13 +85,11 @@ class ContentRepositoryTest extends BoltUnitTest
         
         $repo = $em->getRepository('showcases');
         $record = $repo->create(array(
-            'title' => 'New Test Showcase',
-            'slug' => 'new-test-showcase',
+            'title'  => 'New Test Showcase',
+            'slug'   => 'new-test-showcase',
             'status' => 'published'
         ));
                 
         $this->assertInstanceOf('Bolt\Entity\Content', $record);
     }
-
-    
 }

@@ -17,10 +17,10 @@ class DatabaseTest extends ControllerUnitTest
     public function testCheck()
     {
         $this->allowLogin($this->getApp());
-        $check = $this->getMock('Bolt\Database\IntegrityChecker', array('checkTablesIntegrity'), array($this->getApp()));
+        $check = $this->getMock('Bolt\Database\IntegrityChecker', ['checkTablesIntegrity'], [$this->getApp()]);
         $check->expects($this->atLeastOnce())
             ->method('checkTablesIntegrity')
-            ->will($this->returnValue(array('message', 'hint')));
+            ->will($this->returnValue(['message', 'hint']));
 
         $this->setService('integritychecker', $check);
         $this->setRequest(Request::create('/bolt/dbcheck'));
@@ -32,7 +32,7 @@ class DatabaseTest extends ControllerUnitTest
     public function testUpdate()
     {
         $this->allowLogin($this->getApp());
-        $check = $this->getMock('Bolt\Database\IntegrityChecker', array('repairTables'), array($this->getApp()));
+        $check = $this->getMock('Bolt\Database\IntegrityChecker', ['repairTables'], [$this->getApp()]);
 
         $check->expects($this->at(0))
             ->method('repairTables')
@@ -45,14 +45,14 @@ class DatabaseTest extends ControllerUnitTest
         $this->setService('integritychecker', $check);
         ResourceManager::$theApp = $this->getApp();
 
-        $this->setRequest(Request::create('/bolt/dbupdate', 'POST', array('return' => 'edit')));
+        $this->setRequest(Request::create('/bolt/dbupdate', 'POST', ['return' => 'edit']));
         $response = $this->controller()->update($this->getRequest());
 
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
         $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
-        $this->setRequest(Request::create('/bolt/dbupdate', 'POST', array('return' => 'edit')));
+        $this->setRequest(Request::create('/bolt/dbupdate', 'POST', ['return' => 'edit']));
         $response = $this->controller()->update($this->getRequest());
 
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());

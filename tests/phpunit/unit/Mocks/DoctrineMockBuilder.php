@@ -14,9 +14,9 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getAbstractMock(
             'Doctrine\DBAL\Platforms\AbstractPlatform',
-            array(
+            [
                 'getName'
-            )
+            ]
         );
 
         $mock->expects($this->any())
@@ -34,7 +34,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
         $mock = $this->getMockBuilder('Doctrine\DBAL\Connection')
             ->disableOriginalConstructor()
             ->setMethods(
-                array(
+                [
                     'beginTransaction',
                     'commit',
                     'rollback',
@@ -46,7 +46,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
                     'createQueryBuilder',
                     'connect',
                     'insert'
-                )
+                ]
             )
             ->getMock();
 
@@ -74,8 +74,8 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
      */
     public function getQueryBuilderMock($connection)
     {
-        $exprmock = $this->getMock('Doctrine\DBAL\Query\Expression\ExpressionBuilder', null, array($connection));
-        $mock = $this->getMock("Doctrine\DBAL\Query\QueryBuilder", array('expr'), array($connection));
+        $exprmock = $this->getMock('Doctrine\DBAL\Query\Expression\ExpressionBuilder', null, [$connection]);
+        $mock = $this->getMock("Doctrine\DBAL\Query\QueryBuilder", ['expr'], [$connection]);
         $mock->expects($this->any())
             ->method('expr')
             ->will($this->returnValue($exprmock));
@@ -90,12 +90,12 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getAbstractMock(
             'Bolt\Tests\Mocks\DoctrineDbalStatementInterface', // In case you run PHPUnit <= 3.7, use 'Mocks\DoctrineDbalStatementInterface' instead.
-            array(
+            [
                 'bindValue',
                 'execute',
                 'rowCount',
                 'fetchColumn',
-            )
+            ]
         );
 
         $mock->expects($this->any())
@@ -115,7 +115,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
     {
         return $this->getMockForAbstractClass(
             $class,
-            array(),
+            [],
             '',
             true,
             true,

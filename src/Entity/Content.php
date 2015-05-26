@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Entity;
 
-
 /**
  * Entity for Content.
  */
@@ -41,5 +40,4 @@ class Content extends Entity
     {
         $this->_contenttype = $value;
     }
-    
 }

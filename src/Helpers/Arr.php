@@ -16,7 +16,7 @@ class Arr
      */
     public static function makeValuePairs($array, $key, $value)
     {
-        $tempArray = array();
+        $tempArray = [];
 
         if (is_array($array)) {
             foreach ($array as $item) {

@@ -19,7 +19,7 @@ class UserRoleAddTest extends BoltUnitTest
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array('username' => 'test', 'role' => 'admin'));
+        $tester->execute(['username' => 'test', 'role' => 'admin']);
         $result = $tester->getDisplay();
         $this->assertEquals("User 'test' now has role 'admin'.", trim($result));
     }
@@ -31,7 +31,7 @@ class UserRoleAddTest extends BoltUnitTest
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array('username' => 'test', 'role' => 'admin'));
+        $tester->execute(['username' => 'test', 'role' => 'admin']);
         $result = $tester->getDisplay();
         $this->assertRegExp("/already has role/", trim($result));
     }
@@ -43,14 +43,14 @@ class UserRoleAddTest extends BoltUnitTest
         $command = new UserRoleAdd($app);
         $tester = new CommandTester($command);
 
-        $tester->execute(array('username' => 'test', 'role' => 'admin'));
+        $tester->execute(['username' => 'test', 'role' => 'admin']);
         $result = $tester->getDisplay();
         $this->assertRegExp("/Could not add role/", trim($result));
     }
 
     protected function getUserMock($app, $hasRole = false, $addRole = true)
     {
-        $users = $this->getMock('Bolt\Users', array('hasRole', 'addRole'), array($app));
+        $users = $this->getMock('Bolt\Users', ['hasRole', 'addRole'], [$app]);
         $users->expects($this->any())
             ->method('hasRole')
             ->will($this->returnValue($hasRole));

@@ -4,7 +4,6 @@ namespace Bolt\Tests\DataCollector;
 use Bolt\DataCollector\BoltDataCollector;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class to test correct operation and locations of src/DataCollector/BoltDataCollector.
@@ -20,10 +19,10 @@ class BoltDataCollectorTest extends BoltUnitTest
         $request = Request::create(
             '/',
             'GET',
-            array(),
-            array(),
-            array(),
-            array()
+            [],
+            [],
+            [],
+            []
         );
 
         $response = $app->handle($request);

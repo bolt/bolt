@@ -50,7 +50,7 @@ class TranslationFile
      *
      * @var array
      */
-    private $translatables = array();
+    private $translatables = [];
 
     /**
      * Constructor.
@@ -75,7 +75,7 @@ class TranslationFile
      * @param string $domain Requested resource
      * @param string $locale Requested locale
      *
-     * @return array returnsarray(absolute path, relative path)
+     * @return array [absolute path, relative path]
      */
     private function buildPath($domain, $locale)
     {
@@ -90,20 +90,20 @@ class TranslationFile
             }
         }
 
-        return array(
+        return [
             $this->app['paths']['apppath'] . $path,
             'app' . $path,
-        );
+        ];
     }
 
     /**
      * Get the path to a tranlsation resource.
      *
-     * @return array returns array(absolute path, relative path)
+     * @return array [absolute path, relative path]
      */
     public function path()
     {
-        return array($this->absPath, $this->relPath);
+        return [$this->absPath, $this->relPath];
     }
 
     /**
@@ -128,15 +128,15 @@ class TranslationFile
             ->ignoreVCS(true)
             ->name('*.twig')
             ->notName('*~')
-            ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
+            ->exclude(['cache', 'config', 'database', 'resources', 'tests'])
             ->in(dirname($this->app['paths']['themepath']))
             ->in($this->app['paths']['apppath']);
 
         // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
-        $twigRegex = array(
-            "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s" => array('\\\'' => '\''), // __('single_quoted_string'…
-            '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s' => array('\"'   => '"'), // __("double_quoted_string"…
-        );
+        $twigRegex = [
+            "/\b__\(\s*'([^'\\\\]*(?:\\\\.[^'\\\\]*)*)'(?U).*\)/s" => ['\\\'' => '\''], // __('single_quoted_string'…
+            '/\b__\(\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"(?U).*\)/s' => ['\"'   => '"'], // __("double_quoted_string"…
+        ];
 
         foreach ($finder as $file) {
             /** @var \Symfony\Component\Finder\SplFileInfo $file */
@@ -154,8 +154,8 @@ class TranslationFile
      * Scan php files for  __('...' and __("..." and add the strings found to the list of translatable strings.
      *
      * All translatables strings have to be called with:
-     * __("text", $params=array(), $domain='messages', locale=null) // $app['translator']->trans()
-     * __("text", count, $params=array(), $domain='messages', locale=null) // $app['translator']->transChoice()
+     * __("text", $params=[], $domain='messages', locale=null) // $app['translator']->trans()
+     * __("text", count, $params=[], $domain='messages', locale=null) // $app['translator']->transChoice()
      */
     private function scanPhpFiles()
     {
@@ -164,7 +164,7 @@ class TranslationFile
             ->ignoreVCS(true)
             ->name('*.php')
             ->notName('*~')
-            ->exclude(array('cache', 'config', 'database', 'resources', 'tests'))
+            ->exclude(['cache', 'config', 'database', 'resources', 'tests'])
             ->in($this->app['paths']['apppath'])
             ->in(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
@@ -276,7 +276,7 @@ class TranslationFile
     private function scanTaxonomies()
     {
         foreach ($this->app['config']->get('taxonomy') as $value) {
-            foreach (array('name', 'singular_name') as $key) {
+            foreach (['name', 'singular_name'] as $key) {
                 $this->addTranslatable($value[$key]);
             }
         }
@@ -289,7 +289,7 @@ class TranslationFile
      */
     private function gatherTranslatableStrings()
     {
-        $this->translatables = array();
+        $this->translatables = [];
 
         $this->scanTwigFiles();
         $this->scanPhpFiles();
@@ -309,19 +309,19 @@ class TranslationFile
      *
      * @return string
      */
-    private function buildNewContent($newTranslations, $savedTranslations, $hinting = array())
+    private function buildNewContent($newTranslations, $savedTranslations, $hinting = [])
     {
         // Presort
         $unusedTranslations = $savedTranslations;
-        $transByType = array(
-            'Unused'   => array(' unused messages', array()),
-            'TodoReal' => array(' untranslated messages', array()),
-            'TodoKey'  => array(' untranslated keyword based messages', array()),
-            'DoneReal' => array(' translations', array()),
-            'DoneKey'  => array(' keyword based translations', array()),
-        );
+        $transByType = [
+            'Unused'   => [' unused messages', []],
+            'TodoReal' => [' untranslated messages', []],
+            'TodoKey'  => [' untranslated keyword based messages', []],
+            'DoneReal' => [' translations', []],
+            'DoneKey'  => [' keyword based translations', []]
+        ];
         foreach ($newTranslations as $key => $translation) {
-            $set = array('trans' => $translation);
+            $set = ['trans' => $translation];
             if (preg_match('%^([a-z0-9-]+)\.([a-z0-9-]+)\.([a-z0-9-]+)(?:\.([a-z0-9.-]+))?$%', $key, $match)) {
                 $type = 'Key';
                 $set['key'] = array_slice($match, 1);
@@ -335,7 +335,7 @@ class TranslationFile
             }
         }
         foreach ($unusedTranslations as $key => $translation) {
-            $transByType['Unused'][1][$key] = array('trans' => $translation);
+            $transByType['Unused'][1][$key] = ['trans' => $translation];
         }
 
         // Build List
@@ -359,7 +359,7 @@ class TranslationFile
                 $content .= "\n" . '#--- ' . str_pad(ltrim($count) . $text . ' ', 74, '-') . "\n\n";
             }
             // List
-            $lastKey = array();
+            $lastKey = [];
             $linebreak = ''; // We want an empty line before each 1st level key
             foreach ($translations as $key => $tdata) {
                 // Key
@@ -408,9 +408,9 @@ class TranslationFile
                 $savedTranslations = Yaml::parse(file_get_contents($this->absPath));
 
                 if ($savedTranslations === null) {
-                    return array(); // File seems to be empty
+                    return []; // File seems to be empty
                 } elseif (!is_array($savedTranslations)) {
-                    $savedTranslations = array($savedTranslations); // account for file with one lin
+                    $savedTranslations = [$savedTranslations]; // account for file with one lin
                 }
 
                 $flatten = function ($data, $prefix = '') use (&$flatten, &$flattened) {
@@ -425,7 +425,7 @@ class TranslationFile
                         }
                     }
                 };
-                $flattened = array();
+                $flattened = [];
                 $flatten($savedTranslations);
 
                 return $flattened;
@@ -435,7 +435,7 @@ class TranslationFile
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -476,7 +476,7 @@ class TranslationFile
         $this->gatherTranslatableStrings();
 
         // Find already translated strings
-        $newTranslations = array();
+        $newTranslations = [];
         foreach (array_keys($this->translatables) as $key) {
             $newTranslations[$key] = isset($savedTranslations[$key]) ? $savedTranslations[$key] : '';
         }
@@ -534,7 +534,7 @@ class TranslationFile
      */
     public function isWriteAllowed()
     {
-        $msgRepl = array('%s' => $this->relPath);
+        $msgRepl = ['%s' => $this->relPath];
 
         // No file, directory not writable
         if (!file_exists($this->absPath) && (!is_writable(dirname($this->absPath)) && !is_writable(dirname(dirname($this->absPath))))) {

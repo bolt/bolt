@@ -30,9 +30,7 @@ class DatabaseDataCollector extends DataCollector
 
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data = array(
-            'queries' => $this->trim($this->logger->queries)
-        );
+        $this->data = ['queries' => $this->trim($this->logger->queries)];
     }
 
     public function getQueryCount()
@@ -57,7 +55,7 @@ class DatabaseDataCollector extends DataCollector
 
     private function trim(array $queries)
     {
-        $return = array();
+        $return = [];
         foreach ($queries as $query) {
             // Skip "PRAGMA .." and similar queries by SQLITE.
             if ((strpos($query['sql'], "PRAGMA ") === 0)

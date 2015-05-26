@@ -20,7 +20,7 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
 
         // Handlers
         $app['twig.handlers'] = $app->share(function (Application $app) {
-            return new \Pimple(array(
+            return new \Pimple([
                 // @codingStandardsIgnoreStart
                 'admin'  => $app->share(function () use ($app) { return new AdminHandler($app); }),
                 'array'  => $app->share(function () use ($app) { return new ArrayHandler($app); }),
@@ -31,7 +31,7 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
                 'user'   => $app->share(function () use ($app) { return new UserHandler($app); }),
                 'utils'  => $app->share(function () use ($app) { return new UtilsHandler($app); }),
                 // @codingStandardsIgnoreEnd
-            ));
+            ]);
         });
 
         // Add the Bolt Twig Extension.
@@ -60,12 +60,12 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
                 $cache = false;
             }
 
-            return array(
+            return [
                 'debug'            => true,
                 'cache'            => $cache,
                 'strict_variables' => $app['config']->get('general/strict_variables'),
                 'autoescape'       => true,
-            );
+            ];
         };
     }
 }

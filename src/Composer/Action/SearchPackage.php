@@ -49,14 +49,14 @@ final class SearchPackage
 
         if ($composer) {
             $localRepo = $composer->getRepositoryManager()->getLocalRepository();
-            $installedRepo = new CompositeRepository(array($localRepo, $platformRepo));
-            $repos = new CompositeRepository(array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories()));
+            $installedRepo = new CompositeRepository([$localRepo, $platformRepo]);
+            $repos = new CompositeRepository(array_merge([$installedRepo], $composer->getRepositoryManager()->getRepositories()));
         } else {
             $defaultRepos = Factory::createDefaultRepositories($io);
 
             //No composer.json found in the current directory, showing packages from local repo
             $installedRepo = $platformRepo;
-            $repos = new CompositeRepository(array_merge(array($installedRepo), $defaultRepos));
+            $repos = new CompositeRepository(array_merge([$installedRepo], $defaultRepos));
         }
 
         $flags = $onlyname ? RepositoryInterface::SEARCH_NAME : RepositoryInterface::SEARCH_FULLTEXT;
@@ -65,7 +65,7 @@ final class SearchPackage
             return $repos->search(implode(' ', $packages), $flags);
         } catch (\Exception $e) {
             $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
-            $this->app['logger.system']->critical($msg, array('event' => 'exception', 'exception' => $e));
+            $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
 
             throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
         }

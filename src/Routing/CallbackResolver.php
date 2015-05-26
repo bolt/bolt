@@ -106,7 +106,7 @@ class CallbackResolver extends \Silex\CallbackResolver
             return parent::convertCallback("$service:$method");
         }
 
-        return array($this->instantiateClass($cls), $method);
+        return [$this->instantiateClass($cls), $method];
     }
 
     /**

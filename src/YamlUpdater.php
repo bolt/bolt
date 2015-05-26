@@ -38,7 +38,7 @@ class YamlUpdater
      *
      * @var array
      */
-    private $yaml = array();
+    private $yaml = [];
 
     /**
      * @var File
@@ -128,12 +128,12 @@ class YamlUpdater
     {
         preg_match_all('/(\s*)([a-z0-9_-]+):(\s)?(.*)/', $this->yaml[$line], $match);
 
-        return array(
+        return [
             'line'        => $line,
             'indentation' => $match[1][0],
             'key'         => $match[2][0],
             'value'       => $match[4][0]
-        );
+        ];
     }
 
     /**

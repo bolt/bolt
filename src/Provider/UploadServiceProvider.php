@@ -24,7 +24,7 @@ class UploadServiceProvider implements ServiceProviderInterface
                 $uploadHandler = new UploadHandler($app['upload.container']);
                 $uploadHandler->setPrefix($app['upload.prefix']);
                 $uploadHandler->setOverwrite($app['upload.overwrite']);
-                $uploadHandler->addRule('extension', array('allowed' => $allowedExensions));
+                $uploadHandler->addRule('extension', ['allowed' => $allowedExensions]);
 
                 $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
                 $replacement = $app['config']->get('general/upload/replacement', '-');

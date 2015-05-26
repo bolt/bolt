@@ -5,7 +5,6 @@ use Bolt\DataCollector\DatabaseDataCollector;
 use Bolt\Tests\BoltUnitTest;
 use Doctrine\DBAL\Logging\DebugStack;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class to test src/DataCollector/DatabaseDataCollector.

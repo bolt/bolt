@@ -106,7 +106,7 @@ class Requirement
             return '$.';
         }
 
-        $slugs = array();
+        $slugs = [];
         foreach ($types as $type) {
             $slugs[] = $type['slug'];
             if ($singular) {

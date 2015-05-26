@@ -5,16 +5,14 @@ namespace Bolt\Storage;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
- * This class works keeps a set of queries that will eventually 
+ * This class works keeps a set of queries that will eventually
  * be executed sequentially.
  */
 class QuerySet extends \ArrayIterator
 {
-        
-    
     /**
      *  @param A QueryBuilder instance
-     * 
+     *
      *  @return void
      */
     public function append($qb)
@@ -31,13 +29,14 @@ class QuerySet extends \ArrayIterator
      * Execute function, interates the queries and executes them sequentially
      *
      * @return void
-     * @author 
+     *
+     * @author
      **/
     public function execute()
     {
         $result = null;
         // Only return the result of the primary query
-        foreach($this as $query) {
+        foreach ($this as $query) {
             try {
                 if ($result === null) {
                     $result = $query->execute();
@@ -47,9 +46,7 @@ class QuerySet extends \ArrayIterator
             } catch (\Exception $e) {
                 throw $e;
             }
-            
         }
         return $result;
     }
-    
 }

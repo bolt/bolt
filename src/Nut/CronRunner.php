@@ -19,7 +19,7 @@ class CronRunner extends BaseCommand
      */
     protected function configure()
     {
-        $interims = array('  - cron.Hourly', '  - cron.Daily', '  - cron.Weekly', '  - cron.Monthly', '  - cron.Yearly');
+        $interims = ['  - cron.Hourly', '  - cron.Daily', '  - cron.Weekly', '  - cron.Monthly', '  - cron.Yearly'];
         $this
             ->setName('cron')
             ->setDescription('Cron virtual daemon')
@@ -33,15 +33,15 @@ class CronRunner extends BaseCommand
     {
         if ($input->getOption('run')) {
             $event = $input->getOption('run');
-            $param = array(
+            $param = [
                 'run'   => true,
                 'event' => $event
-            );
+            ];
         } else {
-            $param = array(
+            $param = [
                 'run'   => false,
                 'event' => ''
-            );
+            ];
         }
 
         $result = new Cron($this->app, $output, $param);

@@ -15,7 +15,7 @@ class StandardConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $loader = require BOLT_AUTOLOAD;
         $config = new Standard($loader);
-        $app = new Application(array('resources' => $config));
+        $app = new Application(['resources' => $config]);
         $this->assertEquals('/app/', $config->getUrl('app'));
     }
 }

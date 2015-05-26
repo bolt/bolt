@@ -50,7 +50,7 @@ class YamlFile implements OutputFileInterface
         try {
             // Add the record as an indexed array of itself as we're writing @author gawain
             // recorc/row at a time and… YAML.
-            $yaml = $this->dumper->dump(array($data), 4);
+            $yaml = $this->dumper->dump([$data], 4);
         } catch (\Exception $e) {
             $this->export
                 ->setError(true)

@@ -61,11 +61,11 @@ class Users extends BackendBase
             }
         }
 
-        $context = array(
+        $context = [
             'currentuser' => $currentuser,
             'users'       => $users,
             'sessions'    => $sessions
-        );
+        ];
 
         return $this->render('users/users.twig', $context);
     }
@@ -96,10 +96,10 @@ class Users extends BackendBase
             $user = $this->users()->getEmptyUser();
         }
 
-        $enabledoptions = array(
+        $enabledoptions = [
             1 => Trans::__('page.edit-users.activated.yes'),
             0 => Trans::__('page.edit-users.activated.no')
-        );
+        ];
 
         $roles = array_map(
             function ($role) {
@@ -115,12 +115,12 @@ class Users extends BackendBase
             $form->add(
                 'enabled',
                 'choice',
-                array(
+                [
                     'choices'     => $enabledoptions,
                     'expanded'    => false,
                     'constraints' => new Assert\Choice(array_keys($enabledoptions)),
                     'label'       => Trans::__('page.edit-users.label.user-enabled'),
-                )
+                ]
             );
         }
 
@@ -128,28 +128,28 @@ class Users extends BackendBase
             ->add(
                 'roles',
                 'choice',
-                array(
+                [
                     'choices'  => $roles,
                     'expanded' => true,
                     'multiple' => true,
                     'label'    => Trans::__('page.edit-users.label.assigned-roles')
-                )
+                ]
             )
             ->add(
                 'lastseen',
                 'text',
-                array(
+                [
                     'disabled' => true,
                     'label'    => Trans::__('page.edit-users.label.last-seen')
-                )
+                ]
             )
             ->add(
                 'lastip',
                 'text',
-                array(
+                [
                     'disabled' => true,
                     'label'    => Trans::__('page.edit-users.label.last-ip')
-                )
+                ]
             );
 
         // Set the validation
@@ -185,12 +185,12 @@ class Users extends BackendBase
             }
         }
 
-        $context = array(
+        $context = [
             'kind'        => empty($id) ? 'create' : 'edit',
             'form'        => $formView,
             'note'        => '',
             'displayname' => $user['displayname'],
-        );
+        ];
 
         return $this->render('edituser/edituser.twig', $context);
     }
@@ -224,7 +224,7 @@ class Users extends BackendBase
         $this->app['integritychecker']->repairTables();
 
         // Grant 'root' to first user by default
-        $user['roles'] = array(Permissions::ROLE_ROOT);
+        $user['roles'] = [Permissions::ROLE_ROOT];
 
         // Get the form
         $form = $this->getUserForm($user, true);
@@ -243,13 +243,13 @@ class Users extends BackendBase
             }
         }
 
-        $context = array(
+        $context = [
             'kind'        => 'create',
             'form'        => $form->createView(),
             'note'        => $note,
             'displayname' => $user['displayname'],
             'sitename' => $this->getOption('general/sitename'),
-        );
+        ];
 
         return $this->render('firstuser/firstuser.twig', $context);
     }
@@ -280,7 +280,7 @@ class Users extends BackendBase
         // Prevent the current user from enabling, disabling or deleting themselves
         $currentuser = $this->getUser();
         if ($currentuser['id'] == $user['id']) {
-            $this->flashes()->error(Trans::__("You cannot '%s' yourself.", array('%s', $action)));
+            $this->flashes()->error(Trans::__("You cannot '%s' yourself.", ['%s', $action]));
 
             return $this->redirectToRoute('users');
         }
@@ -296,35 +296,35 @@ class Users extends BackendBase
 
             case 'disable':
                 if ($this->users()->setEnabled($id, 0)) {
-                    $this->app['logger.system']->info("Disabled user '{$user['displayname']}'.", array('event' => 'security'));
+                    $this->app['logger.system']->info("Disabled user '{$user['displayname']}'.", ['event' => 'security']);
 
-                    $this->flashes()->info(Trans::__("User '%s' is disabled.", array('%s' => $user['displayname'])));
+                    $this->flashes()->info(Trans::__("User '%s' is disabled.", ['%s' => $user['displayname']]));
                 } else {
-                    $this->flashes()->info(Trans::__("User '%s' could not be disabled.", array('%s' => $user['displayname'])));
+                    $this->flashes()->info(Trans::__("User '%s' could not be disabled.", ['%s' => $user['displayname']]));
                 }
                 break;
 
             case 'enable':
                 if ($this->users()->setEnabled($id, 1)) {
-                    $this->app['logger.system']->info("Enabled user '{$user['displayname']}'.", array('event' => 'security'));
-                    $this->flashes()->info(Trans::__("User '%s' is enabled.", array('%s' => $user['displayname'])));
+                    $this->app['logger.system']->info("Enabled user '{$user['displayname']}'.", ['event' => 'security']);
+                    $this->flashes()->info(Trans::__("User '%s' is enabled.", ['%s' => $user['displayname']]));
                 } else {
-                    $this->flashes()->info(Trans::__("User '%s' could not be enabled.", array('%s' => $user['displayname'])));
+                    $this->flashes()->info(Trans::__("User '%s' could not be enabled.", ['%s' => $user['displayname']]));
                 }
                 break;
 
             case 'delete':
 
                 if ($this->checkAntiCSRFToken() && $this->users()->deleteUser($id)) {
-                    $this->app['logger.system']->info("Deleted user '{$user['displayname']}'.", array('event' => 'security'));
-                    $this->flashes()->info(Trans::__("User '%s' is deleted.", array('%s' => $user['displayname'])));
+                    $this->app['logger.system']->info("Deleted user '{$user['displayname']}'.", ['event' => 'security']);
+                    $this->flashes()->info(Trans::__("User '%s' is deleted.", ['%s' => $user['displayname']]));
                 } else {
-                    $this->flashes()->info(Trans::__("User '%s' could not be deleted.", array('%s' => $user['displayname'])));
+                    $this->flashes()->info(Trans::__("User '%s' could not be deleted.", ['%s' => $user['displayname']]));
                 }
                 break;
 
             default:
-                $this->flashes()->error(Trans::__("No such action for user '%s'.", array('%s' => $user['displayname'])));
+                $this->flashes()->error(Trans::__("No such action for user '%s'.", ['%s' => $user['displayname']]));
 
         }
 
@@ -359,23 +359,23 @@ class Users extends BackendBase
                 $user = $form->getData();
 
                 $res = $this->users()->saveUser($user);
-                $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
+                $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $user['displayname']]), ['event' => 'security']);
                 if ($res) {
-                    $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
+                    $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $user['displayname']]));
                 } else {
-                    $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
+                    $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $user['displayname']]));
                 }
 
                 return $this->redirectToRoute('profile');
             }
         }
 
-        $context = array(
+        $context = [
             'kind'        => 'profile',
             'form'        => $form->createView(),
             'note'        => '',
             'displayname' => $user['displayname'],
-        );
+        ];
 
         return $this->render('edituser/edituser.twig', $context);
     }
@@ -388,8 +388,8 @@ class Users extends BackendBase
     public function viewRoles()
     {
         $contenttypes = $this->getOption('contenttypes');
-        $permissions = array('view', 'edit', 'create', 'publish', 'depublish', 'change-ownership');
-        $effectivePermissions = array();
+        $permissions = ['view', 'edit', 'create', 'publish', 'depublish', 'change-ownership'];
+        $effectivePermissions = [];
         foreach ($contenttypes as $contenttype) {
             foreach ($permissions as $permission) {
                 $effectivePermissions[$contenttype['slug']][$permission] =
@@ -398,10 +398,10 @@ class Users extends BackendBase
         }
         $globalPermissions = $this->app['permissions']->getGlobalRoles();
 
-        $context = array(
+        $context = [
             'effective_permissions' => $effectivePermissions,
             'global_permissions'    => $globalPermissions,
-        );
+        ];
 
         return $this->render('roles/roles.twig', $context);
     }
@@ -424,13 +424,13 @@ class Users extends BackendBase
             $form->add(
                 'username',
                 'text',
-                array(
-                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                [
+                    'constraints' => [new Assert\NotBlank(), new Assert\Length(['min' => 2, 'max' => 32])],
                     'label'       => Trans::__('page.edit-users.label.username'),
-                    'attr'        => array(
+                    'attr'        => [
                         'placeholder' => Trans::__('page.edit-users.placeholder.username')
-                    )
-                )
+                    ]
+                ]
             );
         }
 
@@ -440,46 +440,42 @@ class Users extends BackendBase
             ->add(
                 'password',
                 'password',
-                array(
+                [
                     'required' => false,
                     'label'    => Trans::__('page.edit-users.label.password'),
-                    'attr'     => array(
+                    'attr'     => [
                         'placeholder' => Trans::__('page.edit-users.placeholder.password')
-                    )
-                )
+                    ]
+                ]
             )
             ->add(
                 'password_confirmation',
                 'password',
-                array(
+                [
                     'required' => false,
                     'label'    => Trans::__('page.edit-users.label.password-confirm'),
-                    'attr'     => array(
+                    'attr'     => [
                         'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm')
-                    )
-                )
+                    ]
+                ]
             )
             ->add(
                 'email',
                 'text',
-                array(
+                [
                     'constraints' => new Assert\Email(),
                     'label'       => Trans::__('page.edit-users.label.email'),
-                    'attr'        => array(
-                        'placeholder' => Trans::__('page.edit-users.placeholder.email')
-                    )
-                )
+                    'attr'        => ['placeholder' => Trans::__('page.edit-users.placeholder.email')]
+                ]
             )
             ->add(
                 'displayname',
                 'text',
-                array(
-                    'constraints' => array(new Assert\NotBlank(), new Assert\Length(array('min' => 2, 'max' => 32))),
+                [
+                    'constraints' => [new Assert\NotBlank(), new Assert\Length(['min' => 2, 'max' => 32])],
                     'label'       => Trans::__('page.edit-users.label.display-name'),
-                    'attr'        => array(
-                        'placeholder' => Trans::__('page.edit-users.placeholder.displayname')
-                    )
-                )
+                    'attr'        => ['placeholder' => Trans::__('page.edit-users.placeholder.displayname')]
+                ]
             );
 
         return $form;
@@ -573,7 +569,7 @@ class Users extends BackendBase
             $user = $form->getData();
 
             if ($firstuser) {
-                $user['roles'] = array(Permissions::ROLE_ROOT);
+                $user['roles'] = [Permissions::ROLE_ROOT];
             } else {
                 $id = isset($user['id']) ? $user['id'] : null;
                 $user['roles'] = $this->users()->filterManipulatableRoles($id, $user['roles']);
@@ -582,14 +578,16 @@ class Users extends BackendBase
             $res = $this->users()->saveUser($user);
 
             if (!$firstuser) {
-                $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', array('%user%' => $user['displayname'])), array('event' => 'security'));
+                $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $user['displayname']]),
+                    ['event' => 'security']);
             } else {
-                $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), array('event' => 'security'));
+                $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-added', ['%user%' => $user['displayname']]),
+                    ['event' => 'security']);
 
                 // Create a welcome email
                 $mailhtml = $this->render(
                     'email/firstuser.twig',
-                    array('sitename' => $this->getOption('general/sitename'))
+                    ['sitename' => $this->getOption('general/sitename')]
                 )->getContent();
 
                 try {
@@ -599,22 +597,22 @@ class Users extends BackendBase
                     $message = $this->app['mailer']
                         ->createMessage('message')
                         ->setSubject(Trans::__('New Bolt site has been set up'))
-                        ->setFrom(array($email         => $name))
-                        ->setTo(array($user['email']   => $user['displayname']))
+                        ->setFrom([$email         => $name])
+                        ->setTo([$user['email']   => $user['displayname']])
                         ->setBody(strip_tags($mailhtml))
                         ->addPart($mailhtml, 'text/html');
 
                     $this->app['mailer']->send($message);
                 } catch (\Exception $e) {
                     // Sending message failed. What else can we do, sending with snailmail?
-                    $this->app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", array('event' => 'config'));
+                    $this->app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", ['event' => 'config']);
                 }
             }
 
             if ($res) {
-                $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', array('%user%' => $user['displayname'])));
+                $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $user['displayname']]));
             } else {
-                $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', array('%user%' => $user['displayname'])));
+                $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $user['displayname']]));
             }
 
             return $user;

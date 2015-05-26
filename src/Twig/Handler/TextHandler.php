@@ -67,7 +67,7 @@ class TextHandler
             // Various things we could do. We could fail miserably, but a more
             // graceful approach is to use the datetime to display a default
             // format
-            $this->app['logger.system']->error('No valid locale detected. Fallback on DateTime active.', array('event' => 'system'));
+            $this->app['logger.system']->error('No valid locale detected. Fallback on DateTime active.', ['event' => 'system']);
 
             return $dateTime->format('Y-m-d H:i:s');
         } else {

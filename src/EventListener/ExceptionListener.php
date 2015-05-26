@@ -51,21 +51,21 @@ class ExceptionListener implements EventSubscriberInterface
 
         // Log the error message
         $message = $exception->getMessage();
-        $this->logger->critical($message, array('event' => 'exception', 'exception' => $exception));
+        $this->logger->critical($message, ['event' => 'exception', 'exception' => $exception]);
 
         if ($exception instanceof HttpExceptionInterface && !Zone::isBackend($event->getRequest())) {
             $message = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
         }
 
-        $context = array(
+        $context = [
             'class'   => get_class($exception),
             'message' => $message,
             'code'    => $exception->getCode(),
             'trace'   => $this->getSafeTrace($exception),
-        );
+        ];
 
         // Note: This uses the template from app/theme_defaults. Not app/view/twig.
-        $response = $this->render->render('error.twig', array('context' => $context));
+        $response = $this->render->render('error.twig', ['context' => $context]);
         $event->setResponse($response);
     }
 
@@ -100,8 +100,8 @@ class ExceptionListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::EXCEPTION => array('onKernelException', -8),
-        );
+        return [
+            KernelEvents::EXCEPTION => ['onKernelException', -8],
+        ];
     }
 }

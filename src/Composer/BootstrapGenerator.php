@@ -19,7 +19,7 @@ EOD;
     public $templateEnd = <<<'EOD'
 $configuration->getVerifier()->disableApacheChecks();
 $configuration->verify();
-$app = new Bolt\Application(array('resources'=>$configuration));
+$app = new Bolt\Application(['resources'=>$configuration]);
 $app->initialize();
 $app->run();
 

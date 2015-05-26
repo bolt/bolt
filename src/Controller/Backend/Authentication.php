@@ -49,7 +49,7 @@ class Authentication extends BackendBase
             return $this->redirect(preg_replace('/^http:/i', 'https:', $request->getUri()));
         }
 
-        $response = $this->render('login/login.twig', array('randomquote' => true));
+        $response = $this->render('login/login.twig', ['randomquote' => true]);
         $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
 
         return $response;
@@ -85,7 +85,7 @@ class Authentication extends BackendBase
     public function logout()
     {
         $user = $this->session()->get('user');
-        $this->app['logger.system']->info('Logged out: ' . $user['displayname'], array('event' => 'authentication'));
+        $this->app['logger.system']->info('Logged out: ' . $user['displayname'], ['event' => 'authentication']);
 
         $this->authentication()->logout();
 
@@ -128,8 +128,8 @@ class Authentication extends BackendBase
         }
 
         // Log in, if credentials are correct.
-        $this->app['logger.system']->info('Logged in: ' . $username, array('event' => 'authentication'));
-        $retreat = $this->session()->get('retreat', array('route' => 'dashboard', 'params' => array()));
+        $this->app['logger.system']->info('Logged in: ' . $username, ['event' => 'authentication']);
+        $retreat = $this->session()->get('retreat', ['route' => 'dashboard', 'params' => []]);
         $response = $this->redirectToRoute($retreat['route'], $retreat['params']);
         $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
         $response->headers->setCookie(new Cookie(

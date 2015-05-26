@@ -62,7 +62,7 @@ class LazyUrlGenerator implements UrlGeneratorInterface
     /**
      * @inheritdoc
      */
-    public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
+    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {
         return $this->getUrlGenerator()->generate($name, $parameters, $referenceType);
     }

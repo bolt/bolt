@@ -13,202 +13,202 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new PermissionParser();
         $actual_ = $parser->lex($input);
-        $actual = array();
+        $actual = [];
         foreach ($actual_ as $a) {
-            $actual[] = array(
+            $actual[] = [
                 'type'    => $a['type'],
                 'capture' => $a['capture']
-            );
+            ];
         }
         $this->assertEquals($expected, $actual);
     }
 
     public static function lexProvider()
     {
-        return array(
+        return [
             // A regular "word"
-            array(
+            [
                 "this",
-                array(
-                    array('type' => PermissionParser::T_QUERY, 'capture' => 'this')
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'this']
+                ]
+            ],
             // Words follow a certain pattern
-            array(
+            [
                 "this:is:also:valid",
-                array(
-                    array('type' => PermissionParser::T_QUERY, 'capture' => 'this:is:also:valid')
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'this:is:also:valid']
+                ]
+            ],
+            [
                 "so-is:this:6",
-                array(
-                    array('type' => PermissionParser::T_QUERY, 'capture' => 'so-is:this:6')
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'so-is:this:6']
+                ]
+            ],
             // Properly end words
-            array(
+            [
                 "this)",
-                array(
-                    array('type' => PermissionParser::T_QUERY, 'capture' => 'this'),
-                    array('type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'this'],
+                    ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null]
+                ]
+            ],
+            [
                 "this||",
-                array(
-                    array('type' => PermissionParser::T_QUERY, 'capture' => 'this'),
-                    array('type' => PermissionParser::T_OR, 'capture' => null)
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'this'],
+                    ['type' => PermissionParser::T_OR, 'capture' => null]
+                ]
+            ],
             // Do not mistake this for "and"
-            array(
+            [
                 "andz",
-                array(
-                    array('type' => PermissionParser::T_QUERY, 'capture' => 'andz')
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'andz']
+                ]
+            ],
             // Variations of the "true" token
-            array(
+            [
                 "true",
-                array(
-                    array('type' => PermissionParser::T_TRUE, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_TRUE, 'capture' => null]
+                ]
+            ],
+            [
                 "TRUE",
-                array(
-                    array('type' => PermissionParser::T_TRUE, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_TRUE, 'capture' => null]
+                ]
+            ],
+            [
                 "True",
-                array(
-                    array('type' => PermissionParser::T_TRUE, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_TRUE, 'capture' => null]
+                ]
+            ],
+            [
                 "trUe",
-                array(
-                    array('type' => PermissionParser::T_TRUE, 'capture' => null)
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_TRUE, 'capture' => null]
+                ]
+            ],
             // Variations of the "false" token
-            array(
+            [
                 "false",
-                array(
-                    array('type' => PermissionParser::T_FALSE, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_FALSE, 'capture' => null]
+                ]
+            ],
+            [
                 "FALSE",
-                array(
-                    array('type' => PermissionParser::T_FALSE, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_FALSE, 'capture' => null]
+                ]
+            ],
+            [
                 "False",
-                array(
-                    array('type' => PermissionParser::T_FALSE, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_FALSE, 'capture' => null]
+                ]
+            ],
+            [
                 "fAlsE",
-                array(
-                    array('type' => PermissionParser::T_FALSE, 'capture' => null)
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_FALSE, 'capture' => null]
+                ]
+            ],
             // Variations of the "and" token
-            array(
+            [
                 "and",
-                array(
-                    array('type' => PermissionParser::T_AND, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_AND, 'capture' => null]
+                ]
+            ],
+            [
                 "aNd",
-                array(
-                    array('type' => PermissionParser::T_AND, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_AND, 'capture' => null]
+                ]
+            ],
+            [
                 "&",
-                array(
-                    array('type' => PermissionParser::T_AND, 'capture' => null)
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_AND, 'capture' => null]
+                ]
+            ],
             // also skip over spaces
-            array(
+            [
                 "&& ",
-                array(
-                    array('type' => PermissionParser::T_AND, 'capture' => null)
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_AND, 'capture' => null]
+                ]
+            ],
             // but treat space-separated tokens separately
-            array(
+            [
                 "& &",
-                array(
-                    array('type' => PermissionParser::T_AND, 'capture' => null),
-                    array('type' => PermissionParser::T_AND, 'capture' => null)
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_AND, 'capture' => null],
+                    ['type' => PermissionParser::T_AND, 'capture' => null]
+                ]
+            ],
             // variations of "or"
-            array(
+            [
                 "or",
-                array(
-                    array('type' => PermissionParser::T_OR, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_OR, 'capture' => null]
+                ]
+            ],
+            [
                 "|",
-                array(
-                    array('type' => PermissionParser::T_OR, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_OR, 'capture' => null]
+                ]
+            ],
+            [
                 " ||",
-                array(
-                    array('type' => PermissionParser::T_OR, 'capture' => null)
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_OR, 'capture' => null]
+                ]
+            ],
             // combined "and" & "or"
-            array(
+            [
                 "&||",
-                array(
-                    array('type' => PermissionParser::T_AND, 'capture' => null),
-                    array('type' => PermissionParser::T_OR, 'capture' => null)
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_AND, 'capture' => null],
+                    ['type' => PermissionParser::T_OR, 'capture' => null]
+                ]
+            ],
             // parens
-            array(
+            [
                 "(",
-                array(
-                    array('type' => PermissionParser::T_OPEN_PARENS, 'capture' => null)
-                )
-            ),
-            array(
+                [
+                    ['type' => PermissionParser::T_OPEN_PARENS, 'capture' => null]
+                ]
+            ],
+            [
                 ")",
-                array(
-                    array('type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null)
-                )
-            ),
+                [
+                    ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null]
+                ]
+            ],
             // something complex, putting it all together
-            array(
+            [
                 "this or (that and something&else ))",
-                array(
-                    array('type' => PermissionParser::T_QUERY, 'capture' => 'this'),
-                    array('type' => PermissionParser::T_OR, 'capture' => null),
-                    array('type' => PermissionParser::T_OPEN_PARENS, 'capture' => null),
-                    array('type' => PermissionParser::T_QUERY, 'capture' => 'that'),
-                    array('type' => PermissionParser::T_AND, 'capture' => null),
-                    array('type' => PermissionParser::T_QUERY, 'capture' => 'something'),
-                    array('type' => PermissionParser::T_AND, 'capture' => null),
-                    array('type' => PermissionParser::T_QUERY, 'capture' => 'else'),
-                    array('type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null),
-                    array('type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null),
-                )
-            ),
-        );
+                [
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'this'],
+                    ['type' => PermissionParser::T_OR, 'capture' => null],
+                    ['type' => PermissionParser::T_OPEN_PARENS, 'capture' => null],
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'that'],
+                    ['type' => PermissionParser::T_AND, 'capture' => null],
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'something'],
+                    ['type' => PermissionParser::T_AND, 'capture' => null],
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'else'],
+                    ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null],
+                    ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null],
+                ]
+            ],
+        ];
     }
 
     /**
@@ -223,101 +223,101 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
 
     public static function runProvider()
     {
-        return array(
+        return [
             // A single query
-            array(
+            [
                 "this",
-                array('type' => PermissionParser::P_SIMPLE, 'value' => 'this')
-            ),
+                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
+            ],
             // Parentheses around a single query should not make a difference.
-            array(
+            [
                 "(this)",
-                array('type' => PermissionParser::P_SIMPLE, 'value' => 'this')
-            ),
-            array(
+                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
+            ],
+            [
                 "(((this)))",
-                array('type' => PermissionParser::P_SIMPLE, 'value' => 'this')
-            ),
+                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
+            ],
             // Neither should whitespace.
-            array(
+            [
                 "(((    this) ))",
-                array('type' => PermissionParser::P_SIMPLE, 'value' => 'this')
-            ),
+                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
+            ],
             // OR query
-            array(
+            [
                 "this or that",
-                array('type' => PermissionParser::P_OR, 'value' =>
-                    array(
-                        array('type' => PermissionParser::P_SIMPLE, 'value' => 'this'),
-                        array('type' => PermissionParser::P_SIMPLE, 'value' => 'that'),
-                    )
-                )
-            ),
+                ['type' => PermissionParser::P_OR, 'value' =>
+                    [
+                        ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
+                        ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
+                    ]
+                ]
+            ],
             // AND query
-            array(
+            [
                 "this and that",
-                array('type' => PermissionParser::P_AND, 'value' =>
-                    array(
-                        array('type' => PermissionParser::P_SIMPLE, 'value' => 'this'),
-                        array('type' => PermissionParser::P_SIMPLE, 'value' => 'that'),
-                    )
-                )
-            ),
+                ['type' => PermissionParser::P_AND, 'value' =>
+                    [
+                        ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
+                        ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
+                    ]
+                ]
+            ],
             // sequences of "ands" should collapse into one
-            array(
+            [
                 "this and that and something",
-                array('type' => PermissionParser::P_AND, 'value' =>
-                    array(
-                        array('type' => PermissionParser::P_SIMPLE, 'value' => 'this'),
-                        array('type' => PermissionParser::P_SIMPLE, 'value' => 'that'),
-                        array('type' => PermissionParser::P_SIMPLE, 'value' => 'something'),
-                    )
-                )
-            ),
+                ['type' => PermissionParser::P_AND, 'value' =>
+                    [
+                        ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
+                        ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
+                        ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
+                    ]
+                ]
+            ],
             // combined AND/OR query with precedence ("or" binds tighter than "and")
-            array(
+            [
                 "this and that or something",
-                array('type' => PermissionParser::P_AND, 'value' =>
-                    array(
-                        array('type' => PermissionParser::P_SIMPLE, 'value' => 'this'),
-                        array('type' => PermissionParser::P_OR, 'value' =>
-                            array(
-                                array('type' => PermissionParser::P_SIMPLE, 'value' => 'that'),
-                                array('type' => PermissionParser::P_SIMPLE, 'value' => 'something'),
-                            )
-                        ),
-                    )
-                )
-            ),
-            array(
+                ['type' => PermissionParser::P_AND, 'value' =>
+                    [
+                        ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
+                        ['type' => PermissionParser::P_OR, 'value' =>
+                            [
+                                ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
+                                ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
+                            ]
+                        ],
+                    ]
+                ]
+            ],
+            [
                 "this or that and something",
-                array('type' => PermissionParser::P_AND, 'value' =>
-                    array(
-                        array('type' => PermissionParser::P_OR, 'value' =>
-                            array(
-                                array('type' => PermissionParser::P_SIMPLE, 'value' => 'this'),
-                                array('type' => PermissionParser::P_SIMPLE, 'value' => 'that'),
-                            )
-                        ),
-                        array('type' => PermissionParser::P_SIMPLE, 'value' => 'something'),
-                    )
-                )
-            ),
+                ['type' => PermissionParser::P_AND, 'value' =>
+                    [
+                        ['type' => PermissionParser::P_OR, 'value' =>
+                            [
+                                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
+                                ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
+                            ]
+                        ],
+                        ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
+                    ]
+                ]
+            ],
             // parentheses to override precedence explicitly
-            array(
+            [
                 "this or (that and something)",
-                array('type' => PermissionParser::P_OR, 'value' =>
-                    array(
-                        array('type' => PermissionParser::P_SIMPLE, 'value' => 'this'),
-                        array('type' => PermissionParser::P_AND, 'value' =>
-                            array(
-                                array('type' => PermissionParser::P_SIMPLE, 'value' => 'that'),
-                                array('type' => PermissionParser::P_SIMPLE, 'value' => 'something'),
-                            )
-                        ),
-                    )
-                )
-            ),
-        );
+                ['type' => PermissionParser::P_OR, 'value' =>
+                    [
+                        ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
+                        ['type' => PermissionParser::P_AND, 'value' =>
+                            [
+                                ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
+                                ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
+                            ]
+                        ],
+                    ]
+                ]
+            ],
+        ];
     }
 }

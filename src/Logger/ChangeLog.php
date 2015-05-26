@@ -51,7 +51,7 @@ class ChangeLog
         $query = $this->setLimitOrder($query, $options);
         $rows = $query->execute()->fetchAll();
 
-        $objs = array();
+        $objs = [];
         foreach ($rows as $row) {
             $objs[] = new ChangeLogItem($this->app, $row);
         }
@@ -111,7 +111,7 @@ class ChangeLog
 
         $rows = $query->execute()->fetchAll();
 
-        $objs = array();
+        $objs = [];
 
         foreach ($rows as $row) {
             $objs[] = new ChangeLogItem($this->app, $row);
@@ -219,11 +219,11 @@ class ChangeLog
         }
 
         $query->where($where)
-            ->setParameters(array(
+            ->setParameters([
                 ':contenttype' => $contenttype,
                 ':contentid'   => isset($options['contentid']) ? $options['contentid'] : null,
                 ':logid'       => isset($options['id']) ? $options['id'] : null
-            ));
+            ]);
 
         return $query;
     }
@@ -274,7 +274,7 @@ class ChangeLog
      */
     private function getOrderedChangelogEntry($contenttype, $contentid, $id, $cmpOp)
     {
-        if (!in_array($cmpOp, array('=', '<', '>'))) {
+        if (!in_array($cmpOp, ['=', '<', '>'])) {
             throw new \InvalidArgumentException(sprintf('Invalid comparison operator: %s', $cmpOp));
         }
 
@@ -292,10 +292,11 @@ class ChangeLog
             ->where("log.id $cmpOp :logid")
             ->andWhere('log.contentid = :contentid')
             ->andWhere('contenttype = :contenttype')
-            ->setParameters(array(
+            ->setParameters([
                 ':logid'       => $id,
                 ':contentid'   => $contentid,
-                ':contenttype' => $contenttype))
+                ':contenttype' => $contenttype
+            ])
             ->setMaxResults(1);
 
         // Set ORDER BY

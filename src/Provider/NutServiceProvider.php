@@ -28,7 +28,7 @@ class NutServiceProvider implements ServiceProviderInterface
 
         $app['nut.commands'] = $app->share(
             function ($app) {
-                return array(
+                return [
                     new Nut\CronRunner($app),
                     new Nut\CacheClear($app),
                     new Nut\Info($app),
@@ -49,7 +49,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\UserResetPassword($app),
                     new Nut\UserRoleAdd($app),
                     new Nut\UserRoleRemove($app),
-                );
+                ];
             }
         );
 

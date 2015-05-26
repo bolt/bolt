@@ -1,11 +1,11 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\Types\Type;
 use Bolt\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\QuerySet;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * This is an abstract class for a field type that handles
@@ -15,17 +15,16 @@ use Bolt\Storage\QuerySet;
  */
 abstract class FieldTypeBase implements FieldTypeInterface
 {
-    
     public $mapping;
-    
-    public function __construct(array $mapping = array())
+
+    public function __construct(array $mapping = [])
     {
         $this->mapping = $mapping;
     }
-    
+
     /**
      * Handle or ignore the load event.
-     * 
+     *
      * @param QueryBuilder $query
      *
      * @return void
@@ -34,9 +33,9 @@ abstract class FieldTypeBase implements FieldTypeInterface
     {
         return $query;
     }
-    
+
     /**
-     * Handle the persistentce event. 
+     * Handle the persistentce event.
      *
      * @return void
      */
@@ -46,11 +45,11 @@ abstract class FieldTypeBase implements FieldTypeInterface
         $qb = &$queries[0];
         $valueMethod = 'serialize'.ucfirst($key);
         $value = $entity->$valueMethod();
-        
+
         $type = $this->getStorageType();
-        
+
         if (null !== $value) {
-            $value = $type->convertToDatabaseValue($value, $qb->getConnection()->getDatabasePlatform());          
+            $value = $type->convertToDatabaseValue($value, $qb->getConnection()->getDatabasePlatform());
         } else {
             $value = $this->mapping['default'];
         }
@@ -58,7 +57,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
         $qb->set($key, ":".$key);
         $qb->setParameter($key, $value);
     }
-    
+
     /**
      * Handle  the hydrate event.
      *
@@ -72,7 +71,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
         $value = $type->convertToPHPValue($val, $em->createQueryBuilder()->getConnection()->getDatabasePlatform());
         $entity->$key = $value;
     }
-    
+
     /**
      * Handle or ignore the present event.
      *
@@ -80,9 +79,8 @@ abstract class FieldTypeBase implements FieldTypeInterface
      */
     public function present($entity)
     {
-        
     }
-    
+
     /**
      * Returns the name of the hydrator.
      *
@@ -92,7 +90,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     {
         return 'text';
     }
-    
+
     /**
      * Returns the name of the Doctrine storage type to use for a field.
      *
@@ -102,7 +100,4 @@ abstract class FieldTypeBase implements FieldTypeInterface
     {
         return Type::getType($this->mapping['type']);
     }
-    
-
-    
 }

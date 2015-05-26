@@ -47,7 +47,7 @@ final class RequirePackage
      * Require (install) a package.
      *
      * @param  $package       array Package names and version to require
-     *                        - Format: array('name' => '', 'version' => '')
+     *                        - Format: ['name' => '', 'version' => '']
      *
      * @throws \Bolt\Exception\PackageManagerException
      *
@@ -81,10 +81,7 @@ final class RequirePackage
         $repos = $composer->getRepositoryManager()->getRepositories();
 
         $this->repos = new CompositeRepository(
-            array_merge(
-                array(new PlatformRepository()),
-                $repos
-            )
+            array_merge([new PlatformRepository()], $repos)
         );
 
         // Format the package array
@@ -144,7 +141,7 @@ final class RequirePackage
             file_put_contents($json->getPath(), $composerBackup);
 
             $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
-            $this->app['logger.system']->critical($msg, array('event' => 'exception', 'exception' => $e));
+            $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
             throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
         }
     }
@@ -167,7 +164,7 @@ final class RequirePackage
         $sortPackages = $options['sortpackages'];
         $requireKey = $options['dev'] ? 'require-dev' : 'require';
         $removeKey = $options['dev'] ? 'require' : 'require-dev';
-        $baseRequirements = array_key_exists($requireKey, $composerDefinition) ? $composerDefinition[$requireKey] : array();
+        $baseRequirements = array_key_exists($requireKey, $composerDefinition) ? $composerDefinition[$requireKey] : [];
 
         if (!$this->updateFileCleanly($json, $package, $requireKey, $removeKey, $sortPackages, $postreset)) {
             foreach ($package as $name => $version) {
@@ -228,7 +225,7 @@ final class RequirePackage
      */
     protected function formatRequirements(array $packages)
     {
-        $requires = array();
+        $requires = [];
         $packages = $this->normalizeRequirements($packages);
         foreach ($packages as $package) {
             $requires[$package['name']] = $package['version'];

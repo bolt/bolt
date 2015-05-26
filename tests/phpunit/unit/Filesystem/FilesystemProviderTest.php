@@ -15,10 +15,10 @@ class FilesystemProviderTest extends BoltUnitTest
     {
         $config = new Config\ResourceManager(
             new \Pimple(
-                array(
+                [
                     'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
-                )
+                ]
             )
         );
         $config->compat();
@@ -32,10 +32,10 @@ class FilesystemProviderTest extends BoltUnitTest
     {
         $config = new Config\ResourceManager(
             new \Pimple(
-                array(
+                [
                     'rootpath'    => TEST_ROOT,
                     'pathmanager' => new PlatformFileSystemPathFactory()
-                )
+                ]
             )
         );
         $config->compat();

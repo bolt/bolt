@@ -171,7 +171,7 @@ class PermissionParser
         // CAVEAT: the regular expression *must* include a start-of-input
         // assertion, otherwise the lexer will break, consuming from the start
         // of the input even when the expression matches in the middle.
-        $branches = array(
+        $branches = [
             // one or more whitespace characters
             '/^\s+/' => self::T_SPACE,
 
@@ -195,17 +195,17 @@ class PermissionParser
 
             // A single permission query. We're using an explicit character
             // whitelist here to match slug characters only.
-            '/^([a-zA-Z_0-9\-]+(:[a-zA-Z_0-9\-]+)*:?)/' => self::T_QUERY);
+            '/^([a-zA-Z_0-9\-]+(:[a-zA-Z_0-9\-]+)*:?)/' => self::T_QUERY];
 
-        $tokens = array();
+        $tokens = [];
         while (!empty($query)) {
             $token = null;
             // loop through the branches until a match is found
             foreach ($branches as $re => $type) {
-                $matches = array();
+                $matches = [];
                 if (preg_match($re, $query, $matches)) {
                     // construct lexeme
-                    $token = array('type' => $type);
+                    $token = ['type' => $type];
                     if (isset($matches[1])) {
                         $token['capture'] = $matches[1];
                     } else {
@@ -251,7 +251,7 @@ class PermissionParser
                 $expectedStr = self::tokenName($expected[0]);
             } else {
                 $last = array_pop($expected);
-                $expectedStr = 'one of ' . implode(', ', array_map(array('self', 'tokenName'), $expected)) . ' or ' . self::tokenName($last);
+                $expectedStr = 'one of ' . implode(', ', array_map(['self', 'tokenName'], $expected)) . ' or ' . self::tokenName($last);
             }
             $actualStr = self::tokenName($token['type']);
             if ($token['match']) {
@@ -274,7 +274,7 @@ class PermissionParser
     public static function parse($tokens)
     {
         if (empty($tokens)) {
-            return array('type' => self::P_TRUE, 'value' => '');
+            return ['type' => self::P_TRUE, 'value' => ''];
         } else {
             return self::parseAnd($tokens);
         }
@@ -282,7 +282,7 @@ class PermissionParser
 
     private static function parseAnd(&$tokens)
     {
-        $parts = array(self::parseOr($tokens));
+        $parts = [self::parseOr($tokens)];
         while (!empty($tokens)) {
             $nextToken = reset($tokens);
             if ($nextToken['type'] === self::T_AND) {
@@ -295,7 +295,7 @@ class PermissionParser
             }
         }
         if (count($parts) > 1) {
-            return array('type' => self::P_AND, 'value' => $parts);
+            return ['type' => self::P_AND, 'value' => $parts];
         } else {
             return $parts[0];
         }
@@ -303,7 +303,7 @@ class PermissionParser
 
     private static function parseOr(&$tokens)
     {
-        $parts = array(self::parseSimple($tokens));
+        $parts = [self::parseSimple($tokens)];
         while (!empty($tokens)) {
             $nextToken = reset($tokens);
             if ($nextToken['type'] === self::T_OR) {
@@ -316,7 +316,7 @@ class PermissionParser
             }
         }
         if (count($parts) > 1) {
-            return array('type' => self::P_OR, 'value' => $parts);
+            return ['type' => self::P_OR, 'value' => $parts];
         } else {
             return $parts[0];
         }
@@ -329,13 +329,13 @@ class PermissionParser
             case self::T_OPEN_PARENS:
                 $query = self::parseAnd($tokens);
                 $token = array_shift($tokens);
-                self::expect(array(self::T_CLOSE_PARENS), $token);
+                self::expect([self::T_CLOSE_PARENS], $token);
 
                 return $query;
             case self::T_QUERY:
-                return array('type' => self::P_SIMPLE, 'value' => $token['capture']);
+                return ['type' => self::P_SIMPLE, 'value' => $token['capture']];
             default:
-                self::expect(array(self::T_OPEN_PARENS, self::T_QUERY), $token);
+                self::expect([self::T_OPEN_PARENS, self::T_QUERY], $token);
         }
     }
 }

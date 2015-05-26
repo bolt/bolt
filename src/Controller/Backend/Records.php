@@ -55,19 +55,19 @@ class Records extends BackendBase
         $contenttype = $this->getContentType($contenttypeslug);
 
         foreach ($ids as $id) {
-            $content = $this->getContent($contenttype['slug'], array('id' => $id, 'status' => '!'));
+            $content = $this->getContent($contenttype['slug'], ['id' => $id, 'status' => '!']);
             $title = $content->getTitle();
 
             if (!$this->isAllowed("contenttype:$contenttypeslug:delete:$id")) {
-                $this->flashes()->error(Trans::__('Permission denied', array()));
+                $this->flashes()->error(Trans::__('Permission denied', []));
             } elseif ($this->checkAntiCSRFToken() && $this->app['storage']->deleteContent($contenttypeslug, $id)) {
-                $this->flashes()->info(Trans::__("Content '%title%' has been deleted.", array('%title%' => $title)));
+                $this->flashes()->info(Trans::__("Content '%title%' has been deleted.", ['%title%' => $title]));
             } else {
-                $this->flashes()->info(Trans::__("Content '%title%' could not be deleted.", array('%title%' => $title)));
+                $this->flashes()->info(Trans::__("Content '%title%' could not be deleted.", ['%title%' => $title]));
             }
         }
 
-        return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
+        return $this->redirectToRoute('overview', ['contenttypeslug' => $contenttypeslug]);
     }
 
     /**
@@ -107,11 +107,11 @@ class Records extends BackendBase
         if ($new) {
             $content = $this->app['storage']->getEmptyContent($contenttypeslug);
         } else {
-            $content = $this->getContent($contenttypeslug, array('id' => $id));
+            $content = $this->getContent($contenttypeslug, ['id' => $id]);
 
             if (empty($content)) {
                 // Record not found, advise and redirect to the dashboard
-                $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', array('%contenttype%' => $contenttypeslug)));
+                $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', ['%contenttype%' => $contenttypeslug]));
 
                 return $this->redirectToRoute('dashboard');
             }
@@ -147,16 +147,16 @@ class Records extends BackendBase
         }
 
         // Map actions to new statuses
-        $actionStatuses = array(
+        $actionStatuses = [
             'held'    => 'held',
             'publish' => 'published',
             'draft'   => 'draft',
-        );
+        ];
 
         if (!isset($actionStatuses[$action])) {
             $this->flashes()->error(Trans::__('No such action for content.'));
 
-            return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
+            return $this->redirectToRoute('overview', ['contenttypeslug' => $contenttypeslug]);
         }
 
         $newStatus = $actionStatuses[$action];
@@ -167,16 +167,16 @@ class Records extends BackendBase
         !$this->users()->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttypeslug, $id)) {
             $this->flashes()->error(Trans::__('You do not have the right privileges to edit that record.'));
 
-            return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
+            return $this->redirectToRoute('overview', ['contenttypeslug' => $contenttypeslug]);
         }
 
         if ($this->app['storage']->updateSingleValue($contenttypeslug, $id, 'status', $newStatus)) {
-            $this->flashes()->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", array('%title%' => $title, '%newStatus%' => $newStatus)));
+            $this->flashes()->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", ['%title%' => $title, '%newStatus%' => $newStatus]));
         } else {
-            $this->flashes()->info(Trans::__("Content '%title%' could not be modified.", array('%title%' => $title)));
+            $this->flashes()->info(Trans::__("Content '%title%' could not be modified.", ['%title%' => $title]));
         }
 
-        return $this->redirectToRoute('overview', array('contenttypeslug' => $contenttypeslug));
+        return $this->redirectToRoute('overview', ['contenttypeslug' => $contenttypeslug]);
     }
 
     /**
@@ -199,9 +199,9 @@ class Records extends BackendBase
 
         $contenttype = $this->getContentType($contenttypeslug);
 
-        $filter = array();
+        $filter = [];
 
-        $contentparameters = array('paging' => true, 'hydrate' => true);
+        $contentparameters = ['paging' => true, 'hydrate' => true];
 
         // Order has to be set carefully. Either set it explicitly when the user
         // sorts, or fall back to what's defined in the contenttype. The exception
@@ -223,7 +223,7 @@ class Records extends BackendBase
         }
 
         // Perhaps also filter on taxonomies
-        foreach (array_keys($this->getOption('taxonomy', array())) as $taxonomykey) {
+        foreach (array_keys($this->getOption('taxonomy', [])) as $taxonomykey) {
             if ($request->query->get('taxonomy-' . $taxonomykey)) {
                 $contentparameters[$taxonomykey] = $request->query->get('taxonomy-' . $taxonomykey);
                 $filter[] = $request->query->get('taxonomy-' . $taxonomykey);
@@ -232,11 +232,11 @@ class Records extends BackendBase
 
         $multiplecontent = $this->getContent($contenttypeslug, $contentparameters);
 
-        $context = array(
+        $context = [
             'contenttype'     => $contenttype,
             'multiplecontent' => $multiplecontent,
             'filter'          => $filter
-        );
+        ];
 
         return $this->render('overview/overview.twig', $context);
     }
@@ -260,7 +260,7 @@ class Records extends BackendBase
         }
 
         // Get content record, and the contenttype config from $contenttypeslug
-        $content = $this->getContent($contenttypeslug, array('id' => $id));
+        $content = $this->getContent($contenttypeslug, ['id' => $id]);
         $contenttype = $this->getContentType($contenttypeslug);
 
         // Get relations
@@ -284,14 +284,14 @@ class Records extends BackendBase
                     $showContenttype = $relatedtype;
                 }
 
-                $relations[$relatedslug] = array(
+                $relations[$relatedslug] = [
                     'name'   => Trans::__($relatedtype['name']),
                     'active' => ($relatedtype['slug'] === $showSlug),
-                );
+                ];
             }
         }
 
-        $context = array(
+        $context = [
             'id'               => $id,
             'name'             => Trans::__($contenttype['singular_name']),
             'title'            => $content['title'],
@@ -299,7 +299,7 @@ class Records extends BackendBase
             'relations'        => $relations,
             'show_contenttype' => $showContenttype,
             'related_content'  => is_null($relations) ? null : $content->related($showContenttype['slug']),
-        );
+        ];
 
         return $this->render('relatedto/relatedto.twig', $context);
     }

@@ -23,9 +23,9 @@ class Extension extends \Bolt\BaseExtension
         $this->storageEventTests = new StorageEventTests($this->app);
 
         // Storage event listeners
-        $this->app['dispatcher']->addListener(StorageEvents::PRE_SAVE,    array($this->storageEventTests, 'eventPreSave'));
-        $this->app['dispatcher']->addListener(StorageEvents::POST_SAVE,   array($this->storageEventTests, 'eventPostSave'));
-        $this->app['dispatcher']->addListener(StorageEvents::PRE_DELETE,  array($this->storageEventTests, 'eventPreDelete'));
-        $this->app['dispatcher']->addListener(StorageEvents::POST_DELETE, array($this->storageEventTests, 'eventPreDelete'));
+        $this->app['dispatcher']->addListener(StorageEvents::PRE_SAVE,    [$this->storageEventTests, 'eventPreSave']);
+        $this->app['dispatcher']->addListener(StorageEvents::POST_SAVE,   [$this->storageEventTests, 'eventPostSave']);
+        $this->app['dispatcher']->addListener(StorageEvents::PRE_DELETE,  [$this->storageEventTests, 'eventPreDelete']);
+        $this->app['dispatcher']->addListener(StorageEvents::POST_DELETE, [$this->storageEventTests, 'eventPreDelete']);
     }
 }

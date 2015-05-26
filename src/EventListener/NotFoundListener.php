@@ -54,7 +54,7 @@ class NotFoundListener implements EventSubscriberInterface
             return;
         }
 
-        $content = $this->storage->getContent($this->notFoundPage, array('returnsingle' => true));
+        $content = $this->storage->getContent($this->notFoundPage, ['returnsingle' => true]);
 
         if (!$content instanceof Content || empty($content->id)) {
             return;
@@ -67,8 +67,8 @@ class NotFoundListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::EXCEPTION => array('onKernelException', 512),
-        );
+        return [
+            KernelEvents::EXCEPTION => ['onKernelException', 512],
+        ];
     }
 }

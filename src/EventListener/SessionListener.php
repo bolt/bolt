@@ -80,18 +80,18 @@ class SessionListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::REQUEST  => array(
-                array('onRequest', 127), // Right after Session is set in Request
+        return [
+            KernelEvents::REQUEST  => [
+                ['onRequest', 127], // Right after Session is set in Request
                 // For Session started in kernel.request events
-                array('onEvent', -1024),
-            ),
-            KernelEvents::RESPONSE => array(
+                ['onEvent', -1024],
+            ],
+            KernelEvents::RESPONSE => [
                 // For Session started in controller
-                array('onEvent', 1000),
+                ['onEvent', 1000],
                 // For Session started in kernel.response events
-                array('onEvent', -1000), // Before StreamedResponseListener (Same as SaveSessionListener)
-            )
-        );
+                ['onEvent', -1000], // Before StreamedResponseListener (Same as SaveSessionListener)
+            ]
+        ];
     }
 }

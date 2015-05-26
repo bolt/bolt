@@ -4,7 +4,6 @@ namespace Bolt\Tests\Configuration;
 use Bolt\Configuration\Composer;
 use Bolt\Configuration\ComposerChecks;
 use Bolt\Configuration\ResourceManager;
-use Bolt\Exception\LowlevelException;
 
 /**
  * Class to test correct operation and locations of composer configuration.

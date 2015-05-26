@@ -32,10 +32,10 @@ class UploadTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',
-            array(),
-            array(),
-            array(),
-            array()
+            [],
+            [],
+            [],
+            []
         ));
 
         $response = $this->controller()->uploadNamspace($this->getRequest(), 'files');
@@ -61,17 +61,17 @@ class UploadTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',
-            array(),
-            array(),
-            array(
-                'files' => array(
-                    array(
+            [],
+            [],
+            [
+                'files' => [
+                    [
                         'tmp_name' => PHPUNIT_ROOT . '/resources/generic-logo-evil.exe',
                         'name'     => 'logo.exe'
-                    )
-                )
-            ),
-            array()
+                    ]
+                ]
+            ],
+            []
         ));
 
         $response = $this->controller()->uploadNamspace($this->getRequest(), 'files');
@@ -98,17 +98,17 @@ class UploadTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',
-            array('handler' => 'files://'),
-            array(),
-            array(
-                'files' => array(
-                    array(
+            ['handler' => 'files://'],
+            [],
+            [
+                'files' => [
+                    [
                         'tmp_name' => PHPUNIT_ROOT . '/resources/generic-logo.png',
                         'name'     => 'logo.png'
-                    )
-                )
-            ),
-            array()
+                    ]
+                ]
+            ],
+            []
         ));
 
         $response = $this->controller()->uploadNamspace($this->getRequest(), 'files');
@@ -120,17 +120,17 @@ class UploadTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',
-            array('handler' => array('files://', 'ftp://')),
-            array(),
-            array(
-                'files' => array(
-                    array(
+            ['handler' => ['files://', 'ftp://']],
+            [],
+            [
+                'files' => [
+                    [
                         'tmp_name' => __DIR__ . '/resources/generic-logo.png',
                         'name'     => 'logo.png'
-                    )
-                )
-            ),
-            array()
+                    ]
+                ]
+            ],
+            []
         ));
 
         // Not properly implemented as yet, this will need to be revisited on implementation
@@ -143,12 +143,12 @@ class UploadTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',
-            array(),
-            array(),
-            array(
-                'files' => array(new UploadedFile(PHPUNIT_ROOT . '/resources/generic-logo.png', 'logo.png'))
-            ),
-            array()
+            [],
+            [],
+            [
+                'files' => [new UploadedFile(PHPUNIT_ROOT . '/resources/generic-logo.png', 'logo.png')]
+            ],
+            []
         ));
         $response = $this->controller()->uploadNamspace($this->getRequest(), 'files');
 
@@ -160,17 +160,17 @@ class UploadTest extends ControllerUnitTest
         $this->setRequest(Request::create(
             '/upload/' . $namespace,
             'POST',
-            array(),
-            array(),
-            array(
-                'files' => array(
-                    array(
+            [],
+            [],
+            [
+                'files' => [
+                    [
                         'tmp_name' => PHPUNIT_ROOT . '/resources/generic-logo.png',
                         'name'     => 'logo.png'
-                    )
-                )
-            ),
-            array()
+                    ]
+                ]
+            ],
+            []
         ));
 
         return $this->getRequest();
@@ -185,7 +185,7 @@ class UploadTest extends ControllerUnitTest
 
 //     protected function authApp(Application $bolt)
 //     {
-//         $users = $this->getMock('Bolt\Users', array('isValidSession', 'isAllowed'), array($bolt));
+//         $users = $this->getMock('Bolt\Users', ['isValidSession', 'isAllowed'], [$bolt]);
 //         $users->expects($this->any())
 //             ->method('isValidSession')
 //             ->will($this->returnValue(true));

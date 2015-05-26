@@ -10,11 +10,11 @@ class CallbackResolverTest extends BoltUnitTest
     public function testService()
     {
         $test = new TestClass();
-        $resolver = $this->resolver(array(), array(
+        $resolver = $this->resolver([], [
             'test.class' => function () use ($test) {
                 return $test;
             },
-        ));
+        ]);
         $str = 'test.class:foo';
         $callback = $resolver->resolveCallback($str);
         $this->assertCallback($callback, $test);
@@ -23,11 +23,11 @@ class CallbackResolverTest extends BoltUnitTest
     public function testStringInClassMap()
     {
         $test = new TestClass();
-        $resolver = $this->resolver(array(
+        $resolver = $this->resolver([
             'Bolt\Tests\Routing\TestClass' => 'test.class',
-        ), array(
+        ], [
             'test.class' => $test,
-        ));
+        ]);
         $str = 'Bolt\Tests\Routing\TestClass::foo';
 
         // True because it needs to be converted
@@ -69,7 +69,7 @@ class CallbackResolverTest extends BoltUnitTest
 
     public function testStringWithParams()
     {
-        $arr = array('Bolt\Tests\Routing\TestClass::withParams', array('bolt'));
+        $arr = ['Bolt\Tests\Routing\TestClass::withParams', ['bolt']];
         // True because it is needs to be converted
         $this->assertTrue($this->resolver()->isValid($arr));
 
@@ -81,19 +81,18 @@ class CallbackResolverTest extends BoltUnitTest
     public function testArrayInClassMap()
     {
         $test = new TestClass();
-        $resolver = $this->resolver(array(
-            'Bolt\Tests\Routing\TestClass' => 'test.class',
-        ), array(
-            'test.class' => $test,
-        ));
-        $arr = array('Bolt\Tests\Routing\TestClass', 'foo');
+        $resolver = $this->resolver(
+            ['Bolt\Tests\Routing\TestClass' => 'test.class'],
+            ['test.class'                   => $test]
+        );
+        $arr = ['Bolt\Tests\Routing\TestClass', 'foo'];
         $callback = $resolver->resolveCallback($arr);
         $this->assertCallback($callback, $test);
     }
 
     public function testArrayNotInClassMap()
     {
-        $arr = array('Bolt\Tests\Routing\TestClass', 'foo');
+        $arr = ['Bolt\Tests\Routing\TestClass', 'foo'];
         // True because it is needs to be converted
         $this->assertTrue($this->resolver()->isValid($arr));
 
@@ -103,7 +102,7 @@ class CallbackResolverTest extends BoltUnitTest
 
     public function testArrayNotInClassMapAndStatic()
     {
-        $arr = array('Bolt\Tests\Routing\TestClass', 'staticFoo');
+        $arr = ['Bolt\Tests\Routing\TestClass', 'staticFoo'];
         // False because it is already valid
         $this->assertFalse($this->resolver()->isValid($arr));
 
@@ -113,7 +112,7 @@ class CallbackResolverTest extends BoltUnitTest
 
     public function testArrayNonExistentClassNotInClassMapFails()
     {
-        $arr = array('Bolt\Tests\Routing\TestClassDerp', 'staticFoo');
+        $arr = ['Bolt\Tests\Routing\TestClassDerp', 'staticFoo'];
         // False because it is invalid
         $this->assertFalse($this->resolver()->isValid($arr));
 
@@ -123,7 +122,7 @@ class CallbackResolverTest extends BoltUnitTest
 
     public function testArrayWithParams()
     {
-        $arr = array(array('Bolt\Tests\Routing\TestClass', 'withParams'), array('bolt'));
+        $arr = [['Bolt\Tests\Routing\TestClass', 'withParams'], ['bolt']];
         // True because it is needs to be converted
         $this->assertTrue($this->resolver()->isValid($arr));
 
@@ -134,7 +133,7 @@ class CallbackResolverTest extends BoltUnitTest
 
     public function testArrayWithObject()
     {
-        $arr = array(new TestClass(), 'foo');
+        $arr = [new TestClass(), 'foo'];
         // False because it is already valid
         $this->assertFalse($this->resolver()->isValid($arr));
 
@@ -152,7 +151,7 @@ class CallbackResolverTest extends BoltUnitTest
         $this->assertNotCallable($callback);
     }
 
-    protected function resolver($classmap = array(), $services = array())
+    protected function resolver($classmap = [], $services = [])
     {
         return new CallbackResolver(new \Pimple($services), $classmap);
     }

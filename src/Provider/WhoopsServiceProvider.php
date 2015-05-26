@@ -47,23 +47,23 @@ class WhoopsServiceProvider implements ServiceProviderInterface
         });
 
         $app['whoops.handler.page.app_info'] = $app->protect(function () use ($app) {
-            return array(
+            return [
                 'Charset'           => $app['charset'],
                 'Locale'            => $app['locale'],
                 'Route Class'       => $app['route_class'],
                 'Dispatcher Class'  => $app['dispatcher_class'],
                 'Application Class' => get_class($app),
-            );
+            ];
         });
 
         $app['whoops.handler.page.request_info'] = $app->protect(function () use ($app) {
             /** @var RequestStack $requestStack */
             $requestStack = $app['request_stack'];
             if (!$request = $requestStack->getCurrentRequest()) {
-                return array();
+                return [];
             }
 
-            return array(
+            return [
                 'URI'          => $request->getUri(),
                 'Request URI'  => $request->getRequestUri(),
                 'Path Info'    => $request->getPathInfo(),
@@ -75,7 +75,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
                 'Scheme'       => $request->getScheme(),
                 'Port'         => $request->getPort(),
                 'Host'         => $request->getHost(),
-            );
+            ];
         });
 
         $app['whoops.listener'] = $app->share(function () use ($app) {

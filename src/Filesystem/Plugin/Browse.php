@@ -24,11 +24,11 @@ class Browse implements PluginInterface
 
     public function handle($path)
     {
-        $files = array();
-        $folders = array();
+        $files = [];
+        $folders = [];
         $list = $this->filesystem->listContents($path);
 
-        $ignored = array(".", "..", ".DS_Store", ".gitignore", ".htaccess");
+        $ignored = ['.', '..', '.DS_Store', '.gitignore', '.htaccess'];
 
         foreach ($list as $entry) {
             if (in_array($entry['basename'], $ignored)) {
@@ -54,7 +54,7 @@ class Browse implements PluginInterface
                     $url = str_replace('/' . $pathsegments[0] . '/' . $pathsegments[0] . '/', '/' . $pathsegments[0] . '/', $url);
                 }
 
-                $files[$entry['path']] = array(
+                $files[$entry['path']] = [
                     'path'         => $entry['dirname'],
                     'filename'     => $entry['basename'],
                     'newpath'      => $entry['path'],
@@ -66,7 +66,7 @@ class Browse implements PluginInterface
                     'modified'     => date("Y/m/d H:i:s", $entry['timestamp']),
                     'permissions'  => 'public',
                     'url'          => $url
-                );
+                ];
 
                 /* **** Extra checks for files that can be resolved via PHP urlopen functions **** */
                 try {
@@ -78,7 +78,7 @@ class Browse implements PluginInterface
                 if (is_readable($fullfilename)) {
                     $files[$entry['path']]['readable'] = true;
 
-                    if (!empty($entry['extension']) && in_array($entry['extension'], array('gif', 'jpg', 'png', 'jpeg'))) {
+                    if (!empty($entry['extension']) && in_array($entry['extension'], ['gif', 'jpg', 'png', 'jpeg'])) {
                         $size = getimagesize($fullfilename);
                         $files[$entry['path']]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
                     }
@@ -88,13 +88,13 @@ class Browse implements PluginInterface
             }
 
             if ($entry['type'] == 'dir') {
-                $folders[$entry['path']] = array(
+                $folders[$entry['path']] = [
                     'path'       => $entry['dirname'],
                     'foldername' => $entry['basename'],
                     'newpath'    => $entry['path'],
                     'modified'   => date("Y/m/d H:i:s", $entry['timestamp']),
                     'writable'   => true
-                );
+                ];
 
                 $fullfilename = $this->filesystem->getAdapter()->applyPathPrefix($entry['path']);
 
@@ -110,6 +110,6 @@ class Browse implements PluginInterface
         ksort($files);
         ksort($folders);
 
-        return array($files, $folders);
+        return [$files, $folders];
     }
 }

@@ -10,12 +10,12 @@ namespace Bolt\Field;
 
 class Manager
 {
-    protected $fields = array();
+    protected $fields = [];
 
-    protected $defaults = array(
+    protected $defaults = [
         'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'video', 'html',
         'textarea', 'datetime', 'date', 'select', 'templateselect', 'markdown', 'checkbox', 'slug'
-    );
+    ];
 
     public function __construct()
     {

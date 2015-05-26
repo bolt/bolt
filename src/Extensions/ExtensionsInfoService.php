@@ -28,7 +28,7 @@ class ExtensionsInfoService
      * @param array                                     $urls
      * @param boolean                                   $deprecated
      */
-    public function __construct($client, $site, $urls = array(), $deprecated = false)
+    public function __construct($client, $site, $urls = [], $deprecated = false)
     {
         /** @deprecated remove when PHP 5.3 support is dropped */
         $this->deprecated = $deprecated;
@@ -63,7 +63,7 @@ class ExtensionsInfoService
     public function info($package, $bolt)
     {
         $url = $this->urls['info'];
-        $params = array('package' => $package, 'bolt' => $bolt);
+        $params = ['package' => $package, 'bolt' => $bolt];
 
         return $this->execute($url, $params);
     }
@@ -81,16 +81,16 @@ class ExtensionsInfoService
      *
      * @return string|boolean
      */
-    public function execute($url, $params = array())
+    public function execute($url, $params = [])
     {
         $uri = rtrim(rtrim($this->site, '/') . '/' . ltrim($url, '/') . '?' . http_build_query($params), '?');
 
         try {
             if ($this->deprecated) {
                 /** @deprecated remove when PHP 5.3 support is dropped */
-                $result = $this->client->get($uri, array('timeout' => 10))->send()->getBody(true);
+                $result = $this->client->get($uri, ['timeout' => 10])->send()->getBody(true);
             } else {
-                $result = $this->client->get($uri, array('timeout' => 10))->getBody(true);
+                $result = $this->client->get($uri, ['timeout' => 10])->getBody(true);
             }
 
             return ($this->format === 'json') ? json_decode($result) : (string) $result;

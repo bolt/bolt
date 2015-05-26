@@ -35,7 +35,7 @@ class DeprecatedLog
         $backtrace = $backtrace[0];
         $file = str_replace($this->app['resources']->getPath('root'), "", $backtrace['file']);
 
-        $this->app['logger.system']->info($msg, array('event' => 'extension'));
-        $this->app['logger.system']->warning("[DEPRECATED]: Previous message logged using deprecated log service: {$file}::{$backtrace['line']}", array('event' => 'deprecated'));
+        $this->app['logger.system']->info($msg, ['event' => 'extension']);
+        $this->app['logger.system']->warning("[DEPRECATED]: Previous message logged using deprecated log service: {$file}::{$backtrace['line']}", ['event' => 'deprecated']);
     }
 }

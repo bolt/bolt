@@ -19,7 +19,7 @@ class Upload extends BackendBase
     protected function addRoutes(ControllerCollection $c)
     {
         $c->match('/{namespace}', 'actionUploadNamespace')
-            ->before(array($this, 'before'))
+            ->before([$this, 'before'])
             ->value('namespace', 'files')
             ->bind('upload');
 
@@ -52,7 +52,7 @@ class Upload extends BackendBase
         // Perform the file upload actions and collect the results
         $fileUpload = $this->handleUploadFiles($request, $namespace);
 
-        return $this->json($fileUpload, Response::HTTP_OK, array('Content-Type' => 'text/plain'));
+        return $this->json($fileUpload, Response::HTTP_OK, ['Content-Type' => 'text/plain']);
     }
 
     /**
@@ -73,7 +73,7 @@ class Upload extends BackendBase
         }
         $prefix = rtrim($parts[0], '/') . '/';
 
-        return array($namespace, $prefix);
+        return [$namespace, $prefix];
     }
 
     /**
@@ -97,14 +97,14 @@ class Upload extends BackendBase
             $result->confirm();
 
             if ($result instanceof File) {
-                $successfulFiles = array($result->name);
+                $successfulFiles = [$result->name];
             } elseif ($result instanceof Collection) {
-                $successfulFiles = array();
+                $successfulFiles = [];
                 foreach ($result as $resultFile) {
-                    $successfulFiles[] = array(
+                    $successfulFiles[] = [
                         'url'  => $namespace . '/' . $resultFile->name,
                         'name' => $resultFile->name
-                    );
+                    ];
                 }
             }
 
@@ -118,14 +118,14 @@ class Upload extends BackendBase
                 // It's an error state anyway
             }
 
-            $errorFiles = array();
+            $errorFiles = [];
             foreach ($result as $resultFile) {
                 $errors = $resultFile->getMessages();
-                $errorFiles[] = array(
+                $errorFiles[] = [
                     'url'   => $namespace . '/' . $resultFile->original_name,
                     'name'  => $resultFile->original_name,
                     'error' => (string) $errors[0]
-                );
+                ];
             }
 
             return $errorFiles;
@@ -150,15 +150,15 @@ class Upload extends BackendBase
         }
 
         if (!$files) {
-            return array();
+            return [];
         }
-        $filesToProcess = array();
+        $filesToProcess = [];
         foreach ($files as $file) {
             if ($file instanceof UploadedFile) {
-                $filesToProcess[] = array(
+                $filesToProcess[] = [
                     'name'     => $file->getClientOriginalName(),
                     'tmp_name' => $file->getPathName()
-                );
+                ];
             } else {
                 $filesToProcess[] = $file;
             }
@@ -201,6 +201,6 @@ class Upload extends BackendBase
             }
         }
 
-        return $this->json($result, Response::HTTP_OK, array('Content-Type' => 'text/plain'));
+        return $this->json($result, Response::HTTP_OK, ['Content-Type' => 'text/plain']);
     }
 }

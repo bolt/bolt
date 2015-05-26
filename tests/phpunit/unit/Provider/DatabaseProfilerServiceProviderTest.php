@@ -14,8 +14,8 @@ class DatabaseProfilerServiceProviderTest extends BoltUnitTest
     public function testProvider()
     {
         $app = $this->getApp();
-        $app['data_collector.templates'] = array();
-        $app['data_collectors'] = array();
+        $app['data_collector.templates'] = [];
+        $app['data_collectors'] = [];
         $provider = new DatabaseProfilerServiceProvider($app);
         $app->register($provider);
         $this->assertInstanceOf('Doctrine\DBAL\Logging\DebugStack', $app['db.logger']);

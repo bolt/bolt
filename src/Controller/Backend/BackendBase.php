@@ -19,15 +19,15 @@ abstract class BackendBase extends Base
         $c = parent::connect($app);
         $c->value(Zone::KEY, Zone::BACKEND);
 
-        $c->before(array($this, 'before'));
+        $c->before([$this, 'before']);
 
         return $c;
     }
 
-    protected function render($template, array $variables = array(), array $globals = array())
+    protected function render($template, array $variables = [], array $globals = [])
     {
         if (!isset($variables['context'])) {
-            $variables = array('context' => $variables);
+            $variables = ['context' => $variables];
         }
         return parent::render($template, $variables, $globals);
     }
@@ -61,8 +61,8 @@ abstract class BackendBase extends Base
         // version change, display a notice.
         if ($app['config']->notify_update) {
             $notice = Trans::__("Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.",
-                array('%VERSION%' => $app->getVersion(), '%URI%' => $app['resources']->getUrl('bolt') . 'dbcheck'));
-            $app['logger.system']->notice(strip_tags($notice), array('event' => 'config'));
+                ['%VERSION%' => $app->getVersion(), '%URI%' => $app['resources']->getUrl('bolt') . 'dbcheck']);
+            $app['logger.system']->notice(strip_tags($notice), ['event' => 'config']);
             $app['logger.flash']->info($notice);
         }
 

@@ -2,35 +2,34 @@
 namespace Bolt\Storage;
 
 use Bolt\Storage;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Manages all loaded entities across application, provides access to Repository Classes.
  */
 class EntityManager
 {
-    
     protected $conn;
     protected $eventManager;
     protected $mapping;
     protected $log;
-    protected $repositories = array();
-    protected $aliases = array();
+    protected $repositories = [];
+    protected $aliases = [];
     protected $legacyStorage;
-    
+
     /**
      * Creates a new EntityManager that operates on the given database connection
      * and uses the given EventManager.
      *
-     * @param \Doctrine\DBAL\Connection     $conn
-     * @param EventDispatcherInterface      $eventManager
-     * @param MappingDriver                 $mapping
-     * @param LoggerInterface               $logger
+     * @param \Doctrine\DBAL\Connection $conn
+     * @param EventDispatcherInterface  $eventManager
+     * @param MappingDriver             $mapping
+     * @param LoggerInterface           $logger
      */
     public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MappingDriver $mapping, LoggerInterface $logger = null)
     {
@@ -42,17 +41,15 @@ class EntityManager
         } else {
             $this->logger = $logger;
         }
-
     }
-    
+
     /**
-     * 
+     *
      */
     public function createQueryBuilder()
     {
         return new QueryBuilder($this->conn);
     }
-
 
     /**
      * Finds an object by its identifier.
@@ -67,12 +64,11 @@ class EntityManager
     public function find($className, $id)
     {
         $repo = $this->getRepository($className);
-        
+
         return $repo->find($id);
     }
 
     /**
-     *
      * The object will be entered into the database as a result of this operation.
      *
      *
@@ -85,10 +81,10 @@ class EntityManager
         if (method_exists($object, 'getContenttype')) {
             $entityName = $object->getContenttype();
         } else {
-            $entityName = get_class($object);   
+            $entityName = get_class($object);
         }
         $repo = $this->getRepository($entityName);
-        
+
         return $repo->save($object);
     }
 
@@ -105,10 +101,9 @@ class EntityManager
     {
         $entityName = get_class($object);
         $repo = $this->getRepository($entityName);
-        
+
         return $repo->delete($object);
     }
-
 
     /**
      * Gets the repository for a class.
@@ -124,24 +119,22 @@ class EntityManager
         } else {
             $classMetadata = $this->getMapper()->loadMetadataForClass($className);
         }
-        
-        
+
         if (array_key_exists($className, $this->repositories)) {
             $repoClass = $this->repositories[$className];
             return new $repoClass($this, $classMetadata);
         }
-        
-        foreach ($this->aliases as $alias=>$namespace) {
+
+        foreach ($this->aliases as $alias => $namespace) {
             $full = str_replace($alias, $namespace, $className);
-            
+
             if (array_key_exists($full, $this->repositories)) {
                 $classMetadata = $this->getMapper()->loadMetadataForClass($full);
                 $repoClass = $this->repositories[$full];
                 return new $repoClass($this, $classMetadata);
             }
-            
         }
-        
+
         /*
          * The metadata driver can also attempt to resolve an alias for us.
          * For now we are hardcoding the link between a content entity and
@@ -150,8 +143,8 @@ class EntityManager
         */
         if ($this->getMapper()->resolveClassName($className) === 'Bolt\Entity\Content') {
             return new ContentRepository($this, $classMetadata);
-        } 
-        
+        }
+
         /*
          * If the fetched metadata isn't mapped to a specific entity then we treat
          * it as a generic Content repo
@@ -160,24 +153,21 @@ class EntityManager
         if (in_array($className, $this->getMapper()->getUnmapped())) {
             return new ContentRepository($this, $classMetadata);
         }
-        
+
         return new Repository($this, $classMetadata);
     }
-    
+
     /**
      * Sets a custom repository class for an entity.
      *
      * @param string $entityName
      * @param string $repositoryClass
-     * 
      */
     public function setRepository($entityName, $repositoryClass)
     {
         $this->repositories[$entityName] = $repositoryClass;
     }
-    
-    
-    
+
     /**
      * Gets the Event Manager.
      *
@@ -187,7 +177,7 @@ class EntityManager
     {
         return $this->eventManager;
     }
-    
+
     /**
      * Gets the Class Metadata Driver.
      *
@@ -197,17 +187,16 @@ class EntityManager
     {
         return $this->mapping;
     }
-    
-    
+
     /**
      * Registers shorter alias access for Entities.
-     * 
+     *
      * For example ->addEntityAlias('user', 'Project\Bundle\Module\Entity\User')
      * would allow ->getRepository('user')
      *
      * @param string $alias
-     * @param string $namespace 
-     * 
+     * @param string $namespace
+     *
      * @return void
      */
     public function addEntityAlias($alias, $namespace)
@@ -221,10 +210,10 @@ class EntityManager
      * @return LegacyRepository
      */
     public function legacy()
-    {        
+    {
         return $this->legacyStorage;
     }
-    
+
     /**
      * Sets the LegacyRepository
      *
@@ -234,7 +223,7 @@ class EntityManager
     {
         $this->legacyStorage = $storage;
     }
-    
+
     /**
      * Getter for logger object
      *
@@ -244,24 +233,21 @@ class EntityManager
     {
         return $this->logger;
     }
-    
-    
-    
+
     /******* Deprecated functions ******/
-    
+
     /**
      * Magic call method acts as a catchall proxy to the legacy repository
      *
-     * @param string $method 
-     * @param string $args 
+     * @param string $method
+     * @param string $args
      */
     public function __call($method, $args)
     {
         //$this->getLogger()->warning("[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.");
-        return call_user_func_array(array($this->legacy(), $method), $args);
+        return call_user_func_array([$this->legacy(), $method], $args);
     }
-    
-    
+
     /**
      * Note that this method is explicitly defined here because the magic method above cannot
      * pass dynamic variables by reference
@@ -273,10 +259,8 @@ class EntityManager
      *
      * @return \Bolt\Content|\Bolt\Content[]
      */
-    public function getContent($textquery, $parameters = array(), &$pager = array(), $whereparameters = array())
+    public function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
         return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
     }
-    
-    
 }

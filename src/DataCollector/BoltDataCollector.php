@@ -36,7 +36,7 @@ class BoltDataCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data = array(
+        $this->data = [
             'version'     => $this->app->getVersion(false),
             'name'        => $this->app['bolt_name'],
             'fullversion' => 'Version: ' . $this->app->getVersion(true),
@@ -45,7 +45,7 @@ class BoltDataCollector extends DataCollector
             'branding'    => null,
             'editlink'    => null,
             'edittitle'   => null
-        );
+        ];
 
         if ($this->app['config']->get('general/branding/provided_by/0')) {
             $this->data['branding'] = sprintf(

@@ -30,27 +30,27 @@ class StorageTest extends BoltUnitTest
 
         $fields = $app['config']->get('contenttypes/pages/fields');
 
-        $mock = $this->getMock('Bolt\Content', null, array($app), 'Pages');
-        $content = $storage->getContentObject(array('class' => 'Pages', 'fields' => $fields));
+        $mock = $this->getMock('Bolt\Content', null, [$app], 'Pages');
+        $content = $storage->getContentObject(['class' => 'Pages', 'fields' => $fields]);
         $this->assertInstanceOf('Pages', $content);
         $this->assertInstanceOf('Bolt\Content', $content);
 
         // Test that a class not instanceof Bolt\Content fails
-        $mock = $this->getMock('stdClass', null, array(), 'Failing');
+        $mock = $this->getMock('stdClass', null, [], 'Failing');
         $this->setExpectedException('Exception', 'Failing does not extend \Bolt\Content.');
-        $content = $storage->getContentObject(array('class' => 'Failing', 'fields' => $fields));
+        $content = $storage->getContentObject(['class' => 'Failing', 'fields' => $fields]);
     }
 
     public function testPreFill()
     {
         $app = $this->getApp();
-        $app['users']->users = array(1 => $this->addDefaultUser($app));
+        $app['users']->users = [1 => $this->addDefaultUser($app)];
         $prefillMock = new LoripsumMock();
         $app['prefill'] = $prefillMock;
 
         $app['config']->set('general/changelog/enabled', true);
         $storage = new Storage($app);
-        $output = $storage->prefill(array('showcases'));
+        $output = $storage->prefill(['showcases']);
         $this->assertRegExp('#Added#', $output);
         $this->assertRegExp('#Done#', $output);
 
@@ -107,7 +107,7 @@ class StorageTest extends BoltUnitTest
         $app['dispatcher']->addListener(StorageEvents::PRE_DELETE, $listener);
         $app['dispatcher']->addListener(StorageEvents::POST_DELETE, $listener);
 
-        $storage->deleteContent(array('slug' => 'showcases'), 1);
+        $storage->deleteContent(['slug' => 'showcases'], 1);
 
         $this->assertFalse($storage->getContent('showcases/1'));
         $this->assertEquals(2, $delete);
@@ -155,7 +155,7 @@ class StorageTest extends BoltUnitTest
         $this->assertFalse($result);
 
         // Test filters
-        $result = $storage->searchContent('lorem', array('showcases'), array('showcases' => array('title' => 'nonexistent')));
+        $result = $storage->searchContent('lorem', ['showcases'], ['showcases' => ['title' => 'nonexistent']]);
         $this->assertTrue($result['query']['valid']);
         $this->assertEquals(0, $result['no_of_results']);
     }
@@ -165,7 +165,7 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $app['request'] = Request::create('/');
         $storage = new Storage($app);
-        $results = $storage->searchAllContentTypes(array('title' => 'lorem'));
+        $results = $storage->searchAllContentTypes(['title' => 'lorem']);
     }
 
     public function testSearchContentType()
@@ -193,12 +193,12 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $app['request'] = Request::create('/');
         $db = $this->getDbMockBuilder($app['db'])
-            ->setMethods(array('fetchAll'))
+            ->setMethods(['fetchAll'])
             ->getMock();
         $app['db'] = $db;
         $db->expects($this->any())
             ->method('fetchAll')
-            ->willReturn(array());
+            ->willReturn([]);
         $storage = new StorageMock($app);
 
         // Test sorting is pulled from contenttype when not specified
@@ -212,16 +212,16 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $app['request'] = Request::create('/');
         $db = $this->getDbMockBuilder($app['db'])
-            ->setMethods(array('fetchAll'))
+            ->setMethods(['fetchAll'])
             ->getMock();
         $app['db'] = $db;
         $db->expects($this->any())
             ->method('fetchAll')
-            ->willReturn(array());
+            ->willReturn([]);
         $storage = new StorageMock($app);
 
         // Test returnsingle will set limit to 1
-        $storage->getContent('entries', array('returnsingle' => true));
+        $storage->getContent('entries', ['returnsingle' => true]);
         $this->assertSame(1, $storage->queries[0]['parameters']['limit']);
     }
 
@@ -276,7 +276,7 @@ class StorageTest extends BoltUnitTest
     private function getDbMockBuilder(Connection $db)
     {
         return $this->getMockBuilder('\Doctrine\DBAL\Connection')
-            ->setConstructorArgs(array($db->getParams(), $db->getDriver(), $db->getConfiguration(), $db->getEventManager()))
+            ->setConstructorArgs([$db->getParams(), $db->getDriver(), $db->getConfiguration(), $db->getEventManager()])
             ->enableOriginalConstructor()
         ;
     }
@@ -284,7 +284,7 @@ class StorageTest extends BoltUnitTest
 
 class StorageMock extends Storage
 {
-    public $queries = array();
+    public $queries = [];
 
     protected function executeGetContentQueries($decoded)
     {

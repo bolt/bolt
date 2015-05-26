@@ -88,10 +88,10 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             return new Controllers\Routing($app['config']);
         });
 
-        $app['controller.classmap'] = array(
+        $app['controller.classmap'] = [
             'Bolt\\Controllers\\Frontend' => 'controller.frontend',
             'Bolt\\Controllers\\Routing'  => 'controller.requirement.deprecated',
-        );
+        ];
     }
 
     public function boot(Application $app)
@@ -101,7 +101,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $dispatcher->addSubscriber($this);
 
         /** @deprecated Since 2.3 and will be removed in Bolt v3.0 */
-        $dispatcher->addListener(ControllerEvents::MOUNT, array($app, 'initMountpoints'), -10);
+        $dispatcher->addListener(ControllerEvents::MOUNT, [$app, 'initMountpoints'], -10);
 
         $event = new MountEvent($app);
         $dispatcher->dispatch(ControllerEvents::MOUNT, $event);
@@ -114,7 +114,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
 
         // Mount the standard collection of backend and controllers
         $prefix = $app['controller.backend.mount_prefix'];
-        $backendKeys = array(
+        $backendKeys = [
             'authentication',
             'database',
             'file_manager',
@@ -122,19 +122,19 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             'log',
             'records',
             'users',
-        );
+        ];
         foreach ($backendKeys as $controller) {
             $event->mount($prefix, $app['controller.backend.' . $controller]);
         }
 
         // Mount the Async controllers
         $prefix = $app['controller.async.mount_prefix'];
-        $asyncKeys = array(
+        $asyncKeys = [
             'general',
             'filesystem_manager',
             'stack',
             'system_tests',
-        );
+        ];
         foreach ($asyncKeys as $controller) {
             $event->mount($prefix, $app['controller.async.' . $controller]);
         }
@@ -184,11 +184,11 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             ControllerEvents::MOUNT => 'mount',
-            KernelEvents::REQUEST   => array('onKernelRequest', 32), // Higher than 32 and we don't know the controller
-            KernelEvents::RESPONSE  => array('onKernelResponse', -128),
-            KernelEvents::EXCEPTION => array('onKernelException', -128),
-        );
+            KernelEvents::REQUEST   => ['onKernelRequest', 32], // Higher than 32 and we don't know the controller
+            KernelEvents::RESPONSE  => ['onKernelResponse', -128],
+            KernelEvents::EXCEPTION => ['onKernelException', -128],
+        ];
     }
 }

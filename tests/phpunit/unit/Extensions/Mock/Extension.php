@@ -27,16 +27,16 @@ class Extension implements ExtensionInterface
 
     public function getSnippets()
     {
-        return array(array(SnippetLocation::END_OF_HEAD, '<meta name="test-snippet" />'));
+        return [[SnippetLocation::END_OF_HEAD, '<meta name="test-snippet" />']];
     }
 
     public function getExtensionConfig()
     {
-        return array();
+        return [];
     }
 
     public function getName()
     {
-        return "testext";
+        return 'testext';
     }
 }

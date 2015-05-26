@@ -33,7 +33,7 @@ class MenuBuilder
         }
 
         if (!is_array($menu)) {
-            $menu = array();
+            $menu = [];
         }
 
         if (!$resolved) {
@@ -90,7 +90,7 @@ class MenuBuilder
         }
 
         if (isset($item['route'])) {
-            $param = !empty($item['param']) ?: array();
+            $param = !empty($item['param']) ?: [];
             $add = !empty($item['add']) ?: '';
 
             $item['link'] = Lib::path($item['route'], $param, $add);
@@ -122,9 +122,9 @@ class MenuBuilder
             $this->app['logger.system']->error(
                 Trans::__(
                     'Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!',
-                    array('%PATH%' => $item['path'])
+                    ['%PATH%' => $item['path']]
                 ),
-                array('event' => 'config')
+                ['event' => 'config']
             );
 
             return $item;
@@ -154,9 +154,9 @@ class MenuBuilder
             $this->app['logger.system']->error(
                 Trans::__(
                     'Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.',
-                    array('%PATH%' => $item['path'])
+                    ['%PATH%' => $item['path']]
                 ),
-                array('event' => 'config')
+                ['event' => 'config']
             );
         }
 

@@ -32,7 +32,7 @@ final class CheckPackage
      */
     public function execute()
     {
-        $packages = array('updates' => array(), 'installs' => array());
+        $packages = ['updates' => [], 'installs' => []];
 
         // Get known installed packages
         $rootpack = $this->app['extend.manager']->showPackage('installed');

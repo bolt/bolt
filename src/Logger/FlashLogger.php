@@ -74,7 +74,7 @@ class FlashLogger implements FlashLoggerInterface, FlashBagAttachableInterface
     /**
      * {@inheritdoc}
      */
-    public function get($type, array $default = array())
+    public function get($type, array $default = [])
     {
         if ($this->flashBag) {
             return $this->flashBag->get($type, $default);

@@ -54,7 +54,7 @@ abstract class ControllerUnitTest extends BoltUnitTest
     {
         $app = parent::makeApp();
         $app->initialize();
-        $app['twig.loader'] = new \Twig_Loader_Chain(array(new \Twig_Loader_String()));
+        $app['twig.loader'] = new \Twig_Loader_Chain([new \Twig_Loader_String()]);
         $app->boot();
 
         return $app;

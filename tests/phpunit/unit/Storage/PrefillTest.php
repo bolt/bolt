@@ -19,7 +19,7 @@ class PrefillTest extends BoltUnitTest
         $factory = new MessageFactory;
         $request = $factory->createRequest('GET', '/');
         $response = new Response(Response::HTTP_OK);
-        $guzzle = $this->getMock('GuzzleHttp\Client', array('get'));
+        $guzzle = $this->getMock('GuzzleHttp\Client', ['get']);
 
         $guzzle->expects($this->once())
             ->method('get')
