@@ -288,9 +288,9 @@ class BackendAdminCest
 
         $I->see('The database needs to be updated/repaired');
         $I->see('is not present');
-        $I->see('Update the database', Locator::find('button', array('type' => 'submit')));
+        $I->see('Update the database', Locator::find('button', ['type' => 'submit']));
 
-        $I->click('Update the database', Locator::find('button', array('type' => 'submit')));
+        $I->click('Update the database', Locator::find('button', ['type' => 'submit']));
         $I->see('Modifications made to the database');
         $I->see('Created table');
         $I->see('Your database is now up to date');
