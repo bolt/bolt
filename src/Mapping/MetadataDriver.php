@@ -145,6 +145,8 @@ class MetadataDriver implements MappingDriver
         return $this->fallbackEntity;
     }
     
+
+    
     protected function loadMetadataForTable(Table $table)
     {
         $tblName = $table->getName();
@@ -183,7 +185,7 @@ class MetadataDriver implements MappingDriver
         // This loop checks the contenttypes definition for any non-db fields and adds them.
         if ($contentKey) {
             $this->setRelations($contentKey, $className, $table);
-            $this->setTaxonomies($contentKey, $className);
+            $this->setTaxonomies($contentKey, $className, $table);
         }
         
         foreach ($this->getAliases() as $alias=>$table) {
@@ -215,7 +217,7 @@ class MetadataDriver implements MappingDriver
         }
     }
     
-    public function setTaxonomies($contentKey, $className)
+    public function setTaxonomies($contentKey, $className, $table)
     {
         if (!isset($this->contenttypes[$contentKey]['taxonomy'])) {
             return;
@@ -233,6 +235,8 @@ class MetadataDriver implements MappingDriver
             $mapping['fieldname'] = $taxonomy;
             $mapping['type'] = 'null';
             $mapping['fieldtype'] = $this->typemap['taxonomy'];
+            $mapping['entity'] = $this->resolveClassName($relationKey);
+            $mapping['target'] = $this->integrityChecker->getTableName('taxonomy');
             $this->metadata[$className]['fields'][$taxonomy] = $mapping;
             $this->metadata[$className]['fields'][$taxonomy]['data'] = $taxonomyConfig;
             
