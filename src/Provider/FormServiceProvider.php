@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
-use Bolt\Form\FormEventTypeExtension;
+use Bolt\Form\Type\FormEventTypeExtension;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;

@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Form;
+namespace Bolt\Form\Type;
 
 use Bolt\Config;
 use Bolt\EventListener\FormListener;
