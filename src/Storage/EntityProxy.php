@@ -2,15 +2,12 @@
 
 namespace Bolt\Storage;
 
-use Bolt\Storage\EntityManager;
-
 /**
  *  This class is used by lazily loaded entities. It stores a reference to an entity but only
  *  fetches it on demand.
  */
 class EntityProxy
 {
-    
     public $entity;
     public $reference;
     private $em;
@@ -52,7 +49,4 @@ class EntityProxy
         $this->load();
         return $this->proxy->$attribute = $value;
     }
-    
-
-    
 }

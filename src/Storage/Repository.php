@@ -1,20 +1,18 @@
 <?php
 namespace Bolt\Storage;
 
-use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\DBAL\Query\QueryBuilder;
-use Bolt\Mapping\ClassMetadata;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
-
+use Bolt\Mapping\ClassMetadata;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * A default repository class that other repositories can inherit to provide more specific features.
  */
 class Repository implements ObjectRepository
 {
-
     public $em;
     public $_class;
     public $entityName;
@@ -107,9 +105,9 @@ class Repository implements ObjectRepository
      * @param int|null   $limit
      * @param int|null   $offset
      *
-     * @return array The objects.
-     *
      * @throws \UnexpectedValueException
+     *
+     * @return array The objects.
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
@@ -121,7 +119,6 @@ class Repository implements ObjectRepository
         }
 
         return false;
-
     }
 
     /**
@@ -151,7 +148,7 @@ class Repository implements ObjectRepository
     protected function findWithCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->getLoadQuery();
-        foreach ($criteria as $col=>$val) {
+        foreach ($criteria as $col => $val) {
             $qb->andWhere($this->getAlias().".$col = :$col");
             $qb->setParameter(":$col", $val);
         }
@@ -175,12 +172,11 @@ class Repository implements ObjectRepository
      */
     protected function getLoadQuery()
     {
-       $qb = $this->createQueryBuilder();
-       $this->loader->load($qb, $this->getClassMetadata());
+        $qb = $this->createQueryBuilder();
+        $this->loader->load($qb, $this->getClassMetadata());
 
-       return $qb;
+        return $qb;
     }
-
 
     /**
      * Deletes a single object.
@@ -234,7 +230,6 @@ class Repository implements ObjectRepository
         $this->event()->dispatch(StorageEvents::POST_SAVE, $event);
 
         return $response;
-
     }
 
     /**
@@ -272,12 +267,8 @@ class Repository implements ObjectRepository
         $querySet->append($qb);
         $this->persister->persist($querySet, $entity, $this->em);
 
-
-
         return $querySet->execute();
     }
-
-
 
     /**
      * Internal method to hydrate an Entity Object from fetched data.
@@ -288,7 +279,7 @@ class Repository implements ObjectRepository
     {
         $preArgs = new HydrationEvent(
             $data,
-            ['entity'=>$this->getEntityName(), 'repository' => $this]
+            ['entity' => $this->getEntityName(), 'repository' => $this]
         );
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preArgs);
 
@@ -296,7 +287,7 @@ class Repository implements ObjectRepository
 
         $postArgs = new HydrationEvent(
             $entity,
-            ['data'=>$data, 'repository'=>$this]
+            ['data' => $data, 'repository' => $this]
         );
         $this->event()->dispatch(StorageEvents::POST_HYDRATE, $postArgs);
 
@@ -312,7 +303,7 @@ class Repository implements ObjectRepository
     {
         $rows = [];
         foreach ($data as $row) {
-           $rows[] = $this->hydrate($row, $qb);
+            $rows[] = $this->hydrate($row, $qb);
         }
 
         return $rows;
@@ -334,7 +325,6 @@ class Repository implements ObjectRepository
         $this->persister = $persister;
     }
 
-
     /**
      * @return void
      */
@@ -342,8 +332,6 @@ class Repository implements ObjectRepository
     {
         $this->loader = $loader;
     }
-
-
 
     /**
      * @return string
@@ -362,7 +350,6 @@ class Repository implements ObjectRepository
     }
 
     /**
-     *
      * @return string
      */
     public function getTableName()
@@ -371,14 +358,12 @@ class Repository implements ObjectRepository
     }
 
     /**
-     *
      * @return string
      */
     public function getAlias()
     {
         return $this->getClassMetadata()->getAliasName();
     }
-
 
     /**
      * @return EntityManager
@@ -407,8 +392,4 @@ class Repository implements ObjectRepository
     {
         return $this->getEntityManager()->getEventManager();
     }
-
-
-
-
 }

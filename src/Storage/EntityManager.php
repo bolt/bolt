@@ -2,19 +2,18 @@
 namespace Bolt\Storage;
 
 use Bolt\Storage;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Manages all loaded entities across application, provides access to Repository Classes.
  */
 class EntityManager
 {
-
     protected $conn;
     protected $eventManager;
     protected $mapping;
@@ -27,10 +26,10 @@ class EntityManager
      * Creates a new EntityManager that operates on the given database connection
      * and uses the given EventManager.
      *
-     * @param \Doctrine\DBAL\Connection     $conn
-     * @param EventDispatcherInterface      $eventManager
-     * @param MappingDriver                 $mapping
-     * @param LoggerInterface               $logger
+     * @param \Doctrine\DBAL\Connection $conn
+     * @param EventDispatcherInterface  $eventManager
+     * @param MappingDriver             $mapping
+     * @param LoggerInterface           $logger
      */
     public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MappingDriver $mapping, LoggerInterface $logger = null)
     {
@@ -42,7 +41,6 @@ class EntityManager
         } else {
             $this->logger = $logger;
         }
-
     }
 
     /**
@@ -52,7 +50,6 @@ class EntityManager
     {
         return new QueryBuilder($this->conn);
     }
-
 
     /**
      * Finds an object by its identifier.
@@ -72,7 +69,6 @@ class EntityManager
     }
 
     /**
-     *
      * The object will be entered into the database as a result of this operation.
      *
      *
@@ -109,7 +105,6 @@ class EntityManager
         return $repo->delete($object);
     }
 
-
     /**
      * Gets the repository for a class.
      *
@@ -125,13 +120,12 @@ class EntityManager
             $classMetadata = $this->getMapper()->loadMetadataForClass($className);
         }
 
-
         if (array_key_exists($className, $this->repositories)) {
             $repoClass = $this->repositories[$className];
             return new $repoClass($this, $classMetadata);
         }
 
-        foreach ($this->aliases as $alias=>$namespace) {
+        foreach ($this->aliases as $alias => $namespace) {
             $full = str_replace($alias, $namespace, $className);
 
             if (array_key_exists($full, $this->repositories)) {
@@ -139,7 +133,6 @@ class EntityManager
                 $repoClass = $this->repositories[$full];
                 return new $repoClass($this, $classMetadata);
             }
-
         }
 
         /*
@@ -169,14 +162,11 @@ class EntityManager
      *
      * @param string $entityName
      * @param string $repositoryClass
-     *
      */
     public function setRepository($entityName, $repositoryClass)
     {
         $this->repositories[$entityName] = $repositoryClass;
     }
-
-
 
     /**
      * Gets the Event Manager.
@@ -197,7 +187,6 @@ class EntityManager
     {
         return $this->mapping;
     }
-
 
     /**
      * Registers shorter alias access for Entities.
@@ -245,8 +234,6 @@ class EntityManager
         return $this->logger;
     }
 
-
-
     /******* Deprecated functions ******/
 
     /**
@@ -260,7 +247,6 @@ class EntityManager
         //$this->getLogger()->warning("[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.");
         return call_user_func_array([$this->legacy(), $method], $args);
     }
-
 
     /**
      * Note that this method is explicitly defined here because the magic method above cannot
@@ -277,6 +263,4 @@ class EntityManager
     {
         return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
     }
-
-
 }

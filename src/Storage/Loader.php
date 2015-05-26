@@ -4,7 +4,6 @@ namespace Bolt\Storage;
 
 use Bolt\Mapping\ClassMetadata;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\Types\Type;
 
 /**
  * This class works on an instance of QueryBuilder transforming the query to the
@@ -12,8 +11,6 @@ use Doctrine\DBAL\Types\Type;
  */
 class Loader
 {
-
-
     public $handlers = [];
 
     /**
@@ -30,8 +27,4 @@ class Loader
 
         return $qb;
     }
-
-
-
-
 }

@@ -7,8 +7,8 @@ use Bolt\Content;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -454,5 +454,4 @@ class RecordModifier
         $generator = $this->app['url_generator'];
         return $generator->generate($name, $params, $referenceType);
     }
-
 }
