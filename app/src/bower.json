@@ -22,7 +22,7 @@
         "jquery.formatDateTime": "https://github.com/agschwender/jquery.formatDateTime.git#1.1.6",
         "jquery.tagcloud.js": "https://github.com/addywaddy/jquery.tagcloud.js.git",
         "magnific-popup": "~1.0.0",
-        "moment": "~2.9.0",
+        "moment": "~2.10.3",
         "underscore": "~1.8.3"
     }
 }
