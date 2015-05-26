@@ -257,7 +257,7 @@ class EntityManager
      */
     public function __call($method, $args)
     {
-        $this->getLogger()->warning("[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.");
+        //$this->getLogger()->warning("[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.");
         return call_user_func_array(array($this->legacy(), $method), $args);
     }
     
