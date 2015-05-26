@@ -36,7 +36,10 @@ class FieldSaveTest extends BoltUnitTest
         $record->setEntries([]);
         $em->save($record);
         
-              
+        // Test that there are no relations now on a fresh search
+        $record1 = $repo->find(1);
+        $this->assertEquals([], $record1->entries);
+
 
         
     }
@@ -51,6 +54,13 @@ class FieldSaveTest extends BoltUnitTest
         $record = $repo->find(1);
         $this->assertTrue(is_array($record->categories));
         $this->assertTrue(is_array($record->tags));
+        
+        $record->setCategories([]);
+        $em->save($record);
+        
+        // Test that there are no relations now on a fresh search
+        $record1 = $repo->find(1);
+        $this->assertEquals([], $record1->categories);
         
     }
     

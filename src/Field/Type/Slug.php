@@ -14,6 +14,7 @@ use Bolt\Storage\EntityManager;
 class Slug extends FieldTypeBase
 {
 
+
     /**
      * Returns the name of the field type.
      *
