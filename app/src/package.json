@@ -1,6 +1,6 @@
 {
     "name": "Bolt-2-backend",
-    "version": "2.0.2",
+    "version": "2.3.0",
     "description": "Required Node/Grunt modules for backend's frontend workflow.",
     "repository": {
         "type": "git",
