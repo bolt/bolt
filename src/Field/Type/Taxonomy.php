@@ -15,11 +15,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 class Taxonomy extends FieldTypeBase
 {
     /**
-     * Handle the load event.
-     *
-     * @param QueryBuilder $query
-     *
-     * @return void
+     * @inheritdoc
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -36,9 +32,9 @@ class Taxonomy extends FieldTypeBase
             ->leftJoin('content', 'bolt_taxonomy', $field, "content.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("content.id");
     }
-    
+
     /**
-     * Handle the hydrate event.
+     * @inheritdoc
      */
     public function hydrate($data, $entity, EntityManager $em = null)
     {
@@ -46,10 +42,9 @@ class Taxonomy extends FieldTypeBase
         $taxonomies = array_filter(explode(',', $data[$field]));
         $entity->$field = $taxonomies;
     }
-    
-    
+
     /**
-     * Handle the persist event.
+     * @inheritdoc
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em = null)
     {
@@ -113,25 +108,25 @@ class Taxonomy extends FieldTypeBase
             $queries->append($del);
         }
     }
-    
+
     /**
-     * Returns the name of the field type.
-     *
-     * @return string The field name
+     * @inheritdoc
      */
     public function getName()
     {
         return 'taxonomy';
     }
-    
-    
+
     /**
      * Get platform specific group_concat token for provided column
      *
-     * @param string $column
+     * @param string       $column
+     * @param string       $order
+     * @param string       $alias
+     * @param QueryBuilder $query
      *
      * @return string
-     **/
+     */
     protected function getPlatformGroupConcat($column, $order, $alias, QueryBuilder $query)
     {
         $platform = $query->getConnection()->getDatabasePlatform()->getName();

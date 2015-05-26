@@ -23,11 +23,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     }
 
     /**
-     * Handle or ignore the load event.
-     *
-     * @param QueryBuilder $query
-     *
-     * @return void
+     * @inheritdoc
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -35,9 +31,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     }
 
     /**
-     * Handle the persistentce event.
-     *
-     * @return void
+     * @inheritdoc
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em = null)
     {
@@ -59,9 +53,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     }
 
     /**
-     * Handle  the hydrate event.
-     *
-     * @return void
+     * @inheritdoc
      */
     public function hydrate($data, $entity, EntityManager $em = null)
     {
@@ -73,18 +65,14 @@ abstract class FieldTypeBase implements FieldTypeInterface
     }
 
     /**
-     * Handle or ignore the present event.
-     *
-     * @return void
+     * @inheritdoc
      */
     public function present($entity)
     {
     }
 
     /**
-     * Returns the name of the hydrator.
-     *
-     * @return string The field name
+     * @inheritdoc
      */
     public function getName()
     {
