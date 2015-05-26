@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Storage\EntityManager;
-
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -24,5 +24,14 @@ class Imagelist extends FieldTypeBase
         return 'imagelist';
     }
 
+    /**
+     * Returns the name of the Doctrine storage type to use for a field.
+     *
+     * @return Type
+     */
+    public function getStorageType()
+    {
+        return Type::getType('json_array');
+    }
     
 }

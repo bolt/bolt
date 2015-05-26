@@ -1,8 +1,9 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Storage\EntityManager;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
 
 
 /**
@@ -22,6 +23,16 @@ class Geolocation extends FieldTypeBase
     public function getName()
     {
         return 'geolocation';
+    }
+    
+    /**
+     * Returns the name of the Doctrine storage type to use for a field.
+     *
+     * @return Type
+     */
+    public function getStorageType()
+    {
+        return Type::getType('json_array');
     }
 
     
