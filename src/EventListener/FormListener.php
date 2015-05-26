@@ -54,21 +54,23 @@ class FormListener implements EventSubscriberInterface
      */
     public function onFormPreSetData(FormEvent $event)
     {
-        if (!$this->session->isStarted()) {
-            // Enable route specific sesion cookies, generally speaking for front end
-            $storage = new NativeSessionStorage(
-                [
-                    'name'            => $this->tokenName,
-                    'cookie_path'     => $this->request->getRequestUri(),
-                    'cookie_domain'   => $this->config->get('general/cookies_domain'),
-                    'cookie_secure'   => $this->config->get('general/enforce_ssl'),
-                    'cookie_httponly' => true,
-                ],
-                $this->handler
-            );
-
-            $this->session = new Session($storage);
+        if ($this->session->isStarted()) {
+            return;
         }
+
+        // Enable route specific sesion cookies, generally speaking for front end
+        $storage = new NativeSessionStorage(
+            [
+                'name'            => $this->tokenName,
+                'cookie_path'     => $this->request->getRequestUri(),
+                'cookie_domain'   => $this->config->get('general/cookies_domain'),
+                'cookie_secure'   => $this->config->get('general/enforce_ssl'),
+                'cookie_httponly' => true,
+            ],
+            $this->handler
+        );
+
+        $this->session = new Session($storage);
     }
 
     /**
