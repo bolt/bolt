@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests;
 
-use Bolt\Application;
 use Bolt\AccessControl\Authentication;
+use Bolt\Application;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
 use Bolt\Storage;
@@ -17,7 +17,6 @@ use Bolt\Twig\Handler\UserHandler;
 use Bolt\Twig\Handler\UtilsHandler;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 /**
  * Abstract Class that other unit tests can extend, provides generic methods for Bolt tests.

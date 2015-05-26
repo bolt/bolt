@@ -83,7 +83,7 @@ class CallbackResolverTest extends BoltUnitTest
         $test = new TestClass();
         $resolver = $this->resolver(
             ['Bolt\Tests\Routing\TestClass' => 'test.class'],
-            ['test.class' => $test]
+            ['test.class'                   => $test]
         );
         $arr = ['Bolt\Tests\Routing\TestClass', 'foo'];
         $callback = $resolver->resolveCallback($arr);

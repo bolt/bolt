@@ -1,11 +1,9 @@
 <?php
 namespace Bolt\Tests\Storage;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Repository;
-use Bolt\Storage\Hydrator;
-use Bolt\Storage\Entity\AuthToken;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Storage/Repository.
@@ -14,7 +12,6 @@ use Bolt\Storage\Entity\AuthToken;
  */
 class RepositoryTest extends BoltUnitTest
 {
-
     public $eventCount = [];
 
     public function testConstruct()
@@ -36,7 +33,6 @@ class RepositoryTest extends BoltUnitTest
 
         $this->assertEquals('bolt_authtoken', $repo->getTableName());
     }
-
 
     public function testGetEntityName()
     {
@@ -66,7 +62,6 @@ class RepositoryTest extends BoltUnitTest
         $app = $this->getApp();
         $entityName = 'Bolt\Entity\Users';
 
-
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
         $result = $repo->findAll();
@@ -84,11 +79,10 @@ class RepositoryTest extends BoltUnitTest
 
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
-        $result = $repo->findBy(['id'=>1]);
+        $result = $repo->findBy(['id' => 1]);
 
         $this->assertTrue(is_array($result));
         $this->assertInstanceOf($entityName, $result[0]);
-
     }
 
     public function testFindOneBy()
@@ -99,7 +93,7 @@ class RepositoryTest extends BoltUnitTest
 
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
-        $result = $repo->findOneBy(['id'=>1]);
+        $result = $repo->findOneBy(['id' => 1]);
 
         $this->assertInstanceOf($entityName, $result);
         $this->assertEquals(1, $this->eventCount['preHydrate']);
@@ -116,23 +110,22 @@ class RepositoryTest extends BoltUnitTest
         $repo = $em->getRepository($entityName);
 
         $newUser = [
-            'username' => 'test',
-            'password' => 'fake',
-            'email' => 'testuser@example.com',
+            'username'    => 'test',
+            'password'    => 'fake',
+            'email'       => 'testuser@example.com',
             'displayname' => 'Test User',
-            'lastip' => '127.0.0.1'
+            'lastip'      => '127.0.0.1'
         ];
 
         $entity = new $entityName($newUser);
         $this->assertEquals(1, $repo->save($entity));
 
-        $result = $repo->findOneBy(['displayname'=>'Test User']);
+        $result = $repo->findOneBy(['displayname' => 'Test User']);
 
         $this->assertInstanceOf($entityName, $result);
         $this->assertEquals('test', $result->getUsername());
         $this->assertEquals(1, $this->eventCount['preSave']);
         $this->assertEquals(1, $this->eventCount['postSave']);
-
     }
 
     /**
@@ -147,12 +140,12 @@ class RepositoryTest extends BoltUnitTest
 
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
-        $existing = $repo->findOneBy(['displayname'=>'Test User']);
+        $existing = $repo->findOneBy(['displayname' => 'Test User']);
 
         $existing->setUsername('testupdated');
         $em->save($existing);
 
-        $existing2 = $repo->findOneBy(['displayname'=>'Test User']);
+        $existing2 = $repo->findOneBy(['displayname' => 'Test User']);
         $this->assertEquals('testupdated', $existing2->getUsername());
         $this->assertEquals(1, $this->eventCount['preSave']);
         $this->assertEquals(1, $this->eventCount['postSave']);
@@ -170,30 +163,23 @@ class RepositoryTest extends BoltUnitTest
 
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
-        $existing = $repo->findOneBy(['displayname'=>'Test User']);
+        $existing = $repo->findOneBy(['displayname' => 'Test User']);
 
         $result = $repo->delete($existing);
-        $confirm = $repo->findOneBy(['displayname'=>'Test User']);
+        $confirm = $repo->findOneBy(['displayname' => 'Test User']);
         $this->assertFalse($confirm);
 
         $this->assertEquals(1, $this->eventCount['preDelete']);
         $this->assertEquals(1, $this->eventCount['postDelete']);
     }
 
-
     protected function runListenCount($app, $event)
     {
         $this->eventCount[$event] = 0;
         $phpunit = $this;
-        $app['dispatcher']->addListener($event, function() use($count, $phpunit, $event){
+        $app['dispatcher']->addListener($event, function () use ($count, $phpunit, $event) {
            $count ++;
            $phpunit->eventCount[$event] = $count;
         });
-
-
     }
-
-
-
-
 }

@@ -1,12 +1,10 @@
 <?php
 namespace Bolt\Tests\Storage;
 
-use Bolt\Tests\BoltUnitTest;
-use Bolt\Storage\EntityManager;
-use Bolt\Storage\ContentRepository;
-use Bolt\Entity\Content;
-use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Storage;
+use Bolt\Storage\EntityManager;
+use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -16,9 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class FieldSaveTest extends BoltUnitTest
 {
-
-
-
     public function testRelationsSave()
     {
         $app = $this->getApp();
@@ -40,9 +35,6 @@ class FieldSaveTest extends BoltUnitTest
         // Test that there are no relations now on a fresh search
         $record1 = $repo->find(1);
         $this->assertEquals([], $record1->entries);
-
-
-
     }
 
     public function testTaxonomySave()
@@ -62,7 +54,6 @@ class FieldSaveTest extends BoltUnitTest
         // Test that there are no relations now on a fresh search
         $record1 = $repo->find(1);
         $this->assertEquals([], $record1->categories);
-
     }
 
     protected function addSomeContent()
@@ -80,16 +71,10 @@ class FieldSaveTest extends BoltUnitTest
         $showcases = $storage->getContent("showcases");
         $randEntries = $storage->getContent("entries/random/2");
         foreach ($showcases as $show) {
-            foreach ($randEntries as $key=>$entry) {
+            foreach ($randEntries as $key => $entry) {
                 $show->setRelation('entries', $key);
                 $storage->saveContent($show);
             }
-
         }
-
     }
-
-
-
-
 }

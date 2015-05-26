@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Mapping;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Mapping\MetadataDriver;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Mapping/MetadataDriver.
@@ -11,13 +11,11 @@ use Bolt\Mapping\MetadataDriver;
  */
 class MetadataDriverTest extends BoltUnitTest
 {
-    
     public function testConstruct()
     {
         $app = $this->getApp();
         $map = new MetadataDriver($app['integritychecker'], $app['config']->get('contenttypes'), $app['config']->get('taxonomy'), $app['storage.typemap']);
         $this->assertSame($app['integritychecker'], \PHPUnit_Framework_Assert::readAttribute($map, 'integrityChecker'));
-        
     }
     
     public function testInitialize()
@@ -31,5 +29,4 @@ class MetadataDriverTest extends BoltUnitTest
         $field = $metadata->getFieldMapping('id');
         $this->assertEquals('id', $field['fieldname']);
     }
-    
 }

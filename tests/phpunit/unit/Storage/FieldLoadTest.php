@@ -1,12 +1,10 @@
 <?php
 namespace Bolt\Tests\Storage;
 
-use Bolt\Tests\BoltUnitTest;
-use Bolt\Storage\EntityManager;
-use Bolt\Storage\ContentRepository;
-use Bolt\Entity\Content;
-use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Storage;
+use Bolt\Storage\EntityManager;
+use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -16,13 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class FieldLoadTest extends BoltUnitTest
 {
-
-
     public function testRelationsLoad()
     {
         $this->resetDb();
         $app = $this->getApp();
-        $this->addNewUser($app, 'admin', 'Admin', 'admin');;
+        $this->addNewUser($app, 'admin', 'Admin', 'admin');
         $app['integritychecker']->repairTables();
         $this->addSomeContent();
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
@@ -34,8 +30,6 @@ class FieldLoadTest extends BoltUnitTest
             $this->assertNotEmpty($entry->id);
             $this->assertNotEmpty($entry->slug);
         }
-
-
     }
 
     public function testTaxonomyLoad()
@@ -48,7 +42,6 @@ class FieldLoadTest extends BoltUnitTest
         $record = $repo->find(1);
         $this->assertTrue(is_array($record->categories));
         $this->assertTrue(is_array($record->tags));
-
     }
 
     protected function addSomeContent()
@@ -66,16 +59,10 @@ class FieldLoadTest extends BoltUnitTest
         $showcases = $storage->getContent('showcases');
         $randEntries = $storage->getContent('entries/random/2');
         foreach ($showcases as $show) {
-            foreach ($randEntries as $key=>$entry) {
+            foreach ($randEntries as $key => $entry) {
                 $show->setRelation('entries', $key);
                 $storage->saveContent($show);
             }
-
         }
-
     }
-
-
-
-
 }

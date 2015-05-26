@@ -2,7 +2,6 @@
 namespace Bolt\Tests\Logger;
 
 use Bolt\Logger\ChangeLog;
-use Bolt\Logger\ChangeLogItem;
 use Bolt\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;

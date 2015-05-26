@@ -35,7 +35,7 @@ class ArrTest extends BoltUnitTest
 
         // Test Recusrsion
         $arr1 = ['key' => ['test' => 'new value']];
-        $arr2 = ['key' => ['test' => 'nested new value']];
+        $arr2 = ['key'            => ['test' => 'nested new value']];
 
         $this->assertEquals([
             'key' => ['test' => 'nested new value']],

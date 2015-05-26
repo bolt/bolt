@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Field;
 
-use Bolt\Field\Base;
 use Bolt\Field\Manager;
 use Bolt\Tests\BoltUnitTest;
 
