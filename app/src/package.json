@@ -30,7 +30,7 @@
         "jsdoc": "~3.3.0",
         "load-grunt-config": "~0.17.0",
         "load-grunt-tasks": "~3.2.0",
-        "node-sass": "~1.2.3",
+        "node-sass": "~3.1.2",
         "request": "^2.55.0"
     }
 }
