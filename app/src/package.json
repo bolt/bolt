@@ -22,7 +22,7 @@
         "grunt-endline": "~0.2.5",
         "grunt-eol": "~0.2.0",
         "grunt-html": "^4.0.3",
-        "grunt-jsdoc": "^0.5.8",
+        "grunt-jsdoc": "~0.6.4",
         "grunt-modernizr": "~0.6.0",
         "grunt-phpdocumentor": "^0.4.1",
         "grunt-remove": "~0.1.0",
