@@ -1,12 +1,11 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Doctrine\DBAL\Query\QueryBuilder;
+use Bolt\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\EntityProxy;
 use Bolt\Storage\QuerySet;
-use Bolt\Mapping\ClassMetadata;
-
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -16,7 +15,6 @@ use Bolt\Mapping\ClassMetadata;
  */
 class Relation extends FieldTypeBase
 {
-
     /**
      * Handle the load event.
      *
@@ -36,23 +34,20 @@ class Relation extends FieldTypeBase
 
     /**
      * Handle the hydrate event.
-     *
      */
     public function hydrate($data, $entity, EntityManager $em = null)
     {
         $field = $this->mapping['fieldname'];
         $relations = array_filter(explode(',', $data[$field]));
         $values = [];
-        foreach($relations as $id) {
+        foreach ($relations as $id) {
             $values[] = new EntityProxy($field, $id, $em);
         }
         $entity->$field = $values;
     }
 
-
     /**
      * Handle the persist event.
-     *
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em = null)
     {
@@ -73,20 +68,19 @@ class Relation extends FieldTypeBase
                             ->setParameter(1, $entity->getContenttype())
                             ->setParameter(2, $field);
         $result = $existingQuery->execute()->fetchAll();
-        $existing = array_map(function($el) {return $el['to_id'];}, $result);
-        $proposed = array_map(function($el) {return $el->reference;}, $relations);
+        $existing = array_map(function ($el) {return $el['to_id'];}, $result);
+        $proposed = array_map(function ($el) {return $el->reference;}, $relations);
 
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
 
-
-        foreach($toInsert as $item) {
+        foreach ($toInsert as $item) {
             $ins = $em->createQueryBuilder()->insert($target);
             $ins->values([
-                'from_id' => '?',
+                'from_id'          => '?',
                 'from_contenttype' => '?',
-                'to_contenttype' => '?',
-                'to_id' => '?'
+                'to_contenttype'   => '?',
+                'to_id'            => '?'
             ])->setParameters([
                 0 => $entity->id,
                 1 => $entity->getContenttype(),
@@ -97,8 +91,7 @@ class Relation extends FieldTypeBase
             $queries->append($ins);
         }
 
-
-        foreach($toDelete as $item) {
+        foreach ($toDelete as $item) {
             $del = $em->createQueryBuilder()->delete($target);
             $del->where('from_id=?')
                 ->andWhere('from_contenttype=?')
@@ -113,7 +106,6 @@ class Relation extends FieldTypeBase
 
             $queries->append($del);
         }
-
     }
 
     /**
@@ -125,7 +117,6 @@ class Relation extends FieldTypeBase
     {
         return 'relation';
     }
-
 
     /**
      * Get platform specific group_concat token for provided column
@@ -146,11 +137,5 @@ class Relation extends FieldTypeBase
             case 'postgresql':
                 return "string_agg(distinct $column, ',') as $alias";
         }
-
-
     }
-
-
-
-
 }

@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Bolt\Storage\EntityManager;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
 
 /**
@@ -13,7 +11,6 @@ use Doctrine\DBAL\Types\Type;
  */
 class Imagelist extends FieldTypeBase
 {
-    
     /**
      * Returns the name of the field type.
      *
@@ -33,5 +30,4 @@ class Imagelist extends FieldTypeBase
     {
         return Type::getType('json_array');
     }
-    
 }

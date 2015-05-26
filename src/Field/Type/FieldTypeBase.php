@@ -1,11 +1,11 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\Types\Type;
 use Bolt\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\QuerySet;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * This is an abstract class for a field type that handles
@@ -15,7 +15,6 @@ use Bolt\Storage\QuerySet;
  */
 abstract class FieldTypeBase implements FieldTypeInterface
 {
-
     public $mapping;
 
     public function __construct(array $mapping = [])
@@ -80,7 +79,6 @@ abstract class FieldTypeBase implements FieldTypeInterface
      */
     public function present($entity)
     {
-
     }
 
     /**
@@ -102,7 +100,4 @@ abstract class FieldTypeBase implements FieldTypeInterface
     {
         return Type::getType($this->mapping['type']);
     }
-
-
-
 }

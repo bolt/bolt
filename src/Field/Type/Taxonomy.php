@@ -1,11 +1,10 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\QuerySet;
-
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -15,10 +14,9 @@ use Bolt\Storage\QuerySet;
  */
 class Taxonomy extends FieldTypeBase
 {
-    
-     /**
+    /**
      * Handle the load event.
-     * 
+     *
      * @param QueryBuilder $query
      *
      * @return void
@@ -34,27 +32,24 @@ class Taxonomy extends FieldTypeBase
             $order = "$field.id";
         }
         
-        $query->addSelect($this->getPlatformGroupConcat("$field.slug", $order ,$field, $query))
+        $query->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field, $query))
             ->leftJoin('content', 'bolt_taxonomy', $field, "content.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
-            ->addGroupBy("content.id");    
+            ->addGroupBy("content.id");
     }
     
     /**
      * Handle the hydrate event.
-     *
      */
     public function hydrate($data, $entity, EntityManager $em = null)
     {
         $field = $this->mapping['fieldname'];
         $taxonomies = array_filter(explode(',', $data[$field]));
         $entity->$field = $taxonomies;
-        
     }
     
     
     /**
      * Handle the persist event.
-     *
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em = null)
     {
@@ -76,20 +71,20 @@ class Taxonomy extends FieldTypeBase
                             ->setParameter(2, $field);
         $result = $existingQuery->execute()->fetchAll();
 
-        $existing = array_map(function($el) {return $el['slug'];}, $result);
+        $existing = array_map(function ($el) {return $el['slug'];}, $result);
         $proposed = $taxonomy;
         
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
         
-        foreach($toInsert as $item) {
+        foreach ($toInsert as $item) {
             $ins = $em->createQueryBuilder()->insert($target);
             $ins->values([
-                'content_id' => '?',
-                'contenttype' => '?',
+                'content_id'   => '?',
+                'contenttype'  => '?',
                 'taxonomytype' => '?',
-                'slug' => '?',
-                'name' => '?'
+                'slug'         => '?',
+                'name'         => '?'
             ])->setParameters([
                 0 => $entity->id,
                 1 => $entity->getContenttype(),
@@ -102,7 +97,7 @@ class Taxonomy extends FieldTypeBase
         }
         
         
-        foreach($toDelete as $item) {
+        foreach ($toDelete as $item) {
             $del = $em->createQueryBuilder()->delete($target);
             $del->where('content_id=?')
                 ->andWhere('contenttype=?')
@@ -116,8 +111,7 @@ class Taxonomy extends FieldTypeBase
             ]);
             
             $queries->append($del);
-        }        
-        
+        }
     }
     
     /**
@@ -135,7 +129,7 @@ class Taxonomy extends FieldTypeBase
      * Get platform specific group_concat token for provided column
      *
      * @param string $column
-     * 
+     *
      * @return string
      **/
     protected function getPlatformGroupConcat($column, $order, $alias, QueryBuilder $query)
@@ -150,9 +144,5 @@ class Taxonomy extends FieldTypeBase
             case 'postgresql':
                 return "string_agg(distinct $column, ',' ORDER BY $order) as $alias";
         }
-        
-        
     }
-
-    
 }

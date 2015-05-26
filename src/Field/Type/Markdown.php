@@ -1,10 +1,6 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Doctrine\DBAL\Query\QueryBuilder;
-use Bolt\Storage\EntityManager;
-
-
 /**
  * This is one of a suite of basic Bolt field transformers that handles
  * the lifecycle of a field from pre-query to persist.
@@ -13,7 +9,6 @@ use Bolt\Storage\EntityManager;
  */
 class Markdown extends FieldTypeBase
 {
-    
     /**
      * Returns the name of the field type.
      *
@@ -23,6 +18,4 @@ class Markdown extends FieldTypeBase
     {
         return 'markdown';
     }
-
-    
 }

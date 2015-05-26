@@ -1,10 +1,7 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Bolt\Storage\EntityManager;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
-
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -14,7 +11,6 @@ use Doctrine\DBAL\Types\Type;
  */
 class Geolocation extends FieldTypeBase
 {
-    
     /**
      * Returns the name of the field type.
      *
@@ -34,6 +30,4 @@ class Geolocation extends FieldTypeBase
     {
         return Type::getType('json_array');
     }
-
-    
 }
