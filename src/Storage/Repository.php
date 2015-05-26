@@ -30,7 +30,7 @@ class Repository implements ObjectRepository
      */
     public function __construct($em, ClassMetadata $classMetadata = null, $hydrator = null, $persister = null, $loader = null)
     {
-        $this->em         = $em;
+        $this->em = $em;
         if (null !== $classMetadata) {
             $this->_class     = $classMetadata;
             $this->entityName  = $classMetadata->getName();
