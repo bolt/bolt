@@ -15,7 +15,7 @@
         "jquery": "~1.11.3"
     },
     "devDependencies": {
-        "backbone": "~1.1.2",
+        "backbone": "~1.2.0",
         "bootbox.js": "https://github.com/makeusabrew/bootbox.git#4.3.0",
         "jquery-ui": "1.11.4",
         "jquery.cookie": "https://github.com/carhartl/jquery-cookie.git#1.4.1",
