@@ -20,6 +20,7 @@ class FieldLoadTest extends BoltUnitTest
     
     public function testRelationsLoad()
     {
+        $this->resetDb();
         $app = $this->getApp();
         $this->addNewUser($app, 'admin', 'Admin', 'admin');;
         $app['integritychecker']->repairTables();
