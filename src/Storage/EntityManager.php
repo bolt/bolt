@@ -262,4 +262,21 @@ class EntityManager
     }
     
     
+    /**
+     * Note that this method is explicitly defined here because the magic method above cannot
+     * pass dynamic variables by reference
+     *
+     * @param string $textquery
+     * @param array  $parameters
+     * @param array  $pager
+     * @param array  $whereparameters
+     *
+     * @return \Bolt\Content|\Bolt\Content[]
+     */
+    public function getContent($textquery, $parameters = array(), &$pager = array(), $whereparameters = array())
+    {
+        return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
+    }
+    
+    
 }
