@@ -9,7 +9,8 @@ module.exports = {
         options: {
             compatibility: 'ie8',
             relativeTo: 'css/',
-            target: 'css/'
+            target: 'css/',
+            rebase: true
         },
         files: {
             '<%= path.dest.css %>/lib.css': [

@@ -8,9 +8,9 @@ module.exports = function (grunt, option) {
             pathRel = '../img/lib',
             urls = /url\((['"]?)(.+?)\1\)/g,
             repl = {
-                'jquery-ui':    /^lib\/jquery-ui-.+?\/images\/ui-/,
-                'select2':      /^lib\/select2\//,
-                'jquery-upl':   /^lib\/jquery-fileupload\/img\//
+                'jquery-ui':    /^..\/..\/src\/lib\/jquery-ui-.+?\/images\/ui-/,
+                'select2':      /^..\/..\/src\/lib\/select2\//,
+                'jquery-upl':   /^..\/..\/src\/lib\/jquery-fileupload\/img\//
             },
             done = {},
             css,
@@ -36,7 +36,7 @@ module.exports = function (grunt, option) {
                             '- Copy: ' + url[2] + '\n' +
                             '    To: ' + dest
                         );
-                        grunt.file.copy(url[2].replace(/^\.\.\/lib\//, 'lib/'), dest);
+                        grunt.file.copy(url[2].replace(/^..\/..\/src\/lib\//, 'lib/'), dest);
 
                         newurl = 'url(' + url[1] + pathRel + dest.slice(pathDestImg.length) + url[1] + ')';
                         grunt.verbose.writeln(
