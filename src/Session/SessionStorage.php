@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Session;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
@@ -28,6 +29,9 @@ class SessionStorage implements SessionStorageInterface
     /** @var ? */
     protected $saveHandler;
 
+    /** @var ArrayCollection */
+    protected $options;
+
     /**
      * Constructor.
      *
@@ -38,6 +42,7 @@ class SessionStorage implements SessionStorageInterface
     {
         $this->setSaveHandler($handler);
         $this->setMetadataBag($metadataBag);
+        //TODO set defaults from ini
     }
 
     /**
@@ -181,6 +186,11 @@ class SessionStorage implements SessionStorageInterface
     public function getMetadataBag()
     {
         return $this->metadataBag;
+    }
+
+    public function setOptions(array $options)
+    {
+        $this->options = new ArrayCollection($options);
     }
 
     public function setSaveHandler($handler)
