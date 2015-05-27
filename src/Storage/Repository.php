@@ -212,7 +212,7 @@ class Repository implements ObjectRepository
 
         try {
             $existing = $entity->getId();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $existing = false;
         }
 
