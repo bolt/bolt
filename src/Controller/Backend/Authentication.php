@@ -91,6 +91,7 @@ class Authentication extends BackendBase
 
         $response = $this->redirectToRoute('login');
         $response->headers->clearCookie($this->app['token.authentication.name']);
+        $response->headers->clearCookie($this->app['token.session.name']);
 
         return $response;
     }
