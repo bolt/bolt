@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Storage;
 
+use Bolt\Mapping\MetadataDriver;
 use Bolt\Storage;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Psr\Log\LoggerInterface;
@@ -16,6 +16,7 @@ class EntityManager
 {
     protected $conn;
     protected $eventManager;
+    /** @var MetadataDriver */
     protected $mapping;
     /** @var LoggerInterface */
     protected $logger;
@@ -29,10 +30,10 @@ class EntityManager
      *
      * @param \Doctrine\DBAL\Connection $conn
      * @param EventDispatcherInterface  $eventManager
-     * @param MappingDriver             $mapping
+     * @param MetadataDriver            $mapping
      * @param LoggerInterface           $logger
      */
-    public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MappingDriver $mapping, LoggerInterface $logger = null)
+    public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MetadataDriver $mapping, LoggerInterface $logger = null)
     {
         $this->conn         = $conn;
         $this->eventManager = $eventManager;
@@ -178,7 +179,7 @@ class EntityManager
     /**
      * Gets the Class Metadata Driver.
      *
-     * @return ClassMetadata
+     * @return MetadataDriver
      */
     public function getMapper()
     {
