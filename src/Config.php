@@ -1154,8 +1154,9 @@ class Config
     /**
      * Use {@see Zone} instead with a {@see Request}.
      *
-     * If you do not have a request then YDIW. Code should be agnostic
-     * to the current request OR in an app or route middleware.
+     * Going forward, decisions determined by current request
+     * should be done in an app or route middleware.
+     * Application should be setup agnostic to the current request.
      *
      * Route middlewares apply only to a certain route or group of routes.
      * See {@see \Bolt\Controller\Async\AsyncBase::before} for an example.
