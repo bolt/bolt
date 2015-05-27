@@ -2,11 +2,12 @@
 namespace Bolt\Session;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
 
-class SessionStorage implements SessionStorageInterface
+class SessionStorage implements SessionStorageInterface, CookieGeneratableInterface
 {
     /** @var string */
     protected $id = '';
@@ -127,6 +128,23 @@ class SessionStorage implements SessionStorageInterface
 
         $this->closed = true;
         $this->started = false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function generateCookie()
+    {
+        $lifetime = 0 === $this->options['lifetime'] ? 0 : time() + $this->options['lifetime'];
+        return new Cookie(
+            $this->name,
+            $this->id,
+            $lifetime,
+            $this->options['path'],
+            $this->options['domain'],
+            $this->options['secure'],
+            $this->options['httponly']
+        );
     }
 
     /**
