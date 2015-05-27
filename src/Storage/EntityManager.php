@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Storage;
 
+use Bolt\Mapping\MetadataDriver;
 use Bolt\Storage;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Psr\Log\LoggerInterface;
@@ -14,12 +14,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class EntityManager
 {
+    /** @var Connection */
     protected $conn;
+    /** @var EventDispatcherInterface */
     protected $eventManager;
+    /** @var MetadataDriver */
     protected $mapping;
-    protected $log;
+    /** @var LoggerInterface */
+    protected $logger;
+    /** @var array */
     protected $repositories = [];
+    /** @var array */
     protected $aliases = [];
+    /** @var Storage */
     protected $legacyStorage;
 
     /**
@@ -28,23 +35,19 @@ class EntityManager
      *
      * @param \Doctrine\DBAL\Connection $conn
      * @param EventDispatcherInterface  $eventManager
-     * @param MappingDriver             $mapping
+     * @param MetadataDriver            $mapping
      * @param LoggerInterface           $logger
      */
-    public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MappingDriver $mapping, LoggerInterface $logger = null)
+    public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MetadataDriver $mapping, LoggerInterface $logger = null)
     {
         $this->conn         = $conn;
         $this->eventManager = $eventManager;
         $this->mapping      = $mapping;
-        if (null === $logger) {
-            $this->logger = new NullLogger();
-        } else {
-            $this->logger = $logger;
-        }
+        $this->logger       = $logger ?: new NullLogger();
     }
 
     /**
-     *
+     * @return QueryBuilder
      */
     public function createQueryBuilder()
     {
@@ -70,7 +73,6 @@ class EntityManager
 
     /**
      * The object will be entered into the database as a result of this operation.
-     *
      *
      * @param object $object The instance to persist to storage.
      *
@@ -110,7 +112,7 @@ class EntityManager
      *
      * @param string $className
      *
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @return Repository
      */
     public function getRepository($className)
     {
@@ -171,7 +173,7 @@ class EntityManager
     /**
      * Gets the Event Manager.
      *
-     * @return \Doctrine\Common\EventManager
+     * @return EventDispatcherInterface
      */
     public function getEventManager()
     {
@@ -181,7 +183,7 @@ class EntityManager
     /**
      * Gets the Class Metadata Driver.
      *
-     * @return ClassMetadata
+     * @return MetadataDriver
      */
     public function getMapper()
     {
@@ -196,8 +198,6 @@ class EntityManager
      *
      * @param string $alias
      * @param string $namespace
-     *
-     * @return void
      */
     public function addEntityAlias($alias, $namespace)
     {
@@ -207,7 +207,7 @@ class EntityManager
     /**
      * Returns a proxy to the legacy storage service
      *
-     * @return LegacyRepository
+     * @return Storage
      */
     public function legacy()
     {
@@ -241,6 +241,8 @@ class EntityManager
      *
      * @param string $method
      * @param string $args
+     *
+     * @return mixed
      */
     public function __call($method, $args)
     {

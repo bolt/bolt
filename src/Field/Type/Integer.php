@@ -10,9 +10,7 @@ namespace Bolt\Field\Type;
 class Integer extends FieldTypeBase
 {
     /**
-     * Returns the name of the field type.
-     *
-     * @return string The field name
+     * @inheritdoc
      */
     public function getName()
     {

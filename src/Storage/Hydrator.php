@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage;
 
+use Bolt\Field\Type\FieldTypeInterface;
 use Bolt\Mapping\ClassMetadata;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -10,18 +11,16 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class Hydrator
 {
+    /** @var string */
     protected $handler;
-    
+    /** @var ClassMetadata */
     protected $metadata;
-    
+
     /**
-     * Hydrator class, converts database values into PHP OO Structure
-     * Handlers can be registered to replace default strategy.
+     * Constructor.
      *
-     * @param $classHandler A PHP Class that will be used to store Hydrated data.
-     *
-     * @return void
-     **/
+     * @param ClassMetadata $metadata
+     */
     public function __construct(ClassMetadata $metadata)
     {
         $classHandler = $metadata->getName();
@@ -31,25 +30,27 @@ class Hydrator
         $this->handler = $classHandler;
         $this->metadata = $metadata;
     }
-    
+
     /**
-     *  @param array source data
+     * @param array         $source data
+     * @param QueryBuilder  $qb
+     * @param EntityManager $em
      *
-     *  @return Object Entity
+     * @return mixed Entity
      */
     public function hydrate(array $source, QueryBuilder $qb, EntityManager $em = null)
     {
         $classname = $this->handler;
         $entity = new $classname;
         $entity->setContenttype($this->metadata->getBoltName());
-                
+
         foreach ($this->metadata->getFieldMappings() as $key => $mapping) {
-            
             // First step is to allow each Bolt field to transform the data.
+            /** @var FieldTypeInterface $field */
             $field = new $mapping['fieldtype']($mapping);
             $field->hydrate($source, $entity, $em);
         }
-        
+
         return $entity;
     }
 }

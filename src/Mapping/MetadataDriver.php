@@ -7,7 +7,6 @@ use Bolt\Mapping\ClassMetadata as BoltClassMetadata;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Types\Type;
 
 /**
  * This is a Bolt specific metadata driver that provides mapping information
@@ -19,22 +18,22 @@ use Doctrine\DBAL\Types\Type;
 class MetadataDriver implements MappingDriver
 {
     /**
-     * IntegrityChecker object
+     * @var IntegrityChecker
      */
     protected $integrityChecker;
 
     /**
-     * Array of contenttypes
+     * @var array
      */
     protected $contenttypes;
 
     /**
-     * Array of taxonomy configuration
+     * @var array taxonomy configuration
      */
     protected $taxonomies;
 
     /**
-     * array of metadata mappings
+     * @var array metadata mappings
      */
     protected $metadata;
 
@@ -52,8 +51,14 @@ class MetadataDriver implements MappingDriver
         'bolt_users'      => 'Bolt\Entity\Users'
     ];
 
+    /**
+     * @var array
+     */
     protected $typemap;
 
+    /**
+     * @var array
+     */
     protected $aliases = [];
 
     /**
@@ -75,7 +80,12 @@ class MetadataDriver implements MappingDriver
     protected $initialized = false;
 
     /**
+     * Constructor.
+     *
      * @param IntegrityChecker $integrityChecker
+     * @param array            $contenttypes
+     * @param array            $taxonomies
+     * @param array            $typemap
      */
     public function __construct(IntegrityChecker $integrityChecker, array $contenttypes, array $taxonomies, array $typemap)
     {
@@ -87,8 +97,6 @@ class MetadataDriver implements MappingDriver
 
     /**
      * Reads the schema from IntegrityChecker and creates mapping data
-     *
-     * @return void
      */
     public function initialize()
     {
@@ -101,10 +109,6 @@ class MetadataDriver implements MappingDriver
 
     /**
      * Setup some short aliases so non prefixed keys can be used to get metadata
-     *
-     * @return void
-     *
-     * @author
      **/
     public function initializeShortAliases()
     {
@@ -127,8 +131,10 @@ class MetadataDriver implements MappingDriver
      * Method will try to find an entity class name to handle data,
      * alternatively falling back to $this->fallbackEntity
      *
-     * @return $class Fully Qualified Class Name
-     **/
+     * @param string $alias
+     *
+     * @return string Fully Qualified Class Name
+     */
     public function resolveClassName($alias)
     {
         if (class_exists($alias)) {
@@ -238,8 +244,7 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * @param string        $className Fully Qualified name or alias
-     * @param ClassMetadata $metadata  instance of metadata class to load with data
+     * @inheritdoc
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata = null)
     {
@@ -262,11 +267,6 @@ class MetadataDriver implements MappingDriver
         }
     }
 
-    /**
-     * undocumented function
-     *
-     * @return void
-     */
     protected function getFieldTypeFor($name, $column)
     {
         $contentKey = $this->integrityChecker->getKeyForTable($name);
@@ -286,9 +286,7 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * Gets the names of all mapped classes known to this driver.
-     *
-     * @return array The names of all mapped classes known to this driver.
+     * @inheritdoc
      */
     public function getAllClassNames()
     {
@@ -323,7 +321,7 @@ class MetadataDriver implements MappingDriver
      *
      * @param string $className
      *
-     * @return The class metadata.
+     * @return ClassMetadata|false The class metadata.
      */
     public function getClassMetadata($className)
     {

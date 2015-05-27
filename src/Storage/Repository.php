@@ -13,38 +13,36 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class Repository implements ObjectRepository
 {
+    /** @var EntityManager */
     public $em;
+    /** @var ClassMetadata */
     public $_class;
+    /** @var string */
     public $entityName;
+    /** @var Hydrator */
     public $hydrator;
+    /** @var Persister */
     public $persister;
+    /** @var Loader */
     public $loader;
 
     /**
-     * Initializes a new <tt>Repository</tt>.
+     * Initializes a new Repository.
      *
-     * @param EntityManager         $em    The EntityManager to use.
-     * @param Mapping\ClassMetadata $class The class descriptor.
+     * @param EntityManager  $em            The EntityManager to use.
+     * @param ClassMetadata  $classMetadata The class descriptor.
+     * @param Hydrator|null  $hydrator
+     * @param Persister|null $persister
+     * @param Loader|null    $loader
      */
-    public function __construct($em, ClassMetadata $classMetadata = null, $hydrator = null, $persister = null, $loader = null)
+    public function __construct($em, ClassMetadata $classMetadata, $hydrator = null, $persister = null, $loader = null)
     {
         $this->em = $em;
-        if (null !== $classMetadata) {
-            $this->_class     = $classMetadata;
-            $this->entityName  = $classMetadata->getName();
-        }
-
-        if (null === $hydrator) {
-            $this->setHydrator(new Hydrator($classMetadata));
-        }
-
-        if (null === $persister) {
-            $this->setPersister(new Persister($classMetadata));
-        }
-
-        if (null === $loader) {
-            $this->setLoader(new Loader());
-        }
+        $this->_class = $classMetadata;
+        $this->entityName  = $classMetadata->getName();
+        $this->setHydrator($hydrator ?: new Hydrator($classMetadata));
+        $this->setPersister($persister ?: new Persister($classMetadata));
+        $this->setLoader($loader ?: new Loader());
     }
 
     /**
@@ -66,11 +64,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Finds an object by its primary key / identifier.
-     *
-     * @param mixed $id The identifier.
-     *
-     * @return object The object.
+     * @inheritdoc
      */
     public function find($id)
     {
@@ -84,9 +78,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Finds all objects in the repository.
-     *
-     * @return array The objects.
+     * @inheritdoc
      */
     public function findAll()
     {
@@ -94,20 +86,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Finds objects by a set of criteria.
-     *
-     * Optionally sorting and limiting details can be passed. An implementation may throw
-     * an UnexpectedValueException if certain values of the sorting or limiting details are
-     * not supported.
-     *
-     * @param array      $criteria
-     * @param array|null $orderBy
-     * @param int|null   $limit
-     * @param int|null   $offset
-     *
-     * @throws \UnexpectedValueException
-     *
-     * @return array The objects.
+     * @inheritdoc
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
@@ -125,6 +104,7 @@ class Repository implements ObjectRepository
      * Finds a single object by a set of criteria.
      *
      * @param array $criteria The criteria.
+     * @param array $orderBy
      *
      * @return object The object.
      */
@@ -143,7 +123,12 @@ class Repository implements ObjectRepository
     /**
      * Internal method to build a basic select, returns QB object.
      *
-     * @return QueryBuilder.
+     * @param array $criteria
+     * @param array $orderBy
+     * @param int   $limit
+     * @param int   $offset
+     *
+     * @return QueryBuilder
      */
     protected function findWithCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
@@ -168,7 +153,7 @@ class Repository implements ObjectRepository
      * Internal method to initialise and return a QueryBuilder instance.
      * Note that the metadata fields will be passed the instance to modify where appropriate.
      *
-     * @return QueryBuilder.
+     * @return QueryBuilder
      */
     protected function getLoadQuery()
     {
@@ -181,9 +166,9 @@ class Repository implements ObjectRepository
     /**
      * Deletes a single object.
      *
-     * @param object $$object The entity to delete.
+     * @param object $entity The entity to delete.
      *
-     * @return bool.
+     * @return boolean
      */
     public function delete($entity)
     {
@@ -204,9 +189,9 @@ class Repository implements ObjectRepository
     /**
      * Saves a single object.
      *
-     * @param object $$object The entity to delete.
+     * @param object $entity The entity to delete.
      *
-     * @return bool.
+     * @return boolean
      */
     public function save($entity)
     {
@@ -214,7 +199,7 @@ class Repository implements ObjectRepository
 
         try {
             $existing = $entity->getId();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $existing = false;
         }
 
@@ -235,9 +220,9 @@ class Repository implements ObjectRepository
     /**
      * Saves a new object into the database.
      *
-     * @param object $$object The entity to insert.
+     * @param object $entity The entity to insert.
      *
-     * @return bool.
+     * @return boolean
      */
     public function insert($entity)
     {
@@ -253,7 +238,7 @@ class Repository implements ObjectRepository
     /**
      * Updates an object into the database.
      *
-     * @param object $$object The entity to update.
+     * @param object $entity The entity to update.
      *
      * @return bool.
      */
@@ -273,7 +258,10 @@ class Repository implements ObjectRepository
     /**
      * Internal method to hydrate an Entity Object from fetched data.
      *
-     * @return mixed.
+     * @param array        $data
+     * @param QueryBuilder $qb
+     *
+     * @return mixed
      */
     protected function hydrate(array $data, QueryBuilder $qb)
     {
@@ -297,7 +285,10 @@ class Repository implements ObjectRepository
     /**
      * Internal method to hydrate an array of Entity Objects from fetched data.
      *
-     * @return mixed.
+     * @param array        $data
+     * @param QueryBuilder $qb
+     *
+     * @return mixed
      */
     protected function hydrateAll(array $data, QueryBuilder $qb)
     {
@@ -310,25 +301,25 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * @return void
+     * @param Hydrator $hydrator
      */
-    public function setHydrator($hydrator)
+    public function setHydrator(Hydrator $hydrator)
     {
         $this->hydrator = $hydrator;
     }
 
     /**
-     * @return void
+     * @param Persister $persister
      */
-    public function setPersister($persister)
+    public function setPersister(Persister $persister)
     {
         $this->persister = $persister;
     }
 
     /**
-     * @return void
+     * @param Loader $loader
      */
-    public function setLoader($loader)
+    public function setLoader(Loader $loader)
     {
         $this->loader = $loader;
     }
@@ -384,9 +375,9 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Shortcut method to fetch the Event Manager
+     * Shortcut method to fetch the Event Dispatcher
      *
-     * @return EventManager
+     * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
     public function event()
     {

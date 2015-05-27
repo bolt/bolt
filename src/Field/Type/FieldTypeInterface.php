@@ -17,30 +17,33 @@ interface FieldTypeInterface
     /**
      * Handle or ignore the load event.
      *
-     * @param QueryBuilder $query
+     * @param QueryBuilder  $query
      *
-     * @return void
+     * @param ClassMetadata $metadata
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata);
-    
+
     /**
      * Handle or ignore the persist event.
      *
-     * @return void
+     * @param QuerySet      $queries
+     * @param mixed         $entity
+     * @param EntityManager $em
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em = null);
-    
+
     /**
      * Handle or ignore the hydrate event.
      *
-     * @return void
+     * @param $data
+     * @param $entity
      */
     public function hydrate($data, $entity);
-    
+
     /**
      * Handle or ignore the present event.
      *
-     * @return void
+     * @param $entity
      */
     public function present($entity);
     

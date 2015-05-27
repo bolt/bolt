@@ -16,11 +16,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 class Relation extends FieldTypeBase
 {
     /**
-     * Handle the load event.
-     *
-     * @param QueryBuilder $query
-     *
-     * @return void
+     * @inheritdoc
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -33,7 +29,7 @@ class Relation extends FieldTypeBase
     }
 
     /**
-     * Handle the hydrate event.
+     * @inheritdoc
      */
     public function hydrate($data, $entity, EntityManager $em = null)
     {
@@ -47,7 +43,7 @@ class Relation extends FieldTypeBase
     }
 
     /**
-     * Handle the persist event.
+     * @inheritdoc
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em = null)
     {
@@ -109,9 +105,7 @@ class Relation extends FieldTypeBase
     }
 
     /**
-     * Returns the name of the field type.
-     *
-     * @return string The field name
+     * @inheritdoc
      */
     public function getName()
     {
@@ -121,10 +115,12 @@ class Relation extends FieldTypeBase
     /**
      * Get platform specific group_concat token for provided column
      *
-     * @param string $column
+     * @param string       $column
+     * @param string       $alias
+     * @param QueryBuilder $query
      *
      * @return string
-     **/
+     */
     protected function getPlatformGroupConcat($column, $alias, QueryBuilder $query)
     {
         $platform = $query->getConnection()->getDatabasePlatform()->getName();

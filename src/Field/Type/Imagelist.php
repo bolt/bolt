@@ -12,9 +12,7 @@ use Doctrine\DBAL\Types\Type;
 class Imagelist extends FieldTypeBase
 {
     /**
-     * Returns the name of the field type.
-     *
-     * @return string The field name
+     * @inheritdoc
      */
     public function getName()
     {
@@ -22,9 +20,7 @@ class Imagelist extends FieldTypeBase
     }
 
     /**
-     * Returns the name of the Doctrine storage type to use for a field.
-     *
-     * @return Type
+     * @inheritdoc
      */
     public function getStorageType()
     {
