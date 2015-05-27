@@ -13,38 +13,36 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class Repository implements ObjectRepository
 {
+    /** @var EntityManager */
     public $em;
+    /** @var ClassMetadata */
     public $_class;
+    /** @var string */
     public $entityName;
+    /** @var Hydrator */
     public $hydrator;
+    /** @var Persister */
     public $persister;
+    /** @var Loader */
     public $loader;
 
     /**
-     * Initializes a new <tt>Repository</tt>.
+     * Initializes a new Repository.
      *
-     * @param EntityManager         $em    The EntityManager to use.
-     * @param Mapping\ClassMetadata $class The class descriptor.
+     * @param EntityManager  $em            The EntityManager to use.
+     * @param ClassMetadata  $classMetadata The class descriptor.
+     * @param Hydrator|null  $hydrator
+     * @param Persister|null $persister
+     * @param Loader|null    $loader
      */
-    public function __construct($em, ClassMetadata $classMetadata = null, $hydrator = null, $persister = null, $loader = null)
+    public function __construct($em, ClassMetadata $classMetadata, $hydrator = null, $persister = null, $loader = null)
     {
         $this->em = $em;
-        if (null !== $classMetadata) {
-            $this->_class     = $classMetadata;
-            $this->entityName  = $classMetadata->getName();
-        }
-
-        if (null === $hydrator) {
-            $this->setHydrator(new Hydrator($classMetadata));
-        }
-
-        if (null === $persister) {
-            $this->setPersister(new Persister($classMetadata));
-        }
-
-        if (null === $loader) {
-            $this->setLoader(new Loader());
-        }
+        $this->_class = $classMetadata;
+        $this->entityName  = $classMetadata->getName();
+        $this->setHydrator($hydrator ?: new Hydrator($classMetadata));
+        $this->setPersister($persister ?: new Persister($classMetadata));
+        $this->setLoader($loader ?: new Loader());
     }
 
     /**
