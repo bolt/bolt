@@ -36,7 +36,7 @@ class SessionStorage implements SessionStorageInterface
      */
     public function __construct($handler, MetadataBag $metadataBag = null)
     {
-        $this->saveHandler = $handler;
+        $this->setSaveHandler($handler);
         $this->setMetadataBag($metadataBag);
     }
 
@@ -181,6 +181,11 @@ class SessionStorage implements SessionStorageInterface
     public function getMetadataBag()
     {
         return $this->metadataBag;
+    }
+
+    public function setSaveHandler($handler)
+    {
+        $this->saveHandler = $handler;
     }
 
     /**
