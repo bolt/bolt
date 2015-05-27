@@ -53,6 +53,21 @@ class NutServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['nut.commands.add'] = $app->protect(
+            function (Command $command) use ($app) {
+                $app['nut.commands'] = $app->share(
+                    $app->extend(
+                        'nut.commands',
+                        function ($commands) use ($command) {
+                            $commands[] = $command;
+
+                            return $commands;
+                        }
+                    )
+                );
+            }
+        );
+
         // Maintain backwards compatibility
         $app['console'] = $app->share(
             function ($app) {
@@ -63,19 +78,5 @@ class NutServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-    }
-
-    public static function addCommand(Application $app, Command $command)
-    {
-        $app['nut.commands'] = $app->share(
-            $app->extend(
-                'nut.commands',
-                function ($commands) use ($command) {
-                    $commands[] = $command;
-
-                    return $commands;
-                }
-            )
-        );
     }
 }
