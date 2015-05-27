@@ -1124,56 +1124,45 @@ class Config
     }
 
     /**
-     * Utility function to determine which 'end' we're using right now.
-     * Can be either "frontend", "backend", "async" or "cli".
+     * Use {@see Zone} instead with a {@see Request}.
      *
-     * NOTE: If the Request object has not been initialized by Silex yet,
-     * we create a local version based on the request globals.
+     * If you do not have a request then YDIW. Code should be agnostic
+     * to the current request OR in an app or route middleware.
      *
-     * @param string $mountpoint
+     * Route middlewares apply only to a certain route or group of routes.
+     * See {@see \Bolt\Controller\Async\AsyncBase::before} for an example.
+     *
+     * App middlewares apply to all routes.
+     * See classes in \Bolt\EventListener for examples of these.
+     * These middlewares could also be filtered by checking for Zone inside of listener.
+     *
+     * @deprecated Since 2.3, to be removed in 3.0.
      *
      * @return string
      */
-    public function getWhichEnd($mountpoint = '')
+    public function getWhichEnd()
     {
-        // Get a request object, if not initialized by Silex yet, we'll create our own
-        try {
-            /** @var Request $request */
-            $request = $this->app['request'];
-            if ($zone = Zone::get($request)) {
-                $this->app['end'] = $zone;
-                return $zone;
-            }
-        } catch (\RuntimeException $e) {
-            // Return CLI if request not already exist and we're on the CLI
-            if (php_sapi_name() == 'cli') {
-                $this->app['end'] = 'cli';
+        $zone = $this->determineZone();
+        $this->app['end'] = $zone; // This is also deprecated
+        return $zone;
+    }
 
-                return 'cli';
-            }
+    private function determineZone()
+    {
+        if (PHP_SAPI === 'cli') {
+            return 'cli';
+        }
+        /** @var \Symfony\Component\HttpFoundation\RequestStack $stack */
+        $stack = $this->app['request_stack'];
+        $request = $stack->getCurrentRequest() ?: Request::createFromGlobals();
 
-            $request = Request::createFromGlobals();
+        if ($zone = Zone::get($request)) {
+            return $zone;
         }
 
-        // Default mountpoint is branding path (defaults to 'bolt' unless changed in config)
-        if (empty($mountpoint)) {
-            $mountpoint = $this->get('general/branding/path');
-        }
-
-        // Ensure left slash on mountpoint
-        $mountpoint = '/' . ltrim($mountpoint, '/');
-
-        if (strpos($request->getPathInfo(), '/async') === 0 || $request->isXmlHttpRequest()) {
-            $end = 'async';
-        } elseif (strpos($request->getPathInfo(), $mountpoint) === 0) {
-            $end = 'backend';
-        } else {
-            $end = 'frontend';
-        }
-
-        $this->app['end'] = $end;
-
-        return $end;
+        /** @var \Bolt\EventListener\ZoneGuesser $guesser */
+        $guesser = $this->app['listener.zone_guesser'];
+        return $guesser->setZone($request);
     }
 
     /**

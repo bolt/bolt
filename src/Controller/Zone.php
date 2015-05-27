@@ -4,7 +4,7 @@ namespace Bolt\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Zone constants class to define whic part of the Bolt site that a request is
+ * Zone constants class to define which part of the Bolt site that a request is
  * relative to.
  *
  * @author Carson Full <carsonfull@gmail.com>
