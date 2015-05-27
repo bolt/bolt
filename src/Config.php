@@ -1114,7 +1114,35 @@ class Config
     }
 
     /**
-     * @deprecated Use get('general/database') instead
+     * Get a timestamp, corrected to the timezone.
+     *
+     * @return string Timestamp
+     */
+    public function getTimestamp($when)
+    {
+        $timezone = $this->get('general/timezone');
+        $now = date_format(new \DateTime($when, new \DateTimeZone($timezone)), 'Y-m-d H:i:s');
+
+        return $now;
+    }
+
+    /**
+     * Get the current timestamp, corrected to the timezone.
+     *
+     * @return string Current timestamp
+     */
+    public function getCurrentTimestamp()
+    {
+        $timezone = $this->get('general/timezone');
+        $now = date_format(new \DateTime($timezone), 'Y-m-d H:i:s');
+
+        return $now;
+    }
+
+    /**
+     * Use get('general/database') instead
+     *
+     * @deprecated Since 2.1, to be removed in 3.0.
      *
      * @return array
      */
@@ -1163,31 +1191,5 @@ class Config
         /** @var \Bolt\EventListener\ZoneGuesser $guesser */
         $guesser = $this->app['listener.zone_guesser'];
         return $guesser->setZone($request);
-    }
-
-    /**
-     * Get a timestamp, corrected to the timezone.
-     *
-     * @return string Timestamp
-     */
-    public function getTimestamp($when)
-    {
-        $timezone = $this->get('general/timezone');
-        $now = date_format(new \DateTime($when, new \DateTimeZone($timezone)), 'Y-m-d H:i:s');
-
-        return $now;
-    }
-
-    /**
-     * Get the current timestamp, corrected to the timezone.
-     *
-     * @return string Current timestamp
-     */
-    public function getCurrentTimestamp()
-    {
-        $timezone = $this->get('general/timezone');
-        $now = date_format(new \DateTime($timezone), 'Y-m-d H:i:s');
-
-        return $now;
     }
 }
