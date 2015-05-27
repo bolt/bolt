@@ -26,7 +26,9 @@ class ClassMetadata implements ClassMetadataInterface
      * @var string
      */
     protected $tableName;
-    
+
+    protected $identifier;
+
     /**
      * @var NamingStrategyInterface
      */
@@ -36,12 +38,13 @@ class ClassMetadata implements ClassMetadataInterface
      * @var array
      */
     protected $fieldMappings;
-    
+
     /**
-     * Constructor, takes Fully-Qualified Class Name and a Naming Strategy Class
+     * Constructor.
      *
-     * @return void
-     **/
+     * @param string                  $className      Fully-qualified class name
+     * @param NamingStrategyInterface $namingStrategy Naming strategy
+     */
     public function __construct($className, NamingStrategyInterface $namingStrategy = null)
     {
         if (!class_exists($className)) {
@@ -51,17 +54,15 @@ class ClassMetadata implements ClassMetadataInterface
         $this->name = $className;
         $this->namingStrategy = $namingStrategy ?: new NamingStrategy();
     }
-    
+
     /**
-     * Gets the fully-qualified class name of this persistent class.
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getName()
     {
         return $this->name;
     }
-    
+
     /**
      * Gets the fully-qualified class name of this persistent class.
      *
@@ -74,9 +75,11 @@ class ClassMetadata implements ClassMetadataInterface
         }
         return $this->namingStrategy->classToTableName($this->name);
     }
-    
+
     /**
      * Sets the table name of this persistent class.
+     *
+     * @param $tableName
      *
      * @return string
      */
@@ -88,15 +91,17 @@ class ClassMetadata implements ClassMetadataInterface
     /**
      * Gets the bolt name of this class (normally table name without prefix).
      *
-     * @return void
+     * @return string
      */
     public function getBoltName()
     {
         return $this->boltname;
     }
-    
+
     /**
      * Sets the bolt name of this class (normally table name without prefix).
+     *
+     * @param $name
      *
      * @return string
      */
@@ -114,8 +119,12 @@ class ClassMetadata implements ClassMetadataInterface
     {
         return $this->namingStrategy->classToAlias($this->name);
     }
-    
-    
+
+    /**
+     * @param $fieldName
+     *
+     * @return bool
+     */
     public function getFieldMapping($fieldName)
     {
         if (! isset($this->fieldMappings[$fieldName])) {
@@ -160,13 +169,11 @@ class ClassMetadata implements ClassMetadataInterface
     {
         return $this->identifier;
     }
-    
+
     /**
      * Sets the mapped identifier field name.
      *
-     * The returned structure is an array of the identifier field names.
-     *
-     * @return array
+     * @param array $identifier
      */
     public function setIdentifier($identifier)
     {
@@ -240,25 +247,25 @@ class ClassMetadata implements ClassMetadataInterface
     public function getIdentifierFieldNames()
     {
     }
-    
+
     /**** Following methods for interface compatibility, not yet used within Bolt ******/
-    
+
     public function hasAssociation($fieldName)
     {
     }
-    
+
     public function isSingleValuedAssociation($fieldName)
     {
     }
-        
+
     public function isCollectionValuedAssociation($fieldName)
     {
     }
-    
+
     public function getAssociationNames()
     {
     }
-    
+
     public function getAssociationTargetClass($assocName)
     {
     }
@@ -266,11 +273,11 @@ class ClassMetadata implements ClassMetadataInterface
     public function isAssociationInverseSide($assocName)
     {
     }
-        
+
     public function getAssociationMappedByTargetField($assocName)
     {
     }
-        
+
     public function getIdentifierValues($object)
     {
     }
