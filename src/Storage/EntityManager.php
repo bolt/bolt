@@ -17,7 +17,8 @@ class EntityManager
     protected $conn;
     protected $eventManager;
     protected $mapping;
-    protected $log;
+    /** @var LoggerInterface */
+    protected $logger;
     protected $repositories = [];
     protected $aliases = [];
     protected $legacyStorage;
@@ -36,11 +37,7 @@ class EntityManager
         $this->conn         = $conn;
         $this->eventManager = $eventManager;
         $this->mapping      = $mapping;
-        if (null === $logger) {
-            $this->logger = new NullLogger();
-        } else {
-            $this->logger = $logger;
-        }
+        $this->logger       = $logger ?: new NullLogger();
     }
 
     /**
