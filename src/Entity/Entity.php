@@ -116,9 +116,9 @@ abstract class Entity
     }
 
     /**
-     *  An internal method that builds a list of available fields depending on context
+     * An internal method that builds a list of available fields depending on context
      *
-     *  @return array
+     * @return array
      **/
     protected function getFields()
     {
@@ -138,10 +138,12 @@ abstract class Entity
     }
 
     /**
-     *  Boolean check on whether entity has field
+     * Boolean check on whether entity has field
      *
-     *  @return array
-     **/
+     * @param string $field
+     *
+     * @return bool
+     */
     protected function has($field)
     {
         return in_array($field, $this->getFields());
