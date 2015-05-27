@@ -165,7 +165,7 @@
 
                 menuitem.on('mouseover focus click dblclick', function (e) {
                     var item = this,
-                        delay = 300;
+                        delay = 150;
 
                     // If clicked and popover not shown yet, show it.
                     if (e.type === 'click' && !$(item).next().hasClass('popover')) {
