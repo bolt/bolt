@@ -253,7 +253,7 @@ class Application extends Silex\Application
     {
         // Register the Silex/Symfony web debug toolbar.
         $this->register(
-            new Silex\Provider\WebProfilerServiceProvider(),
+            new Debug\WebProfilerServiceProvider(),
             [
                 'profiler.cache_dir'    => $this['resources']->getPath('cache') . '/profiler',
                 'profiler.mount_prefix' => '/_profiler', // this is the default
