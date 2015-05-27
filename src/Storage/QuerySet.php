@@ -11,9 +11,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 class QuerySet extends \ArrayIterator
 {
     /**
-     *  @param A QueryBuilder instance
-     *
-     *  @return void
+     * @param QueryBuilder $qb A QueryBuilder instance
      */
     public function append($qb)
     {
@@ -23,20 +21,20 @@ class QuerySet extends \ArrayIterator
         
         parent::append($qb);
     }
-    
-    
+
     /**
-     * Execute function, interates the queries and executes them sequentially
+     * Execute function, iterate the queries, and execute them sequentially
      *
-     * @return void
+     * @return \Doctrine\DBAL\Driver\Statement|int|null
      *
-     * @author
-     **/
+     * @throws \Exception
+     */
     public function execute()
     {
         $result = null;
         // Only return the result of the primary query
         foreach ($this as $query) {
+            /** @var QueryBuilder $query */
             try {
                 if ($result === null) {
                     $result = $query->execute();

@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage;
 
+use Bolt\Field\Type\FieldTypeInterface;
 use Bolt\Mapping\ClassMetadata;
 
 /**
@@ -17,21 +18,23 @@ class Persister
     {
         $this->metadata = $metadata;
     }
-    
+
     /**
-     *  @param array source data
+     * @param QuerySet      $queries
+     * @param mixed         $entity
+     * @param EntityManager $em
      *
-     *  @return Object Entity
+     * @return mixed Entity
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em)
     {
         foreach ($this->metadata->getFieldMappings() as $key => $mapping) {
-            
             // First step is to allow each Bolt field to transform the data.
+            /** @var FieldTypeInterface $field */
             $field = new $mapping['fieldtype']($mapping);
             $field->persist($queries, $entity, $em);
         }
-        
+
         return $entity;
     }
 }

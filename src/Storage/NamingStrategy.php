@@ -18,6 +18,10 @@ class NamingStrategy
 
     /**
      * Takes either a global or absolute class name and returns an underscored table name
+     *
+     * @param string $className
+     *
+     * @return string
      */
     public function classToTableName($className)
     {
@@ -26,19 +30,26 @@ class NamingStrategy
 
         return $this->prefix.$className;
     }
-    
+
     /**
      * Creates an automatic alias from a class name
+     *
+     * @param string $className
+     *
+     * @return string
      */
     public function classToAlias($className)
     {
         $className = $this->getRelativeClass($className);
         return ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $className)), '_');
     }
-    
-    
+
     /**
      * Returns a class name with namespaces removed.
+     *
+     * @param string $className
+     *
+     * @return string
      */
     public function getRelativeClass($className)
     {

@@ -27,7 +27,7 @@ interface FieldTypeInterface
      * Handle or ignore the persist event.
      *
      * @param QuerySet      $queries
-     * @param string        $entity
+     * @param mixed         $entity
      * @param EntityManager $em
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em = null);

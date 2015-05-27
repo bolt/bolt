@@ -14,14 +14,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class EntityManager
 {
+    /** @var Connection */
     protected $conn;
+    /** @var EventDispatcherInterface */
     protected $eventManager;
     /** @var MetadataDriver */
     protected $mapping;
     /** @var LoggerInterface */
     protected $logger;
+    /** @var array */
     protected $repositories = [];
+    /** @var array */
     protected $aliases = [];
+    /** @var Storage */
     protected $legacyStorage;
 
     /**
@@ -42,7 +47,7 @@ class EntityManager
     }
 
     /**
-     *
+     * @return QueryBuilder
      */
     public function createQueryBuilder()
     {
@@ -68,7 +73,6 @@ class EntityManager
 
     /**
      * The object will be entered into the database as a result of this operation.
-     *
      *
      * @param object $object The instance to persist to storage.
      *
@@ -108,7 +112,7 @@ class EntityManager
      *
      * @param string $className
      *
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @return Repository
      */
     public function getRepository($className)
     {
@@ -169,7 +173,7 @@ class EntityManager
     /**
      * Gets the Event Manager.
      *
-     * @return \Doctrine\Common\EventManager
+     * @return EventDispatcherInterface
      */
     public function getEventManager()
     {
@@ -194,8 +198,6 @@ class EntityManager
      *
      * @param string $alias
      * @param string $namespace
-     *
-     * @return void
      */
     public function addEntityAlias($alias, $namespace)
     {
@@ -205,7 +207,7 @@ class EntityManager
     /**
      * Returns a proxy to the legacy storage service
      *
-     * @return LegacyRepository
+     * @return Storage
      */
     public function legacy()
     {
@@ -239,6 +241,8 @@ class EntityManager
      *
      * @param string $method
      * @param string $args
+     *
+     * @return mixed
      */
     public function __call($method, $args)
     {
