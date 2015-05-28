@@ -1001,6 +1001,15 @@ class Content implements \ArrayAccess
         $names = array_merge($names, ['nom', 'sujet']); // FR
         $names = array_merge($names, ['nombre', 'sujeto']); // ES
 
+        // If a field has the attribute "use_as_title" set to true, assume that's the title.
+        if (!empty($this->contenttype['fields'])) {
+            foreach ($this->contenttype['fields'] as $key => $field) {
+                if ($field['use_as_title'] == true) {
+                    return $key;
+                }
+            }
+        }
+
         foreach ($names as $name) {
             if (isset($this->values[$name])) {
                 return $name;
@@ -1014,6 +1023,11 @@ class Content implements \ArrayAccess
                     return $key;
                 }
             }
+        }
+
+        // Otherwhise return the slug if exists
+        if (isset($this->values['slug'])) {
+            return 'slug';
         }
 
         // nope, no title was found.
