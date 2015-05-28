@@ -38,6 +38,9 @@ maintenance_template: maintenance_default.twig
 # monthly and yearly jobs.  Default: 3 (3 am)
 cron_hour: 3
 
+# Disable the generator meta tag. By default, Bolt add itself to the generator meta tag.
+# generator: false
+
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the canonical,
 # so it's clear which is the primary address of the site. If you include `https://`,
