@@ -682,9 +682,6 @@ abstract class BaseExtension implements ExtensionInterface
      */
     public function addConsoleCommand(Command $command)
     {
-        $this->app['nut.commands'] = array_merge(
-            $this->app['nut.commands'],
-            [$command]
-        );
+        $this->app['nut.commands.add']($command);
     }
 }

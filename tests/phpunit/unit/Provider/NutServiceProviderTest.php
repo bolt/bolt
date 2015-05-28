@@ -29,7 +29,7 @@ class NutServiceProviderTest extends BoltUnitTest
         $app->register($provider);
         $app->boot();
         $command = $this->getMock('Symfony\Component\Console\Command\Command', null, ['mockCommand']);
-        NutServiceProvider::addCommand($app, $command);
+        $app['nut.commands.add']($command);
         $this->assertTrue(in_array($command, $app['nut.commands']));
     }
 }
