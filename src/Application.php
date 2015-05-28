@@ -514,8 +514,11 @@ class Application extends Silex\Application
         if (isset($this['htmlsnippets']) && ($this['htmlsnippets'] === true)) {
             // only add when content-type is text/html
             if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
-                // Add our meta generator tag.
-                $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
+                // Perhaps add our meta generator tag.
+
+                if ($this['config']->get('general/generator') !== false) {
+                    $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
+                }
 
                 // Perhaps add a canonical link.
 
