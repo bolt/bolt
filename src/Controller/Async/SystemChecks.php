@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class SystemTests extends AsyncBase
+class SystemChecks extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $c)
     {

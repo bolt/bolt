@@ -75,7 +75,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             return new Controller\Async\Stack();
         });
         $app['controller.async.system_tests'] = $app->share(function () {
-            return new Controller\Async\SystemTests();
+            return new Controller\Async\SystemChecks();
         });
 
         $app['controller.frontend'] = $app->share(function () {
