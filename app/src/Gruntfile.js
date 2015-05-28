@@ -17,7 +17,6 @@ module.exports = function(grunt) {
                 js: 'js',
                 lib: 'lib',
                 sass: 'sass',
-                node: 'node_modules',
                 bower: 'bower_components'
             },
             dest: {
