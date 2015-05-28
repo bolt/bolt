@@ -40,12 +40,43 @@ class ZoneGuesser implements EventSubscriberInterface
             return;
         }
 
+        $this->setZone($request);
+    }
+
+    /**
+     * Sets the request's zone if needed and returns it.
+     *
+     * @param Request $request
+     *
+     * @return string
+     */
+    public function setZone(Request $request)
+    {
+        if ($zone = Zone::get($request)) {
+            return $zone;
+        }
+
+        $zone = $this->determineZone($request);
+        Zone::set($request, $zone);
+
+        return $zone;
+    }
+
+    /**
+     * Determine the zone and return it
+     *
+     * @param Request $request
+     *
+     * @return string
+     */
+    protected function determineZone(Request $request)
+    {
         if ($request->isXmlHttpRequest() || $this->isPathApplicable($request, Zone::ASYNC)) {
-            Zone::set($request, Zone::ASYNC);
+            return Zone::ASYNC;
         } elseif ($this->isPathApplicable($request, Zone::BACKEND)) {
-            Zone::set($request, Zone::BACKEND);
+            return Zone::BACKEND;
         } else {
-            Zone::set($request, Zone::FRONTEND);
+            return Zone::FRONTEND;
         }
     }
 
