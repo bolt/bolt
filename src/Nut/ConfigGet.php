@@ -2,8 +2,8 @@
 
 namespace Bolt\Nut;
 
+use Bolt\Configuration\YamlUpdater;
 use Bolt\Exception\FilesystemException;
-use Bolt\YamlUpdater;
 use League\Flysystem\FileNotFoundException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

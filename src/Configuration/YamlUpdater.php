@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Configuration;
 
 use Bolt\Exception\FilesystemException;
 use League\Flysystem\File;
