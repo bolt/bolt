@@ -1,12 +1,20 @@
 <?php
 namespace Bolt\Session;
 
+use Bolt\Session\Serializer\SerializerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use SessionHandlerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
 
+/**
+ * TODO:
+ *  - Do return values from handler need to be checked? Throw exceptions? Log?
+ *
+ * @author Carson Full <carsonfull@gmail.com>
+ */
 class SessionStorage implements SessionStorageInterface, CookieGeneratableInterface
 {
     /** @var string */
@@ -27,8 +35,18 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
     /** @var MetadataBag */
     protected $metadataBag;
 
-    /** @var ? */
-    protected $saveHandler;
+    /**
+     * Actual session data.
+     * bags <-> data <-> handler
+     * @var array
+     */
+    protected $data = [];
+
+    /** @var SessionHandlerInterface */
+    protected $handler;
+
+    /** @var SerializerInterface */
+    protected $serializer;
 
     /** @var ArrayCollection */
     protected $options;
@@ -36,12 +54,14 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
     /**
      * Constructor.
      *
-     * @param             $handler
-     * @param MetadataBag $metadataBag
+     * @param SessionHandlerInterface $handler
+     * @param SerializerInterface     $serializer
+     * @param MetadataBag             $metadataBag
      */
-    public function __construct($handler, MetadataBag $metadataBag = null)
+    public function __construct(SessionHandlerInterface $handler, SerializerInterface $serializer, MetadataBag $metadataBag = null)
     {
-        $this->setSaveHandler($handler);
+        $this->setHandler($handler);
+        $this->serializer = $serializer;
         $this->setMetadataBag($metadataBag);
         //TODO set defaults from ini
     }
@@ -55,11 +75,25 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
             return true;
         }
 
+        //TODO try to get ID from cookie
+
         if (empty($this->id)) {
             $this->id = $this->generateId();
         }
 
-        $this->loadSession();
+        $this->initializeSession();
+
+        /**
+         * TODO: Determine if garbage should be collected
+         * @see http://php.net/manual/en/sessionhandlerinterface.gc.php
+         */
+        $gc = false;
+        $maxLifeTime = 0;
+        if ($gc) {
+            $this->handler->gc($maxLifeTime);
+        }
+
+        $this->initializeBags();
 
         return true;
     }
@@ -73,7 +107,15 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
             $this->start();
         }
 
-        $this->metadataBag->stampNew($lifetime);
+        if ($lifetime !== null) {
+            $this->options['lifetime'] = $lifetime;
+        }
+
+        if ($destroy) {
+            $this->metadataBag->stampNew($lifetime);
+            $this->handler->destroy($this->id);
+        }
+
         $this->id = $this->generateId();
 
         return true;
@@ -124,7 +166,9 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
             throw new \RuntimeException('Trying to save a session that was not started yet or was already closed');
         }
 
-        // TODO invoke handler
+        $data = $this->serializer->serialize($this->data);
+        $this->handler->write($this->id, $data);
+        $this->handler->close();
 
         $this->closed = true;
         $this->started = false;
@@ -156,10 +200,10 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
             $bag->clear();
         }
 
-        //TODO invoke handler
+        $this->data = [];
 
         // reconnect the bags to the session
-        $this->loadSession();
+        $this->initializeBags();
     }
 
     /**
@@ -179,8 +223,8 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
             throw new \InvalidArgumentException(sprintf('The SessionBagInterface %s is not registered.', $name));
         }
 
-        if ($this->saveHandler->isActive() && !$this->started) {
-            $this->loadSession();
+        if (!$this->started) {
+            $this->initializeBags();
         } elseif (!$this->started) {
             $this->start();
         }
@@ -211,9 +255,9 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
         $this->options = new ArrayCollection($options);
     }
 
-    public function setSaveHandler($handler)
+    public function setHandler($handler)
     {
-        $this->saveHandler = $handler;
+        $this->handler = $handler;
     }
 
     /**
@@ -229,13 +273,27 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
         return ''; //TODO
     }
 
-    protected function loadSession()
+    protected function initializeSession()
+    {
+        $this->handler->open(null, $this->id);
+
+        $data = $this->handler->read($this->id);
+        try {
+            $this->data = $this->serializer->unserialize($data);
+        } catch (\Exception $e) {
+            // Destroy data upon unserialization error
+            $this->handler->destroy($this->id);
+        }
+    }
+
+    protected function initializeBags()
     {
         /** @var SessionBagInterface[] $bags */
-        $bags = array_merge($this->bags, array($this->metadataBag));
-
+        $bags = array_merge($this->bags, [$this->metadataBag]);
         foreach ($bags as $bag) {
-            //TODO invoke handler
+            $key = $bag->getStorageKey();
+            $this->data[$key] = isset($this->data[$key]) ? $this->data[$key] : [];
+            $bag->initialize($this->data[$key]);
         }
 
         $this->started = true;
