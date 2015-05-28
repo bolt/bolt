@@ -8,7 +8,6 @@
     },
     "devDependencies": {
         "deep-extend": "~0.4.0",
-        "font-awesome": "~4.3.0",
         "grunt": "~0.4.5",
         "grunt-bom-removal": "~0.2.0",
         "grunt-bootlint": "~0.9.0",
