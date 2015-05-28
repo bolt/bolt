@@ -112,14 +112,14 @@ module.exports = {
         },
         files: {
             '<%= path.tmp %>/bootstrap.min.js': [
-                '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
-                '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/button.js',
-                '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
-                '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
-                '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
-                '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/modal.js',
-                '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
-                '<%= path.src.node %>/bootstrap-sass/assets/javascripts/bootstrap/popover.js'
+                '<%= path.src.bower %>/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
+                '<%= path.src.bower %>/bootstrap-sass/assets/javascripts/bootstrap/button.js',
+                '<%= path.src.bower %>/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
+                '<%= path.src.bower %>/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
+                '<%= path.src.bower %>/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
+                '<%= path.src.bower %>/bootstrap-sass/assets/javascripts/bootstrap/modal.js',
+                '<%= path.src.bower %>/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
+                '<%= path.src.bower %>/bootstrap-sass/assets/javascripts/bootstrap/popover.js'
             ]
         }
     },

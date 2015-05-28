@@ -9,7 +9,7 @@ module.exports = {
         options: {
             outputStyle: 'compressed',
             includePaths: [
-                '<%= path.src.node %>/bootstrap-sass/assets/stylesheets/',
+                '<%= path.src.bower %>/bootstrap-sass/assets/stylesheets/',
                 '<%= path.src.node %>/font-awesome/scss/'
             ],
             lineNumbers: false,

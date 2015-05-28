@@ -7,7 +7,6 @@
         "url": "https://github.com/bolt/bolt.git"
     },
     "devDependencies": {
-        "bootstrap-sass": "3.2.0",
         "deep-extend": "~0.4.0",
         "font-awesome": "~4.3.0",
         "grunt": "~0.4.5",
