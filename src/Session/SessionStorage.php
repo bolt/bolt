@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Session;
 
+use Bolt\Session\Generator\GeneratorInterface;
 use Bolt\Session\Serializer\SerializerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use SessionHandlerInterface;
@@ -45,6 +46,9 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
     /** @var SessionHandlerInterface */
     protected $handler;
 
+    /** @var GeneratorInterface */
+    protected $generator;
+
     /** @var SerializerInterface */
     protected $serializer;
 
@@ -55,12 +59,14 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
      * Constructor.
      *
      * @param SessionHandlerInterface $handler
+     * @param GeneratorInterface      $generator
      * @param SerializerInterface     $serializer
      * @param MetadataBag             $metadataBag
      */
-    public function __construct(SessionHandlerInterface $handler, SerializerInterface $serializer, MetadataBag $metadataBag = null)
+    public function __construct(SessionHandlerInterface $handler, GeneratorInterface $generator, SerializerInterface $serializer, MetadataBag $metadataBag = null)
     {
         $this->setHandler($handler);
+        $this->generator = $generator;
         $this->serializer = $serializer;
         $this->setMetadataBag($metadataBag);
         //TODO set defaults from ini
@@ -78,7 +84,7 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
         //TODO try to get ID from cookie
 
         if (empty($this->id)) {
-            $this->id = $this->generateId();
+            $this->id = $this->generator->generateId();
         }
 
         $this->initializeSession();
@@ -108,7 +114,7 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
             $this->handler->destroy($this->id);
         }
 
-        $this->id = $this->generateId();
+        $this->id = $this->generator->generateId();
 
         return true;
     }
@@ -258,11 +264,6 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
     public function isStarted()
     {
         return $this->started;
-    }
-
-    protected function generateId()
-    {
-        return ''; //TODO
     }
 
     protected function initializeSession()
