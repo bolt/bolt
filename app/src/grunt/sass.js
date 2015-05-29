@@ -14,7 +14,7 @@ module.exports = {
             lineNumbers: false,
             unixNewlines: true,
             banner: '<%= banner.boltCss %>',
-            precision: 5,
+            precision: 8,
             sourceMap: '<%= sourcemap.css %>',
             sourceMapContents: true
         },
