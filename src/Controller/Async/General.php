@@ -112,7 +112,7 @@ class General extends AsyncBase
         ];
 
         $response = $this->render('components/panel-news.twig', ['context' => $context]);
-        $response->setCache(['s_maxage' => '3600', 'public' => true]);
+        $response->setPublic()->setSharedMaxAge(3600);
 
         return $response;
     }
@@ -259,7 +259,10 @@ class General extends AsyncBase
         // Parse the field as Markdown, return HTML
         $html = $this->app['markdown']->text($readme);
 
-        return new Response($html, Response::HTTP_OK, ['Cache-Control' => 's-maxage=180, public']);
+        $response = new Response($html, Response::HTTP_OK);
+        $response->setPublic()->setSharedMaxAge(180);
+
+        return $response;
     }
 
     /**
@@ -299,7 +302,10 @@ class General extends AsyncBase
     {
         $html = $this->extensions()->renderWidget($key);
 
-        return new Response($html, Response::HTTP_OK, ['Cache-Control' => 's-maxage=180, public']);
+        $response = new Response($html, Response::HTTP_OK);
+        $response->setPublic()->setSharedMaxAge(180);
+
+        return $response;
     }
 
     /**
