@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Session\FileSessionHandler;
 use Bolt\Session\Generator\NativeGenerator;
 use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
@@ -10,7 +11,6 @@ use Bolt\Session\StorageListener;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 
 /**
  * Because screw PHP core.
@@ -35,7 +35,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         });
 
         $app['session.storage.handler'] = $app->share(function () {
-            return new NullSessionHandler();
+            return new FileSessionHandler();
         });
 
         $app['session.storage.generator'] = $app->share(function () {
