@@ -7,7 +7,6 @@ module.exports = {
      */
     boltCss: {
         options: {
-            outputStyle: 'compressed',
             includePaths: [
                 '<%= path.src.bower %>/bootstrap-sass/assets/stylesheets/',
                 '<%= path.src.bower %>/font-awesome/scss/'
