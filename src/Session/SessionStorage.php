@@ -83,15 +83,7 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
 
         $this->initializeSession();
 
-        /**
-         * TODO: Determine if garbage should be collected
-         * @see http://php.net/manual/en/sessionhandlerinterface.gc.php
-         */
-        $gc = false;
-        $maxLifeTime = 0;
-        if ($gc) {
-            $this->handler->gc($maxLifeTime);
-        }
+        $this->collectGarbage();
 
         $this->initializeBags();
 
@@ -298,5 +290,18 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
 
         $this->started = true;
         $this->closed = false;
+    }
+
+    protected function collectGarbage()
+    {
+        /**
+         * TODO: Determine if garbage should be collected
+         * @see http://php.net/manual/en/sessionhandlerinterface.gc.php
+         */
+        $gc = false;
+        $maxLifeTime = 0;
+        if ($gc) {
+            $this->handler->gc($maxLifeTime);
+        }
     }
 }
