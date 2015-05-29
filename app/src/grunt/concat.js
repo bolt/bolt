@@ -32,5 +32,21 @@ module.exports = {
             '<%= path.tmp %>/modernizr-custom.min.js'                       //   5 kb
         ],
         dest: '<%= path.dest.js %>/lib.min.js'
+    },
+
+    /*
+     * TARGET:  Concats library css
+     */
+    installLibCss: {
+        options: {
+        },
+        src: [
+            '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.structure.css',
+            '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.theme.css',
+            '<%= path.src.lib %>/select2/select2.css',
+            '<%= path.src.lib %>/jquery-fileupload/jquery-fileupload-ui.css',
+            '<%= path.src.bower %>/magnific-popup/dist/magnific-popup.css'
+        ],
+        dest: '<%= path.dest.css %>/lib.css'
     }
 };

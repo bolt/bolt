@@ -9,13 +9,22 @@ module.exports = function (grunt) {
         },
 
         /*
-         * TARGET:  Postprocess Bolts css file
+         * TARGET:  Postprocess Bolts css files
          */
         boltCss: {
             src:  [
                 '<%= path.dest.css %>/bolt-old-ie.css',
                 '<%= path.dest.css %>/bolt.css',
                 '<%= path.dest.css %>/liveeditor.css'
+            ]
+        },
+
+        /*
+         * TARGET:  Postprocess libraries css file
+         */
+        libCss: {
+            src:  [
+                '<%= path.dest.css %>/lib.css'
             ]
         }
 	};
