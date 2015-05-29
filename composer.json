@@ -38,7 +38,7 @@
         "symfony/filesystem" : "^2.7",
         "symfony/finder" : "^2.7",
         "symfony/form" : "^2.7",
-        "symfony/locale" : "^2.7",
+        "symfony/intl" : "^2.7",
         "symfony/security-csrf" : "^2.7",
         "symfony/translation" : "^2.7",
         "symfony/twig-bridge" : "^2.7",
