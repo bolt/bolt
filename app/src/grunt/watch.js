@@ -15,7 +15,8 @@ module.exports = {
             '<%= path.src.sass %>/**/*.scss'
         ],
         tasks: [
-            'sass:boltCss'
+            'sass:boltCss',
+            'postcss:boltCss'
         ]
     },
 
