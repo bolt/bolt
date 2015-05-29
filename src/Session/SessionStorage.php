@@ -52,24 +52,25 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
     /** @var SerializerInterface */
     protected $serializer;
 
-    /** @var ArrayCollection */
+    /** @var OptionsBag */
     protected $options;
 
     /**
      * Constructor.
      *
+     * @param OptionsBag              $options
      * @param SessionHandlerInterface $handler
      * @param GeneratorInterface      $generator
      * @param SerializerInterface     $serializer
      * @param MetadataBag             $metadataBag
      */
-    public function __construct(SessionHandlerInterface $handler, GeneratorInterface $generator, SerializerInterface $serializer, MetadataBag $metadataBag = null)
+    public function __construct(OptionsBag $options, SessionHandlerInterface $handler, GeneratorInterface $generator, SerializerInterface $serializer, MetadataBag $metadataBag = null)
     {
+        $this->options = $options;
         $this->setHandler($handler);
         $this->generator = $generator;
         $this->serializer = $serializer;
         $this->setMetadataBag($metadataBag);
-        //TODO set defaults from ini
     }
 
     /**
@@ -80,8 +81,6 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
         if ($this->started) {
             return true;
         }
-
-        //TODO try to get ID from cookie
 
         if (empty($this->id)) {
             $this->id = $this->generator->generateId();
@@ -106,7 +105,7 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
         }
 
         if ($lifetime !== null) {
-            $this->options['lifetime'] = $lifetime;
+            $this->options['cookie_lifetime'] = $lifetime;
         }
 
         if ($destroy) {
@@ -177,15 +176,15 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
      */
     public function generateCookie()
     {
-        $lifetime = 0 === $this->options['lifetime'] ? 0 : time() + $this->options['lifetime'];
+        $lifetime = 0 === $this->options['cookie_lifetime'] ? 0 : time() + $this->options['cookie_lifetime'];
         return new Cookie(
             $this->name,
             $this->id,
             $lifetime,
-            $this->options['path'],
-            $this->options['domain'],
-            $this->options['secure'],
-            $this->options['httponly']
+            $this->options['cookie_path'],
+            $this->options['cookie_domain'],
+            $this->options['cookie_secure'],
+            $this->options['cookie_httponly']
         );
     }
 
@@ -248,14 +247,44 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
         return $this->metadataBag;
     }
 
-    public function setOptions(array $options)
+    /**
+     * Add options
+     *
+     * @param OptionsBag $options
+     */
+    public function setOptions(OptionsBag $options)
     {
-        $this->options = new ArrayCollection($options);
+        $this->options->add($options->all());
     }
 
-    public function setHandler($handler)
+    /**
+     * Return session options.
+     *
+     * @return OptionsBag
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the handler
+     *
+     * @param SessionHandlerInterface $handler
+     */
+    public function setHandler(SessionHandlerInterface $handler)
     {
         $this->handler = $handler;
+    }
+
+    /**
+     * Get the handler
+     *
+     * @return SessionHandlerInterface
+     */
+    public function getHandler()
+    {
+        return $this->handler;
     }
 
     /**
