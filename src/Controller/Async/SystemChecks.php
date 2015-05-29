@@ -17,6 +17,8 @@ class SystemChecks extends AsyncBase
     {
         $c->get('/check/email', 'email')
             ->bind('email');
+        $c->get('/check/extensions', 'extensions')
+            ->bind('extensions');
     }
 
     /**
@@ -35,6 +37,31 @@ class SystemChecks extends AsyncBase
         ];
 
         $results = $this->getCheck('EmailSetup')
+            ->setOptions($options)
+            ->runCheck()
+        ;
+
+        foreach ($results as $result) {
+            if (!$result->isPass()) {
+                return $this->json($results, Response::HTTP_I_AM_A_TEAPOT);
+            }
+        }
+
+        return $this->json($results);
+    }
+
+    /**
+     * Check the installation of PHP extensions.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function extensions(Request $request)
+    {
+        $options = [];
+
+        $results = $this->getCheck('PhpExtensions')
             ->setOptions($options)
             ->runCheck()
         ;
