@@ -29,9 +29,7 @@ class FileSessionHandler implements \SessionHandlerInterface
      */
     public function __construct($savePath = null)
     {
-        if (null === $savePath) {
-            $savePath = empty(ini_get('session.save_path')) ? sys_get_temp_dir() : ini_get('session.save_path');
-        }
+        $savePath = $savePath ?: ini_get('session.save_path') ?: sys_get_temp_dir();
 
         $this->fs = new Filesystem();
         $baseDir = $savePath;
@@ -61,7 +59,7 @@ class FileSessionHandler implements \SessionHandlerInterface
             $this->fs->touch($this->getSessionFileName($sessionName));
 
             return true;
-        } catch (IOExceptionException $e) {
+        } catch (IOException $e) {
             return false;
         }
     }
@@ -81,7 +79,7 @@ class FileSessionHandler implements \SessionHandlerInterface
     {
         try {
             return file_get_contents($this->getSessionFileName($sessionId));
-        } catch (IOExceptionException $e) {
+        } catch (IOException $e) {
             return '';
         }
     }
@@ -95,7 +93,7 @@ class FileSessionHandler implements \SessionHandlerInterface
             $this->fs->dumpFile($this->getSessionFileName($sessionId), $data);
 
             return true;
-        } catch (IOExceptionException $e) {
+        } catch (IOException $e) {
             return false;
         }
     }
@@ -109,7 +107,7 @@ class FileSessionHandler implements \SessionHandlerInterface
             $this->fs->remove($this->getSessionFileName($sessionId));
 
             return true;
-        } catch (IOExceptionException $e) {
+        } catch (IOException $e) {
             return false;
         }
     }
@@ -132,7 +130,7 @@ class FileSessionHandler implements \SessionHandlerInterface
             foreach ($files as $file) {
                 try {
                     $this->fs->remove($file);
-                } catch (IOExceptionException $e) {
+                } catch (IOException $e) {
                     return false;
                 }
             }
