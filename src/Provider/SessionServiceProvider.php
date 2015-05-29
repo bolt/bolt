@@ -49,6 +49,6 @@ class SessionServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        $app['dispatcher']->addSubscriber(new StorageListener($app['session.storage']));
+        $app['dispatcher']->addSubscriber(new StorageListener($app['session'], $app['session.storage']));
     }
 }

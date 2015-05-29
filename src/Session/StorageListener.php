@@ -3,6 +3,7 @@
 namespace Bolt\Session;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -14,16 +15,20 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class StorageListener implements EventSubscriberInterface
 {
+    /** @var SessionInterface */
+    protected $session;
     /** @var SessionStorage */
     protected $storage;
 
     /**
      * Constructor.
      *
-     * @param SessionStorage $storage
+     * @param SessionInterface $session
+     * @param SessionStorage   $storage
      */
-    public function __construct(SessionStorage $storage)
+    public function __construct(SessionInterface $session, SessionStorage $storage)
     {
+        $this->session = $session;
         $this->storage = $storage;
     }
 
@@ -39,9 +44,9 @@ class StorageListener implements EventSubscriberInterface
         }
 
         $cookies = $event->getRequest()->cookies;
-        $name = $this->storage->getName();
+        $name = $this->session->getName();
         if ($cookies->has($name)) {
-            $this->storage->setId($cookies->get($name));
+            $this->session->setId($cookies->get($name));
         }
     }
 
@@ -52,10 +57,10 @@ class StorageListener implements EventSubscriberInterface
      */
     public function onResponse(FilterResponseEvent $event)
     {
-        if (!$event->isMasterRequest() || !$this->storage->isStarted()) {
+        if (!$event->isMasterRequest() || !$this->session->isStarted()) {
             return;
         }
-        $this->storage->save();
+        $this->session->save();
         $cookie = $this->storage->generateCookie();
         $event->getResponse()->headers->setCookie($cookie);
     }
