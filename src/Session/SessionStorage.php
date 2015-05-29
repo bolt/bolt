@@ -67,6 +67,8 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
     public function __construct(OptionsBag $options, SessionHandlerInterface $handler, GeneratorInterface $generator, SerializerInterface $serializer, MetadataBag $metadataBag = null)
     {
         $this->options = $options;
+        $this->name = $options->get('name');
+
         $this->setHandler($handler);
         $this->generator = $generator;
         $this->serializer = $serializer;
@@ -176,15 +178,18 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
      */
     public function generateCookie()
     {
-        $lifetime = 0 === $this->options['cookie_lifetime'] ? 0 : time() + $this->options['cookie_lifetime'];
+        $lifetime = $this->options->getInt('cookie_lifetime');
+        if ($lifetime !== 0) {
+            $lifetime += time();
+        }
         return new Cookie(
             $this->name,
             $this->id,
             $lifetime,
             $this->options['cookie_path'],
-            $this->options['cookie_domain'],
-            $this->options['cookie_secure'],
-            $this->options['cookie_httponly']
+            $this->options['cookie_domain'] ?: null,
+            $this->options->getBoolean('cookie_secure'),
+            $this->options->getBoolean('cookie_httponly')
         );
     }
 
@@ -221,8 +226,6 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
         }
 
         if (!$this->started) {
-            $this->initializeBags();
-        } elseif (!$this->started) {
             $this->start();
         }
 
