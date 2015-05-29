@@ -15,10 +15,37 @@ class SystemChecks extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
+        $c->get('/check/directories', 'directories')
+            ->bind('directories');
         $c->get('/check/email', 'email')
             ->bind('email');
         $c->get('/check/extensions', 'extensions')
             ->bind('extensions');
+    }
+
+    /**
+     * Check the needed directories are writeable.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function directories(Request $request)
+    {
+        $options = [];
+
+        $results = $this->getCheck('DirectoryAccess')
+            ->setOptions($options)
+            ->runCheck()
+        ;
+
+        foreach ($results as $result) {
+            if (!$result->isPass()) {
+                return $this->json($results, Response::HTTP_I_AM_A_TEAPOT);
+            }
+        }
+
+        return $this->json($results);
     }
 
     /**
