@@ -117,22 +117,18 @@ class FileSessionHandler implements \SessionHandlerInterface
      */
     public function gc($maxlifetime)
     {
-        if ($this->gcCalled) {
-            $this->gcCalled = false;
+        $finder = new Finder();
+        $files = $finder->files()
+            ->in($this->savePath)
+            ->name('/\.bolt_sess$/')
+            ->date("since $maxlifetime")
+        ;
 
-            $finder = new Finder();
-            $files = $finder->files()
-                ->in($this->savePath)
-                ->name('/\.bolt_sess$/')
-                ->date("since $maxlifetime")
-            ;
-
-            foreach ($files as $file) {
-                try {
-                    $this->fs->remove($file);
-                } catch (IOException $e) {
-                    return false;
-                }
+        foreach ($files as $file) {
+            try {
+                $this->fs->remove($file);
+            } catch (IOException $e) {
+                return false;
             }
         }
     }
