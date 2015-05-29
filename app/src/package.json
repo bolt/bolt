@@ -7,6 +7,7 @@
         "url": "https://github.com/bolt/bolt.git"
     },
     "devDependencies": {
+        "autoprefixer-core": "~5.2.0",
         "deep-extend": "~0.4.0",
         "grunt": "~0.4.5",
         "grunt-bom-removal": "~0.2.0",
