@@ -43,10 +43,14 @@ class SessionListener implements EventSubscriberInterface
             return;
         }
 
+        $request = $event->getRequest();
+        $request->setSession($this->session);
+
         $cookies = $event->getRequest()->cookies;
         $name = $this->session->getName();
         if ($cookies->has($name)) {
             $this->session->setId($cookies->get($name));
+            $this->session->start();
         }
     }
 
