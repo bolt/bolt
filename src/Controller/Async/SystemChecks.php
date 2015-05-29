@@ -51,11 +51,19 @@ class SystemChecks extends AsyncBase
     /**
      * Getter for the check class.
      *
+     * @param string $check
+     *
+     * @throws \InvalidArgumentException
+     *
      * @return \Bolt\Configuration\Check\ConfigurationCheckInterface
      */
     protected function getCheck($check)
     {
         $class = "Bolt\\Configuration\\Check\\$check";
+
+        if (!class_exists($class)) {
+            throw new \RuntimeException("Requested check class '$class' doesn't exists");
+        }
 
         return new $class($this->app);
     }
