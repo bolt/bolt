@@ -4,16 +4,22 @@ namespace Bolt\Session\Serializer;
 interface SerializerInterface
 {
     /**
-     * @param mixed $data
+     * Serializes session data to string
      *
-     * @return string
+     * @param mixed $data Session data
+     *
+     * @return string Serialized data
      */
     public function serialize($data);
 
     /**
-     * @param string $data
+     * Unserializes session data from string
      *
-     * @return mixed
+     * @param string $data Serialized data
+     *
+     * @return mixed Session data
+     *
+     * @throws \RuntimeException If unserialization fails
      */
     public function unserialize($data);
 }

@@ -12,12 +12,16 @@ class NativeSerializer implements SerializerInterface
     }
 
     /**
-     * @param string $data
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function unserialize($data)
     {
-        return unserialize($data);
+        set_error_handler(function () {});
+        $session = unserialize($data);
+        restore_error_handler();
+        if ($session === false) {
+            throw new \RuntimeException('Unserialization failure');
+        }
+        return $session;
     }
 }
