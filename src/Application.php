@@ -7,6 +7,7 @@ use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Str;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
+use Bolt\Provider\SessionServiceProvider;
 use Bolt\Provider\WhoopsServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Doctrine\DBAL\DBALException;
@@ -74,7 +75,7 @@ class Application extends Silex\Application
     protected function initSession()
     {
         $this->register(new Provider\TokenServiceProvider())
-            ->register(new Silex\Provider\SessionServiceProvider(), [
+            ->register(new SessionServiceProvider(), [
                 'session.storage.options' => [
                     'name'            => $this['token.session.name'],
                     'cookie_path'     => $this['resources']->getUrl('root'),
@@ -82,16 +83,15 @@ class Application extends Silex\Application
                     'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
                     'cookie_httponly' => true
                 ],
-                'session.test' => isset($this['session.test']) ? $this['session.test'] : false
             ]
         );
 
         // Disable Silex's built-in native filebased session handler, and fall back to
         // whatever's set in php.ini.
         // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
-        if ($this['config']->get('general/session_use_storage_handler') === false) {
-            $this['session.storage.handler'] = null;
-        }
+//        if ($this['config']->get('general/session_use_storage_handler') === false) {
+//            $this['session.storage.handler'] = null;
+//        }
     }
 
     public function initialize()
