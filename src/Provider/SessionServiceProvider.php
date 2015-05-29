@@ -7,7 +7,7 @@ use Bolt\Session\Generator\NativeGenerator;
 use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
 use Bolt\Session\SessionStorage;
-use Bolt\Session\StorageListener;
+use Bolt\Session\SessionListener;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -49,6 +49,6 @@ class SessionServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        $app['dispatcher']->addSubscriber(new StorageListener($app['session'], $app['session.storage']));
+        $app['dispatcher']->addSubscriber(new SessionListener($app['session'], $app['session.storage']));
     }
 }

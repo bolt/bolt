@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class StorageListener implements EventSubscriberInterface
+class SessionListener implements EventSubscriberInterface
 {
     /** @var SessionInterface */
     protected $session;
