@@ -82,4 +82,12 @@ interface FlashLoggerInterface
      * Clear out messages.
      */
     public function clear();
+
+
+    /**
+     * Returns a list of all defined types.
+     *
+     * @return array
+     */
+    public function keys();
 }

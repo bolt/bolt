@@ -121,6 +121,18 @@ class FlashLogger implements FlashLoggerInterface, FlashBagAttachableInterface
     /**
      * {@inheritdoc}
      */
+    public function keys()
+    {
+        if ($this->flashBag) {
+            return $this->flashBag->keys();
+        }
+
+        return array_keys($this->flashes);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function attachFlashBag(FlashBagInterface $flashBag)
     {
         if ($this->flashBag) {
@@ -145,6 +157,6 @@ class FlashLogger implements FlashLoggerInterface, FlashBagAttachableInterface
      */
     public function isFlashBagAttached()
     {
-        return (bool)$this->flashBag;
+        return (bool) $this->flashBag;
     }
 }
