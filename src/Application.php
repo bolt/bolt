@@ -313,12 +313,6 @@ class Application extends Silex\Application
             ['locale_fallbacks' => [Application::DEFAULT_LOCALE]]
         );
 
-        // Loading stub functions for when intl / IntlDateFormatter isn't available.
-        if (!function_exists('intl_get_error_code')) {
-            require_once $this['resources']->getPath('root/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/functions.php');
-            require_once $this['resources']->getPath('root/vendor/symfony/locale/Symfony/Component/Locale/Resources/stubs/IntlDateFormatter.php');
-        }
-
         $this->register(new Provider\TranslationServiceProvider());
     }
 
