@@ -25,8 +25,8 @@ class Extensions extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (count($this->app['extend.manager']->messages)) {
-            foreach ($this->app['extend.manager']->messages as $message) {
+        if (count($this->app['extend.manager']->getMessages())) {
+            foreach ($this->app['extend.manager']->getMessages() as $message) {
                 $output->writeln(sprintf('<error>%s</error>', $message));
             }
             return;
