@@ -9,7 +9,6 @@ module.exports = {
         options: {
             preserveComments: 'some',
             sourceMap: '<%= sourcemap.js %>',
-            sourceMapName: '<%= path.sourcemaps %>/lib.js.map',
             sourceMapIncludeSources: true
         },
         files: [{
