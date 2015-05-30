@@ -28,11 +28,14 @@ node_modules
 bower_components
 npm-debug.log
 .sass-cache
-*.map
 app/src/tmp/
 app/src/docs/
 app/src/grunt-local/
 app/src/grunt.json
+
+# Sourcemaps
+app/view/maps/
+*.map
 
 # File-system cruft and temporary files
 scrutinizer.phar
