@@ -500,7 +500,7 @@ class PackageManager
         // Check if we have a config file, and if it's readable. (yet)
         $configfilepath = $this->app['resources']->getPath('extensionsconfig/' . $configfilename);
         if (is_readable($configfilepath)) {
-            return Lib::path('fileedit', ['namespace' => 'config', 'file' => 'extensions/' . $configfilename]);
+            return $this->app->generatePath('fileedit', ['namespace' => 'config', 'file' => 'extensions/' . $configfilename]);
         }
 
         return null;
