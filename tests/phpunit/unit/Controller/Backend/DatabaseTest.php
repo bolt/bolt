@@ -49,14 +49,14 @@ class DatabaseTest extends ControllerUnitTest
         $response = $this->controller()->update($this->getRequest());
 
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
-        $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
+        $this->assertEquals('/bolt/file/edit/config/contenttypes.yml', $response->getTargetUrl());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->setRequest(Request::create('/bolt/dbupdate', 'POST', ['return' => 'edit']));
         $response = $this->controller()->update($this->getRequest());
 
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
-        $this->assertEquals('/bolt/file/edit/files/app/config/contenttypes.yml', $response->getTargetUrl());
+        $this->assertEquals('/bolt/file/edit/config/contenttypes.yml', $response->getTargetUrl());
         $this->assertNotEmpty($this->getFlashBag()->get('success'));
 
         $this->setRequest(Request::create('/bolt/dbupdate', 'POST'));
