@@ -2,16 +2,17 @@
  * POSTCSS: Transforming CSS with JS plugins
  */
 module.exports = function (grunt) {
-	return {
-        options: {
-            processors: [
-            ]
-        },
+    var procSingleCharset = require('postcss-single-charset');
 
+    return {
         /*
          * TARGET:  Postprocess Bolts css files
          */
         boltCss: {
+            options: {
+                processors: [
+                ]
+            },
             src:  [
                 '<%= path.dest.css %>/bolt-old-ie.css',
                 '<%= path.dest.css %>/bolt.css',
@@ -23,6 +24,11 @@ module.exports = function (grunt) {
          * TARGET:  Postprocess libraries css file
          */
         libCss: {
+            options: {
+                processors: [
+                    procSingleCharset.postcss
+                ]
+            },
             src:  [
                 '<%= path.dest.css %>/lib.css'
             ]
