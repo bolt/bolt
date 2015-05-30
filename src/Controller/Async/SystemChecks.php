@@ -39,12 +39,6 @@ class SystemChecks extends AsyncBase
             ->runCheck()
         ;
 
-        foreach ($results as $result) {
-            if (!$result->isPass()) {
-                return $this->json($results, Response::HTTP_I_AM_A_TEAPOT);
-            }
-        }
-
         return $this->json($results);
     }
 
@@ -68,12 +62,6 @@ class SystemChecks extends AsyncBase
             ->runCheck()
         ;
 
-        foreach ($results as $result) {
-            if (!$result->isPass()) {
-                return $this->json($results, Response::HTTP_I_AM_A_TEAPOT);
-            }
-        }
-
         return $this->json($results);
     }
 
@@ -92,12 +80,6 @@ class SystemChecks extends AsyncBase
             ->setOptions($options)
             ->runCheck()
         ;
-
-        foreach ($results as $result) {
-            if (!$result->isPass()) {
-                return $this->json($results, Response::HTTP_I_AM_A_TEAPOT);
-            }
-        }
 
         return $this->json($results);
     }
