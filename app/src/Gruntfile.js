@@ -9,6 +9,7 @@ module.exports = function(grunt) {
         path: {
             tmp: 'tmp',
             pages: 'tmp/pages',
+            sourcemaps: '../view/maps',
             doc: {
                 js: 'docs/js',
                 php: 'docs/php'
