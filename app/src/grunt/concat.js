@@ -58,7 +58,7 @@ module.exports = function (grunt, option) {
             }
         }
 
-        return '// Source: ' + filepath + '\n\n' + css;
+        return '/* Source: ' + filepath + '*/\n\n' + css;
     };
 
     return {
