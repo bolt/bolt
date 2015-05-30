@@ -433,8 +433,8 @@ class Authentication
 
             $shadowlink = sprintf(
                 '%s%sresetpassword?token=%s',
-                $this->app['paths']['hosturl'],
-                $this->app['paths']['bolt'],
+                $this->app['resources']->getUrl('hosturl'),
+                $this->app['resources']->getUrl('bolt'),
                 urlencode($shadowtoken)
             );
 
