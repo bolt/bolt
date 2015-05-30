@@ -16,6 +16,7 @@ module.exports = {
             flatten: true,
             ext: '.min.js',
             extDot: 'last',
+            nonull: true,
             src: [
                 '<%= path.src.lib %>/bootstrap-file-input/bootstrap-file-input.js',
                 '<%= path.src.lib %>/jquery-fileupload/jquery-fileupload.js',
