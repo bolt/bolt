@@ -32,13 +32,13 @@ class Extensions extends BaseCommand
             return;
         }
 
-        $installed = $this->app['extend.manager']->showPackage('installed');
+        $allPackages = $this->app['extend.manager']->getAllPackages();
         $rows = [];
 
-        foreach ($installed as $ext) {
-            /** @var \Composer\Package\CompletePackageInterface $package */
-            $package = $ext['package'];
-            $rows[] = [$package->getPrettyName(), $package->getPrettyVersion(), $package->getType(), $package->getDescription()];
+        foreach ($allPackages as $type => $packages) {
+            foreach ($packages as $package) {
+                $rows[] = [$package['name'], $package['version'], $package['type'], $package['descrip']];
+            }
         }
 
         $table = $this->getHelper('table');
