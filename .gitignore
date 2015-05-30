@@ -31,7 +31,6 @@ npm-debug.log
 app/src/tmp/
 app/src/docs/
 app/src/grunt-local/
-app/src/grunt.json
 
 # Sourcemaps
 app/view/maps/
