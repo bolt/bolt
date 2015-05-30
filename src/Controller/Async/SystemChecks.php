@@ -15,11 +15,11 @@ class SystemChecks extends AsyncBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->get('/check/directories', 'directories')
+        $c->get('/check/directories', 'directoriesCheck')
             ->bind('directories');
-        $c->get('/check/email', 'email')
+        $c->get('/check/email', 'emailCheck')
             ->bind('email');
-        $c->get('/check/extensions', 'extensions')
+        $c->get('/check/extensions', 'extensionsCheck')
             ->bind('extensions');
     }
 
@@ -30,7 +30,7 @@ class SystemChecks extends AsyncBase
      *
      * @return Response
      */
-    public function directories(Request $request)
+    public function directoriesCheck(Request $request)
     {
         $options = [];
 
@@ -49,7 +49,7 @@ class SystemChecks extends AsyncBase
      *
      * @return Response
      */
-    public function email(Request $request)
+    public function emailCheck(Request $request)
     {
         $options = [
             'user' => $this->app['users']->getCurrentUser(),
@@ -72,7 +72,7 @@ class SystemChecks extends AsyncBase
      *
      * @return Response
      */
-    public function extensions(Request $request)
+    public function extensionsCheck(Request $request)
     {
         $options = [];
 
