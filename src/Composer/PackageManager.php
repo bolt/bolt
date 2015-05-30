@@ -14,7 +14,7 @@ use Bolt\Composer\Action\UpdatePackage;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\RequestException;
-use Silex\Application;
+use Bolt\Application;
 
 class PackageManager
 {
@@ -74,7 +74,7 @@ class PackageManager
     private $factory;
 
     /**
-     * @var \Silex\Application
+     * @var \Bolt\Application
      */
     private $app;
 
@@ -499,7 +499,7 @@ class PackageManager
 
         // Check if we have a config file, and if it's readable. (yet)
         $configfilepath = $this->app['resources']->getPath('extensionsconfig/' . $configfilename);
-        if (is_readable($configfilepath)) {
+        if (is_readable($configfilepath) && !$this->app->isCli()) {
             return Lib::path('fileedit', ['namespace' => 'config', 'file' => 'extensions/' . $configfilename]);
         }
 
