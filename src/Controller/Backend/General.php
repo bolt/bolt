@@ -28,6 +28,9 @@ class General extends BackendBase
         $c->get('/about', 'about')
             ->bind('about');
 
+        $c->get('/checks', 'checks')
+            ->bind('checks');
+
         $c->get('/clearcache', 'clearCache')
             ->bind('clearcache');
 
@@ -55,6 +58,16 @@ class General extends BackendBase
     public function about()
     {
         return $this->render('about/about.twig');
+    }
+
+    /**
+     * Configuration checks/tests route.
+     *
+     * @return \Bolt\Response\BoltResponse
+     */
+    public function checks()
+    {
+        return $this->render('checks/checks.twig');
     }
 
     /**
