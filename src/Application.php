@@ -484,4 +484,13 @@ class Application extends Silex\Application
     {
         return $this['url_generator']->generate($route, $parameters);
     }
+
+    /**
+     * Check if the application is running on command line.
+     * @return bool
+     */
+    public function isCli()
+    {
+        return $this['resources']->getRequest('protocol') == 'cli';
+    }
 }
