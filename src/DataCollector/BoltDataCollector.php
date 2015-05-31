@@ -41,7 +41,7 @@ class BoltDataCollector extends DataCollector
             'name'        => $this->app['bolt_name'],
             'fullversion' => 'Version: ' . $this->app->getVersion(true),
             'payoff'      => 'Sophisticated, lightweight & simple CMS',
-            'aboutlink'   => sprintf("<a href=\"%s\">%s</a>", Lib::path('about'), 'About'),
+            'aboutlink'   => sprintf('<a href="%s">%s</a>', $this->app->generatePath('about'), 'About'),
             'branding'    => null,
             'editlink'    => null,
             'edittitle'   => null
@@ -49,7 +49,7 @@ class BoltDataCollector extends DataCollector
 
         if ($this->app['config']->get('general/branding/provided_by/0')) {
             $this->data['branding'] = sprintf(
-                "%s <a href=\"mailto:%s\">%s</a>",
+                '%s <a href="mailto:%s">%s</a>',
                 Trans::__('Provided by:'),
                 $this->app['config']->get('general/branding/provided_by/0'),
                 $this->app['config']->get('general/branding/provided_by/1')

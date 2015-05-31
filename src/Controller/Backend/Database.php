@@ -70,7 +70,7 @@ class Database extends BackendBase
             }
             $this->flashes()->success($content);
 
-            return $this->redirectToRoute('fileedit', ['file' => 'app/config/contenttypes.yml']);
+            return $this->redirectToRoute('fileedit', ['namespace' => 'config', 'file' => 'contenttypes.yml']);
         } else {
             return $this->redirectToRoute('dbupdate_result', ['messages' => json_encode($output)]);
         }

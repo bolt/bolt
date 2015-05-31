@@ -93,7 +93,7 @@ class MenuBuilder
             $param = !empty($item['param']) ?: [];
             $add = !empty($item['add']) ?: '';
 
-            $item['link'] = Lib::path($item['route'], $param, $add);
+            $item['link'] = $this->app->generatePath($item['route'], $param, $add);
         } elseif (isset($item['path'])) {
             $item = $this->resolvePathToContent($item);
         }
