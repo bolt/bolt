@@ -1638,7 +1638,7 @@ class Storage
         $offset = 0;
 
         // set correct limit and offset if these are set.
-        if( isset($decoded['parameters']['limit']) ) {
+        if (isset($decoded['parameters']['limit'])) {
             $limit = $decoded['parameters']['limit'];
         }
 

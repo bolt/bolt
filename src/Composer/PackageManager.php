@@ -11,7 +11,6 @@ use Bolt\Composer\Action\RequirePackage;
 use Bolt\Composer\Action\SearchPackage;
 use Bolt\Composer\Action\ShowPackage;
 use Bolt\Composer\Action\UpdatePackage;
-use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\RequestException;
 use Silex\Application;

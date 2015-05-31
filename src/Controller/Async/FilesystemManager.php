@@ -5,7 +5,6 @@ use Bolt\Translation\Translator as Trans;
 use League\Flysystem\FileNotFoundException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Async controller for filesystem management async routes.
@@ -131,7 +130,8 @@ class FilesystemManager extends AsyncBase
      *
      * @return bool
      */
-    public function createFile(Request $request) {
+    public function createFile(Request $request)
+    {
         $namespace = $request->request->get('namespace');
         $parentPath = $request->request->get('parentPath');
         $filename = $request->request->get('filename');

@@ -106,7 +106,7 @@ class EmailSetup extends BaseCheck implements ConfigurationCheckInterface
             $message = $this->app['mailer']
                 ->createMessage('message')
                 ->setSubject('Test email from ' . $this->app['config']->get('general/sitename'))
-                ->setFrom([$senderMail  => $senderName])
+                ->setFrom([$senderMail                   => $senderName])
                 ->setTo([$this->options['user']['email'] => $this->options['user']['displayname']])
                 ->setBody(strip_tags($mailhtml))
                 ->addPart($mailhtml, 'text/html')

@@ -3,7 +3,6 @@
 namespace Bolt\DataCollector;
 
 use Bolt\Application;
-use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

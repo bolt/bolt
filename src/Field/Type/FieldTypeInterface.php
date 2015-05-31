@@ -18,7 +18,6 @@ interface FieldTypeInterface
      * Handle or ignore the load event.
      *
      * @param QueryBuilder  $query
-     *
      * @param ClassMetadata $metadata
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata);

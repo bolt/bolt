@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Controller\Async;
 
-use Bolt\Configuration;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

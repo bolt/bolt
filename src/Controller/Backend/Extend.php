@@ -86,7 +86,7 @@ class Extend extends BackendBase
      * Generate a copy of a theme package.
      *
      * @param Request $request
-
+     *
      * @throws PackageManagerException
      *
      * @return Response

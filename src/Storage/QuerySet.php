@@ -25,9 +25,9 @@ class QuerySet extends \ArrayIterator
     /**
      * Execute function, iterate the queries, and execute them sequentially
      *
-     * @return \Doctrine\DBAL\Driver\Statement|int|null
-     *
      * @throws \Exception
+     *
+     * @return \Doctrine\DBAL\Driver\Statement|int|null
      */
     public function execute()
     {

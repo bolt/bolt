@@ -2,8 +2,6 @@
 namespace Bolt\Composer;
 
 use Composer\EventDispatcher\Event;
-use Composer\Installer\PackageEvent;
-use Composer\Script\Event as ScriptEvent;
 
 class ExtensionInstaller
 {

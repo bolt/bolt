@@ -2,7 +2,6 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 

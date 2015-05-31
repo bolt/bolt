@@ -2,7 +2,6 @@
 
 namespace Bolt;
 
-use Bolt\Configuration\ResourceManager;
 use Doctrine\Common\Cache\FilesystemCache;
 
 /**

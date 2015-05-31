@@ -3,7 +3,6 @@
 namespace Bolt\Helpers;
 
 use Bolt\Application;
-use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
