@@ -372,7 +372,7 @@ class FileManager extends BackendBase
      * config.yml.dist and config_local.yml
      *
      * @param FilesystemInterface $filesystem
-     * @param File $file
+     * @param File                $file
      *
      * @return array
      */

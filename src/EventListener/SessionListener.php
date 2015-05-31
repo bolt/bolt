@@ -24,7 +24,7 @@ class SessionListener implements EventSubscriberInterface
      * SessionListener constructor.
      *
      * @param FlashBagAttachableInterface $flashLogger
-     * @param boolean              $debug
+     * @param boolean                     $debug
      */
     public function __construct(FlashBagAttachableInterface $flashLogger, $debug)
     {

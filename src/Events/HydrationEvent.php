@@ -2,13 +2,12 @@
 
 namespace Bolt\Events;
 
-use Bolt\Storage\Repository;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * Hydration event allow access to 
+ * Hydration event allow access to
  * pre and post hydration of entities.
- * 
+ *
  * Before hydration, the subject will be an array of fetched data
  * After hydration, the subject will be the hydrated object
  *
@@ -16,7 +15,4 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class HydrationEvent extends GenericEvent
 {
-
-    
-    
 }

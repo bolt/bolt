@@ -248,7 +248,7 @@ class Users extends BackendBase
             'form'        => $form->createView(),
             'note'        => $note,
             'displayname' => $user['displayname'],
-            'sitename' => $this->getOption('general/sitename'),
+            'sitename'    => $this->getOption('general/sitename'),
         ];
 
         return $this->render('firstuser/firstuser.twig', $context);
@@ -257,8 +257,8 @@ class Users extends BackendBase
     /**
      * Perform modification actions on users.
      *
-     * @param string  $action  The action
-     * @param integer $id      The user ID
+     * @param string  $action The action
+     * @param integer $id     The user ID
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */

@@ -5,7 +5,6 @@ namespace Bolt;
 use Bolt\Debug\DebugToolbarEnabler;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Str;
-use Bolt\Library as Lib;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
 use Bolt\Provider\WhoopsServiceProvider;
@@ -14,8 +13,6 @@ use Doctrine\DBAL\DBALException;
 use RandomLib;
 use SecurityLib;
 use Silex;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Stopwatch;
 
 class Application extends Silex\Application
@@ -255,8 +252,8 @@ class Application extends Silex\Application
         $this->register(
             new Debug\WebProfilerServiceProvider(),
             [
-                'profiler.cache_dir'    => $this['resources']->getPath('cache') . '/profiler',
-                'profiler.mount_prefix' => '/_profiler', // this is the default
+                'profiler.cache_dir'                => $this['resources']->getPath('cache') . '/profiler',
+                'profiler.mount_prefix'             => '/_profiler', // this is the default
                 'web_profiler.debug_toolbar.enable' => false,
             ]
         );

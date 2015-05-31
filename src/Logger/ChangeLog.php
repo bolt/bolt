@@ -151,8 +151,8 @@ class ChangeLog
      * @param mixed $contenttype Should be a string content type slug, or an
      *                           associative array containing a key named
      *                           'slug'
-     * @param  $contentid
-     * @param int   $id          The content-changelog ID
+     * @param integer $contentid The record ID
+     * @param integer $id        The content-changelog ID
      *
      * @return \Bolt\Logger\ChangeLogItem|null
      */
@@ -167,8 +167,8 @@ class ChangeLog
      * @param mixed $contenttype Should be a string content type slug, or an
      *                           associative array containing a key named
      *                           'slug'
-     * @param  $contentid
-     * @param int   $id          The content-changelog ID
+     * @param integer $contentid The record ID
+     * @param integer $id        The content-changelog ID
      *
      * @return \Bolt\Logger\ChangeLogItem|null
      */
@@ -183,8 +183,8 @@ class ChangeLog
      * @param mixed $contenttype Should be a string content type slug, or an
      *                           associative array containing a key named
      *                           'slug'
-     * @param $contentid
-     * @param int   $id          The content-changelog ID
+     * @param integer $contentid The record ID
+     * @param integer $id        The content-changelog ID
      *
      * @return \Bolt\Logger\ChangeLogItem|null
      */

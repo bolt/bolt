@@ -121,7 +121,7 @@ class Result implements \JsonSerializable
     public function jsonSerialize()
     {
         $arr = [];
-        foreach(array_keys(get_class_vars(__CLASS__)) as $property) {
+        foreach (array_keys(get_class_vars(__CLASS__)) as $property) {
             if ($this->$property instanceof \Exception) {
                 $arr[$property] = (string) $this->$property;
             } else {

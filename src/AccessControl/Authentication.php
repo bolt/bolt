@@ -5,7 +5,6 @@ use Bolt\Application;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\DBALException;
 use Hautelook\Phpass\PasswordHash;
-use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use UAParser;
 

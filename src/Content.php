@@ -32,7 +32,6 @@ class Content implements \ArrayAccess
     /** @var boolean Whether this is a "real" contenttype or an embedded ones */
     private $isRootType;
 
-
     /**
      * @param \Silex\Application $app
      * @param string             $contenttype

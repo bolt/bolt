@@ -2,9 +2,9 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Mapping\MetadataDriver;
 use Bolt\Storage;
 use Bolt\Storage\EntityManager;
-use Bolt\Mapping\MetadataDriver;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -32,35 +32,34 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
-
         $app['storage.typemap'] = [
-            'Doctrine\DBAL\Types\StringType' => 'Bolt\Field\Type\Text',
-            'Doctrine\DBAL\Types\IntegerType' => 'Bolt\Field\Type\Integer',
-            'Doctrine\DBAL\Types\FloatType' => 'Bolt\Field\Type\Float',
-            'Doctrine\DBAL\Types\TextType' => 'Bolt\Field\Type\Textarea',
-            'Doctrine\DBAL\Types\DateType' => 'Bolt\Field\Type\Date',
+            'Doctrine\DBAL\Types\StringType'   => 'Bolt\Field\Type\Text',
+            'Doctrine\DBAL\Types\IntegerType'  => 'Bolt\Field\Type\Integer',
+            'Doctrine\DBAL\Types\FloatType'    => 'Bolt\Field\Type\Float',
+            'Doctrine\DBAL\Types\TextType'     => 'Bolt\Field\Type\Textarea',
+            'Doctrine\DBAL\Types\DateType'     => 'Bolt\Field\Type\Date',
             'Doctrine\DBAL\Types\DateTimeType' => 'Bolt\Field\Type\Datetime',
-            'checkbox' => 'Bolt\Field\Type\Checkbox',
-            'date' => 'Bolt\Field\Type\Date',
-            'datetime' => 'Bolt\Field\Type\Datetime',
-            'file' => 'Bolt\Field\Type\File',
-            'filelist' => 'Bolt\Field\Type\Filelist',
-            'float' => 'Bolt\Field\Type\Float',
-            'geolocation' => 'Bolt\Field\Type\Geolocation',
-            'html' => 'Bolt\Field\Type\Html',
-            'image' => 'Bolt\Field\Type\Image',
-            'imagelist' => 'Bolt\Field\Type\Imagelist',
-            'integer' => 'Bolt\Field\Type\Integer',
-            'markdown' => 'Bolt\Field\Type\Markdown',
-            'relation' => 'Bolt\Field\Type\Relation',
-            'repeater' => 'Bolt\Field\Type\Repeater',
-            'select' => 'Bolt\Field\Type\Select',
-            'slug' => 'Bolt\Field\Type\Slug',
-            'taxonomy' => 'Bolt\Field\Type\Taxonomy',
-            'templateselect' => 'Bolt\Field\Type\Templateselect',
-            'text' => 'Bolt\Field\Type\Text',
-            'textarea' => 'Bolt\Field\Type\Textarea',
-            'video' => 'Bolt\Field\Type\Video'
+            'checkbox'                         => 'Bolt\Field\Type\Checkbox',
+            'date'                             => 'Bolt\Field\Type\Date',
+            'datetime'                         => 'Bolt\Field\Type\Datetime',
+            'file'                             => 'Bolt\Field\Type\File',
+            'filelist'                         => 'Bolt\Field\Type\Filelist',
+            'float'                            => 'Bolt\Field\Type\Float',
+            'geolocation'                      => 'Bolt\Field\Type\Geolocation',
+            'html'                             => 'Bolt\Field\Type\Html',
+            'image'                            => 'Bolt\Field\Type\Image',
+            'imagelist'                        => 'Bolt\Field\Type\Imagelist',
+            'integer'                          => 'Bolt\Field\Type\Integer',
+            'markdown'                         => 'Bolt\Field\Type\Markdown',
+            'relation'                         => 'Bolt\Field\Type\Relation',
+            'repeater'                         => 'Bolt\Field\Type\Repeater',
+            'select'                           => 'Bolt\Field\Type\Select',
+            'slug'                             => 'Bolt\Field\Type\Slug',
+            'taxonomy'                         => 'Bolt\Field\Type\Taxonomy',
+            'templateselect'                   => 'Bolt\Field\Type\Templateselect',
+            'text'                             => 'Bolt\Field\Type\Text',
+            'textarea'                         => 'Bolt\Field\Type\Textarea',
+            'video'                            => 'Bolt\Field\Type\Video'
         ];
 
         $app['storage.metadata'] = $app->share(
@@ -74,7 +73,6 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return $meta;
             }
         );
-
     }
 
     public function boot(Application $app)

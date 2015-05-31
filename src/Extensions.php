@@ -10,7 +10,6 @@ use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
 use Composer\Json\JsonFile;
-use Composer\Json\JsonManipulator;
 use Monolog\Logger;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -254,7 +253,7 @@ class Extensions
      * Get the PSR-4 data for a local extension with the paths adjusted.
      *
      * @param string $path
-     * @param array $autoload
+     * @param array  $autoload
      *
      * @return array
      */
@@ -451,7 +450,6 @@ class Extensions
                     $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3]);
                 }
             }
-
         } catch (\Exception $e) {
             $this->logInitFailure('Snippet loading failed', $name, $e, Logger::ERROR);
 
