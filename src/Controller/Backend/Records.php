@@ -55,7 +55,7 @@ class Records extends BackendBase
         $contenttype = $this->getContentType($contenttypeslug);
 
         foreach ($ids as $id) {
-            $content = $this->getContent($contenttype['slug'], ['id' => $id, 'status' => '!']);
+            $content = $this->getContent($contenttype['slug'], ['id' => $id, 'status' => '!undefined']);
             $title = $content->getTitle();
 
             if (!$this->isAllowed("contenttype:$contenttypeslug:delete:$id")) {
