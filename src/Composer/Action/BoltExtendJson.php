@@ -104,9 +104,7 @@ final class BoltExtendJson
         ];
         $json['provide']['bolt/bolt'] = $app['bolt_version'];
         $json['extra'] = ['bolt-web-path' => $pathToWeb];
-        $json['autoload'] = [
-            'psr-4' => ['Bolt\\Composer\\' => '']
-        ];
+        $json['autoload']['psr-4']['Bolt\\Composer\\'] = '';
         $json['scripts'] = [
             'post-package-install' => 'Bolt\\Composer\\ExtensionInstaller::handle',
             'post-package-update'  => 'Bolt\\Composer\\ExtensionInstaller::handle'
