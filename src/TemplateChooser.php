@@ -56,14 +56,14 @@ class TemplateChooser
 
         // Third candidate: a template with the same filename as the name of
         // the contenttype.
-        $templatefile = $this->app['paths']['templatespath'] . '/' . $record->contenttype['singular_slug'] . '.twig';
+        $templatefile = $this->app['resources']->getPath('templatespath/' . $record->contenttype['singular_slug'] . '.twig');
         if (is_readable($templatefile)) {
             $template = $record->contenttype['singular_slug'] . '.twig';
         }
 
         // Fourth candidate: defined specificaly in the contenttype.
         if (isset($record->contenttype['record_template'])) {
-            $templatefile = $this->app['paths']['templatespath'] . '/' . $record->contenttype['record_template'];
+            $templatefile = $this->app['resources']->getPath('templatespath/' . $record->contenttype['record_template']);
             if (file_exists($templatefile)) {
                 $template = $record->contenttype['record_template'];
             }
@@ -98,7 +98,7 @@ class TemplateChooser
 
         // Third candidate: a template with the same filename as the name of
         // the contenttype.
-        $filename = $this->app['paths']['templatespath'] . '/' . $contenttype['slug'] . '.twig';
+        $filename = $this->app['resources']->getPath('templatespath/' . $contenttype['slug'] . '.twig');
         if (file_exists($filename) && is_readable($filename)) {
             $template = $contenttype['slug'] . '.twig';
         }

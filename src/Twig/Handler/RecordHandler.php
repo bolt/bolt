@@ -239,7 +239,7 @@ class RecordHandler
 
             $finder = new Finder();
             $finder->files()
-                ->in($this->app['paths']['templatespath'])
+                ->in($this->app['resources']->getPath('templatespath'))
                 ->notname('/^_/')
                 ->notPath('node_modules')
                 ->notPath('bower_components')

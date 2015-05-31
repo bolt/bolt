@@ -133,8 +133,8 @@ class Stack
         }
 
         // Our basepaths for all files that can be on the stack: 'files' and 'theme'.
-        $filespath = $this->app['paths']['filespath'];
-        $themepath = $this->app['paths']['themebasepath'];
+        $filespath = $this->app['resources']->getPath('filespath');
+        $themepath = $this->app['resources']->getPath('themebasepath');
 
         $items = $this->items;
         $list = [];

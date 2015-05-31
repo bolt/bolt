@@ -93,7 +93,7 @@ class PackageManager
         $this->app = $app;
 
         // Set composer environment variables
-        putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache') . '/composer');
+        putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache/composer'));
 
         // Set default options
         $this->setOptions();
@@ -570,7 +570,7 @@ class PackageManager
     {
         $this->options = [
             'basedir'                => $this->app['resources']->getPath('extensions'),
-            'composerjson'           => $this->app['resources']->getPath('extensions') . '/composer.json',
+            'composerjson'           => $this->app['resources']->getPath('extensions/composer.json'),
 
             'dryrun'                 => null,    // dry-run              - Outputs the operations but will not execute anything (implicitly enables --verbose)
             'verbose'                => true,    // verbose              - Shows more details including new commits pulled in when updating packages

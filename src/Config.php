@@ -972,7 +972,7 @@ class Config
 
         // Backend and Async need access to `app/view/twig`
         if ($end == 'backend' || $end == 'async') {
-            $twigpath[] = realpath($this->app['resources']->getPath('app') . '/view/twig');
+            $twigpath[] = realpath($this->app['resources']->getPath('app/view/twig'));
             if ($this->app['resources']->hasPath('composerbackendviews')) {
                 $backendviewpath = $this->app['resources']->getPath('composerbackendviews');
                 if (file_exists($backendviewpath)) {
@@ -1000,7 +1000,7 @@ class Config
 
         // We add these later, because the order is important: By having theme/ourtheme first,
         // files in that folder will take precedence. For instance when overriding the menu template.
-        $twigpath[] = realpath($this->app['resources']->getPath('app') . '/theme_defaults');
+        $twigpath[] = realpath($this->app['resources']->getPath('app/theme_defaults'));
 
         return $twigpath;
     }
@@ -1047,14 +1047,14 @@ class Config
             file_exists($dir . '/permissions.yml') ? filemtime($dir . '/permissions.yml') : 10000000000,
             file_exists($dir . '/config_local.yml') ? filemtime($dir . '/config_local.yml') : 0,
         ];
-        if (file_exists($this->app['resources']->getPath('cache') . '/config_cache.php')) {
-            $this->cachetimestamp = filemtime($this->app['resources']->getPath('cache') . '/config_cache.php');
+        if (file_exists($this->app['resources']->getPath('cache/config_cache.php'))) {
+            $this->cachetimestamp = filemtime($this->app['resources']->getPath('cache/config_cache.php'));
         } else {
             $this->cachetimestamp = 0;
         }
 
         if ($this->cachetimestamp > max($timestamps)) {
-            $this->data = Lib::loadSerialize($this->app['resources']->getPath('cache') . '/config_cache.php');
+            $this->data = Lib::loadSerialize($this->app['resources']->getPath('cache/config_cache.php'));
 
             // Check if we loaded actual data.
             if (count($this->data) < 4 || empty($this->data['general'])) {
@@ -1088,12 +1088,12 @@ class Config
         $this->data['version'] = $this->app->getVersion();
 
         if ($this->get('general/caching/config')) {
-            Lib::saveSerialize($this->app['resources']->getPath('cache') . '/config_cache.php', $this->data);
+            Lib::saveSerialize($this->app['resources']->getPath('cache/config_cache.php'), $this->data);
 
             return;
         }
 
-        @unlink($this->app['resources']->getPath('cache') . '/config_cache.php');
+        @unlink($this->app['resources']->getPath('cache/config_cache.php'));
     }
 
     /**

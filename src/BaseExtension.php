@@ -502,9 +502,9 @@ abstract class BaseExtension implements ExtensionInterface
         if (file_exists($this->basepath . '/' . $filename)) {
             // file is located relative to the current extension.
             $this->app['extensions']->addJavascript($this->getBaseUrl() . $filename, $options);
-        } elseif (file_exists($this->app['paths']['themepath'] . '/' . $filename)) {
+        } elseif (file_exists($this->app['resources']->getPath('themepath/' . $filename))) {
             // file is located relative to the theme path.
-            $this->app['extensions']->addJavascript($this->app['paths']['theme'] . $filename, $options);
+            $this->app['extensions']->addJavascript($this->app['resources']->getUrl('theme') . $filename, $options);
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
@@ -539,9 +539,9 @@ abstract class BaseExtension implements ExtensionInterface
         if (file_exists($this->basepath . '/' . $filename)) {
             // File is located relative to the current extension.
             $this->app['extensions']->addCss($this->getBaseUrl() . $filename, $options);
-        } elseif (file_exists($this->app['paths']['themepath'] . '/' . $filename)) {
+        } elseif (file_exists($this->app['resources']->getPath('themepath/' . $filename))) {
             // File is located relative to the theme path.
-            $this->app['extensions']->addCss($this->app['paths']['theme'] . $filename, $options);
+            $this->app['extensions']->addCss($this->app['resources']->getUrl('theme') . $filename, $options);
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";

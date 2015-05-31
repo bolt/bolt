@@ -82,7 +82,7 @@ class TranslationFile
         $path = '/resources/translations/' . $locale . '/' . $domain . '.' . $locale . '.yml';
 
         // If long locale dir doesn't exists try short locale and return it if that exists
-        if (strlen($locale) == 5 && !is_dir($this->app['paths']['apppath'] . $path)) {
+        if (strlen($locale) == 5 && !is_dir($this->app['resources']->getPath('apppath' . $path))) {
             $paths = $this->buildPath($domain, substr($locale, 0, 2));
 
             if (is_dir($paths[0])) {
@@ -91,7 +91,7 @@ class TranslationFile
         }
 
         return [
-            $this->app['paths']['apppath'] . $path,
+            $this->app['resources']->getPath('apppath' . $path),
             'app' . $path,
         ];
     }
@@ -129,8 +129,8 @@ class TranslationFile
             ->name('*.twig')
             ->notName('*~')
             ->exclude(['cache', 'config', 'database', 'resources', 'tests'])
-            ->in(dirname($this->app['paths']['themepath']))
-            ->in($this->app['paths']['apppath']);
+            ->in(dirname($this->app['resources']->getPath('themepath')))
+            ->in($this->app['resources']->getPath('apppath'));
 
         // Regex from: stackoverflow.com/questions/5695240/php-regex-to-ignore-escaped-quotes-within-quotes
         $twigRegex = [
@@ -165,7 +165,7 @@ class TranslationFile
             ->name('*.php')
             ->notName('*~')
             ->exclude(['cache', 'config', 'database', 'resources', 'tests'])
-            ->in($this->app['paths']['apppath'])
+            ->in($this->app['resources']->getPath('apppath'))
             ->in(__DIR__ . DIRECTORY_SEPARATOR . '..');
 
         foreach ($finder as $file) {
