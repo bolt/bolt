@@ -3,7 +3,6 @@ namespace Bolt\Session;
 
 use Bolt\Session\Generator\GeneratorInterface;
 use Bolt\Session\Serializer\SerializerInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use SessionHandlerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
@@ -83,6 +82,8 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
         if ($this->started) {
             return true;
         }
+
+        //TODO Check referer
 
         if (empty($this->id)) {
             $this->id = $this->generator->generateId();
@@ -327,14 +328,15 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
 
     protected function collectGarbage()
     {
-        /**
-         * TODO: Determine if garbage should be collected
-         * @see http://php.net/manual/en/sessionhandlerinterface.gc.php
-         */
-        $gc = false;
-        $maxLifeTime = 0;
-        if ($gc) {
-            $this->handler->gc($maxLifeTime);
+        $probability = $this->options->getInt('gc_probability');
+        if ($probability < 0) {
+            return;
+        }
+        $divisor = $this->options->getInt('gc_divisor');
+
+        $rand = mt_rand(0, $divisor);
+        if ($rand < $probability) {
+            $this->handler->gc($this->options->getInt('gc_maxlifetime'));
         }
     }
 }
