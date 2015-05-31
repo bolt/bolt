@@ -9,6 +9,8 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
+use Composer\Json\JsonFile;
+use Composer\Json\JsonManipulator;
 use Monolog\Logger;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -169,32 +171,110 @@ class Extensions
         $flag = $this->app['filesystem']->has('extensions://local');
 
         // Check that local exists
-        if ($flag) {
-            // Find init.php files that are exactly 2 directories below etensions/local/
-            $finder = new Finder();
-            $finder->files()
-                   ->in($this->basefolder . '/local')
-                   ->followLinks()
-                   ->name('init.php')
-                   ->depth('== 2');
+        if (!$flag) {
+            return;
+        }
 
-            foreach ($finder as $file) {
-                /** @var \Symfony\Component\Finder\SplFileInfo $file */
-                try {
-                    // Include the extensions core file
-                    require_once dirname($file->getRealpath()) . '/Extension.php';
+        // Find init.php files that are exactly 2 directories below etensions/local/
+        $finder = new Finder();
+        $finder->files()
+               ->in($this->basefolder . '/local')
+               ->followLinks()
+               ->name('init.php')
+               ->depth('== 2')
+       ;
 
-                    // Include the init file
-                    require_once $file->getRealpath();
+        foreach ($finder as $file) {
+            /** @var \Symfony\Component\Finder\SplFileInfo $file */
+            try {
+                // Include the extensions core file
+                require_once dirname($file->getRealpath()) . '/Extension.php';
 
-                    // Mark is as a local extension
-                    $extension = end($this->enabled);
-                    $extension->setInstallType('local');
-                } catch (\Exception $e) {
-                    $this->logInitFailure('Error importing local extension class', $file->getBasename(), $e, Logger::ERROR);
-                }
+                // Include the init file
+                require_once $file->getRealpath();
+
+                // Mark is as a local extension
+                $extension = end($this->enabled);
+                $extension->setInstallType('local');
+            } catch (\Exception $e) {
+                $this->logInitFailure('Error importing local extension class', $file->getBasename(), $e, Logger::ERROR);
             }
         }
+    }
+
+    /**
+     * Check for local extension composer.json files and import their PSR-4 settings.
+     *
+     * @param boolean $force
+     *
+     * @internal
+     */
+    public function checkLocalAutoloader($force = false)
+    {
+        if (!$this->app['filesystem']->has('extensions://local/') || !force || $this->app['filesystem']->has('extensions://local/.built')) {
+            return;
+        }
+
+        // Get Bolt's extension JSON
+        $composerOptions = $this->app['extend.manager']->getOptions();
+        $composerJsonFile = new JsonFile($composerOptions['composerjson']);
+        $boltJson = $composerJsonFile->read();
+        $boltPsr4 = isset($boltJson['autoload']['psr-4']) ? $boltJson['autoload']['psr-4'] : [];
+
+        $finder = new Finder();
+        $finder->files()
+            ->in($this->basefolder . '/local')
+            ->followLinks()
+            ->name('composer.json')
+            ->depth('== 2')
+        ;
+
+        foreach ($finder as $file) {
+            try {
+                $extensionJsonFile = new JsonFile($file->getRealpath());
+                $json = $extensionJsonFile->read();
+            } catch (\Exception $e) {
+                // Ignore for now
+            }
+
+            if (isset($json['autoload']['psr-4'])) {
+                $basePath = str_replace($this->app['resources']->getPath('extensions/local'), 'local', dirname($file->getRealpath()));
+                $psr4 = $this->getLocalExtensionPsr4($basePath, $json['autoload']['psr-4']);
+                $boltPsr4 = array_merge($boltPsr4, $psr4);
+            }
+        }
+
+        $boltJson['autoload']['psr-4'] = $boltPsr4;
+        $composerJsonFile->write($boltJson);
+        $this->app['extend.manager']->dumpautoload();
+        $this->app['filesystem']->write('extensions://local/.built', time());
+    }
+
+    /**
+     * Get the PSR-4 data for a local extension with the paths adjusted.
+     *
+     * @param string $path
+     * @param array $autoload
+     *
+     * @return array
+     */
+    private function getLocalExtensionPsr4($path, array $autoload)
+    {
+        $psr4 = [];
+        foreach ($autoload as $namespace => $namespacePaths) {
+            $paths = null;
+            if (is_string($namespacePaths)) {
+                $paths = "$path/$namespacePaths";
+            } else {
+                foreach ($namespacePaths as $namespacePath) {
+                    $paths[] = "$path/$namespacePath";
+                }
+            }
+
+            $psr4[$namespace] = $paths;
+        }
+
+        return $psr4;
     }
 
     /**

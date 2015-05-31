@@ -410,6 +410,7 @@ class Application extends Silex\Application
 
     public function initExtensions()
     {
+        $this['extensions']->checkLocalAutoloader();
         $this['extensions']->initialize();
     }
 
