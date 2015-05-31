@@ -99,7 +99,9 @@ module.exports = function (grunt, option) {
          */
         installLibCss: {
             options: {
-                process: processLibCss
+                process: processLibCss,
+                sourceMap: '<%= sourcemap.css %>',
+                sourceMapName: '<%= path.sourcemaps %>/lib.css.map'
             },
             src: [
                 '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.structure.css',
