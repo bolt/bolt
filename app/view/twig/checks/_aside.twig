@@ -1,0 +1,32 @@
+{% import '_macro/_panels.twig' as panels %}
+
+{# No Javascript #}
+<noscript>
+    <section>
+        <h2>{{ __('generic.noscript.headline') }}</h2>
+        <p>{{ __('generic.noscript.message') }}</p>
+    </section>
+</noscript>
+
+<div class="panel panel-default panel-checks">
+    <div class="panel-body">
+        <button type="button" class="btn btn-primary">
+            <i class="fa fa-flag"></i> {{ __('Run all checks') }}
+    	</button>
+    </div>
+    <div class="panel-body">
+        <button type="button" class="btn btn-primary">
+            <i class="fa fa-flag"></i> {{ __('Run directory checks') }}
+    	</button>
+    </div>
+    <div class="panel-body">
+        <button type="button" class="btn btn-primary">
+            <i class="fa fa-flag"></i> {{ __('Run email checks') }}
+    	</button>
+    </div>
+    <div class="panel-body">
+        <button type="button" class="btn btn-primary">
+            <i class="fa fa-flag"></i> {{ __('Run PHP extension checks') }}
+    	</button>
+    </div>
+</div>
