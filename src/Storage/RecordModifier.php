@@ -52,7 +52,7 @@ class RecordModifier
 
         // If we have an ID now, this is an existing record
         if ($id) {
-            $content = $this->app['storage']->getContent($contenttypeslug, ['id' => $id, 'status' => '!']);
+            $content = $this->app['storage']->getContent($contenttypeslug, ['id' => $id, 'status' => '!undefined']);
             $oldStatus = $content['status'];
         } else {
             $content = $this->app['storage']->getContentObject($contenttypeslug);
@@ -197,7 +197,7 @@ class RecordModifier
         Response::closeOutputBuffers(0, false);
 
         // Get our record after POST_SAVE hooks are dealt with and return the JSON
-        $content = $this->app['storage']->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!']);
+        $content = $this->app['storage']->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!undefined']);
 
         $val = [];
 
