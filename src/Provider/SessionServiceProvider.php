@@ -27,7 +27,7 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $app['session.storage'] = $app->share(function ($app) {
             return new SessionStorage(
-                new OptionsBag($app['session.storage.options']),
+                $app['session.storage.options_bag'],
                 $app['session.storage.handler'],
                 $app['session.storage.generator'],
                 $app['session.storage.serializer']
@@ -45,10 +45,15 @@ class SessionServiceProvider implements ServiceProviderInterface
         $app['session.storage.serializer'] = $app->share(function () {
             return new NativeSerializer();
         });
+
+        $app['session.storage.options'] = array();
+        $app['session.storage.options_bag'] = $app->share(function ($app) {
+            return new OptionsBag($app['session.storage.options']);
+        });
     }
 
     public function boot(Application $app)
     {
-        $app['dispatcher']->addSubscriber(new SessionListener($app['session'], $app['session.storage']));
+        $app['dispatcher']->addSubscriber(new SessionListener($app['session'], $app['session.storage.options_bag']));
     }
 }

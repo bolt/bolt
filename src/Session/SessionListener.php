@@ -3,6 +3,7 @@
 namespace Bolt\Session;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -17,19 +18,19 @@ class SessionListener implements EventSubscriberInterface
 {
     /** @var SessionInterface */
     protected $session;
-    /** @var SessionStorage */
-    protected $storage;
+    /** @var OptionsBag */
+    protected $options;
 
     /**
      * Constructor.
      *
      * @param SessionInterface $session
-     * @param SessionStorage   $storage
+     * @param OptionsBag       $options
      */
-    public function __construct(SessionInterface $session, SessionStorage $storage)
+    public function __construct(SessionInterface $session, OptionsBag $options)
     {
         $this->session = $session;
-        $this->storage = $storage;
+        $this->options = $options;
     }
 
     /**
@@ -65,8 +66,25 @@ class SessionListener implements EventSubscriberInterface
             return;
         }
         $this->session->save();
-        $cookie = $this->storage->generateCookie();
+        $cookie = $this->generateCookie();
         $event->getResponse()->headers->setCookie($cookie);
+    }
+
+    protected function generateCookie()
+    {
+        $lifetime = $this->options->getInt('cookie_lifetime');
+        if ($lifetime !== 0) {
+            $lifetime += time();
+        }
+        return new Cookie(
+            $this->session->getName(),
+            $this->session->getId(),
+            $lifetime,
+            $this->options['cookie_path'],
+            $this->options['cookie_domain'] ?: null,
+            $this->options->getBoolean('cookie_secure'),
+            $this->options->getBoolean('cookie_httponly')
+        );
     }
 
     /**

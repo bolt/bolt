@@ -4,7 +4,6 @@ namespace Bolt\Session;
 use Bolt\Session\Generator\GeneratorInterface;
 use Bolt\Session\Serializer\SerializerInterface;
 use SessionHandlerInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
@@ -13,9 +12,11 @@ use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
  * TODO:
  *  - Do return values from handler need to be checked? Throw exceptions? Log?
  *
+ * Symfony has a great abstraction layer for Sessions...so why are we still restricting ourselves with core limitations.
+ *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class SessionStorage implements SessionStorageInterface, CookieGeneratableInterface
+class SessionStorage implements SessionStorageInterface
 {
     /** @var string */
     protected $id = '';
@@ -172,26 +173,6 @@ class SessionStorage implements SessionStorageInterface, CookieGeneratableInterf
 
         $this->closed = true;
         $this->started = false;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function generateCookie()
-    {
-        $lifetime = $this->options->getInt('cookie_lifetime');
-        if ($lifetime !== 0) {
-            $lifetime += time();
-        }
-        return new Cookie(
-            $this->name,
-            $this->id,
-            $lifetime,
-            $this->options['cookie_path'],
-            $this->options['cookie_domain'] ?: null,
-            $this->options->getBoolean('cookie_secure'),
-            $this->options->getBoolean('cookie_httponly')
-        );
     }
 
     /**
