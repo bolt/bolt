@@ -188,6 +188,8 @@ class Library
 
     /**
      * Get an array of the query parameters
+     * 
+     * @internal
      *
      * @param string $url
      *
