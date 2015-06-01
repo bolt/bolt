@@ -31,7 +31,7 @@ class Frontend
      *
      * @param \Silex\Application $app
      *
-     * @return mixed
+     * @return string
      */
     public function homepage(Application $app)
     {
@@ -149,7 +149,7 @@ class Frontend
             // Log it
             $app['logger.system']->error($error, ['event' => 'twig']);
             // Set the template error
-            $this->setTemplateError($app, $error);
+            $this->setTemplateError();
             // Abort ship
             throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, $error);
         }

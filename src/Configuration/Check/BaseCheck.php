@@ -30,7 +30,7 @@ abstract class BaseCheck
     /**
      * Getter for the result container.
      *
-     * @return \Bolt\Configuration\Result
+     * @return \Bolt\Configuration\Check\Result
      */
     protected function createResult()
     {
