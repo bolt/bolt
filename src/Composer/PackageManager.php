@@ -17,74 +17,15 @@ use Silex\Application;
 
 class PackageManager
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $options;
-
-    /**
-     * @var \Bolt\Composer\Action\CheckPackage
-     */
-    private $check;
-
-    /**
-     * @var \Bolt\Composer\Action\DumpAutoload
-     */
-    private $dumpautoload;
-
-    /**
-     * @var \Bolt\Composer\Action\BoltExtendJson
-     */
-    private $initJson;
-
-    /**
-     * @var \Bolt\Composer\Action\InstallPackage
-     */
-    private $install;
-
-    /**
-     * @var \Bolt\Composer\Action\RemovePackage
-     */
-    private $remove;
-
-    /**
-     * @var \Bolt\Composer\Action\RequirePackage
-     */
-    private $require;
-
-    /**
-     * @var \Bolt\Composer\Action\SearchPackage
-     */
-    private $search;
-
-    /**
-     * @var \Bolt\Composer\Action\ShowPackage
-     */
-    private $show;
-
-    /**
-     * @var \Bolt\Composer\Action\UpdatePackage
-     */
-    private $update;
-
-    /**
-     * @var \Bolt\Composer\Factory
-     */
+    /** @var \Bolt\Composer\Factory */
     private $factory;
-
-    /**
-     * @var \Silex\Application
-     */
+    /** @var \Silex\Application */
     private $app;
-
-    /**
-     * @var array|null
-     */
+    /** @var array|null  */
     private $json;
-
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private $messages = [];
 
     public function __construct(Application $app)
@@ -230,11 +171,7 @@ class PackageManager
      */
     public function checkPackage()
     {
-        if (!$this->check) {
-            $this->check = new CheckPackage($this->app);
-        }
-
-        return $this->check->execute();
+        return $this->app['extend.action']['check']->execute();
     }
 
     /**
@@ -242,11 +179,7 @@ class PackageManager
      */
     public function dumpautoload()
     {
-        if (!$this->dumpautoload) {
-            $this->dumpautoload = new DumpAutoload($this->app);
-        }
-
-        $this->dumpautoload->execute();
+        $this->app['extend.action']['autoload']->execute();
     }
 
     /**
@@ -256,12 +189,7 @@ class PackageManager
      */
     public function installPackages()
     {
-        if (!$this->install) {
-            $this->install = new InstallPackage($this->app);
-        }
-
-        // 0 on success or a positive error code on failure
-        return $this->install->execute();
+        return $this->app['extend.action']['install']->execute();
     }
 
     /**
@@ -273,12 +201,7 @@ class PackageManager
      */
     public function removePackage(array $packages)
     {
-        if (!$this->remove) {
-            $this->remove = new RemovePackage($this->app);
-        }
-
-        // 0 on success or a positive error code on failure
-        return $this->remove->execute($packages);
+        return $this->app['extend.action']['remove']->execute($packages);
     }
 
     /**
@@ -291,12 +214,7 @@ class PackageManager
      */
     public function requirePackage(array $packages)
     {
-        if (!$this->require) {
-            $this->require = new RequirePackage($this->app);
-        }
-
-        // 0 on success or a positive error code on failure
-        return $this->require->execute($packages);
+        return $this->app['extend.action']['require']->execute($packages);
     }
 
     /**
@@ -308,11 +226,7 @@ class PackageManager
      */
     public function searchPackage(array $packages)
     {
-        if (!$this->search) {
-            $this->search = new SearchPackage($this->app);
-        }
-
-        return $this->search->execute($packages);
+        return $this->app['extend.action']['search']->execute($packages);
     }
 
     /**
@@ -327,11 +241,7 @@ class PackageManager
      */
     public function showPackage($target, $package = '', $version = '', $root = false)
     {
-        if (!$this->show) {
-            $this->show = new ShowPackage($this->app);
-        }
-
-        return $this->show->execute($target, $package, $version, $root);
+        return $this->app['extend.action']['show']->execute($target, $package, $version, $root);
     }
 
     /**
@@ -343,12 +253,7 @@ class PackageManager
      */
     public function updatePackage(array $packages)
     {
-        if (!$this->update) {
-            $this->update = new UpdatePackage($this->app);
-        }
-
-        // 0 on success or a positive error code on failure
-        return $this->update->execute($packages);
+        return $this->app['extend.action']['update']->execute($packages);
     }
 
     /**
@@ -359,11 +264,7 @@ class PackageManager
      */
     public function initJson($file, array $data = [])
     {
-        if (!$this->initJson) {
-            $this->initJson = new BoltExtendJson($this->options);
-        }
-
-        $this->initJson->execute($file, $data);
+        $this->app['extend.action']['json']->execute($file, $data);
     }
 
     /**

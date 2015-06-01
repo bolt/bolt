@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Composer\Action;
 use Bolt\Composer\PackageManager;
 use Bolt\Extensions;
 use Bolt\Extensions\ExtensionsInfoService;
@@ -53,6 +54,23 @@ class ExtensionServiceProvider implements ServiceProviderInterface
                 return new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
             }
         );
+
+        // Actions
+        $app['extend.action'] = $app->share(function (Application $app) {
+            return new \Pimple([
+                // @codingStandardsIgnoreStart
+                'autoload' => $app->share(function () use ($app) { return new Action\DumpAutoload($app); }),
+                'check'    => $app->share(function () use ($app) { return new Action\CheckPackage($app); }),
+                'install'  => $app->share(function () use ($app) { return new Action\InstallPackage($app); }),
+                'json'     => $app->share(function () use ($app) { return new Action\BoltExtendJson($app['extend.manager']->getOptions()); }),
+                'remove'   => $app->share(function () use ($app) { return new Action\RemovePackage($app); }),
+                'require'  => $app->share(function () use ($app) { return new Action\RequirePackage($app); }),
+                'search'   => $app->share(function () use ($app) { return new Action\SearchPackage($app); }),
+                'show'     => $app->share(function () use ($app) { return new Action\ShowPackage($app); }),
+                'update'   => $app->share(function () use ($app) { return new Action\UpdatePackage($app); }),
+                // @codingStandardsIgnoreEnd
+            ]);
+        });
     }
 
     public function boot(Application $app)
