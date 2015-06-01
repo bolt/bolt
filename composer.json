@@ -35,6 +35,7 @@
         "swiftmailer/swiftmailer" : "~5.3",
         "symfony/config" : "<2.7",
         "symfony/console" : "<2.7",
+        "symfony/debug" : "<2.7",        
         "symfony/filesystem" : "<2.7",
         "symfony/finder" : "<2.7",
         "symfony/form" : "<2.7",
