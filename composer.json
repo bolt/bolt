@@ -39,7 +39,6 @@
         "symfony/finder" : "<2.7",
         "symfony/form" : "<2.7",
         "symfony/intl" : "<2.7",
-        "symfony/locale" : "<2.7",
         "symfony/options-resolver" : "<2.7",
         "symfony/property-access" : "<2.7",
         "symfony/process" : "<2.7",
