@@ -57,7 +57,7 @@ class FilesystemManager extends AsyncBase
      * @param string  $namespace
      * @param string  $path
      *
-     * @return mixed
+     * @return \Bolt\Response\BoltResponse
      */
     public function browse(Request $request, $namespace, $path)
     {
@@ -108,7 +108,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return Boolean Whether the creation was successful
+     * @return boolean
      */
     public function createFolder(Request $request)
     {
@@ -128,7 +128,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return bool
+     * @return boolean
      */
     public function createFile(Request $request)
     {
@@ -148,7 +148,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return bool
+     * @return boolean
      */
     public function deleteFile(Request $request)
     {
@@ -167,7 +167,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return bool
+     * @return boolean
      */
     public function duplicateFile(Request $request)
     {
@@ -212,7 +212,7 @@ class FilesystemManager extends AsyncBase
     /**
      * List records to easily insert links through the WYSIWYG editor.
      *
-     * @return mixed
+     * @return \Bolt\Response\BoltResponse
      */
     public function recordBrowser()
     {
@@ -242,7 +242,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return Boolean Whether the renaming action was successful
+     * @return boolean
      */
     public function removeFolder(Request $request)
     {
@@ -262,7 +262,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return Boolean Whether the renaming action was successful
+     * @return boolean
      */
     public function renameFile(Request $request)
     {
@@ -283,7 +283,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return Boolean Whether the renaming action was successful
+     * @return boolean
      */
     public function renameFolder(Request $request)
     {

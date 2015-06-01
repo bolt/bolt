@@ -24,6 +24,9 @@ abstract class BackendBase extends Base
         return $c;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function render($template, array $variables = [], array $globals = [])
     {
         if (!isset($variables['context'])) {

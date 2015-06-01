@@ -80,9 +80,7 @@ class Result implements \JsonSerializable
     /**
      * Get the message that describes the check result.
      *
-     * @param string $message
-     *
-     * @return \Bolt\Configuration\Check\Result
+     * @return string
      */
     public function getMessage()
     {

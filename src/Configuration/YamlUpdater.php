@@ -14,35 +14,15 @@ use Symfony\Component\Yaml\Parser;
  **/
 class YamlUpdater
 {
-    /**
-     * @var Parser
-     */
+    /** @var Parser */
     private $parser;
-
-    /**
-     * "File pointer". Basically used as offset for searching.
-     *
-     * @var int
-     */
+    /** @var integer "File pointer". Basically used as offset for searching. */
     private $pointer = 0;
-
-    /**
-     * Number of lines in the file.
-     *
-     * @var int
-     */
+    /** @var integer Number of lines in the file. */
     private $lines = 0;
-
-    /**
-     * Contains a line of the file per index.
-     *
-     * @var array
-     */
+    /** @var array Contains a line of the file per index. */
     private $yaml = [];
-
-    /**
-     * @var File
-     */
+    /** @var File */
     private $file;
 
     /**
@@ -75,7 +55,7 @@ class YamlUpdater
      *
      * @param string $key
      *
-     * @return bool|array
+     * @return boolean|array
      */
     public function get($key)
     {
@@ -98,10 +78,10 @@ class YamlUpdater
     /**
      * Find a specific part of the key, starting from $this->pointer.
      *
-     * @param string $keypart
-     * @param int    $indent
+     * @param string  $keypart
+     * @param integer $indent
      *
-     * @return bool|int
+     * @return boolean|integer
      */
     private function find($keypart, $indent = 0)
     {
@@ -120,7 +100,7 @@ class YamlUpdater
     /**
      * Parse a specific line-number into its key, value parts, with the used indentation.
      *
-     * @param $line
+     * @param integer $line
      *
      * @return array
      */
@@ -143,7 +123,7 @@ class YamlUpdater
      * @param mixed   $value      New value
      * @param boolean $makebackup Back up the file before commiting changes to it
      *
-     * @return bool
+     * @return boolean
      */
     public function change($key, $value, $makebackup = true)
     {
@@ -191,7 +171,7 @@ class YamlUpdater
      *
      * @throws \Bolt\Exception\FilesystemException
      *
-     * @return bool true if save was successful
+     * @return boolean true if save was successful
      */
     protected function save($makebackup)
     {
@@ -232,8 +212,6 @@ class YamlUpdater
 
     /**
      * Backup the YAML file.
-     *
-     * @return boolean
      */
     protected function backup()
     {

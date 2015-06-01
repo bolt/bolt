@@ -70,7 +70,7 @@ class Log extends BackendBase
      * @param integer $contentid   The content ID
      * @param integer $id          The changelog entry ID
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse
      */
     public function changeRecord(Request $request, $contenttype, $contentid, $id)
     {
@@ -100,7 +100,7 @@ class Log extends BackendBase
      * @param string  $contenttype The content type slug
      * @param integer $contentid   The content ID
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Bolt\Response\BoltResponse
      */
     public function changeRecordListing(Request $request, $contenttype, $contentid)
     {

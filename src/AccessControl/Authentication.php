@@ -647,6 +647,15 @@ class Authentication
         }
     }
 
+    /**
+     * Get the name of either the users or authtoken table.
+     *
+     * @param string $table
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return string
+     */
     private function getTableName($table)
     {
         $prefix = $this->app['config']->get('general/database/prefix', 'bolt_');

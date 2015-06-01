@@ -260,7 +260,7 @@ class Users extends BackendBase
      * @param string  $action The action
      * @param integer $id     The user ID
      *
-     * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function modify($action, $id)
     {
