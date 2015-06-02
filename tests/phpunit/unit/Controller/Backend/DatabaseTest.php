@@ -67,7 +67,7 @@ class DatabaseTest extends ControllerUnitTest
         $response = $this->controller()->update($this->getRequest());
 
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
-        $this->assertEquals('/bolt/dbupdate_result?messages=null', $response->getTargetUrl());
+        $this->assertEquals('/bolt/dbupdate_result', $response->getTargetUrl());
     }
 
     public function testUpdateResult()
