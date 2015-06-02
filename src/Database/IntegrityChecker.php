@@ -424,7 +424,7 @@ class IntegrityChecker
                 }
 
                 // Add the contenttype's specific fields
-                $this->addCustomContentTypeFields($myTable, $values, $field);
+                $this->addCustomContentTypeFields($myTable, $field, $values['type']);
 
                 if (isset($values['index']) && $values['index'] == 'true') {
                     $myTable->addIndex([$field]);
@@ -440,28 +440,28 @@ class IntegrityChecker
      * Add the contenttype's specific fields.
      *
      * @param \Doctrine\DBAL\Schema\Table $table
-     * @param array                       $values
-     * @param string                      $field
+     * @param string                      $fieldName
+     * @param string                      $type
      */
-    private function addCustomContentTypeFields(Table $table, array $values, $field)
+    private function addCustomContentTypeFields(Table $table, $fieldName, $type)
     {
-        switch ($values['type']) {
+        switch ($type) {
             case 'text':
             case 'templateselect':
             case 'file':
-                $table->addColumn($field, 'string', ['length' => 256, 'default' => '']);
+                $table->addColumn($fieldName, 'string', ['length' => 256, 'default' => '']);
                 break;
             case 'float':
-                $table->addColumn($field, 'float', ['default' => 0]);
+                $table->addColumn($fieldName, 'float', ['default' => 0]);
                 break;
             case 'number': // deprecated.
-                $table->addColumn($field, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
+                $table->addColumn($fieldName, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
                 break;
             case 'integer':
-                $table->addColumn($field, 'integer', ['default' => 0]);
+                $table->addColumn($fieldName, 'integer', ['default' => 0]);
                 break;
             case 'checkbox':
-                $table->addColumn($field, 'boolean', ['default' => 0]);
+                $table->addColumn($fieldName, 'boolean', ['default' => 0]);
                 break;
             case 'html':
             case 'textarea':
@@ -472,19 +472,19 @@ class IntegrityChecker
             case 'filelist':
             case 'imagelist':
             case 'select':
-                $table->addColumn($field, 'text', ['default' => $this->getTextDefault()]);
+                $table->addColumn($fieldName, 'text', ['default' => $this->getTextDefault()]);
                 break;
             case 'datetime':
-                $table->addColumn($field, 'datetime', ['notnull' => false]);
+                $table->addColumn($fieldName, 'datetime', ['notnull' => false]);
                 break;
             case 'date':
-                $table->addColumn($field, 'date', ['notnull' => false]);
+                $table->addColumn($fieldName, 'date', ['notnull' => false]);
                 break;
             case 'slug':
                 // Only additional slug fields will be added. If it's the
                 // default slug, skip it instead.
-                if ($field != 'slug') {
-                    $table->addColumn($field, 'string', ['length' => 128, 'notnull' => false, 'default' => '']);
+                if ($fieldName != 'slug') {
+                    $table->addColumn($fieldName, 'string', ['length' => 128, 'notnull' => false, 'default' => '']);
                 }
                 break;
             case 'id':
@@ -498,9 +498,9 @@ class IntegrityChecker
                 // These are the default columns. Don't try to add these.
                 break;
             default:
-                if ($handler = $this->app['config']->getFields()->getField($values['type'])) {
+                if ($handler = $this->app['config']->getFields()->getField($type)) {
                     /** @var $handler \Bolt\Field\FieldInterface */
-                    $table->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
+                    $table->addColumn($fieldName, $handler->getStorageType(), $handler->getStorageOptions());
                 }
         }
     }
