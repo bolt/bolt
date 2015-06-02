@@ -14,13 +14,17 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 class DatabaseTest extends ControllerUnitTest
 {
+    /**
+     * @covers IntegrityCheckerResponse
+     */
     public function testCheck()
     {
         $this->allowLogin($this->getApp());
+        $checkResponse = new \Bolt\Database\IntegrityCheckerResponse();
         $check = $this->getMock('Bolt\Database\IntegrityChecker', ['checkTablesIntegrity'], [$this->getApp()]);
         $check->expects($this->atLeastOnce())
             ->method('checkTablesIntegrity')
-            ->will($this->returnValue(['message', 'hint']));
+            ->will($this->returnValue($checkResponse));
 
         $this->setService('integritychecker', $check);
         $this->setRequest(Request::create('/bolt/dbcheck'));
