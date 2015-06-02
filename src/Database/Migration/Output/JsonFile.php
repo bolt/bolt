@@ -31,11 +31,6 @@ class JsonFile implements OutputFileInterface
     {
         $this->export = $export;
         $this->file   = $file;
-
-        /** @deprecated Remove when we drop PHP 5.3 */
-        if (!defined('JSON_PRETTY_PRINT')) {
-            define('JSON_PRETTY_PRINT', 128);
-        }
     }
 
     public function __destruct()

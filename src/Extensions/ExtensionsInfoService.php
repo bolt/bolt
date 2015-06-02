@@ -17,8 +17,6 @@ class ExtensionsInfoService
 
     /** @var \GuzzleHttp\Client|\Guzzle\Service\Client */
     private $client;
-    /** @var boolean */
-    private $deprecated;
 
     /**
      * Constructor function.
@@ -26,20 +24,9 @@ class ExtensionsInfoService
      * @param \GuzzleHttp\Client|\Guzzle\Service\Client $client
      * @param string                                    $site
      * @param array                                     $urls
-     * @param boolean                                   $deprecated
      */
-    public function __construct($client, $site, $urls = [], $deprecated = false)
+    public function __construct(Client $client, $site, $urls = [])
     {
-        /** @deprecated remove when PHP 5.3 support is dropped */
-        $this->deprecated = $deprecated;
-        if (!($client instanceof \GuzzleHttp\Client || $client instanceof \Guzzle\Service\Client)) {
-            throw new \InvalidArgumentException(sprintf(
-                'First argument passed to %s must be an instance of GuzzleHttp\Client or Guzzle\Service\Client, instance of %s given.',
-                __CLASS__,
-                get_class($client)
-            ));
-        }
-
         $this->client = $client;
         $this->site   = $site;
         $this->urls   = $urls;
@@ -86,12 +73,7 @@ class ExtensionsInfoService
         $uri = rtrim(rtrim($this->site, '/') . '/' . ltrim($url, '/') . '?' . http_build_query($params), '?');
 
         try {
-            if ($this->deprecated) {
-                /** @deprecated remove when PHP 5.3 support is dropped */
-                $result = $this->client->get($uri, ['timeout' => 10])->send()->getBody(true);
-            } else {
-                $result = $this->client->get($uri, ['timeout' => 10])->getBody(true);
-            }
+            $result = $this->client->get($uri, ['timeout' => 10])->getBody(true);
 
             return ($this->format === 'json') ? json_decode($result) : (string) $result;
         } catch (\Exception $e) {
