@@ -79,11 +79,7 @@ class IntegrityCheckerResponse
      */
     public function hasHints()
     {
-        if (empty($this->hints)) {
-            return false;
-        }
-
-        return true;
+        return !empty($this->hints);
     }
 
     /**
@@ -113,11 +109,7 @@ class IntegrityCheckerResponse
      */
     public function hasMessages()
     {
-        if (empty($this->messages)) {
-            return false;
-        }
-
-        return true;
+        return !empty($this->messages);
     }
 
     /**
