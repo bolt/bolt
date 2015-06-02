@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Database\Table;
 
-use Doctrine\DBAL\Schema\Schema;
-
 /**
  * Table for cron schedule data.
  *
