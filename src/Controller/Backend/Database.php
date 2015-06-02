@@ -36,7 +36,19 @@ class Database extends BackendBase
      */
     public function check()
     {
-        list($messages, $hints) = $this->integrityChecker()->checkTablesIntegrity(true, $this->app['logger']);
+        $messages = [];
+        $hints = [];
+        $responses = $this->integrityChecker()->checkTablesIntegrity(true, $this->app['logger']);
+
+        foreach ($responses as $response) {
+            if ($response->hasMessages()) {
+                $messages[] = $response->getTitle() . ' ' . implode(', ', $response->getMessages());
+            }
+
+            if ($response->hasHints()) {
+                $hints[] = $response->getHints();
+            }
+        }
 
         $context = [
             'modifications_made'     => null,
