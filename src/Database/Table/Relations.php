@@ -1,14 +1,12 @@
 <?php
 namespace Bolt\Database\Table;
 
-use Doctrine\DBAL\Schema\Schema;
-
 /**
  * Table for content relationship data.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Relationship extends BaseTable
+class Relations extends BaseTable
 {
     /**
      * {@inheritdoc}
