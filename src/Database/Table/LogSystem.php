@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Database\Table;
 
-use Doctrine\DBAL\Schema\Schema;
-
 /**
  * Table for system logging data.
  *
@@ -37,7 +35,7 @@ class LogSystem extends BaseTable
         $this->table->addIndex(['level']);
         $this->table->addIndex(['date']);
         $this->table->addIndex(['ownerid']);
-        $this->table->addIndex([ 'context']);
+        $this->table->addIndex(['context']);
     }
 
     /**
