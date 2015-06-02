@@ -145,110 +145,56 @@ class IntegrityChecker
      * @param boolean         $hinting     Return hints if true
      * @param LoggerInterface $debugLogger Debug logger
      *
-     * @return array Messages with errors, if any or array(messages, hints)
+     * @return IntegrityCheckerResponse[]
      */
     public function checkTablesIntegrity($hinting = false, LoggerInterface $debugLogger = null)
     {
-        $details = [
-            'messages' => [],
-            'hints'    => [],
-            'diffs'    => []
-        ];
-
-        $currentTables = $this->getTableObjects();
-
+        /** @var IntegrityCheckerResponse[] $response */
+        $response = [];
         $comparator = new Comparator();
-
+        $currentTables = $this->getTableObjects();
         $tables = $this->getTablesSchema();
+        $valid = true;
 
         /** @var $table Table */
         foreach ($tables as $table) {
+            $tableName = $table->getName();
+            $response[$tableName] = new IntegrityCheckerResponse();
+
             // Create the users table.
-            if (!isset($currentTables[$table->getName()])) {
-                $details['messages'][] = 'Table `' . $table->getName() . '` is not present.';
+            if (!isset($currentTables[$tableName])) {
+                $response[$tableName]->addMessage(sprintf('Table `%s` is not present.', $tableName));
             } else {
-                $diff = $comparator->diffTable($currentTables[$table->getName()], $table);
-                if ($diff) {
-                    $this->getCheckDetailMessages($table->getName(), $diff, $details, $hinting);
+                $diff = $comparator->diffTable($currentTables[$tableName], $table);
+                if ($diff && $details = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
+                    // There's a known issue with MySQL, where it will (falsely) notice an
+                    // updated index, but those are filtered out here.
+                    // @see: https://github.com/bolt/bolt/issues/3426
+                    $response[$tableName]->checkDiff($tableName, $this->cleanupTableDiff($diff));
+
+                    // For debugging we keep the diffs
+                    $response[$tableName]->addDiffDetail($details);
+                }
+            }
+
+            // If a table still has messages, we want to unset the valid state
+            $valid = $response[$tableName]->hasMessages() ? false : true;
+
+            // If we were passed in a debug logger, log the diffs
+            if ($debugLogger !== null) {
+                foreach ($response[$tableName]->getDiffDetails() as $diff) {
+                    $debugLogger->info('Database update required', $diff);
                 }
             }
         }
 
         // If there were no messages, update the timer, so we don't check it again.
         // If there _are_ messages, keep checking until it's fixed.
-        if (empty($details['messages'])) {
+        if ($valid) {
             $this->markValid();
         }
 
-        // If we were passed in a debug logger, log the diffs
-        if ($debugLogger !== null) {
-            foreach ($details['diffs'] as $diff) {
-                $debugLogger->info('Database update required', $diff);
-            }
-        }
-
-        return $hinting ? [$details['messages'], $details['hints']] : $details['messages'];
-    }
-
-    /**
-     * Get the detail messages from the executied check.
-     *
-     * @param string    $tableName
-     * @param TableDiff $diff
-     * @param array     $details
-     * @param boolean   $hinting
-     */
-    private function getCheckDetailMessages($tableName, TableDiff $diff, array &$details, $hinting)
-    {
-        if ($hinting && count($diff->removedColumns) > 0) {
-            $details['hints'][] = sprintf(
-                'The following fields in the `%s` table are not defined in your configuration. You can safely delete them manually if they are no longer needed: ',
-                $tableName,
-                join('`, `', array_keys($diff->removedColumns)));
-        }
-
-        $diff = $this->cleanupTableDiff($diff);
-
-        // The diff may be just deleted columns which we have reset above
-        // Only exec and add output if does really alter anything.
-        // There's a known issue with MySQL, where it will (falsely) notice an updated index,
-        // but those are filtered out here, by the `!empty($msgParts)` bit.
-        // @see: https://github.com/bolt/bolt/issues/3426
-        if (!$details['diffs'][] = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
-            return;
-        }
-
-        $msg = 'Table `' . $tableName . '` is not the correct schema: ';
-        $msgParts = [];
-
-        // No check on foreign keys yet because we don't use them
-        /** @var $col \Doctrine\DBAL\Schema\Column */
-        foreach ($diff->addedColumns as $col) {
-            $msgParts[] = 'missing column `' . $col->getName() . '`';
-        }
-        /** @var $index \Doctrine\DBAL\Schema\Index */
-        foreach ($diff->addedIndexes as $index) {
-            $msgParts[] = 'missing index on `' . implode(', ', $index->getUnquotedColumns()) . '`';
-        }
-        /** @var $col \Doctrine\DBAL\Schema\ColumnDiff */
-        foreach ($diff->changedColumns as $col) {
-            $msgParts[] = 'invalid column `' . $col->oldColumnName . '`';
-        }
-        /** @var $index \Doctrine\DBAL\Schema\Index */
-        foreach ($diff->changedIndexes as $index) {
-            $msgParts[] = 'invalid index on `' . implode(', ', $index->getUnquotedColumns()) . '`';
-        }
-        foreach (array_keys($diff->removedColumns) as $colName) {
-            $msgParts[] = 'removed column `' . $colName . '`';
-        }
-        foreach (array_keys($diff->removedIndexes) as $indexName) {
-            $msgParts[] = 'removed index `' . $indexName . '`';
-        }
-
-        if (!empty($msgParts)) {
-            $msg .= implode(', ', $msgParts);
-            $details['messages'][] = $msg;
-        }
+        return $response;
     }
 
     /**
@@ -315,7 +261,8 @@ class IntegrityChecker
     }
 
     /**
-     * Cleanup a table diff, remove changes we want to keep or fix platform specific issues.
+     * Cleanup a table diff, remove changes we want to keep or fix platform
+     * specific issues.
      *
      * @param TableDiff $diff
      *
@@ -326,9 +273,9 @@ class IntegrityChecker
         $baseTables = $this->getBoltTablesNames();
 
         // Work around reserved column name removal
-        if ($diff->fromTable->getName() == $this->getTablename('cron')) {
+        if ($diff->fromTable->getName() === $this->getTablename('cron')) {
             foreach ($diff->renamedColumns as $key => $col) {
-                if ($col->getName() == 'interim') {
+                if ($col->getName() === 'interim') {
                     $diff->addedColumns[] = $col;
                     unset($diff->renamedColumns[$key]);
                 }
