@@ -209,6 +209,23 @@ class IntegrityChecker
     }
 
     /**
+     * Check if there are pending updates to the tables.
+     *
+     * @return boolean
+     */
+    public function needsUpdate()
+    {
+        $responses = $this->checkTablesIntegrity();
+        foreach ($responses as $response) {
+            if ($response->hasMessages()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Check and repair tables.
      *
      * @return string[]
