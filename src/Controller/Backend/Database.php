@@ -84,21 +84,30 @@ class Database extends BackendBase
 
             return $this->redirectToRoute('fileedit', ['namespace' => 'config', 'file' => 'contenttypes.yml']);
         } else {
-            return $this->redirectToRoute('dbupdate_result', ['messages' => json_encode($output)]);
+            $this->session()->set('dbupdate_result', $output);
+
+            return $this->redirectToRoute('dbupdate_result');
         }
     }
 
     /**
      * Show the result of database updates.
      *
-     * @param Request $request The Symfony Request
-     *
      * @return \Bolt\Response\BoltResponse
      */
-    public function updateResult(Request $request)
+    public function updateResult()
     {
+        $messages = [];
+        $responses = $this->session()->get('dbupdate_result', []);
+
+        foreach ($responses as $response) {
+            if ($response->hasMessages()) {
+                $messages[] = $response->getTitle() . ' ' . implode(', ', $response->getMessages());
+            }
+        }
+
         $context = [
-            'modifications_made'     => json_decode($request->get('messages')),
+            'modifications_made'     => $messages,
             'modifications_required' => null,
         ];
 
