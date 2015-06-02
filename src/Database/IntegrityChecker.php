@@ -159,7 +159,7 @@ class IntegrityChecker
         /** @var $table Table */
         foreach ($tables as $table) {
             $tableName = $table->getName();
-            $response[$tableName] = new IntegrityCheckerResponse();
+            $response[$tableName] = new IntegrityCheckerResponse($hinting);
 
             // Create the users table.
             if (!isset($currentTables[$tableName])) {
@@ -178,7 +178,7 @@ class IntegrityChecker
             }
 
             // If a table still has messages, we want to unset the valid state
-            $valid = $response[$tableName]->hasMessages() ? false : true;
+            $valid = !$response[$tableName]->hasMessages();
 
             // If we were passed in a debug logger, log the diffs
             if ($debugLogger !== null) {
@@ -228,7 +228,7 @@ class IntegrityChecker
     /**
      * Check and repair tables.
      *
-     * @return string[]
+     * @return IntegrityCheckerResponse[]
      */
     public function repairTables()
     {
@@ -236,21 +236,21 @@ class IntegrityChecker
         // 'repair your DB'-notice, right after we're done repairing.
         $this->app['logger.flash']->clear();
 
-        $output = [];
-
+        /** @var IntegrityCheckerResponse[] $response */
+        $response = [];
         $currentTables = $this->getTableObjects();
-
         /** @var $schemaManager AbstractSchemaManager */
         $schemaManager = $this->app['db']->getSchemaManager();
-
         $comparator = new Comparator();
-
         $tables = $this->getTablesSchema();
 
         /** @var $table Table */
         foreach ($tables as $table) {
+            $tableName = $table->getName();
+            $response[$tableName] = new IntegrityCheckerResponse();
+
             // Create the users table.
-            if (!isset($currentTables[$table->getName()])) {
+            if (!isset($currentTables[$tableName])) {
 
                 /** @var $platform AbstractPlatform */
                 $platform = $this->app['db']->getDatabasePlatform();
@@ -259,22 +259,22 @@ class IntegrityChecker
                     $this->app['db']->query($query);
                 }
 
-                $output[] = 'Created table `' . $table->getName() . '`.';
+                $response[$tableName]->addMessage(sprintf('Created table `%s`.', $tableName));
             } else {
-                $diff = $comparator->diffTable($currentTables[$table->getName()], $table);
+                $diff = $comparator->diffTable($currentTables[$tableName], $table);
                 if ($diff) {
                     $diff = $this->cleanupTableDiff($diff);
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
                     if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $schemaManager->alterTable($diff);
-                        $output[] = 'Updated `' . $table->getName() . '` table to match current schema.';
+                        $response[$tableName]->addMessage(sprintf('Updated `%s` table to match current schema.', $tableName));
                     }
                 }
             }
         }
 
-        return $output;
+        return $response;
     }
 
     /**
