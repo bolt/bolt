@@ -3,6 +3,7 @@
 namespace Bolt\Database;
 
 use Bolt\Application;
+use Bolt\Database\Table\ContentType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
@@ -403,7 +404,7 @@ class IntegrityChecker
     {
         $tables = [];
         foreach ($this->app['integritychecker.tables']->keys() as $name) {
-            $tables[$name] = $this->app['integritychecker.tables'][$name]->buildTable($schema, $this->getTablename($name));
+            $tables[] = $this->app['integritychecker.tables'][$name]->buildTable($schema, $this->getTablename($name));
         }
 
         return $tables;
@@ -420,29 +421,11 @@ class IntegrityChecker
 
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
         foreach ($this->app['config']->get('contenttypes') as $contenttype) {
-
-            // create the table if necessary.
             $tablename = $this->getTablename($contenttype['tablename']);
             $this->mapTableName($tablename, $contenttype['tablename']);
 
-            $myTable = $schema->createTable($tablename);
-            $myTable->addColumn('id', 'integer', ['autoincrement' => true]);
-            $myTable->setPrimaryKey(['id']);
-            $myTable->addColumn('slug', 'string', ['length' => 128]);
-            $myTable->addIndex(['slug']);
-            $myTable->addColumn('datecreated', 'datetime');
-            $myTable->addIndex(['datecreated']);
-            $myTable->addColumn('datechanged', 'datetime');
-            $myTable->addIndex(['datechanged']);
-            $myTable->addColumn('datepublish', 'datetime', ['notnull' => false, 'default' => null]);
-            $myTable->addIndex(['datepublish']);
-            $myTable->addColumn('datedepublish', 'datetime', ['notnull' => false, 'default' => null]);
-            $myTable->addIndex(['datedepublish']);
-            $myTable->addColumn('templatefields', 'text', ['default' => '']);
-            $myTable->addColumn('username', 'string', ['length' => 32, 'default' => '', 'notnull' => false]); // We need to keep this around for backward compatibility. For now.
-            $myTable->addColumn('ownerid', 'integer', ['notnull' => false]);
-            $myTable->addColumn('status', 'string', ['length' => 32]);
-            $myTable->addIndex(['status']);
+            $tableObj = new ContentType();
+            $myTable = $tableObj->buildTable($schema, $tablename);
 
             // Check if all the fields are present in the DB.
             foreach ($contenttype['fields'] as $field => $values) {
@@ -459,64 +442,9 @@ class IntegrityChecker
                     continue;
                 }
 
-                switch ($values['type']) {
-                    case 'text':
-                    case 'templateselect':
-                    case 'file':
-                        $myTable->addColumn($field, 'string', ['length' => 256, 'default' => '']);
-                        break;
-                    case 'float':
-                        $myTable->addColumn($field, 'float', ['default' => 0]);
-                        break;
-                    case 'number': // deprecated.
-                        $myTable->addColumn($field, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
-                        break;
-                    case 'integer':
-                        $myTable->addColumn($field, 'integer', ['default' => 0]);
-                        break;
-                    case 'checkbox':
-                        $myTable->addColumn($field, 'boolean', ['default' => 0]);
-                        break;
-                    case 'html':
-                    case 'textarea':
-                    case 'image':
-                    case 'video':
-                    case 'markdown':
-                    case 'geolocation':
-                    case 'filelist':
-                    case 'imagelist':
-                    case 'select':
-                        $myTable->addColumn($field, 'text', ['default' => $this->getTextDefault()]);
-                        break;
-                    case 'datetime':
-                        $myTable->addColumn($field, 'datetime', ['notnull' => false]);
-                        break;
-                    case 'date':
-                        $myTable->addColumn($field, 'date', ['notnull' => false]);
-                        break;
-                    case 'slug':
-                        // Only additional slug fields will be added. If it's the
-                        // default slug, skip it instead.
-                        if ($field != 'slug') {
-                            $myTable->addColumn($field, 'string', ['length' => 128, 'notnull' => false, 'default' => '']);
-                        }
-                        break;
-                    case 'id':
-                    case 'datecreated':
-                    case 'datechanged':
-                    case 'datepublish':
-                    case 'datedepublish':
-                    case 'username':
-                    case 'status':
-                    case 'ownerid':
-                        // These are the default columns. Don't try to add these.
-                        break;
-                    default:
-                        if ($handler = $this->app['config']->getFields()->getField($values['type'])) {
-                            /** @var $handler \Bolt\Field\FieldInterface */
-                            $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
-                        }
-                }
+                // Add the contenttype's specific fields
+                $this->addCustomContentTypeFields($myTable, $values, $field);
+
 
                 if (isset($values['index']) && $values['index'] == 'true') {
                     $myTable->addIndex([$field]);
@@ -526,6 +454,75 @@ class IntegrityChecker
         }
 
         return $tables;
+    }
+
+    /**
+     * Add the contenttype's specific fields.
+     *
+     * @param \Doctrine\DBAL\Schema\Table $table
+     * @param array                       $values
+     * @param string                      $field
+     */
+    private function addCustomContentTypeFields(Table $table, array $values, $field)
+    {
+        switch ($values['type']) {
+            case 'text':
+            case 'templateselect':
+            case 'file':
+                $table->addColumn($field, 'string', ['length' => 256, 'default' => '']);
+                break;
+            case 'float':
+                $table->addColumn($field, 'float', ['default' => 0]);
+                break;
+            case 'number': // deprecated.
+                $table->addColumn($field, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
+                break;
+            case 'integer':
+                $table->addColumn($field, 'integer', ['default' => 0]);
+                break;
+            case 'checkbox':
+                $table->addColumn($field, 'boolean', ['default' => 0]);
+                break;
+            case 'html':
+            case 'textarea':
+            case 'image':
+            case 'video':
+            case 'markdown':
+            case 'geolocation':
+            case 'filelist':
+            case 'imagelist':
+            case 'select':
+                $table->addColumn($field, 'text', ['default' => $this->getTextDefault()]);
+                break;
+            case 'datetime':
+                $table->addColumn($field, 'datetime', ['notnull' => false]);
+                break;
+            case 'date':
+                $table->addColumn($field, 'date', ['notnull' => false]);
+                break;
+            case 'slug':
+                // Only additional slug fields will be added. If it's the
+                // default slug, skip it instead.
+                if ($field != 'slug') {
+                    $table->addColumn($field, 'string', ['length' => 128, 'notnull' => false, 'default' => '']);
+                }
+                break;
+            case 'id':
+            case 'datecreated':
+            case 'datechanged':
+            case 'datepublish':
+            case 'datedepublish':
+            case 'username':
+            case 'status':
+            case 'ownerid':
+                // These are the default columns. Don't try to add these.
+                break;
+            default:
+                if ($handler = $this->app['config']->getFields()->getField($values['type'])) {
+                    /** @var $handler \Bolt\Field\FieldInterface */
+                    $table->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
+                }
+        }
     }
 
     /**
