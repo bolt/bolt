@@ -151,16 +151,16 @@ class TwigExtension extends \Twig_Extension
 
         // Structured to allow PHPStorm's SymfonyPlugin to provide code completion
         return [
-            'bolt_name'         => $this->app['bolt_name'],
-            'bolt_version'      => $this->app['bolt_version'],
-            'frontend'          => $zone === Zone::FRONTEND,
-            'backend'           => $zone === Zone::BACKEND,
-            'async'             => $zone === Zone::ASYNC,
-            'paths'             => $resources->getPaths(),
-            'theme'             => $config->get('theme'),
-            'user'              => $users->getCurrentUser(),
-            'users'             => $usersVal,
-            'config'            => $configVal,
+            'bolt_name'    => $this->app['bolt_name'],
+            'bolt_version' => $this->app['bolt_version'],
+            'frontend'     => $zone === Zone::FRONTEND,
+            'backend'      => $zone === Zone::BACKEND,
+            'async'        => $zone === Zone::ASYNC,
+            'paths'        => $resources->getPaths(),
+            'theme'        => $config->get('theme'),
+            'user'         => $users->getCurrentUser(),
+            'users'        => $usersVal,
+            'config'       => $configVal,
         ];
     }
 
