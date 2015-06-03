@@ -3,60 +3,36 @@
 namespace Bolt\Composer;
 
 use Composer\DependencyResolver\Pool;
+use Composer\Factory as ComposerFactory;
 use Composer\IO\BufferIO;
 use Composer\Package\Version\VersionSelector;
+use Psr\Log\LoggerInterface;
 use Silex\Application;
 
-final class Factory extends PackageManager
+final class Factory
 {
-    /**
-     * @var array
-     */
-    private $options;
-
-    /**
-     * @var \Composer\IO\BufferIO
-     */
-    private $io;
-
-    /**
-     * @var \Composer\Composer
-     */
-    private $composer;
-
-    /**
-     * @var \Composer\DependencyResolver\Pool
-     */
-    private $pool;
-
-    /**
-     * @var \Composer\Repository\CompositeRepository
-     */
-    private $repos;
-
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
-
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     public $downgradeSsl = false;
-
-    /**
-     * @var array
-     */
+    /** @var array */
     public $messages = [];
 
-    /**
-     * @param \Silex\Application $app
-     * @param array              $options
-     */
-    public function __construct(Application $app, array $options)
+    /** @var \Composer\IO\BufferIO */
+    private $io;
+    /** @var \Composer\Composer */
+    private $composer;
+    /** @var \Composer\DependencyResolver\Pool */
+    private $pool;
+    /** @var \Composer\Repository\CompositeRepository */
+    private $repos;
+    /** @var array */
+    private $options;
+    /** @var \Psr\Log\LoggerInterface */
+    private $logger;
+
+    public function __construct(array $options, LoggerInterface $logger)
     {
-        $this->app = $app;
         $this->options = $options;
+        $this->logger = $logger;
     }
 
     /**
@@ -72,13 +48,13 @@ final class Factory extends PackageManager
 
             // Use the factory to get a new Composer object
             try {
-                $this->composer = \Composer\Factory::create($this->getIO(), $this->options['composerjson'], true);
+                $this->composer = ComposerFactory::create($this->getIO(), $this->options['composerjson'], true);
             } catch (\Exception $e) {
-                $this->app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+                $this->logger->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
             }
 
             if ($this->downgradeSsl) {
-                $this->allowSslDowngrade(true);
+                $this->setAllowSslDowngrade(true);
             }
         }
 
@@ -126,7 +102,7 @@ final class Factory extends PackageManager
      *
      * @param boolean $choice
      */
-    private function allowSslDowngrade($choice)
+    private function setAllowSslDowngrade($choice)
     {
         $repos = $this->getComposer()->getRepositoryManager()->getRepositories();
 
