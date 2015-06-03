@@ -21,6 +21,8 @@ class PackageManager
     protected $app;
     /** @var array */
     protected $options;
+    /** @var boolean */
+    protected $started = false;
 
     /** @var array|null  */
     private $json;
@@ -36,9 +38,6 @@ class PackageManager
 
         // Set default options
         $this->setOptions();
-
-        // Set up
-        $this->setup();
     }
 
     public function getMessages()
@@ -53,6 +52,10 @@ class PackageManager
      */
     public function getFactory()
     {
+        if ($this->started) {
+            $this->setup();
+        }
+
         return $this->app['extend.factory'];
     }
 
@@ -84,6 +87,8 @@ class PackageManager
                 $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
             }
         }
+
+        $this->started = true;
     }
 
     /**
