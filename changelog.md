@@ -109,6 +109,12 @@ Not yet released.
  - Fixed: Fix pagination for searching via `getContent()`` or `{% setcontent %}`. (See #3496)
  - Fixed: Handle empty composer config, e.g. themes (See #3509)
  - Fixed: Use correct service key (See #3507)
+ - Return to previous page, with paging and filtering. See #3588
+ - Add a try-exception when parsing `allowtwig` fields.
+ - Call abort for simpleredirect on "Save and return to overview".
+ - Tweaking the delay, making behaviour bit nicer for "fast clickers". Fixes #3513
+ - Fixes server-side error when ajaxy-deleting records that were created programmatically.
+ - Prevent composer from sneaking in any `v2.7.0` symfony components. Remove `symfony/locale`.
 
 Bolt 2.1.8
 ----------
