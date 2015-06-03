@@ -25,27 +25,18 @@ class DatabaseRepair extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $messages = [];
-        $responses = $this->app['integritychecker']->repairTables();
+        $response = $this->app['integritychecker']->repairTables();
 
-        foreach ($responses as $response) {
-            if ($response->hasMessages()) {
-                $messages[] = $response->getTitle() . ' ' . implode(', ', $response->getMessages());
-            }
-        }
-
-        if (empty($messages)) {
-            $content = "<info>Your database is already up to date.</info>";
+        if (!$response->hasResponses()) {
+            $output->writeln('<info>Your database is already up to date.</info>');
         } else {
-            $content = "<info>Modifications made to the database:</info>\n";
-            foreach ($messages as $line) {
-                $content .= ' - ' . str_replace('tt>', 'info>', $line) . "\n";
+            $output->writeln('<comment>Modifications made to the database:</comment>');
+            foreach ($response->getResponseStrings() as $messages) {
+                $output->writeln('<info> - ' . $messages . '</info>');
             }
-            $content .= "<info>Your database is now up to date.</info>";
+            $output->writeln('<info>Your database is now up to date.</info>');
 
             $this->auditLog(__CLASS__, 'Database updated');
         }
-
-        $output->writeln($content);
     }
 }

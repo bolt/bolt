@@ -36,24 +36,12 @@ class Database extends BackendBase
      */
     public function check()
     {
-        $messages = [];
-        $hints = [];
-        $responses = $this->integrityChecker()->checkTablesIntegrity(true, $this->app['logger']);
-
-        foreach ($responses as $response) {
-            if ($response->hasMessages()) {
-                $messages[] = $response->getTitle() . ' ' . implode(', ', $response->getMessages());
-            }
-
-            if ($response->hasHints()) {
-                $hints[] = $response->getHints();
-            }
-        }
+        $response = $this->integrityChecker()->checkTablesIntegrity(true, $this->app['logger']);
 
         $context = [
             'modifications_made'     => null,
-            'modifications_required' => $messages,
-            'modifications_hints'    => $hints,
+            'modifications_required' => $response->getResponseStrings(),
+            'modifications_hints'    => $response->getHints(),
         ];
 
         return $this->render('dbcheck/dbcheck.twig', $context);
@@ -68,7 +56,7 @@ class Database extends BackendBase
      */
     public function update(Request $request)
     {
-        $output = $this->integrityChecker()->repairTables();
+        $output = $this->integrityChecker()->repairTables()->getResponseStrings();
 
         // If 'return=edit' is passed, we should return to the edit screen.
         // We do redirect twice, yes, but that's because the newly saved
@@ -97,17 +85,10 @@ class Database extends BackendBase
      */
     public function updateResult()
     {
-        $messages = [];
-        $responses = $this->session()->get('dbupdate_result', []);
-
-        foreach ($responses as $response) {
-            if ($response->hasMessages()) {
-                $messages[] = $response->getTitle() . ' ' . implode(', ', $response->getMessages());
-            }
-        }
+        $output = $this->session()->get('dbupdate_result', []);
 
         $context = [
-            'modifications_made'     => $messages,
+            'modifications_made'     => $output,
             'modifications_required' => null,
         ];
 
