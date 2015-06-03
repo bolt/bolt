@@ -211,14 +211,9 @@ class IntegrityChecker
      */
     public function needsUpdate()
     {
-        $responses = $this->checkTablesIntegrity();
-        foreach ($responses as $response) {
-            if ($response->hasResponses()) {
-                return true;
-            }
-        }
+        $response = $this->checkTablesIntegrity();
 
-        return false;
+        return $response->hasResponses() ? true : false;
     }
 
     /**
