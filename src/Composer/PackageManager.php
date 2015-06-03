@@ -2,15 +2,6 @@
 
 namespace Bolt\Composer;
 
-use Bolt\Composer\Action\BoltExtendJson;
-use Bolt\Composer\Action\CheckPackage;
-use Bolt\Composer\Action\DumpAutoload;
-use Bolt\Composer\Action\InstallPackage;
-use Bolt\Composer\Action\RemovePackage;
-use Bolt\Composer\Action\RequirePackage;
-use Bolt\Composer\Action\SearchPackage;
-use Bolt\Composer\Action\ShowPackage;
-use Bolt\Composer\Action\UpdatePackage;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\RequestException;
 use Silex\Application;
@@ -37,7 +28,7 @@ class PackageManager
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache/composer'));
 
         // Set default options
-        $this->setOptions();
+        $this->setDefaultOptions();
     }
 
     public function getMessages()
@@ -114,7 +105,7 @@ class PackageManager
     }
 
     /**
-     * Get a new Composer object.
+     * Get a Composer object.
      *
      * @return \Composer\Composer
      */
@@ -134,7 +125,7 @@ class PackageManager
     }
 
     /**
-     * Get a new IO object.
+     * Get an IO object.
      *
      * @return \Composer\IO\IOInterface
      */
@@ -144,7 +135,7 @@ class PackageManager
     }
 
     /**
-     * Get a new dependency resolver pool object.
+     * Get a dependency resolver pool object.
      *
      * @return \Composer\DependencyResolver\Pool
      */
@@ -420,8 +411,7 @@ class PackageManager
      */
     private function updateJson()
     {
-        $initjson = new BoltExtendJson($this->options);
-        $this->json = $initjson->updateJson($this->app);
+        $this->json = $this->app['extend.action']['json']->updateJson($this->app);
     }
 
     /**
@@ -465,7 +455,7 @@ class PackageManager
     /**
      * Set the default options.
      */
-    private function setOptions()
+    private function setDefaultOptions()
     {
         $this->options = [
             'basedir'                => $this->app['resources']->getPath('extensions'),
