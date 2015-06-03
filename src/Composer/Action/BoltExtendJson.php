@@ -11,25 +11,10 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class BoltExtendJson
+final class BoltExtendJson extends BaseAction
 {
-    /**
-     * @var array
-     */
-    private $options;
-
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private $messages;
-
-    /**
-     * @param $options  array
-     */
-    public function __construct(array $options)
-    {
-        $this->options = $options;
-    }
 
     /**
      * Convenience function to generalise the library.

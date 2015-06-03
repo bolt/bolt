@@ -10,21 +10,8 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class DumpAutoload
+final class DumpAutoload extends BaseAction
 {
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
-
-    /**
-     * @param $app \Silex\Application
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Dump autoloaders.
      */

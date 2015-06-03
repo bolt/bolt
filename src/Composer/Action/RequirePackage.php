@@ -17,31 +17,12 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class RequirePackage
+final class RequirePackage extends BaseAction
 {
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
-
-    /**
-     * @var \Composer\Package\Version\VersionSelector
-     */
+    /** @var \Composer\Package\Version\VersionSelector */
     private $versionSelector;
-
-    /**
-     * @var \Composer\Repository\RepositoryInterface
-     */
+    /** @var \Composer\Repository\RepositoryInterface */
     private $repos;
-
-    /**
-     * @param $app \Silex\Application
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-        $this->versionSelector = new VersionSelector($this->app['extend.manager']->getPool());
-    }
 
     /**
      * Require (install) a package.
@@ -55,6 +36,7 @@ final class RequirePackage
      */
     public function execute(array $package)
     {
+        $this->versionSelector = new VersionSelector($this->app['extend.manager']->getPool());
         /** @var $composer \Composer\Composer */
         $composer = $this->app['extend.manager']->getComposer();
         $io = $this->app['extend.manager']->getIO();

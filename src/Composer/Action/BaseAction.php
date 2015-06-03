@@ -1,20 +1,23 @@
 <?php
 
-namespace Bolt\Composer;
+namespace Bolt\Composer\Action;
 
 use Composer\DependencyResolver\Pool;
-use Composer\Factory as ComposerFactory;
+use Composer\BaseAction as ComposerFactory;
 use Composer\IO\BufferIO;
 use Composer\Package\Version\VersionSelector;
 use Psr\Log\LoggerInterface;
 use Silex\Application;
 
-final class Factory
+abstract class BaseAction
 {
     /** @var boolean */
     public $downgradeSsl = false;
     /** @var array */
     public $messages = [];
+
+    /** @var \Silex\Application */
+    protected $app;
 
     /** @var \Composer\IO\BufferIO */
     private $io;
@@ -29,10 +32,14 @@ final class Factory
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
-    public function __construct(array $options, LoggerInterface $logger)
+    /**
+     * Constructor.
+     *
+     * @param $app \Silex\Application
+     */
+    public function __construct(Application $app)
     {
-        $this->options = $options;
-        $this->logger = $logger;
+        $this->app = $app;
     }
 
     /**

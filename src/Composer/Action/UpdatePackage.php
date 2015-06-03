@@ -12,21 +12,8 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class UpdatePackage
+final class UpdatePackage extends BaseAction
 {
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
-
-    /**
-     * @param $app \Silex\Application
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Update packages.
      *

@@ -10,21 +10,8 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class CheckPackage
+final class CheckPackage extends BaseAction
 {
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
-
-    /**
-     * @param $app \Silex\Application
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Run a check for package(s).
      *
