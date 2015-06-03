@@ -145,12 +145,11 @@ class IntegrityChecker
      * @param boolean         $hinting     Return hints if true
      * @param LoggerInterface $debugLogger Debug logger
      *
-     * @return IntegrityCheckerResponse[]
+     * @return IntegrityCheckerResponse
      */
     public function checkTablesIntegrity($hinting = false, LoggerInterface $debugLogger = null)
     {
-        /** @var IntegrityCheckerResponse[] $response */
-        $response = [];
+        $response = new IntegrityCheckerResponse($hinting);
         $comparator = new Comparator();
         $currentTables = $this->getTableObjects();
         $tables = $this->getTablesSchema();
@@ -159,30 +158,27 @@ class IntegrityChecker
         /** @var $table Table */
         foreach ($tables as $table) {
             $tableName = $table->getName();
-            $response[$tableName] = new IntegrityCheckerResponse($hinting);
 
             // Create the users table.
             if (!isset($currentTables[$tableName])) {
-                $response[$tableName]->addMessage(sprintf('Table `%s` is not present.', $tableName));
+                $response->addTitle($tableName, sprintf('Table `%s` is not present.', $tableName));
             } else {
                 $diff = $comparator->diffTable($currentTables[$tableName], $table);
                 if ($diff && $details = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
-                    // There's a known issue with MySQL, where it will (falsely) notice an
-                    // updated index, but those are filtered out here.
-                    // @see: https://github.com/bolt/bolt/issues/3426
-                    $response[$tableName]->checkDiff($tableName, $this->cleanupTableDiff($diff));
+                    $response->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
+                    $response->checkDiff($tableName, $this->cleanupTableDiff($diff));
 
                     // For debugging we keep the diffs
-                    $response[$tableName]->addDiffDetail($details);
+                    $response->addDiffDetail($details);
                 }
             }
 
             // If a table still has messages, we want to unset the valid state
-            $valid = !$response[$tableName]->hasMessages();
+            $valid = !$response->hasResponses();
 
             // If we were passed in a debug logger, log the diffs
             if ($debugLogger !== null) {
-                foreach ($response[$tableName]->getDiffDetails() as $diff) {
+                foreach ($response->getDiffDetails() as $diff) {
                     $debugLogger->info('Database update required', $diff);
                 }
             }
@@ -217,7 +213,7 @@ class IntegrityChecker
     {
         $responses = $this->checkTablesIntegrity();
         foreach ($responses as $response) {
-            if ($response->hasMessages()) {
+            if ($response->hasResponses()) {
                 return true;
             }
         }
@@ -228,7 +224,7 @@ class IntegrityChecker
     /**
      * Check and repair tables.
      *
-     * @return IntegrityCheckerResponse[]
+     * @return IntegrityCheckerResponse
      */
     public function repairTables()
     {
@@ -236,8 +232,7 @@ class IntegrityChecker
         // 'repair your DB'-notice, right after we're done repairing.
         $this->app['logger.flash']->clear();
 
-        /** @var IntegrityCheckerResponse[] $response */
-        $response = [];
+        $response = new IntegrityCheckerResponse();
         $currentTables = $this->getTableObjects();
         /** @var $schemaManager AbstractSchemaManager */
         $schemaManager = $this->app['db']->getSchemaManager();
@@ -247,7 +242,6 @@ class IntegrityChecker
         /** @var $table Table */
         foreach ($tables as $table) {
             $tableName = $table->getName();
-            $response[$tableName] = new IntegrityCheckerResponse();
 
             // Create the users table.
             if (!isset($currentTables[$tableName])) {
@@ -259,7 +253,7 @@ class IntegrityChecker
                     $this->app['db']->query($query);
                 }
 
-                $response[$tableName]->addMessage(sprintf('Created table `%s`.', $tableName));
+                $response->addTitle($tableName, sprintf('Created table `%s`.', $tableName));
             } else {
                 $diff = $comparator->diffTable($currentTables[$tableName], $table);
                 if ($diff) {
@@ -268,7 +262,7 @@ class IntegrityChecker
                     // only exec and add output if does really alter anything
                     if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $schemaManager->alterTable($diff);
-                        $response[$tableName]->addMessage(sprintf('Updated `%s` table to match current schema.', $tableName));
+                        $response->addTitle($tableName, sprintf('Updated `%s` table to match current schema.', $tableName));
                     }
                 }
             }
