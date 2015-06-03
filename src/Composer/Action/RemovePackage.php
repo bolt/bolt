@@ -30,8 +30,8 @@ final class RemovePackage extends BaseAction
             throw new PackageManagerException('No package specified for removal');
         }
 
-        $io = $this->app['extend.manager']->getIO();
-        $options = $this->app['extend.manager']->getOptions();
+        $io = $this->getIO();
+        $options = $this->getOptions();
 
         $jsonFile = new JsonFile($options['composerjson']);
         $composerDefinition = $jsonFile->read();
@@ -49,7 +49,7 @@ final class RemovePackage extends BaseAction
         }
 
         // Reload Composer config
-        $composer = $this->app['extend.manager']->getFactory()->resetComposer();
+        $composer = $this->resetComposer();
 
         $install = Installer::create($io, $composer);
 

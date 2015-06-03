@@ -35,13 +35,13 @@ final class ShowPackage extends BaseAction
      */
     public function execute($type, $package = '', $version = '', $root = false)
     {
-        $io = $this->app['extend.manager']->getIO();
+        $io = $this->getIO();
 
         if ($root) {
             $composerjson = $this->app['resources']->getPath('root/composer.json');
             $composer = Factory::create($io, $composerjson, true);
         } else {
-            $composer = $this->app['extend.manager']->getComposer();
+            $composer = $this->getComposer();
         }
 
         $this->versionParser = new VersionParser();

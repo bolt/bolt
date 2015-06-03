@@ -23,10 +23,10 @@ final class InstallPackage extends BaseAction
     public function execute()
     {
         /** @var $composer \Composer\Composer */
-        $composer = $this->app['extend.manager']->getComposer();
-        $io = $this->app['extend.manager']->getIO();
+        $composer = $this->getComposer();
+        $io = $this->getIO();
 
-        $options = $this->app['extend.manager']->getOptions();
+        $options = $this->getOptions();
         $install = Installer::create($io, $composer);
         $config = $composer->getConfig();
         $optimize = $config->get('optimize-autoloader');

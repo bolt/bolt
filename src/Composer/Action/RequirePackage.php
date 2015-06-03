@@ -36,11 +36,11 @@ final class RequirePackage extends BaseAction
      */
     public function execute(array $package)
     {
-        $this->versionSelector = new VersionSelector($this->app['extend.manager']->getPool());
+        $this->versionSelector = new VersionSelector($this->getPool());
         /** @var $composer \Composer\Composer */
-        $composer = $this->app['extend.manager']->getComposer();
-        $io = $this->app['extend.manager']->getIO();
-        $options = $this->app['extend.manager']->getOptions();
+        $composer = $this->getComposer();
+        $io = $this->getIO();
+        $options = $this->getOptions();
 
         $file = $options['composerjson'];
 
@@ -82,7 +82,7 @@ final class RequirePackage extends BaseAction
         $composerBackup = $this->updateComposerJson($json, $options, $package, false);
 
         // Reload Composer config
-        $composer = $this->app['extend.manager']->getFactory()->resetComposer();
+        $composer = $this->resetComposer();
 
         // Update our JSON file now with a contraint
         $this->updateComposerJson($json, $options, $package, true);
@@ -250,7 +250,7 @@ final class RequirePackage extends BaseAction
                 sprintf(
                     'Could not find package %s at any version for your minimum-stability (%s). Check the package spelling or your minimum-stability',
                     $name,
-                    $this->app['extend.manager']->getMinimumStability()
+                    $this->getMinimumStability()
                 )
             );
         }

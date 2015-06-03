@@ -27,9 +27,9 @@ final class UpdatePackage extends BaseAction
     public function execute(array $packages = [], array $options = [])
     {
         /** @var $composer \Composer\Composer */
-        $composer = $this->app['extend.manager']->getComposer();
-        $io = $this->app['extend.manager']->getIO();
-        $packageManagerOptions = $this->app['extend.manager']->getOptions();
+        $composer = $this->getComposer();
+        $io = $this->getIO();
+        $packageManagerOptions = $this->getOptions();
 
         // Handle passed in options
         if (!$options) {

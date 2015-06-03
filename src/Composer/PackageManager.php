@@ -37,20 +37,6 @@ class PackageManager
     }
 
     /**
-     * Return/create our Factory object.
-     *
-     * @return Factory
-     */
-    public function getFactory()
-    {
-        if ($this->started) {
-            $this->setup();
-        }
-
-        return $this->app['extend.factory'];
-    }
-
-    /**
      * If the extension project area is writable, ensure the JSON is up-to-date
      * and test connection to the extension server.
      *
@@ -102,56 +88,6 @@ class PackageManager
     public function getOption($key)
     {
         return $this->options[$key];
-    }
-
-    /**
-     * Get a Composer object.
-     *
-     * @return \Composer\Composer
-     */
-    public function getComposer()
-    {
-        return $this->app['extend.factory']->getComposer();
-    }
-
-    /**
-     * Get configured minimum stability.
-     *
-     * @return string
-     */
-    public function getMinimumStability()
-    {
-        return $this->app['extend.factory']->getMinimumStability();
-    }
-
-    /**
-     * Get an IO object.
-     *
-     * @return \Composer\IO\IOInterface
-     */
-    public function getIO()
-    {
-        return $this->app['extend.factory']->getIO();
-    }
-
-    /**
-     * Get a dependency resolver pool object.
-     *
-     * @return \Composer\DependencyResolver\Pool
-     */
-    public function getPool()
-    {
-        return $this->app['extend.factory']->getPool();
-    }
-
-    /**
-     * Return the output from the last IO.
-     *
-     * @return string
-     */
-    public function getOutput()
-    {
-        return $this->app['extend.factory']->getIO()->getOutput();
     }
 
     /**

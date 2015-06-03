@@ -3,7 +3,7 @@
 namespace Bolt\Composer\Action;
 
 use Composer\DependencyResolver\Pool;
-use Composer\BaseAction as ComposerFactory;
+use Composer\Factory;
 use Composer\IO\BufferIO;
 use Composer\Package\Version\VersionSelector;
 use Psr\Log\LoggerInterface;
@@ -55,7 +55,7 @@ abstract class BaseAction
 
             // Use the factory to get a new Composer object
             try {
-                $this->composer = ComposerFactory::create($this->getIO(), $this->options['composerjson'], true);
+                $this->composer = Factory::create($this->getIO(), $this->options['composerjson'], true);
             } catch (\Exception $e) {
                 $this->logger->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
             }

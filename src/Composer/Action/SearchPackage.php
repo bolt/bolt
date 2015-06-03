@@ -29,8 +29,8 @@ final class SearchPackage extends BaseAction
     public function execute($packages, $onlyname = true)
     {
         /** @var $composer \Composer\Composer */
-        $composer = $this->app['extend.manager']->getComposer();
-        $io = $this->app['extend.manager']->getIO();
+        $composer = $this->getComposer();
+        $io = $this->getIO();
 
         $platformRepo = new PlatformRepository();
 
