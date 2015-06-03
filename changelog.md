@@ -1,7 +1,7 @@
-Bolt 2.2 DEV-head
------------------
+Bolt 2.2.0
+----------
 
-Not yet released. 
+Released 2015-06-04. Notable changes: 
 
  - Added: Stop Finder from recursing common build folders and place a limit on the maximum depth it will recurse otherwise. (Thanks @Cooperaj, see #3069)
  - Fixed: Removing default taxonomylink route leads to exception (See #3070)
@@ -115,6 +115,18 @@ Not yet released.
  - Tweaking the delay, making behaviour bit nicer for "fast clickers". Fixes #3513
  - Fixes server-side error when ajaxy-deleting records that were created programmatically.
  - Prevent composer from sneaking in any `v2.7.0` symfony components. Remove `symfony/locale`.
+ - Return to previous page, with paging and filtering. See #3588
+ - Add a try-exception when parsing `allowtwig` fields.
+ - Call abort for simpleredirect on "Save and return to overview".
+ - Tweaking the delay, making behaviour bit nicer for "fast clickers". Fixes #3513
+ - Fixes server-side error when ajaxy-deleting records that were created programmatically.
+ - Prevent composer from sneaking in any `v2.7.0` symfony components. Remove `symfony/locale`.
+ - Local extension autoloader See #3607
+ - Request cache fix. See #3561
+ - To make content 'stick' after saving, use `contentkey` instead of `key`. #3527
+ - Make sure `$unserdata` is an array, and not merely `false`. See #3526
+ - Handle Flysystem exception correctly when a file is not found. See #3519
+
 
 Bolt 2.1.8
 ----------
