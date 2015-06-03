@@ -128,7 +128,7 @@ Released 2015-06-04. Notable changes:
  - Handle Flysystem exception correctly when a file is not found. See #3519
 
 
-Bolt 2.1.8
+Bolt 2.1.9
 ----------
 
 Released 2015-04-29. Notable changes: 
