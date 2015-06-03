@@ -36,15 +36,12 @@ class DatabaseTest extends ControllerUnitTest
     public function testUpdate()
     {
         $this->allowLogin($this->getApp());
+        $checkResponse = new \Bolt\Database\IntegrityCheckerResponse();
         $check = $this->getMock('Bolt\Database\IntegrityChecker', ['repairTables'], [$this->getApp()]);
 
-        $check->expects($this->at(0))
+        $check->expects($this->any())
             ->method('repairTables')
-            ->will($this->returnValue(''));
-
-        $check->expects($this->at(1))
-            ->method('repairTables')
-            ->will($this->returnValue('Testing'));
+            ->will($this->returnValue($checkResponse));
 
         $this->setService('integritychecker', $check);
         ResourceManager::$theApp = $this->getApp();
