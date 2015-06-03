@@ -17,12 +17,11 @@ use Silex\Application;
 
 class PackageManager
 {
-    /** @var array */
-    private $options;
-    /** @var \Bolt\Composer\Factory */
-    private $factory;
     /** @var \Silex\Application */
-    private $app;
+    protected $app;
+    /** @var array */
+    protected $options;
+
     /** @var array|null  */
     private $json;
     /** @var string[] */
@@ -54,7 +53,7 @@ class PackageManager
      */
     public function getFactory()
     {
-        return $this->factory;
+        return $this->app['extend.factory'];
     }
 
     /**
@@ -84,11 +83,6 @@ class PackageManager
             } else {
                 $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
             }
-        }
-
-        if ($this->app['extend.online']) {
-            // Create our Factory
-            $this->factory = new Factory($this->app, $this->options);
         }
     }
 
@@ -121,7 +115,7 @@ class PackageManager
      */
     public function getComposer()
     {
-        return $this->factory->getComposer();
+        return $this->app['extend.factory']->getComposer();
     }
 
     /**
@@ -131,7 +125,7 @@ class PackageManager
      */
     public function getMinimumStability()
     {
-        return $this->factory->getMinimumStability();
+        return $this->app['extend.factory']->getMinimumStability();
     }
 
     /**
@@ -141,7 +135,7 @@ class PackageManager
      */
     public function getIO()
     {
-        return $this->factory->getIO();
+        return $this->app['extend.factory']->getIO();
     }
 
     /**
@@ -151,7 +145,7 @@ class PackageManager
      */
     public function getPool()
     {
-        return $this->factory->getPool();
+        return $this->app['extend.factory']->getPool();
     }
 
     /**
@@ -161,7 +155,7 @@ class PackageManager
      */
     public function getOutput()
     {
-        return $this->factory->getIO()->getOutput();
+        return $this->app['extend.factory']->getIO()->getOutput();
     }
 
     /**

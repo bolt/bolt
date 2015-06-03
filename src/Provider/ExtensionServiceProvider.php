@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Composer\Action;
+use Bolt\Composer\Factory;
 use Bolt\Composer\PackageManager;
 use Bolt\Extensions;
 use Bolt\Extensions\ExtensionsInfoService;
@@ -42,10 +43,14 @@ class ExtensionServiceProvider implements ServiceProviderInterface
         $app['extend.online'] = false;
         $app['extend.enabled'] = $app['config']->get('general/extensions/enabled', true);
 
-        // This exposes the main upload object as a service
         $app['extend.manager'] = $app->share(
             function ($app) {
                 return new PackageManager($app);
+            }
+        );
+        $app['extend.factory'] = $app->share(
+            function ($app) {
+                return new Factory($app['extend.manager']->getOptions(), $app['logger.system']);
             }
         );
 
