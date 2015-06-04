@@ -215,7 +215,7 @@ class Extensions
         }
 
         // Get Bolt's extension JSON
-        $composerOptions = $this->app['extend.manager']->getOptions();
+        $composerOptions = $this->app['extend.action.options'];
         $composerJsonFile = new JsonFile($composerOptions['composerjson']);
         $boltJson = $composerJsonFile->read();
         $boltPsr4 = isset($boltJson['autoload']['psr-4']) ? $boltJson['autoload']['psr-4'] : [];
