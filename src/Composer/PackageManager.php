@@ -380,7 +380,7 @@ class PackageManager
      */
     private function updateJson()
     {
-        $this->json = $this->app['extend.action']['json']->updateJson($this->app);
+        $this->json = $this->app['extend.action']['json']->updateJson();
     }
 
     /**
