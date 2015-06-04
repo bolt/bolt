@@ -28,7 +28,7 @@ runs on our code base [here](https://scrutinizer-ci.com/g/bolt/bolt/inspections)
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bolt/bolt/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bolt/bolt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
+[![Piwik](https://stats.bolt.cm/piwik.php?idsite=1)]
 
 Installation
 ------------
