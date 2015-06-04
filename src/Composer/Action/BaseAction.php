@@ -13,9 +13,9 @@ abstract class BaseAction
 {
     /** @var boolean */
     public $downgradeSsl = false;
-    /** @var array */
-    public $messages = [];
 
+    /** @var array */
+    protected $messages = [];
     /** @var \Silex\Application */
     protected $app;
 
@@ -43,6 +43,18 @@ abstract class BaseAction
     }
 
     /**
+     * Get a single option.
+     *
+     * @param string $key
+     *
+     * @return string|boolean|null
+     */
+    public function getOption($key)
+    {
+        return $this->app['extend.action.options'][$key];
+    }
+
+    /**
      * Get a Composer object.
      *
      * @return \Composer\Composer
@@ -51,11 +63,11 @@ abstract class BaseAction
     {
         if (!$this->composer) {
             // Set working directory
-            chdir($this->options['basedir']);
+            chdir($this->app['extend.action.options']['basedir']);
 
             // Use the factory to get a new Composer object
             try {
-                $this->composer = Factory::create($this->getIO(), $this->options['composerjson'], true);
+                $this->composer = Factory::create($this->getIO(), $this->app['extend.action.options']['composerjson'], true);
             } catch (\Exception $e) {
                 $this->logger->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
             }

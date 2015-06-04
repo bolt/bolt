@@ -13,9 +13,6 @@ use Silex\Application;
  */
 final class BoltExtendJson extends BaseAction
 {
-    /** @var string[] */
-    private $messages;
-
     /**
      * Convenience function to generalise the library.
      *
@@ -48,11 +45,11 @@ final class BoltExtendJson extends BaseAction
      */
     public function updateJson(Application $app)
     {
-        if (!is_file($this->options['composerjson'])) {
-            $this->initJson($this->options['composerjson']);
+        if (!is_file($this->getOption('composerjson'))) {
+            $this->initJson($this->getOption('composerjson'));
         }
 
-        $jsonFile = new JsonFile($this->options['composerjson']);
+        $jsonFile = new JsonFile($this->getOption('composerjson'));
         if ($jsonFile->exists()) {
             $json = $jsonorig = $jsonFile->read();
 
@@ -64,7 +61,7 @@ final class BoltExtendJson extends BaseAction
             // Error
             $this->messages[] = Trans::__(
                 "The Bolt extensions file '%composerjson%' isn't readable.",
-                ['%composerjson%' => $this->options['composerjson']]
+                ['%composerjson%' => $this->getOption('composerjson')]
             );
 
             $app['extend.writeable'] = false;
