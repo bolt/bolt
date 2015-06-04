@@ -76,12 +76,15 @@ class Application extends Silex\Application
     {
         $this->register(new Provider\TokenServiceProvider())
             ->register(new SessionServiceProvider(), [
-                'session.storage.options' => [
-                    'name'            => $this['token.session.name'],
-                    'cookie_path'     => $this['resources']->getUrl('root'),
-                    'cookie_domain'   => $this['config']->get('general/cookies_domain'),
-                    'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
-                    'cookie_httponly' => true
+                'sessions.options' => [
+                    'main' => [
+                        'name'            => $this['token.session.name'],
+                        'cookie_path'     => $this['resources']->getUrl('root'),
+                        'cookie_domain'   => $this['config']->get('general/cookies_domain'),
+                        'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
+                        'cookie_httponly' => true
+                    ],
+                    'csrf' => [],
                 ],
             ]
         );
