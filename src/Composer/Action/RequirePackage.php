@@ -241,7 +241,7 @@ final class RequirePackage extends BaseAction
      *
      * @return string
      */
-    private function findBestVersionForPackage($name)
+    protected function findBestVersionForPackage($name)
     {
         $package = $this->versionSelector->findBestCandidate($name);
 

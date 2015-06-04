@@ -46,7 +46,7 @@ abstract class BaseAction
      *
      * @return string|boolean|null
      */
-    public function getOption($key)
+    protected function getOption($key)
     {
         return $this->app['extend.action.options'][$key];
     }
@@ -56,7 +56,7 @@ abstract class BaseAction
      *
      * @return \Composer\Composer
      */
-    public function getComposer()
+    protected function getComposer()
     {
         if (!$this->composer) {
             // Set working directory
@@ -82,7 +82,7 @@ abstract class BaseAction
      *
      * @return \Composer\IO\BufferIO
      */
-    public function getIO()
+    protected function getIO()
     {
         if (!$this->io) {
             $this->io = new BufferIO();
@@ -96,7 +96,7 @@ abstract class BaseAction
      *
      * @return \Composer\Composer
      */
-    public function resetComposer()
+    protected function resetComposer()
     {
         $this->composer = null;
 
@@ -108,7 +108,7 @@ abstract class BaseAction
      *
      * @return string
      */
-    public function getOutput()
+    protected function getOutput()
     {
         return $this->io->getOutput();
     }
@@ -139,7 +139,7 @@ abstract class BaseAction
      *
      * @return array
      */
-    public function findBestVersionForPackage($name)
+    protected function findBestVersionForPackage($name)
     {
         // find the latest version allowed in this pool
         $versionSelector = new VersionSelector($this->getPool());
@@ -163,7 +163,7 @@ abstract class BaseAction
      *
      * @return \Composer\DependencyResolver\Pool
      */
-    public function getPool()
+    protected function getPool()
     {
         if (!$this->pool) {
             $this->pool = new Pool($this->getMinimumStability());
@@ -183,7 +183,7 @@ abstract class BaseAction
      *
      * @return string
      */
-    public function getMinimumStability()
+    protected function getMinimumStability()
     {
         $stability = $this->getComposer()->getPackage()->getMinimumStability();
         if (!empty($stability)) {
