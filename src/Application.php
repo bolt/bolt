@@ -250,7 +250,7 @@ class Application extends Silex\Application
     {
         // Register the Silex/Symfony web debug toolbar.
         $this->register(
-            new Debug\WebProfilerServiceProvider(),
+            new Silex\Provider\WebProfilerServiceProvider(),
             [
                 'profiler.cache_dir'                => $this['resources']->getPath('cache') . '/profiler',
                 'profiler.mount_prefix'             => '/_profiler', // this is the default
@@ -264,13 +264,6 @@ class Application extends Silex\Application
 
         // Register the toolbar item for our Bolt nipple.
         $this->register(new Provider\BoltProfilerServiceProvider());
-
-        // Temporarily work around breakage in Silex\Provider\WebProfilerServiceProvider
-        // in 1.0.6 and fixed in https://github.com/silexphp/Silex-WebProfiler/pull/63
-        $this['data_collector.templates'] = array_merge(
-            $this['data_collector.templates'],
-            [['twig', '@WebProfiler/Collector/twig.html.twig']]
-        );
     }
 
     public function initLocale()
