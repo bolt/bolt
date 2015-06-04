@@ -6,6 +6,7 @@ use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Ring\Client\ClientUtils;
 use Silex\Application;
 
 class PackageManager
@@ -14,6 +15,8 @@ class PackageManager
     protected $app;
     /** @var boolean */
     protected $started = false;
+    /** @var boolean */
+    protected $useSsl;
 
     /** @var array|null  */
     private $json;
@@ -61,6 +64,32 @@ class PackageManager
         }
 
         $this->started = true;
+    }
+
+    /**
+     * Check if we can/should use SSL/TLS/HTTP2 or HTTP.
+     *
+     * @return boolean
+     */
+    public function useSsl()
+    {
+        if ($this->useSsl !== null) {
+            return $this->useSsl;
+        }
+
+        if (!extension_loaded('openssl')) {
+            return $this->useSsl = false;
+        }
+
+        try {
+            ClientUtils::getDefaultCaBundle();
+
+            return $this->useSsl = true;
+        } catch (\RuntimeException $e) {
+            $this->messages[] = $e->getMessage();
+
+            return $this->useSsl = false;
+        }
     }
 
     /**

@@ -11,9 +11,6 @@ use Silex\Application;
 
 abstract class BaseAction
 {
-    /** @var boolean */
-    public $downgradeSsl = false;
-
     /** @var array */
     protected $messages = [];
     /** @var \Silex\Application */
@@ -63,17 +60,17 @@ abstract class BaseAction
     {
         if (!$this->composer) {
             // Set working directory
-            chdir($this->app['extend.action.options']['basedir']);
+            chdir($this->getOption('basedir'));
 
             // Use the factory to get a new Composer object
             try {
-                $this->composer = Factory::create($this->getIO(), $this->app['extend.action.options']['composerjson'], true);
+                $this->composer = Factory::create($this->getIO(), $this->getOption('composerjson'), true);
+
+                if (!$this->app['extend.manager']->useSsl()) {
+                    $this->setAllowSslDowngrade(true);
+                }
             } catch (\Exception $e) {
                 $this->logger->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
-            }
-
-            if ($this->downgradeSsl) {
-                $this->setAllowSslDowngrade(true);
             }
         }
 
@@ -139,8 +136,6 @@ abstract class BaseAction
      * This returns a version with the ~ operator prefixed when possible.
      *
      * @param string $name
-     *
-     * @throws \InvalidArgumentException
      *
      * @return array
      */
