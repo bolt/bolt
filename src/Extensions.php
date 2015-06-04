@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt;
+use Bolt\Composer\Action\BoltExtendJson;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Helpers\Str;
@@ -209,8 +210,13 @@ class Extensions
      */
     public function checkLocalAutoloader($force = false)
     {
-        if (!$this->app['filesystem']->has('extensions://local/') || !force || $this->app['filesystem']->has('extensions://local/.built')) {
+        if (!$this->app['filesystem']->has('extensions://local/') || !$force || $this->app['filesystem']->has('extensions://local/.built')) {
             return;
+        }
+
+        if (!$this->app['filesystem']->has('extensions://composer.json')) {
+            $initjson = new BoltExtendJson($this->app['extend.manager']->getOptions());
+            $this->json = $initjson->updateJson($this->app);
         }
 
         // Get Bolt's extension JSON
