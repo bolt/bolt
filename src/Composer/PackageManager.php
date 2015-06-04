@@ -3,7 +3,9 @@
 namespace Bolt\Composer;
 
 use Bolt\Translation\Translator as Trans;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ServerException;
 use Silex\Application;
 
 class PackageManager
@@ -24,6 +26,8 @@ class PackageManager
 
         // Set composer environment variables
         putenv('COMPOSER_HOME=' . $this->app['resources']->getPath('cache/composer'));
+
+        $this->setup();
     }
 
     public function getMessages()
@@ -41,6 +45,10 @@ class PackageManager
      */
     private function setup()
     {
+        if ($this->started) {
+            return;
+        }
+
         if ($this->app['extend.writeable']) {
             // Copy/update installer helper
             $this->copyInstaller();
@@ -49,15 +57,7 @@ class PackageManager
             $this->updateJson();
 
             // Ping the extensions server to confirm connection
-            $response = $this->ping(true);
-
-            // @see http://tools.ietf.org/html/rfc2616#section-13.4
-            $httpOk = [200, 203, 206, 300, 301, 302, 307, 410];
-            if (in_array($response, $httpOk)) {
-                $this->app['extend.online'] = true;
-            } else {
-                $this->messages[] = $this->app['extend.site'] . ' is unreachable.';
-            }
+            $this->ping(true);
         }
 
         $this->started = true;
@@ -312,7 +312,7 @@ class PackageManager
     {
         $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
         $filename = $class->getFileName();
-        copy($filename, $this->options['basedir'] . '/ExtensionInstaller.php');
+        copy($filename, $this->app['extend.action.options']['basedir'] . '/ExtensionInstaller.php');
     }
 
     /**
@@ -327,8 +327,6 @@ class PackageManager
      * Ping site to see if we have a valid connection and it is responding correctly.
      *
      * @param boolean $addquery
-     *
-     * @return boolean
      */
     private function ping($addquery = false)
     {
@@ -347,17 +345,37 @@ class PackageManager
         }
 
         try {
-            /** @var $reponse \GuzzleHttp\Message\Response */
-            $response = $this->app['guzzle.client']->head($uri, [], ['query' => $query]);
+            $this->app['guzzle.client']->head($uri, [], ['query' => $query, 'exceptions' => true, 'connect_timeout' => 5]);
 
-            return $response->getStatusCode();
+            $this->app['extend.online'] = true;
+        } catch (ClientException $e) {
+            // Thrown for 400 level errors
+            $this->messages[] = Trans::__(
+                "Client error: %errormessage%",
+                ['%errormessage%' => $e->getMessage()]
+            );
+            $this->app['extend.online'] = false;
         } catch (RequestException $e) {
+            // Thrown for connection timeout, DNS errors, etc
             $this->messages[] = Trans::__(
                 "Testing connection to extension server failed: %errormessage%",
                 ['%errormessage%' => $e->getMessage()]
             );
+            $this->app['extend.online'] = false;
+        } catch (ServerException $e) {
+            // Thrown for 500 level errors
+            $this->messages[] = Trans::__(
+                "Extension server returned an error: %errormessage%",
+                ['%errormessage%' => $e->getMessage()]
+            );
+            $this->app['extend.online'] = false;
+        } catch (\Exception $e) {
+            // Catch all
+            $this->messages[] = Trans::__(
+                "Generic failure while testing connection to extension server: %errormessage%",
+                ['%errormessage%' => $e->getMessage()]
+            );
+            $this->app['extend.online'] = false;
         }
-
-        return false;
     }
 }
