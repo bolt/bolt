@@ -22,7 +22,7 @@ class PackageManager
     private $json;
     /** @var string[] */
     private $messages = [];
-    /** @var string */
+    /** @var string Holds the output from Composer\IO\BufferIO */
     private $ioOutput;
 
     /**
@@ -71,12 +71,11 @@ class PackageManager
     }
 
     /**
-     * If the extension project area is writable, ensure the JSON is up-to-date
-     * and test connection to the extension server.
+     * Set up function.
      *
-     * $app['extend.writeable'] is originally set in Extend::register()
-     *
-     * If all is OK, set $app['extend.online'] to TRUE
+     * - Copy/update the installer event class
+     * - Update the composer.json
+     * - Test connection to the server
      */
     private function setup()
     {
