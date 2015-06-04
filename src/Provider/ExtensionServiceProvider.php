@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Composer\Action;
+use Bolt\Composer\PackageEventListener;
 use Bolt\Composer\PackageManager;
 use Bolt\Extensions;
 use Bolt\Extensions\ExtensionsInfoService;
@@ -50,6 +51,12 @@ class ExtensionServiceProvider implements ServiceProviderInterface
         $app['extend.manager'] = $app->share(
             function ($app) {
                 return new PackageManager($app);
+            }
+        );
+
+        $app['extend.listener'] = $app->share(
+            function ($app) {
+                return new PackageEventListener($app['extend.manager']);
             }
         );
 

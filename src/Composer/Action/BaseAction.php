@@ -24,8 +24,6 @@ abstract class BaseAction
     private $pool;
     /** @var \Composer\Repository\CompositeRepository */
     private $repos;
-    /** @var array */
-    private $options;
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
@@ -37,6 +35,16 @@ abstract class BaseAction
     public function __construct(Application $app)
     {
         $this->app = $app;
+    }
+
+    /**
+     * Return the output from the last IO.
+     *
+     * @return string
+     */
+    public function getOutput()
+    {
+        return $this->io->getOutput();
     }
 
     /**
@@ -65,6 +73,9 @@ abstract class BaseAction
             // Use the factory to get a new Composer object
             try {
                 $this->composer = Factory::create($this->getIO(), $this->getOption('composerjson'), true);
+
+                // Add the event subscriber
+                $this->composer->getEventDispatcher()->addSubscriber($this->app['extend.listener']);
 
                 if (!$this->app['extend.manager']->useSsl()) {
                     $this->setAllowSslDowngrade(true);
@@ -101,16 +112,6 @@ abstract class BaseAction
         $this->composer = null;
 
         return $this->getComposer();
-    }
-
-    /**
-     * Return the output from the last IO.
-     *
-     * @return string
-     */
-    protected function getOutput()
-    {
-        return $this->io->getOutput();
     }
 
     /**
