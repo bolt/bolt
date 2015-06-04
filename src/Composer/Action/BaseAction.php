@@ -81,7 +81,7 @@ abstract class BaseAction
                     $this->setAllowSslDowngrade(true);
                 }
             } catch (\Exception $e) {
-                $this->logger->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+                $this->app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
             }
         }
 

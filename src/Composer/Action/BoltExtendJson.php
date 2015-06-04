@@ -39,11 +39,9 @@ final class BoltExtendJson extends BaseAction
     /**
      * Set up Composer JSON file.
      *
-     * @param Application $app
-     *
      * @return array|null
      */
-    public function updateJson(Application $app)
+    public function updateJson()
     {
         if (!is_file($this->getOption('composerjson'))) {
             $this->initJson($this->getOption('composerjson'));
@@ -64,27 +62,27 @@ final class BoltExtendJson extends BaseAction
                 ['%composerjson%' => $this->getOption('composerjson')]
             );
 
-            $app['extend.writeable'] = false;
-            $app['extend.online'] = false;
+            $this->app['extend.writeable'] = false;
+            $this->app['extend.online'] = false;
 
             return null;
         }
 
-        $pathToWeb = $app['resources']->findRelativePath($app['resources']->getPath('extensions'), $app['resources']->getPath('web'));
+        $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
 
         // Enforce standard settings
         $json['repositories']['packagist'] = false;
         $json['repositories']['bolt'] = [
             'type' => 'composer',
-            'url'  => $app['extend.site'] . 'satis/'
+            'url'  => $this->app['extend.site'] . 'satis/'
         ];
-        $json['minimum-stability'] = $app['config']->get('general/extensions/stability', 'stable');
+        $json['minimum-stability'] = $this->app['config']->get('general/extensions/stability', 'stable');
         $json['prefer-stable'] = true;
         $json['config'] = [
             'discard-changes'   => true,
             'preferred-install' => 'dist'
         ];
-        $json['provide']['bolt/bolt'] = $app['bolt_version'];
+        $json['provide']['bolt/bolt'] = $this->app['bolt_version'];
         $json['extra']['bolt-web-path'] = $pathToWeb;
         $json['autoload']['psr-4']['Bolt\\Composer\\'] = '';
         $json['scripts'] = [
@@ -100,7 +98,7 @@ final class BoltExtendJson extends BaseAction
             } catch (\Exception $e) {
                 $this->messages[] = Trans::__(
                     'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
-                    ['%repository%' => $app['extend.site']]
+                    ['%repository%' => $this->app['extend.site']]
                 );
             }
         }
