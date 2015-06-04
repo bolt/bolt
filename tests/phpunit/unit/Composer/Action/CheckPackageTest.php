@@ -12,20 +12,19 @@ use Bolt\Tests\BoltUnitTest;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class CheckPackageTest extends BoltUnitTest
+class CheckPackageTest extends ActionUnitTest
 {
     public function tearDown()
     {
         $app = $this->getApp();
-        $action = new RemovePackage($app);
+        $action = $app['extend.action']['remove'];
         $action->execute(['gawain/clippy']);
     }
 
     public function testConstruct()
     {
         $app = $this->getApp();
-        $action = new CheckPackage($app);
-        $result = $action->execute();
+        $result = $app['extend.action']['check']->execute();
         $this->assertTrue(is_array($result['updates']));
         $this->assertTrue(is_array($result['installs']));
     }
@@ -33,24 +32,21 @@ class CheckPackageTest extends BoltUnitTest
     public function testNewlyAdded()
     {
         $app = $this->getApp();
-        $options = $app['extend.manager']->getOptions();
-        $boltJson = new BoltExtendJson($options);
-        $json = $boltJson->updateJson($app);
+        $json = $app['extend.action']['json']->updateJson($app);
         $json['require']['gawain/clippy'] = '~2.0';
-        $boltJson->execute($options['composerjson'], $json);
+        $app['extend.action']['json']->execute($app['extend.action.options']['composerjson'], $json);
 
-        $action = new CheckPackage($app);
-        $result = $action->execute();
+        $result = $app['extend.action']['check']->execute();
         $this->assertEquals('gawain/clippy', $result['installs'][0]['name']);
     }
 
     public function testUpdateCheck()
     {
         $app = $this->getApp();
-        $action = new RequirePackage($app);
+        $action = $app['extend.action']['require'];
         $action->execute(['name' => 'gawain/clippy', 'version' => '~2.0']);
 
-        $action = new CheckPackage($app);
+        $action = $app['extend.action']['check'];
         $result = $action->execute();
         $this->assertTrue(is_array($result['updates']));
     }

@@ -10,39 +10,20 @@ use Bolt\Tests\BoltUnitTest;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class BoltExtendJsonTest extends BoltUnitTest
+class BoltExtendJsonTest extends ActionUnitTest
 {
-    public $options;
-
-    public function setup()
+    public function testExecute()
     {
         $app = $this->getApp();
-        $this->options =
-            [
-                'basedir'       => $app['resources']->getPath('extensions'),
-                'composerjson'  => $app['resources']->getPath('extensions') . '/composer.json',
-            ];
-    }
-
-    public function testConstruct()
-    {
-        $action = new BoltExtendJson($this->options);
-        $this->assertArrayHasKey('basedir', \PHPUnit_Framework_Assert::readAttribute($action, 'options'));
-        $this->assertArrayHasKey('composerjson', \PHPUnit_Framework_Assert::readAttribute($action, 'options'));
+        $app['extend.action']['json']->execute(
+            $app['extend.action.options']['composerjson'],
+            ['extra' => ['bolt-test' => true]]
+        );
     }
 
     public function testWrite()
     {
         $app = $this->getApp();
-        @unlink($app['resources']->getPath('extensions') . '/composer.json');
-        $manager = new PackageManager($app);
-        $action = new BoltExtendJson($manager->getOptions());
-        $action->updateJson($app);
-    }
-
-    public function testExecute()
-    {
-        $action = new BoltExtendJson($this->options);
-        $action->execute($this->options['composerjson'], ['extra' => ['bolt-test' => true]]);
+        $app['extend.action']['json']->updateJson();
     }
 }

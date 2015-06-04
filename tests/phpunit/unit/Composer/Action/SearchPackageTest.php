@@ -9,14 +9,13 @@ use Bolt\Tests\BoltUnitTest;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class SearchPackageTest extends BoltUnitTest
+class SearchPackageTest extends ActionUnitTest
 {
     public function testRun()
     {
         $app = $this->getApp();
 
-        $action = new SearchPackage($app);
-        $result = $action->execute(['gawain/clippy']);
+        $result = $app['extend.action']['search']->execute(['gawain/clippy']);
         $this->assertTrue(is_array($result));
     }
 }

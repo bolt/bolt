@@ -9,15 +9,14 @@ use Bolt\Tests\BoltUnitTest;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class DumpAutoloadTest extends BoltUnitTest
+class DumpAutoloadTest extends ActionUnitTest
 {
     public function testConstruct()
     {
         $app = $this->getApp();
         $autoload = $app['resources']->getPath('extensionspath/vendor/autoload.php');
         @unlink($autoload);
-        $action = new DumpAutoload($app);
-        $action->execute();
+        $app['extend.action']['autoload']->execute();
         $this->assertTrue(is_readable($app['resources']->getPath('extensionspath/vendor/autoload.php')));
     }
 }
