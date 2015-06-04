@@ -40,9 +40,8 @@ final class RequirePackage extends BaseAction
         /** @var $composer \Composer\Composer */
         $composer = $this->getComposer();
         $io = $this->getIO();
-        $options = $this->getOptions();
 
-        $file = $options['composerjson'];
+        $file = $this->getOption('composerjson');
 
         $newlyCreated = !file_exists($file);
 
@@ -76,19 +75,19 @@ final class RequirePackage extends BaseAction
         }
 
         // Get the JSON object
-        $json = new JsonFile($options['composerjson']);
+        $json = new JsonFile($this->getOption('composerjson'));
 
         // Update our JSON file with the selected version until we reset Composer
-        $composerBackup = $this->updateComposerJson($json, $options, $package, false);
+        $composerBackup = $this->updateComposerJson($json, $package, false);
 
         // Reload Composer config
         $composer = $this->resetComposer();
 
         // Update our JSON file now with a contraint
-        $this->updateComposerJson($json, $options, $package, true);
+        $this->updateComposerJson($json, $package, true);
 
         // JSON file has been created/updated, if we're not installing, exit
-        if ($options['noupdate']) {
+        if ($this->getOption('noupdate')) {
             return 0;
         }
 
@@ -97,14 +96,14 @@ final class RequirePackage extends BaseAction
 
         try {
             $install
-                ->setVerbose($options['verbose'])
-                ->setPreferSource($options['prefersource'])
-                ->setPreferDist($options['preferdist'])
-                ->setDevMode(!$options['updatenodev'])
-                ->setUpdate($options['update'])
+                ->setVerbose($this->getOption('verbose'))
+                ->setPreferSource($this->getOption('prefersource'))
+                ->setPreferDist($this->getOption('preferdist'))
+                ->setDevMode(!$this->getOption('updatenodev'))
+                ->setUpdate($this->getOption('update'))
                 ->setUpdateWhitelist(array_keys($package))
-                ->setWhitelistDependencies($options['updatewithdependencies'])
-                ->setIgnorePlatformRequirements($options['ignoreplatformreqs']);
+                ->setWhitelistDependencies($this->getOption('updatewithdependencies'))
+                ->setIgnorePlatformRequirements($this->getOption('ignoreplatformreqs'));
 
             $status = $install->run();
             if ($status !== 0) {
@@ -132,20 +131,19 @@ final class RequirePackage extends BaseAction
      * Update the JSON file.
      *
      * @param JsonFile $json
-     * @param array    $options
      * @param array    $package
      * @param boolean  $postreset
      *
      * @return string A back up of the current JSON file
      */
-    private function updateComposerJson(JsonFile $json, array $options, array $package, $postreset)
+    private function updateComposerJson(JsonFile $json, array $package, $postreset)
     {
         $composerDefinition = $json->read();
         $composerBackup = file_get_contents($json->getPath());
 
-        $sortPackages = $options['sortpackages'];
-        $requireKey = $options['dev'] ? 'require-dev' : 'require';
-        $removeKey = $options['dev'] ? 'require' : 'require-dev';
+        $sortPackages = $this->getOption('sortpackages');
+        $requireKey = $this->getOption('dev') ? 'require-dev' : 'require';
+        $removeKey = $this->getOption('dev') ? 'require' : 'require-dev';
         $baseRequirements = array_key_exists($requireKey, $composerDefinition) ? $composerDefinition[$requireKey] : [];
 
         if (!$this->updateFileCleanly($json, $package, $requireKey, $removeKey, $sortPackages, $postreset)) {

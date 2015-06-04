@@ -31,15 +31,14 @@ final class RemovePackage extends BaseAction
         }
 
         $io = $this->getIO();
-        $options = $this->getOptions();
 
-        $jsonFile = new JsonFile($options['composerjson']);
+        $jsonFile = new JsonFile($this->getOption('composerjson'));
         $composerDefinition = $jsonFile->read();
         $composerBackup = file_get_contents($jsonFile->getPath());
 
         $json = new JsonConfigSource($jsonFile);
 
-        $type = $options['dev'] ? 'require-dev' : 'require';
+        $type = $this->getOption('dev') ? 'require-dev' : 'require';
 
         // Remove packages from JSON
         foreach ($packages as $package) {
@@ -55,12 +54,12 @@ final class RemovePackage extends BaseAction
 
         try {
             $install
-                ->setVerbose($options['verbose'])
-                ->setDevMode(!$options['updatenodev'])
+                ->setVerbose($this->getOption('verbose'))
+                ->setDevMode(!$this->getOption('updatenodev'))
                 ->setUpdate(true)
                 ->setUpdateWhitelist($packages)
-                ->setWhitelistDependencies($options['updatewithdependencies'])
-                ->setIgnorePlatformRequirements($options['ignoreplatformreqs']);
+                ->setWhitelistDependencies($this->getOption('updatewithdependencies'))
+                ->setIgnorePlatformRequirements($this->getOption('ignoreplatformreqs'));
 
             $status = $install->run();
 

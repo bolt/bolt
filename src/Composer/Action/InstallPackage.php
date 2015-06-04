@@ -26,7 +26,6 @@ final class InstallPackage extends BaseAction
         $composer = $this->getComposer();
         $io = $this->getIO();
 
-        $options = $this->getOptions();
         $install = Installer::create($io, $composer);
         $config = $composer->getConfig();
         $optimize = $config->get('optimize-autoloader');
@@ -54,15 +53,15 @@ final class InstallPackage extends BaseAction
 
         try {
             $install
-                ->setDryRun($options['dryrun'])
-                ->setVerbose($options['verbose'])
+                ->setDryRun($this->getOption('dryrun'))
+                ->setVerbose($this->getOption('verbose'))
                 ->setPreferSource($preferSource)
                 ->setPreferDist($preferDist)
-                ->setDevMode(!$options['nodev'])
-                ->setDumpAutoloader(!$options['noautoloader'])
-                ->setRunScripts(!$options['noscripts'])
+                ->setDevMode(!$this->getOption('nodev'))
+                ->setDumpAutoloader(!$this->getOption('noautoloader'))
+                ->setRunScripts(!$this->getOption('noscripts'))
                 ->setOptimizeAutoloader($optimize)
-                ->setIgnorePlatformRequirements($options['ignoreplatformreqs'])
+                ->setIgnorePlatformRequirements($this->getOption('ignoreplatformreqs'))
                 ->setUpdate(true);
 
             return $install->run();

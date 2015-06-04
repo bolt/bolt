@@ -29,7 +29,7 @@ final class UpdatePackage extends BaseAction
         /** @var $composer \Composer\Composer */
         $composer = $this->getComposer();
         $io = $this->getIO();
-        $packageManagerOptions = $this->getOptions();
+        $packageManagerOptions = $this->app['extend.action.options'];
 
         // Handle passed in options
         if (!$options) {
