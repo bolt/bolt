@@ -30,33 +30,15 @@ final class InstallPackage extends BaseAction
         $config = $composer->getConfig();
         $optimize = $config->get('optimize-autoloader');
 
-        $preferSource = false;
-        $preferDist = true;
-
-        switch ($config->get('preferred-install')) {
-            case 'source':
-                $preferSource = true;
-                break;
-            case 'dist':
-                $preferDist = true;
-                break;
-            case 'auto':
-            default:
-                // noop
-                break;
-        }
-
-        if ($config->get('prefer-source') || $config->get('prefer-dist')) {
-            $preferSource = $config->get('prefer-source');
-            $preferDist = $config->get('prefer-dist');
-        }
+        // Set preferred install method
+        $prefer = $this->getPreferedTarget($config->get('preferred-install'));
 
         try {
             $install
                 ->setDryRun($this->getOption('dryrun'))
                 ->setVerbose($this->getOption('verbose'))
-                ->setPreferSource($preferSource)
-                ->setPreferDist($preferDist)
+                ->setPreferSource($prefer['source'])
+                ->setPreferDist($prefer['dist'])
                 ->setDevMode(!$this->getOption('nodev'))
                 ->setDumpAutoloader(!$this->getOption('noautoloader'))
                 ->setRunScripts(!$this->getOption('noscripts'))

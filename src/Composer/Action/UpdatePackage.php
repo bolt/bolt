@@ -43,27 +43,14 @@ final class UpdatePackage extends BaseAction
         $optimize = $config->get('optimize-autoloader');
 
         // Set preferred install method
-        $preferSource = false; // Forces installation from package sources when possible, including VCS information.
-        $preferDist = false;
-
-        switch ($config->get('preferred-install')) {
-            case 'source':
-                $preferSource = true;
-                break;
-            case 'dist':
-                $preferDist = true;
-                break;
-            case 'auto':
-            default:
-                break;
-        }
+        $prefer = $this->getPreferedTarget($config->get('preferred-install'));
 
         try {
             $install
                 ->setDryRun($options['dryrun'])
                 ->setVerbose($options['verbose'])
-                ->setPreferSource($preferSource)
-                ->setPreferDist($preferDist)
+                ->setPreferSource($prefer['source'])
+                ->setPreferDist($prefer['dist'])
                 ->setDevMode(!$options['nodev'])
                 ->setDumpAutoloader(!$options['noautoloader'])
                 ->setRunScripts(!$options['noscripts'])

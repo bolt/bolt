@@ -115,6 +115,36 @@ abstract class BaseAction
     }
 
     /**
+     * Determine if we're to force installation from package sources when
+     * possible, including VCS information.
+     *
+     * @param string $option
+     *
+     * @return array
+     */
+    protected function getPreferedTarget($option)
+    {
+        $prefer = [
+            'source' => false,
+            'dist'   => false,
+        ];
+
+        switch ($option) {
+            case 'source':
+                $prefer['source'] = true;
+                break;
+            case 'dist':
+                $prefer['dist'] = true;
+                break;
+            case 'auto':
+            default:
+                break;
+        }
+
+        return $prefer;
+    }
+
+    /**
      * Set repos to allow HTTP instead of HTTPS.
      *
      * @param boolean $choice
