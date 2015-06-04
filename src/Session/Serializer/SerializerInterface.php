@@ -17,9 +17,9 @@ interface SerializerInterface
      *
      * @param string $data Serialized data
      *
-     * @return mixed Session data
-     *
      * @throws \RuntimeException If unserialization fails
+     *
+     * @return mixed Session data
      */
     public function unserialize($data);
 }

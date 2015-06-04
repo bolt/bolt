@@ -50,7 +50,8 @@ class OptionsBag extends ParameterBag implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         $this->remove($offset);
     }
 }

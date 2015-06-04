@@ -39,6 +39,7 @@ class SessionStorage implements SessionStorageInterface
     /**
      * Actual session data.
      * bags <-> data <-> handler
+     *
      * @var array
      */
     protected $data = [];
