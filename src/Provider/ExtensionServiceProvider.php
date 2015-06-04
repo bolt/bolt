@@ -37,10 +37,15 @@ class ExtensionServiceProvider implements ServiceProviderInterface
             'info' => 'info.json'
         ];
 
-        $extensionsPath = $app['resources']->getPath('extensions');
-        $app['extend.writeable'] = is_dir($extensionsPath) && is_writable($extensionsPath) ? true : false;
         $app['extend.online'] = false;
         $app['extend.enabled'] = $app['config']->get('general/extensions/enabled', true);
+        $app['extend.writeable'] = $app->share(
+            function () use ($app) {
+                $extensionsPath = $app['resources']->getPath('extensions');
+
+                return is_dir($extensionsPath) && is_writable($extensionsPath) ? true : false;
+            }
+        );
 
         $app['extend.manager'] = $app->share(
             function ($app) {
