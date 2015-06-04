@@ -22,7 +22,14 @@ class PackageManager
     private $json;
     /** @var string[] */
     private $messages = [];
+    /** @var string */
+    private $ioOutput;
 
+    /**
+     * Constructor.
+     *
+     * @param Application $app
+     */
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -33,9 +40,34 @@ class PackageManager
         $this->setup();
     }
 
+    /**
+     * Get the stored messages.
+     *
+     * @return string[]
+     */
     public function getMessages()
     {
         return $this->messages;
+    }
+
+    /**
+     * Return the output from the last IO.
+     *
+     * @return string
+     */
+    public function getOutput()
+    {
+        return $this->ioOutput;
+    }
+
+    /**
+     * Set the output from the last IO.
+     *
+     * @param string $output
+     */
+    public function setOutput($output)
+    {
+        $this->ioOutput = $output;
     }
 
     /**
