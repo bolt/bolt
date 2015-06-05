@@ -334,7 +334,9 @@ class Application extends Silex\Application
             }
         });
 
-        $this->register(new Silex\Provider\UrlGeneratorServiceProvider())
+        $this
+            ->register(new Silex\Provider\HttpFragmentServiceProvider())
+            ->register(new Silex\Provider\UrlGeneratorServiceProvider())
             ->register(new Silex\Provider\ValidatorServiceProvider())
             ->register(new Provider\RoutingServiceProvider())
             ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing
