@@ -978,12 +978,20 @@ class Content implements \ArrayAccess
      */
     public function getTitle()
     {
-        if ($column = $this->getTitleColumnName()) {
-            return $this->values[$column];
+        $titleParts = array();
+
+        foreach ($this->getTitleColumnName() as $fieldName) {
+            $titleParts[] = strip_tags($this->values[$fieldName]);
         }
 
-        // nope, no title was found.
-        return '(untitled)';
+        if (!empty($titleParts)) {
+            $title = implode(' ', $titleParts);
+        } else {
+            // nope, no title was found.
+            $title = '(untitled)';
+        }
+
+        return $title;
     }
 
     /**
@@ -993,6 +1001,16 @@ class Content implements \ArrayAccess
      */
     public function getTitleColumnName()
     {
+
+        // If we specified a specific fieldname or array of fieldnames as 'title'.
+        if (!empty($this->contenttype['title_format'])) {
+            if (!is_array($this->contenttype['title_format'])) {
+                $this->contenttype['title_format'] = array($this->contenttype['title_format']);
+            }
+
+            return $this->contenttype['title_format'];
+        }
+
         // Sets the names of some 'common' names for the 'title' column.
         $names = array('title', 'name', 'caption', 'subject');
 
@@ -1003,7 +1021,7 @@ class Content implements \ArrayAccess
 
         foreach ($names as $name) {
             if (isset($this->values[$name])) {
-                return $name;
+                return array($name);
             }
         }
 
@@ -1011,13 +1029,13 @@ class Content implements \ArrayAccess
         if (!empty($this->contenttype['fields'])) {
             foreach ($this->contenttype['fields'] as $key => $field) {
                 if ($field['type'] == 'text') {
-                    return $key;
+                    return array($key);
                 }
             }
         }
 
-        // nope, no title was found.
-        return false;
+        // Nope, no title was found.
+        return array();
     }
 
     /**
@@ -1378,10 +1396,11 @@ class Content implements \ArrayAccess
 
             if (!empty($this->contenttype['fields'])) {
                 foreach ($this->contenttype['fields'] as $key => $field) {
-                    // Skip empty fields, and fields called 'title' or 'name'.
-                    if (!isset($this->values[$key]) || in_array($key, array('title', 'name'))) {
+                    // Skip empty fields, and fields used as 'title'.
+                    if (!isset($this->values[$key]) || in_array($key, $this->getTitleColumnName())) {
                         continue;
                     }
+
                     // add 'text', 'html' and 'textarea' fields.
                     if (in_array($field['type'], array('text', 'html', 'textarea'))) {
                         $excerptParts[] = $this->values[$key];
