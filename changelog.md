@@ -5,6 +5,20 @@ Not yet released.
 
  - Lots (list needs to be compiled)
 
+
+Bolt 2.2.1
+----------
+
+Released 2015-06-05. Notable chages: 
+
+ - Update: Silex is now version 1.3.0
+ - Added: Implement `title_format:`, to control the behaviour of what's seen as the 'title' in overviews and listings. See #3635
+ - Changed: Create the extension's composer.json if only a local extension exists. See #3627
+ - Fixed: Use the Silex HttpFragmentServiceProvider as TwigCoreExtension has been removed in Silex 1.3. See #3632
+ - Fixed: Two more overrides in `composer.json` for symfony components that got bumped to v2.7.0. See #3634
+ - Fixed: Extend SSL/TLS Handling. Fixes bug/warnings in Packagemanager. See #3633
+ - Fixed: Generated `<meta>`-tags always stay in the `<head>` section, now. See #3637
+
 Bolt 2.2.0
 ----------
 
