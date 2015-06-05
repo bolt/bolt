@@ -368,7 +368,9 @@ class Application extends Silex\Application
         $factory = new RandomLib\Factory();
         $this['randomgenerator'] = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
 
-        $this->register(new Silex\Provider\UrlGeneratorServiceProvider())
+        $this
+            ->register(new Silex\Provider\HttpFragmentServiceProvider())
+            ->register(new Silex\Provider\UrlGeneratorServiceProvider())
             ->register(new Silex\Provider\FormServiceProvider())
             ->register(new Silex\Provider\ValidatorServiceProvider())
             ->register(new Provider\RoutingServiceProvider())
