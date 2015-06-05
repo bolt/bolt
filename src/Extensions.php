@@ -210,12 +210,17 @@ class Extensions
      */
     public function checkLocalAutoloader($force = false)
     {
-        if (!$this->app['filesystem']->has('extensions://local/') || !force || $this->app['filesystem']->has('extensions://local/.built')) {
+        if (!$this->app['filesystem']->has('extensions://local/') || !$force || $this->app['filesystem']->has('extensions://local/.built')) {
             return;
         }
 
+        // If the composer.json file doesn't exist, we should create it now
+        if (!$this->app['filesystem']->has('extensions://composer.json')) {
+            $this->app['extend.action']['json']->updateJson();
+        }
+
         // Get Bolt's extension JSON
-        $composerOptions = $this->app['extend.manager']->getOptions();
+        $composerOptions = $this->app['extend.action.options'];
         $composerJsonFile = new JsonFile($composerOptions['composerjson']);
         $boltJson = $composerJsonFile->read();
         $boltPsr4 = isset($boltJson['autoload']['psr-4']) ? $boltJson['autoload']['psr-4'] : [];

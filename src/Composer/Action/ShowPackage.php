@@ -18,25 +18,10 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class ShowPackage
+final class ShowPackage extends BaseAction
 {
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
-
-    /**
-     * @var \Composer\Package\Version\VersionParser
-     */
+    /** @var \Composer\Package\Version\VersionParser */
     private $versionParser;
-
-    /**
-     * @param $app \Silex\Application
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
 
     /**
      * Retrieves detailed information about a package, or lists all packages available.
@@ -50,13 +35,13 @@ final class ShowPackage
      */
     public function execute($type, $package = '', $version = '', $root = false)
     {
-        $io = $this->app['extend.manager']->getIO();
+        $io = $this->getIO();
 
         if ($root) {
             $composerjson = $this->app['resources']->getPath('root/composer.json');
             $composer = Factory::create($io, $composerjson, true);
         } else {
-            $composer = $this->app['extend.manager']->getComposer();
+            $composer = $this->getComposer();
         }
 
         $this->versionParser = new VersionParser();

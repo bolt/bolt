@@ -11,26 +11,8 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class BoltExtendJson
+final class BoltExtendJson extends BaseAction
 {
-    /**
-     * @var array
-     */
-    private $options;
-
-    /**
-     * @var string[]
-     */
-    private $messages;
-
-    /**
-     * @param $options  array
-     */
-    public function __construct(array $options)
-    {
-        $this->options = $options;
-    }
-
     /**
      * Convenience function to generalise the library.
      *
@@ -57,17 +39,15 @@ final class BoltExtendJson
     /**
      * Set up Composer JSON file.
      *
-     * @param Application $app
-     *
      * @return array|null
      */
-    public function updateJson(Application $app)
+    public function updateJson()
     {
-        if (!is_file($this->options['composerjson'])) {
-            $this->initJson($this->options['composerjson']);
+        if (!is_file($this->getOption('composerjson'))) {
+            $this->initJson($this->getOption('composerjson'));
         }
 
-        $jsonFile = new JsonFile($this->options['composerjson']);
+        $jsonFile = new JsonFile($this->getOption('composerjson'));
         if ($jsonFile->exists()) {
             $json = $jsonorig = $jsonFile->read();
 
@@ -79,30 +59,30 @@ final class BoltExtendJson
             // Error
             $this->messages[] = Trans::__(
                 "The Bolt extensions file '%composerjson%' isn't readable.",
-                ['%composerjson%' => $this->options['composerjson']]
+                ['%composerjson%' => $this->getOption('composerjson')]
             );
 
-            $app['extend.writeable'] = false;
-            $app['extend.online'] = false;
+            $this->app['extend.writeable'] = false;
+            $this->app['extend.online'] = false;
 
             return null;
         }
 
-        $pathToWeb = $app['resources']->findRelativePath($app['resources']->getPath('extensions'), $app['resources']->getPath('web'));
+        $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
 
         // Enforce standard settings
         $json['repositories']['packagist'] = false;
         $json['repositories']['bolt'] = [
             'type' => 'composer',
-            'url'  => $app['extend.site'] . 'satis/'
+            'url'  => $this->app['extend.site'] . 'satis/'
         ];
-        $json['minimum-stability'] = $app['config']->get('general/extensions/stability', 'stable');
+        $json['minimum-stability'] = $this->app['config']->get('general/extensions/stability', 'stable');
         $json['prefer-stable'] = true;
         $json['config'] = [
             'discard-changes'   => true,
             'preferred-install' => 'dist'
         ];
-        $json['provide']['bolt/bolt'] = $app['bolt_version'];
+        $json['provide']['bolt/bolt'] = $this->app['bolt_version'];
         $json['extra']['bolt-web-path'] = $pathToWeb;
         $json['autoload']['psr-4']['Bolt\\Composer\\'] = '';
         $json['scripts'] = [
@@ -118,7 +98,7 @@ final class BoltExtendJson
             } catch (\Exception $e) {
                 $this->messages[] = Trans::__(
                     'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
-                    ['%repository%' => $app['extend.site']]
+                    ['%repository%' => $this->app['extend.site']]
                 );
             }
         }

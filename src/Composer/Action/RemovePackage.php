@@ -13,21 +13,8 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class RemovePackage
+final class RemovePackage extends BaseAction
 {
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
-
-    /**
-     * @param $app \Silex\Application
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Remove packages from the root install.
      *
@@ -43,16 +30,15 @@ final class RemovePackage
             throw new PackageManagerException('No package specified for removal');
         }
 
-        $io = $this->app['extend.manager']->getIO();
-        $options = $this->app['extend.manager']->getOptions();
+        $io = $this->getIO();
 
-        $jsonFile = new JsonFile($options['composerjson']);
+        $jsonFile = new JsonFile($this->getOption('composerjson'));
         $composerDefinition = $jsonFile->read();
         $composerBackup = file_get_contents($jsonFile->getPath());
 
         $json = new JsonConfigSource($jsonFile);
 
-        $type = $options['dev'] ? 'require-dev' : 'require';
+        $type = $this->getOption('dev') ? 'require-dev' : 'require';
 
         // Remove packages from JSON
         foreach ($packages as $package) {
@@ -62,18 +48,18 @@ final class RemovePackage
         }
 
         // Reload Composer config
-        $composer = $this->app['extend.manager']->getFactory()->resetComposer();
+        $composer = $this->resetComposer();
 
         $install = Installer::create($io, $composer);
 
         try {
             $install
-                ->setVerbose($options['verbose'])
-                ->setDevMode(!$options['updatenodev'])
+                ->setVerbose($this->getOption('verbose'))
+                ->setDevMode(!$this->getOption('updatenodev'))
                 ->setUpdate(true)
                 ->setUpdateWhitelist($packages)
-                ->setWhitelistDependencies($options['updatewithdependencies'])
-                ->setIgnorePlatformRequirements($options['ignoreplatformreqs']);
+                ->setWhitelistDependencies($this->getOption('updatewithdependencies'))
+                ->setIgnorePlatformRequirements($this->getOption('ignoreplatformreqs'));
 
             $status = $install->run();
 

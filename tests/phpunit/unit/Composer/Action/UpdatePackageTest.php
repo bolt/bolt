@@ -9,14 +9,13 @@ use Bolt\Tests\BoltUnitTest;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class UpdatePackageTest extends BoltUnitTest
+class UpdatePackageTest extends ActionUnitTest
 {
     public function testRun()
     {
         $app = $this->getApp();
 
-        $action = new UpdatePackage($app);
-        $result = $action->execute();
+        $result = $app['extend.action']['update']->execute();
         $this->assertEquals(0, $result);
     }
 }

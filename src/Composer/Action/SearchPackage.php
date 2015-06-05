@@ -14,21 +14,8 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class SearchPackage
+final class SearchPackage extends BaseAction
 {
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
-
-    /**
-     * @param $app \Silex\Application
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Search for packages.
      *
@@ -42,8 +29,8 @@ final class SearchPackage
     public function execute($packages, $onlyname = true)
     {
         /** @var $composer \Composer\Composer */
-        $composer = $this->app['extend.manager']->getComposer();
-        $io = $this->app['extend.manager']->getIO();
+        $composer = $this->getComposer();
+        $io = $this->getIO();
 
         $platformRepo = new PlatformRepository();
 

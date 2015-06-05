@@ -1,114 +1,40 @@
 <?php
 
-namespace Bolt\Composer;
+namespace Bolt\Composer\Action;
 
 use Composer\DependencyResolver\Pool;
+use Composer\Factory;
 use Composer\IO\BufferIO;
 use Composer\Package\Version\VersionSelector;
+use Psr\Log\LoggerInterface;
 use Silex\Application;
 
-final class Factory extends PackageManager
+abstract class BaseAction
 {
-    /**
-     * @var array
-     */
-    private $options;
+    /** @var array */
+    protected $messages = [];
+    /** @var \Silex\Application */
+    protected $app;
 
-    /**
-     * @var \Composer\IO\BufferIO
-     */
+    /** @var \Composer\IO\BufferIO */
     private $io;
-
-    /**
-     * @var \Composer\Composer
-     */
+    /** @var \Composer\Composer */
     private $composer;
-
-    /**
-     * @var \Composer\DependencyResolver\Pool
-     */
+    /** @var \Composer\DependencyResolver\Pool */
     private $pool;
-
-    /**
-     * @var \Composer\Repository\CompositeRepository
-     */
+    /** @var \Composer\Repository\CompositeRepository */
     private $repos;
+    /** @var \Psr\Log\LoggerInterface */
+    private $logger;
 
     /**
-     * @var \Silex\Application
+     * Constructor.
+     *
+     * @param $app \Silex\Application
      */
-    private $app;
-
-    /**
-     * @var boolean
-     */
-    public $downgradeSsl = false;
-
-    /**
-     * @var array
-     */
-    public $messages = [];
-
-    /**
-     * @param \Silex\Application $app
-     * @param array              $options
-     */
-    public function __construct(Application $app, array $options)
+    public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->options = $options;
-    }
-
-    /**
-     * Get a Composer object.
-     *
-     * @return \Composer\Composer
-     */
-    public function getComposer()
-    {
-        if (!$this->composer) {
-            // Set working directory
-            chdir($this->options['basedir']);
-
-            // Use the factory to get a new Composer object
-            try {
-                $this->composer = \Composer\Factory::create($this->getIO(), $this->options['composerjson'], true);
-            } catch (\Exception $e) {
-                $this->app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
-            }
-
-            if ($this->downgradeSsl) {
-                $this->allowSslDowngrade(true);
-            }
-        }
-
-        return $this->composer;
-    }
-
-    /**
-     * Get the IO object.
-     *
-     * @return \Composer\IO\BufferIO
-     */
-    public function getIO()
-    {
-        if (!$this->io) {
-            $this->io = new BufferIO();
-        }
-
-        return $this->io;
-    }
-
-    /**
-     * Get a new Composer object.
-     *
-     * @return \Composer\Composer
-     */
-    public function resetComposer()
-    {
-        $this->composer = null;
-
-        return $this->getComposer();
     }
 
     /**
@@ -122,11 +48,108 @@ final class Factory extends PackageManager
     }
 
     /**
+     * Get a single option.
+     *
+     * @param string $key
+     *
+     * @return string|boolean|null
+     */
+    protected function getOption($key)
+    {
+        return $this->app['extend.action.options'][$key];
+    }
+
+    /**
+     * Get a Composer object.
+     *
+     * @return \Composer\Composer
+     */
+    protected function getComposer()
+    {
+        if (!$this->composer) {
+            // Set working directory
+            chdir($this->getOption('basedir'));
+
+            // Use the factory to get a new Composer object
+            try {
+                $this->composer = Factory::create($this->getIO(), $this->getOption('composerjson'), true);
+
+                // Add the event subscriber
+                $this->composer->getEventDispatcher()->addSubscriber($this->app['extend.listener']);
+
+                if (!$this->app['extend.manager']->useSsl()) {
+                    $this->setAllowSslDowngrade(true);
+                }
+            } catch (\Exception $e) {
+                $this->app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+            }
+        }
+
+        return $this->composer;
+    }
+
+    /**
+     * Get the IO object.
+     *
+     * @return \Composer\IO\BufferIO
+     */
+    protected function getIO()
+    {
+        if (!$this->io) {
+            $this->io = new BufferIO();
+        }
+
+        return $this->io;
+    }
+
+    /**
+     * Get a new Composer object.
+     *
+     * @return \Composer\Composer
+     */
+    protected function resetComposer()
+    {
+        $this->composer = null;
+
+        return $this->getComposer();
+    }
+
+    /**
+     * Determine if we're to force installation from package sources when
+     * possible, including VCS information.
+     *
+     * @param string $option
+     *
+     * @return array
+     */
+    protected function getPreferedTarget($option)
+    {
+        $prefer = [
+            'source' => false,
+            'dist'   => false,
+        ];
+
+        switch ($option) {
+            case 'source':
+                $prefer['source'] = true;
+                break;
+            case 'dist':
+                $prefer['dist'] = true;
+                break;
+            case 'auto':
+            default:
+                break;
+        }
+
+        return $prefer;
+    }
+
+    /**
      * Set repos to allow HTTP instead of HTTPS.
      *
      * @param boolean $choice
      */
-    private function allowSslDowngrade($choice)
+    private function setAllowSslDowngrade($choice)
     {
         $repos = $this->getComposer()->getRepositoryManager()->getRepositories();
 
@@ -145,11 +168,9 @@ final class Factory extends PackageManager
      *
      * @param string $name
      *
-     * @throws \InvalidArgumentException
-     *
      * @return array
      */
-    public function findBestVersionForPackage($name)
+    protected function findBestVersionForPackage($name)
     {
         // find the latest version allowed in this pool
         $versionSelector = new VersionSelector($this->getPool());
@@ -173,7 +194,7 @@ final class Factory extends PackageManager
      *
      * @return \Composer\DependencyResolver\Pool
      */
-    public function getPool()
+    protected function getPool()
     {
         if (!$this->pool) {
             $this->pool = new Pool($this->getMinimumStability());
@@ -193,7 +214,7 @@ final class Factory extends PackageManager
      *
      * @return string
      */
-    public function getMinimumStability()
+    protected function getMinimumStability()
     {
         $stability = $this->getComposer()->getPackage()->getMinimumStability();
         if (!empty($stability)) {

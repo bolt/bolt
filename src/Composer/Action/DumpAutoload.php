@@ -10,34 +10,21 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class DumpAutoload
+final class DumpAutoload extends BaseAction
 {
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
-
-    /**
-     * @param $app \Silex\Application
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Dump autoloaders.
      */
     public function execute()
     {
         /** @var $composer \Composer\Composer */
-        $composer = $this->app['extend.manager']->getComposer();
+        $composer = $this->getComposer();
         $installationManager = $composer->getInstallationManager();
         $localRepo = $composer->getRepositoryManager()->getLocalRepository();
         $package = $composer->getPackage();
         $config = $composer->getConfig();
 
-        if ($this->app['extend.manager']->getOption('optimizeautoloader')) {
+        if ($this->getOption('optimizeautoloader')) {
             // Generating optimized autoload files
         } else {
             // Generating autoload files
@@ -45,8 +32,8 @@ final class DumpAutoload
 
         try {
             $generator = $composer->getAutoloadGenerator();
-            $generator->setDevMode(!$this->app['extend.manager']->getOption('nodev'));
-            $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $this->app['extend.manager']->getOption('optimizeautoloader'));
+            $generator->setDevMode(!$this->getOption('nodev'));
+            $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $this->getOption('optimizeautoloader'));
         } catch (\Exception $e) {
             $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
             $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);

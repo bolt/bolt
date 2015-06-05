@@ -11,21 +11,8 @@ use Silex\Application;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-final class InstallPackage
+final class InstallPackage extends BaseAction
 {
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
-
-    /**
-     * @param $app \Silex\Application
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Install packages.
      *
@@ -36,46 +23,27 @@ final class InstallPackage
     public function execute()
     {
         /** @var $composer \Composer\Composer */
-        $composer = $this->app['extend.manager']->getComposer();
-        $io = $this->app['extend.manager']->getIO();
+        $composer = $this->getComposer();
+        $io = $this->getIO();
 
-        $options = $this->app['extend.manager']->getOptions();
         $install = Installer::create($io, $composer);
         $config = $composer->getConfig();
         $optimize = $config->get('optimize-autoloader');
 
-        $preferSource = false;
-        $preferDist = true;
-
-        switch ($config->get('preferred-install')) {
-            case 'source':
-                $preferSource = true;
-                break;
-            case 'dist':
-                $preferDist = true;
-                break;
-            case 'auto':
-            default:
-                // noop
-                break;
-        }
-
-        if ($config->get('prefer-source') || $config->get('prefer-dist')) {
-            $preferSource = $config->get('prefer-source');
-            $preferDist = $config->get('prefer-dist');
-        }
+        // Set preferred install method
+        $prefer = $this->getPreferedTarget($config->get('preferred-install'));
 
         try {
             $install
-                ->setDryRun($options['dryrun'])
-                ->setVerbose($options['verbose'])
-                ->setPreferSource($preferSource)
-                ->setPreferDist($preferDist)
-                ->setDevMode(!$options['nodev'])
-                ->setDumpAutoloader(!$options['noautoloader'])
-                ->setRunScripts(!$options['noscripts'])
+                ->setDryRun($this->getOption('dryrun'))
+                ->setVerbose($this->getOption('verbose'))
+                ->setPreferSource($prefer['source'])
+                ->setPreferDist($prefer['dist'])
+                ->setDevMode(!$this->getOption('nodev'))
+                ->setDumpAutoloader(!$this->getOption('noautoloader'))
+                ->setRunScripts(!$this->getOption('noscripts'))
                 ->setOptimizeAutoloader($optimize)
-                ->setIgnorePlatformRequirements($options['ignoreplatformreqs'])
+                ->setIgnorePlatformRequirements($this->getOption('ignoreplatformreqs'))
                 ->setUpdate(true);
 
             return $install->run();
