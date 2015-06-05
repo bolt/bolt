@@ -1,9 +1,9 @@
 <?php
-namespace Bolt\Composer;
+namespace Bolt\Composer\EventListener;
 
 use Composer\EventDispatcher\Event;
 
-class ExtensionInstaller
+class PackageEventListener
 {
     /**
      * Event handler for composer package events

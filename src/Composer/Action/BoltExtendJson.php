@@ -85,8 +85,8 @@ final class BoltExtendJson extends BaseAction
         $json['extra']['bolt-web-path'] = $pathToWeb;
         $json['autoload']['psr-4']['Bolt\\Composer\\'] = $this->app['resources']->getPath('src/Composer');
         $json['scripts'] = [
-            'post-package-install' => 'Bolt\\Composer\\ExtensionInstaller::handle',
-            'post-package-update'  => 'Bolt\\Composer\\ExtensionInstaller::handle'
+            'post-package-install' => 'Bolt\\Composer\\EventListener\\PackageEventListener::handle',
+            'post-package-update'  => 'Bolt\\Composer\\EventListener\\PackageEventListener::handle'
         ];
         ksort($json);
 
