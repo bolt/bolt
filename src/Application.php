@@ -534,7 +534,7 @@ class Application extends Silex\Application
             // only add when content-type is text/html
             if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
                 // Add our meta generator tag.
-                $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, '<meta name="generator" content="Bolt">');
+                $this['extensions']->insertSnippet(Extensions\Snippets\Location::END_OF_HEAD, '<meta name="generator" content="Bolt">');
 
                 // Perhaps add a canonical link.
 
@@ -543,7 +543,7 @@ class Application extends Silex\Application
                         '<link rel="canonical" href="%s">',
                         htmlspecialchars($this['resources']->getUrl('canonicalurl'), ENT_QUOTES)
                     );
-                    $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
+                    $this['extensions']->insertSnippet(Extensions\Snippets\Location::END_OF_HEAD, $snippet);
                 }
 
                 // Perhaps add a favicon.
@@ -554,7 +554,7 @@ class Application extends Silex\Application
                         htmlspecialchars($this['resources']->getUrl('theme'), ENT_QUOTES),
                         htmlspecialchars($this['config']->get('general/favicon'), ENT_QUOTES)
                     );
-                    $this['extensions']->insertSnippet(Extensions\Snippets\Location::AFTER_META, $snippet);
+                    $this['extensions']->insertSnippet(Extensions\Snippets\Location::END_OF_HEAD, $snippet);
                 }
 
                 // Do some post-processing.. Hooks, snippets.
