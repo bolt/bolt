@@ -18,6 +18,8 @@ class ExtensionsInfoService
     /** @var \GuzzleHttp\Client|\Guzzle\Service\Client */
     private $client;
     /** @var boolean */
+    private $isRetry;
+    /** @var boolean */
     private $deprecated;
 
     /**
@@ -95,7 +97,13 @@ class ExtensionsInfoService
 
             return ($this->format === 'json') ? json_decode($result) : (string) $result;
         } catch (\Exception $e) {
-            return false;
+            if ($this->isRetry) {
+                return false;
+            }
+            $this->isRetry = true;
+            $this->site = str_replace('https://', 'http://', $this->site);
+
+            return $this->execute($url, $params);
         }
     }
 }
