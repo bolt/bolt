@@ -14,13 +14,17 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 class DatabaseTest extends ControllerUnitTest
 {
+    /**
+     * @covers IntegrityCheckerResponse
+     */
     public function testCheck()
     {
         $this->allowLogin($this->getApp());
+        $checkResponse = new \Bolt\Database\IntegrityCheckerResponse();
         $check = $this->getMock('Bolt\Database\IntegrityChecker', ['checkTablesIntegrity'], [$this->getApp()]);
         $check->expects($this->atLeastOnce())
             ->method('checkTablesIntegrity')
-            ->will($this->returnValue(['message', 'hint']));
+            ->will($this->returnValue($checkResponse));
 
         $this->setService('integritychecker', $check);
         $this->setRequest(Request::create('/bolt/dbcheck'));
@@ -32,15 +36,12 @@ class DatabaseTest extends ControllerUnitTest
     public function testUpdate()
     {
         $this->allowLogin($this->getApp());
+        $checkResponse = new \Bolt\Database\IntegrityCheckerResponse();
         $check = $this->getMock('Bolt\Database\IntegrityChecker', ['repairTables'], [$this->getApp()]);
 
-        $check->expects($this->at(0))
+        $check->expects($this->any())
             ->method('repairTables')
-            ->will($this->returnValue(''));
-
-        $check->expects($this->at(1))
-            ->method('repairTables')
-            ->will($this->returnValue('Testing'));
+            ->will($this->returnValue($checkResponse));
 
         $this->setService('integritychecker', $check);
         ResourceManager::$theApp = $this->getApp();
@@ -63,7 +64,7 @@ class DatabaseTest extends ControllerUnitTest
         $response = $this->controller()->update($this->getRequest());
 
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
-        $this->assertEquals('/bolt/dbupdate_result?messages=null', $response->getTargetUrl());
+        $this->assertEquals('/bolt/dbupdate_result', $response->getTargetUrl());
     }
 
     public function testUpdateResult()

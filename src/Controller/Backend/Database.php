@@ -36,12 +36,12 @@ class Database extends BackendBase
      */
     public function check()
     {
-        list($messages, $hints) = $this->integrityChecker()->checkTablesIntegrity(true, $this->app['logger']);
+        $response = $this->integrityChecker()->checkTablesIntegrity(true, $this->app['logger']);
 
         $context = [
             'modifications_made'     => null,
-            'modifications_required' => $messages,
-            'modifications_hints'    => $hints,
+            'modifications_required' => $response->getResponseStrings(),
+            'modifications_hints'    => $response->getHints(),
         ];
 
         return $this->render('dbcheck/dbcheck.twig', $context);
@@ -56,7 +56,7 @@ class Database extends BackendBase
      */
     public function update(Request $request)
     {
-        $output = $this->integrityChecker()->repairTables();
+        $output = $this->integrityChecker()->repairTables()->getResponseStrings();
 
         // If 'return=edit' is passed, we should return to the edit screen.
         // We do redirect twice, yes, but that's because the newly saved
@@ -72,21 +72,23 @@ class Database extends BackendBase
 
             return $this->redirectToRoute('fileedit', ['namespace' => 'config', 'file' => 'contenttypes.yml']);
         } else {
-            return $this->redirectToRoute('dbupdate_result', ['messages' => json_encode($output)]);
+            $this->session()->set('dbupdate_result', $output);
+
+            return $this->redirectToRoute('dbupdate_result');
         }
     }
 
     /**
      * Show the result of database updates.
      *
-     * @param Request $request The Symfony Request
-     *
      * @return \Bolt\Response\BoltResponse
      */
-    public function updateResult(Request $request)
+    public function updateResult()
     {
+        $output = $this->session()->get('dbupdate_result', []);
+
         $context = [
-            'modifications_made'     => json_decode($request->get('messages')),
+            'modifications_made'     => $output,
             'modifications_required' => null,
         ];
 

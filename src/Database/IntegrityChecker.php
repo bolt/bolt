@@ -3,12 +3,12 @@
 namespace Bolt\Database;
 
 use Bolt\Application;
+use Bolt\Database\Table\ContentType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
@@ -145,92 +145,52 @@ class IntegrityChecker
      * @param boolean         $hinting     Return hints if true
      * @param LoggerInterface $debugLogger Debug logger
      *
-     * @return array Messages with errors, if any or array(messages, hints)
+     * @return IntegrityCheckerResponse
      */
     public function checkTablesIntegrity($hinting = false, LoggerInterface $debugLogger = null)
     {
-        $messages = [];
-        $hints    = [];
-        $diffs    = [];
-
-        $currentTables = $this->getTableObjects();
-
+        $response = new IntegrityCheckerResponse($hinting);
         $comparator = new Comparator();
-
+        $currentTables = $this->getTableObjects();
         $tables = $this->getTablesSchema();
+        $valid = true;
 
         /** @var $table Table */
         foreach ($tables as $table) {
+            $tableName = $table->getName();
+
             // Create the users table.
-            if (!isset($currentTables[$table->getName()])) {
-                $messages[] = 'Table `' . $table->getName() . '` is not present.';
+            if (!isset($currentTables[$tableName])) {
+                $response->addTitle($tableName, sprintf('Table `%s` is not present.', $tableName));
             } else {
-                $diff = $comparator->diffTable($currentTables[$table->getName()], $table);
-                if ($diff) {
-                    if ($hinting && count($diff->removedColumns) > 0) {
-                        $hints[] = 'In table `' . $table->getName() . '` the following fields are no ' .
-                            'longer defined in the config. You could delete them manually if no longer needed: ' .
-                            '`' . join('`, `', array_keys($diff->removedColumns)) . '`';
-                    }
+                $diff = $comparator->diffTable($currentTables[$tableName], $table);
+                if ($diff && $details = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
+                    $response->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
+                    $response->checkDiff($tableName, $this->cleanupTableDiff($diff));
 
-                    $diff = $this->cleanupTableDiff($diff);
+                    // For debugging we keep the diffs
+                    $response->addDiffDetail($details);
+                }
+            }
 
-                    // The diff may be just deleted columns which we have reset above
-                    // Only exec and add output if does really alter anything.
-                    // There's a known issue with MySQL, where it will (falsely) notice an updated index,
-                    // but those are filtered out here, by the `!empty($msgParts)` bit.
-                    // @see: https://github.com/bolt/bolt/issues/3426
-                    if ($diffs[] = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
-                        $msg = 'Table `' . $table->getName() . '` is not the correct schema: ';
-                        $msgParts = [];
+            // If a table still has messages, we want to unset the valid state
+            $valid = !$response->hasResponses();
 
-                        // No check on foreign keys yet because we don't use them
-                        /** @var $col Column */
-                        foreach ($diff->addedColumns as $col) {
-                            $msgParts[] = 'missing column `' . $col->getName() . '`';
-                        }
-                        /** @var $index Index */
-                        foreach ($diff->addedIndexes as $index) {
-                            $msgParts[] = 'missing index on `' . implode(', ', $index->getUnquotedColumns()) . '`';
-                        }
-                        /** @var $col ColumnDiff */
-                        foreach ($diff->changedColumns as $col) {
-                            $msgParts[] = 'invalid column `' . $col->oldColumnName . '`';
-                        }
-                        /** @var $index Index */
-                        foreach ($diff->changedIndexes as $index) {
-                            $msgParts[] = 'invalid index on `' . implode(', ', $index->getUnquotedColumns()) . '`';
-                        }
-                        foreach ($diff->removedColumns as $colName => $val) {
-                            $msgParts[] = 'removed column `' . $colName . '`';
-                        }
-                        foreach ($diff->removedIndexes as $indexName => $val) {
-                            $msgParts[] = 'removed index `' . $indexName . '`';
-                        }
-
-                        if (!empty($msgParts)) {
-                            $msg .= implode(', ', $msgParts);
-                            $messages[] = $msg;
-                        }
-                    }
+            // If we were passed in a debug logger, log the diffs
+            if ($debugLogger !== null) {
+                foreach ($response->getDiffDetails() as $diff) {
+                    $debugLogger->info('Database update required', $diff);
                 }
             }
         }
 
         // If there were no messages, update the timer, so we don't check it again.
         // If there _are_ messages, keep checking until it's fixed.
-        if (empty($messages)) {
+        if ($valid) {
             $this->markValid();
         }
 
-        // If we were passed in a debug logger, log the diffs
-        if ($debugLogger !== null) {
-            foreach ($diffs as $diff) {
-                $debugLogger->info('Database update required', $diff);
-            }
-        }
-
-        return $hinting ? [$messages, $hints] : $messages;
+        return $response;
     }
 
     /**
@@ -245,9 +205,21 @@ class IntegrityChecker
     }
 
     /**
+     * Check if there are pending updates to the tables.
+     *
+     * @return boolean
+     */
+    public function needsUpdate()
+    {
+        $response = $this->checkTablesIntegrity();
+
+        return $response->hasResponses() ? true : false;
+    }
+
+    /**
      * Check and repair tables.
      *
-     * @return string[]
+     * @return IntegrityCheckerResponse
      */
     public function repairTables()
     {
@@ -255,21 +227,19 @@ class IntegrityChecker
         // 'repair your DB'-notice, right after we're done repairing.
         $this->app['logger.flash']->clear();
 
-        $output = [];
-
+        $response = new IntegrityCheckerResponse();
         $currentTables = $this->getTableObjects();
-
         /** @var $schemaManager AbstractSchemaManager */
         $schemaManager = $this->app['db']->getSchemaManager();
-
         $comparator = new Comparator();
-
         $tables = $this->getTablesSchema();
 
         /** @var $table Table */
         foreach ($tables as $table) {
+            $tableName = $table->getName();
+
             // Create the users table.
-            if (!isset($currentTables[$table->getName()])) {
+            if (!isset($currentTables[$tableName])) {
 
                 /** @var $platform AbstractPlatform */
                 $platform = $this->app['db']->getDatabasePlatform();
@@ -278,26 +248,27 @@ class IntegrityChecker
                     $this->app['db']->query($query);
                 }
 
-                $output[] = 'Created table `' . $table->getName() . '`.';
+                $response->addTitle($tableName, sprintf('Created table `%s`.', $tableName));
             } else {
-                $diff = $comparator->diffTable($currentTables[$table->getName()], $table);
+                $diff = $comparator->diffTable($currentTables[$tableName], $table);
                 if ($diff) {
                     $diff = $this->cleanupTableDiff($diff);
                     // diff may be just deleted columns which we have reset above
                     // only exec and add output if does really alter anything
                     if ($this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                         $schemaManager->alterTable($diff);
-                        $output[] = 'Updated `' . $table->getName() . '` table to match current schema.';
+                        $response->addTitle($tableName, sprintf('Updated `%s` table to match current schema.', $tableName));
                     }
                 }
             }
         }
 
-        return $output;
+        return $response;
     }
 
     /**
-     * Cleanup a table diff, remove changes we want to keep or fix platform specific issues.
+     * Cleanup a table diff, remove changes we want to keep or fix platform
+     * specific issues.
      *
      * @param TableDiff $diff
      *
@@ -308,9 +279,9 @@ class IntegrityChecker
         $baseTables = $this->getBoltTablesNames();
 
         // Work around reserved column name removal
-        if ($diff->fromTable->getName() == $this->getTablename('cron')) {
+        if ($diff->fromTable->getName() === $this->getTablename('cron')) {
             foreach ($diff->renamedColumns as $key => $col) {
-                if ($col->getName() == 'interim') {
+                if ($col->getName() === 'interim') {
                     $diff->addedColumns[] = $col;
                     unset($diff->renamedColumns[$key]);
                 }
@@ -402,125 +373,9 @@ class IntegrityChecker
     protected function getBoltTablesSchema(Schema $schema)
     {
         $tables = [];
-
-        $authtokenTable = $schema->createTable($this->getTablename('authtoken'));
-        $authtokenTable->addColumn('id', 'integer', ['autoincrement' => true]);
-        $authtokenTable->setPrimaryKey(['id']);
-        // TODO: addColumn('userid'...), phase out referencing users by username
-        $authtokenTable->addColumn('username', 'string', ['length' => 32, 'default' => '']);
-        $authtokenTable->addIndex(['username']);
-        $authtokenTable->addColumn('token', 'string', ['length' => 128]);
-        $authtokenTable->addColumn('salt', 'string', ['length' => 128]);
-        $authtokenTable->addColumn('lastseen', 'datetime', ['notnull' => false, 'default' => null]);
-        $authtokenTable->addColumn('ip', 'string', ['length' => 32, 'default' => '']);
-        $authtokenTable->addColumn('useragent', 'string', ['length' => 128, 'default' => '']);
-        $authtokenTable->addColumn('validity', 'datetime', ['notnull' => false, 'default' => null]);
-        $tables[] = $authtokenTable;
-
-        $usersTable = $schema->createTable($this->getTablename('users'));
-        $usersTable->addColumn('id', 'integer', ['autoincrement' => true]);
-        $usersTable->setPrimaryKey(['id']);
-        $usersTable->addColumn('username', 'string', ['length' => 32]);
-        $usersTable->addUniqueIndex(['username']);
-        $usersTable->addColumn('password', 'string', ['length' => 128]);
-        $usersTable->addColumn('email', 'string', ['length' => 254]);
-        $usersTable->addUniqueIndex(['email']);
-        $usersTable->addColumn('lastseen', 'datetime', ['notnull' => false, 'default' => null]);
-        $usersTable->addColumn('lastip', 'string', ['length' => 32, 'default' => '']);
-        $usersTable->addColumn('displayname', 'string', ['length' => 32]);
-        $usersTable->addColumn('stack', 'string', ['length' => 1024, 'default' => '']);
-        $usersTable->addColumn('enabled', 'boolean');
-        $usersTable->addIndex(['enabled']);
-        $usersTable->addColumn('shadowpassword', 'string', ['length' => 128, 'default' => '']);
-        $usersTable->addColumn('shadowtoken', 'string', ['length' => 128, 'default' => '']);
-        $usersTable->addColumn('shadowvalidity', 'datetime', ['notnull' => false, 'default' => null]);
-        $usersTable->addColumn('failedlogins', 'integer', ['default' => 0]);
-        $usersTable->addColumn('throttleduntil', 'datetime', ['notnull' => false, 'default' => null]);
-        $usersTable->addColumn('roles', 'string', ['length' => 1024, 'default' => '']);
-        $tables[] = $usersTable;
-
-        $taxonomyTable = $schema->createTable($this->getTablename('taxonomy'));
-        $taxonomyTable->addColumn('id', 'integer', ['autoincrement' => true]);
-        $taxonomyTable->setPrimaryKey(['id']);
-        $taxonomyTable->addColumn('content_id', 'integer');
-        $taxonomyTable->addIndex(['content_id']);
-        $taxonomyTable->addColumn('contenttype', 'string', ['length' => 32]);
-        $taxonomyTable->addIndex(['contenttype']);
-        $taxonomyTable->addColumn('taxonomytype', 'string', ['length' => 32]);
-        $taxonomyTable->addIndex([ 'taxonomytype']);
-        $taxonomyTable->addColumn('slug', 'string', ['length' => 64]);
-        $taxonomyTable->addColumn('name', 'string', ['length' => 64, 'default' => '']);
-        $taxonomyTable->addColumn('sortorder', 'integer', ['default' => 0]);
-        $taxonomyTable->addIndex([ 'sortorder']);
-        $tables[] = $taxonomyTable;
-
-        $relationsTable = $schema->createTable($this->getTablename('relations'));
-        $relationsTable->addColumn('id', 'integer', ['autoincrement' => true]);
-        $relationsTable->setPrimaryKey(['id']);
-        $relationsTable->addColumn('from_contenttype', 'string', ['length' => 32]);
-        $relationsTable->addIndex(['from_contenttype']);
-        $relationsTable->addColumn('from_id', 'integer');
-        $relationsTable->addIndex(['from_id']);
-        $relationsTable->addColumn('to_contenttype', 'string', ['length' => 32]);
-        $relationsTable->addIndex(['to_contenttype']);
-        $relationsTable->addColumn('to_id', 'integer');
-        $relationsTable->addIndex(['to_id']);
-        $tables[] = $relationsTable;
-
-        $logSystemTable = $schema->createTable($this->getTablename('log_system'));
-        $logSystemTable->addColumn('id', 'integer', ['autoincrement' => true]);
-        $logSystemTable->setPrimaryKey(['id']);
-        $logSystemTable->addColumn('level', 'integer');
-        $logSystemTable->addIndex(['level']);
-        $logSystemTable->addColumn('date', 'datetime');
-        $logSystemTable->addIndex(['date']);
-        $logSystemTable->addColumn('message', 'string', ['length' => 1024]);
-        $logSystemTable->addColumn('ownerid', 'integer', ['notnull' => false]);
-        $logSystemTable->addIndex(['ownerid']);
-        $logSystemTable->addColumn('requesturi', 'string', ['length' => 128]);
-        $logSystemTable->addColumn('route', 'string', ['length' => 128]);
-        $logSystemTable->addColumn('ip', 'string', ['length' => 32, 'default' => '']);
-        $logSystemTable->addColumn('context', 'string', ['length' => 32]);
-        $logSystemTable->addIndex([ 'context']);
-        $logSystemTable->addColumn('source', 'text', []);
-        $tables[] = $logSystemTable;
-
-        $logChangeTable = $schema->createTable($this->getTablename('log_change'));
-        $logChangeTable->addColumn('id', 'integer', ['autoincrement' => true]);
-        $logChangeTable->setPrimaryKey(['id']);
-        $logChangeTable->addColumn('date', 'datetime');
-        $logChangeTable->addIndex(['date']);
-        $logChangeTable->addColumn('ownerid', 'integer', ['notnull' => false]);
-        $logChangeTable->addIndex(['ownerid']);
-
-        // the title as it was right before changing/deleting the item, or
-        // right after creating it (according to getTitle())
-        $logChangeTable->addColumn('title', 'string', ['length' => 256, 'default' => '']);
-
-        // contenttype and contentid refer to the entity type we're changing
-        $logChangeTable->addColumn('contenttype', 'string', ['length' => 128]);
-        $logChangeTable->addIndex(['contenttype']);
-        $logChangeTable->addColumn('contentid', 'integer', []);
-        $logChangeTable->addIndex(['contentid']);
-
-        // should be one of 'UPDATE', 'INSERT', 'DELETE'
-        $logChangeTable->addColumn('mutation_type', 'string', ['length' => 16]);
-        $logChangeTable->addIndex(['mutation_type']);
-
-        // a plain-text summary of the differences between the old and the new version
-        $logChangeTable->addColumn('diff', 'text', []);
-
-        // message to create a story of revisions
-        $logChangeTable->addColumn('comment', 'string', ['length' => 150, 'default' => '', 'notnull' => false]);
-        $tables[] = $logChangeTable;
-
-        $cronTable = $schema->createTable($this->getTablename('cron'));
-        $cronTable->addColumn('id', 'integer', ['autoincrement' => true]);
-        $cronTable->setPrimaryKey(['id']);
-        $cronTable->addColumn('interim', 'string', ['length' => 16]);
-        $cronTable->addIndex(['interim']);
-        $cronTable->addColumn('lastrun', 'datetime');
-        $tables[] = $cronTable;
+        foreach ($this->app['integritychecker.tables']->keys() as $name) {
+            $tables[] = $this->app['integritychecker.tables'][$name]->buildTable($schema, $this->getTablename($name));
+        }
 
         return $tables;
     }
@@ -536,29 +391,11 @@ class IntegrityChecker
 
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
         foreach ($this->app['config']->get('contenttypes') as $contenttype) {
-
-            // create the table if necessary.
             $tablename = $this->getTablename($contenttype['tablename']);
             $this->mapTableName($tablename, $contenttype['tablename']);
 
-            $myTable = $schema->createTable($tablename);
-            $myTable->addColumn('id', 'integer', ['autoincrement' => true]);
-            $myTable->setPrimaryKey(['id']);
-            $myTable->addColumn('slug', 'string', ['length' => 128]);
-            $myTable->addIndex(['slug']);
-            $myTable->addColumn('datecreated', 'datetime');
-            $myTable->addIndex(['datecreated']);
-            $myTable->addColumn('datechanged', 'datetime');
-            $myTable->addIndex(['datechanged']);
-            $myTable->addColumn('datepublish', 'datetime', ['notnull' => false, 'default' => null]);
-            $myTable->addIndex(['datepublish']);
-            $myTable->addColumn('datedepublish', 'datetime', ['notnull' => false, 'default' => null]);
-            $myTable->addIndex(['datedepublish']);
-            $myTable->addColumn('templatefields', 'text', ['default' => '']);
-            $myTable->addColumn('username', 'string', ['length' => 32, 'default' => '', 'notnull' => false]); // We need to keep this around for backward compatibility. For now.
-            $myTable->addColumn('ownerid', 'integer', ['notnull' => false]);
-            $myTable->addColumn('status', 'string', ['length' => 32]);
-            $myTable->addIndex(['status']);
+            $tableObj = new ContentType();
+            $myTable = $tableObj->buildTable($schema, $tablename);
 
             // Check if all the fields are present in the DB.
             foreach ($contenttype['fields'] as $field => $values) {
@@ -575,64 +412,8 @@ class IntegrityChecker
                     continue;
                 }
 
-                switch ($values['type']) {
-                    case 'text':
-                    case 'templateselect':
-                    case 'file':
-                        $myTable->addColumn($field, 'string', ['length' => 256, 'default' => '']);
-                        break;
-                    case 'float':
-                        $myTable->addColumn($field, 'float', ['default' => 0]);
-                        break;
-                    case 'number': // deprecated.
-                        $myTable->addColumn($field, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
-                        break;
-                    case 'integer':
-                        $myTable->addColumn($field, 'integer', ['default' => 0]);
-                        break;
-                    case 'checkbox':
-                        $myTable->addColumn($field, 'boolean', ['default' => 0]);
-                        break;
-                    case 'html':
-                    case 'textarea':
-                    case 'image':
-                    case 'video':
-                    case 'markdown':
-                    case 'geolocation':
-                    case 'filelist':
-                    case 'imagelist':
-                    case 'select':
-                        $myTable->addColumn($field, 'text', ['default' => $this->getTextDefault()]);
-                        break;
-                    case 'datetime':
-                        $myTable->addColumn($field, 'datetime', ['notnull' => false]);
-                        break;
-                    case 'date':
-                        $myTable->addColumn($field, 'date', ['notnull' => false]);
-                        break;
-                    case 'slug':
-                        // Only additional slug fields will be added. If it's the
-                        // default slug, skip it instead.
-                        if ($field != 'slug') {
-                            $myTable->addColumn($field, 'string', ['length' => 128, 'notnull' => false, 'default' => '']);
-                        }
-                        break;
-                    case 'id':
-                    case 'datecreated':
-                    case 'datechanged':
-                    case 'datepublish':
-                    case 'datedepublish':
-                    case 'username':
-                    case 'status':
-                    case 'ownerid':
-                        // These are the default columns. Don't try to add these.
-                        break;
-                    default:
-                        if ($handler = $this->app['config']->getFields()->getField($values['type'])) {
-                            /** @var $handler \Bolt\Field\FieldInterface */
-                            $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
-                        }
-                }
+                // Add the contenttype's specific fields
+                $this->addCustomContentTypeFields($myTable, $field, $values['type']);
 
                 if (isset($values['index']) && $values['index'] == 'true') {
                     $myTable->addIndex([$field]);
@@ -642,6 +423,75 @@ class IntegrityChecker
         }
 
         return $tables;
+    }
+
+    /**
+     * Add the contenttype's specific fields.
+     *
+     * @param \Doctrine\DBAL\Schema\Table $table
+     * @param string                      $fieldName
+     * @param string                      $type
+     */
+    private function addCustomContentTypeFields(Table $table, $fieldName, $type)
+    {
+        switch ($type) {
+            case 'text':
+            case 'templateselect':
+            case 'file':
+                $table->addColumn($fieldName, 'string', ['length' => 256, 'default' => '']);
+                break;
+            case 'float':
+                $table->addColumn($fieldName, 'float', ['default' => 0]);
+                break;
+            case 'number': // deprecated.
+                $table->addColumn($fieldName, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
+                break;
+            case 'integer':
+                $table->addColumn($fieldName, 'integer', ['default' => 0]);
+                break;
+            case 'checkbox':
+                $table->addColumn($fieldName, 'boolean', ['default' => 0]);
+                break;
+            case 'html':
+            case 'textarea':
+            case 'image':
+            case 'video':
+            case 'markdown':
+            case 'geolocation':
+            case 'filelist':
+            case 'imagelist':
+            case 'select':
+                $table->addColumn($fieldName, 'text', ['default' => $this->getTextDefault()]);
+                break;
+            case 'datetime':
+                $table->addColumn($fieldName, 'datetime', ['notnull' => false]);
+                break;
+            case 'date':
+                $table->addColumn($fieldName, 'date', ['notnull' => false]);
+                break;
+            case 'slug':
+                // Only additional slug fields will be added. If it's the
+                // default slug, skip it instead.
+                if ($fieldName != 'slug') {
+                    $table->addColumn($fieldName, 'string', ['length' => 128, 'notnull' => false, 'default' => '']);
+                }
+                break;
+            case 'id':
+            case 'datecreated':
+            case 'datechanged':
+            case 'datepublish':
+            case 'datedepublish':
+            case 'username':
+            case 'status':
+            case 'ownerid':
+                // These are the default columns. Don't try to add these.
+                break;
+            default:
+                if ($handler = $this->app['config']->getFields()->getField($type)) {
+                    /** @var $handler \Bolt\Field\FieldInterface */
+                    $table->addColumn($fieldName, $handler->getStorageType(), $handler->getStorageOptions());
+                }
+        }
     }
 
     /**

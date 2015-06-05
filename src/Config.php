@@ -797,7 +797,7 @@ class Config
 
         // Check DB-tables integrity
         if (!$wrongctype && $this->app['integritychecker']->needsCheck() &&
-           (count($this->app['integritychecker']->checkTablesIntegrity()) > 0) &&
+           ($this->app['integritychecker']->needsUpdate()) &&
             $this->app['users']->getCurrentUsername()) {
             $msg = Trans::__(
                 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.",

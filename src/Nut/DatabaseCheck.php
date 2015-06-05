@@ -25,16 +25,16 @@ class DatabaseCheck extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $messages = $this->app['integritychecker']->checkTablesIntegrity();
+        $response = $this->app['integritychecker']->checkTablesIntegrity();
 
-        if (!empty($messages)) {
-            $output->writeln("<info>Modifications required:</info>");
-            foreach ($messages as $line) {
-                $output->writeln(" - " . str_replace("tt>", "info>", $line) . "");
-            }
-            $output->writeln("\nOne or more fields/tables are missing from the Database. Please run 'nut database:update' to fix this.");
+        if (!$response->hasResponses()) {
+            $output->writeln('<info>The database is OK.</info>');
         } else {
-            $output->writeln("\nThe database is OK.");
+            $output->writeln('<comment>Modifications required:</comment>');
+            foreach ($response->getResponseStrings() as $messages) {
+                $output->writeln('<info> - ' . $messages . '</info>');
+            }
+            $output->writeln("<comment>One or more fields/tables are missing from the Database. Please run 'nut database:update' to fix this.</comment>");
         }
     }
 }
