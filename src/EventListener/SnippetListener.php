@@ -82,7 +82,7 @@ class SnippetListener implements EventSubscriberInterface
         }
     }
 
-    protected function insert($snippet, $location = Location::AFTER_META)
+    protected function insert($snippet, $location = Location::END_OF_HEAD)
     {
         $this->extensions->insertSnippet($location, $snippet);
     }
