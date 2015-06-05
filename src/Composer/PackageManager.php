@@ -17,6 +17,7 @@ use Guzzle\Http\Exception\CurlException as CurlException;
 use Guzzle\Http\Exception\RequestException as V3RequestException;
 use GuzzleHttp\Exception\RequestException;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Response;
 
 class PackageManager
 {
@@ -555,14 +556,8 @@ class PackageManager
 
             return $response->getStatusCode();
         } catch (CurlException $e) {
-            if ($e->getErrorNo() === 60) {
-                // Eariler versions of libcurl support only SSL, whereas we require TLS.
-                // In this case, downgrade our composer to use HTTP
-                $this->factory->downgradeSsl = true;
-
-                $this->messages[] = Trans::__("cURL library doesn't support TLS. Downgrading to HTTP.");
-
-                return 200;
+            if ($e->getErrorNo() === 58 || $e->getErrorNo() === 60 || $e->getErrorNo() === 77) {
+                return $this->setDowngradeSsl($e->getMessage());
             } else {
                 $this->messages[] = Trans::__(
                     "cURL experienced an error: %errormessage%",
@@ -576,6 +571,11 @@ class PackageManager
                 array('%errormessage%' => $e->getMessage())
             );
         } catch (RequestException $e) {
+            $em = $e->getMessage();
+            if (strpos($em, 'cURL error 58') === 0 || strpos($em, 'cURL error 60') === 0 || strpos($em, 'cURL error 77') === 0) {
+                return $this->setDowngradeSsl($e->getMessage());
+            }
+
             $this->messages[] = Trans::__(
                 "Testing connection to extension server failed: %errormessage%",
                 array('%errormessage%' => $e->getMessage())
@@ -583,6 +583,27 @@ class PackageManager
         }
 
         return false;
+    }
+
+    /**
+     * Set and notify user that the SSL connection is downgraded.
+     *
+     * - Eariler versions of libcurl support only SSL, whereas we require TLS.
+     * - Later versions of Guzzle use the system's Certificate Authority certificates.
+     *
+     * In these case, downgrade our Composer to use HTTP
+     *
+     * @return integer
+     */
+    private function setDowngradeSsl($err)
+    {
+        $this->getFactory()->downgradeSsl = true;
+
+        $this->messages[] = Trans::__(
+            "System cURL library doesn't support TLS, or the Certificate Authority setup has not been completed (%ERROR%). See http://curl.haxx.se/docs/sslcerts.htmlfor more details. Downgrading to HTTP.",
+            array('%ERROR%' => trim($err)));
+
+        return Response::HTTP_OK;
     }
 
     /**
