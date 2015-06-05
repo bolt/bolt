@@ -143,10 +143,8 @@ class PackageManager
             }
         }
 
-        if ($this->app['extend.online']) {
-            // Create our Factory
-            $this->factory = new Factory($this->app, $this->options);
-        }
+        // Create our Factory
+        $this->factory = new Factory($this->app, $this->options);
     }
 
     /**
