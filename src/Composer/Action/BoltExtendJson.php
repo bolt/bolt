@@ -53,6 +53,8 @@ final class BoltExtendJson extends BaseAction
             if (isset($json['require']) && empty($json['require'])) {
                 unset($json['require']);
             }
+
+            $json = $this->setJsonDefaults($json);
         } else {
             // Error
             $this->messages[] = Trans::__("The Bolt extensions file '%composerjson%' isn't readable.", [
@@ -65,6 +67,28 @@ final class BoltExtendJson extends BaseAction
             return null;
         }
 
+        // Write out the file, but only if it's actually changed, and if it's writable.
+        if ($json != $jsonorig) {
+            try {
+                umask(0000);
+                $jsonFile->write($json);
+            } catch (\Exception $e) {
+                $this->messages[] = Trans::__('The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.', [
+                    '%repository%' => $this->app['extend.site']
+                ]);
+            }
+        }
+
+        return $json;
+    }
+
+    /**
+     * Enforce the default JSON settings.
+     *
+     * @param array $json
+     */
+    private function setJsonDefaults(array $json)
+    {
         $extensionsPath = $this->app['resources']->getPath('extensions');
         $webPath = $this->app['resources']->getPath('web');
         $pathToWeb = $this->app['resources']->findRelativePath(realpath($extensionsPath), realpath($webPath));
@@ -89,18 +113,6 @@ final class BoltExtendJson extends BaseAction
             'post-package-update'  => 'Bolt\\Composer\\EventListener\\PackageEventListener::handle'
         ];
         ksort($json);
-
-        // Write out the file, but only if it's actually changed, and if it's writable.
-        if ($json != $jsonorig) {
-            try {
-                umask(0000);
-                $jsonFile->write($json);
-            } catch (\Exception $e) {
-                $this->messages[] = Trans::__('The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.', [
-                    '%repository%' => $this->app['extend.site']
-                ]);
-            }
-        }
 
         return $json;
     }
