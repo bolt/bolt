@@ -14,12 +14,7 @@
 
 {% macro contentlink(contenttype, content) %}
     {% import _self as crosslinks %}
-
-    {% if content.title is defined %}
-        {% set title = content.title %}
-    {% else %}
-        {% set title = content.name %}
-    {% endif %}
+    {% set title = content.getTitle() %}
     {{ crosslinks.contentlink_by_id(contenttype, title, content.id) }}
 {% endmacro %}
 
