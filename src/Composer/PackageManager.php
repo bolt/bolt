@@ -84,9 +84,6 @@ class PackageManager
         }
 
         if ($this->app['extend.writeable']) {
-            // Copy/update installer helper
-            $this->copyInstaller();
-
             // Do required JSON update/set up
             $this->updateJson();
 
@@ -363,16 +360,6 @@ class PackageManager
         }
 
         return null;
-    }
-
-    /**
-     * Install/update extension installer helper.
-     */
-    private function copyInstaller()
-    {
-        $class = new \ReflectionClass("Bolt\\Composer\\ExtensionInstaller");
-        $filename = $class->getFileName();
-        copy($filename, $this->app['extend.action.options']['basedir'] . '/ExtensionInstaller.php');
     }
 
     /**

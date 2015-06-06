@@ -1,9 +1,9 @@
 <?php
-namespace Bolt\Composer;
+namespace Bolt\Composer\EventListener;
 
 use Composer\EventDispatcher\Event;
 
-class ExtensionInstaller
+class PackageEventListener
 {
     /**
      * Event handler for composer package events
@@ -32,8 +32,8 @@ class ExtensionInstaller
             $pathToPublic = $rootExtra['bolt-web-path'];
 
             // Get the path from extensions base through to public
-            $parts = [getcwd(),$pathToPublic,"extensions",'vendor',$installedPackage->getName(), $extra['bolt-assets']];
-            $path = join(DIRECTORY_SEPARATOR, $parts);
+            $parts = [getcwd(), $pathToPublic, 'extensions', 'vendor', $installedPackage->getName(), $extra['bolt-assets']];
+            $path = realpath(join(DIRECTORY_SEPARATOR, $parts));
             if ($type == 'bolt-extension' && isset($extra['bolt-assets'])) {
                 $fromParts = [getcwd(), 'vendor', $installedPackage->getName(),$extra['bolt-assets']];
                 $fromPath = join(DIRECTORY_SEPARATOR, $fromParts);

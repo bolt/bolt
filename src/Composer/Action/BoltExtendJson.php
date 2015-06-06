@@ -1,10 +1,8 @@
 <?php
-
 namespace Bolt\Composer\Action;
 
 use Bolt\Translation\Translator as Trans;
 use Composer\Json\JsonFile;
-use Silex\Application;
 
 /**
  * Initialise Composer JSON file class.
@@ -43,7 +41,7 @@ final class BoltExtendJson extends BaseAction
      */
     public function updateJson()
     {
-        if (!is_file($this->getOption('composerjson'))) {
+        if (! is_file($this->getOption('composerjson'))) {
             $this->initJson($this->getOption('composerjson'));
         }
 
@@ -55,12 +53,13 @@ final class BoltExtendJson extends BaseAction
             if (isset($json['require']) && empty($json['require'])) {
                 unset($json['require']);
             }
+
+            $json = $this->setJsonDefaults($json);
         } else {
             // Error
-            $this->messages[] = Trans::__(
-                "The Bolt extensions file '%composerjson%' isn't readable.",
-                ['%composerjson%' => $this->getOption('composerjson')]
-            );
+            $this->messages[] = Trans::__("The Bolt extensions file '%composerjson%' isn't readable.", [
+                '%composerjson%' => $this->getOption('composerjson')
+            ]);
 
             $this->app['extend.writeable'] = false;
             $this->app['extend.online'] = false;
@@ -68,7 +67,31 @@ final class BoltExtendJson extends BaseAction
             return null;
         }
 
-        $pathToWeb = $this->app['resources']->findRelativePath($this->app['resources']->getPath('extensions'), $this->app['resources']->getPath('web'));
+        // Write out the file, but only if it's actually changed, and if it's writable.
+        if ($json != $jsonorig) {
+            try {
+                umask(0000);
+                $jsonFile->write($json);
+            } catch (\Exception $e) {
+                $this->messages[] = Trans::__('The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.', [
+                    '%repository%' => $this->app['extend.site']
+                ]);
+            }
+        }
+
+        return $json;
+    }
+
+    /**
+     * Enforce the default JSON settings.
+     *
+     * @param array $json
+     */
+    private function setJsonDefaults(array $json)
+    {
+        $extensionsPath = $this->app['resources']->getPath('extensions');
+        $webPath = $this->app['resources']->getPath('web');
+        $pathToWeb = $this->app['resources']->findRelativePath(realpath($extensionsPath), realpath($webPath));
 
         // Enforce standard settings
         $json['repositories']['packagist'] = false;
@@ -84,24 +107,12 @@ final class BoltExtendJson extends BaseAction
         ];
         $json['provide']['bolt/bolt'] = $this->app['bolt_version'];
         $json['extra']['bolt-web-path'] = $pathToWeb;
-        $json['autoload']['psr-4']['Bolt\\Composer\\'] = '';
+        $json['autoload']['psr-4']['Bolt\\Composer\\EventListener\\'] = $this->app['resources']->getPath('src/Composer/EventListener');
         $json['scripts'] = [
-            'post-package-install' => 'Bolt\\Composer\\ExtensionInstaller::handle',
-            'post-package-update'  => 'Bolt\\Composer\\ExtensionInstaller::handle'
+            'post-package-install' => 'Bolt\\Composer\\EventListener\\PackageEventListener::handle',
+            'post-package-update'  => 'Bolt\\Composer\\EventListener\\PackageEventListener::handle'
         ];
-
-        // Write out the file, but only if it's actually changed, and if it's writable.
-        if ($json != $jsonorig) {
-            try {
-                umask(0000);
-                $jsonFile->write($json);
-            } catch (\Exception $e) {
-                $this->messages[] = Trans::__(
-                    'The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.',
-                    ['%repository%' => $this->app['extend.site']]
-                );
-            }
-        }
+        ksort($json);
 
         return $json;
     }

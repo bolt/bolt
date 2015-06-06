@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Composer;
+namespace Bolt\Composer\EventListener;
 
 use Bolt\Composer\PackageManager;
 use Composer\EventDispatcher\EventSubscriberInterface;
@@ -12,7 +12,7 @@ use Composer\IO\BufferIO;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class PackageEventListener implements EventSubscriberInterface
+class BufferIOListener implements EventSubscriberInterface
 {
     /** @var \Bolt\Composer\PackageManager $manager */
     protected $manager;
