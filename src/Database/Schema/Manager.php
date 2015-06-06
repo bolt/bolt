@@ -410,7 +410,7 @@ class Manager
                 }
 
                 // Add the contenttype's specific fields
-                $this->addCustomContentTypeFields($myTable, $field, $values['type']);
+                $myTable->addCustomFields($myTable, $field, $values['type']);
 
                 if (isset($values['index']) && $values['index'] == 'true') {
                     $myTable->addIndex([$field]);
@@ -420,75 +420,6 @@ class Manager
         }
 
         return $tables;
-    }
-
-    /**
-     * Add the contenttype's specific fields.
-     *
-     * @param \Doctrine\DBAL\Schema\Table $table
-     * @param string                      $fieldName
-     * @param string                      $type
-     */
-    private function addCustomContentTypeFields(Table $table, $fieldName, $type)
-    {
-        switch ($type) {
-            case 'text':
-            case 'templateselect':
-            case 'file':
-                $table->addColumn($fieldName, 'string', ['length' => 256, 'default' => '']);
-                break;
-            case 'float':
-                $table->addColumn($fieldName, 'float', ['default' => 0]);
-                break;
-            case 'number': // deprecated.
-                $table->addColumn($fieldName, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
-                break;
-            case 'integer':
-                $table->addColumn($fieldName, 'integer', ['default' => 0]);
-                break;
-            case 'checkbox':
-                $table->addColumn($fieldName, 'boolean', ['default' => 0]);
-                break;
-            case 'html':
-            case 'textarea':
-            case 'image':
-            case 'video':
-            case 'markdown':
-            case 'geolocation':
-            case 'filelist':
-            case 'imagelist':
-            case 'select':
-                $table->addColumn($fieldName, 'text', ['default' => $this->getTextDefault()]);
-                break;
-            case 'datetime':
-                $table->addColumn($fieldName, 'datetime', ['notnull' => false]);
-                break;
-            case 'date':
-                $table->addColumn($fieldName, 'date', ['notnull' => false]);
-                break;
-            case 'slug':
-                // Only additional slug fields will be added. If it's the
-                // default slug, skip it instead.
-                if ($fieldName != 'slug') {
-                    $table->addColumn($fieldName, 'string', ['length' => 128, 'notnull' => false, 'default' => '']);
-                }
-                break;
-            case 'id':
-            case 'datecreated':
-            case 'datechanged':
-            case 'datepublish':
-            case 'datedepublish':
-            case 'username':
-            case 'status':
-            case 'ownerid':
-                // These are the default columns. Don't try to add these.
-                break;
-            default:
-                if ($handler = $this->app['config']->getFields()->getField($type)) {
-                    /** @var $handler \Bolt\Field\FieldInterface */
-                    $table->addColumn($fieldName, $handler->getStorageType(), $handler->getStorageOptions());
-                }
-        }
     }
 
     /**
