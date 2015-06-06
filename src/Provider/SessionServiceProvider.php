@@ -94,18 +94,19 @@ class SessionServiceProvider implements ServiceProviderInterface
 
             $listeners = new \Pimple();
             foreach ($app['sessions']->keys() as $name) {
-                $listeners[$name] = $app->share(function () use ($app, $name) {
+                $setToRequest = $name === $app['sessions.default'];
+                $listeners[$name] = $app->share(function () use ($app, $name, $setToRequest) {
                     $session = $app['sessions'][$name];
                     $options = $app['sessions.options'][$name];
-                    return $app['session.listener.factory']($session, $options);
+                    return $app['session.listener.factory']($session, $options, $setToRequest);
                 });
             }
 
             return $listeners;
         });
 
-        $app['session.listener.factory'] = $app->protect(function ($session, $options) use ($app) {
-            return new SessionListener($session, $options);
+        $app['session.listener.factory'] = $app->protect(function ($session, $options, $setToRequest = false) use ($app) {
+            return new SessionListener($session, $options, $setToRequest);
         });
 
         $app['session.listener'] = $app->share(function ($app) {
