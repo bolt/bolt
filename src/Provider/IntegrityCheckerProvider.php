@@ -12,13 +12,13 @@ class IntegrityCheckerProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['integritychecker'] = $app->share(
+        $app['schema'] = $app->share(
             function ($app) {
                 return new IntegrityChecker($app);
             }
         );
 
-        $app['integritychecker.tables'] = $app->share(function (Application $app) {
+        $app['schema.tables'] = $app->share(function (Application $app) {
             return new \Pimple([
                 // @codingStandardsIgnoreStart
                 'authtoken'  => $app->share(function () use ($app) { return new Table\AuthToken(); }),

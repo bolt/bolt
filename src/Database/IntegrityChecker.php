@@ -373,8 +373,8 @@ class IntegrityChecker
     protected function getBoltTablesSchema(Schema $schema)
     {
         $tables = [];
-        foreach ($this->app['integritychecker.tables']->keys() as $name) {
-            $tables[] = $this->app['integritychecker.tables'][$name]->buildTable($schema, $this->getTablename($name));
+        foreach ($this->app['schema.tables']->keys() as $name) {
+            $tables[] = $this->app['schema.tables'][$name]->buildTable($schema, $this->getTablename($name));
         }
 
         return $tables;

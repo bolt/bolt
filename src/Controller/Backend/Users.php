@@ -205,7 +205,7 @@ class Users extends BackendBase
     public function first(Request $request)
     {
         // We should only be here for creating the first user
-        if ($this->app['integritychecker']->checkUserTableIntegrity() && $this->users()->hasUsers()) {
+        if ($this->app['schema']->checkUserTableIntegrity() && $this->users()->hasUsers()) {
             return $this->redirectToRoute('dashboard');
         }
 
@@ -221,7 +221,7 @@ class Users extends BackendBase
         }
 
         // If we get here, chances are we don't have the tables set up, yet.
-        $this->app['integritychecker']->repairTables();
+        $this->app['schema']->repairTables();
 
         // Grant 'root' to first user by default
         $user['roles'] = [Permissions::ROLE_ROOT];

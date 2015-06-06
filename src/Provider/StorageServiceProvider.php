@@ -65,7 +65,7 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.metadata'] = $app->share(
             function ($app) {
                 $meta = new MetadataDriver(
-                    $app['integritychecker'],
+                    $app['schema'],
                     $app['config']->get('contenttypes'),
                     $app['config']->get('taxonomy'),
                     $app['storage.typemap']

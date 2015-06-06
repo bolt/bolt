@@ -100,6 +100,6 @@ class Database extends BackendBase
      */
     protected function integrityChecker()
     {
-        return $this->app['integritychecker'];
+        return $this->app['schema'];
     }
 }
