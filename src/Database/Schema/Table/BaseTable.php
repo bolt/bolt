@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Database\Table;
+namespace Bolt\Database\Schema\Table;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Platforms\AbstractPlatform;

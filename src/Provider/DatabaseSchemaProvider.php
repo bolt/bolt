@@ -3,7 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Database\Schema\Manager;
-use Bolt\Database\Table;
+use Bolt\Database\Schema\Table;
 use Doctrine\DBAL\Schema\Schema;
 use Silex\Application;
 use Silex\ServiceProviderInterface;

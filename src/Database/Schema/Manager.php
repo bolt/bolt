@@ -3,7 +3,7 @@
 namespace Bolt\Database\Schema;
 
 use Bolt\Application;
-use Bolt\Database\Table\ContentType;
+use Bolt\Database\Schema\Table\ContentType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
