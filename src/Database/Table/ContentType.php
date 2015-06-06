@@ -96,7 +96,7 @@ class ContentType extends BaseTable
      *
      * @param string $fieldName
      * @param string $type
-     * @parma boolean $addIndex
+     * @param boolean $addIndex
      */
     public function addCustomFields($fieldName, $type, $addIndex)
     {
