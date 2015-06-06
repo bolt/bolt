@@ -21,6 +21,9 @@ class Local extends LocalBase
         $this->setPathPrefix($realRoot);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function ensureDirectory($root)
     {
         if (!is_dir($root) && !@mkdir($root, 0755, true)) {
@@ -30,6 +33,9 @@ class Local extends LocalBase
         return realpath($root);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function write($path, $contents, Config $config)
     {
         $location = $this->applyPathPrefix($path);
@@ -40,6 +46,9 @@ class Local extends LocalBase
         return parent::write($path, $contents, $config);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function writeStream($path, $resource, Config $config)
     {
         $location = $this->applyPathPrefix($path);
@@ -50,6 +59,9 @@ class Local extends LocalBase
         return parent::writeStream($path, $resource, $config);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function update($path, $contents, Config $config)
     {
         $location = $this->applyPathPrefix($path);
@@ -66,6 +78,9 @@ class Local extends LocalBase
         return compact('path', 'size', 'contents', 'mimetype');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rename($path, $newpath)
     {
         $location = $this->applyPathPrefix($path);
@@ -78,6 +93,9 @@ class Local extends LocalBase
         return rename($location, $destination);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function copy($path, $newpath)
     {
         $location = $this->applyPathPrefix($path);
@@ -89,6 +107,9 @@ class Local extends LocalBase
         return copy($location, $destination);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function delete($path)
     {
         $location = $this->applyPathPrefix($path);
@@ -100,6 +121,9 @@ class Local extends LocalBase
         return unlink($location);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function createDir($dirname, Config $config)
     {
         $location = $this->applyPathPrefix($dirname);
@@ -114,6 +138,9 @@ class Local extends LocalBase
         return ['path' => $dirname, 'type' => 'dir'];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function deleteDir($dirname)
     {
         $location = $this->applyPathPrefix($dirname);
@@ -159,6 +186,13 @@ class Local extends LocalBase
         return compact('visibility');
     }
 
+    /**
+     * Check is a user can write to a given location.
+     *
+     * @param string $location
+     *
+     * @return boolean
+     */
     protected function userCanWrite($location)
     {
         $worldPermissions = substr(sprintf('%o', fileperms($location)), -1, 1);
@@ -184,6 +218,13 @@ class Local extends LocalBase
         return false;
     }
 
+    /**
+     * Check is a group can write to a given location.
+     *
+     * @param string $location
+     *
+     * @return boolean
+     */
     protected function groupCanWrite($location)
     {
         $permissions = substr(sprintf('%o', fileperms($location)), -2, 1);
@@ -203,6 +244,13 @@ class Local extends LocalBase
         return false;
     }
 
+    /**
+     * Check is a user can read from a given location.
+     *
+     * @param string $location
+     *
+     * @return boolean
+     */
     protected function userCanRead($location)
     {
         $worldPermissions = substr(sprintf('%o', fileperms($location)), -1);
@@ -228,6 +276,13 @@ class Local extends LocalBase
         return false;
     }
 
+    /**
+     * Check is a group can read from a given location.
+     *
+     * @param string $location
+     *
+     * @return boolean
+     */
     protected function groupCanRead($location)
     {
         $permissions = substr(sprintf('%o', fileperms($location)), -2, 1);

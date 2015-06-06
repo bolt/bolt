@@ -390,6 +390,8 @@ class Users
     /**
      * Get the current user's property.
      *
+     * @param string $property
+     *
      * @return array
      */
     public function getCurrentUserProperty($property)

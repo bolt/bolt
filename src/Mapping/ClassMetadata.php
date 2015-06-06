@@ -12,31 +12,17 @@ use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
  */
 class ClassMetadata implements ClassMetadataInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $name;
-    
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $boltname;
-    
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $tableName;
-
+    /** @var array */
     protected $identifier;
-
-    /**
-     * @var NamingStrategyInterface
-     */
+    /** @var NamingStrategyInterface */
     protected $namingStrategy;
-    
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $fieldMappings;
 
     /**
@@ -50,7 +36,7 @@ class ClassMetadata implements ClassMetadataInterface
         if (!class_exists($className)) {
             throw new \InvalidArgumentException("Value passed must be a valid class name", 1);
         }
-        
+
         $this->name = $className;
         $this->namingStrategy = $namingStrategy ?: new NamingStrategy();
     }
@@ -87,7 +73,7 @@ class ClassMetadata implements ClassMetadataInterface
     {
         return $this->tableName = $tableName;
     }
-    
+
     /**
      * Gets the bolt name of this class (normally table name without prefix).
      *
@@ -109,7 +95,7 @@ class ClassMetadata implements ClassMetadataInterface
     {
         return $this->boltname = $name;
     }
-    
+
     /**
      * Gets the internal alias using the naming strategy.
      *
@@ -132,8 +118,8 @@ class ClassMetadata implements ClassMetadataInterface
         }
         return $this->fieldMappings[$fieldName];
     }
-    
-    
+
+
     /**
      * Sets the fieldMappings array with metadata.
      *
@@ -145,8 +131,8 @@ class ClassMetadata implements ClassMetadataInterface
     {
         $this->fieldMappings = $fieldMappings;
     }
-    
-    
+
+
     /**
      * Gets the fieldMappings array.
      *
@@ -238,7 +224,7 @@ class ClassMetadata implements ClassMetadataInterface
     public function getTypeOfField($fieldName)
     {
     }
-    
+
     /**
      * Returns an array of identifier field names numerically indexed.
      *

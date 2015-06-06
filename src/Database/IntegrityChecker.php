@@ -559,11 +559,24 @@ class IntegrityChecker
         return $this->integrityCachePath . '/' . self::INTEGRITY_CHECK_TS_FILENAME;
     }
 
+    /**
+     * Map a table name's value.
+     *
+     * @param string $from
+     * @param string $to
+     */
     protected function mapTableName($from, $to)
     {
         $this->tableMap[$from] = $to;
     }
 
+    /**
+     * Get the stored table name key.
+     *
+     * @param string $table
+     *
+     * @return string
+     */
     public function getKeyForTable($table)
     {
         return $this->tableMap[$table];

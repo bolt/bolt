@@ -17,29 +17,16 @@ use Doctrine\DBAL\Schema\Table;
  */
 class MetadataDriver implements MappingDriver
 {
-    /**
-     * @var IntegrityChecker
-     */
+    /** @var IntegrityChecker */
     protected $integrityChecker;
-
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $contenttypes;
-
-    /**
-     * @var array taxonomy configuration
-     */
+    /** @var array taxonomy configuration */
     protected $taxonomies;
-
-    /**
-     * @var array metadata mappings
-     */
+    /** @var array metadata mappings */
     protected $metadata;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $defaultAliases = [
         'bolt_authtoken'  => 'Bolt\Entity\Authtoken',
         'bolt_cron'       => 'Bolt\Entity\Cron',
@@ -51,14 +38,9 @@ class MetadataDriver implements MappingDriver
         'bolt_users'      => 'Bolt\Entity\Users'
     ];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $typemap;
-
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $aliases = [];
 
     /**
@@ -69,14 +51,9 @@ class MetadataDriver implements MappingDriver
      */
     protected $unmapped;
 
-    /**
-     * @var string - a default entity for any table not matched
-     */
+    /** @var string A default entity for any table not matched */
     protected $fallbackEntity = 'Bolt\Entity\Content';
-
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $initialized = false;
 
     /**
@@ -109,7 +86,7 @@ class MetadataDriver implements MappingDriver
 
     /**
      * Setup some short aliases so non prefixed keys can be used to get metadata
-     **/
+     */
     public function initializeShortAliases()
     {
         foreach ($this->integrityChecker->getTablesSchema() as $table) {
@@ -121,7 +98,7 @@ class MetadataDriver implements MappingDriver
      * Getter for aliases
      *
      * @return array
-     **/
+     */
     public function getAliases()
     {
         return $this->aliases;
@@ -151,6 +128,11 @@ class MetadataDriver implements MappingDriver
         return $this->fallbackEntity;
     }
 
+    /**
+     * Load the metadata for a table.
+     *
+     * @param Table $table
+     */
     protected function loadMetadataForTable(Table $table)
     {
         $tblName = $table->getName();
@@ -198,6 +180,13 @@ class MetadataDriver implements MappingDriver
         }
     }
 
+    /**
+     * Set the relationship.
+     *
+     * @param string $contentKey
+     * @param string $className
+     * @param Table  $table
+     */
     public function setRelations($contentKey, $className, $table)
     {
         if (!isset($this->contenttypes[$contentKey]['relations'])) {
@@ -219,6 +208,13 @@ class MetadataDriver implements MappingDriver
         }
     }
 
+    /**
+     * Set the taxonomy.
+     *
+     * @param string $contentKey
+     * @param string $className
+     * @param Table  $table
+     */
     public function setTaxonomies($contentKey, $className, $table)
     {
         if (!isset($this->contenttypes[$contentKey]['taxonomy'])) {
@@ -267,6 +263,12 @@ class MetadataDriver implements MappingDriver
         }
     }
 
+    /**
+     * Get the field type for a given column.
+     *
+     * @param string                       $name
+     * @param \Doctrine\DBAL\Schema\Column $column
+     */
     protected function getFieldTypeFor($name, $column)
     {
         $contentKey = $this->integrityChecker->getKeyForTable($name);

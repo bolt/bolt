@@ -39,6 +39,11 @@ class SnippetListener implements EventSubscriberInterface
         $this->render = $render;
     }
 
+    /**
+     * Callback for reponse event.
+     *
+     * @param FilterResponseEvent $event
+     */
     public function onResponse(FilterResponseEvent $event)
     {
         if (!$this->isEnabled($event)) {
@@ -55,6 +60,11 @@ class SnippetListener implements EventSubscriberInterface
         $response->setContent($this->render->postProcess($response));
     }
 
+    /**
+     * Check if snippets are allowed for this request.
+     *
+     * @param FilterResponseEvent $event
+     */
     protected function isEnabled(FilterResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
@@ -63,9 +73,13 @@ class SnippetListener implements EventSubscriberInterface
         if (Zone::isFrontend($event->getRequest())) {
             return true;
         }
+
         return $event->getRequest()->attributes->get('allow_snippets', false);
     }
 
+    /**
+     * Add base snippets to the response.
+     */
     protected function addSnippets()
     {
         $this->insert('<meta name="generator" content="Bolt">');
@@ -82,12 +96,23 @@ class SnippetListener implements EventSubscriberInterface
         }
     }
 
+    /**
+     * Insert a snippet into the given location.
+     *
+     * @param string $snippet
+     * @param string $location
+     */
     protected function insert($snippet, $location = Location::END_OF_HEAD)
     {
         $this->extensions->insertSnippet($location, $snippet);
     }
 
-    protected function encode($str, $params = null)
+    /**
+     * Encode the snippet string and make it HTML safe.
+     *
+     * @param string $str
+     */
+    protected function encode($str)
     {
         $args = func_get_args();
         array_shift($args);
@@ -95,6 +120,7 @@ class SnippetListener implements EventSubscriberInterface
             return htmlspecialchars($str, ENT_QUOTES);
         }, $args);
         array_unshift($args, $str);
+
         return call_user_func_array('sprintf', $args);
     }
 
