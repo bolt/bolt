@@ -2,6 +2,7 @@
 namespace Bolt\Database\Table;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
  * Base database table class for Bolt.
@@ -10,7 +11,7 @@ use Doctrine\DBAL\Schema\Schema;
  */
 abstract class BaseTable
 {
-    /** @var string */
+    /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
     protected $platform;
     /** @var \Doctrine\DBAL\Schema\Table */
     protected $table;
@@ -20,9 +21,9 @@ abstract class BaseTable
     /**
      * Constructor.
      *
-     * @param Schema $platform
+     * @param AbstractPlatform $platform
      */
-    public function __construct($platform)
+    public function __construct(AbstractPlatform $platform)
     {
         $this->platform = $platform;
     }

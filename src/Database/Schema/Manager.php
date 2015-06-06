@@ -5,8 +5,6 @@ namespace Bolt\Database\Schema;
 use Bolt\Application;
 use Bolt\Database\Table\ContentType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Comparator;
@@ -391,7 +389,7 @@ class Manager
             $tablename = $this->getTablename($contenttype['tablename']);
             $this->mapTableName($tablename, $contenttype['tablename']);
 
-            $tableObj = new ContentType();
+            $tableObj = new ContentType($this->app['db']->getDatabasePlatform());
             $myTable = $tableObj->buildTable($schema, $tablename);
 
             // Check if all the fields are present in the DB.
