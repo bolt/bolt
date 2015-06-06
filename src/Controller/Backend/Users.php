@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -237,9 +238,14 @@ class Users extends BackendBase
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->isMethod('POST')) {
-            if ($this->validateUserForm($request, $form, true)) {
-                // To the dashboard, where 'login' will be triggered
-                return $this->redirectToRoute('dashboard');
+            if ($user = $this->validateUserForm($request, $form, true)) {
+                $this->flashes()->clear();
+                $this->flashes()->info(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $user['displayname']]));
+
+                $token = $this->app['authentication']->login($user['username'], $user['password']);
+                $response = $this->setAuthenticationCookie($this->redirectToRoute('dashboard'), $token);
+
+                return $response;
             }
         }
 
