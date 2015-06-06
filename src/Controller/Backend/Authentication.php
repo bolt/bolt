@@ -130,17 +130,7 @@ class Authentication extends BackendBase
         // Log in, if credentials are correct.
         $this->app['logger.system']->info('Logged in: ' . $username, ['event' => 'authentication']);
         $retreat = $this->session()->get('retreat', ['route' => 'dashboard', 'params' => []]);
-        $response = $this->redirectToRoute($retreat['route'], $retreat['params']);
-        $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
-        $response->headers->setCookie(new Cookie(
-            $this->app['token.authentication.name'],
-            $token,
-            time() + $this->getOption('general/cookies_lifetime'),
-            $this->resources()->getUrl('root'), // TODO Can this be $request->getBasePath()?
-            $this->getOption('general/cookies_domain'),
-            $this->getOption('general/enforce_ssl'),
-            true
-        ));
+        $response = $this->setAuthenticationCookie($this->redirectToRoute($retreat['route'], $retreat['params']), $token);
 
         return $response;
     }

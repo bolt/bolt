@@ -5,7 +5,9 @@ use Bolt\Controller\Base;
 use Bolt\Controller\Zone;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Base class for all backend controllers.
@@ -119,5 +121,29 @@ abstract class BackendBase extends Base
         $app['stopwatch']->stop('bolt.backend.before');
 
         return null;
+    }
+
+    /**
+     * Set the authentication cookie in the response.
+     *
+     * @param Response $response
+     * @param string   $token
+     *
+     * @return Response
+     */
+    protected function setAuthenticationCookie(Response $response, $token)
+    {
+        $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
+        $response->headers->setCookie(new Cookie(
+            $this->app['token.authentication.name'],
+            $token,
+            time() + $this->getOption('general/cookies_lifetime'),
+            $this->resources()->getUrl('root'),
+            $this->getOption('general/cookies_domain'),
+            $this->getOption('general/enforce_ssl'),
+            true
+        ));
+
+        return $response;
     }
 }

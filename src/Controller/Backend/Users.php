@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -237,9 +238,14 @@ class Users extends BackendBase
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->isMethod('POST')) {
-            if ($this->validateUserForm($request, $form, true)) {
-                // To the dashboard, where 'login' will be triggered
-                return $this->redirectToRoute('dashboard');
+            if ($user = $this->validateUserForm($request, $form, true)) {
+                $this->flashes()->clear();
+                $this->flashes()->info(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $user['displayname']]));
+
+                $token = $this->app['authentication']->login($user['username'], $user['password']);
+                $response = $this->setAuthenticationCookie($this->redirectToRoute('dashboard'), $token);
+
+                return $response;
             }
         }
 
@@ -565,59 +571,80 @@ class Users extends BackendBase
     {
         $form->submit($request->get($form->getName()));
 
-        if ($form->isValid()) {
-            $user = $form->getData();
-
-            if ($firstuser) {
-                $user['roles'] = [Permissions::ROLE_ROOT];
-            } else {
-                $id = isset($user['id']) ? $user['id'] : null;
-                $user['roles'] = $this->users()->filterManipulatableRoles($id, $user['roles']);
-            }
-
-            $res = $this->users()->saveUser($user);
-
-            if (!$firstuser) {
-                $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $user['displayname']]),
-                    ['event' => 'security']);
-            } else {
-                $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-added', ['%user%' => $user['displayname']]),
-                    ['event' => 'security']);
-
-                // Create a welcome email
-                $mailhtml = $this->render(
-                    'email/firstuser.twig',
-                    ['sitename' => $this->getOption('general/sitename')]
-                )->getContent();
-
-                try {
-                    // Send a welcome email
-                    $name = $this->getOption('general/mailoptions/senderName', $this->getOption('general/sitename'));
-                    $email = $this->getOption('general/mailoptions/senderMail', $user['email']);
-                    $message = $this->app['mailer']
-                        ->createMessage('message')
-                        ->setSubject(Trans::__('New Bolt site has been set up'))
-                        ->setFrom([$email         => $name])
-                        ->setTo([$user['email']   => $user['displayname']])
-                        ->setBody(strip_tags($mailhtml))
-                        ->addPart($mailhtml, 'text/html');
-
-                    $this->app['mailer']->send($message);
-                } catch (\Exception $e) {
-                    // Sending message failed. What else can we do, sending with snailmail?
-                    $this->app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", ['event' => 'config']);
-                }
-            }
-
-            if ($res) {
-                $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $user['displayname']]));
-            } else {
-                $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $user['displayname']]));
-            }
-
-            return $user;
+        if (! $form->isValid()) {
+            return false;
         }
 
-        return false;
+        $user = $form->getData();
+
+        if ($firstuser) {
+            $user['roles'] = [Permissions::ROLE_ROOT];
+        } else {
+            $id = isset($user['id']) ? $user['id'] : null;
+            $user['roles'] = $this->users()->filterManipulatableRoles($id, $user['roles']);
+        }
+
+        if ($this->users()->saveUser($user)) {
+            $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $user['displayname']]));
+
+            $this->notifyUserSave($user['displayname'], $user['email'], $firstuser);
+        } else {
+            $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $user['displayname']]));
+        }
+
+        return $user;
+    }
+
+    /**
+     * Notify of save event.
+     *
+     * @param string  $displayName
+     * @param string  $email
+     * @param boolean $firstuser
+     */
+    private function notifyUserSave($displayName, $email, $firstuser)
+    {
+        if (!$firstuser) {
+            $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $displayName]),
+                ['event' => 'security']);
+        } else {
+            $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-added', ['%user%' => $displayName]),
+                ['event' => 'security']);
+            $this->notifyUserSetupEmail($displayName, $email);
+        }
+    }
+
+    /**
+     * Send a welcome email to test mail settings.
+     *
+     * @param string $displayName
+     * @param string $email
+     */
+    private function notifyUserSetupEmail($displayName, $email)
+    {
+        // Create a welcome email
+        $mailhtml = $this->render(
+            'email/firstuser.twig',
+            ['sitename' => $this->getOption('general/sitename')]
+        )->getContent();
+
+        try {
+            // Send a welcome email
+            $name = $this->getOption('general/mailoptions/senderName', $this->getOption('general/sitename'));
+            $email = $this->getOption('general/mailoptions/senderMail', $email);
+            $message = $this->app['mailer']
+                ->createMessage('message')
+                ->setSubject(Trans::__('New Bolt site has been set up'))
+                ->setFrom([$email => $name])
+                ->setTo([$email   => $displayName])
+                ->setBody(strip_tags($mailhtml))
+                ->addPart($mailhtml, 'text/html')
+            ;
+
+            $this->app['mailer']->send($message);
+        } catch (\Exception $e) {
+            // Sending message failed. What else can we do, send via snailmail?
+            $this->app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", ['event' => 'config']);
+        }
     }
 }

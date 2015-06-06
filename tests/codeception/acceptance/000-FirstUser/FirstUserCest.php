@@ -48,5 +48,8 @@ class FirstUserCest
         $I->fillField('form[displayname]',           $this->user['admin']['displayname']);
 
         $I->click('input[type=submit]');
+
+        // We should now be logged in an greeted!
+        $I->see('Welcome to your new Bolt site');
     }
 }
