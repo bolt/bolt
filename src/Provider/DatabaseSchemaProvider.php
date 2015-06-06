@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
-class IntegrityCheckerProvider implements ServiceProviderInterface
+class DatabaseSchemaProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
