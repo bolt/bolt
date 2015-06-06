@@ -151,17 +151,19 @@ class MetadataDriver implements MappingDriver
         $this->metadata[$className]['table'] = $table->getName();
         $this->metadata[$className]['boltname'] = $contentKey;
         foreach ($table->getColumns() as $colName => $column) {
-            $mapping['fieldname'] = $colName;
-            $mapping['type'] = $column->getType()->getName();
-            $mapping['fieldtype'] = $this->getFieldTypeFor($table->getName(), $column);
-            $mapping['length'] = $column->getLength();
-            $mapping['nullable'] = $column->getNotnull();
-            $mapping['platformOptions'] = $column->getPlatformOptions();
-            $mapping['precision'] = $column->getPrecision();
-            $mapping['scale'] = $column->getScale();
-            $mapping['default'] = $column->getDefault();
-            $mapping['columnDefinition'] = $column->getColumnDefinition();
-            $mapping['autoincrement'] = $column->getAutoincrement();
+            $mapping = [
+                'fieldname'        => $colName,
+                'type'             => $column->getType()->getName(),
+                'fieldtype'        => $this->getFieldTypeFor($table->getName(), $column),
+                'length'           => $column->getLength(),
+                'nullable'         => $column->getNotnull(),
+                'platformOptions'  => $column->getPlatformOptions(),
+                'precision'        => $column->getPrecision(),
+                'scale'            => $column->getScale(),
+                'default'          => $column->getDefault(),
+                'columnDefinition' => $column->getColumnDefinition(),
+                'autoincrement'    => $column->getAutoincrement(),
+            ];
 
             $this->metadata[$className]['fields'][$colName] = $mapping;
             $this->metadata[$className]['fields'][$colName]['data'] = $this->contenttypes[$contentKey]['fields'][$colName];
@@ -198,11 +200,15 @@ class MetadataDriver implements MappingDriver
             } else {
                 $relationKey = $key;
             }
-            $mapping['fieldname'] = $relationKey;
-            $mapping['type'] = 'null';
-            $mapping['fieldtype'] = $this->typemap['relation'];
-            $mapping['entity'] = $this->resolveClassName($relationKey);
-            $mapping['target'] = $this->integrityChecker->getTableName('relations');
+
+            $mapping = [
+                'fieldname' => $relationKey,
+                'type'      => 'null',
+                'fieldtype' => $this->typemap['relation'],
+                'entity'    => $this->resolveClassName($relationKey),
+                'target'    => $this->integrityChecker->getTableName('relations'),
+            ];
+
             $this->metadata[$className]['fields'][$relationKey] = $mapping;
             $this->metadata[$className]['fields'][$relationKey]['data'] = $data;
         }
@@ -229,11 +235,15 @@ class MetadataDriver implements MappingDriver
             } else {
                 $taxonomy = $taxonomytype;
             }
-            $mapping['fieldname'] = $taxonomy;
-            $mapping['type'] = 'null';
-            $mapping['fieldtype'] = $this->typemap['taxonomy'];
-            $mapping['entity'] = $this->resolveClassName($relationKey);
-            $mapping['target'] = $this->integrityChecker->getTableName('taxonomy');
+
+            $mapping = [
+                'fieldname' => $taxonomy,
+                'type'      => 'null',
+                'fieldtype' => $this->typemap['taxonomy'],
+                'entity'    => $this->resolveClassName($relationKey),
+                'target'    => $this->integrityChecker->getTableName('taxonomy'),
+            ];
+
             $this->metadata[$className]['fields'][$taxonomy] = $mapping;
             $this->metadata[$className]['fields'][$taxonomy]['data'] = $taxonomyConfig;
         }
