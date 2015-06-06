@@ -10,39 +10,15 @@ use Silex;
  */
 class ContenttypesKeygen
 {
-    /**
-     * Injected Application object.
-     *
-     * @var Silex\Application
-     */
+    /** @var \Silex\Application */
     private $app;
-
-    /**
-     * Hints for translations.
-     *
-     * @var array
-     */
+    /** @var array Hints for translations. */
     private $hints;
-
-    /**
-     * Hints for translations.
-     *
-     * @var array
-     */
+    /** @var array Translated strings. */
     private $translation;
-
-    /**
-     * Translations read from file.
-     *
-     * @var array
-     */
+    /** @var array Translations read from file. */
     private $saved;
-
-    /**
-     * Translatable strings.
-     *
-     * @var array
-     */
+    /** @var array Translatable strings. */
     private $translatables;
 
     /**
@@ -220,7 +196,7 @@ class ContenttypesKeygen
      *
      * @param string $key
      *
-     * @return mixed
+     * @return string
      */
     private function fallback($key)
     {

@@ -17,29 +17,16 @@ use Doctrine\DBAL\Schema\Table;
  */
 class MetadataDriver implements MappingDriver
 {
-    /**
-     * @var IntegrityChecker
-     */
+    /** @var IntegrityChecker */
     protected $integrityChecker;
-
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $contenttypes;
-
-    /**
-     * @var array taxonomy configuration
-     */
+    /** @var array taxonomy configuration */
     protected $taxonomies;
-
-    /**
-     * @var array metadata mappings
-     */
+    /** @var array metadata mappings */
     protected $metadata;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $defaultAliases = [
         'bolt_authtoken'  => 'Bolt\Entity\Authtoken',
         'bolt_cron'       => 'Bolt\Entity\Cron',
@@ -51,14 +38,9 @@ class MetadataDriver implements MappingDriver
         'bolt_users'      => 'Bolt\Entity\Users'
     ];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $typemap;
-
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $aliases = [];
 
     /**
@@ -69,14 +51,9 @@ class MetadataDriver implements MappingDriver
      */
     protected $unmapped;
 
-    /**
-     * @var string - a default entity for any table not matched
-     */
+    /** @var string A default entity for any table not matched */
     protected $fallbackEntity = 'Bolt\Entity\Content';
-
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $initialized = false;
 
     /**
@@ -109,7 +86,7 @@ class MetadataDriver implements MappingDriver
 
     /**
      * Setup some short aliases so non prefixed keys can be used to get metadata
-     **/
+     */
     public function initializeShortAliases()
     {
         foreach ($this->integrityChecker->getTablesSchema() as $table) {
@@ -121,7 +98,7 @@ class MetadataDriver implements MappingDriver
      * Getter for aliases
      *
      * @return array
-     **/
+     */
     public function getAliases()
     {
         return $this->aliases;
@@ -151,6 +128,11 @@ class MetadataDriver implements MappingDriver
         return $this->fallbackEntity;
     }
 
+    /**
+     * Load the metadata for a table.
+     *
+     * @param Table $table
+     */
     protected function loadMetadataForTable(Table $table)
     {
         $tblName = $table->getName();
@@ -169,17 +151,19 @@ class MetadataDriver implements MappingDriver
         $this->metadata[$className]['table'] = $table->getName();
         $this->metadata[$className]['boltname'] = $contentKey;
         foreach ($table->getColumns() as $colName => $column) {
-            $mapping['fieldname'] = $colName;
-            $mapping['type'] = $column->getType()->getName();
-            $mapping['fieldtype'] = $this->getFieldTypeFor($table->getName(), $column);
-            $mapping['length'] = $column->getLength();
-            $mapping['nullable'] = $column->getNotnull();
-            $mapping['platformOptions'] = $column->getPlatformOptions();
-            $mapping['precision'] = $column->getPrecision();
-            $mapping['scale'] = $column->getScale();
-            $mapping['default'] = $column->getDefault();
-            $mapping['columnDefinition'] = $column->getColumnDefinition();
-            $mapping['autoincrement'] = $column->getAutoincrement();
+            $mapping = [
+                'fieldname'        => $colName,
+                'type'             => $column->getType()->getName(),
+                'fieldtype'        => $this->getFieldTypeFor($table->getName(), $column),
+                'length'           => $column->getLength(),
+                'nullable'         => $column->getNotnull(),
+                'platformOptions'  => $column->getPlatformOptions(),
+                'precision'        => $column->getPrecision(),
+                'scale'            => $column->getScale(),
+                'default'          => $column->getDefault(),
+                'columnDefinition' => $column->getColumnDefinition(),
+                'autoincrement'    => $column->getAutoincrement(),
+            ];
 
             $this->metadata[$className]['fields'][$colName] = $mapping;
             $this->metadata[$className]['fields'][$colName]['data'] = $this->contenttypes[$contentKey]['fields'][$colName];
@@ -198,6 +182,13 @@ class MetadataDriver implements MappingDriver
         }
     }
 
+    /**
+     * Set the relationship.
+     *
+     * @param string $contentKey
+     * @param string $className
+     * @param Table  $table
+     */
     public function setRelations($contentKey, $className, $table)
     {
         if (!isset($this->contenttypes[$contentKey]['relations'])) {
@@ -209,16 +200,27 @@ class MetadataDriver implements MappingDriver
             } else {
                 $relationKey = $key;
             }
-            $mapping['fieldname'] = $relationKey;
-            $mapping['type'] = 'null';
-            $mapping['fieldtype'] = $this->typemap['relation'];
-            $mapping['entity'] = $this->resolveClassName($relationKey);
-            $mapping['target'] = $this->integrityChecker->getTableName('relations');
+
+            $mapping = [
+                'fieldname' => $relationKey,
+                'type'      => 'null',
+                'fieldtype' => $this->typemap['relation'],
+                'entity'    => $this->resolveClassName($relationKey),
+                'target'    => $this->integrityChecker->getTableName('relations'),
+            ];
+
             $this->metadata[$className]['fields'][$relationKey] = $mapping;
             $this->metadata[$className]['fields'][$relationKey]['data'] = $data;
         }
     }
 
+    /**
+     * Set the taxonomy.
+     *
+     * @param string $contentKey
+     * @param string $className
+     * @param Table  $table
+     */
     public function setTaxonomies($contentKey, $className, $table)
     {
         if (!isset($this->contenttypes[$contentKey]['taxonomy'])) {
@@ -233,11 +235,15 @@ class MetadataDriver implements MappingDriver
             } else {
                 $taxonomy = $taxonomytype;
             }
-            $mapping['fieldname'] = $taxonomy;
-            $mapping['type'] = 'null';
-            $mapping['fieldtype'] = $this->typemap['taxonomy'];
-            $mapping['entity'] = $this->resolveClassName($relationKey);
-            $mapping['target'] = $this->integrityChecker->getTableName('taxonomy');
+
+            $mapping = [
+                'fieldname' => $taxonomy,
+                'type'      => 'null',
+                'fieldtype' => $this->typemap['taxonomy'],
+                'entity'    => $this->resolveClassName($relationKey),
+                'target'    => $this->integrityChecker->getTableName('taxonomy'),
+            ];
+
             $this->metadata[$className]['fields'][$taxonomy] = $mapping;
             $this->metadata[$className]['fields'][$taxonomy]['data'] = $taxonomyConfig;
         }
@@ -267,6 +273,12 @@ class MetadataDriver implements MappingDriver
         }
     }
 
+    /**
+     * Get the field type for a given column.
+     *
+     * @param string                       $name
+     * @param \Doctrine\DBAL\Schema\Column $column
+     */
     protected function getFieldTypeFor($name, $column)
     {
         $contentKey = $this->integrityChecker->getKeyForTable($name);
