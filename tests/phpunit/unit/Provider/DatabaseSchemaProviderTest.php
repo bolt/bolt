@@ -1,20 +1,20 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Provider\IntegrityCheckerProvider;
+use Bolt\Provider\DatabaseSchemaProvider;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test src/Provider/IntegrityCheckerProvider.
+ * Class to test src/Provider/DatabaseSchemaProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class IntegrityCheckerProviderTest extends BoltUnitTest
+class DatabaseSchemaProviderTest extends BoltUnitTest
 {
     public function testProvider()
     {
         $app = $this->getApp();
-        $provider = new IntegrityCheckerProvider($app);
+        $provider = new DatabaseSchemaProvider($app);
         $app->register($provider);
         $this->assertInstanceOf('Bolt\Database\IntegrityChecker', $app['schema']);
         $app->boot();
