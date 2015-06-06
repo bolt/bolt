@@ -24,13 +24,13 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
 
             return new \Pimple([
                 // @codingStandardsIgnoreStart
-                'authtoken'  => $app->share(function () use ($app, $platform) { return new Table\AuthToken($platform); }),
-                'cron'       => $app->share(function () use ($app, $platform) { return new Table\Cron($platform); }),
-                'log_change' => $app->share(function () use ($app, $platform) { return new Table\LogChange($platform); }),
-                'log_system' => $app->share(function () use ($app, $platform) { return new Table\LogSystem($platform); }),
-                'relations'  => $app->share(function () use ($app, $platform) { return new Table\Relations($platform); }),
-                'taxonomy'   => $app->share(function () use ($app, $platform) { return new Table\Taxonomy($platform); }),
-                'users'      => $app->share(function () use ($app, $platform) { return new Table\Users($platform); }),
+                'authtoken'  => $app->share(function () use ($platform) { return new Table\AuthToken($platform); }),
+                'cron'       => $app->share(function () use ($platform) { return new Table\Cron($platform); }),
+                'log_change' => $app->share(function () use ($platform) { return new Table\LogChange($platform); }),
+                'log_system' => $app->share(function () use ($platform) { return new Table\LogSystem($platform); }),
+                'relations'  => $app->share(function () use ($platform) { return new Table\Relations($platform); }),
+                'taxonomy'   => $app->share(function () use ($platform) { return new Table\Taxonomy($platform); }),
+                'users'      => $app->share(function () use ($platform) { return new Table\Users($platform); }),
                 // @codingStandardsIgnoreEnd
             ]);
         });
