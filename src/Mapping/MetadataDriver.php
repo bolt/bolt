@@ -240,7 +240,6 @@ class MetadataDriver implements MappingDriver
                 'fieldname' => $taxonomy,
                 'type'      => 'null',
                 'fieldtype' => $this->typemap['taxonomy'],
-                'entity'    => $this->resolveClassName($relationKey),
                 'target'    => $this->schemaManager->getTableName('taxonomy'),
             ];
 
