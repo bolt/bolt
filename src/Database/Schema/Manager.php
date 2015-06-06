@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Database;
+namespace Bolt\Database\Schema;
 
 use Bolt\Application;
 use Bolt\Database\Table\ContentType;
@@ -17,20 +17,17 @@ use Doctrine\DBAL\Schema\TableDiff;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class IntegrityChecker
+class Manager
 {
     /** @var \Bolt\Application */
     private $app;
-
     /** @var string */
     private $prefix;
-
     /** @var \Doctrine\DBAL\Schema\Table[] Current tables. */
     private $tables;
 
     /** @var array Array of callables that produce table definitions. */
     protected $extension_table_generators = [];
-
     /** @var string */
     protected $integrityCachePath;
 

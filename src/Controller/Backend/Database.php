@@ -36,7 +36,7 @@ class Database extends BackendBase
      */
     public function check()
     {
-        $response = $this->integrityChecker()->checkTablesIntegrity(true, $this->app['logger']);
+        $response = $this->schemaManager()->checkTablesIntegrity(true, $this->app['logger']);
 
         $context = [
             'modifications_made'     => null,
@@ -56,7 +56,7 @@ class Database extends BackendBase
      */
     public function update(Request $request)
     {
-        $output = $this->integrityChecker()->repairTables()->getResponseStrings();
+        $output = $this->schemaManager()->repairTables()->getResponseStrings();
 
         // If 'return=edit' is passed, we should return to the edit screen.
         // We do redirect twice, yes, but that's because the newly saved
@@ -96,9 +96,9 @@ class Database extends BackendBase
     }
 
     /**
-     * @return \Bolt\Database\IntegrityChecker
+     * @return \Bolt\Database\Schema\Manager
      */
-    protected function integrityChecker()
+    protected function schemaManager()
     {
         return $this->app['schema'];
     }

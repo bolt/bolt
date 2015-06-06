@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Database\IntegrityChecker;
+use Bolt\Database\Schema\Manager;
 use Bolt\Database\Table;
 use Doctrine\DBAL\Schema\Schema;
 use Silex\Application;
@@ -14,7 +14,7 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
     {
         $app['schema'] = $app->share(
             function ($app) {
-                return new IntegrityChecker($app);
+                return new Manager($app);
             }
         );
 
