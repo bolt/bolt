@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Database;
+namespace Bolt\Database\Schema;
 
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Comparator;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class IntegrityCheckerResponse
+class CheckResponse
 {
     /** @var array */
     private $pending = [];

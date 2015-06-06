@@ -145,11 +145,11 @@ class IntegrityChecker
      * @param boolean         $hinting     Return hints if true
      * @param LoggerInterface $debugLogger Debug logger
      *
-     * @return IntegrityCheckerResponse
+     * @return CheckResponse
      */
     public function checkTablesIntegrity($hinting = false, LoggerInterface $debugLogger = null)
     {
-        $response = new IntegrityCheckerResponse($hinting);
+        $response = new CheckResponse($hinting);
         $comparator = new Comparator();
         $currentTables = $this->getTableObjects();
         $tables = $this->getTablesSchema();
@@ -219,7 +219,7 @@ class IntegrityChecker
     /**
      * Check and repair tables.
      *
-     * @return IntegrityCheckerResponse
+     * @return CheckResponse
      */
     public function repairTables()
     {
@@ -227,7 +227,7 @@ class IntegrityChecker
         // 'repair your DB'-notice, right after we're done repairing.
         $this->app['logger.flash']->clear();
 
-        $response = new IntegrityCheckerResponse();
+        $response = new CheckResponse();
         $currentTables = $this->getTableObjects();
         /** @var $schemaManager AbstractSchemaManager */
         $schemaManager = $this->app['db']->getSchemaManager();
