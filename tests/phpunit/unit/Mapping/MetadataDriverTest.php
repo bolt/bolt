@@ -15,9 +15,9 @@ class MetadataDriverTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $map = new MetadataDriver($app['schema'], $app['config']->get('contenttypes'), $app['config']->get('taxonomy'), $app['storage.typemap']);
-        $this->assertSame($app['schema'], \PHPUnit_Framework_Assert::readAttribute($map, 'integrityChecker'));
+        $this->assertSame($app['schema'], \PHPUnit_Framework_Assert::readAttribute($map, 'schemaManager'));
     }
-    
+
     public function testInitialize()
     {
         $app = $this->getApp();

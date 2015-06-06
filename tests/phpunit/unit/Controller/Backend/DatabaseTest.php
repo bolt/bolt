@@ -21,7 +21,7 @@ class DatabaseTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
         $checkResponse = new \Bolt\Database\Schema\CheckResponse();
-        $check = $this->getMock('Bolt\Database\IntegrityChecker', ['checkTablesIntegrity'], [$this->getApp()]);
+        $check = $this->getMock('Bolt\Database\Schema\Manager', ['checkTablesIntegrity'], [$this->getApp()]);
         $check->expects($this->atLeastOnce())
             ->method('checkTablesIntegrity')
             ->will($this->returnValue($checkResponse));
@@ -37,7 +37,7 @@ class DatabaseTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
         $checkResponse = new \Bolt\Database\Schema\CheckResponse();
-        $check = $this->getMock('Bolt\Database\IntegrityChecker', ['repairTables'], [$this->getApp()]);
+        $check = $this->getMock('Bolt\Database\Schema\Manager', ['repairTables'], [$this->getApp()]);
 
         $check->expects($this->any())
             ->method('repairTables')
