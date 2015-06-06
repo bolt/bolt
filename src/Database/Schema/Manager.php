@@ -409,11 +409,15 @@ class Manager
                     continue;
                 }
 
-                // Add the contenttype's specific fields
-                $myTable->addCustomFields($myTable, $field, $values['type']);
-
-                if (isset($values['index']) && $values['index'] == 'true') {
-                    $myTable->addIndex([$field]);
+                if ($tableObj->isKnownType($values['type'])) {
+                    // Use loose comparison on true as 'true' in YAML is a string
+                    $addIndex = isset($values['index']) && $values['index'] == 'true';
+                    // Add the contenttype's specific fields
+                    $tableObj->addCustomFields($field, $values['type'], $addIndex);
+                } elseif ($handler = $this->app['config']->getFields()->getField($values['type'])) {
+                    // Add template fields
+                    /** @var $handler \Bolt\Field\FieldInterface */
+                    $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
                 }
             }
             $tables[] = $myTable;
@@ -456,21 +460,6 @@ class Manager
         }
 
         return $this->prefix;
-    }
-
-    /**
-     * Default value for TEXT fields, differs per platform.
-     *
-     * @return string|null
-     */
-    private function getTextDefault()
-    {
-        $platform = $this->app['db']->getDatabasePlatform();
-        if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
-            return '';
-        }
-
-        return null;
     }
 
     /**

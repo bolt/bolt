@@ -10,10 +10,22 @@ use Doctrine\DBAL\Schema\Schema;
  */
 abstract class BaseTable
 {
+    /** @var string */
+    protected $platform;
     /** @var \Doctrine\DBAL\Schema\Table */
     protected $table;
     /** @var string */
     protected $tableName;
+
+    /**
+     * Constructor.
+     *
+     * @param Schema $platform
+     */
+    public function __construct($platform)
+    {
+        $this->platform = $platform;
+    }
 
     /**
      * Get the table's schema object.
