@@ -72,7 +72,7 @@ class Config
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
-            $this->app['integritychecker']->invalidate();
+            $this->app['schema']->invalidate();
         } else {
 
             // In this case the cache is loaded, but because the path of the theme
@@ -796,8 +796,8 @@ class Config
         }
 
         // Check DB-tables integrity
-        if (!$wrongctype && $this->app['integritychecker']->needsCheck() &&
-           ($this->app['integritychecker']->needsUpdate()) &&
+        if (!$wrongctype && $this->app['schema']->needsCheck() &&
+           ($this->app['schema']->needsUpdate()) &&
             $this->app['users']->getCurrentUsername()) {
             $msg = Trans::__(
                 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.",

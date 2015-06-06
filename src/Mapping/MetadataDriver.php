@@ -1,8 +1,7 @@
 <?php
-
 namespace Bolt\Mapping;
 
-use Bolt\Database\IntegrityChecker;
+use Bolt\Database\Schema\Manager;
 use Bolt\Mapping\ClassMetadata as BoltClassMetadata;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
@@ -10,15 +9,16 @@ use Doctrine\DBAL\Schema\Table;
 
 /**
  * This is a Bolt specific metadata driver that provides mapping information
- * for the internal and user-defined schemas. To do this it takes in the constructor,
- * an instance of IntegrityChecker and uses this to read in the schema.
+ * for the internal and user-defined schemas. To do this it takes in the
+ * constructor, an instance of Bolt\Database\Schema\Manager and uses this to
+ * read in the schema.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class MetadataDriver implements MappingDriver
 {
-    /** @var IntegrityChecker */
-    protected $integrityChecker;
+    /** @var \Bolt\Database\Schema\Manager */
+    protected $schemaManager;
     /** @var array */
     protected $contenttypes;
     /** @var array taxonomy configuration */
@@ -44,10 +44,10 @@ class MetadataDriver implements MappingDriver
     protected $aliases = [];
 
     /**
-     *  Keeps a reference of which metadata is not mapped to
-     *  a specific entity.
+     * Keeps a reference of which metadata is not mapped to
+     * a specific entity.
      *
-     *  @var array $unmapped
+     * @var array $unmapped
      */
     protected $unmapped;
 
@@ -59,26 +59,26 @@ class MetadataDriver implements MappingDriver
     /**
      * Constructor.
      *
-     * @param IntegrityChecker $integrityChecker
-     * @param array            $contenttypes
-     * @param array            $taxonomies
-     * @param array            $typemap
+     * @param Manager $schemaManager
+     * @param array   $contenttypes
+     * @param array   $taxonomies
+     * @param array   $typemap
      */
-    public function __construct(IntegrityChecker $integrityChecker, array $contenttypes, array $taxonomies, array $typemap)
+    public function __construct(Manager $schemaManager, array $contenttypes, array $taxonomies, array $typemap)
     {
-        $this->integrityChecker = $integrityChecker;
+        $this->schemaManager = $schemaManager;
         $this->contenttypes = $contenttypes;
         $this->taxonomies = $taxonomies;
         $this->typemap = $typemap;
     }
 
     /**
-     * Reads the schema from IntegrityChecker and creates mapping data
+     * Reads the schema from Bolt\Database\Schema\Manager and creates mapping data
      */
     public function initialize()
     {
         $this->initializeShortAliases();
-        foreach ($this->integrityChecker->getTablesSchema() as $table) {
+        foreach ($this->schemaManager->getTablesSchema() as $table) {
             $this->loadMetadataForTable($table);
         }
         $this->initialized = true;
@@ -89,8 +89,8 @@ class MetadataDriver implements MappingDriver
      */
     public function initializeShortAliases()
     {
-        foreach ($this->integrityChecker->getTablesSchema() as $table) {
-            $this->aliases[$this->integrityChecker->getKeyForTable($table->getName())] = $table->getName();
+        foreach ($this->schemaManager->getTablesSchema() as $table) {
+            $this->aliases[$this->schemaManager->getKeyForTable($table->getName())] = $table->getName();
         }
     }
 
@@ -144,7 +144,7 @@ class MetadataDriver implements MappingDriver
             $this->unmapped[] = $tblName;
         }
 
-        $contentKey = $this->integrityChecker->getKeyForTable($tblName);
+        $contentKey = $this->schemaManager->getKeyForTable($tblName);
 
         $this->metadata[$className] = [];
         $this->metadata[$className]['identifier'] = $table->getPrimaryKey();
@@ -206,7 +206,7 @@ class MetadataDriver implements MappingDriver
                 'type'      => 'null',
                 'fieldtype' => $this->typemap['relation'],
                 'entity'    => $this->resolveClassName($relationKey),
-                'target'    => $this->integrityChecker->getTableName('relations'),
+                'target'    => $this->schemaManager->getTableName('relations'),
             ];
 
             $this->metadata[$className]['fields'][$relationKey] = $mapping;
@@ -241,7 +241,7 @@ class MetadataDriver implements MappingDriver
                 'type'      => 'null',
                 'fieldtype' => $this->typemap['taxonomy'],
                 'entity'    => $this->resolveClassName($relationKey),
-                'target'    => $this->integrityChecker->getTableName('taxonomy'),
+                'target'    => $this->schemaManager->getTableName('taxonomy'),
             ];
 
             $this->metadata[$className]['fields'][$taxonomy] = $mapping;
@@ -281,7 +281,7 @@ class MetadataDriver implements MappingDriver
      */
     protected function getFieldTypeFor($name, $column)
     {
-        $contentKey = $this->integrityChecker->getKeyForTable($name);
+        $contentKey = $this->schemaManager->getKeyForTable($name);
         if ($contentKey && isset($this->contenttypes[$contentKey][$column->getName()])) {
             $type = $this->contenttypes[$contentKey]['fields'][$column->getName()]['type'];
         } elseif ($column->getType()) {

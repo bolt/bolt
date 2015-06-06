@@ -72,7 +72,7 @@ abstract class BackendBase extends Base
         }
 
         // Check the database users table exists
-        $tableExists = $app['integritychecker']->checkUserTableIntegrity();
+        $tableExists = $app['schema']->checkUserTableIntegrity();
 
         // Test if we have a valid users in our table
         $hasUsers = false;
@@ -90,7 +90,7 @@ abstract class BackendBase extends Base
         // If there are no users in the users table, or the table doesn't exist.
         // Repair the DB, and let's add a new user.
         if (!$tableExists || !$hasUsers) {
-            $app['integritychecker']->repairTables();
+            $app['schema']->repairTables();
             $app['logger.flash']->info(Trans::__('There are no users in the database. Please create the first user.'));
 
             return $this->redirectToRoute('userfirst');

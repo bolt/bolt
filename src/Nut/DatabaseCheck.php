@@ -25,7 +25,7 @@ class DatabaseCheck extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $response = $this->app['integritychecker']->checkTablesIntegrity();
+        $response = $this->app['schema']->checkTablesIntegrity();
 
         if (!$response->hasResponses()) {
             $output->writeln('<info>The database is OK.</info>');

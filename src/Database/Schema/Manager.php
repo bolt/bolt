@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Database;
+namespace Bolt\Database\Schema;
 
 use Bolt\Application;
 use Bolt\Database\Table\ContentType;
@@ -17,20 +17,17 @@ use Doctrine\DBAL\Schema\TableDiff;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class IntegrityChecker
+class Manager
 {
     /** @var \Bolt\Application */
     private $app;
-
     /** @var string */
     private $prefix;
-
     /** @var \Doctrine\DBAL\Schema\Table[] Current tables. */
     private $tables;
 
     /** @var array Array of callables that produce table definitions. */
     protected $extension_table_generators = [];
-
     /** @var string */
     protected $integrityCachePath;
 
@@ -145,11 +142,11 @@ class IntegrityChecker
      * @param boolean         $hinting     Return hints if true
      * @param LoggerInterface $debugLogger Debug logger
      *
-     * @return IntegrityCheckerResponse
+     * @return CheckResponse
      */
     public function checkTablesIntegrity($hinting = false, LoggerInterface $debugLogger = null)
     {
-        $response = new IntegrityCheckerResponse($hinting);
+        $response = new CheckResponse($hinting);
         $comparator = new Comparator();
         $currentTables = $this->getTableObjects();
         $tables = $this->getTablesSchema();
@@ -219,7 +216,7 @@ class IntegrityChecker
     /**
      * Check and repair tables.
      *
-     * @return IntegrityCheckerResponse
+     * @return CheckResponse
      */
     public function repairTables()
     {
@@ -227,7 +224,7 @@ class IntegrityChecker
         // 'repair your DB'-notice, right after we're done repairing.
         $this->app['logger.flash']->clear();
 
-        $response = new IntegrityCheckerResponse();
+        $response = new CheckResponse();
         $currentTables = $this->getTableObjects();
         /** @var $schemaManager AbstractSchemaManager */
         $schemaManager = $this->app['db']->getSchemaManager();
@@ -373,8 +370,8 @@ class IntegrityChecker
     protected function getBoltTablesSchema(Schema $schema)
     {
         $tables = [];
-        foreach ($this->app['integritychecker.tables']->keys() as $name) {
-            $tables[] = $this->app['integritychecker.tables'][$name]->buildTable($schema, $this->getTablename($name));
+        foreach ($this->app['schema.tables']->keys() as $name) {
+            $tables[] = $this->app['schema.tables'][$name]->buildTable($schema, $this->getTablename($name));
         }
 
         return $tables;

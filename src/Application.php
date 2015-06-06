@@ -67,7 +67,7 @@ class Application extends Silex\Application
 
     protected function initConfig()
     {
-        $this->register(new Provider\IntegrityCheckerProvider())
+        $this->register(new Provider\DatabaseSchemaProvider())
             ->register(new Provider\ConfigServiceProvider());
     }
 

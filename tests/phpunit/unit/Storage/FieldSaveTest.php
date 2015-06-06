@@ -17,7 +17,7 @@ class FieldSaveTest extends BoltUnitTest
     public function testRelationsSave()
     {
         $app = $this->getApp();
-        $app['integritychecker']->repairTables();
+        $app['schema']->repairTables();
         $this->addSomeContent();
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository('showcases');
@@ -40,7 +40,7 @@ class FieldSaveTest extends BoltUnitTest
     public function testTaxonomySave()
     {
         $app = $this->getApp();
-        $app['integritychecker']->repairTables();
+        $app['schema']->repairTables();
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository('showcases');
 

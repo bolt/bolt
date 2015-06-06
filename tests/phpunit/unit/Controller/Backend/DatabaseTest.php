@@ -15,18 +15,18 @@ use Symfony\Component\HttpFoundation\Response;
 class DatabaseTest extends ControllerUnitTest
 {
     /**
-     * @covers IntegrityCheckerResponse
+     * @covers Bolt\Database\Schema\CheckResponse
      */
     public function testCheck()
     {
         $this->allowLogin($this->getApp());
-        $checkResponse = new \Bolt\Database\IntegrityCheckerResponse();
-        $check = $this->getMock('Bolt\Database\IntegrityChecker', ['checkTablesIntegrity'], [$this->getApp()]);
+        $checkResponse = new \Bolt\Database\Schema\CheckResponse();
+        $check = $this->getMock('Bolt\Database\Schema\Manager', ['checkTablesIntegrity'], [$this->getApp()]);
         $check->expects($this->atLeastOnce())
             ->method('checkTablesIntegrity')
             ->will($this->returnValue($checkResponse));
 
-        $this->setService('integritychecker', $check);
+        $this->setService('schema', $check);
         $this->setRequest(Request::create('/bolt/dbcheck'));
         $this->checkTwigForTemplate($this->getApp(), 'dbcheck/dbcheck.twig');
 
@@ -36,14 +36,14 @@ class DatabaseTest extends ControllerUnitTest
     public function testUpdate()
     {
         $this->allowLogin($this->getApp());
-        $checkResponse = new \Bolt\Database\IntegrityCheckerResponse();
-        $check = $this->getMock('Bolt\Database\IntegrityChecker', ['repairTables'], [$this->getApp()]);
+        $checkResponse = new \Bolt\Database\Schema\CheckResponse();
+        $check = $this->getMock('Bolt\Database\Schema\Manager', ['repairTables'], [$this->getApp()]);
 
         $check->expects($this->any())
             ->method('repairTables')
             ->will($this->returnValue($checkResponse));
 
-        $this->setService('integritychecker', $check);
+        $this->setService('schema', $check);
         ResourceManager::$theApp = $this->getApp();
 
         $this->setRequest(Request::create('/bolt/dbupdate', 'POST', ['return' => 'edit']));
