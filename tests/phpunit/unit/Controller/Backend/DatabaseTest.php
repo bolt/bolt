@@ -26,7 +26,7 @@ class DatabaseTest extends ControllerUnitTest
             ->method('checkTablesIntegrity')
             ->will($this->returnValue($checkResponse));
 
-        $this->setService('integritychecker', $check);
+        $this->setService('schema', $check);
         $this->setRequest(Request::create('/bolt/dbcheck'));
         $this->checkTwigForTemplate($this->getApp(), 'dbcheck/dbcheck.twig');
 
@@ -43,7 +43,7 @@ class DatabaseTest extends ControllerUnitTest
             ->method('repairTables')
             ->will($this->returnValue($checkResponse));
 
-        $this->setService('integritychecker', $check);
+        $this->setService('schema', $check);
         ResourceManager::$theApp = $this->getApp();
 
         $this->setRequest(Request::create('/bolt/dbupdate', 'POST', ['return' => 'edit']));
