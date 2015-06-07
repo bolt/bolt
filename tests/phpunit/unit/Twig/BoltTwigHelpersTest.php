@@ -395,7 +395,8 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $request = Request::create('/');
         $app->before(
             function ($request, $app) use ($phpunit, $twig, $storage) {
-                $fetched = $storage->getContent('showcases/1');
+                $fetched = $storage->getContent('showcases/latest/1', ['returnsingle' => true]);
+
                 $content = $twig->listContent('entries', ['order' => 'title'], $fetched);
                 $phpunit->assertEquals(2, count($content));
                 $phpunit->assertFalse($content[2]['selected']);
