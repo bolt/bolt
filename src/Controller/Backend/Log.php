@@ -250,8 +250,9 @@ class Log extends BackendBase
     /**
      * Get the listing data such as title and count.
      *
-     * @param string       $contenttype The content type slug
-     * @param integer      $contentid   The content ID
+     * @param string  $contenttype  The content type slug
+     * @param integer $contentid    The content ID
+     * @param array   $queryOptions
      *
      * @return array
      */
@@ -294,6 +295,6 @@ class Log extends BackendBase
             $title = $contenttypeObj['name'];
         }
 
-        return ['content' =>$content, 'title' => $title, 'entries' => $logEntries, 'count' => $itemcount];
+        return ['content' => $content, 'title' => $title, 'entries' => $logEntries, 'count' => $itemcount];
     }
 }
