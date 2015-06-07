@@ -9,10 +9,8 @@ class Menu
 {
     /** @var string */
     private $name;
-
     /** @var array */
     private $menu;
-
     /** @var bool */
     private $resolved;
 
@@ -29,7 +27,9 @@ class Menu
     }
 
     /**
-     * @return string The name of the menu
+     * The name of the menu.
+     *
+     * @return string
      */
     public function getName()
     {
@@ -37,7 +37,9 @@ class Menu
     }
 
     /**
-     * @return array The item that the menu contains
+     * The item that the menu contains.
+     *
+     * @return array
      */
     public function getItems()
     {
@@ -45,7 +47,9 @@ class Menu
     }
 
     /**
-     * @return bool Has this menu had it's paths resolved to links
+     * Has this menu had it's paths resolved to links.
+     *
+     * @return bool
      */
     public function isResolved()
     {
