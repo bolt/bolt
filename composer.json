@@ -17,7 +17,7 @@
         "brandonwamboldt/utilphp" : "~1.0",
         "cocur/slugify" : "~1.0",
         "composer/composer" : "dev-master",
-        "doctrine/dbal" : "2.5.1",
+        "doctrine/dbal" : "^2.5",
         "erusev/parsedown-extra" : "~0.2",
         "ext-mbstring" : "*",
         "ext-pdo" : "*",
