@@ -392,36 +392,63 @@ class Manager
             $tableObj = new ContentType($this->app['db']->getDatabasePlatform());
             $myTable = $tableObj->buildTable($schema, $tablename);
 
-            // Check if all the fields are present in the DB.
-            foreach ($contenttype['fields'] as $field => $values) {
-
-                /** @var \Doctrine\DBAL\Platforms\Keywords\KeywordList $reservedList */
-                $reservedList = $this->app['db']->getDatabasePlatform()->getReservedKeywordsList();
-                if ($reservedList->isKeyword($field)) {
-                    $error = sprintf(
-                        "You're using '%s' as a field name, but that is a reserved word in %s. Please fix it, and refresh this page.",
-                        $field,
-                        $this->app['db']->getDatabasePlatform()->getName()
-                    );
-                    $this->app['logger.flash']->error($error);
-                    continue;
-                }
-
-                if ($tableObj->isKnownType($values['type'])) {
-                    // Use loose comparison on true as 'true' in YAML is a string
-                    $addIndex = isset($values['index']) && $values['index'] == 'true';
-                    // Add the contenttype's specific fields
-                    $tableObj->addCustomFields($field, $values['type'], $addIndex);
-                } elseif ($handler = $this->app['config']->getFields()->getField($values['type'])) {
-                    // Add template fields
-                    /** @var $handler \Bolt\Field\FieldInterface */
-                    $myTable->addColumn($field, $handler->getStorageType(), $handler->getStorageOptions());
-                }
+            if (isset($contenttype['fields']) && is_array($contenttype['fields'])) {
+                $this->addContentTypeTableColumns($tableObj, $myTable, $contenttype['fields']);
             }
+
             $tables[] = $myTable;
         }
 
         return $tables;
+    }
+
+    /**
+     * Add the custom columns for the ContentType.
+     *
+     * @param \Bolt\Database\Schema\Table\ContentType $tableObj
+     * @param \Doctrine\DBAL\Schema\Table             $table
+     * @param array                                   $fields
+     */
+    private function addContentTypeTableColumns(ContentType $tableObj, Table $table, array $fields)
+    {
+        // Check if all the fields are present in the DB.
+        foreach ($fields as $fieldName => $values) {
+            /** @var \Doctrine\DBAL\Platforms\Keywords\KeywordList $reservedList */
+            $reservedList = $this->app['db']->getDatabasePlatform()->getReservedKeywordsList();
+            if ($reservedList->isKeyword($fieldName)) {
+                $error = sprintf(
+                    "You're using '%s' as a field name, but that is a reserved word in %s. Please fix it, and refresh this page.",
+                    $fieldName,
+                    $this->app['db']->getDatabasePlatform()->getName()
+                );
+                $this->app['logger.flash']->error($error);
+                continue;
+            }
+
+            $this->addContentTypeTableColumn($tableObj, $table, $fieldName, $values);
+        }
+    }
+
+    /**
+     * Add a single column to the ContentType table.
+     *
+     * @param \Bolt\Database\Schema\Table\ContentType $tableObj
+     * @param \Doctrine\DBAL\Schema\Table             $table
+     * @param string                                  $fieldName
+     * @param array                                   $values
+     */
+    private function addContentTypeTableColumn(ContentType $tableObj, Table $table, $fieldName, array $values)
+    {
+        if ($tableObj->isKnownType($values['type'])) {
+            // Use loose comparison on true as 'true' in YAML is a string
+            $addIndex = isset($values['index']) && $values['index'] == 'true';
+            // Add the contenttype's specific fields
+            $tableObj->addCustomFields($fieldName, $values['type'], $addIndex);
+        } elseif ($handler = $this->app['config']->getFields()->getField($values['type'])) {
+            // Add template fields
+            /** @var $handler \Bolt\Field\FieldInterface */
+            $table->addColumn($fieldName, $handler->getStorageType(), $handler->getStorageOptions());
+        }
     }
 
     /**
