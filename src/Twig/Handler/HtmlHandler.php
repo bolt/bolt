@@ -3,6 +3,7 @@
 namespace Bolt\Twig\Handler;
 
 use Bolt\Application;
+use Bolt\Content;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Maid\Maid;
@@ -50,7 +51,7 @@ class HtmlHandler
      *
      * @return string
      */
-    public function editable($html, $content, $field, $safe)
+    public function editable($html, Content $content, $field, $safe)
     {
         // Editing content from within content? NOPE NOPE NOPE.
         if ($safe) {
