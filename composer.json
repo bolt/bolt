@@ -29,7 +29,7 @@
         "php" : ">=5.4.16",
         "rossriley/flysystem53" : "~1.1",
         "siriusphp/upload" : "~1.2",
-        "silex/silex" : "~1.2",
+        "silex/silex" : "^1.3",
         "silex/web-profiler" : "^1.0",
         "stecman/symfony-console-completion" : "~0.4",
         "swiftmailer/swiftmailer" : "~5.3",
