@@ -134,7 +134,7 @@ class MenuBuilder
         $path = ltrim(rtrim($item['path'], '/'), '/');
 
         // Pre-set our link in case the match() throws an exception
-        $item['link'] = '/' . $path;
+        $item['link'] = $this->app['resources']->getUrl('root') . $path;
 
         try {
             // See if we have a 'content/id' or 'content/slug' path
