@@ -138,7 +138,7 @@ class SessionServiceProvider implements ServiceProviderInterface
 
             $tmp = $app['sessions.options'];
             foreach ($tmp as $name => &$options) {
-                $options = array_replace($app['session.default_options'], $options);
+                $options = array_replace($app['session.default_options'], (array) $options);
                 $options = new OptionsBag($options);
 
                 if (!isset($app['sessions.default'])) {
