@@ -3,7 +3,6 @@
 namespace Bolt\Database\Migration\Input;
 
 use Bolt\Database\Migration\Import;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
 

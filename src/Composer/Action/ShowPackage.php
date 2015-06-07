@@ -11,7 +11,6 @@ use Composer\Repository\ComposerRepository;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
-use Silex\Application;
 
 /**
  * Composer show package class.

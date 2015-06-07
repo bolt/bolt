@@ -2,12 +2,8 @@
 namespace Bolt\Database\Schema;
 
 use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\Comparator;
-use Doctrine\DBAL\Schema\Index;
-use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * A response class for a single table's check.

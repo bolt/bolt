@@ -6,7 +6,6 @@ use Bolt\Exception\PackageManagerException;
 use Composer\Config\JsonConfigSource;
 use Composer\Installer;
 use Composer\Json\JsonFile;
-use Silex\Application;
 
 /**
  * Composer remove package class.

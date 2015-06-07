@@ -3,7 +3,6 @@ namespace Bolt\Database\Schema\Table;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
-use Doctrine\DBAL\Schema\Table;
 
 class ContentType extends BaseTable
 {

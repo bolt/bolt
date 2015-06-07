@@ -5,7 +5,6 @@ use Bolt\Controller\Zone;
 use Bolt\Render;
 use Exception;
 use Psr\Log\LoggerInterface;
-use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;

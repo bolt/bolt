@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\EventListener;
 
-use Silex\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;

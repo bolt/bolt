@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Controller\Async;
 
-use Bolt\Response\BoltResponse;
 use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;

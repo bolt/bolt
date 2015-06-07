@@ -4,7 +4,6 @@ namespace Bolt\Composer\Action;
 
 use Bolt\Exception\PackageManagerException;
 use Composer\Installer;
-use Silex\Application;
 
 /**
  * Composer package install class.

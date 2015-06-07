@@ -5,7 +5,6 @@ namespace Bolt\Composer\Action;
 use Bolt\Exception\PackageManagerException;
 use Bolt\Helpers\Arr;
 use Composer\Installer;
-use Silex\Application;
 
 /**
  * Composer update package class.

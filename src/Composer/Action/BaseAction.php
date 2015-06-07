@@ -6,7 +6,6 @@ use Composer\DependencyResolver\Pool;
 use Composer\Factory;
 use Composer\IO\BufferIO;
 use Composer\Package\Version\VersionSelector;
-use Psr\Log\LoggerInterface;
 use Silex\Application;
 
 abstract class BaseAction
@@ -24,8 +23,6 @@ abstract class BaseAction
     private $pool;
     /** @var \Composer\Repository\CompositeRepository */
     private $repos;
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
 
     /**
      * Constructor.

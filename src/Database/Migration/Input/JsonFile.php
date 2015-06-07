@@ -5,7 +5,6 @@ namespace Bolt\Database\Migration\Input;
 use Bolt\Database\Migration\Import;
 use Seld\JsonLint\JsonParser;
 use Seld\JsonLint\ParsingException;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * JSON import file
