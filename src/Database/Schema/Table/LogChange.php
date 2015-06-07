@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Database\Table;
+namespace Bolt\Database\Schema\Table;
 
 /**
  * Table for change log data.

@@ -3,7 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Database\Schema\Manager;
-use Bolt\Database\Table;
+use Bolt\Database\Schema\Table;
 use Doctrine\DBAL\Schema\Schema;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -19,15 +19,18 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
         );
 
         $app['schema.tables'] = $app->share(function (Application $app) {
+            /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
+            $platform = $app['db']->getDatabasePlatform();
+
             return new \Pimple([
                 // @codingStandardsIgnoreStart
-                'authtoken'  => $app->share(function () use ($app) { return new Table\AuthToken(); }),
-                'cron'       => $app->share(function () use ($app) { return new Table\Cron(); }),
-                'log_change' => $app->share(function () use ($app) { return new Table\LogChange(); }),
-                'log_system' => $app->share(function () use ($app) { return new Table\LogSystem(); }),
-                'relations'  => $app->share(function () use ($app) { return new Table\Relations(); }),
-                'taxonomy'   => $app->share(function () use ($app) { return new Table\Taxonomy(); }),
-                'users'      => $app->share(function () use ($app) { return new Table\Users(); }),
+                'authtoken'  => $app->share(function () use ($platform) { return new Table\AuthToken($platform); }),
+                'cron'       => $app->share(function () use ($platform) { return new Table\Cron($platform); }),
+                'log_change' => $app->share(function () use ($platform) { return new Table\LogChange($platform); }),
+                'log_system' => $app->share(function () use ($platform) { return new Table\LogSystem($platform); }),
+                'relations'  => $app->share(function () use ($platform) { return new Table\Relations($platform); }),
+                'taxonomy'   => $app->share(function () use ($platform) { return new Table\Taxonomy($platform); }),
+                'users'      => $app->share(function () use ($platform) { return new Table\Users($platform); }),
                 // @codingStandardsIgnoreEnd
             ]);
         });

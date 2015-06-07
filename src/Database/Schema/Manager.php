@@ -3,10 +3,8 @@
 namespace Bolt\Database\Schema;
 
 use Bolt\Application;
-use Bolt\Database\Table\ContentType;
+use Bolt\Database\Schema\Table\ContentType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Comparator;
@@ -391,31 +389,13 @@ class Manager
             $tablename = $this->getTablename($contenttype['tablename']);
             $this->mapTableName($tablename, $contenttype['tablename']);
 
-            $tableObj = new ContentType();
+            $tableObj = new ContentType($this->app['db']->getDatabasePlatform());
             $myTable = $tableObj->buildTable($schema, $tablename);
 
-            // Check if all the fields are present in the DB.
-            foreach ($contenttype['fields'] as $field => $values) {
-
-                /** @var \Doctrine\DBAL\Platforms\Keywords\KeywordList $reservedList */
-                $reservedList = $this->app['db']->getDatabasePlatform()->getReservedKeywordsList();
-                if ($reservedList->isKeyword($field)) {
-                    $error = sprintf(
-                        "You're using '%s' as a field name, but that is a reserved word in %s. Please fix it, and refresh this page.",
-                        $field,
-                        $this->app['db']->getDatabasePlatform()->getName()
-                    );
-                    $this->app['logger.flash']->error($error);
-                    continue;
-                }
-
-                // Add the contenttype's specific fields
-                $this->addCustomContentTypeFields($myTable, $field, $values['type']);
-
-                if (isset($values['index']) && $values['index'] == 'true') {
-                    $myTable->addIndex([$field]);
-                }
+            if (isset($contenttype['fields']) && is_array($contenttype['fields'])) {
+                $this->addContentTypeTableColumns($tableObj, $myTable, $contenttype['fields']);
             }
+
             $tables[] = $myTable;
         }
 
@@ -423,71 +403,51 @@ class Manager
     }
 
     /**
-     * Add the contenttype's specific fields.
+     * Add the custom columns for the ContentType.
      *
-     * @param \Doctrine\DBAL\Schema\Table $table
-     * @param string                      $fieldName
-     * @param string                      $type
+     * @param \Bolt\Database\Schema\Table\ContentType $tableObj
+     * @param \Doctrine\DBAL\Schema\Table             $table
+     * @param array                                   $fields
      */
-    private function addCustomContentTypeFields(Table $table, $fieldName, $type)
+    private function addContentTypeTableColumns(ContentType $tableObj, Table $table, array $fields)
     {
-        switch ($type) {
-            case 'text':
-            case 'templateselect':
-            case 'file':
-                $table->addColumn($fieldName, 'string', ['length' => 256, 'default' => '']);
-                break;
-            case 'float':
-                $table->addColumn($fieldName, 'float', ['default' => 0]);
-                break;
-            case 'number': // deprecated.
-                $table->addColumn($fieldName, 'decimal', ['precision' => '18', 'scale' => '9', 'default' => 0]);
-                break;
-            case 'integer':
-                $table->addColumn($fieldName, 'integer', ['default' => 0]);
-                break;
-            case 'checkbox':
-                $table->addColumn($fieldName, 'boolean', ['default' => 0]);
-                break;
-            case 'html':
-            case 'textarea':
-            case 'image':
-            case 'video':
-            case 'markdown':
-            case 'geolocation':
-            case 'filelist':
-            case 'imagelist':
-            case 'select':
-                $table->addColumn($fieldName, 'text', ['default' => $this->getTextDefault()]);
-                break;
-            case 'datetime':
-                $table->addColumn($fieldName, 'datetime', ['notnull' => false]);
-                break;
-            case 'date':
-                $table->addColumn($fieldName, 'date', ['notnull' => false]);
-                break;
-            case 'slug':
-                // Only additional slug fields will be added. If it's the
-                // default slug, skip it instead.
-                if ($fieldName != 'slug') {
-                    $table->addColumn($fieldName, 'string', ['length' => 128, 'notnull' => false, 'default' => '']);
-                }
-                break;
-            case 'id':
-            case 'datecreated':
-            case 'datechanged':
-            case 'datepublish':
-            case 'datedepublish':
-            case 'username':
-            case 'status':
-            case 'ownerid':
-                // These are the default columns. Don't try to add these.
-                break;
-            default:
-                if ($handler = $this->app['config']->getFields()->getField($type)) {
-                    /** @var $handler \Bolt\Field\FieldInterface */
-                    $table->addColumn($fieldName, $handler->getStorageType(), $handler->getStorageOptions());
-                }
+        // Check if all the fields are present in the DB.
+        foreach ($fields as $fieldName => $values) {
+            /** @var \Doctrine\DBAL\Platforms\Keywords\KeywordList $reservedList */
+            $reservedList = $this->app['db']->getDatabasePlatform()->getReservedKeywordsList();
+            if ($reservedList->isKeyword($fieldName)) {
+                $error = sprintf(
+                    "You're using '%s' as a field name, but that is a reserved word in %s. Please fix it, and refresh this page.",
+                    $fieldName,
+                    $this->app['db']->getDatabasePlatform()->getName()
+                );
+                $this->app['logger.flash']->error($error);
+                continue;
+            }
+
+            $this->addContentTypeTableColumn($tableObj, $table, $fieldName, $values);
+        }
+    }
+
+    /**
+     * Add a single column to the ContentType table.
+     *
+     * @param \Bolt\Database\Schema\Table\ContentType $tableObj
+     * @param \Doctrine\DBAL\Schema\Table             $table
+     * @param string                                  $fieldName
+     * @param array                                   $values
+     */
+    private function addContentTypeTableColumn(ContentType $tableObj, Table $table, $fieldName, array $values)
+    {
+        if ($tableObj->isKnownType($values['type'])) {
+            // Use loose comparison on true as 'true' in YAML is a string
+            $addIndex = isset($values['index']) && $values['index'] == 'true';
+            // Add the contenttype's specific fields
+            $tableObj->addCustomFields($fieldName, $values['type'], $addIndex);
+        } elseif ($handler = $this->app['config']->getFields()->getField($values['type'])) {
+            // Add template fields
+            /** @var $handler \Bolt\Field\FieldInterface */
+            $table->addColumn($fieldName, $handler->getStorageType(), $handler->getStorageOptions());
         }
     }
 
@@ -525,21 +485,6 @@ class Manager
         }
 
         return $this->prefix;
-    }
-
-    /**
-     * Default value for TEXT fields, differs per platform.
-     *
-     * @return string|null
-     */
-    private function getTextDefault()
-    {
-        $platform = $this->app['db']->getDatabasePlatform();
-        if ($platform instanceof SqlitePlatform || $platform instanceof PostgreSqlPlatform) {
-            return '';
-        }
-
-        return null;
     }
 
     /**
