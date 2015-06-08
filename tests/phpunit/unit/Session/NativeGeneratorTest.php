@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Session;
 
+use Bolt\Session\Generator\NativeGenerator;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -10,7 +11,12 @@ use Bolt\Tests\BoltUnitTest;
  */
 class NativeGeneratorTest extends BoltUnitTest
 {
-    public function test()
+    public function testGenerateId()
     {
+        $fooFighters = new NativeGenerator();
+        $daveGrohl = $fooFighters->generateId();
+
+        $this->assertNotSame('Nirvana', $daveGrohl);
+        $this->assertSame(64, strlen($daveGrohl));
     }
 }
