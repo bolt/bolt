@@ -10,7 +10,6 @@ use Composer\Package\Version\VersionParser;
 use Composer\Package\Version\VersionSelector;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
-use Silex\Application;
 
 /**
  * Composer require package class.

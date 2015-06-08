@@ -3,7 +3,6 @@
 namespace Bolt\Composer\Action;
 
 use Composer\Json\JsonFile;
-use Silex\Application;
 
 /**
  * Checks for installable, or upgradeable packages.

@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig\Handler;
 
+use Bolt\Content;
 use Bolt\Helpers\Html;
 use Silex;
 use Symfony\Component\Finder\Finder;
@@ -173,7 +174,7 @@ class RecordHandler
      *
      * @return string
      */
-    public function listContent($contenttype, $relationoptions, $content)
+    public function listContent($contenttype, $relationoptions, Content $content)
     {
         // Just the relations for the current record, and just the current $contenttype.
         $current = isset($content->relation[$contenttype]) ? $content->relation[$contenttype] : null;

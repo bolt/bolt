@@ -3,7 +3,6 @@
 namespace Bolt\Composer\Action;
 
 use Bolt\Exception\PackageManagerException;
-use Silex\Application;
 
 /**
  * Composer autoloader creation class.

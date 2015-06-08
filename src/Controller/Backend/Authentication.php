@@ -3,7 +3,6 @@ namespace Bolt\Controller\Backend;
 
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

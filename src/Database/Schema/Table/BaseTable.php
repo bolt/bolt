@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Database\Schema\Table;
 
-use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\Schema;
 
 /**
  * Base database table class for Bolt.

@@ -3,7 +3,6 @@
 namespace Bolt\Database\Migration\Output;
 
 use Bolt\Database\Migration\Export;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * JSON export file

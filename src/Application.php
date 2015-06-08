@@ -268,10 +268,7 @@ class Application extends Silex\Application
 
     public function initLocale()
     {
-        $configLocale = $this['config']->get('general/locale', Application::DEFAULT_LOCALE);
-        if (!is_array($configLocale)) {
-            $configLocale = [$configLocale];
-        }
+        $configLocale = (array) $this['config']->get('general/locale', Application::DEFAULT_LOCALE);
 
         // $app['locale'] should only be a single value.
         $this['locale'] = reset($configLocale);

@@ -7,7 +7,6 @@ use Composer\Factory;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
 use Composer\Repository\RepositoryInterface;
-use Silex\Application;
 
 /**
  * Composer search package class.

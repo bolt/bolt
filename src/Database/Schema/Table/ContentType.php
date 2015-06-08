@@ -3,7 +3,6 @@ namespace Bolt\Database\Schema\Table;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
-use Doctrine\DBAL\Schema\Table;
 
 class ContentType extends BaseTable
 {
@@ -94,8 +93,8 @@ class ContentType extends BaseTable
     /**
      * Add the contenttype's specific fields.
      *
-     * @param string $fieldName
-     * @param string $type
+     * @param string  $fieldName
+     * @param string  $type
      * @param boolean $addIndex
      */
     public function addCustomFields($fieldName, $type, $addIndex)

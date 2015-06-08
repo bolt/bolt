@@ -56,7 +56,7 @@ class UtilsHandler
             return null;
         }
 
-        return VarDumper::dump(debug_backtrace());
+        return VarDumper::dump(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, $depth));
     }
 
     /**
