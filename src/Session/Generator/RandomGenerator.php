@@ -37,6 +37,6 @@ class RandomGenerator implements GeneratorInterface
      */
     public function generateId()
     {
-        $this->generator->generateString($this->length, $this->characters);
+        return $this->generator->generateString($this->length, $this->characters);
     }
 }
