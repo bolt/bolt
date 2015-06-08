@@ -387,7 +387,7 @@ class Frontend extends ConfigurableBase
             'current'      => $page,
             'showing_from' => $offset + 1,
             'showing_to'   => $offset + count($result['results']),
-            'link'         => '/search?q=' . rawurlencode($q) . '&page_search='
+            'link'         => $this->generateUrl('search', ['q' => $q]) . '&page_search='
         ];
 
         $this->app['storage']->setPager($context, $pager);
