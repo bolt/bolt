@@ -35,18 +35,13 @@ class Stack
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
-
         $currentuser = $this->app['users']->getCurrentUser();
-
         $stackItems = false;
+
         if ($this->app['session']->isStarted() && $this->app['session']->get('stack') !== null) {
-            $stackItems = Lib::smartUnserialize($this->app['session']->get('stack'));
-        }
-        if (!is_array($stackItems)) {
-            $stackItems = Lib::smartUnserialize($currentuser['stack']);
-        }
-        if (!is_array($stackItems)) {
-            $stackItems = [];
+            $stackItems = (array) Lib::smartUnserialize($this->app['session']->get('stack'));
+        } else {
+            $stackItems = (array) Lib::smartUnserialize($currentuser['stack']);
         }
 
         // intersect the allowed types with the types set
