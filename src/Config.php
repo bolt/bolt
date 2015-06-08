@@ -510,14 +510,9 @@ class Config
                 $field['extensions'] = (array) $field['extensions'];
             }
 
-            // If field is a "Select" type, make sure the array is a "hash" (as opposed to a "map")
-            // For example: [ 'yes', 'no' ] => { 'yes': 'yes', 'no': 'no' }
-            // The reason that we do this, is because if you set values to ['blue', 'green'], that is
-            // what you'd expect to see in the database. Not '0' and '1', which is what would happen,
-            // if we didn't "correct" it here.
-            // @see used hack: http://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
-            if ($field['type'] == 'select' && isset($field['values']) && is_array($field['values']) &&
-                array_values($field['values']) === $field['values']) {
+            // Make indexed arrays into associative for select fields
+            // e.g.: [ 'yes', 'no' ] => { 'yes': 'yes', 'no': 'no' }
+            if ($field['type'] === 'select' && isset($field['values']) && is_array($field['values']) && Arr::isIndexedArray($field['values'])) {
                 $field['values'] = array_combine($field['values'], $field['values']);
             }
 
