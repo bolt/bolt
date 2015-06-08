@@ -400,7 +400,7 @@ class General extends AsyncBase
 
         return [
             'url'     => $url,
-            'options' => $proxies ? array_merge($options, $proxies) : $options
+            'options' => !empty($proxies) ? array_merge($options, $proxies) : $options
         ];
     }
 
