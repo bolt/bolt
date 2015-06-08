@@ -452,8 +452,8 @@ class Config
         $contentType['groups'] = $groups;
 
         // Make sure taxonomy is an array.
-        if (isset($contentType['taxonomy']) && !is_array($contentType['taxonomy'])) {
-            $contentType['taxonomy'] = [$contentType['taxonomy']];
+        if (isset($contentType['taxonomy'])) {
+            $contentType['taxonomy'] = (array) $contentType['taxonomy'];
         }
 
         // when adding relations, make sure they're added by their slug. Not their 'name' or 'singular name'.
@@ -495,9 +495,7 @@ class Config
                     $field['extensions'] = $acceptableFileTypes;
                 }
 
-                if (!is_array($field['extensions'])) {
-                    $field['extensions'] = [$field['extensions']];
-                }
+                $field['extensions'] = (array) $field['extensions'];
             }
 
             // If field is an "image" type, make sure the 'extensions' are set, and it's an array.
@@ -509,9 +507,7 @@ class Config
                     );
                 }
 
-                if (!is_array($field['extensions'])) {
-                    $field['extensions'] = [$field['extensions']];
-                }
+                $field['extensions'] = (array) $field['extensions'];
             }
 
             // If field is a "Select" type, make sure the array is a "hash" (as opposed to a "map")
@@ -553,10 +549,8 @@ class Config
         }
 
         // Make sure the 'uses' of the slug is an array.
-        if (isset($fields['slug']) && isset($fields['slug']['uses']) &&
-            !is_array($fields['slug']['uses'])
-        ) {
-            $fields['slug']['uses'] = [$fields['slug']['uses']];
+        if (isset($fields['slug']) && isset($fields['slug']['uses'])) {
+            $fields['slug']['uses'] = (array) $fields['slug']['uses'];
         }
 
         return [$fields, $hasGroups ? array_keys($groups) : false];
