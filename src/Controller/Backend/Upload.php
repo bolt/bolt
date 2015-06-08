@@ -18,7 +18,7 @@ class Upload extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->match('/{namespace}', 'actionUploadNamespace')
+        $c->match('/{namespace}', 'uploadNamspace')
             ->before([$this, 'before'])
             ->value('namespace', 'files')
             ->bind('upload');
