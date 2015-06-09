@@ -583,6 +583,8 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Parse a snippet, an pass on the generated HTML to the caller (Extensions).
      *
+     * @deprecated since 2.3 and will be removed in Bolt 3
+     *
      * @param string $callback
      * @param string $var1
      * @param string $var2

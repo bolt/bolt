@@ -69,7 +69,7 @@ class Queue
         // $this->matchedComments array
         $html = preg_replace_callback('/<!--(.*)-->/Uis', [$this, 'pregCallback'], $html);
 
-        // Replace the snippets in the queue.
+        // Process the snippets in the queue.
         $html = $this->processInternal($html);
 
         // Conditionally add jQuery
@@ -94,14 +94,15 @@ class Queue
     {
         $functionMap = $this->getMap();
 
-        foreach ($this->queue as $item) {
-            $snippet = $this->getCallbackHtml($item);
+        /** @var Snippet $snippet */
+        foreach ($this->queue as $snippet) {
+            $snippetHtml = $this->getCallbackHtml($snippet);
 
-            $location = $item['location'];
+            $location = $snippet->getLocation();
             if (isset($functionMap[$location])) {
                 $this->app['assets.injector']->{$functionMap[$location]}($snippetHtml, $html);
             } else {
-                $html .= "$snippet\n";
+                $html .= "$snippetHtml\n";
             }
         }
 
@@ -112,37 +113,37 @@ class Queue
      * Get the snippet, either by using a callback function, or else use the
      * passed string as-is.
      *
-     * @param array $item
+     * @param Snippet $snippet
      *
      * @return string
      */
-    protected function getCallbackHtml(array $item)
+    protected function getCallbackHtml(Snippet $snippet)
     {
-        if (($item['extension'] !== 'core') && $callable = $this->getExtensionCallable($item)) {
+        if (!$snippet->isCore() && $callable = $this->getExtensionCallable($snippet)) {
             // Snippet is defined in the extension itself.
-            return call_user_func_array($callable, (array) $item['extraparameters']);
-        } elseif (function_exists($item['callback'])) {
+            return call_user_func_array($callable, $snippet->getParameters());
+        } elseif (function_exists($snippet->getCallback())) {
             // Snippet is a callback in the 'global scope'
-            return call_user_func($item['callback'], $this->app, $item['extraparameters']);
+            return call_user_func($snippet->getCallback(), $this->app, $snippet->getParameters());
         } else {
             // Insert the 'callback' as a string.
-            return $item['callback'];
+            return $snippet->getCallback();
         }
     }
 
     /**
      * Check for an enabled extension with a valid snippet callback.
      *
-     * @param array $item
+     * @param Snippet $snippet
      *
      * @return callable|null
      */
-    private function getExtensionCallable(array $item)
+    private function getExtensionCallable(Snippet $snippet)
     {
-        $extension = $this->app['extensions']->getInitialized($item['extension']);
+        $extension = $this->app['extensions']->getInitialized($snippet->getExtension());
 
-        if (method_exists($extension, $item['callback'])) {
-            return [$extension, $item['callback']];
+        if (method_exists($extension, $snippet->getCallback())) {
+            return [$extension, $snippet->getCallback()];
         }
     }
 
