@@ -590,7 +590,7 @@ abstract class BaseExtension implements ExtensionInterface
      *
      * @return bool|string
      */
-    public function parseSnippet($callback, $var1 = "", $var2 = "", $var3 = "")
+    public function parseSnippet($callback, $var1 = '', $var2 = '', $var3 = '')
     {
         if (method_exists($this, $callback)) {
             return call_user_func([$this, $callback], $var1, $var2, $var3);
