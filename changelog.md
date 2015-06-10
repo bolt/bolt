@@ -4,6 +4,7 @@ Bolt 2.3 DEV-head
 Not yet released. 
 
  - Lots (list needs to be compiled)
+ - Added: Swedish translation. (Thanks SahAssar, see #3659)
 
 
 Bolt 2.2.1
