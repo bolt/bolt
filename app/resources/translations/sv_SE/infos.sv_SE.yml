@@ -1,0 +1,74 @@
+info:
+    upload:
+        image: |
+            Använd detta fältet för att ladda upp en bild. Klicka på knappen för att bläddra efter en bild på 
+            din dator eller ifall du använder en modern webbläsare kan du dra en bild från din dator hit.<br>
+            Du kan även börja skriva in namnet på en redan uppladdad bild så kommer du att få förslag på redan uppladdade filer.
+        file: |
+            Använd detta fältet för att ladda upp en fil. Klicka på knappen för att bläddra efter en fil på 
+            din dator eller ifall du använder en modern webbläsare kan du dra en fil från din dator hit.<b/>
+            Du kan även börja skriva in namnet på en redan uppladdad fil så kommer du att få förslag på redan uppladdade filer.
+        filelist: |
+            Använd detta fältet för att ladda upp flera filer och skriva beskrivningar till dem.<br>
+            Ifall du använder en modern webbläsare kan du dra en fil från din dator hit.<br>
+            Du kan dra filerna för att ändra ordningen.
+        filesmall: |
+            Använd knappen för att ladda upp en fil. Du kan även börja skriva in namnet på 
+            en redan uppladdad fil så kommer du att få förslag på redan uppladdade filer.
+        imagelist: |
+            Använd detta fältet för att ladda upp flera bilder och skriva beskrivningar till dem.<br>
+            Ifall du använder en modern webbläsare kan du dra en bild från din dator hit.<br>
+            Du kan dra bilder för att ändra ordningen.
+        video: |
+            Använd detta fältet för att lägga in en video. Bara klistra in en 
+            länk till en video på youtube, vimeo eller annan videodelningssite.
+    geolocation: |
+            Använd det här fältet för att få geolokalisering av någon adress eller placera markören 
+            manuellt genom att dra markören. Först anger du en (ungefärlig) adress i "address'-fältet, 
+            och motsvarande latitud och longitud hämtas med hjälp av Google Maps API, 
+            tillsammans med den närmaste matchningen adress, enligt Google. 
+            Om du vill flytta markören till en annan plats, dra och släpp bara markören på 
+            mini-kartan. Latitud och longitud kommer att uppdateras automatiskt.
+    markdown: |
+            Markdown är ett text-till-HTML konverteringsverktyg för innehållsförfattare. 
+            <p> Markdown låter dig skriva lättläslig, oformatterad text 
+            som sedan omvandlas till giltig HTML. </p>
+            <p> <strong> Snabbreferens: </strong> <br>
+            # Det här är ett &lt;h1&gt; -taggen <br>
+            ## Detta är en &lt;h2&gt; -taggen <br>
+            ###### Detta är en &lt;h6&gt; -taggen </ p>
+            <P> Detta _ <em> är kursiv </em> _, är detta __ <strong> fetstil </strong> __, och detta 
+            ___ <em> <strong> är både </strong> </ em> ___. Du kan också använda asterisker: This * <em> är kursiv </ em> * 
+            Detta ** <strong> är fetstil </strong> **.
+            <p> Skapa <a href='#'> länkar </a> så här: <br>
+            En [spännande webbplats](http://example.org/ &amp;quot;länktitel&amp;quot;) </p>
+            <p> &nbsp; * Detta är en onumrerad lista <br>
+            &nbsp; * Punkt 2 </p>
+            <p> &nbsp; 1 Detta är en numrerad lista <br>
+            &nbsp; 2 Punkt 2 </p>
+    relationships: |
+            Genom att välja andra poster som en "relation", skapar du 
+            en länk mellan denna post, och den som du har valt. på 
+            sidan kan detta visas på olika sätt, men oftast som 
+            "relaterade artiklar", "se också" eller för att visa 
+            hur denna post passar in i en viss struktur.
+    taxonomy: |
+            Genom att välja ett eller flera taxonomier för denna post,
+            du klassificera denna post för att ha dessa egenskaper. På
+            sidan kan detta användas för att gruppera vissa poster tillsammans,
+            eller att automatiskt skapa länkar till poster som delar en
+            klassificering.
+about:
+    bolt: |
+            <p>Bolt är en CMS som strävar efter att vara enkelt, snabbt och roligt att använda. Både för 
+            utvecklare och innehålls-redaktörer. Bolt är Open Source, och bygger på andra Open Source 
+            komponenter. Om du är en utvecklare du varmt välkommen att bidra till den fortsatta utvecklingen av Bolt.
+            </p>
+    licence: |
+            <p>Alla delar av Bolt är fria att använda under licensen open-source MIT.
+            Den fullständiga licenstexten finns här: <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
+            </p>
+prefill:
+    short_help: |
+            <p>Klicka i innehållstyperna som du vill generera exempelinnehåll till.<p>
+            <p>Om inga innehållstyper är i klickade kommer Bolt endast generera exempelinnehåll till tomma innehållstyper.</p>
