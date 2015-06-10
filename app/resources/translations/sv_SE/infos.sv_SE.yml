@@ -37,14 +37,14 @@ info:
             # Det här är ett &lt;h1&gt; -taggen <br>
             ## Detta är en &lt;h2&gt; -taggen <br>
             ###### Detta är en &lt;h6&gt; -taggen </ p>
-            <P> Detta _ <em> är kursiv </ em> _, är detta __ <strong> fetstil </ strong> __, och detta 
-            ___ <em> <strong> är både </ strong> </ em> ___. Du kan också använda asterisker: This * <em> är kursiv </ em> * 
-            Detta ** <strong> är fetstil </ strong> **.
+            <P> Detta _ <em> är kursiv </em> _, är detta __ <strong> fetstil </strong> __, och detta 
+            ___ <em> <strong> är både </strong> </ em> ___. Du kan också använda asterisker: This * <em> är kursiv </ em> * 
+            Detta ** <strong> är fetstil </strong> **.
             <p> Skapa <a href='#'> länkar </a> så här: <br>
-            En [spännande webbplats](http://example.org/ &amp;quot;benämning länk&amp;quot;) </p>
-            <p> &nbsp; * Detta är en oordnad lista <br>
+            En [spännande webbplats](http://example.org/ &amp;quot;länktitel&amp;quot;) </p>
+            <p> &nbsp; * Detta är en onumrerad lista <br>
             &nbsp; * Punkt 2 </p>
-            <p> &nbsp; 1 Detta är en ordnad lista <br>
+            <p> &nbsp; 1 Detta är en numrerad lista <br>
             &nbsp; 2 Punkt 2 </p>
     relationships: |
             Genom att välja andra poster som en "relation", skapar du 
