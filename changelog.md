@@ -1,3 +1,8 @@
+Bolt 2.2.next
+-------------
+
+ - Added: Swedish translation. (Thanks SahAssar, see #3659)
+
 Bolt 2.2.1
 ----------
 
