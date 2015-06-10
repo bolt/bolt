@@ -39,9 +39,12 @@
             {{ __('Id') }}
         </a></th>
 
-        <th style="width:80%"><a href="{{ link }}{% if request('order') == content.TitleColumnName() %}-{% endif %}{{ content.TitleColumnName() }}">
-            {{ __('Title') }} / {{ __('Excerpt') }}
-        </a></th>
+        <th style="width:80%">
+            <a href="{{ link }}{% if request('order') == content.TitleColumnName()|first %}-{% endif %}{{ content.TitleColumnName()|first }}">
+                {{ __('Title') }} / {{ __('Excerpt') }}
+            </a>
+        </th>
+
 
         <th>&nbsp;</th>
 
