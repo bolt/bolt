@@ -178,11 +178,11 @@ class MenuBuilder
 
         if ($content) {
             if (empty($item['label'])) {
-                $item['label'] = !empty($content->values['title']) ?: '';
+                $item['label'] = !empty($content->values['title']) ? $content->values['title'] : '';
             }
 
             if (empty($item['title'])) {
-                $item['title'] = !empty($content->values['subtitle']) ?: '';
+                $item['title'] = !empty($content->values['subtitle']) ? $content->values['subtitle'] : '';
             }
 
             $item['link'] = $content->link();
