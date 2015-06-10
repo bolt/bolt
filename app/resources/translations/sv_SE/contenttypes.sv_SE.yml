@@ -1,0 +1,136 @@
+# app/resources/translations/en_GB/contenttypes.en_GB.yml – generated on 2014-11-13 23:00:56 UTC
+
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
+
+#  no unused messages
+#  no untranslated messages
+#   1 untranslated keyword based messages
+#  no translations
+# 102 keyword based translations
+
+#--- 1 untranslated keyword based messages ------------------------------------
+
+"contenttypes.pages.group.content":  "Innehåll"
+
+#--- 102 keyword based translations -------------------------------------------
+
+contenttypes:
+    entries:
+        description: "**Entries** innehållstypen kan användas för bolggar eller nyheter. Den har en teaser, som kan användas för att visa en kort sammanfattning i flöden och listningar, och besökare kan klicka vidare för att se hela inlägget. Det har också fält för en bild och en video. För att ändra fälten redigera filen `contenttypes.yml` i mappen `app/config/` med din textredigerare eller gå till 'Konfiguration' » 'Innehållstyper' i vänstermenyn."
+        group:
+            content: "Innehåll"
+            media: "Media"
+        name:
+            plural: "Inlägg"
+            singular: "Inlägg"
+        text:
+            actions-all: "Åtgärder för inlägg"
+            actions-one: "Åtgärder för detta inlägget"
+            created: "Detta inlägget har skapats"
+            delete: "Radera inlägg"
+            duplicate: "Duplicera inlägg"
+            duplicated-finalize: "Innehållet har duplicerats. Klicka på 'Spara inlägg' för att spara."
+            edit: "Redigera inlägg"
+            error-saving: "Det uppstod ett fel när vi skulle spara detta inlägget."
+            invalid-field: "Kan inte spara %field% i inlägg: Inte ett giltigt fält."
+            last-modified: "Senast redigerade inlägg"
+            new: "Nytt inlägg"
+            no-latest: "Inga nyligen redigerade inlägg"
+            no-proper-type: "I innehållstypen 'inlägg', fältet '%field%' har 'typ: %type%', som inte är ett korrekt fält. Redigera contenttypes.yml för att lösa det."
+            no-recent: "Inget inlägg."
+            none-available: "Inga inlägg tillgängliga."
+            not-existing: "Inlägget du letar efter finns inte. Den har förmodligen blivit borttagen eller så har den aldrig funnits."
+            not-saved-yet: "Detta inlägget har inte blivit sparat."
+            overview: "Inläggsöverblick"
+            publish: "Publicera inlägget"
+            recent: "Senaste inlägg"
+            recently-edited: "Nyligen redigerade inlägg"
+            reserved-name: "I innehållstypen 'inlägg', fältet '%field%' är definerat, men namnet är reserverat. Redigera contenttypes.yml för att lösa det."
+            save: "Spara inlägg"
+            saved-changes: "Ändringarna i detta inlägget har sparats."
+            saved-new: "Inlägget har sparats."
+            saving-impossible: "Kunde inte spara inlägget."
+            show-more: "Fler inlägg"
+            view: "Se inlägg"
+            wrong-use-field: "I innehållstypen 'inlägg', fältet '%field%' har 'uses: %uses%', men fältet '%uses%' finns inte. Redigera contenttypes.yml för att lösa det."
+    pages:
+        description: "Innehållstypen Sidor kan användas för mer statiskt innehåll. Sidor som 'Om oss', 'Kontakt' passar bra här. För att ändra fälten redigera filen `contenttypes.yml` i mappen `app/config/` med din textredigerare eller gå till 'Konfiguration' » 'Innehållstyper' i vänstermenyn."
+        name:
+            plural: "Sidor"
+            singular: "Sida"
+        text:
+            actions-all: "Åtgärder för Sidor"
+            actions-one: "Åtgärder för denna Sida"
+            created: "Denna sida har skapats"
+            delete: "Radera sida"
+            duplicate: "Duplicera sida"
+            duplicated-finalize: "Innehållet har duplicerats. Klicka på 'Spara sida' för att spara."
+            edit: "Redigera sida"
+            error-saving: "Det uppstod ett fel när vi skulle spara denna sida."
+            invalid-field: "Kan inte spara %field% i sida: Inte ett giltigt fält."
+            last-modified: "Senast redigerade sidor"
+            new: "Ny sida"
+            no-latest: "Inga nyligen redigerade sidor"
+            no-proper-type: "I innehållstypen 'sidor', fältet '%field%' har 'typ: %type%', som inte är ett korrekt fält. Redigera contenttypes.yml för att lösa det."
+            no-recent: "Ingen sida."
+            none-available: "Inga sidor tillgängliga."
+            not-existing: "Sidan du letar efter finns inte. Den har förmodligen blivit borttagen eller så har den aldrig funnits."
+            not-saved-yet: "Denna sida har inte blivit sparat."
+            overview: "Sidöverblick"
+            publish: "Publicera sidan"
+            recent: "Senaste sidor"
+            recently-edited: "Nyligen redigerade sidor"
+            reserved-name: "I innehållstypen 'sidor', fältet '%field%' är definerat, men namnet är reserverat. Redigera contenttypes.yml för att lösa det."
+            save: "Spara sida"
+            saved-changes: "Ändringarna i denna sida har sparats."
+            saved-new: "Sidan har sparats."
+            saving-impossible: "Kunde inte spara sida."
+            show-more: "Fler sidor"
+            view: "Se sida"
+            wrong-use-field: "I innehållstypen 'sidor', fältet '%field%' har 'uses: %uses%', men fältet '%uses%' finns inte. Redigera contenttypes.yml för att lösa det."
+    showcases:
+        description: "Innehållstyper **Exempelsidor** visar exempel på alla fält som finns i Bolt. Den har inte mycket användning i praktiken, men du kan använda den för att se vilka fält som finns tillgängliga. För att ändra fälten redigera filen `contenttypes.yml` i mappen `app/config/` med din textredigerare eller gå till 'Konfiguration' » 'Innehållstyper' i vänstermenyn."
+        group:
+            files: "Filer"
+            media: "Media"
+            other: "Annat"
+            text: "Text"
+        name:
+            plural: "Exempelsidor"
+            singular: "Exempelsida"
+        text:
+            actions-all: "Actions for exempelsidor"
+            actions-one: "Actions for this exempelsida"
+            created: "Denna exempelsida har skapats"
+            delete: "Radera exempelsida"
+            duplicate: "Duplicera exempelsida"
+            duplicated-finalize: "Innehållet har duplicerats. Klicka på 'Spara exempelsida' för att spara."
+            edit: "Redigera exempelsida"
+            error-saving: "Det uppstod ett fel när vi skulle spara denna exempelsida."
+            invalid-field: "Kan inte spara %field% i exempelsida: Inte ett giltigt fält."
+            last-modified: "Senast redigerade exempelsidor"
+            new: "Ny exempelsida"
+            no-latest: "Inga nyligen redigerade exempelsidor"
+            no-proper-type: "I innehållstypen 'exempelsidor', fältet '%field%' har 'typ: %type%', som inte är ett korrekt fält. Redigera contenttypes.yml för att lösa det."
+            no-recent: "Ingen exempelsida."
+            none-available: "Inga exempelsidor tillgängliga."
+            not-existing: "exempelsidan du letar efter finns inte. Den har förmodligen blivit borttagen eller så har den aldrig funnits."
+            not-saved-yet: "Denna exempelsida har inte blivit sparat."
+            overview: "exempelsidöverblick"
+            publish: "Publicera exempelsidan"
+            recent: "Senaste exempelsidor"
+            recently-edited: "Nyligen redigerade exempelsidor"
+            reserved-name: "I innehållstypen 'exempelsidor', fältet '%field%' är definerat, men namnet är reserverat. Redigera contenttypes.yml för att lösa det."
+            save: "Spara exempelsida"
+            saved-changes: "Ändringarna i denna exempelsida har sparats."
+            saved-new: "exempelsidan har sparats."
+            saving-impossible: "Kunde inte spara exempelsida."
+            show-more: "Fler exempelsidor"
+            view: "Se exempelsida"
+            wrong-use-field: "I innehållstypen 'exempelsidor', fältet '%field%' har 'uses: %uses%', men fältet '%uses%' finns inte. Redigera contenttypes.yml för att lösa det."
