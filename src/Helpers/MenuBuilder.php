@@ -146,8 +146,8 @@ class MenuBuilder
                 $this->app['url_matcher']->match('/' . $path);
 
                 // If we found a valid routing match then we're still here,
-                // attempt to retrive the actual record and use its values.
-                $this->populateItemFromRecord($item, $path);
+                // attempt to retrieve the actual record and use its values.
+                $item = $this->populateItemFromRecord($item, $path);
             }
         } catch (ResourceNotFoundException $e) {
             $this->app['logger.system']->error(
