@@ -136,16 +136,15 @@ class SessionServiceProvider implements ServiceProviderInterface
                 ];
             }
 
-            $tmp = $app['sessions.options'];
-            foreach ($tmp as $name => &$options) {
-                $options = array_replace($app['session.default_options'], (array) $options);
-                $options = new OptionsBag($options);
-
+            $options = [];
+            foreach ($app['sessions.options'] as $name => $opts) {
                 if (!isset($app['sessions.default'])) {
                     $app['sessions.default'] = $name;
                 }
+                $opts = array_replace($app['session.default_options'], (array) $opts);
+                $options[$name] = new OptionsBag($opts);
             }
-            $app['sessions.options'] = $tmp;
+            $app['sessions.options'] = $options;
         });
     }
 
