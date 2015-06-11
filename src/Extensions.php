@@ -77,14 +77,6 @@ class Extensions
      */
     public $composer = [];
 
-    /**
-     * Contains a list of all css and js assets added through addCss and
-     * addJavascript functions.
-     *
-     * @var array
-     */
-    private $assets;
-
     private $isInitialized = false;
 
     public function __construct(Application $app)
@@ -97,11 +89,6 @@ class Extensions
         } else {
             $this->addjquery = false;
         }
-
-        $this->assets = [
-            'css' => [],
-            'js'  => []
-        ];
     }
 
     /**
@@ -579,13 +566,29 @@ class Extensions
     }
 
     /**
-     * Returns a list of all css and js assets that are added via extensions.
+     * Legacy function that returns a list of all css and js assets that are
+     * added via extensions.
+     *
+     * @deprecated Use $app['assets.queue.file']->getQueue() and/or $app['assets.queue.snippet']->getQueue()
      *
      * @return array
      */
     public function getAssets()
     {
-        return $this->assets;
+        $files = $this->app['assets.queue.file']->getQueue();
+        $assets = [
+            'css' => [],
+            'js'  => []
+        ];
+
+        foreach ($files['javascript'] as $file) {
+            $assets['js'][] = $file->getFileName();
+        }
+        foreach ($files['stylesheet'] as $file) {
+            $assets['css'][] = $file->getFileName();
+        }
+
+        return $assets;
     }
 
     private function getNamespace($extension)

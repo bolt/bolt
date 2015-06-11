@@ -38,6 +38,11 @@ abstract class AssetBase
         return $this->late;
     }
 
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
     public function getPriority()
     {
         return $this->priority;
