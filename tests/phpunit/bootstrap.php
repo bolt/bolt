@@ -46,3 +46,8 @@ if (!defined('NUT_PATH')) {
 
 // Load the upload bootstrap
 require_once 'unit/bootstraps/upload-bootstrap.php';
+
+if (is_readable(TEST_ROOT . '/bolt.db')) {
+    unlink(TEST_ROOT . '/bolt.db');
+}
+copy(TEST_ROOT . '/tests/phpunit/unit/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
