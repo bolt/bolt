@@ -40,9 +40,9 @@ class Queue
      * @param string          $location
      * @param callable|string $callback
      * @param string          $extensionName
-     * @param array           $extraParameters
+     * @param array|string    $extraParameters
      */
-    public function add($location, $callback, $extensionName = 'core', array $extraParameters = [])
+    public function add($location, $callback, $extensionName = 'core', $extraParameters = [])
     {
         $this->queue[] = new Snippet($location, $callback, $extensionName, $extraParameters);
     }
@@ -100,7 +100,7 @@ class Queue
 
             $location = $snippet->getLocation();
             if (isset($functionMap[$location])) {
-                $this->app['assets.injector']->{$functionMap[$location]}($snippetHtml, $html);
+                $html = $this->app['assets.injector']->{$functionMap[$location]}($html, $snippetHtml);
             } else {
                 $html .= "$snippetHtml\n";
             }
@@ -121,7 +121,7 @@ class Queue
     {
         if (!$snippet->isCore() && $callable = $this->getExtensionCallable($snippet)) {
             // Snippet is defined in the extension itself.
-            return call_user_func_array($callable, $snippet->getParameters());
+            return call_user_func_array($callable, (array) $snippet->getParameters());
         } elseif (function_exists($snippet->getCallback())) {
             // Snippet is a callback in the 'global scope'
             return call_user_func($snippet->getCallback(), $this->app, $snippet->getParameters());

@@ -23,9 +23,9 @@ class Snippet
      * @param string          $location
      * @param callable|string $callback
      * @param string          $extension
-     * @param array           $parameters
+     * @param array|string    $parameters
      */
-    public function __construct($location, $callback, $extension = 'core', array $parameters = [])
+    public function __construct($location, $callback, $extension = 'core', $parameters = [])
     {
         $this->location   = $location;
         $this->callback   = $callback;

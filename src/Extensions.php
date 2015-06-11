@@ -752,7 +752,7 @@ class Extensions
      */
     public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = '')
     {
-        $this->app['assets.queue.snippet']->add($location, $callback, $extensionname, (array) $extraparameters);
+        $this->app['assets.queue.snippet']->add($location, $callback, $extensionname, $extraparameters);
     }
 
     /**
