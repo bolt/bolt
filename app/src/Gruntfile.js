@@ -99,6 +99,7 @@ module.exports = function(grunt) {
         jitGrunt: {
             staticMappings: {
                 pages: 'grunt-tasks/pages.js',
+                sass: 'grunt-tasks/sass.js',
                 htmllint: 'grunt-html'
             }
         }
