@@ -200,7 +200,7 @@ class Injector
      *
      * @return string
      */
-    public function jsTagsAfter($rawHtml, $addedHtml, $insidehead = true)
+    public function jsTagsAfter($rawHtml, $addedHtml, $insidehead = false)
     {
         if ($insidehead) {
             $pos = strpos($rawHtml, '</head>');
@@ -209,7 +209,8 @@ class Injector
             $context = $rawHtml;
         }
 
-        if ($matches = $this->getMatches($context, '</script>', true, true)) {
+        // This match tag is a unique case
+        if ($matches = $this->getMatches($context, '(.*)</script>', false, true)) {
             // Attempt to insert it after the last <script> tag within context, matching indentation.
             $last = count($matches[0]) - 1;
             $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $addedHtml);

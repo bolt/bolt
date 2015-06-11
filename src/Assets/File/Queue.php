@@ -92,12 +92,10 @@ class Queue
     protected function processCssAssets(AssetBase $asset, $html)
     {
         if ($asset->isLate()) {
-            $html = $this->app['assets.injector']->bodyTagEnd($html, (string) $asset);
+            return $this->app['assets.injector']->bodyTagEnd($html, (string) $asset);
         } else {
-            $html = $this->app['assets.injector']->cssTagsBefore($html, (string) $asset);
+            return $this->app['assets.injector']->cssTagsBefore($html, (string) $asset);
         }
-
-        return $html;
     }
 
     /**
@@ -111,12 +109,10 @@ class Queue
     protected function processJsAssets(AssetBase $asset, $html)
     {
         if ($asset->isLate()) {
-            $html = $this->app['assets.injector']->bodyTagEnd($html, (string) $asset);
+            return $this->app['assets.injector']->bodyTagEnd($html, (string) $asset);
         } else {
-            $html = $this->app['assets.injector']->jsTagsAfter($html, (string) $asset);
+            return $this->app['assets.injector']->jsTagsAfter($html, (string) $asset);
         }
-
-        return $html;
     }
 
     /**

@@ -15,6 +15,6 @@ class JavaScript extends AssetBase
      */
     public function __toString()
     {
-        return sprintf('<script src="%s"%s></script>', $this->fileName, $this->attributes);
+        return sprintf('<script src="%s" %s></script>', $this->fileName, $this->attributes);
     }
 }
