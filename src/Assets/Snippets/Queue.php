@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Assets\Snippets;
 
-use Bolt\Assets\Target;
 use Bolt\Controller\Zone;
 use Silex\Application;
 

@@ -11,7 +11,6 @@ use Bolt\Helpers\Str;
  */
 class Injector
 {
-
     /**
      * Get a map of function names to locations.
      *

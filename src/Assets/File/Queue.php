@@ -127,10 +127,10 @@ class Queue
     private function sort(array $files)
     {
         // @codingStandardsIgnoreStart
-    	array_walk($files, function(&$v, $k) {$v = [$v->getPriority(), $k, $v];});
-    	sort($files);
-    	array_walk($files, function(&$v, $k) {$v = $v[2];});
-    	// @codingStandardsIgnoreEnd
+        array_walk($files, function (&$v, $k) {$v = [$v->getPriority(), $k, $v];});
+        sort($files);
+        array_walk($files, function (&$v, $k) {$v = $v[2];});
+        // @codingStandardsIgnoreEnd
 
         return $files;
     }
