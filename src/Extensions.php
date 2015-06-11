@@ -622,12 +622,7 @@ class Extensions
             ];
         }
 
-        $this->assets['css'][md5($filename)] = [
-            'filename' => $filename,
-            'late'     => isset($options['late'])     ? $options['late']     : false,
-            'priority' => isset($options['priority']) ? $options['priority'] : 0,
-            'attrib'   => isset($options['attrib'])   ? $options['attrib']   : false
-        ];
+        $this->app['assets.queue.file']->add('stylesheet', $filename, $options);
     }
 
     /**
@@ -652,12 +647,7 @@ class Extensions
             ];
         }
 
-        $this->assets['js'][md5($filename)] = [
-            'filename' => $filename,
-            'late'     => isset($options['late'])     ? $options['late']     : false,
-            'priority' => isset($options['priority']) ? $options['priority'] : 0,
-            'attrib'   => isset($options['attrib'])   ? $options['attrib']   : false
-        ];
+        $this->app['assets.queue.file']->add('javascript', $filename, $options);
     }
 
     /**
@@ -762,7 +752,7 @@ class Extensions
      */
     public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = '')
     {
-        $this->app['assets.queue.snippet']->add($location, $callback, $extensionname, $extraparameters);
+        $this->app['assets.queue.snippet']->add($location, $callback, $extensionname, (array) $extraparameters);
     }
 
     /**
