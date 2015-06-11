@@ -57,13 +57,6 @@ class Extensions
     private $mailsenders = 0;
 
     /**
-     * Whether or not to add jQuery.
-     *
-     * @var bool
-     */
-    private $addjquery;
-
-    /**
      * Contains all initialized extensions.
      *
      * @var array
@@ -83,12 +76,6 @@ class Extensions
     {
         $this->app = $app;
         $this->basefolder = $app['resources']->getPath('extensions');
-
-        if ($app['config']->get('general/add_jquery')) {
-            $this->addjquery = true;
-        } else {
-            $this->addjquery = false;
-        }
     }
 
     /**
@@ -551,18 +538,22 @@ class Extensions
 
     /**
      * Add jQuery to the output.
+     *
+     * @deprecated Since 2.3 will be removed in Bolt 3.0
      */
     public function addJquery()
     {
-        $this->addjquery = true;
+        $this->app['config']->set('general/add_jquery', true);
     }
 
     /**
      * Don't add jQuery to the output.
+     *
+     * @deprecated Since 2.3 will be removed in Bolt 3.0
      */
     public function disableJquery()
     {
-        $this->addjquery = false;
+        $this->app['config']->set('general/add_jquery', false);
     }
 
     /**
