@@ -7,7 +7,7 @@
 
 namespace Bolt\Composer;
 
-use Composer\Script\CommandEvent;
+use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ScriptHandler
@@ -15,14 +15,11 @@ class ScriptHandler
     /**
      * Install basic assets and create needed directories.
      *
-     * @param CommandEvent $event
-     * @param array|bool   $options
+     * @param Event $event
      */
-    public static function installAssets(CommandEvent $event, $options = false)
+    public static function installAssets(Event $event)
     {
-        if (false === $options) {
-            $options = self::getOptions($event);
-        }
+        $options = self::getOptions($event);
         $webDir = $options['bolt-web-dir'];
         $dirMode = $options['bolt-dir-mode'];
         if (is_string($dirMode)) {
@@ -43,7 +40,7 @@ class ScriptHandler
         $filesystem->remove($targetDir);
         $filesystem->mkdir($targetDir, $dirMode);
 
-        foreach (['css', 'fonts', 'img', 'js'] as $dir) {
+        foreach (array('css', 'fonts', 'img', 'js') as $dir) {
             $filesystem->mirror(__DIR__ . '/../../app/view/' . $dir, $targetDir . '/view/' . $dir);
         }
 
@@ -56,61 +53,95 @@ class ScriptHandler
             $filesystem->mirror(__DIR__ . '/../../theme', $webDir . '/theme');
         }
 
-        // The first check handles the case where the bolt-web-dir is different to the root.
-        // If thie first works, then the second won't need to run
-        if (!$filesystem->exists(getcwd() . '/extensions/')) {
-            $filesystem->mkdir(getcwd() . '/extensions/', $dirMode);
-        }
-
-        if (!$filesystem->exists($webDir . '/extensions/')) {
-            $filesystem->mkdir($webDir . '/extensions/', $dirMode);
-        }
-
-        // Now we handle the app directory creation
-        $appDir = $options['bolt-app-dir'];
-        if (!$filesystem->exists($appDir)) {
-            $filesystem->mkdir($appDir, $dirMode);
-            $filesystem->mkdir($appDir . '/database/', $dirMode);
-            $filesystem->mkdir($appDir . '/cache/',    $dirMode);
-            $filesystem->mkdir($appDir . '/config/',   $dirMode);
-        }
+        $event->getIO()->write('<info>Installed assets</info>');
     }
 
-    public static function bootstrap(CommandEvent $event)
+    /**
+     * Installing bootstrap file
+     *
+     * @param Event $event
+     */
+    public static function installApp(Event $event)
     {
-        $webroot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', false);
+        $options = self::getOptions($event);
 
-        if ($webroot) {
-            $webname  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
-            $webname  = trim($webname, '/');
-            $assetDir = './' . $webname;
-        } else {
-            $webname  = null;
-            $assetDir = '.';
+        $dirMode = $options['bolt-dir-mode'];
+        $appDir = $options['bolt-app-dir'];
+        $webDir = $options['bolt-web-dir'];
+
+        if (is_string($dirMode)) {
+            $dirMode = octdec($dirMode);
         }
 
-        $generator = new BootstrapGenerator($webroot, $webname);
+        umask(0777 - $dirMode);
+
+        $fs = new Filesystem();
+
+        $app_dirs = ['database', 'cache', 'config'];
+
+        // Now we handle the app directory creation
+        if (!$fs->exists($appDir)) {
+
+            // Create app directories and copy their content
+            $fs->mkdir($appDir, $dirMode);
+            foreach ($app_dirs as $dir) {
+                $fs->mirror(__DIR__ . '/../../app/' . $dir, $appDir . '/' . $dir);
+            }
+
+            // Copy command line utility
+            foreach (['bootstrap.php', 'nut'] as $app_file) {
+                $fs->copy(__DIR__ . '/../../app/'. $app_file, $appDir . '/' . $app_file);
+            }
+
+            // Rename dist files
+            foreach (['config', 'contenttypes', 'menu', 'permissions', 'routing', 'taxonomy'] as $config_file) {
+                $file = $appDir . '/config/' . $config_file . '.yml.dist';
+                $fs->rename($file, str_replace('.dist', '', $file));
+            }
+
+            $event->getIO()->write('<info>Installed app</info>');
+        } else {
+            $event->getIO()->write('<info>app directory already exists in ' . getcwd() . '</info>');
+        }
+
+    }
+
+    /**
+     * Installing bootstrap file
+     *
+     * @param Event $event
+     */
+    public static function installBootstrap(Event $event)
+    {
+        $options = self::getOptions($event);
+        $webDir = $options['bolt-web-dir'];
+
+        if (!is_dir($webDir)) {
+            $filesystem = new Filesystem();
+            $filesystem->mkdir($webDir, $options['bolt-dir-mode']);
+        }
+
+        $generator = new BootstrapGenerator($webDir, $webDir);
         $generator->create();
-        $options = array_merge(self::getOptions($event), ['bolt-web-dir' => $assetDir]);
-        self::installAssets($event, $options);
-        $event->getIO()->write('<info>Your project has been setup</info>');
+
+        $event->getIO()->write('<info>Installed bootstrap</info>');
     }
 
     /**
      * Get a default set of options.
      *
-     * @param CommandEvent $event
+     * @param Event $event
      *
      * @return array
      */
-    protected static function getOptions(CommandEvent $event)
+    protected static function getOptions(Event $event)
     {
         $options = array_merge(
-            [
+            array(
                 'bolt-web-dir'  => 'web',
                 'bolt-app-dir'  => 'app',
                 'bolt-dir-mode' => 0777
-            ],
+            ),
             $event->getComposer()->getPackage()->getExtra()
         );
 
