@@ -782,49 +782,11 @@ class Extensions
     }
 
     /**
-     * Insert all assets in template. Use sorting by priority.
-     *
-     * @param $html
-     *
-     * @return string
+     * @deprecated since 2.3 and will removed in Bolt 3.
      */
     public function processAssets($html)
     {
-        foreach ($this->getAssets() as $type => $files) {
-
-            // Use http://en.wikipedia.org/wiki/Schwartzian_transform for stable sort
-            // We use create_function(), because it's faster than closure
-            // decorate
-            array_walk($files, create_function('&$v, $k', '$v = [$v[\'priority\'], $k, $v];'));
-            // sort
-            sort($files);
-            // undecorate
-            array_walk($files, create_function('&$v, $k', '$v = $v[2];'));
-
-            foreach ($files as $file) {
-                $late     = $file['late'];
-                $filename = $file['filename'];
-                $attrib   = $file['attrib'] ? ' ' . $file['attrib'] : '';
-
-                if ($type === 'js') {
-                    $htmlJs = sprintf('<script src="%s"%s></script>', $filename, $attrib);
-                    if ($late) {
-                        $html = $this->insertEndOfBody($htmlJs, $html);
-                    } else {
-                        $html = $this->insertAfterJs($htmlJs, $html);
-                    }
-                } else {
-                    $htmlCss = sprintf('<link rel="stylesheet" href="%s" media="screen">', $filename);
-                    if ($late) {
-                        $html = $this->insertEndOfBody($htmlCss, $html);
-                    } else {
-                        $html = $this->insertBeforeCss($htmlCss, $html);
-                    }
-                }
-            }
-        }
-
-        return $html;
+        return $this->app['assets.queue.file']->process($html);
     }
 
     /**
