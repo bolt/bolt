@@ -83,7 +83,9 @@ class SessionServiceProvider implements ServiceProviderInterface
         });
 
         $app['session'] = $app->share(function ($app) {
-            return $app['sessions'][$app['sessions.default']];
+            // Sessions needs to be called first so sessions.default is initialized
+            $sessions = $app['sessions'];
+            return $sessions[$app['sessions.default']];
         });
     }
 
