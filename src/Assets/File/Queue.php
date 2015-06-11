@@ -95,18 +95,15 @@ class Queue
      *
      * @see http://en.wikipedia.org/wiki/Schwartzian_transform
      *
-     * @param array $files
+     * @param AssetBase[] $files
      *
-     * @return array
+     * @return AssetBase[]
      */
     private function sort(array $files)
     {
-        // We use create_function(), because it's faster than closure decorate
-        array_walk($files, create_function('&$v, $k', '$v = [$v[\'priority\'], $k, $v];'));
-        // sort
-        sort($files);
-        // undecorate
-        array_walk($files, create_function('&$v, $k', '$v = $v[2];'));
+    	array_walk($files, function(&$v, $k) {$v = [$v->getPriority(), $k, $v];});
+    	sort($files);
+    	array_walk($files, function(&$v, $k) {$v = $v[2];});
 
         return $files;
     }
