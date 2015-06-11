@@ -996,15 +996,14 @@ class Content implements \ArrayAccess
     /**
      * Get the columnname of the title, name, caption or subject.
      *
-     * @return string|null
+     * @return array
      */
     public function getTitleColumnName()
     {
-
         // If we specified a specific fieldname or array of fieldnames as 'title'.
         if (!empty($this->contenttype['title_format'])) {
             if (!is_array($this->contenttype['title_format'])) {
-                $this->contenttype['title_format'] = array($this->contenttype['title_format']);
+                $this->contenttype['title_format'] = [$this->contenttype['title_format']];
             }
             return $this->contenttype['title_format'];
         }
@@ -1019,7 +1018,7 @@ class Content implements \ArrayAccess
 
         foreach ($names as $name) {
             if (isset($this->values[$name])) {
-                return array($name);
+                return [$name];
             }
         }
 
@@ -1027,13 +1026,13 @@ class Content implements \ArrayAccess
         if (!empty($this->contenttype['fields'])) {
             foreach ($this->contenttype['fields'] as $key => $field) {
                 if ($field['type'] == 'text') {
-                    return array($key);
+                    return [$key];
                 }
             }
         }
 
         // Nope, no title was found.
-        return array();
+        return [];
     }
 
     /**
