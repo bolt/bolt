@@ -67,7 +67,6 @@ class ScriptHandler
 
         $dirMode = $options['bolt-dir-mode'];
         $appDir = $options['bolt-app-dir'];
-        $webDir = $options['bolt-web-dir'];
 
         if (is_string($dirMode)) {
             $dirMode = octdec($dirMode);
@@ -121,7 +120,7 @@ class ScriptHandler
             $filesystem->mkdir($webDir, $options['bolt-dir-mode']);
         }
 
-        $generator = new BootstrapGenerator($webDir, $webDir);
+        $generator = new BootstrapGenerator(true, $webDir);
         $generator->create();
 
         $event->getIO()->write('<info>Installed bootstrap</info>');
