@@ -15,7 +15,7 @@ class Queue
 {
     /** @var boolean Whether to add jQuery to the HTML */
     protected $addJquery;
-    /** @var array Queue with snippets of HTML to insert. */
+    /** @var Snippet[] Queue with snippets of HTML to insert. */
     protected $queue = [];
 
     /** @var \Silex\Application */
@@ -81,6 +81,16 @@ class Queue
         }
 
         return $html;
+    }
+
+    /**
+     * Get the queued snippets.
+     *
+     * @return \Bolt\Assets\Snippets\Snippet[]
+     */
+    public function getQueue()
+    {
+        return $this->queue;
     }
 
     /**

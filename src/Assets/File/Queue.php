@@ -68,6 +68,27 @@ class Queue
         return $html;
     }
 
+    /**
+     * Get the queued snippets.
+     *
+     * @return \Bolt\Assets\Snippets\Snippet
+     */
+    public function getQueue()
+    {
+        return [
+            'javascript' => $this->javascript,
+            'stylesheet' => $this->stylesheet,
+        ];
+    }
+
+    /**
+     * Process the CSS asset queue.
+     *
+     * @param AssetBase $asset
+     * @param string    $html
+     *
+     * @return string
+     */
     protected function processCssAssets(AssetBase $asset, $html)
     {
         if ($asset->isLate()) {
@@ -79,6 +100,14 @@ class Queue
         return $html;
     }
 
+    /**
+     * Process the JavaScript asset queue.
+     *
+     * @param AssetBase $asset
+     * @param string    $html
+     *
+     * @return string
+     */
     protected function processJsAssets(AssetBase $asset, $html)
     {
         if ($asset->isLate()) {
