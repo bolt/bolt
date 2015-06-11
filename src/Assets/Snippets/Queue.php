@@ -102,7 +102,7 @@ class Queue
      */
     protected function processInternal($html)
     {
-        $functionMap = $this->getMap();
+        $functionMap = $this->app['assets.injector']->getMap();
 
         /** @var Snippet $snippet */
         foreach ($this->queue as $snippet) {
@@ -188,42 +188,6 @@ class Queue
         }
 
         return $html;
-    }
-
-    /**
-     * Get a map of function names to locations.
-     *
-     * @return array
-     */
-    protected function getMap()
-    {
-        return [
-            Target::END_OF_HEAD      => 'headTagEnd',
-            Target::AFTER_HEAD_JS    => 'headTagEnd', // same as end of head because we cheat a little
-            Target::AFTER_HEAD_CSS   => 'headTagEnd', // same as end of head because we cheat a little
-            Target::AFTER_HEAD_META  => 'headTagEnd', // same as end of head because meta tags are unordered
-
-            Target::BEFORE_CSS       => 'cssTagsBefore',
-            Target::BEFORE_JS        => 'jsTagsBefore',
-            Target::AFTER_META       => 'metaTagsAfter',
-            Target::AFTER_CSS        => 'cssTagsAfter',
-            Target::AFTER_JS         => 'jsTagsAfter',
-
-            Target::START_OF_HEAD    => 'headTagStart',
-            Target::BEFORE_HEAD_JS   => 'headTagStart', // same as start of head because we cheat a little
-            Target::BEFORE_HEAD_CSS  => 'headTagStart', // same as start of head because we cheat a little
-            Target::BEFORE_HEAD_META => 'headTagStart', // same as start of head because meta tags are unordered
-
-            Target::START_OF_BODY    => 'bodyTagStart',
-            Target::BEFORE_BODY_JS   => 'bodyTagStart', // same as start of body because we cheat a little
-            Target::BEFORE_BODY_CSS  => 'bodyTagStart', // same as start of body because we cheat a little
-
-            Target::END_OF_BODY      => 'bodyTagEnd',
-            Target::AFTER_BODY_JS    => 'bodyTagEnd',   // same as end of body because we cheat a little
-            Target::AFTER_BODY_CSS   => 'bodyTagEnd',   // same as end of body because we cheat a little
-
-            Target::END_OF_HTML      => 'htmlTagEnd',
-        ];
     }
 
     /**

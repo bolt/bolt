@@ -11,6 +11,43 @@ use Bolt\Helpers\Str;
  */
 class Injector
 {
+
+    /**
+     * Get a map of function names to locations.
+     *
+     * @return array
+     */
+    public function getMap()
+    {
+        return [
+            Target::END_OF_HEAD      => 'headTagEnd',
+            Target::AFTER_HEAD_JS    => 'headTagEnd', // same as end of head because we cheat a little
+            Target::AFTER_HEAD_CSS   => 'headTagEnd', // same as end of head because we cheat a little
+            Target::AFTER_HEAD_META  => 'headTagEnd', // same as end of head because meta tags are unordered
+
+            Target::BEFORE_CSS       => 'cssTagsBefore',
+            Target::BEFORE_JS        => 'jsTagsBefore',
+            Target::AFTER_META       => 'metaTagsAfter',
+            Target::AFTER_CSS        => 'cssTagsAfter',
+            Target::AFTER_JS         => 'jsTagsAfter',
+
+            Target::START_OF_HEAD    => 'headTagStart',
+            Target::BEFORE_HEAD_JS   => 'headTagStart', // same as start of head because we cheat a little
+            Target::BEFORE_HEAD_CSS  => 'headTagStart', // same as start of head because we cheat a little
+            Target::BEFORE_HEAD_META => 'headTagStart', // same as start of head because meta tags are unordered
+
+            Target::START_OF_BODY    => 'bodyTagStart',
+            Target::BEFORE_BODY_JS   => 'bodyTagStart', // same as start of body because we cheat a little
+            Target::BEFORE_BODY_CSS  => 'bodyTagStart', // same as start of body because we cheat a little
+
+            Target::END_OF_BODY      => 'bodyTagEnd',
+            Target::AFTER_BODY_JS    => 'bodyTagEnd',   // same as end of body because we cheat a little
+            Target::AFTER_BODY_CSS   => 'bodyTagEnd',   // same as end of body because we cheat a little
+
+            Target::END_OF_HTML      => 'htmlTagEnd',
+        ];
+    }
+
     /**
      * Helper function to insert some HTML into the start of the head section of
      * an HTML page, right after the <head> tag.
@@ -240,13 +277,11 @@ class Injector
         $matchRemainder = $matchRemainder ? '(.*)' : '';
         $regex = sprintf("~^([ \t]*)%s%s~mi", $htmlTag, $matchRemainder);
 
-        if ($matchAll) {
-            preg_match_all($regex, $rawHtml, $matches);
-        } else {
-            preg_match($regex, $rawHtml, $matches);
+        if ($matchAll && preg_match_all($regex, $rawHtml, $matches)) {
+            return $matches;
+        } elseif (!$matchAll && preg_match($regex, $rawHtml, $matches)) {
+            return $matches;
         }
-
-        return $matches;
     }
 
     /**
