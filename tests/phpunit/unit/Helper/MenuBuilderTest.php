@@ -31,14 +31,14 @@ class MenuBuilderTest extends BoltUnitTest
                 'label' => 'b',
                 'link'  =>  'c',
             ],
-            'c',
+            'f',
         ];
 
         $tests[] = [
             [
                 'title' => 'a',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  =>  'f',
             ],
             [
                 'title'    => 'd',
@@ -49,14 +49,14 @@ class MenuBuilderTest extends BoltUnitTest
                 'label' => 'b',
                 'link'  =>  'c',
             ],
-            'c',
+            'f',
         ];
 
         $tests[] = [
             [
                 'title' => 'a',
                 'label' => '',
-                'link'  =>  'c',
+                'link'  =>  'f',
             ],
             [
                 'title'    => '',
@@ -67,14 +67,14 @@ class MenuBuilderTest extends BoltUnitTest
                 'label' => '',
                 'link'  =>  'c',
             ],
-            'c',
+            'f',
         ];
 
         $tests[] = [
             [
                 'title' => '',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  =>  'f',
             ],
             [
                 'title'    => 'd',
@@ -85,14 +85,14 @@ class MenuBuilderTest extends BoltUnitTest
                 'label' => 'b',
                 'link'  =>  'c',
             ],
-            'c',
+            'f',
         ];
 
         $tests[] = [
             [
                 'title' => 'a',
                 'label' => 'd',
-                'link'  =>  'c',
+                'link'  =>  'f',
             ],
             [
                 'title'    => 'd',
@@ -103,14 +103,14 @@ class MenuBuilderTest extends BoltUnitTest
                 'label' => '',
                 'link'  =>  'c',
             ],
-            'c',
+            'f',
         ];
 
         $tests[] = [
             [
                 'title' => 'e',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  =>  'f',
             ],
             [
                 'title'    => 'd',
@@ -121,14 +121,14 @@ class MenuBuilderTest extends BoltUnitTest
                 'label' => 'b',
                 'link'  =>  'c',
             ],
-            'c',
+            'f',
         ];
 
         $tests[] = [
             [
                 'title' => 'a',
                 'label' => '',
-                'link'  =>  'x',
+                'link'  =>  'f',
             ],
             [
                 'title'    => '',
@@ -139,14 +139,14 @@ class MenuBuilderTest extends BoltUnitTest
                 'label' => '',
                 'link'  =>  'c',
             ],
-            'x',
+            'f',
         ];
 
         $tests[] = [
             [
                 'title' => 'a',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  =>  'f',
             ],
             [
                 'title'    => '',
@@ -157,7 +157,25 @@ class MenuBuilderTest extends BoltUnitTest
                 'label' => 'b',
                 'link'  =>  'c',
             ],
-            'c',
+            'f',
+        ];
+
+        $tests[] = [
+            [
+                'title' => 'a',
+                'label' => 'b',
+                'link'  =>  'f',
+            ],
+            [
+                'title'    => '',
+                'subtitle' => '',
+            ],
+            [
+                'title' => 'a',
+                'label' => 'b',
+                'link'  =>  'c',
+            ],
+            'f',
         ];
 
         return $tests;
