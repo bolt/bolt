@@ -3,7 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Session\FileSessionHandler;
-use Bolt\Session\Generator\NativeGenerator;
+use Bolt\Session\Generator\RandomGenerator;
 use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
 use Bolt\Session\SessionStorage;
@@ -29,8 +29,8 @@ class SessionServiceProvider implements ServiceProviderInterface
         $this->registerOptions($app);
         $this->registerHandlers($app);
 
-        $app['session.storage.generator'] = $app->share(function () {
-            return new NativeGenerator();
+        $app['session.storage.generator'] = $app->share(function () use ($app) {
+            return new RandomGenerator($app['randomgenerator']);
         });
 
         $app['session.storage.serializer'] = $app->share(function () {
