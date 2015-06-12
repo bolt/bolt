@@ -273,7 +273,7 @@ class Injector
             return Str::replaceFirst($matches[0][$last], $replacement, $rawHtml);
         } elseif ($insidehead) {
             // Second attempt: entire document
-            return $this->jsTagsAfter($rawHtml, $asset, false);
+            return $this->jsTagsAfter($asset, $rawHtml, false);
         }
 
         return $this->headTagEnd($asset, $rawHtml);
