@@ -551,7 +551,7 @@ HTML;
     }
 }
 
-function globalSnippet($app, $string)
+function globalSnippet($string)
 {
     return nl2br($string);
 }

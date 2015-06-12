@@ -2,6 +2,7 @@
 namespace Bolt\Assets\Snippets;
 
 use Bolt\Assets\QueueInterface;
+use Bolt\Assets\Target;
 use Bolt\Controller\Zone;
 use Silex\Application;
 
@@ -42,13 +43,13 @@ class Queue implements QueueInterface
      * @param string          $extensionName
      * @param array|string    $extraParameters
      */
-    public function add($location, $callback, $extensionName = 'core', $extraParameters = [])
+    public function add($location, $callback, $extensionName = 'core', array $extraParameters = [])
     {
         $this->queue[] = new Snippet($location, $callback, $extensionName, $extraParameters);
     }
 
     /**
-     * Clears the snippet queue.
+     * {@inheritdoc}
      */
     public function clear()
     {
@@ -70,7 +71,9 @@ class Queue implements QueueInterface
         $html = preg_replace_callback('/<!--(.*)-->/Uis', [$this, 'pregCallback'], $html);
 
         // Process the snippets in the queue.
-        $html = $this->processInternal($html);
+        foreach ($this->queue as $asset) {
+            $html = $this->app['assets.injector']->inject($asset, $asset->getLocation(), $html);
+        }
 
         // Conditionally add jQuery
         $html = $this->addJquery($html);
@@ -91,70 +94,6 @@ class Queue implements QueueInterface
     public function getQueue()
     {
         return $this->queue;
-    }
-
-    /**
-     * Replace the snippets in the queue.
-     *
-     * @param string $html
-     *
-     * @return string
-     */
-    protected function processInternal($html)
-    {
-        $functionMap = $this->app['assets.injector']->getMap();
-
-        /** @var Snippet $snippet */
-        foreach ($this->queue as $snippet) {
-            $snippetHtml = $this->getCallbackHtml($snippet);
-
-            $location = $snippet->getLocation();
-            if (isset($functionMap[$location])) {
-                $html = $this->app['assets.injector']->{$functionMap[$location]}($html, $snippetHtml);
-            } else {
-                $html .= "$snippetHtml\n";
-            }
-        }
-
-        return $html;
-    }
-
-    /**
-     * Get the snippet, either by using a callback function, or else use the
-     * passed string as-is.
-     *
-     * @param Snippet $snippet
-     *
-     * @return string
-     */
-    protected function getCallbackHtml(Snippet $snippet)
-    {
-        if (!$snippet->isCore() && $callable = $this->getExtensionCallable($snippet)) {
-            // Snippet is defined in the extension itself.
-            return call_user_func_array($callable, (array) $snippet->getParameters());
-        } elseif (function_exists($snippet->getCallback())) {
-            // Snippet is a callback in the 'global scope'
-            return call_user_func($snippet->getCallback(), $this->app, $snippet->getParameters());
-        } else {
-            // Insert the 'callback' as a string.
-            return $snippet->getCallback();
-        }
-    }
-
-    /**
-     * Check for an enabled extension with a valid snippet callback.
-     *
-     * @param Snippet $snippet
-     *
-     * @return callable|null
-     */
-    private function getExtensionCallable(Snippet $snippet)
-    {
-        $extension = $this->app['extensions']->getInitialized($snippet->getExtension());
-
-        if (method_exists($extension, $snippet->getCallback())) {
-            return [$extension, $snippet->getCallback()];
-        }
     }
 
     /**
@@ -186,7 +125,8 @@ class Queue implements QueueInterface
         $regex = '/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/';
         if ($addJquery && $zone === Zone::FRONTEND && !preg_match($regex, $html)) {
             $jqueryfile = $this->app['resources']->getPath('app/view/js/jquery-1.11.2.min.js');
-            $html = $this->app['assets.injector']->jsTagsBefore('<script src="' . $jqueryfile . '"></script>', $html);
+            $asset = new Snippet(Target::BEFORE_JS, '<script src="' . $jqueryfile . '"></script>');
+            $html = $this->app['assets.injector']->inject($asset, $asset->getLocation(), $html);
         }
 
         return $html;

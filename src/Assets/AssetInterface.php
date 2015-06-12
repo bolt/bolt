@@ -8,5 +8,10 @@ namespace Bolt\Assets;
  */
 interface AssetInterface
 {
+    /**
+     * Convert object into a usable string.
+     *
+     * @return string
+     */
     public function __toString();
 }

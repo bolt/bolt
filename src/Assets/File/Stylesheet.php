@@ -6,12 +6,10 @@ namespace Bolt\Assets\File;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Stylesheet extends AssetBase
+class Stylesheet extends FileAssetBase
 {
     /**
-     * Return a string representation of the class.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function __toString()
     {

@@ -422,11 +422,18 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Return the available Snippets, used in \Bolt\Extensions.
      *
+     * @deprecated Use $app['assets.queue.snippet']->getQueue()
+     *
      * @return array
      */
     public function getSnippets()
     {
-        return $this->snippetlist;
+        $snippets = [];
+        foreach ($this->app['assets.queue.snippet']->getQueue() as $snippet) {
+            $snippets[] = (string) $snippet;
+        }
+
+        return $snippets;
     }
 
     /**

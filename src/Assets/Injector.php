@@ -48,181 +48,200 @@ class Injector
     }
 
     /**
-     * Helper function to insert some HTML into the start of the head section of
-     * an HTML page, right after the <head> tag.
-     *
-     * @param string $rawHtml
-     * @param string $addedHtml
+     * @param AssetInterface $asset
+     * @param string         $location
+     * @param string         $html
      *
      * @return string
      */
-    public function headTagStart($rawHtml, $addedHtml)
+    public function inject(AssetInterface $asset, $location, $html)
+    {
+        $functionMap = $this->getMap();
+        if (isset($functionMap[$location])) {
+            $html = $this->{$functionMap[$location]}($asset, $html);
+        } else {
+            $html .= "$asset\n";
+        }
+
+        return $html;
+    }
+
+    /**
+     * Helper function to insert some HTML into the start of the head section of
+     * an HTML page, right after the <head> tag.
+     *
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
+     *
+     * @return string
+     */
+    protected function headTagStart(AssetInterface $asset, $rawHtml)
     {
         if ($matches = $this->getMatches($rawHtml, '<head', true, false)) {
-            $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $addedHtml);
+            $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], (string) $asset);
 
             return Str::replaceFirst($matches[0], $replacement, $rawHtml);
         }
 
-        return $this->tagSoup($rawHtml, $addedHtml);
+        return $this->tagSoup($asset, $rawHtml);
     }
 
     /**
      * Helper function to insert some HTML into the head section of an HTML
      * page, right before the </head> tag.
      *
-     * @param string $rawHtml
-     * @param string $addedHtml
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
      *
      * @return string
      */
-    public function headTagEnd($rawHtml, $addedHtml)
+    protected function headTagEnd(AssetInterface $asset, $rawHtml)
     {
         if ($matches = $this->getMatches($rawHtml, '</head', false, false)) {
-            $replacement = sprintf("%s\t%s\n%s", $matches[1], $addedHtml, $matches[0]);
+            $replacement = sprintf("%s\t%s\n%s", $matches[1], (string) $asset, $matches[0]);
 
             return Str::replaceFirst($matches[0], $replacement, $rawHtml);
         }
 
-        return $this->tagSoup($rawHtml, $addedHtml);
+        return $this->tagSoup($asset, $rawHtml);
     }
 
     /**
      * Helper function to insert some HTML into the start of the head section of
      * an HTML page, right after the <body> tag.
      *
-     * @param string $rawHtml
-     * @param string $addedHtml
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
      *
      * @return string
      */
-    public function bodyTagStart($rawHtml, $addedHtml)
+    protected function bodyTagStart(AssetInterface $asset, $rawHtml)
     {
         if ($matches = $this->getMatches($rawHtml, '<body', true, false)) {
-            $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], $addedHtml);
+            $replacement = sprintf("%s\n%s\t%s", $matches[0], $matches[1], (string) $asset);
 
             return Str::replaceFirst($matches[0], $replacement, $rawHtml);
         }
 
-        return $this->tagSoup($rawHtml, $addedHtml);
+        return $this->tagSoup($asset, $rawHtml);
     }
 
     /**
      * Helper function to insert some HTML into the body section of an HTML
      * page, right before the </body> tag.
      *
-     * @param string $rawHtml
-     * @param string $addedHtml
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
      *
      * @return string
      */
-    public function bodyTagEnd($rawHtml, $addedHtml)
+    protected function bodyTagEnd(AssetInterface $asset, $rawHtml)
     {
         if ($matches = $this->getMatches($rawHtml, '</body', false, false)) {
-            $replacement = sprintf("%s\t%s\n%s", $matches[1], $addedHtml, $matches[0]);
+            $replacement = sprintf("%s\t%s\n%s", $matches[1], $asset, $matches[0]);
 
             return Str::replaceFirst($matches[0], $replacement, $rawHtml);
         }
 
-        return $this->tagSoup($rawHtml, $addedHtml);
+        return $this->tagSoup($asset, $rawHtml);
     }
 
     /**
      * Helper function to insert some HTML into the html section of an HTML
      * page, right before the </html> tag.
      *
-     * @param string $rawHtml
-     * @param string $addedHtml
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
      *
      * @return string
      */
-    public function htmlTagEnd($rawHtml, $addedHtml)
+    protected function htmlTagEnd(AssetInterface $asset, $rawHtml)
     {
         if ($matches = $this->getMatches($rawHtml, '</html', false, false)) {
-            $replacement = sprintf("%s\t%s\n%s", $matches[1], $addedHtml, $matches[0]);
+            $replacement = sprintf("%s\t%s\n%s", $matches[1], $asset, $matches[0]);
 
             return Str::replaceFirst($matches[0], $replacement, $rawHtml);
         }
 
-        return $this->tagSoup($rawHtml, $addedHtml);
+        return $this->tagSoup($asset, $rawHtml);
     }
 
     /**
      * Helper function to insert some HTML into the head section of an HTML page.
      *
-     * @param string $rawHtml
-     * @param string $addedHtml
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
      *
      * @return string
      */
-    public function metaTagsAfter($rawHtml, $addedHtml)
+    protected function metaTagsAfter(AssetInterface $asset, $rawHtml)
     {
         if ($matches = $this->getMatches($rawHtml, '<meta', true, true)) {
             $last = count($matches[0]) - 1;
-            $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $addedHtml);
+            $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], (string) $asset);
 
             return Str::replaceFirst($matches[0][$last], $replacement, $rawHtml);
         }
 
-        return $this->headTagEnd($rawHtml, $addedHtml);
+        return $this->headTagEnd($asset, $rawHtml);
     }
 
     /**
      * Helper function to insert some HTML into the head section of an HTML page.
      *
-     * @param string $rawHtml
-     * @param string $addedHtml
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
      *
      * @return string
      */
-    public function cssTagsAfter($rawHtml, $addedHtml)
+    protected function cssTagsAfter(AssetInterface $asset, $rawHtml)
     {
         if ($matches = $this->getMatches($rawHtml, '<link', true, true)) {
             $last = count($matches[0]) - 1;
-            $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $addedHtml);
+            $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], (string) $asset);
 
             return Str::replaceFirst($matches[0][$last], $replacement, $rawHtml);
         }
 
-        return $this->headTagEnd($rawHtml, $addedHtml);
+        return $this->headTagEnd($asset, $rawHtml);
     }
 
     /**
      * Helper function to insert some HTML before the first CSS include in the page.
      *
-     * @param string $rawHtml
-     * @param string $addedHtml
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
      *
      * @return string
      */
-    public function cssTagsBefore($rawHtml, $addedHtml)
+    protected function cssTagsBefore(AssetInterface $asset, $rawHtml)
     {
         if ($matches = $this->getMatches($rawHtml, '<link', true, false)) {
-            $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $addedHtml, $matches[0], $matches[1]);
+            $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $asset, $matches[0], $matches[1]);
 
             return Str::replaceFirst($matches[0], $replacement, $rawHtml);
         }
 
-        return $this->tagSoup($rawHtml, $addedHtml);
+        return $this->tagSoup($asset, $rawHtml);
     }
 
     /**
      * Helper function to insert some HTML before the first javascript include in the page.
      *
-     * @param string $rawHtml
-     * @param string $addedHtml
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
      *
      * @return string
      */
-    public function jsTagsBefore($rawHtml, $addedHtml)
+    protected function jsTagsBefore(AssetInterface $asset, $rawHtml)
     {
         if ($matches = $this->getMatches($rawHtml, '<script', true, false)) {
-            $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $addedHtml, $matches[0], $matches[1]);
+            $replacement = sprintf("%s%s\n%s\t%s", $matches[1], $asset, $matches[0], $matches[1]);
 
             return Str::replaceFirst($matches[0], $replacement, $rawHtml);
         }
 
-        return $this->tagSoup($rawHtml, $addedHtml);
+        return $this->tagSoup($asset, $rawHtml);
     }
 
     /**
@@ -230,13 +249,13 @@ class Injector
      * First in the head section, but if there is no script in the head, place
      * it anywhere.
      *
-     * @param string  $rawHtml
-     * @param string  $addedHtml
-     * @param boolean $insidehead
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
+     * @param boolean        $insidehead
      *
      * @return string
      */
-    public function jsTagsAfter($rawHtml, $addedHtml, $insidehead = false)
+    protected function jsTagsAfter($asset, $rawHtml, $insidehead = false)
     {
         if ($insidehead) {
             $pos = strpos($rawHtml, '</head>');
@@ -249,15 +268,15 @@ class Injector
         if ($matches = $this->getMatches($context, '(.*)</script>', false, true)) {
             // Attempt to insert it after the last <script> tag within context, matching indentation.
             $last = count($matches[0]) - 1;
-            $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], $addedHtml);
+            $replacement = sprintf("%s\n%s%s", $matches[0][$last], $matches[1][$last], (string) $asset);
 
             return Str::replaceFirst($matches[0][$last], $replacement, $rawHtml);
         } elseif ($insidehead) {
             // Second attempt: entire document
-            return $this->jsTagsAfter($rawHtml, $addedHtml, false);
+            return $this->jsTagsAfter($rawHtml, $asset, false);
         }
 
-        return $this->headTagEnd($rawHtml, $addedHtml);
+        return $this->headTagEnd($asset, $rawHtml);
     }
 
     /**
@@ -286,13 +305,13 @@ class Injector
     /**
      * Since we're serving tag soup, just append the tag to the HTML we're given.
      *
-     * @param string $rawHtml
-     * @param string $addedHtml
+     * @param AssetInterface $asset
+     * @param string         $rawHtml
      *
      * @return string
      */
-    private function tagSoup($rawHtml, $addedHtml)
+    private function tagSoup(AssetInterface $asset, $rawHtml)
     {
-        return "$rawHtml$addedHtml\n";
+        return $rawHtml. (string) $asset . "\n";
     }
 }

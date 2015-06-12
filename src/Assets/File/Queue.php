@@ -2,7 +2,7 @@
 namespace Bolt\Assets\File;
 
 use Bolt\Assets\QueueInterface;
-use Bolt\Assets\AssetInterface;
+use Bolt\Assets\Target;
 use Silex\Application;
 
 /**
@@ -15,9 +15,9 @@ class Queue implements QueueInterface
 {
     /** @var \Silex\Application */
     private $app;
-    /** @var AssetInterface[] */
+    /** @var FileAssetBase[] */
     private $stylesheet = [];
-    /** @var AssetInterface[] */
+    /** @var FileAssetBase[] */
     private $javascript = [];
 
     /**
@@ -51,11 +51,9 @@ class Queue implements QueueInterface
     }
 
     /**
-     * Insert all assets in template. Use sorting by priority.
+     * {@inheritdoc}
      *
-     * @param $html
-     *
-     * @return string
+     * Uses sorting by priority.
      */
     public function process($html)
     {
@@ -71,9 +69,7 @@ class Queue implements QueueInterface
     }
 
     /**
-     * Get the queued snippets.
-     *
-     * @return \Bolt\Assets\Snippets\Snippet
+     * {@inheritdoc}
      */
     public function getQueue()
     {
@@ -84,36 +80,45 @@ class Queue implements QueueInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function clear()
+    {
+        $this->stylesheet = [];
+        $this->javascript = [];
+    }
+
+    /**
      * Process the CSS asset queue.
      *
-     * @param AssetInterface $asset
-     * @param string         $html
+     * @param FileAssetBase $asset
+     * @param string        $html
      *
      * @return string
      */
-    protected function processCssAssets(AssetInterface $asset, $html)
+    protected function processCssAssets(FileAssetBase $asset, $html)
     {
         if ($asset->isLate()) {
-            return $this->app['assets.injector']->bodyTagEnd($html, (string) $asset);
+            return $this->app['assets.injector']->inject($asset, Target::END_OF_BODY, $html);
         } else {
-            return $this->app['assets.injector']->cssTagsBefore($html, (string) $asset);
+            return $this->app['assets.injector']->inject($asset, Target::BEFORE_CSS, $html);
         }
     }
 
     /**
      * Process the JavaScript asset queue.
      *
-     * @param AssetInterface $asset
-     * @param string         $html
+     * @param FileAssetBase $asset
+     * @param string        $html
      *
      * @return string
      */
-    protected function processJsAssets(AssetInterface $asset, $html)
+    protected function processJsAssets(FileAssetBase $asset, $html)
     {
         if ($asset->isLate()) {
-            return $this->app['assets.injector']->bodyTagEnd($html, (string) $asset);
+            return $this->app['assets.injector']->inject($asset, Target::END_OF_BODY, $html);
         } else {
-            return $this->app['assets.injector']->jsTagsAfter($html, (string) $asset);
+            return $this->app['assets.injector']->inject($asset, Target::AFTER_JS, $html);
         }
     }
 
@@ -122,17 +127,21 @@ class Queue implements QueueInterface
      *
      * @see http://en.wikipedia.org/wiki/Schwartzian_transform
      *
-     * @param AssetInterface[] $files
+     * @param FileAssetBase[] $files
      *
-     * @return AssetInterface[]
+     * @return FileAssetBase[]
      */
     private function sort(array $files)
     {
-        // @codingStandardsIgnoreStart
-        array_walk($files, function (&$v, $k) {$v = [$v->getPriority(), $k, $v];});
+        array_walk($files, function (&$v, $k) {
+            $v = [$v->getPriority(), $k, $v];
+        });
+
         sort($files);
-        array_walk($files, function (&$v, $k) {$v = $v[2];});
-        // @codingStandardsIgnoreEnd
+
+        array_walk($files, function (&$v) {
+            $v = $v[2];
+        });
 
         return $files;
     }

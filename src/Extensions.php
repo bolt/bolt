@@ -13,6 +13,7 @@ use Composer\Json\JsonFile;
 use Monolog\Logger;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Bolt\Assets\Target;
 
 class Extensions
 {
@@ -432,10 +433,17 @@ class Extensions
 
             if (!empty($snippets)) {
                 foreach ($snippets as $snippet) {
+                    if (is_string($snippet[1]) && is_callable([$extension, $snippet[1]])) {
+                        // Create a callable
+                        $snippet[1] = [$extension, $snippet[1]];
+                    }
+
                     // Make sure 'snippet[2]' is the correct name.
                     $snippet[2] = $name;
+
+                    // If paramters are empty make it an array
                     if (!isset($snippet[3])) {
-                        $snippet[3] = '';
+                        $snippet[3] = [];
                     }
                     $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3]);
                 }
@@ -744,9 +752,9 @@ class Extensions
     /**
      * @deprecated since 2.3 and will removed in Bolt 3.
      */
-    public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = '')
+    public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = [])
     {
-        $this->app['assets.queue.snippet']->add($location, $callback, $extensionname, $extraparameters);
+        $this->app['assets.queue.snippet']->add($location, $callback, $extensionname, (array) $extraparameters);
     }
 
     /**
@@ -778,7 +786,7 @@ class Extensions
      */
     public function insertStartOfHead($tag, $html)
     {
-        return $this->app['assets.injector']->headTagStart($html, $tag);
+        return $this->app['assets.injector']->inject($tag, Target::START_OF_HEAD, $html);
     }
 
     /**
@@ -786,7 +794,7 @@ class Extensions
      */
     public function insertStartOfBody($tag, $html)
     {
-        return $this->app['assets.injector']->bodyTagStart($html, $tag);
+        return $this->app['assets.injector']->inject($tag, Target::START_OF_BODY, $html);
     }
 
     /**
@@ -794,7 +802,7 @@ class Extensions
      */
     public function insertEndOfHead($tag, $html)
     {
-        return $this->app['assets.injector']->headTagEnd($html, $tag);
+        return $this->app['assets.injector']->inject($tag, Target::END_OF_HEAD, $html);
     }
 
     /**
@@ -802,7 +810,7 @@ class Extensions
      */
     public function insertEndOfBody($tag, $html)
     {
-        return $this->app['assets.injector']->bodyTagEnd($html, $tag);
+        return $this->app['assets.injector']->inject($tag, Target::END_OF_BODY, $html);
     }
 
     /**
@@ -810,7 +818,7 @@ class Extensions
      */
     public function insertEndOfHtml($tag, $html)
     {
-        return $this->app['assets.injector']->htmlTagEnd($html, $tag);
+        return $this->app['assets.injector']->inject($tag, Target::END_OF_HTML, $html);
     }
 
     /**
@@ -818,7 +826,7 @@ class Extensions
      */
     public function insertAfterMeta($tag, $html)
     {
-        return $this->app['assets.injector']->metaTagsAfter($html, $tag);
+        return $this->app['assets.injector']->inject($tag, Target::AFTER_META, $html);
     }
 
     /**
@@ -826,7 +834,7 @@ class Extensions
      */
     public function insertAfterCss($tag, $html)
     {
-        return $this->app['assets.injector']->cssTagsAfter($html, $tag);
+        return $this->app['assets.injector']->inject($tag, Target::AFTER_CSS, $html);
     }
 
     /**
@@ -834,7 +842,7 @@ class Extensions
      */
     public function insertBeforeCss($tag, $html)
     {
-        return $this->app['assets.injector']->cssTagsBefore($html, $tag);
+        return $this->app['assets.injector']->inject($tag, Target::BEFORE_CSS, $html);
     }
 
     /**
@@ -842,7 +850,7 @@ class Extensions
      */
     public function insertBeforeJS($tag, $html)
     {
-        return $this->app['assets.injector']->jsTagsBefore($html, $tag);
+        return $this->app['assets.injector']->inject($tag, Target::BEFORE_JS, $html);
     }
 
     /**
@@ -850,7 +858,7 @@ class Extensions
      */
     public function insertAfterJs($tag, $html, $insidehead = true)
     {
-        return $this->app['assets.injector']->jsTagsAfter($html, $tag, $insidehead);
+        return $this->app['assets.injector']->inject($tag, Target::AFTER_JS, $html, $insidehead);
     }
 
     /**

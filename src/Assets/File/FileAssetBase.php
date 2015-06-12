@@ -8,7 +8,7 @@ use Bolt\Assets\AssetInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-abstract class AssetBase implements AssetInterface
+abstract class FileAssetBase implements AssetInterface
 {
     /** @var string */
     protected $fileName;

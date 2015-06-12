@@ -9,7 +9,7 @@ namespace Bolt\Assets;
 interface QueueInterface
 {
     /**
-     * Insert all assets into template.
+     * Insert all queued assets into HTML response.
      *
      * @param $html
      *
@@ -18,9 +18,14 @@ interface QueueInterface
     public function process($html);
 
     /**
-     * Get the queued assets in this queue.
+     * Get the assets in this queue.
      *
-     * @return 
+     * @return AssetInterface[]|array
      */
     public function getQueue();
+
+    /**
+     * Clears the queue.
+     */
+    public function clear();
 }
