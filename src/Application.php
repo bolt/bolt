@@ -300,6 +300,8 @@ class Application extends Silex\Application
             ['locale_fallbacks' => [Application::DEFAULT_LOCALE]]
         );
 
+        $this['translator.cache_dir'] = $this['resources']->getPath('cache/trans');
+  
         $this->register(new Provider\TranslationServiceProvider());
     }
 
