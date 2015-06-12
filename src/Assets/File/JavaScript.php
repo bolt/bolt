@@ -4,7 +4,7 @@ namespace Bolt\Assets\File;
 /**
  * JavaScript file object class.
  *
- * @author Gawain Lynch <gawain.lynch@gmaill.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class JavaScript extends AssetBase
 {

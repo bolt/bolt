@@ -4,7 +4,7 @@ namespace Bolt\Assets\Snippets;
 /**
  * Snippet objects.
  *
- * @author Gawain Lynch <gawain.lynch@gmaill.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class Snippet
 {

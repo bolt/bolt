@@ -4,7 +4,7 @@ namespace Bolt\Assets\File;
 /**
  * Cascading stylesheet file object class.
  *
- * @author Gawain Lynch <gawain.lynch@gmaill.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class Stylesheet extends AssetBase
 {
