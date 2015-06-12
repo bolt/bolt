@@ -7,7 +7,7 @@ use Bolt\Helpers\Str;
  * Class for matching HTML elements and injecting text.
  *
  * @author Bob den Otter <bob@twokings.nl>
- * @author Gawain Lynch <gawain.lynch@gmaill.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class Injector
 {

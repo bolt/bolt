@@ -1,16 +1,17 @@
 <?php
 namespace Bolt\Assets\Snippets;
 
+use Bolt\Assets\QueueInterface;
 use Bolt\Controller\Zone;
 use Silex\Application;
 
 /**
  * Snippet queue processor.
  *
- * @author Gawain Lynch <gawain.lynch@gmaill.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Bob den Otter <bob@twokings.nl>
  */
-class Queue
+class Queue implements QueueInterface
 {
     /** @var boolean Whether to add jQuery to the HTML */
     protected $addJquery;

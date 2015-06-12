@@ -1,21 +1,23 @@
 <?php
 namespace Bolt\Assets\File;
 
+use Bolt\Assets\QueueInterface;
+use Bolt\Assets\AssetInterface;
 use Silex\Application;
 
 /**
  * File asset queue processor.
  *
- * @author Gawain Lynch <gawain.lynch@gmaill.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Bob den Otter <bob@twokings.nl>
  */
-class Queue
+class Queue implements QueueInterface
 {
     /** @var \Silex\Application */
     private $app;
-    /** @var AssetBase[] */
+    /** @var AssetInterface[] */
     private $stylesheet = [];
-    /** @var AssetBase[] */
+    /** @var AssetInterface[] */
     private $javascript = [];
 
     /**
@@ -84,12 +86,12 @@ class Queue
     /**
      * Process the CSS asset queue.
      *
-     * @param AssetBase $asset
-     * @param string    $html
+     * @param AssetInterface $asset
+     * @param string         $html
      *
      * @return string
      */
-    protected function processCssAssets(AssetBase $asset, $html)
+    protected function processCssAssets(AssetInterface $asset, $html)
     {
         if ($asset->isLate()) {
             return $this->app['assets.injector']->bodyTagEnd($html, (string) $asset);
@@ -101,12 +103,12 @@ class Queue
     /**
      * Process the JavaScript asset queue.
      *
-     * @param AssetBase $asset
-     * @param string    $html
+     * @param AssetInterface $asset
+     * @param string         $html
      *
      * @return string
      */
-    protected function processJsAssets(AssetBase $asset, $html)
+    protected function processJsAssets(AssetInterface $asset, $html)
     {
         if ($asset->isLate()) {
             return $this->app['assets.injector']->bodyTagEnd($html, (string) $asset);
@@ -120,9 +122,9 @@ class Queue
      *
      * @see http://en.wikipedia.org/wiki/Schwartzian_transform
      *
-     * @param AssetBase[] $files
+     * @param AssetInterface[] $files
      *
-     * @return AssetBase[]
+     * @return AssetInterface[]
      */
     private function sort(array $files)
     {
