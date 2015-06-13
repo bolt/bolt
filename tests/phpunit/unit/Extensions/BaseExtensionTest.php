@@ -269,12 +269,12 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Extensions', ['insertSnippet'], [$app]);
+        $handler = $this->getMock('Bolt\Assets\Snippets\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
-            ->method('insertSnippet');
+            ->method('add');
 
-        $app['extensions'] = $handler;
+        $app['assets.queue.snippet'] = $handler;
 
         $ext->addSnippet('test', [$this, 'testAddSnippet']);
     }

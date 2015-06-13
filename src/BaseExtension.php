@@ -1,6 +1,7 @@
 <?php
 namespace Bolt;
 
+use Bolt\Assets\Target;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
 use Bolt\Helpers\Arr;
@@ -445,9 +446,9 @@ abstract class BaseExtension implements ExtensionInterface
      * @param string $var2
      * @param string $var3
      */
-    public function addSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
+    public function addSnippet($name, $callback, $var1 = '', $var2 = '', $var3 = '')
     {
-        $this->app['extensions']->insertSnippet($name, $callback, $this->getName(), $var1, $var2, $var3);
+        $this->app['assets.queue.snippet']->add(Target::START_OF_HEAD, $callback, $this->getName(), [$var1, $var2, $var3]);
     }
 
     /**

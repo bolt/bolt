@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt;
+use Bolt\Assets\Target;
 use Bolt\Controller\Zone;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
@@ -13,7 +14,6 @@ use Composer\Json\JsonFile;
 use Monolog\Logger;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Bolt\Assets\Target;
 
 class Extensions
 {
@@ -433,19 +433,19 @@ class Extensions
 
             if (!empty($snippets)) {
                 foreach ($snippets as $snippet) {
+                    $location = $snippet[0];
+
                     if (is_string($snippet[1]) && is_callable([$extension, $snippet[1]])) {
                         // Create a callable
-                        $snippet[1] = [$extension, $snippet[1]];
+                        $callback = [$extension, $snippet[1]];
+                    } else {
+                        $callback = $snippet[1];
                     }
-
-                    // Make sure 'snippet[2]' is the correct name.
-                    $snippet[2] = $name;
 
                     // If paramters are empty make it an array
-                    if (!isset($snippet[3])) {
-                        $snippet[3] = [];
-                    }
-                    $this->insertSnippet($snippet[0], $snippet[1], $snippet[2], $snippet[3]);
+                    $parameters = isset($snippet[3]) ? $snippet[3] : [];
+
+                    $this->app['assets.queue.snippet']->add($location, $callback, $name, $parameters);
                 }
             }
         } catch (\Exception $e) {
