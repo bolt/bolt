@@ -72,7 +72,7 @@ class Render
     {
         $html = $response->getContent();
         $html = $this->app['assets.queue.file']->process($html);
-        $html = $this->app['assets.queue.snippets']->process($html);
+        $html = $this->app['assets.queue.snippet']->process($html);
         $this->cacheRequest($html);
 
         return $html;

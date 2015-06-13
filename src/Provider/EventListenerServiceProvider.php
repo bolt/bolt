@@ -54,7 +54,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $app['listener.snippet'] = $app->share(function ($app) {
             return new Listener\SnippetListener(
-                $app['extensions'],
+                $app['assets.queue.snippet'],
                 $app['config'],
                 $app['resources'],
                 $app['render']
