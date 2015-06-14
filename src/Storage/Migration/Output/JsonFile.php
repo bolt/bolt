@@ -1,8 +1,7 @@
 <?php
+namespace Bolt\Storage\Migration\Output;
 
-namespace Bolt\Database\Migration\Output;
-
-use Bolt\Database\Migration\Export;
+use Bolt\Storage\Migration\Export;
 
 /**
  * JSON export file
@@ -38,7 +37,7 @@ class JsonFile implements OutputFileInterface
     }
 
     /**
-     * @see \Bolt\Database\Migration\File\MigrationFileInterface::addRecord()
+     * @see \Bolt\Storage\Migration\File\MigrationFileInterface::addRecord()
      */
     public function addRecord(array $data, $last)
     {

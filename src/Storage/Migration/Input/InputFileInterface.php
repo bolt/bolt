@@ -1,8 +1,7 @@
 <?php
+namespace Bolt\Storage\Migration\Input;
 
-namespace Bolt\Database\Migration\Input;
-
-use Bolt\Database\Migration\Import;
+use Bolt\Storage\Migration\Import;
 
 /**
  * Interface for migration import files

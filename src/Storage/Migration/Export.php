@@ -1,6 +1,5 @@
 <?php
-
-namespace Bolt\Database\Migration;
+namespace Bolt\Storage\Migration;
 
 use Symfony\Component\Filesystem\Exception\IOException;
 
@@ -20,7 +19,7 @@ class Export extends AbstractMigration
     /**
      * Export set Contenttype's records to the export file.
      *
-     * @return \Bolt\Database\Migration\Export
+     * @return \Bolt\Storage\Migration\Export
      */
     public function exportContenttypesRecords()
     {
@@ -49,9 +48,9 @@ class Export extends AbstractMigration
      *
      * Also creates an output file object.
      *
-     * @see \Bolt\Database\Migration\AbstractMigration::setMigrationFiles()
+     * @see \Bolt\Storage\Migration\AbstractMigration::setMigrationFiles()
      *
-     * @return \Bolt\Database\Migration\Export
+     * @return \Bolt\Storage\Migration\Export
      */
     public function setMigrationFiles($files)
     {
@@ -113,7 +112,7 @@ class Export extends AbstractMigration
      *
      * @param string|array $contenttypeslugs
      *
-     * @return \Bolt\Database\Migration\Export
+     * @return \Bolt\Storage\Migration\Export
      */
     public function checkContenttypeValid($contenttypeslugs = [])
     {

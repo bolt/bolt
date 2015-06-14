@@ -1,6 +1,5 @@
 <?php
-
-namespace Bolt\Database\Migration;
+namespace Bolt\Storage\Migration;
 
 use Bolt\Helpers\Arr;
 
@@ -19,7 +18,7 @@ class Import extends AbstractMigration
      *
      * Also creates an input file objects.
      *
-     * @see \Bolt\Database\Migration\AbstractMigration::setMigrationFiles()
+     * @see \Bolt\Storage\Migration\AbstractMigration::setMigrationFiles()
      */
     public function setMigrationFiles($files)
     {
@@ -43,7 +42,7 @@ class Import extends AbstractMigration
     /**
      * Import each migration file
      *
-     * @return \Bolt\Database\Migration\Import
+     * @return \Bolt\Storage\Migration\Import
      */
     public function importMigrationFiles()
     {

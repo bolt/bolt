@@ -1,6 +1,5 @@
 <?php
-
-namespace Bolt\Database\Migration;
+namespace Bolt\Storage\Migration;
 
 use Bolt\Application;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -71,7 +70,7 @@ abstract class AbstractMigration
      *
      * @param boolean $error
      *
-     * @return \Bolt\Database\Migration\AbstractMigration
+     * @return \Bolt\Storage\Migration\AbstractMigration
      */
     public function setError($error)
     {
@@ -95,7 +94,7 @@ abstract class AbstractMigration
      *
      * @param string $errorMessage
      *
-     * @return \Bolt\Database\Migration\AbstractMigration
+     * @return \Bolt\Storage\Migration\AbstractMigration
      */
     public function setErrorMessage($errorMessage)
     {
@@ -119,7 +118,7 @@ abstract class AbstractMigration
      *
      * @param boolean $warning
      *
-     * @return \Bolt\Database\Migration\AbstractMigration
+     * @return \Bolt\Storage\Migration\AbstractMigration
      */
     public function setWarning($warning)
     {
@@ -143,7 +142,7 @@ abstract class AbstractMigration
      *
      * @param string $warningMessage
      *
-     * @return \Bolt\Database\Migration\AbstractMigration
+     * @return \Bolt\Storage\Migration\AbstractMigration
      */
     public function setWarningMessage($warningMessage)
     {
@@ -167,7 +166,7 @@ abstract class AbstractMigration
      *
      * @param boolean $notice
      *
-     * @return \Bolt\Database\Migration\AbstractMigration
+     * @return \Bolt\Storage\Migration\AbstractMigration
      */
     public function setNotice($notice)
     {
@@ -191,7 +190,7 @@ abstract class AbstractMigration
      *
      * @param string $noticeMessage
      *
-     * @return \Bolt\Database\Migration\AbstractMigration
+     * @return \Bolt\Storage\Migration\AbstractMigration
      */
     public function setNoticeMessage($noticeMessage)
     {
@@ -256,7 +255,7 @@ abstract class AbstractMigration
      *
      * @param string $migration Type of migration, either 'import' or 'export'
      *
-     * @return \Bolt\Database\Migration\AbstractMigration
+     * @return \Bolt\Storage\Migration\AbstractMigration
      */
     public function checkMigrationFilesExist($migration)
     {
@@ -282,7 +281,7 @@ abstract class AbstractMigration
      *
      * @param boolean $exists If true, then test that the file exists
      *
-     * @return \Bolt\Database\Migration\AbstractMigration
+     * @return \Bolt\Storage\Migration\AbstractMigration
      */
     public function checkMigrationFilesValid($exists = false)
     {
@@ -315,7 +314,7 @@ abstract class AbstractMigration
     /**
      * Determine if file(s) specified can be writen to.
      *
-     * @return \Bolt\Database\Migration\AbstractMigration
+     * @return \Bolt\Storage\Migration\AbstractMigration
      */
     public function checkMigrationFilesWriteable()
     {

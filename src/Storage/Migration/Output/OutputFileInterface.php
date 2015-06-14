@@ -1,8 +1,7 @@
 <?php
+namespace Bolt\Storage\Migration\Output;
 
-namespace Bolt\Database\Migration\Output;
-
-use Bolt\Database\Migration\Export;
+use Bolt\Storage\Migration\Export;
 
 /**
  * Interface for migration export files

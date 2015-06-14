@@ -1,17 +1,16 @@
 <?php
+namespace Bolt\Storage\Migration\Input;
 
-namespace Bolt\Database\Migration\Input;
-
-use Bolt\Database\Migration\Import;
-use Seld\JsonLint\JsonParser;
-use Seld\JsonLint\ParsingException;
+use Bolt\Storage\Migration\Import;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Parser;
 
 /**
- * JSON import file
+ * YAML import file
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class JsonFile implements InputFileInterface
+class YamlFile implements InputFileInterface
 {
     /** @var Import $import */
     private $import;
@@ -19,8 +18,8 @@ class JsonFile implements InputFileInterface
     /** @var \SplFileInfo $file */
     private $file;
 
-    /** @var \Seld\JsonLint\JsonParser $parser */
-    private $parser;
+    /** @var \Symfony\Component\Yaml\Dumper */
+    private $dumper;
 
     /**
      * Constructor.
@@ -33,33 +32,26 @@ class JsonFile implements InputFileInterface
         $this->import = $import;
         $this->file   = $file;
 
-        // Slower parser than json_decode(), but gives error handling and useful
-        // feedback, and we're not in a critical path!
-        $this->parser = new JsonParser();
+        // Get a new YAML parser
+        $this->parser = new Parser();
     }
 
     /**
-     * @see \Bolt\Database\Migration\Input\InputFileInterface::readFile()
+     * @see \Bolt\Storage\Migration\Input\InputFileInterface::readFile()
      */
     public function readFile()
     {
         $filename = (string) $this->file;
         if ($this->file->isReadable()) {
             try {
-                $data = $this->parser->parse(file_get_contents($filename));
+                $data = $this->parser->parse(file_get_contents($filename) . "\n");
                 $this->import->setData($data);
 
                 return true;
-            } catch (ParsingException $e) {
+            } catch (ParseException $e) {
                 $this->import
                     ->setError(true)
-                    ->setErrorMessage("File '$filename' has invalid JSON!");
-
-                $details = $e->getDetails();
-                foreach ($details as $detail) {
-                    $this->import
-                        ->setErrorMessage($detail);
-                }
+                    ->setErrorMessage("File '$filename' has invalid YAML!");
 
                 return false;
             }
