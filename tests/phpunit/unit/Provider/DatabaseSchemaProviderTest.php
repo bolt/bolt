@@ -16,7 +16,7 @@ class DatabaseSchemaProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new DatabaseSchemaProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Database\Schema\Manager', $app['schema']);
+        $this->assertInstanceOf('Bolt\Storage\Database\Schema\Manager', $app['schema']);
         $app->boot();
     }
 }
