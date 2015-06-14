@@ -344,7 +344,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Assets\File\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Assets\Files\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
             ->method('add')
@@ -365,7 +365,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Assets\File\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Assets\Files\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
             ->method('add')
@@ -406,7 +406,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Assets\File\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Assets\Files\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
             ->method('add')
@@ -427,7 +427,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Assets\File\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Assets\Files\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
             ->method('add')
