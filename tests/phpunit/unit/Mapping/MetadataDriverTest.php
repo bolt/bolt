@@ -23,7 +23,7 @@ class MetadataDriverTest extends BoltUnitTest
         $app = $this->getApp();
         $map = new MetadataDriver($app['schema'], $app['config']->get('contenttypes'), $app['config']->get('taxonomy'), $app['storage.typemap']);
         $map->initialize();
-        $metadata = $map->loadMetadataForClass('Bolt\Entity\Users');
+        $metadata = $map->loadMetadataForClass('Bolt\Storage\Entity\Users');
         $this->assertNotNull($metadata);
         $this->assertEquals('bolt_users', $metadata->getTableName());
         $field = $metadata->getFieldMapping('id');

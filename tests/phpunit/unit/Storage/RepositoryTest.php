@@ -17,7 +17,7 @@ class RepositoryTest extends BoltUnitTest
     public function testConstruct()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Entity\Authtoken';
+        $entityName = 'Bolt\Storage\Entity\Authtoken';
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
 
@@ -27,7 +27,7 @@ class RepositoryTest extends BoltUnitTest
     public function testGetTableName()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Entity\Authtoken';
+        $entityName = 'Bolt\Storage\Entity\Authtoken';
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
 
@@ -37,7 +37,7 @@ class RepositoryTest extends BoltUnitTest
     public function testGetEntityName()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Entity\Authtoken';
+        $entityName = 'Bolt\Storage\Entity\Authtoken';
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
 
@@ -48,7 +48,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $entityName = 'Bolt\Entity\Users';
+        $entityName = 'Bolt\Storage\Entity\Users';
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
 
@@ -60,7 +60,7 @@ class RepositoryTest extends BoltUnitTest
     public function testFindAll()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Entity\Users';
+        $entityName = 'Bolt\Storage\Entity\Users';
 
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
@@ -75,7 +75,7 @@ class RepositoryTest extends BoltUnitTest
     public function testFindBy()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Entity\Users';
+        $entityName = 'Bolt\Storage\Entity\Users';
 
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository($entityName);
@@ -88,7 +88,7 @@ class RepositoryTest extends BoltUnitTest
     public function testFindOneBy()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Entity\Users';
+        $entityName = 'Bolt\Storage\Entity\Users';
         $this->runListenCount($app, 'preHydrate');
 
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
@@ -102,7 +102,7 @@ class RepositoryTest extends BoltUnitTest
     public function testInsert()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Entity\Users';
+        $entityName = 'Bolt\Storage\Entity\Users';
         $this->runListenCount($app, 'preSave');
         $this->runListenCount($app, 'postSave');
 
@@ -134,7 +134,7 @@ class RepositoryTest extends BoltUnitTest
     public function testUpdate()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Entity\Users';
+        $entityName = 'Bolt\Storage\Entity\Users';
         $this->runListenCount($app, 'preSave');
         $this->runListenCount($app, 'postSave');
 
@@ -157,7 +157,7 @@ class RepositoryTest extends BoltUnitTest
     public function testDelete()
     {
         $app = $this->getApp();
-        $entityName = 'Bolt\Entity\Users';
+        $entityName = 'Bolt\Storage\Entity\Users';
         $this->runListenCount($app, 'preDelete');
         $this->runListenCount($app, 'postDelete');
 
