@@ -1,8 +1,9 @@
 <?php
-namespace Bolt\Field\Type;
+namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\EntityProxy;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -12,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Taxonomy extends FieldTypeBase
+class Relation extends FieldTypeBase
 {
     /**
      * @inheritdoc
@@ -20,16 +21,10 @@ class Taxonomy extends FieldTypeBase
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
         $field = $this->mapping['fieldname'];
+        $target = $this->mapping['target'];
         $boltname = $metadata->getBoltName();
-
-        if ($this->mapping['data']['has_sortorder']) {
-            $order = "$field.sortorder";
-        } else {
-            $order = "$field.id";
-        }
-
-        $query->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field, $query))
-            ->leftJoin('content', 'bolt_taxonomy', $field, "content.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
+        $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
+            ->leftJoin('content', $target, $field, "content.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
             ->addGroupBy("content.id");
     }
 
@@ -39,8 +34,12 @@ class Taxonomy extends FieldTypeBase
     public function hydrate($data, $entity, EntityManager $em = null)
     {
         $field = $this->mapping['fieldname'];
-        $taxonomies = array_filter(explode(',', $data[$field]));
-        $entity->$field = $taxonomies;
+        $relations = array_filter(explode(',', $data[$field]));
+        $values = [];
+        foreach ($relations as $id) {
+            $values[] = new EntityProxy($field, $id, $em);
+        }
+        $entity->$field = $values;
     }
 
     /**
@@ -51,23 +50,22 @@ class Taxonomy extends FieldTypeBase
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
         $accessor = "get".$field;
-        $taxonomy = (array)$entity->$accessor();
+        $relations = (array)$entity->$accessor();
 
         // Fetch existing relations
 
         $existingQuery = $em->createQueryBuilder()
                             ->select('*')
                             ->from($target)
-                            ->where('content_id = ?')
-                            ->andWhere('contenttype = ?')
-                            ->andWhere('taxonomytype = ?')
+                            ->where('from_id = ?')
+                            ->andWhere('from_contenttype = ?')
+                            ->andWhere('to_contenttype = ?')
                             ->setParameter(0, $entity->id)
                             ->setParameter(1, $entity->getContenttype())
                             ->setParameter(2, $field);
         $result = $existingQuery->execute()->fetchAll();
-
-        $existing = array_map(function ($el) {return $el['slug'];}, $result);
-        $proposed = $taxonomy;
+        $existing = array_map(function ($el) {return $el['to_id'];}, $result);
+        $proposed = array_map(function ($el) {return $el->reference;}, $relations);
 
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
@@ -75,29 +73,26 @@ class Taxonomy extends FieldTypeBase
         foreach ($toInsert as $item) {
             $ins = $em->createQueryBuilder()->insert($target);
             $ins->values([
-                'content_id'   => '?',
-                'contenttype'  => '?',
-                'taxonomytype' => '?',
-                'slug'         => '?',
-                'name'         => '?'
+                'from_id'          => '?',
+                'from_contenttype' => '?',
+                'to_contenttype'   => '?',
+                'to_id'            => '?'
             ])->setParameters([
                 0 => $entity->id,
                 1 => $entity->getContenttype(),
                 2 => $field,
-                3 => $item,
-                4 => $this->mapping['data']['options'][$item]
+                3 => $item
             ]);
 
             $queries->append($ins);
         }
 
-
         foreach ($toDelete as $item) {
             $del = $em->createQueryBuilder()->delete($target);
-            $del->where('content_id=?')
-                ->andWhere('contenttype=?')
-                ->andWhere('taxonomytype=?')
-                ->andWhere('slug=?')
+            $del->where('from_id=?')
+                ->andWhere('from_contenttype=?')
+                ->andWhere('to_contenttype=?')
+                ->andWhere('to_id=?')
                 ->setParameters([
                 0 => $entity->id,
                 1 => $entity->getContenttype(),
@@ -114,30 +109,29 @@ class Taxonomy extends FieldTypeBase
      */
     public function getName()
     {
-        return 'taxonomy';
+        return 'relation';
     }
 
     /**
      * Get platform specific group_concat token for provided column
      *
      * @param string       $column
-     * @param string       $order
      * @param string       $alias
      * @param QueryBuilder $query
      *
      * @return string
      */
-    protected function getPlatformGroupConcat($column, $order, $alias, QueryBuilder $query)
+    protected function getPlatformGroupConcat($column, $alias, QueryBuilder $query)
     {
         $platform = $query->getConnection()->getDatabasePlatform()->getName();
 
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT(DISTINCT $column ORDER BY $order ASC) as $alias";
+                return "GROUP_CONCAT(DISTINCT $column) as $alias";
             case 'sqlite':
                 return "GROUP_CONCAT(DISTINCT $column) as $alias";
             case 'postgresql':
-                return "string_agg(distinct $column, ',' ORDER BY $order) as $alias";
+                return "string_agg(distinct $column, ',') as $alias";
         }
     }
 }

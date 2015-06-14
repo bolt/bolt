@@ -1,6 +1,5 @@
 <?php
-
-namespace Bolt\Field;
+namespace Bolt\Storage\Field;
 
 /**
  * Class to manage instances of fields and instantiate the defaults.

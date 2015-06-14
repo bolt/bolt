@@ -1,5 +1,4 @@
 <?php
-
 namespace Bolt;
 
 use Bolt\Controller\Zone;
@@ -43,7 +42,7 @@ class Config
      * Use {@see Config::getFields} instead.
      * Will be made protected in Bolt 3.0.
      *
-     * @var Field\Manager
+     * @var Storage\Field\Manager
      */
     public $fields;
 
@@ -59,7 +58,7 @@ class Config
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->fields = new Field\Manager();
+        $this->fields = new Storage\Field\Manager();
         $this->defaultConfig = $this->getDefaults();
 
         $this->initialize();
@@ -830,7 +829,7 @@ class Config
     /**
      * A getter to access the fields manager.
      *
-     * @return Field\Manager
+     * @return Storage\Field\Manager
      **/
     public function getFields()
     {

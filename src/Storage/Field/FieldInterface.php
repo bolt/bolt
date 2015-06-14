@@ -1,6 +1,5 @@
 <?php
-
-namespace Bolt\Field;
+namespace Bolt\Storage\Field;
 
 /**
  * Interface implemented by content fields.

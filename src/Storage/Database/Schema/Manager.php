@@ -443,7 +443,7 @@ class Manager
             $tableObj->addCustomFields($fieldName, $values['type'], $addIndex);
         } elseif ($handler = $this->app['config']->getFields()->getField($values['type'])) {
             // Add template fields
-            /** @var $handler \Bolt\Field\FieldInterface */
+            /** @var $handler \Bolt\Storage\Field\FieldInterface */
             $table->addColumn($fieldName, $handler->getStorageType(), $handler->getStorageOptions());
         }
     }

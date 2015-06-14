@@ -1,8 +1,8 @@
 <?php
-namespace Bolt\Field\Type;
+namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;

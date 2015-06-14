@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Field\Type;
+namespace Bolt\Storage\Field\Type;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -7,13 +7,13 @@ namespace Bolt\Field\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Integer extends FieldTypeBase
+class Templateselect extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'integer';
+        return 'templateselect';
     }
 }

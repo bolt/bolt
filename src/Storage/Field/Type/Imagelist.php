@@ -1,5 +1,7 @@
 <?php
-namespace Bolt\Field\Type;
+namespace Bolt\Storage\Field\Type;
+
+use Doctrine\DBAL\Types\Type;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -7,13 +9,21 @@ namespace Bolt\Field\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class File extends FieldTypeBase
+class Imagelist extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'file';
+        return 'imagelist';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStorageType()
+    {
+        return Type::getType('json_array');
     }
 }

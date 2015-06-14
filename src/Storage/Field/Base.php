@@ -1,6 +1,5 @@
 <?php
-
-namespace Bolt\Field;
+namespace Bolt\Storage\Field;
 
 class Base implements FieldInterface
 {

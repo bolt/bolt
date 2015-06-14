@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Field\Type;
+namespace Bolt\Storage\Field\Type;
 
 use Doctrine\DBAL\Types\Type;
 
@@ -9,14 +9,14 @@ use Doctrine\DBAL\Types\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Imagelist extends FieldTypeBase
+class Geolocation extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'imagelist';
+        return 'geolocation';
     }
 
     /**
