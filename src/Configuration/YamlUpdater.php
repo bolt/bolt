@@ -6,6 +6,7 @@ use Bolt\Exception\FilesystemException;
 use League\Flysystem\File;
 use Silex;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Allows (simple) modifications of Bolt .yml files.
@@ -73,6 +74,50 @@ class YamlUpdater
         } else {
             return false;
         }
+    }
+    
+    /**
+     * Return only a value for a key from the yml file.
+     *
+     * @param string $key
+     *
+     * @return boolean|array
+     */
+    public function getValue($key)
+    {
+        $yaml = Yaml::parse($this->file->read());
+
+        $keyparts = explode("/", $key);
+        while ($key = array_shift($keyparts)) {
+            $yaml = &$yaml[$key];
+        }
+
+        return $yaml;
+    }
+    
+    /**
+     * Updates a single value with replacement for given key in yml file.
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return boolean
+     */
+    public function setValue($key, $value, $makebackup = true)
+    {
+        $pattern = str_replace("/", ":.*", $key); 
+        preg_match_all('/^'.$pattern.'(:\s*)/mis', $this->file->read(), $matches,  PREG_OFFSET_CAPTURE);
+        
+        if (count($matches[0])>0 && count($matches[1])) {
+            $index = $matches[1][0][1] + strlen($matches[1][0][0]);
+        } else {
+            return false;
+        }
+                
+        $line = substr_count($this->file->read(), "\n", 0, $index);
+        $this->yaml[$line]  = preg_replace('/^(.*):(.*)/',"$1: $value",$this->yaml[$line]);
+        
+        return $this->save($makebackup);
     }
 
     /**
