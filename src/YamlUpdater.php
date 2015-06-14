@@ -162,18 +162,6 @@ class YamlUpdater
         );
     }
 
-    /**
-     * Change a key into a new value. Save .yml afterwards.
-     *
-     * @param string  $key        YAML key to modify
-     * @param mixed   $value      New value
-     * @param boolean $makebackup Back up the file before commiting changes to it
-     *
-     * @return bool
-     */
-    public function change($key, $value, $makebackup = true)
-    {
-        $match = $this->get($key);
 
     /**
      * Make sure the value is escaped as a yaml value.
