@@ -6,6 +6,7 @@ use Bolt\Exception\FilesystemException;
 use League\Flysystem\File;
 use Silex;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Allows (simple) modifications of Bolt .yml files.
@@ -24,6 +25,8 @@ class YamlUpdater
     private $yaml = [];
     /** @var File */
     private $file;
+    /** @var array the parsed yml file */
+    private $parsed;
 
     /**
      * Creates an updater for the given file.
@@ -41,7 +44,7 @@ class YamlUpdater
         $this->yaml = $this->file->read();
 
         // Check that the read-in YAML is valid
-        $this->parser->parse($this->yaml, true, true);
+        $this->parsed = $this->parser->parse($this->yaml, true, true);
 
         // Create a searchable array
         $this->yaml = explode("\n", $this->yaml);
@@ -49,9 +52,9 @@ class YamlUpdater
         // Track the number of lines we have
         $this->lines = count($this->yaml);
     }
-
+    
     /**
-     * Get a value from the yml. return an array with info.
+     * Return a value for a key from the yml file.
      *
      * @param string $key
      *
@@ -59,20 +62,43 @@ class YamlUpdater
      */
     public function get($key)
     {
-        // resets pointer
-        $this->pointer = 0;
-        $result = false;
+        $yaml = $this->parsed;
+
         $keyparts = explode("/", $key);
-
-        foreach ($keyparts as $count => $keypart) {
-            $result = $this->find($keypart, $count);
+        while ($key = array_shift($keyparts)) {
+            $yaml = &$yaml[$key];
         }
-
-        if ($result !== false) {
-            return $this->parseline($result);
+        
+        if (is_array($yaml)) {
+            return Yaml::dump($yaml, 0, 4);
+        }
+        
+        return $yaml;
+    }
+    
+    /**
+     * Updates a single value with replacement for given key in yml file.
+     *
+     * @param string $key
+     * @param string $value
+     *
+     * @return boolean
+     */
+    public function change($key, $value, $makebackup = true)
+    {
+        $pattern = str_replace("/", ":.*", $key); 
+        preg_match_all('/^'.$pattern.'(:\s*)/mis', $this->file->read(), $matches,  PREG_OFFSET_CAPTURE);
+        
+        if (count($matches[0])>0 && count($matches[1])) {
+            $index = $matches[1][0][1] + strlen($matches[1][0][0]);
         } else {
             return false;
         }
+                
+        $line = substr_count($this->file->read(), "\n", 0, $index);
+        $this->yaml[$line] = preg_replace('/^(.*):(.*)/',"$1: ".$this->prepareValue($value), $this->yaml[$line]);
+        
+        return $this->save($makebackup);
     }
 
     /**
@@ -116,30 +142,6 @@ class YamlUpdater
         ];
     }
 
-    /**
-     * Change a key into a new value. Save .yml afterwards.
-     *
-     * @param string  $key        YAML key to modify
-     * @param mixed   $value      New value
-     * @param boolean $makebackup Back up the file before commiting changes to it
-     *
-     * @return boolean
-     */
-    public function change($key, $value, $makebackup = true)
-    {
-        $match = $this->get($key);
-
-        // Not found.
-        if (!$match) {
-            return false;
-        }
-
-        $value = $this->prepareValue($value);
-
-        $this->yaml[$match['line']] = sprintf("%s%s: %s\n", $match['indentation'], $match['key'], $value);
-
-        return $this->save($makebackup);
-    }
 
     /**
      * Make sure the value is escaped as a yaml value.
