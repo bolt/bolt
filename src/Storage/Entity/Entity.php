@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Entity;
+namespace Bolt\Storage\Entity;
 
 /**
  * An abstract class that other entities can inherit. Provides automatic getters and setters along

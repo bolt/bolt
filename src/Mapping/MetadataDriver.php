@@ -28,14 +28,14 @@ class MetadataDriver implements MappingDriver
 
     /** @var array */
     protected $defaultAliases = [
-        'bolt_authtoken'  => 'Bolt\Entity\Authtoken',
-        'bolt_cron'       => 'Bolt\Entity\Cron',
-        'bolt_log'        => 'Bolt\Entity\Log',
-        'bolt_log_change' => 'Bolt\Entity\LogChange',
-        'bolt_log_system' => 'Bolt\Entity\LogSystem',
-        'bolt_relations'  => 'Bolt\Entity\Relations',
-        'bolt_taxonomy'   => 'Bolt\Entity\Taxonomy',
-        'bolt_users'      => 'Bolt\Entity\Users'
+        'bolt_authtoken'  => 'Bolt\Storage\Entity\Authtoken',
+        'bolt_cron'       => 'Bolt\Storage\Entity\Cron',
+        'bolt_log'        => 'Bolt\Storage\Entity\Log',
+        'bolt_log_change' => 'Bolt\Storage\Entity\LogChange',
+        'bolt_log_system' => 'Bolt\Storage\Entity\LogSystem',
+        'bolt_relations'  => 'Bolt\Storage\Entity\Relations',
+        'bolt_taxonomy'   => 'Bolt\Storage\Entity\Taxonomy',
+        'bolt_users'      => 'Bolt\Storage\Entity\Users'
     ];
 
     /** @var array */
@@ -52,7 +52,7 @@ class MetadataDriver implements MappingDriver
     protected $unmapped;
 
     /** @var string A default entity for any table not matched */
-    protected $fallbackEntity = 'Bolt\Entity\Content';
+    protected $fallbackEntity = 'Bolt\Storage\Entity\Content';
     /** @var boolean */
     protected $initialized = false;
 
