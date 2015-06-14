@@ -70,7 +70,7 @@ class YamlUpdater
         // Track the number of lines we have
         $this->lines = count($this->yaml);
     }
-
+    
     /**
      * Return a value for a key from the yml file.
      *
