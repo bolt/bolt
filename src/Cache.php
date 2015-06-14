@@ -138,7 +138,7 @@ class Cache extends FilesystemCache
         $dir = dir($currentfolder);
 
         while (($entry = $dir->read()) !== false) {
-            $exclude = ['.', '..', 'index.html', '.gitignore', '.version'];
+            $exclude = ['.', '..', '.assetsalt', '.gitignore', 'index.html', '.version'];
 
             if (in_array($entry, $exclude)) {
                 continue;
