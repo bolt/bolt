@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Database\Schema\Table;
+namespace Bolt\Storage\Database\Schema\Table;
 
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;

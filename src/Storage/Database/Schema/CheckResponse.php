@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Database\Schema;
+namespace Bolt\Storage\Database\Schema;
 
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Table;

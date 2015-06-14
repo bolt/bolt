@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Mapping;
 
-use Bolt\Database\Schema\Manager;
+use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Mapping\ClassMetadata as BoltClassMetadata;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
@@ -10,14 +10,14 @@ use Doctrine\DBAL\Schema\Table;
 /**
  * This is a Bolt specific metadata driver that provides mapping information
  * for the internal and user-defined schemas. To do this it takes in the
- * constructor, an instance of Bolt\Database\Schema\Manager and uses this to
- * read in the schema.
+ * constructor, an instance of Bolt\Storage\Database\Schema\Manager and uses
+ * this to read in the schema.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
 class MetadataDriver implements MappingDriver
 {
-    /** @var \Bolt\Database\Schema\Manager */
+    /** @var \Bolt\Storage\Database\Schema\Manager */
     protected $schemaManager;
     /** @var array */
     protected $contenttypes;
@@ -73,7 +73,7 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * Reads the schema from Bolt\Database\Schema\Manager and creates mapping data
+     * Reads the schema from Bolt\Storage\Database\Schema\Manager and creates mapping data
      */
     public function initialize()
     {

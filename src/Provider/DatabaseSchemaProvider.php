@@ -1,9 +1,8 @@
 <?php
-
 namespace Bolt\Provider;
 
-use Bolt\Database\Schema\Manager;
-use Bolt\Database\Schema\Table;
+use Bolt\Storage\Database\Schema\Manager;
+use Bolt\Storage\Database\Schema\Table;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 

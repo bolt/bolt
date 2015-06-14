@@ -1,9 +1,8 @@
 <?php
-
-namespace Bolt\Database\Schema;
+namespace Bolt\Storage\Database\Schema;
 
 use Bolt\Application;
-use Bolt\Database\Schema\Table\ContentType;
+use Bolt\Storage\Database\Schema\Table\ContentType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Comparator;
@@ -403,9 +402,9 @@ class Manager
     /**
      * Add the custom columns for the ContentType.
      *
-     * @param \Bolt\Database\Schema\Table\ContentType $tableObj
-     * @param \Doctrine\DBAL\Schema\Table             $table
-     * @param array                                   $fields
+     * @param \Bolt\Storage\Database\Schema\Table\ContentType $tableObj
+     * @param \Doctrine\DBAL\Schema\Table                     $table
+     * @param array                                           $fields
      */
     private function addContentTypeTableColumns(ContentType $tableObj, Table $table, array $fields)
     {
@@ -430,10 +429,10 @@ class Manager
     /**
      * Add a single column to the ContentType table.
      *
-     * @param \Bolt\Database\Schema\Table\ContentType $tableObj
-     * @param \Doctrine\DBAL\Schema\Table             $table
-     * @param string                                  $fieldName
-     * @param array                                   $values
+     * @param \Bolt\Storage\Database\Schema\Table\ContentType $tableObj
+     * @param \Doctrine\DBAL\Schema\Table                     $table
+     * @param string                                          $fieldName
+     * @param array                                           $values
      */
     private function addContentTypeTableColumn(ContentType $tableObj, Table $table, $fieldName, array $values)
     {

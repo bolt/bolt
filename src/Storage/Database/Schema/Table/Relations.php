@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Database\Schema\Table;
+namespace Bolt\Storage\Database\Schema\Table;
 
 /**
  * Table for content relationship data.
