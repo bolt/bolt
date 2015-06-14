@@ -16,8 +16,6 @@ class YamlUpdater
 {
     /** @var Parser */
     private $parser;
-    /** @var integer "File pointer". Basically used as offset for searching. */
-    private $pointer = 0;
     /** @var integer Number of lines in the file. */
     private $lines = 0;
     /** @var array Contains a line of the file per index. */
@@ -98,47 +96,6 @@ class YamlUpdater
         $this->yaml[$line] = preg_replace('/^(.*):(.*)/', "$1: ".$this->prepareValue($value), $this->yaml[$line]);
 
         return $this->save($makebackup);
-    }
-
-    /**
-     * Find a specific part of the key, starting from $this->pointer.
-     *
-     * @param string  $keypart
-     * @param integer $indent
-     *
-     * @return boolean|integer
-     */
-    private function find($keypart, $indent = 0)
-    {
-        while ($this->pointer <= $this->lines) {
-            $needle = substr('                                      ', 0, 2 * $indent) . $keypart . ':';
-            if (isset($this->yaml[$this->pointer]) && strpos($this->yaml[$this->pointer], $needle) === 0) {
-                return $this->pointer;
-            }
-            $this->pointer++;
-        }
-
-        // Pointer is past end of file.
-        return false;
-    }
-
-    /**
-     * Parse a specific line-number into its key, value parts, with the used indentation.
-     *
-     * @param integer $line
-     *
-     * @return array
-     */
-    private function parseline($line)
-    {
-        preg_match_all('/(\s*)([a-z0-9_-]+):(\s)?(.*)/', $this->yaml[$line], $match);
-
-        return [
-            'line'        => $line,
-            'indentation' => $match[1][0],
-            'key'         => $match[2][0],
-            'value'       => $match[4][0]
-        ];
     }
 
     /**
