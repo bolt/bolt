@@ -7,13 +7,13 @@ namespace Bolt\Storage\Field\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Text extends FieldTypeBase
+class IntegerType extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'text';
+        return 'integer';
     }
 }

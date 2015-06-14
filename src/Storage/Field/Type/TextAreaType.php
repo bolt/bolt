@@ -7,13 +7,13 @@ namespace Bolt\Storage\Field\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Repeater extends FieldTypeBase
+class TextAreaType extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'repeater';
+        return 'textarea';
     }
 }

@@ -7,13 +7,13 @@ namespace Bolt\Storage\Field\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Templateselect extends FieldTypeBase
+class HtmlType extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'templateselect';
+        return 'html';
     }
 }

@@ -7,13 +7,13 @@ namespace Bolt\Storage\Field\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Checkbox extends FieldTypeBase
+class FileType extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'checkbox';
+        return 'file';
     }
 }

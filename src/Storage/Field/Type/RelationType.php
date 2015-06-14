@@ -13,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Relation extends FieldTypeBase
+class RelationType extends FieldTypeBase
 {
     /**
      * @inheritdoc

@@ -7,13 +7,13 @@ namespace Bolt\Storage\Field\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Float extends FieldTypeBase
+class TextType extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'float';
+        return 'text';
     }
 }

@@ -9,14 +9,14 @@ use Doctrine\DBAL\Types\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Select extends FieldTypeBase
+class ImageType extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'select';
+        return 'image';
     }
 
     /**

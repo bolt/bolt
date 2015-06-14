@@ -9,14 +9,14 @@ use Doctrine\DBAL\Types\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Geolocation extends FieldTypeBase
+class VideoType extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'geolocation';
+        return 'video';
     }
 
     /**

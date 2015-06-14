@@ -9,14 +9,14 @@ use Doctrine\DBAL\Types\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Filelist extends FieldTypeBase
+class ImageListType extends FieldTypeBase
 {
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'filelist';
+        return 'imagelist';
     }
 
     /**
