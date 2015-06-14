@@ -53,7 +53,7 @@ class ConfigSet extends BaseCommand
         try {
             $yaml = new YamlUpdater($this->app, $file);
 
-            if ($yaml->change($key, $value, $backup)) {
+            if ($yaml->setValue($key, $value, $backup)) {
                 $result = sprintf("New value for <info>%s: %s</info> was successful. File updated.", $key, $value);
             } else {
                 $result = sprintf("<error>The key '%s' was not found in %s.</error>", $key, $file);
