@@ -50,40 +50,15 @@ class YamlUpdater
         // Track the number of lines we have
         $this->lines = count($this->yaml);
     }
-
+    
     /**
-     * Get a value from the yml. return an array with info.
+     * Return a value for a key from the yml file.
      *
      * @param string $key
      *
      * @return boolean|array
      */
     public function get($key)
-    {
-        // resets pointer
-        $this->pointer = 0;
-        $result = false;
-        $keyparts = explode("/", $key);
-
-        foreach ($keyparts as $count => $keypart) {
-            $result = $this->find($keypart, $count);
-        }
-
-        if ($result !== false) {
-            return $this->parseline($result);
-        } else {
-            return false;
-        }
-    }
-    
-    /**
-     * Return only a value for a key from the yml file.
-     *
-     * @param string $key
-     *
-     * @return boolean|array
-     */
-    public function getValue($key)
     {
         $yaml = Yaml::parse($this->file->read());
 
@@ -103,7 +78,7 @@ class YamlUpdater
      *
      * @return boolean
      */
-    public function setValue($key, $value, $makebackup = true)
+    public function change($key, $value, $makebackup = true)
     {
         $pattern = str_replace("/", ":.*", $key); 
         preg_match_all('/^'.$pattern.'(:\s*)/mis', $this->file->read(), $matches,  PREG_OFFSET_CAPTURE);
@@ -115,7 +90,7 @@ class YamlUpdater
         }
                 
         $line = substr_count($this->file->read(), "\n", 0, $index);
-        $this->yaml[$line]  = preg_replace('/^(.*):(.*)/',"$1: $value",$this->yaml[$line]);
+        $this->yaml[$line] = preg_replace('/^(.*):(.*)/',"$1: ".$this->prepareValue($value), $this->yaml[$line]);
         
         return $this->save($makebackup);
     }
@@ -161,30 +136,6 @@ class YamlUpdater
         ];
     }
 
-    /**
-     * Change a key into a new value. Save .yml afterwards.
-     *
-     * @param string  $key        YAML key to modify
-     * @param mixed   $value      New value
-     * @param boolean $makebackup Back up the file before commiting changes to it
-     *
-     * @return boolean
-     */
-    public function change($key, $value, $makebackup = true)
-    {
-        $match = $this->get($key);
-
-        // Not found.
-        if (!$match) {
-            return false;
-        }
-
-        $value = $this->prepareValue($value);
-
-        $this->yaml[$match['line']] = sprintf("%s%s: %s\n", $match['indentation'], $match['key'], $value);
-
-        return $this->save($makebackup);
-    }
 
     /**
      * Make sure the value is escaped as a yaml value.

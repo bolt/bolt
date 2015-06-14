@@ -43,7 +43,7 @@ class ConfigGet extends BaseCommand
 
         try {
             $yaml = new YamlUpdater($this->app, $file);
-            $match = $yaml->getValue($key);
+            $match = $yaml->get($key);
 
             if (!empty($match)) {
                 $result = sprintf("%s: %s", $key, $match);
