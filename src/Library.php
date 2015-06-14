@@ -273,8 +273,6 @@ class Library
         // disallow user to interrupt
         ignore_user_abort(true);
 
-        $oldUmask = umask(0111);
-
         // open the file and lock it.
         if ($fp = fopen($filename, 'a')) {
             if (flock($fp, LOCK_EX | LOCK_NB)) {
@@ -315,7 +313,6 @@ class Library
                 'Current path: ' . getcwd() . '.';
             throw new LowlevelException($message);
         }
-        umask($oldUmask);
 
         // reset the users ability to interrupt the script
         ignore_user_abort(false);
