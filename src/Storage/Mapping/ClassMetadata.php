@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Mapping;
+namespace Bolt\Storage\Mapping;
 
 use Bolt\Storage\NamingStrategy;
 use Bolt\Storage\NamingStrategyInterface;
@@ -119,7 +119,6 @@ class ClassMetadata implements ClassMetadataInterface
         return $this->fieldMappings[$fieldName];
     }
 
-
     /**
      * Sets the fieldMappings array with metadata.
      *
@@ -131,7 +130,6 @@ class ClassMetadata implements ClassMetadataInterface
     {
         $this->fieldMappings = $fieldMappings;
     }
-
 
     /**
      * Gets the fieldMappings array.

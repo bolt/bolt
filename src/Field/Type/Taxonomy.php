@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Bolt\Mapping\ClassMetadata;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -21,13 +21,13 @@ class Taxonomy extends FieldTypeBase
     {
         $field = $this->mapping['fieldname'];
         $boltname = $metadata->getBoltName();
-        
+
         if ($this->mapping['data']['has_sortorder']) {
             $order = "$field.sortorder";
         } else {
             $order = "$field.id";
         }
-        
+
         $query->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field, $query))
             ->leftJoin('content', 'bolt_taxonomy', $field, "content.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("content.id");
@@ -52,7 +52,7 @@ class Taxonomy extends FieldTypeBase
         $target = $this->mapping['target'];
         $accessor = "get".$field;
         $taxonomy = (array)$entity->$accessor();
-                
+
         // Fetch existing relations
 
         $existingQuery = $em->createQueryBuilder()
@@ -68,10 +68,10 @@ class Taxonomy extends FieldTypeBase
 
         $existing = array_map(function ($el) {return $el['slug'];}, $result);
         $proposed = $taxonomy;
-        
+
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
-        
+
         foreach ($toInsert as $item) {
             $ins = $em->createQueryBuilder()->insert($target);
             $ins->values([
@@ -87,11 +87,11 @@ class Taxonomy extends FieldTypeBase
                 3 => $item,
                 4 => $this->mapping['data']['options'][$item]
             ]);
-            
+
             $queries->append($ins);
         }
-        
-        
+
+
         foreach ($toDelete as $item) {
             $del = $em->createQueryBuilder()->delete($target);
             $del->where('content_id=?')
@@ -104,7 +104,7 @@ class Taxonomy extends FieldTypeBase
                 2 => $field,
                 3 => $item
             ]);
-            
+
             $queries->append($del);
         }
     }
@@ -130,7 +130,7 @@ class Taxonomy extends FieldTypeBase
     protected function getPlatformGroupConcat($column, $order, $alias, QueryBuilder $query)
     {
         $platform = $query->getConnection()->getDatabasePlatform()->getName();
-        
+
         switch ($platform) {
             case 'mysql':
                 return "GROUP_CONCAT(DISTINCT $column ORDER BY $order ASC) as $alias";

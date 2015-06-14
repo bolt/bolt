@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Storage;
 
-use Bolt\Mapping\MetadataDriver;
 use Bolt\Storage;
+use Bolt\Storage\Mapping\MetadataDriver;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Psr\Log\LoggerInterface;

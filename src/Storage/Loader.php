@@ -1,9 +1,8 @@
 <?php
-
 namespace Bolt\Storage;
 
 use Bolt\Field\Type\FieldTypeInterface;
-use Bolt\Mapping\ClassMetadata;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**

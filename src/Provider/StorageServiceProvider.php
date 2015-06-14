@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Mapping\MetadataDriver;
+use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\RecordModifier;

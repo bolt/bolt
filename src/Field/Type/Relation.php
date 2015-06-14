@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Bolt\Mapping\ClassMetadata;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\EntityProxy;
 use Bolt\Storage\QuerySet;

@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Field\Type;
 
-use Bolt\Mapping\ClassMetadata;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -45,7 +45,7 @@ interface FieldTypeInterface
      * @param $entity
      */
     public function present($entity);
-    
+
     /**
      * Returns the name of the type.
      *

@@ -1,9 +1,8 @@
 <?php
-
 namespace Bolt\Storage;
 
 use Bolt\Field\Type\FieldTypeInterface;
-use Bolt\Mapping\ClassMetadata;
+use Bolt\Storage\Mapping\ClassMetadata;
 
 /**
  * This class prepares an entity instance ready to be persisted to the
@@ -13,7 +12,7 @@ use Bolt\Mapping\ClassMetadata;
 class Persister
 {
     protected $metadata;
-    
+
     public function __construct(ClassMetadata $metadata)
     {
         $this->metadata = $metadata;

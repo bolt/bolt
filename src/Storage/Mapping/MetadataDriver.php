@@ -1,8 +1,8 @@
 <?php
-namespace Bolt\Mapping;
+namespace Bolt\Storage\Mapping;
 
 use Bolt\Storage\Database\Schema\Manager;
-use Bolt\Mapping\ClassMetadata as BoltClassMetadata;
+use Bolt\Storage\Mapping\ClassMetadata as BoltClassMetadata;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Schema\Table;
