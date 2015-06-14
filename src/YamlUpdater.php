@@ -45,6 +45,8 @@ class YamlUpdater
      * @var File
      */
     private $file;
+    /** @var array the parsed yml file */
+    private $parsed;
 
     /**
      * Creates an updater for the given file.
@@ -62,7 +64,7 @@ class YamlUpdater
         $this->yaml = $this->file->read();
 
         // Check that the read-in YAML is valid
-        $this->parser->parse($this->yaml, true, true);
+        $this->parsed = $this->parser->parse($this->yaml, true, true);
 
         // Create a searchable array
         $this->yaml = explode("\n", $this->yaml);
@@ -80,13 +82,17 @@ class YamlUpdater
      */
     public function get($key)
     {
-        $yaml = Yaml::parse($this->file->read());
+        $yaml = $this->parsed;
 
         $keyparts = explode("/", $key);
         while ($key = array_shift($keyparts)) {
             $yaml = &$yaml[$key];
         }
-
+        
+        if (is_array($yaml)) {
+            return Yaml::dump($yaml, 0, 4);
+        }
+        
         return $yaml;
     }
     
