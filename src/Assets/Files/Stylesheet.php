@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Assets\File;
+namespace Bolt\Assets\Files;
 
 /**
  * Cascading stylesheet file object class.

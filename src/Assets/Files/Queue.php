@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Assets\File;
+namespace Bolt\Assets\Files;
 
 use Bolt\Assets\QueueInterface;
 use Bolt\Assets\Target;
