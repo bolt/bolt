@@ -45,7 +45,7 @@ class ConfigGet extends BaseCommand
             $yaml = new YamlUpdater($this->app, $file);
             $match = $yaml->get($key);
 
-            if (!empty($match)) {
+            if (null !== $match) {
                 $result = sprintf("%s: %s", $key, $match);
             } else {
                 $result = sprintf("<error>The key '%s' was not found in %s.</error>", $key, $file);
