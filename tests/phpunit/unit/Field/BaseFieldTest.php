@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Field;
 
-use Bolt\Field\Base;
+use Bolt\Storage\Field\Base;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -13,7 +13,7 @@ class BaseFieldTest extends BoltUnitTest
 {
     public function testFieldSetup()
     {
-        $field = $this->getMock('Bolt\Field\Base', null, ['test', 'test.twig']);
+        $field = $this->getMock('Bolt\Storage\Field\Base', null, ['test', 'test.twig']);
         $this->assertEquals('test', $field->getName());
         $this->assertEquals('test.twig', $field->getTemplate());
 
