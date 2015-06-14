@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Bolt\Mapping\MetadataDriver;
 use Bolt\Storage;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\RecordModifier;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -71,6 +72,14 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['storage.typemap']
                 );
                 return $meta;
+            }
+        );
+
+        $app['storage.record_modifier'] = $app->share(
+            function ($app) {
+                $cm = new RecordModifier($app);
+
+                return $cm;
             }
         );
     }
