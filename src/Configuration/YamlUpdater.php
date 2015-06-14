@@ -1,5 +1,4 @@
 <?php
-
 namespace Bolt\Configuration;
 
 use Bolt\Exception\FilesystemException;
@@ -41,18 +40,18 @@ class YamlUpdater
         $this->parser = new Parser();
 
         // Get the contents of the file
-        $this->yaml = $this->file->read();
+        $yaml = $this->file->read();
 
         // Check that the read-in YAML is valid
-        $this->parsed = $this->parser->parse($this->yaml, true, true);
+        $this->parsed = $this->parser->parse($yaml, true, true);
 
         // Create a searchable array
-        $this->yaml = explode("\n", $this->yaml);
+        $this->yaml = explode("\n", $yaml);
 
         // Track the number of lines we have
         $this->lines = count($this->yaml);
     }
-    
+
     /**
      * Return a value for a key from the yml file.
      *
@@ -68,14 +67,14 @@ class YamlUpdater
         while ($key = array_shift($keyparts)) {
             $yaml = &$yaml[$key];
         }
-        
+
         if (is_array($yaml)) {
             return Yaml::dump($yaml, 0, 4);
         }
-        
+
         return $yaml;
     }
-    
+
     /**
      * Updates a single value with replacement for given key in yml file.
      *
@@ -86,18 +85,18 @@ class YamlUpdater
      */
     public function change($key, $value, $makebackup = true)
     {
-        $pattern = str_replace("/", ":.*", $key); 
+        $pattern = str_replace("/", ":.*", $key);
         preg_match_all('/^'.$pattern.'(:\s*)/mis', $this->file->read(), $matches,  PREG_OFFSET_CAPTURE);
-        
-        if (count($matches[0])>0 && count($matches[1])) {
+
+        if (count($matches[0]) > 0 && count($matches[1])) {
             $index = $matches[1][0][1] + strlen($matches[1][0][0]);
         } else {
             return false;
         }
-                
+
         $line = substr_count($this->file->read(), "\n", 0, $index);
-        $this->yaml[$line] = preg_replace('/^(.*):(.*)/',"$1: ".$this->prepareValue($value), $this->yaml[$line]);
-        
+        $this->yaml[$line] = preg_replace('/^(.*):(.*)/', "$1: ".$this->prepareValue($value), $this->yaml[$line]);
+
         return $this->save($makebackup);
     }
 
@@ -141,7 +140,6 @@ class YamlUpdater
             'value'       => $match[4][0]
         ];
     }
-
 
     /**
      * Make sure the value is escaped as a yaml value.
