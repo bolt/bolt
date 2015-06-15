@@ -136,32 +136,22 @@ class ChangeLogItem implements \ArrayAccess
      */
     private function getEffectiveMutationType()
     {
-        switch ($this->mutation) {
-            case 'UPDATE':
-                $diff = $this->getParsedDiff();
-                if (isset($diff['status'])) {
-                    switch ($diff['status'][1]) {
-                        case 'published':
-                            return 'PUBLISH';
-
-                        case 'draft':
-                            return 'DRAFT';
-
-                        case 'held':
-                            return 'HOLD';
-
-                        default:
-                            return 'UPDATE';
-                    }
-                } else {
-                    return 'UPDATE';
-                }
-                // Return to sender
-            case 'INSERT':
-            case 'DELETE':
-            default:
-                return $this->mutation;
+        if ($this->mutation !== 'UPDATE') {
+            return $this->mutation;
         }
+
+        $hash = [
+            'published' => 'PUBLISH',
+            'draft'     => 'DRAFT',
+            'held'      => 'HOLD',
+        ];
+
+        $diff = $this->getParsedDiff();
+        if (isset($diff['status'])) {
+            return $hash[$diff['status']];
+        }
+
+        return 'UPDATE';
     }
 
     /**
