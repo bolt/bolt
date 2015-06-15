@@ -4,7 +4,7 @@ namespace Bolt\Storage\Migration;
 use Bolt\Helpers\Arr;
 
 /**
- * Database records iport class
+ * Database records import class
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

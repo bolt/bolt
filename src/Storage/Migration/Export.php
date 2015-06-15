@@ -12,7 +12,6 @@ class Export extends AbstractMigration
 {
     /** @var array */
     private $contenttypes = [];
-
     /** @var string */
     private $hash;
 

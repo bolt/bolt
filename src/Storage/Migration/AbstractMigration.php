@@ -16,32 +16,23 @@ abstract class AbstractMigration
 {
     /** @var \Bolt\Application */
     protected $app;
-
     /** @var \Symfony\Component\Filesystem\Filesystem */
     protected $fs;
-
     /** @var boolean */
     protected $error = false;
-
     /** @var array */
     protected $errorMessages = [];
-
     /** @var boolean */
     protected $warning = false;
-
     /** @var array */
     protected $warningMessages = [];
-
     /** @var boolean */
     protected $notice = false;
-
     /** @var array */
     protected $noticeMessages = [];
-
     /** @var array */
     protected $validExtensions = ['json', 'yaml', 'yml'];
-
-    /** @var string */
+    /** @var array */
     protected $files;
 
     /**

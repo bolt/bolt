@@ -32,21 +32,26 @@ class PackageEventListener
             $pathToPublic = $rootExtra['bolt-web-path'];
 
             // Get the path from extensions base through to public
-            $parts = [getcwd(), $pathToPublic, 'extensions', 'vendor', $installedPackage->getName(), $extra['bolt-assets']];
-            $path = realpath(join(DIRECTORY_SEPARATOR, $parts));
-            if ($type == 'bolt-extension' && isset($extra['bolt-assets'])) {
-                $fromParts = [getcwd(), 'vendor', $installedPackage->getName(),$extra['bolt-assets']];
-                $fromPath = join(DIRECTORY_SEPARATOR, $fromParts);
-                self::mirror($fromPath, $path);
+            $destParts = [getcwd(), $pathToPublic, 'extensions', 'vendor', $installedPackage->getName(), $extra['bolt-assets']];
+            $dest = realpath(join(DIRECTORY_SEPARATOR, $destParts));
+            if ($type === 'bolt-extension' && isset($extra['bolt-assets'])) {
+                $sourceParts = [getcwd(), 'vendor', $installedPackage->getName(),$extra['bolt-assets']];
+                $source = join(DIRECTORY_SEPARATOR, $sourceParts);
+                self::mirror($source, $dest);
             }
         }
     }
 
+    /**
+     * Mirror a directory if the two directories don't match
+     *
+     * @param string $source
+     * @param string $dest
+     */
     public static function mirror($source, $dest)
     {
         @mkdir($dest, 0755, true);
 
-        // We only want to do this if the two directories don't match
         if (realpath($source) === realpath($dest)) {
             return;
         }
