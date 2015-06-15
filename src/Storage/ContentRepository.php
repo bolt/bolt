@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Storage;
 
-use Bolt\Entity\Content;
+use Bolt\Storage\Entity\Content;
 
 /**
  * A Repository class that handles dynamically created content tables.

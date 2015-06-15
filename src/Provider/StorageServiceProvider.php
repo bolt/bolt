@@ -1,8 +1,7 @@
 <?php
-
 namespace Bolt\Provider;
 
-use Bolt\Mapping\MetadataDriver;
+use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\RecordModifier;
@@ -34,33 +33,33 @@ class StorageServiceProvider implements ServiceProviderInterface
         );
 
         $app['storage.typemap'] = [
-            'Doctrine\DBAL\Types\StringType'   => 'Bolt\Field\Type\Text',
-            'Doctrine\DBAL\Types\IntegerType'  => 'Bolt\Field\Type\Integer',
-            'Doctrine\DBAL\Types\FloatType'    => 'Bolt\Field\Type\Float',
-            'Doctrine\DBAL\Types\TextType'     => 'Bolt\Field\Type\Textarea',
-            'Doctrine\DBAL\Types\DateType'     => 'Bolt\Field\Type\Date',
-            'Doctrine\DBAL\Types\DateTimeType' => 'Bolt\Field\Type\Datetime',
-            'checkbox'                         => 'Bolt\Field\Type\Checkbox',
-            'date'                             => 'Bolt\Field\Type\Date',
-            'datetime'                         => 'Bolt\Field\Type\Datetime',
-            'file'                             => 'Bolt\Field\Type\File',
-            'filelist'                         => 'Bolt\Field\Type\Filelist',
-            'float'                            => 'Bolt\Field\Type\Float',
-            'geolocation'                      => 'Bolt\Field\Type\Geolocation',
-            'html'                             => 'Bolt\Field\Type\Html',
-            'image'                            => 'Bolt\Field\Type\Image',
-            'imagelist'                        => 'Bolt\Field\Type\Imagelist',
-            'integer'                          => 'Bolt\Field\Type\Integer',
-            'markdown'                         => 'Bolt\Field\Type\Markdown',
-            'relation'                         => 'Bolt\Field\Type\Relation',
-            'repeater'                         => 'Bolt\Field\Type\Repeater',
-            'select'                           => 'Bolt\Field\Type\Select',
-            'slug'                             => 'Bolt\Field\Type\Slug',
-            'taxonomy'                         => 'Bolt\Field\Type\Taxonomy',
-            'templateselect'                   => 'Bolt\Field\Type\Templateselect',
-            'text'                             => 'Bolt\Field\Type\Text',
-            'textarea'                         => 'Bolt\Field\Type\Textarea',
-            'video'                            => 'Bolt\Field\Type\Video'
+            'Doctrine\DBAL\Types\StringType'   => 'Bolt\Storage\Field\Type\Text',
+            'Doctrine\DBAL\Types\IntegerType'  => 'Bolt\Storage\Field\Type\Integer',
+            'Doctrine\DBAL\Types\FloatType'    => 'Bolt\Storage\Field\Type\Float',
+            'Doctrine\DBAL\Types\TextType'     => 'Bolt\Storage\Field\Type\Textarea',
+            'Doctrine\DBAL\Types\DateType'     => 'Bolt\Storage\Field\Type\Date',
+            'Doctrine\DBAL\Types\DateTimeType' => 'Bolt\Storage\Field\Type\Datetime',
+            'checkbox'                         => 'Bolt\Storage\Field\Type\Checkbox',
+            'date'                             => 'Bolt\Storage\Field\Type\Date',
+            'datetime'                         => 'Bolt\Storage\Field\Type\Datetime',
+            'file'                             => 'Bolt\Storage\Field\Type\File',
+            'filelist'                         => 'Bolt\Storage\Field\Type\Filelist',
+            'float'                            => 'Bolt\Storage\Field\Type\Float',
+            'geolocation'                      => 'Bolt\Storage\Field\Type\Geolocation',
+            'html'                             => 'Bolt\Storage\Field\Type\Html',
+            'image'                            => 'Bolt\Storage\Field\Type\Image',
+            'imagelist'                        => 'Bolt\Storage\Field\Type\Imagelist',
+            'integer'                          => 'Bolt\Storage\Field\Type\Integer',
+            'markdown'                         => 'Bolt\Storage\Field\Type\Markdown',
+            'relation'                         => 'Bolt\Storage\Field\Type\Relation',
+            'repeater'                         => 'Bolt\Storage\Field\Type\Repeater',
+            'select'                           => 'Bolt\Storage\Field\Type\Select',
+            'slug'                             => 'Bolt\Storage\Field\Type\Slug',
+            'taxonomy'                         => 'Bolt\Storage\Field\Type\Taxonomy',
+            'templateselect'                   => 'Bolt\Storage\Field\Type\Templateselect',
+            'text'                             => 'Bolt\Storage\Field\Type\Text',
+            'textarea'                         => 'Bolt\Storage\Field\Type\Textarea',
+            'video'                            => 'Bolt\Storage\Field\Type\Video'
         ];
 
         $app['storage.metadata'] = $app->share(

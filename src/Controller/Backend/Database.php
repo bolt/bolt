@@ -96,7 +96,7 @@ class Database extends BackendBase
     }
 
     /**
-     * @return \Bolt\Database\Schema\Manager
+     * @return \Bolt\Storage\Database\Schema\Manager
      */
     protected function schemaManager()
     {

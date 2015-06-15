@@ -15,13 +15,13 @@ use Symfony\Component\HttpFoundation\Response;
 class DatabaseTest extends ControllerUnitTest
 {
     /**
-     * @covers Bolt\Database\Schema\CheckResponse
+     * @covers Bolt\Storage\Database\Schema\CheckResponse
      */
     public function testCheck()
     {
         $this->allowLogin($this->getApp());
-        $checkResponse = new \Bolt\Database\Schema\CheckResponse();
-        $check = $this->getMock('Bolt\Database\Schema\Manager', ['checkTablesIntegrity'], [$this->getApp()]);
+        $checkResponse = new \Bolt\Storage\Database\Schema\CheckResponse();
+        $check = $this->getMock('Bolt\Storage\Database\Schema\Manager', ['checkTablesIntegrity'], [$this->getApp()]);
         $check->expects($this->atLeastOnce())
             ->method('checkTablesIntegrity')
             ->will($this->returnValue($checkResponse));
@@ -36,8 +36,8 @@ class DatabaseTest extends ControllerUnitTest
     public function testUpdate()
     {
         $this->allowLogin($this->getApp());
-        $checkResponse = new \Bolt\Database\Schema\CheckResponse();
-        $check = $this->getMock('Bolt\Database\Schema\Manager', ['repairTables'], [$this->getApp()]);
+        $checkResponse = new \Bolt\Storage\Database\Schema\CheckResponse();
+        $check = $this->getMock('Bolt\Storage\Database\Schema\Manager', ['repairTables'], [$this->getApp()]);
 
         $check->expects($this->any())
             ->method('repairTables')

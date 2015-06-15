@@ -4,7 +4,7 @@ namespace Bolt\Storage;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
-use Bolt\Mapping\ClassMetadata;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\DBAL\Query\QueryBuilder;
 
