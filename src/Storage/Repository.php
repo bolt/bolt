@@ -148,6 +148,36 @@ class Repository implements ObjectRepository
         }
         return $qb;
     }
+    
+    /**
+     * Internal method to hydrate and return a QueryBuilder query
+     *
+     * @return array Entity | false
+     **/
+    protected function findWith(QueryBuilder $query)
+    {
+        $result = $query->execute()->fetchAll();
+        if ($result) {
+            return $this->hydrateAll($result, $query);
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Internal method to hydrate and return a single QueryBuilder result
+     *
+     * @return Entity | false
+     **/
+    protected function findOneWith(QueryBuilder $query)
+    {
+        $result = $query->execute()->fetch();
+        if ($result) {
+            return $this->hydrate($result, $query);
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Internal method to initialise and return a QueryBuilder instance.
