@@ -426,7 +426,7 @@
 "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Sie sollten den Eintrag 'homepage:' in 'app/config/config.yml' auf einen existierenden Datansatz setzen. Stellen Sie sicher, dass der Inhalt veröffentlicht ist, andernfalls wird er nicht dargestellt werden."
 "You've been logged on successfully.": "Erfolgreich eingeloggt!"
 "Your Currently Installed Extensions": "Momentan installierte Erweiterungen"
-"Your account is disabled. Sorry about that.": "Ihr Accout wurde deaktiviert. Tut uns leid."
+"Your account is disabled. Sorry about that.": "Ihr Account wurde deaktiviert. Tut uns leid."
 "Your database is already up to date.": "Ihre Datenbank ist bereits aktuell."
 "Your database is now up to date.": "Ihre Datenbank ist nun wieder auf dem neusten Stand!"
 "and edited": "und bearbeitet"
