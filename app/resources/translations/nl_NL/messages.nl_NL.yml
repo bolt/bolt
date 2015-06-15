@@ -1,10 +1,10 @@
 # app/resources/translations/nl_NL/messages.nl_NL.yml – generated on 2015-05-03 09:07:43 UTC
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -135,7 +135,7 @@ general.about-bolt: "Over Bolt"
 "Expand sidebar": "Zijbalk uitklappen"
 "Extend %boltname%": "%boltname% uitbreiden"
 "Extension": "Extensie"
-"Extensions loading has been disabled by an administrator in the %config% file. ": "Het laden van extensies is uitgeschakeld door een administrator in het %config% bestand" 
+"Extensions loading has been disabled by an administrator in the %config% file. ": "Het laden van extensies is uitgeschakeld door een administrator in het %config% bestand"
 "Extension log": "Extensie log"
 "Extensions": "Extensies"
 "Extras": "Extra's"
@@ -252,7 +252,7 @@ general.about-bolt: "Over Bolt"
 "Place on stack": "Plaats op stack"
 "Please choose the record you want to link to:": "Kies het record waarnaar je wilt linken:"
 "Please confirm that you want to remove this extension?": "Bevestig dat je deze extensie wilt verwijderen?"
-"Please enter a new file name": "Voer een nieuwe bestandsnaam in"
+"Please enter a new file name!": "Voer een nieuwe bestandsnaam in!"
 "Please enter a new folder name": "Voer een nieuwe mapnaam in"
 "Please log on.": "Inloggen, graag."
 "Please provide a username": "Geef een gebruikersnaam op"
