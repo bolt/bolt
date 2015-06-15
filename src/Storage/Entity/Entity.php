@@ -169,7 +169,8 @@ abstract class Entity implements ArrayAccess
     public function offsetExists($offset)
     {
         $accessor = "get".ucfirst($offset);
-        return !empty($this->$accessor());
+        $result = $this->$accessor();
+        return !empty($result);
     }
 
     /**
