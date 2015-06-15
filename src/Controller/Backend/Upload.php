@@ -96,6 +96,7 @@ class Upload extends BackendBase
             // Remove the .lock file attached to the file
             $result->confirm();
 
+            $successfulFiles = [];
             if ($result instanceof File) {
                 $successfulFiles = [$result->name];
             } elseif ($result instanceof Collection) {
