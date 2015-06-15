@@ -182,46 +182,45 @@ class ChangeLogItem implements \ArrayAccess
      */
     private function setParameters(array $values)
     {
-        if (isset($values['id'])) {
-            $this->id = $values['id'];
-        }
-        if (isset($values['date'])) {
-            $this->date = $values['date'];
-        }
-        if (isset($values['title'])) {
-            $this->title = $values['title'];
-        }
-        if (isset($values['ownerid'])) {
-            $this->ownerid = $values['ownerid'];
-            $user = $this->app['users']->getUser($values['ownerid']);
+        $values = $this->getFullParameters($values);
 
-            if (isset($user['displayname'])) {
-                $this->username = $user['displayname'];
-            } elseif (isset($user['username'])) {
-                $this->username = $user['username'];
-            } else {
-                $this->username = "(deleted user #" . $values['ownerid'] . ")";
-            }
+        $this->id = $values['id'];
+        $this->date = $values['date'];
+        $this->title = $values['title'];
+        $this->contenttype = $values['contenttype'];
+        $this->contentid = $values['contentid'];
+        $this->mutation_type = $values['mutation_type'];
+        $this->mutation = $values['mutation'];
+        $this->comment = $values['comment'];
+        $this->diff_raw = $values['diff'];
+        $this->diff = json_decode($values['diff'], true);
+        $this->ownerid = $values['ownerid'];
+
+        $user = $this->app['users']->getUser($values['ownerid']);
+        if (isset($user['displayname'])) {
+            $this->username = $user['displayname'];
+        } elseif (isset($user['username'])) {
+            $this->username = $user['username'];
+        } else {
+            $this->username = "(deleted user #" . $values['ownerid'] . ")";
         }
-        if (isset($values['contenttype'])) {
-            $this->contenttype = $values['contenttype'];
-        }
-        if (isset($values['contentid'])) {
-            $this->contentid = $values['contentid'];
-        }
-        if (isset($values['mutation_type'])) {
-            $this->mutation_type = $values['mutation_type'];
-        }
-        if (isset($values['mutation'])) {
-            $this->mutation = $values['mutation'];
-        }
-        if (isset($values['diff'])) {
-            $this->diff_raw = $values['diff'];
-            $this->diff = json_decode($values['diff'], true);
-        }
-        if (isset($values['comment'])) {
-            $this->comment = $values['comment'];
-        }
+    }
+
+    /**
+     * Get a fully pre-populated array, for values.
+     *
+     * @param array $values
+     *
+     * @return array
+     */
+    private function getFullParameters($values)
+    {
+        $default = [
+            'id', 'date', 'title', 'ownerid', 'contenttype', 'contentid',
+            'mutation_type', 'mutation', 'diff', 'comment'
+        ];
+
+        return array_merge(array_fill_keys($default, null), $values);
     }
 
     /**
