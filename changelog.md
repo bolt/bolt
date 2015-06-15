@@ -3,6 +3,13 @@ Bolt 2.2.next
 
 Nothing yet.
 
+Bolt 2.2.3
+----------
+
+Released 2015-06-15. Notable changes:
+
+ - Fixed: Yaml config read and write fixed for other indentations than '2 spaces'. (See #3682)
+
 Bolt 2.2.2
 ----------
 
