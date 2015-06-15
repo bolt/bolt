@@ -7,7 +7,7 @@ namespace Bolt\Storage\Field\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Markdown extends FieldTypeBase
+class MarkdownType extends FieldTypeBase
 {
     /**
      * @inheritdoc

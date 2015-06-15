@@ -12,7 +12,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Taxonomy extends FieldTypeBase
+class TaxonomyType extends FieldTypeBase
 {
     /**
      * @inheritdoc
