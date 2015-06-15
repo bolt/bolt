@@ -2,16 +2,16 @@
 
 namespace Bolt\Composer;
 
+use Bolt\Application;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Ring\Client\ClientUtils;
-use Silex\Application;
 
 class PackageManager
 {
-    /** @var \Silex\Application */
+    /** @var Application */
     protected $app;
     /** @var boolean */
     protected $started = false;
@@ -351,7 +351,7 @@ class PackageManager
     private function linkConfig($name)
     {
         // Generate the configfilename from the extension $name
-        $configfilename = join(".", array_reverse(explode("/", $name))) . '.yml';
+        $configfilename = join('.', array_reverse(explode('/', $name))) . '.yml';
 
         // Check if we have a config file, and if it's readable. (yet)
         $configfilepath = $this->app['resources']->getPath('extensionsconfig/' . $configfilename);
