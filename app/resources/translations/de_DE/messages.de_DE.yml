@@ -147,7 +147,6 @@
 "File '%s' could not be saved, because the form wasn't valid.": "Die Datei '%s' konnte nicht gespeichert werden, weil die Formulareingaben nicht valide waren."
 "File '%s' could not be saved, for some reason.": "Die Datei '%s' konnte aus irgendeinem Grund nicht gespeichert werden."
 "File '%s' could not be saved:": "Die Datei '%s' konnte nicht gespeichert werden:"
-"File '%s' could not be saved: ": "Die Datei '%s' konnte nicht gespeichert werden: "
 "File '%s' has been saved.": "Die Datei '%s' wurde gespeichert."
 "File Management": "Dateiverwaltung"
 "File is not readable!": "Die Datei ist nicht lesbar!"
