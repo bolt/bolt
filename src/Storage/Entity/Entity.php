@@ -1,11 +1,13 @@
 <?php
 namespace Bolt\Storage\Entity;
 
+use ArrayAccess;
+
 /**
  * An abstract class that other entities can inherit. Provides automatic getters and setters along
  * with serialization.
  */
-abstract class Entity
+abstract class Entity implements ArrayAccess
 {
     protected $_fields = [];
 
@@ -148,4 +150,46 @@ abstract class Entity
     {
         return in_array($field, $this->getFields());
     }
+
+    /**
+     * @see ArrayAccess::offsetSet
+     * @param $offset
+     * @param $value
+     */
+    public function offsetSet($offset, $value)
+    {
+        $accessor = "set".ucfirst($offset);
+        $this->$accessor($value);
+    }
+
+    /**
+     * @see ArrayAccess::offsetExists
+     * @param $offset
+     */
+    public function offsetExists($offset)
+    {
+        $accessor = "get".ucfirst($offset);
+        return !empty($this->$accessor());
+    }
+
+    /**
+     * @see ArrayAccess::offsetUnset
+     * @param int $offset
+     */
+    public function offsetUnset($offset)
+    {
+        $accessor = "set".ucfirst($offset);
+        $this->$accessor(null);
+    }
+
+    /**
+     * @see ArrayAccess::offsetGet
+     * @param $offset
+     */
+    public function offsetGet($offset)
+    {
+        $accessor = "get".ucfirst($offset);
+        return $this->accessor();
+    }
+
 }
