@@ -421,7 +421,7 @@
 "You cannot '%s' yourself.": "Sie können sich nicht selbst '%s'."
 "You do not have the right privileges to edit that record.": "Sie haben nicht die erforderlichen Rechte, um diesen Datensatz zu bearbeiten."
 "You do not have the right privileges to edit that user.": "Sie haben nicht die erforderlichen Rechte, um diesen Benutzer zu bearbeiten."
-"You do not have the right privileges to view that page.": "Ihnen fehlen die Berechtigungen um die diese Seite zu anzuzeigen."
+"You do not have the right privileges to view that page.": "Ihnen fehlt die Berechtigung, um die diese Seite anzuzeigen."
 "You don't have correct permissions to edit the file '%s'.": "Ihnen fehlt die Berechtigung, um die Datei '%s' zu bearbeiten."
 "You don't have the correct permissions to display the file or directory '%s'.": "Ihnen fehlt die Berechtigung, um die Datei oder das Verzeichnis '%s' zu betrachten."
 "You have been logged out.": "Sie wurden ausgeloggt."
