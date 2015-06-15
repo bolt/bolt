@@ -8,25 +8,13 @@
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   9 unused messages
+#  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 428 translations
-# 139 keyword based translations
+# 437 translations
+# 140 keyword based translations
 
-#--- 9 unused messages --------------------------------------------------------
-
-"[Extension error] Initialisation failed for %ext%: %error%": "[Erweiterungsfehler] Initialisierung für %ext% %error% ist fehlgeschlagen"
-"[Extension error] Snippet loading failed for %ext%: %error%": "[Erweiterungsfehler] Laden von %ext% %error% ist fehlgeschlagen"
-"[Extension error] Twig function registration failed for %ext%: %error%": "[Erweiterungsfehler] Twig Funktionsregistrierung für %ext% %error% ist fehlgeschlagen"
-"[Extension error] YAML config failed to load for %ext%: %error%": "[Erweiterungsfehler] Das Laden der YAML Konfiguration für %ext% %error% ist fehlgeschlagen"
-"contenttypes.general.choose-an-entry": "Einen Eintrag auswählen"
-"A password reset link has been sent to '%user%'.": "Ein Link zum Zurücksetzen des Passworts wurde an %user% versandt."
-"Filtering …": "Filtern …"
-"Other contenttypes": "Andere Datentypen"
-"You must specify both a name and a version to install!": "Sie müssen sowohl einen Namen als auch eine Version definieren um dies installieren zu können!"
-
-#--- 428 translations ---------------------------------------------------------
+#--- 437 translations ---------------------------------------------------------
 
 "%name% № %id%": "%name% Nr. %id%"
 "%s files could not be deleted. You should delete them manually.": "%s Dateien konnten nicht gelöscht werden. Bitte manuell löschen."
@@ -34,7 +22,7 @@
 "(no category)": "(keine Kategorie vergeben)"
 "(no group)": "(keine Gruppe)"
 "(none)": "(nichts)"
-"A password reset link has been sent to ": "Ein Link zum Zurücksetzen des Passwortes wurde versandt an "
+"A password reset link has been sent to '%user%'.": "Ein Link zum Zurücksetzen des Passworts wurde an '%user%' versandt."
 "Actions": "Aktionen"
 "Add a brief, optional comment to describe what's changed.": "Optional: Kommentieren Sie kurz, was sich geändert hat."
 "Add a comment:": "Einen Kommentar hinzufügen:"
@@ -54,11 +42,12 @@
 "Are you sure you want to remove this image?": "Sind Sie sicher, dass Sie dieses Bild entfernen möchten?"
 "Are you sure you wish to delete these records? There is no undo.": "Sind Sie sicher, dass Sie diese Einträge löschen möchten? Dies kann nicht rückgängig gemacht werden."
 "Are you sure you wish to delete this record? There is no undo.": "Sind Sie sicher, dass Sie diesen Eintrag löschen möchten? Dies kann nicht rückgängig gemacht werden."
+"Attempt to modify invalid Contenttype.": "Sie versuchen einen ungültigen Inhaltstyp zu bearbeiten."
 "Author:": "Autor:"
 "Before you can start using the theme on your site we need to make a copy to your theme folder.": "Das Theme muss zuerst in Ihr Theme-Verzeichnis kopiert werde, bevor Sie es auf ihrer Webseite verwenden können."
 "Below are the third party libraries that are used by Bolt.": "Hier die Bibliotheken von Drittanbietern, welche Bolt verwendet."
 "Body": "Inhalt"
-"Bolt - Fatal error.": "Bolt - Schwerwiegender Fehler"
+"Bolt - Fatal error.": "Bolt - Schwerwiegender Fehler."
 "Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Die Bolt Erweiterung konnte nicht gefunden werden. Bitte prüfen Sie auf %site% um den richtigen Namen sicherzustellen"
 "Browse Versions": "Versionen anzeigen"
 "Browser / platform": "Browser / Plattform"
@@ -90,6 +79,7 @@
 "Clear sort/filter": "Sortierung/Filter aufheben"
 "Clear the cache": "Cache leeren"
 "Click to change current status.": "Anwählen, um momentanen Status zu ändern"
+"Client error: %errormessage%": "Client-Fehler: %errormessage%"
 "Close editor": "Editor schließen"
 "Code:": "Quellcode:"
 "Collapse sidebar": "Menü einklappen"
@@ -99,13 +89,14 @@
 "Content": "Inhalt"
 "Content '%title%' could not be deleted.": "Inhalt '%title%' konnte nicht gelöscht werden."
 "Content '%title%' could not be modified.": "Inhalt '%title%' konnte nicht geändert werden."
-"Content '%title%' has been changed to '%newStatus%'": "Inhalt '%title%' hat nun den Status '%newStatus%'."
+"Content '%title%' has been changed to '%newStatus%'": "Inhalt '%title%' hat nun den Status '%newStatus%'"
 "Content '%title%' has been deleted.": "Inhalt %title% wurde gelöscht."
 "Content Type Permissions": "Datentyp-Berechtigungen"
 "Content for home not found!": "Inhalt für die Startseite nicht gefunden!"
 "Contenttypes": "Datentypen"
 "Copy to theme folder": "In Theme Verzeichnis kopieren"
-"Copying theme assets …": "Kopiere Theme Dateien ..."
+"Copying theme assets …": "Kopiere Theme Dateien …"
+"Create File": "Datei erstellen"
 "Create folder": "Verzeichnis erstellen"
 "Create the first user": "Den ersten Benutzer erstellen"
 "Created on:": "Erstellt am:"
@@ -135,7 +126,7 @@
 "Draft": "Entwurf"
 "Duplicate %filename%": "%filename% kopieren"
 "Edit": "Bearbeiten"
-"Edit Roles and Permissions": "Bearbeite Rollen und Zugriffsrechte"
+"Edit Roles and Permissions": "Rollen und Zugriffsrechte bearbeiten"
 "Edit file": "Datei bearbeiten"
 "Enable %username%": "%username% aktivieren"
 "Everybody": "Jeder"
@@ -144,6 +135,7 @@
 "Expand sidebar": "Menü ausklappen"
 "Extend %boltname%": "%boltname% erweitern"
 "Extension": "Erweiterung"
+"Extension server returned an error: %errormessage%": "Der Erweiterungsserver meldet einen Fehler: %errormessage%"
 "Extensions": "Erweiterungen"
 "Extensions loading has been disabled by an administrator in the %config% file. ": "Das Laden der Erweiterung wurde von einem Administrator in der %config% Datei deaktiviert. "
 "Extras": "Extras"
@@ -151,16 +143,17 @@
 "Field “%FIELD_NAME%”:": "Feld „%FIELD_NAME%”:"
 "File": "Datei"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Die Datei '%file%' konnte nicht hochgeladen werden (falscher/nicht erlaubter Dateityp). Stellen Sie sicher, dass die Dateiendung einer der folgenden entspricht:"
-"File '%file%' could not be uploaded.": "Die Datei '%file%' konnte nicht hochgeladen werden."
 "File '%file%' was uploaded successfully.": "Die Datei '%file%' wurde erfolgreich hochgeladen."
 "File '%s' could not be saved, because the form wasn't valid.": "Die Datei '%s' konnte nicht gespeichert werden, weil die Formulareingaben nicht valide waren."
 "File '%s' could not be saved, for some reason.": "Die Datei '%s' konnte aus irgendeinem Grund nicht gespeichert werden."
 "File '%s' could not be saved:": "Die Datei '%s' konnte nicht gespeichert werden:"
+"File '%s' could not be saved: ": "Die Datei '%s' konnte nicht gespeichert werden: "
 "File '%s' has been saved.": "Die Datei '%s' wurde gespeichert."
 "File Management": "Dateiverwaltung"
 "File is not readable!": "Die Datei ist nicht lesbar!"
 "Filelist": "Dateiliste"
 "Files": "Dateien"
+"Files could not be uploaded.": "Die Dateien konnten nicht hochgeladen werden."
 "Files in %s": "Dateien in %s"
 "Files on the stack": "Dateien auf dem Stapel"
 "Filesize": "Dateigröße"
@@ -173,6 +166,7 @@
 "Folder permissions insufficient": "Verzeichnisberechtigungen lassen das nicht zu"
 "Folders": "Verzeichnisse"
 "Full list …": "Vollständige Liste …"
+"Generic failure while testing connection to extension server: %errormessage%": "Allgemeiner Fehler beim Prüfen der Verbindung zum Erweiterungsserver: %errormessage%"
 "Geolocation": "Geolokalisierung"
 "Global Permissions": "Globale Berechtigungen"
 "Has to be a floating point number!": "Muss eine Fließkommazahl sein!"
@@ -233,7 +227,6 @@
 "No results found for '%search%'. Please try another search.": "Keine Ergebnisse für %search% gefunden. Bitte einen anderen Suchbegriff probieren."
 "No such action for content.": "Aktion für diesen Inhalt nicht gefunden."
 "No such action for user '%s'.": "Aktion für Benutzer '%s' nicht gefunden."
-"No such user.": "Unbekannter Benutzer."
 "No theme name found. Theme is not generated.": "Kein Theme-Name gefunden. Das Theme wurde nicht erzeugt."
 "None": "Keine/r"
 "Not published": "Nicht veröffentlicht"
@@ -258,6 +251,7 @@
 "Place on stack": "Auf dem Stapel platzieren"
 "Please choose the record you want to link to:": "Bitte den zu verlinkenden Eintrag wählen:"
 "Please confirm that you want to remove this extension?": "Sind Sie sicher, dass Sie diese Erweiterung entfernen möchten?"
+"Please enter a new file name": "Bitte geben Sie einen neuen Dateinamen ein"
 "Please enter a new file name!": "Bitte geben Sie einen neuen Dateinamen ein!"
 "Please enter a new folder name": "Bitte geben Sie einen neuen Verzeichnisnamen ein"
 "Please enter a new folder name!": "Bitte geben Sie einen neuen Verzeichnisnamen ein!"
@@ -275,6 +269,7 @@
 "Published on:": "Veröffentlicht am:"
 "Read more": "Mehr …"
 "Readme": "Liesmich"
+"Records": "Einträge"
 "Related content": "Verknüpfter Inhalt"
 "Related content:": "Verknüpfte Inhalte"
 "Relationships": "Beziehungen"
@@ -282,7 +277,11 @@
 "Rename %foldername%": "%foldername% umbenennen"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen und Berechtigungen"
+"Run PHP extension checks": "PHP-Erweiterungen überprüfen"
 "Run all Updates": "Alle Aktualisierungen ausführen"
+"Run all checks": "Alle Überprüfungen ausführen"
+"Run directory checks": "Verzeichnisse überprüfen"
+"Run email checks": "E-Mail-Einstellungen überprüfungen"
 "Run update check": "Auf Aktualisierungen prüfen"
 "Running install of all packages …": "Installation aller Pakete ausführen …"
 "Running update …": "Führe Update aus …"
@@ -319,6 +318,7 @@
 "Stack": "Stapel"
 "Status": "Status"
 "Status:": "Status:"
+"System Configuration Checks": "System-Konfiguration Überprüfungen"
 "Tag": "Tag"
 "Tags": "Tags"
 "Taxonomy": "Taxonomie"
@@ -414,14 +414,13 @@
 "View/install Extensions": "Erweiterungen anzeigen/installieren"
 "Warning": "Warnung"
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "Das Theme konnte nicht generiert werden. Offenbar ist das Verzeichnis nicht durch Bolt beschreibbar. Bitte die Schreibrechte prüfen und nochmals versuchen."
+"Welcome to your new Bolt site, %USER%.": "Willkommen auf Ihrer neuen Bolt Webseite, %USER%."
 "Written by <em>%name%</em> on %date%": "Geschrieben von <em>%name%</em> am %date%"
 "You can discover new extensions by visiting": "Hier können Sie neue Erweiterungen entdecken:"
 "You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "Sie können die installierte Eerweiterung jetzt verwenden. Dokumentation und weitere Anweisungen können unter dem Link weiter unten gefunden werden."
 "You cannot '%s' yourself.": "Sie können sich nicht selbst '%s'."
-"You do not have the right privileges to create a new record.": "Sie haben nicht die erforderlichen Rechte, um einen neuen Eintrag zu verfassen."
 "You do not have the right privileges to edit that record.": "Sie haben nicht die erforderlichen Rechte, um diesen Datensatz zu bearbeiten."
 "You do not have the right privileges to edit that user.": "Sie haben nicht die erforderlichen Rechte, um diesen Benutzer zu bearbeiten."
-"You do not have the right privileges to upload.": "Sie haben nicht die erforderlichen Rechte, um einen Upload durchzuführen."
 "You do not have the right privileges to view that page.": "Ihnen fehlen die Berechtigungen um die diese Seite zu anzuzeigen."
 "You don't have correct permissions to edit the file '%s'.": "Ihnen fehlt die Berechtigung, um die Datei '%s' zu bearbeiten."
 "You don't have the correct permissions to display the file or directory '%s'.": "Ihnen fehlt die Berechtigung, um die Datei oder das Verzeichnis '%s' zu betrachten."
@@ -437,8 +436,6 @@
 "and edited": "und bearbeitet"
 "back to editing": "zurück zum Bearbeiten"
 "by": "von"
-"cURL experienced an error: %errormessage%": "cURL hat einen Fehler ausgegeben: %errormessage%"
-"cURL library doesn't support TLS. Downgrading to HTTP.": "Die cURL Bibliothek unterstützt kein TLS. Falle zurück auf HTTP."
 "filtered by <em>'%filter%'</em>": "gefiltert nach <em>'%filter%'</em>"
 "general.about": "Über"
 "general.about-bolt": "Über Bolt"
@@ -457,7 +454,7 @@
 "users.actions-for-users": "Aktionen für Benutzer"
 "users.your-password": "Ihr Passwort"
 
-#--- 139 keyword based translations -------------------------------------------
+#--- 140 keyword based translations -------------------------------------------
 
 component:
     changelog-detail:
@@ -588,6 +585,7 @@ page:
         error:
             displayname-used: "Dieser Anzeigename ist bereits in Verwendung. Bitte andere Wahl treffen."
             email-used: "Diese E-Mail Adresse wird bereits benutzt. Bitte eine andere wählen."
+            password-different-displayname: "Das Passwort darf nicht Teil des Anzeigenamens sein."
             password-different-username: "Das Passwort darf nicht mit dem Benutzernamen übereinstimmen."
             password-mismatch: "Passwörter müssen gleich sein."
             password-short: "Der Wert ist zu kurz. Bitte mindestens 6 Zeichen Länge."
