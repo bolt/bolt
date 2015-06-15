@@ -31,7 +31,7 @@ final class UpdatePackage extends BaseAction
         $packageManagerOptions = $this->app['extend.action.options'];
 
         // Handle passed in options
-        if (!$options) {
+        if (!empty($options)) {
             $options = Arr::mergeRecursiveDistinct($packageManagerOptions, $options);
         } else {
             $options = $packageManagerOptions;
