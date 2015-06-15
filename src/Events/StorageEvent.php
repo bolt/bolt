@@ -39,7 +39,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class StorageEvent extends GenericEvent
 {
     /**
-     * @var Bolt\Content
+     * @var \Bolt\Content|array
      */
     protected $subject;
 
@@ -51,8 +51,8 @@ class StorageEvent extends GenericEvent
     /**
      * Instantiate generic Storage Event.
      *
-     * @param Bolt\Content|array $subject   A Content object that is being saved or deleted
-     * @param array              $arguments Arguments to store in the event.
+     * @param \Bolt\Content|array $subject   A Content object that is being saved or deleted
+     * @param array               $arguments Arguments to store in the event.
      */
     public function __construct($subject = null, array $arguments = [])
     {
@@ -83,7 +83,7 @@ class StorageEvent extends GenericEvent
     /**
      * Return the content object.
      *
-     * @return Bolt\Content
+     * @return \Bolt\Content
      */
     public function getContent()
     {

@@ -72,6 +72,7 @@ class Browse implements PluginInterface
                 try {
                     $files[$entry['path']]['permissions'] = $this->filesystem->getVisibility($entry['path']);
                 } catch (\Exception $e) {
+                    // Computer says "No!"
                 }
 
                 $fullfilename = $this->filesystem->getAdapter()->applyPathPrefix($entry['path']);

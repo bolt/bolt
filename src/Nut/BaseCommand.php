@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 abstract class BaseCommand extends Command
 {
-    /** @var Bolt\Application */
+    /** @var \Bolt\Application */
     protected $app;
 
     /**

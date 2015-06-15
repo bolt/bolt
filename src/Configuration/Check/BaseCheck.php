@@ -10,7 +10,7 @@ use Silex\Application;
  */
 abstract class BaseCheck
 {
-    /** @var Silex\Application */
+    /** @var Application */
     protected $app;
     /** @var array */
     protected $options;

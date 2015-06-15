@@ -16,6 +16,8 @@ class ContenttypesKeygen
     private $hints;
     /** @var array Translated strings. */
     private $translation;
+    /** @var array ContentType names. */
+    private $ctnames;
     /** @var array Translations read from file. */
     private $saved;
     /** @var array Translatable strings. */

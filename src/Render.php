@@ -18,7 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
 class Render
 {
     public $app;
+    /** @var boolean */
     public $safe;
+    /** @var string */
+    public $twigKey;
 
     /**
      * Set up the object.
@@ -121,7 +124,7 @@ class Render
     /**
      * Get the duration (in seconds) for the cache.
      *
-     * @return int;
+     * @return integer
      */
     public function cacheDuration()
     {

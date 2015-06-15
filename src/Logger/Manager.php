@@ -14,19 +14,11 @@ use Silex\Application;
  */
 class Manager
 {
-    /**
-     * @var Application
-     */
+    /** @var Application */
     private $app;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     private $table_change;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     private $table_system;
 
     /**

@@ -14,17 +14,13 @@ class FilePermissions
 {
     /** @var \Bolt\Application */
     protected $app;
-
     /** @var string[] List of Filesystem prefixes that are editable. */
     protected $allowedPrefixes = [];
-
     /** @var array Regex list represented editable resources. */
     protected $allowed = [];
-
     /** @var array Regex list represented resources forbidden for edition. */
     protected $blocked = [];
-
-    /** @var int Maximum upload size allowed by PHP, in bytes. */
+    /** @var double Maximum upload size allowed by PHP, in bytes. */
     protected $maxUploadSize;
 
     /**
@@ -116,7 +112,7 @@ class FilePermissions
     /**
      * Get the maximum upload size the server is configured to accept.
      *
-     * @return integer
+     * @return double
      */
     public function getMaxUploadSize()
     {

@@ -392,7 +392,7 @@ class Users
      *
      * @param string $property
      *
-     * @return array
+     * @return string
      */
     public function getCurrentUserProperty($property)
     {
@@ -416,7 +416,7 @@ class Users
      *
      * @deprecated since v2.3 and to be removed in v3
      *
-     * @return string the username of the current user.
+     * @return string The username of the current user.
      */
     public function getCurrentUsername()
     {

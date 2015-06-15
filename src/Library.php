@@ -37,7 +37,7 @@ class Library
      *
      * @param string $size
      *
-     * @return integer
+     * @return double
      */
     public static function filesizeToBytes($size)
     {

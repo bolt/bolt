@@ -32,24 +32,18 @@ class ResourceManager
 
     /** @var \Eloquent\Pathogen\AbsolutePathInterface */
     protected $root;
-
     /** @var Request */
     protected $requestObject;
-
     /** @var AbsolutePathInterface[] */
     protected $paths = [];
-
+    /** @var array */
     protected $urls = [];
-
     /** @var string[] */
     protected $request = [];
-
     /** @var LowLevelChecks|null */
     protected $verifier;
-
     /** @var \Composer\Autoload\ClassLoader|null */
     protected $classLoader;
-
     /** @var \Eloquent\Pathogen\FileSystem\Factory\FileSystemPathFactory */
     protected $pathManager;
 
