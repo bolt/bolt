@@ -14,19 +14,11 @@ use Silex\Application;
  */
 class Manager
 {
-    /**
-     * @var Application
-     */
+    /** @var Application */
     private $app;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     private $table_change;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     private $table_system;
 
     /**
@@ -178,14 +170,14 @@ class Manager
      */
     private function setWhere(QueryBuilder $query, $level = null, $context = null)
     {
-        if ($level || $context) {
+        if ($level !== null || $context !== null) {
             $where = $query->expr()->andX();
 
-            if ($level) {
+            if ($level !== null) {
                 $where->add($query->expr()->eq('level', ':level'));
             }
 
-            if ($context) {
+            if ($context !== null) {
                 $where->add($query->expr()->eq('context', ':context'));
             }
             $query

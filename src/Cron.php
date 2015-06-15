@@ -23,31 +23,24 @@ use Symfony\Component\EventDispatcher\Event;
  *      * CRON_YEARLY
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
- **/
+ */
 class Cron extends Event
 {
     /** @var \Silex\Application */
     private $app;
-
     /** @var \Symfony\Component\Console\Output\OutputInterface */
     private $output;
-
     /** @var array Passed in console paramters. */
     private $param;
-
     /** @var array The next elegible run time for each interim. */
     private $jobs;
-
     /** @var boolean True for a required database insert. */
     private $insert;
-
     /** @var string */
     private $tablename;
-
-    /** @var string The start of the execution time for this cron instance.*/
+    /** @var integer The start of the execution time for this cron instance.*/
     private $runtime;
-
-    /** @var string */
+    /** @var integer */
     private $cronHour;
 
     /** @var array */

@@ -4,7 +4,6 @@ namespace Bolt\Translation;
 
 use Bolt\Application;
 use Bolt\Translation\Translator as Trans;
-use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
@@ -17,49 +16,27 @@ use Symfony\Component\Yaml\Yaml;
  */
 class TranslationFile
 {
-    /**
-     * Injected Application object.
-     *
-     * @var \Bolt\Application
-     */
+    /** @var \Bolt\Application */
     private $app;
-
-    /**
-     * Requested Domain.
-     *
-     * @var string
-     */
+    /** @var string Requested Domain. */
     private $domain;
-
-    /**
-     * Path to the translation file.
-     *
-     * @var string
-     */
+    /** @var string Path to the translation file. */
     private $absPath;
-
-    /**
-     * Project relative path to the translation file.
-     *
-     * @var string
-     */
+    /** @var string Project relative path to the translation file. */
     private $relPath;
-
-    /**
-     * List of all translatable Strings found.
-     *
-     * @var array
-     */
+    /** @var array List of all translatable Strings found. */
     private $translatables = [];
+    /** @var string */
+    private $locale;
 
     /**
      * Constructor.
      *
-     * @param \Silex\Application $app
-     * @param string             $domain Requested resource
-     * @param string             $locale Requested locale
+     * @param Application $app
+     * @param string      $domain Requested resource
+     * @param string      $locale Requested locale
      */
-    public function __construct(Silex\Application $app, $domain, $locale)
+    public function __construct(Application $app, $domain, $locale)
     {
         $this->app = $app;
         $this->domain = $domain;

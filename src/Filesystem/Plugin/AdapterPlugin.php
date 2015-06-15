@@ -11,7 +11,10 @@ abstract class AdapterPlugin implements PluginInterface
 {
     /** @var FilesystemInterface */
     protected $filesystem;
+    /** @var string */
     protected $namespace;
+    /** @var Application */
+    protected $app;
 
     public function __construct(Application $app, $namespace = 'files')
     {

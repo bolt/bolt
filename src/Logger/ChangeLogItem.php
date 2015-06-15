@@ -137,11 +137,6 @@ class ChangeLogItem implements \ArrayAccess
     private function getEffectiveMutationType()
     {
         switch ($this->mutation) {
-            case 'INSERT':
-            case 'DELETE':
-            default:
-                return $this->mutation;
-
             case 'UPDATE':
                 $diff = $this->getParsedDiff();
                 if (isset($diff['status'])) {
@@ -161,6 +156,11 @@ class ChangeLogItem implements \ArrayAccess
                 } else {
                     return 'UPDATE';
                 }
+                // Return to sender
+            case 'INSERT':
+            case 'DELETE':
+            default:
+                return $this->mutation;
         }
     }
 
@@ -267,11 +267,6 @@ class ChangeLogItem implements \ArrayAccess
             ];
 
             switch ($fields[$key]['type']) {
-                case 'text':
-                case 'slug':
-                default:
-                    break;
-
                 case 'html':
                 case 'markdown':
                 case 'textarea':
@@ -368,6 +363,11 @@ class ChangeLogItem implements \ArrayAccess
                     ];
 
                     break;
+                case 'text':
+                case 'slug':
+                default:
+                    break;
+
             }
         }
 

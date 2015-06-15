@@ -8,6 +8,9 @@ use Silex\ServiceProviderInterface;
 
 class RenderServiceProvider implements ServiceProviderInterface
 {
+    /** @var boolean */
+    protected $safe;
+
     public function __construct($safe = false)
     {
         $this->safe = $safe;

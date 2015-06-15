@@ -7,6 +7,14 @@ namespace Bolt;
  */
 class TemplateChooser
 {
+    /** @var Application */
+    private $app;
+
+    /**
+     * Constructor.
+     *
+     * @param Application $app
+     */
     public function __construct(Application $app)
     {
         $this->app = $app;

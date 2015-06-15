@@ -304,7 +304,7 @@ class RecordModifier
         ];
 
         // Generate tab groups
-        $groups = $this->createGroupTabs($contenttype, $content, $info);
+        $groups = $this->createGroupTabs($contenttype, $info);
 
         // Build context for Twig
         $context = [
@@ -388,12 +388,11 @@ class RecordModifier
      * Generate tab groups.
      *
      * @param array   $contenttype
-     * @param Content $content
      * @param array   $info
      *
      * @return array
      */
-    private function createGroupTabs(array $contenttype, Content $content, $info)
+    private function createGroupTabs(array $contenttype, $info)
     {
         $groups = [];
         $groupIds = [];

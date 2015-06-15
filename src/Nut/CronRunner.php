@@ -38,6 +38,7 @@ class CronRunner extends BaseCommand
                 'event' => $event
             ];
         } else {
+            $event = false;
             $param = [
                 'run'   => false,
                 'event' => ''

@@ -89,8 +89,8 @@ class MenuBuilder
         }
 
         if (isset($item['route'])) {
-            $param = !empty($item['param']) ?: [];
-            $add = !empty($item['add']) ?: '';
+            $param = !empty($item['param']) ? $item['param'] : [];
+            $add = !empty($item['add']) ? $item['add'] : '';
 
             $item['link'] = $this->app->generatePath($item['route'], $param, $add);
         } elseif (isset($item['path'])) {
