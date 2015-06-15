@@ -59,29 +59,18 @@ class ChangeLogItem implements \ArrayAccess
      */
     public function __get($key)
     {
-        if ($key == 'id') {
-            return $this->id;
-        } elseif ($key == 'date') {
-            return $this->date;
-        } elseif ($key == 'title') {
-            return $this->title;
-        } elseif ($key == 'username') {
-            return $this->username;
-        } elseif ($key == 'contentid') {
-            return $this->contentid;
-        } elseif ($key == 'comment') {
-            return $this->comment;
+        $valid = ['id', 'date', 'title', 'username', 'contentid', 'comment', 'diff_raw'];
+        if (in_array($key, $valid)) {
+            return $this->{$key};
         } elseif ($key == 'mutation_type') {
             return $this->getEffectiveMutationType();
         } elseif ($key == 'changedfields') {
             $this->changedfields = $this->getChangedFields();
 
             return $this->changedfields;
-        } elseif ($key == 'diff_raw') {
-            return $this->diff_raw;
-        } else {
-            throw new \InvalidArgumentException("$key is not a valid parameter.");
         }
+
+        throw new \InvalidArgumentException("$key is not a valid parameter.");
     }
 
     /**
@@ -166,7 +155,7 @@ class ChangeLogItem implements \ArrayAccess
         $contenttype = $this->app['storage']->getContentType($this->contenttype);
         $fields = $contenttype['fields'];
 
-        foreach ($pdiff as $key => $value) {
+        foreach (array_keys($pdiff) as $key) {
             if (!isset($fields[$key])) {
                 continue;
             }
