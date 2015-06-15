@@ -255,12 +255,12 @@ class FileManager extends BackendBase
                 } else {
                     $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", ['%s' => $file->getPath()]);
                 }
-            } else {
-                $result = [
-                    'ok'  => false,
-                    'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", ['%s' => $file->getPath()])
-                ];
             }
+        } else {
+            $result = [
+                'ok'  => false,
+                'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", ['%s' => $file->getPath()])
+            ];
         }
 
         return $this->json($result);
