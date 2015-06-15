@@ -42,7 +42,7 @@ class CronEvent extends Event
      * @param Event  $event
      * @param string $eventName
      */
-    public function doRunScheduledJobs(Event $event, $eventName, EventDispatcherInterface $dispatcher)
+    public function doRunScheduledJobs(Event $event, $eventName)
     {
         switch ($eventName) {
             case CronEvents::CRON_HOURLY:
