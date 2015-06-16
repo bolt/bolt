@@ -57,11 +57,7 @@ class Queue implements QueueInterface
     }
 
     /**
-     * Extensions::processSnippetQueue()
-     *
-     * @param string $html
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function process($html)
     {
