@@ -41,10 +41,12 @@ class Queue implements QueueInterface
      */
     public function add($type, $fileName, array $options = [])
     {
+        $cacheHash = $this->app['assets.file.hash']($fileName);
+
         if ($type === 'javascript') {
-            $this->javascript[md5($fileName)] = new JavaScript($fileName, $options);
+            $this->javascript[$cacheHash] = new JavaScript($fileName, $cacheHash, $options);
         } elseif ($type === 'stylesheet') {
-            $this->stylesheet[md5($fileName)] = new Stylesheet($fileName, $options);
+            $this->stylesheet[$cacheHash] = new Stylesheet($fileName, $cacheHash, $options);
         } else {
             throw new \InvalidArgumentException("Requested asset type of '$type' is not valid.");
         }

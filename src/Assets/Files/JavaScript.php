@@ -13,6 +13,8 @@ class JavaScript extends FileAssetBase
      */
     public function __toString()
     {
-        return sprintf('<script src="%s" %s></script>', $this->fileName, $this->attributes);
+        $hash = $this->cacheHash ? '?v=' . $this->cacheHash : $this->cacheHash;
+
+        return sprintf('<script src="%s%s" %s></script>', $this->fileName, $hash, $this->attributes);
     }
 }

@@ -13,6 +13,8 @@ class Stylesheet extends FileAssetBase
      */
     public function __toString()
     {
-        return sprintf('<link rel="stylesheet" href="%s" media="screen">', $this->fileName);
+        $hash = $this->cacheHash ? '?v=' . $this->cacheHash : $this->cacheHash;
+
+        return sprintf('<link rel="stylesheet" href="%s%s" media="screen">', $this->fileName, $hash);
     }
 }
