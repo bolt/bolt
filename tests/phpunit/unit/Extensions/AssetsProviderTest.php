@@ -29,7 +29,7 @@ HTML;
 <html>
 <head>
 <meta charset="utf-8" />
-<link rel="stylesheet" href="testfile.css" media="screen">
+<link rel="stylesheet" href="testfile.css?v=5e544598b8d78644071a6f25fd8bba82" media="screen">
 <link rel="stylesheet" href="existing.css" media="screen">
 </head>
 <body>
@@ -46,7 +46,7 @@ HTML;
 </head>
 <body>
 <script src="existing.js"></script>
-<link rel="stylesheet" href="testfile.css" media="screen">
+<link rel="stylesheet" href="testfile.css?v=5e544598b8d78644071a6f25fd8bba82" media="screen">
 </body>
 </html>
 HTML;
@@ -59,7 +59,7 @@ HTML;
 </head>
 <body>
 <script src="existing.js"></script>
-<script src="testfile.js"></script>
+<script src="testfile.js?v=289fc946f38fee1a3e947eca1d6208b6"></script>
 </body>
 </html>
 HTML;
@@ -72,7 +72,7 @@ HTML;
 </head>
 <body>
 <script src="existing.js"></script>
-<script src="testfile.js"></script>
+<script src="testfile.js?v=289fc946f38fee1a3e947eca1d6208b6"></script>
 </body>
 </html>
 HTML;
@@ -167,6 +167,16 @@ HTML;
 </body>
 </html>
 HTML;
+
+    public function getApp()
+    {
+        $app = parent::getApp();
+        $app['assets.file.hash'] = $app->protect(function ($fileName) {
+            return md5($fileName);
+        });
+
+        return $app;
+    }
 
     public function testBadExtensionSnippets()
     {
