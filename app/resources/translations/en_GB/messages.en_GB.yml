@@ -11,10 +11,10 @@
 #  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 379 translations
+# 382 translations
 # 132 keyword based translations
 
-#--- 379 translations ---------------------------------------------------------
+#--- 382 translations ---------------------------------------------------------
 
 "%contenttypes% overview": "%contenttypes% overview"
 "%name% № %id%": "%name% № %id%"
@@ -398,6 +398,9 @@ users.your-password: "Your password"
 "none": "none"
 "of": "of"
 "show all": "show all"
+"This template adds new fields. Save, then refresh to see these changes.": "This template adds new fields. Save, then refresh to see these changes."
+"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
+"Warning": "Warning"
 
 #--- 132 keyword based translations -------------------------------------------
 

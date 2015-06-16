@@ -11,10 +11,10 @@
 #  no unused messages
 #  no untranslated messages
 #  no untranslated keyword based messages
-# 379 translations
+# 382 translations
 # 132 keyword based translations
 
-#--- 379 translations ---------------------------------------------------------
+#--- 382 translations ---------------------------------------------------------
 
 "%contenttypes% overview": "%contenttypes% överblick"
 "%name% № %id%": "%name% № %id%"
@@ -398,6 +398,9 @@ users.your-password: "Ditt lösenord"
 "none": "ingen"
 "of": "av"
 "show all": "visa alla"
+"This template adds new fields. Save, then refresh to see these changes.": "Denna mallen lägger till fler fält. Spara, och ladda sedan om för att se de nya fälten"
+"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": "Du kan komma att förlora vissa fält med den här ändringen. Go till sektionen Mall och skriv ner innehållet om du vill behålla det."
+"Warning": "Varning"
 
 #--- 132 keyword based translations -------------------------------------------
 
