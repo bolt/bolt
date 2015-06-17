@@ -15,7 +15,7 @@
         "jquery": "~1.11.3"
     },
     "devDependencies": {
-        "backbone": "~1.2.0",
+        "backbone": "~1.2.1",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.5",
         "font-awesome": "~4.3.0",
