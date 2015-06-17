@@ -181,7 +181,7 @@ class Extensions
                ->followLinks()
                ->name('init.php')
                ->depth('== 2')
-       ;
+        ;
 
         foreach ($finder as $file) {
             /** @var \Symfony\Component\Finder\SplFileInfo $file */
@@ -219,12 +219,6 @@ class Extensions
             $this->app['extend.action']['json']->updateJson();
         }
 
-        // Get Bolt's extension JSON
-        $composerOptions = $this->app['extend.action.options'];
-        $composerJsonFile = new JsonFile($composerOptions['composerjson']);
-        $boltJson = $composerJsonFile->read();
-        $boltPsr4 = isset($boltJson['autoload']['psr-4']) ? $boltJson['autoload']['psr-4'] : [];
-
         $finder = new Finder();
         $finder->files()
             ->in($this->basefolder . '/local')
@@ -232,6 +226,24 @@ class Extensions
             ->name('composer.json')
             ->depth('== 2')
         ;
+
+        if ($finder->count() > 0) {
+            $this->setLocalExtensionPsr4($finder);
+        }
+    }
+
+    /**
+     * Write the PSR-4 data to the extensions/composer.json file.
+     *
+     * @param Finder $finder
+     */
+    private function setLocalExtensionPsr4(Finder $finder)
+    {
+        // Get Bolt's extension JSON
+        $composerOptions = $this->app['extend.action.options'];
+        $composerJsonFile = new JsonFile($composerOptions['composerjson']);
+        $boltJson = $composerJsonFile->read();
+        $boltPsr4 = isset($boltJson['autoload']['psr-4']) ? $boltJson['autoload']['psr-4'] : [];
 
         foreach ($finder as $file) {
             try {
@@ -248,6 +260,7 @@ class Extensions
             }
         }
 
+        // Modify Bolt's extension JSON and write out changes
         $boltJson['autoload']['psr-4'] = $boltPsr4;
         $composerJsonFile->write($boltJson);
         $this->app['extend.manager']->dumpautoload();
