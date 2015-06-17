@@ -250,7 +250,7 @@ class Extensions
                 $extensionJsonFile = new JsonFile($file->getRealpath());
                 $json = $extensionJsonFile->read();
             } catch (\Exception $e) {
-                // Ignore for now
+                $this->logInitFailure('Reading local extension composer.json file failed', $file->getRealpath(), $e, Logger::ERROR);
             }
 
             if (isset($json['autoload']['psr-4'])) {
