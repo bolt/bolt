@@ -4,10 +4,10 @@
  */
 
 /**
- * Colour scheme, copied from colors.scss
+ * Colour scheme, copied from colors.scss.
  */
 
-// for easier layouting.. Will be deleted..
+// For easier layouting… Will be deleted…
 $columnborders: false;
 
 $boltblue: #204460;
@@ -29,20 +29,20 @@ $linkactive: lighten(saturate($boltblue, 50), 10);
 $padding-base-horizontal: 8px;
 
 
-// Primary button
+// Primary button.
 $btn-primary-color: #FFF;
 $btn-primary-bg: #FB4D08; //#DC6A23;
 $btn-primary-border: darken($btn-primary-bg, 6%);
 
-// Secondary button
+// Secondary button.
 $btn-secondary-bg: desaturate(lighten($btn-primary-bg, 7%), 20);
 $btn-secondary-border: darken($btn-secondary-bg, 6%);
 
-// Tertiary button
+// Tertiary button.
 $btn-tertiary-bg: desaturate(lighten($boltblue, 35%), 20);
 $btn-tertiary-border: darken($btn-tertiary-bg, 6%);
 
-// Default button
+// Default button.
 $btn-default-color: #666;
 $btn-default-bg: #E0E0E0;
 $btn-default-border: darken($btn-default-bg, 5);
@@ -55,12 +55,12 @@ $btn-silent-danger-color: #555;
 $btn-silent-danger-bg: #F8F8F8;
 $btn-silent-danger-border: darken($btn-danger-bg, 5);
 
-// Special BOLT button
+// Special BOLT button.
 $btn-bolt-color: #FFF;
 $btn-bolt-bg: $boltblue;
 $btn-bolt-border: darken($btn-bolt-bg, 6%);
 
-// Text-links in dropdowns and pop-overs
+// Text-links in dropdowns and pop-overs.
 $dropdown-link-color: #555;
 $dropdown-link-hover-color: $boltbluedarker;
 $dropdown-link-hover-bg: #DDD;
@@ -77,7 +77,7 @@ $table-bg-accent: #F6F6F9;
 // Width of the gutter in the grid. Bit wider than default, because whitespace is free.
 $grid-gutter-width: 40px;
 
-// Pagination
+// Pagination.
 $pagination-color: lighten(desaturate($boltblue, 35), 6);
 $pagination-active-bg: lighten(desaturate($boltblue, 35), 6);
 $pagination-active-border: lighten(desaturate($boltblue, 35), 3);
@@ -91,7 +91,7 @@ $nav-tabs-bg: desaturate(lighten($boltblue, 50%), 30);
 
 
 /**
- * Colors in _base.scss
+ * Colors in _base.scss.
  */
 $sidebarbackground: #181818;
 $sidebartextcolour: #DDD;
@@ -103,7 +103,7 @@ $sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 7);
 $sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 18);
 
 /**
- * New media query approach
+ * New media query approach.
  *
  * Breakpoints
  */
@@ -127,7 +127,7 @@ $nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin + 
 $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 1);
 
 /**
- * Media Query handling
+ * Media Query handling.
  */
 @mixin respond-to($media) {
     @if $media == mid-mobile {
@@ -191,7 +191,7 @@ $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-inden
     }
 }
 
-// Mixin to add ellipsis
+// Mixin to add ellipsis.
 
 @mixin ellipsis() {
   overflow: hidden;
@@ -199,7 +199,7 @@ $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-inden
   text-overflow: ellipsis;
 }
 
-// Mixin to background image for empty elements
+// Mixin to background image for empty elements.
 
 @mixin background-empty() {
     background: #f8f8f8;

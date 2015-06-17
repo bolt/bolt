@@ -7,15 +7,15 @@
  * We do seperate imports here, instead of just importing 'bootstrap.scss', because we do not need
  * all of the components.
  */
-// Core variables and mixins
+// Core variables and mixins.
 @import "bootstrap/variables";
 @import "bootstrap/mixins";
 
-// Reset
+// Reset.
 @import "bootstrap/normalize";
 @import "bootstrap/print";
 
-// Core CSS
+// Core CSS.
 @import "bootstrap/scaffolding";
 @import "bootstrap/type";
 @import "bootstrap/code";
@@ -24,7 +24,7 @@
 @import "bootstrap/forms";
 @import "bootstrap/buttons";
 
-// Components
+// Components.
 @import "bootstrap/component-animations";
 // @import "bootstrap/glyphicons";
 @import "bootstrap/dropdowns";
@@ -47,13 +47,13 @@
 @import "bootstrap/wells";
 @import "bootstrap/close";
 
-// Components w/ JavaScript
+// Components w/ JavaScript.
 @import "bootstrap/modals";
 @import "bootstrap/tooltip";
 @import "bootstrap/popovers";
 // @import "bootstrap/carousel";
 
-// Utility classes
+// Utility classes.
 @import "bootstrap/utilities";
 @import "bootstrap/responsive-utilities";
 
@@ -63,12 +63,12 @@
 @import "font-awesome.scss";
 
 /**
- * base variables, mixins and helpers
+ * Base variables, mixins and helpers.
  */
 @import "base";
 
 /**
- * Override bootstrap defaults
+ * Override bootstrap defaults.
  */
 @import "modules/custom/bootstrap";
 @import "modules/custom/ckeditor";
@@ -97,6 +97,6 @@
 @import "modules/extend";
 
 /**
- * The leftover styles
+ * The leftover styles.
  */
 @import "modules/bolt";
