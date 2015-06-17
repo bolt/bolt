@@ -74,9 +74,7 @@
 /**
  * Some modules
  */
-@if $old-ie == false {
-    @import "modules/fonts";
-}
+@import "modules/fonts";
 @import "nav/nav";
 @import "modules/footer";
 @import "modules/textstyles";

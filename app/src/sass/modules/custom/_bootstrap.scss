@@ -124,9 +124,6 @@
     background-color: $boltblue;
     background-repeat: repeat-x;
     // box-shadow: 0 4px 0px rgba(0, 0, 0, .2);
-    @include old-ie() {
-        border-bottom: 4px solid $lightgrey;
-    }
 
     div.navbar-collapse {
         float: right;

@@ -129,12 +129,7 @@ $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-inden
 /**
  * A fixed media query size for app-old-ie.scss, defaults to false.
  */
-@if $old-ie {
-    // Gets compared to breakpoints in mixon respond-to(): includes all mq styles up to 60em's; change if needed
-    $fixed-mq: 60;
-} @else {
-    $fixed-mq: false;
-}
+$fixed-mq: false;
 
 /**
  * Media Query handling
@@ -187,17 +182,6 @@ $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-inden
                @content;
             }
         }
-    }
-}
-
-/*
- * Needed for bolt-old-ie.scss
- */
-$old-ie: false !default;
-@mixin old-ie() {
-    // Only use this content if we're dealing with old IE
-    @if $old-ie {
-        @content;
     }
 }
 
