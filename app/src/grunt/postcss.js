@@ -2,7 +2,16 @@
  * POSTCSS: Transforming CSS with JS plugins
  */
 module.exports = function (grunt) {
-    var procSingleCharset = require('postcss-single-charset');
+    var proc = {
+            autoprefixer: require('autoprefixer-core'),
+            singleCharset: require('postcss-single-charset')
+        },
+        opt = {
+            autoprefixer: {
+                browsers: 'last 2 versions, > 5%, IE >= 9'
+            }
+        };
+
 
     return {
         /*
@@ -11,10 +20,10 @@ module.exports = function (grunt) {
         boltCss: {
             options: {
                 processors: [
+                    proc.autoprefixer(opt.autoprefixer)
                 ]
             },
             src:  [
-                '<%= path.dest.css %>/bolt-old-ie.css',
                 '<%= path.dest.css %>/bolt.css',
                 '<%= path.dest.css %>/liveeditor.css'
             ]
@@ -26,7 +35,8 @@ module.exports = function (grunt) {
         libCss: {
             options: {
                 processors: [
-                    procSingleCharset.postcss
+                    proc.singleCharset.postcss,
+                    proc.autoprefixer(opt.autoprefixer)
                 ]
             },
             src:  [
