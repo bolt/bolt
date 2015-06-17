@@ -170,7 +170,7 @@ HTML;
     public function getApp()
     {
         $app = parent::getApp();
-        $app['assets.file.hash'] = $app->protect(function ($fileName) {
+        $app['asset.file.hash'] = $app->protect(function ($fileName) {
             return md5($fileName);
         });
 
@@ -215,7 +215,7 @@ HTML;
         $app = $this->getApp();
         $app['logger.system'] = new Mock\Logger();
         $app['extensions']->register(new Mock\BadExtensionSnippets($app));
-        $html = $app['assets.queue.snippet']->process($this->template);
+        $html = $app['asset.queue.snippet']->process($this->template);
         $this->assertEquals($this->html($this->template), $this->html($html));
 
         $this->assertEquals(

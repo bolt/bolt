@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Extensions\Mock;
 
 use Bolt\Application;
-use Bolt\Assets\Target;
+use Bolt\Asset\Target;
 
 /**
  * Class to test correct operation and locations of composer configuration.
@@ -13,7 +13,7 @@ class BadExtensionSnippets extends Extension
 {
     public function __construct(Application $app)
     {
-        $app['assets.queue.snippet']->add(Target::END_OF_HEAD, [$this, 'badSnippetCallBack'], __CLASS__);
+        $app['asset.queue.snippet']->add(Target::END_OF_HEAD, [$this, 'badSnippetCallBack'], __CLASS__);
     }
 
     public function getSnippets()

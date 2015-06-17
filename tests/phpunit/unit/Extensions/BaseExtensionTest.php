@@ -269,12 +269,12 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Assets\Snippets\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\Snippet\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
             ->method('add');
 
-        $app['assets.queue.snippet'] = $handler;
+        $app['asset.queue.snippet'] = $handler;
 
         $ext->addSnippet('test', [$this, 'testAddSnippet']);
     }
@@ -344,13 +344,13 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Assets\Files\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
             ->method('add')
             ->with($this->matchesRegularExpression('/javascript/'), $this->matchesRegularExpression('/path1/'));
 
-        $app['assets.queue.file'] = $handler;
+        $app['asset.queue.file'] = $handler;
 
         $this->php
             ->expects($this->at(0))
@@ -365,7 +365,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Assets\Files\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
             ->method('add')
@@ -381,7 +381,7 @@ class BaseExtensionTest extends BoltUnitTest
             ->method('file_exists')
             ->will($this->returnValue(true));
 
-        $app['assets.queue.file'] = $handler;
+        $app['asset.queue.file'] = $handler;
 
         $ext->addJavascript('path2');
     }
@@ -406,13 +406,13 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Assets\Files\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
             ->method('add')
             ->with($this->matchesRegularExpression('/stylesheet/'), $this->matchesRegularExpression('/path1/'));
 
-        $app['assets.queue.file'] = $handler;
+        $app['asset.queue.file'] = $handler;
 
         $this->php
             ->expects($this->at(0))
@@ -427,7 +427,7 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Assets\Files\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
             ->method('add')
@@ -443,7 +443,7 @@ class BaseExtensionTest extends BoltUnitTest
             ->method('file_exists')
             ->will($this->returnValue(true));
 
-        $app['assets.queue.file'] = $handler;
+        $app['asset.queue.file'] = $handler;
 
         $ext->addCss('path2');
     }
