@@ -180,9 +180,12 @@ HTML;
 
     public function testBadExtensionSnippets()
     {
-//         $app = $this->getApp();
-//         $app['logger.system'] = new Mock\Logger();
-//         $app['assets.queue.snippet']->register(new Mock\BadExtensionSnippets($app));
+        $app = $this->getApp();
+        $app['logger.system'] = new Mock\Logger();
+        $app['extensions']->register(new Mock\BadExtensionSnippets($app));
+        $html = $app['assets.queue.snippet']->process($this->template);
+        $this->assertEquals($this->html($this->template), $this->html($html));
+
 //         $this->assertEquals(
 //             'Snippet loading failed for badextensionsnippets: BadExtensionSnippets',
 //             $app['logger.system']->lastLog()
