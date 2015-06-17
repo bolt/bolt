@@ -1,11 +1,11 @@
 <?php
 namespace Bolt;
 
-use Bolt\Assets\Target;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
 use Bolt\Helpers\Arr;
 use Bolt\Library as Lib;
+use Bolt\Response\BoltResponse;
 use Composer\Json\JsonFile;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -446,9 +446,13 @@ abstract class BaseExtension implements ExtensionInterface
      * @param string $var2
      * @param string $var3
      */
-    public function addSnippet($name, $callback, $var1 = '', $var2 = '', $var3 = '')
+    public function addSnippet($location, $callback, $extraparameters = [])
     {
-        $this->app['assets.queue.snippet']->add(Target::START_OF_HEAD, $callback, $this->getName(), [$var1, $var2, $var3]);
+        if ($callback instanceof BoltResponse) {
+            $callback = (string) $callback;
+        }
+
+        $this->app['assets.queue.snippet']->add($location, $callback, $this->getName(), (array) $extraparameters);
     }
 
     /**
