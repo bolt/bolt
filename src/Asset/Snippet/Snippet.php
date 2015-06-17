@@ -1,7 +1,7 @@
 <?php
-namespace Bolt\Assets\Snippets;
+namespace Bolt\Asset\Snippet;
 
-use Bolt\Assets\AssetInterface;
+use Bolt\Asset\AssetInterface;
 
 /**
  * Snippet objects.

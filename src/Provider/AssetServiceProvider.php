@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
-use Bolt\Assets;
+use Bolt\Asset;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -14,17 +14,17 @@ class AssetServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['assets.salt.factory'] = $app->protect(function () use ($app) {
+        $app['asset.salt.factory'] = $app->protect(function () use ($app) {
             return $app['randomgenerator']->generateString(10);
         });
 
-        $app['assets.salt'] = $app->share(
+        $app['asset.salt'] = $app->share(
             function ($app) {
                 $path = $app['resources']->getPath('cache/.assetsalt');
                 if (is_readable($path)) {
                     $salt = file_get_contents($path);
                 } else {
-                    $salt = $app['assets.salt.factory']();
+                    $salt = $app['asset.salt.factory']();
                     file_put_contents($path, $salt);
                 }
 
@@ -32,44 +32,44 @@ class AssetServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['assets.file.hash'] = $app->protect(function ($fileName) use ($app) {
+        $app['asset.file.hash'] = $app->protect(function ($fileName) use ($app) {
             $fullPath = $app['resources']->getPath('root') . '/' . $fileName;
             if (is_readable($fullPath)) {
-                return substr(md5($app['assets.salt'] . filemtime($fullPath)), 0, 10);
+                return substr(md5($app['asset.salt'] . filemtime($fullPath)), 0, 10);
             }
 
-            return substr(md5($app['assets.salt'] . $fileName), 0, 10);
+            return substr(md5($app['asset.salt'] . $fileName), 0, 10);
         });
 
-        $app['assets.injector'] = $app->share(
+        $app['asset.injector'] = $app->share(
             function () {
-                $snippets = new Assets\Injector();
+                $snippets = new Asset\Injector();
 
                 return $snippets;
             }
         );
 
-        $app['assets.queue.file'] = $app->share(
+        $app['asset.queue.file'] = $app->share(
             function ($app) {
-                $queue = new Assets\Files\Queue($app);
+                $queue = new Asset\File\Queue($app);
 
                 return $queue;
             }
         );
 
-        $app['assets.queue.snippet'] = $app->share(
+        $app['asset.queue.snippet'] = $app->share(
             function ($app) {
-                $queue = new Assets\Snippets\Queue($app);
+                $queue = new Asset\Snippet\Queue($app);
 
                 return $queue;
             }
         );
 
-        $app['assets.queues'] = $app->share(
+        $app['asset.queues'] = $app->share(
             function ($app) {
                 return [
-                    $app['assets.queue.file'],
-                    $app['assets.queue.snippet']
+                    $app['asset.queue.file'],
+                    $app['asset.queue.snippet']
                 ];
             }
         );

@@ -1,8 +1,8 @@
 <?php
-namespace Bolt\Assets\Snippets;
+namespace Bolt\Asset\Snippet;
 
-use Bolt\Assets\QueueInterface;
-use Bolt\Assets\Target;
+use Bolt\Asset\QueueInterface;
+use Bolt\Asset\Target;
 use Bolt\Controller\Zone;
 use Silex\Application;
 
@@ -69,7 +69,7 @@ class Queue implements QueueInterface
 
         // Process the snippets in the queue.
         foreach ($this->queue as $asset) {
-            $html = $this->app['assets.injector']->inject($asset, $asset->getLocation(), $html);
+            $html = $this->app['asset.injector']->inject($asset, $asset->getLocation(), $html);
         }
 
         // Conditionally add jQuery
@@ -86,7 +86,7 @@ class Queue implements QueueInterface
     /**
      * Get the queued snippets.
      *
-     * @return \Bolt\Assets\Snippets\Snippet[]
+     * @return \Bolt\Asset\Snippet\Snippet[]
      */
     public function getQueue()
     {
@@ -125,7 +125,7 @@ class Queue implements QueueInterface
         if ($zone === Zone::FRONTEND && !preg_match($regex, $html)) {
             $jqueryfile = $this->app['resources']->getPath('app/view/js/jquery-1.11.2.min.js');
             $asset = new Snippet(Target::BEFORE_JS, '<script src="' . $jqueryfile . '"></script>');
-            $html = $this->app['assets.injector']->inject($asset, $asset->getLocation(), $html);
+            $html = $this->app['asset.injector']->inject($asset, $asset->getLocation(), $html);
         }
 
         return $html;

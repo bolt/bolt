@@ -2,7 +2,7 @@
 
 namespace Bolt\Controller;
 
-use Bolt\Assets\Target;
+use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
 use Bolt\Pager;
 use Bolt\Response\BoltResponse;
@@ -195,9 +195,9 @@ class Frontend extends ConfigurableBase
         if (!empty($liveEditor)) {
             $jsFile = $this->app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js';
             $cssFile = $this->app['resources']->getUrl('app') . 'view/css/liveeditor.css';
-            $this->app['assets.queue.snippet']->add(Target::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
-            $this->app['assets.queue.file']->add('javascript', $jsFile, ['late' => false, 'priority' => 1]);
-            $this->app['assets.queue.file']->add('stylesheet', $cssFile, ['late' => false, 'priority' => 5]);
+            $this->app['asset.queue.snippet']->add(Target::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
+            $this->app['asset.queue.file']->add('javascript', $jsFile, ['late' => false, 'priority' => 1]);
+            $this->app['asset.queue.file']->add('stylesheet', $cssFile, ['late' => false, 'priority' => 5]);
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'

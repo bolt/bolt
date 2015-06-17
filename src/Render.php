@@ -72,8 +72,8 @@ class Render
     {
         $html = $response->getContent();
 
-        /** @var \Bolt\Assets\QueueInterface $queue */
-        foreach ($this->app['assets.queues'] as $queue) {
+        /** @var \Bolt\Asset\QueueInterface $queue */
+        foreach ($this->app['asset.queues'] as $queue) {
             $html = $queue->process($html);
         }
 

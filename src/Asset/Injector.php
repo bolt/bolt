@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Assets;
+namespace Bolt\Asset;
 
 use Bolt\Helpers\Str;
 

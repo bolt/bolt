@@ -3,7 +3,7 @@
 namespace Bolt;
 
 use Bolt;
-use Bolt\Assets\Target;
+use Bolt\Asset\Target;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
@@ -526,13 +526,13 @@ class Extensions
      * Legacy function that returns a list of all css and js assets that are
      * added via extensions.
      *
-     * @deprecated Use $app['assets.queue.file']->getQueue() and/or $app['assets.queue.snippet']->getQueue()
+     * @deprecated Use $app['asset.queue.file']->getQueue() and/or $app['asset.queue.snippet']->getQueue()
      *
      * @return array
      */
     public function getAssets()
     {
-        $files = $this->app['assets.queue.file']->getQueue();
+        $files = $this->app['asset.queue.file']->getQueue();
         $assets = [
             'css' => [],
             'js'  => []
@@ -582,7 +582,7 @@ class Extensions
             ];
         }
 
-        $this->app['assets.queue.file']->add('stylesheet', $filename, $options);
+        $this->app['asset.queue.file']->add('stylesheet', $filename, $options);
     }
 
     /**
@@ -607,7 +607,7 @@ class Extensions
             ];
         }
 
-        $this->app['assets.queue.file']->add('javascript', $filename, $options);
+        $this->app['asset.queue.file']->add('javascript', $filename, $options);
     }
 
     /**
@@ -712,7 +712,7 @@ class Extensions
      */
     public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = [])
     {
-        $this->app['assets.queue.snippet']->add($location, $callback, $extensionname, (array) $extraparameters);
+        $this->app['asset.queue.snippet']->add($location, $callback, $extensionname, (array) $extraparameters);
     }
 
     /**
@@ -720,7 +720,7 @@ class Extensions
      */
     public function clearSnippetQueue()
     {
-        $this->app['assets.queue.snippet']->clear();
+        $this->app['asset.queue.snippet']->clear();
     }
 
     /**
@@ -728,7 +728,7 @@ class Extensions
      */
     public function processSnippetQueue($html)
     {
-        return $this->app['assets.queue.snippet']->process($html);
+        return $this->app['asset.queue.snippet']->process($html);
     }
 
     /**
@@ -736,7 +736,7 @@ class Extensions
      */
     public function processAssets($html)
     {
-        return $this->app['assets.queue.file']->process($html);
+        return $this->app['asset.queue.file']->process($html);
     }
 
     /**
@@ -744,7 +744,7 @@ class Extensions
      */
     public function insertStartOfHead($tag, $html)
     {
-        return $this->app['assets.injector']->inject($tag, Target::START_OF_HEAD, $html);
+        return $this->app['asset.injector']->inject($tag, Target::START_OF_HEAD, $html);
     }
 
     /**
@@ -752,7 +752,7 @@ class Extensions
      */
     public function insertStartOfBody($tag, $html)
     {
-        return $this->app['assets.injector']->inject($tag, Target::START_OF_BODY, $html);
+        return $this->app['asset.injector']->inject($tag, Target::START_OF_BODY, $html);
     }
 
     /**
@@ -760,7 +760,7 @@ class Extensions
      */
     public function insertEndOfHead($tag, $html)
     {
-        return $this->app['assets.injector']->inject($tag, Target::END_OF_HEAD, $html);
+        return $this->app['asset.injector']->inject($tag, Target::END_OF_HEAD, $html);
     }
 
     /**
@@ -768,7 +768,7 @@ class Extensions
      */
     public function insertEndOfBody($tag, $html)
     {
-        return $this->app['assets.injector']->inject($tag, Target::END_OF_BODY, $html);
+        return $this->app['asset.injector']->inject($tag, Target::END_OF_BODY, $html);
     }
 
     /**
@@ -776,7 +776,7 @@ class Extensions
      */
     public function insertEndOfHtml($tag, $html)
     {
-        return $this->app['assets.injector']->inject($tag, Target::END_OF_HTML, $html);
+        return $this->app['asset.injector']->inject($tag, Target::END_OF_HTML, $html);
     }
 
     /**
@@ -784,7 +784,7 @@ class Extensions
      */
     public function insertAfterMeta($tag, $html)
     {
-        return $this->app['assets.injector']->inject($tag, Target::AFTER_META, $html);
+        return $this->app['asset.injector']->inject($tag, Target::AFTER_META, $html);
     }
 
     /**
@@ -792,7 +792,7 @@ class Extensions
      */
     public function insertAfterCss($tag, $html)
     {
-        return $this->app['assets.injector']->inject($tag, Target::AFTER_CSS, $html);
+        return $this->app['asset.injector']->inject($tag, Target::AFTER_CSS, $html);
     }
 
     /**
@@ -800,7 +800,7 @@ class Extensions
      */
     public function insertBeforeCss($tag, $html)
     {
-        return $this->app['assets.injector']->inject($tag, Target::BEFORE_CSS, $html);
+        return $this->app['asset.injector']->inject($tag, Target::BEFORE_CSS, $html);
     }
 
     /**
@@ -808,7 +808,7 @@ class Extensions
      */
     public function insertBeforeJS($tag, $html)
     {
-        return $this->app['assets.injector']->inject($tag, Target::BEFORE_JS, $html);
+        return $this->app['asset.injector']->inject($tag, Target::BEFORE_JS, $html);
     }
 
     /**
@@ -816,7 +816,7 @@ class Extensions
      */
     public function insertAfterJs($tag, $html, $insidehead = true)
     {
-        return $this->app['assets.injector']->inject($tag, Target::AFTER_JS, $html, $insidehead);
+        return $this->app['asset.injector']->inject($tag, Target::AFTER_JS, $html, $insidehead);
     }
 
     /**

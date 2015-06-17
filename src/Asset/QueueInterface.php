@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Assets;
+namespace Bolt\Asset;
 
 /**
  * Interface for asset queues.

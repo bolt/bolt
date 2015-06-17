@@ -423,14 +423,14 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Return the available Snippets, used in \Bolt\Extensions.
      *
-     * @deprecated Use $app['assets.queue.snippet']->getQueue()
+     * @deprecated Use $app['asset.queue.snippet']->getQueue()
      *
      * @return array
      */
     public function getSnippets()
     {
         $snippets = [];
-        foreach ($this->app['assets.queue.snippet']->getQueue() as $snippet) {
+        foreach ($this->app['asset.queue.snippet']->getQueue() as $snippet) {
             $snippets[] = (string) $snippet;
         }
 
@@ -452,7 +452,7 @@ abstract class BaseExtension implements ExtensionInterface
             $callback = (string) $callback;
         }
 
-        $this->app['assets.queue.snippet']->add($location, $callback, $this->getName(), (array) $extraparameters);
+        $this->app['asset.queue.snippet']->add($location, $callback, $this->getName(), (array) $extraparameters);
     }
 
     /**
@@ -508,10 +508,10 @@ abstract class BaseExtension implements ExtensionInterface
         // check if the file exists.
         if (file_exists($this->basepath . '/' . $filename)) {
             // file is located relative to the current extension.
-            $this->app['assets.queue.file']->add('javascript', $this->getBaseUrl() . $filename, $options);
+            $this->app['asset.queue.file']->add('javascript', $this->getBaseUrl() . $filename, $options);
         } elseif (file_exists($this->app['resources']->getPath('themepath/' . $filename))) {
             // file is located relative to the theme path.
-            $this->app['assets.queue.file']->add('javascript', $this->app['resources']->getUrl('theme') . $filename, $options);
+            $this->app['asset.queue.file']->add('javascript', $this->app['resources']->getUrl('theme') . $filename, $options);
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
@@ -545,10 +545,10 @@ abstract class BaseExtension implements ExtensionInterface
         // Check if the file exists.
         if (file_exists($this->basepath . '/' . $filename)) {
             // File is located relative to the current extension.
-            $this->app['assets.queue.file']->add('stylesheet', $this->getBaseUrl() . $filename, $options);
+            $this->app['asset.queue.file']->add('stylesheet', $this->getBaseUrl() . $filename, $options);
         } elseif (file_exists($this->app['resources']->getPath('themepath/' . $filename))) {
             // File is located relative to the theme path.
-            $this->app['assets.queue.file']->add('stylesheet', $this->app['resources']->getUrl('theme') . $filename, $options);
+            $this->app['asset.queue.file']->add('stylesheet', $this->app['resources']->getUrl('theme') . $filename, $options);
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";

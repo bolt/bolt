@@ -2,8 +2,8 @@
 
 namespace Bolt\EventListener;
 
-use Bolt\Assets\Snippets\Queue;
-use Bolt\Assets\Target;
+use Bolt\Asset\Snippet\Queue;
+use Bolt\Asset\Target;
 use Bolt\Config;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Controller\Zone;

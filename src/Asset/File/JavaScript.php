@@ -1,12 +1,12 @@
 <?php
-namespace Bolt\Assets\Files;
+namespace Bolt\Asset\File;
 
 /**
- * Cascading stylesheet file object class.
+ * JavaScript file object class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Stylesheet extends FileAssetBase
+class JavaScript extends FileAssetBase
 {
     /**
      * {@inheritdoc}
@@ -15,6 +15,6 @@ class Stylesheet extends FileAssetBase
     {
         $hash = $this->cacheHash ? '?v=' . $this->cacheHash : $this->cacheHash;
 
-        return sprintf('<link rel="stylesheet" href="%s%s" media="screen">', $this->fileName, $hash);
+        return sprintf('<script src="%s%s" %s></script>', $this->fileName, $hash, $this->attributes);
     }
 }

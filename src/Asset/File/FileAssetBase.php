@@ -1,7 +1,7 @@
 <?php
-namespace Bolt\Assets\Files;
+namespace Bolt\Asset\File;
 
-use Bolt\Assets\AssetInterface;
+use Bolt\Asset\AssetInterface;
 
 /**
  * File asset base class.
