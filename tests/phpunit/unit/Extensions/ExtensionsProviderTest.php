@@ -291,9 +291,45 @@ HTML;
     public function testLocalload()
     {
         $app = $this->makeApp();
-        $app['resources']->setPath('extensions', __DIR__."/resources");
+        $app['resources']->setPath('extensions', __DIR__ . '/resources');
+        $jsonFile = $app['resources']->getPath('extensions/composer.json');
+        $lockFile = $app['resources']->getPath('cache/.local.autoload.built');
+        @unlink($jsonFile);
+        @unlink($lockFile);
+
         $app->initialize();
         $this->assertTrue($app['extensions']->isEnabled('testlocal'));
+
+        $this->assertFileExists($jsonFile, 'Extension composer.json file not created');
+        $json = json_decode(file_get_contents($jsonFile), true);
+
+        $this->assertTrue(unlink($jsonFile), 'Unable to remove composer.json file');
+
+        $this->assertArrayHasKey('autoload', $json);
+        $this->assertArrayHasKey('psr-4', $json['autoload']);
+        $this->assertArrayHasKey('Bolt\\Extensions\\TestVendor\\TestExt\\', $json['autoload']['psr-4']);
+        $this->assertSame(
+            'local/testvendor/testext/',
+            $json['autoload']['psr-4']['Bolt\\Extensions\\TestVendor\\TestExt\\']
+        );
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testLocalloadAutoload()
+    {
+        $app = $this->makeApp();
+        $app['resources']->setPath('extensions', __DIR__ . '/resources');
+        $app->initialize();
+
+        require_once __DIR__ .'/resources/vendor/autoload.php';
+
+        $koala = new \Bolt\Extensions\TestVendor\TestExt\GumLeaves();
+        $this->assertSame('Koala Power!', $koala->getDropBear());
+
+        @unlink($app['resources']->getPath('extensions/composer.json'));
+        @unlink($app['resources']->getPath('cache/.local.autoload.built'));
     }
 
     public function testSnippet()
