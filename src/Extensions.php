@@ -210,7 +210,7 @@ class Extensions
      */
     public function checkLocalAutoloader($force = false)
     {
-        if (!$force && (!$this->app['filesystem']->has('extensions://local/') || $this->app['filesystem']->has('extensions://local/.built'))) {
+        if (!$force && (!$this->app['filesystem']->has('extensions://local/') || $this->app['filesystem']->has('app://cache/.local.autoload.built'))) {
             return;
         }
 
@@ -264,7 +264,7 @@ class Extensions
         $boltJson['autoload']['psr-4'] = $boltPsr4;
         $composerJsonFile->write($boltJson);
         $this->app['extend.manager']->dumpautoload();
-        $this->app['filesystem']->write('extensions://local/.built', time());
+        $this->app['filesystem']->write('app://cache/.local.autoload.built', time());
     }
 
     /**
