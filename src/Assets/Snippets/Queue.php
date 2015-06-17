@@ -109,7 +109,9 @@ class Queue implements QueueInterface
      */
     protected function addJquery($html)
     {
-        $addJquery = $this->app['config']->get('general/add_jquery', false);
+        if (!$this->app['config']->get('general/add_jquery', false)) {
+            return $html;
+        }
 
         $zone = Zone::FRONTEND;
         /** @var RequestStack $requestStack */
@@ -119,7 +121,7 @@ class Queue implements QueueInterface
         }
 
         $regex = '/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/';
-        if ($addJquery && $zone === Zone::FRONTEND && !preg_match($regex, $html)) {
+        if ($zone === Zone::FRONTEND && !preg_match($regex, $html)) {
             $jqueryfile = $this->app['resources']->getPath('app/view/js/jquery-1.11.2.min.js');
             $asset = new Snippet(Target::BEFORE_JS, '<script src="' . $jqueryfile . '"></script>');
             $html = $this->app['assets.injector']->inject($asset, $asset->getLocation(), $html);
