@@ -297,8 +297,8 @@ class General extends BackendBase
         try {
             Yaml::parse($contents);
         } catch (ParseException $e) {
-            $msg = Trans::__("File '%s' could not be saved: ", ['%s' => $tr['shortPath']]);
-            $this->flashes()->error($msg . $e->getMessage());
+            $msg = Trans::__("File '%s' could not be saved:", ['%s' => $tr['shortPath']]);
+            $this->flashes()->error($msg . ' ' . $e->getMessage());
 
             return false;
         }
