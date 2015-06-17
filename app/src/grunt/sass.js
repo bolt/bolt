@@ -20,9 +20,6 @@ module.exports = {
         },
         files: [
             {
-                src:  '<%= path.src.sass %>/app-old-ie.scss',
-                dest: '<%= path.dest.css %>/bolt-old-ie.css'
-            }, {
                 src:  '<%= path.src.sass %>/app.scss',
                 dest: '<%= path.dest.css %>/bolt.css'
             }, {
