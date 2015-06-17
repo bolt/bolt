@@ -2,6 +2,7 @@
     "name": "Bolt-2-backend",
     "version": "2.3.0",
     "description": "Required Node/Grunt modules for backend's frontend workflow.",
+    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "https://github.com/bolt/bolt.git"
