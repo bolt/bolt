@@ -82,35 +82,26 @@ class SnippetListener implements EventSubscriberInterface
      */
     protected function addSnippets()
     {
-        $this->insert('<meta name="generator" content="Bolt">');
+        $this->queue->add(Target::END_OF_HEAD, '<meta name="generator" content="Bolt">');
 
         if ($this->config->get('general/canonical')) {
             $canonical = $this->resources->getUrl('canonicalurl');
-            $this->insert($this->encode('<link rel="canonical" href="%s">', $canonical));
+            $this->queue->add(Target::END_OF_HEAD, $this->encode('<link rel="canonical" href="%s">', $canonical));
         }
 
         if ($favicon = $this->config->get('general/favicon')) {
             $host = $this->resources->getUrl('hosturl');
             $theme = $this->resources->getUrl('theme');
-            $this->insert($this->encode('<link rel="shortcut icon" href="%s%s%s">', $host, $theme, $favicon));
+            $this->queue->add(Target::END_OF_HEAD, $this->encode('<link rel="shortcut icon" href="%s%s%s">', $host, $theme, $favicon));
         }
-    }
-
-    /**
-     * Insert a snippet into the queue for a given location.
-     *
-     * @param string $snippet
-     * @param string $location
-     */
-    protected function insert($snippet, $location = Target::END_OF_HEAD)
-    {
-        $this->queue->add($location, $snippet);
     }
 
     /**
      * Encode the snippet string and make it HTML safe.
      *
      * @param string $str
+     *
+     * @return string
      */
     protected function encode($str)
     {
