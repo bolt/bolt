@@ -11,6 +11,7 @@ function bindFileUpload(key) {
         .fileupload({
             dataType: 'json',
             dropZone: $('#dropzone-' + key),
+            pasteZone: null,
             done: function (e, data) {
                 $.each(data.result, function (index, file) {
                     var filename, message;
