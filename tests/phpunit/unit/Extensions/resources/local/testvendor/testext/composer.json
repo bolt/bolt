@@ -1,12 +1,31 @@
 {
-  "name": "testvendor/testext",
-  "description": "",
-  "type": "bolt-extension",
-  "keywords": [
-    "extension"
-  ],
-  "require": {
-    "bolt/bolt": ">=2.0.0,<3.0.0"
-  },
-  "license": "MIT"
+    "name": "testvendor/testext",
+    "description": "A local extension for unit testing",
+    "type": "bolt-extension",
+    "keywords": [
+        "extension"
+    ],
+    "authors": [
+        {
+            "name": "Ross Riley",
+            "email": "riley.ross@gmail.com"
+        },
+        {
+            "name": "Gawain Lynch",
+            "email": "gawain.lynch@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "bolt/bolt": "^2.3"
+    },
+    "autoload": {
+        "files": [
+            "init.php"
+        ],
+        "psr-4": {
+            "Bolt\\Extensions\\TestVendor\\TestExt\\": "",
+            "Bolt\\Extensions\\TestVendor\\TestExt\\Tests\\": "tests"
+        }
+    }
 }
