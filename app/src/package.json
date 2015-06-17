@@ -26,7 +26,7 @@
         "grunt-jsdoc": "~0.6.7",
         "grunt-modernizr": "~0.6.0",
         "grunt-phpdocumentor": "~0.4.1",
-        "grunt-postcss": "~0.4.0",
+        "grunt-postcss": "~0.5.1",
         "grunt-remove": "~0.1.0",
         "jsdoc": "~3.3.0",
         "load-grunt-config": "~0.17.0",
