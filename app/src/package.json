@@ -29,7 +29,7 @@
         "grunt-postcss": "~0.5.1",
         "grunt-remove": "~0.1.0",
         "jsdoc": "~3.3.2",
-        "load-grunt-config": "~0.17.0",
+        "load-grunt-config": "~0.17.1",
         "load-grunt-tasks": "~3.2.0",
         "node-sass": "~3.1.2",
         "postcss-single-charset": "~0.3.0",
