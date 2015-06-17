@@ -4,6 +4,7 @@
 module.exports = function (grunt) {
     var proc = {
             autoprefixer: require('autoprefixer-core'),
+            cssMqPacker: require('css-mqpacker'),
             singleCharset: require('postcss-single-charset')
         },
         opt = {
@@ -20,7 +21,8 @@ module.exports = function (grunt) {
         boltCss: {
             options: {
                 processors: [
-                    proc.autoprefixer(opt.autoprefixer)
+                    proc.autoprefixer(opt.autoprefixer),
+                    proc.cssMqPacker.postcss
                 ]
             },
             src:  [
