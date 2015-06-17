@@ -5,6 +5,7 @@ module.exports = function (grunt) {
     var proc = {
             autoprefixer: require('autoprefixer-core'),
             cssMqPacker: require('css-mqpacker'),
+            csswring: require('csswring'),
             singleCharset: require('postcss-single-charset')
         },
         opt = {
@@ -22,7 +23,8 @@ module.exports = function (grunt) {
             options: {
                 processors: [
                     proc.autoprefixer(opt.autoprefixer),
-                    proc.cssMqPacker.postcss
+                    proc.cssMqPacker.postcss,
+                    proc.csswring.postcss
                 ]
             },
             src:  [
@@ -38,7 +40,8 @@ module.exports = function (grunt) {
             options: {
                 processors: [
                     proc.singleCharset.postcss,
-                    proc.autoprefixer(opt.autoprefixer)
+                    proc.autoprefixer(opt.autoprefixer),
+                    proc.csswring.postcss
                 ]
             },
             src:  [
