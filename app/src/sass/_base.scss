@@ -127,60 +127,27 @@ $nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin + 
 $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 1);
 
 /**
- * A fixed media query size for app-old-ie.scss, defaults to false.
- */
-$fixed-mq: false;
-
-/**
  * Media Query handling
  */
 @mixin respond-to($media) {
     @if $media == mid-mobile {
-        @if $fixed-mq {
-            @if $fixed-mq >= $mid-mobile {
-                @content
-            }
-        }
-        @else {
-            @media only screen and (min-width: $mid-mobile + em) {
-               @content;
-            }
+        @media only screen and (min-width: $mid-mobile + em) {
+           @content;
         }
     }
     @if $media == medium-screens {
-        @if $fixed-mq {
-            @if $fixed-mq >= $medium-screens {
-                @content
-            }
-        }
-        @else {
-            @media only screen and (min-width: $medium-screens + em) {
-               @content;
-            }
+        @media only screen and (min-width: $medium-screens + em) {
+           @content;
         }
     }
     @if $media == large-screens {
-        @if $fixed-mq {
-            @if $fixed-mq >= $large-screens {
-                @content
-            }
-        }
-        @else {
-            @media only screen and (min-width: $large-screens + em) {
-               @content;
-            }
+        @media only screen and (min-width: $large-screens + em) {
+           @content;
         }
     }
     @if $media == wide-screens {
-        @if $fixed-mq {
-            @if $fixed-mq >= $wide-screens {
-                @content
-            }
-        }
-        @else {
-            @media only screen and (min-width: $wide-screens + em) {
-               @content;
-            }
+        @media only screen and (min-width: $wide-screens + em) {
+           @content;
         }
     }
 }
