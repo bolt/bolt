@@ -40,17 +40,17 @@ class Snippet implements AssetInterface
      */
     public function __toString()
     {
-        if ($this->isCore() && is_callable($this->getCallback())) {
+        if ($this->isCore() && is_callable($this->callback)) {
             // @TODO FIXME
 $app = \Bolt\Configuration\ResourceManager::getApp();
             // Snippet is a callback in the 'global scope'
-            return call_user_func($this->getCallback(), $app, $this->getParameters());
+            return call_user_func($this->callback, $app, $this->parameters);
         } elseif ($callable = $this->getExtensionCallable()) {
             // Snippet is defined in the extension itself.
-            return call_user_func_array($callable, (array) $this->getParameters());
-        } elseif (is_string($this->getCallback())) {
+            return call_user_func_array($callable, (array) $this->parameters);
+        } elseif (is_string($this->callback)) {
             // Insert the 'callback' as a string.
-            return $this->getCallback();
+            return $this->callback;
         }
     }
 
@@ -61,10 +61,10 @@ $app = \Bolt\Configuration\ResourceManager::getApp();
      */
     private function getExtensionCallable()
     {
-        if (is_callable($this->getCallback())) {
-            return $this->getCallback();
-        } elseif (is_callable([$this->getExtension(), $this->getCallback()])) {
-            return [$this->getExtension(), $this->getCallback()];
+        if (is_callable($this->callback)) {
+            return $this->callback;
+        } elseif (is_callable([$this->extension, $this->callback])) {
+            return [$this->extension, $this->callback];
         }
     }
 
