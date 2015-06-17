@@ -79,12 +79,10 @@
 .dashboardlisting tr.dim td.username
 {
     opacity: 0.8;
-    -webkit-filter: grayscale(0.5);
     filter: grayscale(0.5);
 }
 
 .dashboardlisting tr.dim img {
-    -webkit-filter: grayscale(0.6) blur(1px);
     filter: grayscale(0.6) blur(1px);
 }
 
@@ -116,9 +114,6 @@
     text-align: right;
 
     .btn-group {
-        display: -webkit-inline-flex;
-        display: -moz-inline-flex;
-        display: -ms-inline-flexbox;
         display: inline-flex;
         -webkit-align-self: auto;
         padding-left: 6px;
