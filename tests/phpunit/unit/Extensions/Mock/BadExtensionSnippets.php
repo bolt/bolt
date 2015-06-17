@@ -13,16 +13,15 @@ class BadExtensionSnippets extends Extension
 {
     public function __construct(Application $app)
     {
-        $app['assets.queue.snippet']->add(Target::END_OF_HEAD, [$this, 'badSnippetCallBack']);
+        $app['assets.queue.snippet']->add(Target::END_OF_HEAD, [$this, 'badSnippetCallBack'], __CLASS__);
     }
 
     public function getSnippets()
     {
-//         throw new \Exception("BadExtensionSnippets", 1);
     }
 
     public function getName()
     {
-        return "badextensionsnippets";
+        return 'badextensionsnippets';
     }
 }

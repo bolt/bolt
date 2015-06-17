@@ -186,10 +186,10 @@ HTML;
         $html = $app['assets.queue.snippet']->process($this->template);
         $this->assertEquals($this->html($this->template), $this->html($html));
 
-//         $this->assertEquals(
-//             'Snippet loading failed for badextensionsnippets: BadExtensionSnippets',
-//             $app['logger.system']->lastLog()
-//         );
+        $this->assertEquals(
+            'Snippet loading failed for Bolt\Tests\Extensions\Mock\BadExtensionSnippets with callable a:2:{i:0;O:47:"Bolt\Tests\Extensions\Mock\BadExtensionSnippets":0:{}i:1;s:18:"badSnippetCallBack";}',
+            $app['logger.system']->lastLog()
+        );
     }
 
     public function testAddCss()
