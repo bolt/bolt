@@ -4,16 +4,12 @@ namespace Bolt;
 
 use Bolt;
 use Bolt\Assets\Target;
-use Bolt\Controller\Zone;
 use Bolt\Extensions\ExtensionInterface;
-use Bolt\Extensions\Snippets\Location as SnippetLocation;
-use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
 use Composer\Json\JsonFile;
 use Monolog\Logger;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class Extensions
 {
@@ -353,7 +349,6 @@ class Extensions
             $this->loadExtensionInitialize($extension, $name);
             $this->loadExtensionTwigGlobal($extension, $name);
             $this->loadExtensionTwig($extension, $name);
-            $this->loadExtensionSnippets($extension, $name);
         } catch (\Exception $e) {
             // Should be already caught, go into slient mode
         }
@@ -413,43 +408,6 @@ class Extensions
             }
         } catch (\Exception $e) {
             $this->logInitFailure('Initialisation failed', $name, $e, Logger::ERROR);
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Get the extension defined snippets.
-     *
-     * @param ExtensionInterface $extension
-     * @param string             $name
-     *
-     * @throws \Exception
-     */
-    private function loadExtensionSnippets(ExtensionInterface $extension, $name)
-    {
-        try {
-            $snippets = $extension->getSnippets();
-
-            if (!empty($snippets)) {
-                foreach ($snippets as $snippet) {
-                    $location = $snippet[0];
-
-                    if (is_string($snippet[1]) && is_callable([$extension, $snippet[1]])) {
-                        // Create a callable
-                        $callback = [$extension, $snippet[1]];
-                    } else {
-                        $callback = $snippet[1];
-                    }
-
-                    // If paramters are empty make it an array
-                    $parameters = isset($snippet[3]) ? $snippet[3] : [];
-
-                    $this->app['assets.queue.snippet']->add($location, $callback, $name, $parameters);
-                }
-            }
-        } catch (\Exception $e) {
-            $this->logInitFailure('Snippet loading failed', $name, $e, Logger::ERROR);
 
             throw $e;
         }
