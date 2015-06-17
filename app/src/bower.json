@@ -17,7 +17,7 @@
     "devDependencies": {
         "backbone": "~1.2.0",
         "bootbox": "~4.4.0",
-        "bootstrap-sass": "~3.3.4",
+        "bootstrap-sass": "~3.3.5",
         "font-awesome": "~4.3.0",
         "jquery-ui": "~1.11.4",
         "jquery.cookie": "~1.4.1",
