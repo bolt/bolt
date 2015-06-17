@@ -31,7 +31,7 @@
         "jsdoc": "~3.3.2",
         "load-grunt-config": "~0.17.1",
         "load-grunt-tasks": "~3.2.0",
-        "node-sass": "~3.1.2",
+        "node-sass": "~3.2.0",
         "postcss-single-charset": "~0.3.0",
         "request": "^2.55.0"
     }
