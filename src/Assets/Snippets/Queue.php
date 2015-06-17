@@ -21,7 +21,7 @@ class Queue implements QueueInterface
 
     /** @var \Silex\Application */
     private $app;
-    /** @var string */
+    /** @var array */
     private $matchedComments;
 
     /**
@@ -41,11 +41,12 @@ class Queue implements QueueInterface
      * @param string          $location
      * @param callable|string $callback
      * @param string          $extensionName
-     * @param array|string    $extraParameters
+     * @param array|null      $parameters
      */
-    public function add($location, $callback, $extensionName = 'core', array $extraParameters = [])
+    public function add($location, $callback, $extensionName = 'core', array $parameters = [])
     {
-        $this->queue[] = new Snippet($location, $callback, $extensionName, $extraParameters);
+        $callback = $this->getCallableResult($extensionName, $callback, $parameters);
+        $this->queue[] = new Snippet($location, $callback, $extensionName, $parameters);
     }
 
     /**
@@ -128,6 +129,54 @@ class Queue implements QueueInterface
         }
 
         return $html;
+    }
+
+    /**
+     * Get the output from the callback.
+     *
+     * @param string          $extensionName
+     * @param callable|string $callback
+     * @param array           $parameters
+     *
+     * @return string
+     */
+    private function getCallableResult($extensionName, $callback, array $parameters)
+    {
+        if ($extensionName === 'core' && is_callable($callback)) {
+            // Snippet is a callback in the 'global scope'
+            return call_user_func_array($callback, (array) $parameters);
+        } elseif ($callable = $this->getCallable($extensionName, $callback)) {
+            // Snippet is defined in the extension itself.
+            return call_user_func_array($callable, (array) $parameters);
+        } elseif (is_string($callback)) {
+            // Insert the 'callback' as a string.
+            return $callback;
+        }
+
+        try {
+            $this->app['logger.system']->critical(sprintf('Snippet loading failed for %s with callable %s', $extensionName, serialize($callback)), ['context' => 'extensions']);
+        } catch (\Exception $e) {
+            $this->app['logger.system']->critical(sprintf('Snippet loading failed for %s with an unknown callback.', $extensionName), ['context' => 'extensions']);
+        }
+
+        return '';
+    }
+
+    /**
+     * Check for a valid snippet callback.
+     *
+     * @param string          $extensionName
+     * @param callable|string $callback
+     *
+     * @return callable|null
+     */
+    private function getCallable($extensionName, $callback)
+    {
+        if (is_callable($callback)) {
+            return $callback;
+        } elseif (is_callable([$extensionName, $callback])) {
+            return [$extensionName, $callback];
+        }
     }
 
     /**

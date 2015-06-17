@@ -25,7 +25,7 @@ class Snippet implements AssetInterface
      * @param string          $location
      * @param callable|string $callback
      * @param string          $extension
-     * @param array|string    $parameters
+     * @param array|null      $parameters
      */
     public function __construct($location, $callback, $extension = 'core', array $parameters = [])
     {
@@ -40,42 +40,7 @@ class Snippet implements AssetInterface
      */
     public function __toString()
     {
-        return $this->getCallableResult();
-    }
-
-    /**
-     * Get the output from the callback.
-     *
-     * @return string
-     */
-    private function getCallableResult()
-    {
-        if ($this->isCore() && is_callable($this->callback)) {
-            // Snippet is a callback in the 'global scope'
-            return call_user_func_array($this->callback, (array) $this->parameters);
-        } elseif ($callable = $this->getExtensionCallable()) {
-            // Snippet is defined in the extension itself.
-            return call_user_func_array($callable, (array) $this->parameters);
-        } elseif (is_string($this->callback)) {
-            // Insert the 'callback' as a string.
-            return $this->callback;
-        }
-
-        return '';
-    }
-
-    /**
-     * Check for an enabled extension with a valid snippet callback.
-     *
-     * @return callable|null
-     */
-    private function getExtensionCallable()
-    {
-        if (is_callable($this->callback)) {
-            return $this->callback;
-        } elseif (is_callable([$this->extension, $this->callback])) {
-            return [$this->extension, $this->callback];
-        }
+        return $this->callback;
     }
 
     /**
