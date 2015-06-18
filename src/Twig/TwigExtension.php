@@ -46,6 +46,7 @@ class TwigExtension extends \Twig_Extension
             // @codingStandardsIgnoreStart
             new \Twig_SimpleFunction('__',                 [$this, 'trans'],       $safe),
             new \Twig_SimpleFunction('backtrace',          [$this, 'printBacktrace']),
+            new \Twig_SimpleFunction('cachehash',          [$this, 'cacheHash'],   $safe),
             new \Twig_SimpleFunction('current',            [$this, 'current']),
             new \Twig_SimpleFunction('data',               [$this, 'addData']),
             new \Twig_SimpleFunction('dump',               [$this, 'printDump']),
@@ -91,6 +92,7 @@ class TwigExtension extends \Twig_Extension
         return [
             // @codingStandardsIgnoreStart
             new \Twig_SimpleFilter('__',             [$this, 'trans']),
+            new \Twig_SimpleFilter('cachehash',      [$this, 'cacheHash'],         $safe),
             new \Twig_SimpleFilter('current',        [$this, 'current']),
             new \Twig_SimpleFilter('editable',       [$this, 'editable'],          $safe),
             new \Twig_SimpleFilter('excerpt',        [$this, 'excerpt'],           $safe),
@@ -180,6 +182,14 @@ class TwigExtension extends \Twig_Extension
     public function addData($path, $value)
     {
         $this->handlers['admin']->addData($path, $value);
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\HtmlHandler::cacheHash()
+     */
+    public function cacheHash($fileName)
+    {
+        return $this->handlers['html']->cacheHash($fileName);
     }
 
     /**
