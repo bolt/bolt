@@ -190,7 +190,7 @@ abstract class Entity implements ArrayAccess
     public function offsetGet($offset)
     {
         $accessor = "get".ucfirst($offset);
-        return $this->accessor();
+        return $this->$accessor();
     }
 
 }
