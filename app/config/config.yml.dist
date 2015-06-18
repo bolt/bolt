@@ -235,10 +235,18 @@ accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, t
 #
 # Keep the path simple: lowercase only, no extra slashes or other special
 # characters.
+#
+# The news shown on the dashboard can be pulled from an alternate source.
+# Check http://news.bolt.cm/ for an example of how this source should look.
+# If you use the bolt JSON extension (bolt/jsonaccess) as the source for the
+# news you will also need to fill out the news_variable.
+# 
 # branding:
 #     name: SuperCMS
 #     path: /admin
 #     provided_by: [ supercool@example.org, "Supercool Webdesign Co." ]
+#     news_source: http://news.example.org
+#     news_variable: news
 
 # Show the 'debug' nut in the lower right corner for logged-in user. By default,
 # the debugbar is only shown to logged-in users. Use the 'debug_show_loggedoff'
