@@ -333,11 +333,12 @@ class Frontend extends ConfigurableBase
     /**
      * The search result page controller.
      *
-     * @param Request $request The Symfony Request
+     * @param Request $request      The Symfony Request
+     * @param array   $contenttypes The content type slug(s) you want to search for
      *
      * @return BoltResponse
      */
-    public function search(Request $request)
+    public function search(Request $request, array $contenttypes = null)
     {
         $q = '';
         $context = __FUNCTION__;
@@ -378,7 +379,7 @@ class Frontend extends ConfigurableBase
             $filters = null;
         }
 
-        $result = $this->app['storage']->searchContent($q, null, $filters, $limit, $offset);
+        $result = $this->app['storage']->searchContent($q, $contenttypes, $filters, $limit, $offset);
 
         $pager = [
             'for'          => $context,
