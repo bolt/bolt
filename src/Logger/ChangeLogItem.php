@@ -59,29 +59,18 @@ class ChangeLogItem implements \ArrayAccess
      */
     public function __get($key)
     {
-        if ($key == 'id') {
-            return $this->id;
-        } elseif ($key == 'date') {
-            return $this->date;
-        } elseif ($key == 'title') {
-            return $this->title;
-        } elseif ($key == 'username') {
-            return $this->username;
-        } elseif ($key == 'contentid') {
-            return $this->contentid;
-        } elseif ($key == 'comment') {
-            return $this->comment;
+        $valid = ['id', 'date', 'title', 'username', 'contentid', 'comment', 'diff_raw'];
+        if (in_array($key, $valid)) {
+            return $this->{$key};
         } elseif ($key == 'mutation_type') {
             return $this->getEffectiveMutationType();
         } elseif ($key == 'changedfields') {
             $this->changedfields = $this->getChangedFields();
 
             return $this->changedfields;
-        } elseif ($key == 'diff_raw') {
-            return $this->diff_raw;
-        } else {
-            throw new \InvalidArgumentException("$key is not a valid parameter.");
         }
+
+        throw new \InvalidArgumentException("$key is not a valid parameter.");
     }
 
     /**
@@ -136,32 +125,22 @@ class ChangeLogItem implements \ArrayAccess
      */
     private function getEffectiveMutationType()
     {
-        switch ($this->mutation) {
-            case 'UPDATE':
-                $diff = $this->getParsedDiff();
-                if (isset($diff['status'])) {
-                    switch ($diff['status'][1]) {
-                        case 'published':
-                            return 'PUBLISH';
-
-                        case 'draft':
-                            return 'DRAFT';
-
-                        case 'held':
-                            return 'HOLD';
-
-                        default:
-                            return 'UPDATE';
-                    }
-                } else {
-                    return 'UPDATE';
-                }
-                // Return to sender
-            case 'INSERT':
-            case 'DELETE':
-            default:
-                return $this->mutation;
+        if ($this->mutation !== 'UPDATE') {
+            return $this->mutation;
         }
+
+        $hash = [
+            'published' => 'PUBLISH',
+            'draft'     => 'DRAFT',
+            'held'      => 'HOLD',
+        ];
+
+        $diff = $this->getParsedDiff();
+        if (isset($diff['status'])) {
+            return $hash[$diff['status']];
+        }
+
+        return 'UPDATE';
     }
 
     /**
@@ -176,7 +155,7 @@ class ChangeLogItem implements \ArrayAccess
         $contenttype = $this->app['storage']->getContentType($this->contenttype);
         $fields = $contenttype['fields'];
 
-        foreach ($pdiff as $key => $value) {
+        foreach (array_keys($pdiff) as $key) {
             if (!isset($fields[$key])) {
                 continue;
             }
@@ -192,46 +171,45 @@ class ChangeLogItem implements \ArrayAccess
      */
     private function setParameters(array $values)
     {
-        if (isset($values['id'])) {
-            $this->id = $values['id'];
-        }
-        if (isset($values['date'])) {
-            $this->date = $values['date'];
-        }
-        if (isset($values['title'])) {
-            $this->title = $values['title'];
-        }
-        if (isset($values['ownerid'])) {
-            $this->ownerid = $values['ownerid'];
-            $user = $this->app['users']->getUser($values['ownerid']);
+        $values = $this->getFullParameters($values);
 
-            if (isset($user['displayname'])) {
-                $this->username = $user['displayname'];
-            } elseif (isset($user['username'])) {
-                $this->username = $user['username'];
-            } else {
-                $this->username = "(deleted user #" . $values['ownerid'] . ")";
-            }
+        $this->id = $values['id'];
+        $this->date = $values['date'];
+        $this->title = $values['title'];
+        $this->contenttype = $values['contenttype'];
+        $this->contentid = $values['contentid'];
+        $this->mutation_type = $values['mutation_type'];
+        $this->mutation = $values['mutation'];
+        $this->comment = $values['comment'];
+        $this->diff_raw = $values['diff'];
+        $this->diff = json_decode($values['diff'], true);
+        $this->ownerid = $values['ownerid'];
+
+        $user = $this->app['users']->getUser($values['ownerid']);
+        if (isset($user['displayname'])) {
+            $this->username = $user['displayname'];
+        } elseif (isset($user['username'])) {
+            $this->username = $user['username'];
+        } else {
+            $this->username = "(deleted user #" . $values['ownerid'] . ")";
         }
-        if (isset($values['contenttype'])) {
-            $this->contenttype = $values['contenttype'];
-        }
-        if (isset($values['contentid'])) {
-            $this->contentid = $values['contentid'];
-        }
-        if (isset($values['mutation_type'])) {
-            $this->mutation_type = $values['mutation_type'];
-        }
-        if (isset($values['mutation'])) {
-            $this->mutation = $values['mutation'];
-        }
-        if (isset($values['diff'])) {
-            $this->diff_raw = $values['diff'];
-            $this->diff = json_decode($values['diff'], true);
-        }
-        if (isset($values['comment'])) {
-            $this->comment = $values['comment'];
-        }
+    }
+
+    /**
+     * Get a fully pre-populated array, for values.
+     *
+     * @param array $values
+     *
+     * @return array
+     */
+    private function getFullParameters($values)
+    {
+        $default = [
+            'id', 'date', 'title', 'ownerid', 'contenttype', 'contentid',
+            'mutation_type', 'mutation', 'diff', 'comment'
+        ];
+
+        return array_merge(array_fill_keys($default, null), $values);
     }
 
     /**
@@ -250,8 +228,18 @@ class ChangeLogItem implements \ArrayAccess
         // Get the contenttype that we're dealing with
         $contenttype = $this->app['storage']->getContentType($this->contenttype);
         $fields = $contenttype['fields'];
+        $hash = [
+            'html'        => 'fieldText',
+            'markdown'    => 'fieldText',
+            'textarea'    => 'fieldText',
+            'filelist'    => 'fieldList',
+            'imagelist'   => 'fieldList',
+            'geolocation' => 'fieldGeolocation',
+            'image'       => 'fieldImage',
+            'select'      => 'fieldSelect',
+            'video'       => 'fieldVideo',
+        ];
 
-        //
         foreach ($this->diff as $key => $value) {
             $changedfields[$key] = [
                 'type'   => 'normal',
@@ -266,111 +254,176 @@ class ChangeLogItem implements \ArrayAccess
                 ]
             ];
 
-            switch ($fields[$key]['type']) {
-                case 'html':
-                case 'markdown':
-                case 'textarea':
-                    $changedfields[$key]['type'] = $fields[$key]['type'];
-
-                    break;
-
-                case 'filelist':
-                case 'imagelist':
-                    $changedfields[$key]['type'] = $fields[$key]['type'];
-                    $before = json_decode($value[0], true);
-                    $after  = json_decode($value[1], true);
-
-                    $changedfields[$key]['before']['render'] = $before;
-                    $changedfields[$key]['after']['render'] = $after;
-
-                    break;
-
-                case 'geolocation':
-                    $changedfields[$key]['type'] = $fields[$key]['type'];
-                    $before = json_decode($value[0], true);
-                    $after  = json_decode($value[1], true);
-
-                    $changedfields[$key]['before']['render'] = [
-                        'address'           => $before['address'],
-                        'latitude'          => $before['latitude'],
-                        'longitude'         => $before['longitude'],
-                        'formatted_address' => $before['formatted_address']
-                    ];
-
-                    $changedfields[$key]['after']['render'] = [
-                        'address'           => $after['address'],
-                        'latitude'          => $after['latitude'],
-                        'longitude'         => $after['longitude'],
-                        'formatted_address' => $after['formatted_address']
-                    ];
-
-                    break;
-
-                case 'image':
-                    $changedfields[$key]['type'] = $fields[$key]['type'];
-
-                    $before = json_decode($value[0], true);
-                    $after  = json_decode($value[1], true);
-
-                    $changedfields[$key]['before']['render'] = [
-                        'file'  => $before['file'],
-                        'title' => $before['title']
-                    ];
-                    $changedfields[$key]['after']['render'] = [
-                        'file'  => $after['file'],
-                        'title' => $after['title']
-                    ];
-
-                    break;
-
-                case 'select':
-                    $changedfields[$key]['type'] = $fields[$key]['type'];
-
-                    if (isset($fields[$key]['multiple']) && $fields[$key]['multiple']) {
-                        $before = json_decode($value[0], true);
-                        $after  = json_decode($value[1], true);
-                    } else {
-                        $before = $value[0];
-                        $after  = $value[1];
-                    }
-
-                    $changedfields[$key]['before']['render'] = $before;
-                    $changedfields[$key]['after']['render'] = $after;
-
-                    break;
-
-                case 'video':
-                    $changedfields[$key]['type'] = $fields[$key]['type'];
-                    $before = json_decode($value[0], true);
-                    $after  = json_decode($value[1], true);
-
-                    $changedfields[$key]['before']['render'] = [
-                        'url'       => $before['url'],
-                        'title'     => $before['title'],
-                        'width'     => $before['width'],
-                        'height'    => $before['height'],
-                        'html'      => $before['html'],
-                        'thumbnail' => $before['thumbnail']
-                    ];
-
-                    $changedfields[$key]['after']['render'] = [
-                        'url'       => $after['url'],
-                        'title'     => $after['title'],
-                        'width'     => $after['width'],
-                        'height'    => $after['height'],
-                        'html'      => $after['html'],
-                        'thumbnail' => $after['thumbnail']
-                    ];
-
-                    break;
-                case 'text':
-                case 'slug':
-                default:
-                    break;
-
+            if (isset($hash[$fields[$key]['type']])) {
+                $func = $hash[$fields[$key]['type']];
+                $changedfields[$key] = array_merge($changedfields[$key], $this->{$func}($key, $value, $fields));
             }
         }
 
         return $changedfields;
+    }
+
+    /**
+     * Compile changes for text field types.
+     *
+     * @param string $key
+     * @param string $value
+     * @param array  $fields
+     *
+     * @return array
+     */
+    private function fieldText($key, $value, array $fields)
+    {
+        return ['type' => $fields[$key]['type']];
+    }
+
+    /**
+     * Compile changes for list field types.
+     *
+     * @param string $key
+     * @param string $value
+     * @param array  $fields
+     *
+     * @return array
+     */
+    private function fieldList($key, $value, array $fields)
+    {
+        return [
+            'type' => $fields[$key]['type'],
+            'before' => ['render' => json_decode($value[0], true)],
+            'after'  => ['render' => json_decode($value[1], true)],
+        ];
+    }
+
+    /**
+     * Compile changes for geolocation field types.
+     *
+     * @param string $key
+     * @param string $value
+     * @param array  $fields
+     *
+     * @return array
+     */
+    private function fieldGeolocation($key, $value, array $fields)
+    {
+        $before = json_decode($value[0], true);
+        $after  = json_decode($value[1], true);
+
+        return [
+            'type'   => $fields[$key]['type'],
+            'before' => [
+                'render' => [
+                    'address'           => $before['address'],
+                    'latitude'          => $before['latitude'],
+                    'longitude'         => $before['longitude'],
+                    'formatted_address' => $before['formatted_address'],
+                ]
+            ],
+            'after'  => [
+                'render' => [
+                    'address'           => $after['address'],
+                    'latitude'          => $after['latitude'],
+                    'longitude'         => $after['longitude'],
+                    'formatted_address' => $after['formatted_address'],
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Compile changes for image field types.
+     *
+     * @param string $key
+     * @param string $value
+     * @param array  $fields
+     *
+     * @return array
+     */
+    private function fieldImage($key, $value, array $fields)
+    {
+        $before = json_decode($value[0], true);
+        $after  = json_decode($value[1], true);
+
+        return [
+            'type'   => $fields[$key]['type'],
+            'before' => [
+                'render' => [
+                    'file'  => $before['file'],
+                    'title' => $before['title'],
+                ],
+            ],
+            'after'  => [
+                'render' => [
+                    'file'  => $after['file'],
+                    'title' => $after['title'],
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * Compile changes for select field types.
+     *
+     * @param string $key
+     * @param string $value
+     * @param array  $fields
+     *
+     * @return array
+     */
+    private function fieldSelect($key, $value, array $fields)
+    {
+        if (isset($fields[$key]['multiple']) && $fields[$key]['multiple']) {
+            $before = json_decode($value[0], true);
+            $after  = json_decode($value[1], true);
+        } else {
+            $before = $value[0];
+            $after  = $value[1];
+        }
+
+        return [
+            'type'   => $fields[$key]['type'],
+            'before' => ['render' => $before],
+            'after'  => ['render' => $after],
+        ];
+
+    }
+
+    /**
+     * Compile changes for video field types.
+     *
+     * @param string $key
+     * @param string $value
+     * @param array  $fields
+     *
+     * @return array
+     */
+    private function fieldVideo($key, $value, array $fields)
+    {
+        $before = json_decode($value[0], true);
+        $after  = json_decode($value[1], true);
+
+        return [
+            'type'   => $fields[$key]['type'],
+            'before' => [
+                'render' => [
+                    'url'       => $before['url'],
+                    'title'     => $before['title'],
+                    'width'     => $before['width'],
+                    'height'    => $before['height'],
+                    'html'      => $before['html'],
+                    'thumbnail' => $before['thumbnail'],
+                ]
+            ],
+            'after'  => [
+                'render' => [
+                    'url'       => $after['url'],
+                    'title'     => $after['title'],
+                    'width'     => $after['width'],
+                    'height'    => $after['height'],
+                    'html'      => $after['html'],
+                    'thumbnail' => $after['thumbnail'],
+                ]
+            ],
+        ];
     }
 }
