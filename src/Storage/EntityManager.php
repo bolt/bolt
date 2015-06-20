@@ -179,7 +179,7 @@ class EntityManager
      *
      * @param callable $factory
      */
-    public function setDefaultRepositoryFactory(Callable $factory)
+    public function setDefaultRepositoryFactory(callable $factory)
     {
         $this->defaultRepositoryFactory = $factory;
     }

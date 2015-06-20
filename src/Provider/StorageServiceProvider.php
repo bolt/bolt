@@ -28,7 +28,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 );
                 $storage->setLegacyStorage($app['storage.legacy']);
                 $storage->setDefaultRepositoryFactory(
-                    function($classMetadata) use($app) {
+                    function($classMetadata) use ($app) {
                         $repoClass = $app['storage.repository.default'];
                         $repo = new $repoClass($app['storage'], $classMetadata);
 
