@@ -3,6 +3,7 @@ namespace Bolt\Storage;
 
 use Bolt\Storage;
 use Bolt\Storage\Mapping\MetadataDriver;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Psr\Log\LoggerInterface;
@@ -186,7 +187,7 @@ class EntityManager
     /**
      * Returns the default repository factory set on this object
      *
-     * @param  $classMetadata
+     * @param  ClassMetadataInterface $classMetadata
      * @return callable $factory
      */
     public function getDefaultRepositoryFactory($classMetadata)
