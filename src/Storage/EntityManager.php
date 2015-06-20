@@ -176,7 +176,7 @@ class EntityManager
      * Sets a default repository factory that can handle metadata that is not
      * mapped to a specific entity.
      *
-     * @param Callable $factory
+     * @param callable $factory
      */
     public function setDefaultRepositoryFactory(Callable $factory)
     {
@@ -186,8 +186,8 @@ class EntityManager
     /**
      * Returns the default repository factory set on this object
      *
-     * @param  ClassMetadata $classMetadata
-     * @return Callable $factory
+     * @param  $classMetadata
+     * @return callable $factory
      */
     public function getDefaultRepositoryFactory($classMetadata)
     {
