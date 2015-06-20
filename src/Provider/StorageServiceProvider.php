@@ -27,11 +27,11 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['logger.system']
                 );
                 $storage->setLegacyStorage($app['storage.legacy']);
-                
+
                 foreach ($app['storage.repositories'] as $entity => $repo) {
                     $storage->setRepository($entity, $repo);
                 }
-                
+
                 $storage->setDefaultRepositoryFactory(
                     function ($classMetadata) use ($app) {
                         $repoClass = $app['storage.repository.default'];
@@ -76,7 +76,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'textarea'                         => 'Bolt\Storage\Field\Type\TextAreaType',
             'video'                            => 'Bolt\Storage\Field\Type\VideoType'
         ];
-        
+
         $app['storage.repositories'] = [
             'Bolt\Storage\Entity\Cron' => 'Bolt\Storage\Repository\CronRepository'
         ];
