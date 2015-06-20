@@ -387,8 +387,8 @@ class RecordModifier
     /**
      * Generate tab groups.
      *
-     * @param array   $contenttype
-     * @param array   $info
+     * @param array $contenttype
+     * @param array $info
      *
      * @return array
      */

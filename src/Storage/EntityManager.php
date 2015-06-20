@@ -172,22 +172,23 @@ class EntityManager
     {
         $this->repositories[$entityName] = $repositoryClass;
     }
-    
+
     /**
      * Sets a default repository factory that can handle metadata that is not
      * mapped to a specific entity.
      *
      * @param callable $factory
      */
-    public function setDefaultRepositoryFactory(Callable $factory)
+    public function setDefaultRepositoryFactory(callable $factory)
     {
         $this->defaultRepositoryFactory = $factory;
     }
-    
+
     /**
      * Returns the default repository factory set on this object
      *
-     * @param  ClassMetadataInterface $classMetadata
+     * @param ClassMetadataInterface $classMetadata
+     *
      * @return callable $factory
      */
     public function getDefaultRepositoryFactory($classMetadata)
@@ -195,9 +196,9 @@ class EntityManager
         if (!is_callable($this->defaultRepositoryFactory)) {
             throw new \RuntimeException("Unable to handle unmapped data without a defaultRepositoryFactory set", 1);
         }
-        
+
         $factory = $this->defaultRepositoryFactory;
-    
+
         return $factory($classMetadata);
     }
 
