@@ -70,8 +70,15 @@ class Repository implements ObjectRepository
         if (null === $alias) {
             $alias = $this->getAlias();
         }
+        
+        if (empty($alias)) {
+            $select = "*";
+        } else {
+            $select = $alias.".*";
+        }
+        
         return $this->em->createQueryBuilder()
-            ->select($alias)
+            ->select($select)
             ->from($this->getTableName(), $alias);
     }
 
