@@ -17,16 +17,16 @@ class ContentRepositoryTest extends BoltUnitTest
     {
         $this->resetDb();
         $app = $this->getApp();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository('bolt_showcases');
 
-        $this->assertInstanceOf('Bolt\Storage\ContentRepository', $repo);
+        $this->assertInstanceOf('Bolt\Storage\Repository\ContentRepository', $repo);
     }
 
     public function testCreate()
     {
         $app = $this->getApp();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository('showcases');
 
         $showcase = new Content(array(
@@ -41,7 +41,7 @@ class ContentRepositoryTest extends BoltUnitTest
     public function testFind()
     {
         $app = $this->getApp();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository('showcases');
         $record = $repo->find(1);
         $this->assertEquals('Test Showcase', $record->title);
@@ -52,7 +52,7 @@ class ContentRepositoryTest extends BoltUnitTest
     public function testUpdate()
     {
         $app = $this->getApp();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository('showcases');
         $record = $repo->find(1);
         $record->title = "Updated Test Showcase";
@@ -67,7 +67,7 @@ class ContentRepositoryTest extends BoltUnitTest
     public function testDelete()
     {
         $app = $this->getApp();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository('showcases');
         $record = $repo->find(1);
         $res = $repo->delete($record);
@@ -81,7 +81,7 @@ class ContentRepositoryTest extends BoltUnitTest
     public function testFactoryCreate()
     {
         $app = $this->getApp();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
 
         $repo = $em->getRepository('showcases');
         $record = $repo->create(array(
