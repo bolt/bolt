@@ -8,7 +8,7 @@ namespace Bolt\Storage;
 class NamingStrategy
 {
     public $prefix = '';
-    
+
     public function __construct($prefix = 'bolt_')
     {
         if ($prefix) {
@@ -56,7 +56,7 @@ class NamingStrategy
         if (strpos($className, '\\') !== false) {
             $className = substr($className, strrpos($className, '\\') + 1);
         }
-        
+
         return $className;
     }
 }

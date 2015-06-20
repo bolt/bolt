@@ -51,15 +51,15 @@ class EntityManagerTest extends BoltUnitTest
 
         $this->assertInstanceOf('Bolt\Tests\Storage\Mock\TestRepository', $repo);
     }
-    
+
     public function testGetDefaultRepositoryFactory()
     {
         $app = $this->getApp();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
-        
+
         // The first check should work, this one should fail because the factory has not been set.
-        $this->setExpectedException('RuntimeException'); 
+        $this->setExpectedException('RuntimeException');
         $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
         $repo = $em->getRepository('showcases');
     }

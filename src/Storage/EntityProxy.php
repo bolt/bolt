@@ -13,15 +13,14 @@ class EntityProxy
     private $em;
     protected $loaded = false;
     protected $proxy;
-    
-    
+
     public function __construct($entity, $reference, EntityManager $em = null)
     {
         $this->entity = $entity;
         $this->reference = $reference;
         $this->em = $em;
     }
-    
+
     public function load()
     {
         if ($this->loaded) {
@@ -31,19 +30,19 @@ class EntityProxy
         $this->loaded = true;
         $this->em = null;
     }
-    
+
     public function __call($method, $args)
     {
         $this->load();
         return call_user_func_array(array($this->proxy, $method), $args);
     }
-    
+
     public function __get($attribute)
     {
         $this->load();
         return $this->proxy->$attribute;
     }
-    
+
     public function __set($attribute, $value)
     {
         $this->load();

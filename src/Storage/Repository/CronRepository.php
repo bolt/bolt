@@ -8,12 +8,11 @@ use Bolt\Storage\Repository;
  */
 class CronRepository extends Repository
 {
-
- 
     /**
      * Fetches the next run time for a named interval eg: cron.Hourly | cron.Daily
      *
-     * @param $interimName 
+     * @param $interimName
+     *
      * @return Bolt\Entity\Cron
      **/
     public function getNextRunTimes($interimName)
@@ -39,6 +38,4 @@ class CronRepository extends Repository
         return $this->em->createQueryBuilder()
             ->from($this->getTableName());
     }
-
-
 }

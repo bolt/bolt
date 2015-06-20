@@ -18,7 +18,7 @@ class QuerySet extends \ArrayIterator
         if (!$qb instanceof QueryBuilder) {
             throw new \InvalidArgumentException("QuerySet will only accept QueryBuilder instances", 1);
         }
-        
+
         parent::append($qb);
     }
 
