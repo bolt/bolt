@@ -28,6 +28,8 @@ class EntityManager
     protected $aliases = [];
     /** @var Storage */
     protected $legacyStorage;
+    /** @var Callable */
+    protected $defaultRepositoryFactory;
 
     /**
      * Creates a new EntityManager that operates on the given database connection
@@ -144,7 +146,7 @@ class EntityManager
          * configuration.
         */
         if ($this->getMapper()->resolveClassName($className) === 'Bolt\Storage\Entity\Content') {
-            return new Repository\ContentRepository($this, $classMetadata);
+            return $this->getDefaultRepositoryFactory($classMetadata);
         }
 
         /*
@@ -153,7 +155,7 @@ class EntityManager
          *
          */
         if (in_array($className, $this->getMapper()->getUnmapped())) {
-            return new Repository\ContentRepository($this, $classMetadata);
+            return $this->getDefaultRepositoryFactory($classMetadata);
         }
 
         return new Repository($this, $classMetadata);
@@ -168,6 +170,34 @@ class EntityManager
     public function setRepository($entityName, $repositoryClass)
     {
         $this->repositories[$entityName] = $repositoryClass;
+    }
+    
+    /**
+     * Sets a default repository factory that can handle metadata that is not
+     * mapped to a specific entity.
+     *
+     * @param Callable $factory
+     */
+    public function setDefaultRepositoryFactory(Callable $factory)
+    {
+        $this->defaultRepositoryFactory = $factory;
+    }
+    
+    /**
+     * Returns the default repository factory set on this object
+     *
+     * @param  ClassMetadata $classMetadata
+     * @return Callable $factory
+     */
+    public function getDefaultRepositoryFactory($classMetadata)
+    {
+        if (!is_callable($this->defaultRepositoryFactory)) {
+            throw new \RuntimeException("Unable to handle unmapped data without a defaultRepositoryFactory set", 1);
+        }
+        
+        $factory = $this->defaultRepositoryFactory;
+    
+        return $factory->__invoke($classMetadata);
     }
 
     /**
