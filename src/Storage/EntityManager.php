@@ -144,7 +144,7 @@ class EntityManager
          * configuration.
         */
         if ($this->getMapper()->resolveClassName($className) === 'Bolt\Storage\Entity\Content') {
-            return new ContentRepository($this, $classMetadata);
+            return new Repository\ContentRepository($this, $classMetadata);
         }
 
         /*
@@ -153,7 +153,7 @@ class EntityManager
          *
          */
         if (in_array($className, $this->getMapper()->getUnmapped())) {
-            return new ContentRepository($this, $classMetadata);
+            return new Repository\ContentRepository($this, $classMetadata);
         }
 
         return new Repository($this, $classMetadata);
