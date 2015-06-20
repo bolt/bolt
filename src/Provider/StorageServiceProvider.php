@@ -78,7 +78,7 @@ class StorageServiceProvider implements ServiceProviderInterface
         ];
         
         $app['storage.repositories'] = [
-            'Bolt\Entity\Cron' => 'Bolt\Storage\Repository\CronRepository'
+            'Bolt\Storage\Entity\Cron' => 'Bolt\Storage\Repository\CronRepository'
         ];
 
         $app['storage.metadata'] = $app->share(
