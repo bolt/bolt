@@ -853,7 +853,6 @@ class Config
             ],
             'sitename'                    => 'Default Bolt site',
             'homepage'                    => 'page/*',
-            'homepage_template'           => 'index.twig',
             'locale'                      => \Bolt\Application::DEFAULT_LOCALE,
             'recordsperpage'              => 10,
             'recordsperdashboardwidget'   => 5,

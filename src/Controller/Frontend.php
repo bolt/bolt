@@ -91,7 +91,7 @@ class Frontend extends ConfigurableBase
     {
         $content = $this->getContent($this->getOption('general/homepage'));
 
-        $template = $this->templateChooser()->homepage();
+        $template = $this->templateChooser()->homepage($content);
 
         $globals = [
             'records' => $content,
