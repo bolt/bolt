@@ -197,7 +197,7 @@ class EntityManager
         
         $factory = $this->defaultRepositoryFactory;
     
-        return $factory->__invoke($classMetadata);
+        return $factory($classMetadata);
     }
 
     /**
