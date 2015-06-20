@@ -153,6 +153,7 @@ abstract class Entity implements ArrayAccess
 
     /**
      * @see ArrayAccess::offsetSet
+     *
      * @param $offset
      * @param $value
      */
@@ -164,6 +165,7 @@ abstract class Entity implements ArrayAccess
 
     /**
      * @see ArrayAccess::offsetExists
+     *
      * @param $offset
      */
     public function offsetExists($offset)
@@ -175,6 +177,7 @@ abstract class Entity implements ArrayAccess
 
     /**
      * @see ArrayAccess::offsetUnset
+     *
      * @param int $offset
      */
     public function offsetUnset($offset)
@@ -185,6 +188,7 @@ abstract class Entity implements ArrayAccess
 
     /**
      * @see ArrayAccess::offsetGet
+     *
      * @param $offset
      */
     public function offsetGet($offset)
@@ -192,5 +196,4 @@ abstract class Entity implements ArrayAccess
         $accessor = "get".ucfirst($offset);
         return $this->$accessor();
     }
-
 }

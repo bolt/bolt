@@ -21,7 +21,7 @@ class FieldLoadTest extends BoltUnitTest
         $this->addNewUser($app, 'admin', 'Admin', 'admin');
         $app['schema']->repairTables();
         $this->addSomeContent();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository('showcases');
 
         $record = $repo->find(1);
@@ -36,7 +36,7 @@ class FieldLoadTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['schema']->repairTables();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository('showcases');
 
         $record = $repo->find(1);

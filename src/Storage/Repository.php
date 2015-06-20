@@ -44,22 +44,41 @@ class Repository implements ObjectRepository
         $this->setPersister($persister ?: new Persister($classMetadata));
         $this->setLoader($loader ?: new Loader());
     }
+    
+    /**
+     * Creates a new empty entity and passes the supplied data to the constructor.
+     *
+     * @param array $params
+     *
+     * @return Content
+     */
+    public function create($params = null)
+    {
+        $entityClass = $this->getClassName();
+        return new $entityClass($params);
+    }
 
     /**
      * Creates a new QueryBuilder instance that is prepopulated for this entity name.
      *
      * @param string $alias
-     * @param string $indexBy The index for the from.
      *
      * @return QueryBuilder
      */
-    public function createQueryBuilder($alias = null, $indexBy = null)
+    public function createQueryBuilder($alias = null)
     {
         if (null === $alias) {
             $alias = $this->getAlias();
         }
+        
+        if (empty($alias)) {
+            $select = "*";
+        } else {
+            $select = $alias.".*";
+        }
+        
         return $this->em->createQueryBuilder()
-            ->select($alias.".*")
+            ->select($select)
             ->from($this->getTableName(), $alias);
     }
 
@@ -178,6 +197,7 @@ class Repository implements ObjectRepository
             return false;
         }
     }
+    
 
     /**
      * Internal method to initialise and return a QueryBuilder instance.

@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Provider;
 
-use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\RecordModifier;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -27,10 +27,20 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['logger.system']
                 );
                 $storage->setLegacyStorage($app['storage.legacy']);
+                $storage->setDefaultRepositoryFactory(
+                    function ($classMetadata) use ($app) {
+                        $repoClass = $app['storage.repository.default'];
+                        $repo = new $repoClass($app['storage'], $classMetadata);
+
+                        return $repo;
+                    }
+                );
 
                 return $storage;
             }
         );
+
+        $app['storage.repository.default'] = 'Bolt\Storage\Repository\ContentRepository';
 
         $app['storage.typemap'] = [
             'Doctrine\DBAL\Types\StringType'   => 'Bolt\Storage\Field\Type\TextType',

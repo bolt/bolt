@@ -19,7 +19,7 @@ class FieldSaveTest extends BoltUnitTest
         $app = $this->getApp();
         $app['schema']->repairTables();
         $this->addSomeContent();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository('showcases');
 
         $record = $repo->find(1);
@@ -41,7 +41,7 @@ class FieldSaveTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $app['schema']->repairTables();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository('showcases');
 
         $record = $repo->find(1);
