@@ -14,7 +14,6 @@ use Bolt\AccessControl\Permissions;
  * @method string    getLastip()
  * @method string    getDisplayname()
  * @method array     getStack()
- * @method integer   getEnabled()
  * @method string    getShadowpassword()
  * @method string    getShadowtoken()
  * @method string    getShadowvalidity()
@@ -29,7 +28,6 @@ use Bolt\AccessControl\Permissions;
  * @method setLastip($lastip)
  * @method setDisplayname($displayname)
  * @method setStack(array $stack)
- * @method setEnabled($enabled)
  * @method setShadowpassword($shadowpassword)
  * @method setShadowtoken($shadowtoken)
  * @method setShadowvalidity($shadowvalidity)
@@ -55,9 +53,29 @@ class Users extends Entity
     protected $roles = [];
 
     /**
+     * Getter for enabled flag
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return (bool) $this->enabled;
+    }
+
+    /**
+     * Setter for enabled flag
+     *
+     * @param string|integer|boolean $enabled
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = (int) $enabled;
+    }
+
+    /**
      * Getter for roles to ensure Permissions::ROLE_EVERYONE always exists.
      *
-     * @param array $roles
+     * @return array
      */
     public function getRoles()
     {

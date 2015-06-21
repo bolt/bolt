@@ -305,7 +305,7 @@ class Users
     /**
      * Check a user's enable status.
      *
-     * @param int|bool $id User ID, or false for current user
+     * @param integer|boolean $id User ID, or false for current user
      *
      * @return boolean
      */
@@ -313,18 +313,18 @@ class Users
     {
         $user = $id ? $this->getUser($id) : $this->getCurrentUser();
 
-        return (boolean) $user->getEnabled();
+        return $user->getEnabled();
     }
 
     /**
      * Enable or disable a user, specified by id.
      *
      * @param integer|string $id
-     * @param integer        $enabled
+     * @param boolean        $enabled
      *
      * @return integer
      */
-    public function setEnabled($id, $enabled = 1)
+    public function setEnabled($id, $enabled = true)
     {
         if (!$user = $this->getUser($id)) {
             return false;

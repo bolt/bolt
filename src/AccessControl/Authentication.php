@@ -224,7 +224,7 @@ class Authentication
             return false;
         }
 
-        if ((int) $userEntity->getEnabled() !== 1) {
+        if (!$userEntity->getEnabled()) {
             $this->app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
 
             return false;

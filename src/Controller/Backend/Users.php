@@ -301,7 +301,7 @@ class Users extends BackendBase
         switch ($action) {
 
             case 'disable':
-                if ($this->users()->setEnabled($id, 0)) {
+                if ($this->users()->setEnabled($id, false)) {
                     $this->app['logger.system']->info("Disabled user '{$user['displayname']}'.", ['event' => 'security']);
 
                     $this->flashes()->info(Trans::__("User '%s' is disabled.", ['%s' => $user['displayname']]));
@@ -311,7 +311,7 @@ class Users extends BackendBase
                 break;
 
             case 'enable':
-                if ($this->users()->setEnabled($id, 1)) {
+                if ($this->users()->setEnabled($id, true)) {
                     $this->app['logger.system']->info("Enabled user '{$user['displayname']}'.", ['event' => 'security']);
                     $this->flashes()->info(Trans::__("User '%s' is enabled.", ['%s' => $user['displayname']]));
                 } else {
