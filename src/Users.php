@@ -249,6 +249,8 @@ class Users
     {
         if ($user = $this->repository->getUser($userId)) {
             $user->setPassword('**dontchange**');
+
+            return $user;
         }
 
         return false;
