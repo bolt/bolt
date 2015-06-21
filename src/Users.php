@@ -285,10 +285,11 @@ class Users
     /**
      * Set the current user.
      *
-     * @param array $user
+     * @param Entity\Users $user
      */
-    public function setCurrentUser($user)
+    public function setCurrentUser(Entity\Users $user)
     {
+        $user->setPassword('**dontchange**');
         $this->currentuser = $user;
     }
 
