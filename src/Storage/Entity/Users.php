@@ -21,4 +21,14 @@ class Users extends Entity
     protected $failedlogins = 0;
     protected $throttleduntil;
     protected $roles = [];
+
+    /**
+     * Setter for roles to ensure the array is always unique.
+     *
+     * @param array $roles
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = array_unique($roles);
+    }
 }
