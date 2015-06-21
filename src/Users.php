@@ -207,28 +207,16 @@ class Users
      */
     public function getUsers()
     {
-        if (empty($this->users) || !is_array($this->users)) {
-            /** @var \Doctrine\DBAL\Query\QueryBuilder $queryBuilder */
-            $queryBuilder = $this->app['db']->createQueryBuilder()
-                ->select('*')
-                ->from($this->usertable);
-
+        if (empty($this->users)) {
             try {
                 $this->users = [];
-                $tempusers = $queryBuilder->execute()->fetchAll();
+                $tempusers = $this->repository->findAll();
 
-                foreach ($tempusers as $user) {
-                    $key = $user['username'];
-                    $this->users[$key] = $user;
-                    $this->users[$key]['password'] = '**dontchange**';
-
-                    $roles = json_decode($this->users[$key]['roles']);
-                    if (!is_array($roles)) {
-                        $roles = [];
-                    }
-                    // add "everyone" role to, uhm, well, everyone.
-                    $roles[] = Permissions::ROLE_EVERYONE;
-                    $this->users[$key]['roles'] = array_unique($roles);
+                /** @var \Bolt\Storage\Entity\Users $userEntity */
+                foreach ($tempusers as $userEntity) {
+                    $key = $userEntity->getUsername();
+                    $userEntity->setPassword('**dontchange**');
+                    $this->users[$key] = $userEntity;
                 }
             } catch (\Exception $e) {
                 // Nope. No users.
@@ -261,7 +249,6 @@ class Users
     {
         if ($user = $this->repository->getUser($userId)) {
             $user->setPassword('**dontchange**');
-            $user->setRoles(array_merge($user->setRoles(), [Permissions::ROLE_EVERYONE]));
         }
 
         return false;
@@ -382,7 +369,7 @@ class Users
         }
 
         // Add the role to the $user['roles'] array
-        $user->setRoles(array_merge($user->getRoles(), [(string) $role]));
+        $user->setRoles(array_merge($user->getRoles(), [$role]));
 
         return $this->saveUser($user);
     }
@@ -404,7 +391,7 @@ class Users
         }
 
         // Remove the role from the $user['roles'] array.
-        $user->setRoles(array_diff($user->getRoles(), [(string) $role]));
+        $user->setRoles(array_diff($user->getRoles(), [$role]));
 
         return $this->saveUser($user);
     }
