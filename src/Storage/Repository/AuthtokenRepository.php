@@ -47,11 +47,11 @@ class AuthtokenRepository extends Repository
      **/
     public function getToken($token, $ip, $useragent)
     {
-        $query = $this->queryToken($token, $ip, $useragent);
+        $query = $this->getTokenQuery($token, $ip, $useragent);
         return $this->findOneWith($query);
     }
     
-    public function queryToken($token, $ip, $useragent)
+    public function getTokenQuery($token, $ip, $useragent)
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*')
@@ -61,6 +61,28 @@ class AuthtokenRepository extends Repository
             ->setParameter('token', $token)
             ->setParameter('ip', $ip)
             ->setParameter('useragent', $useragent);
+        return $qb;
+    }
+    
+    /**
+     * Deletes all tokens for the given user
+     *
+     * @param $username
+     *
+     * @return Bolt\Entity\Authtoken
+     **/
+    public function deleteTokens($username)
+    {
+        $query = $this->deleteTokensQuery($username);
+        return $query->execute();
+    }
+    
+    public function deleteTokensQuery($username)
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->delete($this->getTableName())
+            ->where('username=:username')
+            ->setParameter('username', $username);
         return $qb;
     }
     
