@@ -31,7 +31,7 @@ class Cron extends Event
     public $lastruns = [];
 
     /** @var \Bolt\Storage\Repository\CronRepository */
-    protected $repo;
+    protected $repository;
 
     /** @var \Silex\Application */
     private $app;
@@ -62,7 +62,7 @@ class Cron extends Event
     {
         $this->app = $app;
         $this->output = $output;
-        $this->repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Cron');
+        $this->repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Cron');
     }
 
     /**
@@ -108,7 +108,7 @@ class Cron extends Event
             try {
                 $this->app['dispatcher']->dispatch($interimName, $event);
                 $this->jobs[$interimName]['entity']->setLastrun($this->runtime);
-                $this->repo->save($this->jobs[$interimName]['entity']);
+                $this->repository->save($this->jobs[$interimName]['entity']);
             } catch (\Exception $e) {
                 $this->handleError($e, $interimName);
             }
@@ -161,7 +161,7 @@ class Cron extends Event
     private function getRunTimes()
     {
         foreach (array_keys($this->jobs) as $interimName) {
-            if (!$runEntity = $this->repo->getNextRunTime($interimName)) {
+            if (!$runEntity = $this->repository->getNextRunTime($interimName)) {
                 $epoch = new \DateTime();
                 $epoch->setTimestamp(0);
                 $runEntity = new Entity\Cron(['interim' => $interimName, 'lastrun' => $epoch]);
