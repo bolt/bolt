@@ -47,7 +47,7 @@ class AuthtokenRepository extends Repository
      **/
     public function getToken($token, $ip, $useragent)
     {
-        $query = $this->queryExistingToken($token, $ip, $useragent);
+        $query = $this->queryToken($token, $ip, $useragent);
         return $this->findOneWith($query);
     }
     
