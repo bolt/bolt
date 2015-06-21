@@ -19,11 +19,11 @@ class AuthtokenRepository extends Repository
      **/
     public function getUserToken($username, $ip, $useragent)
     {
-        $query = $this->queryExistingToken($username, $ip, $useragent);
+        $query = $this->getUserTokenQuery($username, $ip, $useragent);
         return $this->findOneWith($query);
     }
     
-    public function queryUserToken($username, $ip, $useragent)
+    public function getUserTokenQuery($username, $ip, $useragent)
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*')
