@@ -275,12 +275,8 @@ class Authentication
         $this->deleteExpiredSessions();
 
         // Check if there's already a token stored for this token / IP combo.
-        try {
-            $row = $this->repository->getToken($authtoken, $remoteip, $browser);
-        } catch (DBALException $e) {
-            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-        }
-
+        $row = $this->repository->getToken($authtoken, $remoteip, $browser);
+        
         // If there's no row, we can't resume a session from the authtoken.
         if (empty($row)) {
             return false;
