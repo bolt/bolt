@@ -261,7 +261,7 @@ class Users
     {
         if ($user = $this->repository->getUser($userId)) {
             $user->setPassword('**dontchange**');
-            $user->setRoles(array_unique(array_merge($user->setRoles(), [Permissions::ROLE_EVERYONE])));
+            $user->setRoles(array_merge($user->setRoles(), [Permissions::ROLE_EVERYONE]));
         }
 
         return false;
@@ -360,13 +360,11 @@ class Users
      */
     public function hasRole($id, $role)
     {
-        $user = $this->getUser($id);
-
-        if (empty($user)) {
+        if (!$user = $this->getUser($id)) {
             return false;
         }
 
-        return (is_array($user['roles']) && in_array($role, $user['roles']));
+        return in_array($role, $user->getRoles());
     }
 
     /**
@@ -379,14 +377,12 @@ class Users
      */
     public function addRole($id, $role)
     {
-        $user = $this->getUser($id);
-
-        if (empty($user) || empty($role)) {
+        if (empty($role) || !$user = $this->getUser($id)) {
             return false;
         }
 
         // Add the role to the $user['roles'] array
-        $user['roles'][] = (string) $role;
+        $user->setRoles(array_merge($user->getRoles(), [(string) $role]));
 
         return $this->saveUser($user);
     }
@@ -408,7 +404,7 @@ class Users
         }
 
         // Remove the role from the $user['roles'] array.
-        $user['roles'] = array_diff($user['roles'], [(string) $role]);
+        $user->setRoles(array_diff($user->getRoles(), [(string) $role]));
 
         return $this->saveUser($user);
     }
@@ -426,7 +422,7 @@ class Users
     {
         $oldRoles = [];
         if ($id && $user = $this->getUser($id)) {
-            $oldRoles = $user['roles'];
+            $oldRoles = $user->getRoles();
         }
 
         $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($this->getCurrentUser());
@@ -468,7 +464,7 @@ class Users
 
         // Loop over the users, check if anybody's root.
         foreach ($this->getUsers() as $user) {
-            if (is_array($user['roles']) && in_array('root', $user['roles'])) {
+            if (in_array('root', $user->getRoles())) {
                 // We have a 'root' user.
                 return true;
             }
