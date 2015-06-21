@@ -106,6 +106,31 @@ class AuthtokenRepository extends Repository
         return $qb;
     }
     
+    
+    /**
+     * Fetches all active sessions
+     *
+     * @return Bolt\Entity\Authtoken[]
+     **/
+    public function getActiveSessions()
+    {
+        $this->deleteExpiredTokens();
+        $query = $this->getActiveSessionsQuery();
+        return $this->findWith($query);
+    }
+    
+    public function getActiveSessionsQuery()
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->select('*');
+        return $qb;
+    }
+    
+    /**
+     * Creates a query builder instance namespaced to this repository
+     *
+     * @return QueryBuilder
+     **/
     public function createQueryBuilder($alias = null)
     {
         return $this->em->createQueryBuilder()
