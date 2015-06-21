@@ -326,18 +326,9 @@ class Users
      */
     public function isEnabled($id = false)
     {
-        if (!$id) {
-            $user = $this->getCurrentUser();
-            $id = $user['id'];
-        }
+        $user = $id ? $this->getUser($id) : $this->getCurrentUser();
 
-        $query = $this->app['db']->createQueryBuilder()
-                        ->select('enabled')
-                        ->from($this->usertable)
-                        ->where('id = :id')
-                        ->setParameters([':id' => $id]);
-
-        return (boolean) $query->execute()->fetchColumn();
+        return (boolean) $user->getEnabled();
     }
 
     /**
@@ -350,13 +341,11 @@ class Users
      */
     public function setEnabled($id, $enabled = 1)
     {
-        $user = $this->getUser($id);
-
-        if (empty($user)) {
+        if (!$user = $this->getUser($id)) {
             return false;
         }
 
-        $user['enabled'] = $enabled;
+        $user->setEnabled($enabled);
 
         return $this->saveUser($user);
     }
