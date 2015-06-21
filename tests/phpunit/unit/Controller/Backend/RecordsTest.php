@@ -34,7 +34,15 @@ class RecordsTest extends ControllerUnitTest
         $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $err[0]);
 
-        $authentication = $this->getMock('Bolt\AccessControl\Authentication', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $app = $this->getApp();
+        $authentication = $this->getMock(
+            'Bolt\AccessControl\Authentication', 
+            ['checkAntiCSRFToken'], 
+            [  
+                $app,
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+            ]
+        );
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
@@ -125,7 +133,15 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPermissions()
     {
-        $authentication = $this->getMock('Bolt\AccessControl\Authentication', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $app = $this->getApp();
+        $authentication = $this->getMock(
+            'Bolt\AccessControl\Authentication', 
+            ['checkAntiCSRFToken'], 
+            [  
+                $app,
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+            ]
+        );
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
@@ -145,7 +161,15 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPost()
     {
-        $authentication = $this->getMock('Bolt\AccessControl\Authentication', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $app = $this->getApp();
+        $authentication = $this->getMock(
+            'Bolt\AccessControl\Authentication', 
+            ['checkAntiCSRFToken'], 
+            [  
+                $app,
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+            ]
+        );
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
@@ -165,7 +189,15 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPostAjax()
     {
-        $authentication = $this->getMock('Bolt\AccessControl\Authentication', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $app = $this->getApp();
+        $authentication = $this->getMock(
+            'Bolt\AccessControl\Authentication', 
+            ['checkAntiCSRFToken'], 
+            [  
+                $app,
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+            ]
+        );
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
