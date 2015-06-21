@@ -80,7 +80,7 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.repositories'] = [
             'Bolt\Storage\Entity\Authtoken' => 'Bolt\Storage\Repository\AuthtokenRepository',
             'Bolt\Storage\Entity\Cron'      => 'Bolt\Storage\Repository\CronRepository',
-            'Bolt\Storage\Entity\Users'     => 'Bolt\Storage\Repository\Users',
+            'Bolt\Storage\Entity\Users'     => 'Bolt\Storage\Repository\UsersRepository',
         ];
 
         $app['storage.metadata'] = $app->share(

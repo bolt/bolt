@@ -13,7 +13,8 @@ class UsersServiceProvider implements ServiceProviderInterface
     {
         $app['users'] = $app->share(
             function ($app) {
-                $users = new Users($app);
+                $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
+                $users = new Users($app, $repo);
 
                 return $users;
             }

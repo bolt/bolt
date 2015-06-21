@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\AccessControl\Permissions;
+use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
 use Hautelook\Phpass\PasswordHash;
 use Silex;
@@ -12,25 +13,29 @@ use Silex;
  */
 class Users
 {
-    /** @var \Doctrine\DBAL\Connection */
-    public $db;
-    public $config;
-    public $usertable;
-    public $authtokentable;
     public $users = [];
     public $currentuser;
+
+    /** @deprecated Will be removed in Bolt 3.0 */
+    public $usertable;
+    public $authtokentable;
+
+    /** @var \Bolt\Storage\Repository\UsersRepository */
+    protected $repository;
 
     /** @var \Silex\Application $app */
     private $app;
 
     /**
-     * @param \Silex\Application $app
+     * @param Application     $app
+     * @param UsersRepository $repository
      */
-    public function __construct(Silex\Application $app)
+    public function __construct(Application $app, UsersRepository $repository)
     {
         $this->app = $app;
-        $this->db = $app['db'];
+        $this->repository = $repository;
 
+        /** @deprecated Will be removed in Bolt 3.0 */
         $this->usertable = $this->app['storage']->getTablename('users');
         $this->authtokentable = $this->app['storage']->getTablename('authtoken');
     }
@@ -46,17 +51,17 @@ class Users
     {
         // Make an array with the allowed columns. these are the columns that are always present.
         $allowedcolumns = [
-                'id',
-                'username',
-                'password',
-                'email',
-                'lastseen',
-                'lastip',
-                'displayname',
-                'enabled',
-                'stack',
-                'roles',
-            ];
+            'id',
+            'username',
+            'password',
+            'email',
+            'lastseen',
+            'lastip',
+            'displayname',
+            'enabled',
+            'stack',
+            'roles',
+        ];
 
         // unset columns we don't need to store.
         foreach (array_keys($user) as $key) {
