@@ -11,14 +11,27 @@ use Bolt\Tests\BoltUnitTest;
  */
 class AuthtokenRepositoryTest extends BoltUnitTest
 {
-    public function testTokenQuery()
+    public function testRepositoryQueries()
     {
         $this->resetDb();
         $app = $this->getApp();
         $em = $app['storage'];
         $repo = $em->getRepository('Bolt\Storage\Entity\Authtoken');
-        $query = $repo->queryExistingToken('user', 'ip', 'agent');
-        $this->assertEquals('SELECT * FROM bolt_authtoken WHERE (username=:username) AND (ip=:ip) AND (useragent=:useragent)', $query->getSql());
+        
+        $query1 = $repo->getUserTokenQuery('user', 'ip', 'agent');
+        $this->assertEquals('SELECT * FROM bolt_authtoken WHERE (username=:username) AND (ip=:ip) AND (useragent=:useragent)', $query1->getSql());
+        
+        $query2 = $repo->getTokenQuery('token', 'ip', 'agent');
+        $this->assertEquals('SELECT * FROM bolt_authtoken WHERE (token=:token) AND (ip=:ip) AND (useragent=:useragent)', $query2->getSql());
+        
+        $query3 = $repo->deleteTokensQuery('username');
+        $this->assertEquals('DELETE FROM bolt_authtoken WHERE username=:username', $query3->getSql());
+        
+        $query4 = $repo->deleteExpiredTokensQuery();
+        $this->assertEquals('DELETE FROM bolt_authtoken WHERE validity < :now', $query4->getSql());
+        
+        $query5 = $repo->getActiveSessionsQuery();
+        $this->assertEquals('SELECT * FROM bolt_authtoken', $query5->getSql());
     }
 
     
