@@ -78,6 +78,29 @@ class UsersRepository extends Repository
     }
 
     /**
+     * Test to see if there are users in the user table.
+     *
+     * @return integer
+     */
+    public function hasUsers()
+    {
+        $query = $this->hasUsersQuery();
+
+        return $query->execute()->fetch();
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function hasUsersQuery()
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->select('COUNT(id) as count');
+
+        return $qb;
+    }
+
+    /**
      * Creates a query builder instance namespaced to this repository.
      *
      * @return QueryBuilder

@@ -245,13 +245,9 @@ class Users
      */
     public function hasUsers()
     {
-        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
-        $query = $this->app['db']->createQueryBuilder()
-                        ->select('COUNT(id) as count')
-                        ->from($this->usertable);
-        $count = $query->execute()->fetch();
+        $rows = $this->repository->hasUsers();
 
-        return (integer) $count['count'];
+        return $rows ? $rows['count'] : 0;
     }
 
     /**
