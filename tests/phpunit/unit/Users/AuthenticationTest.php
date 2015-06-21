@@ -41,7 +41,8 @@ class AuthenticationTest extends BoltUnitTest
             [
                 $app,
                 $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
-            ]);
+            ]
+        );
         
         $users->expects($this->once())->method('login')->willReturn(true);
 
