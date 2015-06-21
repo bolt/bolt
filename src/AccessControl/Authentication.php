@@ -327,11 +327,7 @@ class Authentication
         $this->app['session']->migrate(true);
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
-        try {
-            $this->app['db']->delete($this->getTableName('authtoken'), ['username' => $this->app['users']->getCurrentUserProperty('username')]);
-        } catch (\Exception $e) {
-            // Nope. No auth tokens to be deleted. .
-        }
+        $this->repository->deleteTokens($this->app['users']->getCurrentUserProperty('username'));
     }
 
     /**
