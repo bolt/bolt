@@ -31,7 +31,7 @@ class Authentication
     private $hostName;
     /** @var string */
     private $authToken;
-    /** @var Bolt\Storage\Repository\AuthtokenRepository $repository */
+    /** @var \Bolt\Storage\Repository\AuthtokenRepository $repository */
     private $repository;
 
     public function __construct(Application $app, AuthtokenRepository $repository)
