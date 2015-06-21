@@ -5,6 +5,36 @@ use Bolt\AccessControl\Permissions;
 
 /**
  * Entity for User.
+ *
+ * @method integer   getId()
+ * @method string    getUsername()
+ * @method string    getPassword()
+ * @method string    getEmail()
+ * @method \DateTime getLastseen()
+ * @method string    getLastip()
+ * @method string    getDisplayname()
+ * @method array     getStack()
+ * @method integer   getEnabled()
+ * @method string    getShadowpassword()
+ * @method string    getShadowtoken()
+ * @method string    getShadowvalidity()
+ * @method intger    getFailedlogins()
+ * @method \DateTime getThrottleduntil()
+ *
+ * @method setId($id)
+ * @method setUsername($username)
+ * @method setPassword($password)
+ * @method setEmail($email)
+ * @method setLastseen(\DateTime $lastseen)
+ * @method setLastip($lastip)
+ * @method setDisplayname($displayname)
+ * @method setStack(array $stack)
+ * @method setEnabled($enabled)
+ * @method setShadowpassword($shadowpassword)
+ * @method setShadowtoken($shadowtoken)
+ * @method setShadowvalidity($shadowvalidity)
+ * @method setFailedlogins($failedlogins)
+ * @method setThrottleduntil(\DateTime $throttleduntil)
  */
 class Users extends Entity
 {
