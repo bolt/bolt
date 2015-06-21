@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage\Entity;
 
+use Bolt\AccessControl\Permissions;
+
 /**
  * Entity for User.
  */
@@ -21,6 +23,20 @@ class Users extends Entity
     protected $failedlogins = 0;
     protected $throttleduntil;
     protected $roles = [];
+
+    /**
+     * Getter for roles to ensure Permissions::ROLE_EVERYONE always exists.
+     *
+     * @param array $roles
+     */
+    public function getRoles()
+    {
+        if (!in_array(Permissions::ROLE_EVERYONE, $this->roles)) {
+            $this->roles[] = Permissions::ROLE_EVERYONE;
+        }
+
+        return $this->roles;
+    }
 
     /**
      * Setter for roles to ensure the array is always unique.
