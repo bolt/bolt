@@ -153,8 +153,7 @@ class Authentication
     {
         $this->deleteExpiredSessions();
 
-        $query = sprintf('SELECT * FROM %s', $this->getTableName('authtoken'));
-        $sessions = $this->app['db']->fetchAll($query);
+        $sessions = $this->repository->getActiveSessions();
 
         // Parse the user-agents to get a user-friendly Browser, version and platform.
         $parser = UAParser\Parser::create();
@@ -518,13 +517,7 @@ class Authentication
      */
     private function deleteExpiredSessions()
     {
-        try {
-            $stmt = $this->app['db']->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->getTableName('authtoken')));
-            $stmt->bindValue('now', date('Y-m-d H:i:s'));
-            $stmt->execute();
-        } catch (DBALException $e) {
-            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-        }
+        $this->repository->deleteExpiredTokens();
     }
 
     /**
