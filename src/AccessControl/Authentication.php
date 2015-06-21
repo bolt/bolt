@@ -2,6 +2,7 @@
 namespace Bolt\AccessControl;
 
 use Bolt\Application;
+use Bolt\Storage\Repository\AuthtokenRepository;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\DBALException;
 use Hautelook\Phpass\PasswordHash;
@@ -30,10 +31,13 @@ class Authentication
     private $hostName;
     /** @var string */
     private $authToken;
+    /** @var Bolt\Storage\Repository\AuthtokenRepository $repository */
+    private $repository;
 
-    public function __construct(Application $app)
+    public function __construct(Application $app, AuthtokenRepository $repository)
     {
         $this->app = $app;
+        $this->repository = $repository;
 
         // Hashstrength has a default of '10', don't allow less than '8'.
         $this->hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
@@ -272,9 +276,7 @@ class Authentication
 
         // Check if there's already a token stored for this token / IP combo.
         try {
-            $query = sprintf('SELECT * FROM %s WHERE token=? AND ip=? AND useragent=?', $this->getTableName('authtoken'));
-            $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-            $row = $this->app['db']->executeQuery($query, [$authtoken, $remoteip, $browser], [\PDO::PARAM_STR])->fetch();
+            $row = $this->repository->getToken($authtoken, $remoteip, $browser);
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
