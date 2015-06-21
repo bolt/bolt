@@ -40,7 +40,7 @@ class Authentication extends BackendBase
     public function getLogin(Request $request)
     {
         $user = $this->getUser();
-        if (!empty($user) && $user['enabled'] == 1) {
+        if ($user && $user->getEnabled() == 1) {
             return $this->redirectToRoute('dashboard');
         }
 

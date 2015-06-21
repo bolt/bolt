@@ -2,7 +2,8 @@
 namespace Bolt\AccessControl;
 
 use Bolt\Application;
-use Bolt\Storage\Repository\AuthtokenRepository;
+use Bolt\Storage\Entity;
+use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\DBALException;
 use Hautelook\Phpass\PasswordHash;
@@ -34,7 +35,7 @@ class Authentication
     /** @var \Bolt\Storage\Repository\AuthtokenRepository $repository */
     private $repository;
 
-    public function __construct(Application $app, AuthtokenRepository $repository)
+    public function __construct(Application $app, Repository\AuthtokenRepository $repository)
     {
         $this->app = $app;
         $this->repository = $repository;
@@ -154,7 +155,7 @@ class Authentication
         $this->deleteExpiredSessions();
 
         $sessions = $this->repository->getActiveSessions() ?: [];
-        
+
 
         // Parse the user-agents to get a user-friendly Browser, version and platform.
         $parser = UAParser\Parser::create();
@@ -216,44 +217,28 @@ class Authentication
      */
     public function login($user, $password)
     {
-        // Check if we are dealing with an e-mail or an username
-        if (false === strpos($user, '@')) {
-            $column = 'username';
-            $lookup = $this->app['slugify']->slugify($user);
-        } else {
-            $column = 'email';
-            $lookup = $user;
+        $repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        if (!$userEntity = $repository->getUser($user)) {
+            $this->app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
+
+            return false;
         }
 
-        // For once we don't use getUser(), because we need the password.
-        $query = sprintf('SELECT * FROM %s WHERE %s = ?', $this->getTableName('users'), $column);
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-        $user  = $this->app['db']->executeQuery($query, [$lookup], [\PDO::PARAM_STR])->fetch();
-
-        if (empty($user)) {
-            $this->app['logger.flash']->error(Trans::__('Username or password not correct. Please check your input.'));
+        if ((int) $userEntity->getEnabled() !== 1) {
+            $this->app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
 
             return false;
         }
 
         $hasher = new PasswordHash($this->hashStrength, true);
-
-        if ($hasher->CheckPassword($password, $user['password'])) {
-            if (!$user['enabled']) {
-                $this->app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
-
-                return false;
-            }
-
-            $this->app['users']->setCurrentUser($user);
-            $this->updateUserLogin($user);
-
-            return $this->setAuthToken();
-        } else {
-            $this->loginFailed($user);
-
-            return false;
+        if (!$hasher->CheckPassword($password, $userEntity->getPassword())) {
+            return $this->loginFailed($user);
         }
+
+        $this->app['users']->setCurrentUser($userEntity);
+        $this->updateUserLogin($userEntity);
+
+        return $this->setAuthToken();
     }
 
     /**
@@ -276,7 +261,7 @@ class Authentication
 
         // Check if there's already a token stored for this token / IP combo.
         $row = $this->repository->getToken($authtoken, $remoteip, $browser);
-        
+
         // If there's no row, we can't resume a session from the authtoken.
         if (empty($row)) {
             return false;
@@ -482,33 +467,29 @@ class Authentication
     /**
      * Update the user record with latest login information.
      *
-     * @param array $user
+     * @param Entity\Users $user
      */
-    protected function updateUserLogin($user)
+    protected function updateUserLogin(Entity\Users $user)
     {
-        $update = [
-            'lastseen'       => date('Y-m-d H:i:s'),
-            'lastip'         => $this->remoteIP,
-            'failedlogins'   => 0,
-            'throttleduntil' => $this->throttleUntil(0)
-        ];
+        $user->setLastseen(new \DateTime());
+        $user->setLastip($this->remoteIP);
+        $user->setFailedlogins(0);
+        $user->setThrottleduntil($this->throttleUntil(0));
+
+        $repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
 
         // Attempt to update the last login, but don't break on failure.
         try {
-            $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
+            $repository->save($user);
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
 
-        $user = $this->app['users']->getUser($user['id']);
-
-        $user['sessionkey'] = $this->getAuthToken($user['username']);
+        $user['sessionkey'] = $this->getAuthToken($user->getUsername());
         $this->app['session']->migrate(true);
 
         $this->app['session']->set('user', $user);
         $this->app['logger.flash']->success(Trans::__("You've been logged on successfully."));
-
-        $this->app['users']->setCurrentUser($user);
     }
 
     /**
@@ -525,6 +506,8 @@ class Authentication
      * Add errormessages to logs and update the user
      *
      * @param array $user
+     *
+     * @return false
      */
     private function loginFailed($user)
     {
@@ -543,6 +526,8 @@ class Authentication
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
+
+        return false;
     }
 
     /**
