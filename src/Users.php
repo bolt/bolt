@@ -255,49 +255,17 @@ class Users
     }
 
     /**
-     * Get a user, specified by ID, username or email address. Return 'false' if no user found.
+     * Get a user, specified by ID, username or email address.
      *
-     * @param integer|string $id
+     * @param integer|string $userId
      *
      * @return array
      */
-    public function getUser($id)
+    public function getUser($userId)
     {
-        // Determine lookup type
-        if (is_numeric($id)) {
-            $key = 'id';
-        } else {
-            if (strpos($id, '@') === false) {
-                $key = 'username';
-            } else {
-                $key = 'email';
-            }
-        }
-
-        /** @var \Doctrine\DBAL\Query\QueryBuilder $queryBuilder */
-        $queryBuilder = $this->app['db']->createQueryBuilder()
-                        ->select('*')
-                        ->from($this->usertable)
-                        ->where($key . ' = ?')
-                        ->setParameter(0, $id);
-
-        try {
-            $user = $queryBuilder->execute()->fetch();
-        } catch (\Exception $e) {
-            // Nope. No users.
-        }
-
-        if (!empty($user)) {
-            $user['password'] = '**dontchange**';
-            $user['roles'] = json_decode($user['roles']);
-            if (!is_array($user['roles'])) {
-                $user['roles'] = [];
-            }
-            // add "everyone" role to, uhm, well, everyone.
-            $user['roles'][] = Permissions::ROLE_EVERYONE;
-            $user['roles'] = array_unique($user['roles']);
-
-            return $user;
+        if ($user = $this->repository->getUser($userId)) {
+            $user->setPassword('**dontchange**');
+            $user->setRoles(array_unique(array_merge($user->setRoles(), [Permissions::ROLE_EVERYONE])));
         }
 
         return false;
