@@ -2,7 +2,7 @@
 namespace Bolt\Storage\Entity;
 
 /**
- * Entity for Auth Tokens.
+ * Entity for cron jobs.
  */
 class Cron extends Entity
 {
