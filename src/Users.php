@@ -44,88 +44,28 @@ class Users
     /**
      * Save changes to a user to the database. (re)hashing the password, if needed.
      *
-     * @param array $user
+     * @param Entity\Users $user
      *
      * @return integer The number of affected rows.
      */
     public function saveUser($user)
     {
-        // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = [
-            'id',
-            'username',
-            'password',
-            'email',
-            'lastseen',
-            'lastip',
-            'displayname',
-            'enabled',
-            'stack',
-            'roles',
-        ];
-
-        // unset columns we don't need to store.
-        foreach (array_keys($user) as $key) {
-            if (!in_array($key, $allowedcolumns)) {
-                unset($user[$key]);
-            }
+        if (is_array($user)) {
+            $user = new Entity\Users($user);
         }
 
-        if (!empty($user['password']) && $user['password'] != '**dontchange**') {
+        if ($user->getPassword() !== '**dontchange**') {
             // Hashstrength has a default of '10', don't allow less than '8'.
             $hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
-
             $hasher = new PasswordHash($hashStrength, true);
-            $user['password'] = $hasher->HashPassword($user['password']);
-        } else {
-            unset($user['password']);
+            $user->setPassword($hasher->HashPassword($user->getPassword()));
         }
 
-        // make sure the username is slug-like
-        $user['username'] = $this->app['slugify']->slugify($user['username']);
+        // Make sure the username is slug-like
+        $user->setUsername($this->app['slugify']->slugify($user->getUsername()));
 
-        if (empty($user['lastseen'])) {
-            $user['lastseen'] = null;
-        }
-
-        if (empty($user['enabled']) && $user['enabled'] !== 0) {
-            $user['enabled'] = 1;
-        }
-
-        if (empty($user['shadowvalidity'])) {
-            $user['shadowvalidity'] = null;
-        }
-
-        if (empty($user['throttleduntil'])) {
-            $user['throttleduntil'] = null;
-        }
-
-        if (empty($user['failedlogins'])) {
-            $user['failedlogins'] = 0;
-        }
-
-        // Make sure the 'stack' is set.
-        if (empty($user['stack'])) {
-            $user['stack'] = json_encode([]);
-        } elseif (is_array($user['stack'])) {
-            $user['stack'] = json_encode($user['stack']);
-        }
-
-        // Serialize roles array
-        if (empty($user['roles']) || !is_array($user['roles'])) {
-            $user['roles'] = '[]';
-        } else {
-            $user['roles'] = json_encode(array_values(array_unique($user['roles'])));
-        }
-
-        // Decide whether to insert a new record, or update an existing one.
-        if (empty($user['id'])) {
-            unset($user['id']);
-
-            return $this->db->insert($this->usertable, $user);
-        } else {
-            return $this->db->update($this->usertable, $user, ['id' => $user['id']]);
-        }
+        // Save the entity
+        $this->repository->save($user);
     }
 
     /**
