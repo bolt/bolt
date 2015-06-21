@@ -91,23 +91,23 @@ class Authentication
      * is still valid for the device on which it was created, and that the username,
      * ip-address are still the same.
      *
-     * @return boolean|string
+     * @return boolean
      */
     public function checkValidSession()
     {
-        if ($this->app['session']->isStarted() && $currentuser = $this->app['session']->get('user')) {
-            $this->app['users']->setCurrentUser($currentuser);
+        if ($this->app['session']->isStarted() && $sessionUser = $this->app['session']->get('user')) {
 
-            if ($database = $this->app['users']->getUser($currentuser['id'])) {
-                // Update the session with the user from the database.
-                $this->app['users']->setCurrentUser(array_merge($currentuser, $database));
+            // Update the session with the user from the database.
+            if ($databaseUser = $this->app['users']->getUser($sessionUser->getId())) {
+                $this->app['users']->setCurrentUser($databaseUser);
             } else {
                 // User doesn't exist anymore
                 $this->logout();
 
                 return false;
             }
-            if (!$currentuser['enabled']) {
+
+            if (!$databaseUser->getEnabled()) {
                 // User has been disabled since logging in
                 $this->logout();
 
@@ -120,18 +120,18 @@ class Authentication
         }
 
         // The auth token is based on hostname, IP and browser user agent
-        $key = $this->getAuthToken($currentuser['username']);
+        $key = $this->getAuthToken($sessionUser->getUsername());
 
-        if ($key != $currentuser['sessionkey']) {
-            $this->app['logger.system']->error("Keys don't match. Invalidating session: $key != " . $currentuser['sessionkey'], ['event' => 'authentication']);
-            $this->app['logger.system']->info("Automatically logged out user '" . $currentuser['username'] . "': Session data didn't match.", ['event' => 'authentication']);
+        if ($key !== $sessionUser->getSessionkey()) {
+            $this->app['logger.system']->error("Keys don't match. Invalidating session: $key != " . $sessionUser->getSessionkey(), ['event' => 'authentication']);
+            $this->app['logger.system']->info("Automatically logged out user '" . $sessionUser->getUsername() . "': Session data didn't match.", ['event' => 'authentication']);
             $this->logout();
 
             return false;
         }
 
         // Check if user is _still_ allowed to log on.
-        if (!$this->app['users']->isAllowed('login') || !$currentuser['enabled']) {
+        if (!$this->app['users']->isAllowed('login') || !$sessionUser->getEnabled()) {
             $this->logout();
 
             return false;
@@ -195,7 +195,7 @@ class Authentication
     /**
      * Return whether or not the current session is valid.
      *
-     * @return boolean|string
+     * @return boolean
      */
     public function isValidSession()
     {
