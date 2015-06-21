@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\AccessControl\Permissions;
+use Bolt\Storage\Entity;
 use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
 use Hautelook\Phpass\PasswordHash;
@@ -252,27 +253,11 @@ class Users
     /**
      * Create a stub for a new/empty user.
      *
-     * @return array
+     * @return \Bolt\Storage\Entity\Users
      */
     public function getEmptyUser()
     {
-        $user = [
-            'id'             => '',
-            'username'       => '',
-            'password'       => '',
-            'email'          => '',
-            'lastseen'       => '',
-            'lastip'         => '',
-            'displayname'    => '',
-            'enabled'        => '1',
-            'shadowpassword' => '',
-            'shadowtoken'    => '',
-            'shadowvalidity' => '',
-            'failedlogins'   => 0,
-            'throttleduntil' => ''
-        ];
-
-        return $user;
+        return new Entity\Users();
     }
 
     /**

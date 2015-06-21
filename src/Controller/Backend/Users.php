@@ -2,6 +2,7 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\AccessControl\Permissions;
+use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Form;
@@ -414,12 +415,12 @@ class Users extends BackendBase
     /**
      * Create a user form with the form builder.
      *
-     * @param array   $user
-     * @param boolean $addusername
+     * @param Entity\Users $user
+     * @param boolean      $addusername
      *
      * @return \Symfony\Component\Form\FormBuilder
      */
-    private function getUserForm(array $user, $addusername = false)
+    private function getUserForm(Entity\Users $user, $addusername = false)
     {
         // Start building the form
         $form = $this->createFormBuilder('form', $user);
