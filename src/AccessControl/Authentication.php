@@ -599,15 +599,18 @@ class Authentication
     }
 
     /**
-     * Calculate the amount of time until we should throttle login attempts for a user.
-     * The amount is increased exponentially with each attempt: 1, 4, 9, 16, 25, 36, .. seconds.
+     * Calculate the amount of time until we should throttle login attempts for
+     * a user.
      *
-     * Note: I just realized this is conceptually wrong: we should throttle based on
-     * remote_addr, not username. So, this isn't used, yet.
+     * The amount is increased exponentially with each attempt: 1, 4, 9, 16, 25,
+     * 36, .. seconds.
+     *
+     * Note: I just realized this is conceptually wrong: we should throttle
+     * based on remote_addr, not username. So, this isn't used, yet.
      *
      * @param integer $attempts
      *
-     * @return string
+     * @return \DateTime
      */
     private function throttleUntil($attempts)
     {
@@ -616,7 +619,10 @@ class Authentication
         } else {
             $wait = pow(($attempts - 4), 2);
 
-            return date('Y-m-d H:i:s', strtotime("+$wait seconds"));
+            $dt = new \DateTime();
+            $di = new \DateInterval("PT{$wait}S");
+
+            return $dt->add($di);
         }
     }
 
