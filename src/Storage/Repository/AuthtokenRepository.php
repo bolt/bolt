@@ -69,7 +69,7 @@ class AuthtokenRepository extends Repository
      *
      * @param $username
      *
-     * @return Bolt\Entity\Authtoken
+     * @return int
      **/
     public function deleteTokens($username)
     {
@@ -83,6 +83,26 @@ class AuthtokenRepository extends Repository
         $qb->delete($this->getTableName())
             ->where('username=:username')
             ->setParameter('username', $username);
+        return $qb;
+    }
+    
+    /**
+     * Deletes all expired tokens
+     *
+     * @return int
+     **/
+    public function deleteExpiredTokens()
+    {
+        $query = $this->deleteExpiredTokensQuery();
+        return $query->execute();
+    }
+    
+    public function deleteExpiredTokensQuery()
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->delete($this->getTableName())
+            ->where('validity < :now')
+            ->setParameter('now', date('Y-m-d H:i:s'));
         return $qb;
     }
     
