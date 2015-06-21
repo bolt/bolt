@@ -208,18 +208,13 @@ class Users
     public function getUsers()
     {
         if (empty($this->users)) {
-            try {
-                $this->users = [];
-                $tempusers = $this->repository->findAll();
+            $tempusers = $this->repository->findAll();
 
-                /** @var \Bolt\Storage\Entity\Users $userEntity */
-                foreach ($tempusers as $userEntity) {
-                    $key = $userEntity->getUsername();
-                    $userEntity->setPassword('**dontchange**');
-                    $this->users[$key] = $userEntity;
-                }
-            } catch (\Exception $e) {
-                // Nope. No users.
+            /** @var \Bolt\Storage\Entity\Users $userEntity */
+            foreach ($tempusers as $userEntity) {
+                $key = $userEntity->getUsername();
+                $userEntity->setPassword('**dontchange**');
+                $this->users[$key] = $userEntity;
             }
         }
 
