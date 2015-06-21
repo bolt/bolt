@@ -153,7 +153,8 @@ class Authentication
     {
         $this->deleteExpiredSessions();
 
-        $sessions = $this->repository->getActiveSessions();
+        $sessions = $this->repository->getActiveSessions() ?: [];
+        
 
         // Parse the user-agents to get a user-friendly Browser, version and platform.
         $parser = UAParser\Parser::create();
