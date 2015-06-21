@@ -176,21 +176,21 @@ class Users
      */
     public function deleteUser($id)
     {
-        $user = $this->getUser($id);
+        $user = $this->repository->find($id);
 
-        if (empty($user['id'])) {
+        if (!$user) {
             $this->app['logger.flash']->error(Trans::__('That user does not exist.'));
 
             return false;
-        } else {
-            $res = $this->db->delete($this->usertable, ['id' => $user['id']]);
-
-            if ($res) {
-                $this->db->delete($this->authtokentable, ['username' => $user['username']]);
-            }
-
-            return $res;
         }
+
+        $userName = $user->getUsername();
+        if ($result = $this->repository->delete($user)) {
+            $authtokenRepository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+            $authtokenRepository->deleteTokens($userName);
+        }
+
+        return $result;
     }
 
     /**
@@ -536,8 +536,8 @@ class Users
     }
 
     /**
-     * Ensure changes to the user's roles match what the
-     * current user has permissions to manipulate.
+     * Ensure changes to the user's roles match what the current user has
+     * permissions to manipulate.
      *
      * @param string|integer $id       User ID
      * @param array          $newRoles Roles from form submission
@@ -574,8 +574,10 @@ class Users
     }
 
     /**
-     * Check for a user with the 'root' role. There should always be at least one
-     * If there isn't we promote the current user.
+     * Check for a user with the 'root' role.
+     *
+     * There should always be at least one If there isn't we promote the current
+     * user.
      *
      * @return boolean
      */
@@ -662,7 +664,7 @@ class Users
     }
 
     /**
-     * Create a correctly canonicalized value for a field, depending on it's name.
+     * Create a correctly canonicalized value for a field, depending on its name.
      *
      * @param string $fieldname
      * @param string $fieldvalue
