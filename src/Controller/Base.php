@@ -2,6 +2,7 @@
 namespace Bolt\Controller;
 
 use Bolt\Routing\DefaultControllerClassAwareInterface;
+use Bolt\Storage\Entity;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -226,13 +227,14 @@ abstract class Base implements ControllerProviderInterface
      *
      * @param int|null $id
      *
-     * @return array
+     * @return Entity\Users|false
      */
     protected function getUser($id = null)
     {
         if ($id === null) {
-            return $this->users()->getCurrentUser();
+            return $this->session()->get('user', false);
         }
+
         return $this->users()->getUser($id);
     }
 
