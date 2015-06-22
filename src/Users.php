@@ -43,7 +43,7 @@ class Users
     /**
      * Save changes to a user to the database. (re)hashing the password, if needed.
      *
-     * @param Entity\Users $user
+     * @param Entity\Users|array $user
      *
      * @return integer The number of affected rows.
      */
@@ -255,12 +255,15 @@ class Users
     /**
      * Get the current user as an array.
      *
-     * @return Entity\Users
+     * @return array
      */
     public function getCurrentUser()
     {
-        if (is_null($this->currentuser)) {
-            $this->currentuser = $this->app['session']->isStarted() ? $this->app['session']->get('user') : false;
+        if ($this->currentuser === null) {
+            $this->currentuser = $this->app['session']->isStarted() ? $this->app['session']->get('user') : null;
+            if ($this->currentuser instanceof Entity\Users) {
+                $this->currentuser = $this->currentuser->toArray();
+            }
         }
 
         return $this->currentuser;
@@ -303,7 +306,7 @@ class Users
     {
         $user = $id ? $this->getUser($id) : $this->getCurrentUser();
 
-        return $user->getEnabled();
+        return $user['enabled'];
     }
 
     /**
@@ -339,7 +342,7 @@ class Users
             return false;
         }
 
-        return in_array($role, $user->getRoles());
+        return in_array($role, $user['roles']);
     }
 
     /**
@@ -357,7 +360,7 @@ class Users
         }
 
         // Add the role to the $user['roles'] array
-        $user->setRoles(array_merge($user->getRoles(), [$role]));
+        $user['roles'][] = $role;
 
         return $this->saveUser($user);
     }
@@ -379,7 +382,7 @@ class Users
         }
 
         // Remove the role from the $user['roles'] array.
-        $user->setRoles(array_diff($user->getRoles(), [$role]));
+        $user['roles'] = array_diff($user['roles'], [(string) $role]);
 
         return $this->saveUser($user);
     }
@@ -397,7 +400,7 @@ class Users
     {
         $oldRoles = [];
         if ($id && $user = $this->getUser($id)) {
-            $oldRoles = $user->getRoles();
+            $oldRoles = $user['roles'];
         }
 
         $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($this->getCurrentUser());
@@ -551,7 +554,7 @@ class Users
         foreach ($this->users as $user) {
             if (($this->canonicalizeFieldValue($fieldname, $user[$fieldname]) ===
                  $this->canonicalizeFieldValue($fieldname, $value)) &&
-                ($user->getId() != $currentid)
+                ($user['id'] != $currentid)
             ) {
                 return false;
             }
