@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage\Repository;
 
+use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -49,7 +50,7 @@ class UsersRepository extends Repository
      * @param string|integer $userId Either the user's ID, username, or email
      * address.
      *
-     * @return integer
+     * @return Entity\Users|false
      */
     public function getUser($userId)
     {
@@ -78,7 +79,7 @@ class UsersRepository extends Repository
     }
 
     /**
-     * Test to see if there are users in the user table.
+     * Check to see if there are users in the user table.
      *
      * @return integer
      */
@@ -96,6 +97,32 @@ class UsersRepository extends Repository
     {
         $qb = $this->createQueryBuilder();
         $qb->select('COUNT(id) as count');
+
+        return $qb;
+    }
+
+    /**
+     * Get user based on password reset notification.
+     *
+     * @return Entity\Users|false
+     */
+    public function getUserShadowAuth($shadowtoken)
+    {
+        $query = $this->getUserShadowAuthQuery($shadowtoken);
+
+        return $this->findOneWith($query);
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function getUserShadowAuthQuery($shadowtoken)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->where('shadowtoken = :shadowtoken')
+            ->andWhere('shadowvalidity > :shadowvalidity')
+            ->setParameter('shadowtoken', $shadowtoken)
+            ->setParameter('shadowvalidity', date('Y-m-d H:i:s'));
 
         return $qb;
     }

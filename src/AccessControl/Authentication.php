@@ -87,9 +87,9 @@ class Authentication
     }
 
     /**
-     * We will not allow tampering with sessions, so we make sure the current session
-     * is still valid for the device on which it was created, and that the username,
-     * ip-address are still the same.
+     * We will not allow tampering with sessions, so we make sure the current
+     * session is still valid for the device on which it was created, and that
+     * the username, and IP address, are still the same.
      *
      * @return boolean
      */
@@ -166,7 +166,8 @@ class Authentication
     }
 
     /**
-     * Generate a Anti-CSRF-like token, to use in GET requests for stuff that ought to be POST-ed forms.
+     * Generate a Anti-CSRF-like token, to use in GET requests for stuff that
+     * ought to be POST-ed forms.
      *
      * @return string
      */
@@ -205,7 +206,8 @@ class Authentication
     }
 
     /**
-     * Attempt to login a user with the given password. Accepts username or email.
+     * Attempt to login a user with the given password. Accepts username or
+     * email.
      *
      * @param string $user
      * @param string $password
@@ -228,13 +230,13 @@ class Authentication
 
         $hasher = new PasswordHash($this->hashStrength, true);
         if (!$hasher->CheckPassword($password, $userEntity->getPassword())) {
-            return $this->loginFailed($user);
+            return $this->loginFailed($userEntity);
         }
 
         $this->setCurrentUser($userEntity);
         $this->updateUserLogin($userEntity);
 
-        return $this->setAuthToken();
+        return $this->setAuthToken($userEntity);
     }
 
     /**
@@ -278,7 +280,7 @@ class Authentication
 
             $this->setCurrentUser($userEntity);
 
-            return $this->setAuthToken();
+            return $this->setAuthToken($userEntity);
         } else {
             // Implementation note:
             // This needs to be caught in the controller and the authtoken
@@ -342,29 +344,19 @@ class Authentication
      */
     public function resetPasswordConfirm($token)
     {
+        // Append the remote caller's IP to the token
         $token .= '-' . str_replace('.', '-', $this->remoteIP);
 
-        $now = date('Y-m-d H:i:s');
+        if ($userEntity = $this->getRepositoryUsers()->getUserShadowAuth($token)) {
+            // Update entries
+            $userEntity->setPassword($userEntity->getShadowpassword());
+            $userEntity->setShadowpassword('');
+            $userEntity->setShadowtoken('');
+            $userEntity->setShadowvalidity(null);
+            $this->getRepositoryUsers()->save($userEntity);
 
-        // Let's see if the token is valid, and it's been requested within two hours.
-        $query = sprintf('SELECT * FROM %s WHERE shadowtoken = ? AND shadowvalidity > ?', $this->getTableName('users'));
-        $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-        $user = $this->app['db']->executeQuery($query, [$token, $now], [\PDO::PARAM_STR])->fetch();
-
-        if (!empty($user)) {
-
-            // allright, we can reset this user.
             $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
-
-            $update = [
-                'password'       => $user['shadowpassword'],
-                'shadowpassword' => '',
-                'shadowtoken'    => '',
-                'shadowvalidity' => null
-            ];
-            $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
         } else {
-
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['logger.system']->error('Somebody tried to reset a password with an invalid token.', ['event' => 'authentication']);
             $this->app['logger.flash']->error(Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
@@ -501,27 +493,19 @@ class Authentication
     /**
      * Add errormessages to logs and update the user
      *
-     * @param array $user
+     * @param Entity\Users $userEntity
      *
      * @return false
      */
-    private function loginFailed($user)
+    private function loginFailed(Entity\Users $userEntity)
     {
         $this->app['logger.flash']->error(Trans::__('Username or password not correct. Please check your input.'));
-        $this->app['logger.system']->info("Failed login attempt for '" . $user['displayname'] . "'.", ['event' => 'authentication']);
+        $this->app['logger.system']->info("Failed login attempt for '" . $userEntity->getDisplayname() . "'.", ['event' => 'authentication']);
 
         // Update the failed login attempts, and perhaps throttle the logins.
-        $update = [
-            'failedlogins'   => $user['failedlogins'] + 1,
-            'throttleduntil' => $this->throttleUntil($user['failedlogins'] + 1)
-        ];
-
-        // Attempt to update the last login, but don't break on failure.
-        try {
-            $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
-        } catch (DBALException $e) {
-            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-        }
+        $userEntity->setFailedlogins($userEntity->getFailedlogins() + 1);
+        $userEntity->setThrottleduntil($this->throttleUntil($userEntity->getFailedlogins() + 1));
+        $this->getRepositoryUsers()->save($userEntity);
 
         return false;
     }
@@ -560,38 +544,33 @@ class Authentication
     /**
      * Set the Authtoken cookie and DB-entry. If it's already present, update it.
      *
+     * @param Entity\User $userEntity
+     *
      * @return string
      */
-    private function setAuthToken()
+    private function setAuthToken($userEntity)
     {
         $salt = $this->app['randomgenerator']->generateString(12);
-        $token = [
-            'username'  => $this->app['users']->getCurrentUserProperty('username'),
-            'token'     => $this->getAuthToken($this->app['users']->getCurrentUserProperty('username'), $salt),
-            'salt'      => $salt,
-            'validity'  => date('Y-m-d H:i:s', time() + $this->app['config']->get('general/cookies_lifetime')),
-            'ip'        => $this->remoteIP,
-            'lastseen'  => date('Y-m-d H:i:s'),
-            'useragent' => $this->userAgent
-        ];
 
-        try {
-            // Check if there's already a token stored for this name / IP combo.
-            $query = sprintf('SELECT id FROM %s WHERE username=? AND ip=? AND useragent=?', $this->getTableName('authtoken'));
-            $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-            $row = $this->app['db']->executeQuery($query, [$token['username'], $token['ip'], $token['useragent']], [\PDO::PARAM_STR])->fetch();
-
-            // Update or insert the row.
-            if (empty($row)) {
-                $this->app['db']->insert($this->getTableName('authtoken'), $token);
-            } else {
-                $this->app['db']->update($this->getTableName('authtoken'), $token, ['id' => $row['id']]);
-            }
-        } catch (DBALException $e) {
-            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
+        if (!$tokenEntity = $this->getRepositoryAuthToken()->getUserToken($userEntity->getUsername(), $this->remoteIP, $this->userAgent)) {
+            $tokenEntity = new Entity\Authtoken();
         }
 
-        return $token['token'];
+        $validityPeriod = $this->app['config']->get('general/cookies_lifetime', 1209600);
+        $validityDate = new \DateTime();
+        $validityInterval = new \DateInterval("PT{$validityPeriod}S");
+
+        $tokenEntity->setUsername($userEntity->getUsername());
+        $tokenEntity->setToken($this->getAuthToken($userEntity->getUsername(), $salt));
+        $tokenEntity->setSalt($salt);
+        $tokenEntity->setValidity($validityDate->add($validityInterval));
+        $tokenEntity->setIp($this->remoteIP);
+        $tokenEntity->setLastseen(new \DateTime());
+        $tokenEntity->setUseragent($this->userAgent);
+
+        $this->getRepositoryAuthToken()->save($tokenEntity);
+
+        return $tokenEntity->getToken();
     }
 
     /**
@@ -623,28 +602,6 @@ class Authentication
     }
 
     /**
-     * Get the name of either the users or authtoken table.
-     *
-     * @param string $table
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return string
-     */
-    private function getTableName($table)
-    {
-        $prefix = $this->app['config']->get('general/database/prefix', 'bolt_');
-
-        if ($table === 'users') {
-            return $prefix . 'users';
-        } elseif ($table === 'authtoken') {
-            return $prefix . 'authtoken';
-        } else {
-            throw new \InvalidArgumentException('Invalid table request.');
-        }
-    }
-
-    /**
      * Set the current user.
      *
      * @param Entity\Users $user
@@ -652,7 +609,6 @@ class Authentication
     private function setCurrentUser(Entity\Users $user)
     {
         $user->setPassword('**dontchange**');
-        $this->currentuser = $user;
         $this->app['session']->set('user', $user);
     }
 }
