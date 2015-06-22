@@ -23,9 +23,11 @@ class TemplateChooser
     /**
      * Choose a template for the homepage.
      *
+     * @param \Bolt\Content|\Bolt\Content[] $content
+     *
      * @return string
      */
-    public function homepage()
+    public function homepage($content)
     {
         // First candidate: Global config.yml file.
         $template = $this->app['config']->get('general/homepage_template');
@@ -34,13 +36,23 @@ class TemplateChooser
         if ($this->app['config']->get('theme/homepage_template')) {
             $template = $this->app['config']->get('theme/homepage_template');
         }
-
-        // Fallback: "index.twig"
-        if (empty($template)) {
-            $template = 'index.twig';
+        
+        // Fallback if no content: index.twig
+        if (empty($content) && empty($template)) {
+                $template = 'index.twig';
         }
-
-        return $template;
+        
+        // Fallback with content: use record() or listing() to choose template
+        if (empty($template)) {
+            if (is_array($content)) {
+                $first = current($content);
+                return $this->listing($first->contenttype);
+            } else {
+                return $this->record($content);
+            }
+        } else {
+            return $template;
+        }
     }
 
     /**
