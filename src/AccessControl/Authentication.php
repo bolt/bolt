@@ -105,24 +105,16 @@ class Authentication
      */
     public function checkValidSession()
     {
-        if ($this->app['session']->isStarted() && $sessionUser = $this->app['session']->get('user')) {
-
-            // Update the session with the user from the database.
-            if ($databaseUser = $this->repositoryUsers->getUser($sessionUser->getId())) {
-                $this->setCurrentUser($databaseUser);
-            } else {
-                // User doesn't exist anymore
-                return $this->logout();
-            }
-
-            if (!$databaseUser->getEnabled()) {
-                // User has been disabled since logging in
-                return $this->logout();
-            }
-        } else {
+        if (!($this->app['session']->isStarted() && $sessionUser = $this->app['session']->get('user'))) {
             // No current user, check if we can resume from authtoken cookie, or
             // return without doing the rest.
             return $this->loginAuthtoken();
+        } elseif (!$databaseUser = $this->repositoryUsers->getUser($sessionUser->getId())) {
+            // User doesn't exist anymore
+            return $this->logout();
+        } elseif (!$databaseUser->getEnabled()) {
+            // User has been disabled since logging in
+            return $this->logout();
         }
 
         // The auth token is based on hostname, IP and browser user agent
@@ -142,8 +134,10 @@ class Authentication
 
         // Check if there's a bolt_authtoken cookie. If not, set it.
         if (empty($this->authToken)) {
-            $this->setAuthtoken();
+            $this->setAuthtoken($databaseUser);
         }
+
+        $this->setCurrentUser($databaseUser);
 
         return true;
     }
