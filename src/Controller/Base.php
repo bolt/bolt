@@ -223,33 +223,39 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Return current user or user by ID
+     * Return current user or user by ID.
      *
-     * @param int|null $id
+     * @param integer|string|null $userId
+     * @param boolean             $raw
      *
      * @return Entity\Users|false
      */
-    protected function getUser($id = null)
+    protected function getUser($userId = null, $raw = false)
     {
-        if ($id === null) {
+        if ($userId === null) {
             return $this->session()->get('user', false);
         }
 
-        return $this->users()->getUser($id);
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Repository\UsersRepository');
+        if ($userEntity = $repo->getUser($userId) && !$raw) {
+            $userEntity->setPassword('**dontchange**');
+        }
+
+        return $userEntity;
     }
 
     /**
-     * Shortcut for {@see \Bolt\Users::isAllowed}
+     * Shortcut for {@see \Bolt\AccessControl\Permissions::isAllowed}
      *
-     * @param string      $what
-     * @param string|null $contenttype
-     * @param int|null    $contentid
+     * @param string       $what
+     * @param string|null  $contenttype
+     * @param integer|null $contentid
      *
-     * @return bool
+     * @return boolean
      */
     protected function isAllowed($what, $contenttype = null, $contentid = null)
     {
-        return $this->users()->isAllowed($what, $contenttype, $contentid);
+        return $this->app['permissions']->isAllowed($what, $contenttype, $contentid);
     }
 
     /**
