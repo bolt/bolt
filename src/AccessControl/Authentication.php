@@ -380,70 +380,80 @@ class Authentication
      */
     public function resetPasswordRequest($username)
     {
-        $user = $this->app['users']->getUser($username);
+        $userEntity = $this->app['users']->getUser($username);
 
-        $recipients = false;
-
-        if (!empty($user)) {
-            $shadowpassword = $this->app['randomgenerator']->generateString(12);
-            $shadowtoken = $this->app['randomgenerator']->generateString(32);
-
-            $hasher = new PasswordHash($this->hashStrength, true);
-            $shadowhashed = $hasher->HashPassword($shadowpassword);
-
-            $shadowlink = sprintf(
-                '%s%sresetpassword?token=%s',
-                $this->app['resources']->getUrl('hosturl'),
-                $this->app['resources']->getUrl('bolt'),
-                urlencode($shadowtoken)
-            );
-
-            // Set the shadow password and related stuff in the database.
-            $update = [
-                'shadowpassword' => $shadowhashed,
-                'shadowtoken'    => $shadowtoken . '-' . str_replace('.', '-', $this->remoteIP),
-                'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours'))
-            ];
-            $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
-
-            // Compile the email with the shadow password and reset link.
-            $mailhtml = $this->app['render']->render(
-                'mail/passwordreset.twig',
-                [
-                    'user'           => $user,
-                    'shadowpassword' => $shadowpassword,
-                    'shadowtoken'    => $shadowtoken,
-                    'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours')),
-                    'shadowlink'     => $shadowlink
-                ]
-            );
-
-            $subject = sprintf('[ Bolt / %s ] Password reset.', $this->app['config']->get('general/sitename'));
-
-            $message = $this->app['mailer']
-                ->createMessage('message')
-                ->setSubject($subject)
-                ->setFrom([$this->app['config']->get('general/mailoptions/senderMail', $user['email']) => $this->app['config']->get('general/mailoptions/senderName', $this->app['config']->get('general/sitename'))])
-                ->setTo([$user['email'] => $user['displayname']])
-                ->setBody(strip_tags($mailhtml))
-                ->addPart($mailhtml, 'text/html');
-
-            $recipients = $this->app['mailer']->send($message);
-
-            if ($recipients) {
-                $this->app['logger.system']->info("Password request sent to '" . $user['displayname'] . "'.", ['event' => 'authentication']);
-            } else {
-                $this->app['logger.system']->error("Failed to send password request sent to '" . $user['displayname'] . "'.", ['event' => 'authentication']);
-                $this->app['logger.flash']->error(Trans::__("Failed to send password request. Please check the email settings."));
-            }
-        }
-
-        // For safety, this is the message we display, regardless of whether $user exists.
-        if ($recipients === false || $recipients > 0) {
+        if (!$userEntity) {
+            // For safety, this is the message we display, regardless of whether user exists.
             $this->app['logger.flash']->info(Trans::__("A password reset link has been sent to '%user%'.", ['%user%' => $username]));
+
+            return false;
         }
+
+        $shadowpassword = $this->app['randomgenerator']->generateString(12);
+        $shadowtoken = $this->app['randomgenerator']->generateString(32);
+        $hasher = new PasswordHash($this->hashStrength, true);
+        $shadowhashed = $hasher->HashPassword($shadowpassword);
+        $validity = new \DateTime();
+        $delay = new \DateInterval(PT2H);
+
+        // Set the shadow password and related stuff in the database.
+        $userEntity->setShadowpassword($shadowhashed);
+        $userEntity->setShadowtoken($shadowtoken . '-' . str_replace('.', '-', $this->remoteIP));
+        $userEntity->setShadowvalidity($validity->add($delay));
+        $this->getRepositoryUsers()->save($userEntity);
+
+        // Sent the password reset notification
+        $this->resetPasswordNotification($userEntity, $shadowpassword, $shadowtoken);
 
         return true;
+    }
+
+    /**
+     * Send the password reset link notification to the user.
+     *
+     * @param Entity\Users $userEntity
+     * @param string       $shadowpassword
+     * @param string       $shadowtoken
+     */
+    private function resetPasswordNotification(Entity\Users $userEntity, $shadowpassword, $shadowtoken)
+    {
+        $shadowlink = sprintf(
+            '%s%sresetpassword?token=%s',
+            $this->app['resources']->getUrl('hosturl'),
+            $this->app['resources']->getUrl('bolt'),
+            urlencode($shadowtoken)
+        );
+
+        // Compile the email with the shadow password and reset link.
+        $mailhtml = $this->app['render']->render(
+            'mail/passwordreset.twig',
+            [
+                'user'           => $userEntity,
+                'shadowpassword' => $shadowpassword,
+                'shadowtoken'    => $shadowtoken,
+                'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours')),
+                'shadowlink'     => $shadowlink
+            ]
+        );
+
+        $subject = sprintf('[ Bolt / %s ] Password reset.', $this->app['config']->get('general/sitename'));
+
+        $message = $this->app['mailer']
+            ->createMessage('message')
+            ->setSubject($subject)
+            ->setFrom([$this->app['config']->get('general/mailoptions/senderMail', $userEntity->getEmail()) => $this->app['config']->get('general/mailoptions/senderName', $this->app['config']->get('general/sitename'))])
+            ->setTo([$userEntity['email'] => $userEntity['displayname']])
+            ->setBody(strip_tags($mailhtml))
+            ->addPart($mailhtml, 'text/html');
+
+        $recipients = $this->app['mailer']->send($message);
+
+        if ($recipients) {
+            $this->app['logger.system']->info("Password request sent to '" . $userEntity->getDisplayname() . "'.", ['event' => 'authentication']);
+        } else {
+            $this->app['logger.system']->error("Failed to send password request sent to '" . $userEntity['displayname'] . "'.", ['event' => 'authentication']);
+            $this->app['logger.flash']->error(Trans::__("Failed to send password request. Please check the email settings."));
+        }
     }
 
     /**
