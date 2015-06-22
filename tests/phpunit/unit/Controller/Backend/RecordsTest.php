@@ -36,11 +36,12 @@ class RecordsTest extends ControllerUnitTest
 
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['checkAntiCSRFToken'], 
-            [  
+            'Bolt\AccessControl\Authentication',
+            ['checkAntiCSRFToken'],
+            [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
         $authentication->expects($this->any())
@@ -135,11 +136,12 @@ class RecordsTest extends ControllerUnitTest
     {
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['checkAntiCSRFToken'], 
-            [  
+            'Bolt\AccessControl\Authentication',
+            ['checkAntiCSRFToken'],
+            [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
         $authentication->expects($this->any())
@@ -163,11 +165,12 @@ class RecordsTest extends ControllerUnitTest
     {
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['checkAntiCSRFToken'], 
-            [  
+            'Bolt\AccessControl\Authentication',
+            ['checkAntiCSRFToken'],
+            [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
         $authentication->expects($this->any())
@@ -191,11 +194,12 @@ class RecordsTest extends ControllerUnitTest
     {
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['checkAntiCSRFToken'], 
-            [  
+            'Bolt\AccessControl\Authentication',
+            ['checkAntiCSRFToken'],
+            [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
         $authentication->expects($this->any())

@@ -19,17 +19,18 @@ class AuthenticationTest extends ControllerUnitTest
             'username' => 'test',
             'password' => 'pass'
         ]));
-        
+
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['login'], 
+            'Bolt\AccessControl\Authentication',
+            ['login'],
             [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
-        
+
         $authentication->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
@@ -53,11 +54,12 @@ class AuthenticationTest extends ControllerUnitTest
 
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['login'], 
+            'Bolt\AccessControl\Authentication',
+            ['login'],
             [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
         $authentication->expects($this->once())
@@ -83,11 +85,12 @@ class AuthenticationTest extends ControllerUnitTest
 
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['login'], 
+            'Bolt\AccessControl\Authentication',
+            ['login'],
             [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
         $authentication->expects($this->once())
@@ -113,11 +116,12 @@ class AuthenticationTest extends ControllerUnitTest
     {
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['login'], 
+            'Bolt\AccessControl\Authentication',
+            ['login'],
             [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
         $authentication->expects($this->any())
@@ -140,11 +144,12 @@ class AuthenticationTest extends ControllerUnitTest
 
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['login', 'resetPasswordRequest'], 
+            'Bolt\AccessControl\Authentication',
+            ['login', 'resetPasswordRequest'],
             [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
         $authentication->expects($this->any())
@@ -172,11 +177,12 @@ class AuthenticationTest extends ControllerUnitTest
     {
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['logout'], 
+            'Bolt\AccessControl\Authentication',
+            ['logout'],
             [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
         $authentication->expects($this->once())
@@ -194,11 +200,12 @@ class AuthenticationTest extends ControllerUnitTest
     {
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['resetPasswordConfirm'], 
+            'Bolt\AccessControl\Authentication',
+            ['resetPasswordConfirm'],
             [
                 $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
             ]
         );
         $authentication->expects($this->once())
