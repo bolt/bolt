@@ -22,8 +22,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class FrontendTest extends ControllerUnitTest
 {
     /**
-     * @covers Zone::get
-     * @covers Zone::isFrontend
+     * @covers \Bolt\Controller\Zone::get
+     * @covers \Bolt\Controller\Zone::isFrontend
      */
     public function testControllerZone()
     {

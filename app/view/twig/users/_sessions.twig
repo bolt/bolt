@@ -15,10 +15,14 @@
                 <tr>
                     <td>{{ session.username }}</td>
                     <td>
-                        <time class="moment" datetime="{{ session.lastseen|date("c") }}" title="{{ session.lastseen }}">{{ session.lastseen }}</time>
+                        <time class="moment" datetime="{{ session.lastseen|date("c") }}" title="{{ session.lastseen|date('Y-m-d H:i:s') }}">
+                            {{ session.lastseen|date('Y-m-d H:i:s') }}
+                        </time>
                     </td>
                     <td>
-                        <time class="moment" datetime="{{ session.validity|date("c") }}" title="{{ session.validity }}">{{ session.validity }}</time>
+                        <time class="moment" datetime="{{ session.validity|date("c") }}" title="{{ session.validity|date('Y-m-d H:i:s') }}">
+                            {{ session.validity|date('Y-m-d H:i:s') }}
+                        </time>
                     </td>
                     <td>
                         {{ session.ip }}

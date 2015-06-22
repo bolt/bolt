@@ -2,6 +2,7 @@
 namespace Bolt\AccessControl;
 
 use Bolt\Application;
+use Bolt\Storage\Repository\AuthtokenRepository;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\DBALException;
 use Hautelook\Phpass\PasswordHash;
@@ -30,10 +31,13 @@ class Authentication
     private $hostName;
     /** @var string */
     private $authToken;
+    /** @var \Bolt\Storage\Repository\AuthtokenRepository $repository */
+    private $repository;
 
-    public function __construct(Application $app)
+    public function __construct(Application $app, AuthtokenRepository $repository)
     {
         $this->app = $app;
+        $this->repository = $repository;
 
         // Hashstrength has a default of '10', don't allow less than '8'.
         $this->hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
@@ -149,8 +153,8 @@ class Authentication
     {
         $this->deleteExpiredSessions();
 
-        $query = sprintf('SELECT * FROM %s', $this->getTableName('authtoken'));
-        $sessions = $this->app['db']->fetchAll($query);
+        $sessions = $this->repository->getActiveSessions() ?: [];
+        
 
         // Parse the user-agents to get a user-friendly Browser, version and platform.
         $parser = UAParser\Parser::create();
@@ -271,14 +275,8 @@ class Authentication
         $this->deleteExpiredSessions();
 
         // Check if there's already a token stored for this token / IP combo.
-        try {
-            $query = sprintf('SELECT * FROM %s WHERE token=? AND ip=? AND useragent=?', $this->getTableName('authtoken'));
-            $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
-            $row = $this->app['db']->executeQuery($query, [$authtoken, $remoteip, $browser], [\PDO::PARAM_STR])->fetch();
-        } catch (DBALException $e) {
-            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-        }
-
+        $row = $this->repository->getToken($authtoken, $remoteip, $browser);
+        
         // If there's no row, we can't resume a session from the authtoken.
         if (empty($row)) {
             return false;
@@ -329,11 +327,7 @@ class Authentication
         $this->app['session']->migrate(true);
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
-        try {
-            $this->app['db']->delete($this->getTableName('authtoken'), ['username' => $this->app['users']->getCurrentUserProperty('username')]);
-        } catch (\Exception $e) {
-            // Nope. No auth tokens to be deleted. .
-        }
+        $this->repository->deleteTokens($this->app['users']->getCurrentUserProperty('username'));
     }
 
     /**
@@ -524,13 +518,7 @@ class Authentication
      */
     private function deleteExpiredSessions()
     {
-        try {
-            $stmt = $this->app['db']->prepare(sprintf('DELETE FROM %s WHERE validity < :now"', $this->getTableName('authtoken')));
-            $stmt->bindValue('now', date('Y-m-d H:i:s'));
-            $stmt->execute();
-        } catch (DBALException $e) {
-            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-        }
+        $this->repository->deleteExpiredTokens();
     }
 
     /**

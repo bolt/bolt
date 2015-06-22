@@ -158,7 +158,14 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
         $app['users'] = $users;
 
-        $auth = $this->getMock('Bolt\AccessControl\Authentication', ['isValidSession'], [$app]);
+        $auth = $this->getMock(
+            'Bolt\AccessControl\Authentication', 
+            ['isValidSession'], 
+            [
+                $app, 
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
+            ]
+        );
         $auth->expects($this->any())
             ->method('isValidSession')
             ->will($this->returnValue(true));
