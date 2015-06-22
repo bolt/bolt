@@ -136,7 +136,7 @@ module.exports = {
             sourceMapName: '<%= path.sourcemaps %>/bolt.js.map'
         },
         files: {
-            '<%= path.dest.js %>/bolt.min.js': '<%= files.boltJs %>'
+            '<%= path.dest.js %>/bolt.js': '<%= files.boltJs %>'
         }
     }
 };
