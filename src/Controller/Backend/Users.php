@@ -81,96 +81,37 @@ class Users extends BackendBase
      */
     public function edit(Request $request, $id)
     {
-        $currentuser = $this->getUser();
+        $currentUser = $this->getUser();
 
-        // Get the user we want to edit (if any)
-        if (!empty($id)) {
-            $user = $this->getUser($id);
-
-            // Verify the current user has access to edit this user
-            if (!$this->app['permissions']->isAllowedToManipulate($user, $currentuser)) {
-                $this->flashes()->error(Trans::__('You do not have the right privileges to edit that user.'));
-
-                return $this->redirectToRoute('users');
-            }
-        } else {
-            $user = $this->users()->getEmptyUser();
+        if (!$userEntity = $this->getEditableUser($currentUser, $id)) {
+            return $this->redirectToRoute('users');
         }
 
-        $enabledoptions = [
-            1 => Trans::__('page.edit-users.activated.yes'),
-            0 => Trans::__('page.edit-users.activated.no')
-        ];
+        // Get the base form
+        $form = $this->getUserForm($userEntity, true);
 
-        $roles = array_map(
-            function ($role) {
-                return $role['label'];
-            },
-            $this->app['permissions']->getDefinedRoles()
-        );
-
-        $form = $this->getUserForm($user, true);
-
-        // New users and the current users don't need to disable themselves
-        if ($currentuser['id'] != $id) {
-            $form->add(
-                'enabled',
-                'choice',
-                [
-                    'choices'     => $enabledoptions,
-                    'expanded'    => false,
-                    'constraints' => new Assert\Choice(array_keys($enabledoptions)),
-                    'label'       => Trans::__('page.edit-users.label.user-enabled'),
-                ]
-            );
-        }
-
-        $form
-            ->add(
-                'roles',
-                'choice',
-                [
-                    'choices'  => $roles,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'label'    => Trans::__('page.edit-users.label.assigned-roles')
-                ]
-            )
-            ->add(
-                'lastseen',
-                'text',
-                [
-                    'disabled' => true,
-                    'label'    => Trans::__('page.edit-users.label.last-seen')
-                ]
-            )
-            ->add(
-                'lastip',
-                'text',
-                [
-                    'disabled' => true,
-                    'label'    => Trans::__('page.edit-users.label.last-ip')
-                ]
-            );
+        // Get the extra editable fields
+        $form = getUserEditFields($form, $currentUser, $id);
 
         // Set the validation
         $form = $this->setUserFormValidation($form, true);
 
+        // Generate the form
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->isMethod('POST')) {
-            $user = $this->validateUserForm($request, $form, false);
+            $userEntity = $this->validateUserForm($request, $form, false);
 
-            $currentuser = $this->getUser();
+            $currentUser = $this->getUser();
 
-            if ($user !== false && $user['id'] === $currentuser['id'] && $user['username'] !== $currentuser['username']) {
+            if ($userEntity !== false && $userEntity['id'] === $currentUser->getId() && $userEntity['username'] !== $currentUser->getUsername()) {
                 // If the current user changed their own login name, the session is effectively
                 // invalidated. If so, we must redirect to the login page with a flash message.
                 $this->flashes()->error(Trans::__('page.edit-users.message.change-self'));
 
                 return $this->redirectToRoute('login');
-            } elseif ($user !== false) {
+            } elseif ($userEntity !== false) {
                 // Return to the 'Edit users' screen.
                 return $this->redirectToRoute('users');
             }
@@ -179,7 +120,7 @@ class Users extends BackendBase
         /** @var \Symfony\Component\Form\FormView|\Symfony\Component\Form\FormView[] $formView */
         $formView = $form->createView();
 
-        $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($currentuser);
+        $manipulatableRoles = $this->app['permissions']->getManipulatableRoles($currentUser);
         foreach ($formView['roles'] as $role) {
             if (!in_array($role->vars['value'], $manipulatableRoles)) {
                 $role->vars['attr']['disabled'] = 'disabled';
@@ -190,7 +131,7 @@ class Users extends BackendBase
             'kind'        => empty($id) ? 'create' : 'edit',
             'form'        => $formView,
             'note'        => '',
-            'displayname' => $user['displayname'],
+            'displayname' => $userEntity['displayname'],
         ];
 
         return $this->render('edituser/edituser.twig', $context);
@@ -275,9 +216,8 @@ class Users extends BackendBase
 
             return $this->redirectToRoute('users');
         }
-        $user = $this->getUser($id);
 
-        if (!$user) {
+        if (!$user = $this->getUser($id)) {
             $this->flashes()->error('No such user.');
 
             return $this->redirectToRoute('users');
@@ -483,6 +423,99 @@ class Users extends BackendBase
                     'attr'        => ['placeholder' => Trans::__('page.edit-users.placeholder.displayname')]
                 ]
             );
+
+        return $form;
+    }
+
+    /**
+     * Get the user we want to edit (if any).
+     *
+     * @param Entity\Users $currentUser
+     * @param integer      $id
+     */
+    private function getEditableUser(Entity\Users $currentUser, $id)
+    {
+        if (empty($id)) {
+            return new Entity\Users;
+        } elseif (!$userEntity = $this->getUser($id)) {
+            $this->flashes()->error(Trans::__('That user does not exist.'));
+
+            return false;
+        } elseif (!$this->app['permissions']->isAllowedToManipulate($userEntity, $currentUser)) {
+            // Verify the current user has access to edit this user
+            $this->flashes()->error(Trans::__('You do not have the right privileges to edit that user.'));
+
+            return false;
+        }
+
+        return $userEntity;
+    }
+
+    /**
+     * Get the editable fields for the user form.
+     *
+     * @param FormBuilder  $form
+     * @param Entity\Users $currentUser
+     * @param integer      $id
+     *
+     * @return \Symfony\Component\Form\FormBuilder
+     */
+    private function getUserEditFields(FormBuilder $form, Entity\Users $currentUser, $id)
+    {
+        $enabledoptions = [
+            1 => Trans::__('page.edit-users.activated.yes'),
+            0 => Trans::__('page.edit-users.activated.no')
+        ];
+
+        $roles = array_map(
+            function ($role) {
+                return $role['label'];
+            },
+            $this->app['permissions']->getDefinedRoles()
+        );
+
+        // New users and the current users don't need to disable themselves
+        if ($currentUser->getId() != $id) {
+            $form->add(
+                'enabled',
+                'choice',
+                [
+                    'choices'     => $enabledoptions,
+                    'expanded'    => false,
+                    'constraints' => new Assert\Choice(array_keys($enabledoptions)),
+                    'label'       => Trans::__('page.edit-users.label.user-enabled'),
+                ]
+            );
+        }
+
+        $form
+            ->add(
+                'roles',
+                'choice',
+                [
+                    'choices'  => $roles,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'label'    => Trans::__('page.edit-users.label.assigned-roles')
+                ]
+            )
+            ->add(
+                'lastseen',
+                'text',
+                [
+                    'disabled' => true,
+                    'label'    => Trans::__('page.edit-users.label.last-seen')
+                ]
+            )
+            ->add(
+                'lastip',
+                'text',
+                [
+                    'disabled' => true,
+                    'label'    => Trans::__('page.edit-users.label.last-ip')
+                ]
+            )
+        ;
 
         return $form;
     }
