@@ -269,12 +269,12 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Extensions', ['insertSnippet'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\Snippet\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
-            ->method('insertSnippet');
+            ->method('add');
 
-        $app['extensions'] = $handler;
+        $app['asset.queue.snippet'] = $handler;
 
         $ext->addSnippet('test', [$this, 'testAddSnippet']);
     }
@@ -344,13 +344,13 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Extensions', ['addJavascript'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
-            ->method('addJavascript')
-            ->with($this->matchesRegularExpression('/path1/'));
+            ->method('add')
+            ->with($this->matchesRegularExpression('/javascript/'), $this->matchesRegularExpression('/path1/'));
 
-        $app['extensions'] = $handler;
+        $app['asset.queue.file'] = $handler;
 
         $this->php
             ->expects($this->at(0))
@@ -365,11 +365,11 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Extensions', ['addJavascript'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
-            ->method('addJavascript')
-            ->with($this->matchesRegularExpression('/\/theme.*path2/'));
+            ->method('add')
+            ->with($this->matchesRegularExpression('/javascript/'), $this->matchesRegularExpression('/\/theme.*path2/'));
 
         $this->php
             ->expects($this->at(0))
@@ -381,7 +381,7 @@ class BaseExtensionTest extends BoltUnitTest
             ->method('file_exists')
             ->will($this->returnValue(true));
 
-        $app['extensions'] = $handler;
+        $app['asset.queue.file'] = $handler;
 
         $ext->addJavascript('path2');
     }
@@ -406,13 +406,13 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Extensions', ['addCss'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
-            ->method('addCss')
-            ->with($this->matchesRegularExpression('/path1/'));
+            ->method('add')
+            ->with($this->matchesRegularExpression('/stylesheet/'), $this->matchesRegularExpression('/path1/'));
 
-        $app['extensions'] = $handler;
+        $app['asset.queue.file'] = $handler;
 
         $this->php
             ->expects($this->at(0))
@@ -427,11 +427,11 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Extensions', ['addCss'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
 
         $handler->expects($this->once())
-            ->method('addCss')
-            ->with($this->matchesRegularExpression('/\/theme.*path2/'));
+            ->method('add')
+            ->with($this->matchesRegularExpression('/stylesheet/'), $this->matchesRegularExpression('/\/theme.*path2/'));
 
         $this->php
             ->expects($this->at(0))
@@ -443,7 +443,7 @@ class BaseExtensionTest extends BoltUnitTest
             ->method('file_exists')
             ->will($this->returnValue(true));
 
-        $app['extensions'] = $handler;
+        $app['asset.queue.file'] = $handler;
 
         $ext->addCss('path2');
     }

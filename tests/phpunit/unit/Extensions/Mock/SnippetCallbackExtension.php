@@ -1,7 +1,8 @@
 <?php
 namespace Bolt\Tests\Extensions\Mock;
 
-use Bolt\Extensions\Snippets\Location as SnippetLocation;
+use Bolt\Application;
+use Bolt\Asset\Target;
 
 /**
  * Class to test correct operation and locations of composer configuration.
@@ -10,14 +11,14 @@ use Bolt\Extensions\Snippets\Location as SnippetLocation;
  */
 class SnippetCallbackExtension extends Extension
 {
-    public function getSnippets()
+    public function __construct(Application $app)
     {
-        return [[SnippetLocation::START_OF_HEAD, 'snippetCallBack' ]];
+        $app['asset.queue.snippet']->add(Target::START_OF_HEAD, [$this, 'snippetCallBack']);
     }
 
     public function getName()
     {
-        return "snippetcallback";
+        return 'snippetcallback';
     }
 
     public function snippetCallBack()

@@ -2,11 +2,11 @@
 
 namespace Bolt\EventListener;
 
+use Bolt\Asset\Snippet\Queue;
+use Bolt\Asset\Target;
 use Bolt\Config;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Controller\Zone;
-use Bolt\Extensions;
-use Bolt\Extensions\Snippets\Location;
 use Bolt\Render;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -14,8 +14,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class SnippetListener implements EventSubscriberInterface
 {
-    /** @var Extensions */
-    protected $extensions;
+    /** @var Queue */
+    protected $queue;
     /** @var Config */
     protected $config;
     /** @var ResourceManager */
@@ -26,14 +26,14 @@ class SnippetListener implements EventSubscriberInterface
     /**
      * SnippetListener constructor.
      *
-     * @param Extensions      $extensions
+     * @param Queue           $queue
      * @param Config          $config
      * @param ResourceManager $resources
      * @param Render          $render
      */
-    public function __construct(Extensions $extensions, Config $config, ResourceManager $resources, Render $render)
+    public function __construct(Queue $queue, Config $config, ResourceManager $resources, Render $render)
     {
-        $this->extensions = $extensions;
+        $this->queue = $queue;
         $this->config = $config;
         $this->resources = $resources;
         $this->render = $render;
@@ -82,35 +82,26 @@ class SnippetListener implements EventSubscriberInterface
      */
     protected function addSnippets()
     {
-        $this->insert('<meta name="generator" content="Bolt">');
+        $this->queue->add(Target::END_OF_HEAD, '<meta name="generator" content="Bolt">');
 
         if ($this->config->get('general/canonical')) {
             $canonical = $this->resources->getUrl('canonicalurl');
-            $this->insert($this->encode('<link rel="canonical" href="%s">', $canonical));
+            $this->queue->add(Target::END_OF_HEAD, $this->encode('<link rel="canonical" href="%s">', $canonical));
         }
 
         if ($favicon = $this->config->get('general/favicon')) {
             $host = $this->resources->getUrl('hosturl');
             $theme = $this->resources->getUrl('theme');
-            $this->insert($this->encode('<link rel="shortcut icon" href="%s%s%s">', $host, $theme, $favicon));
+            $this->queue->add(Target::END_OF_HEAD, $this->encode('<link rel="shortcut icon" href="%s%s%s">', $host, $theme, $favicon));
         }
-    }
-
-    /**
-     * Insert a snippet into the given location.
-     *
-     * @param string $snippet
-     * @param string $location
-     */
-    protected function insert($snippet, $location = Location::END_OF_HEAD)
-    {
-        $this->extensions->insertSnippet($location, $snippet);
     }
 
     /**
      * Encode the snippet string and make it HTML safe.
      *
      * @param string $str
+     *
+     * @return string
      */
     protected function encode($str)
     {

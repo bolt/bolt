@@ -28,6 +28,26 @@ class HtmlHandler
     }
 
     /**
+     * Take a file name and add a HTML query paramter with a unique hash based
+     * on the site's salt value and the file modification time, or file name
+     * if the file can't be found by the function.
+     *
+     * @param string $fileName
+     *
+     * @return string
+     */
+    public function cacheHash($fileName)
+    {
+        $fullPath = $this->app['resources']->getPath('root') . '/' . $fileName;
+
+        if (is_readable($fullPath)) {
+            return "$fileName?v=" . $this->app['asset.file.hash']($fullPath);
+        } elseif (is_readable($fileName)) {
+            return "$fileName?v=" . $this->app['asset.file.hash']($fileName);
+        }
+    }
+
+    /**
      * Transforms plain text to HTML
      *
      * @see Bolt\Helpers\Html::decorateTT()

@@ -71,8 +71,12 @@ class Render
     public function postProcess(Response $response)
     {
         $html = $response->getContent();
-        $html = $this->app['extensions']->processSnippetQueue($html);
-        $html = $this->app['extensions']->processAssets($html);
+
+        /** @var \Bolt\Asset\QueueInterface $queue */
+        foreach ($this->app['asset.queues'] as $queue) {
+            $html = $queue->process($html);
+        }
+
         $this->cacheRequest($html);
 
         return $html;

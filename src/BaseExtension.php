@@ -5,6 +5,7 @@ use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
 use Bolt\Helpers\Arr;
 use Bolt\Library as Lib;
+use Bolt\Response\BoltResponse;
 use Composer\Json\JsonFile;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Exception\IOException;
@@ -422,11 +423,18 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Return the available Snippets, used in \Bolt\Extensions.
      *
+     * @deprecated Use $app['asset.queue.snippet']->getQueue()
+     *
      * @return array
      */
     public function getSnippets()
     {
-        return $this->snippetlist;
+        $snippets = [];
+        foreach ($this->app['asset.queue.snippet']->getQueue() as $snippet) {
+            $snippets[] = (string) $snippet;
+        }
+
+        return $snippets;
     }
 
     /**
@@ -438,9 +446,13 @@ abstract class BaseExtension implements ExtensionInterface
      * @param string $var2
      * @param string $var3
      */
-    public function addSnippet($name, $callback, $var1 = "", $var2 = "", $var3 = "")
+    public function addSnippet($location, $callback, $extraparameters = [])
     {
-        $this->app['extensions']->insertSnippet($name, $callback, $this->getName(), $var1, $var2, $var3);
+        if ($callback instanceof BoltResponse) {
+            $callback = (string) $callback;
+        }
+
+        $this->app['asset.queue.snippet']->add($location, $callback, $this->getName(), (array) $extraparameters);
     }
 
     /**
@@ -496,10 +508,10 @@ abstract class BaseExtension implements ExtensionInterface
         // check if the file exists.
         if (file_exists($this->basepath . '/' . $filename)) {
             // file is located relative to the current extension.
-            $this->app['extensions']->addJavascript($this->getBaseUrl() . $filename, $options);
+            $this->app['asset.queue.file']->add('javascript', $this->getBaseUrl() . $filename, $options);
         } elseif (file_exists($this->app['resources']->getPath('themepath/' . $filename))) {
             // file is located relative to the theme path.
-            $this->app['extensions']->addJavascript($this->app['resources']->getUrl('theme') . $filename, $options);
+            $this->app['asset.queue.file']->add('javascript', $this->app['resources']->getUrl('theme') . $filename, $options);
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
@@ -533,10 +545,10 @@ abstract class BaseExtension implements ExtensionInterface
         // Check if the file exists.
         if (file_exists($this->basepath . '/' . $filename)) {
             // File is located relative to the current extension.
-            $this->app['extensions']->addCss($this->getBaseUrl() . $filename, $options);
+            $this->app['asset.queue.file']->add('stylesheet', $this->getBaseUrl() . $filename, $options);
         } elseif (file_exists($this->app['resources']->getPath('themepath/' . $filename))) {
             // File is located relative to the theme path.
-            $this->app['extensions']->addCss($this->app['resources']->getUrl('theme') . $filename, $options);
+            $this->app['asset.queue.file']->add('stylesheet', $this->app['resources']->getUrl('theme') . $filename, $options);
         } else {
             // Nope, can't add the CSS.
             $message = "Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
@@ -583,6 +595,8 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Parse a snippet, an pass on the generated HTML to the caller (Extensions).
      *
+     * @deprecated since 2.3 and will be removed in Bolt 3
+     *
      * @param string $callback
      * @param string $var1
      * @param string $var2
@@ -590,7 +604,7 @@ abstract class BaseExtension implements ExtensionInterface
      *
      * @return bool|string
      */
-    public function parseSnippet($callback, $var1 = "", $var2 = "", $var3 = "")
+    public function parseSnippet($callback, $var1 = '', $var2 = '', $var3 = '')
     {
         if (method_exists($this, $callback)) {
             return call_user_func([$this, $callback], $var1, $var2, $var3);

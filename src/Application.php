@@ -362,6 +362,7 @@ class Application extends Silex\Application
             ->register(new Provider\MarkdownServiceProvider())
             ->register(new Provider\ControllerServiceProvider())
             ->register(new Provider\EventListenerServiceProvider())
+            ->register(new Provider\AssetServiceProvider())
         ;
 
         $this['paths'] = $this['resources']->getPaths();

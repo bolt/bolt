@@ -2,6 +2,7 @@
 namespace Bolt\Tests\Extensions\Mock;
 
 use Bolt\Application;
+use Bolt\Asset\Target;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
@@ -14,7 +15,7 @@ class Extension implements ExtensionInterface
 {
     public function __construct(Application $app)
     {
-        $this->app = $app;
+        $app['asset.queue.snippet']->add(Target::END_OF_HEAD, [$this, 'snippetCallBack']);
     }
 
     public function initialize()
@@ -27,7 +28,11 @@ class Extension implements ExtensionInterface
 
     public function getSnippets()
     {
-        return [[SnippetLocation::END_OF_HEAD, '<meta name="test-snippet" />']];
+    }
+
+    public function snippetCallBack()
+    {
+        return '<meta name="test-snippet" />';
     }
 
     public function getExtensionConfig()
