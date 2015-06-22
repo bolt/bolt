@@ -69,7 +69,7 @@ module.exports = function (grunt, option) {
             options: {
                 separator: '\n\n',
                 sourceMap: '<%= sourcemap.js %>',
-                sourceMapName: '<%= path.sourcemaps %>/lib.min.js.map'
+                sourceMapName: '<%= path.sourcemaps %>/lib.js.map'
             },
             nonull: true,
             src: [
@@ -91,7 +91,7 @@ module.exports = function (grunt, option) {
                 '<%= path.tmp %>/moment.min.js',                                //  35 kb
                 '<%= path.tmp %>/modernizr-custom.min.js'                       //   5 kb
             ],
-            dest: '<%= path.dest.js %>/lib.min.js'
+            dest: '<%= path.dest.js %>/lib.js'
         },
 
         /*

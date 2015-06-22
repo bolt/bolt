@@ -19,7 +19,7 @@ updateLib:
     - copy:installFonts                     # Copies fonts                   => view/fonts/*
     - concat:installLibCss                  # Concats and min. library css   => view/css/lib.css
     - postcss:libCss                        # Concats and min. library css   => view/css/lib.css
-    - concat:installLibJs                   # Concats min. library scripts   => view/js/lib.min.js
+    - concat:installLibJs                   # Concats min. library scripts   => view/js/lib.js
     - uglify:installLocaleDatepicker        # Copies min. datepicker locale  => view/js/locale/datepicker/*
     - uglify:installLocaleMoment            # Copies min. moment.js locale   => view/js/locale/moment/*
     - copy:installCkeditor1                 # Copies CKEditor files          => view/js/ckeditor/*

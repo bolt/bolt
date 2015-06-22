@@ -38,7 +38,7 @@ module.exports = {
     soureMapJs: {
         fileList: [
             '<%= path.sourcemaps %>/bolt.js.map',
-            '<%= path.sourcemaps %>/lib.min.js.map'
+            '<%= path.sourcemaps %>/lib.js.map'
         ],
         dirList: [
             '<%= path.sourcemaps %>'
