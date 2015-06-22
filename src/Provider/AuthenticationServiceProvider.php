@@ -12,8 +12,9 @@ class AuthenticationServiceProvider implements ServiceProviderInterface
     {
         $app['authentication'] = $app->share(
             function ($app) {
-                $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
-                $authentication = new Authentication($app, $repo);
+                $repoAuth = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+                $repoUser = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
+                $authentication = new Authentication($app, $repoAuth, $repoUser);
 
                 return $authentication;
             }

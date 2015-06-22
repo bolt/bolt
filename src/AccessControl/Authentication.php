@@ -23,6 +23,10 @@ class Authentication
     private $validsession;
     /** @var integer */
     private $hashStrength;
+    /** @var \Bolt\Storage\Repository\AuthtokenRepository $repositoryAuthtoken */
+    private $repositoryAuthtoken;
+    /** @var \Bolt\Storage\Repository\UsersRepository $repositoryUsers */
+    private $repositoryUsers;
 
     /** @var string */
     private $remoteIP;
@@ -32,13 +36,19 @@ class Authentication
     private $hostName;
     /** @var string */
     private $authToken;
-    /** @var \Bolt\Storage\Repository\AuthtokenRepository $repository */
-    private $repository;
 
-    public function __construct(Application $app, Repository\AuthtokenRepository $repository)
+    /**
+     * Constructor.
+     *
+     * @param Application                    $app
+     * @param Repository\AuthtokenRepository $repositoryAuthtoken
+     * @param Repository\UsersRepository     $repositoryUsers
+     */
+    public function __construct(Application $app, Repository\AuthtokenRepository $repositoryAuthtoken, Repository\UsersRepository $repositoryUsers)
     {
         $this->app = $app;
-        $this->repository = $repository;
+        $this->repositoryAuthtoken = $repositoryAuthtoken;
+        $this->repositoryUsers = $repositoryUsers;
 
         // Hashstrength has a default of '10', don't allow less than '8'.
         $this->hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
@@ -154,8 +164,8 @@ class Authentication
     {
         // Parse the user-agents to get a user-friendly Browser, version and platform.
         $parser = UAParser\Parser::create();
-        $this->getRepositoryAuthToken()->deleteExpiredSessions();
-        $sessions = $this->getRepositoryAuthToken()->getActiveSessions() ?: [];
+        $this->repositoryAuthtoken->deleteExpiredSessions();
+        $sessions = $this->repositoryAuthtoken->getActiveSessions() ?: [];
 
         foreach ($sessions as &$session) {
             $ua = $parser->parse($session->getUseragent());
@@ -216,7 +226,7 @@ class Authentication
      */
     public function login($user, $password)
     {
-        if (!$userEntity = $this->getRepositoryUsers()->getUser($user)) {
+        if (!$userEntity = $this->repositoryUsers->getUser($user)) {
             $this->app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
 
             return false;
@@ -255,11 +265,11 @@ class Authentication
         $ip = $this->remoteIP;
         $useragent = $this->userAgent;
 
-        $this->getRepositoryAuthToken()->deleteExpiredTokens();
+        $this->repositoryAuthtoken->deleteExpiredTokens();
 
         // Check if there's already a token stored for this token / IP combo.
         // If there's no row, we can't resume a session from the authtoken.
-        if (!$userTokenEntity = $this->getRepositoryAuthToken()->getToken($token, $ip, $useragent)) {
+        if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($token, $ip, $useragent)) {
             return false;
         }
 
@@ -272,7 +282,7 @@ class Authentication
             $userEntity->setFailedlogins(0);
             $userEntity->setThrottleduntil($this->throttleUntil(0));
 
-            $this->getRepositoryAuthToken()->save($userEntity);
+            $this->repositoryAuthtoken->save($userEntity);
 
             $userEntity->setSessionkey($this->getAuthToken($userEntity->getUsername()));
             $this->app['session']->set('user', $userEntity);
@@ -299,7 +309,7 @@ class Authentication
         $this->app['session']->migrate(true);
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
-        $this->getRepositoryAuthToken()->deleteTokens($this->app['users']->getCurrentUserProperty('username'));
+        $this->repositoryAuthtoken->deleteTokens($this->app['users']->getCurrentUserProperty('username'));
     }
 
     /**
@@ -324,7 +334,7 @@ class Authentication
             $userEntity->setShadowtoken('');
             $userEntity->setShadowvalidity(null);
 
-            $this->getRepositoryUsers()->save($userEntity);
+            $this->repositoryUsers->save($userEntity);
 
             $this->app['logger.system']->info(
                 "Password for user '{$userEntity->getUsername()}' was reset via Nut.",
@@ -347,13 +357,13 @@ class Authentication
         // Append the remote caller's IP to the token
         $token .= '-' . str_replace('.', '-', $this->remoteIP);
 
-        if ($userEntity = $this->getRepositoryUsers()->getUserShadowAuth($token)) {
+        if ($userEntity = $this->repositoryUsers->getUserShadowAuth($token)) {
             // Update entries
             $userEntity->setPassword($userEntity->getShadowpassword());
             $userEntity->setShadowpassword('');
             $userEntity->setShadowtoken('');
             $userEntity->setShadowvalidity(null);
-            $this->getRepositoryUsers()->save($userEntity);
+            $this->repositoryUsers->save($userEntity);
 
             $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
         } else {
@@ -392,7 +402,7 @@ class Authentication
         $userEntity->setShadowpassword($shadowhashed);
         $userEntity->setShadowtoken($shadowtoken . '-' . str_replace('.', '-', $this->remoteIP));
         $userEntity->setShadowvalidity($validity->add($delay));
-        $this->getRepositoryUsers()->save($userEntity);
+        $this->repositoryUsers->save($userEntity);
 
         // Sent the password reset notification
         $this->resetPasswordNotification($userEntity, $shadowpassword, $shadowtoken);
@@ -460,34 +470,13 @@ class Authentication
         $user->setFailedlogins(0);
         $user->setThrottleduntil($this->throttleUntil(0));
 
-        // Attempt to update the last login, but don't break on failure.
-        try {
-            $this->getRepositoryUsers()->save($user);
-        } catch (DBALException $e) {
-            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-        }
+        $this->repositoryUsers->save($user);
 
         $user['sessionkey'] = $this->getAuthToken($user->getUsername());
         $this->app['session']->migrate(true);
 
         $this->app['session']->set('user', $user);
         $this->app['logger.flash']->success(Trans::__("You've been logged on successfully."));
-    }
-
-    /**
-     * @return Entity\Authtoken
-     */
-    protected function getRepositoryAuthToken()
-    {
-        return $this->app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
-    }
-
-    /**
-     * @return Entity\Users
-     */
-    protected function getRepositoryUsers()
-    {
-        return $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
     }
 
     /**
@@ -505,7 +494,7 @@ class Authentication
         // Update the failed login attempts, and perhaps throttle the logins.
         $userEntity->setFailedlogins($userEntity->getFailedlogins() + 1);
         $userEntity->setThrottleduntil($this->throttleUntil($userEntity->getFailedlogins() + 1));
-        $this->getRepositoryUsers()->save($userEntity);
+        $this->repositoryUsers->save($userEntity);
 
         return false;
     }
@@ -552,7 +541,7 @@ class Authentication
     {
         $salt = $this->app['randomgenerator']->generateString(12);
 
-        if (!$tokenEntity = $this->getRepositoryAuthToken()->getUserToken($userEntity->getUsername(), $this->remoteIP, $this->userAgent)) {
+        if (!$tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->remoteIP, $this->userAgent)) {
             $tokenEntity = new Entity\Authtoken();
         }
 
@@ -568,7 +557,7 @@ class Authentication
         $tokenEntity->setLastseen(new \DateTime());
         $tokenEntity->setUseragent($this->userAgent);
 
-        $this->getRepositoryAuthToken()->save($tokenEntity);
+        $this->repositoryAuthtoken->save($tokenEntity);
 
         return $tokenEntity->getToken();
     }
