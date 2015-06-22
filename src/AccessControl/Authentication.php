@@ -464,12 +464,14 @@ class Authentication
         $user->setFailedlogins(0);
         $user->setThrottleduntil($this->throttleUntil(0));
 
-        $this->repositoryUsers->save($user);
 
-        $user['sessionkey'] = $this->getAuthToken($user->getUsername());
+        $user->setSessionkey($this->getAuthToken($user->getUsername()));
         $this->app['session']->migrate(true);
-
         $this->app['session']->set('user', $user);
+
+        // Don't try to save the password on login
+        unset($user->password);
+        $this->repositoryUsers->save($user);
         $this->app['logger.flash']->success(Trans::__("You've been logged on successfully."));
     }
 
