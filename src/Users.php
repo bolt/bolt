@@ -192,17 +192,19 @@ class Users
     /**
      * Create a stub for a new/empty user.
      *
-     * @return \Bolt\Storage\Entity\Users
+     * @return array
      */
     public function getEmptyUser()
     {
-        return new Entity\Users();
+        $userEntity = new Entity\Users();
+
+        return $userEntity->toArray();
     }
 
     /**
      * Get an array with the current users.
      *
-     * @return array
+     * @return array[]
      */
     public function getUsers()
     {
@@ -213,7 +215,7 @@ class Users
             foreach ($tempusers as $userEntity) {
                 $key = $userEntity->getUsername();
                 $userEntity->setPassword('**dontchange**');
-                $this->users[$key] = $userEntity;
+                $this->users[$key] = $userEntity->toArray();
             }
         }
 
@@ -237,14 +239,14 @@ class Users
      *
      * @param integer|string $userId
      *
-     * @return Entity\Users
+     * @return array|false
      */
     public function getUser($userId)
     {
-        if ($user = $this->repository->getUser($userId)) {
-            $user->setPassword('**dontchange**');
+        if ($userEntity = $this->repository->getUser($userId)) {
+            $userEntity->setPassword('**dontchange**');
 
-            return $user;
+            return $userEntity->toArray();
         }
 
         return false;
@@ -437,7 +439,7 @@ class Users
 
         // Loop over the users, check if anybody's root.
         foreach ($this->getUsers() as $user) {
-            if (in_array('root', $user->getRoles())) {
+            if (in_array('root', $user['roles'])) {
                 // We have a 'root' user.
                 return true;
             }
