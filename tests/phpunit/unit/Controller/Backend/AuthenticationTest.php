@@ -141,7 +141,7 @@ class AuthenticationTest extends ControllerUnitTest
         $app = $this->getApp();
         $authentication = $this->getMock(
             'Bolt\AccessControl\Authentication', 
-            ['login'], 
+            ['login', 'resetPasswordRequest'], 
             [
                 $app,
                 $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
