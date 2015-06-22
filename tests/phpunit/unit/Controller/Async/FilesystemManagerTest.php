@@ -2,6 +2,7 @@
 namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Response\BoltResponse;
+use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +39,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testDeleteFile()
     {
-        //         $this->setRequest(Request::create('/async/file/delete', 'POST', [
+//         $this->setRequest(Request::create('/async/file/delete', 'POST', [
 //             'namespace' => 'files',
 //             'filename'  => 'foo.txt',
 //         ]));
@@ -49,7 +50,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testDuplicateFile()
     {
-        //         $this->setRequest(Request::create('/async/file/duplicate', 'POST', [
+//         $this->setRequest(Request::create('/async/file/duplicate', 'POST', [
 //             'namespace' => 'files',
 //             'filename'  => 'foo.txt',
 //         ]));
@@ -60,7 +61,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testFileBrowser()
     {
-        //$this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
+        //$this->getService('session')->set('user', new Entity\Users($this->getService('users')->getUser('admin')));
         $this->setRequest(Request::create('/async/filebrowser'));
 
         $response = $this->controller()->recordBrowser();
@@ -96,7 +97,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRenameFile()
     {
-        //         $this->setRequest(Request::create('/async/file/rename', 'POST', [
+//         $this->setRequest(Request::create('/async/file/rename', 'POST', [
 //             'namespace' => 'files',
 //             'parent'    => '',
 //             'oldname'   => 'foo.txt',
@@ -109,7 +110,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRenameFolder()
     {
-        //         $this->setRequest(Request::create('/async/renamefolder', 'POST', [
+//         $this->setRequest(Request::create('/async/renamefolder', 'POST', [
 //             'namespace' => 'files',
 //             'parent'    => '',
 //             'oldname'   => 'foo',

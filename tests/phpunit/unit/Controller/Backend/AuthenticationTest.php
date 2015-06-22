@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -37,7 +38,7 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('authentication', $authentication);
 
-        $this->getService('users')->currentuser = ['username' => 'test', 'roles' => []];
+        $this->getService('session')->set('user', new Entity\Users(['username' => 'test', 'roles' => []]));
         $this->addDefaultUser($this->getApp());
         $response = $this->controller()->postLogin($this->getRequest());
 
@@ -68,7 +69,7 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('authentication', $authentication);
 
-        $this->getService('users')->currentuser = ['username' => 'test', 'email' => 'test@example.com', 'roles' => []];
+        $this->getService('session')->set('user', new Entity\Users(['username' => 'test', 'email' => 'test@example.com', 'roles' => []]));
         $this->addDefaultUser($this->getApp());
         $response = $this->controller()->postLogin($this->getRequest());
 
@@ -129,7 +130,7 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('authentication', $authentication);
 
-        $this->getService('users')->currentuser = ['username' => 'test', 'roles' => []];
+        $this->getService('session')->set('user', new Entity\Users(['username' => 'test', 'roles' => []]));
 
         $this->setRequest(Request::create('/bolt/login', 'POST', ['action' => 'login']));
 
