@@ -22,20 +22,20 @@ class AuthtokenRepository extends Repository
         $query = $this->getUserTokenQuery($username, $ip, $useragent);
         return $this->findOneWith($query);
     }
-    
+
     public function getUserTokenQuery($username, $ip, $useragent)
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*')
-            ->where('username=:username')
-            ->andWhere('ip=:ip')
-            ->andWhere('useragent=:useragent')
+            ->where('username = :username')
+            ->andWhere('ip = :ip')
+            ->andWhere('useragent = :useragent')
             ->setParameter('username', $username)
             ->setParameter('ip', $ip)
             ->setParameter('useragent', $useragent);
         return $qb;
     }
-    
+
     /**
      * Fetches an existing token for the given user / ip
      *
@@ -50,20 +50,20 @@ class AuthtokenRepository extends Repository
         $query = $this->getTokenQuery($token, $ip, $useragent);
         return $this->findOneWith($query);
     }
-    
+
     public function getTokenQuery($token, $ip, $useragent)
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*')
-            ->where('token=:token')
-            ->andWhere('ip=:ip')
-            ->andWhere('useragent=:useragent')
+            ->where('token = :token')
+            ->andWhere('ip = :ip')
+            ->andWhere('useragent = :useragent')
             ->setParameter('token', $token)
             ->setParameter('ip', $ip)
             ->setParameter('useragent', $useragent);
         return $qb;
     }
-    
+
     /**
      * Deletes all tokens for the given user
      *
@@ -76,16 +76,16 @@ class AuthtokenRepository extends Repository
         $query = $this->deleteTokensQuery($username);
         return $query->execute();
     }
-    
+
     public function deleteTokensQuery($username)
     {
         $qb = $this->em->createQueryBuilder();
         $qb->delete($this->getTableName())
-            ->where('username=:username')
+            ->where('username = :username')
             ->setParameter('username', $username);
         return $qb;
     }
-    
+
     /**
      * Deletes all expired tokens
      *
@@ -96,7 +96,7 @@ class AuthtokenRepository extends Repository
         $query = $this->deleteExpiredTokensQuery();
         return $query->execute();
     }
-    
+
     public function deleteExpiredTokensQuery()
     {
         $qb = $this->em->createQueryBuilder();
@@ -105,8 +105,8 @@ class AuthtokenRepository extends Repository
             ->setParameter('now', date('Y-m-d H:i:s'));
         return $qb;
     }
-    
-    
+
+
     /**
      * Fetches all active sessions
      *
@@ -118,14 +118,14 @@ class AuthtokenRepository extends Repository
         $query = $this->getActiveSessionsQuery();
         return $this->findWith($query);
     }
-    
+
     public function getActiveSessionsQuery()
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*');
         return $qb;
     }
-    
+
     /**
      * Creates a query builder instance namespaced to this repository
      *
