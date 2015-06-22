@@ -108,20 +108,16 @@ class Authentication
         if ($this->app['session']->isStarted() && $sessionUser = $this->app['session']->get('user')) {
 
             // Update the session with the user from the database.
-            if ($databaseUser = $this->app['users']->getUser($sessionUser->getId())) {
+            if ($databaseUser = $this->repositoryUsers->getUser($sessionUser->getId())) {
                 $this->setCurrentUser($databaseUser);
             } else {
                 // User doesn't exist anymore
-                $this->logout();
-
-                return false;
+                return $this->logout();
             }
 
             if (!$databaseUser->getEnabled()) {
                 // User has been disabled since logging in
-                $this->logout();
-
-                return false;
+                return $this->logout();
             }
         } else {
             // No current user, check if we can resume from authtoken cookie, or
@@ -135,16 +131,13 @@ class Authentication
         if ($key !== $sessionUser->getSessionkey()) {
             $this->app['logger.system']->error("Keys don't match. Invalidating session: $key != " . $sessionUser->getSessionkey(), ['event' => 'authentication']);
             $this->app['logger.system']->info("Automatically logged out user '" . $sessionUser->getUsername() . "': Session data didn't match.", ['event' => 'authentication']);
-            $this->logout();
 
-            return false;
+            return $this->logout();
         }
 
         // Check if user is _still_ allowed to log on.
-        if (!$this->app['users']->isAllowed('login') || !$sessionUser->getEnabled()) {
-            $this->logout();
-
-            return false;
+        if (!$this->app['permissions']->isAllowed('login') || !$sessionUser->getEnabled()) {
+            return $this->logout();
         }
 
         // Check if there's a bolt_authtoken cookie. If not, set it.
@@ -164,7 +157,7 @@ class Authentication
     {
         // Parse the user-agents to get a user-friendly Browser, version and platform.
         $parser = UAParser\Parser::create();
-        $this->repositoryAuthtoken->deleteExpiredSessions();
+        $this->repositoryAuthtoken->deleteExpiredTokens();
         $sessions = $this->repositoryAuthtoken->getActiveSessions() ?: [];
 
         foreach ($sessions as &$session) {
@@ -276,7 +269,7 @@ class Authentication
         $checksalt = $this->getAuthToken($userTokenEntity->getUsername(), $userTokenEntity->getSalt());
         if ($checksalt === $userTokenEntity->getToken()) {
             // Update the login details in the user record
-            $userEntity = $this->app['users']->getUser($userTokenEntity->getUsername());
+            $userEntity = $this->repositoryUsers->getUser($userTokenEntity->getUsername());
             $userEntity->setLastseen(new \DateTime());
             $userEntity->setLastip($this->remoteIP);
             $userEntity->setFailedlogins(0);
@@ -301,15 +294,22 @@ class Authentication
 
     /**
      * Log out the currently logged in user.
+     *
+     * @return boolean
      */
     public function logout()
     {
         $this->app['logger.flash']->info(Trans::__('You have been logged out.'));
+
+        // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
+        if ($userEntity = $this->app['session']->get('user')) {
+            $this->repositoryAuthtoken->deleteTokens($userEntity->getUsername());
+        }
+
         $this->app['session']->remove('user');
         $this->app['session']->migrate(true);
 
-        // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
-        $this->repositoryAuthtoken->deleteTokens($this->app['users']->getCurrentUserProperty('username'));
+        return false;
     }
 
     /**
@@ -323,7 +323,7 @@ class Authentication
     {
         $password = false;
 
-        if ($userEntity = $this->app['users']->getUser($username)) {
+        if ($userEntity = $this->repositoryUsers->getUser($username)) {
             $password = $this->app['randomgenerator']->generateString(12);
 
             $hasher = new PasswordHash($this->hashStrength, true);
@@ -382,7 +382,7 @@ class Authentication
      */
     public function resetPasswordRequest($username)
     {
-        $userEntity = $this->app['users']->getUser($username);
+        $userEntity = $this->repositoryUsers->getUser($username);
 
         if (!$userEntity) {
             // For safety, this is the message we display, regardless of whether user exists.
