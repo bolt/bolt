@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * UGLIFY: Minify files with UglifyJS
  */

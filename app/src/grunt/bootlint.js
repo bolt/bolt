@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * BOOTLINT: HTML linter for Bootstrap projects
  */

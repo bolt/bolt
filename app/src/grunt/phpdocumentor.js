@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * PHPDOCUMENTOR: Runs the PHPDocumentor documentation generator tool.
  */

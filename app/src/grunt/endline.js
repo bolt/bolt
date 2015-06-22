@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * ENDLINE: Adds a newline at end of a file
  */

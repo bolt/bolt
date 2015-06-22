@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * BOM: Byte Order Mark (BOM) removal
  */

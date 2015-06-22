@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * EOL: Convert line endings
  */

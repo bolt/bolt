@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * REMOVE: Remove directory and files
  */

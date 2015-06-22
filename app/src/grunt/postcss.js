@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * POSTCSS: Transforming CSS with JS plugins
  */

@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * JSDOC: Generate comments based documentation.
  */
