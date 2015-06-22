@@ -239,6 +239,8 @@ accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, t
 #     name: SuperCMS
 #     path: /admin
 #     provided_by: [ supercool@example.org, "Supercool Webdesign Co." ]
+#     news_source: http://news.example.org
+#     news_variable: news
 
 # Show the 'debug' nut in the lower right corner for logged-in user. By default,
 # the debugbar is only shown to logged-in users. Use the 'debug_show_loggedoff'

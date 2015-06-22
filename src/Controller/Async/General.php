@@ -322,15 +322,23 @@ class General extends AsyncBase
 
             return $news;
         } else {
-            $source = 'http://news.bolt.cm/';
+            if ($this->getOption('general/branding/news_source')) {
+                $source = $this->getOption('general/branding/news_source');
+            } else {
+                $source = 'http://news.bolt.cm/';
+            }
             $curl = $this->getDashboardCurlOptions($hostname, $source);
 
             $this->app['logger.system']->info('Fetching from remote server: ' . $source, ['event' => 'news']);
 
             try {
                 $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], [], $curl['options'])->getBody(true);
-                $fetchedNewsItems = json_decode($fetchedNewsData);
-
+                if ($this->getOption('general/branding/news_variable')) {
+                    $newsVariable = $this->getOption('general/branding/news_variable');
+                    $fetchedNewsItems = json_decode($fetchedNewsData)->$newsVariable;
+                } else {
+                    $fetchedNewsItems = json_decode($fetchedNewsData);
+                }
                 if ($fetchedNewsItems) {
                     $news = [];
 
