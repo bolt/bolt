@@ -54,7 +54,7 @@
     <title>{{ page_title|striptags|trim|raw }} – {{ app.config.get('general/branding/name') }}</title>
 
     <link rel="stylesheet" href="{{ paths.app }}view/css/lib.css">
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" media="screen, projection">
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css">
 
     {% for script in page_scripts_inc -%}
         <script src="{{ paths.app ~ script }}"></script>
