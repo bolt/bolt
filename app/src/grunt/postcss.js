@@ -1,8 +1,9 @@
 /*
  * POSTCSS: Transforming CSS with JS plugins
  */
-module.exports = function (grunt) {
-    var proc = {
+module.exports = function (grunt, options) {
+    var path = require('path'),
+        proc = {
             autoprefixer: require('autoprefixer-core'),
             cssMqPacker: require('css-mqpacker'),
             csswring: require('csswring'),
@@ -12,15 +13,27 @@ module.exports = function (grunt) {
             autoprefixer: {
                 browsers: 'last 2 versions, > 5%, IE >= 9'
             }
+        },
+        optMap = false;
+
+    // Set options for sourcemap creation.
+    if (options.sourcemap.css) {
+        optMap = {
+            inline: false,
+            sourcesContent: true,
+            prev: true,
+            annotation: path.posix.relative(options.path.dest.css, options.path.sourcemaps) + '/'
         };
+    }
 
-
+    // Return the config object.
     return {
         /*
          * TARGET:  Postprocess Bolts css files
          */
         boltCss: {
             options: {
+                map: optMap,
                 processors: [
                     proc.autoprefixer(opt.autoprefixer),
                     proc.cssMqPacker.postcss,
@@ -38,6 +51,7 @@ module.exports = function (grunt) {
          */
         libCss: {
             options: {
+                map: optMap,
                 processors: [
                     proc.singleCharset.postcss,
                     proc.autoprefixer(opt.autoprefixer),
