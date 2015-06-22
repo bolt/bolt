@@ -28,13 +28,12 @@ class Users
     private $app;
 
     /**
-     * @param Application     $app
-     * @param UsersRepository $repository
+     * @param Application $app
      */
-    public function __construct(Application $app, UsersRepository $repository)
+    public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->repository = $repository;
+        $this->repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
 
         /** @deprecated Will be removed in Bolt 3.0 */
         $this->usertable = $this->app['storage']->getTablename('users');
