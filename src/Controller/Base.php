@@ -236,8 +236,8 @@ abstract class Base implements ControllerProviderInterface
             return $this->session()->get('user', false);
         }
 
-        $repo = $this->app['storage']->getRepository('Bolt\Storage\Repository\UsersRepository');
-        if ($userEntity = $repo->getUser($userId) && !$raw) {
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        if (($userEntity = $repo->getUser($userId)) && !$raw) {
             $userEntity->setPassword('**dontchange**');
         }
 
