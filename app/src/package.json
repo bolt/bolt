@@ -8,7 +8,7 @@
         "url": "https://github.com/bolt/bolt.git"
     },
     "devDependencies": {
-        "autoprefixer-core": "~5.2.0",
+        "autoprefixer-core": "~5.2.1",
         "css-mqpacker": "~3.1.0",
         "csswring": "~3.0.5",
         "deep-extend": "~0.4.0",
