@@ -280,17 +280,6 @@ class Users
     }
 
     /**
-     * Set the current user.
-     *
-     * @param Entity\Users $user
-     */
-    public function setCurrentUser(Entity\Users $user)
-    {
-        $user->setPassword('**dontchange**');
-        $this->currentuser = $user;
-    }
-
-    /**
      * Get the username of the current user.
      *
      * @deprecated since v2.3 and to be removed in v3

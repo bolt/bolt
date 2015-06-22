@@ -99,7 +99,7 @@ class Authentication
 
             // Update the session with the user from the database.
             if ($databaseUser = $this->app['users']->getUser($sessionUser->getId())) {
-                $this->app['users']->setCurrentUser($databaseUser);
+                $this->setCurrentUser($databaseUser);
             } else {
                 // User doesn't exist anymore
                 $this->logout();
@@ -152,17 +152,14 @@ class Authentication
      */
     public function getActiveSessions()
     {
-        $this->deleteExpiredSessions();
-
-        $sessions = $this->repository->getActiveSessions() ?: [];
-
-
         // Parse the user-agents to get a user-friendly Browser, version and platform.
         $parser = UAParser\Parser::create();
+        $this->getRepositoryAuthToken()->deleteExpiredSessions();
+        $sessions = $this->getRepositoryAuthToken()->getActiveSessions() ?: [];
 
-        foreach ($sessions as $key => $session) {
-            $ua = $parser->parse($session['useragent']);
-            $sessions[$key]['browser'] = sprintf('%s / %s', $ua->ua->toString(), $ua->os->toString());
+        foreach ($sessions as &$session) {
+            $ua = $parser->parse($session->getUseragent());
+            $session->setBrowser(sprintf('%s / %s', $ua->ua->toString(), $ua->os->toString()));
         }
 
         return $sessions;
@@ -217,8 +214,7 @@ class Authentication
      */
     public function login($user, $password)
     {
-        $repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
-        if (!$userEntity = $repository->getUser($user)) {
+        if (!$userEntity = $this->getRepositoryUsers()->getUser($user)) {
             $this->app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
 
             return false;
@@ -235,7 +231,7 @@ class Authentication
             return $this->loginFailed($user);
         }
 
-        $this->app['users']->setCurrentUser($userEntity);
+        $this->setCurrentUser($userEntity);
         $this->updateUserLogin($userEntity);
 
         return $this->setAuthToken();
@@ -253,45 +249,34 @@ class Authentication
             return false;
         }
 
-        $authtoken = $this->authToken;
-        $remoteip  = $this->remoteIP;
-        $browser   = $this->userAgent;
+        $token = $this->authToken;
+        $ip = $this->remoteIP;
+        $useragent = $this->userAgent;
 
-        $this->deleteExpiredSessions();
+        $this->getRepositoryAuthToken()->deleteExpiredTokens();
 
         // Check if there's already a token stored for this token / IP combo.
-        $row = $this->repository->getToken($authtoken, $remoteip, $browser);
-
         // If there's no row, we can't resume a session from the authtoken.
-        if (empty($row)) {
+        if (!$userTokenEntity = $this->getRepositoryAuthToken()->getToken($token, $ip, $useragent)) {
             return false;
         }
 
-        $checksalt = $this->getAuthToken($row['username'], $row['salt']);
+        $checksalt = $this->getAuthToken($userTokenEntity->getUsername(), $userTokenEntity->getSalt());
+        if ($checksalt === $userTokenEntity->getToken()) {
+            // Update the login details in the user record
+            $userEntity = $this->app['users']->getUser($userTokenEntity->getUsername());
+            $userEntity->setLastseen(new \DateTime());
+            $userEntity->setLastip($this->remoteIP);
+            $userEntity->setFailedlogins(0);
+            $userEntity->setThrottleduntil($this->throttleUntil(0));
 
-        if ($checksalt === $row['token']) {
-            $user = $this->app['users']->getUser($row['username']);
+            $this->getRepositoryAuthToken()->save($userEntity);
 
-            $update = [
-                'lastseen'       => date('Y-m-d H:i:s'),
-                'lastip'         => $this->remoteIP,
-                'failedlogins'   => 0,
-                'throttleduntil' => $this->throttleUntil(0)
-            ];
-
-            // Attempt to update the last login, but don't break on failure.
-            try {
-                $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
-            } catch (DBALException $e) {
-                // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-            }
-
-            $user['sessionkey'] = $this->getAuthToken($user['username']);
-
-            $this->app['session']->set('user', $user);
+            $userEntity->setSessionkey($this->getAuthToken($userEntity->getUsername()));
+            $this->app['session']->set('user', $userEntity);
             $this->app['logger.flash']->success(Trans::__('Session resumed.'));
 
-            $this->app['users']->setCurrentUser($user);
+            $this->setCurrentUser($userEntity);
 
             return $this->setAuthToken();
         } else {
@@ -312,7 +297,7 @@ class Authentication
         $this->app['session']->migrate(true);
 
         // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
-        $this->repository->deleteTokens($this->app['users']->getCurrentUserProperty('username'));
+        $this->getRepositoryAuthToken()->deleteTokens($this->app['users']->getCurrentUserProperty('username'));
     }
 
     /**
@@ -325,25 +310,22 @@ class Authentication
     public function setRandomPassword($username)
     {
         $password = false;
-        $user = $this->app['users']->getUser($username);
 
-        if (!empty($user)) {
+        if ($userEntity = $this->app['users']->getUser($username)) {
             $password = $this->app['randomgenerator']->generateString(12);
 
             $hasher = new PasswordHash($this->hashStrength, true);
             $hashedpassword = $hasher->HashPassword($password);
 
-            $update = [
-                'password'       => $hashedpassword,
-                'shadowpassword' => '',
-                'shadowtoken'    => '',
-                'shadowvalidity' => null
-            ];
+            $userEntity->setPassword($hashedpassword);
+            $userEntity->setShadowpassword('');
+            $userEntity->setShadowtoken('');
+            $userEntity->setShadowvalidity(null);
 
-            $this->app['db']->update($this->getTableName('users'), $update, ['id' => $user['id']]);
+            $this->getRepositoryUsers()->save($userEntity);
 
             $this->app['logger.system']->info(
-                "Password for user '{$user['username']}' was reset via Nut.",
+                "Password for user '{$userEntity->getUsername()}' was reset via Nut.",
                 ['event' => 'authentication']
             );
         }
@@ -476,11 +458,9 @@ class Authentication
         $user->setFailedlogins(0);
         $user->setThrottleduntil($this->throttleUntil(0));
 
-        $repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
-
         // Attempt to update the last login, but don't break on failure.
         try {
-            $repository->save($user);
+            $this->getRepositoryUsers()->save($user);
         } catch (DBALException $e) {
             // Oops. User will get a warning on the dashboard about tables that need to be repaired.
         }
@@ -493,13 +473,19 @@ class Authentication
     }
 
     /**
-     * Remove expired sessions from the database.
-     *
-     * @return void
+     * @return Entity\Authtoken
      */
-    private function deleteExpiredSessions()
+    protected function getRepositoryAuthToken()
     {
-        $this->repository->deleteExpiredTokens();
+        return $this->app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+    }
+
+    /**
+     * @return Entity\Users
+     */
+    protected function getRepositoryUsers()
+    {
+        return $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
     }
 
     /**
@@ -646,5 +632,17 @@ class Authentication
         } else {
             throw new \InvalidArgumentException('Invalid table request.');
         }
+    }
+
+    /**
+     * Set the current user.
+     *
+     * @param Entity\Users $user
+     */
+    private function setCurrentUser(Entity\Users $user)
+    {
+        $user->setPassword('**dontchange**');
+        $this->currentuser = $user;
+        $this->app['session']->set('user', $user);
     }
 }
