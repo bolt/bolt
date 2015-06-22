@@ -128,7 +128,7 @@ class Authentication
         }
 
         // Check if user is _still_ allowed to log on.
-        if (!$this->app['permissions']->isAllowed('login') || !$sessionUser->getEnabled()) {
+        if (!$this->app['permissions']->isAllowed('login', null, null) || !$sessionUser->getEnabled()) {
             return $this->logout();
         }
 

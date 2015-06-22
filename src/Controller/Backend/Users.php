@@ -81,9 +81,7 @@ class Users extends BackendBase
      */
     public function edit(Request $request, $id)
     {
-        $currentUser = $this->getUser();
-
-        if (!$userEntity = $this->getEditableUser($currentUser, $id)) {
+        if (!$userEntity = $this->getEditableUser($id)) {
             return $this->redirectToRoute('users');
         }
 
@@ -91,7 +89,7 @@ class Users extends BackendBase
         $form = $this->getUserForm($userEntity, true);
 
         // Get the extra editable fields
-        $form = $this->getUserEditFields($form, $currentUser, $id);
+        $form = $this->getUserEditFields($form, $id);
 
         // Set the validation
         $form = $this->setUserFormValidation($form, true);
@@ -99,15 +97,16 @@ class Users extends BackendBase
         // Generate the form
         $form = $form->getForm();
 
+        $currentUser = $this->getUser();
+
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->isMethod('POST')) {
             $userEntity = $this->validateUserForm($request, $form, false);
 
-            $currentUser = $this->getUser();
-
             if ($userEntity !== false && $userEntity->getId() === $currentUser->getId() && $userEntity->getUsername() !== $currentUser->getUsername()) {
-                // If the current user changed their own login name, the session is effectively
-                // invalidated. If so, we must redirect to the login page with a flash message.
+                // If the current user changed their own login name, the session
+                // is effectively invalidated. If so, we must redirect to the
+                // login page with a flash message.
                 $this->flashes()->error(Trans::__('page.edit-users.message.change-self'));
 
                 return $this->redirectToRoute('login');
@@ -225,7 +224,6 @@ class Users extends BackendBase
 
         // Prevent the current user from enabling, disabling or deleting themselves
         $currentuser = $this->getUser();
-dump($currentuser);
         if ($currentuser->getId() === $user->getId()) {
             $this->flashes()->error(Trans::__("You cannot '%s' yourself.", ['%s', $action]));
 
@@ -233,7 +231,7 @@ dump($currentuser);
         }
 
         // Verify the current user has access to edit this user
-        if (!$this->app['permissions']->isAllowedToManipulate($user, $currentuser)) {
+        if (!$this->app['permissions']->isAllowedToManipulate($user->toArray(), $currentuser->toArray())) {
             $this->flashes()->error(Trans::__('You do not have the right privileges to edit that user.'));
 
             return $this->redirectToRoute('users');
@@ -242,7 +240,7 @@ dump($currentuser);
         switch ($action) {
 
             case 'disable':
-                if ($this->users()->setEnabled($id, false)) {
+                if ($this->users()->setEnabled($id, 0)) {
                     $this->app['logger.system']->info("Disabled user '{$user->getDisplayname()}'.", ['event' => 'security']);
 
                     $this->flashes()->info(Trans::__("User '%s' is disabled.", ['%s' => $user->getDisplayname()]));
@@ -252,7 +250,7 @@ dump($currentuser);
                 break;
 
             case 'enable':
-                if ($this->users()->setEnabled($id, true)) {
+                if ($this->users()->setEnabled($id, 1)) {
                     $this->app['logger.system']->info("Enabled user '{$user->getDisplayname()}'.", ['event' => 'security']);
                     $this->flashes()->info(Trans::__("User '%s' is enabled.", ['%s' => $user->getDisplayname()]));
                 } else {
@@ -440,10 +438,11 @@ dump($currentuser);
     /**
      * Get the user we want to edit (if any).
      *
-     * @param Entity\Users $currentUser
-     * @param integer      $id
+     * @param integer $id
+     *
+     * @return Entity\Users|false
      */
-    private function getEditableUser(Entity\Users $currentUser, $id)
+    private function getEditableUser($id)
     {
         if (empty($id)) {
             return new Entity\Users;
@@ -451,7 +450,10 @@ dump($currentuser);
             $this->flashes()->error(Trans::__('That user does not exist.'));
 
             return false;
-        } elseif (!$this->app['permissions']->isAllowedToManipulate($userEntity->toArray(), $currentUser->toArray())) {
+        }
+
+        $currentUser = $this->getUser();
+        if (!$this->app['permissions']->isAllowedToManipulate($userEntity->toArray(), $currentUser->toArray())) {
             // Verify the current user has access to edit this user
             $this->flashes()->error(Trans::__('You do not have the right privileges to edit that user.'));
 
@@ -465,12 +467,11 @@ dump($currentuser);
      * Get the editable fields for the user form.
      *
      * @param FormBuilder  $form
-     * @param Entity\Users $currentUser
      * @param integer      $id
      *
      * @return \Symfony\Component\Form\FormBuilder
      */
-    private function getUserEditFields(FormBuilder $form, Entity\Users $currentUser, $id)
+    private function getUserEditFields(FormBuilder $form, $id)
     {
         $enabledoptions = [
             1 => Trans::__('page.edit-users.activated.yes'),
@@ -485,6 +486,7 @@ dump($currentuser);
         );
 
         // New users and the current users don't need to disable themselves
+        $currentUser = $this->getUser();
         if ($currentUser->getId() != $id) {
             $form->add(
                 'enabled',
