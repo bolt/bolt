@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Repository;
 
 use Bolt\Storage\Repository;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * A Repository class that handles storage operations for the Cron table.
@@ -13,29 +14,35 @@ class CronRepository extends Repository
      *
      * @param $interimName
      *
-     * @return Bolt\Entity\Cron
-     **/
-    public function getNextRunTimes($interimName)
+     * @return \Bolt\Storage\Entity\Cron
+     */
+    public function getNextRunTime($interimName)
     {
-        $query = $this->queryNextRunTimes($interimName);
+        $query = $this->queryNextRunTime($interimName);
+
         return $this->findOneWith($query);
     }
-    
-    public function queryNextRunTimes($interimName)
+
+    /**
+     * Build the query for a run time.
+     *
+     * @param string $interimName
+     *
+     * @return QueryBuilder
+     */
+    public function queryNextRunTime($interimName)
     {
+        /** @deprecated To be removed in Bolt 3.0 */
         $oldname = strtolower(str_replace('cron.', '', $interimName));
+
         $qb = $this->createQueryBuilder();
         $qb->select('id, lastrun, interim')
-            ->where('(interim = :interim OR interim = :oldname)')
+            ->where('interim = :interim')
+            ->orWhere('interim = :oldname')
             ->orderBy('lastrun', 'DESC')
             ->setParameter('interim', $interimName)
             ->setParameter('oldname', $oldname);
+
         return $qb;
-    }
-    
-    public function createQueryBuilder($alias = null)
-    {
-        return $this->em->createQueryBuilder()
-            ->from($this->getTableName());
     }
 }

@@ -145,7 +145,7 @@ class EntityManager
          * For now we are hardcoding the link between a content entity and
          * the content repository, but in time this should be a metadata level
          * configuration.
-        */
+         */
         if ($this->getMapper()->resolveClassName($className) === 'Bolt\Storage\Entity\Content') {
             return $this->getDefaultRepositoryFactory($classMetadata);
         }
@@ -153,7 +153,6 @@ class EntityManager
         /*
          * If the fetched metadata isn't mapped to a specific entity then we treat
          * it as a generic Content repo
-         *
          */
         if (in_array($className, $this->getMapper()->getUnmapped())) {
             return $this->getDefaultRepositoryFactory($classMetadata);

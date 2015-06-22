@@ -2,11 +2,18 @@
 namespace Bolt\Storage\Entity;
 
 /**
- * Entity for Auth Tokens.
+ * Entity for cron jobs.
+ *
+ * @method integer   getId()
+ * @method string    getInterim()
+ * @method \DateTime getLastrun()
+ * @method setId($id)
+ * @method setInterim($interim)
+ * @method setLastrun($lastrun)
  */
 class Cron extends Entity
 {
     protected $id;
-    protected $lastrun;
     protected $interim;
+    protected $lastrun;
 }
