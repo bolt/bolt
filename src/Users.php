@@ -238,7 +238,7 @@ class Users
      *
      * @param integer|string $userId
      *
-     * @return array
+     * @return Entity\Users
      */
     public function getUser($userId)
     {
@@ -254,7 +254,7 @@ class Users
     /**
      * Get the current user as an array.
      *
-     * @return array
+     * @return Entity\Users
      */
     public function getCurrentUser()
     {
@@ -284,7 +284,7 @@ class Users
      *
      * @deprecated since v2.3 and to be removed in v3
      *
-     * @return string The username of the current user.
+     * @return string
      */
     public function getCurrentUsername()
     {
@@ -550,7 +550,7 @@ class Users
         foreach ($this->users as $user) {
             if (($this->canonicalizeFieldValue($fieldname, $user[$fieldname]) ===
                  $this->canonicalizeFieldValue($fieldname, $value)) &&
-                ($user['id'] != $currentid)
+                ($user->getId() != $currentid)
             ) {
                 return false;
             }
