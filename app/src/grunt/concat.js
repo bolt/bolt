@@ -21,7 +21,7 @@ module.exports = function (grunt, option) {
 
     var processLibCss = function(css, filepath) {
         var path = require('path'),
-            reDir = /(jquery-\w+|select2)/,
+            reDir = /(jquery[-.]\w+|select2)/,
             urls = [],
             img = {},
             relativePath;
@@ -38,7 +38,7 @@ module.exports = function (grunt, option) {
             ).replace('\\', '/');
 
             // Generate image destination folder.
-            img.dir = (img.dir = reDir.exec(filepath)) ? img.dir[1] + '/' : '';
+            img.dir = (img.dir = reDir.exec(filepath)) ? img.dir[1].replace(/^jquery\./, 'jquery-') + '/' : '';
 
             for (var i in urls) {
                 // Set up paths.
