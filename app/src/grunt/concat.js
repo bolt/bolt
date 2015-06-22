@@ -69,7 +69,7 @@ module.exports = function (grunt, option) {
             options: {
                 separator: '\n\n',
                 sourceMap: '<%= sourcemap.js %>',
-                sourceMapName: '<%= path.dest.js %>/maps/lib.min.js.map'
+                sourceMapName: '<%= path.sourcemaps %>/lib.min.js.map'
             },
             nonull: true,
             src: [
