@@ -57,7 +57,7 @@ bindFileUpload.checkFileSize = function checkFileSize (event, data) {
     }
 
     _.each(data.files, function (file, index) {
-        if ((file.size || 0) > Bolt.conf('uploadConfig.maxSize')) {
+        if ((file.size || 0) > Bolt.conf('uploadConfig.maxSize') && Bolt.conf('uploadConfig.maxSize') > 0) {
             badFiles.push(file.name);
             data.originalFiles.bad.push(file.name);
         }
