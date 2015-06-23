@@ -141,9 +141,7 @@ class Users
      */
     public function login($user, $password)
     {
-        $request = Request::createFromGlobals();
-
-        return $this->app['authentication']->login($user, $password, $request->cookies->get($this->app['token.authentication.name']));
+        return $this->app['authentication']->login($user, $password);
     }
 
     /**
@@ -169,7 +167,7 @@ class Users
     {
         $request = Request::createFromGlobals();
 
-        return $this->app['authentication']->loginAuthtoken($request->cookies->get($this->app['token.authentication.name']));
+        return $this->app['authentication']->login(null, null, $request->cookies->get($this->app['token.authentication.name']));
     }
 
     /**

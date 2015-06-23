@@ -34,10 +34,11 @@ class Authentication extends BackendBase
      * Login page and "Forgotten password" page.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param boolean                                   $resetCookies
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function getLogin(Request $request)
+    public function getLogin(Request $request, $resetCookies = false)
     {
         $user = $this->getUser();
         if ($user && $user->getEnabled() == 1) {
@@ -50,6 +51,10 @@ class Authentication extends BackendBase
 
         $response = $this->render('login/login.twig', ['randomquote' => true]);
         $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
+
+        if ($resetCookies) {
+            $response->headers->clearCookie($this->app['token.authentication.name']);
+        }
 
         return $response;
     }
@@ -125,9 +130,11 @@ class Authentication extends BackendBase
     {
         $cookie = $request->cookies->get($this->app['token.authentication.name']);
         if (!$this->authentication()->login($username, $password, $cookie)) {
-            return $this->getLogin($request);
+            return $this->getLogin($request, true);
         }
 
+        // Authentication data is cached in the session and if we can't get it
+        // now, everyone is going to have a bad day. Make that obvious.
         if (!$token = $this->session()->get('authentication')) {
             $this->flashes()->error(Trans::__("Unable to retrieve login session data. Please check your system's PHP session settings."));
 
