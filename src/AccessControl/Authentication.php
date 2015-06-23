@@ -482,6 +482,27 @@ class Authentication
     }
 
     /**
+     * Hash or unset a password value from the user entity.
+     *
+     * @param Entity\Users $userEntity
+     *
+     * @return Entity\Users
+     */
+    public function hashUserPassword(Entity\Users $userEntity)
+    {
+        if ($userEntity->getPassword() && $userEntity->getPassword() !== '**dontchange**') {
+            // Hashstrength has a default of '10', don't allow less than '8'.
+            $hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
+            $hasher = new PasswordHash($hashStrength, true);
+            $userEntity->setPassword($hasher->HashPassword($userEntity->getPassword()));
+        } else {
+            unset($userEntity->password);
+        }
+
+        return $userEntity;
+    }
+
+    /**
      * Log out the currently logged in user.
      *
      * @return boolean
