@@ -1,8 +1,5 @@
 # Used versions in view/lib/
 
-+ ``backbone`` ⇒
-  **[Backbone.js](http://backbonejs.org/) v1.1.2**
-
 + ``bootstrap-file-input`` ⇒
   **[Twitter Bootstrap File Input](http://gregpike.net/demos/bootstrap-file-input/demo.html) (Patched)**
 
