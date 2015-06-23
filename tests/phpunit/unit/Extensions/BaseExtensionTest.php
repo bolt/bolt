@@ -531,13 +531,11 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
-
-        $users->expects($this->once())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->once())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-
-        $app['users'] = $users;
+        $app['permissions'] = $permissions;
 
         $ext->requireUserPermission('test');
     }
@@ -546,13 +544,12 @@ class BaseExtensionTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
-
-        $users->expects($this->once())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->once())
             ->method('isAllowed')
-            ->will($this->returnValue(false));
+            ->will($this->returnValue(true));
+        $app['permissions'] = $permissions;
 
-        $app['users'] = $users;
         $this->expectOutputRegex("/Redirecting to/i");
         $response = $ext->requireUserPermission('test');
         $this->assertFalse($response);

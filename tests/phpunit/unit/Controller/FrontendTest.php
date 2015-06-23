@@ -397,13 +397,11 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
         $this->getService('config')->set('general/maintenance_mode', true);
 
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$this->getApp()]);
-
-        $users->expects($this->once())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(false));
-
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         $response = $this->controller()->before($this->getRequest());
 
@@ -415,11 +413,11 @@ class FrontendTest extends ControllerUnitTest
         $this->setRequest(Request::create('/'));
         $this->getService('config')->set('general/maintenance_mode', true);
 
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$this->getApp()]);
-        $users->expects($this->once())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         $response = $this->controller()->before($this->getRequest());
 

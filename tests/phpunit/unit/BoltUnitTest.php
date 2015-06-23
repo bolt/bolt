@@ -146,17 +146,17 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function allowLogin($app)
     {
         $this->addDefaultUser($app);
-        $users = $this->getMock('Bolt\Users', ['isAllowed', 'isEnabled'], [$app]);
-
-        $users->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-
+        $users = $this->getMock('Bolt\Users', ['isEnabled'], [$app]);
         $users->expects($this->any())
             ->method('isEnabled')
             ->will($this->returnValue(true));
-
         $app['users'] = $users;
+
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));
+        $this->setService('permissions', $permissions);
 
         $auth = $this->getMock(
             'Bolt\AccessControl\Authentication',
