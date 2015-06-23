@@ -120,16 +120,21 @@ class Authentication extends BackendBase
      */
     private function handlePostLogin(Request $request, $username, $password)
     {
-        $token = $this->authentication()->login($username, $password);
+        $cookie = $request->cookies->get($this->app['token.authentication.name']);
+        if (!$this->authentication()->login($username, $password, $cookie)) {
+            return $this->getLogin($request);
+        }
 
-        if ($token === false) {
+        if (!$token = $this->session()->get('user')) {
+            $this->flashes()->error(Trans::__("Unable to retrieve login session data. Please check your system's PHP session settings."));
+
             return $this->getLogin($request);
         }
 
         // Log in, if credentials are correct.
         $this->app['logger.system']->info('Logged in: ' . $username, ['event' => 'authentication']);
         $retreat = $this->session()->get('retreat', ['route' => 'dashboard', 'params' => []]);
-        $response = $this->setAuthenticationCookie($this->redirectToRoute($retreat['route'], $retreat['params']), $token);
+        $response = $this->setAuthenticationCookie($this->redirectToRoute($retreat['route'], $retreat['params']), (string) $token);
 
         return $response;
     }

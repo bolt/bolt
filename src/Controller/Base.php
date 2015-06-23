@@ -248,14 +248,19 @@ abstract class Base implements ControllerProviderInterface
      * Shortcut for {@see \Bolt\AccessControl\Permissions::isAllowed}
      *
      * @param string       $what
+     * @param mixed        $user        The user to check permissions against.
      * @param string|null  $contenttype
      * @param integer|null $contentid
      *
      * @return boolean
      */
-    protected function isAllowed($what, $contenttype = null, $contentid = null)
+    protected function isAllowed($what, $user = null, $contenttype = null, $contentid = null)
     {
-        return $this->app['permissions']->isAllowed($what, $contenttype, $contentid);
+        if ($user === null && $user = $this->session()->get('user')) {
+            $user = $user->getUser()->toArray();
+        }
+
+        return $this->app['permissions']->isAllowed($what, $user, $contenttype, $contentid);
     }
 
     /**

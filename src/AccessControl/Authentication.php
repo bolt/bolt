@@ -34,8 +34,6 @@ class Authentication
     private $userAgent;
     /** @var string */
     private $hostName;
-    /** @var string */
-    private $authToken;
 
     /**
      * Constructor.
@@ -71,7 +69,6 @@ class Authentication
         $this->hostName  = $request->getHost();
         $this->remoteIP  = $request->getClientIp() ?: '127.0.0.1';
         $this->userAgent = $request->server->get('HTTP_USER_AGENT');
-        $this->authToken = $request->cookies->get($this->app['token.authentication.name']);
     }
 
     /**
@@ -101,45 +98,129 @@ class Authentication
      * session is still valid for the device on which it was created, and that
      * the username, and IP address, are still the same.
      *
+     * 1. If user has a valid session and it is fresh, check against cookie:
+     *    - If NOT a match refuse
+     *    - If a match accept
+     * 2. If user has a valid session and it is stale (>10 minutes), check the
+     *    database records again:
+     *    - If disabled refuse
+     *    - If enabled
+     *      - If NOT a match refuse
+     *      - If a match accept
+     *      - Update session data
+     *
+     *
+     * 3. If user has no session check authtoken table entry (closed broswer):
+     *    - If passed validity date refuse
+     *    - If within validity date, hash username and IP against salt and
+     *      compare to database:
+     *      - If NOT a match refuse
+     *      - If a match accept
+     *
+     * @param string $authCookie
+     *
      * @return boolean
      */
-    public function checkValidSession()
+    public function checkValidSession($authCookie)
     {
-        if (!($this->app['session']->isStarted() && $sessionUser = $this->app['session']->get('user'))) {
-            // No current user, check if we can resume from authtoken cookie, or
-            // return without doing the rest.
-            return $this->loginAuthtoken();
-        } elseif (!$databaseUser = $this->repositoryUsers->getUser($sessionUser->getId())) {
-            // User doesn't exist anymore
-            return $this->logout();
-        } elseif (!$databaseUser->getEnabled()) {
-            // User has been disabled since logging in
-            return $this->logout();
+        $check = false;
+        $sessionAuth = null;
+
+        /** @var \Bolt\AccessControl\Token $sessionAuth */
+        if ($this->app['session']->isStarted() && $sessionAuth = $this->app['session']->get('user')) {
+            $check = $this->checkSessionStored($sessionAuth);
         }
 
-        // The auth token is based on hostname, IP and browser user agent
-        $key = $this->getAuthToken($sessionUser->getUsername());
-
-        if ($key !== $sessionUser->getSessionkey()) {
-            $this->app['logger.system']->error("Keys don't match. Invalidating session: $key != " . $sessionUser->getSessionkey(), ['event' => 'authentication']);
-            $this->app['logger.system']->info("Automatically logged out user '" . $sessionUser->getUsername() . "': Session data didn't match.", ['event' => 'authentication']);
-
-            return $this->logout();
+        if (!$check) {
+            // Eithter the session keys don't match, or the session is too old
+            $check = $this->checkSessionDatabase($authCookie);
         }
+
+        if ($check) {
+            return $this->validsession = true;
+        }
+        $this->validsession = false;
+
+        return $this->logout();
+    }
+
+    /**
+     * Check the stored session, if we're past expiry then return false
+     * regardless and force a check/update from the database authentication
+     * record.
+     *
+     * @param Token $sessionAuth
+     *
+     * @return boolean
+     */
+    protected function checkSessionStored(Token $sessionAuth)
+    {
+        if (time() - $sessionAuth->getChecked() > 600) {
+            return false;
+        }
+
+        return $this->checkSessionKeys($sessionAuth);
+    }
+
+    /**
+     * Check the user authentication cookie against what is stored in the
+     * database.
+     *
+     * @param string $authCookie
+     *
+     * @return boolean
+     */
+    protected function checkSessionDatabase($authCookie)
+    {
+        if ($this->app['config']->get('general/cookies_use_browseragent')) {
+            $userAgent = $this->userAgent;
+        }
+
+        if (!$authTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->remoteIP, $userAgent)) {
+            return false;
+        }
+
+        if (!$databaseUser = $this->repositoryUsers->getUser($authTokenEntity->getUsername())) {
+            return false;
+        }
+
+        // Update session data
+        $sessionAuth = new Token($databaseUser, $authTokenEntity);
+        $this->app['session']->set('user', $sessionAuth);
 
         // Check if user is _still_ allowed to log on.
-        if (!$this->app['permissions']->isAllowed('login', null, null) || !$sessionUser->getEnabled()) {
-            return $this->logout();
+        if (!$this->app['permissions']->isAllowed('login', $sessionAuth->getUser()->toArray(), null) || !$sessionAuth->isEnabled()) {
+            return false;
         }
 
-        // Check if there's a bolt_authtoken cookie. If not, set it.
-        if (empty($this->authToken)) {
-            $this->setAuthtoken($databaseUser);
+        return $this->checkSessionKeys($sessionAuth);
+    }
+
+    /**
+     * Check the session is still valid for the device on which it was created,
+     * and. i.e. the username, IP address, and (if configured) the browser agent
+     * values are all still the same.
+     *
+     * @param Token $sessionAuth
+     *
+     * @return boolean
+     */
+    protected function checkSessionKeys(Token $sessionAuth)
+    {
+        $userEntity = $sessionAuth->getUser();
+        $tokenEntity = $sessionAuth->getToken();
+
+        // The auth token is based on hostname, IP and browser user agent
+        $key = $this->getAuthToken($userEntity->getUsername(), $tokenEntity->getSalt());
+
+        if ($key === $tokenEntity->getToken()) {
+            return true;
         }
 
-        $this->setCurrentUser($databaseUser);
+        $this->app['logger.system']->error("Keys don't match. Invalidating session: $key != " . $tokenEntity->getToken(), ['event' => 'authentication']);
+        $this->app['logger.system']->info("Automatically logged out user '" . $userEntity->getUsername() . "': Session data didn't match.", ['event' => 'authentication']);
 
-        return true;
+        return false;
     }
 
     /**
@@ -190,13 +271,14 @@ class Authentication
     /**
      * Return whether or not the current session is valid.
      *
+     * @param string $authCookie
+     *
      * @return boolean
      */
-    public function isValidSession()
+    public function isValidSession($authCookie)
     {
         if ($this->validsession === null) {
-            // Set 'validsession', to see if the current session is valid.
-            $this->validsession = $this->checkValidSession();
+            $this->checkValidSession($authCookie);
         }
 
         return $this->validsession;
@@ -208,10 +290,11 @@ class Authentication
      *
      * @param string $user
      * @param string $password
+     * @param string $authCookie
      *
-     * @return boolean|string
+     * @return boolean
      */
-    public function login($user, $password)
+    public function login($user, $password, $authCookie)
     {
         if (!$userEntity = $this->repositoryUsers->getUser($user)) {
             $this->app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
@@ -230,58 +313,43 @@ class Authentication
             return $this->loginFailed($userEntity);
         }
 
-        $this->setCurrentUser($userEntity);
-        $this->updateUserLogin($userEntity);
-
-        return $this->setAuthToken($userEntity);
+        return $this->loginFinish($userEntity, $authCookie);
     }
 
     /**
      * Attempt to login a user via the bolt_authtoken cookie.
      *
+     * @param string $authCookie
+     *
      * @return boolean|string
      */
-    public function loginAuthtoken()
+    public function loginAuthtoken($authCookie)
     {
         // If there's no cookie, we can't resume a session from the authtoken.
-        if (empty($this->authToken)) {
+        if (empty($authCookie)) {
             return false;
         }
 
-        $token = $this->authToken;
-        $ip = $this->remoteIP;
-        $useragent = $this->userAgent;
-
+        // Remove expired tokens
         $this->repositoryAuthtoken->deleteExpiredTokens();
 
         // Check if there's already a token stored for this token / IP combo.
         // If there's no row, we can't resume a session from the authtoken.
-        if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($token, $ip, $useragent)) {
+        if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->remoteIP, $this->userAgent)) {
             return false;
         }
 
         $checksalt = $this->getAuthToken($userTokenEntity->getUsername(), $userTokenEntity->getSalt());
         if ($checksalt === $userTokenEntity->getToken()) {
-            // Update the login details in the user record
             $userEntity = $this->repositoryUsers->getUser($userTokenEntity->getUsername());
-            $userEntity->setLastseen(new \DateTime());
-            $userEntity->setLastip($this->remoteIP);
-            $userEntity->setFailedlogins(0);
-            $userEntity->setThrottleduntil($this->throttleUntil(0));
-
             $this->repositoryAuthtoken->save($userEntity);
-
-            $userEntity->setSessionkey($this->getAuthToken($userEntity->getUsername()));
-            $this->app['session']->set('user', $userEntity);
             $this->app['logger.flash']->success(Trans::__('Session resumed.'));
 
-            $this->setCurrentUser($userEntity);
-
-            return $this->setAuthToken($userEntity);
+            return $this->loginFinish($userEntity, $authCookie);
         } else {
             // Implementation note:
-            // This needs to be caught in the controller and the authtoken
-            // cookie deleted: $response->headers->clearCookie($this->app['token.authentication.name']);
+            // This needs to be caught in the controller and the cookie deleted:
+            // $response->headers->clearCookie($this->app['token.authentication.name']);
             return false;
         }
     }
@@ -405,6 +473,86 @@ class Authentication
     }
 
     /**
+     * Finish user login process(es).
+     *
+     * @param Entity\Users $userEntity
+     * @param string       $authCookie
+     *
+     * @return boolean
+     */
+    protected function loginFinish(Entity\Users $userEntity, $authCookie)
+    {
+        if (!$this->updateUserLogin($userEntity)) {
+            return false;
+        }
+
+        $userEntity->setPassword('**dontchange**');
+        $tokenEntity = $this->updateAuthToken($userEntity);
+        $token = new Token($userEntity, $tokenEntity);
+
+        $this->app['session']->set('user', $token);
+
+        return true;
+    }
+
+    /**
+     * Update the user record with latest login information.
+     *
+     * @param Entity\Users $userEntity
+     *
+     * @return boolean
+     */
+    protected function updateUserLogin(Entity\Users $userEntity)
+    {
+        $userEntity->setLastseen(new \DateTime());
+        $userEntity->setLastip($this->remoteIP);
+        $userEntity->setFailedlogins(0);
+        $userEntity->setThrottleduntil($this->throttleUntil(0));
+
+        // Don't try to save the password on login
+        unset($userEntity->password);
+        if ($this->repositoryUsers->save($userEntity)) {
+            $this->app['logger.flash']->success(Trans::__("You've been logged on successfully."));
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Set the Authtoken cookie and DB-entry. If it's already present, update it.
+     *
+     * @param Entity\User $userEntity
+     *
+     * @return Entity\Token
+     */
+    protected function updateAuthToken($userEntity)
+    {
+        $salt = $this->app['randomgenerator']->generateString(12);
+
+        if (!$tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->remoteIP, $this->userAgent)) {
+            $tokenEntity = new Entity\Authtoken();
+        }
+
+        $validityPeriod = $this->app['config']->get('general/cookies_lifetime', 1209600);
+        $validityDate = new \DateTime();
+        $validityInterval = new \DateInterval("PT{$validityPeriod}S");
+
+        $tokenEntity->setUsername($userEntity->getUsername());
+        $tokenEntity->setToken($this->getAuthToken($userEntity->getUsername(), $salt));
+        $tokenEntity->setSalt($salt);
+        $tokenEntity->setValidity($validityDate->add($validityInterval));
+        $tokenEntity->setIp($this->remoteIP);
+        $tokenEntity->setLastseen(new \DateTime());
+        $tokenEntity->setUseragent($this->userAgent);
+
+        $this->repositoryAuthtoken->save($tokenEntity);
+
+        return $tokenEntity;
+    }
+
+    /**
      * Send the password reset link notification to the user.
      *
      * @param Entity\Users $userEntity
@@ -450,29 +598,6 @@ class Authentication
             $this->app['logger.system']->error("Failed to send password request sent to '" . $userEntity['displayname'] . "'.", ['event' => 'authentication']);
             $this->app['logger.flash']->error(Trans::__("Failed to send password request. Please check the email settings."));
         }
-    }
-
-    /**
-     * Update the user record with latest login information.
-     *
-     * @param Entity\Users $user
-     */
-    protected function updateUserLogin(Entity\Users $user)
-    {
-        $user->setLastseen(new \DateTime());
-        $user->setLastip($this->remoteIP);
-        $user->setFailedlogins(0);
-        $user->setThrottleduntil($this->throttleUntil(0));
-
-
-        $user->setSessionkey($this->getAuthToken($user->getUsername()));
-        $this->app['session']->migrate(true);
-        $this->app['session']->set('user', $user);
-
-        // Don't try to save the password on login
-        unset($user->password);
-        $this->repositoryUsers->save($user);
-        $this->app['logger.flash']->success(Trans::__("You've been logged on successfully."));
     }
 
     /**
@@ -527,38 +652,6 @@ class Authentication
     }
 
     /**
-     * Set the Authtoken cookie and DB-entry. If it's already present, update it.
-     *
-     * @param Entity\User $userEntity
-     *
-     * @return string
-     */
-    private function setAuthToken($userEntity)
-    {
-        $salt = $this->app['randomgenerator']->generateString(12);
-
-        if (!$tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->remoteIP, $this->userAgent)) {
-            $tokenEntity = new Entity\Authtoken();
-        }
-
-        $validityPeriod = $this->app['config']->get('general/cookies_lifetime', 1209600);
-        $validityDate = new \DateTime();
-        $validityInterval = new \DateInterval("PT{$validityPeriod}S");
-
-        $tokenEntity->setUsername($userEntity->getUsername());
-        $tokenEntity->setToken($this->getAuthToken($userEntity->getUsername(), $salt));
-        $tokenEntity->setSalt($salt);
-        $tokenEntity->setValidity($validityDate->add($validityInterval));
-        $tokenEntity->setIp($this->remoteIP);
-        $tokenEntity->setLastseen(new \DateTime());
-        $tokenEntity->setUseragent($this->userAgent);
-
-        $this->repositoryAuthtoken->save($tokenEntity);
-
-        return $tokenEntity->getToken();
-    }
-
-    /**
      * Calculate the amount of time until we should throttle login attempts for
      * a user.
      *
@@ -584,16 +677,5 @@ class Authentication
 
             return $dt->add($di);
         }
-    }
-
-    /**
-     * Set the current user.
-     *
-     * @param Entity\Users $user
-     */
-    private function setCurrentUser(Entity\Users $user)
-    {
-        $user->setPassword('**dontchange**');
-        $this->app['session']->set('user', $user);
     }
 }
