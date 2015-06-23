@@ -4,6 +4,7 @@ namespace Bolt\Controller\Backend;
 use Bolt\AccessControl\Permissions;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
+use Hautelook\Phpass\PasswordHash;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
@@ -180,10 +181,11 @@ class Users extends BackendBase
         if ($request->isMethod('POST')) {
             if ($userEntity = $this->validateUserForm($request, $form, true)) {
                 $this->flashes()->clear();
-                $this->flashes()->info(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity['displayname']]));
+                $this->flashes()->info(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity->getDisplayname()]));
 
-                $token = $this->app['authentication']->login($userEntity['username'], $userEntity['password']);
-                $response = $this->setAuthenticationCookie($this->redirectToRoute('dashboard'), $token);
+                $this->app['authentication']->login($userEntity->getUsername(), $userEntity->getPassword());
+                $token = $this->session()->get('authentication');
+                $response = $this->setAuthenticationCookie($this->redirectToRoute('dashboard'), (string) $token);
 
                 return $response;
             }
@@ -618,20 +620,21 @@ class Users extends BackendBase
             return false;
         }
 
-        $user = new Entity\Users($form->getData());
+        $userEntity = new Entity\Users($form->getData());
+        $userEntity->setUsername($this->app['slugify']->slugify($userEntity->getUsername()));
 
         if (!$firstuser) {
-            $user->setRoles($this->users()->filterManipulatableRoles($user->getId(), $user->getRoles()));
+            $userEntity->setRoles($this->users()->filterManipulatableRoles($userEntity->getId(), $userEntity->getRoles()));
         }
 
-        if ($this->getRepository()->save($user)) {
-            $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $user->getDisplayname()]));
-            $this->notifyUserSave($user->getDisplayname(), $user->getEmail(), $firstuser);
+        if ($this->getRepository()->save($this->app['authentication']->hashUserPassword(clone $userEntity))) {
+            $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));
+            $this->notifyUserSave($userEntity->getDisplayname(), $userEntity->getEmail(), $firstuser);
         } else {
-            $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $user->getDisplayname()]));
+            $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $userEntity->getDisplayname()]));
         }
 
-        return $user;
+        return $userEntity;
     }
 
     /**
