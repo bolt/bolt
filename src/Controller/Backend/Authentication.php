@@ -83,8 +83,11 @@ class Authentication extends BackendBase
      */
     public function logout()
     {
-        $user = $this->session()->get('user');
-        $this->app['logger.system']->info('Logged out: ' . $user['displayname'], ['event' => 'authentication']);
+        $sessionAuth = $this->session()->get('authentication');
+        $displayname = $sessionAuth ? $sessionAuth->getToken()->getDisplayname() : false;
+        if ($displayname) {
+            $this->app['logger.system']->info('Logged out: ' . $displayname, ['event' => 'authentication']);
+        }
 
         $this->authentication()->logout();
 
@@ -125,7 +128,7 @@ class Authentication extends BackendBase
             return $this->getLogin($request);
         }
 
-        if (!$token = $this->session()->get('user')) {
+        if (!$token = $this->session()->get('authentication')) {
             $this->flashes()->error(Trans::__("Unable to retrieve login session data. Please check your system's PHP session settings."));
 
             return $this->getLogin($request);

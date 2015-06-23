@@ -37,7 +37,8 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
         if (!$session = $event->getRequest()->getSession()) {
             return;
         }
-        if ($this->debugLoggedOff || ($session->isStarted() && $session->has('user'))) {
+
+        if ($this->debugLoggedOff || ($session->isStarted() && $session->has('authentication'))) {
             $this->dispatcher->addSubscriber($this->listener);
         }
     }

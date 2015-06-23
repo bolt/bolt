@@ -233,7 +233,7 @@ abstract class Base implements ControllerProviderInterface
     protected function getUser($userId = null, $raw = false)
     {
         if ($userId === null) {
-            return $this->session()->get('user');
+            return $this->session()->get('authentication')->getUser();
         }
 
         $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
@@ -256,7 +256,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function isAllowed($what, $user = null, $contenttype = null, $contentid = null)
     {
-        if ($user === null && $user = $this->session()->get('user')) {
+        if ($user === null && $user = $this->session()->get('authentication')) {
             $user = $user->getUser()->toArray();
         }
 

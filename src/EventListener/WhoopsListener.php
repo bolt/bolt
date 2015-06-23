@@ -60,7 +60,7 @@ class WhoopsListener implements EventSubscriberInterface
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $hasUser = $this->session->isStarted() && $this->session->has('user');
+        $hasUser = $this->session->isStarted() && $this->session->has('authentication');
         if (!$hasUser && !$this->showWhileLoggedOff) {
             return;
         }

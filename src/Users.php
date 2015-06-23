@@ -267,7 +267,7 @@ class Users
     public function getCurrentUser()
     {
         if ($this->currentuser === null) {
-            $this->currentuser = $this->app['session']->isStarted() ? $this->app['session']->get('user') : null;
+            $this->currentuser = $this->app['session']->isStarted() ? $this->app['session']->get('authentication') : null;
             if ($this->currentuser instanceof AccessControl\Token) {
                 $this->currentuser = $this->currentuser->getUser()->toArray();
             }

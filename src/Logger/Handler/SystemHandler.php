@@ -94,7 +94,8 @@ class SystemHandler extends AbstractProcessingHandler
 
         // Only get a user session if it's started
         if ($this->app['session']->isStarted()) {
-            $user = $this->app['session']->get('user');
+            $user = $this->app['session']->get('authentication');
+            $user = $user ? $user->getUser()->toArray() : null;
         }
 
         $this->app['db']->insert(

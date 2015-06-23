@@ -127,7 +127,7 @@ class Authentication
         $sessionAuth = null;
 
         /** @var \Bolt\AccessControl\Token $sessionAuth */
-        if ($this->app['session']->isStarted() && $sessionAuth = $this->app['session']->get('user')) {
+        if ($this->app['session']->isStarted() && $sessionAuth = $this->app['session']->get('authentication')) {
             $check = $this->checkSessionStored($sessionAuth);
         }
 
@@ -186,7 +186,7 @@ class Authentication
 
         // Update session data
         $sessionAuth = new Token($databaseUser, $authTokenEntity);
-        $this->app['session']->set('user', $sessionAuth);
+        $this->app['session']->set('authentication', $sessionAuth);
 
         // Check if user is _still_ allowed to log on.
         if (!$this->app['permissions']->isAllowed('login', $sessionAuth->getUser()->toArray(), null) || !$sessionAuth->isEnabled()) {
@@ -363,12 +363,16 @@ class Authentication
     {
         $this->app['logger.flash']->info(Trans::__('You have been logged out.'));
 
-        // Remove all auth tokens when logging off a user (so we sign out _all_ this user's sessions on all locations)
-        if ($userEntity = $this->app['session']->get('user')) {
-            $this->repositoryAuthtoken->deleteTokens($userEntity->getUsername());
+        // Remove all auth tokens when logging off a user
+        try {
+            if ($userEntity = $this->app['session']->get('authentication')->getUser()) {
+                $this->repositoryAuthtoken->deleteTokens($userEntity->getUsername());
+            }
+        } catch (\Exception $e) {
+            // Nothing stored in the session
         }
 
-        $this->app['session']->remove('user');
+        $this->app['session']->remove('authentication');
         $this->app['session']->migrate(true);
 
         return false;
@@ -490,7 +494,7 @@ class Authentication
         $tokenEntity = $this->updateAuthToken($userEntity);
         $token = new Token($userEntity, $tokenEntity);
 
-        $this->app['session']->set('user', $token);
+        $this->app['session']->set('authentication', $token);
 
         return true;
     }
