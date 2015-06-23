@@ -97,7 +97,7 @@ abstract class BackendBase extends Base
         }
 
         // Confirm the user is enabled or bounce them
-        if ($this->users()->getCurrentUser() && !$this->users()->isEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
+        if (($sessionUser = $this->getUser()) && !$sessionUser->getEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
             $app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
 
             return $this->redirectToRoute('logout');
@@ -107,11 +107,12 @@ abstract class BackendBase extends Base
         $this->users()->checkForRoot();
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
-        if (!$this->authentication()->isValidSession() && !$this->users()->isAllowed($route)) {
+        $authCookie = $request->cookies->get($this->app['token.authentication.name']);
+        if (!$this->authentication()->isValidSession($authCookie) && !$this->isAllowed($route)) {
             $app['logger.flash']->info(Trans::__('Please log on.'));
 
             return $this->redirectToRoute('login');
-        } elseif (!$this->users()->isAllowed($roleRoute)) {
+        } elseif (!$this->isAllowed($roleRoute)) {
             $app['logger.flash']->error(Trans::__('You do not have the right privileges to view that page.'));
 
             return $this->redirectToRoute('dashboard');

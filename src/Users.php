@@ -8,6 +8,7 @@ use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
 use Hautelook\Phpass\PasswordHash;
 use Silex;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to handle things dealing with users.
@@ -72,7 +73,9 @@ class Users
      */
     public function isValidSession()
     {
-        return $this->app['authentication']->isValidSession();
+        $request = Request::createFromGlobals();
+
+        return $this->app['authentication']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
     }
 
     /**
@@ -138,7 +141,9 @@ class Users
      */
     public function login($user, $password)
     {
-        return $this->app['authentication']->login($user, $password);
+        $request = Request::createFromGlobals();
+
+        return $this->app['authentication']->login($user, $password, $request->cookies->get($this->app['token.authentication.name']));
     }
 
     /**
@@ -162,7 +167,9 @@ class Users
      */
     public function loginAuthtoken()
     {
-        return $this->app['authentication']->loginAuthtoken();
+        $request = Request::createFromGlobals();
+
+        return $this->app['authentication']->loginAuthtoken($request->cookies->get($this->app['token.authentication.name']));
     }
 
     /**
@@ -306,7 +313,7 @@ class Users
     {
         $user = $id ? $this->getUser($id) : $this->getCurrentUser();
 
-        return $user['enabled'];
+        return (boolean) $user['enabled'];
     }
 
     /**
