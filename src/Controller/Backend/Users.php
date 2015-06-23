@@ -301,11 +301,10 @@ class Users extends BackendBase
             $form->submit($request->get($form->getName()));
 
             if ($form->isValid()) {
-                $user = $form->getData();
-
-                $res = $this->users()->saveUser($user);
                 $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $user->getDisplayname()]), ['event' => 'security']);
-                if ($res) {
+
+                $user = new Entity\Users($form->getData());
+                if ($this->getRepository()->save($user)) {
                     $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $user->getDisplayname()]));
                 } else {
                     $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $user->getDisplayname()]));

@@ -228,12 +228,16 @@ abstract class Base implements ControllerProviderInterface
      * @param integer|string|null $userId
      * @param boolean             $raw
      *
-     * @return Entity\Users
+     * @return Entity\Users|null
      */
     protected function getUser($userId = null, $raw = false)
     {
         if ($userId === null) {
-            return $this->session()->get('authentication')->getUser();
+            if ($sessionAuth = $this->session()->get('authentication')) {
+                return $sessionAuth->getUser();
+            }
+
+            return;
         }
 
         $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');

@@ -364,12 +364,8 @@ class Authentication
         $this->app['logger.flash']->info(Trans::__('You have been logged out.'));
 
         // Remove all auth tokens when logging off a user
-        try {
-            if ($userEntity = $this->app['session']->get('authentication')->getUser()) {
-                $this->repositoryAuthtoken->deleteTokens($userEntity->getUsername());
-            }
-        } catch (\Exception $e) {
-            // Nothing stored in the session
+        if ($sessionAuth = $this->app['session']->get('authentication')) {
+            $this->repositoryAuthtoken->deleteTokens($sessionAuth->getUser()->getUsername());
         }
 
         $this->app['session']->remove('authentication');
