@@ -26,7 +26,7 @@ class UsersTest extends ControllerUnitTest
     public function testEdit()
     {
         $user = $this->getService('users')->getUser(1);
-        $this->getService('session')->set('user', new Entity\Users($user));
+        $this->setSessionUser(new Entity\Users($user));
         $this->setRequest(Request::create('/bolt/useredit/1'));
 
         // This one should redirect because of permission failure
@@ -56,7 +56,7 @@ class UsersTest extends ControllerUnitTest
     public function testUserEditPost()
     {
         $user = $this->getService('users')->getUser(1);
-        $this->getService('session')->set('user', new Entity\Users($user));
+        $this->setSessionUser(new Entity\Users($user));
 
         $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
         $perms->expects($this->any())
@@ -168,7 +168,7 @@ class UsersTest extends ControllerUnitTest
         $this->setService('authentication', $authentication);
 
         $currentuser = $this->getService('users')->getUser(1);
-        $this->getService('session')->set('user', new Entity\Users($currentuser));
+        $this->setSessionUser(new Entity\Users($currentuser));
 
         // This request should fail because the user doesnt exist.
         $this->setRequest(Request::create('/bolt/user/disable/2'));
@@ -269,7 +269,7 @@ class UsersTest extends ControllerUnitTest
 
         // Setup the current user
         $user = $this->getService('users')->getUser(1);
-        $this->getService('session')->set('user', new Entity\Users($user));
+        $this->setSessionUser(new Entity\Users($user));
 
         // This mocks a failure and ensures the error is reported
         $this->setRequest(Request::create('/bolt/user/disable/2'));
@@ -296,7 +296,7 @@ class UsersTest extends ControllerUnitTest
         // Symfony forms need a CSRF token so we have to mock this too
         $this->removeCSRF($this->getApp());
         $user = $this->getService('users')->getUser(1);
-        $this->getService('session')->set('user', new Entity\Users($user));
+        $this->setSessionUser(new Entity\Users($user));
         $this->setRequest(Request::create('/bolt/profile'));
         $response = $this->controller()->profile($this->getRequest());
         $context = $response->getContext();
@@ -326,7 +326,7 @@ class UsersTest extends ControllerUnitTest
     public function testUsernameEditKillsSession()
     {
         $user = $this->getService('users')->getUser(1);
-        $this->getService('session')->set('user', new Entity\Users($user));
+        $this->setSessionUser(new Entity\Users($user));
 
         $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
         $perms->expects($this->any())

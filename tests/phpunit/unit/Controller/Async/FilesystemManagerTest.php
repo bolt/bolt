@@ -61,7 +61,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testFileBrowser()
     {
-        //$this->getService('session')->set('user', new Entity\Users($this->getService('users')->getUser('admin')));
+        //$this->setSessionUser(new Entity\Users($this->getService('users')->getUser('admin')));
         $this->setRequest(Request::create('/async/filebrowser'));
 
         $response = $this->controller()->recordBrowser();

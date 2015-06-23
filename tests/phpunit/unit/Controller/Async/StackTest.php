@@ -16,7 +16,7 @@ class StackTest extends ControllerUnitTest
 {
     public function testAddStack()
     {
-        $this->getService('session')->set('user', new Entity\Users($this->getService('users')->getUser('admin')));
+        $this->setSessionUser(new Entity\Users($this->getService('users')->getUser('admin')));
         $this->setRequest(Request::create('/async/stack/add/foo'));
 
         $response = $this->controller()->addStack('foo');
@@ -26,7 +26,7 @@ class StackTest extends ControllerUnitTest
 
     public function testShowStack()
     {
-        $this->getService('session')->set('user', new Entity\Users($this->getService('users')->getUser('admin')));
+        $this->setSessionUser(new Entity\Users($this->getService('users')->getUser('admin')));
         $this->setRequest(Request::create('/async/stack/show'));
 
         $response = $this->controller()->showStack($this->getRequest());

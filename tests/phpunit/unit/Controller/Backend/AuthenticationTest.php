@@ -38,7 +38,7 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('authentication', $authentication);
 
-        $this->getService('session')->set('user', new Entity\Users(['username' => 'test', 'roles' => []]));
+        $this->setSessionUser(new Entity\Users(['username' => 'test', 'roles' => []]));
         $this->addDefaultUser($this->getApp());
         $response = $this->controller()->postLogin($this->getRequest());
 
@@ -69,7 +69,7 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('authentication', $authentication);
 
-        $this->getService('session')->set('user', new Entity\Users(['username' => 'test', 'email' => 'test@example.com', 'roles' => []]));
+        $this->setSessionUser(new Entity\Users(['username' => 'test', 'email' => 'test@example.com', 'roles' => []]));
         $this->addDefaultUser($this->getApp());
         $response = $this->controller()->postLogin($this->getRequest());
 
@@ -130,7 +130,7 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('authentication', $authentication);
 
-        $this->getService('session')->set('user', new Entity\Users(['username' => 'test', 'roles' => []]));
+        $this->setSessionUser(new Entity\Users(['username' => 'test', 'roles' => []]));
 
         $this->setRequest(Request::create('/bolt/login', 'POST', ['action' => 'login']));
 
