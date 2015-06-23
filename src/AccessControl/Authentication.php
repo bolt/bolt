@@ -313,11 +313,16 @@ class Authentication
             return $this->loginFailed($userEntity);
         }
 
+        // Remove expired tokens
+        $this->repositoryAuthtoken->deleteExpiredTokens();
+
         return $this->loginFinish($userEntity, $authCookie);
     }
 
     /**
      * Attempt to login a user via the bolt_authtoken cookie.
+     *
+     * @deprecated To be removed in Bolt 3.0
      *
      * @param string $authCookie
      *
@@ -523,7 +528,7 @@ class Authentication
     /**
      * Set the Authtoken cookie and DB-entry. If it's already present, update it.
      *
-     * @param Entity\User $userEntity
+     * @param Entity\Users $userEntity
      *
      * @return Entity\Token
      */
