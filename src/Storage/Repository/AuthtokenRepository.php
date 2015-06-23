@@ -11,15 +11,16 @@ class AuthtokenRepository extends Repository
     /**
      * Fetches an existing token for the given user / ip
      *
-     * @param $username
-     * @param $ip
-     * @param $useragent
+     * @param string      $token
+     * @param string      $ip
+     * @param string|null $useragent
      *
      * @return Bolt\Entity\Authtoken
      **/
-    public function getUserToken($username, $ip, $useragent)
+    public function getUserToken($username, $ip, $useragent = null)
     {
         $query = $this->getUserTokenQuery($username, $ip, $useragent);
+
         return $this->findOneWith($query);
     }
 
@@ -29,23 +30,27 @@ class AuthtokenRepository extends Repository
         $qb->select('*')
             ->where('username = :username')
             ->andWhere('ip = :ip')
-            ->andWhere('useragent = :useragent')
             ->setParameter('username', $username)
-            ->setParameter('ip', $ip)
-            ->setParameter('useragent', $useragent);
+            ->setParameter('ip', $ip);
+
+        if ($useragent !== null) {
+            $qb->andWhere('useragent = :useragent')
+                ->setParameter('useragent', $useragent);
+        }
+
         return $qb;
     }
 
     /**
      * Fetches an existing token for the given user / ip
      *
-     * @param $token
-     * @param $ip
-     * @param $useragent
+     * @param string      $token
+     * @param string      $ip
+     * @param string|null $useragent
      *
      * @return Bolt\Entity\Authtoken
      **/
-    public function getToken($token, $ip, $useragent)
+    public function getToken($token, $ip, $useragent = null)
     {
         $query = $this->getTokenQuery($token, $ip, $useragent);
         return $this->findOneWith($query);
@@ -57,10 +62,14 @@ class AuthtokenRepository extends Repository
         $qb->select('*')
             ->where('token = :token')
             ->andWhere('ip = :ip')
-            ->andWhere('useragent = :useragent')
             ->setParameter('token', $token)
-            ->setParameter('ip', $ip)
-            ->setParameter('useragent', $useragent);
+            ->setParameter('ip', $ip);
+
+        if ($useragent !== null) {
+            $qb->andWhere('useragent = :useragent')
+                ->setParameter('useragent', $useragent);
+        }
+
         return $qb;
     }
 
@@ -83,6 +92,7 @@ class AuthtokenRepository extends Repository
         $qb->delete($this->getTableName())
             ->where('username = :username')
             ->setParameter('username', $username);
+
         return $qb;
     }
 
@@ -94,6 +104,7 @@ class AuthtokenRepository extends Repository
     public function deleteExpiredTokens()
     {
         $query = $this->deleteExpiredTokensQuery();
+
         return $query->execute();
     }
 
@@ -103,6 +114,7 @@ class AuthtokenRepository extends Repository
         $qb->delete($this->getTableName())
             ->where('validity < :now')
             ->setParameter('now', date('Y-m-d H:i:s'));
+
         return $qb;
     }
 
@@ -116,6 +128,7 @@ class AuthtokenRepository extends Repository
     {
         $this->deleteExpiredTokens();
         $query = $this->getActiveSessionsQuery();
+
         return $this->findWith($query);
     }
 
@@ -123,6 +136,7 @@ class AuthtokenRepository extends Repository
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*');
+
         return $qb;
     }
 
