@@ -4,6 +4,7 @@ namespace Bolt\AccessControl;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Repository\AuthtokenRepository;
 use Bolt\Storage\Repository\UsersRepository;
+use Bolt\Translation\Translator as Trans;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -147,7 +148,27 @@ class AccessChecker
         }
         $this->validsession = false;
 
-        return $this->logout();
+        return $this->revokeSession();
+    }
+
+    /**
+     * Log out the currently logged in user.
+     *
+     * @return boolean
+     */
+    public function revokeSession()
+    {
+        $this->flashLogger->info(Trans::__('You have been logged out.'));
+
+        // Remove all auth tokens when logging off a user
+        if ($sessionAuth = $this->session->get('authentication')) {
+            $this->repositoryAuthtoken->deleteTokens($sessionAuth->getUser()->getUsername());
+        }
+
+        $this->session->remove('authentication');
+        $this->session->migrate(true);
+
+        return false;
     }
 
     /**
