@@ -112,7 +112,7 @@ class Authentication extends BackendBase
      */
     public function resetPassword(Request $request)
     {
-        $this->authentication()->resetPasswordConfirm($request->get('token'));
+        $this->authentication('password')->resetPasswordConfirm($request->get('token'));
 
         return $this->redirectToRoute('login');
     }
@@ -129,7 +129,7 @@ class Authentication extends BackendBase
     private function handlePostLogin(Request $request, $username, $password)
     {
         $cookie = $request->cookies->get($this->app['token.authentication.name']);
-        if (!$this->authentication()->login($username, $password, $cookie)) {
+        if (!$this->authentication('login')->login($username, $password, $cookie)) {
             return $this->getLogin($request, true);
         }
 
@@ -163,7 +163,7 @@ class Authentication extends BackendBase
         if (empty($username)) {
             $this->flashes()->error(Trans::__('Please provide a username'));
         } else {
-            $this->authentication()->resetPasswordRequest($username);
+            $this->authentication('password')->resetPasswordRequest($username);
             $response = $this->redirectToRoute('login');
             $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
 
