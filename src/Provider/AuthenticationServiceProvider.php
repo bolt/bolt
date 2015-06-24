@@ -15,7 +15,7 @@ class AuthenticationServiceProvider implements ServiceProviderInterface
                 $repoAuth = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
                 $repoUser = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
                 $cookieOptions = [
-                    'remoteaddr'   => $app['config']>get('general/cookies_use_remoteaddr', true),
+                    'remoteaddr'   => $app['config']->get('general/cookies_use_remoteaddr', true),
                     'browseragent' => $app['config']->get('general/cookies_use_browseragent', false),
                     'httphost'     => $app['config']->get('general/cookies_use_httphost', true),
                 ];
@@ -23,10 +23,11 @@ class AuthenticationServiceProvider implements ServiceProviderInterface
                 $tracker= new AccessControl\AccessChecker(
                     $repoAuth,
                     $repoUser,
-                    $cookieOptions,
                     $app['session'],
                     $app['logger.flash'],
-                    $app['logger.system']
+                    $app['logger.system'],
+                    $app['permissions'],
+                    $cookieOptions
                 );
 
                 return $tracker;

@@ -43,27 +43,28 @@ class AccessChecker
      *
      * @param AuthtokenRepository  $repositoryAuthtoken
      * @param UsersRepository      $repositoryUsers
-     * @param array                $cookieOptions
-     * @param Permissions          $permisisons
      * @param SessionInterface     $session
      * @param FlashLoggerInterface $flashLogger
      * @param LoggerInterface      $systemLogger
+     * @param Permissions          $permisisons
+     * @param array                $cookieOptions
      */
     public function __construct(
         AuthtokenRepository $repositoryAuthtoken,
         UsersRepository $repositoryUsers,
-        array $cookieOptions,
-        Permissions $permisisons,
         SessionInterface $session,
         FlashLoggerInterface $flashLogger,
-        LoggerInterface $systemLogger)
+        LoggerInterface $systemLogger,
+        Permissions $permisisons,
+        array $cookieOptions)
     {
         $this->repositoryAuthtoken = $repositoryAuthtoken;
         $this->repositoryUsers = $repositoryUsers;
-        $this->cookieOptions = $cookieOptions;
         $this->session = $session;
         $this->flashLogger = $flashLogger;
         $this->systemLogger = $systemLogger;
+        $this->permisisons = $permisisons;
+        $this->cookieOptions = $cookieOptions;
     }
 
     /**

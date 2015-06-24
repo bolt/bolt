@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\EventListener;
 
-use Bolt\AccessControl\Authentication;
+use Bolt\AccessControl\AccessChecker;
 use Bolt\Users;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -35,7 +35,7 @@ class RedirectListener implements EventSubscriberInterface
      * @param \Bolt\Users                                                $users
      * @param \Bolt\AccessControl\Authentication                         $authentication
      */
-    public function __construct(Session $session, UrlGeneratorInterface $urlGenerator, Users $users, Authentication $authentication)
+    public function __construct(Session $session, UrlGeneratorInterface $urlGenerator, Users $users, AccessChecker $authentication)
     {
         $this->session = $session;
         $this->urlGenerator = $urlGenerator;
