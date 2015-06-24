@@ -105,7 +105,7 @@ class StorageServiceProvider implements ServiceProviderInterface
         );
 
         $app['storage.listener'] = $app->share(function () use ($app) {
-            $hashStrength = max($this->config->get('general/hash_strength'), 8);
+            $hashStrength = max($app['config']->get('general/hash_strength'), 8);
 
             return new StorageEventListener($hashStrength);
         });
