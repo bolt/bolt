@@ -627,7 +627,7 @@ class Users extends BackendBase
             $userEntity->setRoles($this->users()->filterManipulatableRoles($userEntity->getId(), $userEntity->getRoles()));
         }
 
-        if ($this->getRepository()->save($this->app['authentication']->hashUserPassword(clone $userEntity))) {
+        if ($this->getRepository()->save($userEntity)) {
             $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));
             $this->notifyUserSave($userEntity->getDisplayname(), $userEntity->getEmail(), $firstuser);
         } else {

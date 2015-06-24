@@ -54,13 +54,6 @@ class Users
             $user = new Entity\Users($user);
         }
 
-        if ($user->getPassword() !== '**dontchange**') {
-            // Hashstrength has a default of '10', don't allow less than '8'.
-            $hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
-            $hasher = new PasswordHash($hashStrength, true);
-            $user->setPassword($hasher->HashPassword($user->getPassword()));
-        }
-
         // Make sure the username is slug-like
         $user->setUsername($this->app['slugify']->slugify($user->getUsername()));
 
