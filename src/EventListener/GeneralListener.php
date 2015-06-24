@@ -41,6 +41,7 @@ class GeneralListener implements EventSubscriberInterface
         $request = $event->getRequest();
 
         $this->mailConfigCheck($request);
+        $this->app['authentication']->setRequest($request);
     }
 
     /**
