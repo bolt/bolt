@@ -136,18 +136,6 @@ class Application extends Silex\Application
     public function initLogger()
     {
         $this->register(new LoggerServiceProvider(), []);
-
-        // Debug log
-        if ($this['config']->get('general/debuglog/enabled')) {
-            $this->register(
-                new Silex\Provider\MonologServiceProvider(),
-                [
-                    'monolog.name'    => 'bolt',
-                    'monolog.level'   => constant('Monolog\Logger::' . strtoupper($this['config']->get('general/debuglog/level'))),
-                    'monolog.logfile' => $this['resources']->getPath('cache') . '/' . $this['config']->get('general/debuglog/filename')
-                ]
-            );
-        }
     }
 
     /**
