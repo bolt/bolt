@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
+use Bolt\EventListener\StorageEventListener;
 use Bolt\Storage;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\MetadataDriver;
@@ -102,9 +103,18 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return $cm;
             }
         );
+
+        $app['storage.listener'] = $app->share(function () use ($app) {
+            $hashStrength = max($this->config->get('general/hash_strength'), 8);
+
+            return new StorageEventListener($hashStrength);
+        });
     }
 
     public function boot(Application $app)
     {
+        /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
+        $dispatcher = $app['dispatcher'];
+        $dispatcher->addSubscriber($app['storage.listener']);
     }
 }
