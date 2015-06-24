@@ -168,7 +168,7 @@ class Users
      */
     public function resetPasswordRequest($username)
     {
-        return $this->app['authentication']->resetPasswordRequest($username);
+        return $this->app['authentication.password']->resetPasswordRequest($username);
     }
 
     /**
@@ -176,7 +176,7 @@ class Users
      */
     public function resetPasswordConfirm($token)
     {
-        return $this->app['authentication']->resetPasswordConfirm($token);
+        return $this->app['authentication.password']->resetPasswordConfirm($token);
     }
 
     /**
