@@ -47,7 +47,7 @@ class AccessChecker
      * @param SessionInterface     $session
      * @param FlashLoggerInterface $flashLogger
      * @param LoggerInterface      $systemLogger
-     * @param Permissions          $permisisons
+     * @param Permissions          $permissions
      * @param array                $cookieOptions
      */
     public function __construct(
@@ -56,7 +56,7 @@ class AccessChecker
         SessionInterface $session,
         FlashLoggerInterface $flashLogger,
         LoggerInterface $systemLogger,
-        Permissions $permisisons,
+        Permissions $permissions,
         array $cookieOptions)
     {
         $this->repositoryAuthtoken = $repositoryAuthtoken;
@@ -64,7 +64,7 @@ class AccessChecker
         $this->session = $session;
         $this->flashLogger = $flashLogger;
         $this->systemLogger = $systemLogger;
-        $this->permisisons = $permisisons;
+        $this->permissions = $permissions;
         $this->cookieOptions = $cookieOptions;
     }
 
@@ -301,7 +301,7 @@ class AccessChecker
      *
      * @return string|boolean
      */
-    private function getAuthToken($name = '', $salt = '')
+    protected function getAuthToken($name = '', $salt = '')
     {
         if (empty($name)) {
             return false;
@@ -322,33 +322,5 @@ class AccessChecker
         $token = md5($seed);
 
         return $token;
-    }
-
-    /**
-     * Calculate the amount of time until we should throttle login attempts for
-     * a user.
-     *
-     * The amount is increased exponentially with each attempt: 1, 4, 9, 16, 25,
-     * 36, .. seconds.
-     *
-     * Note: I just realized this is conceptually wrong: we should throttle
-     * based on remote_addr, not username. So, this isn't used, yet.
-     *
-     * @param integer $attempts
-     *
-     * @return \DateTime
-     */
-    private function throttleUntil($attempts)
-    {
-        if ($attempts < 5) {
-            return null;
-        } else {
-            $wait = pow(($attempts - 4), 2);
-
-            $dt = new \DateTime();
-            $di = new \DateInterval("PT{$wait}S");
-
-            return $dt->add($di);
-        }
     }
 }

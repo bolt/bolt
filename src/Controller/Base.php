@@ -173,17 +173,11 @@ abstract class Base implements ControllerProviderInterface
     /**
      * Returns the Authentication object.
      *
-     * @param string $provider
-     *
-     * @return \Bolt\AccessControl\Authentication
+     * @return \Bolt\AccessControl\AccessChecker
      */
-    protected function authentication($provider = null)
+    protected function authentication()
     {
-        if ($provider === null) {
-            return $this->app['authentication'];
-        }
-
-        return $this->app["authentication.$provider"];
+        return $this->app['authentication'];
     }
 
     /**

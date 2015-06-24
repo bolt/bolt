@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Login
+class Login extends AccessChecker
 {
     /** @var \Bolt\Storage\Repository\AuthtokenRepository */
     protected $repositoryAuthtoken;
