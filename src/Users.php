@@ -76,7 +76,9 @@ class Users
      */
     public function checkValidSession()
     {
-        return $this->app['authentication']->checkValidSession();
+        $request = Request::createFromGlobals();
+
+        return $this->app['authentication']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
     }
 
     /**
@@ -134,7 +136,7 @@ class Users
      */
     public function login($user, $password)
     {
-        return $this->app['authentication']->login($user, $password);
+        return $this->app['authentication.login']->login($user, $password);
     }
 
     /**
@@ -142,7 +144,7 @@ class Users
      */
     protected function loginEmail($email, $password)
     {
-        return $this->app['authentication']->login($email, $password);
+        return $this->app['authentication.login']->login($email, $password);
     }
 
     /**
@@ -150,7 +152,7 @@ class Users
      */
     public function loginUsername($username, $password)
     {
-        return $this->app['authentication']->login($username, $password);
+        return $this->app['authentication.login']->login($username, $password);
     }
 
     /**
@@ -160,7 +162,7 @@ class Users
     {
         $request = Request::createFromGlobals();
 
-        return $this->app['authentication']->login(null, null, $request->cookies->get($this->app['token.authentication.name']));
+        return $this->app['authentication.login']->login(null, null, $request->cookies->get($this->app['token.authentication.name']));
     }
 
     /**
@@ -184,7 +186,7 @@ class Users
      */
     public function logout()
     {
-        return $this->app['authentication']->logout();
+        return $this->app['authentication']->revokeSession();
     }
 
     /**
