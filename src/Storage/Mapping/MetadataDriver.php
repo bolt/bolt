@@ -90,7 +90,9 @@ class MetadataDriver implements MappingDriver
     public function initializeShortAliases()
     {
         foreach ($this->schemaManager->getTablesSchema() as $table) {
-            $this->aliases[$this->schemaManager->getKeyForTable($table->getName())] = $table->getName();
+            if ($tableName = $table->getName()) {
+                $this->aliases[$this->schemaManager->getKeyForTable($table->getName())] = $tableName;
+            }
         }
     }
 
@@ -166,7 +168,10 @@ class MetadataDriver implements MappingDriver
             ];
 
             $this->metadata[$className]['fields'][$colName] = $mapping;
-            $this->metadata[$className]['fields'][$colName]['data'] = $this->contenttypes[$contentKey]['fields'][$colName];
+
+            if (isset($this->contenttypes[$contentKey]['fields'][$colName])) {
+                $this->metadata[$className]['fields'][$colName]['data'] = $this->contenttypes[$contentKey]['fields'][$colName];
+            }
         }
 
         // This loop checks the contenttypes definition for any non-db fields and adds them.

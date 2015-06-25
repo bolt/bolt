@@ -518,6 +518,8 @@ class Manager
      */
     public function getKeyForTable($table)
     {
-        return $this->tableMap[$table];
+        if (isset($this->tableMap[$table])) {
+            return $this->tableMap[$table];
+        }
     }
 }
