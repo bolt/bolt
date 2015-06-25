@@ -181,7 +181,7 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Shortcut for {@see \Bolt\Users::checkAntiCSRFToken}
+     * Shortcut for {@see \Bolt\AccessControl\AccessChecker::checkAntiCSRFToken}
      *
      * @param string $token
      *

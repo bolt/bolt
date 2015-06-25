@@ -92,7 +92,7 @@ class AccessChecker
      *
      * @return boolean
      */
-    public function checkAntiCSRFToken($token = '')
+    public function checkAntiCSRFToken($token)
     {
         if ($token === $this->getAntiCSRFToken()) {
             return true;
@@ -285,7 +285,7 @@ class AccessChecker
      *
      * @return string
      */
-    public function getAntiCSRFToken($token)
+    public function getAntiCSRFToken($token = '')
     {
         if ($this->cookieOptions['remoteaddr']) {
             $token .= '-' . $this->remoteIP;
