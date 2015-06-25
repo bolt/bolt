@@ -267,7 +267,7 @@ class Login extends AccessChecker
      * a user.
      *
      * The amount is increased exponentially with each attempt: 1, 4, 9, 16, 25,
-     * 36, .. seconds.
+     * 36… seconds.
      *
      * Note: I just realized this is conceptually wrong: we should throttle
      * based on remote_addr, not username. So, this isn't used, yet.

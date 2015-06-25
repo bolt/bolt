@@ -217,6 +217,8 @@ class AccessChecker
 
         // Check if user is _still_ allowed to log on.
         if (!$this->permissions->isAllowed('login', $sessionAuth->getUser()->toArray(), null) || !$sessionAuth->isEnabled()) {
+            $this->systemLogger->error('User ' . $sessionAuth->getUser()->getUserName() . ' has been disabled and can not login.', ['event' => 'authentication']);
+
             return false;
         }
 
@@ -244,7 +246,7 @@ class AccessChecker
             return true;
         }
 
-        $this->systemLogger->error("Keys don't match. Invalidating session: $key != " . $tokenEntity->getToken(), ['event' => 'authentication']);
+        $this->systemLogger->error("Invalidating session: Recalculated session token '$key' doesn't match user provided token '" . $tokenEntity->getToken() . "'", ['event' => 'authentication']);
         $this->systemLogger->info("Automatically logged out user '" . $userEntity->getUsername() . "': Session data didn't match.", ['event' => 'authentication']);
 
         return false;
@@ -294,17 +296,19 @@ class AccessChecker
     }
 
     /**
-     * Get a key to identify the session with.
+     * Get a MD5 hash key to identify the session with. This is calculated from
+     * a name, a salt, and optionally the remote IP address, broswer's agent
+     * string and the user's HTTP hostname.
      *
      * @param string $name
      * @param string $salt
      *
      * @return string|boolean
      */
-    protected function getAuthToken($name = '', $salt = '')
+    protected function getAuthToken($name, $salt)
     {
-        if (empty($name)) {
-            return false;
+        if (empty($name) || empty($salt)) {
+            throw new \InvalidArgumentException(__FUNCTION__ . ' required a name and salt to be provided.');
         }
 
         $seed = $name . '-' . $salt;
