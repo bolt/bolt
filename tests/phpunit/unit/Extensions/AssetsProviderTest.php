@@ -1,8 +1,9 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Extensions;
 use Bolt\Asset\Target;
+use Bolt\Extensions;
+use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -405,14 +406,16 @@ HTML;
     public function testInsertWidget()
     {
         $app = $this->getApp();
-        $app['extensions']->insertWidget('test', Target::START_OF_BODY, "", "testext", "", false);
-        $this->expectOutputString("<section><div class='widget' id='widget-dacf7046' data-key='dacf7046'></div></section>");
+        $this->setSessionUser(new Entity\Users());
+        $app['extensions']->insertWidget('test', Target::START_OF_BODY, '', 'testext', '', false);
+        $this->expectOutputString("<section><div class='widget' id='widget-74854909' data-key='74854909'></div></section>");
         $app['extensions']->renderWidgetHolder('test', Target::START_OF_BODY);
     }
 
     public function testWidgetCaches()
     {
         $app = $this->getApp();
+        $this->setSessionUser(new Entity\Users());
         $app['cache'] = new Mock\Cache();
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
         $this->assertFalse($app['cache']->fetch('5e4c97cb'));
@@ -426,6 +429,7 @@ HTML;
     public function testInvalidWidget()
     {
         $app = $this->getApp();
+        $this->setSessionUser(new Entity\Users());
         $app['extensions']->insertWidget('test', Target::START_OF_BODY, "", "testext", "", false);
         $result = $app['extensions']->renderWidget('fakekey');
         $this->assertEquals("Invalid key 'fakekey'. No widget found.", $result);
@@ -434,6 +438,7 @@ HTML;
     public function testWidgetWithCallback()
     {
         $app = $this->getApp();
+        $this->setSessionUser(new Entity\Users());
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
 
         $app['extensions']->insertWidget('test', Target::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
@@ -444,6 +449,7 @@ HTML;
     public function testWidgetWithGlobalCallback()
     {
         $app = $this->getApp();
+        $this->setSessionUser(new Entity\Users());
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
 
         $app['extensions']->insertWidget(
