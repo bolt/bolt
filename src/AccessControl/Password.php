@@ -45,7 +45,7 @@ class Password
     {
         $password = false;
 
-        if ($userEntity = $this->repositoryUsers->getUser($username)) {
+        if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUser($username)) {
             $password = $this->app['randomgenerator']->generateString(12);
 
             $hasher = new PasswordHash($this->hashStrength, true);
@@ -56,7 +56,7 @@ class Password
             $userEntity->setShadowtoken('');
             $userEntity->setShadowvalidity(null);
 
-            $this->repositoryUsers->save($userEntity);
+            $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
             $this->app['logger.system']->info(
                 "Password for user '{$userEntity->getUsername()}' was reset via Nut.",
@@ -79,13 +79,13 @@ class Password
         // Append the remote caller's IP to the token
         $token .= '-' . str_replace('.', '-', $this->remoteIP);
 
-        if ($userEntity = $this->repositoryUsers->getUserShadowAuth($token)) {
+        if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUserShadowAuth($token)) {
             // Update entries
             $userEntity->setPassword($userEntity->getShadowpassword());
             $userEntity->setShadowpassword('');
             $userEntity->setShadowtoken('');
             $userEntity->setShadowvalidity(null);
-            $this->repositoryUsers->save($userEntity);
+            $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
             $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
         } else {
@@ -104,7 +104,7 @@ class Password
      */
     public function resetPasswordRequest($username)
     {
-        $userEntity = $this->repositoryUsers->getUser($username);
+        $userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUser($username);
 
         if (!$userEntity) {
             // For safety, this is the message we display, regardless of whether user exists.
@@ -124,7 +124,7 @@ class Password
         $userEntity->setShadowpassword($shadowhashed);
         $userEntity->setShadowtoken($shadowtoken . '-' . str_replace('.', '-', $this->remoteIP));
         $userEntity->setShadowvalidity($validity->add($delay));
-        $this->repositoryUsers->save($userEntity);
+        $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
         // Sent the password reset notification
         $this->resetPasswordNotification($userEntity, $shadowpassword, $shadowtoken);
