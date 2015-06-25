@@ -163,9 +163,23 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        $auth = $this->getMock(
+        $auth = $this->getAccessCheckerMock($app);
+        $auth->expects($this->any())
+            ->method('isValidSession')
+            ->will($this->returnValue(true));
+
+        $app['authentication'] = $auth;
+    }
+
+    /**
+     * @param \Bolt\Application $app
+     * @param array             $functions Defaults to ['isValidSession']
+     */
+    protected function getAccessCheckerMock($app, $functions = ['isValidSession'])
+    {
+        $accessCheckerMock = $this->getMock(
             'Bolt\AccessControl\AccessChecker',
-            ['isValidSession'],
+            $functions,
             [
                 $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
                 $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
@@ -177,11 +191,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 $app['authentication.cookie.options']
             ]
         );
-        $auth->expects($this->any())
-            ->method('isValidSession')
-            ->will($this->returnValue(true));
 
-        $app['authentication'] = $auth;
+        return $accessCheckerMock;
     }
 
     /**
