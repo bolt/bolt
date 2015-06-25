@@ -6,6 +6,7 @@ use Bolt\Storage\Repository\AuthtokenRepository;
 use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
 use Psr\Log\LoggerInterface;
+use RandomLib\Generator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use UAParser;
@@ -30,6 +31,8 @@ class AccessChecker
     protected $systemLogger;
     /** @var \Bolt\AccessControl\Permissions */
     protected $permissions;
+    /** @var \RandomLib\Generator */
+    protected $randomGenerator;
     /** @var boolean */
     protected $validsession;
     /** @var string */
@@ -57,6 +60,7 @@ class AccessChecker
         FlashLoggerInterface $flashLogger,
         LoggerInterface $systemLogger,
         Permissions $permissions,
+        Generator $randomGenerator,
         array $cookieOptions)
     {
         $this->repositoryAuthtoken = $repositoryAuthtoken;
@@ -65,6 +69,7 @@ class AccessChecker
         $this->flashLogger = $flashLogger;
         $this->systemLogger = $systemLogger;
         $this->permissions = $permissions;
+        $this->randomGenerator = $randomGenerator;
         $this->cookieOptions = $cookieOptions;
     }
 
@@ -300,18 +305,18 @@ class AccessChecker
      * a name, a salt, and optionally the remote IP address, broswer's agent
      * string and the user's HTTP hostname.
      *
-     * @param string $name
+     * @param string $username
      * @param string $salt
      *
      * @return string|boolean
      */
-    protected function getAuthToken($name, $salt)
+    protected function getAuthToken($username, $salt)
     {
-        if (empty($name) || empty($salt)) {
+        if (empty($username) || empty($salt)) {
             throw new \InvalidArgumentException(__FUNCTION__ . ' required a name and salt to be provided.');
         }
 
-        $seed = $name . '-' . $salt;
+        $seed = $username . '-' . $salt;
 
         if ($this->cookieOptions['remoteaddr']) {
             $seed .= '-' . $this->remoteIP;

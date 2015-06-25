@@ -20,48 +20,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  */
 class Login extends AccessChecker
 {
-    /** @var \Bolt\Storage\Repository\AuthtokenRepository */
-    protected $repositoryAuthtoken;
-    /** @var \Symfony\Component\HttpFoundation\Session\SessionInterface */
-    protected $session;
-    /** @var \Bolt\Logger\FlashLoggerInterface */
-    protected $flashLogger;
-    /** @var LoggerInterface */
-    protected $systemLogger;
-    /** @var \RandomLib\Generator */
-    protected $randomGenerator;
-    /** @var integer */
-    protected $cookiesLifetime;
-
-    /**
-     * Constructor.
-     *
-     * @param AuthtokenRepository  $repositoryAuthtoken
-     * @param UsersRepository      $repositoryUsers
-     * @param SessionInterface     $session
-     * @param FlashLoggerInterface $flashLogger
-     * @param LoggerInterface      $systemLogger
-     * @param Generator            $randomGenerator
-     * @param string               $cookiesLifetime
-     */
-    public function __construct(
-        AuthtokenRepository $repositoryAuthtoken,
-        UsersRepository $repositoryUsers,
-        SessionInterface $session,
-        FlashLoggerInterface $flashLogger,
-        LoggerInterface $systemLogger,
-        Generator $randomGenerator,
-        $cookiesLifetime)
-    {
-        $this->repositoryAuthtoken = $repositoryAuthtoken;
-        $this->repositoryUsers = $repositoryUsers;
-        $this->session = $session;
-        $this->flashLogger = $flashLogger;
-        $this->systemLogger = $systemLogger;
-        $this->randomGenerator = $randomGenerator;
-        $this->cookiesLifetime = $cookiesLifetime;
-    }
-
     /**
      * Attempt to login a user with the given password. Accepts username or
      * email.
@@ -245,12 +203,14 @@ class Login extends AccessChecker
             $tokenEntity = new Entity\Authtoken();
         }
 
-        $validityPeriod = $this->cookiesLifetime;
+        $username = $userEntity->getUsername();
+        $token = $this->getAuthToken($username, $salt);
+        $validityPeriod = $this->cookieOptions['lifetime'];
         $validityDate = new \DateTime();
         $validityInterval = new \DateInterval("PT{$validityPeriod}S");
 
         $tokenEntity->setUsername($userEntity->getUsername());
-        $tokenEntity->setToken($this->getAuthToken($userEntity->getUsername(), $salt));
+        $tokenEntity->setToken($token);
         $tokenEntity->setSalt($salt);
         $tokenEntity->setValidity($validityDate->add($validityInterval));
         $tokenEntity->setIp($this->remoteIP);
