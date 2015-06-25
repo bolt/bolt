@@ -54,6 +54,20 @@ class Persister
     }
     
     /**
+     * Marks a previously excluded field to be included on persistence
+     * 
+     * @param string $field
+     *
+     * @return void
+     */
+    public function enableField($field)
+    {
+        if (in_array($field, $this->disabledFields)) {
+            unset($this->disabledFields[$field]); 
+        }
+    }
+    
+    /**
      * Fetch the fields that will be persisted
      *
      * @return void
