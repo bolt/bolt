@@ -27,6 +27,8 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 {
+    private $app;
+
     protected function resetDb()
     {
         // Make sure we wipe the db file to start with a clean one
@@ -38,11 +40,12 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function getApp()
     {
-        $bolt = $this->makeApp();
-        $bolt->initialize();
-        $bolt->boot();
-
-        return $bolt;
+        if (!$this->app) {
+            $this->app = $this->makeApp();
+            $this->app->initialize();
+            $this->app->boot();
+        }
+        return $this->app;
     }
 
     protected function makeApp()
