@@ -13,6 +13,26 @@ use Symfony\Component\HttpFoundation\Request;
  **/
 class AuthenticationTest extends ControllerUnitTest
 {
+    protected function getLoginMock($app)
+    {
+        $loginMock = $this->getMock(
+            'Bolt\AccessControl\Login',
+            ['login'],
+            [
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
+                $app['session'],
+                $app['logger.flash'],
+                $app['logger.system'],
+                $app['permissions'],
+                $app['randomgenerator'],
+                $app['authentication.cookie.options']
+            ]
+        );
+
+        return $loginMock;
+    }
+
     public function testPostLogin()
     {
         $this->setRequest(Request::create('/bolt/login', 'POST', [
@@ -22,21 +42,12 @@ class AuthenticationTest extends ControllerUnitTest
         ]));
 
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication',
-            ['login'],
-            [
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
-            ]
-        );
-
-        $authentication->expects($this->once())
+        $loginMock = $this->getLoginMock($app);
+        $loginMock->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('authentication.login', $loginMock);
 
         $this->setSessionUser(new Entity\Users(['username' => 'test', 'roles' => []]));
         $this->addDefaultUser($this->getApp());
@@ -54,20 +65,12 @@ class AuthenticationTest extends ControllerUnitTest
         ]));
 
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication',
-            ['login'],
-            [
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
-            ]
-        );
-        $authentication->expects($this->once())
+        $loginMock = $this->getLoginMock($app);
+        $loginMock->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test@example.com'), $this->equalTo('pass'))
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('authentication.login', $loginMock);
 
         $this->setSessionUser(new Entity\Users(['username' => 'test', 'email' => 'test@example.com', 'roles' => []]));
         $this->addDefaultUser($this->getApp());
@@ -85,20 +88,12 @@ class AuthenticationTest extends ControllerUnitTest
         ]));
 
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication',
-            ['login'],
-            [
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
-            ]
-        );
-        $authentication->expects($this->once())
+        $loginMock = $this->getLoginMock($app);
+        $loginMock->expects($this->once())
             ->method('login')
             ->with($this->equalTo('test'), $this->equalTo('pass'))
             ->will($this->returnValue(false));
-        $this->setService('authentication', $authentication);
+        $this->setService('authentication.login', $loginMock);
 
         $this->checkTwigForTemplate($this->getApp(), 'login/login.twig');
         $this->controller()->postLogin($this->getRequest());
@@ -116,19 +111,11 @@ class AuthenticationTest extends ControllerUnitTest
     public function testLoginSuccess()
     {
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication',
-            ['login'],
-            [
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
-            ]
-        );
-        $authentication->expects($this->any())
+        $loginMock = $this->getLoginMock($app);
+        $loginMock->expects($this->any())
             ->method('login')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('authenticatio.loginn', $loginMock);
 
         $this->setSessionUser(new Entity\Users(['username' => 'test', 'roles' => []]));
 
@@ -144,23 +131,23 @@ class AuthenticationTest extends ControllerUnitTest
         $this->setService('swiftmailer.transport', new \Swift_Transport_NullTransport($dispatcher));
 
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication',
-            ['login', 'resetPasswordRequest'],
-            [
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
-            ]
-        );
-        $authentication->expects($this->any())
+        $this->setSessionUser(new Entity\Users());
+        $loginMock = $this->getLoginMock($app);
+        $loginMock->expects($this->any())
             ->method('login')
             ->will($this->returnValue(true));
-        $authentication->expects($this->once())
+        $this->setService('authentication.login', $loginMock);
+
+        $passwordMock = $this->getMock(
+            'Bolt\AccessControl\Password',
+            ['resetPasswordRequest'],
+            [$app]
+        );
+        $passwordMock->expects($this->once())
             ->method('resetPasswordRequest')
             ->with($this->equalTo('admin'))
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('authentication.password', $passwordMock);
 
         // Test missing username fails
         $this->setRequest(Request::create('/bolt/login', 'POST', ['action' => 'reset']));
@@ -178,16 +165,21 @@ class AuthenticationTest extends ControllerUnitTest
     {
         $app = $this->getApp();
         $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication',
-            ['logout'],
+            'Bolt\AccessControl\AccessChecker',
+            ['revokeSession'],
             [
-                $app,
                 $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
+                $app['session'],
+                $app['logger.flash'],
+                $app['logger.system'],
+                $app['permissions'],
+                $app['randomgenerator'],
+                $app['authentication.cookie.options']
             ]
         );
         $authentication->expects($this->once())
-            ->method('logout')
+            ->method('revokeSession')
             ->will($this->returnValue(true));
         $this->setService('authentication', $authentication);
 
@@ -200,19 +192,15 @@ class AuthenticationTest extends ControllerUnitTest
     public function testResetPassword()
     {
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication',
+        $passwordMock = $this->getMock(
+            'Bolt\AccessControl\Password',
             ['resetPasswordConfirm'],
-            [
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
-            ]
+            [$app]
         );
-        $authentication->expects($this->once())
+        $passwordMock->expects($this->once())
             ->method('resetPasswordConfirm')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('authentication', $passwordMock);
 
         $this->setRequest(Request::create('/bolt/resetpassword'));
 
