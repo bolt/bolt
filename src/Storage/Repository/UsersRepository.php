@@ -119,7 +119,8 @@ class UsersRepository extends Repository
     public function getUserShadowAuthQuery($shadowtoken)
     {
         $qb = $this->createQueryBuilder();
-        $qb->where('shadowtoken = :shadowtoken')
+        $qb->select('*')
+            ->where('shadowtoken = :shadowtoken')
             ->andWhere('shadowvalidity > :shadowvalidity')
             ->setParameter('shadowtoken', $shadowtoken)
             ->setParameter('shadowvalidity', date('Y-m-d H:i:s'));
