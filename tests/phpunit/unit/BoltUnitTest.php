@@ -2,6 +2,8 @@
 namespace Bolt\Tests;
 
 use Bolt\AccessControl\Authentication;
+use Bolt\AccessControl\Token;
+use Bolt\Storage\Entity;
 use Bolt\Application;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
@@ -159,7 +161,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $this->setService('permissions', $permissions);
 
         $auth = $this->getMock(
-            'Bolt\AccessControl\Authentication',
+            'Bolt\AccessControl\AccessChecker',
             ['isValidSession'],
             [
                 $app,
@@ -213,5 +215,28 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
         $storage = new Storage($app);
         $storage->prefill(['showcases', 'pages']);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
+    protected function setService($key, $value)
+    {
+        $this->getApp()->offsetSet($key, $value);
+    }
+
+    protected function getService($key)
+    {
+        return $this->getApp()->offsetGet($key);
+    }
+
+    protected function setSessionUser(Entity\Users $userEntity)
+    {
+        $tokenEntity = new Entity\Authtoken();
+        $tokenEntity->setToken('testtoken');
+        $authToken = new Token($userEntity, $tokenEntity);
+
+        $this->getService('session')->set('authentication', $authToken);
     }
 }

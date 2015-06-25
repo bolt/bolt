@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Tests\Controller;
 
-use Bolt\AccessControl\Token;
-use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -28,29 +26,6 @@ abstract class ControllerUnitTest extends BoltUnitTest
     protected function getRequest()
     {
         return $this->getApp()->offsetGet('request');
-    }
-
-    /**
-     * @param string $key
-     * @param mixed  $value
-     */
-    protected function setService($key, $value)
-    {
-        $this->getApp()->offsetSet($key, $value);
-    }
-
-    protected function getService($key)
-    {
-        return $this->getApp()->offsetGet($key);
-    }
-
-    protected function setSessionUser(Entity\Users $userEntity)
-    {
-        $tokenEntity = new Entity\Authtoken();
-        $tokenEntity->setToken('testtoken');
-        $authToken = new Token($userEntity, $tokenEntity);
-
-        $this->getService('session')->set('authentication', $authToken);
     }
 
     protected function getApp()
