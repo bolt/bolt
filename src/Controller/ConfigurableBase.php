@@ -83,7 +83,8 @@ abstract class ConfigurableBase extends Base
 
         foreach ($config['requirements'] ?: [] as $variable => $callback) {
             $callback = $this->callbackResolver->resolveCallback($callback);
-            $route->assert($variable, call_user_func($callback));
+            $requirement = is_callable($callback) ? call_user_func($callback) : $callback;
+            $route->assert($variable, $requirement);
         }
 
         if ($host = $config['host']) {
