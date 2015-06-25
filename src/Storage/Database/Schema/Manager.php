@@ -134,12 +134,11 @@ class Manager
     /**
      * Check if all required tables and columns are present in the DB.
      *
-     * @param boolean         $hinting     Return hints if true
-     * @param LoggerInterface $debugLogger Debug logger
+     * @param boolean $hinting Return hints if true
      *
      * @return CheckResponse
      */
-    public function checkTablesIntegrity($hinting = false, LoggerInterface $debugLogger = null)
+    public function checkTablesIntegrity($hinting = false)
     {
         $response = new CheckResponse($hinting);
         $comparator = new Comparator();
@@ -168,11 +167,9 @@ class Manager
             // If a table still has messages, we want to unset the valid state
             $valid = !$response->hasResponses();
 
-            // If we were passed in a debug logger, log the diffs
-            if ($debugLogger !== null) {
-                foreach ($response->getDiffDetails() as $diff) {
-                    $debugLogger->info('Database update required', $diff);
-                }
+            // If we are using the debug logger, log the diffs
+            foreach ($response->getDiffDetails() as $diff) {
+                $this->app['logger.system']->debug('Database update required', $diff);
             }
         }
 
