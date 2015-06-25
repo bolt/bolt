@@ -330,6 +330,8 @@ class AccessChecker
 
         $token = md5($seed);
 
+        $this->systemLogger->debug("Generating authentication cookie — name: $username, salt: $salt, seed: $seed Result: $token", ['event' => 'authentication']);
+
         return $token;
     }
 }

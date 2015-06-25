@@ -219,6 +219,8 @@ class Login extends AccessChecker
 
         $this->repositoryAuthtoken->save($tokenEntity);
 
+        $this->systemLogger->debug("Saving new login token '$token' for user ID '$username'", ['event' => 'authentication']);
+
         return $tokenEntity;
     }
 
