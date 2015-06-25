@@ -239,7 +239,7 @@ class Login extends AccessChecker
      */
     protected function updateAuthToken($userEntity)
     {
-        $salt = $this->randomGenerator->generateString(12);
+        $salt = $this->randomGenerator->generateString(32);
 
         if (!$tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->remoteIP, $this->userAgent)) {
             $tokenEntity = new Entity\Authtoken();
