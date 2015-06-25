@@ -167,9 +167,14 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             'Bolt\AccessControl\AccessChecker',
             ['isValidSession'],
             [
-                $app,
                 $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
+                $app['session'],
+                $app['logger.flash'],
+                $app['logger.system'],
+                $app['permissions'],
+                $app['randomgenerator'],
+                $app['authentication.cookie.options']
             ]
         );
         $auth->expects($this->any())
