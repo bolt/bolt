@@ -96,7 +96,7 @@ class ExceptionListener implements EventSubscriberInterface
 
             // Don't display the full path.
             if (isset($trace[$key]['file'])) {
-                $trace[$key]['file'] = str_replace($this->rootPath, '[root]', $trace[$key]['file']);
+                $trace[$key]['file'] = str_replace($this->rootPath, '[root]/', $trace[$key]['file']);
             }
         }
 
