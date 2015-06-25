@@ -153,15 +153,7 @@ class UsersTest extends ControllerUnitTest
     {
         // Now we mock the CSRF token to validate
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication',
-            ['checkAntiCSRFToken'],
-            [
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
-            ]
-        );
+        $authentication = $this->getAccessCheckerMock($app, ['checkAntiCSRFToken']);
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
@@ -244,15 +236,7 @@ class UsersTest extends ControllerUnitTest
 
         // Now we mock the CSRF token to validate
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication',
-            ['checkAntiCSRFToken'],
-            [
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users')
-            ]
-        );
+        $authentication = $this->getAccessCheckerMock($app, ['checkAntiCSRFToken']);
         $authentication->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
