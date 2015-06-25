@@ -13,26 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
  **/
 class AuthenticationTest extends ControllerUnitTest
 {
-    protected function getLoginMock($app)
-    {
-        $loginMock = $this->getMock(
-            'Bolt\AccessControl\Login',
-            ['login'],
-            [
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
-                $app['session'],
-                $app['logger.flash'],
-                $app['logger.system'],
-                $app['permissions'],
-                $app['randomgenerator'],
-                $app['authentication.cookie.options']
-            ]
-        );
-
-        return $loginMock;
-    }
-
     public function testPostLogin()
     {
         $this->setRequest(Request::create('/bolt/login', 'POST', [

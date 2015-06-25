@@ -184,6 +184,30 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $app['authentication'] = $auth;
     }
 
+    /**
+     * @param \Bolt\Application $app
+     * @param array             $functions Defaults to ['login']
+     */
+    protected function getLoginMock($app, $functions = ['login'])
+    {
+        $loginMock = $this->getMock(
+            'Bolt\AccessControl\Login',
+            $functions,
+            [
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
+                $app['session'],
+                $app['logger.flash'],
+                $app['logger.system'],
+                $app['permissions'],
+                $app['randomgenerator'],
+                $app['authentication.cookie.options']
+            ]
+        );
+
+        return $loginMock;
+    }
+
     protected function getTwigHandlers($app)
     {
         return new \Pimple([
