@@ -24,19 +24,20 @@ class Login extends AccessChecker
      * Attempt to login a user with the given password. Accepts username or
      * email.
      *
-     * @param string $userName
-     * @param string $password
-     * @param string $authCookie
+     * @param string  $userName
+     * @param string  $password
+     * @param string  $authCookie
+     * @param integer $hashStrength
      *
      * @return boolean
      */
-    public function login($userName = null, $password = null, $authCookie = null)
+    public function login($userName = null, $password = null, $authCookie = null, $hashStrength = 8)
     {
         // Remove expired tokens
         $this->repositoryAuthtoken->deleteExpiredTokens();
 
         if ($userName !== null && $password !== null) {
-            return $this->loginCheckPassword($userName, $password);
+            return $this->loginCheckPassword($userName, $password, $hashStrength);
         } elseif ($authCookie !== null) {
             return $this->loginCheckAuthtoken($authCookie);
         }
@@ -49,18 +50,20 @@ class Login extends AccessChecker
     /**
      * Check a user login request for username/password combinations.
      *
-     * @param string $userName
-     * @param string $password
+     * @param string  $userName
+     * @param string  $password
+     * @param integer $hashStrength
      *
      * @return boolean
      */
-    protected function loginCheckPassword($userName, $password)
+    protected function loginCheckPassword($userName, $password, $hashStrength)
     {
         if (!$userEntity = $this->getUserEntity($userName)) {
             return false;
         }
 
-        $hasher = new PasswordHash($this->hashStrength, true);
+        $hashStrength = max($hashStrength, 8);
+        $hasher = new PasswordHash($hashStrength, true);
         if (!$hasher->CheckPassword($password, $userEntity->getPassword())) {
             $this->loginFailed($userEntity);
 

@@ -5,6 +5,7 @@ use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Repository\AuthtokenRepository;
 use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
+use Hautelook\Phpass\PasswordHash;
 use Psr\Log\LoggerInterface;
 use RandomLib\Generator;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,12 +21,11 @@ class AccessChecker
 {
     /** @var \Bolt\Storage\Repository\AuthtokenRepository */
     protected $repositoryAuthtoken;
-    /** @var \Symfony\Component\HttpFoundation\Session\SessionInterface */
-    /** @var array */
-    protected $cookieOptions;
+    /** @var \Bolt\Storage\Repository\UsersRepository */
+    protected $repositoryUsers;
     /** @var \Symfony\Component\HttpFoundation\Session\SessionInterface */
     protected $session;
-    /** @var \Bolt\Logger\FlashLogger */
+    /** @var \Bolt\Logger\FlashLoggerInterface */
     protected $flashLogger;
     /** @var LoggerInterface */
     protected $systemLogger;
@@ -33,6 +33,8 @@ class AccessChecker
     protected $permissions;
     /** @var \RandomLib\Generator */
     protected $randomGenerator;
+    /** @var array */
+    protected $cookieOptions;
     /** @var boolean */
     protected $validsession;
     /** @var string */
@@ -61,8 +63,8 @@ class AccessChecker
         LoggerInterface $systemLogger,
         Permissions $permissions,
         Generator $randomGenerator,
-        array $cookieOptions)
-    {
+        array $cookieOptions
+    ) {
         $this->repositoryAuthtoken = $repositoryAuthtoken;
         $this->repositoryUsers = $repositoryUsers;
         $this->session = $session;
@@ -204,9 +206,7 @@ class AccessChecker
      */
     protected function checkSessionDatabase($authCookie)
     {
-        if ($this->cookieOptions['browseragent']) {
-            $userAgent = $this->userAgent;
-        }
+        $userAgent = $this->cookieOptions['browseragent'] ? $this->userAgent : null;
 
         if (!$authTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->remoteIP, $userAgent)) {
             return false;

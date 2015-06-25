@@ -136,7 +136,7 @@ class Users
      */
     public function login($user, $password)
     {
-        return $this->app['authentication.login']->login($user, $password);
+        return $this->app['authentication.login']->login($user, $password, null, $this->app['config']->get('general/hash_strength', 8));
     }
 
     /**
