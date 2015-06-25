@@ -19,7 +19,9 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             return new Listener\ExceptionListener(
                 $rootPath,
                 $app['render'],
-                $app['logger.system']
+                $app['logger.system'],
+                $app['session'],
+                $app['config']->get('general/debug', false)
             );
         });
 
