@@ -184,6 +184,7 @@ class Login extends AccessChecker
         $token = new Token($userEntity, $tokenEntity);
 
         $this->session->set('authentication', $token);
+        $this->session->save();
 
         return true;
     }
