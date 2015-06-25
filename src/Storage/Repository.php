@@ -364,6 +364,14 @@ class Repository implements ObjectRepository
     {
         $this->persister = $persister;
     }
+    
+    /**
+     * @return Persister $persister
+     */
+    public function getPersister()
+    {
+        return $this->persister;
+    }
 
     /**
      * @param Loader $loader
