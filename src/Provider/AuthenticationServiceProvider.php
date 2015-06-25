@@ -21,6 +21,12 @@ class AuthenticationServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['authentication.hash.strength'] = $app->share(
+            function () use ($app) {
+                return max($app['config']->get('general/hash_strength'), 8);
+            }
+        );
+
         $app['authentication'] = $app->share(
             function ($app) {
                 $repoAuth = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
