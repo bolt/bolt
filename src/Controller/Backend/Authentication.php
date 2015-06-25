@@ -68,6 +68,8 @@ class Authentication extends BackendBase
      */
     public function postLogin(Request $request)
     {
+        $this->app['authentication.login']->setRequest($request);
+
         $username = trim($request->request->get('username'));
         $password = $request->request->get('password');
         switch ($request->get('action')) {
