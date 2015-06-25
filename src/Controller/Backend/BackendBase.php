@@ -106,6 +106,11 @@ abstract class BackendBase extends Base
         // Check if there's at least one 'root' user, and otherwise promote the current user.
         $this->users()->checkForRoot();
 
+        // If we're resetting passwords, we have nothing more to check
+        if ($route === 'resetpassword') {
+            return null;
+        }
+
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
         if (!$this->authentication()->isValidSession($authCookie) && !$this->isAllowed($route)) {

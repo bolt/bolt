@@ -114,7 +114,7 @@ class Authentication extends BackendBase
      */
     public function resetPassword(Request $request)
     {
-        $this->app['authentication.password']->resetPasswordConfirm($request->get('token'));
+        $this->app['authentication.password']->resetPasswordConfirm($request->get('token'), $request->getClientIp());
 
         return $this->redirectToRoute('login');
     }
@@ -165,7 +165,7 @@ class Authentication extends BackendBase
         if (empty($username)) {
             $this->flashes()->error(Trans::__('Please provide a username'));
         } else {
-            $this->app['authentication.password']->resetPasswordRequest($username);
+            $this->app['authentication.password']->resetPasswordRequest($username, $request->getClientIp());
             $response = $this->redirectToRoute('login');
             $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
 

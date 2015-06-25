@@ -72,15 +72,16 @@ class Password
      * Handle a password reset confirmation
      *
      * @param string $token
+     * @param string $remoteIP
      *
      * @return void
      */
-    public function resetPasswordConfirm($token)
+    public function resetPasswordConfirm($token, $remoteIP)
     {
-        // Append the remote caller's IP to the token
-        $token .= '-' . str_replace('.', '-', $this->remoteIP);
+        // Hash the remote caller's IP with the token
+        $tokenHash = md5($token . '-' . str_replace('.', '-', $remoteIP));
 
-        if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUserShadowAuth($token)) {
+        if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUserShadowAuth($tokenHash)) {
             // Update entries
             $userEntity->setPassword($userEntity->getShadowpassword());
             $userEntity->setShadowpassword('');
@@ -97,13 +98,14 @@ class Password
     }
 
     /**
-     * Sends email with password request. Accepts email or username
+     * Sends email with password request. Accepts email or username.
      *
      * @param string $username
+     * @param string $remoteIP
      *
      * @return boolean
      */
-    public function resetPasswordRequest($username)
+    public function resetPasswordRequest($username, $remoteIP)
     {
         $userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUser($username);
 
@@ -114,21 +116,22 @@ class Password
             return false;
         }
 
-        $shadowpassword = $this->app['randomgenerator']->generateString(12);
-        $shadowtoken = $this->app['randomgenerator']->generateString(32);
+        $shadowPassword = $this->app['randomgenerator']->generateString(12);
+        $shadowToken = $this->app['randomgenerator']->generateString(32);
+        $shadowTokenHash = md5($shadowToken . '-' . str_replace('.', '-', $remoteIP));
         $hasher = new PasswordHash($this->hashStrength, true);
-        $shadowhashed = $hasher->HashPassword($shadowpassword);
+        $shadowPasswordHash = $hasher->HashPassword($shadowPassword);
         $validity = new \DateTime();
         $delay = new \DateInterval(PT2H);
 
         // Set the shadow password and related stuff in the database.
-        $userEntity->setShadowpassword($shadowhashed);
-        $userEntity->setShadowtoken($shadowtoken . '-' . str_replace('.', '-', $this->remoteIP));
+        $userEntity->setShadowpassword($shadowPasswordHash);
+        $userEntity->setShadowtoken($shadowTokenHash);
         $userEntity->setShadowvalidity($validity->add($delay));
         $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
         // Sent the password reset notification
-        $this->resetPasswordNotification($userEntity, $shadowpassword, $shadowtoken);
+        $this->resetPasswordNotification($userEntity, $shadowPassword, $shadowToken);
 
         return true;
     }
