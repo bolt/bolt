@@ -188,7 +188,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 $app['logger.system'],
                 $app['permissions'],
                 $app['randomgenerator'],
-                $app['authentication.cookie.options']
+                $app['authentication.cookie.options']()
             ]
         );
 
@@ -212,7 +212,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 $app['logger.system'],
                 $app['permissions'],
                 $app['randomgenerator'],
-                $app['authentication.cookie.options']
+                $app['authentication.cookie.options']()
             ]
         );
 

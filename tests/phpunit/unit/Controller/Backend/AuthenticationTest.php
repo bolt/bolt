@@ -144,20 +144,7 @@ class AuthenticationTest extends ControllerUnitTest
     public function testLogout()
     {
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\AccessChecker',
-            ['revokeSession'],
-            [
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
-                $app['session'],
-                $app['logger.flash'],
-                $app['logger.system'],
-                $app['permissions'],
-                $app['randomgenerator'],
-                $app['authentication.cookie.options']
-            ]
-        );
+        $authentication = $this->getAccessCheckerMock($app, ['revokeSession']);
         $authentication->expects($this->once())
             ->method('revokeSession')
             ->will($this->returnValue(true));
