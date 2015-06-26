@@ -103,8 +103,8 @@ class Users extends BackendBase
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->isMethod('POST')) {
             $userEntity = $this->validateUserForm($request, $form, false);
-
-            if ($userEntity !== false && $userEntity->getId() === $currentUser->getId() && $userEntity->getUsername() !== $currentUser->getUsername()) {
+            
+            if ($userEntity !== false && $userEntity->getId() == $currentUser->getId() && $userEntity->getUsername() !== $currentUser->getUsername()) {
                 // If the current user changed their own login name, the session
                 // is effectively invalidated. If so, we must redirect to the
                 // login page with a flash message.
@@ -217,7 +217,7 @@ class Users extends BackendBase
 
         // Prevent the current user from enabling, disabling or deleting themselves
         $currentuser = $this->getUser();
-        if ($currentuser->getId() === $user->getId()) {
+        if ($currentuser->getId() == $user->getId()) {
             $this->flashes()->error(Trans::__("You cannot '%s' yourself.", ['%s', $action]));
 
             return $this->redirectToRoute('users');
@@ -233,7 +233,7 @@ class Users extends BackendBase
         switch ($action) {
 
             case 'disable':
-                if ($this->users()->setEnabled($id, 0)) {
+                if ($this->users()->setEnabled($id, false)) {
                     $this->app['logger.system']->info("Disabled user '{$user->getDisplayname()}'.", ['event' => 'security']);
 
                     $this->flashes()->info(Trans::__("User '%s' is disabled.", ['%s' => $user->getDisplayname()]));
