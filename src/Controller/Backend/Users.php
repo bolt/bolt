@@ -103,7 +103,7 @@ class Users extends BackendBase
         // Check if the form was POST-ed, and valid. If so, store the user.
         if ($request->isMethod('POST')) {
             $userEntity = $this->validateUserForm($request, $form, false);
-            
+
             if ($userEntity !== false && $userEntity->getId() == $currentUser->getId() && $userEntity->getUsername() !== $currentUser->getUsername()) {
                 // If the current user changed their own login name, the session
                 // is effectively invalidated. If so, we must redirect to the
@@ -538,8 +538,10 @@ class Users extends BackendBase
             )
             ->add(
                 'lastseen',
-                'text',
+                'datetime',
                 [
+                    'widget'   => 'single_text',
+                    'format'   => 'yyyy-MM-dd HH:mm:ss',
                     'disabled' => true,
                     'label'    => Trans::__('page.edit-users.label.last-seen')
                 ]
