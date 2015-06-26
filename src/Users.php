@@ -209,7 +209,9 @@ class Users
     public function getUsers()
     {
         if (empty($this->users)) {
-            $tempusers = $this->repository->findAll();
+            if (!$tempusers = $this->repository->findAll()) {
+                return;
+            }
 
             /** @var \Bolt\Storage\Entity\Users $userEntity */
             foreach ($tempusers as $userEntity) {
