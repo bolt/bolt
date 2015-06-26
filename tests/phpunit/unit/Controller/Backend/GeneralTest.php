@@ -20,8 +20,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class GeneralTest extends ControllerUnitTest
 {
     /**
-     * @covers Zone::get
-     * @covers Zone::isBackend
+     * @covers \Bolt\Controller\Zone::get
+     * @covers \Bolt\Controller\Zone::isBackend
      */
     public function testControllerZone()
     {
