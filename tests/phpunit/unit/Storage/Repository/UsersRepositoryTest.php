@@ -21,12 +21,12 @@ class UsersRepositoryTest extends BoltUnitTest
         $this->assertEquals('DELETE FROM bolt_users WHERE (id = :userId) OR (username = :userId) OR (email = :userId)', $query1->getSql());
 
         $query2 = $repo->getUserQuery('user');
-        $this->assertEquals('SELECT * FROM bolt_users WHERE (id = :userId) OR (username = :userId) OR (email = :userId)', $query2->getSql());
+        $this->assertEquals('SELECT * FROM bolt_users users WHERE (id = :userId) OR (username = :userId) OR (email = :userId)', $query2->getSql());
 
         $query3 = $repo->hasUsersQuery();
-        $this->assertEquals('SELECT COUNT(id) as count FROM bolt_users', $query3->getSql());
+        $this->assertEquals('SELECT COUNT(id) as count FROM bolt_users users', $query3->getSql());
 
         $query4 = $repo->getUserShadowAuthQuery('shadowtoken');
-        $this->assertEquals('SELECT * FROM bolt_users WHERE (shadowtoken = :shadowtoken) AND (shadowvalidity > :shadowvalidity)', $query4->getSql());
+        $this->assertEquals('SELECT * FROM bolt_users users WHERE (shadowtoken = :shadowtoken) AND (shadowvalidity > :shadowvalidity)', $query4->getSql());
     }
 }
