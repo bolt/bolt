@@ -14,7 +14,7 @@ class UsersRepository extends Repository
      * Delete a user.
      *
      * @param string|integer $userId Either the user's ID, username, or email
-     * address.
+     *                               address.
      *
      * @return integer
      */
@@ -128,7 +128,6 @@ class UsersRepository extends Repository
         return $qb;
     }
 
-    
     /**
      * Saves a single object that already exists.
      *
@@ -145,7 +144,7 @@ class UsersRepository extends Repository
         } else {
             $result = parent::update($entity);
         }
-                
+
         return $result;
     }
 }
