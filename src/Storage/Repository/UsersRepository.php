@@ -128,14 +128,24 @@ class UsersRepository extends Repository
         return $qb;
     }
 
+    
     /**
-     * Creates a query builder instance namespaced to this repository.
+     * Saves a single object that already exists.
      *
-     * @return QueryBuilder
+     * @param object $entity The entity to save.
+     *
+     * @return boolean
      */
-    public function createQueryBuilder($alias = null)
+    public function update($entity)
     {
-        return $this->em->createQueryBuilder()
-            ->from($this->getTableName());
+        if (empty($entity->getPassword()) || $entity->getPassword() === '**dontchange**') {
+            $this->getPersister()->disableField('password');
+            $result = parent::update($entity);
+            $this->getPersister()->enableField('password');
+        } else {
+            $result = parent::update($entity);
+        }
+                
+        return $result;
     }
 }
