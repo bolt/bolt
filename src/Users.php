@@ -35,8 +35,6 @@ class Users
     {
         $this->app = $app;
         $this->repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
-        // Disable password saves by default
-        $this->repository->getPersister()->disableField('password');
 
         /** @deprecated Will be removed in Bolt 3.0 */
         $this->usertable = $this->app['storage']->getTablename('users');

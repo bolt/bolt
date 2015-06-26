@@ -4,6 +4,7 @@ namespace Bolt\EventListener;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Storage\Entity;
+use Bolt\Storage\EntityManager;
 use Hautelook\Phpass\PasswordHash;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -11,14 +12,18 @@ class StorageEventListener implements EventSubscriberInterface
 {
     /** @var string */
     protected $hashStrength;
+    /** @var \Bolt\Storage\EntityManager */
+    protected $em;
 
     /**
      * Constructor.
      *
-     * @param string $hashStrength
+     * @param string        $hashStrength
+     * @param EntityManager $em
      */
-    public function __construct($hashStrength)
+    public function __construct(EntityManager $em, $hashStrength)
     {
+        $this->em = $em;
         $this->hashStrength = $hashStrength;
     }
 
@@ -49,6 +54,7 @@ class StorageEventListener implements EventSubscriberInterface
             $hasher = new PasswordHash($this->hashStrength, true);
             $usersEntity->setPassword($hasher->HashPassword($usersEntity->getPassword()));
         } else {
+            $this->em->getRepository('Bolt\Storage\Entity\Users')->getPersister()->disableField('password');
             unset($usersEntity->password);
         }
     }
