@@ -154,6 +154,11 @@ class Manager
                 $response->addTitle($tableName, sprintf('Table `%s` is not present.', $tableName));
             } else {
                 $diff = $comparator->diffTable($currentTables[$tableName], $table);
+                
+                if ($diff) {
+                    $diff = $this->cleanupTableDiff($diff);
+                }
+                              
                 if ($diff && $details = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
                     $response->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
                     $response->checkDiff($tableName, $this->cleanupTableDiff($diff));
@@ -272,6 +277,16 @@ class Manager
                 if ($col->getName() === 'interim') {
                     $diff->addedColumns[] = $col;
                     unset($diff->renamedColumns[$key]);
+                }
+            }
+        }
+        
+        // Woraround for the roles table in bolt_users on SQLite
+        // If only the type has changed, we ignore to prevent multiple schema warnings.
+        if ($diff->fromTable->getName() === $this->getTablename('users')) {
+            if (isset($diff->changedColumns['roles'])) {
+                if ($diff->changedColumns['roles']->changedProperties === ['type']) {
+                    unset($diff->changedColumns['roles']);
                 }
             }
         }
