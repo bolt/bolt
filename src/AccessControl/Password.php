@@ -45,8 +45,7 @@ class Password
         if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUser($username)) {
             $password = $this->app['randomgenerator']->generateString(12);
 
-            $hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
-            $hasher = new PasswordHash($hashStrength, true);
+            $hasher = new PasswordHash($this->app['authentication.hash.strength'], true);
             $hashedpassword = $hasher->HashPassword($password);
 
             $userEntity->setPassword($hashedpassword);
@@ -84,6 +83,7 @@ class Password
             $userEntity->setShadowpassword('');
             $userEntity->setShadowtoken('');
             $userEntity->setShadowvalidity(null);
+
             $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
             $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
@@ -117,18 +117,23 @@ class Password
             return false;
         }
 
-        $shadowPassword = $this->app['randomgenerator']->generateString(12);
-        $shadowToken = $this->app['randomgenerator']->generateString(32);
-        $shadowTokenHash = md5($shadowToken . '-' . str_replace('.', '-', $remoteIP));
-        $hasher = new PasswordHash($this->hashStrength, true);
-        $shadowPasswordHash = $hasher->HashPassword($shadowPassword);
         $validity = new \DateTime();
         $delay = new \DateInterval(PT2H);
+
+        // Generate shadow password and hash
+        $hasher = new PasswordHash($this->app['authentication.hash.strength'], true);
+        $shadowPassword = $this->app['randomgenerator']->generateString(12);
+        $shadowPasswordHash = $hasher->HashPassword($shadowPassword);
+
+        // Generate shadow token and hash
+        $shadowToken = $this->app['randomgenerator']->generateString(32);
+        $shadowTokenHash = md5($shadowToken . '-' . str_replace('.', '-', $remoteIP));
 
         // Set the shadow password and related stuff in the database.
         $userEntity->setShadowpassword($shadowPasswordHash);
         $userEntity->setShadowtoken($shadowTokenHash);
         $userEntity->setShadowvalidity($validity->add($delay));
+
         $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
         // Sent the password reset notification
