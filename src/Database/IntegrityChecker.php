@@ -274,7 +274,7 @@ class IntegrityChecker
 
                 /** @var $platform AbstractPlatform */
                 $platform = $this->app['db']->getDatabasePlatform();
-                $queries = $platform->getCreateTableSQL($table);
+                $queries = $platform->getCreateTableSQL($table, AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS);
                 foreach ($queries as $query) {
                     $this->app['db']->query($query);
                 }
