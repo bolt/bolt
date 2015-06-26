@@ -12,7 +12,6 @@ namespace Bolt\Storage\Entity;
  * @method string    getIp()
  * @method string    getUseragent()
  * @method string    getValidity()
- *
  * @method setId($id)
  * @method setUsername($username)
  * @method setToken($token)

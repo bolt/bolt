@@ -2,16 +2,10 @@
 namespace Bolt\AccessControl;
 
 use Bolt\Logger\FlashLogger;
-use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity;
-use Bolt\Storage\Repository\AuthtokenRepository;
-use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
 use Hautelook\Phpass\PasswordHash;
-use Psr\Log\LoggerInterface;
-use RandomLib\Generator;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Login authentication handling.

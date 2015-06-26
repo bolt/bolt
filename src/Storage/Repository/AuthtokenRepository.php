@@ -118,7 +118,6 @@ class AuthtokenRepository extends Repository
         return $qb;
     }
 
-
     /**
      * Fetches all active sessions
      *

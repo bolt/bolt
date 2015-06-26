@@ -20,7 +20,7 @@ class Token
     /**
      * Constructor.
      *
-     * @param Entity\Users $userEntity
+     * @param Entity\Users     $userEntity
      * @param Entity\Authtoken $tokenEntity
      */
     public function __construct(Entity\Users $userEntity, Entity\Authtoken $tokenEntity)

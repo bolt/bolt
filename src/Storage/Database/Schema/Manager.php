@@ -9,7 +9,6 @@ use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class Manager

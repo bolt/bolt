@@ -3,12 +3,9 @@ namespace Bolt\AccessControl;
 
 use Bolt\Application;
 use Bolt\Storage\Entity;
-use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
-use Doctrine\DBAL\DBALException;
 use Hautelook\Phpass\PasswordHash;
 use Symfony\Component\HttpFoundation\Request;
-use UAParser;
 
 /**
  * Password handling.

@@ -102,7 +102,6 @@ class Repository implements ObjectRepository
     public function findAll()
     {
         return $this->findBy([]);
-
     }
 
     /**
