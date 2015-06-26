@@ -28,7 +28,7 @@ class Users extends BaseTable
         $this->table->addColumn('shadowvalidity', 'datetime',   ['notnull' => false, 'default' => null]);
         $this->table->addColumn('failedlogins',   'integer',    ['default' => 0]);
         $this->table->addColumn('throttleduntil', 'datetime',   ['notnull' => false, 'default' => null]);
-        $this->table->addColumn('roles',          'json_array', ['length' => 1024, 'default' => '[]']);
+        $this->table->addColumn('roles',          'json_array', ['length' => 1024, 'default' => []]);
         // @codingStandardsIgnoreEnd
     }
 
