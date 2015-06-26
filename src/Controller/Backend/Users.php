@@ -178,17 +178,8 @@ class Users extends BackendBase
         $form = $form->getForm();
 
         // Check if the form was POST-ed, and valid. If so, store the user.
-        if ($request->isMethod('POST')) {
-            if ($userEntity = $this->validateUserForm($request, $form, true)) {
-                $this->flashes()->clear();
-                $this->flashes()->info(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity->getDisplayname()]));
-
-                $this->app['authentication.login']->login($userEntity->getUsername(), $userEntity->getPassword());
-                $token = $this->session()->get('authentication');
-                $response = $this->setAuthenticationCookie($this->redirectToRoute('dashboard'), (string) $token);
-
-                return $response;
-            }
+        if ($request->isMethod('POST') && $response = $this->firstPost($request, $form)) {
+            return $response;
         }
 
         $context = [
@@ -359,6 +350,39 @@ class Users extends BackendBase
     protected function getRepository()
     {
         return $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+    }
+
+    /**
+     * Handle a first user creation POST.
+     *
+     * @param Request $request
+     * @param Form $form
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|false
+     */
+    private function firstPost(Request $request, Form $form)
+    {
+        if (!$userEntity = $this->validateUserForm($request, $form, true)) {
+            return false;
+        }
+
+        $login = $this->app['authentication.login']->login($userEntity->getUsername(), $form->get('password')->getData(), null, $this->app['authentication.hash.strength']);
+        if ($login & $token = $this->session()->get('authentication')) {
+            $this->flashes()->clear();
+            $this->flashes()->info(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity->getDisplayname()]));
+
+            $response = $this->setAuthenticationCookie($this->redirectToRoute('dashboard'), (string) $token);
+
+            return $response;
+        }
+
+        if (!$token) {
+            $this->flashes()->error(Trans::__("Unable to retrieve login session data. Please check your system's PHP session settings."));
+        } else {
+            $this->flashes()->error(Trans::__('Something went wrong with logging in after first user creation!'));
+        }
+
+        return false;
     }
 
     /**
