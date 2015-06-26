@@ -73,6 +73,9 @@ class AccessChecker
         $this->permissions = $permissions;
         $this->randomGenerator = $randomGenerator;
         $this->cookieOptions = $cookieOptions;
+
+        // Disable password saves by default
+        $this->repositoryUsers->getPersister()->disableField('password');
     }
 
     /**
