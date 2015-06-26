@@ -335,7 +335,7 @@ HTML;
         $app = $this->getApp();
         $app['asset.queue.snippet']->add(
             Target::AFTER_META,
-            '\Bolt\Tests\Extensions\globalSnippet',
+            '\Bolt\Tests\Extensions\globalAssetsSnippet',
             'core',
             ["\n"]
         );
@@ -449,22 +449,23 @@ HTML;
         $app['extensions']->insertWidget(
             'testglobal',
             Target::START_OF_BODY,
-            "\Bolt\Tests\Extensions\globalWidget",
+            "\Bolt\Tests\Extensions\globalAssetsWidget",
             "snippetcallback",
             "",
             false
         );
-        $html = $app['extensions']->renderWidget('7e2b9a48');
+
+        $html = $app['extensions']->renderWidget('11ba3b96');
         $this->assertEquals('<meta name="test-widget" />', $html);
     }
 }
 
-// function globalSnippet($app, $string)
-// {
-//     return nl2br($string);
-// }
+function globalAssetsSnippet($string)
+{
+    return nl2br($string);
+}
 
-// function globalWidget()
-// {
-//     return '<meta name="test-widget" />';
-// }
+function globalAssetsWidget()
+{
+    return '<meta name="test-widget" />';
+}
