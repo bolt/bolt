@@ -54,7 +54,6 @@ class StorageEventListener implements EventSubscriberInterface
             $hasher = new PasswordHash($this->hashStrength, true);
             $usersEntity->setPassword($hasher->HashPassword($usersEntity->getPassword()));
         } else {
-            $this->em->getRepository('Bolt\Storage\Entity\Users')->getPersister()->disableField('password');
             unset($usersEntity->password);
         }
     }
