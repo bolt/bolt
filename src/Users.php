@@ -58,7 +58,7 @@ class Users
         $user->setUsername($this->app['slugify']->slugify($user->getUsername()));
 
         // Save the entity
-        $this->repository->save($user);
+        return $this->repository->save($user);
     }
 
     /**
