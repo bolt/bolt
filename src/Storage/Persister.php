@@ -59,7 +59,8 @@ class Persister
     public function enableField($field)
     {
         if (in_array($field, $this->disabledFields)) {
-            unset($this->disabledFields[$field]);
+            $key = array_search($field, $this->disabledFields);
+            unset($this->disabledFields[$key]);
         }
     }
 
@@ -73,7 +74,7 @@ class Persister
         $mappings = $this->metadata->getFieldMappings();
 
         foreach ($this->disabledFields as $field) {
-            if (in_array($field, $mappings)) {
+            if (array_key_exists($field, $mappings)) {
                 unset($mappings[$field]);
             }
         }
