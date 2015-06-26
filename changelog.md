@@ -3,6 +3,15 @@ Bolt 2.2.next
 
 Nothing yet.
 
+Bolt 2.2.4
+----------
+
+ - Fixed: Logic preventing building of local extension autoloader (Thanks timcooper, see #3699)
+ - Fixed: Clipboard paste issue with fileuploader (Thanks timcooper, see #3702)
+ - Added: Now possibile to use the search feature for spcific contenttype(s) (Thanks sbani, see #3713)
+ - Fixed: Wrong interpretation of max_upload_filesize / post_max_size (Thanks tvlooy, see #3732)
+ - Fixed: Password reset "Error: Divide by zero" (see #3730)
+
 Bolt 2.2.3
 ----------
 
