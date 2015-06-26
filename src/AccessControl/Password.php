@@ -74,7 +74,7 @@ class Password
      * @param string $token
      * @param string $remoteIP
      *
-     * @return void
+     * @return boolean
      */
     public function resetPasswordConfirm($token, $remoteIP)
     {
@@ -90,10 +90,14 @@ class Password
             $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
             $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
+
+            return true;
         } else {
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['logger.system']->error('Somebody tried to reset a password with an invalid token.', ['event' => 'authentication']);
             $this->app['logger.flash']->error(Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
+
+            return false;
         }
     }
 
