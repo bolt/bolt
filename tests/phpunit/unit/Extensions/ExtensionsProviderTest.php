@@ -503,12 +503,12 @@ HTML;
         $this->setSessionUser(new Entity\Users());
         $app['cache'] = new Mock\Cache();
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-        $this->assertFalse($app['cache']->fetch('5e4c97cb'));
+        $this->assertFalse($app['cache']->fetch('72bde68d'));
         $app['extensions']->insertWidget('test', SnippetLocation::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
 
         // Double call to ensure second one hits cache
-        $html = $app['extensions']->renderWidget('5e4c97cb');
-        $this->assertEquals($html, $app['cache']->fetch('widget_5e4c97cb'));
+        $html = $app['extensions']->renderWidget('72bde68d');
+        $this->assertEquals($html, $app['cache']->fetch('widget_72bde68d'));
     }
 
     public function testInvalidWidget()
@@ -527,7 +527,7 @@ HTML;
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
 
         $app['extensions']->insertWidget('test', SnippetLocation::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
-        $html = $app['extensions']->renderWidget('5e4c97cb');
+        $html = $app['extensions']->renderWidget('72bde68d');
         $this->assertEquals('<meta name="test-snippet" />', $html);
     }
 
@@ -545,7 +545,7 @@ HTML;
             "",
             false
         );
-        $html = $app['extensions']->renderWidget('7e2b9a48');
+        $html = $app['extensions']->renderWidget('cbc5cb6a');
         $this->assertEquals('<meta name="test-widget" />', $html);
     }
 

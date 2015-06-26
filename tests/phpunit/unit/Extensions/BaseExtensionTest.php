@@ -547,7 +547,7 @@ class BaseExtensionTest extends BoltUnitTest
         $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
         $permissions->expects($this->once())
             ->method('isAllowed')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue(false));
         $app['permissions'] = $permissions;
 
         $this->expectOutputRegex("/Redirecting to/i");
