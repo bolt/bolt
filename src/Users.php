@@ -210,7 +210,7 @@ class Users
     {
         if (empty($this->users)) {
             if (!$tempusers = $this->repository->findAll()) {
-                return;
+                return [];
             }
 
             /** @var \Bolt\Storage\Entity\Users $userEntity */
