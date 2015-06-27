@@ -24,7 +24,7 @@ module.exports = function (grunt, options) {
             inline: false,
             sourcesContent: true,
             prev: true,
-            annotation: path.posix.relative(options.path.dest.css, options.path.sourcemaps) + '/'
+            annotation: options.path.sourcemaps
         };
     }
 
