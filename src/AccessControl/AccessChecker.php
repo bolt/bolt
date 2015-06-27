@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\AccessControl;
 
-use Bolt\AccessControl\Token\Token;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Repository\AuthtokenRepository;
 use Bolt\Storage\Repository\UsersRepository;
@@ -140,7 +139,7 @@ class AccessChecker
         $check = false;
         $sessionAuth = null;
 
-        /** @var \Bolt\AccessControl\Token $sessionAuth */
+        /** @var \Bolt\AccessControl\Token\Token $sessionAuth */
         if ($this->session->isStarted() && $sessionAuth = $this->session->get('authentication')) {
             $check = $this->checkSessionStored($sessionAuth);
         }
@@ -183,11 +182,11 @@ class AccessChecker
      * regardless and force a check/update from the database authentication
      * record.
      *
-     * @param Token $sessionAuth
+     * @param Token\Token $sessionAuth
      *
      * @return boolean
      */
-    protected function checkSessionStored(Token $sessionAuth)
+    protected function checkSessionStored(Token\Token $sessionAuth)
     {
         if (time() - $sessionAuth->getChecked() > 600) {
             return false;
@@ -217,7 +216,7 @@ class AccessChecker
         }
 
         // Update session data
-        $sessionAuth = new Token($databaseUser, $authTokenEntity);
+        $sessionAuth = new Token\Token($databaseUser, $authTokenEntity);
         $this->session->set('authentication', $sessionAuth);
 
         // Check if user is _still_ allowed to log on.
@@ -235,11 +234,11 @@ class AccessChecker
      * and. i.e. the username, IP address, and (if configured) the browser agent
      * values are all still the same.
      *
-     * @param Token $sessionAuth
+     * @param Token\Token $sessionAuth
      *
      * @return boolean
      */
-    protected function checkSessionKeys(Token $sessionAuth)
+    protected function checkSessionKeys(Token\Token $sessionAuth)
     {
         $userEntity = $sessionAuth->getUser();
         $tokenEntity = $sessionAuth->getToken();
@@ -316,21 +315,9 @@ class AccessChecker
             throw new \InvalidArgumentException(__FUNCTION__ . ' required a name and salt to be provided.');
         }
 
-        $seed = $username . '-' . $salt;
+        $token = (string) new Token\Generator($username, $salt, $this->remoteIP, $this->hostName, $this->userAgent, $this->cookieOptions);
 
-        if ($this->cookieOptions['remoteaddr']) {
-            $seed .= '-' . $this->remoteIP;
-        }
-        if ($this->cookieOptions['browseragent']) {
-            $seed .= '-' . $this->userAgent;
-        }
-        if ($this->cookieOptions['httphost']) {
-            $seed .= '-' . $this->hostName;
-        }
-
-        $token = md5($seed);
-
-        $this->systemLogger->debug("Generating authentication cookie — name: $username, salt: $salt, seed: $seed Result: $token", ['event' => 'authentication']);
+        $this->systemLogger->debug("Generating authentication cookie — Username: '$username' Salt: '$salt' IP: '{$this->remoteIP}' Host name: '{$this->hostName}' Agent: '{$this->userAgent}' Result: $token", ['event' => 'authentication']);
 
         return $token;
     }

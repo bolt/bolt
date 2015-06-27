@@ -263,7 +263,7 @@ class Users
     {
         if ($this->currentuser === null) {
             $this->currentuser = $this->app['session']->isStarted() ? $this->app['session']->get('authentication') : null;
-            if ($this->currentuser instanceof AccessControl\Token) {
+            if ($this->currentuser instanceof AccessControl\Token\Token) {
                 $this->currentuser = $this->currentuser->getUser()->toArray();
             }
         }
