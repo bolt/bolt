@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Composer\EventListener;
 
-use Composer\EventDispatcher\Event;
-
 class PackageEventListener
 {
     /**

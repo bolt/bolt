@@ -4,7 +4,6 @@ namespace Bolt\Events;
 use Silex\Application;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Event class for system compulsory cron jobs.

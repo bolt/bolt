@@ -4,10 +4,7 @@ namespace Bolt;
 
 use Bolt\AccessControl\Permissions;
 use Bolt\Storage\Entity;
-use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
-use Hautelook\Phpass\PasswordHash;
-use Silex;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

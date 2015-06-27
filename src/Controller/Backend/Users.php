@@ -4,7 +4,6 @@ namespace Bolt\Controller\Backend;
 use Bolt\AccessControl\Permissions;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
-use Hautelook\Phpass\PasswordHash;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;

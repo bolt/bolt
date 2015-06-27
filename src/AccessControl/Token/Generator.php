@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\AccessControl\Token;
 
-use Bolt\Storage\Entity;
-
 /**
  * Token generator.
  *
