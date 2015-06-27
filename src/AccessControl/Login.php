@@ -202,6 +202,7 @@ class Login extends AccessChecker
         $userEntity->setLastip($this->remoteIP);
         $userEntity->setFailedlogins(0);
         $userEntity->setThrottleduntil($this->throttleUntil(0));
+        $userEntity = $this->updateUserShadowLogin($userEntity);
 
         // Don't try to save the password on login
         unset($userEntity->password);
@@ -212,6 +213,24 @@ class Login extends AccessChecker
         }
 
         return false;
+    }
+
+    /**
+     * Remove expired shadow login data.
+     *
+     * @param Entity\Users $userEntity
+     *
+     * @return Entity\Users
+     */
+    protected function updateUserShadowLogin(Entity\Users $userEntity)
+    {
+        if (new \DateTime() > $userEntity->getShadowvalidity()) {
+            $userEntity->setShadowpassword('');
+            $userEntity->setShadowtoken('');
+            $userEntity->setShadowvalidity(null);
+        }
+
+        return $userEntity;
     }
 
     /**
