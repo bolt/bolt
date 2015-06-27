@@ -90,6 +90,6 @@ class UserHandler
      */
     public function token()
     {
-        return $this->app['authentication']->getAntiCSRFToken();
+        return $this->app['users']->getAntiCSRFToken();
     }
 }

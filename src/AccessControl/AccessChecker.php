@@ -87,24 +87,6 @@ class AccessChecker
     }
 
     /**
-     * Check if a given token matches the current (correct) Anit-CSRF-like token.
-     *
-     * @param string $token
-     *
-     * @return boolean
-     */
-    public function checkAntiCSRFToken($token)
-    {
-        if ($token === $this->getAntiCSRFToken()) {
-            return true;
-        } else {
-            $this->flashLogger->error('The security token was incorrect. Please try again.');
-
-            return false;
-        }
-    }
-
-    /**
      * We will not allow tampering with sessions, so we make sure the current
      * session is still valid for the device on which it was created, and that
      * the username, and IP address, are still the same.
@@ -274,29 +256,6 @@ class AccessChecker
         }
 
         return $sessions;
-    }
-
-    /**
-     * Generate a Anti-CSRF-like token, to use in GET requests for stuff that
-     * ought to be POST-ed forms.
-     *
-     * @param string $token
-     *
-     * @return string
-     */
-    public function getAntiCSRFToken($token = '')
-    {
-        if ($this->cookieOptions['remoteaddr']) {
-            $token .= '-' . $this->remoteIP;
-        }
-        if ($this->cookieOptions['browseragent']) {
-            $token .= '-' . $this->userAgent;
-        }
-        if ($this->cookieOptions['httphost']) {
-            $token .= '-' . $this->hostName;
-        }
-
-        return substr(md5($token), 0, 8);
     }
 
     /**

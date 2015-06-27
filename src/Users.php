@@ -83,18 +83,48 @@ class Users
 
     /**
      * @deprecated Since Bolt 2.3 and will be removed in Bolt 3.
+     *
+     * Unsafe! Do not use!
      */
     public function getAntiCSRFToken()
     {
-        return $this->app['authentication']->getAntiCSRFToken();
+        $request = $this->app['request'];
+        $seed = $this->app['request']->cookies->get($this->app['token.session.name']);
+
+        if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
+            $seed .= '-' . $request->getClientIp() ?: '127.0.0.1';
+        }
+        if ($this->app['config']->get('general/cookies_use_browseragent')) {
+            $seed .= '-' . $request->server->get('HTTP_USER_AGENT');
+        }
+        if ($this->app['config']->get('general/cookies_use_httphost')) {
+            $seed .= '-' . $request->getHost();
+        }
+
+        $token = substr(md5($seed), 0, 8);
+
+        return $token;
+
     }
 
     /**
      * @deprecated Since Bolt 2.3 and will be removed in Bolt 3.
+     *
+     * Unsafe! Do not use!
      */
     public function checkAntiCSRFToken($token = '')
     {
-        return $this->app['authentication']->checkAntiCSRFToken($token);
+        if (empty($token)) {
+            $token = $this->app['request']->get('bolt_csrf_token');
+        }
+
+        if ($token === $this->getAntiCSRFToken()) {
+            return true;
+        } else {
+            $this->app['logger.flash']->error('The security token was incorrect. Please try again.');
+
+            return false;
+        }
     }
 
     /**

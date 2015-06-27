@@ -181,7 +181,7 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Shortcut for {@see \Bolt\AccessControl\AccessChecker::checkAntiCSRFToken}
+     * Shortcut for {@see \Bolt\Users::checkAntiCSRFToken}
      *
      * @param string $token
      *
@@ -189,7 +189,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function checkAntiCSRFToken($token = '')
     {
-        return $this->authentication()->checkAntiCSRFToken($token);
+        return $this->users()->checkAntiCSRFToken($token);
     }
 
     /**
