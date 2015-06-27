@@ -366,7 +366,7 @@ class Users extends BackendBase
             return false;
         }
 
-        $login = $this->app['authentication.login']->login($userEntity->getUsername(), $form->get('password')->getData(), null, $this->app['authentication.hash.strength']);
+        $login = $this->login()->login($userEntity->getUsername(), $form->get('password')->getData(), null, $this->app['authentication.hash.strength']);
         if ($login && $token = $this->session()->get('authentication')) {
             $this->flashes()->clear();
             $this->flashes()->info(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity->getDisplayname()]));

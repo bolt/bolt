@@ -68,7 +68,7 @@ class Authentication extends BackendBase
      */
     public function postLogin(Request $request)
     {
-        $this->app['authentication.login']->setRequest($request);
+        $this->login()->setRequest($request);
 
         $username = trim($request->request->get('username'));
         $password = $request->request->get('password');
@@ -114,7 +114,7 @@ class Authentication extends BackendBase
      */
     public function resetPassword(Request $request)
     {
-        $this->app['authentication.password']->resetPasswordConfirm($request->get('token'), $request->getClientIp());
+        $this->password()->resetPasswordConfirm($request->get('token'), $request->getClientIp());
 
         return $this->redirectToRoute('login');
     }
@@ -131,7 +131,7 @@ class Authentication extends BackendBase
     private function handlePostLogin(Request $request, $username, $password)
     {
         $cookie = $request->cookies->get($this->app['token.authentication.name']);
-        if (!$this->app['authentication.login']->login($username, $password, $cookie, $this->app['authentication.hash.strength'])) {
+        if (!$this->login()->login($username, $password, $cookie, $this->app['authentication.hash.strength'])) {
             return $this->getLogin($request, true);
         }
 
@@ -165,7 +165,7 @@ class Authentication extends BackendBase
         if (empty($username)) {
             $this->flashes()->error(Trans::__('Please provide a username'));
         } else {
-            $this->app['authentication.password']->resetPasswordRequest($username, $request->getClientIp());
+            $this->password()->resetPasswordRequest($username, $request->getClientIp());
             $response = $this->redirectToRoute('login');
             $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
 

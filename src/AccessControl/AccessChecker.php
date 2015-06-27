@@ -118,7 +118,7 @@ class AccessChecker
      *    - If enabled
      *      - If NOT a match refuse
      *      - If a match accept
-     *      - Update session data     *
+     *      - Update session data
      * 3. If user has no session check authtoken table entry (closed broswer):
      *    - If passed validity date refuse
      *    - If within validity date, hash username and IP against salt and

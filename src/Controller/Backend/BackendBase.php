@@ -152,4 +152,24 @@ abstract class BackendBase extends Base
 
         return $response;
     }
+
+    /**
+     * Returns the Login object.
+     *
+     * @return \Bolt\AccessControl\Login
+     */
+    protected function login()
+    {
+        return $this->app['authentication.login'];
+    }
+
+    /**
+     * Returns the Password object.
+     *
+     * @return \Bolt\AccessControl\Password
+     */
+    protected function password()
+    {
+        return $this->app['authentication.password'];
+    }
 }
