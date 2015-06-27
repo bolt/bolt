@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\AccessControl;
 
+use Bolt\AccessControl\Token\Token;
 use Bolt\Logger\FlashLogger;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;

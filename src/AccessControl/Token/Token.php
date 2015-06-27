@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\AccessControl;
+namespace Bolt\AccessControl\Token;
 
 use Bolt\Storage\Entity;
 

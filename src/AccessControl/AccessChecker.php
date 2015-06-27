@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\AccessControl;
 
+use Bolt\AccessControl\Token\Token;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Repository\AuthtokenRepository;
 use Bolt\Storage\Repository\UsersRepository;
