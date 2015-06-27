@@ -83,6 +83,7 @@ class Password
             $userEntity->setShadowpassword('');
             $userEntity->setShadowtoken('');
             $userEntity->setShadowvalidity(null);
+            $userEntity->setShadowSave(true);
 
             $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 

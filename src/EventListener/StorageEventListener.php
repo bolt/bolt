@@ -50,7 +50,9 @@ class StorageEventListener implements EventSubscriberInterface
      */
     protected function passwordHash(Entity\Users $usersEntity)
     {
-        if ($usersEntity->getPassword() && $usersEntity->getPassword() !== '**dontchange**') {
+        if ($usersEntity->getShadowSave()) {
+            return;
+        } elseif ($usersEntity->getPassword() && $usersEntity->getPassword() !== '**dontchange**') {
             $hasher = new PasswordHash($this->hashStrength, true);
             $usersEntity->setPassword($hasher->HashPassword($usersEntity->getPassword()));
         } else {
