@@ -153,11 +153,11 @@ class UsersTest extends ControllerUnitTest
     {
         // Now we mock the CSRF token to validate
         $app = $this->getApp();
-        $authentication = $this->getAccessCheckerMock($app, ['checkAntiCSRFToken']);
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('users', $users);
 
         $currentuser = $this->getService('users')->getUser(1);
         $this->setSessionUser(new Entity\Users($currentuser));
@@ -235,14 +235,10 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
 
         // Now we mock the CSRF token to validate
-        $app = $this->getApp();
-        $authentication = $this->getAccessCheckerMock($app, ['checkAntiCSRFToken']);
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken', 'setEnabled', 'deleteUser'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
-
-        $users = $this->getMock('Bolt\Users', ['setEnabled', 'deleteUser'], [$this->getApp()]);
         $users->expects($this->any())
             ->method('setEnabled')
             ->will($this->returnValue(false));

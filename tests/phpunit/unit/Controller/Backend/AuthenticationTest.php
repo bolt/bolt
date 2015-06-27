@@ -25,7 +25,7 @@ class AuthenticationTest extends ControllerUnitTest
         $loginMock = $this->getLoginMock($app);
         $loginMock->expects($this->once())
             ->method('login')
-            ->with($this->equalTo('test'), $this->equalTo('pass'))
+            ->with($this->equalTo($this->getRequest()), $this->equalTo('test'), $this->equalTo('pass'))
             ->will($this->returnValue(true));
         $this->setService('authentication.login', $loginMock);
 
@@ -48,7 +48,7 @@ class AuthenticationTest extends ControllerUnitTest
         $loginMock = $this->getLoginMock($app);
         $loginMock->expects($this->once())
             ->method('login')
-            ->with($this->equalTo('test@example.com'), $this->equalTo('pass'))
+            ->with($this->equalTo($this->getRequest()), $this->equalTo('test@example.com'), $this->equalTo('pass'))
             ->will($this->returnValue(true));
         $this->setService('authentication.login', $loginMock);
 
@@ -71,7 +71,7 @@ class AuthenticationTest extends ControllerUnitTest
         $loginMock = $this->getLoginMock($app);
         $loginMock->expects($this->once())
             ->method('login')
-            ->with($this->equalTo('test'), $this->equalTo('pass'))
+            ->with($this->equalTo($this->getRequest()), $this->equalTo('test'), $this->equalTo('pass'))
             ->will($this->returnValue(false));
         $this->setService('authentication.login', $loginMock);
 

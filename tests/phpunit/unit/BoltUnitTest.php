@@ -201,20 +201,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
      */
     protected function getLoginMock($app, $functions = ['login'])
     {
-        $loginMock = $this->getMock(
-            'Bolt\AccessControl\Login',
-            $functions,
-            [
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
-                $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
-                $app['session'],
-                $app['logger.flash'],
-                $app['logger.system'],
-                $app['permissions'],
-                $app['randomgenerator'],
-                $app['authentication.cookie.options']
-            ]
-        );
+        $loginMock = $this->getMock('Bolt\AccessControl\Login', $functions, [$app]);
 
         return $loginMock;
     }
@@ -278,7 +265,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     {
         $tokenEntity = new Entity\Authtoken();
         $tokenEntity->setToken('testtoken');
-        $authToken = new Token($userEntity, $tokenEntity);
+        $authToken = new Token\Token($userEntity, $tokenEntity);
 
         $this->getService('session')->set('authentication', $authToken);
     }

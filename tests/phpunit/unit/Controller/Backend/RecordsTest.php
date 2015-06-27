@@ -34,12 +34,11 @@ class RecordsTest extends ControllerUnitTest
         $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $err[0]);
 
-        $app = $this->getApp();
-        $authentication = $this->getAccessCheckerMock($app, ['checkAntiCSRFToken']);
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('users', $users);
 
         $response = $this->controller()->delete($this->getRequest(), 'pages', 4);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
@@ -129,12 +128,11 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPermissions()
     {
-        $app = $this->getApp();
-        $authentication = $this->getAccessCheckerMock($app, ['checkAntiCSRFToken']);
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('users', $users);
 
         $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
         $permissions->expects($this->any())
@@ -150,12 +148,11 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPost()
     {
-        $app = $this->getApp();
-        $authentication = $this->getAccessCheckerMock($app, ['checkAntiCSRFToken']);
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('users', $users);
 
         $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
         $permissions->expects($this->any())
@@ -172,11 +169,11 @@ class RecordsTest extends ControllerUnitTest
     public function testEditPostAjax()
     {
         $app = $this->getApp();
-        $authentication = $this->getAccessCheckerMock($app, ['checkAntiCSRFToken']);
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('users', $users);
 
         // Since we're the test user we won't automatically have permission to edit.
         $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
