@@ -36,7 +36,7 @@ class Database extends BackendBase
      */
     public function check()
     {
-        $response = $this->schemaManager()->checkTablesIntegrity(true, $this->app['logger']);
+        $response = $this->schemaManager()->checkTablesIntegrity(true);
 
         $context = [
             'modifications_made'     => null,

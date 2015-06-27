@@ -12,7 +12,7 @@ use Bolt\Storage\Mapping\ClassMetadata;
 class Persister
 {
     protected $metadata;
-    
+
     protected $disabledFields = [];
 
     public function __construct(ClassMetadata $metadata)
@@ -38,51 +38,47 @@ class Persister
 
         return $entity;
     }
-    
+
     /**
      * Marks a field to be excluded from persistence
-     * 
-     * @param string $field
      *
-     * @return void
+     * @param string $field
      */
     public function disableField($field)
     {
         if (!in_array($field, $this->disabledFields)) {
-            $this->disabledFields[] = $field; 
+            $this->disabledFields[] = $field;
         }
     }
-    
+
     /**
      * Marks a previously excluded field to be included on persistence
-     * 
-     * @param string $field
      *
-     * @return void
+     * @param string $field
      */
     public function enableField($field)
     {
         if (in_array($field, $this->disabledFields)) {
-            unset($this->disabledFields[$field]); 
+            $key = array_search($field, $this->disabledFields);
+            unset($this->disabledFields[$key]);
         }
     }
-    
+
     /**
      * Fetch the fields that will be persisted
      *
-     * @return void
-     * @author 
-     **/
+     * @return array
+     */
     protected function getFields()
     {
         $mappings = $this->metadata->getFieldMappings();
-        
+
         foreach ($this->disabledFields as $field) {
-            if (in_array($field, $mappings)) {
+            if (array_key_exists($field, $mappings)) {
                 unset($mappings[$field]);
             }
         }
-        
+
         return $mappings;
     }
 }

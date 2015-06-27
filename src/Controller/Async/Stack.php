@@ -53,7 +53,7 @@ class Stack extends AsyncBase
             'stack'     => $this->stack()->listitems($count),
             'filetypes' => $this->stack()->getFileTypes(),
             'namespace' => $this->app['upload.namespace'],
-            'canUpload' => $this->users()->isAllowed('files:uploads')
+            'canUpload' => $this->isAllowed('files:uploads')
         ];
 
         switch ($options) {

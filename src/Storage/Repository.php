@@ -88,7 +88,11 @@ class Repository implements ObjectRepository
     public function find($id)
     {
         $qb = $this->getLoadQuery();
-        $result = $qb->where($this->getAlias().'.id = :id')->setParameter('id', $id)->execute()->fetch();
+        $result = $qb->where($this->getAlias().'.id = :id')
+            ->setParameter('id', $id)
+            ->execute()
+            ->fetch();
+
         if ($result) {
             return $this->hydrate($result, $qb);
         }
@@ -110,6 +114,8 @@ class Repository implements ObjectRepository
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->findWithCriteria($criteria, $orderBy, $limit, $offset);
+        $qb->select('*');
+
         $result = $qb->execute()->fetchAll();
 
         if ($result) {
@@ -364,7 +370,7 @@ class Repository implements ObjectRepository
     {
         $this->persister = $persister;
     }
-    
+
     /**
      * @return Persister $persister
      */

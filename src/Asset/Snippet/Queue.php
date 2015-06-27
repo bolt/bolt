@@ -68,8 +68,9 @@ class Queue implements QueueInterface
         $html = preg_replace_callback('/<!--(.*)-->/Uis', [$this, 'pregCallback'], $html);
 
         // Process the snippets in the queue.
-        foreach ($this->queue as $asset) {
+        foreach ($this->queue as $key => $asset) {
             $html = $this->app['asset.injector']->inject($asset, $asset->getLocation(), $html);
+            unset($this->queue[$key]);
         }
 
         // Conditionally add jQuery

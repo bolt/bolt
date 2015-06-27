@@ -2,6 +2,7 @@
 namespace Bolt\Controller;
 
 use Bolt\Routing\DefaultControllerClassAwareInterface;
+use Bolt\Storage\Entity;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -172,7 +173,7 @@ abstract class Base implements ControllerProviderInterface
     /**
      * Returns the Authentication object.
      *
-     * @return \Bolt\AccessControl\Authentication
+     * @return \Bolt\AccessControl\AccessChecker
      */
     protected function authentication()
     {
@@ -188,7 +189,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function checkAntiCSRFToken($token = '')
     {
-        return $this->authentication()->checkAntiCSRFToken($token);
+        return $this->users()->checkAntiCSRFToken($token);
     }
 
     /**
@@ -222,32 +223,48 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Return current user or user by ID
+     * Return current user or user by ID.
      *
-     * @param int|null $id
+     * @param integer|string|null $userId
+     * @param boolean             $raw
      *
-     * @return array
+     * @return Entity\Users|null
      */
-    protected function getUser($id = null)
+    protected function getUser($userId = null, $raw = false)
     {
-        if ($id === null) {
-            return $this->users()->getCurrentUser();
+        if ($userId === null) {
+            if ($sessionAuth = $this->session()->get('authentication')) {
+                return $sessionAuth->getUser();
+            }
+
+            return;
         }
-        return $this->users()->getUser($id);
+
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        if (($userEntity = $repo->getUser($userId)) && !$raw) {
+            $userEntity->setPassword('**dontchange**');
+        }
+
+        return $userEntity;
     }
 
     /**
-     * Shortcut for {@see \Bolt\Users::isAllowed}
+     * Shortcut for {@see \Bolt\AccessControl\Permissions::isAllowed}
      *
-     * @param string      $what
-     * @param string|null $contenttype
-     * @param int|null    $contentid
+     * @param string       $what
+     * @param mixed        $user        The user to check permissions against.
+     * @param string|null  $contenttype
+     * @param integer|null $contentid
      *
-     * @return bool
+     * @return boolean
      */
-    protected function isAllowed($what, $contenttype = null, $contentid = null)
+    protected function isAllowed($what, $user = null, $contenttype = null, $contentid = null)
     {
-        return $this->users()->isAllowed($what, $contenttype, $contentid);
+        if ($user === null && $user = $this->session()->get('authentication')) {
+            $user = $user->getUser()->toArray();
+        }
+
+        return $this->app['permissions']->isAllowed($what, $user, $contenttype, $contentid);
     }
 
     /**

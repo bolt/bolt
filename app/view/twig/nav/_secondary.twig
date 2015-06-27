@@ -1,11 +1,11 @@
 {% import 'nav/_macros.twig' as nav %}
 
 <ul class="nav">
-    {% if app.session.get('user') is not null %}
+    {% if app.session.get('authentication') is not null %}
 
         {# Omnisearch: one here for "extra small", the other in the header-navbar #}
         {% include 'nav/_secondary-search.twig' %}
-        
+
         {# Dashboard #}
         {{ nav.link('fa:dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
 

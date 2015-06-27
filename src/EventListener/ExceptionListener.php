@@ -6,6 +6,7 @@ use Bolt\Render;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -24,6 +25,10 @@ class ExceptionListener implements EventSubscriberInterface
     protected $render;
     /** @var LoggerInterface */
     protected $logger;
+    /** @var SessionInterface  */
+    protected $session;
+    /** @var boolean  */
+    protected $isDebug;
 
     /**
      * ExceptionListener constructor.
@@ -32,11 +37,13 @@ class ExceptionListener implements EventSubscriberInterface
      * @param Render          $render
      * @param LoggerInterface $logger
      */
-    public function __construct($rootPath, Render $render, LoggerInterface $logger)
+    public function __construct($rootPath, Render $render, LoggerInterface $logger, SessionInterface $session, $isDebug)
     {
         $this->rootPath = $rootPath;
         $this->render = $render;
         $this->logger = $logger;
+        $this->session = $session;
+        $this->isDebug = $isDebug;
     }
 
     /**
@@ -77,6 +84,10 @@ class ExceptionListener implements EventSubscriberInterface
      */
     protected function getSafeTrace(Exception $exception)
     {
+        if (!$this->isDebug && !($this->session->isStarted() && $this->session->has('authentication'))) {
+            return [];
+        }
+
         $trace = $exception->getTrace();
         foreach ($trace as $key => $value) {
             if (!empty($value['file']) && strpos($value['file'], '/vendor/') > 0) {
@@ -85,7 +96,7 @@ class ExceptionListener implements EventSubscriberInterface
 
             // Don't display the full path.
             if (isset($trace[$key]['file'])) {
-                $trace[$key]['file'] = str_replace($this->rootPath, '[root]', $trace[$key]['file']);
+                $trace[$key]['file'] = str_replace($this->rootPath, '[root]/', $trace[$key]['file']);
             }
         }
 

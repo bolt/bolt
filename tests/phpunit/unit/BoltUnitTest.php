@@ -2,6 +2,8 @@
 namespace Bolt\Tests;
 
 use Bolt\AccessControl\Authentication;
+use Bolt\AccessControl\Token;
+use Bolt\Storage\Entity;
 use Bolt\Application;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
@@ -25,6 +27,8 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 {
+    private $app;
+
     protected function resetDb()
     {
         // Make sure we wipe the db file to start with a clean one
@@ -36,11 +40,12 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function getApp()
     {
-        $bolt = $this->makeApp();
-        $bolt->initialize();
-        $bolt->boot();
-
-        return $bolt;
+        if (!$this->app) {
+            $this->app = $this->makeApp();
+            $this->app->initialize();
+            $this->app->boot();
+        }
+        return $this->app;
     }
 
     protected function makeApp()
@@ -146,31 +151,59 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function allowLogin($app)
     {
         $this->addDefaultUser($app);
-        $users = $this->getMock('Bolt\Users', ['isAllowed', 'isEnabled'], [$app]);
-
-        $users->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-
+        $users = $this->getMock('Bolt\Users', ['isEnabled'], [$app]);
         $users->expects($this->any())
             ->method('isEnabled')
             ->will($this->returnValue(true));
-
         $app['users'] = $users;
 
-        $auth = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['isValidSession'], 
-            [
-                $app, 
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
-            ]
-        );
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));
+        $this->setService('permissions', $permissions);
+
+        $auth = $this->getAccessCheckerMock($app);
         $auth->expects($this->any())
             ->method('isValidSession')
             ->will($this->returnValue(true));
 
         $app['authentication'] = $auth;
+    }
+
+    /**
+     * @param \Bolt\Application $app
+     * @param array             $functions Defaults to ['isValidSession']
+     */
+    protected function getAccessCheckerMock($app, $functions = ['isValidSession'])
+    {
+        $accessCheckerMock = $this->getMock(
+            'Bolt\AccessControl\AccessChecker',
+            $functions,
+            [
+                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
+                $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
+                $app['session'],
+                $app['logger.flash'],
+                $app['logger.system'],
+                $app['permissions'],
+                $app['randomgenerator'],
+                $app['authentication.cookie.options']
+            ]
+        );
+
+        return $accessCheckerMock;
+    }
+
+    /**
+     * @param \Bolt\Application $app
+     * @param array             $functions Defaults to ['login']
+     */
+    protected function getLoginMock($app, $functions = ['login'])
+    {
+        $loginMock = $this->getMock('Bolt\AccessControl\Login', $functions, [$app]);
+
+        return $loginMock;
     }
 
     protected function getTwigHandlers($app)
@@ -212,5 +245,28 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
         $storage = new Storage($app);
         $storage->prefill(['showcases', 'pages']);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
+    protected function setService($key, $value)
+    {
+        $this->getApp()->offsetSet($key, $value);
+    }
+
+    protected function getService($key)
+    {
+        return $this->getApp()->offsetGet($key);
+    }
+
+    protected function setSessionUser(Entity\Users $userEntity)
+    {
+        $tokenEntity = new Entity\Authtoken();
+        $tokenEntity->setToken('testtoken');
+        $authToken = new Token\Token($userEntity, $tokenEntity);
+
+        $this->getService('session')->set('authentication', $authToken);
     }
 }

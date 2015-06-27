@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
+use Bolt\EventListener\StorageEventListener;
 use Bolt\Storage;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\MetadataDriver;
@@ -78,8 +79,9 @@ class StorageServiceProvider implements ServiceProviderInterface
         ];
 
         $app['storage.repositories'] = [
-            'Bolt\Storage\Entity\Cron' => 'Bolt\Storage\Repository\CronRepository',
-            'Bolt\Storage\Entity\Authtoken' => 'Bolt\Storage\Repository\AuthtokenRepository'
+            'Bolt\Storage\Entity\Authtoken' => 'Bolt\Storage\Repository\AuthtokenRepository',
+            'Bolt\Storage\Entity\Cron'      => 'Bolt\Storage\Repository\CronRepository',
+            'Bolt\Storage\Entity\Users'     => 'Bolt\Storage\Repository\UsersRepository',
         ];
 
         $app['storage.metadata'] = $app->share(
@@ -101,9 +103,16 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return $cm;
             }
         );
+
+        $app['storage.listener'] = $app->share(function () use ($app) {
+            return new StorageEventListener($app['storage'], $app['authentication.hash.strength']);
+        });
     }
 
     public function boot(Application $app)
     {
+        /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
+        $dispatcher = $app['dispatcher'];
+        $dispatcher->addSubscriber($app['storage.listener']);
     }
 }

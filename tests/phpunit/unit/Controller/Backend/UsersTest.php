@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Backend;
 
+use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,7 +26,7 @@ class UsersTest extends ControllerUnitTest
     public function testEdit()
     {
         $user = $this->getService('users')->getUser(1);
-        $this->getService('users')->setCurrentUser($user);
+        $this->setSessionUser(new Entity\Users($user));
         $this->setRequest(Request::create('/bolt/useredit/1'));
 
         // This one should redirect because of permission failure
@@ -55,7 +56,7 @@ class UsersTest extends ControllerUnitTest
     public function testUserEditPost()
     {
         $user = $this->getService('users')->getUser(1);
-        $this->getService('users')->setCurrentUser($user);
+        $this->setSessionUser(new Entity\Users($user));
 
         $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
         $perms->expects($this->any())
@@ -79,7 +80,7 @@ class UsersTest extends ControllerUnitTest
                     'id'          => $user['id'],
                     'username'    => $user['username'],
                     'email'       => $user['email'],
-                    'displayname' => "Admin Test",
+                    'displayname' => 'Admin Test',
                     '_token'      => 'xyz'
                 ]
             ]
@@ -152,21 +153,14 @@ class UsersTest extends ControllerUnitTest
     {
         // Now we mock the CSRF token to validate
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['checkAntiCSRFToken'], 
-            [  
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
-            ]
-        );
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('users', $users);
 
         $currentuser = $this->getService('users')->getUser(1);
-        $this->getService('users')->currentuser = $currentuser;
+        $this->setSessionUser(new Entity\Users($currentuser));
 
         // This request should fail because the user doesnt exist.
         $this->setRequest(Request::create('/bolt/user/disable/2'));
@@ -241,21 +235,10 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
 
         // Now we mock the CSRF token to validate
-        $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['checkAntiCSRFToken'], 
-            [  
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
-            ]
-        );
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken', 'setEnabled', 'deleteUser'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
-
-        $users = $this->getMock('Bolt\Users', ['setEnabled', 'deleteUser'], [$this->getApp()]);
         $users->expects($this->any())
             ->method('setEnabled')
             ->will($this->returnValue(false));
@@ -266,7 +249,7 @@ class UsersTest extends ControllerUnitTest
 
         // Setup the current user
         $user = $this->getService('users')->getUser(1);
-        $this->getService('users')->setCurrentUser($user);
+        $this->setSessionUser(new Entity\Users($user));
 
         // This mocks a failure and ensures the error is reported
         $this->setRequest(Request::create('/bolt/user/disable/2'));
@@ -293,7 +276,7 @@ class UsersTest extends ControllerUnitTest
         // Symfony forms need a CSRF token so we have to mock this too
         $this->removeCSRF($this->getApp());
         $user = $this->getService('users')->getUser(1);
-        $this->getService('users')->setCurrentUser($user);
+        $this->setSessionUser(new Entity\Users($user));
         $this->setRequest(Request::create('/bolt/profile'));
         $response = $this->controller()->profile($this->getRequest());
         $context = $response->getContext();
@@ -323,7 +306,7 @@ class UsersTest extends ControllerUnitTest
     public function testUsernameEditKillsSession()
     {
         $user = $this->getService('users')->getUser(1);
-        $this->getService('users')->setCurrentUser($user);
+        $this->setSessionUser(new Entity\Users($user));
 
         $perms = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowedToManipulate'], [$this->getApp()]);
         $perms->expects($this->any())

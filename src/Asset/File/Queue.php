@@ -59,12 +59,14 @@ class Queue implements QueueInterface
      */
     public function process($html)
     {
-        foreach ($this->sort($this->javascript) as $asset) {
+        foreach ($this->sort($this->javascript) as $key => $asset) {
             $html = $this->processJsAssets($asset, $html);
+            unset($this->javascript[$key]);
         }
 
-        foreach ($this->sort($this->stylesheet) as $asset) {
+        foreach ($this->sort($this->stylesheet) as $key => $asset) {
             $html = $this->processCssAssets($asset, $html);
+            unset($this->stylesheet[$key]);
         }
 
         return $html;

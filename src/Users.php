@@ -3,34 +3,40 @@
 namespace Bolt;
 
 use Bolt\AccessControl\Permissions;
+use Bolt\Storage\Entity;
+use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
 use Hautelook\Phpass\PasswordHash;
 use Silex;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to handle things dealing with users.
  */
 class Users
 {
-    /** @var \Doctrine\DBAL\Connection */
-    public $db;
-    public $config;
-    public $usertable;
-    public $authtokentable;
     public $users = [];
     public $currentuser;
+
+    /** @deprecated Will be removed in Bolt 3.0 */
+    public $usertable;
+    public $authtokentable;
+
+    /** @var \Bolt\Storage\Repository\UsersRepository */
+    protected $repository;
 
     /** @var \Silex\Application $app */
     private $app;
 
     /**
-     * @param \Silex\Application $app
+     * @param Application $app
      */
-    public function __construct(Silex\Application $app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->db = $app['db'];
+        $this->repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
 
+        /** @deprecated Will be removed in Bolt 3.0 */
         $this->usertable = $this->app['storage']->getTablename('users');
         $this->authtokentable = $this->app['storage']->getTablename('authtoken');
     }
@@ -38,88 +44,21 @@ class Users
     /**
      * Save changes to a user to the database. (re)hashing the password, if needed.
      *
-     * @param array $user
+     * @param Entity\Users|array $user
      *
      * @return integer The number of affected rows.
      */
     public function saveUser($user)
     {
-        // Make an array with the allowed columns. these are the columns that are always present.
-        $allowedcolumns = [
-                'id',
-                'username',
-                'password',
-                'email',
-                'lastseen',
-                'lastip',
-                'displayname',
-                'enabled',
-                'stack',
-                'roles',
-            ];
-
-        // unset columns we don't need to store.
-        foreach (array_keys($user) as $key) {
-            if (!in_array($key, $allowedcolumns)) {
-                unset($user[$key]);
-            }
+        if (is_array($user)) {
+            $user = new Entity\Users($user);
         }
 
-        if (!empty($user['password']) && $user['password'] != '**dontchange**') {
-            // Hashstrength has a default of '10', don't allow less than '8'.
-            $hashStrength = max($this->app['config']->get('general/hash_strength'), 8);
+        // Make sure the username is slug-like
+        $user->setUsername($this->app['slugify']->slugify($user->getUsername()));
 
-            $hasher = new PasswordHash($hashStrength, true);
-            $user['password'] = $hasher->HashPassword($user['password']);
-        } else {
-            unset($user['password']);
-        }
-
-        // make sure the username is slug-like
-        $user['username'] = $this->app['slugify']->slugify($user['username']);
-
-        if (empty($user['lastseen'])) {
-            $user['lastseen'] = null;
-        }
-
-        if (empty($user['enabled']) && $user['enabled'] !== 0) {
-            $user['enabled'] = 1;
-        }
-
-        if (empty($user['shadowvalidity'])) {
-            $user['shadowvalidity'] = null;
-        }
-
-        if (empty($user['throttleduntil'])) {
-            $user['throttleduntil'] = null;
-        }
-
-        if (empty($user['failedlogins'])) {
-            $user['failedlogins'] = 0;
-        }
-
-        // Make sure the 'stack' is set.
-        if (empty($user['stack'])) {
-            $user['stack'] = json_encode([]);
-        } elseif (is_array($user['stack'])) {
-            $user['stack'] = json_encode($user['stack']);
-        }
-
-        // Serialize roles array
-        if (empty($user['roles']) || !is_array($user['roles'])) {
-            $user['roles'] = '[]';
-        } else {
-            $user['roles'] = json_encode(array_values(array_unique($user['roles'])));
-        }
-
-        // Decide whether to insert a new record, or update an existing one.
-        if (empty($user['id'])) {
-            unset($user['id']);
-
-            return $this->db->insert($this->usertable, $user);
-        } else {
-            return $this->db->update($this->usertable, $user, ['id' => $user['id']]);
-        }
+        // Save the entity
+        return $this->repository->save($user);
     }
 
     /**
@@ -127,7 +66,9 @@ class Users
      */
     public function isValidSession()
     {
-        return $this->app['authentication']->isValidSession();
+        $request = Request::createFromGlobals();
+
+        return $this->app['authentication']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
     }
 
     /**
@@ -135,23 +76,55 @@ class Users
      */
     public function checkValidSession()
     {
-        return $this->app['authentication']->checkValidSession();
+        $request = Request::createFromGlobals();
+
+        return $this->app['authentication']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
     }
 
     /**
      * @deprecated Since Bolt 2.3 and will be removed in Bolt 3.
+     *
+     * Unsafe! Do not use!
      */
     public function getAntiCSRFToken()
     {
-        return $this->app['authentication']->getAntiCSRFToken();
+        $request = $this->app['request'];
+        $seed = $this->app['request']->cookies->get($this->app['token.session.name']);
+
+        if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
+            $seed .= '-' . $request->getClientIp() ?: '127.0.0.1';
+        }
+        if ($this->app['config']->get('general/cookies_use_browseragent')) {
+            $seed .= '-' . $request->server->get('HTTP_USER_AGENT');
+        }
+        if ($this->app['config']->get('general/cookies_use_httphost')) {
+            $seed .= '-' . $request->getHost();
+        }
+
+        $token = substr(md5($seed), 0, 8);
+
+        return $token;
+
     }
 
     /**
      * @deprecated Since Bolt 2.3 and will be removed in Bolt 3.
+     *
+     * Unsafe! Do not use!
      */
     public function checkAntiCSRFToken($token = '')
     {
-        return $this->app['authentication']->checkAntiCSRFToken($token);
+        if (empty($token)) {
+            $token = $this->app['request']->get('bolt_csrf_token');
+        }
+
+        if ($token === $this->getAntiCSRFToken()) {
+            return true;
+        } else {
+            $this->app['logger.flash']->error('The security token was incorrect. Please try again.');
+
+            return false;
+        }
     }
 
     /**
@@ -171,21 +144,21 @@ class Users
      */
     public function deleteUser($id)
     {
-        $user = $this->getUser($id);
+        $user = $this->repository->find($id);
 
-        if (empty($user['id'])) {
+        if (!$user) {
             $this->app['logger.flash']->error(Trans::__('That user does not exist.'));
 
             return false;
-        } else {
-            $res = $this->db->delete($this->usertable, ['id' => $user['id']]);
-
-            if ($res) {
-                $this->db->delete($this->authtokentable, ['username' => $user['username']]);
-            }
-
-            return $res;
         }
+
+        $userName = $user->getUsername();
+        if ($result = $this->repository->delete($user)) {
+            $authtokenRepository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+            $authtokenRepository->deleteTokens($userName);
+        }
+
+        return $result;
     }
 
     /**
@@ -193,7 +166,9 @@ class Users
      */
     public function login($user, $password)
     {
-        return $this->app['authentication']->login($user, $password);
+        $request = Request::createFromGlobals();
+
+        return $this->app['authentication.login']->login($request, $user, $password);
     }
 
     /**
@@ -201,7 +176,7 @@ class Users
      */
     protected function loginEmail($email, $password)
     {
-        return $this->app['authentication']->login($email, $password);
+        return $this->app['authentication.login']->login($email, $password);
     }
 
     /**
@@ -209,7 +184,7 @@ class Users
      */
     public function loginUsername($username, $password)
     {
-        return $this->app['authentication']->login($username, $password);
+        return $this->app['authentication.login']->login($username, $password);
     }
 
     /**
@@ -217,7 +192,9 @@ class Users
      */
     public function loginAuthtoken()
     {
-        return $this->app['authentication']->loginAuthtoken();
+        $request = Request::createFromGlobals();
+
+        return $this->app['authentication.login']->login($request, null, null);
     }
 
     /**
@@ -225,7 +202,7 @@ class Users
      */
     public function resetPasswordRequest($username)
     {
-        return $this->app['authentication']->resetPasswordRequest($username);
+        return $this->app['authentication.password']->resetPasswordRequest($username);
     }
 
     /**
@@ -233,7 +210,7 @@ class Users
      */
     public function resetPasswordConfirm($token)
     {
-        return $this->app['authentication']->resetPasswordConfirm($token);
+        return $this->app['authentication.password']->resetPasswordConfirm($token);
     }
 
     /**
@@ -241,7 +218,7 @@ class Users
      */
     public function logout()
     {
-        return $this->app['authentication']->logout();
+        return $this->app['authentication']->revokeSession();
     }
 
     /**
@@ -251,57 +228,28 @@ class Users
      */
     public function getEmptyUser()
     {
-        $user = [
-            'id'             => '',
-            'username'       => '',
-            'password'       => '',
-            'email'          => '',
-            'lastseen'       => '',
-            'lastip'         => '',
-            'displayname'    => '',
-            'enabled'        => '1',
-            'shadowpassword' => '',
-            'shadowtoken'    => '',
-            'shadowvalidity' => '',
-            'failedlogins'   => 0,
-            'throttleduntil' => ''
-        ];
+        $userEntity = new Entity\Users();
 
-        return $user;
+        return $userEntity->toArray();
     }
 
     /**
      * Get an array with the current users.
      *
-     * @return array
+     * @return array[]
      */
     public function getUsers()
     {
-        if (empty($this->users) || !is_array($this->users)) {
-            /** @var \Doctrine\DBAL\Query\QueryBuilder $queryBuilder */
-            $queryBuilder = $this->app['db']->createQueryBuilder()
-                ->select('*')
-                ->from($this->usertable);
+        if (empty($this->users)) {
+            if (!$tempusers = $this->repository->findAll()) {
+                return [];
+            }
 
-            try {
-                $this->users = [];
-                $tempusers = $queryBuilder->execute()->fetchAll();
-
-                foreach ($tempusers as $user) {
-                    $key = $user['username'];
-                    $this->users[$key] = $user;
-                    $this->users[$key]['password'] = '**dontchange**';
-
-                    $roles = json_decode($this->users[$key]['roles']);
-                    if (!is_array($roles)) {
-                        $roles = [];
-                    }
-                    // add "everyone" role to, uhm, well, everyone.
-                    $roles[] = Permissions::ROLE_EVERYONE;
-                    $this->users[$key]['roles'] = array_unique($roles);
-                }
-            } catch (\Exception $e) {
-                // Nope. No users.
+            /** @var \Bolt\Storage\Entity\Users $userEntity */
+            foreach ($tempusers as $userEntity) {
+                $key = $userEntity->getUsername();
+                $userEntity->setPassword('**dontchange**');
+                $this->users[$key] = $userEntity->toArray();
             }
         }
 
@@ -315,59 +263,24 @@ class Users
      */
     public function hasUsers()
     {
-        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
-        $query = $this->app['db']->createQueryBuilder()
-                        ->select('COUNT(id) as count')
-                        ->from($this->usertable);
-        $count = $query->execute()->fetch();
+        $rows = $this->repository->hasUsers();
 
-        return (integer) $count['count'];
+        return $rows ? $rows['count'] : 0;
     }
 
     /**
-     * Get a user, specified by ID, username or email address. Return 'false' if no user found.
+     * Get a user, specified by ID, username or email address.
      *
-     * @param integer|string $id
+     * @param integer|string $userId
      *
-     * @return array
+     * @return array|false
      */
-    public function getUser($id)
+    public function getUser($userId)
     {
-        // Determine lookup type
-        if (is_numeric($id)) {
-            $key = 'id';
-        } else {
-            if (strpos($id, '@') === false) {
-                $key = 'username';
-            } else {
-                $key = 'email';
-            }
-        }
+        if ($userEntity = $this->repository->getUser($userId)) {
+            $userEntity->setPassword('**dontchange**');
 
-        /** @var \Doctrine\DBAL\Query\QueryBuilder $queryBuilder */
-        $queryBuilder = $this->app['db']->createQueryBuilder()
-                        ->select('*')
-                        ->from($this->usertable)
-                        ->where($key . ' = ?')
-                        ->setParameter(0, $id);
-
-        try {
-            $user = $queryBuilder->execute()->fetch();
-        } catch (\Exception $e) {
-            // Nope. No users.
-        }
-
-        if (!empty($user)) {
-            $user['password'] = '**dontchange**';
-            $user['roles'] = json_decode($user['roles']);
-            if (!is_array($user['roles'])) {
-                $user['roles'] = [];
-            }
-            // add "everyone" role to, uhm, well, everyone.
-            $user['roles'][] = Permissions::ROLE_EVERYONE;
-            $user['roles'] = array_unique($user['roles']);
-
-            return $user;
+            return $userEntity->toArray();
         }
 
         return false;
@@ -380,8 +293,11 @@ class Users
      */
     public function getCurrentUser()
     {
-        if (is_null($this->currentuser)) {
-            $this->currentuser = $this->app['session']->isStarted() ? $this->app['session']->get('user') : false;
+        if ($this->currentuser === null) {
+            $this->currentuser = $this->app['session']->isStarted() ? $this->app['session']->get('authentication') : null;
+            if ($this->currentuser instanceof AccessControl\Token\Token) {
+                $this->currentuser = $this->currentuser->getUser()->toArray();
+            }
         }
 
         return $this->currentuser;
@@ -402,21 +318,11 @@ class Users
     }
 
     /**
-     * Set the current user.
-     *
-     * @param array $user
-     */
-    public function setCurrentUser($user)
-    {
-        $this->currentuser = $user;
-    }
-
-    /**
      * Get the username of the current user.
      *
      * @deprecated since v2.3 and to be removed in v3
      *
-     * @return string The username of the current user.
+     * @return string
      */
     public function getCurrentUsername()
     {
@@ -426,39 +332,28 @@ class Users
     /**
      * Check a user's enable status.
      *
-     * @param int|bool $id User ID, or false for current user
+     * @param integer|boolean $id User ID, or false for current user
      *
      * @return boolean
      */
     public function isEnabled($id = false)
     {
-        if (!$id) {
-            $user = $this->getCurrentUser();
-            $id = $user['id'];
-        }
+        $user = $id ? $this->getUser($id) : $this->getCurrentUser();
 
-        $query = $this->app['db']->createQueryBuilder()
-                        ->select('enabled')
-                        ->from($this->usertable)
-                        ->where('id = :id')
-                        ->setParameters([':id' => $id]);
-
-        return (boolean) $query->execute()->fetchColumn();
+        return (boolean) $user['enabled'];
     }
 
     /**
      * Enable or disable a user, specified by id.
      *
      * @param integer|string $id
-     * @param integer        $enabled
+     * @param boolean        $enabled
      *
      * @return integer
      */
     public function setEnabled($id, $enabled = 1)
     {
-        $user = $this->getUser($id);
-
-        if (empty($user)) {
+        if (!$user = $this->getUser($id)) {
             return false;
         }
 
@@ -477,13 +372,11 @@ class Users
      */
     public function hasRole($id, $role)
     {
-        $user = $this->getUser($id);
-
-        if (empty($user)) {
+        if (!$user = $this->getUser($id)) {
             return false;
         }
 
-        return (is_array($user['roles']) && in_array($role, $user['roles']));
+        return in_array($role, $user['roles']);
     }
 
     /**
@@ -496,14 +389,12 @@ class Users
      */
     public function addRole($id, $role)
     {
-        $user = $this->getUser($id);
-
-        if (empty($user) || empty($role)) {
+        if (empty($role) || !$user = $this->getUser($id)) {
             return false;
         }
 
         // Add the role to the $user['roles'] array
-        $user['roles'][] = (string) $role;
+        $user['roles'][] = $role;
 
         return $this->saveUser($user);
     }
@@ -531,8 +422,8 @@ class Users
     }
 
     /**
-     * Ensure changes to the user's roles match what the
-     * current user has permissions to manipulate.
+     * Ensure changes to the user's roles match what the current user has
+     * permissions to manipulate.
      *
      * @param string|integer $id       User ID
      * @param array          $newRoles Roles from form submission
@@ -569,8 +460,10 @@ class Users
     }
 
     /**
-     * Check for a user with the 'root' role. There should always be at least one
-     * If there isn't we promote the current user.
+     * Check for a user with the 'root' role.
+     *
+     * There should always be at least one If there isn't we promote the current
+     * user.
      *
      * @return boolean
      */
@@ -583,7 +476,7 @@ class Users
 
         // Loop over the users, check if anybody's root.
         foreach ($this->getUsers() as $user) {
-            if (is_array($user['roles']) && in_array('root', $user['roles'])) {
+            if (in_array('root', $user['roles'])) {
                 // We have a 'root' user.
                 return true;
             }
@@ -657,7 +550,7 @@ class Users
     }
 
     /**
-     * Create a correctly canonicalized value for a field, depending on it's name.
+     * Create a correctly canonicalized value for a field, depending on its name.
      *
      * @param string $fieldname
      * @param string $fieldvalue

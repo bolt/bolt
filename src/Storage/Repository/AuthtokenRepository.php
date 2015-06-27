@@ -11,59 +11,68 @@ class AuthtokenRepository extends Repository
     /**
      * Fetches an existing token for the given user / ip
      *
-     * @param $username
-     * @param $ip
-     * @param $useragent
+     * @param string      $token
+     * @param string      $ip
+     * @param string|null $useragent
      *
      * @return Bolt\Entity\Authtoken
      **/
-    public function getUserToken($username, $ip, $useragent)
+    public function getUserToken($username, $ip, $useragent = null)
     {
         $query = $this->getUserTokenQuery($username, $ip, $useragent);
+
         return $this->findOneWith($query);
     }
-    
+
     public function getUserTokenQuery($username, $ip, $useragent)
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*')
-            ->where('username=:username')
-            ->andWhere('ip=:ip')
-            ->andWhere('useragent=:useragent')
+            ->where('username = :username')
+            ->andWhere('ip = :ip')
             ->setParameter('username', $username)
-            ->setParameter('ip', $ip)
-            ->setParameter('useragent', $useragent);
+            ->setParameter('ip', $ip);
+
+        if ($useragent !== null) {
+            $qb->andWhere('useragent = :useragent')
+                ->setParameter('useragent', $useragent);
+        }
+
         return $qb;
     }
-    
+
     /**
      * Fetches an existing token for the given user / ip
      *
-     * @param $token
-     * @param $ip
-     * @param $useragent
+     * @param string      $token
+     * @param string      $ip
+     * @param string|null $useragent
      *
      * @return Bolt\Entity\Authtoken
      **/
-    public function getToken($token, $ip, $useragent)
+    public function getToken($token, $ip, $useragent = null)
     {
         $query = $this->getTokenQuery($token, $ip, $useragent);
         return $this->findOneWith($query);
     }
-    
+
     public function getTokenQuery($token, $ip, $useragent)
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*')
-            ->where('token=:token')
-            ->andWhere('ip=:ip')
-            ->andWhere('useragent=:useragent')
+            ->where('token = :token')
+            ->andWhere('ip = :ip')
             ->setParameter('token', $token)
-            ->setParameter('ip', $ip)
-            ->setParameter('useragent', $useragent);
+            ->setParameter('ip', $ip);
+
+        if ($useragent !== null) {
+            $qb->andWhere('useragent = :useragent')
+                ->setParameter('useragent', $useragent);
+        }
+
         return $qb;
     }
-    
+
     /**
      * Deletes all tokens for the given user
      *
@@ -76,16 +85,17 @@ class AuthtokenRepository extends Repository
         $query = $this->deleteTokensQuery($username);
         return $query->execute();
     }
-    
+
     public function deleteTokensQuery($username)
     {
         $qb = $this->em->createQueryBuilder();
         $qb->delete($this->getTableName())
-            ->where('username=:username')
+            ->where('username = :username')
             ->setParameter('username', $username);
+
         return $qb;
     }
-    
+
     /**
      * Deletes all expired tokens
      *
@@ -94,19 +104,20 @@ class AuthtokenRepository extends Repository
     public function deleteExpiredTokens()
     {
         $query = $this->deleteExpiredTokensQuery();
+
         return $query->execute();
     }
-    
+
     public function deleteExpiredTokensQuery()
     {
         $qb = $this->em->createQueryBuilder();
         $qb->delete($this->getTableName())
             ->where('validity < :now')
             ->setParameter('now', date('Y-m-d H:i:s'));
+
         return $qb;
     }
-    
-    
+
     /**
      * Fetches all active sessions
      *
@@ -116,16 +127,18 @@ class AuthtokenRepository extends Repository
     {
         $this->deleteExpiredTokens();
         $query = $this->getActiveSessionsQuery();
+
         return $this->findWith($query);
     }
-    
+
     public function getActiveSessionsQuery()
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*');
+
         return $qb;
     }
-    
+
     /**
      * Creates a query builder instance namespaced to this repository
      *

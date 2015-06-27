@@ -35,7 +35,8 @@ abstract class AsyncBase extends Base
         $this->app['stopwatch']->start('bolt.async.before');
 
         // If there's no active session, don't do anything.
-        if (!$this->authentication()->isValidSession()) {
+        $authCookie = $request->cookies->get($this->app['token.authentication.name']);
+        if (!$this->authentication()->isValidSession($authCookie)) {
             $this->abort(Response::HTTP_UNAUTHORIZED, 'You must be logged in to use this.');
         }
 

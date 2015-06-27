@@ -136,18 +136,6 @@ class Application extends Silex\Application
     public function initLogger()
     {
         $this->register(new LoggerServiceProvider(), []);
-
-        // Debug log
-        if ($this['config']->get('general/debuglog/enabled')) {
-            $this->register(
-                new Silex\Provider\MonologServiceProvider(),
-                [
-                    'monolog.name'    => 'bolt',
-                    'monolog.level'   => constant('Monolog\Logger::' . strtoupper($this['config']->get('general/debuglog/level'))),
-                    'monolog.logfile' => $this['resources']->getPath('cache') . '/' . $this['config']->get('general/debuglog/filename')
-                ]
-            );
-        }
     }
 
     /**
@@ -394,7 +382,7 @@ class Application extends Silex\Application
             $this['swiftmailer.use_spool'] = $this['config']->get('general/mailoptions/spool');
         }
 
-        if ($this['config']->get('general/mailoptions/transport') == 'mail') {
+        if ($this['config']->get('general/mailoptions/transport') === 'mail') {
             // Use the 'mail' transport. Discouraged, but some people want it. ¯\_(ツ)_/¯
             $this['swiftmailer.transport'] = \Swift_MailTransport::newInstance();
         }

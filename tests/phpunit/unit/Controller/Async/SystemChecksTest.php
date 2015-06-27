@@ -17,7 +17,6 @@ class SystemChecksTest extends ControllerUnitTest
         $this->getService('config')->set('general/mailoptions/transport', 'mail');
         $this->getService('config')->set('general/mailoptions/spool', false);
 
-        $this->getService('users')->setCurrentUser($this->getService('users')->getUser('admin'));
         $this->setRequest(Request::create('/async/check/email'));
 
         $response = $this->controller()->emailCheck($this->getRequest(), 'test');

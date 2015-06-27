@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\EventListener;
 
-use Bolt\AccessControl\Authentication;
+use Bolt\AccessControl\AccessChecker;
 use Bolt\Users;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,7 +24,7 @@ class RedirectListener implements EventSubscriberInterface
     protected $urlGenerator;
     /** @var \Bolt\Users */
     protected $users;
-    /** @var \Bolt\AccessControl\Authentication $authentication */
+    /** @var \Bolt\AccessControl\AccessChecker $authentication */
     protected $authentication;
 
     /**
@@ -33,9 +33,9 @@ class RedirectListener implements EventSubscriberInterface
      * @param \Symfony\Component\HttpFoundation\Session\Session          $session
      * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $urlGenerator
      * @param \Bolt\Users                                                $users
-     * @param \Bolt\AccessControl\Authentication                         $authentication
+     * @param \Bolt\AccessControl\AccessChecker                          $authentication
      */
-    public function __construct(Session $session, UrlGeneratorInterface $urlGenerator, Users $users, Authentication $authentication)
+    public function __construct(Session $session, UrlGeneratorInterface $urlGenerator, Users $users, AccessChecker $authentication)
     {
         $this->session = $session;
         $this->urlGenerator = $urlGenerator;
@@ -72,7 +72,8 @@ class RedirectListener implements EventSubscriberInterface
      */
     protected function handleNoBackendAccess(RedirectResponse $response)
     {
-        if (!$this->authentication->isValidSession()) {
+        $authCookie = $this->session->get('authentication');
+        if (!$this->authentication->isValidSession((string) $authCookie)) {
             return;
         }
 

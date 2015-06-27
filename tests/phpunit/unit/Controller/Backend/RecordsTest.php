@@ -22,11 +22,11 @@ class RecordsTest extends ControllerUnitTest
         $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/denied/', $err[0]);
 
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$this->getApp()]);
-        $users->expects($this->any())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         // This one should get killed by the anti CSRF check
         $response = $this->controller()->delete($this->getRequest(), 'pages', 4);
@@ -34,19 +34,11 @@ class RecordsTest extends ControllerUnitTest
         $err = $this->getFlashBag()->get('info');
         $this->assertRegExp('/could not be deleted/', $err[0]);
 
-        $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['checkAntiCSRFToken'], 
-            [  
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
-            ]
-        );
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('users', $users);
 
         $response = $this->controller()->delete($this->getRequest(), 'pages', 4);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
@@ -62,11 +54,11 @@ class RecordsTest extends ControllerUnitTest
         $this->assertEquals('/bolt', $response->getTargetUrl());
 
         // Since we're the test user we won't automatically have permission to edit.
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$this->getApp()]);
-        $users->expects($this->any())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         $this->setRequest(Request::create('/bolt/editcontent/pages/4'));
         $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
@@ -91,11 +83,11 @@ class RecordsTest extends ControllerUnitTest
     public function testEditDuplicate()
     {
         // Since we're the test user we won't automatically have permission to edit.
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$this->getApp()]);
-        $users->expects($this->any())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         $this->setRequest(Request::create('/bolt/editcontent/pages/4', 'GET', ['duplicate' => true]));
         $original = $this->getService('storage')->getContent('pages/4');
@@ -116,13 +108,16 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditCSRF()
     {
-        $users = $this->getMock('Bolt\Users', ['isAllowed', 'checkAntiCSRFToken'], [$this->getApp()]);
-        $users->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
         $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(false));
+
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(true));
+        $this->setService('permissions', $permissions);
 
         $this->setService('users', $users);
 
@@ -133,25 +128,17 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPermissions()
     {
-        $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['checkAntiCSRFToken'], 
-            [  
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
-            ]
-        );
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('users', $users);
 
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$this->getApp()]);
-        $users->expects($this->at(0))
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(false));
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         // We should get kicked here because we dont have permissions to edit this
         $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST'));
@@ -161,25 +148,17 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPost()
     {
-        $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['checkAntiCSRFToken'], 
-            [  
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
-            ]
-        );
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('users', $users);
 
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$this->getApp()]);
-        $users->expects($this->any())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST', ['floatfield' => 1.2]));
         //$original = $this->getService('storage')->getContent('showcases/3');
@@ -190,25 +169,18 @@ class RecordsTest extends ControllerUnitTest
     public function testEditPostAjax()
     {
         $app = $this->getApp();
-        $authentication = $this->getMock(
-            'Bolt\AccessControl\Authentication', 
-            ['checkAntiCSRFToken'], 
-            [  
-                $app,
-                $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken')
-            ]
-        );
-        $authentication->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
+        $users->expects($this->any())
             ->method('checkAntiCSRFToken')
             ->will($this->returnValue(true));
-        $this->setService('authentication', $authentication);
+        $this->setService('users', $users);
 
         // Since we're the test user we won't automatically have permission to edit.
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$this->getApp()]);
-        $users->expects($this->any())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         $this->setRequest(Request::create('/bolt/editcontent/pages/4?returnto=ajax', 'POST'));
         $original = $this->getService('storage')->getContent('pages/4');
@@ -230,11 +202,14 @@ class RecordsTest extends ControllerUnitTest
         $err = $this->getFlashBag()->get('error');
         $this->assertRegExp('/right privileges/', $err[0]);
 
-        $users = $this->getMock('Bolt\Users', ['isAllowed', 'checkAntiCSRFToken', 'isContentStatusTransitionAllowed'], [$this->getApp()]);
-        $users->expects($this->any())
+        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken', 'isContentStatusTransitionAllowed'], [$this->getApp()]);
+        $this->setService('users', $users);
+
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         // This one should fail for the second permission check `isContentStatusTransitionAllowed`
         $response = $this->controller()->modify($this->getRequest(), 'held', 'pages', 3);
@@ -296,14 +271,15 @@ class RecordsTest extends ControllerUnitTest
         $this->controller()->overview($this->getRequest(), 'showcases');
 
         // Test redirect when user isn't allowed.
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$this->getApp()]);
-        $users->expects($this->once())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(false));
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         $this->setRequest(Request::create('/bolt/overview/pages'));
         $response = $this->controller()->overview($this->getRequest(), 'pages');
+
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }
 
@@ -349,11 +325,11 @@ class RecordsTest extends ControllerUnitTest
         $this->assertNull($context['context']['relations']);
 
         // Test redirect when user isn't allowed.
-        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$this->getApp()]);
-        $users->expects($this->once())
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(false));
-        $this->setService('users', $users);
+        $this->setService('permissions', $permissions);
 
         $this->setRequest(Request::create('/bolt/relatedto/showcases/1'));
         $response = $this->controller()->related($this->getRequest(), 'showcases', 1);

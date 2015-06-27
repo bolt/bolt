@@ -28,20 +28,6 @@ abstract class ControllerUnitTest extends BoltUnitTest
         return $this->getApp()->offsetGet('request');
     }
 
-    /**
-     * @param string $key
-     * @param mixed  $value
-     */
-    protected function setService($key, $value)
-    {
-        $this->getApp()->offsetSet($key, $value);
-    }
-
-    protected function getService($key)
-    {
-        return $this->getApp()->offsetGet($key);
-    }
-
     protected function getApp()
     {
         if (!$this->app) {

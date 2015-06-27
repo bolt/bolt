@@ -53,7 +53,8 @@ class BoltLibraryTest extends BoltUnitTest
         $app['twig']->render('error.twig', ['context' => [
             'class'   => 'BoltResponse',
             'message' => 'Clippy is bent out of shape',
-            'code'    => '1555'
+            'code'    => '1555',
+            'trace'   => []
         ]]);
         $templates = Library::parseTwigTemplates($loader);
 

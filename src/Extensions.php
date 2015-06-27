@@ -625,9 +625,8 @@ class Extensions
      */
     public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = '', $defer = true, $cacheduration = 180, $extraparameters = "")
     {
-        $user = $this->app['session']->get('user');
-
-        $sessionkey = !empty($user['sessionkey']) ? $user['sessionkey'] : '';
+        $authSession = $this->app['session']->get('authentication');
+        $sessionkey = $authSession->getToken()->getToken();
 
         $key = substr(md5(sprintf("%s%s%s%s", $sessionkey, $type, $location, !is_array($callback) ? $callback : get_class($callback[0]) . $callback[1])), 0, 8);
 

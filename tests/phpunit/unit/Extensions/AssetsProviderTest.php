@@ -1,8 +1,9 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Extensions;
 use Bolt\Asset\Target;
+use Bolt\Extensions;
+use Bolt\Storage\Entity;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -405,27 +406,30 @@ HTML;
     public function testInsertWidget()
     {
         $app = $this->getApp();
-        $app['extensions']->insertWidget('test', Target::START_OF_BODY, "", "testext", "", false);
-        $this->expectOutputString("<section><div class='widget' id='widget-dacf7046' data-key='dacf7046'></div></section>");
+        $this->setSessionUser(new Entity\Users());
+        $app['extensions']->insertWidget('test', Target::START_OF_BODY, '', 'testext', '', false);
+        $this->expectOutputString("<section><div class='widget' id='widget-74854909' data-key='74854909'></div></section>");
         $app['extensions']->renderWidgetHolder('test', Target::START_OF_BODY);
     }
 
     public function testWidgetCaches()
     {
         $app = $this->getApp();
+        $this->setSessionUser(new Entity\Users());
         $app['cache'] = new Mock\Cache();
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-        $this->assertFalse($app['cache']->fetch('5e4c97cb'));
+        $this->assertFalse($app['cache']->fetch('72bde68d'));
         $app['extensions']->insertWidget('test', Target::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
 
         // Double call to ensure second one hits cache
-        $html = $app['extensions']->renderWidget('5e4c97cb');
-        $this->assertEquals($html, $app['cache']->fetch('widget_5e4c97cb'));
+        $html = $app['extensions']->renderWidget('72bde68d');
+        $this->assertEquals($html, $app['cache']->fetch('widget_72bde68d'));
     }
 
     public function testInvalidWidget()
     {
         $app = $this->getApp();
+        $this->setSessionUser(new Entity\Users());
         $app['extensions']->insertWidget('test', Target::START_OF_BODY, "", "testext", "", false);
         $result = $app['extensions']->renderWidget('fakekey');
         $this->assertEquals("Invalid key 'fakekey'. No widget found.", $result);
@@ -434,16 +438,19 @@ HTML;
     public function testWidgetWithCallback()
     {
         $app = $this->getApp();
+        $this->setSessionUser(new Entity\Users());
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
 
         $app['extensions']->insertWidget('test', Target::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
-        $html = $app['extensions']->renderWidget('5e4c97cb');
+        $html = $app['extensions']->renderWidget('72bde68d');
+
         $this->assertEquals('<meta name="test-snippet" />', $html);
     }
 
     public function testWidgetWithGlobalCallback()
     {
         $app = $this->getApp();
+        $this->setSessionUser(new Entity\Users());
         $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
 
         $app['extensions']->insertWidget(
@@ -454,8 +461,8 @@ HTML;
             "",
             false
         );
+        $html = $app['extensions']->renderWidget('7d4cefca');
 
-        $html = $app['extensions']->renderWidget('11ba3b96');
         $this->assertEquals('<meta name="test-widget" />', $html);
     }
 }

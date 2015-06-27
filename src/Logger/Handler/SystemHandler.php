@@ -73,8 +73,8 @@ class SystemHandler extends AbstractProcessingHandler
                 [
                     'file'     => $e->getFile(),
                     'line'     => $e->getLine(),
-                    'class'    => $trace['class'],
-                    'function' => $trace['function'],
+                    'class'    => isset($trace['class']) ? $trace['class'] : '',
+                    'function' => isset($trace['function']) ? $trace['function'] : '',
                     'message'  => $e->getMessage()
                 ]
             );
@@ -94,7 +94,8 @@ class SystemHandler extends AbstractProcessingHandler
 
         // Only get a user session if it's started
         if ($this->app['session']->isStarted()) {
-            $user = $this->app['session']->get('user');
+            $user = $this->app['session']->get('authentication');
+            $user = $user ? $user->getUser()->toArray() : null;
         }
 
         $this->app['db']->insert(

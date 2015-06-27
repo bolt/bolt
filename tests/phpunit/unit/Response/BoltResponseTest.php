@@ -64,7 +64,8 @@ class BoltResponseTest extends BoltUnitTest
         return ['context' => [
             'class'   => 'BoltResponse',
             'message' => 'Clippy is bent out of shape',
-            'code'    => '1555'
+            'code'    => '1555',
+            'trace'   => []
         ]];
     }
 }

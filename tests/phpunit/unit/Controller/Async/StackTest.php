@@ -2,6 +2,7 @@
 namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Response\BoltResponse;
+use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ class StackTest extends ControllerUnitTest
 {
     public function testAddStack()
     {
-        $this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
+        $this->setSessionUser(new Entity\Users($this->getService('users')->getUser('admin')));
         $this->setRequest(Request::create('/async/stack/add/foo'));
 
         $response = $this->controller()->addStack('foo');
@@ -25,7 +26,7 @@ class StackTest extends ControllerUnitTest
 
     public function testShowStack()
     {
-        $this->getService('users')->currentuser = $this->getService('users')->getUser('admin');
+        $this->setSessionUser(new Entity\Users($this->getService('users')->getUser('admin')));
         $this->setRequest(Request::create('/async/stack/show'));
 
         $response = $this->controller()->showStack($this->getRequest());

@@ -34,13 +34,14 @@ class Authentication extends BackendBase
      * Login page and "Forgotten password" page.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param boolean                                   $resetCookies
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function getLogin(Request $request)
+    public function getLogin(Request $request, $resetCookies = false)
     {
         $user = $this->getUser();
-        if (!empty($user) && $user['enabled'] == 1) {
+        if ($user && $user->getEnabled() == 1) {
             return $this->redirectToRoute('dashboard');
         }
 
@@ -50,6 +51,10 @@ class Authentication extends BackendBase
 
         $response = $this->render('login/login.twig', ['randomquote' => true]);
         $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
+
+        if ($resetCookies) {
+            $response->headers->clearCookie($this->app['token.authentication.name']);
+        }
 
         return $response;
     }
@@ -63,6 +68,8 @@ class Authentication extends BackendBase
      */
     public function postLogin(Request $request)
     {
+        $this->login()->setRequest($request);
+
         $username = trim($request->request->get('username'));
         $password = $request->request->get('password');
         switch ($request->get('action')) {
@@ -83,10 +90,13 @@ class Authentication extends BackendBase
      */
     public function logout()
     {
-        $user = $this->session()->get('user');
-        $this->app['logger.system']->info('Logged out: ' . $user['displayname'], ['event' => 'authentication']);
+        $sessionAuth = $this->session()->get('authentication');
+        $displayname = $sessionAuth ? $sessionAuth->getToken()->getDisplayname() : false;
+        if ($displayname) {
+            $this->app['logger.system']->info('Logged out: ' . $displayname, ['event' => 'authentication']);
+        }
 
-        $this->authentication()->logout();
+        $this->authentication()->revokeSession();
 
         $response = $this->redirectToRoute('login');
         $response->headers->clearCookie($this->app['token.authentication.name']);
@@ -104,7 +114,7 @@ class Authentication extends BackendBase
      */
     public function resetPassword(Request $request)
     {
-        $this->authentication()->resetPasswordConfirm($request->get('token'));
+        $this->password()->resetPasswordConfirm($request->get('token'), $request->getClientIp());
 
         return $this->redirectToRoute('login');
     }
@@ -120,16 +130,22 @@ class Authentication extends BackendBase
      */
     private function handlePostLogin(Request $request, $username, $password)
     {
-        $token = $this->authentication()->login($username, $password);
+        if (!$this->login()->login($request, $username, $password)) {
+            return $this->getLogin($request, true);
+        }
 
-        if ($token === false) {
+        // Authentication data is cached in the session and if we can't get it
+        // now, everyone is going to have a bad day. Make that obvious.
+        if (!$token = $this->session()->get('authentication')) {
+            $this->flashes()->error(Trans::__("Unable to retrieve login session data. Please check your system's PHP session settings."));
+
             return $this->getLogin($request);
         }
 
         // Log in, if credentials are correct.
         $this->app['logger.system']->info('Logged in: ' . $username, ['event' => 'authentication']);
         $retreat = $this->session()->get('retreat', ['route' => 'dashboard', 'params' => []]);
-        $response = $this->setAuthenticationCookie($this->redirectToRoute($retreat['route'], $retreat['params']), $token);
+        $response = $this->setAuthenticationCookie($this->redirectToRoute($retreat['route'], $retreat['params']), (string) $token);
 
         return $response;
     }
@@ -148,7 +164,7 @@ class Authentication extends BackendBase
         if (empty($username)) {
             $this->flashes()->error(Trans::__('Please provide a username'));
         } else {
-            $this->authentication()->resetPasswordRequest($username);
+            $this->password()->resetPasswordRequest($username, $request->getClientIp());
             $response = $this->redirectToRoute('login');
             $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
 
