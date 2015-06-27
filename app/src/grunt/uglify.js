@@ -111,7 +111,6 @@ module.exports = {
     prepareBootstrapJs: {
         options: {
             sourceMap: '<%= sourcemap.js %>',
-            sourceMapName: '<%= path.sourcemaps %>/bootstrap.js.map',
             sourceMapIncludeSources: true
         },
         files: {
