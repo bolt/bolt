@@ -137,7 +137,8 @@ class UsersRepository extends Repository
      */
     public function update($entity)
     {
-        if (empty($entity->getPassword()) || $entity->getPassword() === '**dontchange**') {
+        $password = $entity->getPassword(); // PHP 5.4 compatibility
+        if (empty($password) || $entity->getPassword() === '**dontchange**') {
             $this->getPersister()->disableField('password');
             $result = parent::update($entity);
             $this->getPersister()->enableField('password');
