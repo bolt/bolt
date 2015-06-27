@@ -367,7 +367,7 @@ class Users extends BackendBase
         }
 
         $login = $this->app['authentication.login']->login($userEntity->getUsername(), $form->get('password')->getData(), null, $this->app['authentication.hash.strength']);
-        if ($login & $token = $this->session()->get('authentication')) {
+        if ($login && $token = $this->session()->get('authentication')) {
             $this->flashes()->clear();
             $this->flashes()->info(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity->getDisplayname()]));
 
@@ -708,8 +708,12 @@ class Users extends BackendBase
                 ->setBody(strip_tags($mailhtml))
                 ->addPart($mailhtml, 'text/html')
             ;
+            $failedRecipients = [];
 
-            $this->app['mailer']->send($message);
+            $this->app['mailer']->send($message, $failedRecipients);
+
+            // Try and send immediately
+            $this->app['swiftmailer.spooltransport']->getSpool()->flushQueue($this->app['swiftmailer.transport']);
         } catch (\Exception $e) {
             // Sending message failed. What else can we do, send via snailmail?
             $this->app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", ['event' => 'config']);

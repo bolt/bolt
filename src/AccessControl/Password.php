@@ -118,7 +118,7 @@ class Password
         }
 
         $validity = new \DateTime();
-        $delay = new \DateInterval(PT2H);
+        $delay = new \DateInterval('PT2H');
 
         // Generate shadow password and hash
         $hasher = new PasswordHash($this->app['authentication.hash.strength'], true);
@@ -135,6 +135,10 @@ class Password
         $userEntity->setShadowvalidity($validity->add($delay));
 
         $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
+
+        if (empty($this->app['config']->get('general/mailoptions'))) {
+            $this->app['logger.flash']->error(Trans::__("The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."));
+        }
 
         // Sent the password reset notification
         $this->resetPasswordNotification($userEntity, $shadowPassword, $shadowToken);
@@ -178,13 +182,26 @@ class Password
             ->setFrom([$this->app['config']->get('general/mailoptions/senderMail', $userEntity->getEmail()) => $this->app['config']->get('general/mailoptions/senderName', $this->app['config']->get('general/sitename'))])
             ->setTo([$userEntity['email'] => $userEntity['displayname']])
             ->setBody(strip_tags($mailhtml))
-            ->addPart($mailhtml, 'text/html');
+            ->addPart($mailhtml, 'text/html')
+        ;
+        $failed = true;
+        $failedRecipients = [];
 
-        $recipients = $this->app['mailer']->send($message);
+        try {
+            $recipients = $this->app['mailer']->send($message, $failedRecipients);
 
-        if ($recipients) {
-            $this->app['logger.system']->info("Password request sent to '" . $userEntity->getDisplayname() . "'.", ['event' => 'authentication']);
-        } else {
+            // Try and send immediately
+            $this->app['swiftmailer.spooltransport']->getSpool()->flushQueue($this->app['swiftmailer.transport']);
+
+            if ($recipients) {
+                $this->app['logger.system']->info("Password request sent to '" . $userEntity->getDisplayname() . "'.", ['event' => 'authentication']);
+                $failed = false;
+            }
+        } catch (\Exception $e) {
+            // Notify below
+        }
+
+        if ($failed) {
             $this->app['logger.system']->error("Failed to send password request sent to '" . $userEntity['displayname'] . "'.", ['event' => 'authentication']);
             $this->app['logger.flash']->error(Trans::__("Failed to send password request. Please check the email settings."));
         }

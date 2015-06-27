@@ -313,9 +313,9 @@ liveeditor: true
 #     transport: smtp
 #     spool: true
 #     host: localhost
+#     port: 25
 #     username: username
 #     password: password
-#     port: 25
 #     encryption: null
 #     auth_mode: null
 #     senderMail: null
