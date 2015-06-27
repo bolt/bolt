@@ -3,6 +3,7 @@
 namespace Bolt\Logger;
 
 use Bolt\Pager;
+use Bolt\Storage\Repository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
@@ -16,21 +17,23 @@ class Manager
 {
     /** @var Application */
     private $app;
-    /** @var string */
-    private $table_change;
-    /** @var string */
-    private $table_system;
+    /** @var \Bolt\Storage\Repository\LogChange */
+    private $changeRepository;
+    /** @var \Bolt\Storage\Repository\LogSystem */
+    private $systemRepository;
 
     /**
+     * Constructor.
+     *
      * @param Application $app
+     * @param Repository\LogChange $changeRepository
+     * @param Repository\LogSystem $systemRepository
      */
-    public function __construct(Application $app)
+    public function __construct(Application $app, Repository\LogChange $changeRepository, Repository\LogSystem $systemRepository)
     {
         $this->app = $app;
-
-        $prefix = $app['config']->get('general/database/prefix', "bolt_");
-        $this->table_change = sprintf("%s%s", $prefix, 'log_change');
-        $this->table_system = sprintf("%s%s", $prefix, 'log_system');
+        $this->changeRepository = $changeRepository;
+        $this->systemRepository = $systemRepository;
     }
 
     /**
