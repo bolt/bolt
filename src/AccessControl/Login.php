@@ -19,15 +19,18 @@ class Login extends AccessChecker
      * Attempt to login a user with the given password. Accepts username or
      * email.
      *
+     * @param Request $request
      * @param string  $userName
      * @param string  $password
-     * @param string  $authCookie
      * @param integer $hashStrength
      *
      * @return boolean
      */
-    public function login($userName = null, $password = null, $authCookie = null, $hashStrength = 8)
+    public function login(Request $request, $userName = null, $password = null, $hashStrength = 8)
     {
+        $this->setRequest($request);
+        $authCookie = $request->cookies->get($this->app['token.authentication.name']);
+
         // Remove expired tokens
         $this->repositoryAuthtoken->deleteExpiredTokens();
 

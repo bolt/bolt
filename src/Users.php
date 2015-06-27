@@ -136,7 +136,9 @@ class Users
      */
     public function login($user, $password)
     {
-        return $this->app['authentication.login']->login($user, $password, null, $this->app['config']->get('general/hash_strength', 8));
+        $request = Request::createFromGlobals();
+
+        return $this->app['authentication.login']->login($request, $user, $password, $this->app['authentication.hash.strength']);
     }
 
     /**
@@ -162,7 +164,7 @@ class Users
     {
         $request = Request::createFromGlobals();
 
-        return $this->app['authentication.login']->login(null, null, $request->cookies->get($this->app['token.authentication.name']));
+        return $this->app['authentication.login']->login($request, null, null, $this->app['authentication.hash.strength']);
     }
 
     /**

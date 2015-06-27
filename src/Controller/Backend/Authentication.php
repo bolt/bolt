@@ -130,8 +130,7 @@ class Authentication extends BackendBase
      */
     private function handlePostLogin(Request $request, $username, $password)
     {
-        $cookie = $request->cookies->get($this->app['token.authentication.name']);
-        if (!$this->login()->login($username, $password, $cookie, $this->app['authentication.hash.strength'])) {
+        if (!$this->login()->login($request, $username, $password, $this->app['authentication.hash.strength'])) {
             return $this->getLogin($request, true);
         }
 
