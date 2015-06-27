@@ -65,7 +65,7 @@ class Password
     }
 
     /**
-     * Handle a password reset confirmation
+     * Handle a password reset confirmation.
      *
      * @param string $token
      * @param string $remoteIP

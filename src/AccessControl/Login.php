@@ -2,6 +2,7 @@
 namespace Bolt\AccessControl;
 
 use Bolt\AccessControl\Token\Token;
+use Bolt\Application;
 use Bolt\Logger\FlashLogger;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
@@ -15,6 +16,33 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Login extends AccessChecker
 {
+    /** @var \Bolt\Application $app */
+    protected $app;
+
+    /**
+     * Constructor.
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $repoAuth = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+        $repoUsers = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
+
+        parent::__construct(
+            $repoAuth,
+            $repoUsers,
+            $app['session'],
+            $app['logger.flash'],
+            $app['logger.system'],
+            $app['permissions'],
+            $app['randomgenerator'],
+            $app['authentication.cookie.options']
+        );
+
+        $this->app = $app;
+    }
+
     /**
      * Attempt to login a user with the given password. Accepts username or
      * email.
@@ -22,11 +50,10 @@ class Login extends AccessChecker
      * @param Request $request
      * @param string  $userName
      * @param string  $password
-     * @param integer $hashStrength
      *
      * @return boolean
      */
-    public function login(Request $request, $userName = null, $password = null, $hashStrength = 8)
+    public function login(Request $request, $userName = null, $password = null)
     {
         $this->setRequest($request);
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
@@ -35,7 +62,7 @@ class Login extends AccessChecker
         $this->repositoryAuthtoken->deleteExpiredTokens();
 
         if ($userName !== null && $password !== null) {
-            return $this->loginCheckPassword($userName, $password, $hashStrength);
+            return $this->loginCheckPassword($userName, $password);
         } elseif ($authCookie !== null) {
             return $this->loginCheckAuthtoken($authCookie);
         }
@@ -50,18 +77,16 @@ class Login extends AccessChecker
      *
      * @param string  $userName
      * @param string  $password
-     * @param integer $hashStrength
      *
      * @return boolean
      */
-    protected function loginCheckPassword($userName, $password, $hashStrength)
+    protected function loginCheckPassword($userName, $password)
     {
         if (!$userEntity = $this->getUserEntity($userName)) {
             return false;
         }
 
-        $hashStrength = max($hashStrength, 8);
-        $hasher = new PasswordHash($hashStrength, true);
+        $hasher = new PasswordHash($this->app['authentication.hash.strength'], true);
         if (!$hasher->CheckPassword($password, $userEntity->getPassword())) {
             $this->loginFailed($userEntity);
 

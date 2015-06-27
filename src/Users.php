@@ -138,7 +138,7 @@ class Users
     {
         $request = Request::createFromGlobals();
 
-        return $this->app['authentication.login']->login($request, $user, $password, $this->app['authentication.hash.strength']);
+        return $this->app['authentication.login']->login($request, $user, $password);
     }
 
     /**
@@ -164,7 +164,7 @@ class Users
     {
         $request = Request::createFromGlobals();
 
-        return $this->app['authentication.login']->login($request, null, null, $this->app['authentication.hash.strength']);
+        return $this->app['authentication.login']->login($request, null, null);
     }
 
     /**
