@@ -41,25 +41,18 @@ class Manager
      *
      * @param string $log
      *
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      */
     public function trim($log)
     {
-        if ($log == 'system') {
-            $table = $this->table_system;
-        } elseif ($log == 'change') {
-            $table = $this->table_change;
+        $period = new \DateTime('-7 day');
+        if ($log === 'change') {
+            $this->changeRepository->trimLog($period);
+        } elseif ($log === 'system') {
+            $this->systemRepository->trimLog($period);
         } else {
-            throw new \Exception("Invalid log type requested: $log");
+            throw new \UnexpectedValueException("Invalid log type requested: $log");
         }
-
-        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
-        $query = $this->app['db']->createQueryBuilder()
-                                 ->delete($table)
-                                 ->where('date < :date')
-                                 ->setParameter(':date', date('Y-m-d H:i:s', strtotime('-7 day')));
-
-        $query->execute();
     }
 
     /**
