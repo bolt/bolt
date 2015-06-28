@@ -4,6 +4,7 @@ namespace Bolt\Tests\Controller\Async;
 use Bolt\Controller\Zone;
 use Bolt\Response\BoltResponse;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,17 +59,83 @@ class GeneralTest extends ControllerUnitTest
         $this->assertSame('components/panel-change-record.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
+    
+    public function testDashboardNewsWithInvalidRequest()
+    {
+        $this->setRequest(Request::create('/async/dashboardnews'));
+        $app = $this->getApp();
+        $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
+        
+        $guzzleInterface = $this->getMock('GuzzleHttp\Message\RequestInterface');
+        $testGuzzle->expects($this->at(0))->method("get")->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
+        $app['guzzle.client'] = $testGuzzle;
+        
+        $logger = $this->getMock('Bolt\Logger\Manager', ['info','critical'], [$app]);
+        
+        $logger->expects($this->at(1))
+            ->method('critical')
+            ->with($this->stringContains('Error occurred'));
+        $app['logger.system'] = $logger;
+        $response = $this->controller()->dashboardNews($this->getRequest());
+    }
+    
+    public function testDashboardNewsWithInvalidJson()
+    {
+        $this->setRequest(Request::create('/async/dashboardnews'));
+        $app = $this->getApp();
+        $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
+        $testRequest = $this->getMock('GuzzleHttp\Message', ['getBody']);
+        $testRequest->expects($this->any())
+                    ->method('getBody')
+                    ->will($this->returnValue('invalidstring'));
+        $testGuzzle->expects($this->any())
+                    ->method('get')
+                    ->will($this->returnValue($testRequest));
+        $app['guzzle.client'] = $testGuzzle;
+        
+        $logger = $this->getMock('Bolt\Logger\Manager', ['info','error'], [$app]);
+        
+        $logger->expects($this->at(1))
+            ->method('error')
+            ->with($this->stringContains('Invalid JSON'));
+        $app['logger.system'] = $logger;
+        $response = $this->controller()->dashboardNews($this->getRequest());
+    }
+    
+    public function testDashboardNewsWithVariable()
+    {
+        $app = $this->getApp();
+        $app['cache']->clearCache();
+        $this->setRequest(Request::create('/async/dashboardnews'));
+        $app['config']->set('general/branding/news_variable', 'testing');
+        
+        $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
+        $testRequest = $this->getMock('GuzzleHttp\Message', ['getBody']);
+        $testRequest->expects($this->any())
+                    ->method('getBody')
+                    ->will($this->returnValue('{"testing":[{"item":"one"},{"item":"two"},{"item":"three"}]}'));
+        $testGuzzle->expects($this->any())
+                    ->method('get')
+                    ->will($this->returnValue($testRequest));
+        $app['guzzle.client'] = $testGuzzle;
+
+        $response = $this->controller()->dashboardNews($this->getRequest());
+
+        $context = $response->getContext();
+        $this->assertEquals(['item'=>'one'], (array)$context['context']['information']);
+    }
+    
 
     public function testDashboardNews()
     {
         $this->setRequest(Request::create('/async/dashboardnews'));
 
         $response = $this->controller()->dashboardNews($this->getRequest());
-
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('components/panel-news.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
+
 
     public function testLastModified()
     {
