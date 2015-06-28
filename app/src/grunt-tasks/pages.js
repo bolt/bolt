@@ -66,6 +66,12 @@ module.exports = function (grunt) {
             options.baseUrl = options.baseUrl || grunt.config('pages.baseurl');
             options.followAllRedirects = true; // "followRedirect" doesn't seem to work with 302.
             options.jar = true;
+            if (typeof options.headers === 'undefined') {
+                options.headers = {};
+            }
+            if (typeof options.headers['User-Agent'] === 'undefined') {
+                options.headers['User-Agent'] = 'request';
+            }
 
             // Path, where to put the file. Make it always end with ".html"
             if (dest.substr(0, 1) === '@') {
