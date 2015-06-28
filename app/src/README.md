@@ -74,7 +74,7 @@ Issue a manual login (same as ``@login``, only page is saved as ``dashboard.html
     };
 
 #### Example: "Full" interface check
-    {
+
     module.exports = {
         baseurl: "http://bolt.localhost/bolt/",
         requests: {
