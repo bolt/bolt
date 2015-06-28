@@ -14,16 +14,16 @@ class LogSystem extends BaseTable
     protected function addColumns()
     {
         // @codingStandardsIgnoreStart
-        $this->table->addColumn('id',         'integer',  ['autoincrement' => true]);
-        $this->table->addColumn('level',      'integer',  []);
-        $this->table->addColumn('date',       'datetime', []);
-        $this->table->addColumn('message',    'string',   ['length' => 1024]);
-        $this->table->addColumn('ownerid',    'integer',  ['notnull' => false]);
-        $this->table->addColumn('requesturi', 'string',   ['length' => 128]);
-        $this->table->addColumn('route',      'string',   ['length' => 128]);
-        $this->table->addColumn('ip',         'string',   ['length' => 32, 'default' => '']);
-        $this->table->addColumn('context',    'string',   ['length' => 32]);
-        $this->table->addColumn('source',     'text',     []);
+        $this->table->addColumn('id',         'integer',    ['autoincrement' => true]);
+        $this->table->addColumn('level',      'integer',    []);
+        $this->table->addColumn('date',       'datetime',   []);
+        $this->table->addColumn('message',    'string',     ['length' => 1024]);
+        $this->table->addColumn('ownerid',    'integer',    ['notnull' => false]);
+        $this->table->addColumn('requesturi', 'string',     ['length' => 128]);
+        $this->table->addColumn('route',      'string',     ['length' => 128]);
+        $this->table->addColumn('ip',         'string',     ['length' => 32, 'default' => '']);
+        $this->table->addColumn('context',    'string',     ['length' => 32]);
+        $this->table->addColumn('source',     'json_array', ['default' => '[]']);
         // @codingStandardsIgnoreEnd
     }
 

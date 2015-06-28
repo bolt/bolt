@@ -137,7 +137,6 @@
 
 {% macro trace_info_html(source) %}
     {% if source %}
-        {% set source = source|json_decode %}
         {% for key,value in source %}
             {{ key }}: {{ value }}<br>
         {% endfor %}
