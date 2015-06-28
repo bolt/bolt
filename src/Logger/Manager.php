@@ -112,30 +112,6 @@ class Manager
 
         $this->app['storage']->setPager('activity', $pager);
 
-        if ($log == 'change') {
-            return $this->decodeChangeLog($rows);
-        }
-
-        return $rows;
-    }
-
-    /**
-     * Decode JSON in change log fields.
-     *
-     * @param array $rows
-     *
-     * @return array
-     */
-    private function decodeChangeLog($rows)
-    {
-        if (!is_array($rows)) {
-            return $rows;
-        }
-
-        foreach ($rows as $key => $row) {
-            $rows[$key]['diff'] = json_decode($row['diff'], true);
-        }
-
         return $rows;
     }
 }
