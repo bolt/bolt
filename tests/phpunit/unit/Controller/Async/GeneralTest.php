@@ -70,7 +70,7 @@ class GeneralTest extends ControllerUnitTest
         $testGuzzle->expects($this->at(0))->method("get")->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
         $app['guzzle.client'] = $testGuzzle;
         
-        $logger = $this->getMock('Bolt\Logger\Manager', ['info','critical'], [$app]);
+        $logger = $this->getMock('Bolt\Logger\Manager', ['info', 'critical'], [$app]);
         
         $logger->expects($this->at(1))
             ->method('critical')
@@ -93,7 +93,7 @@ class GeneralTest extends ControllerUnitTest
                     ->will($this->returnValue($testRequest));
         $app['guzzle.client'] = $testGuzzle;
         
-        $logger = $this->getMock('Bolt\Logger\Manager', ['info','error'], [$app]);
+        $logger = $this->getMock('Bolt\Logger\Manager', ['info', 'error'], [$app]);
         
         $logger->expects($this->at(1))
             ->method('error')
@@ -122,7 +122,7 @@ class GeneralTest extends ControllerUnitTest
         $response = $this->controller()->dashboardNews($this->getRequest());
 
         $context = $response->getContext();
-        $this->assertEquals(['item'=>'one'], (array)$context['context']['information']);
+        $this->assertEquals(['item' => 'one'], (array)$context['context']['information']);
     }
     
 
@@ -135,7 +135,6 @@ class GeneralTest extends ControllerUnitTest
         $this->assertSame('components/panel-news.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
-
 
     public function testLastModified()
     {
