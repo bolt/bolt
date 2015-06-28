@@ -20,7 +20,7 @@ class Generator
             throw new \InvalidArgumentException('Token generator requires a remote host name to be provided');
         }
         if ($userAgent === null) {
-            throw new \InvalidArgumentException('Token generator requires a borwser user agent to be provided');
+            throw new \InvalidArgumentException('Token generator requires a browser user agent to be provided');
         }
 
         $remoteIP = $cookieOptions['remoteaddr'] ? $remoteIP : '';
