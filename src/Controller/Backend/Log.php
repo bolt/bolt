@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller\Backend;
 
+use Bolt\Pager;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +58,11 @@ class Log extends BackendBase
             return $this->redirectToRoute('changelog');
         }
 
-        $activity = $this->manager()->getActivity('change', 16);
+        // Test/get page number
+        $param = Pager::makeParameterId('activity');
+        $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+
+        $activity = $this->manager()->getActivity('change', $page, 16);
 
         return $this->render('activity/changelog.twig', ['entries' => $activity]);
     }
@@ -138,10 +143,14 @@ class Log extends BackendBase
             return $this->redirectToRoute('systemlog');
         }
 
-        $level = $request->query->get('level');
-        $context = $request->query->get('context');
+        $level = $request->query->get('level', null) ?: null;
+        $context = $request->query->get('context', null) ?: null;
 
-        $activity = $this->manager()->getActivity('system', 16, $level, $context);
+        // Test/get page number
+        $param = Pager::makeParameterId('activity');
+        $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+
+        $activity = $this->manager()->getActivity('system', $page, 16, $level, $context);
 
         return $this->render('activity/systemlog.twig', ['entries' => $activity]);
     }

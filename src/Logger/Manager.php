@@ -79,109 +79,44 @@ class Manager
      * Get a specific activity log.
      *
      * @param string  $log     The log to query.  Either 'change' or 'system'
+     * @param integer $page
      * @param integer $amount  Number of results to return
      * @param integer $level
      * @param string  $context
      *
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      *
      * @return array
      */
-    public function getActivity($log, $amount = 10, $level = null, $context = null)
+    public function getActivity($log, $page = 1, $amount = 10, $level = null, $context = null)
     {
-        if ($log == 'system') {
-            $table = $this->table_system;
-        } elseif ($log == 'change') {
-            $table = $this->table_change;
+        if ($log == 'change') {
+            $rows = $this->changeRepository->getActivity($page, $amount, $level, $context);
+            $rowcount = $this->changeRepository->getActivityCount($level, $context);
+        } elseif ($log == 'system') {
+            $rows = $this->systemRepository->getActivity($page, $amount, $level, $context);
+            $rowcount = $this->systemRepository->getActivityCount($level, $context);
         } else {
-            throw new \Exception("Invalid log type requested: $log");
+            throw new \UnexpectedValueException("Invalid log type requested: $log");
         }
 
-        try {
-            /** @var $reqquery \Symfony\Component\HttpFoundation\ParameterBag */
-            $reqquery = $this->app['request']->query;
+        // Set up the pager
+        $pager = [
+            'for'          => 'activity',
+            'count'        => $rowcount,
+            'totalpages'   => ceil($rowcount / $amount),
+            'current'      => $page,
+            'showing_from' => ($page - 1) * $amount + 1,
+            'showing_to'   => ($page - 1) * $amount + count($rows)
+        ];
 
-            // Test/get page number
-            $param = Pager::makeParameterId('activity');
-            $page = ($reqquery) ? $reqquery->get($param, $reqquery->get('page', 1)) : 1;
-
-            // Build the base query
-            $query = $this->app['db']->createQueryBuilder()
-                          ->select('*')
-                          ->from($table)
-                          ->orderBy('id', 'DESC')
-                          ->setMaxResults(intval($amount))
-                          ->setFirstResult(intval(($page - 1) * $amount));
-
-            // Set up optional WHERE clause(s)
-            $query = $this->setWhere($query, $level, $context);
-
-            // Get the rows from the database
-            $rows = $query->execute()->fetchAll();
-
-            // Find out how many entries we're paging form
-            $query = $this->app['db']->createQueryBuilder()
-                          ->select('COUNT(id) as count')
-                          ->from($table);
-
-            // Set up optional WHERE clause(s)
-            $query = $this->setWhere($query, $level, $context);
-
-            $rowcount = $query->execute()->fetch();
-
-            // Set up the pager
-            $pager = [
-                    'for'          => 'activity',
-                    'count'        => $rowcount['count'],
-                    'totalpages'   => ceil($rowcount['count'] / $amount),
-                    'current'      => $page,
-                    'showing_from' => ($page - 1) * $amount + 1,
-                    'showing_to'   => ($page - 1) * $amount + count($rows)
-            ];
-
-            $this->app['storage']->setPager('activity', $pager);
-        } catch (DBALException $e) {
-            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-            $rows = [];
-        }
+        $this->app['storage']->setPager('activity', $pager);
 
         if ($log == 'change') {
             return $this->decodeChangeLog($rows);
         }
 
         return $rows;
-    }
-
-    /**
-     * Set any required WHERE clause on a QueryBuilder.
-     *
-     * @param QueryBuilder $query
-     * @param integer      $level
-     * @param string       $context
-     *
-     * @return QueryBuilder
-     */
-    private function setWhere(QueryBuilder $query, $level = null, $context = null)
-    {
-        if ($level !== null || $context !== null) {
-            $where = $query->expr()->andX();
-
-            if ($level !== null) {
-                $where->add($query->expr()->eq('level', ':level'));
-            }
-
-            if ($context !== null) {
-                $where->add($query->expr()->eq('context', ':context'));
-            }
-            $query
-                ->where($where)
-                ->setParameters([
-                    ':level'   => $level,
-                    ':context' => $context
-                ]);
-        }
-
-        return $query;
     }
 
     /**

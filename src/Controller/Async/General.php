@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller\Async;
 
+use Bolt\Pager;
 use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -139,12 +140,18 @@ class General extends AsyncBase
     /**
      * Get the 'latest activity' for the dashboard.
      *
+     * @param Request $request
+     *
      * @return \Bolt\Response\BoltResponse
      */
-    public function latestActivity()
+    public function latestActivity(Request $request)
     {
-        $change = $this->app['logger.manager']->getActivity('change', 8);
-        $system = $this->app['logger.manager']->getActivity('system', 8, null, 'authentication');
+        // Test/get page number
+        $param = Pager::makeParameterId('activity');
+        $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+
+        $change = $this->app['logger.manager']->getActivity('change', $page, 8);
+        $system = $this->app['logger.manager']->getActivity('system', $page, 8, null, ['authentication', 'security']);
 
         $response = $this->render('components/panel-activity.twig', ['context' => [
             'change' => $change,
