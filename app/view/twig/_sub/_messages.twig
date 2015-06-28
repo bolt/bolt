@@ -11,7 +11,7 @@
     {% for msg in app.session.flashBag.get(key) %}
         {% if msg not in shown %}
             <div class="alert alert-{{ class|default(key) }}">
-                <button class="close" data-dismiss="alert">×</button>
+                <button type="button" class="close" data-dismiss="alert">×</button>
                 {{ msg|ymllink }}
             </div>
             {% set shown = shown|merge([msg]) %}
