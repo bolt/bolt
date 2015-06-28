@@ -46,7 +46,7 @@ module.exports = function (grunt, option) {
                 // Set up paths.
                 img.src = path.dirname(filepath) + '/' + urls[i].path;
                 img.dst = option.path.dest.img + '/lib/' + img.dir + path.basename(urls[i].path);
-                img.url = relativePath + '/' + img.dir + path.basename(urls[i].path);
+                img.url = relativePath + '/lib/' + img.dir + path.basename(urls[i].path);
 
                 // Copy the image file.
                 grunt.verbose.writeln('Copy: ' + img.src + '\n   => ' + img.dst);
