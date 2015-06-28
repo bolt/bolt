@@ -60,22 +60,19 @@ class Manager
      *
      * @param string $log
      *
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      */
     public function clear($log)
     {
-        if ($log == 'system') {
-            $table = $this->table_system;
-        } elseif ($log == 'change') {
-            $table = $this->table_change;
+        if ($log === 'change') {
+            $this->changeRepository->clearLog();
+        } elseif ($log === 'system') {
+            $this->systemRepository->clearLog();
         } else {
-            throw new \Exception("Invalid log type requested: $log");
+            throw new \UnexpectedValueException("Invalid log type requested: $log");
         }
 
-        // Get the platform specific truncate SQL
-        $query = $this->app['db']->getDatabasePlatform()->getTruncateTableSql($table);
-
-        $this->app['db']->executeQuery($query);
+        $this->app['logger.system']->info(ucfirst($log) . ' log cleared.', ['event' => 'security']);
     }
 
     /**

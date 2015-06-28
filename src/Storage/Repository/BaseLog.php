@@ -41,6 +41,21 @@ abstract class BaseLog extends Repository
     }
 
     /**
+     * Clear the log table.
+     *
+     * @return boolean
+     */
+    public function clearLog()
+    {
+        $qb = $this->createQueryBuilder();
+        $query = $qb->getConnection()
+            ->getDatabasePlatform()
+            ->getTruncateTableSql($this->getTableName());
+
+        return $qb->getConnection()->executeQuery($query)->execute();
+    }
+
+    /**
      * Creates a query builder instance namespaced to this repository
      *
      * @return QueryBuilder
