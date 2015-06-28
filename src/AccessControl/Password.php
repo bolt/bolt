@@ -5,7 +5,6 @@ use Bolt\Application;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Hautelook\Phpass\PasswordHash;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Password handling.

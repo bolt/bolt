@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Storage\Database\Schema;
 
-use Doctrine\DBAL\Schema\Column;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 
 /**

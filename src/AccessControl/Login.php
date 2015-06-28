@@ -3,7 +3,6 @@ namespace Bolt\AccessControl;
 
 use Bolt\AccessControl\Token\Token;
 use Bolt\Application;
-use Bolt\Logger\FlashLogger;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Hautelook\Phpass\PasswordHash;

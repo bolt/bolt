@@ -2,7 +2,6 @@
 namespace Bolt\Events;
 
 use Bolt;
-use Bolt\Content;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
