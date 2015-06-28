@@ -121,7 +121,7 @@
                             {{ entry.ip }}
                         </td>
                         <td>
-                            <time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date }}">{{ entry.date }}</time>
+                            <time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date|date("c") }}">{{ entry.date|date("c") }}</time>
                         </td>
                     </tr>
                 {% endfor %}
