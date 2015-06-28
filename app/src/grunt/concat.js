@@ -109,6 +109,7 @@ module.exports = function (grunt, option) {
                 '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.structure.css',
                 '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.theme.css',
                 '<%= path.src.lib %>/select2/select2.css',
+                '<%= path.src.bower %>/blueimp-file-upload/css/jquery.fileupload.css',
                 '<%= path.src.bower %>/blueimp-file-upload/css/jquery.fileupload-ui.css',
                 '<%= path.src.bower %>/magnific-popup/dist/magnific-popup.css'
             ],
