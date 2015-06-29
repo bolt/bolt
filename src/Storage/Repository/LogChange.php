@@ -40,7 +40,7 @@ class LogChange extends BaseLog
         $qb = $this->createQueryBuilder();
         $qb->select('*');
 
-        $qb = $this->setLimitOrder($qb, $options);
+        $this->setLimitOrder($qb, $options);
 
         return $qb;
     }
