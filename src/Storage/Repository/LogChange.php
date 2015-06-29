@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Repository;
 
-use Bolt\Logger\ChangeLogItem;
 use Bolt\Storage\Repository;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -20,22 +19,13 @@ class LogChange extends BaseLog
      *                       - 'order' (string)
      *                       - 'direction' (string)
      *
-     * @return \Bolt\Logger\ChangeLogItem[]
+     * @return \Bolt\Storage\Entity\LogChange[]
      */
     public function getChangeLog(array $options)
     {
         $query = $this->getChangeLogQuery($options);
 
-        $rows = $this->findAll($query);
-
-        $repository = $this->em->getRepository('Bolt\Storage\Entity\Users');
-        $objs = [];
-        foreach ($rows as $row) {
-            $contentTypeMeta = $this->em->getMapper()->getClassMetadata($rows['contenttype']);
-            $objs[] = new ChangeLogItem($repository, $contentTypeMeta, $row);
-        }
-
-        return $objs;
+        return $this->findAll($query);
     }
 
     /**
@@ -91,21 +81,13 @@ class LogChange extends BaseLog
      *                            - 'contentid' (integer): Filter further by content ID
      *                            - 'id' (integer):        Filter by a specific change log entry ID
      *
-     * @return \Bolt\Logger\ChangeLogItem[]
+     * @return \Bolt\Storage\Entity\LogChange[]
      */
     public function getChangeLogByContentType($contenttype, array $options = [])
     {
         $query = $this->getChangeLogByContentTypeQuery($contenttype, $options);
-        $rows = $this->findAll($query);
 
-        $repository = $this->em->getRepository('Bolt\Storage\Entity\Users');
-        $contentTypeMeta = $this->em->getMapper()->getClassMetadata($contenttype);
-        $objs = [];
-        foreach ($rows as $row) {
-            $objs[] = new ChangeLogItem($repository, $contentTypeMeta, $row);
-        }
-
-        return $objs;
+        return $this->findAll($query);
     }
 
     /**
@@ -181,7 +163,7 @@ class LogChange extends BaseLog
      *
      * @throws \InvalidArgumentException
      *
-     * @return \Bolt\Logger\ChangeLogItem|null
+     * @return \Bolt\Storage\Entity\LogChange
      */
     public function getChangeLogEntry($contenttype, $contentid, $id, $cmpOp)
     {
@@ -191,16 +173,7 @@ class LogChange extends BaseLog
 
         $query = $this->getChangeLogEntryQuery($contenttype, $contentid, $id, $cmpOp);
 
-        $row = $this->fetchOneBy($query);
-
-        if ($row !== false) {
-            $repository = $this->em->getRepository('Bolt\Storage\Entity\Users');
-            $contentTypeMeta = $this->em->getMapper()->getClassMetadata($contenttype);
-
-            return new ChangeLogItem($repository, $contentTypeMeta, $row);
-        }
-
-        return false;
+        return $this->fetchOneBy($query);
     }
 
     /**
