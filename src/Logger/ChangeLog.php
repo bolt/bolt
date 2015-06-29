@@ -78,69 +78,6 @@ class ChangeLog
     }
 
     /**
-     * Set any required WHERE clause on a QueryBuilder.
-     *
-     * @param QueryBuilder $query
-     * @param string       $contenttype
-     * @param array        $options
-     *
-     * @return QueryBuilder
-     */
-    private function setWhere(QueryBuilder $query, $contenttype, array $options)
-    {
-        $where = $query->expr()->andX()
-                        ->add($query->expr()->eq('contenttype', ':contenttype'));
-
-        // Set any required WHERE
-        if (isset($options['contentid']) || isset($options['id'])) {
-            if (isset($options['contentid'])) {
-                $where->add($query->expr()->eq('contentid', ':contentid'));
-            }
-
-            if (isset($options['id'])) {
-                $where->add($query->expr()->eq('log.id', ':logid'));
-            }
-        }
-
-        $query->where($where)
-            ->setParameters([
-                ':contenttype' => $contenttype,
-                ':contentid'   => isset($options['contentid']) ? $options['contentid'] : null,
-                ':logid'       => isset($options['id']) ? $options['id'] : null
-            ]);
-
-        return $query;
-    }
-
-    /**
-     * Conditionally add LIMIT and ORDERBY to a QueryBuilder query.
-     *
-     * @param QueryBuilder $query
-     * @param array        $options The following options are supported:
-     *                              - 'limit' (int)
-     *                              - 'offset' (int)
-     *                              - 'order' (string)
-     *                              - 'direction' (string)
-     *
-     * @return QueryBuilder
-     */
-    private function setLimitOrder(QueryBuilder $query, array $options)
-    {
-        if (isset($options['order'])) {
-            $query->orderBy($options['order'], $options['direction']);
-        }
-        if (isset($options['limit'])) {
-            $query->setMaxResults(intval($options['limit']));
-
-            if (isset($options['offset'])) {
-                $query->setFirstResult(intval($options['offset']));
-            }
-        }
-
-        return $query;
-    }
-
-    /**
      * Get one changelog entry from the database.
      *
      * @param mixed   $contenttype Should be a string content type slug, or an

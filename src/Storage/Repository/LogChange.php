@@ -189,4 +189,35 @@ class LogChange extends BaseLog
             }
         }
     }
+
+    /**
+     * Set any required WHERE clause on a QueryBuilder.
+     *
+     * @param QueryBuilder $query
+     * @param string       $contenttype
+     * @param array        $options
+     */
+    protected function setWhere(QueryBuilder $query, $contenttype, array $options)
+    {
+        $where = $query->expr()->andX()
+                        ->add($query->expr()->eq('contenttype', ':contenttype'));
+
+        // Set any required WHERE
+        if (isset($options['contentid']) || isset($options['id'])) {
+            if (isset($options['contentid'])) {
+                $where->add($query->expr()->eq('contentid', ':contentid'));
+            }
+
+            if (isset($options['id'])) {
+                $where->add($query->expr()->eq('log.id', ':logid'));
+            }
+        }
+
+        $query->where($where)
+            ->setParameters([
+                ':contenttype' => $contenttype,
+                ':contentid'   => isset($options['contentid']) ? $options['contentid'] : null,
+                ':logid'       => isset($options['id']) ? $options['id'] : null
+            ]);
+    }
 }
