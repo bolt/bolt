@@ -59,26 +59,28 @@ class GeneralTest extends ControllerUnitTest
         $this->assertSame('components/panel-change-record.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
-    
+
     public function testDashboardNewsWithInvalidRequest()
     {
         $this->setRequest(Request::create('/async/dashboardnews'));
         $app = $this->getApp();
         $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
-        
+
         $guzzleInterface = $this->getMock('GuzzleHttp\Message\RequestInterface');
         $testGuzzle->expects($this->at(0))->method("get")->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
         $app['guzzle.client'] = $testGuzzle;
-        
-        $logger = $this->getMock('Bolt\Logger\Manager', ['info', 'critical'], [$app]);
-        
+
+        $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+        $logger = $this->getMock('Bolt\Logger\Manager', ['info', 'critical'], [$app, $changeRepository, $systemRepository]);
+
         $logger->expects($this->at(1))
             ->method('critical')
             ->with($this->stringContains('Error occurred'));
         $app['logger.system'] = $logger;
         $response = $this->controller()->dashboardNews($this->getRequest());
     }
-    
+
     public function testDashboardNewsWithInvalidJson()
     {
         $this->setRequest(Request::create('/async/dashboardnews'));
@@ -92,23 +94,25 @@ class GeneralTest extends ControllerUnitTest
                     ->method('get')
                     ->will($this->returnValue($testRequest));
         $app['guzzle.client'] = $testGuzzle;
-        
-        $logger = $this->getMock('Bolt\Logger\Manager', ['info', 'error'], [$app]);
-        
+
+        $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+        $logger = $this->getMock('Bolt\Logger\Manager', ['info', 'error'], [$app, $changeRepository, $systemRepository]);
+
         $logger->expects($this->at(1))
             ->method('error')
             ->with($this->stringContains('Invalid JSON'));
         $app['logger.system'] = $logger;
         $response = $this->controller()->dashboardNews($this->getRequest());
     }
-    
+
     public function testDashboardNewsWithVariable()
     {
         $app = $this->getApp();
         $app['cache']->clearCache();
         $this->setRequest(Request::create('/async/dashboardnews'));
         $app['config']->set('general/branding/news_variable', 'testing');
-        
+
         $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
         $testRequest = $this->getMock('GuzzleHttp\Message', ['getBody']);
         $testRequest->expects($this->any())
@@ -124,7 +128,7 @@ class GeneralTest extends ControllerUnitTest
         $context = $response->getContext();
         $this->assertEquals(['item' => 'one'], (array)$context['context']['information']);
     }
-    
+
 
     public function testDashboardNews()
     {
