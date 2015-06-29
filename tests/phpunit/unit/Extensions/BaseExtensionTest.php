@@ -328,7 +328,9 @@ class BaseExtensionTest extends BoltUnitTest
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
         $handler = $this->getMock('Bolt\Extensions', ['addJavascript'], [$app]);
 
-        $logger = $this->getMock('Bolt\Logger\Manager', ['error'], [$app]);
+        $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+        $logger = $this->getMock('Bolt\Logger\Manager', ['error'], [$app, $changeRepository, $systemRepository]);
 
         $logger->expects($this->once())
             ->method('error');
@@ -391,7 +393,10 @@ class BaseExtensionTest extends BoltUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $logger = $this->getMock('Bolt\Logger\Manager', ['error'], [$app]);
+
+        $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+        $logger = $this->getMock('Bolt\Logger\Manager', ['error'], [$app, $changeRepository, $systemRepository]);
 
         $logger->expects($this->once())
             ->method('error');

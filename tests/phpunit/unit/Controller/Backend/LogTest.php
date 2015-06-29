@@ -16,7 +16,10 @@ class LogTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
 
-        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp()]);
+        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
+        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp(), $changeRepository, $systemRepository]);
+
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));
@@ -146,7 +149,9 @@ class LogTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
 
-        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp()]);
+        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
+        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp(), $changeRepository, $systemRepository]);
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));

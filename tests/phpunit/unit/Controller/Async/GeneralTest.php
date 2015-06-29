@@ -70,8 +70,8 @@ class GeneralTest extends ControllerUnitTest
         $testGuzzle->expects($this->at(0))->method("get")->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
         $app['guzzle.client'] = $testGuzzle;
 
-        $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
-        $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
         $logger = $this->getMock('Bolt\Logger\Manager', ['info', 'critical'], [$app, $changeRepository, $systemRepository]);
 
         $logger->expects($this->at(1))
@@ -95,8 +95,8 @@ class GeneralTest extends ControllerUnitTest
                     ->will($this->returnValue($testRequest));
         $app['guzzle.client'] = $testGuzzle;
 
-        $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
-        $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
         $logger = $this->getMock('Bolt\Logger\Manager', ['info', 'error'], [$app, $changeRepository, $systemRepository]);
 
         $logger->expects($this->at(1))
@@ -155,7 +155,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/latestactivity'));
 
-        $response = $this->controller()->latestActivity();
+        $response = $this->controller()->latestActivity($this->getRequest());
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('components/panel-activity.twig', $response->getTemplateName());
