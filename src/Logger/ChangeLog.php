@@ -30,36 +30,6 @@ class ChangeLog
     }
 
     /**
-     * Get content changelog entries for all content types.
-     *
-     * @param array $options An array with additional options. Currently, the
-     *                       following options are supported:
-     *                       - 'limit' (int)
-     *                       - 'offset' (int)
-     *                       - 'order' (string)
-     *                       - 'direction' (string)
-     *
-     * @return array
-     */
-    public function getChangelog(array $options)
-    {
-        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
-        $query = $this->app['db']->createQueryBuilder()
-                        ->select('*')
-                        ->from($this->table_change);
-
-        $query = $this->setLimitOrder($query, $options);
-        $rows = $query->execute()->fetchAll();
-
-        $objs = [];
-        foreach ($rows as $row) {
-            $objs[] = new ChangeLogItem($this->app, $row);
-        }
-
-        return $objs;
-    }
-
-    /**
      * Get a count of change log entries.
      *
      * @return integer

@@ -11,6 +11,50 @@ use Doctrine\DBAL\Query\QueryBuilder;
 class LogChange extends BaseLog
 {
     /**
+     * Get content changelog entries for all content types.
+     *
+     * @param array $options An array with additional options. Currently, the
+     *                       following options are supported:
+     *                       - 'limit' (int)
+     *                       - 'offset' (int)
+     *                       - 'order' (string)
+     *                       - 'direction' (string)
+     *
+     * @return \Bolt\Logger\ChangeLogItem[]
+     */
+    public function getChangeLog(array $options)
+    {
+        $query = $this->getChangeLogQuery($options);
+
+
+        $rows = $this->findAll($query);
+
+        $objs = [];
+        foreach ($rows as $row) {
+            $objs[] = new ChangeLogItem($this->app, $row);
+        }
+
+        return $objs;
+    }
+
+    /**
+     * Build the query to get content changelog entries for all content types.
+     *
+     * @param array $options
+     *
+     * @return QueryBuilder
+     */
+    public function getChangeLogQuery(array $options)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->select('*');
+
+        $qb = $this->setLimitOrder($qb, $options);
+
+        return $qb;
+    }
+
+    /**
      * Conditionally add LIMIT and ORDER BY to a QueryBuilder query.
      *
      * @param QueryBuilder $query
@@ -19,8 +63,6 @@ class LogChange extends BaseLog
      *                              - 'offset' (int)
      *                              - 'order' (string)
      *                              - 'direction' (string)
-     *
-     * @return QueryBuilder
      */
     protected function setLimitOrder(QueryBuilder $query, array $options)
     {
@@ -34,7 +76,5 @@ class LogChange extends BaseLog
                 $query->setFirstResult(intval($options['offset']));
             }
         }
-
-        return $query;
     }
 }
