@@ -38,7 +38,7 @@ class Log extends BackendBase
     /**
      * Change log overview route.
      *
-     * @param Request $request The Symfony Request
+     * @param Request $request
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -70,23 +70,23 @@ class Log extends BackendBase
     /**
      * Show a single change log entry.
      *
-     * @param Request $request     The Symfony Request
-     * @param string  $contenttype The content type slug
-     * @param integer $contentid   The content ID
-     * @param integer $id          The changelog entry ID
+     * @param Request $request
+     * @param string  $contenttype ContentType slug
+     * @param integer $contentid   Content record ID
+     * @param integer $id          The change log entry ID
      *
      * @return \Bolt\Response\BoltResponse
      */
     public function changeRecord(Request $request, $contenttype, $contentid, $id)
     {
-        $entry = $this->changeLogRepository()->getChangelogEntry($contenttype, $contentid, $id, '=');
+        $entry = $this->changeLogRepository()->getChangeLogEntry($contenttype, $contentid, $id, '=');
         if (empty($entry)) {
             $error = Trans::__("The requested changelog entry doesn't exist.");
 
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
-        $prev = $this->changeLogRepository()->getChangelogEntry($contenttype, $contentid, $id, '<');
-        $next = $this->changeLogRepository()->getChangelogEntry($contenttype, $contentid, $id, '>');
+        $prev = $this->changeLogRepository()->getChangeLogEntry($contenttype, $contentid, $id, '<');
+        $next = $this->changeLogRepository()->getChangeLogEntry($contenttype, $contentid, $id, '>');
 
         $context = [
             'contenttype' => ['slug' => $contenttype],
@@ -101,9 +101,9 @@ class Log extends BackendBase
     /**
      * Show a list of changelog entries.
      *
-     * @param Request $request     The Symfony Request
-     * @param string  $contenttype The content type slug
-     * @param integer $contentid   The content ID
+     * @param Request $request
+     * @param string  $contenttype ContentType slug
+     * @param integer $contentid   Content record ID
      *
      * @return \Bolt\Response\BoltResponse
      */
@@ -115,7 +115,29 @@ class Log extends BackendBase
         // - neither given: get all changelog entries
 
         $page = $request->get('page');
-        $context = $this->getChangeRecordListing($contenttype, $contentid, $page);
+        $pagination = $this->getPagination($page);
+        $queryOptions = $this->getQueryOptions($pagination);
+
+        if (empty($contenttype)) {
+            // Case 1: No content type given, show from *all* items. This is easy:
+            $data = [
+                'title'   => Trans::__('All content types'),
+                'entries' => $this->changeLogRepository()->getChangeLog($queryOptions),
+                'count'   => $this->changeLogRepository()->countChangeLog(),
+            ];
+        } else {
+            $contenttype = $this->getContentType($contenttype);
+            $data = $this->manager()->getListingData($contenttype, $contentid, $queryOptions);
+        }
+
+        $context = [
+            'contenttype' => $contenttype,
+            'entries'     => $data['entries'],
+            'content'     => $data['content'],
+            'title'       => $data['title'],
+            'currentpage' => $pagination['page'],
+            'pagecount'   => $pagination['limit'] ? ceil($data['count'] / $pagination['limit']) : null
+        ];
 
         return $this->render('changelog/changelog_record_all.twig', $context);
     }
@@ -123,7 +145,7 @@ class Log extends BackendBase
     /**
      * System log overview route
      *
-     * @param Request $request The Symfony Request
+     * @param Request $request
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -177,5 +199,54 @@ class Log extends BackendBase
     protected function systemLogRepository()
     {
         return $this->storage()->getRepository('Bolt\Storage\Entity\LogSystem');
+    }
+
+    /**
+     * Calculate pagination parameters.
+     *
+     * @param integer|string|null $page
+     *
+     * @return array
+     */
+    private function getPagination($page)
+    {
+        $limit = 5;
+        if ($page !== null) {
+            if ($page === 'all') {
+                $limit = null;
+                $page = null;
+            } else {
+                $page = intval($page);
+            }
+        } else {
+            $page = 1;
+        }
+
+        return ['page' => $page, 'limit' => $limit];
+    }
+
+    /**
+     * Calculate the query options.
+     *
+     * @param array $pagination
+     *
+     * @return array
+     */
+    private function getQueryOptions($pagination)
+    {
+        // Some options that are the same for all three cases
+        $options = [
+            'order'     => 'date',
+            'direction' => 'DESC'
+        ];
+
+        if ($pagination['limit']) {
+            $options['limit'] = $pagination['limit'];
+        }
+        if ($pagination['page'] > 0 && $pagination['limit']) {
+            $options['offset'] = ($pagination['page'] - 1) * $pagination['limit'];
+        }
+
+        return $options;
     }
 }

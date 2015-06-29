@@ -173,7 +173,7 @@ class LogChange extends BaseLog
 
         $query = $this->getChangeLogEntryQuery($contenttype, $contentid, $id, $cmpOp);
 
-        return $this->fetchOneBy($query);
+        return $this->findOneWith($query);
     }
 
     /**
