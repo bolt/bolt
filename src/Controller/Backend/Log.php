@@ -162,4 +162,20 @@ class Log extends BackendBase
     {
         return $this->app['logger.manager'];
     }
+
+    /**
+     * @return \Bolt\Storage\Repository\LogChange
+     */
+    protected function changeLogRepository()
+    {
+        return $this->storage()->getRepository('Bolt\Storage\Entity\LogChange');
+    }
+
+    /**
+     * @return \Bolt\Storage\Repository\LogSystem
+     */
+    protected function systemLogRepository()
+    {
+        return $this->storage()->getRepository('Bolt\Storage\Entity\LogSystem');
+    }
 }
