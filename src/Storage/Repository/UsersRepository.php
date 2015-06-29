@@ -36,7 +36,7 @@ class UsersRepository extends Repository
     {
         $qb = $this->createQueryBuilder();
         $qb->delete($this->getTableName());
-        
+
         if (is_numeric($userId)) {
             $qb->where('id = :userId');
         } else {
@@ -73,9 +73,9 @@ class UsersRepository extends Repository
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*');
-        
+
         if (is_numeric($userId)) {
-            $qb->where('id= :userId');
+            $qb->where('id = :userId');
         } else {
             $qb->where('username = :userId')->orWhere('email = :userId');
         }
