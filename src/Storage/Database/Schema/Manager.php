@@ -140,30 +140,13 @@ class Manager
     public function checkTablesIntegrity($hinting = false)
     {
         $response = new CheckResponse($hinting);
-        $comparator = new Comparator();
-        $currentTables = $this->getTableObjects();
         $tables = $this->getTablesSchema();
         $valid = true;
 
         /** @var $table Table */
         foreach ($tables as $table) {
-            $tableName = $table->getName();
-
-            // Create the users table.
-            if (!isset($currentTables[$tableName])) {
-                $response->addTitle($tableName, sprintf('Table `%s` is not present.', $tableName));
-            } else {
-                $diff = $comparator->diffTable($currentTables[$tableName], $table);
-                $this->addResponseDiff($tableName, $diff, $response);
-            }
-
-            // If a table still has messages, we want to unset the valid state
-            $valid = !$response->hasResponses();
-
-            // If we are using the debug logger, log the diffs
-            foreach ($response->getDiffDetails() as $diff) {
-                $this->app['logger.system']->debug('Database update required', $diff);
-            }
+            // Set the valid flag via bitwise
+            $valid = $valid & $this->checkTableIntegrity($table, $response);
         }
 
         // If there were no messages, update the timer, so we don't check it again.
@@ -176,22 +159,55 @@ class Manager
     }
 
     /**
+     * Check that a single table's columns and indices are present in the DB.
+     *
+     * @param Table $table
+     * @param CheckResponse $response
+     *
+     * @return boolean
+     */
+    protected function checkTableIntegrity(Table $table, CheckResponse $response)
+    {
+        $comparator = new Comparator();
+        $currentTables = $this->getTableObjects();
+        $tableName = $table->getName();
+
+        // Create the users table.
+        if (!isset($currentTables[$tableName])) {
+            $response->addTitle($tableName, sprintf('Table `%s` is not present.', $tableName));
+        } else {
+            $diff = $comparator->diffTable($currentTables[$tableName], $table);
+            $this->addResponseDiff($tableName, $diff, $response);
+        }
+
+        // If we are using the debug logger, log the diffs
+        foreach ($response->getDiffDetails() as $diff) {
+            $this->app['logger.system']->debug('Database update required', $diff);
+        }
+
+        // If a table still has messages return a false to flick the validity check
+        return !$response->hasResponses();
+    }
+
+    /**
      * Add details of the table differences to the response object.
      *
-     * @param string        $tableName
-     * @param TableDiff     $diff
-     * @param CheckResponse $response
+     * @param string          $tableName
+     * @param TableDiff|false $diff
+     * @param CheckResponse   $response
      */
-    protected function addResponseDiff($tableName, TableDiff $diff, CheckResponse $response)
+    protected function addResponseDiff($tableName, $diff, CheckResponse $response)
     {
-        if (!$diff) {
+        if ($diff === false) {
             return;
-        } elseif ($diff = $this->cleanupTableDiff($diff)) {
+        }
+
+        $diff = $this->cleanupTableDiff($diff);
+        if ($details = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
             $response->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
             $response->checkDiff($tableName, $diff);
 
             // For debugging we keep the diffs
-            $details = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff);
             $response->addDiffDetail($details);
         }
     }
@@ -290,7 +306,7 @@ class Manager
                 }
             }
         }
-dump($diff);
+
         // Woraround for the roles table in bolt_users on SQLite
         // If only the type has changed, we ignore to prevent multiple schema warnings.
         if ($diff->fromTable->getName() === $this->getTablename('users')) {
