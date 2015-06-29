@@ -285,7 +285,9 @@ class Repository implements ObjectRepository
         $qb = $this->em->createQueryBuilder();
         $qb->insert($this->getTableName());
         $querySet->append($qb);
+        $this->getPersister()->disableField('id');
         $this->persister->persist($querySet, $entity, $this->em);
+        $this->getPersister()->enableField('id');
 
         return $querySet->execute();
     }
