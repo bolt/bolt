@@ -92,15 +92,6 @@ class LoggerServiceProvider implements ServiceProviderInterface
             }
         );
 
-        // Change Log Manager
-        $app['logger.manager.change'] = $app->share(
-            function ($app) {
-                $mgr = new ChangeLog($app);
-
-                return $mgr;
-            }
-        );
-
         $app->register(
                 new MonologServiceProvider(),
                 [
