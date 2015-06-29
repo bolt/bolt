@@ -151,6 +151,16 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
+     * Returns the Entity Manager.
+     *
+     * @return \Bolt\Storage\EntityManager
+     */
+    protected function storage()
+    {
+        return $this->app['storage'];
+    }
+
+    /**
      * Returns the session.
      *
      * @return \Symfony\Component\HttpFoundation\Session\Session
