@@ -26,7 +26,6 @@ class LogChange extends BaseLog
     {
         $query = $this->getChangeLogQuery($options);
 
-
         $rows = $this->findAll($query);
 
         $objs = [];
@@ -80,14 +79,67 @@ class LogChange extends BaseLog
     }
 
     /**
+     * Get content changelog entries by content type.
+     *
+     * @param string $contenttype Content type slug
+     * @param array  $options     Additional options:
+     *                            - 'limit' (integer):     Maximum number of results to return
+     *                            - 'order' (string):      Field to order by
+     *                            - 'direction' (string):  ASC or DESC
+     *                            - 'contentid' (integer): Filter further by content ID
+     *                            - 'id' (integer):        Filter by a specific change log entry ID
+     *
+     * @return \Bolt\Logger\ChangeLogItem[]
+     */
+    public function getChangeLogByContentType($contenttype, array $options = [])
+    {
+        $query = $this->getChangeLogByContentTypeQuery($contenttype, $options);
+        $rows = $this->findAll($query);
+
+        $objs = [];
+        foreach ($rows as $row) {
+            $objs[] = new ChangeLogItem($this->app, $row);
+        }
+
+        return $objs;
+    }
+
+    /**
+     * Build query to get content changelog entries by ContentType.
+     *
+     * @param string $contenttype
+     * @param array  $options
+     *
+     * @return QueryBuilder
+     */
+    public function getChangeLogByContentTypeQuery($contenttype, array $options)
+    {
+        $contentTypeRepo = $this->em->getRepository($contenttype);
+
+        $qb = $this->createQueryBuilder();
+        $qb->select('log.*, log.title')
+            ->from($this->getTableName(), 'log')
+            ->leftJoin('log', $contentTypeRepo->getTableName(), 'content', 'content.id = log.contentid');
+
+        // Set required WHERE
+        $this->setWhere($qb, $contenttype, $options);
+
+        // Set ORDERBY and LIMIT as requested
+        $this->setLimitOrder($qb, $options);
+
+        return $qb;
+    }
+
+    /**
      * Conditionally add LIMIT and ORDER BY to a QueryBuilder query.
      *
      * @param QueryBuilder $query
-     * @param array        $options The following options are supported:
-     *                              - 'limit' (int)
-     *                              - 'offset' (int)
-     *                              - 'order' (string)
-     *                              - 'direction' (string)
+     * @param array        $options Additional options:
+     *                              - 'limit' (integer):     Maximum number of results to return
+     *                              - 'order' (string):      Field to order by
+     *                              - 'direction' (string):  ASC or DESC
+     *                              - 'contentid' (integer): Filter further by content ID
+     *                              - 'id' (integer):        Filter by a specific change log entry ID
      */
     protected function setLimitOrder(QueryBuilder $query, array $options)
     {

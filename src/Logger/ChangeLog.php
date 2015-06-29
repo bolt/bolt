@@ -30,52 +30,6 @@ class ChangeLog
     }
 
     /**
-     * Get content changelog entries by content type.
-     *
-     * @param mixed $contenttype Should be a string content type slug, or an
-     *                           associative array containing a key named
-     *                           'slug'
-     * @param array $options     An array with additional options. Currently, the
-     *                           following options are supported:
-     *                           - 'limit' (int)
-     *                           - 'order' (string)
-     *                           - 'direction' (string)
-     *                           - 'contentid' (int), to filter further by content ID
-     *                           - 'id' (int), to filter by a specific changelog entry ID
-     *
-     * @return array
-     */
-    public function getChangelogByContentType($contenttype, array $options)
-    {
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-
-        // Build base query
-        $contentTablename = $this->app['storage']->getContenttypeTablename($contenttype);
-        $query = $this->app['db']->createQueryBuilder()
-                        ->select('log.*, log.title')
-                        ->from($this->table_change, 'log')
-                        ->leftJoin('log', $contentTablename, 'content', 'content.id = log.contentid');
-
-        // Set required WHERE
-        $query = $this->setWhere($query, $contenttype, $options);
-
-        // Set ORDERBY and LIMIT as requested
-        $query = $this->setLimitOrder($query, $options);
-
-        $rows = $query->execute()->fetchAll();
-
-        $objs = [];
-
-        foreach ($rows as $row) {
-            $objs[] = new ChangeLogItem($this->app, $row);
-        }
-
-        return $objs;
-    }
-
-    /**
      * Get a count of change log entries by contenttype.
      *
      * @param mixed $contenttype
