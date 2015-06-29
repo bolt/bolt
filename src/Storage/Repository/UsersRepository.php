@@ -35,11 +35,14 @@ class UsersRepository extends Repository
     public function deleteUserQuery($userId)
     {
         $qb = $this->createQueryBuilder();
-        $qb->delete($this->getTableName())
-            ->where('id = :userId')
-            ->orWhere('username = :userId')
-            ->orWhere('email = :userId')
-            ->setParameter('userId', $userId);
+        $qb->delete($this->getTableName());
+        
+        if (is_numeric($userId)) {
+            $qb->where('id = :userId');
+        } else {
+            $qb->where('username = :userId')->orWhere('email = :userId');
+        }
+        $qb->setParameter('userId', $userId);
 
         return $qb;
     }
@@ -69,11 +72,14 @@ class UsersRepository extends Repository
     public function getUserQuery($userId)
     {
         $qb = $this->createQueryBuilder();
-        $qb->select('*')
-            ->where('id = :userId')
-            ->orWhere('username = :userId')
-            ->orWhere('email = :userId')
-            ->setParameter('userId', $userId);
+        $qb->select('*');
+        
+        if (is_numeric($userId)) {
+            $qb->where('id= :userId');
+        } else {
+            $qb->where('username = :userId')->orWhere('email = :userId');
+        }
+        $qb->setParameter('userId', $userId);
 
         return $qb;
     }
