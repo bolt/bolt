@@ -131,6 +131,41 @@ class LogChange extends BaseLog
     }
 
     /**
+     * Get a count of change log entries by contenttype.
+     *
+     * @param string $contenttype
+     * @param array  $options
+     *
+     * @return integer|false
+     */
+    public function countChangeLogByContentType($contenttype, array $options)
+    {
+        $query = $this->countChangeLogByContentTypeQuery($contenttype, $options);
+
+        return $this->getCount($query->execute()->fetch());
+    }
+
+    /**
+     * Get a count of change log entries by contenttype.
+     *
+     * @param mixed $contenttype
+     * @param array $options
+     *
+     * @return QueryBuilder
+     */
+    public function countChangeLogByContentTypeQuery($contenttype, array $options)
+    {
+        // Build base query
+        $qb = $this->createQueryBuilder();
+        $qb->select('COUNT(id) as count');
+
+        // Set any required WHERE
+        $this->setWhere($qb, $contenttype, $options);
+
+        return $qb;
+    }
+
+    /**
      * Conditionally add LIMIT and ORDER BY to a QueryBuilder query.
      *
      * @param QueryBuilder $query

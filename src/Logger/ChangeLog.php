@@ -30,31 +30,6 @@ class ChangeLog
     }
 
     /**
-     * Get a count of change log entries by contenttype.
-     *
-     * @param mixed $contenttype
-     * @param array $options
-     *
-     * @return integer
-     */
-    public function countChangelogByContentType($contenttype, array $options)
-    {
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
-        }
-
-        // Build base query
-        $query = $this->app['db']->createQueryBuilder()
-                        ->select('COUNT(id) as count')
-                        ->from($this->table_change, 'log');
-
-        // Set any required WHERE
-        $query = $this->setWhere($query, $contenttype, $options);
-
-        return $query->execute()->fetchColumn();
-    }
-
-    /**
      * Get a content changelog entry by ID.
      *
      * @param mixed $contenttype Should be a string content type slug, or an
