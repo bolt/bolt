@@ -166,6 +166,75 @@ class LogChange extends BaseLog
     }
 
     /**
+     * Get one changelog entry from the database.
+     *
+     * @param mixed   $contenttype ContentType slug
+     * @param integer $contentid   Content record ID
+     * @param integer $id          The content change log ID
+     * @param string  $cmpOp       One of '=', '<', '>'; this parameter is used
+     *                             to select either the ID itself, or the subsequent
+     *                             or preceding entry.
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return \Bolt\Logger\ChangeLogItem|null
+     */
+    public function getChangeLogEntry($contenttype, $contentid, $id, $cmpOp)
+    {
+        if (!in_array($cmpOp, ['=', '<', '>'])) {
+            throw new \InvalidArgumentException(sprintf('Invalid comparison operator: %s', $cmpOp));
+        }
+
+        $query = $this->getChangeLogEntryQuery($contenttype, $contentid, $id, $cmpOp);
+
+        $row = $this->fetchOneBy($query);
+
+        if ($row !== false) {
+            return new ChangeLogItem($this->app, $row);
+        }
+
+        return false;
+    }
+
+    /**
+     * Build query to get one changelog entry from the database.
+     *
+     * @param string  $contenttype
+     * @param integer $contentid
+     * @param integer $id
+     * @param string  $cmpOp
+     *
+     * @return QueryBuilder
+     */
+    public function getChangeLogEntryQuery($contenttype, $contentid, $id, $cmpOp)
+    {
+        $contentTypeRepo = $this->em->getRepository($contenttype);
+
+        // Build base query
+        $qb = $this->createQueryBuilder();
+        $qb->select('log.*')
+            ->from($this->getTableName(), 'log')
+            ->leftJoin('log', $contentTypeRepo->getTableName(), 'content', 'content.id = log.contentid')
+            ->where("log.id $cmpOp :logid")
+            ->andWhere('log.contentid = :contentid')
+            ->andWhere('contenttype = :contenttype')
+            ->setParameters([
+                ':logid'       => $id,
+                ':contentid'   => $contentid,
+                ':contenttype' => $contenttype
+            ]);
+
+        // Set ORDER BY
+        if ($cmpOp == '<') {
+            $qb->orderBy('date', 'DESC');
+        } elseif ($cmpOp == '>') {
+            $qb->orderBy('date');
+        }
+
+        return $qb;
+    }
+
+    /**
      * Conditionally add LIMIT and ORDER BY to a QueryBuilder query.
      *
      * @param QueryBuilder $query

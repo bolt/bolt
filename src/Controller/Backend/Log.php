@@ -79,14 +79,14 @@ class Log extends BackendBase
      */
     public function changeRecord(Request $request, $contenttype, $contentid, $id)
     {
-        $entry = $this->manager()->getChangelogEntry($contenttype, $contentid, $id);
+        $entry = $this->changeLogRepository()->getChangelogEntry($contenttype, $contentid, $id, '=');
         if (empty($entry)) {
             $error = Trans::__("The requested changelog entry doesn't exist.");
 
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
-        $prev = $this->changeLog()->getPrevChangelogEntry($contenttype, $contentid, $id);
-        $next = $this->changeLog()->getNextChangelogEntry($contenttype, $contentid, $id);
+        $prev = $this->changeLogRepository()->getChangelogEntry($contenttype, $contentid, $id, '<');
+        $next = $this->changeLogRepository()->getChangelogEntry($contenttype, $contentid, $id, '>');
 
         $context = [
             'contenttype' => ['slug' => $contenttype],
