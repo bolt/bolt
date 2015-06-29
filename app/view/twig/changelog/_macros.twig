@@ -41,7 +41,7 @@
         <div class="body">
             <div class="time">
                 <p>
-                    <span>{{ _self.changelog_mutation(entry.mutation_type) }} {{ macro.datetime(entry.date) }}</span>
+                    <span>{{ _self.changelog_mutation(entry.mutation_type) }} {{ macro.datetime(entry.date|date("c")) }}</span>
                     {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
                 </p>
                 {% if ischangelogenabled() %}
