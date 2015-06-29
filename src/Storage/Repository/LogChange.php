@@ -55,6 +55,31 @@ class LogChange extends BaseLog
     }
 
     /**
+     * Get a count of change log entries.
+     *
+     * @return integer
+     */
+    public function countChangeLog()
+    {
+        $query = $this->countChangeLogQuery();
+
+        return $this->getCount($query->execute()->fetch());
+    }
+
+    /**
+     * Build the query to get a count of change log entries.
+     *
+     * @return QueryBuilder
+     */
+    public function countChangeLogQuery()
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->select('COUNT(id) as count');
+
+        return $qb;
+    }
+
+    /**
      * Conditionally add LIMIT and ORDER BY to a QueryBuilder query.
      *
      * @param QueryBuilder $query

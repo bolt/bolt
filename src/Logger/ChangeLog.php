@@ -30,21 +30,6 @@ class ChangeLog
     }
 
     /**
-     * Get a count of change log entries.
-     *
-     * @return integer
-     */
-    public function countChangelog()
-    {
-        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
-        $query = $this->app['db']->createQueryBuilder()
-                        ->select('COUNT(id) as count')
-                        ->from($this->table_change);
-
-        return $query->execute()->fetchColumn();
-    }
-
-    /**
      * Get content changelog entries by content type.
      *
      * @param mixed $contenttype Should be a string content type slug, or an
