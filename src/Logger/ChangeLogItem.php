@@ -2,17 +2,18 @@
 
 namespace Bolt\Logger;
 
-use Silex\Application;
+use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Repository\UsersRepository;
 
 /**
  * Class that represents a single change log entry.
  */
 class ChangeLogItem implements \ArrayAccess
 {
-    /**
-     * @var \Silex\Application
-     */
-    private $app;
+    /** @var \Bolt\Storage\Mapping\ClassMetadata */
+    private $contentTypeMeta;
+    /** @var \Bolt\Storage\Repository\UsersRepository */
+    private $repository;
 
     private $id;
     private $date;
@@ -28,9 +29,10 @@ class ChangeLogItem implements \ArrayAccess
     private $comment;
     private $changedfields;
 
-    public function __construct(Application $app, $values = [])
+    public function __construct(UsersRepository $repository, ClassMetadata $contentTypeMeta, $values = [])
     {
-        $this->app = $app;
+        $this->contentTypeMeta = $contentTypeMeta;
+        $this->repository = $repository;
         $this->setParameters($values);
     }
 
@@ -151,9 +153,7 @@ class ChangeLogItem implements \ArrayAccess
     private function getParsedDiff()
     {
         $pdiff = json_decode($this->diff_raw, true);
-
-        $contenttype = $this->app['storage']->getContentType($this->contenttype);
-        $fields = $contenttype['fields'];
+        $fields = $this->contentTypeMeta['fields'];
 
         foreach (array_keys($pdiff) as $key) {
             if (!isset($fields[$key])) {
@@ -185,7 +185,7 @@ class ChangeLogItem implements \ArrayAccess
         $this->diff = json_decode($values['diff'], true);
         $this->ownerid = $values['ownerid'];
 
-        $user = $this->app['users']->getUser($values['ownerid']);
+        $user = $this->repository->getUser($values['ownerid']);
         if (isset($user['displayname'])) {
             $this->username = $user['displayname'];
         } elseif (isset($user['username'])) {
@@ -226,8 +226,7 @@ class ChangeLogItem implements \ArrayAccess
         }
 
         // Get the contenttype that we're dealing with
-        $contenttype = $this->app['storage']->getContentType($this->contenttype);
-        $fields = $contenttype['fields'];
+        $fields = $this->contentTypeMeta['fields'];
         $hash = [
             'html'        => 'fieldText',
             'markdown'    => 'fieldText',

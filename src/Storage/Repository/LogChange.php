@@ -28,9 +28,11 @@ class LogChange extends BaseLog
 
         $rows = $this->findAll($query);
 
+        $repository = $this->em->getRepository('Bolt\Storage\Entity\Users');
         $objs = [];
         foreach ($rows as $row) {
-            $objs[] = new ChangeLogItem($this->app, $row);
+            $contentTypeMeta = $this->em->getMapper()->getClassMetadata($rows['contenttype']);
+            $objs[] = new ChangeLogItem($repository, $contentTypeMeta, $row);
         }
 
         return $objs;
@@ -96,9 +98,11 @@ class LogChange extends BaseLog
         $query = $this->getChangeLogByContentTypeQuery($contenttype, $options);
         $rows = $this->findAll($query);
 
+        $repository = $this->em->getRepository('Bolt\Storage\Entity\Users');
+        $contentTypeMeta = $this->em->getMapper()->getClassMetadata($contenttype);
         $objs = [];
         foreach ($rows as $row) {
-            $objs[] = new ChangeLogItem($this->app, $row);
+            $objs[] = new ChangeLogItem($repository, $contentTypeMeta, $row);
         }
 
         return $objs;
@@ -190,7 +194,10 @@ class LogChange extends BaseLog
         $row = $this->fetchOneBy($query);
 
         if ($row !== false) {
-            return new ChangeLogItem($this->app, $row);
+            $repository = $this->em->getRepository('Bolt\Storage\Entity\Users');
+            $contentTypeMeta = $this->em->getMapper()->getClassMetadata($contenttype);
+
+            return new ChangeLogItem($repository, $contentTypeMeta, $row);
         }
 
         return false;
