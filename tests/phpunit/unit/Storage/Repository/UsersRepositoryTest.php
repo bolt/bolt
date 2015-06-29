@@ -17,16 +17,23 @@ class UsersRepositoryTest extends BoltUnitTest
         $em = $app['storage'];
         $repo = $em->getRepository('Bolt\Storage\Entity\Users');
 
-        $query1 = $repo->deleteUserQuery('user');
-        $this->assertEquals('DELETE FROM bolt_users WHERE (id = :userId) OR (username = :userId) OR (email = :userId)', $query1->getSql());
+        $queryDelUserById = $repo->deleteUserQuery(1);
+        $this->assertEquals('DELETE FROM bolt_users WHERE id = :userId', $queryDelUserById->getSql());
 
-        $query2 = $repo->getUserQuery('user');
-        $this->assertEquals('SELECT * FROM bolt_users users WHERE (id = :userId) OR (username = :userId) OR (email = :userId)', $query2->getSql());
+        $queryDelUserByName = $repo->deleteUserQuery('user');
+        $this->assertEquals('DELETE FROM bolt_users WHERE (username = :userId) OR (email = :userId)', $queryDelUserByName->getSql());
 
-        $query3 = $repo->hasUsersQuery();
-        $this->assertEquals('SELECT COUNT(id) as count FROM bolt_users users', $query3->getSql());
+        $queryGetUserByID = $repo->getUserQuery(1);
+        $this->assertEquals('SELECT * FROM bolt_users users WHERE id = :userId', $queryGetUserByID->getSql());
 
-        $query4 = $repo->getUserShadowAuthQuery('shadowtoken');
-        $this->assertEquals('SELECT * FROM bolt_users users WHERE (shadowtoken = :shadowtoken) AND (shadowvalidity > :shadowvalidity)', $query4->getSql());
+        $queryGetUserByName = $repo->getUserQuery('user');
+        $this->assertEquals('SELECT * FROM bolt_users users WHERE (username = :userId) OR (email = :userId)', $queryGetUserByName->getSql());
+
+
+        $queryHasUsers = $repo->hasUsersQuery();
+        $this->assertEquals('SELECT COUNT(id) as count FROM bolt_users users', $queryHasUsers->getSql());
+
+        $queryUserShadowAuth = $repo->getUserShadowAuthQuery('shadowtoken');
+        $this->assertEquals('SELECT * FROM bolt_users users WHERE (shadowtoken = :shadowtoken) AND (shadowvalidity > :shadowvalidity)', $queryUserShadowAuth->getSql());
     }
 }
