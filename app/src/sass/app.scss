@@ -3,6 +3,11 @@
  */
 
 /**
+ * Bootstrap customizing.
+ */
+$navbar-padding-horizontal: 0;
+
+/**
  * External resource: Bootstrap.
  * We do seperate imports here, instead of just importing 'bootstrap.scss', because we do not need
  * all of the components.
