@@ -1,9 +1,11 @@
+/* global module */
+
 /*
  * BOOTLINT: HTML linter for Bootstrap projects
  */
 module.exports = function (grunt, options) {
     var conf = {
-        relaxerror: [],
+        relaxerror: ['W005'],
         showallerrors: false,
         stoponerror: false,
         stoponwarning: false

@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * JSHINT: Validates files with JSHint
  */

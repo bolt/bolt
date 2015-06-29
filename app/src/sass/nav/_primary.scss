@@ -26,9 +26,6 @@
         a {
             padding: 12px;
             min-height: 42px;
-            @include old-ie() {
-                min-height:20px;
-            }
         }
     }
 
@@ -99,7 +96,7 @@
 
 }
 
-// Media Query tweak! 
+// Media Query tweak!
 @media (max-width: 979px) {
     .navbar-inner {
         min-height: $nav-primary-min-height;

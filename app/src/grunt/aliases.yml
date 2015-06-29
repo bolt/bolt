@@ -5,6 +5,7 @@ default:
 # UPDATE BOLT TASK:  Creates Bolts own css and js files
 updateBolt:
     - sass:boltCss
+    - postcss:boltCss
     - jshint:boltJs
     - uglify:boltJs
 
@@ -16,9 +17,9 @@ updateLib:
     - uglify:prepareLibJs                   # Create min. versions of library scripts that don't have them
     # Install
     - copy:installFonts                     # Copies fonts                   => view/fonts/*
-    - cssmin:installLibCss                  # Concats and min. library css   => view/css/lib.css
-    - libcssimg                             # Copy lib images & rebase urls  => view/img/lib/*
-    - concat:installLibJs                   # Concats min. library scripts   => view/js/lib.min.js
+    - concat:installLibCss                  # Concats and min. library css   => view/css/lib.css
+    - postcss:libCss                        # Concats and min. library css   => view/css/lib.css
+    - concat:installLibJs                   # Concats min. library scripts   => view/js/lib.js
     - uglify:installLocaleDatepicker        # Copies min. datepicker locale  => view/js/locale/datepicker/*
     - uglify:installLocaleMoment            # Copies min. moment.js locale   => view/js/locale/moment/*
     - copy:installCkeditor1                 # Copies CKEditor files          => view/js/ckeditor/*

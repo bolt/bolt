@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * COPY: Copy files and folders
  */
@@ -10,7 +12,7 @@ module.exports = {
             expand: true,
             flatten: true,
             src: [
-                '<%= path.src.node %>/font-awesome/fonts/*'
+                '<%= path.src.bower %>/font-awesome/fonts/*'
             ],
             filter: 'isFile',
             dest: '<%= path.dest.fonts %>/'

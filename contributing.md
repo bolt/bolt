@@ -95,7 +95,7 @@ merge your Pull Request, please make sure you follow these points:
     is "Fixes problem [x] by doing [y]. Fixes #1555"
  3. If you're doing a PR for a non-trivial new feature, _please_ make an `RFC`
     issue first, as described above.
- 4. Do not edit compiled asset files such as `bolt.min.js` or `bolt.css`.
+ 4. Do not edit compiled asset files such as `bolt.js` or `bolt.css`.
     Instead, edit the source javascript and Sass files inside the `/app/src/`
     directory. We'll handle the updated compiled files.
  5. For any change that you make, **please try to also add a test case(s)** in

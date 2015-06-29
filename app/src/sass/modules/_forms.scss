@@ -23,13 +23,6 @@ label {
         font-size: $font-size-base + 1px;
         font-weight: normal;
         margin-bottom: 5px;
-
-        @include respond-to(medium-screens) {
-            @include old-ie() {
-                text-align: left !important; // sadly... : ( )
-                margin-bottom: 5px !important; // sadly... : ( )
-            }
-        }
     }
 
     .control-label-inline {

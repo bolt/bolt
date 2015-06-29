@@ -116,17 +116,10 @@
 
 .navbar-bolt {
     background: transparent;
-    background-image: linear-gradient(top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
-    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
-    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
-    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
-    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
     background-color: $boltblue;
     background-repeat: repeat-x;
     // box-shadow: 0 4px 0px rgba(0, 0, 0, .2);
-    @include old-ie() {
-        border-bottom: 4px solid $lightgrey;
-    }
 
     div.navbar-collapse {
         float: right;
@@ -350,5 +343,12 @@ ul.dropdown-menu li a.nolink {
     }
     .row {
         border: 1px dashed #99F;
+    }
+}
+
+// Hack to fix wrong usage of control-label meanwhile - correct solution later
+@media (min-width: 768px) {
+    .form-horizontal .control-label {
+        text-align: left;
     }
 }

@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * WATCH: Run predefined tasks whenever watched file patterns are added, changed or deleted
  */
@@ -15,7 +17,8 @@ module.exports = {
             '<%= path.src.sass %>/**/*.scss'
         ],
         tasks: [
-            'sass:boltCss'
+            'sass:boltCss',
+            'postcss:boltCss'
         ]
     },
 

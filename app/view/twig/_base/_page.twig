@@ -23,7 +23,7 @@
 
 {# TODO: Refactor this out. Too much business logic in the template. #}
 {% set page_scripts_inc = [
-    'view/js/lib.min.js'
+    'view/js/lib.js'
 ] %}
 
 {# Add locale include for datepicker #}
@@ -54,14 +54,7 @@
     <title>{{ page_title|striptags|trim|raw }} – {{ app.config.get('general/branding/name') }}</title>
 
     <link rel="stylesheet" href="{{ paths.app }}view/css/lib.css">
-
-    <!--[if lt IE 9]>
-        <link rel="stylesheet" href="{{ paths.app }}view/css/bolt-old-ie.css" media="screen, projection">
-    <![endif]-->
-
-    <!--[if gte IE 9]><!-->
-        <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css" media="screen, projection">
-    <!--<![endif]-->
+    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css">
 
     {% for script in page_scripts_inc -%}
         <script src="{{ paths.app ~ script }}"></script>
@@ -72,12 +65,6 @@
     <link rel="apple-touch-icon" sizes="72x72" href="{% if app.config.get('general/branding/apple-touch-icon-72x72') %}{{ app.config.get('general/branding/apple-touch-icon-72x72') }}{% else %}{{ paths.app }}view/img/apple-touch-icon-72x72.png{% endif %}">
     <link rel="apple-touch-icon" sizes="114x114" href="{% if app.config.get('general/branding/apple-touch-icon-114x114') %}{{ app.config.get('general/branding/apple-touch-icon-114x114') }}{% else %}{{ paths.app }}view/img/apple-touch-icon-114x114.png{% endif %}">
     <link rel="apple-touch-icon" sizes="144x144" href="{% if app.config.get('general/branding/apple-touch-icon-144x144') %}{{ app.config.get('general/branding/apple-touch-icon-144x144') }}{% else %}{{ paths.app }}view/img/apple-touch-icon-144x144.png{% endif %}">
-
-    {# HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -#}
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body{% if page_bodyclass %} class="{{ page_bodyclass }}"{% endif %}>
@@ -121,7 +108,7 @@
                         ? config.get('general/wysiwyg/filebrowser') : false,
     },
 } %}
-<script src="{{ paths.app }}view/js/bolt.min.js" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>
+<script src="{{ paths.app }}view/js/bolt.js" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>
 
 {% block page_script %}
 {% endblock page_script %}

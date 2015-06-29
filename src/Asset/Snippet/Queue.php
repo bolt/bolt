@@ -124,7 +124,7 @@ class Queue implements QueueInterface
 
         $regex = '/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/';
         if ($zone === Zone::FRONTEND && !preg_match($regex, $html)) {
-            $jqueryfile = $this->app['resources']->getPath('app/view/js/jquery-1.11.2.min.js');
+            $jqueryfile = $this->app['resources']->getPath('app/view/js/jquery-2.1.4.min.js');
             $asset = new Snippet(Target::BEFORE_JS, '<script src="' . $jqueryfile . '"></script>');
             $html = $this->app['asset.injector']->inject($asset, $asset->getLocation(), $html);
         }

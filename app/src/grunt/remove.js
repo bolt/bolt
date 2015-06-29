@@ -1,3 +1,5 @@
+/* global module */
+
 /*
  * REMOVE: Remove directory and files
  */
@@ -27,7 +29,6 @@ module.exports = {
      */
     soureMapCss: {
         fileList: [
-            '<%= path.dest.css %>/bolt-old-ie.css.map',
             '<%= path.dest.css %>/bolt.css.map',
             '<%= path.dest.css %>/liveeditor.css.map'
         ]
@@ -38,11 +39,11 @@ module.exports = {
      */
     soureMapJs: {
         fileList: [
-            '<%= path.dest.js %>/maps/bolt.min.js.map',
-            '<%= path.dest.js %>/maps/lib.min.js.map'
+            '<%= path.sourcemaps %>/bolt.js.map',
+            '<%= path.sourcemaps %>/lib.js.map'
         ],
         dirList: [
-            '<%= path.dest.js %>/maps'
+            '<%= path.sourcemaps %>'
         ]
     }
 };
