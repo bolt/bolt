@@ -31,7 +31,7 @@
                     <em>{{ log.message }}</em>
                 {% endif %}
                 <small>
-                    (<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>)
+                    (<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date|date("c") }}">{{ log.date|date("c") }}</time>)
                 </small>
             </li>
         {% endfor %}

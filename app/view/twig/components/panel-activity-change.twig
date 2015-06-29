@@ -41,7 +41,7 @@
                 {% endif %}
                     "<strong>{{ content_display_name }}</strong>" {{ __('panel.latest-activity.by') }} <em>{{ userlink }}</em>
                 <small>
-                    (<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date }}">{{ log.date }}</time>)
+                    (<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date|date("c") }}">{{ log.date|date("c") }}</time>)
                 </small>
             </li>
         {% endfor %}
