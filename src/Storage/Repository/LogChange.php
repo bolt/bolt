@@ -188,15 +188,15 @@ class LogChange extends BaseLog
      */
     public function getChangeLogEntryQuery($contenttype, $contentid, $id, $cmpOp)
     {
+        $tableName = $this->getTableName();
         $contentTypeRepo = $this->em->getRepository($contenttype);
 
         // Build base query
         $qb = $this->createQueryBuilder();
-        $qb->select('log.*')
-            ->from($this->getTableName(), 'log')
-            ->leftJoin('log', $contentTypeRepo->getTableName(), 'content', 'content.id = log.contentid')
-            ->where("log.id $cmpOp :logid")
-            ->andWhere('log.contentid = :contentid')
+        $qb->select("$tableName.*")
+            ->leftJoin($this->getTableName(), $contentTypeRepo->getTableName(), 'content', "content.id = $tableName.contentid")
+            ->where("$tableName.id $cmpOp :logid")
+            ->andWhere("$tableName.contentid = :contentid")
             ->andWhere('contenttype = :contenttype')
             ->setParameters([
                 ':logid'       => $id,
@@ -205,9 +205,9 @@ class LogChange extends BaseLog
             ]);
 
         // Set ORDER BY
-        if ($cmpOp == '<') {
+        if ($cmpOp === '<') {
             $qb->orderBy('date', 'DESC');
-        } elseif ($cmpOp == '>') {
+        } elseif ($cmpOp === '>') {
             $qb->orderBy('date');
         }
 
