@@ -35,9 +35,17 @@ Installation
 
 Detailed instructions can be found in the [Installation section in the documentation](http://docs.bolt.cm/installation).
 
-Try bolt in [Ubuntu](https://manageacloud.com/cookbook/tijit2bpp3129rdctb81f1cflk/deploy#test_deployment), [CentOS](https://manageacloud.com/cookbook/nt1pf9254cg8mm1t4k0nv96jv5/deploy#test_deployment), [Debian](https://manageacloud.com/cookbook/oj5dbkcehg9h7497fjq2lagk66/deploy#test_deployment) or [Amazon Linux](https://manageacloud.com/cookbook/a382qtma5gq1928ofrsrncr70c/deploy#test_deployment).
 
-Deployable configuration examples for [Ubuntu](https://manageacloud.com/cookbook/bolt_cms_ubuntu_utopic_unicorn_1410), [CentOS](https://manageacloud.com/cookbook/bolt_cms_centos_7), [Debian](https://manageacloud.com/cookbook/bolt_cms) and  [Amazon Linux](https://manageacloud.com/cookbook/bolt_cms_amazon_2014032)
+Deployable configuration examples:
+
+Distribution  | Status
+------------- | -------------
+[Debian Jessie](https://manageacloud.com/configuration/bolt_debian_jessie) | [![Debian Wheezy 7.0](https://manageacloud.com/configuration/bolt_cms/build/1/image)](https://manageacloud.com/configuration/bolt_cms/builds)
+[Debian Wheezy](https://manageacloud.com/configuration/bolt_cms) | [![Debian Wheezy 7.0](https://manageacloud.com/configuration/bolt_cms/build/1/image)](https://manageacloud.com/configuration/bolt_cms/builds)
+[Ubuntu Vivid 15.04](https://manageacloud.com/configuration/bolt_ubuntu_vivid) | [![Ubuntu Ubuntu Vivid Vervet 15.04](https://manageacloud.com/configuration/bolt_ubuntu_vivid/build/8/image)](https://manageacloud.com/configuration/bolt_ubuntu_vivid/builds)
+[Ubuntu Utopic 14.10](https://manageacloud.com/configuration/bolt_cms_ubuntu_utopic_unicorn_1410) | [![Ubuntu Utopic Unicorn 14.10](https://manageacloud.com/configuration/bolt_cms_ubuntu_utopic_unicorn_1410/build/6/image)](https://manageacloud.com/configuration/bolt_cms_ubuntu_utopic_unicorn_1410/builds)
+[Ubuntu Trusty 14.04](https://manageacloud.com/configuration/bolt_cms_ubuntu_trusty_tahr_1404) | [![Ubuntu Trusty Tahr 14.04](https://manageacloud.com/configuration/bolt_cms_ubuntu_trusty_tahr_1404/build/2/image)](https://manageacloud.com/configuration/bolt_cms_ubuntu_trusty_tahr_1404/builds)
+[CentOS 7](https://manageacloud.com/configuration/bolt_cms_centos_7) | [![CentOS 7](https://manageacloud.com/configuration/bolt_cms_centos_7/build/5/image)](https://manageacloud.com/configuration/bolt_cms_centos_7/builds)
 
 Reporting issues
 ----------------
