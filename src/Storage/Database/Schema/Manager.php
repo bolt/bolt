@@ -154,18 +154,7 @@ class Manager
                 $response->addTitle($tableName, sprintf('Table `%s` is not present.', $tableName));
             } else {
                 $diff = $comparator->diffTable($currentTables[$tableName], $table);
-                
-                if ($diff) {
-                    $diff = $this->cleanupTableDiff($diff);
-                }
-                              
-                if ($diff && $details = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
-                    $response->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
-                    $response->checkDiff($tableName, $this->cleanupTableDiff($diff));
-
-                    // For debugging we keep the diffs
-                    $response->addDiffDetail($details);
-                }
+                $this->addResponseDiff($tableName, $diff, $response);
             }
 
             // If a table still has messages, we want to unset the valid state
@@ -184,6 +173,27 @@ class Manager
         }
 
         return $response;
+    }
+
+    /**
+     * Add details of the table differences to the response object.
+     *
+     * @param string        $tableName
+     * @param TableDiff     $diff
+     * @param CheckResponse $response
+     */
+    protected function addResponseDiff($tableName, TableDiff $diff, CheckResponse $response)
+    {
+        if (!$diff) {
+            return;
+        } elseif ($diff = $this->cleanupTableDiff($diff)) {
+            $response->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
+            $response->checkDiff($tableName, $diff);
+
+            // For debugging we keep the diffs
+            $details = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff);
+            $response->addDiffDetail($details);
+        }
     }
 
     /**
@@ -280,7 +290,7 @@ class Manager
                 }
             }
         }
-        
+dump($diff);
         // Woraround for the roles table in bolt_users on SQLite
         // If only the type has changed, we ignore to prevent multiple schema warnings.
         if ($diff->fromTable->getName() === $this->getTablename('users')) {
