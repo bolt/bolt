@@ -45,4 +45,12 @@ class LogSystem extends BaseTable
     {
         $this->table->setPrimaryKey(['id']);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function ignoredChanges()
+    {
+        return ['column' => 'source', 'property' => 'type'];
+    }
 }

@@ -64,6 +64,19 @@ abstract class BaseTable
     }
 
     /**
+     * A function to return the columns and keys that should be ignored, as DBAL
+     * can't seem to do it properly.
+     *
+     * Returned array format: ['column' => '', 'property' => '']
+     *
+     * @return array|boolean
+     */
+    public function ignoredChanges()
+    {
+        return false;
+    }
+
+    /**
      * Add columns to the table.
      */
     abstract protected function addColumns();

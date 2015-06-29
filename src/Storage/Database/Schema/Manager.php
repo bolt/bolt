@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Database\Schema;
 
 use Bolt\Application;
+use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Bolt\Storage\Database\Schema\Table\ContentType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
@@ -307,22 +308,38 @@ class Manager
             }
         }
 
-        // Woraround for the roles table in bolt_users on SQLite
-        // If only the type has changed, we ignore to prevent multiple schema warnings.
-        if ($diff->fromTable->getName() === $this->getTablename('users')) {
-            if (isset($diff->changedColumns['roles'])) {
-                if ($diff->changedColumns['roles']->changedProperties === ['type']) {
-                    unset($diff->changedColumns['roles']);
-                }
-            }
+        // Some diff changes can be ignored… Because… DBAL.
+        $alias = $this->getTableAlias($diff->fromTable->getName());
+        if ($ignored = $this->app['schema.tables'][$alias]->ignoredChanges()) {
+            $this->removeIgnoredChanges($this->app['schema.tables'][$alias], $diff, $ignored);
         }
 
+        // Don't remove fields from contenttype tables to prevent accidental data removal
         if (!in_array($diff->fromTable->getName(), $baseTables)) {
-            // we don't remove fields from contenttype tables to prevent accidental data removal
             $diff->removedColumns = [];
         }
 
         return $diff;
+    }
+
+    /**
+     * Woraround for the json_array types on SQLite. If only the type has
+     * changed, we ignore to prevent multiple schema warnings.
+     *
+     * @param BaseTable $boltTable
+     * @param TableDiff $diff
+     * @param array     $ignored
+     */
+    protected function removeIgnoredChanges(BaseTable $boltTable, TableDiff $diff, array $ignored)
+    {
+        if ($diff->fromTable->getName() !== $boltTable->getTableName()) {
+            return;
+        }
+
+        if (isset($diff->changedColumns[$ignored['column']])
+            && $diff->changedColumns[$ignored['column']]->changedProperties === [$ignored['property']]) {
+                unset($diff->changedColumns[$ignored['column']]);
+        }
     }
 
     /**
@@ -501,7 +518,19 @@ class Manager
     }
 
     /**
-     * Get the tablename prefix
+     * Get the table alias name.
+     *
+     * @param $name
+     *
+     * @return string
+     */
+    protected function getTableAlias($tableName)
+    {
+        return str_replace($this->getTablenamePrefix(), '', $tableName);
+    }
+
+    /**
+     * Get the tablename prefix.
      *
      * @return string
      */
