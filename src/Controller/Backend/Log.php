@@ -95,7 +95,7 @@ class Log extends BackendBase
             'prev_entry'  => $prev
         ];
 
-        return $this->render('changelog/changelogrecordsingle.twig', $context);
+        return $this->render('changelog/changelog_record_single.twig', $context);
     }
 
     /**
@@ -117,7 +117,7 @@ class Log extends BackendBase
         $page = $request->get('page');
         $context = $this->getChangeRecordListing($contenttype, $contentid, $page);
 
-        return $this->render('changelog/changelogrecordall.twig', $context);
+        return $this->render('changelog/changelog_record_all.twig', $context);
     }
 
     /**
