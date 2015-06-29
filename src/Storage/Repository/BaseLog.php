@@ -110,12 +110,7 @@ abstract class BaseLog extends Repository
     {
         $query = $this->getActivityCountQuery($level, $context);
 
-        $count = $query->execute()->fetch();
-        if ($count !== false && isset($count['count'])) {
-            return $count['count'];
-        }
-
-        return false;
+        return $this->getCount($query->execute()->fetch());
     }
 
     /**
@@ -173,6 +168,22 @@ abstract class BaseLog extends Repository
             }
             $qb->andWhere($orX);
         }
+    }
+
+    /**
+     * Get a column count query result.
+     *
+     * @param array|false $result
+     *
+     * @return integer|false
+     */
+    protected function getCount($result)
+    {
+        if ($result !== false && isset($result['count'])) {
+            return $result['count'];
+        }
+
+        return false;
     }
 
     /**
