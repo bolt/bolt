@@ -85,7 +85,7 @@ class General extends AsyncBase
 
         $context = [
             'contenttype' => $contenttype,
-            'entries'     => $this->storage()->getRepository('Bolt\Storage\Entity\LogChange')->getChangelogByContentType($contenttype, $options)
+            'entries'     => $this->storage()->getRepository('Bolt\Storage\Entity\LogChange')->getChangeLogByContentType($contenttype, $options)
         ];
 
         return $this->render('components/panel-change-record.twig', ['context' => $context]);
@@ -437,7 +437,7 @@ class General extends AsyncBase
             $options['contentid'] = intval($contentid);
         }
 
-        $changelog = $this->storage()->getRepository('Bolt\Storage\Entity\LogChange')->getChangelogByContentType($contenttype['slug'], $options);
+        $changelog = $this->storage()->getRepository('Bolt\Storage\Entity\LogChange')->getChangeLogByContentType($contenttype['slug'], $options);
 
         $context = [
             'changelog'   => $changelog,
