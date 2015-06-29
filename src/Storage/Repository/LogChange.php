@@ -100,12 +100,12 @@ class LogChange extends BaseLog
      */
     public function getChangeLogByContentTypeQuery($contenttype, array $options)
     {
+        $tableName = $this->getTableName();
         $contentTypeRepo = $this->em->getRepository($contenttype);
 
         $qb = $this->createQueryBuilder();
-        $qb->select('log.*, log.title')
-            ->from($this->getTableName(), 'log')
-            ->leftJoin('log', $contentTypeRepo->getTableName(), 'content', 'content.id = log.contentid');
+        $qb->select("$tableName.*, $tableName.title")
+            ->leftJoin($tableName, $contentTypeRepo->getTableName(), 'content', "content.id = $tableName.contentid");
 
         // Set required WHERE
         $this->setWhere($qb, $contenttype, $options);
@@ -194,7 +194,7 @@ class LogChange extends BaseLog
         // Build base query
         $qb = $this->createQueryBuilder();
         $qb->select("$tableName.*")
-            ->leftJoin($this->getTableName(), $contentTypeRepo->getTableName(), 'content', "content.id = $tableName.contentid")
+            ->leftJoin($tableName, $contentTypeRepo->getTableName(), 'content', "content.id = $tableName.contentid")
             ->where("$tableName.id $cmpOp :logid")
             ->andWhere("$tableName.contentid = :contentid")
             ->andWhere('contenttype = :contenttype')
