@@ -116,112 +116,27 @@ class Manager
     }
 
     /**
-     * Get the listing to pass to the renderer.
-     *
-     * @param string              $contenttype The content type slug
-     * @param integer             $contentid   The content ID
-     * @param integer|string|null $page        The page number
-     */
-    private function getChangeRecordListing($contenttype, $contentid, $page)
-    {
-        $pagination = $this->getPagination($page);
-        $queryOptions = $this->getQueryOptions($pagination);
-
-        // Now here things diverge.
-        if (empty($contenttype)) {
-            // Case 1: No content type given, show from *all* items. This is easy:
-            $data = [
-                'title'   => Trans::__('All content types'),
-                'entries' => $this->changeRepository->getChangelog($queryOptions),
-                'count'   => $this->changeRepository->countChangelog(),
-            ];
-        } else {
-            $data = $this->getListingData($contenttype, $contentid, $queryOptions);
-        }
-
-        $context = [
-            'contenttype' => ['slug' => $contenttype],
-            'entries'     => $data['entries'],
-            'content'     => $data['content'],
-            'title'       => $data['title'],
-            'currentpage' => $pagination['page'],
-            'pagecount'   => $pagination['limit'] ? ceil($data['count'] / $pagination['limit']) : null
-        ];
-
-        return $context;
-    }
-
-    /**
-     * Calculate pagination parameters.
-     *
-     * @param integer|string|null $page
-     *
-     * @return array
-     */
-    private function getPagination($page)
-    {
-        $limit = 5;
-        if ($page !== null) {
-            if ($page === 'all') {
-                $limit = null;
-                $page = null;
-            } else {
-                $page = intval($page);
-            }
-        } else {
-            $page = 1;
-        }
-
-        return ['page' => $page, 'limit' => $limit];
-    }
-
-    /**
-     * Calculate the query options.
-     *
-     * @param array $pagination
-     *
-     * @return array
-     */
-    private function getQueryOptions($pagination)
-    {
-        // Some options that are the same for all three cases
-        $options = [
-            'order'     => 'date',
-            'direction' => 'DESC'
-        ];
-
-        if ($pagination['limit']) {
-            $options['limit'] = $pagination['limit'];
-        }
-        if ($pagination['page'] > 0 && $pagination['limit']) {
-            $options['offset'] = ($pagination['page'] - 1) * $pagination['limit'];
-        }
-
-        return $options;
-    }
-
-    /**
      * Get the listing data such as title and count.
      *
-     * @param string  $contenttype  The content type slug
+     * @param array   $contenttype  The ContentType
      * @param integer $contentid    The content ID
      * @param array   $queryOptions
      *
      * @return array
      */
-    private function getListingData($contenttype, $contentid, array $queryOptions)
+    public function getListingData(array $contenttype, $contentid, array $queryOptions)
     {
         // We have a content type, and possibly a contentid.
         $content = null;
-        $contenttypeObj = $this->getContentType($contenttype);
+
         if ($contentid) {
-            $content = $this->getContent($contenttype, ['id' => $contentid, 'hydrate' => false]);
+            $content = $this->app['storage']->getContent($contenttype['slug'], ['id' => $contentid, 'hydrate' => false]);
             $queryOptions['contentid'] = $contentid;
         }
 
         // Getting a slice of data and the total count
-        $logEntries = $this->changeRepository->getChangelogByContentType($contenttype, $queryOptions);
-        $itemcount = $this->changeRepository->countChangelogByContentType($contenttype, $queryOptions);
+        $logEntries = $this->changeRepository->getChangelogByContentType($contenttype['slug'], $queryOptions);
+        $itemcount = $this->changeRepository->countChangelogByContentType($contenttype['slug'], $queryOptions);
 
         // The page title we're sending to the template depends on a few things:
         // If no contentid is given, we'll use the plural form of the content
@@ -236,7 +151,7 @@ class Manager
                 if (empty($logEntries)) {
                     // No item, no entries - phew. Content type name and ID
                     // will have to do.
-                    $title = $contenttypeObj['singular_name'] . ' #' . $contentid;
+                    $title = $contenttype['singular_name'] . ' #' . $contentid;
                 } else {
                     // No item, but we can use the most recent title.
                     $title = $logEntries[0]['title'];
@@ -245,7 +160,7 @@ class Manager
         } else {
             // We're displaying all changes for the entire content type,
             // so the plural name is most appropriate.
-            $title = $contenttypeObj['name'];
+            $title = $contenttype['name'];
         }
 
         return ['content' => $content, 'title' => $title, 'entries' => $logEntries, 'count' => $itemcount];
