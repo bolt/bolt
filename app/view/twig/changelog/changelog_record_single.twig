@@ -4,7 +4,7 @@
 
 {% if context.prev_entry %}
     {% set left_link = path(
-            'changelog',
+            'changelogrecordsingle',
             {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid, 'id': context.prev_entry.id}
        )
     %}
@@ -20,7 +20,7 @@
 
 {% if context.next_entry %}
     {% set right_link = path(
-        'changelog',
+        'changelogrecordsingle',
         {'contenttype': context.contenttype.slug, 'contentid': context.entry.contentid, 'id': context.next_entry.id}
        )
     %}
