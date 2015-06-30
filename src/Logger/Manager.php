@@ -29,7 +29,7 @@ class Manager
      * @param Repository\LogChange $changeRepository
      * @param Repository\LogSystem $systemRepository
      */
-    public function __construct(Application $app, Repository\LogChange $changeRepository, Repository\LogSystem $systemRepository)
+    public function __construct(Application $app, Repository\LogChangeRepository $changeRepository, Repository\LogSystemRepository $systemRepository)
     {
         $this->app = $app;
         $this->changeRepository = $changeRepository;

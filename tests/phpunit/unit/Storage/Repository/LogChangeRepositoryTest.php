@@ -5,7 +5,7 @@ use Bolt\Tests\BoltUnitTest;
 use Psr\Log\LogLevel;
 
 /**
- * Class to test src/Storage/Repository/LogChange
+ * Class to test src/Storage/Repository/LogChangeRepository
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

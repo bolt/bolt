@@ -8,7 +8,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * A Repository class that handles storage operations for the log tables.
  */
-abstract class BaseLog extends Repository
+abstract class BaseLogRepository extends Repository
 {
     /**
      * Trim logs older that provided date.

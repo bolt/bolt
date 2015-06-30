@@ -7,6 +7,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * A Repository class that handles storage operations for the system log table.
  */
-class LogSystem extends BaseLog
+class LogSystemRepository extends BaseLogRepository
 {
 }

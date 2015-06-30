@@ -2,7 +2,6 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Logger\ChangeLog;
 use Bolt\Logger\DeprecatedLog;
 use Bolt\Logger\FlashLogger;
 use Bolt\Logger\Handler\RecordChangeHandler;
