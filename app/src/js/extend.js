@@ -80,6 +80,7 @@ var BoltExtender = Object.extend(Object, {
             controller.find('.extension-postinstall').hide();
             controller.find('.install-response-container').hide();
             controller.find('.install-version-container').hide();
+            controller.find('.postinstall-footer').hide();
             controller.find('#installModal .loader').show();
         });
     },
@@ -440,16 +441,20 @@ var BoltExtender = Object.extend(Object, {
 
     extensionPostInstall: function (extension) {
         var controller = this;
-        controller.find('.extension-postinstall .ext-link').attr('href', extension.source);
         controller.find('.extension-postinstall').show();
         controller.find('.extension-postinstall .modal-success').show();
+
+        controller.find('.postinstall-footer .ext-link').attr('href', extension.source);
+        controller.find('.postinstall-footer').show();
     },
 
     extensionFailedInstall: function(extension) {
         var controller = this;
-        controller.find('.extension-postinstall .ext-link').attr("href", extension.source);
         controller.find('.extension-postinstall').show();
         controller.find('.extension-postinstall .modal-failed').show();
+
+        controller.find('.postinstall-footer .ext-link').attr("href", extension.source);
+        controller.find('.postinstall-footer').show();
     },
 
     themePostInstall: function (extension) {
@@ -461,6 +466,7 @@ var BoltExtender = Object.extend(Object, {
         var name = extension.name.split(/\/+/).pop();
         controller.find('.theme-postinstall .theme-generator').data('theme', extension.name);
         controller.find('.theme-postinstall #theme-name').val(name);
+        controller.find('.postinstall-footer').show();
     },
 
     generateTheme: function (e) {
