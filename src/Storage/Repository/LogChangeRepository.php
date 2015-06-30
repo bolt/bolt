@@ -189,12 +189,12 @@ class LogChangeRepository extends BaseLogRepository
     public function getChangeLogEntryQuery($contenttype, $contentid, $id, $cmpOp)
     {
         $tableName = $this->getTableName();
-        $contentTypeRepo = $this->em->getRepository($contenttype);
+        $contentTypeTableName = $this->em->getRepository($contenttype)->getTableName();
 
         // Build base query
         $qb = $this->createQueryBuilder();
         $qb->select("$tableName.*")
-            ->leftJoin($tableName, $contentTypeRepo->getTableName(), 'content', "content.id = $tableName.contentid")
+            ->leftJoin($tableName, $contentTypeTableName, 'content', "content.id = $tableName.contentid")
             ->where("$tableName.id $cmpOp :logid")
             ->andWhere("$tableName.contentid = :contentid")
             ->andWhere('contenttype = :contenttype')
@@ -258,7 +258,8 @@ class LogChangeRepository extends BaseLogRepository
             }
 
             if (isset($options['id'])) {
-                $where->add($query->expr()->eq('log.id', ':logid'));
+                $tableName = $this->getTableName();
+                $where->add($query->expr()->eq("$tableName.id", ':logid'));
             }
         }
 
