@@ -19,7 +19,7 @@ abstract class BaseLogRepository extends Repository
      */
     public function trimLog($period)
     {
-        $query = $this->queryWriteLog($period);
+        $query = $this->queryTrimLog($period);
 
         return $query->execute();
     }
@@ -70,7 +70,7 @@ abstract class BaseLogRepository extends Repository
     {
         $query = $this->getActivityQuery($page, $amount, $level, $context);
 
-        return $this->findAll($query);
+        return $this->findWith($query);
     }
 
     /**
@@ -152,8 +152,8 @@ abstract class BaseLogRepository extends Repository
      *
      * NOTE: Multiple contexts are ORed against each other.
      *
-     * @param QueryBuilder $qb
-     * @param string|array $context
+     * @param QueryBuilder      $qb
+     * @param string|array|null $context
      */
     protected function addWhereActivityContext(QueryBuilder $qb, $context)
     {

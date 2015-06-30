@@ -25,7 +25,7 @@ class LogChangeRepository extends BaseLogRepository
     {
         $query = $this->getChangeLogQuery($options);
 
-        return $this->findAll($query);
+        return $this->findWith($query);
     }
 
     /**
@@ -87,7 +87,7 @@ class LogChangeRepository extends BaseLogRepository
     {
         $query = $this->getChangeLogByContentTypeQuery($contenttype, $options);
 
-        return $this->findAll($query);
+        return $this->findWith($query);
     }
 
     /**
