@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ChangeLogTest extends BoltUnitTest
 {
-    public function testGetChangelog()
+    public function setUp()
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
@@ -21,58 +21,57 @@ class ChangeLogTest extends BoltUnitTest
 
         $content = $storage->getContentObject('pages');
         $storage->saveContent($content, 'pages');
-        $logs = $app['logger.manager.change']->getChangeLog(['limit' => 1, 'offset' => 0, 'order' => 'id']);
-        $logs2 = $app['logger.manager.change']->getChangeLog(['limit' => 1]);
+    }
+
+    public function testGetChangeLog()
+    {
+        $logs = $this->getLogChangeRepository()->getChangeLog(['limit' => 1, 'offset' => 0, 'order' => 'id']);
+        $logs2 = $this->getLogChangeRepository()->getChangeLog(['limit' => 1]);
         $this->assertEquals(1, count($logs));
         $this->assertEquals(1, count($logs2));
     }
 
-    public function testCountChangelog()
+    public function testCountChangeLog()
     {
-        $app = $this->getApp();
-        $count = $app['logger.manager.change']->countChangelog();
+        $count = $this->getLogChangeRepository()->countChangeLog();
         $this->assertGreaterThanOrEqual(1, $count);
     }
 
-    public function testGetChangelogByContentType()
+    public function testGetChangeLogByContentType()
     {
-        $app = $this->getApp();
-        $log = $app['logger.manager.change']->getChangeLogByContentType('pages', ['limit' => 1, 'offset' => 0, 'order' => 'id']);
+        $log = $this->getLogChangeRepository()->getChangeLogByContentType('pages', ['limit' => 1, 'offset' => 0, 'order' => 'id']);
         $this->assertEquals(1, count($log));
     }
 
-    public function testGetChangelogByContentTypeArray()
+    public function testGetChangeLogByContentTypeArray()
     {
-        $app = $this->getApp();
-        $log = $app['logger.manager.change']->getChangeLogByContentType(['slug' => 'pages'], ['limit' => 1, 'contentid' => 1]);
+        $log = $this->getLogChangeRepository()->getChangeLogByContentType('pages', ['limit' => 1, 'contentid' => 1]);
         $this->assertEquals(1, count($log));
     }
 
-    public function testCountChangelogByContentType()
+    public function testCountChangeLogByContentType()
     {
-        $app = $this->getApp();
-        $count = $app['logger.manager.change']->countChangelogByContentType('pages', []);
+        $count = $this->getLogChangeRepository()->countChangeLogByContentType('pages', []);
         $this->assertGreaterThan(0, $count);
 
-        $count = $app['logger.manager.change']->countChangelogByContentType('pages', ['contentid' => 1]);
+        $count = $this->getLogChangeRepository()->countChangeLogByContentType('pages', ['contentid' => 1]);
         $this->assertGreaterThan(0, $count);
 
-        $count = $app['logger.manager.change']->countChangelogByContentType(['slug' => 'pages'], ['id' => 1]);
+        $count = $this->getLogChangeRepository()->countChangeLogByContentType('pages', ['id' => 1]);
         $this->assertGreaterThan(0, $count);
     }
 
-    public function testGetChangelogEntry()
+    public function testGetChangeLogEntry()
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
-        //$all = $app['logger.manager.change']->getChangeLogByContentType('pages', []);
+        //$all = $this->getLogChangeRepository()->getChangeLogByContentType('pages', []);
 
-        $log = $app['logger.manager.change']->getChangeLogEntry('pages', 1, 1);
-        $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $log);
+        $log = $this->getLogChangeRepository()->getChangeLogEntry('pages', 1, 1, '=');
         $this->assertAttributeEquals(1, 'contentid', $log);
     }
 
-    public function testGetNextChangelogEntry()
+    public function testGetNextChangeLogEntry()
     {
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
@@ -89,16 +88,23 @@ class ChangeLogTest extends BoltUnitTest
         $content->setValues(['status' => 'published', 'ownerid' => 1]);
         $storage->saveContent($content, 'Test Suite Update');
 
-        $log = $app['logger.manager.change']->getNextChangelogEntry('pages', 1, 1);
-        $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $log);
+        $log = $this->getLogChangeRepository()->getChangeLogEntry('pages', 1, 1, '>');
         $this->assertAttributeEquals(1, 'contentid', $log);
     }
 
-    public function testGetPrevChangelogEntry()
+    public function testGetPrevChangeLogEntry()
+    {
+        $log = $this->getLogChangeRepository()->getChangeLogEntry('pages', 1, 10, '<');
+        $this->assertAttributeEquals(1, 'contentid', $log);
+    }
+
+    /**
+     * @return \Bolt\Storage\Repository\LogChangeRepository
+     */
+    protected function getLogChangeRepository()
     {
         $app = $this->getApp();
-        $log = $app['logger.manager.change']->getPrevChangelogEntry('pages', 1, 10);
-        $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $log);
-        $this->assertAttributeEquals(1, 'contentid', $log);
+
+        return $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
     }
 }
