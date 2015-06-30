@@ -329,7 +329,10 @@ class Application extends Silex\Application
 
         $this->register(
             new Silex\Provider\TranslationServiceProvider(),
-            array('locale_fallbacks' => array(Application::DEFAULT_LOCALE))
+            array(
+                'translator.cache_dir' => $this['resources']->getPath('cache/trans'),
+                'locale_fallbacks'     => array(Application::DEFAULT_LOCALE)
+                )
         );
 
         // Loading stub functions for when intl / IntlDateFormatter isn't available.
