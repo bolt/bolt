@@ -53,7 +53,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/changelog/page/1'));
 
-        $response = $this->controller()->changeLogRecord('page', 1);
+        $response = $this->controller()->changeLogRecord('pages', 1);
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('components/panel-change-record.twig', $response->getTemplateName());

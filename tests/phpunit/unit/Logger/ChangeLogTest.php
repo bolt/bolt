@@ -68,7 +68,7 @@ class ChangeLogTest extends BoltUnitTest
         //$all = $this->getLogChangeRepository()->getChangeLogByContentType('pages', []);
 
         $log = $this->getLogChangeRepository()->getChangeLogEntry('pages', 1, 1, '=');
-        $this->assertAttributeEquals(1, 'contentid', $log);
+        $this->assertInstanceOf('\Bolt\Storage\Entity\LogChange', $log);
     }
 
     public function testGetNextChangeLogEntry()

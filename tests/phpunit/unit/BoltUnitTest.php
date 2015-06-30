@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests;
 
-use Bolt\AccessControl\Authentication;
 use Bolt\AccessControl\Token;
 use Bolt\Storage\Entity;
 use Bolt\Application;

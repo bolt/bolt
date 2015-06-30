@@ -408,7 +408,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $storage->deleteContent('entries', 1);
         $storage->deleteContent('entries', 2);
         $storage->deleteContent('entries', 3);
-        $storage->deleteContent('showcases', 1);
     }
 
     public function testPager()
