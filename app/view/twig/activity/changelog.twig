@@ -54,7 +54,7 @@
                             {{ entry.contentid }}
                         </td>
                         <td>
-                        	<a href="{{ path('editcontent', {'contenttypeslug': entry.contenttype, 'id': entry.contentid}) }}">{{ entry.title }}</a>
+                            <a href="{{ path('editcontent', {'contenttypeslug': entry.contenttype, 'id': entry.contentid}) }}">{{ entry.title }}</a>
                         </td>
                         <td>
                             {{ entry.diff|keys|join(', ') }}
@@ -63,13 +63,7 @@
                             {{ entry.comment|default('') }}
                         </td>
                         <td>
-                            {% set user = getuser(entry.ownerid) %}
-                            {% if user is not empty %}
-                                {% set userlink = macro.userlink(user) %}
-                            {% else %}
-                                {% set userlink = __('panel.latest-activity.unknown') %}
-                            {% endif %}
-                            <em>{{ userlink }}</em>
+                            <em>{{ macro.userlink(entry.ownerid) }}</em>
                         </td>
                         <td>
                             <time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date|date("c") }}">{{ entry.date|date("c") }}</time>

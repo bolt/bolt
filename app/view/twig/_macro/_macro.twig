@@ -1,9 +1,15 @@
 {# A little collection of links for various backend entities #}
 
-{% macro userlink(user) %}{% spaceless %}
-<a href="{{ path('useredit', {'id': user.id}) }}">
-    {{- user.displayname -}}
-</a>
+{# Output a username and link to their profile given an ID #}
+{% macro userlink(user_id) %}{% spaceless %}
+    {% set user = getuser(user_id) %}
+    {% if user is not empty %}
+        <a href="{{ path('useredit', {'id': user.id}) }}">
+            {{- user.displayname -}}
+        </a>
+    {% else %}
+        {% set userlink = __('panel.latest-activity.unknown') %}
+    {% endif %}
 {% endspaceless %}{% endmacro %}
 
 {% macro contentlink_by_id(contenttype, title, content_id) %}{% spaceless %}
