@@ -21,12 +21,11 @@
 
 {# fieldset.checkbox already used: -> chkbox #}
 <fieldset class="form-group checkbox">
-    <div class="col-sm-12">
-        <label class="col-sm-3 control-label" for="{{ key }}">
-            {{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}
-        </label>
-        <label class="col-sm-9 control-label">
-            <input{{ macro.attr(attr_checkbox) }}>
-        </label>
+    <label class="col-xs-3 control-label" for="{{ key }}">
+        {{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}
+    </label>
+
+    <div class="col-xs-9 checkbox">
+        <label><input{{ macro.attr(attr_checkbox) }}></label>
     </div>
 </fieldset>
