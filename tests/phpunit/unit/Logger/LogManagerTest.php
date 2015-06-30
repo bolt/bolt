@@ -20,9 +20,9 @@ class LogManagerTest extends BoltUnitTest
     public function testSetup()
     {
         $app = $this->getApp();
-        $log = new Manager($app);
-        $this->assertEquals('bolt_log_change', \PHPUnit_Framework_Assert::readAttribute($log, 'table_change'));
-        $this->assertEquals('bolt_log_system', \PHPUnit_Framework_Assert::readAttribute($log, 'table_system'));
+        $log = $this->getLogManager($app);
+        $this->assertObjectHasAttribute('changeRepository', $log);
+        $this->assertObjectHasAttribute('systemRepository', $log);
     }
 
     public function testTrim()
@@ -35,7 +35,7 @@ class LogManagerTest extends BoltUnitTest
             ->with($this->equalTo("DELETE FROM bolt_log_system WHERE date < :date"));
 
         $app['db'] = $db;
-        $log = new Manager($app);
+        $log = $this->getLogManager($app);
         $log->trim('system');
     }
 
@@ -49,14 +49,14 @@ class LogManagerTest extends BoltUnitTest
             ->with($this->equalTo("DELETE FROM bolt_log_change WHERE date < :date"));
 
         $app['db'] = $db;
-        $log = new Manager($app);
+        $log = $this->getLogManager($app);
         $log->trim('change');
     }
 
     public function testInvalid()
     {
         $app = $this->getApp();
-        $log = new Manager($app);
+        $log = $this->getLogManager($app);
         $this->setExpectedException('Exception', 'Invalid log type requested: invalid');
         $log->trim('invalid');
     }
@@ -75,7 +75,7 @@ class LogManagerTest extends BoltUnitTest
             ->with($this->equalTo("TRUNCATE bolt_log_change"));
 
         $app['db'] = $db;
-        $log = new Manager($app);
+        $log = $this->getLogManager($app);
         $log->clear('system');
         $log->clear('change');
 
@@ -103,7 +103,7 @@ class LogManagerTest extends BoltUnitTest
         $app['db'] = $db;
         $app['request'] = Request::createFromGlobals();
 
-        $log = new Manager($app);
+        $log = $this->getLogManager($app);
         $log->getActivity('system', 10);
         $this->assertEquals('SELECT * FROM bolt_log_system ORDER BY id DESC LIMIT 10 OFFSET 0', $queries[0]);
         $this->assertEquals('SELECT COUNT(id) as count FROM bolt_log_system ORDER BY id DESC LIMIT 10 OFFSET 0', $queries[1]);
@@ -129,7 +129,7 @@ class LogManagerTest extends BoltUnitTest
         $app['db'] = $db;
         $app['request'] = Request::createFromGlobals();
 
-        $log = new Manager($app);
+        $log = $this->getLogManager($app);
         $log->getActivity('change', 10);
         $this->assertEquals('SELECT * FROM bolt_log_change ORDER BY id DESC LIMIT 10 OFFSET 0', $queries[0]);
         $this->assertEquals('SELECT COUNT(id) as count FROM bolt_log_change ORDER BY id DESC LIMIT 10 OFFSET 0', $queries[1]);
@@ -138,7 +138,7 @@ class LogManagerTest extends BoltUnitTest
     public function testGetActivityInvalid()
     {
         $app = $this->getApp();
-        $log = new Manager($app);
+        $log = $this->getLogManager($app);
         $this->setExpectedException('Exception', 'Invalid log type requested: invalid');
         $log->getActivity('invalid', 10);
     }
@@ -163,7 +163,18 @@ class LogManagerTest extends BoltUnitTest
         $app['db'] = $db;
         $app['request'] = Request::createFromGlobals();
 
-        $log = new Manager($app);
+        $log = $this->getLogManager($app);
         $log->getActivity('change', 10, 3, 'test');
+    }
+
+    /**
+     * @return \Bolt\Logger\Manager
+     */
+    protected function getLogManager($app)
+    {
+        $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+
+        return new Manager($app, $changeRepository, $systemRepository);
     }
 }
