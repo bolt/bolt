@@ -33,7 +33,7 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="html">
+<fieldset class="form-group html">
     <div class="col-sm-12">
         <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
         <textarea{{ macro.attr(attr_html) }}>{{ context.content.get(contentkey)|default('') }}</textarea>

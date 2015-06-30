@@ -22,7 +22,7 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="markdown">
+<fieldset class="form-group markdown">
     <div class="col-sm-12">
         <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
         <textarea{{ macro.attr(attr_text) }} data-uk-htmleditor="{ markdown: true, height: '{{option.height}}'}">{{ context.content.get(contentkey)|default('') }}</textarea>
