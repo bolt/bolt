@@ -1,8 +1,10 @@
 <?php
 namespace Bolt\Storage\Repository;
 
+use Bolt\Helpers\Arr;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Repository;
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -36,7 +38,7 @@ abstract class BaseLogRepository extends Repository
         $qb = $this->createQueryBuilder();
         $qb->delete($this->getTableName())
              ->where('date < :date')
-             ->setParameter(':date', $period, \Doctrine\DBAL\Types\Type::DATETIME);
+             ->setParameter('date', $period, \Doctrine\DBAL\Types\Type::DATETIME);
 
         return $qb;
     }
@@ -55,20 +57,18 @@ abstract class BaseLogRepository extends Repository
 
         return $qb->getConnection()->executeQuery($query)->execute();
     }
-
     /**
-     * Get a specific activity log's entries.
+     * Get content log's activity entries.
      *
-     * @param integer      $page
-     * @param integer      $amount
-     * @param integer      $level
-     * @param string|array $context
+     * @param integer $page
+     * @param integer $amount
+     * @param array   $options
      *
-     * @return Entity\LogChange[]|Entity\LogSystem[]
+     * @return Entity\LogChange[]
      */
-    public function getActivity($page = 1, $amount = 10, $level = null, $context = null)
+    public function getActivity($page = 1, $amount = 10, array $options = [])
     {
-        $query = $this->getActivityQuery($page, $amount, $level, $context);
+        $query = $this->getActivityQuery($page, $amount, $options);
 
         return $this->findWith($query);
     }
@@ -76,14 +76,13 @@ abstract class BaseLogRepository extends Repository
     /**
      * Build the query to get the log entries.
      *
-     * @param integer      $page
-     * @param integer      $amount
-     * @param integer      $level
-     * @param string|array $context
+     * @param integer $page
+     * @param integer $amount
+     * @param array   $options
      *
      * @return QueryBuilder
      */
-    public function getActivityQuery($page, $amount, $level, $context)
+    public function getActivityQuery($page, $amount, array $options)
     {
         $qb = $this->createQueryBuilder();
         $qb->select('*')
@@ -91,8 +90,7 @@ abstract class BaseLogRepository extends Repository
             ->setMaxResults(intval($amount))
             ->setFirstResult(intval(($page - 1) * $amount));
 
-        $this->addWhereActivityLevel($qb, $level);
-        $this->addWhereActivityContext($qb, $context);
+        $this->addWhereActivity($qb, $options);
 
         return $qb;
     }
@@ -101,14 +99,13 @@ abstract class BaseLogRepository extends Repository
      * Get the total amount of log entries, optionally limited to a given level
      * and/or context.
      *
-     * @param integer      $level
-     * @param string|array $context
+     * @param array $options
      *
      * @return integer|false
      */
-    public function getActivityCount($level = null, $context = null)
+    public function getActivityCount(array $options = [])
     {
-        $query = $this->getActivityCountQuery($level, $context);
+        $query = $this->getActivityCountQuery($options);
 
         return $this->getCount($query->execute()->fetch());
     }
@@ -116,58 +113,68 @@ abstract class BaseLogRepository extends Repository
     /**
      * Build the query for the entry count.
      *
-     * @param integer      $level
-     * @param string|array $context
+     * @param array $options
      *
      * @return QueryBuilder
      */
-    public function getActivityCountQuery($level, $context)
+    public function getActivityCountQuery(array $options)
     {
         // Find out how many entries we're paging form
         $qb = $this->createQueryBuilder();
         $qb->select('COUNT(id) as count');
 
-        $this->addWhereActivityLevel($qb, $level);
-        $this->addWhereActivityContext($qb, $context);
+        $this->addWhereActivity($qb, $options);
 
         return $qb;
     }
 
     /**
-     * Add required level to the WHERE parameters.
+     * Add required WHERE parameters.
      *
      * @param QueryBuilder $qb
-     * @param integer      $level
      */
-    protected function addWhereActivityLevel(QueryBuilder $qb, $level)
+    protected function addWhereActivity(QueryBuilder $qb, $options)
     {
-        if ($level !== null) {
-            $qb->andWhere('level = :level')
-                ->setParameter('level', $level);
+        if (empty($options)) {
+            return;
+        }
+
+        foreach ($options as $columnName => $option) {
+            if (is_array($options[$columnName])) {
+                $qb->andWhere($this->buildWhereOr($qb, $columnName, $option));
+            } elseif (!empty($options[$columnName])) {
+                $qb->andWhere("$columnName = :$columnName")
+                    ->setParameter($columnName, $option);
+            }
         }
     }
 
     /**
-     * Add required context(s) to the WHERE parameters.
+     * Build an OR group that is added to the AND.
      *
-     * NOTE: Multiple contexts are ORed against each other.
+     * @param QueryBuilder $qb
+     * @param string       $parentColumnName
+     * @param array        $options
      *
-     * @param QueryBuilder      $qb
-     * @param string|array|null $context
+     * @return CompositeExpression
      */
-    protected function addWhereActivityContext(QueryBuilder $qb, $context)
+    protected function buildWhereOr(QueryBuilder $qb, $parentColumnName, array $options)
     {
-        if (is_string($context)) {
-            $qb->andWhere('context = :context')
-                ->setParameter('context', $context);
-        } elseif (is_array($context)) {
-            $orX = $qb->expr()->orX();
-            foreach ($context as $k => $v) {
-                $orX->add("context = :$k");
-                $qb->setParameter($k, $v);
+        $orX = $qb->expr()->orX();
+        foreach ($options as $columnName => $option) {
+            if (empty($options[$columnName])) {
+                continue;
+            } elseif (Arr::isIndexedArray($options)) {
+                $key = $parentColumnName . '_' . $columnName;
+                $orX->add("$parentColumnName = :$key");
+                $qb->setParameter($key, $option);
+            } else {
+                $orX->add("$columnName = :$columnName");
+                $qb->setParameter($columnName, $option);
             }
-            $qb->andWhere($orX);
         }
+
+        return $orX;
     }
 
     /**

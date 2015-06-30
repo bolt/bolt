@@ -62,7 +62,12 @@ class Log extends BackendBase
         $param = Pager::makeParameterId('activity');
         $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
 
-        $activity = $this->manager()->getActivity('change', $page, 16);
+        $options = [
+            'contenttype' => $request->query->get('contenttype'),
+            'contentid'   => $request->query->get('contentid'),
+            'ownerid'     => $request->query->get('ownerid')
+        ];
+        $activity = $this->manager()->getActivity('change', $page, 16, $options);
 
         return $this->render('activity/changelog.twig', ['entries' => $activity]);
     }
@@ -165,14 +170,15 @@ class Log extends BackendBase
             return $this->redirectToRoute('systemlog');
         }
 
-        $level = $request->query->get('level', null) ?: null;
-        $context = $request->query->get('context', null) ?: null;
-
         // Test/get page number
         $param = Pager::makeParameterId('activity');
         $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+        $options = [
+            'level' => $request->query->get('level'),
+            'context' => $request->query->get('context')
+        ];
 
-        $activity = $this->manager()->getActivity('system', $page, 16, $level, $context);
+        $activity = $this->manager()->getActivity('system', $page, 16, $options);
 
         return $this->render('activity/systemlog.twig', ['entries' => $activity]);
     }

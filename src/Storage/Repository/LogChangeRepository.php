@@ -101,11 +101,11 @@ class LogChangeRepository extends BaseLogRepository
     public function getChangeLogByContentTypeQuery($contenttype, array $options)
     {
         $tableName = $this->getTableName();
-        $contentTypeRepo = $this->em->getRepository($contenttype);
+        $contentTableName = $this->em->getRepository($contenttype)->getTableName();
 
         $qb = $this->createQueryBuilder();
         $qb->select("$tableName.*, $tableName.title")
-            ->leftJoin($tableName, $contentTypeRepo->getTableName(), 'content', "content.id = $tableName.contentid");
+            ->leftJoin($tableName, $contentTableName, 'content', "content.id = $tableName.contentid");
 
         // Set required WHERE
         $this->setWhere($qb, $contenttype, $options);

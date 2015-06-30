@@ -111,7 +111,7 @@ class LogChange extends Entity
     private function fieldList($key, $value, array $fields)
     {
         return [
-            'type' => $fields[$key]['type'],
+            'type'   => $fields[$key]['type'],
             'before' => ['render' => json_decode($value[0], true)],
             'after'  => ['render' => json_decode($value[1], true)],
         ];
@@ -207,7 +207,6 @@ class LogChange extends Entity
             'before' => ['render' => $before],
             'after'  => ['render' => $after],
         ];
-
     }
 
     /**

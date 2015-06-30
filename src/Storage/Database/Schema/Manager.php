@@ -162,7 +162,7 @@ class Manager
     /**
      * Check that a single table's columns and indices are present in the DB.
      *
-     * @param Table $table
+     * @param Table         $table
      * @param CheckResponse $response
      *
      * @return boolean
@@ -338,7 +338,7 @@ class Manager
 
         if (isset($diff->changedColumns[$ignored['column']])
             && $diff->changedColumns[$ignored['column']]->changedProperties === [$ignored['property']]) {
-                unset($diff->changedColumns[$ignored['column']]);
+            unset($diff->changedColumns[$ignored['column']]);
         }
     }
 

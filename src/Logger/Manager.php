@@ -81,21 +81,20 @@ class Manager
      * @param string  $log     The log to query.  Either 'change' or 'system'
      * @param integer $page
      * @param integer $amount  Number of results to return
-     * @param integer $level
-     * @param string  $context
+     * @param array   $options
      *
      * @throws \UnexpectedValueException
      *
      * @return array
      */
-    public function getActivity($log, $page = 1, $amount = 10, $level = null, $context = null)
+    public function getActivity($log, $page = 1, $amount = 10, $options = [])
     {
         if ($log == 'change') {
-            $rows = $this->changeRepository->getActivity($page, $amount, $level, $context);
-            $rowcount = $this->changeRepository->getActivityCount($level, $context);
+            $rows = $this->changeRepository->getActivity($page, $amount, $options);
+            $rowcount = $this->changeRepository->getActivityCount($options);
         } elseif ($log == 'system') {
-            $rows = $this->systemRepository->getActivity($page, $amount, $level, $context);
-            $rowcount = $this->systemRepository->getActivityCount($level, $context);
+            $rows = $this->systemRepository->getActivity($page, $amount, $options);
+            $rowcount = $this->systemRepository->getActivityCount($options);
         } else {
             throw new \UnexpectedValueException("Invalid log type requested: $log");
         }
