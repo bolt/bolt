@@ -213,7 +213,7 @@
 
         {# Button: Upload #}
         {% if canUpload %}
-            <span type="button" class="btn btn-secondary fileinput-button">
+            <span class="btn btn-secondary fileinput-button">
             	<i class="fa fa-upload"></i>
             	<span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
             	<input{{ attr(attr_upload) }}>
