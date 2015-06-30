@@ -166,3 +166,14 @@ fieldset.checkbox {
         }
     }
 }
+
+div.datetime-container {
+    display: table;
+
+    & > div {
+        display: table-cell;
+        vertical-align: middle;
+        width: 9px;
+        overflow: visible;
+    }
+}

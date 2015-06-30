@@ -168,20 +168,30 @@
         style:     'margin-right: 6px;'
     } %}
 
-    <input{{ attr(attr_data) }}>
-    <div class="input-group">
-        <span class="input-group-btn">
-            <button class="btn btn-tertiary" type="button">
-                <i class="fa fa-calendar"></i>
-            </button>
-        </span>
-        <input{{ attr(attr_date) }}>
+    <div class="datetime-container">
+        <div>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-tertiary">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+                <input{{ attr(attr_date) }}>
+            </div>
+        </div>
+
         {% if opt.has_time is not defined or opt.has_time != false %}
-            <input{{ attr(attr_time) }}>
+            <div>
+                <input{{ attr(attr_time) }}>
+            </div>
         {% endif %}
-        <button class="btn btn-default btn-xs" type="button" style="margin: 4px 0 0 0;">
-            <i class="fa fa-close"></i>
-        </button>
+
+        <div>
+            <input{{ attr(attr_data) }}>
+            <button type="button" class="btn btn-default btn-xs">
+                <i class="fa fa-close"></i>
+            </button>
+        </div>
     </div>
 {% endmacro %}
 
