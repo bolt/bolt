@@ -519,15 +519,15 @@ class Config
                 $hasGroups = true;
             }
 
-            // Make sure we have these keys and every field has a group set
+            // Make sure we have these keys and every field has a group set.
             $field = array_replace(
                 [
-                    'label'   => '',
-                    'variant' => '',
+                    'class'   => '',
                     'default' => '',
-                    'pattern' => '',
                     'group'   => $currentGroup,
-                    'class'   => ''
+                    'label'   => '',
+                    'pattern' => '',
+                    'variant' => '',
                 ],
                 $field
             );
