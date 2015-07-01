@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:  field.class|default(''),
+    class:  field.class|default('')|preg_replace('%form-control *%', ''),
     label:  field.label|default(''),
     info:   field.info|default('')
 } %}
@@ -19,13 +19,14 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-{# fieldset.checkbox already used: -> chkbox #}
-<fieldset class="form-group checkbox">
-    <label class="col-xs-3 control-label" for="{{ key }}">
+<fieldset class="form-group bf-checkbox">
+    <label class="col-md-3 control-label" for="{{ key }}">
         {{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}
     </label>
 
-    <div class="col-xs-9 checkbox">
-        <label><input{{ macro.attr(attr_checkbox) }}></label>
+    <div class="col-md-9">
+        <div class="checkbox">
+            <label><input{{ macro.attr(attr_checkbox) }}><button type="button" onclick="var x=$(this).prev();x.prop('checked', !x.prop('checked'));"></button></label>
+        </div>
     </div>
 </fieldset>
