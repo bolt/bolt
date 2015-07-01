@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Logger;
 
-use Bolt\Logger\ChangeLog;
 use Bolt\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +14,14 @@ class ChangeLogTest extends BoltUnitTest
 {
     public function setUp()
     {
+        $this->resetDb();
         $app = $this->getApp();
         $app['config']->set('general/changelog/enabled', true);
+        $this->addSomeContent();
         $storage = new Storage($app);
 
         $content = $storage->getContentObject('pages');
+        $content['contentid'] = 1;
         $storage->saveContent($content, 'pages');
     }
 
@@ -56,8 +58,7 @@ class ChangeLogTest extends BoltUnitTest
 
         $count = $this->getLogChangeRepository()->countChangeLogByContentType('pages', ['contentid' => 1]);
         $this->assertGreaterThan(0, $count);
-
-        $count = $this->getLogChangeRepository()->countChangeLogByContentType('pages', ['id' => 1]);
+        $count = $this->getLogChangeRepository()->countChangeLogByContentType('pages', ['ownerid' => 1]);
         $this->assertGreaterThan(0, $count);
     }
 
