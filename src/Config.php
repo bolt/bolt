@@ -526,7 +526,6 @@ class Config
                     'default' => '',
                     'group'   => $currentGroup,
                     'label'   => '',
-                    'pattern' => '',
                     'variant' => '',
                 ],
                 $field
