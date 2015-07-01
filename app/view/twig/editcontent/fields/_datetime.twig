@@ -2,7 +2,7 @@
 
 {% set option = {
     class:     ('form-control ' ~ field.class)|trim,
-    variant:   field.variant|default(''),
+    variant:   field.variant,
     label:     field.label,
     info:      field.info|default(''),
     options:   field.options.datepicker|default(''),
