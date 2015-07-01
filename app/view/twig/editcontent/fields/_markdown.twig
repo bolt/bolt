@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:     ('form-control ' ~ field.class|default(''))|trim,
+    class:     ('form-control ' ~ field.class)|trim,
     height:    field.height|default('300px'),
     label:     field.label|default(''),
     required:  field.required|default(false),

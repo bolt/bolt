@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:     ('form-control ' ~ field.class|default(''))|trim,
+    class:     ('form-control ' ~ field.class)|trim,
     label:     field.label|default(''),
     multiple:  (field.multiple is defined and field.multiple),
     values:    field.values|default([]),

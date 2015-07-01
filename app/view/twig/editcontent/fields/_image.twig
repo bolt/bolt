@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:       ('form-control ' ~ field.class|default(''))|trim,
+    class:       ('form-control ' ~ field.class)|trim,
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
     attrib:      (field.attrib is defined and field.attrib is iterable) ? field.attrib : [ field.attrib|default(null) ],

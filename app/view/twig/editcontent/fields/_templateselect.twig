@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:   ('form-control narrow ' ~ field.class|default(''))|trim,
+    class:   ('form-control narrow ' ~ field.class)|trim,
     filter:  field.filter|default({}),
     label:   field.label|default(''),
     info:    field.info|default('')
