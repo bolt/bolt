@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:  field.class|default('')|preg_replace('%form-control *%', ''),
+    class:  field.class|default(''),
     label:  field.label|default(''),
     info:   field.info|default('')
 } %}

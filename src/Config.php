@@ -536,8 +536,8 @@ class Config
             $currentGroup = $field['group'];
             $groups[$currentGroup] = 1;
 
-            // Prefix class with "form-control"
-            $field['class'] = 'form-control' . (isset($field['class']) ? ' ' . $field['class'] : '');
+            // Make sure, class is set.
+            $field['class'] = isset($field['class']) ? $field['class'] : '';
 
             $fields[$key] = $field;
         }

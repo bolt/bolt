@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    label:  field.label|default(''),
+    label:  ('form-control ' ~ field.class|default(''))|trim,
     info:   field.info|default('info.geolocation')
 } %}
 

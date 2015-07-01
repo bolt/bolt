@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:       field.class|default(''),
+    class:       ('form-control ' ~ field.class|default(''))|trim,
     label:       field.label|default(''),
     extensions:  field.extensions|default([]),
     upload:      field.upload|default(''),
