@@ -2,7 +2,7 @@
 
 {% set option = {
     extensions:  field.extensions|default([]),
-    label:       field.label|default(''),
+    label:       field.label,
     upload:      field.upload|default(''),
     can_upload:  field.canUpload,
     info:        field.info|default('info.upload.filelist')

@@ -2,7 +2,7 @@
 
 {% set option = {
     class:       ('form-control ' ~ field.class)|trim,
-    label:       field.label|default(''),
+    label:       field.label,
     extensions:  field.extensions|default([]),
     upload:      field.upload|default(''),
     can_upload:  field.canUpload,

@@ -3,7 +3,7 @@
 {% set option = {
     class:     ('form-control ' ~ field.class)|trim,
     height:    field.height|default('300px'),
-    label:     field.label|default(''),
+    label:     field.label,
     required:  field.required|default(false),
     errortext: field.error|default(''),
     info:      field.info|default('info.markdown')

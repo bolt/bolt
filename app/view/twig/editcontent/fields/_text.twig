@@ -2,7 +2,7 @@
 
 {% set option = {
     class:        ('form-control ' ~ field.class)|trim,
-    label:        field.label|default(''),
+    label:        field.label,
     pattern:      field.pattern|default(''),
     placeholder:  field.placeholder|default(''),
     required:     field.required|default(false),

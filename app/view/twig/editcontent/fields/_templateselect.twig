@@ -3,7 +3,7 @@
 {% set option = {
     class:   ('form-control narrow ' ~ field.class)|trim,
     filter:  field.filter|default({}),
-    label:   field.label|default(''),
+    label:   field.label,
     info:    field.info|default('')
 } %}
 

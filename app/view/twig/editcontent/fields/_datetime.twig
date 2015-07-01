@@ -3,7 +3,7 @@
 {% set option = {
     class:     ('form-control ' ~ field.class)|trim,
     variant:   field.variant|default(''),
-    label:     field.label|default(''),
+    label:     field.label,
     info:      field.info|default(''),
     options:   field.options.datepicker|default(''),
     default:   (context.content.id == null and field.default) ? context.content.get(contentkey)|date('Y-m-d H:i:s') : null,

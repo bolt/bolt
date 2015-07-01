@@ -2,7 +2,7 @@
 {% set field_step = field.step|default(1) %}
 {% set option = {
     class:        ('form-control ' ~ field.class)|trim,
-    label:        field.label|default(''),
+    label:        field.label,
     placeholder:  field.placeholder|default(''),
     required:     field.required|default(false),
     readonly:     field.readonly|default(false),
