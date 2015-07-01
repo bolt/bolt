@@ -527,6 +527,7 @@ class Config
                     'default' => '',
                     'pattern' => '',
                     'group'   => $currentGroup,
+                    'class'   => ''
                 ],
                 $field
             );
@@ -535,9 +536,6 @@ class Config
             // Make sure that once you started with group all following have that group, too.
             $currentGroup = $field['group'];
             $groups[$currentGroup] = 1;
-
-            // Make sure, class is set.
-            $field['class'] = isset($field['class']) ? $field['class'] : '';
 
             $fields[$key] = $field;
         }
