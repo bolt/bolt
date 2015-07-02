@@ -53,8 +53,14 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="form-group multiselect">
+{% extends '_base/_fieldset.twig' %}
 
+{% set fieldset = {
+    select: {
+    }
+}%}
+
+{% block fieldset %}
     <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
     <div class="col-sm-9">
         <select{{ macro.attr(attr_select) }}>
@@ -92,5 +98,4 @@
         });
     </script>
     {% endif %}
-
-</fieldset>
+{% endblock fieldset %}
