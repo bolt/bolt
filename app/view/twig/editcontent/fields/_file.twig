@@ -50,7 +50,14 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="form-group file">
+{% extends '_base/_fieldset.twig' %}
+
+{% set fieldset = {
+    file: {
+    }
+}%}
+
+{% block fieldset %}
     <label class="col-sm-12 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
 
     <div class="col-sm-12 dropzone clearfix" id="dropzone-{{ key }}">
@@ -66,5 +73,4 @@
             </div>
         {% endif %}
     </div>
-
-</fieldset>
+{% endblock fieldset %}
