@@ -88,7 +88,14 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="form-group video">
+{% extends '_base/_fieldset.twig' %}
+
+{% set fieldset = {
+    video: {
+    }
+}%}
+
+{% block fieldset %}
     <label class="col-xs-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
     <div class="col-sm-8">
         <div class="form-group">
@@ -163,5 +170,4 @@
             </div>
         </div>
     </div>
-
-</fieldset>
+{% endblock fieldset %}
