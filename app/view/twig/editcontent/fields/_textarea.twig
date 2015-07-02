@@ -23,14 +23,14 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% set fieldset = {
-    textarea: {
-    }
-}%}
+{% block fieldset_type 'textarea' %}
 
-{% block fieldset %}
-    <div class="col-sm-12">
-        <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+{% block fieldset_label %}
+    <label class="col-xs-12">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+{% endblock fieldset_label %}
+
+{% block fieldset_controls %}
+    <div class="col-xs-12">
         <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
-{% endblock fieldset %}
+{% endblock fieldset_controls %}
