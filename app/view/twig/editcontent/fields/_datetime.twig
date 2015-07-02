@@ -25,7 +25,14 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="form-group datetime">
+{% extends '_base/_fieldset.twig' %}
+
+{% set fieldset = {
+    datetime: {
+    }
+}%}
+
+{% block fieldset %}
     {% if option.variant == 'inline' %}
 
         <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
@@ -41,4 +48,4 @@
         </div>
 
     {% endif %}
-</fieldset>
+{% endblock fieldset %}
