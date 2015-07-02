@@ -26,22 +26,6 @@
     {% set list_json = '' %}
 {% endif %}
 
-{#=== BLOCKS =========================================================================================================#}
-
-{% import _self as block %}
-
-{# Modal "select from server" #}
-{% macro serverselect(key) %}
-    <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content"></div>
-        </div>
-    </div>
-{% endmacro %}
-
-
-{#=== FIELDSET =======================================================================================================#}
-
 {% set list_empty %}
     <p>{{ __('No images in the list, yet.') }}</p>
 {% endset %}
@@ -69,12 +53,34 @@
         'removeMulti':  __('Are you sure you want to remove these images?'),
         'wrongtype':    __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.' ~ option.extensions|join(', .') : '–'})
     },
-    'empty':          list_empty|trim,
-    'item':           list_item|trim|preg_replace('/>\\s+</', '><'),
-    'itemUploading':     list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
+    'empty':            list_empty|trim,
+    'item':             list_item|trim|preg_replace('/>\\s+</', '><'),
+    'itemUploading':    list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
 } %}
 
-<fieldset class="form-group imagelist">
+{#=== BLOCKS =========================================================================================================#}
+
+{% import _self as block %}
+
+{# Modal "select from server" #}
+{% macro serverselect(key) %}
+    <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+{% endmacro %}
+
+{#=== FIELDSET =======================================================================================================#}
+
+{% extends '_base/_fieldset.twig' %}
+
+{% set fieldset = {
+    imagelist: {
+    }
+}%}
+
+{% block fieldset %}
     <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
 
     <div class="col-sm-12 filelistholder dropzone" id="imagelist-{{ key }}">
@@ -98,5 +104,4 @@
         {{ block.serverselect(key) }}
 
     </div>
-
-</fieldset>
+{% endblock fieldset %}
