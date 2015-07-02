@@ -19,7 +19,14 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="form-group bf-checkbox">
+{% extends '_base/_fieldset.twig' %}
+
+{% set fieldset = {
+    checkbox: {
+    }
+}%}
+
+{% block fieldset %}
     <label class="col-md-3 control-label" for="{{ key }}">
         {{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}
     </label>
@@ -29,4 +36,4 @@
             <label><input{{ macro.attr(attr_checkbox) }}><button type="button" onclick="var x=$(this).prev();x.prop('checked', !x.prop('checked'));"></button></label>
         </div>
     </div>
-</fieldset>
+{% endblock fieldset %}
