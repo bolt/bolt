@@ -17,9 +17,9 @@ class Manager
 {
     /** @var Application */
     private $app;
-    /** @var \Bolt\Storage\Repository\LogChange */
+    /** @var \Bolt\Storage\Repository\LogChangeRepository */
     private $changeRepository;
-    /** @var \Bolt\Storage\Repository\LogSystem */
+    /** @var \Bolt\Storage\Repository\LogSystemRepository */
     private $systemRepository;
 
     /**
