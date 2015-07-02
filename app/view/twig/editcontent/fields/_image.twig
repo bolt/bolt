@@ -96,8 +96,15 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<div class="dropzone clearfix" id="dropzone-{{ key }}">
-    <fieldset class="form-group image">
+{% extends '_base/_fieldset.twig' %}
+
+{% set fieldset = {
+    image: {
+    }
+}%}
+
+{% block fieldset %}
+    <div class="dropzone clearfix" id="dropzone-{{ key }}">
         <label class="col-xs-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
         <div class="col-xs-8">
             <div class="form-group">
@@ -126,6 +133,5 @@
                 </div>
             </div>
         </div>
-
-    </fieldset>
-</div>
+    </div>
+{% endblock fieldset %}
