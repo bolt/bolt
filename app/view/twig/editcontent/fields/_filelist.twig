@@ -39,8 +39,6 @@
     </div>
 {% endmacro %}
 
-{#=== FIELDSET =======================================================================================================#}
-
 {% set list_empty %}
     <p>{{ __('No files in the list, yet.') }}</p>
 {% endset %}
@@ -64,16 +62,25 @@
 
 {% set listdata = {
     'message': {
-        'remove':     __('Are you sure you want to remove this file?'),
+        'remove':       __('Are you sure you want to remove this file?'),
         'removeMulti':  __('Are you sure you want to remove these images?'),
-        'wrongtype':  __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.' ~ option.extensions|join(', .') : '–'})
+        'wrongtype':    __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.' ~ option.extensions|join(', .') : '–'})
     },
-    'empty':          list_empty|trim,
-    'item':           list_item|trim|preg_replace('/>\\s+</', '><'),
-    'itemUploading':     list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
+    'empty':            list_empty|trim,
+    'item':             list_item|trim|preg_replace('/>\\s+</', '><'),
+    'itemUploading':    list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
 } %}
 
-<fieldset class="form-group filelist">
+{#=== FIELDSET =======================================================================================================#}
+
+{% extends '_base/_fieldset.twig' %}
+
+{% set fieldset = {
+    filelist: {
+    }
+}%}
+
+{% block fieldset %}
     <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
 
     <div class="col-sm-12 filelistholder dropzone" id="filelist-{{ key }}">
@@ -98,4 +105,4 @@
     </div>
 
     {{ block.serverselect(key) }}
-</fieldset>
+{% endblock fieldset %}
