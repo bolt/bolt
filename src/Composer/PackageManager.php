@@ -269,14 +269,17 @@ class PackageManager
                 $packages['local'][] = [
                     'name'     => $json['name'],
                     'title'    => $ext->getName(),
+                    'version'  => 'local',
                     'type'     => $json['type'],
                     'descrip'  => $json['description'],
                     'authors'  => $json['authors'],
                     'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',
+                    'readme'   => '', // TODO: make local readme links
+                    'config'   => $this->linkConfig($json['name'])
                 ];
             } else {
                 $packages['local'][] = [
-                    'title'    => $ext->getName(),
+                    'title'    => $ext->getName()
                 ];
             }
         }
