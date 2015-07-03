@@ -269,10 +269,13 @@ class PackageManager
                 $packages['local'][] = [
                     'name'     => $json['name'],
                     'title'    => $ext->getName(),
+                    'version'  => 'local',
                     'type'     => $json['type'],
                     'descrip'  => $json['description'],
                     'authors'  => $json['authors'],
-                    'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',
+                    'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',,
+                    'readme'   => $this->linkLocalReadMe($json['name']),
+                    'config'   => $this->linkConfig($json['name'])
                 ];
             } else {
                 $packages['local'][] = [
@@ -326,6 +329,31 @@ class PackageManager
     private function linkReadMe($name)
     {
         $base = $this->app['resources']->getPath('extensionspath/vendor/' . $name);
+
+        $readme = null;
+        if (is_readable($base . '/README.md')) {
+            $readme = $name . '/README.md';
+        } elseif (is_readable($base . '/readme.md')) {
+            $readme = $name . '/readme.md';
+        }
+
+        if ($readme) {
+            return $this->app['resources']->getUrl('async') . 'readme/' . $readme;
+        }
+
+        return null;
+    }
+
+    /**
+     * Return the URI for a package's readme.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    private function linkLocalReadMe($name)
+    {
+        $base = $this->app['resources']->getPath('extensionspath/local/' . $name);
 
         $readme = null;
         if (is_readable($base . '/README.md')) {
