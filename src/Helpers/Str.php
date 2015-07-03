@@ -16,12 +16,12 @@ class Str
      *
      * @return string
      */
-    public static function makeSafe($str, $strict = false, $extrachars = "")
+    public static function makeSafe($str, $strict = false, $extrachars = '')
     {
         $str = str_replace('&amp;', '', $str);
 
         $delim = '/';
-        if ($extrachars != "") {
+        if ($extrachars != '') {
             $extrachars = preg_quote($extrachars, $delim);
         }
         if ($strict) {
@@ -30,7 +30,7 @@ class Str
             $str = str_replace(' ', '-', $str);
         } else {
             // Allow Uppercase and don't convert spaces to dashes
-            $slugify = Slugify::create('/[^a-zA-Z0-9_.,'.$extrachars.' -]+/', array('lowercase'=>false));
+            $slugify = Slugify::create('/[^a-zA-Z0-9_.,'.$extrachars.' -]+/', ['lowercase' => false]);
             $str = $slugify->slugify($str, '');
         }
 
