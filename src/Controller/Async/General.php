@@ -245,9 +245,13 @@ class General extends AsyncBase
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function readme($filename)
+    public function readme($filename, $location = 'installed')
     {
-        $filename = $this->resources()->getPath('extensions/vendor/' . $filename);
+        if ($location == 'local') {
+            $filename = $this->resources()->getPath('extensions/local/' . $filename);
+        } else {
+            $filename = $this->resources()->getPath('extensions/vendor/' . $filename);
+        }
 
         // don't allow viewing of anything but "readme.md" files.
         if (strtolower(basename($filename)) != 'readme.md') {
@@ -274,22 +278,7 @@ class General extends AsyncBase
      */
     public function localreadme($filename)
     {
-        $filename = $this->resources()->getPath('extensions/local/' . $filename);
-
-        // don't allow viewing of anything but "readme.md" files.
-        if (strtolower(basename($filename)) != 'readme.md') {
-            $this->abort(Response::HTTP_UNAUTHORIZED, 'Not allowed');
-        }
-        if (!is_readable($filename)) {
-            $this->abort(Response::HTTP_UNAUTHORIZED, 'Not readable');
-        }
-
-        $readme = file_get_contents($filename);
-
-        // Parse the field as Markdown, return HTML
-        $html = $this->app['markdown']->text($readme);
-
-        return new Response($html, Response::HTTP_OK, ['Cache-Control' => 's-maxage=180, public']);
+        return $this->readme($filename, 'local');
     }
 
     /**
