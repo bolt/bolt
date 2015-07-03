@@ -44,6 +44,10 @@ class General extends AsyncBase
             ->assert('filename', '.+')
             ->bind('readme');
 
+        $c->get('/localreadme/{filename}', 'localreadme')
+            ->assert('filename', '.+')
+            ->bind('localreadme');
+
         $c->get('/populartags/{taxonomytype}', 'popularTags')
             ->bind('populartags');
 
@@ -241,9 +245,13 @@ class General extends AsyncBase
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function readme($filename)
+    public function readme($filename, $location = 'installed')
     {
-        $filename = $this->resources()->getPath('extensions/vendor/' . $filename);
+        if ($location == 'local') {
+            $filename = $this->resources()->getPath('extensions/local/' . $filename);
+        } else {
+            $filename = $this->resources()->getPath('extensions/vendor/' . $filename);
+        }
 
         // don't allow viewing of anything but "readme.md" files.
         if (strtolower(basename($filename)) != 'readme.md') {
@@ -259,6 +267,18 @@ class General extends AsyncBase
         $html = $this->app['markdown']->text($readme);
 
         return new Response($html, Response::HTTP_OK, ['Cache-Control' => 's-maxage=180, public']);
+    }
+
+    /**
+     * Render a local extension's README.md file.
+     *
+     * @param string $filename
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function localreadme($filename)
+    {
+        return $this->readme($filename, 'local');
     }
 
     /**

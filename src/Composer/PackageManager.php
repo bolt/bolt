@@ -269,10 +269,13 @@ class PackageManager
                 $packages['local'][] = [
                     'name'     => $json['name'],
                     'title'    => $ext->getName(),
+                    'version'  => 'local',
                     'type'     => $json['type'],
                     'descrip'  => $json['description'],
                     'authors'  => $json['authors'],
-                    'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',
+                    'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',,
+                    'readme'   => $this->linkReadMe($json['name'], 'local'),
+                    'config'   => $this->linkConfig($json['name'])
                 ];
             } else {
                 $packages['local'][] = [
@@ -323,9 +326,13 @@ class PackageManager
      *
      * @return string
      */
-    private function linkReadMe($name)
+    private function linkReadMe($name, $location = 'installed')
     {
-        $base = $this->app['resources']->getPath('extensionspath/vendor/' . $name);
+        if ($location == 'local') {
+            $base = $this->app['resources']->getPath('extensionspath/local/' . $name);
+        } else {
+            $base = $this->app['resources']->getPath('extensionspath/vendor/' . $name);
+        }
 
         $readme = null;
         if (is_readable($base . '/README.md')) {
