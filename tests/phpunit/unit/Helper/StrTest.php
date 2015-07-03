@@ -40,6 +40,11 @@ class StrTest extends BoltUnitTest
         $input = ";this is a ƃuıɹʇs ʇsǝʇ";
         $this->assertEquals(";this-is-a-uis-s", Str::makeSafe($input, true, ';'));
     }
+    public function testExtraCharsNotStrictMakeSafe()
+    {
+        $input = "; IS this a ƃuıɹʇs ʇsǝʇ \o/";
+        $this->assertEquals("; IS this a uis s \o/", Str::makeSafe($input, false, ';\o/'));
+    }
     public function testGermanMakeSafe()
     {
         // German
