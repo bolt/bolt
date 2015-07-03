@@ -18,22 +18,21 @@ class Str
      */
     public static function makeSafe($str, $strict = false, $extrachars = "")
     {
-        $slugify = Slugify::create('/([^a-zA-Z0-9] |-)+/u');
-        $str = $slugify->slugify($str);
-        $str = str_replace("&amp;", "", $str);
+        $str = str_replace('&amp;', '', $str);
 
         $delim = '/';
         if ($extrachars != "") {
             $extrachars = preg_quote($extrachars, $delim);
         }
         if ($strict) {
-            $str = strtolower(str_replace(" ", "-", $str));
-            $regex = "[^a-zA-Z0-9_" . $extrachars . "-]";
-        } else {
-            $regex = "[^a-zA-Z0-9 _.," . $extrachars . "-]";
+            $slugify = Slugify::create('/[^a-z0-9_'.$extrachars.' -]+/');
+            $str = $slugify->slugify($str, '');
+            $str = str_replace(' ', '-', $str);
+        }else{
+            // Allow Uppercase and don't convert spaces to dashes
+            $slugify = Slugify::create('/[^a-zA-Z0-9_.,'.$extrachars.' -]+/', array('lowercase'=>false));
+            $str = $slugify->slugify($str, '');
         }
-
-        $str = preg_replace($delim . $regex . $delim, '', $str);
 
         return $str;
     }

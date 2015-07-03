@@ -17,10 +17,22 @@ class StrTest extends BoltUnitTest
         $input = "this is a ƃuıɹʇs ʇsǝʇ";
         $this->assertEquals("this is a uis s", Str::makeSafe($input));
     }
+    public function testBasicMakeSafeUpperCases()
+    {
+        // basic
+        $input = "This Is A ƃuıɹʇs ʇsǝʇ";
+        $this->assertEquals("This Is A uis s", Str::makeSafe($input));
+    }
     public function testStrictMakeSafe()
     {
         //strict
         $input = ";this is a ƃuıɹʇs ʇsǝʇ";
+        $this->assertEquals("this-is-a-uis-s", Str::makeSafe($input, true));
+    }
+    public function testStrictMakeSafeUpperCases()
+    {
+        //strict
+        $input = ";This Is A ƃuıɹʇs ʇsǝʇ";
         $this->assertEquals("this-is-a-uis-s", Str::makeSafe($input, true));
     }
     public function testExtraCharsMakeSafe()
@@ -39,6 +51,12 @@ class StrTest extends BoltUnitTest
         // French
         $input = "Et le proxénète s'est avancé à la barre";
         $this->assertEquals("et-le-proxenete-sest-avance-a-la-barre", Str::makeSafe($input, true, ';'));
+    }
+    public function testFrenchMakeSafeNotStrictKeepsUppercase()
+    {
+        // French
+        $input = "Et le proxénète s'est Avancé à la Barre";
+        $this->assertEquals("Et le proxenete sest Avance a la Barre", Str::makeSafe($input, false));
     }
     public function testSwedishMakeSafe()
     {
