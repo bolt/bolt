@@ -28,7 +28,7 @@ class Str
             $slugify = Slugify::create('/[^a-z0-9_'.$extrachars.' -]+/');
             $str = $slugify->slugify($str, '');
             $str = str_replace(' ', '-', $str);
-        }else{
+        } else {
             // Allow Uppercase and don't convert spaces to dashes
             $slugify = Slugify::create('/[^a-zA-Z0-9_.,'.$extrachars.' -]+/', array('lowercase'=>false));
             $str = $slugify->slugify($str, '');
