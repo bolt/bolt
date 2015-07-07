@@ -22,19 +22,17 @@
 } %}
 
 {% set attr_width = {
-    class:  'form-control pull-left',
+    class:  'form-control',
     id:     'video-' ~ key ~ '-width',
     name:   name ~ '[width]',
-    style:  'width: 80px; min-width: 80px;',
     type:   'number',
     value:  video.width|default(''),
 } %}
 
 {% set attr_height = {
-    class:  'form-control pull-left',
+    class:  'form-control',
     id:     'video-' ~ key ~ '-height',
     name:   name ~ '[height]',
-    style:  'width: 80px; min-width: 80px;',
     type:   'number',
     value:  video.height|default(''),
 } %}
@@ -90,13 +88,13 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% set fieldset = {
-    video: {
-    }
-}%}
+{% block fieldset_type 'video' %}
 
-{% block fieldset %}
-    <label class="col-xs-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
+{% block fieldset_label %}
+    <label class="col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
+{% endblock fieldset_label %}
+
+{% block fieldset_controls %}
     <div class="col-sm-8">
         <div class="form-group">
             <div class="col-sm-12">
@@ -106,14 +104,13 @@
         </div>
 
         <div class="form-group">
-            <div class="col-sm-2">
-                <label class="control-label-inline">{{ __('field.video.label.size') }}</label>
-            </div>
-            <div class="col-sm-10">
-                <input{{ macro.attr(attr_width) }}>
-                <span class="pull-left" style="margin: 6px 8px 0;">×</span>
+            <label class="control-label col-sm-2">{{ __('field.video.label.size') }}</label>
+            <div class="col-sm-10 form-inline">
+                <label for="{{ 'video-' ~ key ~ '-width' }}" class="sr-only">{{ __('field.video.width') }}</label>
+                <input{{ macro.attr(attr_width) }}> ×
+                <label for="{{ 'video-' ~ key ~ '-height' }}" class="sr-only">{{ __('field.video.height') }}</label>
                 <input{{ macro.attr(attr_height) }}>
-                <span class="pull-left" style="margin: 6px 8px 0;">{{ __('field.video.pixel') }}</span>
+                {{ __('field.video.pixel') }}
             </div>
         </div>
 
@@ -124,7 +121,7 @@
             </div>
 
             <div class="hidden-xs col-sm-3">
-                <span class="hidden-xs" style="float:right">
+                <span class="pull-right">
                     <a href="#myModal" role="button" class="btn btn-default" data-toggle="modal">
                     <i class="fa fa-youtube-play"></i>
                     {{ __('field.video.button.preview') }}</a>
@@ -170,4 +167,4 @@
             </div>
         </div>
     </div>
-{% endblock fieldset %}
+{% endblock fieldset_controls %}
