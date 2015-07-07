@@ -42,13 +42,13 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% set fieldset = {
-    templateselect: {
-    }
-}%}
+{% block fieldset_type 'templateselect' %}
 
-{% block fieldset %}
+{% block fieldset_label %}
     <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+{% endblock fieldset_label %}
+
+{% block fieldset_controls %}
     <div class="col-sm-9">
         <select{{ macro.attr(attr_select) }}>
             <option{{ macro.attr(attr_default) }}>{{ __('(default template)') }}</option>
@@ -60,7 +60,7 @@
             {% endfor %}
         </select>
     </div>
-    <div class="col-sm-12">
-        <p class="hidden templatewarning"></p>
+    <div class="hidden col-sm-9 col-sm-offset-3">
+        <p class="form-control-static"></p>
     </div>
-{% endblock fieldset %}
+{% endblock fieldset_controls %}
