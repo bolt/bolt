@@ -1,11 +1,11 @@
 <?php
-namespace Bolt\Tests\Storage;
+namespace Bolt\Tests\Storage\Query;
 
 use Bolt\Tests\BoltUnitTest;
-use Bolt\Storage\ContentQueryParser;
+use Bolt\Storage\Query\ContentQueryParser;
 
 /**
- * Class to test src/Storage/Prefill.
+ * Class to test src/Storage/Query/ContentQueryParser.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */

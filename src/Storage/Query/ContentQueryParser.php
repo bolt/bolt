@@ -1,11 +1,14 @@
 <?php 
-namespace Bolt\Storage;
+namespace Bolt\Storage\Query;
 
 use Bolt\Storage\EntityManager;
 
 
 /**
+*  Handler class to convert the DSL for content queries into an
+*  object representation.
 * 
+*  @author Ross Riley <riley.ross@gmail.com>
 */
 class ContentQueryParser
 {
@@ -26,12 +29,14 @@ class ContentQueryParser
     protected $selectType = 'all';
     
     protected $limit;
-    
-    protected $directives = [];
-    
+        
     protected $sqlParams = [];
     
     protected $operations = ['search', 'latest', 'first'];
+    
+    protected $getquery;
+    
+    protected $printquery;
     
     public function __construct(EntityManager $em, $query, array $params = [])
     {
@@ -44,6 +49,7 @@ class ContentQueryParser
     {
         $this->parseContent();
         $this->operation = $this->parseOperation();
+        $this->parseDirectives();
     }
     
     /**
@@ -87,6 +93,23 @@ class ContentQueryParser
         
         return $operation;
         
+    }
+    
+    protected function parseDirectives()
+    {
+        foreach ($this->params as $key => $value) {
+            if ($key == 'printquery') {
+                $this->printquery = true;
+            }
+            
+            if ($key == 'getquery') {
+                $this->getquery = $value;
+            }
+            
+            if ($key == 'returnsingle') {
+                $this->limit = 1;
+            }
+        }
     }
     
     public function getContentTypes()
