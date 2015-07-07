@@ -10,11 +10,6 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set templateselectdata = {
-    'message': {
-        'change':       __('This template adds new fields. Save, then refresh to see these changes.'),
-        'warningChange':  __('You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.'),
-        'warning':    __('Warning')
-    },
     'currentHas':       context.has.templatefields,
     'current':          context.content.get(contentkey),
     'fieldTemplates':   context.fieldtemplates
