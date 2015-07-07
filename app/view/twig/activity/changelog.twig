@@ -29,19 +29,20 @@
                     <tr>
                         <th></th>
                         <th>Type</th>
-                        <th>Contenttype</th>
-                        <th>Title</th>
-                        <th>Fields</th>
-                        <th>Comment</th>
-                        <th>User</th>
-                        <th>Date</th>
+                        <th class="col-sm-1">ContentType</th>
+                        <th>ID</th>
+                        <th class="col-sm-2">Title</th>
+                        <th class="col-sm-3">Changed Fields</th>
+                        <th class="col-sm-3">Editor's Comment</th>
+                        <th class="col-sm-1">User</th>
+                        <th class="col-sm-1">Date</th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for entry in context.entries %}
                     <tr>
                         <td>
-                            № {{ entry.id }}
+                            <a href="{{ path('changelogrecordsingle', {'contenttype': entry.contenttype, 'contentid': entry.contentid, 'id': entry.id}) }}">№ {{ entry.id }}</a>
                         </td>
                         <td>
                             {{ entry.mutation_type|title }}
@@ -50,7 +51,10 @@
                             {{ entry.contenttype }}
                         </td>
                         <td>
-                            [{{ entry.contentid }}] {{ entry.title }}
+                            {{ entry.contentid }}
+                        </td>
+                        <td>
+                            <a href="{{ path('editcontent', {'contenttypeslug': entry.contenttype, 'id': entry.contentid}) }}">{{ entry.title }}</a>
                         </td>
                         <td>
                             {{ entry.diff|keys|join(', ') }}
@@ -59,16 +63,10 @@
                             {{ entry.comment|default('') }}
                         </td>
                         <td>
-                            {% set user = getuser(entry.ownerid) %}
-                            {% if user is not empty %}
-                                {% set userlink = macro.userlink(user) %}
-                            {% else %}
-                                {% set userlink = __('panel.latest-activity.unknown') %}
-                            {% endif %}
-                            <em>{{ userlink }}</em>
+                            <em>{{ macro.userlink(entry.ownerid) }}</em>
                         </td>
                         <td>
-                            <time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date }}">{{ entry.date }}</time>
+                            <time class="moment" datetime="{{ entry.date|date("c") }}" title="{{ entry.date|date("c") }}">{{ entry.date|date("c") }}</time>
                         </td>
                     </tr>
                 {% endfor %}

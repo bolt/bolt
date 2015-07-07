@@ -12,11 +12,24 @@ use Symfony\Component\HttpFoundation\Request;
  **/
 class LogTest extends ControllerUnitTest
 {
+    public function setUp()
+    {
+        $this->resetDb();
+        $this->addSomeContent();
+
+        $content = $this->getService('storage')->getContentObject('pages');
+        $content['contentid'] = 1;
+        $this->getService('storage')->saveContent($content, 'pages');
+    }
+
     public function testChangeOverview()
     {
         $this->allowLogin($this->getApp());
 
-        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp()]);
+        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
+        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp(), $changeRepository, $systemRepository]);
+
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));
@@ -55,7 +68,7 @@ class LogTest extends ControllerUnitTest
         //                               changeRecord($request, $contenttype, $contentid, $id)
 
         $context = $response->getContext();
-        $this->assertInstanceOf('Bolt\Logger\ChangeLogItem', $context['context']['entry']);
+        $this->assertInstanceOf('Bolt\Storage\Entity\LogChange', $context['context']['entry']);
 
         // Test non-existing entry
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'exist');
@@ -73,7 +86,8 @@ class LogTest extends ControllerUnitTest
         $response = $this->controller()->changeRecordListing($this->getRequest(), 'pages', null);
 
         $context = $response->getContext();
-        $this->assertEquals(0, count($context['context']['entries']));
+
+        $this->assertFalse($context['context']['entries']);
         $this->assertNull($context['context']['content']);
         $this->assertEquals('Pages', $context['context']['title']);
         $this->assertEquals('pages', $context['context']['contenttype']['slug']);
@@ -146,7 +160,9 @@ class LogTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
 
-        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp()]);
+        $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogSystem');
+        $log = $this->getMock('Bolt\Logger\Manager', ['clear', 'trim'], [$this->getApp(), $changeRepository, $systemRepository]);
         $log->expects($this->once())
             ->method('clear')
             ->will($this->returnValue(true));

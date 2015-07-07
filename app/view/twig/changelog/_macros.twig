@@ -28,9 +28,9 @@
     {% set preview_h = 150 %}
 
     <h3>
-        "{{ entry.title }}"
-        {{ _self.changelog_mutation(entry.mutation_type) }}
-        {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
+        "<a href="{{ path('editcontent', {'contenttypeslug': entry.contenttype, 'id': entry.contentid}) }}">{{ entry.title }}</a>"
+        <em><span class="time">{{ _self.changelog_mutation(entry.mutation_type) }} {{ macro.datetime(entry.date|date("c")) }}</span>
+        {{ __('component.changelog-detail.by') }}</em> <strong>{{ macro.userlink(entry.ownerid|default('')) }}</strong>
     </h3>
 
     <div class="changelog-details">
@@ -39,16 +39,11 @@
         </div>
 
         <div class="body">
-            <div class="time">
-                <p>
-                    <span>{{ _self.changelog_mutation(entry.mutation_type) }} {{ macro.datetime(entry.date) }}</span>
-                    {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
-                </p>
+            <p>
                 {% if ischangelogenabled() %}
                     {% if entry.comment %}<h4><strong>Comment</strong>: {{ entry.comment }}</h4>{% endif %}
                 {% endif %}
-            </div>
-
+            </p>
 
             <table class="table table-bordered table-condensed table-changelog-details">
                 <thead>

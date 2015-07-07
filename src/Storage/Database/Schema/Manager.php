@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Database\Schema;
 
 use Bolt\Application;
+use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Bolt\Storage\Database\Schema\Table\ContentType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
@@ -140,41 +141,13 @@ class Manager
     public function checkTablesIntegrity($hinting = false)
     {
         $response = new CheckResponse($hinting);
-        $comparator = new Comparator();
-        $currentTables = $this->getTableObjects();
         $tables = $this->getTablesSchema();
         $valid = true;
 
         /** @var $table Table */
         foreach ($tables as $table) {
-            $tableName = $table->getName();
-
-            // Create the users table.
-            if (!isset($currentTables[$tableName])) {
-                $response->addTitle($tableName, sprintf('Table `%s` is not present.', $tableName));
-            } else {
-                $diff = $comparator->diffTable($currentTables[$tableName], $table);
-                
-                if ($diff) {
-                    $diff = $this->cleanupTableDiff($diff);
-                }
-                              
-                if ($diff && $details = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
-                    $response->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
-                    $response->checkDiff($tableName, $this->cleanupTableDiff($diff));
-
-                    // For debugging we keep the diffs
-                    $response->addDiffDetail($details);
-                }
-            }
-
-            // If a table still has messages, we want to unset the valid state
-            $valid = !$response->hasResponses();
-
-            // If we are using the debug logger, log the diffs
-            foreach ($response->getDiffDetails() as $diff) {
-                $this->app['logger.system']->debug('Database update required', $diff);
-            }
+            // Set the valid flag via bitwise
+            $valid = $valid & $this->checkTableIntegrity($table, $response);
         }
 
         // If there were no messages, update the timer, so we don't check it again.
@@ -184,6 +157,60 @@ class Manager
         }
 
         return $response;
+    }
+
+    /**
+     * Check that a single table's columns and indices are present in the DB.
+     *
+     * @param Table         $table
+     * @param CheckResponse $response
+     *
+     * @return boolean
+     */
+    protected function checkTableIntegrity(Table $table, CheckResponse $response)
+    {
+        $comparator = new Comparator();
+        $currentTables = $this->getTableObjects();
+        $tableName = $table->getName();
+
+        // Create the users table.
+        if (!isset($currentTables[$tableName])) {
+            $response->addTitle($tableName, sprintf('Table `%s` is not present.', $tableName));
+        } else {
+            $diff = $comparator->diffTable($currentTables[$tableName], $table);
+            $this->addResponseDiff($tableName, $diff, $response);
+        }
+
+        // If we are using the debug logger, log the diffs
+        foreach ($response->getDiffDetails() as $diff) {
+            $this->app['logger.system']->debug('Database update required', $diff);
+        }
+
+        // If a table still has messages return a false to flick the validity check
+        return !$response->hasResponses();
+    }
+
+    /**
+     * Add details of the table differences to the response object.
+     *
+     * @param string          $tableName
+     * @param TableDiff|false $diff
+     * @param CheckResponse   $response
+     */
+    protected function addResponseDiff($tableName, $diff, CheckResponse $response)
+    {
+        if ($diff === false) {
+            return;
+        }
+
+        $diff = $this->cleanupTableDiff($diff);
+        if ($details = $this->app['db']->getDatabasePlatform()->getAlterTableSQL($diff)) {
+            $response->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
+            $response->checkDiff($tableName, $diff);
+
+            // For debugging we keep the diffs
+            $response->addDiffDetail($details);
+        }
     }
 
     /**
@@ -280,23 +307,39 @@ class Manager
                 }
             }
         }
-        
-        // Woraround for the roles table in bolt_users on SQLite
-        // If only the type has changed, we ignore to prevent multiple schema warnings.
-        if ($diff->fromTable->getName() === $this->getTablename('users')) {
-            if (isset($diff->changedColumns['roles'])) {
-                if ($diff->changedColumns['roles']->changedProperties === ['type']) {
-                    unset($diff->changedColumns['roles']);
-                }
-            }
+
+        // Some diff changes can be ignored… Because… DBAL.
+        $alias = $this->getTableAlias($diff->fromTable->getName());
+        if ($ignored = $this->app['schema.tables'][$alias]->ignoredChanges()) {
+            $this->removeIgnoredChanges($this->app['schema.tables'][$alias], $diff, $ignored);
         }
 
+        // Don't remove fields from contenttype tables to prevent accidental data removal
         if (!in_array($diff->fromTable->getName(), $baseTables)) {
-            // we don't remove fields from contenttype tables to prevent accidental data removal
             $diff->removedColumns = [];
         }
 
         return $diff;
+    }
+
+    /**
+     * Woraround for the json_array types on SQLite. If only the type has
+     * changed, we ignore to prevent multiple schema warnings.
+     *
+     * @param BaseTable $boltTable
+     * @param TableDiff $diff
+     * @param array     $ignored
+     */
+    protected function removeIgnoredChanges(BaseTable $boltTable, TableDiff $diff, array $ignored)
+    {
+        if ($diff->fromTable->getName() !== $boltTable->getTableName()) {
+            return;
+        }
+
+        if (isset($diff->changedColumns[$ignored['column']])
+            && $diff->changedColumns[$ignored['column']]->changedProperties === [$ignored['property']]) {
+            unset($diff->changedColumns[$ignored['column']]);
+        }
     }
 
     /**
@@ -475,7 +518,19 @@ class Manager
     }
 
     /**
-     * Get the tablename prefix
+     * Get the table alias name.
+     *
+     * @param $name
+     *
+     * @return string
+     */
+    protected function getTableAlias($tableName)
+    {
+        return str_replace($this->getTablenamePrefix(), '', $tableName);
+    }
+
+    /**
+     * Get the tablename prefix.
      *
      * @return string
      */

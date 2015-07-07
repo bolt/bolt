@@ -39,7 +39,7 @@
                     {% endif %}
                     {{ title }}
                     {{ changelog_mutation(entry.mutation_type) }}
-                    {{ __('by') }} {{ entry.username }}
+                    {{ __('by') }} <em>{{ macro.userlink(entry.ownerid|default('')) }}</em>
                     <small>({{ macro.datetime(entry.date) }})</small>
                     <small><a href="{{ path('changelogrecordsingle', {'contenttype': context.contenttype.slug, 'contentid': entry.contentid, 'id': entry.id}) }}">view</a></small>
                 </li>

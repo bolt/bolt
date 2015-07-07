@@ -4,7 +4,7 @@ namespace Bolt\Tests\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test src/Storage/Repository/Content
+ * Class to test src/Storage/Repository/AuthtokenRepository
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */

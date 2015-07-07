@@ -20,7 +20,6 @@ class LoggerServiceProviderTest extends BoltUnitTest
         $this->assertInstanceOf('Psr\Log\LoggerInterface', $app['logger.change']);
         $this->assertInstanceOf('Psr\Log\LoggerInterface', $app['logger.firebug']);
         $this->assertInstanceOf('Bolt\Logger\Manager', $app['logger.manager']);
-        $this->assertInstanceOf('Bolt\Logger\Changelog', $app['logger.manager.change']);
 
         $app->boot();
     }

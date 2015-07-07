@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller\Backend;
 
+use Bolt\Pager;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +38,7 @@ class Log extends BackendBase
     /**
      * Change log overview route.
      *
-     * @param Request $request The Symfony Request
+     * @param Request $request
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -57,7 +58,16 @@ class Log extends BackendBase
             return $this->redirectToRoute('changelog');
         }
 
-        $activity = $this->manager()->getActivity('change', 16);
+        // Test/get page number
+        $param = Pager::makeParameterId('activity');
+        $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+
+        $options = [
+            'contenttype' => $request->query->get('contenttype'),
+            'contentid'   => $request->query->get('contentid'),
+            'ownerid'     => $request->query->get('ownerid')
+        ];
+        $activity = $this->manager()->getActivity('change', $page, 16, $options);
 
         return $this->render('activity/changelog.twig', ['entries' => $activity]);
     }
@@ -65,23 +75,23 @@ class Log extends BackendBase
     /**
      * Show a single change log entry.
      *
-     * @param Request $request     The Symfony Request
-     * @param string  $contenttype The content type slug
-     * @param integer $contentid   The content ID
-     * @param integer $id          The changelog entry ID
+     * @param Request $request
+     * @param string  $contenttype ContentType slug
+     * @param integer $contentid   Content record ID
+     * @param integer $id          The change log entry ID
      *
      * @return \Bolt\Response\BoltResponse
      */
     public function changeRecord(Request $request, $contenttype, $contentid, $id)
     {
-        $entry = $this->changeLog()->getChangelogEntry($contenttype, $contentid, $id);
+        $entry = $this->changeLogRepository()->getChangeLogEntry($contenttype, $contentid, $id, '=');
         if (empty($entry)) {
             $error = Trans::__("The requested changelog entry doesn't exist.");
 
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
-        $prev = $this->changeLog()->getPrevChangelogEntry($contenttype, $contentid, $id);
-        $next = $this->changeLog()->getNextChangelogEntry($contenttype, $contentid, $id);
+        $prev = $this->changeLogRepository()->getChangeLogEntry($contenttype, $contentid, $id, '<');
+        $next = $this->changeLogRepository()->getChangeLogEntry($contenttype, $contentid, $id, '>');
 
         $context = [
             'contenttype' => ['slug' => $contenttype],
@@ -90,15 +100,15 @@ class Log extends BackendBase
             'prev_entry'  => $prev
         ];
 
-        return $this->render('changelog/changelogrecordsingle.twig', $context);
+        return $this->render('changelog/changelog_record_single.twig', $context);
     }
 
     /**
      * Show a list of changelog entries.
      *
-     * @param Request $request     The Symfony Request
-     * @param string  $contenttype The content type slug
-     * @param integer $contentid   The content ID
+     * @param Request $request
+     * @param string  $contenttype ContentType slug
+     * @param integer $contentid   Content record ID
      *
      * @return \Bolt\Response\BoltResponse
      */
@@ -110,15 +120,37 @@ class Log extends BackendBase
         // - neither given: get all changelog entries
 
         $page = $request->get('page');
-        $context = $this->getChangeRecordListing($contenttype, $contentid, $page);
+        $pagination = $this->getPagination($page);
+        $queryOptions = $this->getQueryOptions($pagination);
 
-        return $this->render('changelog/changelogrecordall.twig', $context);
+        if (empty($contenttype)) {
+            // Case 1: No content type given, show from *all* items. This is easy:
+            $data = [
+                'title'   => Trans::__('All content types'),
+                'entries' => $this->changeLogRepository()->getChangeLog($queryOptions),
+                'count'   => $this->changeLogRepository()->countChangeLog(),
+            ];
+        } else {
+            $contenttype = $this->getContentType($contenttype);
+            $data = $this->manager()->getListingData($contenttype, $contentid, $queryOptions);
+        }
+
+        $context = [
+            'contenttype' => $contenttype,
+            'entries'     => $data['entries'],
+            'content'     => $data['content'],
+            'title'       => $data['title'],
+            'currentpage' => $pagination['page'],
+            'pagecount'   => $pagination['limit'] ? ceil($data['count'] / $pagination['limit']) : null
+        ];
+
+        return $this->render('changelog/changelog_record_all.twig', $context);
     }
 
     /**
      * System log overview route
      *
-     * @param Request $request The Symfony Request
+     * @param Request $request
      *
      * @return \Bolt\Response\BoltResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -138,20 +170,17 @@ class Log extends BackendBase
             return $this->redirectToRoute('systemlog');
         }
 
-        $level = $request->query->get('level');
-        $context = $request->query->get('context');
+        // Test/get page number
+        $param = Pager::makeParameterId('activity');
+        $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+        $options = [
+            'level' => $request->query->get('level'),
+            'context' => $request->query->get('context')
+        ];
 
-        $activity = $this->manager()->getActivity('system', 16, $level, $context);
+        $activity = $this->manager()->getActivity('system', $page, 16, $options);
 
         return $this->render('activity/systemlog.twig', ['entries' => $activity]);
-    }
-
-    /**
-     * @return \Bolt\Logger\ChangeLog
-     */
-    protected function changeLog()
-    {
-        return $this->app['logger.manager.change'];
     }
 
     /**
@@ -163,39 +192,19 @@ class Log extends BackendBase
     }
 
     /**
-     * Get the listing to pass to the renderer.
-     *
-     * @param string              $contenttype The content type slug
-     * @param integer             $contentid   The content ID
-     * @param integer|string|null $page        The page number
+     * @return \Bolt\Storage\Repository\LogChange
      */
-    private function getChangeRecordListing($contenttype, $contentid, $page)
+    protected function changeLogRepository()
     {
-        $pagination = $this->getPagination($page);
-        $queryOptions = $this->getQueryOptions($pagination);
+        return $this->storage()->getRepository('Bolt\Storage\Entity\LogChange');
+    }
 
-        // Now here things diverge.
-        if (empty($contenttype)) {
-            // Case 1: No content type given, show from *all* items. This is easy:
-            $data = [
-                'title'   => Trans::__('All content types'),
-                'entries' => $this->changeLog()->getChangelog($queryOptions),
-                'count'   => $this->changeLog()->countChangelog(),
-            ];
-        } else {
-            $data = $this->getListingData($contenttype, $contentid, $queryOptions);
-        }
-
-        $context = [
-            'contenttype' => ['slug' => $contenttype],
-            'entries'     => $data['entries'],
-            'content'     => $data['content'],
-            'title'       => $data['title'],
-            'currentpage' => $pagination['page'],
-            'pagecount'   => $pagination['limit'] ? ceil($data['count'] / $pagination['limit']) : null
-        ];
-
-        return $context;
+    /**
+     * @return \Bolt\Storage\Repository\LogSystem
+     */
+    protected function systemLogRepository()
+    {
+        return $this->storage()->getRepository('Bolt\Storage\Entity\LogSystem');
     }
 
     /**
@@ -245,56 +254,5 @@ class Log extends BackendBase
         }
 
         return $options;
-    }
-
-    /**
-     * Get the listing data such as title and count.
-     *
-     * @param string  $contenttype  The content type slug
-     * @param integer $contentid    The content ID
-     * @param array   $queryOptions
-     *
-     * @return array
-     */
-    private function getListingData($contenttype, $contentid, array $queryOptions)
-    {
-        // We have a content type, and possibly a contentid.
-        $content = null;
-        $contenttypeObj = $this->getContentType($contenttype);
-        if ($contentid) {
-            $content = $this->getContent($contenttype, ['id' => $contentid, 'hydrate' => false]);
-            $queryOptions['contentid'] = $contentid;
-        }
-
-        // Getting a slice of data and the total count
-        $logEntries = $this->changeLog()->getChangelogByContentType($contenttype, $queryOptions);
-        $itemcount = $this->changeLog()->countChangelogByContentType($contenttype, $queryOptions);
-
-        // The page title we're sending to the template depends on a few things:
-        // If no contentid is given, we'll use the plural form of the content
-        // type; otherwise, we'll derive it from the changelog or content item
-        // itself.
-        if ($contentid) {
-            if ($content) {
-                // content item is available: get the current title
-                $title = $content->getTitle();
-            } else {
-                // content item does not exist (anymore).
-                if (empty($logEntries)) {
-                    // No item, no entries - phew. Content type name and ID
-                    // will have to do.
-                    $title = $contenttypeObj['singular_name'] . ' #' . $contentid;
-                } else {
-                    // No item, but we can use the most recent title.
-                    $title = $logEntries[0]['title'];
-                }
-            }
-        } else {
-            // We're displaying all changes for the entire content type,
-            // so the plural name is most appropriate.
-            $title = $contenttypeObj['name'];
-        }
-
-        return ['content' => $content, 'title' => $title, 'entries' => $logEntries, 'count' => $itemcount];
     }
 }

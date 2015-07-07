@@ -3,6 +3,7 @@
 namespace Bolt\Logger;
 
 use Bolt\Pager;
+use Bolt\Storage\Repository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
@@ -16,21 +17,23 @@ class Manager
 {
     /** @var Application */
     private $app;
-    /** @var string */
-    private $table_change;
-    /** @var string */
-    private $table_system;
+    /** @var \Bolt\Storage\Repository\LogChangeRepository */
+    private $changeRepository;
+    /** @var \Bolt\Storage\Repository\LogSystemRepository */
+    private $systemRepository;
 
     /**
+     * Constructor.
+     *
      * @param Application $app
+     * @param Repository\LogChange $changeRepository
+     * @param Repository\LogSystem $systemRepository
      */
-    public function __construct(Application $app)
+    public function __construct(Application $app, Repository\LogChangeRepository $changeRepository, Repository\LogSystemRepository $systemRepository)
     {
         $this->app = $app;
-
-        $prefix = $app['config']->get('general/database/prefix', "bolt_");
-        $this->table_change = sprintf("%s%s", $prefix, 'log_change');
-        $this->table_system = sprintf("%s%s", $prefix, 'log_system');
+        $this->changeRepository = $changeRepository;
+        $this->systemRepository = $systemRepository;
     }
 
     /**
@@ -38,25 +41,18 @@ class Manager
      *
      * @param string $log
      *
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      */
     public function trim($log)
     {
-        if ($log == 'system') {
-            $table = $this->table_system;
-        } elseif ($log == 'change') {
-            $table = $this->table_change;
+        $period = new \DateTime('-7 day');
+        if ($log === 'change') {
+            $this->changeRepository->trimLog($period);
+        } elseif ($log === 'system') {
+            $this->systemRepository->trimLog($period);
         } else {
-            throw new \Exception("Invalid log type requested: $log");
+            throw new \UnexpectedValueException("Invalid log type requested: $log");
         }
-
-        /** @var \Doctrine\DBAL\Query\QueryBuilder $query */
-        $query = $this->app['db']->createQueryBuilder()
-                                 ->delete($table)
-                                 ->where('date < :date')
-                                 ->setParameter(':date', date('Y-m-d H:i:s', strtotime('-7 day')));
-
-        $query->execute();
     }
 
     /**
@@ -64,150 +60,108 @@ class Manager
      *
      * @param string $log
      *
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      */
     public function clear($log)
     {
-        if ($log == 'system') {
-            $table = $this->table_system;
-        } elseif ($log == 'change') {
-            $table = $this->table_change;
+        if ($log === 'change') {
+            $this->changeRepository->clearLog();
+        } elseif ($log === 'system') {
+            $this->systemRepository->clearLog();
         } else {
-            throw new \Exception("Invalid log type requested: $log");
+            throw new \UnexpectedValueException("Invalid log type requested: $log");
         }
 
-        // Get the platform specific truncate SQL
-        $query = $this->app['db']->getDatabasePlatform()->getTruncateTableSql($table);
-
-        $this->app['db']->executeQuery($query);
+        $this->app['logger.system']->info(ucfirst($log) . ' log cleared.', ['event' => 'security']);
     }
 
     /**
      * Get a specific activity log.
      *
      * @param string  $log     The log to query.  Either 'change' or 'system'
+     * @param integer $page
      * @param integer $amount  Number of results to return
-     * @param integer $level
-     * @param string  $context
+     * @param array   $options
      *
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      *
      * @return array
      */
-    public function getActivity($log, $amount = 10, $level = null, $context = null)
+    public function getActivity($log, $page = 1, $amount = 10, $options = [])
     {
-        if ($log == 'system') {
-            $table = $this->table_system;
-        } elseif ($log == 'change') {
-            $table = $this->table_change;
-        } else {
-            throw new \Exception("Invalid log type requested: $log");
-        }
-
-        try {
-            /** @var $reqquery \Symfony\Component\HttpFoundation\ParameterBag */
-            $reqquery = $this->app['request']->query;
-
-            // Test/get page number
-            $param = Pager::makeParameterId('activity');
-            $page = ($reqquery) ? $reqquery->get($param, $reqquery->get('page', 1)) : 1;
-
-            // Build the base query
-            $query = $this->app['db']->createQueryBuilder()
-                          ->select('*')
-                          ->from($table)
-                          ->orderBy('id', 'DESC')
-                          ->setMaxResults(intval($amount))
-                          ->setFirstResult(intval(($page - 1) * $amount));
-
-            // Set up optional WHERE clause(s)
-            $query = $this->setWhere($query, $level, $context);
-
-            // Get the rows from the database
-            $rows = $query->execute()->fetchAll();
-
-            // Find out how many entries we're paging form
-            $query = $this->app['db']->createQueryBuilder()
-                          ->select('COUNT(id) as count')
-                          ->from($table);
-
-            // Set up optional WHERE clause(s)
-            $query = $this->setWhere($query, $level, $context);
-
-            $rowcount = $query->execute()->fetch();
-
-            // Set up the pager
-            $pager = [
-                    'for'          => 'activity',
-                    'count'        => $rowcount['count'],
-                    'totalpages'   => ceil($rowcount['count'] / $amount),
-                    'current'      => $page,
-                    'showing_from' => ($page - 1) * $amount + 1,
-                    'showing_to'   => ($page - 1) * $amount + count($rows)
-            ];
-
-            $this->app['storage']->setPager('activity', $pager);
-        } catch (DBALException $e) {
-            // Oops. User will get a warning on the dashboard about tables that need to be repaired.
-            $rows = [];
-        }
-
         if ($log == 'change') {
-            return $this->decodeChangeLog($rows);
+            $rows = $this->changeRepository->getActivity($page, $amount, $options);
+            $rowcount = $this->changeRepository->getActivityCount($options);
+        } elseif ($log == 'system') {
+            $rows = $this->systemRepository->getActivity($page, $amount, $options);
+            $rowcount = $this->systemRepository->getActivityCount($options);
+        } else {
+            throw new \UnexpectedValueException("Invalid log type requested: $log");
         }
+
+        // Set up the pager
+        $pager = [
+            'for'          => 'activity',
+            'count'        => $rowcount,
+            'totalpages'   => ceil($rowcount / $amount),
+            'current'      => $page,
+            'showing_from' => ($page - 1) * $amount + 1,
+            'showing_to'   => ($page - 1) * $amount + count($rows)
+        ];
+
+        $this->app['storage']->setPager('activity', $pager);
 
         return $rows;
     }
 
     /**
-     * Set any required WHERE clause on a QueryBuilder.
+     * Get the listing data such as title and count.
      *
-     * @param QueryBuilder $query
-     * @param integer      $level
-     * @param string       $context
-     *
-     * @return QueryBuilder
-     */
-    private function setWhere(QueryBuilder $query, $level = null, $context = null)
-    {
-        if ($level !== null || $context !== null) {
-            $where = $query->expr()->andX();
-
-            if ($level !== null) {
-                $where->add($query->expr()->eq('level', ':level'));
-            }
-
-            if ($context !== null) {
-                $where->add($query->expr()->eq('context', ':context'));
-            }
-            $query
-                ->where($where)
-                ->setParameters([
-                    ':level'   => $level,
-                    ':context' => $context
-                ]);
-        }
-
-        return $query;
-    }
-
-    /**
-     * Decode JSON in change log fields.
-     *
-     * @param array $rows
+     * @param array   $contenttype  The ContentType
+     * @param integer $contentid    The content ID
+     * @param array   $queryOptions
      *
      * @return array
      */
-    private function decodeChangeLog($rows)
+    public function getListingData(array $contenttype, $contentid, array $queryOptions)
     {
-        if (!is_array($rows)) {
-            return $rows;
+        // We have a content type, and possibly a contentid.
+        $content = null;
+
+        if ($contentid) {
+            $content = $this->app['storage']->getContent($contenttype['slug'], ['id' => $contentid, 'hydrate' => false]);
+            $queryOptions['contentid'] = $contentid;
         }
 
-        foreach ($rows as $key => $row) {
-            $rows[$key]['diff'] = json_decode($row['diff'], true);
+        // Getting a slice of data and the total count
+        $logEntries = $this->changeRepository->getChangelogByContentType($contenttype['slug'], $queryOptions);
+        $itemcount = $this->changeRepository->countChangelogByContentType($contenttype['slug'], $queryOptions);
+
+        // The page title we're sending to the template depends on a few things:
+        // If no contentid is given, we'll use the plural form of the content
+        // type; otherwise, we'll derive it from the changelog or content item
+        // itself.
+        if ($contentid) {
+            if ($content) {
+                // content item is available: get the current title
+                $title = $content->getTitle();
+            } else {
+                // content item does not exist (anymore).
+                if (empty($logEntries)) {
+                    // No item, no entries - phew. Content type name and ID
+                    // will have to do.
+                    $title = $contenttype['singular_name'] . ' #' . $contentid;
+                } else {
+                    // No item, but we can use the most recent title.
+                    $title = $logEntries[0]['title'];
+                }
+            }
+        } else {
+            // We're displaying all changes for the entire content type,
+            // so the plural name is most appropriate.
+            $title = $contenttype['name'];
         }
 
-        return $rows;
+        return ['content' => $content, 'title' => $title, 'entries' => $logEntries, 'count' => $itemcount];
     }
 }

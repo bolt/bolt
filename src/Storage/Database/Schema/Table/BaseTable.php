@@ -39,11 +39,41 @@ abstract class BaseTable
     public function buildTable(Schema $schema, $tableName)
     {
         $this->table = $schema->createTable($tableName);
+        $this->tableName = $this->table->getName();
         $this->addColumns();
         $this->addIndexes();
         $this->setPrimaryKey();
 
         return $this->table;
+    }
+
+    /**
+     * Get the table's name.
+     *
+     * @throws \RuntimeException
+     *
+     * @return string
+     */
+    public function getTableName()
+    {
+        if ($this->tableName === null) {
+            throw new \RuntimeException('Table ' . __CLASS__ . ' has not been built yet.');
+        }
+
+        return $this->tableName;
+    }
+
+    /**
+     * A function to return the columns and keys that should be ignored, as DBAL
+     * can't seem to do it properly.
+     *
+     * Returned array format: ['column' => '', 'property' => '']
+     *
+     * @return array|boolean
+     */
+    public function ignoredChanges()
+    {
+        return false;
     }
 
     /**
