@@ -465,7 +465,7 @@ class BackendTest extends BoltUnitTest
 
         // Test that non-existent throws a redirect
         $app['request'] = $request = Request::create('/bolt/editcontent/pages/310');
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'not-existing');
+        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'The Page you were looking for does not exist');
         $response = $controller->editContent('pages', 310, $app, $request);
     }
 
