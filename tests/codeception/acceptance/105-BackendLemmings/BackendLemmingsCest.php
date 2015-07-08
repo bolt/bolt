@@ -67,7 +67,7 @@ class BackendLemmingsCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/file/edit/config/permissions.yml');
+        $I->amOnPage('/bolt/file/edit/config/permissions.yml');
 
         $yaml = $I->getLemmingsPermissions();
 
@@ -80,7 +80,7 @@ class BackendLemmingsCest
         ]);
 
         // Verify we go to the dashboard and end up on the homepage
-        $I->amOnPage('bolt');
+        $I->amOnPage('/bolt');
 
         $I->see('A sample site');
         $I->see('Recent Pages');

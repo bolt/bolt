@@ -61,7 +61,7 @@ class BackendManagerCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/editcontent/pages/1');
+        $I->amOnPage('/bolt/editcontent/pages/1');
 
         $I->see('Woop woop woop!');
         $I->see('Crazy nice stuff inside!');
@@ -85,7 +85,7 @@ class BackendManagerCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/editcontent/pages/2');
+        $I->amOnPage('/bolt/editcontent/pages/2');
 
         $I->see("Easy for editors, and a developer's dream cms");
         $I->see('Quick to set up and easily extendible');
@@ -109,7 +109,7 @@ class BackendManagerCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/editcontent/pages/3');
+        $I->amOnPage('/bolt/editcontent/pages/3');
 
         $I->see('This is the contact text');
 

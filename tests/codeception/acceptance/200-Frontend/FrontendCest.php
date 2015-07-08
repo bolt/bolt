@@ -38,7 +38,7 @@ class FrontendCest
     {
         $I->wantTo('see that the homepage works.');
 
-        $I->amOnPage('');
+        $I->amOnPage('/');
 
         $I->see('A sample site');
         $I->see('Recent Pages');
@@ -59,7 +59,7 @@ class FrontendCest
     {
         $I->wantTo('see that there are no session cookies set.');
 
-        $I->amOnPage('');
+        $I->amOnPage('/');
 
         $I->dontSeeCookie($this->tokenNames['session']);
     }
@@ -73,7 +73,7 @@ class FrontendCest
     {
         $I->wantTo('see that the about page and pagebind route works.');
 
-        $I->amOnPage('about');
+        $I->amOnPage('/about');
 
         $I->see("Easy for editors, and a developer's dream cms", 'h1');
         $I->see('Bolt is an open source Content Management Tool', 'h2');
@@ -89,7 +89,7 @@ class FrontendCest
     {
         $I->wantTo('see that the contact page and templatefields works');
 
-        $I->amOnPage('contact');
+        $I->amOnPage('/contact');
 
         $I->see("This is the contact text");
     }
@@ -103,7 +103,7 @@ class FrontendCest
     {
         $I->wantTo("see that a a viewless contenttype can't be routed to.");
 
-        $I->amOnPage('resources');
+        $I->amOnPage('/resources');
 
         $I->see('Well, this is kind of embarrassing!');
         $I->see('You have what we call in the business, a 404.');
@@ -118,7 +118,7 @@ class FrontendCest
     {
         $I->wantTo('see that a non-existing URL request returns a valid 404 page.');
 
-        $I->amOnPage('derp-a-derp');
+        $I->amOnPage('/derp-a-derp');
 
         $I->see('Well, this is kind of embarrassing!');
         $I->see('You have what we call in the business, a 404.');
@@ -133,10 +133,10 @@ class FrontendCest
     {
         $I->wantTo('see that canonical links are the same on URIs by slug and ID.');
 
-        $I->amOnPage('page/about');
+        $I->amOnPage('/page/about');
         $I->seeElement('link', ['rel' => 'canonical', 'href' => 'http://example.org/about']);
 
-        $I->amOnPage('page/2');
+        $I->amOnPage('/page/2');
         $I->seeElement('link', ['rel' => 'canonical', 'href' => 'http://example.org/about']);
     }
 
@@ -150,11 +150,11 @@ class FrontendCest
     {
         $I->wantTo("see that menus have 'first' and a correct 'active'.");
 
-        $I->amOnPage('');
+        $I->amOnPage('/');
         $I->seeElement('a', ['href' => '/', 'class' => 'first']);
         $I->seeElement('li', ['class' => 'index-1 first active']);
 
-        $I->amOnPage('pages');
+        $I->amOnPage('/pages');
         $I->seeElement('li', ['class' => 'index-3 active']);
     }
 }
