@@ -62,7 +62,7 @@ class BackendEditorCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt');
+        $I->amOnPage('/bolt');
 
         $I->see('View Pages');
         $I->see('New Page');
@@ -96,7 +96,7 @@ class BackendEditorCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt');
+        $I->amOnPage('/bolt');
 
         $I->see('New Page');
 
@@ -128,7 +128,7 @@ class BackendEditorCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/editcontent/pages/1');
+        $I->amOnPage('/bolt/editcontent/pages/1');
 
         $I->seeInField('#title',  'A PAGE I MADE');
         $I->see('Snuck in to teaser during PRE_SAVE on create');
@@ -147,7 +147,7 @@ class BackendEditorCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/editcontent/pages/1');
+        $I->amOnPage('/bolt/editcontent/pages/1');
 
         $I->see('Actions for this Page');
 
@@ -178,7 +178,7 @@ class BackendEditorCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/editcontent/pages/1');
+        $I->amOnPage('/bolt/editcontent/pages/1');
 
         $I->seeInField('#title',  'A Page I Made');
         $I->see('Added to teaser during PRE_SAVE on save');
@@ -197,7 +197,7 @@ class BackendEditorCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/editcontent/entries/');
+        $I->amOnPage('/bolt/editcontent/entries/');
 
         $I->see('You do not have the right privileges');
     }
@@ -214,7 +214,7 @@ class BackendEditorCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt');
+        $I->amOnPage('/bolt');
 
         $I->see('New Page');
         $I->click('New Page');
@@ -247,7 +247,7 @@ class BackendEditorCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt');
+        $I->amOnPage('/bolt');
 
         $I->see('New Page');
         $I->click('New Page');

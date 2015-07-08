@@ -62,7 +62,7 @@ class BackendDeveloperCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/files');
+        $I->amOnPage('/bolt/files');
 
         $file = 'blur-flowers-home-1093.jpg';
         $I->see('Create folder', Locator::find('a', ['href' => '#']));
@@ -88,7 +88,7 @@ class BackendDeveloperCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/files/theme');
+        $I->amOnPage('/bolt/files/theme');
 
         // Inspect the landing page
         $dir  = 'base-2014';
@@ -123,7 +123,7 @@ class BackendDeveloperCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/file/edit/theme/base-2014/_footer.twig');
+        $I->amOnPage('/bolt/file/edit/theme/base-2014/_footer.twig');
 
         // Put _footer.twig into edit mode
         $I->see('<footer class="large-12 columns">', 'textarea');
@@ -140,7 +140,7 @@ class BackendDeveloperCest
             'form[contents]' => $twig
         ]);
 
-        $I->amOnPage('bolt/file/edit/theme/base-2014/_footer.twig');
+        $I->amOnPage('/bolt/file/edit/theme/base-2014/_footer.twig');
         $I->see('Built with Bolt, tested with Codeception', '#form_contents');
     }
 
@@ -156,7 +156,7 @@ class BackendDeveloperCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/tr');
+        $I->amOnPage('/bolt/tr');
 
         // Go into edit mode
         $I->see('contenttypes.general.choose-an-entry', 'textarea');
@@ -173,7 +173,7 @@ class BackendDeveloperCest
             'form[contents]' => $twig
         ]);
 
-        $I->amOnPage('bolt/tr');
+        $I->amOnPage('/bolt/tr');
         $I->see('Built with Bolt, tested with Codeception', '#form_contents');
     }
 
@@ -189,7 +189,7 @@ class BackendDeveloperCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/tr/infos');
+        $I->amOnPage('/bolt/tr/infos');
 
         // Go into edit mode
         $I->see('Use this field to upload a photo or image', 'textarea');
@@ -204,7 +204,7 @@ class BackendDeveloperCest
             'form[contents]' => $twig
         ]);
 
-        $I->amOnPage('bolt/tr/infos');
+        $I->amOnPage('/bolt/tr/infos');
         $I->see('Use this field to upload a photo of a kitten', 'textarea');
     }
 
@@ -220,7 +220,7 @@ class BackendDeveloperCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/tr/contenttypes');
+        $I->amOnPage('/bolt/tr/contenttypes');
 
         // Go into edit mode
         $I->see('contenttypes.entries.text.recent-changes-one', 'textarea');
@@ -236,7 +236,7 @@ class BackendDeveloperCest
             'form[contents]' => $twig
         ]);
 
-        $I->amOnPage('bolt/tr/contenttypes');
+        $I->amOnPage('/bolt/tr/contenttypes');
         $I->see('These are not the Entries you are looking for.', 'textarea');
     }
 
@@ -252,7 +252,7 @@ class BackendDeveloperCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/extend');
+        $I->amOnPage('/bolt/extend');
 
         $I->see('Currently Installed Extensions', 'h2');
         $I->see('Install a new Extension',        'h2');
@@ -273,7 +273,7 @@ class BackendDeveloperCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('bolt/files/config/extensions');
+        $I->amOnPage('/bolt/files/config/extensions');
 
         $I->see('tester-events.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/tester-events.bolt.yml'));
         $I->click('tester-events.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/tester-events.bolt.yml'));
@@ -293,7 +293,7 @@ class BackendDeveloperCest
             'form[_token]'   => $token,
             'form[contents]' => $twig
         ]);
-        $I->amOnPage('bolt/file/edit/config/extensions/tester-events.bolt.yml');
+        $I->amOnPage('/bolt/file/edit/config/extensions/tester-events.bolt.yml');
 
         $I->see("# Let's make this perfectly clear", 'textarea');
         $I->see('theres_no_secrets_this_year: true', 'textarea');
