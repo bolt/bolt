@@ -1,3 +1,5 @@
+{#=== INIT ===========================================================================================================#}
+
 {% set attributes_fieldset = {
     class:            'form-group',
     data_bolt_field:  block('fieldset_type'),
@@ -14,6 +16,8 @@
 {% else %}
     {% set field_label = block('fieldset_label_text') %}
 {% endif %}
+
+{#=== OUTPUT =========================================================================================================#}
 
 <fieldset{{ macro.attr(attributes_fieldset) }}>
     <label{{ macro.attr(attributes_label) }}>{{ field_label }}</label>
