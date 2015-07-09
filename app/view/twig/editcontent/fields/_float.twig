@@ -35,12 +35,13 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% set fieldset = {
-    float: {
-    }
-}%}
+{% block fieldset_type 'float' %}
 
-{% block fieldset %}
+{% block fieldset_label %}
+    <label for="{{ key }}" class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+{% endblock fieldset_label %}
+
+{% block fieldset_controls %}
     {{ data('validation.float', __('Has to be a floating point number!')) }}
 
     {% if option.required %}
@@ -58,8 +59,7 @@
         {{ data('validation.max', __('The value must not be greater than “%MAXVAL%”!')) }}
     {% endif %}
 
-    <label for="{{ key }}" class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
     <div class="col-sm-9">
         <input{{ macro.attr(attr_number) }}>
     </div>
-{% endblock fieldset %}
+{% endblock fieldset_controls %}
