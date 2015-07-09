@@ -36,6 +36,10 @@
                     bolt.fields.slug.init(this, conf);
                     break;
 
+                case 'templateselect':
+                    bolt.fields.templateselect.init(this, conf);
+                    break;
+
                 default:
                     console.log('Unknown field type: ' + type);
             }
