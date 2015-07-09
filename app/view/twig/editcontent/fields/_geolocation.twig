@@ -78,22 +78,26 @@
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '_base/_fieldset.twig' %}
+
 {% from _self import slot %}
 
 {# Default location is Two Kings, for now. #}
-{% set fieldset = {
-    geolocation: {
-        key: key,
-        latitude: geolocation.latitude|default(52.08184),
-        longitude: geolocation.longitude|default(4.292368),
-    }
+{% set fieldset_conf = {
+    key: key,
+    latitude: geolocation.latitude|default(52.08184),
+    longitude: geolocation.longitude|default(4.292368),
 }%}
 
-{% block fieldset %}
-    <label class="control-label col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
+{% block fieldset_type 'geolocation' %}
+
+{% block fieldset_label %}
+    <label class="col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
+{% endblock fieldset_label %}
+
+{% block fieldset_controls %}
     <div class="field-container col-xs-12">
         <div class="field-slot row">
             {{ slot(attributes, key, geolocation) }}
         </div>
     </div>
-{% endblock fieldset %}
+{% endblock fieldset_controls %}
