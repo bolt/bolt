@@ -78,11 +78,11 @@
 {% block fieldset_type 'imagelist' %}
 
 {% block fieldset_label %}
-    <label class="col-sm-12">{{ macro.infopop(labelkey, option.info) }}</label>
+    <label class="col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
 {% endblock fieldset_label %}
 
 {% block fieldset_controls %}
-    <div class="col-sm-12 filelistholder dropzone" id="imagelist-{{ key }}">
+    <div class="col-xs-12 filelistholder dropzone" id="imagelist-{{ key }}">
 
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
