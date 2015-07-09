@@ -9,17 +9,10 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set templateselectdata = {
-    'currentHas':       context.has.templatefields,
-    'current':          context.content.get(contentkey),
-    'fieldTemplates':   context.fieldtemplates
-} %}
-
 {% set attr_select = {
-    class:          option.class,
-    name:           name,
-    id:             key,
-    'data-stats':   templateselectdata|json_encode
+    class:  option.class,
+    name:   name,
+    id:     key
 } %}
 
 {% set attr_default = {
@@ -31,11 +24,15 @@
     value:     '',
 } %}
 
-
-
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '_base/_fieldset.twig' %}
+
+{% set fieldset_conf = {
+    'currentHas':       context.has.templatefields,
+    'current':          context.content.get(contentkey),
+    'fieldTemplates':   context.fieldtemplates
+}%}
 
 {% block fieldset_type 'templateselect' %}
 

@@ -28,18 +28,17 @@
      * @param {FieldConf} fconf
      */
     templateselect.init = function (fieldset, fconf) {
-        var select = $(fieldset).find('select');
-        var warning = $(fieldset).find('p');
-        var config = select.data('stats');
-        var container = warning.parent();
+        var select = $(fieldset).find('select'),
+            warning = $(fieldset).find('p'),
+            container = warning.parent();
 
         // Warn the user of potential template field changes if they change a templateselect field.
         select.change(function() {
             container.addClass('hidden');
             warning.html('').removeClass('text-danger');
 
-            if (select.val() !== config.current) {
-                if (config.currentHas) {
+            if (select.val() !== fconf.current) {
+                if (fconf.currentHas) {
                     warning.html(
                         bolt.data('field.templateselect.template.warning', {
                             '%STATUS%': bolt.data('field.templateselect.message.status'),
@@ -48,7 +47,7 @@
                     ));
                     warning.addClass('text-danger');
                     container.removeClass('hidden');
-                } else if (config.fieldTemplates.indexOf(select.val()) > -1) {
+                } else if (fconf.fieldTemplates.indexOf(select.val()) > -1) {
                     warning.html(bolt.data('field.templateselect.message.change'));
                     container.removeClass('hidden');
                 }
