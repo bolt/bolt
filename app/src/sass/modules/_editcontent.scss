@@ -38,6 +38,19 @@
         padding-bottom: 0;
     }
 
+    /*** Label ***/
+
+    label {
+        font-weight: bold;
+        font-size: 13px;
+        color: lighten(black, 30%);
+    }
+
+    fieldset > label {
+        color: desaturate(lighten($boltblue, 35%), 20);
+        font-size: 15px;
+    }
+
     /*** Input widths ***/
 
     input.large {
@@ -202,11 +215,6 @@
             max-width: 100%;
             border: 1px solid #BBB;
         }
-    }
-
-    /*** Template Select Field ***/
-    .templatewarning {
-        margin-top: 5px;
     }
 
     /*** Input: Datepicker ***/
