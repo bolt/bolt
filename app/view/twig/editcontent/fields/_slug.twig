@@ -19,18 +19,21 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% set fieldset = {
-    slug: {
-        contentId:      context.content.id,
-        isEmpty:        (context.content.get(contentkey) == ''),
-        key:            key,
-        slug:           context.content.contenttype.slug,
-        uses:           option.uses,
-    }
+{% set fieldset_conf = {
+    contentId:  context.content.id,
+    isEmpty:    (context.content.get(contentkey) == ''),
+    key:        key,
+    slug:       context.content.contenttype.slug,
+    uses:       option.uses,
 }%}
 
-{% block fieldset %}
+{% block fieldset_type 'slug' %}
+
+{% block fieldset_label %}
     <label class="col-sm-3 control-label">{{ option.viewless ? __('Unique Alias') : __('field.slug.permalink') }}:</label>
+{% endblock fieldset_label %}
+
+{% block fieldset_controls %}
     <div class="col-sm-9">
         <div class="input-group input-group-sm locked">
             <span class="input-group-addon">/{{ context.content.contenttype.singular_slug }}/<em>{{ context.content.get(contentkey) }}</em></span>
@@ -41,4 +44,4 @@
             </span>
         </div>
     </div>
-{% endblock fieldset %}
+{% endblock fieldset_controls %}
