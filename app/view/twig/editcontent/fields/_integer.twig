@@ -40,9 +40,10 @@
 
 {% block fieldset_type 'integer' %}
 
-{% block fieldset_label %}
-    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-{% endblock fieldset_label %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-sm-3' %}
+{% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
     <div class="col-sm-9">

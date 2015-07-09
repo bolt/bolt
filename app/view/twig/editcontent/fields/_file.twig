@@ -56,12 +56,12 @@
 
 {% block fieldset_type 'file' %}
 
-{% block fieldset_label %}
-    <label class="col-sm-12">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-{% endblock fieldset_label %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
 
 {% block fieldset_controls %}
-    <div class="col-sm-12 dropzone clearfix" id="dropzone-{{ key }}">
+    <div class="col-xs-12 dropzone clearfix" id="dropzone-{{ key }}">
         <input{{ macro.attr(attributes.filepath) }}>
         {% set can_upload = context.can_upload and option.can_upload %}
         {{ macro.upload_buttons('file', key, attributes.upload, option.upload, can_upload) }}

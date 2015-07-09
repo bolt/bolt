@@ -26,7 +26,7 @@
     }
 } %}
 
-{% set class = option.variant == 'inline' ? ['col-sm-3 control-label', 'col-sm-9'] : ['col-xs-12', 'col-xs-12'] %}
+{% set class = option.variant == 'inline' ? ['col-sm-3', 'col-sm-9'] : ['col-xs-12', 'col-xs-12'] %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -34,9 +34,9 @@
 
 {% block fieldset_type 'date' %}
 
-{% block fieldset_label %}
-    <label class="{{ class[0] }}">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-{% endblock fieldset_label %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class class[0] %}
 
 {% block fieldset_controls %}
     <div class="{{ class[1] }}">

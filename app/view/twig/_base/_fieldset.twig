@@ -4,7 +4,14 @@
     data_bolt_fconf:  fieldset_conf|default() is iterable ? fieldset_conf : null
 } %}
 
+{% set attributes_label = {
+    class:  block('fieldset_label_class') ~ (block('fieldset_label_class') == 'col-xs-12' ? '' : ' control-label'),
+    for:    block('fieldset_label_for'),
+} %}
+
 <fieldset{{ macro.attr(attributes_fieldset) }}>
-    {% block fieldset_label %}{% endblock fieldset_label %}
+    <label{{ macro.attr(attributes_label) }}>
+        {{ block('fieldset_label_info') ? macro.infopop(block('fieldset_label_text'), block('fieldset_label_info')) : block('fieldset_label_text') }}
+    </label>
     {% block fieldset_controls %}{% endblock fieldset_controls %}
 </fieldset>

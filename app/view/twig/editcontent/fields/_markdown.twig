@@ -28,9 +28,10 @@
 
 {% block fieldset_type 'markdown' %}
 
-{% block fieldset_label %}
-    <label class="col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
-{% endblock fieldset_label %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
+{% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
     <div class="col-xs-12">

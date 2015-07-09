@@ -39,9 +39,10 @@
 
 {% block fieldset_type 'float' %}
 
-{% block fieldset_label %}
-    <label for="{{ key }}" class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-{% endblock fieldset_label %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-sm-3' %}
+{% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
     {{ data('validation.float', __('Has to be a floating point number!')) }}

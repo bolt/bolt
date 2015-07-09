@@ -92,9 +92,9 @@
 
 {% block fieldset_type 'video' %}
 
-{% block fieldset_label %}
-    <label class="col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
-{% endblock fieldset_label %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
 
 {% block fieldset_controls %}
     <div class="col-sm-8">

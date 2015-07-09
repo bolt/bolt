@@ -25,11 +25,10 @@
 
 {% block fieldset_type 'checkbox' %}
 
-{% block fieldset_label %}
-    <label class="col-md-3 control-label" for="{{ key }}">
-        {{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}
-    </label>
-{% endblock fieldset_label %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-md-3' %}
+{% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
     <div class="col-md-9">
