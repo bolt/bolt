@@ -6,9 +6,8 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
- * @param {Object} _ - Underscore.
  */
-(function (bolt, $, _) {
+(function (bolt, $) {
 
     /**
      * Bolt.fields.templateselect mixin container.
@@ -49,7 +48,7 @@
                     ));
                     warning.addClass('text-danger');
                     container.removeClass('hidden');
-                } else if (_.contains(config.fieldTemplates, select.val())) {
+                } else if (config.fieldTemplates.indexOf(select.val()) > -1) {
                     warning.html(bolt.data('field.templateselect.message.change'));
                     container.removeClass('hidden');
                 }
@@ -60,4 +59,4 @@
     // Apply mixin container
     bolt.fields.templateselect = templateselect;
 
-})(Bolt || {}, jQuery, _);
+})(Bolt || {}, jQuery);
