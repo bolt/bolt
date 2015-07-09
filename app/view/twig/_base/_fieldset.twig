@@ -20,6 +20,7 @@
 {#=== OUTPUT =========================================================================================================#}
 
 <fieldset{{ macro.attr(attributes_fieldset) }}>
+    <legend class="sr-only">{% block fieldset_label_text %}{% endblock fieldset_label_text %}</legend>
     <label{{ macro.attr(attributes_label) }}>{{ field_label }}</label>
     {% block fieldset_controls %}{% endblock fieldset_controls %}
 </fieldset>
