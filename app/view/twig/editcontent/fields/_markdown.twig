@@ -24,14 +24,14 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% set fieldset = {
-    markdown: {
-    }
-}%}
+{% block fieldset_type 'markdown' %}
 
-{% block fieldset %}
-    <div class="col-sm-12">
-        <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
+{% block fieldset_label %}
+    <label class="col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
+{% endblock fieldset_label %}
+
+{% block fieldset_controls %}
+    <div class="col-xs-12">
         <textarea{{ macro.attr(attr_text) }} data-uk-htmleditor="{ markdown: true, height: '{{option.height}}'}">{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
-{% endblock fieldset %}
+{% endblock fieldset_controls %}
