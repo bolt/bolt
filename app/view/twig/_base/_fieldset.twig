@@ -9,9 +9,13 @@
     for:    block('fieldset_label_for'),
 } %}
 
+{% if block('fieldset_label_info') %}
+    {% set field_label = macro.infopop(block('fieldset_label_text'), block('fieldset_label_info')) %}
+{% else %}
+    {% set field_label = block('fieldset_label_text') %}
+{% endif %}
+
 <fieldset{{ macro.attr(attributes_fieldset) }}>
-    <label{{ macro.attr(attributes_label) }}>
-        {{ block('fieldset_label_info') ? macro.infopop(block('fieldset_label_text'), block('fieldset_label_info')) : block('fieldset_label_text') }}
-    </label>
+    <label{{ macro.attr(attributes_label) }}>{{ field_label }}</label>
     {% block fieldset_controls %}{% endblock fieldset_controls %}
 </fieldset>
