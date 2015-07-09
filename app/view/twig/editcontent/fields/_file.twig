@@ -52,14 +52,13 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% set fieldset = {
-    file: {
-    }
-}%}
+{% block fieldset_type 'file' %}
 
-{% block fieldset %}
-    <label class="col-sm-12 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+{% block fieldset_label %}
+    <label class="col-sm-12">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+{% endblock fieldset_label %}
 
+{% block fieldset_controls %}
     <div class="col-sm-12 dropzone clearfix" id="dropzone-{{ key }}">
         <input{{ macro.attr(attr_filepath) }}>
         {% set can_upload = context.can_upload and option.can_upload %}
@@ -73,4 +72,4 @@
             </div>
         {% endif %}
     </div>
-{% endblock fieldset %}
+{% endblock fieldset_controls %}
