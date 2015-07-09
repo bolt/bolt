@@ -98,14 +98,13 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% set fieldset = {
-    image: {
-    }
-}%}
+{% block fieldset_type 'image' %}
 
-{% block fieldset %}
-    <label class="col-xs-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
+{% block fieldset_label %}
+    <label class="col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
+{% endblock fieldset_label %}
 
+{% block fieldset_controls %}
     <div class="col-xs-12 dropzone" id="dropzone-{{ key }}">
         <div class="row">
             <div class="col-xs-8">
@@ -137,4 +136,4 @@
             </div>
         </div>
     </div>
-{% endblock fieldset %}
+{% endblock fieldset_controls %}
