@@ -13,14 +13,16 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_datetime = {
-    id:         key,
-    name:       name,
-    value:      (context.content.get(contentkey) != null) ? context.content.get(contentkey)|date('Y-m-d H:i:s') : option.default,
-    required:   option.required,
-    class:      option.class,
-    errortext:  option.errortext,
-    options:    option.options,
+{% set attributes = {
+    datetime: {
+        class:      option.class,
+        errortext:  option.errortext,
+        id:         key,
+        name:       name,
+        options:    option.options,
+        required:   option.required,
+        value:      (context.content.get(contentkey) != null) ? context.content.get(contentkey)|date('Y-m-d H:i:s') : option.default,
+    }
 } %}
 
 {% set class = option.variant == 'inline' ? ['col-sm-3 control-label', 'col-sm-9'] : ['col-xs-12', 'col-xs-12'] %}
@@ -37,6 +39,6 @@
 
 {% block fieldset_controls %}
     <div class="{{ class[1] }}">
-        {{ macro.input_datetime(attr_datetime) }}
+        {{ macro.input_datetime(attributes.datetime) }}
     </div>
 {% endblock fieldset_controls %}

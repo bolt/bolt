@@ -18,6 +18,7 @@
         placeholder: __('field.geolocation.placeholder.address') ~ ' …',
         type:        'text',
     },
+
     latitude: {
         class:       'form-control latitude',
         name:        name ~ '[latitude]',
@@ -25,19 +26,21 @@
         step:        'any',
         type:        'number',
     },
+
     longitude: {
         class:       'form-control longitude',
         name:        name ~ '[longitude]',
         readonly:    true,
-        type:        'number',
         step:        'any',
+        type:        'number',
     },
+
     formatted: {
         class:      'matched',
         name:        name ~ '[_address]',
+        placeholder: '—',
         readonly:    true,
         type:        'text',
-        placeholder: '—',
     }
 } %}
 

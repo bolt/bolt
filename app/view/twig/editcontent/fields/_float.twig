@@ -18,17 +18,19 @@
 
 {% set validation = {float: null} %}
 
-{% set attr_number = {
-    class:          option.class ~ ' narrow',
-    name:           name,
-    id:             key,
-    placeholder:    option.placeholder,
-    readonly:       option.readonly,
-    title:          option.title,
-    type:           'text',
-    value:          0 + context.content.get(contentkey),
-    data_errortext: option.errortext,
-    data_validate:  validation|json_encode,
+{% set attributes = {
+    number: {
+        class:           option.class ~ ' narrow',
+        data_errortext:  option.errortext,
+        data_validate:   validation|json_encode,
+        id:              key,
+        name:            name,
+        placeholder:     option.placeholder,
+        readonly:        option.readonly,
+        title:           option.title,
+        type:            'text',
+        value:           0 + context.content.get(contentkey),
+    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -60,6 +62,6 @@
     {% endif %}
 
     <div class="col-sm-9">
-        <input{{ macro.attr(attr_number) }}>
+        <input{{ macro.attr(attributes.number) }}>
     </div>
 {% endblock fieldset_controls %}

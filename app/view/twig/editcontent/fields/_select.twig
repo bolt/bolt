@@ -38,18 +38,16 @@
     {% set onlyids = false %}
 {% endif %}
 
-{% set attr_select = {
-    class:     option.class,
-    id:        key,
-    multiple:  option.multiple,
-    name:      (option.multiple) ? name ~ '[]' : name,
-} %}
-
 {# If the field has autocomplete, we need to set our own style, and remove the class attribute. #}
-{% if field.autocomplete|default(false) %}
-    {% set attr_select = attr_select|merge({'class': ''}) %}
-    {% set attr_select = attr_select|merge({'style': 'width: 100%;'}) %}
-{% endif %}
+{% set attributes = {
+    select: {
+        class:     field.autocomplete|default(false) ? '' : option.class,
+        id:        key,
+        multiple:  option.multiple,
+        name:      (option.multiple) ? name ~ '[]' : name,
+        style:     field.autocomplete|default(false) ? 'width: 100%;' : '',
+    }
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -63,7 +61,7 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        <select{{ macro.attr(attr_select) }}>
+        <select{{ macro.attr(attributes.select) }}>
             {% for id, value in values %}
 
                 {% set is_array = (value is iterable and (value | length) > 1) %}

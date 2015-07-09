@@ -11,22 +11,24 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_filepath = {
-    class:       option.class ~ ' imageinput',
-    id:          'field-' ~ key,
-    name:        name,
-    type:        'text',
-    placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
-    value:       context.content.get(contentkey),
-} %}
+{% set attributes = {
+    filepath: {
+        class:        option.class ~ ' imageinput',
+        id:           'field-' ~ key,
+        name:         name,
+        placeholder:  __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
+        type:         'text',
+        value:        context.content.get(contentkey),
+    },
 
-{% set attr_upload = {
-    accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
-    data_upload:  {type: 'File', key: key}|json_encode(),
-    data_url:     url('upload', {'handler': option.upload}),
-    id:           'fileupload-' ~ key,
-    name:         'files[]',
-    type:         'file',
+    upload: {
+        accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
+        data_upload:  {type: 'File', key: key}|json_encode(),
+        data_url:     url('upload', {'handler': option.upload}),
+        id:           'fileupload-' ~ key,
+        name:         'files[]',
+        type:         'file',
+    }
 } %}
 
 {#=== BLOCKS =========================================================================================================#}
@@ -60,9 +62,9 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-12 dropzone clearfix" id="dropzone-{{ key }}">
-        <input{{ macro.attr(attr_filepath) }}>
+        <input{{ macro.attr(attributes.filepath) }}>
         {% set can_upload = context.can_upload and option.can_upload %}
-        {{ macro.upload_buttons('file', key, attr_upload, option.upload, can_upload) }}
+        {{ macro.upload_buttons('file', key, attributes.upload, option.upload, can_upload) }}
         {{ block.progress(key) }}
         {{ block.serverselect(key, __('Cancel')) }}
 

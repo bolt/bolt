@@ -141,31 +141,33 @@
 
     {% set class = opt.class|default('')|replace({'form-control': ''}) ~ ' form-control' %}
 
-    {% set attr_data = {
-        id:          opt.id,
-        name:        opt.name|default(opt.id),
-        value:       opt.value,
-        type:        'hidden',
-        class:       'datetime',
-        data_notice: opt.notice|default('')
-    } %}
+    {% set attributes = {
+        data: {
+            id:          opt.id,
+            name:        opt.name|default(opt.id),
+            value:       opt.value,
+            type:        'hidden',
+            class:       'datetime',
+            data_notice: opt.notice|default('')
+        },
 
-    {% set attr_date = {
-        type:                'text',
-        disabled:            opt.disabled|default(false),
-        required:            opt.required|default(false),
-        class:               (class ~ ' datepicker')|trim,
-        data_errortext:      opt.errortext|default(''),
-        data_field_options:  opt.options|default(false) ? opt.options|json_encode : ''
-    } %}
+        date: {
+            type:                'text',
+            disabled:            opt.disabled|default(false),
+            required:            opt.required|default(false),
+            class:               (class ~ ' datepicker')|trim,
+            data_errortext:      opt.errortext|default(''),
+            data_field_options:  opt.options|default(false) ? opt.options|json_encode : ''
+        },
 
-    {% set attr_time = {
-        type:      'text',
-        disabled:  opt.disabled|default(false),
-        required:  opt.required|default(false),
-        class:     (class ~ ' timepicker')|trim,
-        title:     __('Time in 24h/12h format'),
-        style:     'margin-right: 6px;'
+        time: {
+            type:      'text',
+            disabled:  opt.disabled|default(false),
+            required:  opt.required|default(false),
+            class:     (class ~ ' timepicker')|trim,
+            title:     __('Time in 24h/12h format'),
+            style:     'margin-right: 6px;'
+        }
     } %}
 
     <div class="datetime-container">
@@ -176,18 +178,18 @@
                         <i class="fa fa-calendar"></i>
                     </button>
                 </span>
-                <input{{ attr(attr_date) }}>
+                <input{{ attr(attributes.date) }}>
             </div>
         </div>
 
         {% if opt.has_time is not defined or opt.has_time != false %}
             <div>
-                <input{{ attr(attr_time) }}>
+                <input{{ attr(attributes.time) }}>
             </div>
         {% endif %}
 
         <div>
-            <input{{ attr(attr_data) }}>
+            <input{{ attr(attributes.data) }}>
             <button type="button" class="btn btn-default btn-xs">
                 <i class="fa fa-close"></i>
             </button>

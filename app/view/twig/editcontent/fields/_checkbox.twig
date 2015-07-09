@@ -8,13 +8,15 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_checkbox = {
-    checked:  context.content.get(contentkey),
-    class:    option.class,
-    name:     name,
-    id:       key,
-    type:     'checkbox',
-    value:    '1'
+{% set attributes = {
+    checkbox: {
+        checked:  context.content.get(contentkey),
+        class:    option.class,
+        id:       key,
+        name:     name,
+        type:     'checkbox',
+        value:    '1',
+    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -32,7 +34,7 @@
 {% block fieldset_controls %}
     <div class="col-md-9">
         <div class="checkbox">
-            <label><input{{ macro.attr(attr_checkbox) }}><button type="button" onclick="var x=$(this).prev();x.prop('checked', !x.prop('checked'));"></button></label>
+            <label><input{{ macro.attr(attributes.checkbox) }}><button type="button" onclick="var x=$(this).prev();x.prop('checked', !x.prop('checked'));"></button></label>
         </div>
     </div>
 {% endblock fieldset_controls %}

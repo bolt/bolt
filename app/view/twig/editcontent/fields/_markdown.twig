@@ -11,13 +11,15 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_text = {
-    class:          option.class,
-    name:           name,
-    id:             key,
-    required:       option.required,
-    data_errortext: option.errortext,
-    style:          (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '',
+{% set attributes = {
+    text: {
+        class:           option.class,
+        data_errortext:  option.errortext,
+        id:              key,
+        name:            name,
+        required:        option.required,
+        style:           (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '',
+    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -32,6 +34,6 @@
 
 {% block fieldset_controls %}
     <div class="col-xs-12">
-        <textarea{{ macro.attr(attr_text) }} data-uk-htmleditor="{ markdown: true, height: '{{option.height}}'}">{{ context.content.get(contentkey)|default('') }}</textarea>
+        <textarea{{ macro.attr(attributes.text) }} data-uk-htmleditor="{ markdown: true, height: '{{option.height}}'}">{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
 {% endblock fieldset_controls %}

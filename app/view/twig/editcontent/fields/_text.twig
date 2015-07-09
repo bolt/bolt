@@ -16,19 +16,21 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_text = {
-    class:          option.class,
-    name:           name,
-    id:             key,
-    pattern:        (option.pattern and option.pattern not in ['url', 'email']) ? option.pattern : '',
-    maxlength:      255,
-    placeholder:    option.placeholder,
-    required:       option.required,
-    data_errortext: option.errortext,
-    readonly:       option.readonly,
-    title:          option.title,
-    type:           (option.pattern in ['url', 'email']) ? option.pattern : 'text',
-    value:          context.content.get(contentkey),
+{% set attributes = {
+    text: {
+        class:           option.class,
+        data_errortext:  option.errortext,
+        id:              key,
+        maxlength:       255,
+        name:            name,
+        pattern:         (option.pattern and option.pattern not in ['url', 'email']) ? option.pattern : '',
+        placeholder:     option.placeholder,
+        readonly:        option.readonly,
+        required:        option.required,
+        title:           option.title,
+        type:            (option.pattern in ['url', 'email']) ? option.pattern : 'text',
+        value:           context.content.get(contentkey),
+    }
 } %}
 
 {% set class = option.variant == 'inline' ? ['col-sm-3 control-label', 'col-sm-9'] : ['col-xs-12', 'col-xs-12'] %}
@@ -45,6 +47,6 @@
 
 {% block fieldset_controls %}
     <div class="{{ class[1] }}">
-        <input{{ macro.attr(attr_text) }}>
+        <input{{ macro.attr(attributes.text) }}>
     </div>
 {% endblock fieldset_controls %}

@@ -11,12 +11,14 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_text = {
-    class:     option.class,
-    name:      name,
-    required:  option.required,
-    style:     option.height ? 'height: ' ~ option.height ~ ';' : '',
-    data_errortext: option.errortext,
+{% set attributes = {
+    text: {
+        class:           option.class,
+        data_errortext:  option.errortext,
+        name:            name,
+        required:        option.required,
+        style:           option.height ? 'height: ' ~ option.height ~ ';' : '',
+    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -31,6 +33,6 @@
 
 {% block fieldset_controls %}
     <div class="col-xs-12">
-        <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
+        <textarea{{ macro.attr(attributes.text) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
 {% endblock fieldset_controls %}
