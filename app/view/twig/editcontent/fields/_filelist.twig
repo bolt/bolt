@@ -75,14 +75,13 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% set fieldset = {
-    filelist: {
-    }
-}%}
+{% block fieldset_type 'filelist' %}
 
-{% block fieldset %}
-    <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
+{% block fieldset_label %}
+    <label class="col-sm-12">{{ macro.infopop(labelkey, option.info) }}</label>
+{% endblock fieldset_label %}
 
+{% block fieldset_controls %}
     <div class="col-sm-12 filelistholder dropzone" id="filelist-{{ key }}">
 
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
@@ -105,4 +104,4 @@
     </div>
 
     {{ block.serverselect(key) }}
-{% endblock fieldset %}
+{% endblock fieldset_controls %}
