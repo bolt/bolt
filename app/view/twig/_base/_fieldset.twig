@@ -1,6 +1,10 @@
-{% set ftype = fieldset|keys|first %}
-{% set fconf = fieldset|first %}
+{% set attributes_fieldset = {
+    class:            'form-group',
+    data_bolt_field:  block('fieldset_type'),
+    data_bolt_fconf:  fieldset_conf|default() is iterable ? fieldset_conf : null
+} %}
 
-<fieldset class="form-group" data-bolt-field="{{ ftype }}" data-bolt-fconf="{{ fconf|json_encode }}">
-{% block fieldset %}{% endblock fieldset %}
+<fieldset{{ macro.attr(attributes_fieldset) }}>
+    {% block fieldset_label %}{% endblock fieldset_label %}
+    {% block fieldset_controls %}{% endblock fieldset_controls %}
 </fieldset>
