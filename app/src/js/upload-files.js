@@ -47,9 +47,12 @@ var FilelistHolder = Backbone.View.extend({
             this.idPrefix = '#imagelist-';
             this.datWrongtype = 'field.imagelist.message.wrongtype';
             this.datRemove = 'field.imagelist.message.remove';
+            this.datRemoveMulti = 'field.imagelist.message.removeMulti';
         } else {
             this.idPrefix = '#filelist-';
+            this.datWrongtype = 'field.filelist.message.wrongtype';
             this.datRemove = 'field.filelist.message.remove';
+            this.datRemoveMulti = 'field.filelist.message.removeMulti';
         }
 
         var prelist = $('#' + this.id).val();
@@ -280,9 +283,7 @@ var FilelistHolder = Backbone.View.extend({
         });
 
         $holder.find('.remove-selected-button').on('click', function (e) {
-            var ldata = $holder.find('div.list').data('list');
-
-            if (confirm(ldata.message.removeMulti)) {
+            if (confirm(Bolt.data($this.datRemoveMulti))) {
                 $holder.find('.selected').each(function () {
                     $this.remove($(this).data('id'), true);
                 });

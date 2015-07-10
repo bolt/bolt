@@ -51,11 +51,13 @@
 {% endif %}
 
 {% if 'filelist' in used_fieldtypes %}
-    {{ data('field.imagelist.message.remove', __('Are you sure you want to remove this file?')) }}
+    {{ data('field.filelist.message.remove', __('Are you sure you want to remove this file?')) }}
+    {{ data('field.filelist.message.removeMulti', __('Are you sure you want to remove these files?')) }}
     {{ data('field.filelist.message.wrongtype', __('There was an error uploading the file.\nMake sure that the file type is of:\n%TYPELIST%')) }}
 {% endif %}
 
 {% if 'imagelist' in used_fieldtypes %}
-    {{ data('field.filelist.message.remove', __('Are you sure you want to remove this image?')) }}
+    {{ data('field.imagelist.message.remove', __('Are you sure you want to remove this image?')) }}
+    {{ data('field.imagelist.message.removeMulti', __('Are you sure you want to remove these images?')) }}
     {{ data('field.imagelist.message.wrongtype', __('There was an error uploading the file.\nMake sure that the file type is of:\n%TYPELIST%')) }}
 {% endif %}

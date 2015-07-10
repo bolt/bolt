@@ -50,9 +50,6 @@
 {% endset %}
 
 {% set listdata = {
-    'message': {
-        'removeMulti':  __('Are you sure you want to remove these images?'),
-    },
     'empty':            list_empty|trim,
     'item':             list_item|trim|preg_replace('/>\\s+</', '><'),
     'itemUploading':    list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
