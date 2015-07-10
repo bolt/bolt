@@ -1,7 +1,7 @@
 {# Relationships for this record #}
 
 {% for relcontenttype, relation in context.contenttype.relations %}
-    <div>
+    <div data-fieldtype="relationship">
 
         {# Prefix #}
         {% if relation.prefix is defined and relation.prefix is not empty %}
