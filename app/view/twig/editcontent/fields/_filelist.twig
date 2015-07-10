@@ -28,18 +28,9 @@
     {% set list_json = '' %}
 {% endif %}
 
+{% set can_upload = context.can_upload and option.can_upload %}
+
 {#=== BLOCKS =========================================================================================================#}
-
-{% import _self as block %}
-
-{# Modal "select from server" #}
-{% macro serverselect(key) %}
-    <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content"></div>
-        </div>
-    </div>
-{% endmacro %}
 
 {% set list_empty %}
     <p>{{ __('No files in the list, yet.') }}</p>
@@ -85,25 +76,30 @@
 
 {% block fieldset_controls %}
     <div class="col-xs-12 filelistholder dropzone" id="filelist-{{ key }}">
-
+        {# Filelist #}
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
-        {% set can_upload = context.can_upload and option.can_upload %}
-
+        {# Buttons #}
         <div class="clearfix">
             {{ macro.upload_buttons('file', key, attributes.fileupload, option.upload, can_upload) }}
 
-            <span class="btn btn-default remove-selected-button">
+            <button type="button" class="btn btn-default remove-selected-button">
                 <i class="fa fa-trash"></i>
                 <span>{{ __('Remove selected') }}</span>
-            </span>
+            </button>
         </div>
 
-        <p class="uploading-list"></p>
+        {# Progress info #}
+        <div class="uploading-list hide"></div>
 
+        {# Data #}
         <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
+        {# Modal "Select from server" #}
+        <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content"></div>
+            </div>
+        </div>
     </div>
-
-    {{ block.serverselect(key) }}
 {% endblock fieldset_controls %}

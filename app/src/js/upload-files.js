@@ -68,7 +68,7 @@ var FilelistHolder = Backbone.View.extend({
         var list = $(this.idPrefix + this.id + ' .list'),
             data = list.data('list'),
             listtype = this.type,
-            uploading = $(this.idPrefix + this.id + ' .uploading-list');
+            progress = $(this.idPrefix + this.id + ' .uploading-list');
 
         list.html('');
         _.each(this.list.models, function (file) {
@@ -84,14 +84,19 @@ var FilelistHolder = Backbone.View.extend({
             list.append(element);
         });
 
-        uploading.html('');
+        progress.html('');
+        if (_.isEmpty(this.uploading.models)) {
+            progress.addClass('hide');
+        } else {
+            progress.removeClass('hide');
+        }
         _.each(this.uploading.models, function (file) {
             var element = $(data.itemUploading
                             .replace(/<FNAME>/g, file.get('filename'))
                             .replace(/<PROGRESS>/g, Math.round(file.progress * 100) + '%')
                            );
             file.element = element;
-            uploading.append(element);
+            progress.append(element);
         });
 
         if (this.list.models.length === 0) {
