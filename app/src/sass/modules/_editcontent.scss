@@ -38,19 +38,6 @@
         padding-bottom: 0;
     }
 
-    /*** Label ***/
-
-    label {
-        font-weight: bold;
-        font-size: 13px;
-        color: lighten(black, 30%);
-    }
-
-    fieldset > label {
-        color: desaturate(lighten($boltblue, 35%), 20);
-        font-size: 15px;
-    }
-
     /*** Info-pop ***/
 
     .info-pop {
