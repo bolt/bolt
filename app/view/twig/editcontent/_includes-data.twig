@@ -21,7 +21,7 @@
 {# Output includes #}
 
 {% if 'html' in used_fieldtypes %}
-    <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
+    {% include 'editcontent/fielddata/_html.twig' %}
 {% endif %}
 
 {% if 'markdown' in used_fieldtypes %}
