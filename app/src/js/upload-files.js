@@ -46,9 +46,10 @@ var FilelistHolder = Backbone.View.extend({
         if (options.type === 'ImageList') {
             this.idPrefix = '#imagelist-';
             this.datWrongtype = 'field.imagelist.message.wrongtype';
+            this.datRemove = 'field.imagelist.message.remove';
         } else {
             this.idPrefix = '#filelist-';
-            this.datWrongtype = 'field.filelist.message.wrongtype';
+            this.datRemove = 'field.filelist.message.remove';
         }
 
         var prelist = $('#' + this.id).val();
@@ -290,10 +291,9 @@ var FilelistHolder = Backbone.View.extend({
         });
 
         $holder.find('div.list').on('click', '.remove-button', function (e) {
-            var ldata = $(this).closest('div.list').data('list');
-
             e.preventDefault();
-            if (confirm(ldata.message.remove)) {
+
+            if (confirm(Bolt.data($this.datRemove))) {
                 $this.remove($(this).parent().data('id'));
             }
         });
