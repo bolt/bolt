@@ -31,24 +31,7 @@
     }
 } %}
 
-{#=== BLOCKS =========================================================================================================#}
-
-{% import _self as block %}
-
-{% macro progress(key) %}
-    <div class="progress file-progress progress-striped active" id="progress-{{ key }}">
-        <div class="progress-bar" style="width: 0%;"></div>
-    </div>
-{% endmacro %}
-
-{# Modal "select from server" #}
-{% macro serverselect(key) %}
-    <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content"></div>
-        </div>
-    </div>
-{% endmacro %}
+{% set can_upload = context.can_upload and option.can_upload %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -62,16 +45,27 @@
 
 {% block fieldset_controls %}
     <div class="col-xs-12 dropzone clearfix" id="dropzone-{{ key }}">
+        {# Path #}
         <input{{ macro.attr(attributes.filepath) }}>
-        {% set can_upload = context.can_upload and option.can_upload %}
-        {{ macro.upload_buttons('file', key, attributes.upload, option.upload, can_upload) }}
-        {{ block.progress(key) }}
-        {{ block.serverselect(key, __('Cancel')) }}
 
-        {% if not ismobileclient() %}
-            <div style="clear: left;" class="hidden-xs">
-                <small>{{ app.translator.trans('info.upload.filesmall', {}, 'infos') }}</small>
+        {# Uploadbuttons #}
+        {{ macro.upload_buttons('file', key, attributes.upload, option.upload, can_upload) }}
+
+        {# Progressbar #}
+        <div class="progress file-progress progress-striped active" id="progress-{{ key }}">
+            <div class="progress-bar"></div>
+        </div>
+
+        {# Modal "select from server" #}
+        <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content"></div>
             </div>
+        </div>
+
+        {# Infotext #}
+        {% if not ismobileclient() %}
+            <div class="infotext hidden-xs">{{ app.translator.trans('info.upload.filesmall', {}, 'infos') }}</div>
         {% endif %}
     </div>
 {% endblock fieldset_controls %}
