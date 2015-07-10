@@ -202,7 +202,7 @@ var FilelistHolder = Backbone.View.extend({
             .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
                     pattern,
-                    ldata = $(this.idPrefix + contentkey + ' div.list').data('list');
+                    ldata = $($this.idPrefix + contentkey + ' div.list').data('list');
 
                 if (typeof fileTypes !== 'undefined') {
                     pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
