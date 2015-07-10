@@ -81,33 +81,5 @@
 {% endif %}
 
 {% if 'imagelist' in used_fieldtypes %}
-    {% set imagelist_empty %}
-        <p>{{ __('No images in the list, yet.') }}</p>
-    {% endset %}
-    {{ data('field.imagelist.template.empty', imagelist_empty|trim) }}
-
-    {% set imagelist_item %}
-        <div data-id="%ID%" class="list-item ui-state-default">
-            <a class="thumbnail-link" href="%PATH%../files/%FNAME%">
-                <img src="%PATH%../thumbs/60x40/%FNAME%" width="60" height="40">
-            </a>
-            <input type="text" value="%VAL%">
-            <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
-        </div>
-    {% endset %}
-    {{ data('field.imagelist.template.item', imagelist_item|trim|preg_replace('/>\\s+</', '><')) }}
-
-    {% set imagelist_progress %}
-        <div class="uploading-list-element">
-            {{ __('Uploading') }} %FNAME%
-            <div class="progress files-progress progress-striped active">
-                <div class="progress-bar"></div>
-            </div>
-        </div>
-    {% endset %}
-    {{ data('field.imagelist.template.progress', imagelist_progress|trim|preg_replace('/>\\s+</', '><')) }}
-
-    {{ data('field.imagelist.message.remove', __('Are you sure you want to remove this image?')) }}
-    {{ data('field.imagelist.message.removeMulti', __('Are you sure you want to remove these images?')) }}
-    {{ data('field.imagelist.message.wrongtype', __('There was an error uploading the file.\nMake sure that the file type is of:\n%TYPELIST%')) }}
+    {% include 'editcontent/fielddata/_imagelist.twig' %}
 {% endif %}

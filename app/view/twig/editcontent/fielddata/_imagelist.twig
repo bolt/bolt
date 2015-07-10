@@ -1,0 +1,40 @@
+{### Template: Empty list ###}
+
+{% set template_empty %}
+    <p>{{ __('No images in the list, yet.') }}</p>
+{% endset %}
+
+{{ data('field.imagelist.template.empty', template_empty|trim) }}
+
+{### Template: Listitem ###}
+
+{% set template_item %}
+    <div data-id="%ID%" class="list-item ui-state-default">
+        <a class="thumbnail-link" href="%PATH%../files/%FNAME%">
+            <img src="%PATH%../thumbs/60x40/%FNAME%" width="60" height="40">
+        </a>
+        <input type="text" value="%VAL%">
+        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
+    </div>
+{% endset %}
+
+{{ data('field.imagelist.template.item', template_item|trim|preg_replace('/>\\s+</', '><')) }}
+
+{### Template: Progress ###}
+
+{% set template_progress %}
+    <div class="uploading-list-element">
+        {{ __('Uploading') }} %FNAME%
+        <div class="progress files-progress progress-striped active">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+{% endset %}
+
+{{ data('field.imagelist.template.progress', template_progress|trim|preg_replace('/>\\s+</', '><')) }}
+
+{### Messages ###}
+
+{{ data('field.imagelist.message.remove',      __('Are you sure you want to remove this image?')) }}
+{{ data('field.imagelist.message.removeMulti', __('Are you sure you want to remove these images?')) }}
+{{ data('field.imagelist.message.wrongtype',   __('There was an error uploading the file.\nMake sure that the file type is of:\n%TYPELIST%')) }}
