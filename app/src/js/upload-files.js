@@ -49,12 +49,14 @@ var FilelistHolder = Backbone.View.extend({
             this.datRemove = 'field.imagelist.message.remove';
             this.datRemoveMulti = 'field.imagelist.message.removeMulti';
             this.tmplEmpty = 'field.imagelist.template.empty';
+            this.tmplItem = 'field.imagelist.template.item';
         } else {
             this.idPrefix = '#filelist-';
             this.datWrongtype = 'field.filelist.message.wrongtype';
             this.datRemove = 'field.filelist.message.remove';
             this.datRemoveMulti = 'field.filelist.message.removeMulti';
             this.tmplEmpty = 'field.filelist.template.empty';
+            this.tmplItem = 'field.filelist.template.item';
         }
 
         var prelist = $('#' + this.id).val();
@@ -80,16 +82,19 @@ var FilelistHolder = Backbone.View.extend({
         var list = $(this.idPrefix + this.id + ' .list'),
             data = list.data('list'),
             listtype = this.type,
+            tmplItem = this.tmplItem,
             progress = $(this.idPrefix + this.id + ' .uploading-list');
 
         list.html('');
         _.each(this.list.models, function (file) {
-            var element = $(data.item.
-                    replace(/<ID>/g, file.get('id')).
-                    replace(/<VAL>/g, _.escape(file.get('title'))).
-                    replace(/<PATH>/g, Bolt.conf('paths.bolt')).
-                    replace(/<FNAME>/g, file.get('filename'))
-                );
+            var replace = {
+                    '%ID%':    file.get('id'),
+                    '%VAL%':   _.escape(file.get('title')),
+                    '%PATH%':  Bolt.conf('paths.bolt'),
+                    '%FNAME%': file.get('filename')
+                },
+                element = $(Bolt.data(tmplItem, replace));
+
             if (listtype === 'ImageList') {
                 element.find('.thumbnail-link').magnificPopup({type: 'image'});
             }

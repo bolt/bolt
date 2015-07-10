@@ -54,8 +54,16 @@
     {% set filelist_empty %}
         <p>{{ __('No files in the list, yet.') }}</p>
     {% endset %}
-
     {{ data('field.filelist.template.empty', filelist_empty|trim) }}
+
+    {% set filelist_item %}
+        <div data-id="%ID%" class="list-item ui-state-default">
+            <input type="text" value="%VAL%">
+            <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
+            <span>%FNAME%</span>
+        </div>
+    {% endset %}
+    {{ data('field.filelist.template.item', filelist_item|trim|preg_replace('/>\\s+</', '><')) }}
 
     {{ data('field.filelist.message.remove', __('Are you sure you want to remove this file?')) }}
     {{ data('field.filelist.message.removeMulti', __('Are you sure you want to remove these files?')) }}
@@ -66,8 +74,18 @@
     {% set imagelist_empty %}
         <p>{{ __('No images in the list, yet.') }}</p>
     {% endset %}
-
     {{ data('field.imagelist.template.empty', imagelist_empty|trim) }}
+
+    {% set imagelist_item %}
+        <div data-id="%ID%" class="list-item ui-state-default">
+            <a class="thumbnail-link" href="%PATH%../files/%FNAME%">
+                <img src="%PATH%../thumbs/60x40/%FNAME%" width="60" height="40">
+            </a>
+            <input type="text" value="%VAL%">
+            <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
+        </div>
+    {% endset %}
+    {{ data('field.imagelist.template.item', imagelist_item|trim|preg_replace('/>\\s+</', '><')) }}
 
     {{ data('field.imagelist.message.remove', __('Are you sure you want to remove this image?')) }}
     {{ data('field.imagelist.message.removeMulti', __('Are you sure you want to remove these images?')) }}

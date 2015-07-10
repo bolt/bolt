@@ -32,14 +32,6 @@
 
 {#=== BLOCKS =========================================================================================================#}
 
-{% set list_item %}
-    <div data-id="{{ '<ID>' }}" class="list-item ui-state-default">
-        <input type="text" value="{{ '<VAL>' }}">
-        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
-        <span>{{ '<FNAME>' }}</span>
-    </div>
-{% endset %}
-
 {% set list_item_uploading %}
     <div class="uploading-list-element">
         {{ __('Uploading') }} {{ '<FNAME>' }}
@@ -50,7 +42,6 @@
 {% endset %}
 
 {% set listdata = {
-    'item':             list_item|trim|preg_replace('/>\\s+</', '><'),
     'itemUploading':    list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
     'typelist':         option.extensions ? '.' ~ option.extensions|join(', .') : '–',
 } %}
