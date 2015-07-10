@@ -50,6 +50,7 @@ var FilelistHolder = Backbone.View.extend({
             this.datRemoveMulti = 'field.imagelist.message.removeMulti';
             this.tmplEmpty = 'field.imagelist.template.empty';
             this.tmplItem = 'field.imagelist.template.item';
+            this.tmplProgress = 'field.imagelist.template.progress';
         } else {
             this.idPrefix = '#filelist-';
             this.datWrongtype = 'field.filelist.message.wrongtype';
@@ -57,6 +58,7 @@ var FilelistHolder = Backbone.View.extend({
             this.datRemoveMulti = 'field.filelist.message.removeMulti';
             this.tmplEmpty = 'field.filelist.template.empty';
             this.tmplItem = 'field.filelist.template.item';
+            this.tmplProgress = 'field.filelist.template.progress';
         }
 
         var prelist = $('#' + this.id).val();
@@ -83,6 +85,7 @@ var FilelistHolder = Backbone.View.extend({
             data = list.data('list'),
             listtype = this.type,
             tmplItem = this.tmplItem,
+            tmplProgress = this.tmplProgress,
             progress = $(this.idPrefix + this.id + ' .uploading-list');
 
         list.html('');
@@ -108,10 +111,13 @@ var FilelistHolder = Backbone.View.extend({
             progress.removeClass('hide');
         }
         _.each(this.uploading.models, function (file) {
-            var element = $(data.itemUploading
-                            .replace(/<FNAME>/g, file.get('filename'))
-                            .replace(/<PROGRESS>/g, Math.round(file.progress * 100) + '%')
-                           );
+            var replace = {
+                    '%FNAME%':    file.get('filename')
+                },
+                element = $(Bolt.data(tmplProgress, replace)),
+                progressBar = element.find('.progress-bar');
+
+            progressBar.css('width', Math.round((file.progress || 0) * 100) + '%');
             file.element = element;
             progress.append(element);
         });
