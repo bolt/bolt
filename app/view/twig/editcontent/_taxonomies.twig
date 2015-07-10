@@ -11,10 +11,12 @@
 {% for taxonomyslug in context.contenttype.taxonomy|default([]) %}
     <div>
         {# --------------- prefix --------------- #}
-        {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
-            <div class="prefix">
-                {{ taxonomy.prefix|markdown }}
-            </div>
+        {% if config.get('taxonomy')[taxonomyslug] is defined %}
+            {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
+                <div class="prefix">
+                    {{ taxonomy.prefix|markdown }}
+                </div>
+            {% endif %}
         {% endif %}
 
         <fieldset class="form-group" data-bolt-field="taxonomy">
@@ -155,16 +157,20 @@
                 </div>
             </div>
 
-            {# --------------- postfix --------------- #}
+
+        {% endif %}
+
+        </fieldset>
+
+        {# --------------- postfix --------------- #}
+        {% if config.get('taxonomy')[taxonomyslug] is defined %}
             {% if taxonomy.postfix is defined and taxonomy.postfix is not empty %}
                 <div class="postfix">
                     {{ taxonomy.postfix|markdown }}
                 </div>
             {% endif %}
-
         {% endif %}
 
-        </fieldset>
     </div>
 {% endfor %}
 
