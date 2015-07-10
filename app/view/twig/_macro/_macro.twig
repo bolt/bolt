@@ -7,7 +7,7 @@
         {% if user is not empty %}
             <a href="{{ path('useredit', {'id': user.id}) }}">{{- user.displayname -}}</a>
         {% else %}
-            {% set userlink = __('panel.latest-activity.unknown') %}
+            {{ __('panel.latest-activity.unknown') }}
         {% endif %}
     {% endspaceless %}
 {% endmacro %}
