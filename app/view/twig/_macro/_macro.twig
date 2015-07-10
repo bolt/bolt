@@ -40,13 +40,6 @@
 {% endmacro %}
 
 {##
- # Output the required="required" attribute for field in the form.
- #}
-{% macro requiredattr(field) %}
-    {% if field.required is defined and field.required %}required="required"{% endif %}
-{% endmacro %}
-
-{##
  # Outputs tag attributes.
  #}
 {% macro attr(attributes) %}
