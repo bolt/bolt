@@ -39,8 +39,7 @@
 {% endif %}
 
 {% if 'slug' in used_fieldtypes %}
-    {{ data('field.slug.message.set', __('field.slug.message.set')) }}
-    {{ data('field.slug.message.unlock', __('field.slug.message.unlock')) }}
+    {% include 'editcontent/fielddata/_slug.twig' %}
 {% endif %}
 
 {% if 'templateselect' in used_fieldtypes %}
