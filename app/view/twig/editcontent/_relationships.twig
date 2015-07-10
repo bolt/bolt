@@ -1,6 +1,6 @@
 {# Relationships for this record #}
 
-<div class="form-group">
+<div>
 
     {% for relcontenttype, relation in context.contenttype.relations %}
 
@@ -12,7 +12,7 @@
         {% endif %}
 
         {# Relationship #}
-        <fieldset>
+        <fieldset class="form-group" data-bolt-field="relationship">
             {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
             {% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
 
