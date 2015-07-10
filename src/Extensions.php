@@ -288,6 +288,8 @@ class Extensions
                 }
             }
 
+            // Ensure the namespace is valid for PSR-4
+            $namespace = rtrim($namespace, '\\') . '\\';
             $psr4[$namespace] = $paths;
         }
 
