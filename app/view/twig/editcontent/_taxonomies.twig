@@ -12,23 +12,23 @@
     <div>
         {# --------------- prefix --------------- #}
         {% if config.get('taxonomy')[taxonomyslug] is defined %}
+            {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
+
             {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
                 <div class="prefix">
                     {{ taxonomy.prefix|markdown }}
                 </div>
             {% endif %}
 
-            {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
+            {# ---------- tags ---------- #}
 
-            <fieldset class="form-group" data-bolt-field="taxonomy">
+            {% if taxonomy.behaves_like == "tags" %}
 
-                {{ macro.label(taxonomy.name, '', 'col-sm-3 control-label', 'taxonomy-' ~ taxonomy.slug) }}
+                <fieldset class="form-group" data-bolt-field="taxonomy-tags">
 
-                <div class="col-sm-9">
+                    {{ macro.label(taxonomy.name, '', 'col-sm-3 control-label', 'taxonomy-' ~ taxonomy.slug) }}
 
-                {# ---------- tags ---------- #}
-
-                {% if taxonomy.behaves_like == "tags" %}
+                    <div class="col-sm-9">
 
                     {% if context.content.taxonomy[taxonomy.slug] is defined %}
                         {% set tags = context.content.taxonomy[taxonomy.slug]|join(",") %}
@@ -89,11 +89,18 @@
                     });
                     </script>
 
-                {% endif %}
+                </fieldset>
+            {% endif %}
 
-                {# ---------- categories ---------- #}
+            {# ---------- categories ---------- #}
 
-                {% if taxonomy.behaves_like == "categories" %}
+            {% if taxonomy.behaves_like == "categories" %}
+
+                <fieldset class="form-group" data-bolt-field="taxonomy-categories">
+
+                    {{ macro.label(taxonomy.name, '', 'col-sm-3 control-label', 'taxonomy-' ~ taxonomy.slug) }}
+
+                    <div class="col-sm-9">
 
                     {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
                     <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control" multiple>
@@ -121,11 +128,18 @@
                     </div>
                     {% endif %}
 
-                {% endif %}
+                </fieldset>
+            {% endif %}
 
-                {# ---------- grouping ---------- #}
+            {# ---------- grouping ---------- #}
 
-                {% if taxonomy.behaves_like == "grouping" %}
+            {% if taxonomy.behaves_like == "grouping" %}
+
+                <fieldset class="form-group" data-bolt-field="taxonomy-grouping">
+
+                    {{ macro.label(taxonomy.name, '', 'col-sm-3 control-label', 'taxonomy-' ~ taxonomy.slug) }}
+
+                    <div class="col-sm-9">
 
                     <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="narrow form-control pull-left">
                         <option value="">{{ __('(no group)') }}</option>
@@ -146,10 +160,8 @@
                                value="{{ sortorder }}" class="verynarrow form-control pull-left">
                     {% endif %}
 
-                {% endif %}
-
-                </div>
-            </fieldset>
+                </fieldset>
+            {% endif %}
 
             {# --------------- postfix --------------- #}
             {% if taxonomy.postfix is defined and taxonomy.postfix is not empty %}
