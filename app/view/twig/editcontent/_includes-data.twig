@@ -25,12 +25,7 @@
 {% endif %}
 
 {% if 'markdown' in used_fieldtypes %}
-    <script src="{{ paths.app }}view/js/uikit/uikit.min.js"></script>
-    <script src="{{ paths.app }}view/js/uikit/marked.js"></script>
-    <script src="{{ paths.app }}view/js/uikit/codemirror-compressed.js"></script>
-    <script src="{{ paths.app }}view/js/uikit/htmleditor.js"></script>
-    <link rel="stylesheet" property="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
-    <link rel="stylesheet" property="stylesheet" href="{{ paths.app }}view/js/uikit/htmleditor.min.css">
+    {% include 'editcontent/fielddata/_markdown.twig' %}
 {% endif %}
 
 {% if 'geolocation' in used_fieldtypes %}
