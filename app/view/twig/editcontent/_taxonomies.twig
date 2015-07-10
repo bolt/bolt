@@ -9,11 +9,11 @@
 {% endif %}
 
 {% for taxonomyslug in context.contenttype.taxonomy|default([]) %}
-    <div data-fieldtype="taxonomy">
-        {# --------------- prefix --------------- #}
-        {% if config.get('taxonomy')[taxonomyslug] is defined %}
-            {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
+    {% if config.get('taxonomy')[taxonomyslug] is defined %}
+        {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
 
+        <div data-fieldtype="taxonomy">
+            {# --------------- prefix --------------- #}
             {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
                 <div class="prefix">
                     {{ taxonomy.prefix|markdown }}
@@ -169,9 +169,8 @@
                     {{ taxonomy.postfix|markdown }}
                 </div>
             {% endif %}
-        {% endif %}
-
-    </div>
+        </div>
+    {% endif %}
 {% endfor %}
 
 {% if context.has.tabs and 'taxonomy' in context.contenttype.groups %}
