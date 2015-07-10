@@ -10,18 +10,18 @@
 
 {% for taxonomyslug in context.contenttype.taxonomy|default([]) %}
     <div>
+        {# --------------- prefix --------------- #}
+        {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
+            <div class="prefix">
+                {{ taxonomy.prefix|markdown }}
+            </div>
+        {% endif %}
+
         <fieldset class="form-group" data-bolt-field="taxonomy">
 
         {% if config.get('taxonomy')[taxonomyslug] is defined %}
 
             {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
-
-            {# --------------- prefix --------------- #}
-            {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
-                <div class="prefix">
-                    {{ taxonomy.prefix|markdown }}
-                </div>
-            {% endif %}
 
             <div class="row">
                 <div class="col-sm-3">
