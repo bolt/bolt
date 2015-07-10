@@ -14,4 +14,12 @@ fieldset[data-bolt-field] {
         color: desaturate(lighten($boltblue, 35%), 20);
         font-size: 15px;
     }
+
+    /*** Info popup ***/
+
+    .info-pop {
+        cursor: help;
+        color: #bbb;
+        padding-left: 4px;
+    }
 }
