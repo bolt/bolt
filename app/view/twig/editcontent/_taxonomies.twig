@@ -9,7 +9,7 @@
 {% endif %}
 
 {% for taxonomyslug in context.contenttype.taxonomy|default([]) %}
-    <div>
+    <div data-fieldtype="taxonomy">
         {# --------------- prefix --------------- #}
         {% if config.get('taxonomy')[taxonomyslug] is defined %}
             {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
