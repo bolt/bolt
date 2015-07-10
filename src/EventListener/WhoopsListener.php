@@ -65,6 +65,9 @@ class WhoopsListener implements EventSubscriberInterface
             return;
         }
 
+        // Register Whoops as an error handler
+        $this->whoops->register();
+
         $exception = $event->getException();
 
         ob_start();
