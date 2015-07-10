@@ -51,12 +51,24 @@
 {% endif %}
 
 {% if 'filelist' in used_fieldtypes %}
+    {% set filelist_empty %}
+        <p>{{ __('No files in the list, yet.') }}</p>
+    {% endset %}
+
+    {{ data('field.filelist.template.empty', filelist_empty|trim) }}
+
     {{ data('field.filelist.message.remove', __('Are you sure you want to remove this file?')) }}
     {{ data('field.filelist.message.removeMulti', __('Are you sure you want to remove these files?')) }}
     {{ data('field.filelist.message.wrongtype', __('There was an error uploading the file.\nMake sure that the file type is of:\n%TYPELIST%')) }}
 {% endif %}
 
 {% if 'imagelist' in used_fieldtypes %}
+    {% set imagelist_empty %}
+        <p>{{ __('No images in the list, yet.') }}</p>
+    {% endset %}
+
+    {{ data('field.imagelist.template.empty', imagelist_empty|trim) }}
+
     {{ data('field.imagelist.message.remove', __('Are you sure you want to remove this image?')) }}
     {{ data('field.imagelist.message.removeMulti', __('Are you sure you want to remove these images?')) }}
     {{ data('field.imagelist.message.wrongtype', __('There was an error uploading the file.\nMake sure that the file type is of:\n%TYPELIST%')) }}

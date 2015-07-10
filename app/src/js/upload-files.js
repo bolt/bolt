@@ -48,11 +48,13 @@ var FilelistHolder = Backbone.View.extend({
             this.datWrongtype = 'field.imagelist.message.wrongtype';
             this.datRemove = 'field.imagelist.message.remove';
             this.datRemoveMulti = 'field.imagelist.message.removeMulti';
+            this.tmplEmpty = 'field.imagelist.template.empty';
         } else {
             this.idPrefix = '#filelist-';
             this.datWrongtype = 'field.filelist.message.wrongtype';
             this.datRemove = 'field.filelist.message.remove';
             this.datRemoveMulti = 'field.filelist.message.removeMulti';
+            this.tmplEmpty = 'field.filelist.template.empty';
         }
 
         var prelist = $('#' + this.id).val();
@@ -110,7 +112,7 @@ var FilelistHolder = Backbone.View.extend({
         });
 
         if (this.list.models.length === 0) {
-            list.append(data.empty);
+            list.append(Bolt.data(this.tmplEmpty));
         }
         this.serialize();
     },
