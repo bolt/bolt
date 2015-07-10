@@ -1,3 +1,5 @@
+{% from 'editcontent/_macros.twig' import infopop %}
+
 {#=== INIT ===========================================================================================================#}
 
 {% set attributes_fieldset = {
@@ -12,7 +14,7 @@
 } %}
 
 {% if block('fieldset_label_info') %}
-    {% set field_label = macro.infopop(block('fieldset_label_text'), block('fieldset_label_info')) %}
+    {% set field_label = infopop(block('fieldset_label_text'), block('fieldset_label_info')) %}
 {% else %}
     {% set field_label = block('fieldset_label_text') %}
 {% endif %}

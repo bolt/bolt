@@ -72,25 +72,6 @@
 {% endmacro %}
 
 {##
- # Info popup.
- #
- # @param string label
- # @param string infoid
- # @param string afterlabel
- #}
-{% macro infopop(label, infoid, afterlabel) %}
-    {% from _self import attr %}
-    {% set attributes = {
-        class: 'info-pop fa fa-info-circle',
-        data_content: app.translator.trans(infoid, {}, 'infos'),
-        data_html: true,
-        data_title: label|trans,
-    } %}
-    {{ label }}{% if afterlabel is defined %} {{ afterlabel|raw }}{% endif %}
-    <i{{ attr(attributes) }}><span class="sr-only">{{ __('Info') }}</span></i>
-{% endmacro %}
-
-{##
  # Label for forms when editing content.
  #}
 {% macro label(key, field, class, for) %}
