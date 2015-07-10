@@ -9,8 +9,8 @@
 {% endif %}
 
 {% for taxonomyslug in context.contenttype.taxonomy|default([]) %}
-    <div class="form-group">
-        <fieldset>
+    <div>
+        <fieldset class="form-group" data-bolt-field="taxonomy">
 
         {% if config.get('taxonomy')[taxonomyslug] is defined %}
 
