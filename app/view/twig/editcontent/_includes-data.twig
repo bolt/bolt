@@ -49,3 +49,11 @@
     {{ data('field.templateselect.message.status', __('Warning')) }}
     {{ data('field.templateselect.template.warning', '<strong>%STATUS%:</strong> %MESSAGE%') }}
 {% endif %}
+
+{% if 'filelist' in used_fieldtypes %}
+    {{ data('field.filelist.message.wrongtype', __('There was an error uploading the file.\nMake sure that the file type is of:\n%TYPELIST%')) }}
+{% endif %}
+
+{% if 'imagelist' in used_fieldtypes %}
+    {{ data('field.imagelist.message.wrongtype', __('There was an error uploading the file.\nMake sure that the file type is of:\n%TYPELIST%')) }}
+{% endif %}

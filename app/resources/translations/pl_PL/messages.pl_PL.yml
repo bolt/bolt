@@ -336,7 +336,7 @@
 "There are no users in the database. Please create the first user.": "Nie ma żadnych użytkowników w bazie danych. Proszę utworzyć pierwszego użytkownika."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Brak użytkowników w systemie. Proszę utworzyć pierwszego użytkownika, który uzyska uprawnienia root."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Zawsze powinien być co najmniej jeden użytkownik 'root'. Właśnie awansowałeś. Gratulacje!"
-"There was an error uploading the file.\\nMake sure that the file type is of:\\n%typelist%": "Wystąpił błąd podczas wysyłania pliku.\\nUpewnij się że typ pliku jest jednym z:\\n %typelist%"
+"There was an error uploading the file.\\nMake sure that the file type is of:\\n%TYPELIST%": "Wystąpił błąd podczas wysyłania pliku.\\nUpewnij się że typ pliku jest jednym z:\\n %TYPELIST%"
 "This is a checkbox": "To jest checkbox"
 "This record is related to:": "Ten rekord jest powiązany z:"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tą witrynę stworzono z użyciem <a href='%url%' target='_blank' title='Wyrafinowany, lekki i prosty CMS'>Bolt</a>."

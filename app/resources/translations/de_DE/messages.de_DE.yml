@@ -353,7 +353,7 @@
 "There are no users in the database. Please create the first user.": "Es gibt keine Benutzer in der Datenbank. Bitte erstellen Sie den ersten Benutzer."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Auf dem System existieren keine Benutzer. Bitte legen sie den ersten Benutzer an. Dieser bekommt automatisch Root-Rechte."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Es sollte immer mindestens einen 'root' Benutzer geben. Sie wurden soeben befördert. Glückwunsch!"
-"There was an error uploading the file.\\nMake sure that the file type is of:\\n%typelist%": "Während dem Dateiupload ist ein Fehler aufgetreten. \\nStellen Sie sicher, dass der Dateityp in einer der folgenden ist:\\n%typelist%"
+"There was an error uploading the file.\\nMake sure that the file type is of:\\n%TYPELIST%": "Während dem Dateiupload ist ein Fehler aufgetreten. \\nStellen Sie sicher, dass der Dateityp in einer der folgenden ist:\\n%TYPELIST%"
 "This is a checkbox": "Das ist ein Kontrollkästchen"
 "This record is related to:": "Dieser Eintrag ist verknüpft mit:"
 "This template adds new fields. Save, then refresh to see these changes.": "Dieses Template fügt neue Felder hinzu. Speichern und aktualisieren Sie die Seite, um diese Änderungen zu sehen."

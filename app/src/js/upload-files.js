@@ -43,7 +43,13 @@ var FilelistHolder = Backbone.View.extend({
         this.list = new Filelist();
         this.uploading = new Filelist();
         this.type = options.type;
-        this.idPrefix = options.type == 'ImageList' ? '#imagelist-' : '#filelist-';
+        if (options.type === 'ImageList') {
+            this.idPrefix = '#imagelist-';
+            this.datWrongtype = 'field.imagelist.message.wrongtype';
+        } else {
+            this.idPrefix = '#filelist-';
+            this.datWrongtype = 'field.filelist.message.wrongtype';
+        }
 
         var prelist = $('#' + this.id).val();
         if (prelist !== "") {
@@ -208,7 +214,7 @@ var FilelistHolder = Backbone.View.extend({
                     pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            alert(ldata.message.wrongtype);
+                            alert(Bolt.data($this.datWrongtype, {'%TYPELIST%': ldata.typelist}));
                             e.preventDefault();
 
                             return false;

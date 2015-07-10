@@ -53,11 +53,11 @@
     'message': {
         'remove':       __('Are you sure you want to remove this image?'),
         'removeMulti':  __('Are you sure you want to remove these images?'),
-        'wrongtype':    __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.' ~ option.extensions|join(', .') : '–'})
     },
     'empty':            list_empty|trim,
     'item':             list_item|trim|preg_replace('/>\\s+</', '><'),
     'itemUploading':    list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
+    'typelist':         option.extensions ? '.' ~ option.extensions|join(', .') : '–',
 } %}
 
 {#=== BLOCKS =========================================================================================================#}
