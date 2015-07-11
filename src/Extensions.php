@@ -13,51 +13,19 @@ use Symfony\Component\Finder\Finder;
 
 class Extensions
 {
-    /**
-     * @var \Bolt\Application
-     */
+    /** @var \Bolt\Application */
     private $app;
-
-    /**
-     * The extension base folder.
-     *
-     * @var string
-     */
+    /** @var string The extension base folder. */
     private $basefolder;
-
-    /**
-     * List of enabled extensions.
-     *
-     * @var ExtensionInterface[]
-     */
+    /** @var ExtensionInterface[] List of enabled extensions. */
     private $enabled = [];
-
-    /**
-     * Queue with widgets to insert.
-     *
-     * @var array
-     */
+    /** @var array Queue with widgets to insert. */
     private $widgetqueue;
-
-    /**
-     * List of menu items to add in the backend.
-     *
-     * @var array
-     */
+    /** @var array List of menu items to add in the backend. */
     private $menuoptions = [];
-
-    /**
-     * Number of registered extensions that need to be able to send mail.
-     *
-     * @var integer
-     */
+    /** @var integer Number of registered extensions that need to be able to send mail. */
     private $mailsenders = 0;
-
-    /**
-     * Contains all initialized extensions.
-     *
-     * @var array
-     */
+    /** @var array Contains all initialized extensions. */
     private $initialized;
 
     /**
@@ -165,7 +133,11 @@ class Extensions
      */
     public function checkLocalAutoloader($force = false)
     {
-        if (!$force && (!$this->app['filesystem']->has('extensions://local/') || $this->app['filesystem']->has('app://cache/.local.autoload.built'))) {
+        if (!$this->app['filesystem']->has('extensions://local/')) {
+            return;
+        }
+
+        if (!$force && $this->app['filesystem']->has('app://cache/.local.autoload.built')) {
             return;
         }
 
@@ -219,7 +191,7 @@ class Extensions
         $boltJson['autoload']['psr-4'] = $boltPsr4;
         $composerJsonFile->write($boltJson);
         $this->app['extend.manager']->dumpautoload();
-        $this->app['filesystem']->write('app://cache/.local.autoload.built', time());
+        $this->app['filesystem']->put('app://cache/.local.autoload.built', time());
     }
 
     /**
@@ -243,6 +215,8 @@ class Extensions
                 }
             }
 
+            // Ensure the namespace is valid for PSR-4
+            $namespace = rtrim($namespace, '\\') . '\\';
             $psr4[$namespace] = $paths;
         }
 

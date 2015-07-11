@@ -87,8 +87,6 @@ class WhoopsServiceProvider implements ServiceProviderInterface
                 $showWhileLoggedOff
             );
         });
-
-        $app['whoops']->register();
     }
 
     /**
