@@ -210,7 +210,11 @@ class Extensions
      */
     public function checkLocalAutoloader($force = false)
     {
-        if (!$force && (!$this->app['filesystem']->has('extensions://local/') || $this->app['filesystem']->has('app://cache/.local.autoload.built'))) {
+        if (!$this->app['filesystem']->has('extensions://local/')) {
+            return;
+        }
+
+        if (!$force && $this->app['filesystem']->has('app://cache/.local.autoload.built')) {
             return;
         }
 
