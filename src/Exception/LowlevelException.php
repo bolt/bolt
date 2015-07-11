@@ -1,7 +1,9 @@
 <?php
 namespace Bolt\Exception;
 
-use Bolt\Configuration\ResourceManager;
+use Bolt\Application;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class LowlevelException extends \Exception
 {
@@ -91,7 +93,28 @@ HTML;
         echo $output;
     }
 
-    public static function catchFatalErrors($app = null)
+    /**
+     * Catch and display errors that occur before the Application object has
+     * been instantiated.
+     *
+     * If the error occurs later in the application life cycle, we flush this
+     * output in catchFatalErrors() which has access to the Application object.
+     */
+    public static function catchFatalErrorsEarly()
+    {
+        $error = error_get_last();
+        if (($error['type'] === E_ERROR || $error['type'] === E_PARSE)) {
+            echo nl2br(str_replace(dirname(dirname(__DIR__)), '', $error['message']));
+        }
+    }
+
+    /**
+     * Callback for register_shutdown_function() to handle fatal errors.
+     *
+     * @param \Silex\Application $app
+     * @param boolean            $flush
+     */
+    public static function catchFatalErrors(Application $app, $flush = true)
     {
         // Get last error, if any
         $error = error_get_last();
@@ -101,12 +124,12 @@ HTML;
             return;
         }
 
-        if (($error['type'] == E_ERROR || $error['type'] == E_PARSE)) {
+        if (($error['type'] === E_ERROR || $error['type'] === E_PARSE)) {
             $html = self::$html;
 
-            // Get the application object
-            if ($app === null) {
-                $app = ResourceManager::getApp();
+            // Flush the early error data buffered output from catchFatalErrorsEarly()
+            if ($flush) {
+                Response::closeOutputBuffers(0, false);
             }
 
             // Detect if we're being called from a core, an extension or vendor
@@ -128,6 +151,8 @@ HTML;
                 $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             } elseif ($isExtensionError === 0) {
+                self::attemptExtensionRecovery($app, $error);
+
                 $base = str_replace($app['resources']->getPath('extensions'), '', $error['file']);
                 $parts = explode(DIRECTORY_SEPARATOR, ltrim($base, '/'));
                 $package = $parts[1] . '/' . $parts[2];
@@ -180,5 +205,57 @@ HTML;
         $output = preg_replace('/(\n+)(\s+)/smi', "\n", $output);
 
         return $output;
+    }
+
+    /**
+     * Attempt to rebuild extension autoloader when a "Class not found" error
+     * occurs.
+     *
+     * @param \Bolt\Application $app
+     * @param array             $error
+     */
+    private static function attemptExtensionRecovery($app, $error)
+    {
+        $cwd = getcwd();
+        if ($error['type'] === E_ERROR && strpos($error['message'], 'Class') === 0) {
+            $path = $_SERVER['PATH_INFO'];
+            if (isset($_SERVER['QUERY_STRING'])) {
+                if (strpos($_SERVER['QUERY_STRING'], 'rebuild-autoloader') !== false) {
+                    header("location: $path?rebuild-done");
+                } elseif (strpos($_SERVER['QUERY_STRING'], 'rebuild-done') !== false) {
+                    chdir($cwd);
+                    return;
+                }
+            }
+
+            restore_error_handler();
+            $html = self::$html;
+            $html = str_replace('%error_title%', 'PHP Fatal Error: Bolt Extensions Class Loader', $html);
+
+            $message = '<b>Attempting to rebuild extension autoloader</b>';
+            $message .= "<p>Redirecting to <a href='$path?rebuild-autoloader'>$path</a> on completion.</p>";
+            $message .= "<script>window.setTimeout(function () { window.location='$path?rebuild-autoloader'; }, 5000);</script>";
+
+            $message = nl2br($message);
+            $html = str_replace('%error%', $message, $html);
+            $html = str_replace('%info%', '', $html);
+            if (php_sapi_name() == 'cli') {
+                $html = self::cleanHTML($html) . "\n\n";
+            }
+            echo $html;
+
+            $app['extend.enabled'] = false;
+            $app['extensions']->checkLocalAutoloader(true);
+            $html = '<div style="max-width: 640px; margin: auto;"><p class="status-ok">Completed rebuild… Attempting reload!</p>';
+            if (php_sapi_name() == 'cli') {
+                $html = self::cleanHTML($html) . "\n\n";
+            }
+            echo $html;
+
+            // Reboot the application and retry loading
+            chdir($cwd);
+            $app->boot();
+            $app->abort(Response::HTTP_MOVED_PERMANENTLY);
+        }
     }
 }
