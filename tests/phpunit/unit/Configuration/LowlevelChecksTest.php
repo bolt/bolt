@@ -70,6 +70,28 @@ class LowlevelChecksTest extends BoltUnitTest
         ];
     }
 
+    protected function getApp()
+    {
+        $this->php
+            ->expects($this->any())
+            ->method('is_dir')
+            ->will($this->returnValue(true));
+        $this->php
+            ->expects($this->any())
+            ->method('file_exists')
+            ->will($this->returnValue(true));
+        $this->php
+            ->expects($this->any())
+            ->method('is_writable')
+            ->will($this->returnValue(true));
+        $this->php
+            ->expects($this->any())
+            ->method('is_readable')
+            ->will($this->returnValue(true));
+
+        return parent::getApp();
+    }
+
     public function tearDown()
     {
         \PHPUnit_Extension_FunctionMocker::tearDown();
@@ -304,16 +326,13 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testCoreFatalErrorCatch()
     {
-        $app = ['resources' => new Standard(TEST_ROOT)];
-        ResourceManager::$theApp = $app;
-
         $this->php2
             ->expects($this->once())
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['core']));
 
         $this->expectOutputRegex("/PHP Fatal Error: Bolt Core/");
-        LowlevelException::catchFatalErrors();
+        LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
     public function testVendorFatalErrorCatch()
@@ -326,8 +345,9 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['vendor']));
 
+        $app = $this->getApp();
         $this->expectOutputRegex("/PHP Fatal Error: Vendor Library/");
-        LowlevelException::catchFatalErrors();
+        LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
     public function testExtFatalErrorCatch()
@@ -341,7 +361,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->will($this->returnValue($this->errorResponses['extension']));
 
         $this->expectOutputRegex("/PHP Fatal Error: Bolt Extensions/");
-        LowlevelException::catchFatalErrors();
+        LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
     public function testGeneralFatalErrorCatch()
@@ -355,7 +375,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->will($this->returnValue($this->errorResponses['unknown']));
 
         $this->expectOutputRegex("/PHP Fatal Error: Bolt Generic/");
-        LowlevelException::catchFatalErrors();
+        LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
     public function testAssertWritableDir()
