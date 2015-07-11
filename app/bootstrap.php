@@ -1,4 +1,8 @@
 <?php
+namespace Bolt;
+
+use Bolt\Exception\LowlevelException;
+
 /**
  * Second stage loader. Here we bootstrap the app:
  *
@@ -8,10 +12,6 @@
  * - Load and verify configuration
  * - Initialize the application
  */
-
-namespace Bolt;
-
-use Bolt\Exception\LowlevelException;
 
 // Do bootstrapping within a new local scope to avoid polluting the global
 return call_user_func(
@@ -42,6 +42,7 @@ return call_user_func(
 
         // None of the mappings matched, error
         if (!isset($config)) {
+            include $boltRootPath . '/src/Exception/LowlevelException.php';
             throw new LowlevelException(
                 "Configuration autodetection failed because The file " .
                 "<code>vendor/autoload.php</code> doesn't exist. Make sure " .
