@@ -50,17 +50,18 @@ return call_user_func(
             );
         }
 
-        // Register a PHP shutdown function to catch fatal error
-        register_shutdown_function(array('\Bolt\Exception\LowlevelException', 'catchFatalErrors'));
+        // Register a PHP shutdown function to catch early fatal errors
+        register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrorsEarly']);
 
-        /**
-         * @var $config Configuration\ResourceManager
-         */
+        /** @var \Bolt\Configuration\ResourceManager $config */
         $config->verify();
         $config->compat();
 
         // Create the 'Bolt application'
         $app = new Application(array('resources' => $config));
+
+        // Register a PHP shutdown function to catch fatal errors with the application object
+        register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrors'], $app);
 
         // Initialize the 'Bolt application': Set up all routes, providers, database, templating, etc..
         $app->initialize();

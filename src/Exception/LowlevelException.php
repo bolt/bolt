@@ -1,7 +1,8 @@
 <?php
 namespace Bolt\Exception;
 
-use Bolt\Configuration\ResourceManager;
+use Silex\Application;
+use Symfony\Component\HttpFoundation\Response;
 
 class LowlevelException extends \Exception
 {
@@ -91,7 +92,27 @@ HTML;
         echo $output;
     }
 
-    public static function catchFatalErrors($app = null)
+    /**
+     * Catch and display errors that occur before the Application object has
+     * been instantiated.
+     *
+     * If the error occurs later in the application life cycle, we flush this
+     * output in catchFatalErrors() which has access to the Application object.
+     */
+    public static function catchFatalErrorsEarly()
+    {
+        $error = error_get_last();
+        if (($error['type'] === E_ERROR || $error['type'] === E_PARSE)) {
+            echo nl2br(str_replace(dirname(dirname(__DIR__)), '', $error['message']));
+        }
+    }
+
+    /**
+     * Callback for register_shutdown_function() to handle fatal errors.
+     *
+     * @param \Silex\Application $app
+     */
+    public static function catchFatalErrors(Application $app)
     {
         // Get last error, if any
         $error = error_get_last();
@@ -101,13 +122,11 @@ HTML;
             return;
         }
 
-        if (($error['type'] == E_ERROR || $error['type'] == E_PARSE)) {
+        if (($error['type'] === E_ERROR || $error['type'] === E_PARSE)) {
             $html = self::$html;
 
-            // Get the application object
-            if ($app === null) {
-                $app = ResourceManager::getApp();
-            }
+            // Flush the early error data buffered output from catchFatalErrorsEarly()
+            Response::closeOutputBuffers(0, false);
 
             // Detect if we're being called from a core, an extension or vendor
             $isBoltCoreError  = strpos($error['file'], $app['resources']->getPath('rootpath') . '/src');
