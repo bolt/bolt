@@ -264,7 +264,7 @@ class Extensions
         $boltJson['autoload']['psr-4'] = $boltPsr4;
         $composerJsonFile->write($boltJson);
         $this->app['extend.manager']->dumpautoload();
-        $this->app['filesystem']->write('app://cache/.local.autoload.built', time());
+        $this->app['filesystem']->put('app://cache/.local.autoload.built', time());
     }
 
     /**
