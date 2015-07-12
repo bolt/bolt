@@ -1,9 +1,9 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:     field.class|default(''),
-    variant:   field.variant|default(''),
-    label:     field.label|default(''),
+    class:     ('form-control ' ~ field.class)|trim,
+    variant:   field.variant,
+    label:     field.label,
     info:      field.info|default(''),
     options:   field.options.datepicker|default(''),
     default:   (context.content.id == null and field.default) ? context.content.get(contentkey)|date('Y-m-d H:i:s') : null,
@@ -13,32 +13,32 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_datetime = {
-    id:         key,
-    name:       name,
-    value:      (context.content.get(contentkey) != null) ? context.content.get(contentkey)|date('Y-m-d H:i:s') : option.default,
-    required:   option.required,
-    class:      option.class,
-    errortext:  option.errortext,
-    options:    option.options,
+{% set attributes = {
+    datetime: {
+        class:      option.class,
+        errortext:  option.errortext,
+        id:         key,
+        name:       name,
+        options:    option.options,
+        required:   option.required,
+        value:      (context.content.get(contentkey) != null) ? context.content.get(contentkey)|date('Y-m-d H:i:s') : option.default,
+    }
 } %}
+
+{% set class = option.variant == 'inline' ? ['col-sm-3', 'col-sm-9'] : ['col-xs-12', 'col-xs-12'] %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="datetime">
-    {% if option.variant == 'inline' %}
+{% extends '_base/_fieldset.twig' %}
 
-        <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <div class="col-sm-9">
-            {{ macro.input_datetime(attr_datetime) }}
-        </div>
+{% block fieldset_type 'datetime' %}
 
-    {% else %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class class[0] %}
 
-        <div class="col-sm-12">
-            <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-            {{ macro.input_datetime(attr_datetime) }}
-        </div>
-
-    {% endif %}
-</fieldset>
+{% block fieldset_controls %}
+    <div class="{{ class[1] }}">
+        {{ macro.input_datetime(attributes.datetime) }}
+    </div>
+{% endblock fieldset_controls %}

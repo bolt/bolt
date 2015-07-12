@@ -355,7 +355,7 @@
 "There are no users in the database. Please create the first user.": "Nincsenek felhasználók az adatbázisban. Hozd létre az első felhasználót."
 "There are no users present in the system. Please create the first user, which will be granted root privileges.": "Nincsenek még felhasználók a rendszerben. Hozd létre az első felhasználót akinek root jogosultsága lesz."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Mindig lennie kell legalább egy 'root' felhasználónak. Te lettél kinevezve. Gratulálunk!"
-"There was an error uploading the file.\\nMake sure that the file type is of:\\n%typelist%": "Hiba történt a fájl feltöltésekor.\\nEllenőrizd, hogy a fájl típusa:\\n%typelist%"
+"There was an error uploading the file.\\nMake sure that the file type is of:\\n%TYPELIST%": "Hiba történt a fájl feltöltésekor.\\nEllenőrizd, hogy a fájl típusa:\\n%TYPELIST%"
 "This record is related to:": "A rekordhoz kapcsolódik:"
 "This template adds new fields. Save, then refresh to see these changes.": "A sablon új mezőket tartalmaz. Mentsd, majd frissítés után a változások érvénybe lépnek."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ez a weboldal a <a href='%url%' target='_blank' title='Kifinomult, korszerű és egyszerű tartalomkezelő'>Boltra épül</a>."

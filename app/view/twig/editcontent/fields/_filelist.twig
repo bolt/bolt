@@ -2,7 +2,7 @@
 
 {% set option = {
     extensions:  field.extensions|default([]),
-    label:       field.label|default(''),
+    label:       field.label,
     upload:      field.upload|default(''),
     can_upload:  field.canUpload,
     info:        field.info|default('info.upload.filelist')
@@ -10,14 +10,16 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_fileupload = {
-    accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
-    data_upload:  {type: 'FileList', key: key}|json_encode(),
-    data_url:     url('upload', {'handler': option.upload}),
-    id:           'fileupload-' ~ key,
-    name:         'files[]',
-    type:         'file',
-    multiple:     true,
+{% set attributes = {
+    fileupload: {
+        accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
+        data_upload:  {type: 'FileList', key: key}|json_encode(),
+        data_url:     url('upload', {'handler': option.upload}),
+        id:           'fileupload-' ~ key,
+        multiple:     true,
+        name:         'files[]',
+        type:         'file',
+    }
 } %}
 
 {% if context.content.get(key) is defined %}
@@ -26,76 +28,50 @@
     {% set list_json = '' %}
 {% endif %}
 
+{% set can_upload = context.can_upload and option.can_upload %}
+
 {#=== BLOCKS =========================================================================================================#}
 
-{% import _self as block %}
-
-{# Modal "select from server" #}
-{% macro serverselect(key) %}
-    <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content"></div>
-        </div>
-    </div>
-{% endmacro %}
+{% set listdata = {
+    'typelist':         option.extensions ? '.' ~ option.extensions|join(', .') : '–',
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-{% set list_empty %}
-    <p>{{ __('No files in the list, yet.') }}</p>
-{% endset %}
+{% extends '_base/_fieldset.twig' %}
 
-{% set list_item %}
-    <div data-id="{{ '<ID>' }}" class="list-item ui-state-default">
-        <input type="text" value="{{ '<VAL>' }}">
-        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
-        <span>{{ '<FNAME>' }}</span>
-    </div>
-{% endset %}
+{% block fieldset_type 'filelist' %}
 
-{% set list_item_uploading %}
-    <div class="uploading-list-element">
-        {{ __('Uploading') }} {{ '<FNAME>' }}
-        <div class="progress files-progress progress-striped active" id="progress-{{ key }}">
-            <div class="progress-bar" style="width: {{ '<PROGRESS>' }}"></div>
-        </div>
-    </div>
-{% endset %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
 
-{% set listdata = {
-    'message': {
-        'remove':     __('Are you sure you want to remove this file?'),
-        'removeMulti':  __('Are you sure you want to remove these images?'),
-        'wrongtype':  __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.' ~ option.extensions|join(', .') : '–'})
-    },
-    'empty':          list_empty|trim,
-    'item':           list_item|trim|preg_replace('/>\\s+</', '><'),
-    'itemUploading':     list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
-} %}
-
-<fieldset class="filelist">
-    <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-
-    <div class="col-sm-12 filelistholder dropzone" id="filelist-{{ key }}">
-
+{% block fieldset_controls %}
+    <div class="col-xs-12 filelistholder dropzone" id="filelist-{{ key }}">
+        {# Filelist #}
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
-        {% set can_upload = context.can_upload and option.can_upload %}
-
+        {# Buttons #}
         <div class="clearfix">
-            {{ macro.upload_buttons('file', key, attr_fileupload, option.upload, can_upload) }}
+            {{ macro.upload_buttons('file', key, attributes.fileupload, option.upload, can_upload) }}
 
-            <span type="button" class="btn btn-default remove-selected-button">
+            <button type="button" class="btn btn-default remove-selected-button">
                 <i class="fa fa-trash"></i>
                 <span>{{ __('Remove selected') }}</span>
-            </span>
+            </button>
         </div>
 
-        <p class="uploading-list"></p>
+        {# Progress info #}
+        <div class="uploading-list hide"></div>
 
+        {# Data #}
         <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
+        {# Modal "Select from server" #}
+        <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content"></div>
+            </div>
+        </div>
     </div>
-
-    {{ block.serverselect(key) }}
-</fieldset>
+{% endblock fieldset_controls %}

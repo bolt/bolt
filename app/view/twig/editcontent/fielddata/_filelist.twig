@@ -1,0 +1,38 @@
+{### Template: Empty list ###}
+
+{% set template_empty %}
+    <p>{{ __('No files in the list, yet.') }}</p>
+{% endset %}
+
+{{ data('field.filelist.template.empty', template_empty|trim) }}
+
+{### Template: Listitem ###}
+
+{% set template_item %}
+    <div data-id="%ID%" class="list-item ui-state-default">
+        <input type="text" value="%VAL%">
+        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
+        <span>%FNAME%</span>
+    </div>
+{% endset %}
+
+{{ data('field.filelist.template.item', template_item|trim|preg_replace('/>\\s+</', '><')) }}
+
+{### Template: Progress ###}
+
+{% set template_progress %}
+    <div class="uploading-list-element">
+        {{ __('Uploading') }} %FNAME%
+        <div class="progress files-progress progress-striped active">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+{% endset %}
+
+{{ data('field.filelist.template.progress', template_progress|trim|preg_replace('/>\\s+</', '><')) }}
+
+{### Messages ###}
+
+{{ data('field.filelist.message.remove', __('Are you sure you want to remove this file?')) }}
+{{ data('field.filelist.message.removeMulti', __('Are you sure you want to remove these files?')) }}
+{{ data('field.filelist.message.wrongtype', __('There was an error uploading the file.\nMake sure that the file type is of:\n%TYPELIST%')) }}

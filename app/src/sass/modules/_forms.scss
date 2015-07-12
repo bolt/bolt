@@ -54,18 +54,6 @@ input[type="checkbox"] {
     margin: 4px 8px 0px 0;
 }
 
-.prefix, .postfix {
-    padding-bottom: 4px;
-    color: #666;
-    padding-left: 16px;
-    padding-right: 16px;
-}
-
-.postfix {
-    padding-top: 5px;
-    padding-bottom: 0;
-}
-
 fieldset.checkbox {
     display: inline-block;
     margin-top: -12px;
@@ -164,5 +152,16 @@ fieldset.checkbox {
                 padding: 7px 12px 8px 12px;
             }
         }
+    }
+}
+
+div.datetime-container {
+    display: table;
+
+    & > div {
+        display: table-cell;
+        vertical-align: middle;
+        width: 9px;
+        overflow: visible;
     }
 }

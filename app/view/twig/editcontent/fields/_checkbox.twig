@@ -1,32 +1,39 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:  field.class|default(''),
-    label:  field.label|default(''),
+    class:  ('form-control ' ~ field.class)|trim,
+    label:  field.label,
     info:   field.info|default('')
 } %}
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_checkbox = {
-    checked:  context.content.get(contentkey),
-    class:    option.class,
-    name:     name,
-    id:       key,
-    type:     'checkbox',
-    value:    '1'
+{% set attributes = {
+    checkbox: {
+        checked:  context.content.get(contentkey),
+        class:    option.class,
+        id:       key,
+        name:     name,
+        type:     'checkbox',
+        value:    '1',
+    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-{# fieldset.checkbox already used: -> chkbox #}
-<fieldset class="checkbox">
-    <div class="col-sm-12">
-        <label class="col-sm-3 control-label" for="{{ key }}">
-            {{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}
-        </label>
-        <label class="col-sm-9 control-label">
-            <input{{ macro.attr(attr_checkbox) }}>
-        </label>
+{% extends '_base/_fieldset.twig' %}
+
+{% block fieldset_type 'checkbox' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-md-3' %}
+{% block fieldset_label_for   key %}
+
+{% block fieldset_controls %}
+    <div class="col-md-9">
+        <div class="checkbox">
+            <label><input{{ macro.attr(attributes.checkbox) }}><button type="button" onclick="var x=$(this).prev();x.prop('checked', !x.prop('checked'));"></button></label>
+        </div>
     </div>
-</fieldset>
+{% endblock fieldset_controls %}

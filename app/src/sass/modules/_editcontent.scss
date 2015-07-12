@@ -25,6 +25,19 @@
         border-color: $state-danger-text;
     }
 
+    /*** Prefix/postfix ***/
+
+    .prefix {
+        color: #666;
+        padding-bottom: 4px;
+    }
+
+    .postfix {
+        color: #666;
+        padding-top: 5px;
+        padding-bottom: 0;
+    }
+
     /*** Input widths ***/
 
     input.large {
@@ -189,11 +202,6 @@
             max-width: 100%;
             border: 1px solid #BBB;
         }
-    }
-
-    /*** Template Select Field ***/
-    .templatewarning {
-        margin-top: 5px;
     }
 
     /*** Input: Datepicker ***/

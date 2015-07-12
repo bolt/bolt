@@ -36,6 +36,28 @@
                     bolt.fields.slug.init(this, conf);
                     break;
 
+                case 'templateselect':
+                    bolt.fields.templateselect.init(this, conf);
+                    break;
+
+                case 'checkbox':
+                case 'date':
+                case 'datetime':
+                case 'file':
+                case 'filelist':
+                case 'float':
+                case 'html':
+                case 'image':
+                case 'imagelist':
+                case 'integer':
+                case 'markdown':
+                case 'select':
+                case 'text':
+                case 'textarea':
+                case 'video':
+                    // Not implemented yet.
+                    break;
+
                 default:
                     console.log('Unknown field type: ' + type);
             }

@@ -43,7 +43,23 @@ var FilelistHolder = Backbone.View.extend({
         this.list = new Filelist();
         this.uploading = new Filelist();
         this.type = options.type;
-        this.idPrefix = options.type == 'ImageList' ? '#imagelist-' : '#filelist-';
+        if (options.type === 'ImageList') {
+            this.idPrefix = '#imagelist-';
+            this.datWrongtype = 'field.imagelist.message.wrongtype';
+            this.datRemove = 'field.imagelist.message.remove';
+            this.datRemoveMulti = 'field.imagelist.message.removeMulti';
+            this.tmplEmpty = 'field.imagelist.template.empty';
+            this.tmplItem = 'field.imagelist.template.item';
+            this.tmplProgress = 'field.imagelist.template.progress';
+        } else {
+            this.idPrefix = '#filelist-';
+            this.datWrongtype = 'field.filelist.message.wrongtype';
+            this.datRemove = 'field.filelist.message.remove';
+            this.datRemoveMulti = 'field.filelist.message.removeMulti';
+            this.tmplEmpty = 'field.filelist.template.empty';
+            this.tmplItem = 'field.filelist.template.item';
+            this.tmplProgress = 'field.filelist.template.progress';
+        }
 
         var prelist = $('#' + this.id).val();
         if (prelist !== "") {
@@ -68,34 +84,46 @@ var FilelistHolder = Backbone.View.extend({
         var list = $(this.idPrefix + this.id + ' .list'),
             data = list.data('list'),
             listtype = this.type,
-            uploading = $(this.idPrefix + this.id + ' .uploading-list');
+            tmplItem = this.tmplItem,
+            tmplProgress = this.tmplProgress,
+            progress = $(this.idPrefix + this.id + ' .uploading-list');
 
         list.html('');
         _.each(this.list.models, function (file) {
-            var element = $(data.item.
-                    replace(/<ID>/g, file.get('id')).
-                    replace(/<VAL>/g, _.escape(file.get('title'))).
-                    replace(/<PATH>/g, Bolt.conf('paths.bolt')).
-                    replace(/<FNAME>/g, file.get('filename'))
-                );
+            var replace = {
+                    '%ID%':    file.get('id'),
+                    '%VAL%':   _.escape(file.get('title')),
+                    '%PATH%':  Bolt.conf('paths.bolt'),
+                    '%FNAME%': file.get('filename')
+                },
+                element = $(Bolt.data(tmplItem, replace));
+
             if (listtype === 'ImageList') {
                 element.find('.thumbnail-link').magnificPopup({type: 'image'});
             }
             list.append(element);
         });
 
-        uploading.html('');
+        progress.html('');
+        if (_.isEmpty(this.uploading.models)) {
+            progress.addClass('hide');
+        } else {
+            progress.removeClass('hide');
+        }
         _.each(this.uploading.models, function (file) {
-            var element = $(data.itemUploading
-                            .replace(/<FNAME>/g, file.get('filename'))
-                            .replace(/<PROGRESS>/g, Math.round(file.progress * 100) + '%')
-                           );
+            var replace = {
+                    '%FNAME%':    file.get('filename')
+                },
+                element = $(Bolt.data(tmplProgress, replace)),
+                progressBar = element.find('.progress-bar');
+
+            progressBar.css('width', Math.round((file.progress || 0) * 100) + '%');
             file.element = element;
-            uploading.append(element);
+            progress.append(element);
         });
 
         if (this.list.models.length === 0) {
-            list.append(data.empty);
+            list.append(Bolt.data(this.tmplEmpty));
         }
         this.serialize();
     },
@@ -197,13 +225,13 @@ var FilelistHolder = Backbone.View.extend({
             .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
                     pattern,
-                    ldata = $(this.idPrefix + contentkey + ' div.list').data('list');
+                    ldata = $($this.idPrefix + contentkey + ' div.list').data('list');
 
                 if (typeof fileTypes !== 'undefined') {
                     pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
                     $.each(data.files , function (index, file) {
                         if (!pattern.test(file.name)) {
-                            alert(ldata.message.wrongtype);
+                            alert(Bolt.data($this.datWrongtype, {'%TYPELIST%': ldata.typelist}));
                             e.preventDefault();
 
                             return false;
@@ -268,9 +296,7 @@ var FilelistHolder = Backbone.View.extend({
         });
 
         $holder.find('.remove-selected-button').on('click', function (e) {
-            var ldata = $holder.find('div.list').data('list');
-
-            if (confirm(ldata.message.removeMulti)) {
+            if (confirm(Bolt.data($this.datRemoveMulti))) {
                 $holder.find('.selected').each(function () {
                     $this.remove($(this).data('id'), true);
                 });
@@ -279,10 +305,9 @@ var FilelistHolder = Backbone.View.extend({
         });
 
         $holder.find('div.list').on('click', '.remove-button', function (e) {
-            var ldata = $(this).closest('div.list').data('list');
-
             e.preventDefault();
-            if (confirm(ldata.message.remove)) {
+
+            if (confirm(Bolt.data($this.datRemove))) {
                 $this.remove($(this).parent().data('id'));
             }
         });

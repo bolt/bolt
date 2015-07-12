@@ -1,8 +1,8 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:     field.class|default(''),
-    label:     field.label|default(''),
+    class:     ('form-control ' ~ field.class)|trim,
+    label:     field.label,
     multiple:  (field.multiple is defined and field.multiple),
     values:    field.values|default([]),
     info:      field.info|default('')
@@ -38,26 +38,31 @@
     {% set onlyids = false %}
 {% endif %}
 
-{% set attr_select = {
-    class:     option.class,
-    id:        key,
-    multiple:  option.multiple,
-    name:      (option.multiple) ? name ~ '[]' : name,
-} %}
-
 {# If the field has autocomplete, we need to set our own style, and remove the class attribute. #}
-{% if field.autocomplete|default(false) %}
-    {% set attr_select = attr_select|merge({'class': ''}) %}
-    {% set attr_select = attr_select|merge({'style': 'width: 100%;'}) %}
-{% endif %}
+{% set attributes = {
+    select: {
+        class:     field.autocomplete|default(false) ? '' : option.class,
+        id:        key,
+        multiple:  option.multiple,
+        name:      (option.multiple) ? name ~ '[]' : name,
+        style:     field.autocomplete|default(false) ? 'width: 100%;' : '',
+    }
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="multiselect">
+{% extends '_base/_fieldset.twig' %}
 
-    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+{% block fieldset_type 'select' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-sm-3' %}
+{% block fieldset_label_for   key %}
+
+{% block fieldset_controls %}
     <div class="col-sm-9">
-        <select{{ macro.attr(attr_select) }}>
+        <select{{ macro.attr(attributes.select) }}>
             {% for id, value in values %}
 
                 {% set is_array = (value is iterable and (value | length) > 1) %}
@@ -92,5 +97,4 @@
         });
     </script>
     {% endif %}
-
-</fieldset>
+{% endblock fieldset_controls %}

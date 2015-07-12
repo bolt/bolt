@@ -519,14 +519,14 @@ class Config
                 $hasGroups = true;
             }
 
-            // Make sure we have these keys and every field has a group set
+            // Make sure we have these keys and every field has a group set.
             $field = array_replace(
                 [
+                    'class'   => '',
+                    'default' => '',
+                    'group'   => $currentGroup,
                     'label'   => '',
                     'variant' => '',
-                    'default' => '',
-                    'pattern' => '',
-                    'group'   => $currentGroup,
                 ],
                 $field
             );
@@ -535,9 +535,6 @@ class Config
             // Make sure that once you started with group all following have that group, too.
             $currentGroup = $field['group'];
             $groups[$currentGroup] = 1;
-
-            // Prefix class with "form-control"
-            $field['class'] = 'form-control' . (isset($field['class']) ? ' ' . $field['class'] : '');
 
             $fields[$key] = $field;
         }

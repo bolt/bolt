@@ -1,52 +1,53 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:        field.class|default(''),
-    label:        field.label|default(''),
+    class:        ('form-control ' ~ field.class)|trim,
+    label:        field.label,
     pattern:      field.pattern|default(''),
     placeholder:  field.placeholder|default(''),
     required:     field.required|default(false),
     errortext:    field.error|default(''),
     readonly:     field.readonly|default(false),
     title:        field.title|default(''),
-    variant:      field.variant|default(''),
+    variant:      field.variant,
     info:         field.info|default('')
 } %}
 {# variant[inline] #}
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_text = {
-    class:          option.class,
-    name:           name,
-    id:             key,
-    pattern:        (option.pattern and option.pattern not in ['url', 'email']) ? option.pattern : '',
-    maxlength:      255,
-    placeholder:    option.placeholder,
-    required:       option.required,
-    data_errortext: option.errortext,
-    readonly:       option.readonly,
-    title:          option.title,
-    type:           (option.pattern in ['url', 'email']) ? option.pattern : 'text',
-    value:          context.content.get(contentkey),
+{% set attributes = {
+    text: {
+        class:           option.class,
+        data_errortext:  option.errortext,
+        id:              key,
+        maxlength:       255,
+        name:            name,
+        pattern:         (option.pattern and option.pattern not in ['url', 'email']) ? option.pattern : '',
+        placeholder:     option.placeholder,
+        readonly:        option.readonly,
+        required:        option.required,
+        title:           option.title,
+        type:            (option.pattern in ['url', 'email']) ? option.pattern : 'text',
+        value:           context.content.get(contentkey),
+    }
 } %}
+
+{% set class = option.variant == 'inline' ? ['col-sm-3', 'col-sm-9'] : ['col-xs-12', 'col-xs-12'] %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="text">
-    {% if option.variant == 'inline' %}
+{% extends '_base/_fieldset.twig' %}
 
-        <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <div class="col-sm-9">
-            <input{{ macro.attr(attr_text) }}>
-        </div>
+{% block fieldset_type 'text' %}
 
-    {% else %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class class[0] %}
+{% block fieldset_label_for   key %}
 
-        <div class="col-sm-12">
-            <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-            <input{{ macro.attr(attr_text) }}>
-        </div>
-
-    {% endif %}
-</fieldset>
+{% block fieldset_controls %}
+    <div class="{{ class[1] }}">
+        <input{{ macro.attr(attributes.text) }}>
+    </div>
+{% endblock fieldset_controls %}

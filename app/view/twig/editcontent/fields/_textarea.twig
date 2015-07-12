@@ -1,9 +1,9 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:     field.class|default(''),
+    class:     ('form-control ' ~ field.class)|trim,
     height:    field.height|default(''),
-    label:     field.label|default(''),
+    label:     field.label,
     info:      field.info|default(''),
     required:  field.required|default(false),
     errortext: field.error|default(''),
@@ -11,21 +11,28 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_text = {
-    class:     option.class,
-    name:      name,
-    required:  option.required,
-    style:     option.height ? 'height: ' ~ option.height ~ ';' : '',
-    data_errortext: option.errortext,
+{% set attributes = {
+    text: {
+        class:           option.class,
+        data_errortext:  option.errortext,
+        name:            name,
+        required:        option.required,
+        style:           option.height ? 'height: ' ~ option.height ~ ';' : '',
+    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="textarea">
+{% extends '_base/_fieldset.twig' %}
 
-    <div class="col-sm-12">
-        <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
+{% block fieldset_type 'textarea' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
+
+{% block fieldset_controls %}
+    <div class="col-xs-12">
+        <textarea{{ macro.attr(attributes.text) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
-
-</fieldset>
+{% endblock fieldset_controls %}

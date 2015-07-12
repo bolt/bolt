@@ -3,6 +3,11 @@
  */
 
 /**
+ * Bootstrap customizing.
+ */
+$navbar-padding-horizontal: 0;
+
+/**
  * External resource: Bootstrap.
  * We do seperate imports here, instead of just importing 'bootstrap.scss', because we do not need
  * all of the components.
@@ -89,12 +94,32 @@
 @import "modules/forms";
 @import "modules/editcontent";
 @import "modules/liveeditor";
-@import "modules/fieldset/checkbox";
-@import "modules/fieldset/select";
-@import "modules/fieldset/slug";
-@import "modules/fieldset/geolocation";
 @import "modules/login";
 @import "modules/extend";
+
+/**
+ * Fieldsets.
+ */
+@import "fieldsets/generic";
+//
+@import "fieldsets/checkbox";
+@import "fieldsets/date";
+@import "fieldsets/datetime";
+@import "fieldsets/file";
+@import "fieldsets/filelist";
+@import "fieldsets/float";
+@import "fieldsets/geolocation";
+@import "fieldsets/html";
+@import "fieldsets/image";
+@import "fieldsets/imagelist";
+@import "fieldsets/integer";
+@import "fieldsets/markdown";
+@import "fieldsets/select";
+@import "fieldsets/slug";
+@import "fieldsets/templateselect";
+@import "fieldsets/text";
+@import "fieldsets/textarea";
+@import "fieldsets/video";
 
 /**
  * The leftover styles.

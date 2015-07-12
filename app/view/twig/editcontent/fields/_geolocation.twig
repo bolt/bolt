@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    label:  field.label|default(''),
+    label:  ('form-control ' ~ field.class)|trim,
     info:   field.info|default('info.geolocation')
 } %}
 
@@ -18,6 +18,7 @@
         placeholder: __('field.geolocation.placeholder.address') ~ ' …',
         type:        'text',
     },
+
     latitude: {
         class:       'form-control latitude',
         name:        name ~ '[latitude]',
@@ -25,19 +26,21 @@
         step:        'any',
         type:        'number',
     },
+
     longitude: {
         class:       'form-control longitude',
         name:        name ~ '[longitude]',
         readonly:    true,
-        type:        'number',
         step:        'any',
+        type:        'number',
     },
+
     formatted: {
         class:      'matched',
         name:        name ~ '[_address]',
+        placeholder: '—',
         readonly:    true,
         type:        'text',
-        placeholder: '—',
     }
 } %}
 
@@ -78,22 +81,26 @@
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '_base/_fieldset.twig' %}
+
 {% from _self import slot %}
 
 {# Default location is Two Kings, for now. #}
-{% set fieldset = {
-    geolocation: {
-        key: key,
-        latitude: geolocation.latitude|default(52.08184),
-        longitude: geolocation.longitude|default(4.292368),
-    }
+{% set fieldset_conf = {
+    key: key,
+    latitude: geolocation.latitude|default(52.08184),
+    longitude: geolocation.longitude|default(4.292368),
 }%}
 
-{% block fieldset %}
-    <label class="control-label col-xs-12">{{ macro.infopop(labelkey, option.info) }}</label>
+{% block fieldset_type 'geolocation' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
+
+{% block fieldset_controls %}
     <div class="field-container col-xs-12">
         <div class="field-slot row">
             {{ slot(attributes, key, geolocation) }}
         </div>
     </div>
-{% endblock fieldset %}
+{% endblock fieldset_controls %}

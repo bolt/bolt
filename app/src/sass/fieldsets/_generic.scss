@@ -1,0 +1,25 @@
+/*** Styles for all Fieldsets ***/
+
+fieldset[data-bolt-field] {
+    /*** Label ***/
+
+    label {
+        font-weight: bold;
+        font-size: 13px;
+        color: lighten(black, 30%);
+    }
+
+    // Main label.
+    & > label {
+        color: desaturate(lighten($boltblue, 35%), 20);
+        font-size: 15px;
+    }
+
+    /*** Info popup ***/
+
+    .info-pop {
+        cursor: help;
+        color: #bbb;
+        padding-left: 4px;
+    }
+}

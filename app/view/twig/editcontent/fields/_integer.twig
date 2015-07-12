@@ -1,8 +1,8 @@
 {#=== OPTIONS ========================================================================================================#}
 {% set field_step = field.step|default(1) %}
 {% set option = {
-    class:        field.class|default(''),
-    label:        field.label|default(''),
+    class:        ('form-control ' ~ field.class)|trim,
+    label:        field.label,
     placeholder:  field.placeholder|default(''),
     required:     field.required|default(false),
     readonly:     field.readonly|default(false),
@@ -16,28 +16,37 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_number = {
-    class:          option.class ~ ' narrow',
-    name:           name,
-    id:             key,
-    placeholder:    option.placeholder,
-    required:       option.required,
-    readonly:       option.readonly,
-    step:           option.step,
-    min:            max(option.min,'-2147483647'),
-    max:            min(option.max,'2147483647'),
-    title:          option.title,
-    type:           'number',
-    value:          0 + context.content.get(contentkey),
-    data_errortext: option.errortext,
+{% set attributes = {
+    number: {
+        class:           option.class ~ ' narrow',
+        data_errortext:  option.errortext,
+        id:              key,
+        max:             min(option.max, '2147483647'),
+        min:             max(option.min, '-2147483647'),
+        name:            name,
+        placeholder:     option.placeholder,
+        readonly:        option.readonly,
+        required:        option.required,
+        step:            option.step,
+        title:           option.title,
+        type:            'number',
+        value:           0 + context.content.get(contentkey),
+    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="integer">
-    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-    <div class="col-sm-9">
-        <input{{ macro.attr(attr_number) }}>
-    </div>
+{% extends '_base/_fieldset.twig' %}
 
-</fieldset>
+{% block fieldset_type 'integer' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-sm-3' %}
+{% block fieldset_label_for   key %}
+
+{% block fieldset_controls %}
+    <div class="col-sm-9">
+        <input{{ macro.attr(attributes.number) }}>
+    </div>
+{% endblock fieldset_controls %}

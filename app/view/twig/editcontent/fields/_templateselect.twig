@@ -1,52 +1,53 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:   field.class|default('') ~ ' narrow',
+    class:   ('form-control narrow ' ~ field.class)|trim,
     filter:  field.filter|default({}),
-    label:   field.label|default(''),
+    label:   field.label,
     info:    field.info|default('')
 } %}
 
 {#=== INIT ===========================================================================================================#}
 
-{% set templateselectdata = {
-    'message': {
-        'change':       __('This template adds new fields. Save, then refresh to see these changes.'),
-        'warningChange':  __('You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.'),
-        'warning':    __('Warning')
+{% set attributes = {
+    select: {
+        class:  option.class,
+        id:     key,
+        name:   name,
     },
-    'currentHas':       context.has.templatefields,
-    'current':          context.content.get(contentkey),
-    'fieldTemplates':   context.fieldtemplates
+
+    default: {
+        value:  '',
+    },
+
+    divider: {
+        disabled:  true,
+        value:     '',
+    }
 } %}
-
-{% set attr_select = {
-    class:          option.class,
-    name:           name,
-    id:             key,
-    'data-stats':   templateselectdata|json_encode
-} %}
-
-{% set attr_default = {
-    value:  '',
-} %}
-
-{% set attr_divider = {
-    disabled:  true,
-    value:     '',
-} %}
-
-
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="templateselect">
+{% extends '_base/_fieldset.twig' %}
 
-    <label class="col-sm-3 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+{% set fieldset_conf = {
+    'currentHas':       context.has.templatefields,
+    'current':          context.content.get(contentkey),
+    'fieldTemplates':   context.fieldtemplates
+}%}
+
+{% block fieldset_type 'templateselect' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-sm-3' %}
+{% block fieldset_label_for   key %}
+
+{% block fieldset_controls %}
     <div class="col-sm-9">
-        <select{{ macro.attr(attr_select) }}>
-            <option{{ macro.attr(attr_default) }}>{{ __('(default template)') }}</option>
-            <option{{ macro.attr(attr_divider) }}>-----------</option>
+        <select{{ macro.attr(attributes.select) }}>
+            <option{{ macro.attr(attributes.default) }}>{{ __('(default template)') }}</option>
+            <option{{ macro.attr(attributes.divider) }}>-----------</option>
             {% for filename, name in listtemplates(option.filter) %}
                 <option{{ macro.attr({value: filename, selected: (context.content.get(contentkey) == filename)}) }}>
                     {{- name -}}
@@ -54,8 +55,7 @@
             {% endfor %}
         </select>
     </div>
-    <div class="col-sm-12">
-        <p class="hidden templatewarning"></p>
+    <div class="hidden col-sm-9 col-sm-offset-3">
+        <p class="form-control-static"></p>
     </div>
-
-</fieldset>
+{% endblock fieldset_controls %}

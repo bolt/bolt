@@ -1,8 +1,8 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:       field.class|default(''),
-    label:       field.label|default(''),
+    class:       ('form-control ' ~ field.class)|trim,
+    label:       field.label,
     extensions:  field.extensions|default([]),
     upload:      field.upload|default(''),
     can_upload:  field.canUpload,
@@ -11,60 +11,61 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_filepath = {
-    class:       option.class ~ ' imageinput',
-    id:          'field-' ~ key,
-    name:        name,
-    type:        'text',
-    placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
-    value:       context.content.get(contentkey),
+{% set attributes = {
+    filepath: {
+        class:        option.class ~ ' imageinput',
+        id:           'field-' ~ key,
+        name:         name,
+        placeholder:  __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
+        type:         'text',
+        value:        context.content.get(contentkey),
+    },
+
+    upload: {
+        accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
+        data_upload:  {type: 'File', key: key}|json_encode(),
+        data_url:     url('upload', {'handler': option.upload}),
+        id:           'fileupload-' ~ key,
+        name:         'files[]',
+        type:         'file',
+    }
 } %}
 
-{% set attr_upload = {
-    accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
-    data_upload:  {type: 'File', key: key}|json_encode(),
-    data_url:     url('upload', {'handler': option.upload}),
-    id:           'fileupload-' ~ key,
-    name:         'files[]',
-    type:         'file',
-} %}
-
-{#=== BLOCKS =========================================================================================================#}
-
-{% import _self as block %}
-
-{% macro progress(key) %}
-    <div class="progress file-progress progress-striped active" id="progress-{{ key }}">
-        <div class="progress-bar" style="width: 0%;"></div>
-    </div>
-{% endmacro %}
-
-{# Modal "select from server" #}
-{% macro serverselect(key) %}
-    <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content"></div>
-        </div>
-    </div>
-{% endmacro %}
+{% set can_upload = context.can_upload and option.can_upload %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="file">
-    <label class="col-sm-12 control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
+{% extends '_base/_fieldset.twig' %}
 
-    <div class="col-sm-12 dropzone clearfix" id="dropzone-{{ key }}">
-        <input{{ macro.attr(attr_filepath) }}>
-        {% set can_upload = context.can_upload and option.can_upload %}
-        {{ macro.upload_buttons('file', key, attr_upload, option.upload, can_upload) }}
-        {{ block.progress(key) }}
-        {{ block.serverselect(key, __('Cancel')) }}
+{% block fieldset_type 'file' %}
 
-        {% if not ismobileclient() %}
-            <div style="clear: left;" class="hidden-xs">
-                <small>{{ app.translator.trans('info.upload.filesmall', {}, 'infos') }}</small>
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
+
+{% block fieldset_controls %}
+    <div class="col-xs-12 dropzone clearfix" id="dropzone-{{ key }}">
+        {# Path #}
+        <input{{ macro.attr(attributes.filepath) }}>
+
+        {# Uploadbuttons #}
+        {{ macro.upload_buttons('file', key, attributes.upload, option.upload, can_upload) }}
+
+        {# Progressbar #}
+        <div class="progress file-progress progress-striped active" id="progress-{{ key }}">
+            <div class="progress-bar"></div>
+        </div>
+
+        {# Modal "select from server" #}
+        <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content"></div>
             </div>
+        </div>
+
+        {# Infotext #}
+        {% if not ismobileclient() %}
+            <div class="infotext hidden-xs">{{ app.translator.trans('info.upload.filesmall', {}, 'infos') }}</div>
         {% endif %}
     </div>
-
-</fieldset>
+{% endblock fieldset_controls %}

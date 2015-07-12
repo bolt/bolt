@@ -1,0 +1,16 @@
+/*** Fieldset: Video ***/
+
+fieldset[data-bolt-field="video"] {
+
+    input[type=number] {
+        width: 30% !important;      // Reset from _editcontent.scss
+        min-width: 10px !important; // Reset from _editcontent.scss
+        max-width: 100px;
+    }
+
+    .form-inline .form-control {
+        display: inline-block;
+        width: 100%;
+        vertical-align: middle;
+    }
+}

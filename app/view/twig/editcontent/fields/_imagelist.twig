@@ -2,7 +2,7 @@
 
 {% set option = {
     extensions:  field.extensions|default([]),
-    label:       field.label|default(''),
+    label:       field.label,
     upload:      field.upload|default(''),
     can_upload:  field.canUpload,
     info:        field.info|default('info.upload.filelist')
@@ -10,14 +10,16 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_fileupload = {
-    accept:      option.extensions ? '.' ~ option.extensions|join(',.') : '',
-    data_upload: {type: 'ImageList', key: key}|json_encode(),
-    data_url:    url('upload', {'handler': option.upload}),
-    id:          'fileupload-' ~ key,
-    name:        'files[]',
-    type:        'file',
-    multiple:    true,
+{% set attributes = {
+    fileupload: {
+        accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
+        data_upload:  {type: 'ImageList', key: key}|json_encode(),
+        data_url:     url('upload', {'handler': option.upload}),
+        id:           'fileupload-' ~ key,
+        multiple:     true,
+        name:         'files[]',
+        type:         'file',
+    }
 } %}
 
 {% if context.content.get(contentkey) is defined %}
@@ -25,6 +27,10 @@
 {% else %}
     {% set list_json = '' %}
 {% endif %}
+
+{% set listdata = {
+    'typelist':         option.extensions ? '.' ~ option.extensions|join(', .') : '–',
+} %}
 
 {#=== BLOCKS =========================================================================================================#}
 
@@ -39,55 +45,28 @@
     </div>
 {% endmacro %}
 
-
 {#=== FIELDSET =======================================================================================================#}
 
-{% set list_empty %}
-    <p>{{ __('No images in the list, yet.') }}</p>
-{% endset %}
+{% extends '_base/_fieldset.twig' %}
 
-{% set list_item %}
-    <div data-id="{{ '<ID>' }}" class="list-item ui-state-default">
-        <a class="thumbnail-link" href="{{ '<PATH>' }}../files/{{ '<FNAME>' }}"><img src="{{ '<PATH>' }}../thumbs/60x40/{{ '<FNAME>' }}" width="60" height="40"></a>
-        <input type="text" value="{{ '<VAL>' }}">
-        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
-    </div>
-{% endset %}
+{% block fieldset_type 'imagelist' %}
 
-{% set list_item_uploading %}
-    <div class="uploading-list-element">
-        {{ __('Uploading') }} {{ '<FNAME>' }}
-        <div class="progress files-progress progress-striped active" id="progress-{{ key }}">
-            <div class="progress-bar" style="width: {{ '<PROGRESS>' }}"></div>
-        </div>
-    </div>
-{% endset %}
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
 
-{% set listdata = {
-    'message': {
-        'remove':       __('Are you sure you want to remove this image?'),
-        'removeMulti':  __('Are you sure you want to remove these images?'),
-        'wrongtype':    __('There was an error uploading the file.\nMake sure that the file type is of:\n%typelist%', {'%typelist%': option.extensions ? '.' ~ option.extensions|join(', .') : '–'})
-    },
-    'empty':          list_empty|trim,
-    'item':           list_item|trim|preg_replace('/>\\s+</', '><'),
-    'itemUploading':     list_item_uploading|trim|preg_replace('/>\\s+</', '><'),
-} %}
-
-<fieldset class="imagelist">
-    <label class="col-sm-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-
-    <div class="col-sm-12 filelistholder dropzone" id="imagelist-{{ key }}">
+{% block fieldset_controls %}
+    <div class="col-xs-12 filelistholder dropzone" id="imagelist-{{ key }}">
 
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
         {% set can_upload = context.can_upload and option.can_upload %}
         <div class="clearfix">
-            {{ macro.upload_buttons('image', key, attr_fileupload, option.upload, can_upload) }}
+            {{ macro.upload_buttons('image', key, attributes.fileupload, option.upload, can_upload) }}
 
             <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
-            <span type="button" class="btn btn-default remove-selected-button">
+            <span class="btn btn-default remove-selected-button">
                 <i class="fa fa-trash"></i>
                 <span>{{ __('Remove selected') }}</span>
             </span>
@@ -98,5 +77,4 @@
         {{ block.serverselect(key) }}
 
     </div>
-
-</fieldset>
+{% endblock fieldset_controls %}

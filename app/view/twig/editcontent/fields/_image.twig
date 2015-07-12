@@ -1,8 +1,8 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:       field.class|default(''),
-    label:       field.label|default(''),
+    class:       ('form-control ' ~ field.class)|trim,
+    label:       field.label,
     extensions:  field.extensions|default([]),
     attrib:      (field.attrib is defined and field.attrib is iterable) ? field.attrib : [ field.attrib|default(null) ],
     upload:      field.upload|default(''),
@@ -18,22 +18,24 @@
 {# Convert from old stored image format that is used until re-saved #}
 {% set image = (context.content.get(contentkey) is iterable) ? context.content.get(contentkey) : {'file': context.content.get(contentkey)} %}
 
-{% set attr_inp = {
-    class:       option.class ~ ' imageinput wide',
-    id:          'field-' ~ key,
-    name:        name ~ '[file]',
-    type:        'text',
-    placeholder: __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
-    value:       image.file|default(''),
-} %}
+{% set attributes = {
+    inp: {
+        class:        option.class ~ ' imageinput wide',
+        id:           'field-' ~ key,
+        name:         name ~ '[file]',
+        placeholder:  __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
+        type:         'text',
+        value:        image.file|default(''),
+    },
 
-{% set attr_upload = {
-    accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
-    data_upload:  {type: 'Image', key: key, width: preview_w, height: preview_h}|json_encode(),
-    data_url:     url('upload', {'handler': option.upload}),
-    id:           'fileupload-' ~ key,
-    name:         'files[]',
-    type:         'file',
+    upload: {
+        accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
+        data_upload:  {type: 'Image', key: key, width: preview_w, height: preview_h}|json_encode(),
+        data_url:     url('upload', {'handler': option.upload}),
+        id:           'fileupload-' ~ key,
+        name:         'files[]',
+        type:         'file',
+    }
 } %}
 
 
@@ -96,36 +98,44 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="image">
-    <div class="dropzone clearfix" id="dropzone-{{ key }}">
-    <label class="col-xs-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-    <div class="col-xs-8">
-        <div class="form-group">
-            <div class="col-sm-12">
-                {{ block.imagepath(labelkey, option, image, attr_inp) }}
+{% extends '_base/_fieldset.twig' %}
+
+{% block fieldset_type 'image' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
+
+{% block fieldset_controls %}
+    <div class="col-xs-12 dropzone" id="dropzone-{{ key }}">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        {{ block.imagepath(labelkey, option, image, attributes.inp) }}
+                    </div>
+                </div>
+                {{ block.attributes(key, option, image) }}
+                {% set can_upload = context.can_upload and option.can_upload %}
+                {{ macro.upload_buttons('image', key, attributes.upload, option.upload, can_upload) }}
+                {{ block.progress(key) }}
+                {{ block.serverselect(key, __('Cancel')) }}
+            </div>
+
+            <div class="col-xs-4">
+                <div class="right-on-large">{# to make the preview align right on wide screens #}
+                    <label>{{ __('Preview') }}</label>
+                    <div class="content-preview imageholder" id="thumbnail-{{ key }}" style="max-width:{{ preview_w }}px;max-height:{{ preview_h }}px">
+                        {% if context.content.get(contentkey) != '' %}
+                            {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
+                        {% else %}
+                            {% set preview_path = app.paths.app ~ 'view/img/default_empty_4x3.png' %}
+                        {% endif %}
+                        {# <img src="{{ preview_path }}" width="{{ preview_w }}" height="{{ preview_h }}" alt="Preview"> #}
+                        <img src="{{ preview_path }}" alt="Preview">
+                    </div>
+                </div>
             </div>
         </div>
-        {{ block.attributes(key, option, image) }}
-        {% set can_upload = context.can_upload and option.can_upload %}
-        {{ macro.upload_buttons('image', key, attr_upload, option.upload, can_upload) }}
-        {{ block.progress(key) }}
-        {{ block.serverselect(key, __('Cancel')) }}
     </div>
-
-    <div class="col-xs-4">
-        <div class="right-on-large">{# to make the preview align right on wide screens #}
-            <label>{{ __('Preview') }}</label>
-            <div class="content-preview imageholder" id="thumbnail-{{ key }}" style="max-width:{{ preview_w }}px;max-height:{{ preview_h }}px">
-                {% if context.content.get(contentkey) != '' %}
-                    {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
-                {% else %}
-                    {% set preview_path = app.paths.app ~ 'view/img/default_empty_4x3.png' %}
-                {% endif %}
-                {# <img src="{{ preview_path }}" width="{{ preview_w }}" height="{{ preview_h }}" alt="Preview"> #}
-                <img src="{{ preview_path }}" alt="Preview">
-            </div>
-        </div>
-    </div>
-</div>
-
-</fieldset>
+{% endblock fieldset_controls %}

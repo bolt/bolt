@@ -1,6 +1,28 @@
-{% set ftype = fieldset|keys|first %}
-{% set fconf = fieldset|first %}
+{% from 'editcontent/_macros.twig' import infopop %}
 
-<fieldset data-bolt-field="{{ ftype }}" data-bolt-fconf="{{ fconf|json_encode }}">
-{% block fieldset %}{% endblock fieldset %}
+{#=== INIT ===========================================================================================================#}
+
+{% set attributes_fieldset = {
+    class:            'form-group',
+    data_bolt_field:  block('fieldset_type'),
+    data_bolt_fconf:  fieldset_conf|default() is iterable ? fieldset_conf : null
+} %}
+
+{% set attributes_label = {
+    class:  block('fieldset_label_class') ~ (block('fieldset_label_class') == 'col-xs-12' ? '' : ' control-label'),
+    for:    block('fieldset_label_for'),
+} %}
+
+{% if block('fieldset_label_info') %}
+    {% set field_label = infopop(block('fieldset_label_text'), block('fieldset_label_info')) %}
+{% else %}
+    {% set field_label = block('fieldset_label_text') %}
+{% endif %}
+
+{#=== OUTPUT =========================================================================================================#}
+
+<fieldset{{ macro.attr(attributes_fieldset) }}>
+    <legend class="sr-only">{% block fieldset_label_text %}{% endblock fieldset_label_text %}</legend>
+    <label{{ macro.attr(attributes_label) }}>{{ field_label }}</label>
+    {% block fieldset_controls %}{% endblock fieldset_controls %}
 </fieldset>

@@ -22,8 +22,8 @@ var init = {
             }
 
             if (status === 'published' && moment(depublish + Bolt.conf('timezone.offset')) < moment()) {
-                $('<div class="' + noticeID + ' alert alert-warning">' +
-                    '<button class="close" data-dismiss="alert">×</button>' + msg + '</div>')
+                $('<div class="' + noticeID + ' alert alert-warning alert-dismissible">' +
+                    '<button type="button" class="close" data-dismiss="alert">×</button>' + msg + '</div>')
                     .hide()
                     .insertAfter('.depublish-group')
                     .slideDown('fast');

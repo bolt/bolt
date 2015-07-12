@@ -1,7 +1,7 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    label:  field.label|default(''),
+    label:  field.label,
     info:   field.info|default('info.upload.video'),
 } %}
 
@@ -11,102 +11,108 @@
 
 {% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18) ~ '</b>" by ' ~ video.authorname|trimtext(18) %}
 
-{% set attr_url = {
-    _bind:        ['video', {key: key}],
-    class:        'form-control',
-    id:           'video-' ~ key,
-    name:         name ~ '[url]',
-    type:         'url',
-    placeholder:  __('field.video.placeholder.url') ~ ' …',
-    value:        video.url|default(''),
-} %}
+{% set attributes = {
+    url: {
+        _bind:        ['video', {key: key}],
+        class:        'form-control',
+        id:           'video-' ~ key,
+        name:         name ~ '[url]',
+        placeholder:  __('field.video.placeholder.url') ~ ' …',
+        type:         'url',
+        value:        video.url|default(''),
+    },
 
-{% set attr_width = {
-    class:  'form-control pull-left',
-    id:     'video-' ~ key ~ '-width',
-    name:   name ~ '[width]',
-    style:  'width: 80px; min-width: 80px;',
-    type:   'number',
-    value:  video.width|default(''),
-} %}
+    width: {
+        class:  'form-control',
+        id:     'video-' ~ key ~ '-width',
+        name:   name ~ '[width]',
+        type:   'number',
+        value:  video.width|default(''),
+    },
 
-{% set attr_height = {
-    class:  'form-control pull-left',
-    id:     'video-' ~ key ~ '-height',
-    name:   name ~ '[height]',
-    style:  'width: 80px; min-width: 80px;',
-    type:   'number',
-    value:  video.height|default(''),
-} %}
+    height: {
+        class:  'form-control',
+        id:     'video-' ~ key ~ '-height',
+        name:   name ~ '[height]',
+        type:   'number',
+        value:  video.height|default(''),
+    },
 
-{% set attr_hid_ratio = {
-    id:        'video-' ~ key ~ '-ratio',
-    name:      name ~ '[ratio]',
-    type:      'hidden',
-    value:     video.ratio|default(''),
-} %}
+    hid_ratio: {
+        id:        'video-' ~ key ~ '-ratio',
+        name:      name ~ '[ratio]',
+        type:      'hidden',
+        value:     video.ratio|default(''),
+    },
 
-{% set attr_hid_title = {
-    id:        'video-' ~ key ~ '-title',
-    name:      name ~ '[title]',
-    readonly:  true,
-    type:      'hidden',
-    value:     video.title|default(''),
-} %}
+    hid_title: {
+        id:        'video-' ~ key ~ '-title',
+        name:      name ~ '[title]',
+        readonly:  true,
+        type:      'hidden',
+        value:     video.title|default(''),
+    },
 
-{% set attr_hid_authorname = {
-    id:        'video-' ~ key ~ '-author_name',
-    name:      name ~ '[authorname]',
-    readonly:  true,
-    type:      'hidden',
-    value:     video.authorname|default(''),
-} %}
+    hid_authorname: {
+        id:        'video-' ~ key ~ '-author_name',
+        name:      name ~ '[authorname]',
+        readonly:  true,
+        type:      'hidden',
+        value:     video.authorname|default(''),
+    },
 
-{% set attr_hid_authorurl = {
-    id:        'video-' ~ key ~ '-author_url',
-    name:      name ~ '[authorurl]',
-    readonly:  true,
-    type:      'hidden',
-    value:     video.authorurl|default(''),
-} %}
+    hid_authorurl: {
+        id:        'video-' ~ key ~ '-author_url',
+        name:      name ~ '[authorurl]',
+        readonly:  true,
+        type:      'hidden',
+        value:     video.authorurl|default(''),
+    },
 
-{% set attr_hid_html = {
-    id:        'video-' ~ key ~ '-html',
-    name:      name ~ '[html]',
-    readonly:  true,
-    type:      'hidden',
-    value:     (video.html is defined ? video.html|replace({'"': '\''}) : ''),
-} %}
+    hid_html: {
+        id:        'video-' ~ key ~ '-html',
+        name:      name ~ '[html]',
+        readonly:  true,
+        type:      'hidden',
+        value:     (video.html is defined ? video.html|replace({'"': '\''}) : ''),
+    },
 
-{% set attr_hid_thumbnail = {
-    id:        'video-' ~ key ~ '-thumbnail',
-    name:      name ~ '[thumbnail]',
-    readonly:  true,
-    type:      'hidden',
-    value:     video.thumbnail|default(''),
+    hid_thumbnail: {
+        id:        'video-' ~ key ~ '-thumbnail',
+        name:      name ~ '[thumbnail]',
+        readonly:  true,
+        type:      'hidden',
+        value:     video.thumbnail|default(''),
+    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="video">
-    <label class="col-xs-12 control-label">{{ macro.infopop(labelkey, option.info) }}</label>
+{% extends '_base/_fieldset.twig' %}
+
+{% block fieldset_type 'video' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
+
+{% block fieldset_controls %}
     <div class="col-sm-8">
         <div class="form-group">
             <div class="col-sm-12">
                 <label>{{ __('field.video.label.url') }}</label>
-                <input{{ macro.attr(attr_url) }}>
+                <input{{ macro.attr(attributes.url) }}>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-2">
-                <label class="control-label-inline">{{ __('field.video.label.size') }}</label>
-            </div>
-            <div class="col-sm-10">
-                <input{{ macro.attr(attr_width) }}>
-                <span class="pull-left" style="margin: 6px 8px 0;">×</span>
-                <input{{ macro.attr(attr_height) }}>
-                <span class="pull-left" style="margin: 6px 8px 0;">{{ __('field.video.pixel') }}</span>
+            <label class="control-label col-sm-2">{{ __('field.video.label.size') }}</label>
+            <div class="col-sm-10 form-inline">
+                <label for="{{ 'video-' ~ key ~ '-width' }}" class="sr-only">{{ __('field.video.width') }}</label>
+                <input{{ macro.attr(attributes.width) }}> ×
+                <label for="{{ 'video-' ~ key ~ '-height' }}" class="sr-only">{{ __('field.video.height') }}</label>
+                <input{{ macro.attr(attributes.height) }}>
+                {{ __('field.video.pixel') }}
             </div>
         </div>
 
@@ -117,19 +123,19 @@
             </div>
 
             <div class="hidden-xs col-sm-3">
-                <span class="hidden-xs" style="float:right">
+                <span class="pull-right">
                     <a href="#myModal" role="button" class="btn btn-default" data-toggle="modal">
                     <i class="fa fa-youtube-play"></i>
                     {{ __('field.video.button.preview') }}</a>
                 </span>
             </div>
 
-            <input{{ macro.attr(attr_hid_ratio) }}>
-            <input{{ macro.attr(attr_hid_title) }}>
-            <input{{ macro.attr(attr_hid_authorname) }}>
-            <input{{ macro.attr(attr_hid_authorurl) }}>
-            <input{{ macro.attr(attr_hid_html) }}>
-            <input{{ macro.attr(attr_hid_thumbnail) }}>
+            <input{{ macro.attr(attributes.hid_ratio) }}>
+            <input{{ macro.attr(attributes.hid_title) }}>
+            <input{{ macro.attr(attributes.hid_authorname) }}>
+            <input{{ macro.attr(attributes.hid_authorurl) }}>
+            <input{{ macro.attr(attributes.hid_html) }}>
+            <input{{ macro.attr(attributes.hid_thumbnail) }}>
         </div>
     </div>
 
@@ -158,10 +164,9 @@
                     {% endif %}
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-tertiary " data-dismiss="modal" aria-hidden="true">{{ __('field.video.preview.button.close') }}</button>
+                    <button type="button" class="btn btn-tertiary " data-dismiss="modal" aria-hidden="true">{{ __('field.video.preview.button.close') }}</button>
                 </div>
             </div>
         </div>
     </div>
-
-</fieldset>
+{% endblock fieldset_controls %}

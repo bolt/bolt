@@ -16,26 +16,28 @@
 
 {% block page_plain %}
 
-    <div class="view-site">
-        <a href="{{ paths.root }}" target="_blank"><i class="fa fa-fw fa-external-link-square"></i> {{ __('View site') }}</a>
-    </div>
+    <div class="container">
+        <div class="view-site">
+            <a href="{{ paths.root }}" target="_blank"><i class="fa fa-fw fa-external-link-square"></i> {{ __('View site') }}</a>
+        </div>
 
-    <div class="row">
-        <div class="{{ form_class|default('col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2') }}">
+        <div class="row">
+            <div class="{{ form_class|default('col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2') }}">
 
-            <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
+                <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
 
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {% include '_sub/_messages.twig' %}
-                    {% block page_main %}[PAGE_MAIN]{% endblock page_main %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% include '_sub/_messages.twig' %}
+                        {% block page_main %}[PAGE_MAIN]{% endblock page_main %}
+                    </div>
                 </div>
+
+                {% if context.randomquote|default(false) %}
+                    <blockquote class="quote">{{ randomquote() }}</blockquote>
+                {% endif %}
+
             </div>
-
-            {% if context.randomquote|default(false) %}
-                <blockquote class="quote">{{ randomquote() }}</blockquote>
-            {% endif %}
-
         </div>
     </div>
 

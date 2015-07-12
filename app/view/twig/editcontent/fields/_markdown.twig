@@ -1,9 +1,9 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:     field.class|default(''),
+    class:     ('form-control ' ~ field.class)|trim,
     height:    field.height|default('300px'),
-    label:     field.label|default(''),
+    label:     field.label,
     required:  field.required|default(false),
     errortext: field.error|default(''),
     info:      field.info|default('info.markdown')
@@ -11,20 +11,30 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attr_text = {
-    class:          option.class,
-    name:           name,
-    id:             key,
-    required:       option.required,
-    data_errortext: option.errortext,
-    style:          (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '',
+{% set attributes = {
+    text: {
+        class:           option.class,
+        data_errortext:  option.errortext,
+        id:              key,
+        name:            name,
+        required:        option.required,
+        style:           (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '',
+    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="markdown">
-    <div class="col-sm-12">
-        <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-        <textarea{{ macro.attr(attr_text) }} data-uk-htmleditor="{ markdown: true, height: '{{option.height}}'}">{{ context.content.get(contentkey)|default('') }}</textarea>
+{% extends '_base/_fieldset.twig' %}
+
+{% block fieldset_type 'markdown' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
+{% block fieldset_label_for   key %}
+
+{% block fieldset_controls %}
+    <div class="col-xs-12">
+        <textarea{{ macro.attr(attributes.text) }} data-uk-htmleditor="{ markdown: true, height: '{{option.height}}'}">{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
-</fieldset>
+{% endblock fieldset_controls %}

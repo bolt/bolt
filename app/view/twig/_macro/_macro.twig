@@ -1,38 +1,47 @@
-{# A little collection of links for various backend entities #}
+{##
+ # Output a username and link to their profile given an ID.
+ #}
+{% macro userlink(user_id) %}
+    {% spaceless %}
+        {% set user = getuser(user_id) %}
+        {% if user is not empty %}
+            <a href="{{ path('useredit', {'id': user.id}) }}">{{- user.displayname -}}</a>
+        {% else %}
+            {{ __('panel.latest-activity.unknown') }}
+        {% endif %}
+    {% endspaceless %}
+{% endmacro %}
 
-{# Output a username and link to their profile given an ID #}
-{% macro userlink(user_id) %}{% spaceless %}
-    {% set user = getuser(user_id) %}
-    {% if user is not empty %}
-        <a href="{{ path('useredit', {'id': user.id}) }}">
-            {{- user.displayname -}}
+{##
+ # Contentlink by id.
+ #}
+{% macro contentlink_by_id(contenttype, title, content_id) %}
+    {% spaceless %}
+        <a href="{{ path('editcontent', {'contenttypeslug': contenttype.slug, 'id': content_id}) }}">
+            {{- title|trimtext(70)|default("<em>(" ~ __("no title …") ~ ")</em>")|raw -}}
         </a>
-    {% else %}
-        {% set userlink = __('panel.latest-activity.unknown') %}
-    {% endif %}
-{% endspaceless %}{% endmacro %}
+    {% endspaceless %}
+{% endmacro %}
 
-{% macro contentlink_by_id(contenttype, title, content_id) %}{% spaceless %}
-<a href="{{ path('editcontent', {'contenttypeslug': contenttype.slug, 'id': content_id}) }}">
-    {{- title|trimtext(70)|default("<em>(" ~ __("no title …") ~ ")</em>")|raw -}}
-</a>
-{% endspaceless %}{% endmacro %}
-
+{##
+ # Contentlink.
+ #}
 {% macro contentlink(contenttype, content) %}
     {% import _self as crosslinks %}
     {% set title = content.getTitle() %}
     {{ crosslinks.contentlink_by_id(contenttype, title, content.id) }}
 {% endmacro %}
 
-{# output a 'relative' datetime #}
-{% macro datetime(d) %}<time class="moment" datetime="{{ d|date("c") }}" title="{{ d|date("c") }}">{{ d|date("c") }}</time>{% endmacro %}
-
-{# output the required="required" attribute for field in the form. #}
-{% macro requiredattr(field) %}
-    {% if field.required is defined and field.required %}required="required"{% endif %}
+{##
+ # Output a 'relative' datetime.
+ #}
+{% macro datetime(d) %}
+    <time class="moment" datetime="{{ d|date("c") }}" title="{{ d|date("c") }}">{{ d|date("c") }}</time>
 {% endmacro %}
 
-{# outputs tag attributes #}
+{##
+ # Outputs tag attributes.
+ #}
 {% macro attr(attributes) %}
     {% spaceless %}
         {% for attrname, value in attributes %}
@@ -59,21 +68,9 @@
     {% endspaceless %}
 {% endmacro %}
 
-{# Info popup #}
-{% macro infopop(label, infoid, afterlabel) %}
-    {% spaceless %}
-        {{ label }}{% if afterlabel is defined %} {{ afterlabel|raw }}{% endif %}
-        <span class="label info-pop"
-              data-content="{{ app.translator.trans(infoid, {}, 'infos') }}"
-              data-html="true"
-              data-title="{{ label|trans }}"
-              >
-            {{ __('Info') }}
-        </span>
-    {% endspaceless %}
-{% endmacro %}
-
-{# label for forms when editing content #}
+{##
+ # Label for forms when editing content.
+ #}
 {% macro label(key, field, class, for) %}
     {% spaceless %}
         <label
@@ -85,33 +82,39 @@
     {% endspaceless %}
 {% endmacro %}
 
+{##
+ # Actionform.
+ #}
 {% macro actionform(content, action, icon, text, confirmation_text) %}
-<form action="{{ path('contentaction', {'action': action, 'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}"
-      method="POST">
-    {% include('_sub/_csrf_token.twig') %}
-    <button type="submit"
-        {% if confirmation_text %}
-            class="btn btn-link btn-block confirm" data-confirm="{{ confirmation_text }}"
-        {% else %}
-            class="btn btn-link btn-block"
-        {% endif %}
-    >
-        <span class="pull-left">
-            <i class="fa {{ icon }}"></i>
-            {{ __(text) }}
-        </span>
-    </button>
-</form>
+    <form action="{{ path('contentaction', {'action': action, 'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" method="POST">
+        {% include('_sub/_csrf_token.twig') %}
+        <button type="submit"
+            {% if confirmation_text %}
+                class="btn btn-link btn-block confirm" data-confirm="{{ confirmation_text }}"
+            {% else %}
+                class="btn btn-link btn-block"
+            {% endif %}
+        >
+            <span class="pull-left">
+                <i class="fa {{ icon }}"></i>
+                {{ __(text) }}
+            </span>
+        </button>
+    </form>
 {% endmacro %}
 
-
+{##
+ # Typepopover.
+ #}
 {% macro typepopover(types) %}
     {% set types = types|default(app.config.get('general/accept_file_types')) %}
     {% set text = __("field.general.allowed-filetypes") ~ "<code>" ~ types|join("</code>, <code>") ~ "</code>." %}
-    <span class="label info-pop" data-title=""
-          data-html="true" data-content="{{ text }}">{{ __('Types') }}</span>
+    <span class="label info-pop" data-title="" data-html="true" data-content="{{ text }}">{{ __('Types') }}</span>
 {% endmacro %}
 
+{##
+ # Stackbutton.
+ #}
 {% macro stackbutton(file) %}
     {% if not app.config.get('general/backend/stack/disable', false) and not stacked(file.newpath) %}
         <a href="#" class="btn btn-default btn-sm" data-action="Bolt.stack.addToStack('{{ file.newpath }}', this);">
@@ -141,47 +144,59 @@
 
     {% set class = opt.class|default('')|replace({'form-control': ''}) ~ ' form-control' %}
 
-    {% set attr_data = {
-        id:          opt.id,
-        name:        opt.name|default(opt.id),
-        value:       opt.value,
-        type:        'hidden',
-        class:       'datetime',
-        data_notice: opt.notice|default('')
+    {% set attributes = {
+        data: {
+            id:          opt.id,
+            name:        opt.name|default(opt.id),
+            value:       opt.value,
+            type:        'hidden',
+            class:       'datetime',
+            data_notice: opt.notice|default('')
+        },
+
+        date: {
+            type:                'text',
+            disabled:            opt.disabled|default(false),
+            required:            opt.required|default(false),
+            class:               (class ~ ' datepicker')|trim,
+            data_errortext:      opt.errortext|default(''),
+            data_field_options:  opt.options|default(false) ? opt.options|json_encode : ''
+        },
+
+        time: {
+            type:      'text',
+            disabled:  opt.disabled|default(false),
+            required:  opt.required|default(false),
+            class:     (class ~ ' timepicker')|trim,
+            title:     __('Time in 24h/12h format'),
+            style:     'margin-right: 6px;'
+        }
     } %}
 
-    {% set attr_date = {
-        type:                'text',
-        disabled:            opt.disabled|default(false),
-        required:            opt.required|default(false),
-        class:               (class ~ ' datepicker')|trim,
-        data_errortext:      opt.errortext|default(''),
-        data_field_options:  opt.options|default(false) ? opt.options|json_encode : ''
-    } %}
+    <div class="datetime-container">
+        <div>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-tertiary">
+                        <i class="fa fa-calendar"></i>
+                    </button>
+                </span>
+                <input{{ attr(attributes.date) }}>
+            </div>
+        </div>
 
-    {% set attr_time = {
-        type:      'text',
-        disabled:  opt.disabled|default(false),
-        required:  opt.required|default(false),
-        class:     (class ~ ' timepicker')|trim,
-        title:     __('Time in 24h/12h format'),
-        style:     'margin-right: 6px;'
-    } %}
-
-    <input{{ attr(attr_data) }}>
-    <div class="input-group">
-        <span class="input-group-btn">
-            <button class="btn btn-tertiary" type="button">
-                <i class="fa fa-calendar"></i>
-            </button>
-        </span>
-        <input{{ attr(attr_date) }}>
         {% if opt.has_time is not defined or opt.has_time != false %}
-            <input{{ attr(attr_time) }}>
+            <div>
+                <input{{ attr(attributes.time) }}>
+            </div>
         {% endif %}
-        <button class="btn btn-default btn-xs" type="button" style="margin: 4px 0 0 0;">
-            <i class="fa fa-close"></i>
-        </button>
+
+        <div>
+            <input{{ attr(attributes.data) }}>
+            <button type="button" class="btn btn-default btn-xs">
+                <i class="fa fa-close"></i>
+            </button>
+        </div>
     </div>
 {% endmacro %}
 
@@ -196,6 +211,7 @@
     {% endspaceless %}
 {% endmacro %}
 
+{##
  # Renders a upload button combo [Upload] [Select from Server] [Select from Stack]
  #
  # @param string type Either 'image' or 'other,document'
@@ -213,7 +229,7 @@
 
         {# Button: Upload #}
         {% if canUpload %}
-            <span type="button" class="btn btn-secondary fileinput-button">
+            <span class="btn btn-secondary fileinput-button">
             	<i class="fa fa-upload"></i>
             	<span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
             	<input{{ attr(attr_upload) }}>

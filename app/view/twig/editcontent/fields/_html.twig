@@ -1,9 +1,9 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:     field.class|default(''),
+    class:     ('form-control ' ~ field.class)|trim,
     height:    field.height|default(''),
-    label:     field.label|default(''),
+    label:     field.label,
     required:  field.required|default(false),
     errortext: field.error|default(''),
     info:      field.info|default(''),
@@ -22,20 +22,29 @@
     {% set param = param|merge({ckeditor: option.options}) %}
 {% endif %}
 
-{% set attr_html = {
-    class:               option.class ~ ' ckeditor',
-    data_param:          param ? param|json_encode : '',
-    name:                name,
-    id:                  key,
-    required:            option.required,
-    data_errortext:      option.errortext
+{% set attributes = {
+    html: {
+        class:           option.class ~ ' ckeditor',
+        data_errortext:  option.errortext,
+        data_param:      param ? param|json_encode : '',
+        id:              key,
+        name:            name,
+        required:        option.required,
+    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
 
-<fieldset class="html">
-    <div class="col-sm-12">
-        <label class="control-label">{{ (option.info) ? macro.infopop(labelkey, option.info) : labelkey }}</label>
-        <textarea{{ macro.attr(attr_html) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
+{% extends '_base/_fieldset.twig' %}
+
+{% block fieldset_type 'html' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
+
+{% block fieldset_controls %}
+    <div class="col-xs-12">
+        <textarea{{ macro.attr(attributes.html) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
-</fieldset>
+{% endblock fieldset_controls %}
