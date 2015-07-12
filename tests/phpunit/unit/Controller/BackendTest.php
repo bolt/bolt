@@ -299,6 +299,7 @@ class BackendTest extends BoltUnitTest
     public function testPrefill()
     {
         $app = $this->getApp();
+        $this->addDefaultUser($app);
         $controller = new Backend();
 
         $app['request'] =  $request = Request::create('/bolt/prefill');
@@ -314,10 +315,6 @@ class BackendTest extends BoltUnitTest
 
         // Test for the Exception if connection fails to the prefill service
         $store = $this->getMock('Bolt\Storage', array('preFill'), array($app));
-
-        $this->markTestIncomplete(
-            'Needs work.'
-        );
 
         if ($app['deprecated.php']) {
             $store->expects($this->any())
