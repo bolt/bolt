@@ -123,7 +123,9 @@ class RecordModifier
             } elseif ($returnTo === 'saveandnew') {
                 return new RedirectResponse($this->generateUrl('editcontent', ['contenttypeslug' => $contenttype['slug']]));
             } elseif ($returnTo === 'ajax') {
-                return $this->createJsonUpdate($contenttype, $id);
+                return $this->createJsonUpdate($contenttype, $id, true);
+            } elseif ($returnTo === 'test') {
+                return $this->createJsonUpdate($contenttype, $id, false);
             }
         }
 
@@ -180,10 +182,11 @@ class RecordModifier
      *
      * @param array   $contenttype
      * @param integer $id
+     * @param boolean $flush
      *
      * @return JsonResponse
      */
-    private function createJsonUpdate($contenttype, $id)
+    private function createJsonUpdate($contenttype, $id, $flush)
     {
         /*
          * Flush any buffers from saveConent() dispatcher hooks
@@ -194,7 +197,9 @@ class RecordModifier
          *     StorageEvents::PRE_SAVE
          *     StorageEvents::POST_SAVE
          */
-        Response::closeOutputBuffers(0, false);
+        if ($flush) {
+            Response::closeOutputBuffers(0, false);
+        }
 
         // Get our record after POST_SAVE hooks are dealt with and return the JSON
         $content = $this->app['storage']->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!undefined']);
