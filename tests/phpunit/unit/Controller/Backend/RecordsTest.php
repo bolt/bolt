@@ -182,7 +182,11 @@ class RecordsTest extends ControllerUnitTest
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
 
-        $this->setRequest(Request::create('/bolt/editcontent/pages/4?returnto=ajax', 'POST'));
+        // We use ?returnto=test here as that is handled exactly the same as
+        // ?returnto=ajax except that it doesn't flush output buffers which we
+        // require to ensure the JSON response is clean from debug or error
+        // output, but PHPUnit marks the test "Risky"
+        $this->setRequest(Request::create('/bolt/editcontent/pages/4?returnto=test', 'POST'));
         $original = $this->getService('storage')->getContent('pages/4');
         $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $returned = json_decode($response->getContent());
