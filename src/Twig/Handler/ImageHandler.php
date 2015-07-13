@@ -50,7 +50,7 @@ class ImageHandler
 
         $image = sprintf(
             '%sfiles/%s',
-            $this->app['resources']->getPath('root'),
+            $this->app['resources']->getUrl('root'),
             Lib::safeFilename($filename)
         );
 
