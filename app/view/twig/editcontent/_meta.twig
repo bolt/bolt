@@ -7,14 +7,6 @@
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
 {% set attributes = {
-    hid_contenttype: {
-        id:        'contenttype',
-        name:      'contenttype',
-        readonly:  true,
-        type:      'hidden',
-        value:     context.contenttype.slug,
-    },
-
     id: {
         class:     'form-control narrow',
         id:        'id',
@@ -69,7 +61,6 @@
     <label class="col-sm-4 control-label">{{ __('Id (№)') }}</label>
     <div class="col-sm-8">
         <input{{ macro.attr(attributes.id) }}>
-        <input{{ macro.attr(attributes.hid_contenttype) }}>
     </div>
 </div>
 

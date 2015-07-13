@@ -48,7 +48,14 @@
             type:     'hidden',
             value:    editreferrer|default(''),
         },
-    }
+
+        hid_contenttype: {
+            name_id:   'contenttype',
+            readonly:  true,
+            type:      'hidden',
+            value:     context.contenttype.slug,
+        },
+    } %}
 
     {% set alertbox %}
         <div id="%NOTICE_ID%" class="alert alert-danger alert-dismissible">
@@ -87,6 +94,7 @@
                 {% include '_sub/_csrf_token.twig' %}
 
                 <input{{ macro.attr(attributes.hid_editreferrer) }}>
+                <input{{ macro.attr(attributes.hid_contenttype) }}>
 
                 {% for group_name, group in context.groups %}
 
