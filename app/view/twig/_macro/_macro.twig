@@ -69,20 +69,6 @@
 {% endmacro %}
 
 {##
- # Label for forms when editing content.
- #}
-{% macro label(key, field, class, for) %}
-    {% spaceless %}
-        <label
-            {# for   #} {% if for %}for="{{ for }}"{% endif %}
-            {# class #} class="{{ class|default('control-label') }}"
-        >
-            {{ field.label|default(key|ucfirst) }}
-        </label>
-    {% endspaceless %}
-{% endmacro %}
-
-{##
  # Actionform.
  #}
 {% macro actionform(content, action, icon, text, confirmation_text) %}
