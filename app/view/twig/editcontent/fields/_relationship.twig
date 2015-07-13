@@ -1,9 +1,18 @@
-<fieldset class="form-group" data-bolt-field="relationship">
-    {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
-    {% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
+{#=== INIT ===========================================================================================================#}
 
-    {{ macro.label(relation.label, relcontenttype|ucfirst, 'col-sm-4 control-label', 'relation-' ~ relcontenttype) }}
+{# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
+{% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
 
+{#=== FIELDSET =======================================================================================================#}
+
+{% extends '_base/_fieldset.twig' %}
+
+{% block fieldset_type 'relationship' %}
+
+{% block fieldset_label_text  relation.label|default(relcontenttype|ucfirst) %}
+{% block fieldset_label_class 'col-sm-4' %}
+
+{% block fieldset_controls %}
     <div class="col-sm-8">
 
         {% if relation.multiple is defined and relation.multiple == 1 %}
@@ -46,4 +55,4 @@
             });
         </script>
     </div>
-</fieldset>
+{% endblock fieldset_controls %}
