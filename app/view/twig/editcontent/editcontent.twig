@@ -111,7 +111,9 @@
                             {% include 'editcontent/_taxonomies.twig' %}
 
                         {% elseif key == '*meta' %}
-                            {% include 'editcontent/fields/_meta.twig' %}
+                            <div data-fieldtype="meta">
+                                {% include 'editcontent/fields/_meta.twig' %}
+                            </div>
 
                         {% elseif key == '*template' %}
                             {% include 'editcontent/_templatefields.twig' %}
