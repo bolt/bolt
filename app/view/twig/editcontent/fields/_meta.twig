@@ -1,7 +1,5 @@
 {#=== INIT ===========================================================================================================#}
 
-{% import '_macro/_macro.twig' as macro %}
-
 {% set magic_date = '1900-01-01 00:00:00' %}
 {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
