@@ -20,18 +20,14 @@
                 {# Fields #}
                 {% set templatelabelkey = templatefield.label ?: templatekey|ucfirst %}
 
-                {% for fieldtype in context.fields %}
-                    {% if templatefield.type == fieldtype.name %}
-                        {% include fieldtype.template with {
-                            field: templatefield,
-                            key: 'templatefields-' ~ templatekey,
-                            contentkey: templatekey,
-                            context: context|merge({ content: context.content.get('templatefields') }),
-                            name: 'templatefields[' ~ templatekey ~ ']',
-                            labelkey:  templatelabelkey
-                        } %}
-                    {% endif %}
-                {% endfor %}
+                {% include context.fields[templatefield.type].template with {
+                    field: templatefield,
+                    key: 'templatefields-' ~ templatekey,
+                    contentkey: templatekey,
+                    context: context|merge({ content: context.content.get('templatefields') }),
+                    name: 'templatefields[' ~ templatekey ~ ']',
+                    labelkey:  templatelabelkey
+                } %}
 
                 {# Postfix #}
                 {% if templatefield.postfix is defined and templatefield.postfix is not empty %}
