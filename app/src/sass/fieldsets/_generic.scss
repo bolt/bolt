@@ -1,6 +1,15 @@
+/*** Fieldset container ***/
+
+div[data-fieldtype] {
+    border-bottom: 1px dashed #eee;
+    margin-bottom: 10px;
+}
+
 /*** Styles for all Fieldsets ***/
 
 fieldset[data-bolt-field] {
+    //margin-bottom: 20px;
+
     /*** Label ***/
 
     label, .control-label {
