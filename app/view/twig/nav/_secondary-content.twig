@@ -61,5 +61,5 @@
 
 {# Display contenttypes, that have show_in_menu set to false or a custom value in submenus #}
 {% for submenuName, submenudef in definedSubs %}
-    {{ nav.submenu('fa:th-list', __(submenuName), submenudef) }}
+    {{ nav.submenu('fa:th-list', submenuName, submenudef) }}
 {% endfor %}
