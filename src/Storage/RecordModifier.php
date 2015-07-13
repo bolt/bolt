@@ -412,6 +412,7 @@ class RecordModifier
                 'label'     => $label,
                 'id'        => $id,
                 'is_active' => $nr === 1,
+                'fields'    => [],
             ];
             $groupIds[$id] = 1;
         };
@@ -428,17 +429,26 @@ class RecordModifier
 
         if ($info['hasRelations'] || $info['hasIncomingRelations']) {
             $addGroup('relations', Trans::__('contenttypes.generic.group.relations'));
+            $groups['relations']['fields'][] = '*relations';
         }
 
         if ($info['hasTaxonomy'] || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
             $addGroup('taxonomy', Trans::__('contenttypes.generic.group.taxonomy'));
+            $groups['taxonomy']['fields'][] = '*taxonomy';
         }
 
         if ($info['hasTemplateFields'] || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
             $addGroup('template', Trans::__('Template'));
+            $groups['template']['fields'][] = '*template';
         }
 
         $addGroup('meta', Trans::__('contenttypes.generic.group.meta'));
+        $groups['meta']['fields'][] = '*meta';
+
+        // References fields in tab group data.
+        foreach ($contenttype['fields'] as $fieldname=>$field) {
+            $groups[$field['group']]['fields'][] = $fieldname;
+        }
 
         return $groups;
     }

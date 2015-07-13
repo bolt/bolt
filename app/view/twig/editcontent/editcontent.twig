@@ -102,6 +102,10 @@
                         <div class="tab-pane{{ group.is_active ? ' active' : '' }}" id="{{ group.id }}">
                     {% endif %}
 
+                    {% for field_name in group.fields %}
+                        <div style="color:red">{{ group_name }}: {{ field_name }}</div>
+                    {% endfor %}
+
                     {% if group_name == 'relations' %}
                         {% include 'editcontent/_relations.twig' %}
 
