@@ -42,6 +42,14 @@
         role:    'form',
     } %}
 
+    {% set attributes = {
+        hid_editreferrer: {
+            name_id:  'editreferrer',
+            type:     'hidden',
+            value:    editreferrer|default(''),
+        },
+    }
+
     {% set alertbox %}
         <div id="%NOTICE_ID%" class="alert alert-danger alert-dismissible">
             <button type="button" class="close" data-dismiss="alert">×</button>
@@ -77,6 +85,8 @@
 
             <form{{ macro.attr(attr_form) }}>
                 {% include '_sub/_csrf_token.twig' %}
+
+                <input{{ macro.attr(attributes.hid_editreferrer) }}>
 
                 {% for group_name, group in context.groups %}
 
