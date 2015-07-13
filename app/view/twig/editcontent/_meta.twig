@@ -7,10 +7,18 @@
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
 {% set attributes = {
-    editreferrer: {
+    hid_editreferrer: {
         name_id:  'editreferrer',
         type:     'hidden',
         value:    editreferrer|default(''),
+    },
+
+    hid_contenttype: {
+        id:        'contenttype',
+        name:      'contenttype',
+        readonly:  true,
+        type:      'hidden',
+        value:     context.contenttype.slug,
     },
 
     id: {
@@ -20,14 +28,6 @@
         readonly:  true,
         type:      'text',
         value:     context.content.id,
-    },
-
-    contenttype: {
-        id:        'contenttype',
-        name:      'contenttype',
-        readonly:  true,
-        type:      'hidden',
-        value:     context.contenttype.slug,
     },
 
     publish: {
@@ -71,13 +71,13 @@
     {{ __('Meta information') }}
 </h3>
 
-<input{{ macro.attr(attributes.editreferrer) }}>
+<input{{ macro.attr(attributes.hid_editreferrer) }}>
 
 <div class="form-group">
     {{ macro.label('Id (№)', '', 'col-sm-4 control-label') }}
     <div class="col-sm-8">
         <input{{ macro.attr(attributes.id) }}>
-        <input{{ macro.attr(attributes.contenttype) }}>
+        <input{{ macro.attr(attributes.hid_contenttype) }}>
     </div>
 </div>
 
