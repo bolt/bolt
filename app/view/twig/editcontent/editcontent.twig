@@ -102,30 +102,25 @@
                         <div class="tab-pane{{ group.is_active ? ' active' : '' }}" id="{{ group.id }}">
                     {% endif %}
 
-                    {% for field_name in group.fields %}
-                        <div style="color:red">{{ group_name }}: {{ field_name }}</div>
-                    {% endfor %}
+                    {% for key in group.fields %}
 
-                    {% if group_name == 'relations' %}
-                        {% include 'editcontent/_relations.twig' %}
+                        {% if key == '*relations' %}
+                            {% include 'editcontent/_relations.twig' %}
 
-                    {% elseif group_name == 'taxonomy' %}
-                        {% include 'editcontent/_taxonomies.twig' %}
+                        {% elseif key == '*taxonomy' %}
+                            {% include 'editcontent/_taxonomies.twig' %}
 
-                    {% elseif group_name == 'meta' %}
-                        {% include 'editcontent/fields/_meta.twig' %}
+                        {% elseif key == '*meta' %}
+                            {% include 'editcontent/fields/_meta.twig' %}
 
-                        {# Allow fields to be grouped under Meta tab. #}
-                        {% if context.has.tabs %}
-                            {% include 'editcontent/_fields.twig' %}
+                        {% elseif key == '*template' %}
+                            {% include 'editcontent/_templatefields.twig' %}
+
+                        {% else %}
+                            {% include 'editcontent/_field.twig' %}
                         {% endif %}
 
-                    {% elseif group_name == 'template' %}
-                        {% include 'editcontent/_templatefields.twig' %}
-
-                    {% else %}
-                        {% include 'editcontent/_fields.twig' %}
-                    {% endif %}
+                    {% endfor %}
 
                     {% if context.has.tabs %}
                         </div>
