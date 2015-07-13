@@ -9,7 +9,7 @@
 } %}
 
 {% set attributes_label = {
-    class:  block('fieldset_label_class') ~ (block('fieldset_label_class') == 'col-xs-12' ? '' : ' control-label'),
+    class:  'main ' ~ block('fieldset_label_class') ~ (block('fieldset_label_class') == 'col-xs-12' ? '' : ' control-label'),
     for:    block('fieldset_label_for'),
 } %}
 
