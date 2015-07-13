@@ -55,13 +55,15 @@
 {% block fieldset_type 'text' %}
 
 {% block fieldset_label_text  __('Meta information') %}
-{% block fieldset_label_class 'col-xs-12 hidden' %}
+{% block fieldset_label_class 'col-xs-12' ~ (context.has.tabs ? '' : ' hidden') %}
 
 {% block fieldset_controls %}
     <div class="col-xs-12">
-        <h3>
-            {{ __('Meta information') }}
-        </h3>
+        {% if not context.has.tabs %}
+            <h3>
+                {{ __('Meta information') }}
+            </h3>
+        {% endif %}
 
         <div class="form-group">
             <label class="col-sm-4 control-label">{{ __('Id (№)') }}</label>
