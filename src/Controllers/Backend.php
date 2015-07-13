@@ -1422,28 +1422,30 @@ class Backend implements ControllerProviderInterface
             } else {
                 $app['logger.system']->info(Trans::__('page.edit-users.log.user-added', array('%user%' => $user['displayname'])), array('event' => 'security'));
 
-                // Create a welcome email
-                $mailhtml = $app['render']->render(
-                    'email/firstuser.twig',
-                    array(
-                        'sitename' => $app['config']->get('general/sitename')
-                    )
-                )->getContent();
+                if ($firstuser) {
+                    // Create a welcome email
+                    $mailhtml = $app['render']->render(
+                        'email/firstuser.twig',
+                        array(
+                            'sitename' => $app['config']->get('general/sitename')
+                        )
+                    )->getContent();
 
-                try {
-                    // Send a welcome email
-                    $message = $app['mailer']
-                        ->createMessage('message')
-                        ->setSubject(Trans::__('New Bolt site has been set up'))
-                        ->setFrom(array($app['config']->get('general/mailoptions/senderMail', $user['email']) => $app['config']->get('general/mailoptions/senderName', $app['config']->get('general/sitename'))))
-                        ->setTo(array($user['email']   => $user['displayname']))
-                        ->setBody(strip_tags($mailhtml))
-                        ->addPart($mailhtml, 'text/html');
+                    try {
+                        // Send a welcome email
+                        $message = $app['mailer']
+                            ->createMessage('message')
+                            ->setSubject(Trans::__('New Bolt site has been set up'))
+                            ->setFrom(array($app['config']->get('general/mailoptions/senderMail', $user['email']) => $app['config']->get('general/mailoptions/senderName', $app['config']->get('general/sitename'))))
+                            ->setTo(array($user['email']   => $user['displayname']))
+                            ->setBody(strip_tags($mailhtml))
+                            ->addPart($mailhtml, 'text/html');
 
-                    $app['mailer']->send($message);
-                } catch (\Exception $e) {
-                    // Sending message failed. What else can we do, sending with snailmail?
-                    $app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", array('event' => 'config'));
+                        $app['mailer']->send($message);
+                    } catch (\Exception $e) {
+                        // Sending message failed. What else can we do, sending with snailmail?
+                        $app['logger.system']->error("The 'mailoptions' need to be set in app/config/config.yml", array('event' => 'config'));
+                    }
                 }
             }
 
