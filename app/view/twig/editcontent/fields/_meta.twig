@@ -48,77 +48,88 @@
     },
 } %}
 
-{#====================================================================================================================#}
+{#=== FIELDSET =======================================================================================================#}
 
-<h3>
-    {{ __('Meta information') }}
-</h3>
+{% extends '_base/_fieldset.twig' %}
 
-<div class="form-group">
-    <label class="col-sm-4 control-label">{{ __('Id (№)') }}</label>
-    <div class="col-sm-8">
-        <input{{ macro.attr(attributes.id) }}>
-    </div>
-</div>
+{% block fieldset_type 'text' %}
 
-<div class="form-group">
-    <label class="col-sm-4 control-label">{{ __('Publication date:') }}</label>
-    <div class="col-sm-8">
-        {{ macro.input_datetime(attributes.publish) }}
-    </div>
-</div>
+{% block fieldset_label_text  __('Meta information') %}
+{% block fieldset_label_class 'col-xs-12 hidden' %}
 
-<div class="form-group depublish-group">
-    <label class="col-sm-4 control-label">{{ __('Depublication date:') }}</label>
-    <div class="col-sm-8">
-        {{ macro.input_datetime(attributes.depublish) }}
-    </div>
-</div>
+{% block fieldset_controls %}
+    <div class="col-xs-12">
+        <h3>
+            {{ __('Meta information') }}
+        </h3>
 
-{% if context.content.datecreated > '1970-01-01 01:01:01' %}
-    <p>
-        {{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
-        {{ macro.timemoment(context.content.datecreated) }}
-        {{ __('and edited') }}
-        {{ macro.timemoment(context.content.datechanged) }}.
-    </p>
-{% endif %}
-
-<div class="form-group">
-    <label class="col-sm-4 control-label">{{ __('Status:') }}</label>
-    <div class="col-sm-8">
-        <select{{ macro.attr(attributes.status) }}>
-            {% for status in context.allowed_status %}
-                {% set attr_opt = {
-                    value:     status,
-                    selected:  (context.content.status == status),
-                } %}
-                <option{{ macro.attr(attr_opt) }}>{{ status_names[status] }}</option>
-            {% endfor %}
-        </select>
-    </div>
-</div>
-
-<div class="form-group">
-    <label class="col-sm-4 control-label">{{ __('Owner:') }}</label>
-    <div class="col-sm-8">
-        <select{{ macro.attr(attributes.ownerid) }}>
-            {% for user in users %}
-                {% set attr_opt = {
-                    value:     user.id,
-                    selected:  (context.contentowner and user.id == context.contentowner.id),
-                } %}
-                <option{{ macro.attr(attr_opt) }}>{{ user.displayname }}</option>
-            {% endfor %}
-        </select>
-    </div>
-</div>
-
-{% if ischangelogenabled() %}
-    <div class="form-group">
-        <label class="col-sm-4 control-label">{{ __('Add a comment:') }}</label>
-        <div class="col-sm-8">
-            <input{{ macro.attr(attributes.comment) }}>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">{{ __('Id (№)') }}</label>
+            <div class="col-sm-8">
+                <input{{ macro.attr(attributes.id) }}>
+            </div>
         </div>
+
+        <div class="form-group">
+            <label class="col-sm-4 control-label">{{ __('Publication date:') }}</label>
+            <div class="col-sm-8">
+                {{ macro.input_datetime(attributes.publish) }}
+            </div>
+        </div>
+
+        <div class="form-group depublish-group">
+            <label class="col-sm-4 control-label">{{ __('Depublication date:') }}</label>
+            <div class="col-sm-8">
+                {{ macro.input_datetime(attributes.depublish) }}
+            </div>
+        </div>
+
+        {% if context.content.datecreated > '1970-01-01 01:01:01' %}
+            <p>
+                {{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
+                {{ macro.timemoment(context.content.datecreated) }}
+                {{ __('and edited') }}
+                {{ macro.timemoment(context.content.datechanged) }}.
+            </p>
+        {% endif %}
+
+        <div class="form-group">
+            <label class="col-sm-4 control-label">{{ __('Status:') }}</label>
+            <div class="col-sm-8">
+                <select{{ macro.attr(attributes.status) }}>
+                    {% for status in context.allowed_status %}
+                        {% set attr_opt = {
+                            value:     status,
+                            selected:  (context.content.status == status),
+                        } %}
+                        <option{{ macro.attr(attr_opt) }}>{{ status_names[status] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-4 control-label">{{ __('Owner:') }}</label>
+            <div class="col-sm-8">
+                <select{{ macro.attr(attributes.ownerid) }}>
+                    {% for user in users %}
+                        {% set attr_opt = {
+                            value:     user.id,
+                            selected:  (context.contentowner and user.id == context.contentowner.id),
+                        } %}
+                        <option{{ macro.attr(attr_opt) }}>{{ user.displayname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        {% if ischangelogenabled() %}
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{ __('Add a comment:') }}</label>
+                <div class="col-sm-8">
+                    <input{{ macro.attr(attributes.comment) }}>
+                </div>
+            </div>
+        {% endif %}
     </div>
-{% endif %}
+{% endblock fieldset_controls %}
