@@ -6,61 +6,63 @@
 {% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
 {% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
 
-{% set attr_editreferrer = {
-    name_id:  'editreferrer',
-    type:     'hidden',
-    value:    editreferrer|default(''),
-} %}
+{% set attributes = {
+    editreferrer: {
+        name_id:  'editreferrer',
+        type:     'hidden',
+        value:    editreferrer|default(''),
+    },
 
-{% set attr_id = {
-    class:     'form-control narrow',
-    id:        'id',
-    name:      'id',
-    readonly:  true,
-    type:      'text',
-    value:     context.content.id,
-} %}
+    id: {
+        class:     'form-control narrow',
+        id:        'id',
+        name:      'id',
+        readonly:  true,
+        type:      'text',
+        value:     context.content.id,
+    },
 
-{% set attr_contenttype = {
-    id:        'contenttype',
-    name:      'contenttype',
-    readonly:  true,
-    type:      'hidden',
-    value:     context.contenttype.slug,
-} %}
+    contenttype: {
+        id:        'contenttype',
+        name:      'contenttype',
+        readonly:  true,
+        type:      'hidden',
+        value:     context.contenttype.slug,
+    },
 
-{% set attr_publish = {
-    disabled: (not can_publish),
-    id:       'datepublish',
-    value:    ((context.content.datepublish == magic_date) ? '' : (context.content.datepublish == '') ? "now"|date('Y-m-d H:i:s') : context.content.datepublish),
-} %}
+    publish: {
+        disabled: (not can_publish),
+        id:       'datepublish',
+        value:    ((context.content.datepublish == magic_date) ? '' : (context.content.datepublish == '') ? "now"|date('Y-m-d H:i:s') : context.content.datepublish),
+    },
 
-{% set attr_depublish = {
-    disabled:  (not can_depublish),
-    id:        'datedepublish',
-    value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
-    notice:     __('Depublish date is in the past. Change the status if you want to depublish now'),
-} %}
+    depublish: {
+        disabled:  (not can_depublish),
+        id:        'datedepublish',
+        value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
+        notice:     __('Depublish date is in the past. Change the status if you want to depublish now'),
+    },
 
-{% set attr_status = {
-    class:     'form-control narrow',
-    disabled:  (context.allowed_status|length <= 1),
-    id:        'statusselect',
-    name:      'status',
-} %}
+    status: {
+        class:     'form-control narrow',
+        disabled:  (context.allowed_status|length <= 1),
+        id:        'statusselect',
+        name:      'status',
+    },
 
-{% set attr_ownerid = {
-    class:     'form-control narrow',
-    disabled:  (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
-    name:      'ownerid',
-} %}
+    ownerid: {
+        class:     'form-control narrow',
+        disabled:  (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
+        name:      'ownerid',
+    },
 
-{% set attr_comment = {
-    class:        'form-control',
-    disabled:     (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
-    name_id:      'changelog-comment',
-    placeholder:  __('Add a brief, optional comment to describe what\'s changed.'),
-    type:         'text',
+    comment: {
+        class:        'form-control',
+        disabled:     (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
+        name_id:      'changelog-comment',
+        placeholder:  __('Add a brief, optional comment to describe what\'s changed.'),
+        type:         'text',
+    },
 } %}
 
 {#====================================================================================================================#}
@@ -69,27 +71,27 @@
     {{ __('Meta information') }}
 </h3>
 
-<input{{ macro.attr(attr_editreferrer) }}>
+<input{{ macro.attr(attributes.editreferrer) }}>
 
 <div class="form-group">
     {{ macro.label('Id (№)', '', 'col-sm-4 control-label') }}
     <div class="col-sm-8">
-        <input{{ macro.attr(attr_id) }}>
-        <input{{ macro.attr(attr_contenttype) }}>
+        <input{{ macro.attr(attributes.id) }}>
+        <input{{ macro.attr(attributes.contenttype) }}>
     </div>
 </div>
 
 <div class="form-group">
     {{ macro.label(__('Publication date:'), '', 'col-sm-4 control-label') }}
     <div class="col-sm-8">
-        {{ macro.input_datetime(attr_publish) }}
+        {{ macro.input_datetime(attributes.publish) }}
     </div>
 </div>
 
 <div class="form-group depublish-group">
     {{ macro.label(__('Depublication date:'), '', 'col-sm-4 control-label') }}
     <div class="col-sm-8">
-        {{ macro.input_datetime(attr_depublish) }}
+        {{ macro.input_datetime(attributes.depublish) }}
     </div>
 </div>
 
@@ -105,7 +107,7 @@
 <div class="form-group">
     {{ macro.label(__('Status:'), '', 'col-sm-4 control-label') }}
     <div class="col-sm-8">
-        <select{{ macro.attr(attr_status) }}>
+        <select{{ macro.attr(attributes.status) }}>
             {% for status in context.allowed_status %}
                 {% set attr_opt = {
                     value:     status,
@@ -120,7 +122,7 @@
 <div class="form-group">
     {{ macro.label(__('Owner:'), '', 'col-sm-4 control-label') }}
     <div class="col-sm-8">
-        <select{{ macro.attr(attr_ownerid) }}>
+        <select{{ macro.attr(attributes.ownerid) }}>
             {% for user in users %}
                 {% set attr_opt = {
                     value:     user.id,
@@ -136,7 +138,7 @@
     <div class="form-group">
         {{ macro.label(__('Add a comment:'), '', 'col-sm-4 control-label') }}
         <div class="col-sm-8">
-            <input{{ macro.attr(attr_comment) }}>
+            <input{{ macro.attr(attributes.comment) }}>
         </div>
     </div>
 {% endif %}
