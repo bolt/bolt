@@ -13,15 +13,11 @@
     {# Fields #}
     {% set labelkey = field.label ?: key|ucfirst %}
 
-    {% for fieldtype in context.fields %}
-        {% if field.type == fieldtype.name %}
-            {% include fieldtype.template with {
-                'key': key,
-                'name': key,
-                'contentkey': key
-            } %}
-        {% endif %}
-    {% endfor %}
+    {% include context.fields[field.type].template with {
+        'key': key,
+        'name': key,
+        'contentkey': key
+    } %}
 
     {# Postfix #}
     {% if field.postfix is defined and field.postfix is not empty %}
