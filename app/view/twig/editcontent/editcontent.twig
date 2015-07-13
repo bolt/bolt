@@ -111,6 +111,11 @@
                     {% elseif group_name == 'meta' %}
                         {% include 'editcontent/fields/_meta.twig' %}
 
+                        {# Allow fields to be grouped under Meta tab. #}
+                        {% if context.has.tabs %}
+                            {% include 'editcontent/_fields.twig' %}
+                        {% endif %}
+
                     {% elseif group_name == 'template' %}
                         {% include 'editcontent/_templatefields.twig' %}
 
