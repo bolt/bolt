@@ -29,7 +29,8 @@
      */
     select.init = function (fieldset, fconf) {
         var select = $(fieldset).find('select'),
-            selectAll = $(fieldset).find('button.select-all');
+            selectAll = $(fieldset).find('button.select-all'),
+            selectNone = $(fieldset).find('button.select-none');
 
         if (fconf.autocomplete) {
             select.select2({
@@ -41,6 +42,11 @@
         // Bind select-all button.
         selectAll.on('click', function () {
             select.find('option').prop('selected', true);
+        });
+
+        // Bind select-none button.
+        selectNone.on('click', function () {
+            select.find('option').prop('selected', false);
         });
     };
 
