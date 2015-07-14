@@ -32,6 +32,10 @@
                     bolt.fields.geolocation.init(this, conf);
                     break;
 
+                case 'relationship':
+                    bolt.fields.relationship.init(this, conf);
+                    break;
+
                 case 'slug':
                     bolt.fields.slug.init(this, conf);
                     break;
@@ -51,7 +55,6 @@
                 case 'imagelist':
                 case 'integer':
                 case 'markdown':
-                case 'relationship':
                 case 'select':
                 case 'taxonomy-categories':
                 case 'taxonomy-grouping':
