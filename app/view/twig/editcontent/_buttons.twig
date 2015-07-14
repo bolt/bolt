@@ -1,4 +1,4 @@
-<div class="form-group" style="margin-top: 40px;">
+<div class="form-group">
     <div class="col-sm-12">
 
         <div class="btn-group">
@@ -30,7 +30,7 @@
                 </button>
             </div>
         {% endif %}
-        
+
         {% if not context.contenttype.viewless|default(false) %}{# don't show for viewless contenttypes. #}
             <div class="btn-group">
                 <button type="button" class="btn btn-default" id="previewbutton">
