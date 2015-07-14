@@ -55,6 +55,10 @@
 
 {% block fieldset_type 'select' %}
 
+{% set fieldset_conf = {
+    autocomplete: field.autocomplete|default(false)
+} %}
+
 {% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  option.info %}
 {% block fieldset_label_class 'col-sm-3' %}
