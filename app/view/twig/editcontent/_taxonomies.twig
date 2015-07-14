@@ -21,11 +21,11 @@
             {% endif %}
 
             {# Fieldset #}
-            {% if taxonomy.behaves_like == "tags" %}
+            {% if taxonomy.behaves_like == 'tags' %}
                 {% include 'editcontent/fields/_tags.twig' %}
-            {% elseif taxonomy.behaves_like == "categories" %}
+            {% elseif taxonomy.behaves_like == 'categories' %}
                 {% include 'editcontent/fields/_categories.twig' %}
-            {% elseif taxonomy.behaves_like == "grouping" %}
+            {% elseif taxonomy.behaves_like == 'grouping' %}
                 {% include 'editcontent/fields/_grouping.twig' %}
             {% endif %}
 
