@@ -335,7 +335,7 @@ class RecordModifier
             'contentowner'       => $contentowner,
             'fields'             => $this->app['config']->fields->fields(),
             'fieldtemplates'     => $this->getTempateFieldTemplates($contenttype, $content),
-            'fieldtypes'         => $this->getUsedFieldtypes($contenttype, $content),
+            'fieldtypes'         => $this->getUsedFieldtypes($contenttype, $content, $contextHas),
             'groups'             => $this->createGroupTabs($contenttype, $contextHas),
             'can'                => $contextCan,
             'has'                => $contextHas,
@@ -467,21 +467,36 @@ class RecordModifier
     }
 
     /**
-     * Create a list of fields types used in regular and template fields.
+     * Create a list of fields types used in regular, template and virtual fields.
      *
      * @param array   $contenttype
      * @param Content $content
+     * @param array   $has
      *
      * @return array
      */
-    private function getUsedFieldtypes(array $contenttype, Content $content)
+    private function getUsedFieldtypes(array $contenttype, Content $content, array $has)
     {
-        $fieldtypes = [];
+        $fieldtypes = [
+            'meta' => true
+        ];
 
         foreach ([$contenttype['fields'], $content->get('templatefields')->contenttype['fields']] as $fields) {
             foreach ($fields as $field) {
                 $fieldtypes[$field['type']] = true;
             }
+        }
+
+        if ($has['relations'] || $has['incoming_relations']) {
+            $fieldtypes['relationship'] = true;
+        }
+
+        if ($has['taxonomy'] || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
+            $fieldtypes['taxonomy'] = true;
+        }
+
+        if ($has['templatefields'] || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
+            $fieldtypes['template'] = true;
         }
 
         return array_keys($fieldtypes);
