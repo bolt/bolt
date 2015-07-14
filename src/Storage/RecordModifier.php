@@ -309,6 +309,12 @@ class RecordModifier
         ];
 
         // Build context for Twig
+        $contextCan = [
+            'upload'           => $this->app['users']->isAllowed('files:uploads'),
+            'publish'          => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':publish:' . $content['id']),
+            'depublish'        => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':depublish:' . $content['id']),
+            'change_ownership' => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':change-ownership:' . $content['id']),
+        ];
         $context = [
             'contenttype'    => $contenttype,
             'content'        => $content,
@@ -318,12 +324,7 @@ class RecordModifier
             'fieldtemplates' => $templateFieldTemplates,
             'fieldtypes'     => $this->getUsedFieldtypes($content, $contenttype),
             'groups'         => $this->createGroupTabs($contenttype, $info),
-            'can'            => [
-                'upload'           => $this->app['users']->isAllowed('files:uploads'),
-                'publish'          => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':publish:' . $content['id']),
-                'depublish'        => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':depublish:' . $content['id']),
-                'change_ownership' => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':change-ownership:' . $content['id']),
-            ],
+            'can'            => $contextCan,
             'has'            => [
                 'incoming_relations' => $info['hasIncomingRelations'],
                 'relations'          => $info['hasRelations'],
