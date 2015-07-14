@@ -317,8 +317,10 @@ class RecordModifier
             'fields'         => $this->app['config']->fields->fields(),
             'fieldtemplates' => $templateFieldTemplates,
             'fieldtypes'     => $this->getUsedFieldtypes($content, $contenttype),
-            'can_upload'     => $this->app['users']->isAllowed('files:uploads'),
             'groups'         => $this->createGroupTabs($contenttype, $info),
+            'can'            => [
+                'upload' => $this->app['users']->isAllowed('files:uploads'),
+            ],
             'has'            => [
                 'incoming_relations' => $info['hasIncomingRelations'],
                 'relations'          => $info['hasRelations'],
