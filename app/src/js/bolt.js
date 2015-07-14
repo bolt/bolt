@@ -17,6 +17,8 @@
  *
  * @mixes Bolt.fields
  * @mixes Bolt.fields.geolocation
+ * @mixes Bolt.fields.relationship
+ * @mixes Bolt.fields.select
  * @mixes Bolt.fields.slug
  */
 var Bolt = {};
