@@ -315,6 +315,13 @@ class RecordModifier
             'depublish'        => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':depublish:' . $content['id']),
             'change_ownership' => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':change-ownership:' . $content['id']),
         ];
+        $contextHas = [
+            'incoming_relations' => $info['hasIncomingRelations'],
+            'relations'          => $info['hasRelations'],
+            'tabs'               => $info['hasTabs'],
+            'taxonomy'           => $info['hasTaxonomy'],
+            'templatefields'     => $info['hasTemplateFields'],
+        ];
         $context = [
             'contenttype'    => $contenttype,
             'content'        => $content,
@@ -325,13 +332,7 @@ class RecordModifier
             'fieldtypes'     => $this->getUsedFieldtypes($content, $contenttype),
             'groups'         => $this->createGroupTabs($contenttype, $info),
             'can'            => $contextCan,
-            'has'            => [
-                'incoming_relations' => $info['hasIncomingRelations'],
-                'relations'          => $info['hasRelations'],
-                'tabs'               => $info['hasTabs'],
-                'taxonomy'           => $info['hasTaxonomy'],
-                'templatefields'     => $info['hasTemplateFields'],
-            ],
+            'has'            => $contextHas,
         ];
 
         return $context;
