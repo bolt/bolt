@@ -296,6 +296,20 @@ class RecordModifier
             $content['templatefields']->contenttype['fields'] = $this->setCanUpload($content['templatefields']->contenttype['fields']);
         }
 
+        // Publish date
+        switch ($content['datepublish'])  {
+            case '1900-01-01 00:00:00';
+                $datePublish = '';
+                break;
+
+            case '';
+                $datePublish = date('Y-m-d H:i:s');
+                break;
+
+            default:
+                $datePublish = $content['datepublish'];
+        }
+
         // Build context for Twig.
         $contextCan = [
             'upload'             => $this->app['users']->isAllowed('files:uploads'),
@@ -311,6 +325,7 @@ class RecordModifier
             'templatefields'     => $content->hasTemplateFields(),
         ];
         $contextValues = [
+            'datepublish' => $datePublish,
         ];
         $context = [
             'contenttype'        => $contenttype,
