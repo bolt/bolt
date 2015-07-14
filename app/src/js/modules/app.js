@@ -54,7 +54,7 @@
                 case 'relationship':
                 case 'select':
                 case 'taxonomy-categories':
-                case 'taxonomy-groups':
+                case 'taxonomy-grouping':
                 case 'taxonomy-tags':
                 case 'text':
                 case 'textarea':
