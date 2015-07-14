@@ -299,15 +299,6 @@ class RecordModifier
         // Determine which templates will result in templatefields
         $templateFieldTemplates = $this->getTempateFieldTemplates($contenttype, $content);
 
-        // Information flags about what the record contains
-        $info = [
-            'hasIncomingRelations' => is_array($content->relation),
-            'hasRelations'         => isset($contenttype['relations']),
-            'hasTabs'              => $contenttype['groups'] !== false,
-            'hasTaxonomy'          => isset($contenttype['taxonomy']),
-            'hasTemplateFields'    => $content->hasTemplateFields()
-        ];
-
         // Build context for Twig
         $contextCan = [
             'upload'             => $this->app['users']->isAllowed('files:uploads'),
@@ -316,11 +307,11 @@ class RecordModifier
             'change_ownership'   => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':change-ownership:' . $content['id']),
         ];
         $contextHas = [
-            'incoming_relations' => $info['hasIncomingRelations'],
-            'relations'          => $info['hasRelations'],
-            'tabs'               => $info['hasTabs'],
-            'taxonomy'           => $info['hasTaxonomy'],
-            'templatefields'     => $info['hasTemplateFields'],
+            'incoming_relations' => is_array($content->relation),
+            'relations'          => isset($contenttype['relations']),
+            'tabs'               => $contenttype['groups'] !== false,
+            'taxonomy'           => isset($contenttype['taxonomy']),
+            'templatefields'     => $content->hasTemplateFields(),
         ];
         $context = [
             'contenttype'        => $contenttype,
@@ -330,7 +321,7 @@ class RecordModifier
             'fields'             => $this->app['config']->fields->fields(),
             'fieldtemplates'     => $templateFieldTemplates,
             'fieldtypes'         => $this->getUsedFieldtypes($content, $contenttype),
-            'groups'             => $this->createGroupTabs($contenttype, $info),
+            'groups'             => $this->createGroupTabs($contenttype, $contextHas),
             'can'                => $contextCan,
             'has'                => $contextHas,
         ];
@@ -398,11 +389,11 @@ class RecordModifier
      * Generate tab groups.
      *
      * @param array $contenttype
-     * @param array $info
+     * @param array $has
      *
      * @return array
      */
-    private function createGroupTabs(array $contenttype, $info)
+    private function createGroupTabs(array $contenttype, $has)
     {
         $groups = [];
         $groupIds = [];
@@ -432,17 +423,17 @@ class RecordModifier
             }
         }
 
-        if ($info['hasRelations'] || $info['hasIncomingRelations']) {
+        if ($has['relations'] || $has['incoming_relations']) {
             $addGroup('relations', Trans::__('contenttypes.generic.group.relations'));
             $groups['relations']['fields'][] = '*relations';
         }
 
-        if ($info['hasTaxonomy'] || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
+        if ($has['taxonomy'] || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
             $addGroup('taxonomy', Trans::__('contenttypes.generic.group.taxonomy'));
             $groups['taxonomy']['fields'][] = '*taxonomy';
         }
 
-        if ($info['hasTemplateFields'] || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
+        if ($has['templatefields'] || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
             $addGroup('template', Trans::__('Template'));
             $groups['template']['fields'][] = '*template';
         }
