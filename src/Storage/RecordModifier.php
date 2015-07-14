@@ -410,7 +410,7 @@ class RecordModifier
      *
      * @return array
      */
-    private function createGroupTabs(array $contenttype, $has)
+    private function createGroupTabs(array $contenttype, array $has)
     {
         $groups = [];
         $groupIds = [];
