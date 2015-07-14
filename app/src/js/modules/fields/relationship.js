@@ -28,8 +28,7 @@
      * @param {FieldConf} fconf
      */
     relationship.init = function (fieldset, fconf) {
-        var select = $(fieldset).find('select'),
-            funcFormatSelection = undefined;
+        var select = $(fieldset).find('select');
 
         if (fconf.groupBy) {
             funcFormatSelection = function (item) {
