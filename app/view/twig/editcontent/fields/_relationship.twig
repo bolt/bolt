@@ -5,6 +5,18 @@
 
 {% set groupby = relation.groupby|default(false) %}
 
+{% set multiple = relation.multiple is defined and relation.multiple == 1 %}
+
+{% set attributes = {
+    select: {
+        name:     'relation[' ~ relcontenttype ~ '][]',
+        id:       'relation-' ~ relcontenttype,
+        class:    'wide',
+        multiple: multiple,
+        style:    'width: 100%',
+    }
+ }%}
+
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '_base/_fieldset.twig' %}
@@ -20,13 +32,10 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-8">
-
-        {% if relation.multiple is defined and relation.multiple == 1 %}
-            <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" multiple style="width: 100%;">
-        {% else %}
-            <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" style="width: 100%;">
+        <select{{ macro.attr(attributes.select) }}>
+            {% if not multiple %}
                 <option value="0">{{ __('(none)') }}</option>
-        {% endif %}
+            {% endif %}
 
             {% set optgroup = '' %}
             {% for item in listcontent(relcontenttype, relation, context.content) %}
