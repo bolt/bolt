@@ -308,9 +308,6 @@ class RecordModifier
             'hasTemplateFields'    => $content->hasTemplateFields()
         ];
 
-        // Generate tab groups
-        $groups = $this->createGroupTabs($contenttype, $info);
-
         // Create a list of fields types used in regular and template fields.
         $fieldtypes = [];
         foreach ([$contenttype['fields'], $content->get('templatefields')->contenttype['fields']] as $fields) {
@@ -330,7 +327,7 @@ class RecordModifier
             'fieldtemplates' => $templateFieldTemplates,
             'fieldtypes'     => $fieldtypes,
             'can_upload'     => $this->app['users']->isAllowed('files:uploads'),
-            'groups'         => $groups,
+            'groups'         => $this->createGroupTabs($contenttype, $info),
             'has'            => [
                 'incoming_relations' => $info['hasIncomingRelations'],
                 'relations'          => $info['hasRelations'],
