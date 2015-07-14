@@ -8,14 +8,11 @@
     </div>
 {% endset %}
 
-{{ data('validation', {
-    'alertbox':     alertbox|trim,
-    'generic_msg':  __('Is required or needs to match a pattern!'),
-}) }}
-{{ data('editcontent.msg', {
-    'change_quit': __('You have unfinished changes on this page. If you continue without saving, you will lose these changes.'),
-    'saving':      __('Saving …')
-}) }}
+{{ data('validation.alertbox',         alertbox|trim) }}
+{{ data('validation.generic_msg',      __('Is required or needs to match a pattern!')) }}
+
+{{ data('editcontent.msg.change_quit', __('You have unfinished changes on this page. If you continue without saving, you will lose these changes.')) }}
+{{ data('editcontent.msg.saving',      __('Saving …')) }}
 
 {# Process field specific includes and data #}
 
