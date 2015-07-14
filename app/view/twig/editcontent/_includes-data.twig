@@ -18,6 +18,25 @@
     {% endfor %}
 {% endif %}
 
+{# General data #}
+
+{% set alertbox %}
+    <div id="{{ '%NOTICE_ID%' }}" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <label for="%FIELD_ID%">{{ __('Field “%FIELD_NAME%”:') }}</label>
+        %MESSAGE%
+    </div>
+{% endset %}
+
+{{ data('validation', {
+    'alertbox':     alertbox|trim,
+    'generic_msg':  __('Is required or needs to match a pattern!'),
+}) }}
+{{ data('editcontent.msg', {
+    'change_quit': __('You have unfinished changes on this page. If you continue without saving, you will lose these changes.'),
+    'saving':      __('Saving …')
+}) }}
+
 {# Output includes #}
 
 {% if 'html' in used_fieldtypes %}
