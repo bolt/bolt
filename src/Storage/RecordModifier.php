@@ -326,6 +326,7 @@ class RecordModifier
         ];
         $contextValues = [
             'datepublish' => $datePublish,
+            'datedepublish' => $content['datedepublish'] === '1900-01-01 00:00:00' ? '' : $content['datedepublish'],
         ];
         $context = [
             'contenttype'        => $contenttype,
