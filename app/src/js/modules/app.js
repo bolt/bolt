@@ -48,20 +48,20 @@
                     bolt.fields.templateselect.init(this, conf);
                     break;
 
+                case 'categories':
                 case 'checkbox':
                 case 'date':
                 case 'datetime':
                 case 'file':
                 case 'filelist':
                 case 'float':
+                case 'grouping':
                 case 'html':
                 case 'image':
                 case 'imagelist':
                 case 'integer':
                 case 'markdown':
-                case 'taxonomy-categories':
-                case 'taxonomy-grouping':
-                case 'taxonomy-tags':
+                case 'tags':
                 case 'text':
                 case 'textarea':
                 case 'video':
