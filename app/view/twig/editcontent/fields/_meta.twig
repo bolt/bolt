@@ -1,7 +1,5 @@
 {#=== INIT ===========================================================================================================#}
 
-{% set magic_date = '1900-01-01 00:00:00' %}
-
 {% set attributes = {
     id: {
         class:     'form-control narrow',
@@ -20,7 +18,7 @@
     depublish: {
         disabled:  (not context.can.depublish),
         id:        'datedepublish',
-        value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
+        value:     context.values.datedepublish,
         notice:     __('Depublish date is in the past. Change the status if you want to depublish now'),
     },
 
