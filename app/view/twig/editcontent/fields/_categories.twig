@@ -1,3 +1,7 @@
+{#=== INIT ===========================================================================================================#}
+
+{% set multiple = taxonomy.multiple is defined and taxonomy.multiple == 1 %}
+
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '_base/_fieldset.twig' %}
@@ -10,7 +14,7 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
+        {% if multiple %}
             <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control" multiple>
         {% else %}
             <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control">
@@ -24,7 +28,7 @@
 
         </select>
 
-        {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
+        {% if multiple %}
             <label><span class="left" style="line-height: 1px;">&nbsp;</span></label>
             <div style="margin-top: -14px;">
                 <button type="button" class="btn btn-default btn-xs select-all">
