@@ -296,9 +296,6 @@ class RecordModifier
             $content['templatefields']->contenttype['fields'] = $this->setCanUpload($content['templatefields']->contenttype['fields']);
         }
 
-        // Determine which templates will result in templatefields
-        $templateFieldTemplates = $this->getTempateFieldTemplates($contenttype, $content);
-
         // Build context for Twig
         $contextCan = [
             'upload'             => $this->app['users']->isAllowed('files:uploads'),
@@ -319,7 +316,7 @@ class RecordModifier
             'allowed_status'     => $allowedStatuses,
             'contentowner'       => $contentowner,
             'fields'             => $this->app['config']->fields->fields(),
-            'fieldtemplates'     => $templateFieldTemplates,
+            'fieldtemplates'     => $this->getTempateFieldTemplates($contenttype, $content),
             'fieldtypes'         => $this->getUsedFieldtypes($content, $contenttype),
             'groups'             => $this->createGroupTabs($contenttype, $contextHas),
             'can'                => $contextCan,
