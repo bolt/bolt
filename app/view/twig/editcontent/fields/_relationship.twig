@@ -22,9 +22,9 @@
     <div class="col-sm-8">
 
         {% if relation.multiple is defined and relation.multiple == 1 %}
-            <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" multiple style="width: 100%;" data-placeholder="{{ __('(none)') }}">
+            <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" multiple style="width: 100%;">
         {% else %}
-            <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" style="width: 100%;" data-placeholder="{{ __('(none)') }}">
+            <select name="relation[{{ relcontenttype }}][]" id="relation-{{ relcontenttype }}" class="wide" style="width: 100%;">
                 <option value="0">{{ __('(none)') }}</option>
         {% endif %}
 
