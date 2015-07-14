@@ -47,17 +47,5 @@
             {% if optgroup != '' %}</optgroup>{% endif %}
 
         </select>
-
-        <script>
-            $(function() {
-                $('#relation-{{ relcontenttype }}').select2({
-                    placeholder: "{{ __('(none)') }}",
-                    allowClear: true
-                    {% if groupby %}, formatSelection: function (item) {
-                        return $(item.element).parent().attr('label') + ': ' + item.text;
-                    }{% endif %}
-                });
-            });
-        </script>
     </div>
 {% endblock fieldset_controls %}

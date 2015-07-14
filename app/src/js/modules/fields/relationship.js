@@ -28,7 +28,20 @@
      * @param {FieldConf} fconf
      */
     relationship.init = function (fieldset, fconf) {
-        console.log('relationship.init');
+        var select = $(fieldset).find('select'),
+            funcFormatSelection = undefined;
+
+        if (fconf.groupBy) {
+            funcFormatSelection = function (item) {
+                return $(item.element).parent().attr('label') + ': ' + item.text;
+            };
+        }
+
+        select.select2({
+            placeholder: bolt.data('field.relationship.text.placeholder'),
+            allowClear: true,
+            formatSelection: funcFormatSelection
+        });
     };
 
     // Apply mixin container
