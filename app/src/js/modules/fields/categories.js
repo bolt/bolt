@@ -28,6 +28,13 @@
      * @param {FieldConf} fconf
      */
     categories.init = function (fieldset, fconf) {
+        var select = $(fieldset).find('select'),
+            selectAll = $(fieldset).find('button.select-all');
+
+        // Bind select-all button.
+        selectAll.on('click', function () {
+            select.find('option').prop('selected', true);
+        });
     };
 
     // Apply mixin container

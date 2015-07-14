@@ -27,7 +27,7 @@
         {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
             <label><span class="left" style="line-height: 1px;">&nbsp;</span></label>
             <div style="margin-top: -14px;">{# TODO:onclick-events to JS #}
-                <button type="button" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{ taxonomy.slug }} option').prop('selected', true); return false;">
+                <button type="button" class="btn btn-default btn-xs select-all">
                     <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
                 </button>
                 <button type="button" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{ taxonomy.slug }} option').prop('selected', false); return false;">
