@@ -68,26 +68,24 @@
     <div class="col-sm-9">
         <select{{ macro.attr(attributes.select) }}>
             {% for id, value in values %}
-
                 {% set is_array = (value is iterable and (value | length) > 1) %}
                 {% set attr_opt = {
                     value:     id,
                     selected:  id in selection or (not onlyids and (is_array ? value[0] : value) in selection),
                 } %}
-
                 <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[0:]|join(' / ') : value }}</option>
             {% endfor %}
         </select>
 
         {% if option.multiple %}
-        <div>
-            <button type="button" class="btn btn-default btn-xs select-all">
-                <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
-            </button>
-            <button type="button" class="btn btn-default btn-xs select-none">
-                <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
-            </button>
-        </div>
+            <div>
+                <button type="button" class="btn btn-default btn-xs select-all">
+                    <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
+                </button>
+                <button type="button" class="btn btn-default btn-xs select-none">
+                    <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
+                </button>
+            </div>
         {% endif %}
     </div>
 {% endblock fieldset_controls %}
