@@ -325,8 +325,8 @@ class RecordModifier
             'templatefields'     => $content->hasTemplateFields(),
         ];
         $contextValues = [
-            'datepublish' => $datePublish,
-            'datedepublish' => $content['datedepublish'] === '1900-01-01 00:00:00' ? '' : $content['datedepublish'],
+            'datepublish'        => $datePublish,
+            'datedepublish'      => $content['datedepublish'] === '1900-01-01 00:00:00' ? '' : $content['datedepublish'],
         ];
         $context = [
             'contenttype'        => $contenttype,
