@@ -317,7 +317,7 @@ class RecordModifier
             'contentowner'       => $contentowner,
             'fields'             => $this->app['config']->fields->fields(),
             'fieldtemplates'     => $this->getTempateFieldTemplates($contenttype, $content),
-            'fieldtypes'         => $this->getUsedFieldtypes($content, $contenttype),
+            'fieldtypes'         => $this->getUsedFieldtypes($contenttype, $content),
             'groups'             => $this->createGroupTabs($contenttype, $contextHas),
             'can'                => $contextCan,
             'has'                => $contextHas,
@@ -449,12 +449,12 @@ class RecordModifier
     /**
      * Create a list of fields types used in regular and template fields.
      *
-     * @param Content $content
      * @param array   $contenttype
+     * @param Content $content
      *
      * @return array
      */
-    private function getUsedFieldtypes(Content $content, array $contenttype)
+    private function getUsedFieldtypes(array $contenttype, Content $content)
     {
         $fieldtypes = [];
 
