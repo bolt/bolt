@@ -1,6 +1,6 @@
 {# General data #}
 
-{% set alertbox %}
+{% set template_alertbox %}
     <div id="{{ '%NOTICE_ID%' }}" class="alert alert-danger alert-dismissible">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <label for="%FIELD_ID%">{{ __('Field “%FIELD_NAME%”:') }}</label>
@@ -8,7 +8,7 @@
     </div>
 {% endset %}
 
-{{ data('validation.alertbox',         alertbox|trim) }}
+{{ data('validation.alertbox',         template_alertbox|trim) }}
 {{ data('validation.generic_msg',      __('Is required or needs to match a pattern!')) }}
 
 {{ data('editcontent.msg.change_quit', __('You have unfinished changes on this page. If you continue without saving, you will lose these changes.')) }}
