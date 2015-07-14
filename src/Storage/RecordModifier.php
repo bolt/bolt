@@ -265,7 +265,7 @@ class RecordModifier
             }
         }
 
-        // For duplicating a record, clear base field values
+        // For duplicating a record, clear base field values.
         if ($duplicate) {
             $content->setValues([
                 'id'            => '',
@@ -290,13 +290,13 @@ class RecordModifier
             $contentowner = $this->app['users']->getUser($content['ownerid']);
         }
 
-        // Test write access for uploadable fields
+        // Test write access for uploadable fields.
         $contenttype['fields'] = $this->setCanUpload($contenttype['fields']);
         if ((!empty($content['templatefields'])) && (!empty($content['templatefields']->contenttype['fields']))) {
             $content['templatefields']->contenttype['fields'] = $this->setCanUpload($content['templatefields']->contenttype['fields']);
         }
 
-        // Build context for Twig
+        // Build context for Twig.
         $contextCan = [
             'upload'             => $this->app['users']->isAllowed('files:uploads'),
             'publish'            => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':publish:' . $content['id']),
