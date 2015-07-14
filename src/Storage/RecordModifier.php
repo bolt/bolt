@@ -359,8 +359,9 @@ class RecordModifier
     private function getTempateFieldTemplates(array $contenttype, Content $content)
     {
         $templateFieldTemplates = [];
+        $templateFieldsConfig = $this->app['config']->get('theme/templatefields');
 
-        if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
+        if ($templateFieldsConfig) {
             $templateFieldTemplates = array_keys($templateFieldsConfig);
             // Special case for default template
             $toRepair = [];
