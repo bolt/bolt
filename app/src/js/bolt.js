@@ -20,5 +20,6 @@
  * @mixes Bolt.fields.relationship
  * @mixes Bolt.fields.select
  * @mixes Bolt.fields.slug
+ * @mixes Bolt.fields.tags
  */
 var Bolt = {};

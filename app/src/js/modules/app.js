@@ -44,6 +44,10 @@
                     bolt.fields.slug.init(this, conf);
                     break;
 
+                case 'tags':
+                    bolt.fields.tags.init(this, conf);
+                    break;
+
                 case 'templateselect':
                     bolt.fields.templateselect.init(this, conf);
                     break;
@@ -61,7 +65,6 @@
                 case 'imagelist':
                 case 'integer':
                 case 'markdown':
-                case 'tags':
                 case 'text':
                 case 'textarea':
                 case 'video':
