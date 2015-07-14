@@ -322,6 +322,7 @@ class RecordModifier
                 'upload'    => $this->app['users']->isAllowed('files:uploads'),
                 'publish'   => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':publish:' . $content['id']),
                 'depublish' => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':depublish:' . $content['id']),
+                'change_ownership' => $this->app['users']->isAllowed('contenttype:' . $contenttype['slug'] . ':change-ownership:' . $content['id']),
             ],
             'has'            => [
                 'incoming_relations' => $info['hasIncomingRelations'],
