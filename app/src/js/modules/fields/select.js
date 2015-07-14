@@ -28,6 +28,20 @@
      * @param {FieldConf} fconf
      */
     select.init = function (fieldset, fconf) {
+        var select = $(fieldset).find('select'),
+            selectAll = $(fieldset).find('button.select-all');
+
+        if (fconf.autocomplete) {
+            select.select2({
+                placeholder: bolt.data('field.select.text.placeholder'),
+                allowClear: true
+            });
+        }
+
+        // Bind select-all button.
+        selectAll.on('click', function () {
+            select.find('option').prop('selected', true);
+        });
     };
 
     // Apply mixin container
