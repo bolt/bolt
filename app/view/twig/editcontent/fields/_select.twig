@@ -81,12 +81,12 @@
 
         {% if option.multiple %}
         <div>{# TODO: move onclick-events to JS #}
-            <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', true); return false;">
+            <button type="button" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', true); return false;">
                 <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
-            </a>
-            <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', false); return false;">
+            </button>
+            <button type="button" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', false); return false;">
                 <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
-            </a>
+            </button>
         </div>
         {% endif %}
     </div>
