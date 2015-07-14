@@ -5,11 +5,11 @@
 {% set attributes_fieldset = {
     class:            'form-group',
     data_bolt_field:  block('fieldset_type'),
-    data_bolt_fconf:  fieldset_conf|default() is iterable ? fieldset_conf : null
+    data_bolt_fconf:  fieldset_conf|default() is iterable ? fieldset_conf|json_encode : null
 } %}
 
 {% set attributes_label = {
-    class:  block('fieldset_label_class') ~ (block('fieldset_label_class') == 'col-xs-12' ? '' : ' control-label'),
+    class:  'main ' ~ block('fieldset_label_class') ~ (block('fieldset_label_class') == 'col-xs-12' ? '' : ' control-label'),
     for:    block('fieldset_label_for'),
 } %}
 

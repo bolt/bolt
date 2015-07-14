@@ -51,7 +51,11 @@
                 case 'imagelist':
                 case 'integer':
                 case 'markdown':
+                case 'relationship':
                 case 'select':
+                case 'taxonomy-categories':
+                case 'taxonomy-groups':
+                case 'taxonomy-tags':
                 case 'text':
                 case 'textarea':
                 case 'video':

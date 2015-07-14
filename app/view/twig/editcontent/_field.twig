@@ -1,0 +1,33 @@
+{% import '_macro/_macro.twig' as macro %}
+
+{% set field = context.contenttype.fields[key] %}
+
+<div data-fieldtype="{{ field.type }}">
+    {# Prefix #}
+    {% if field.prefix is defined and field.prefix is not empty %}
+        <div class="prefix">
+            {{ field.prefix|markdown }}
+        </div>
+    {% endif %}
+
+    {# Fields #}
+    {% set labelkey = field.label ?: key|ucfirst %}
+
+    {% include context.fields[field.type].template with {
+        'key': key,
+        'name': key,
+        'contentkey': key
+    } %}
+
+    {# Postfix #}
+    {% if field.postfix is defined and field.postfix is not empty %}
+        <div class="postfix">
+            {{ field.postfix|markdown }}
+        </div>
+    {% endif %}
+
+    {# Divider #}
+    {% if field.separator is defined and field.separator == true %}
+        <hr>
+    {% endif %}
+</div>

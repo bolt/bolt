@@ -42,6 +42,21 @@
         role:    'form',
     } %}
 
+    {% set attributes = {
+        hid_editreferrer: {
+            name_id:  'editreferrer',
+            type:     'hidden',
+            value:    editreferrer|default(''),
+        },
+
+        hid_contenttype: {
+            name_id:   'contenttype',
+            readonly:  true,
+            type:      'hidden',
+            value:     context.contenttype.slug,
+        },
+    } %}
+
     {% set alertbox %}
         <div id="%NOTICE_ID%" class="alert alert-danger alert-dismissible">
             <button type="button" class="close" data-dismiss="alert">×</button>
@@ -78,27 +93,36 @@
             <form{{ macro.attr(attr_form) }}>
                 {% include '_sub/_csrf_token.twig' %}
 
+                <input{{ macro.attr(attributes.hid_editreferrer) }}>
+                <input{{ macro.attr(attributes.hid_contenttype) }}>
+
                 {% for group_name, group in context.groups %}
 
                     {% if context.has.tabs %}
                         <div class="tab-pane{{ group.is_active ? ' active' : '' }}" id="{{ group.id }}">
                     {% endif %}
 
-                    {% if group_name == 'relations' %}
-                        {% include 'editcontent/_relations.twig' %}
+                    {% for key in group.fields %}
 
-                    {% elseif group_name == 'taxonomy' %}
-                        {% include 'editcontent/_taxonomies.twig' %}
+                        {% if key == '*relations' %}
+                            {% include 'editcontent/_relations.twig' %}
 
-                    {% elseif group_name == 'meta' %}
-                        {% include 'editcontent/_meta.twig' %}
+                        {% elseif key == '*taxonomy' %}
+                            {% include 'editcontent/_taxonomies.twig' %}
 
-                    {% elseif group_name == 'template' %}
-                        {% include 'editcontent/_templatefields.twig' %}
+                        {% elseif key == '*meta' %}
+                            <div data-fieldtype="meta">
+                                {% include 'editcontent/fields/_meta.twig' %}
+                            </div>
 
-                    {% else %}
-                        {% include 'editcontent/_fields.twig' %}
-                    {% endif %}
+                        {% elseif key == '*template' %}
+                            {% include 'editcontent/_templatefields.twig' %}
+
+                        {% else %}
+                            {% include 'editcontent/_field.twig' %}
+                        {% endif %}
+
+                    {% endfor %}
 
                     {% if context.has.tabs %}
                         </div>
