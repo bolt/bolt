@@ -17,32 +17,8 @@
     'saving':      __('Saving …')
 }) }}
 
-{# Output includes #}
+{# Process field specific includes and data #}
 
-{% if 'html' in context.fieldtypes %}
-    {% include 'editcontent/fielddata/_html.twig' %}
-{% endif %}
-
-{% if 'markdown' in context.fieldtypes %}
-    {% include 'editcontent/fielddata/_markdown.twig' %}
-{% endif %}
-
-{% if 'geolocation' in context.fieldtypes %}
-    {% include 'editcontent/fielddata/_geolocation.twig' %}
-{% endif %}
-
-{% if 'slug' in context.fieldtypes %}
-    {% include 'editcontent/fielddata/_slug.twig' %}
-{% endif %}
-
-{% if 'templateselect' in context.fieldtypes %}
-    {% include 'editcontent/fielddata/_templateselect.twig' %}
-{% endif %}
-
-{% if 'filelist' in context.fieldtypes %}
-    {% include 'editcontent/fielddata/_filelist.twig' %}
-{% endif %}
-
-{% if 'imagelist' in context.fieldtypes %}
-    {% include 'editcontent/fielddata/_imagelist.twig' %}
-{% endif %}
+{% for type in context.fieldtypes %}
+    {% include 'editcontent/fielddata/_' ~ type ~ '.twig' ignore missing %}
+{% endfor %}
