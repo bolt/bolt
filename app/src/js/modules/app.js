@@ -28,6 +28,10 @@
                 conf = $(this).data('bolt-fconf');
 
             switch (type) {
+                case 'categories':
+                    bolt.fields.categories.init(this, conf);
+                    break;
+
                 case 'geolocation':
                     bolt.fields.geolocation.init(this, conf);
                     break;
@@ -52,7 +56,6 @@
                     bolt.fields.templateselect.init(this, conf);
                     break;
 
-                case 'categories':
                 case 'checkbox':
                 case 'date':
                 case 'datetime':

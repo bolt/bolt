@@ -16,6 +16,7 @@
  * @mixes Bolt.video
  *
  * @mixes Bolt.fields
+ * @mixes Bolt.fields.categories
  * @mixes Bolt.fields.geolocation
  * @mixes Bolt.fields.relationship
  * @mixes Bolt.fields.select
