@@ -90,15 +90,4 @@
         </div>
         {% endif %}
     </div>
-
-    {% if field.autocomplete|default(false) %}
-    <script>
-        $(function() {
-            $('#{{ key }}').select2({
-                placeholder: "{{ __('(none)') }}",
-                allowClear: true
-            });
-        });
-    </script>
-    {% endif %}
 {% endblock fieldset_controls %}
