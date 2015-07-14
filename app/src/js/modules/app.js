@@ -36,6 +36,10 @@
                     bolt.fields.relationship.init(this, conf);
                     break;
 
+                case 'select':
+                    bolt.fields.select.init(this, conf);
+                    break;
+
                 case 'slug':
                     bolt.fields.slug.init(this, conf);
                     break;
@@ -55,7 +59,6 @@
                 case 'imagelist':
                 case 'integer':
                 case 'markdown':
-                case 'select':
                 case 'taxonomy-categories':
                 case 'taxonomy-grouping':
                 case 'taxonomy-tags':
