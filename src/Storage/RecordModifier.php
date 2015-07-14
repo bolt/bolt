@@ -308,15 +308,6 @@ class RecordModifier
             'hasTemplateFields'    => $content->hasTemplateFields()
         ];
 
-        // Create a list of fields types used in regular and template fields.
-        $fieldtypes = [];
-        foreach ([$contenttype['fields'], $content->get('templatefields')->contenttype['fields']] as $fields) {
-            foreach ($fields as $field) {
-                $fieldtypes[$field['type']] = true;
-            }
-        }
-        $fieldtypes = array_keys($fieldtypes);
-
         // Build context for Twig
         $context = [
             'contenttype'    => $contenttype,
@@ -325,7 +316,7 @@ class RecordModifier
             'contentowner'   => $contentowner,
             'fields'         => $this->app['config']->fields->fields(),
             'fieldtemplates' => $templateFieldTemplates,
-            'fieldtypes'     => $fieldtypes,
+            'fieldtypes'     => $this->getUsedFieldtypes($content, $contenttype),
             'can_upload'     => $this->app['users']->isAllowed('files:uploads'),
             'groups'         => $this->createGroupTabs($contenttype, $info),
             'has'            => [
@@ -458,6 +449,27 @@ class RecordModifier
         }
 
         return $groups;
+    }
+
+    /**
+     * Create a list of fields types used in regular and template fields.
+     *
+     * @param Content $content
+     * @param array   $contenttype
+     *
+     * @return array
+     */
+    private function getUsedFieldtypes(Content $content, array $contenttype)
+    {
+        $fieldtypes = [];
+
+        foreach ([$contenttype['fields'], $content->get('templatefields')->contenttype['fields']] as $fields) {
+            foreach ($fields as $field) {
+                $fieldtypes[$field['type']] = true;
+            }
+        }
+
+        return array_keys($fieldtypes);
     }
 
     /**
