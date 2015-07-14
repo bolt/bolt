@@ -310,6 +310,8 @@ class RecordModifier
             'taxonomy'           => isset($contenttype['taxonomy']),
             'templatefields'     => $content->hasTemplateFields(),
         ];
+        $contextValues = [
+        ];
         $context = [
             'contenttype'        => $contenttype,
             'content'            => $content,
@@ -321,6 +323,7 @@ class RecordModifier
             'groups'             => $this->createGroupTabs($contenttype, $contextHas),
             'can'                => $contextCan,
             'has'                => $contextHas,
+            'values'             => $contextValues,
         ];
 
         return $context;
