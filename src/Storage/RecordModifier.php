@@ -311,6 +311,15 @@ class RecordModifier
         // Generate tab groups
         $groups = $this->createGroupTabs($contenttype, $info);
 
+        // Create a list of fields types used in regular and template fields.
+        $fieldtypes = [];
+        foreach ([$contenttype['fields'], $content->get('templatefields')->contenttype['fields']] as $fields) {
+            foreach ($fields as $field) {
+                $fieldtypes[$field['type']] = true;
+            }
+        }
+        $fieldtypes = array_keys($fieldtypes);
+
         // Build context for Twig
         $context = [
             'contenttype'    => $contenttype,
