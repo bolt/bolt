@@ -3,9 +3,15 @@
 {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
 {% set format = relation.format|default("{{ item.title|escape }} <span>(№ {{ item.id }})</span>") %}
 
+{% set groupby = relation.groupby|default(false) %}
+
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '_base/_fieldset.twig' %}
+
+{% set fieldset_conf = {
+    groupBy: groupby
+} %}
 
 {% block fieldset_type 'relationship' %}
 
@@ -22,7 +28,6 @@
                 <option value="0">{{ __('(none)') }}</option>
         {% endif %}
 
-            {% set groupby = relation.groupby|default(false) %}
             {% set optgroup = '' %}
             {% for item in listcontent(relcontenttype, relation, context.content) %}
                 {% if relcontenttype == app.request.get('relation') and item.id == app.request.get('relationid') %}
