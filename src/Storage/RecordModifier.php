@@ -328,6 +328,7 @@ class RecordModifier
             'contentowner'   => $contentowner,
             'fields'         => $this->app['config']->fields->fields(),
             'fieldtemplates' => $templateFieldTemplates,
+            'fieldtypes'     => $fieldtypes,
             'can_upload'     => $this->app['users']->isAllowed('files:uploads'),
             'groups'         => $groups,
             'has'            => [
