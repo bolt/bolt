@@ -46,23 +46,34 @@ class TranslationServiceProvider implements ServiceProviderInterface
      */
     public static function addResources(Application $app, $locale)
     {
-        // Directory to look for translation file(s)
-        $transDir = $app['resources']->getPath('app/resources/translations/' . $locale);
+        // Directories to look for translation file(s)
+        $transDirs = array_unique([
+            $app['resources']->getPath("app/resources/translations/{$locale}"),
+            $app['resources']->getPath("root/app/resources/translations/{$locale}"),
+        ]);
 
-        if (is_dir($transDir)) {
+        $needsSecondPass = true;
+
+        foreach ($transDirs as $transDir) {
+            if (!is_dir($transDir) || !is_readable($transDir)) {
+                continue;
+            }
             $iterator = new \DirectoryIterator($transDir);
             /**
              * @var \SplFileInfo $fileInfo
              */
             foreach ($iterator as $fileInfo) {
                 $ext = Lib::getExtension((string) $fileInfo);
-                if (!$fileInfo->isFile() || !in_array($ext, ['yml', 'xlf'])) {
+                if (!$fileInfo->isFile() || !in_array($ext, ['yml', 'xlf'], true)) {
                     continue;
                 }
                 list($domain) = explode('.', $fileInfo->getFilename());
                 $app['translator']->addResource($ext, $fileInfo->getRealPath(), $locale, $domain);
+                $needsSecondPass = false;
             }
-        } elseif (strlen($locale) == 5) {
+        }
+
+        if ($needsSecondPass && strlen($locale) === 5) {
             static::addResources($app, substr($locale, 0, 2));
         }
     }
