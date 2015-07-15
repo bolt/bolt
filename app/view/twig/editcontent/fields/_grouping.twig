@@ -39,18 +39,19 @@
         </div>
 
         {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
+            {% set attr_order = {
+                class:  'form-control',
+                id:     'taxonomy-order-' ~ taxonomy.slug,
+                name:   'taxonomy-order[' ~ taxonomy.slug ~ ']',
+                step:   '1',
+                type:   'number',
+                value:  context.content.sortorder|default(0),
+            } %}
             <div class="form-group">
                 <label for="taxonomy-order-{{ taxonomy.slug }}" class="control-label col-xs-3">Order</label>
-                {% if context.content.sortorder %}
-                    {% set sortorder = context.content.sortorder %}
-                {% else %}
-                    {% set sortorder = 0 %}
-                {% endif %}
-                <div class="Xcol-xs-3">
-                    <input type="number" name="taxonomy-order[{{ taxonomy.slug }}]" id="taxonomy-order-{{ taxonomy.slug }}" step="1"
-                           value="{{ sortorder }}" class="form-control">
+                <div class="col-xs-9">
+                    <input{{ macro.attr(attr_order) }}>
                 </div>
-            </div>
             </div>
         {% endif %}
     </div>
