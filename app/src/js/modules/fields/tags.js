@@ -28,11 +28,9 @@
      * @param {FieldConf} fconf
      */
     tags.init = function (fieldset, fconf) {
-        console.log('tags.init');
-
         var slug = fconf.slug,
-            idTaxonomy = '#taxonomy-' + slug,
-            idTagcloud = '#tagcloud-' + slug;
+            idTagcloud = '#tagcloud-' + slug,
+            taxonomy = $(fieldset).find('input');
 
         // Load all tags.
         $.ajax({
@@ -45,14 +43,14 @@
                     results.push( item.slug );
                 });
 
-                $(idTaxonomy).select2({
+                taxonomy.select2({
                     tags: results,
                     minimumInputLength: 1,
                     tokenSeparators: [',', ' ']
                 });
             },
             error: function () {
-                $(idTaxonomy).select2({
+                taxonomy.select2({
                     tags: [],
                     minimumInputLength: 1,
                     tokenSeparators: [',', ' ']
@@ -78,12 +76,12 @@
                             var data;
 
                             e.preventDefault();
-                            data = $(idTaxonomy).select2('data');
+                            data = taxonomy.select2('data');
                             data.push({
                                 id: $(this).text(),
                                 text: $(this).text()
                             });
-                            $(idTaxonomy).select2('data', data);
+                            taxonomy.select2('data', data);
                         });
 
                         $.fn.tagcloud.defaults = {
