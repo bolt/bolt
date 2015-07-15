@@ -40,13 +40,23 @@
             dataType: 'json',
             success: function (data) {
                 var results = [];
+
                 $.each(data, function (index, item) {
                     results.push( item.slug );
                 });
-                $(idTaxonomy).select2({tags: results, minimumInputLength: 1, tokenSeparators: [',', ' ']});
+
+                $(idTaxonomy).select2({
+                    tags: results,
+                    minimumInputLength: 1,
+                    tokenSeparators: [',', ' ']
+                });
             },
             error: function () {
-                $(idTaxonomy).select2({tags: [], minimumInputLength: 1, tokenSeparators: [',', ' ']});
+                $(idTaxonomy).select2({
+                    tags: [],
+                    minimumInputLength: 1,
+                    tokenSeparators: [',', ' ']
+                });
             }
         });
 
@@ -55,22 +65,37 @@
             $.ajax({
                 url: bolt.conf('paths.root') + 'async/populartags/' + slug,
                 dataType: 'json',
-                data : {limit: 40},
+                data : {
+                    limit: 40
+                },
                 success: function(data) {
+                    var data;
+
                     if (data.length > 0) {
                         $.each(data, function(index, item){
                             $(idTagcloud).append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
                         });
+
                         $(idTagcloud + ' a').on('click', function (e) {
                             e.preventDefault();
-                            var data = $(idTaxonomy).select2('data');
-                            data.push({id:$(this).text(), text:$(this).text()});
+                            data = $(idTaxonomy).select2('data');
+                            data.push({
+                                id: $(this).text(),
+                                text: $(this).text()
+                            });
                             $(idTaxonomy).select2('data', data);
                         });
 
                         $.fn.tagcloud.defaults = {
-                            size: {start: 12, end: 22, unit: 'px'},
-                            color: {start: '#888', end: '#194770'}
+                            size: {
+                                start: 12,
+                                end: 22,
+                                unit: 'px'
+                            },
+                            color: {
+                                start: '#888',
+                                end: '#194770'
+                            }
                         };
                         $(idTagcloud + ' a').tagcloud();
                     }
