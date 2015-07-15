@@ -25,11 +25,9 @@
             {% for slug, group in taxonomy.options %}
                 {% set attr_opt = {
                     value:     slug,
-                    selected:  context.content.taxonomy[taxonomy.slug] is defined and
-                                  group in context.content.taxonomy[taxonomy.slug] or
-                               context.content.taxonomy[taxonomy.slug] is not defined and
-                                  taxonomy.default is defined and
-                                  taxonomy.default == slug,
+                    selected:  context.content.taxonomy[taxonomy.slug] is defined
+                               ? group in context.content.taxonomy[taxonomy.slug]
+                               : taxonomy.default is defined and taxonomy.default == slug,
                 } %}
                 <option{{ macro.attr(attr_opt) }}>{{ group }}</option>
             {% endfor %}
