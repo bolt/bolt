@@ -23,7 +23,15 @@
             <option value="">{{ __('(no group)') }}</option>
             <option value="" disabled>-----------</option>
             {% for slug, group in taxonomy.options %}
-                <option value="{{ slug }}" {% if context.content.taxonomy[taxonomy.slug] is defined and group in context.content.taxonomy[taxonomy.slug] or context.content.taxonomy[taxonomy.slug] is not defined and taxonomy.default is defined and taxonomy.default == slug %}selected{% endif %}>{{ group }}</option>
+                {% set attr_opt = {
+                    value:     slug,
+                    selected:  context.content.taxonomy[taxonomy.slug] is defined and
+                                  group in context.content.taxonomy[taxonomy.slug] or
+                               context.content.taxonomy[taxonomy.slug] is not defined and
+                                  taxonomy.default is defined and
+                                  taxonomy.default == slug,
+                } %}
+                <option{{ macro.attr(attr_opt) }}>{{ group }}</option>
             {% endfor %}
         </select>
 
