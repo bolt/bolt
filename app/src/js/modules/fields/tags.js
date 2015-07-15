@@ -29,8 +29,8 @@
      */
     tags.init = function (fieldset, fconf) {
         var slug = fconf.slug,
-            idTagcloud = '#tagcloud-' + slug,
-            taxonomy = $(fieldset).find('input');
+            taxonomy = $(fieldset).find('input'),
+            tagcloud = $(fieldset).find('div.tagcloud');
 
         // Load all tags.
         $.ajax({
@@ -69,10 +69,10 @@
                 success: function(data) {
                     if (data.length > 0) {
                         $.each(data, function(index, item){
-                            $(idTagcloud).append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
+                            tagcloud.append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
                         });
 
-                        $(idTagcloud + ' a').on('click', function (e) {
+                        tagcloud.find('a').on('click', function (e) {
                             var data;
 
                             e.preventDefault();
@@ -95,7 +95,7 @@
                                 end: '#194770'
                             }
                         };
-                        $(idTagcloud + ' a').tagcloud();
+                        tagcloud.find('a').tagcloud();
                     }
                 }
             });
