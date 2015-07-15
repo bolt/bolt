@@ -16,10 +16,11 @@ composer.lock
 
 # Files related to testing
 tests/codeception/_output
-tests/codeception/*/*Tester.php
-tests/phpunit/unit/report
-tests/phpunit/unit/resources/*
-!tests/phpunit/unit/resources/db/
+tests/codeception/_support/*Tester.php
+tests/codeception/_support/_generated/
+tests/codeception/acceptance/AcceptanceTester.php
+tests/codeception/functional/FunctionalTester.php
+tests/codeception/unit/UnitTester.php
 *.codeception-backup
 /bolt.db
 
