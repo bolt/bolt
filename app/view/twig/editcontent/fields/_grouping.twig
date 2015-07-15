@@ -1,3 +1,13 @@
+{#=== INIT ===========================================================================================================#}
+
+{% set attributes = {
+    select: {
+        name:      'taxonomy[' ~ taxonomy.slug ~ '][]',
+        id:        'taxonomy-' ~ taxonomy.slug,
+        class:     'form-control pull-left narrow',
+    }
+} %}
+
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '_base/_fieldset.twig' %}
@@ -9,7 +19,7 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="narrow form-control pull-left">
+        <select{{ macro.attr(attributes.select) }}>
             <option value="">{{ __('(no group)') }}</option>
             <option value="" disabled>-----------</option>
             {% for slug, group in taxonomy.options %}
