@@ -1,3 +1,21 @@
+{#=== INIT ===========================================================================================================#}
+
+{% if context.content.taxonomy[taxonomy.slug] is defined %}
+    {% set tags = context.content.taxonomy[taxonomy.slug]|join(",") %}
+{% else %}
+    {% set tags = "" %}
+{% endif %}
+
+{% set attributes = {
+    taxonomy: {
+        id:     'taxonomy-' ~ taxonomy.slug,
+        name:   'taxonomy[' ~ taxonomy.slug ~ ']',
+        style:  'width: 100%;',
+        type:   'text',
+        value:  tags,
+    }
+} %}
+
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '_base/_fieldset.twig' %}
@@ -13,13 +31,7 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        {% if context.content.taxonomy[taxonomy.slug] is defined %}
-            {% set tags = context.content.taxonomy[taxonomy.slug]|join(",") %}
-        {% else %}
-            {% set tags = "" %}
-        {% endif %}
-
-        <input type="text" name="taxonomy[{{ taxonomy.slug }}]" id="taxonomy-{{ taxonomy.slug }}" value="{{ tags }}" style="width: 100%;">
+        <input{{ macro.attr(attributes.taxonomy) }}>
 
         {% if taxonomy.tagcloud %}
             <div class="tagcloud" id="tagcloud-{{ taxonomy.slug }}"></div>
