@@ -48,7 +48,7 @@
                 value:  context.content.sortorder|default(0),
             } %}
             <div class="form-group">
-                <label for="taxonomy-order-{{ taxonomy.slug }}" class="control-label col-xs-3">Order</label>
+                <label for="taxonomy-order-{{ taxonomy.slug }}" class="control-label col-xs-3">{{ __('Order') }}</label>
                 <div class="col-xs-9">
                     <input{{ macro.attr(attr_order) }}>
                 </div>
