@@ -59,7 +59,7 @@
         });
 
         // Popular tags.
-        if (fconf.tagcloud) {
+        if (tagcloud) {
             $.ajax({
                 url: bolt.conf('paths.root') + 'async/populartags/' + slug,
                 dataType: 'json',
