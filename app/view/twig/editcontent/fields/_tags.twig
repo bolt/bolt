@@ -21,7 +21,8 @@
         {% endif %}
 
         <input type="text" name="taxonomy[{{ taxonomy.slug }}]" id="taxonomy-{{ taxonomy.slug }}" value="{{ tags }}" style="width: 100%;">
-
-        <div class="tagcloud" id="tagcloud-{{ taxonomy.slug }}"></div>
+        {% if taxonomy.tagcloud %}
+            <div class="tagcloud" id="tagcloud-{{ taxonomy.slug }}"></div>
+        {% endif %}
     </div>
 {% endblock fieldset_controls %}
