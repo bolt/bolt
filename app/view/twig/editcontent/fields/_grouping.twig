@@ -4,7 +4,7 @@
     select: {
         name:      'taxonomy[' ~ taxonomy.slug ~ '][]',
         id:        'taxonomy-' ~ taxonomy.slug,
-        class:     'form-control pull-left narrow',
+        class:     'form-control',
     }
 } %}
 
@@ -19,29 +19,39 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        <select{{ macro.attr(attributes.select) }}>
-            <option value="">{{ __('(no group)') }}</option>
-            <option value="" disabled>-----------</option>
-            {% for slug, group in taxonomy.options %}
-                {% set attr_opt = {
-                    value:     slug,
-                    selected:  context.content.taxonomy[taxonomy.slug] is defined
-                               ? group in context.content.taxonomy[taxonomy.slug]
-                               : taxonomy.default is defined and taxonomy.default == slug,
-                } %}
-                <option{{ macro.attr(attr_opt) }}>{{ group }}</option>
-            {% endfor %}
-        </select>
+        <div class="form-group">
+            <label for="taxonomy-{{ taxonomy.slug }}" class="sr-only">{{ taxonomy.name }}</label>
+            <div class="col-xs-12">
+                <select{{ macro.attr(attributes.select) }}>
+                    <option value="">{{ __('(no group)') }}</option>
+                    <option value="" disabled>-----------</option>
+                    {% for slug, group in taxonomy.options %}
+                        {% set attr_opt = {
+                            value:     slug,
+                            selected:  context.content.taxonomy[taxonomy.slug] is defined
+                                       ? group in context.content.taxonomy[taxonomy.slug]
+                                       : taxonomy.default is defined and taxonomy.default == slug,
+                        } %}
+                        <option{{ macro.attr(attr_opt) }}>{{ group }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
 
         {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
-            <label for="taxonomy-order-{{ taxonomy.slug }}" class=" pull-left" style="margin: 6px 8px 0;">- Order:</label>
-            {% if context.content.sortorder %}
-                {% set sortorder = context.content.sortorder %}
-            {% else %}
-                {% set sortorder = 0 %}
-            {% endif %}
-            <input type="number" name="taxonomy-order[{{ taxonomy.slug }}]" id="taxonomy-order-{{ taxonomy.slug }}" step="1"
-                   value="{{ sortorder }}" class="verynarrow form-control pull-left">
+            <div class="form-group">
+                <label for="taxonomy-order-{{ taxonomy.slug }}" class="control-label col-xs-3">Order</label>
+                {% if context.content.sortorder %}
+                    {% set sortorder = context.content.sortorder %}
+                {% else %}
+                    {% set sortorder = 0 %}
+                {% endif %}
+                <div class="Xcol-xs-3">
+                    <input type="number" name="taxonomy-order[{{ taxonomy.slug }}]" id="taxonomy-order-{{ taxonomy.slug }}" step="1"
+                           value="{{ sortorder }}" class="form-control">
+                </div>
+            </div>
+            </div>
         {% endif %}
     </div>
 {% endblock fieldset_controls %}
