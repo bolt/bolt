@@ -5,7 +5,8 @@
 {% block fieldset_type 'tags' %}
 
 {% set fieldset_conf = {
-    tagcloud: taxonomy.tagcloud
+    tagcloud: taxonomy.tagcloud,
+    slug:     taxonomy.slug,
 }%}
 
 {% block fieldset_label_text  taxonomy.name %}
