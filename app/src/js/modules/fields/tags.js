@@ -69,14 +69,14 @@
                     limit: 40
                 },
                 success: function(data) {
-                    var data;
-
                     if (data.length > 0) {
                         $.each(data, function(index, item){
                             $(idTagcloud).append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
                         });
 
                         $(idTagcloud + ' a').on('click', function (e) {
+                            var data;
+
                             e.preventDefault();
                             data = $(idTaxonomy).select2('data');
                             data.push({
