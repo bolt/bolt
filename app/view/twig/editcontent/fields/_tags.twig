@@ -4,6 +4,10 @@
 
 {% block fieldset_type 'tags' %}
 
+{% set fieldset_conf = {
+    tagcloud: taxonomy.tagcloud
+}%}
+
 {% block fieldset_label_text  taxonomy.name %}
 {% block fieldset_label_class 'col-sm-3' %}
 
