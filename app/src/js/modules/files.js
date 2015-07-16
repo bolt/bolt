@@ -210,7 +210,8 @@
             success: function (result) {
                 document.location.reload();
             },
-            error: function () {
+            error: function (result) {
+            	alert(result.responseText);
                 console.log(errMsg);
             }
         };

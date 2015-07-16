@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FileNotFoundException;
 use Silex;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -652,10 +653,18 @@ class Async implements ControllerProviderInterface
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
+        if (!$this->isMatchingExtension($app, $oldName, $newName)) {
+            return new JsonResponse(Trans::__('Only root can change file extensions.'), Response::HTTP_FORBIDDEN);
+        }
+
         try {
-            return $app['filesystem']->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
+            if ($app['filesystem']->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName")) {
+                return new JsonResponse(null, Response::HTTP_OK);
+            }
+
+            return new JsonResponse(Trans::__('Unable to rename file: %FILE%', array('%FILE%' => $oldName)), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -673,9 +682,13 @@ class Async implements ControllerProviderInterface
         $filename = $request->request->get('filename');
 
         try {
-            return $app['filesystem']->delete("$namespace://$filename");
+            if ($app['filesystem']->delete("$namespace://$filename")) {
+                return new JsonResponse(null, Response::HTTP_OK);
+            }
+
+            return new JsonResponse(Trans::__('Unable to delete file: %FILE%', array('%FILE%' => $filename)), Response::HTTP_FORBIDDEN);
         } catch (FileNotFoundException $e) {
-            return false;
+            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -726,9 +739,13 @@ class Async implements ControllerProviderInterface
         $newName    = $request->request->get('newname');
 
         try {
-            return $app['filesystem']->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
+            if ($app['filesystem']->rename("$namespace://$parentPath$oldName", "$parentPath$newName")) {
+                return new JsonResponse(null, Response::HTTP_OK);
+            }
+
+            return new JsonResponse(Trans::__('Unable to rename directory: %DIR%', array('%DIR%' => $oldName)), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -747,9 +764,13 @@ class Async implements ControllerProviderInterface
         $folderName = $request->request->get('foldername');
 
         try {
-            return $app['filesystem']->deleteDir("$namespace://$parentPath$folderName");
+            if ($app['filesystem']->deleteDir("$namespace://$parentPath$folderName")) {
+                return new JsonResponse(null, Response::HTTP_OK);
+            }
+
+            return new JsonResponse(Trans::__('Unable to delete directory: %DIR%', array('%DIR%' => $folderName)), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -768,9 +789,13 @@ class Async implements ControllerProviderInterface
         $folderName = $request->request->get('foldername');
 
         try {
-            return $app['filesystem']->createDir("$namespace://$parentPath$folderName");
+            if ($app['filesystem']->createDir("$namespace://$parentPath$folderName")) {
+                return new JsonResponse(null, Response::HTTP_OK);
+            }
+
+            return new JsonResponse(Trans::__('Unable to create directory: %DIR%', array('%DIR%' => $folderName)), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -855,5 +880,30 @@ class Async implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.async.before');
+    }
+
+    /**
+     * Check that file extensions are not being changed.
+     *
+     * @param \Silex\Application $app
+     * @param string             $oldName
+     * @param string             $newName
+     *
+     * @return boolean
+     */
+    private function isMatchingExtension(Silex\Application $app, $oldName, $newName)
+    {
+        $user = $app['users']->getCurrentUser();
+        if ($app['users']->hasRole($user['id'], 'root')) {
+            return true;
+        }
+
+        $oldFile = new \SplFileInfo($oldName);
+        $newFile = new \SplFileInfo($newName);
+        if ($oldFile->getExtension() === $newFile->getExtension()) {
+            return true;
+        }
+
+        return false;
     }
 }
