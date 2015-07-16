@@ -34,7 +34,8 @@ class FilesystemManagerTest extends ControllerUnitTest
         ]));
         $response = $this->controller()->createFolder($this->getRequest());
 
-        $this->assertTrue($response);
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testDeleteFile()
@@ -92,7 +93,8 @@ class FilesystemManagerTest extends ControllerUnitTest
         ]));
         $response = $this->controller()->removeFolder($this->getRequest());
 
-        $this->assertTrue($response);
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testRenameFile()
