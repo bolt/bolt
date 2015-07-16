@@ -658,9 +658,13 @@ class Async implements ControllerProviderInterface
         }
 
         try {
-            return $app['filesystem']->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
+            if ($app['filesystem']->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName")) {
+                return new JsonResponse(null, Response::HTTP_OK);
+            }
+
+            return new JsonResponse(Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -678,9 +682,13 @@ class Async implements ControllerProviderInterface
         $filename = $request->request->get('filename');
 
         try {
-            return $app['filesystem']->delete("$namespace://$filename");
+            if ($app['filesystem']->delete("$namespace://$filename")) {
+                return new JsonResponse(null, Response::HTTP_OK);
+            }
+
+            return new JsonResponse(Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]), Response::HTTP_FORBIDDEN);
         } catch (FileNotFoundException $e) {
-            return false;
+            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -731,9 +739,13 @@ class Async implements ControllerProviderInterface
         $newName    = $request->request->get('newname');
 
         try {
-            return $app['filesystem']->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
+            if ($app['filesystem']->rename("$namespace://$parentPath$oldName", "$parentPath$newName")) {
+                return new JsonResponse(null, Response::HTTP_OK);
+            }
+
+            return new JsonResponse(Trans::__('Unable to rename directory: %DIR%', ['%DIR%' => $oldName]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -752,9 +764,13 @@ class Async implements ControllerProviderInterface
         $folderName = $request->request->get('foldername');
 
         try {
-            return $app['filesystem']->deleteDir("$namespace://$parentPath$folderName");
+            if ($app['filesystem']->deleteDir("$namespace://$parentPath$folderName")) {
+                return new JsonResponse(null, Response::HTTP_OK);
+            }
+
+            return new JsonResponse(Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -773,9 +789,13 @@ class Async implements ControllerProviderInterface
         $folderName = $request->request->get('foldername');
 
         try {
-            return $app['filesystem']->createDir("$namespace://$parentPath$folderName");
+            if ($app['filesystem']->createDir("$namespace://$parentPath$folderName")) {
+                return new JsonResponse(null, Response::HTTP_OK);
+            }
+
+            return new JsonResponse(Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
