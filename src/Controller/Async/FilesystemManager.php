@@ -271,6 +271,10 @@ class FilesystemManager extends AsyncBase
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
+        if (!$this->isMatchingExtension($oldName, $newName)) {
+            return false;
+        }
+
         try {
             return $this->filesystem()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
         } catch (\Exception $e) {
@@ -297,5 +301,29 @@ class FilesystemManager extends AsyncBase
         } catch (\Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * Check that file extensions are not being changed.
+     *
+     * @param string $oldName
+     * @param string $newName
+     *
+     * @return boolean
+     */
+    private function isMatchingExtension($oldName, $newName)
+    {
+        $user = $this->getUser();
+        if ($this->users()->hasRole($user['id'], 'root')) {
+            return true;
+        }
+
+        $oldFile = new \SplFileInfo($oldName);
+        $newFile = new \SplFileInfo($newName);
+        if ($oldFile->getExtension() === $newFile->getExtension()) {
+            return true;
+        }
+
+        return false;
     }
 }
