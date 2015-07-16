@@ -17,6 +17,7 @@ composer.lock
 # Files related to testing
 tests/codeception/_output
 tests/codeception/*/*Tester.php
+tests/codeception/_support/_generated/
 tests/phpunit/unit/report
 tests/phpunit/unit/resources/*
 !tests/phpunit/unit/resources/db/
