@@ -217,7 +217,7 @@
     };
 
     /**
-     * Deletes a folder on the server utilizing an AJAX request.
+     * Perform an AJAX POST.
      *
      * @private
      * @static
@@ -237,7 +237,8 @@
             success: function (result) {
                 document.location.reload();
             },
-            error: function () {
+            error: function (result) {
+            	alert(result.responseText);
                 console.log(errMsg);
             }
         };
