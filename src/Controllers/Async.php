@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FileNotFoundException;
 use Silex;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -652,6 +653,10 @@ class Async implements ControllerProviderInterface
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
+        if (!$this->isMatchingExtension($app, $oldName, $newName)) {
+            return new JsonResponse(Trans::__('Only root can change file extensions.'), Response::HTTP_FORBIDDEN);
+        }
+
         try {
             return $app['filesystem']->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
         } catch (\Exception $e) {
@@ -855,5 +860,30 @@ class Async implements ControllerProviderInterface
 
         // Stop the 'stopwatch' for the profiler.
         $app['stopwatch']->stop('bolt.async.before');
+    }
+
+    /**
+     * Check that file extensions are not being changed.
+     *
+     * @param \Silex\Application $app
+     * @param string             $oldName
+     * @param string             $newName
+     *
+     * @return boolean
+     */
+    private function isMatchingExtension(Silex\Application $app, $oldName, $newName)
+    {
+        $user = $app['users']->getCurrentUser();
+        if ($app['users']->hasRole($user['id'], 'root')) {
+            return true;
+        }
+
+        $oldFile = new \SplFileInfo($oldName);
+        $newFile = new \SplFileInfo($newName);
+        if ($oldFile->getExtension() === $newFile->getExtension()) {
+            return true;
+        }
+
+        return false;
     }
 }
