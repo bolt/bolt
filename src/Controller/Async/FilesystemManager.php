@@ -4,7 +4,9 @@ namespace Bolt\Controller\Async;
 use Bolt\Translation\Translator as Trans;
 use League\Flysystem\FileNotFoundException;
 use Silex\ControllerCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Async controller for filesystem management async routes.
@@ -108,7 +110,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return boolean
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function createFolder(Request $request)
     {
@@ -117,9 +119,13 @@ class FilesystemManager extends AsyncBase
         $folderName = $request->request->get('foldername');
 
         try {
-            return $this->filesystem()->createDir("$namespace://$parentPath$folderName");
+            if ($this->filesystem()->createDir("$namespace://$parentPath$folderName")) {
+                return $this->json(null, Response::HTTP_OK);
+            }
+
+            return $this->json(Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -128,7 +134,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return boolean
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function createFile(Request $request)
     {
@@ -137,9 +143,13 @@ class FilesystemManager extends AsyncBase
         $filename = $request->request->get('filename');
 
         try {
-            return $this->filesystem()->put("$namespace://$parentPath/$filename", ' ');
+            if ($this->filesystem()->put("$namespace://$parentPath/$filename", ' ')) {
+                return $this->json(null, Response::HTTP_OK);
+            }
+
+            return $this->json(Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -148,7 +158,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return boolean
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function deleteFile(Request $request)
     {
@@ -156,9 +166,13 @@ class FilesystemManager extends AsyncBase
         $filename = $request->request->get('filename');
 
         try {
-            return $this->filesystem()->delete("$namespace://$filename");
+            if ($this->filesystem()->delete("$namespace://$filename")) {
+                return $this->json(null, Response::HTTP_OK);
+            }
+
+            return $this->json(Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]), Response::HTTP_FORBIDDEN);
         } catch (FileNotFoundException $e) {
-            return false;
+            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -242,7 +256,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return boolean
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function removeFolder(Request $request)
     {
@@ -251,9 +265,13 @@ class FilesystemManager extends AsyncBase
         $folderName = $request->request->get('foldername');
 
         try {
-            return $this->filesystem()->deleteDir("$namespace://$parentPath$folderName");
+            if ($this->filesystem()->deleteDir("$namespace://$parentPath$folderName")) {
+                return $this->json(null, Response::HTTP_OK);
+            }
+
+            return $this->json(Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -262,7 +280,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return boolean
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function renameFile(Request $request)
     {
@@ -271,10 +289,18 @@ class FilesystemManager extends AsyncBase
         $oldName    = $request->request->get('oldname');
         $newName    = $request->request->get('newname');
 
+        if (!$this->isMatchingExtension($oldName, $newName)) {
+            return $this->json(Trans::__('Only root can change file extensions.'), Response::HTTP_FORBIDDEN);
+        }
+
         try {
-            return $this->filesystem()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
+            if ($this->filesystem()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName")) {
+                return $this->json(null, Response::HTTP_OK);
+            }
+
+            return $this->json(Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -283,7 +309,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return boolean
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function renameFolder(Request $request)
     {
@@ -293,9 +319,37 @@ class FilesystemManager extends AsyncBase
         $newName    = $request->request->get('newname');
 
         try {
-            return $this->filesystem()->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
+            if ($this->filesystem()->rename("$namespace://$parentPath$oldName", "$parentPath$newName")) {
+                return $this->json(null, Response::HTTP_OK);
+            }
+
+            return $this->json(Trans::__('Unable to rename directory: %DIR%', ['%DIR%' => $oldName]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
-            return false;
+            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /**
+     * Check that file extensions are not being changed.
+     *
+     * @param string $oldName
+     * @param string $newName
+     *
+     * @return boolean
+     */
+    private function isMatchingExtension($oldName, $newName)
+    {
+        $user = $this->getUser();
+        if ($this->users()->hasRole($user['id'], 'root')) {
+            return true;
+        }
+
+        $oldFile = new \SplFileInfo($oldName);
+        $newFile = new \SplFileInfo($newName);
+        if ($oldFile->getExtension() === $newFile->getExtension()) {
+            return true;
+        }
+
+        return false;
     }
 }
