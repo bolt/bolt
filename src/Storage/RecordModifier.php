@@ -296,20 +296,6 @@ class RecordModifier
             $content['templatefields']->contenttype['fields'] = $this->setCanUpload($content['templatefields']->contenttype['fields']);
         }
 
-        // Publish date
-        switch ($content['datepublish'])  {
-            case '1900-01-01 00:00:00':
-                $datePublish = '';
-                break;
-
-            case '':
-                $datePublish = date('Y-m-d H:i:s');
-                break;
-
-            default:
-                $datePublish = $content['datepublish'];
-        }
-
         // Build context for Twig.
         $contextCan = [
             'upload'             => $this->app['users']->isAllowed('files:uploads'),
@@ -325,8 +311,8 @@ class RecordModifier
             'templatefields'     => $content->hasTemplateFields(),
         ];
         $contextValues = [
-            'datepublish'        => $datePublish,
-            'datedepublish'      => $content['datedepublish'] === '1900-01-01 00:00:00' ? '' : $content['datedepublish'],
+            'datepublish'        => $this->getPublishingDate($content['datepublish'], true),
+            'datedepublish'      => $this->getPublishingDate($content['datedepublish']),
         ];
         $context = [
             'contenttype'        => $contenttype,
@@ -400,6 +386,25 @@ class RecordModifier
         }
 
         return $templateFieldTemplates;
+    }
+
+    /**
+     * Converts database publishing/depublishing dates to values to be used in Twig.
+     *
+     * @param string $date
+     * @param bool   $setNowOnEmpty
+     *
+     * @return array
+     */
+    private function getPublishingDate($date, $setNowOnEmpty = false)
+    {
+        if ($setNowOnEmpty and $date === '') {
+            return date('Y-m-d H:i:s');
+        } elseif ($date === '1900-01-01 00:00:00') {
+            return '';
+        } else {
+            return $date;
+        }
     }
 
     /**
