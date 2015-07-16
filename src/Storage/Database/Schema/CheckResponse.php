@@ -165,6 +165,7 @@ class CheckResponse
         $this->getChangedIndexes($tableName, $diff);
         $this->getRemovedColumns($tableName, $diff);
         $this->getRemovedIndexes($tableName, $diff);
+        $this->getRenamedColumns($tableName, $diff);
 
         if ($this->hinting && count($diff->removedColumns) > 0) {
             $hint = sprintf(
@@ -232,7 +233,7 @@ class CheckResponse
     }
 
     /**
-     * Record removed Columns.
+     * Record removed columns.
      *
      * @param string    $tableName
      * @param TableDiff $diff
@@ -254,6 +255,19 @@ class CheckResponse
     {
         foreach (array_keys($diff->removedIndexes) as $indexName) {
             $this->addMessage($tableName, sprintf('removed index `%s`', $indexName));
+        }
+    }
+
+    /**
+     * Record renamed columns.
+     *
+     * @param string    $tableName
+     * @param TableDiff $diff
+     */
+    private function getRenamedColumns($tableName, TableDiff $diff)
+    {
+        foreach (array_keys($diff->renamedColumns) as $colName) {
+            $this->addMessage($tableName, sprintf('renamed column `%s`', $colName));
         }
     }
 }
