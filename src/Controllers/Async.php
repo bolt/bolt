@@ -662,7 +662,7 @@ class Async implements ControllerProviderInterface
                 return new JsonResponse(null, Response::HTTP_OK);
             }
 
-            return new JsonResponse(Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]), Response::HTTP_FORBIDDEN);
+            return new JsonResponse(Trans::__('Unable to rename file: %FILE%', array('%FILE%' => $oldName)), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -686,7 +686,7 @@ class Async implements ControllerProviderInterface
                 return new JsonResponse(null, Response::HTTP_OK);
             }
 
-            return new JsonResponse(Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]), Response::HTTP_FORBIDDEN);
+            return new JsonResponse(Trans::__('Unable to delete file: %FILE%', array('%FILE%' => $filename)), Response::HTTP_FORBIDDEN);
         } catch (FileNotFoundException $e) {
             return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -743,7 +743,7 @@ class Async implements ControllerProviderInterface
                 return new JsonResponse(null, Response::HTTP_OK);
             }
 
-            return new JsonResponse(Trans::__('Unable to rename directory: %DIR%', ['%DIR%' => $oldName]), Response::HTTP_FORBIDDEN);
+            return new JsonResponse(Trans::__('Unable to rename directory: %DIR%', array('%DIR%' => $oldName)), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -768,7 +768,7 @@ class Async implements ControllerProviderInterface
                 return new JsonResponse(null, Response::HTTP_OK);
             }
 
-            return new JsonResponse(Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
+            return new JsonResponse(Trans::__('Unable to delete directory: %DIR%', array('%DIR%' => $folderName)), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -793,7 +793,7 @@ class Async implements ControllerProviderInterface
                 return new JsonResponse(null, Response::HTTP_OK);
             }
 
-            return new JsonResponse(Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
+            return new JsonResponse(Trans::__('Unable to create directory: %DIR%', array('%DIR%' => $folderName)), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
             return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
