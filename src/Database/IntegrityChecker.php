@@ -175,7 +175,6 @@ class IntegrityChecker
                     }
 
                     $diff = $this->cleanupTableDiff($diff);
-
                     // The diff may be just deleted columns which we have reset above
                     // Only exec and add output if does really alter anything.
                     // There's a known issue with MySQL, where it will (falsely) notice an updated index,
@@ -207,6 +206,9 @@ class IntegrityChecker
                         }
                         foreach ($diff->removedIndexes as $indexName => $val) {
                             $msgParts[] = 'removed index `' . $indexName . '`';
+                        }
+                        foreach ($diff->renamedColumns as $colName => $val) {
+                            $msgParts[] = 'renamed column `' . $colName . '`';
                         }
 
                         if (!empty($msgParts)) {
