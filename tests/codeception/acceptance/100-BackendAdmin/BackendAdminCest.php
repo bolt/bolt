@@ -61,7 +61,7 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/users');
+        $I->amOnPage('/bolt/users');
 
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
         $I->see('Create a new user account');
@@ -95,7 +95,7 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/users');
+        $I->amOnPage('/bolt/users');
 
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
         $I->see('Create a new user account');
@@ -129,7 +129,7 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/users');
+        $I->amOnPage('/bolt/users');
 
         $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
         $I->see('Create a new user account');
@@ -163,13 +163,13 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/file/edit/config/config.yml');
+        $I->amOnPage('/bolt/file/edit/config/config.yml');
 
         $yaml = $I->getUpdatedConfig();
         $I->fillField('#form_contents', $yaml);
         $I->click('Save', '#saveeditfile');
 
-        $I->amOnPage('bolt/file/edit/config/config.yml');
+        $I->amOnPage('/bolt/file/edit/config/config.yml');
         $I->see('notfound: resources/not-found');
         $I->see('canonical: example.org');
         $I->see("changelog:\n    enabled: true");
@@ -188,12 +188,12 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/file/edit/config/contenttypes.yml');
+        $I->amOnPage('/bolt/file/edit/config/contenttypes.yml');
 
         $yaml = $I->getUpdatedContenttypes();
         $I->fillField('#form_contents', $yaml);
         $I->click('Save');
-        $I->amOnPage('bolt/file/edit/config/contenttypes.yml');
+        $I->amOnPage('/bolt/file/edit/config/contenttypes.yml');
         $I->see('name: Resources');
         $I->see('singular_name: Resource');
         $I->see('viewless: true');
@@ -211,7 +211,7 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/dbcheck');
+        $I->amOnPage('/bolt/dbcheck');
 
         $I->see('The database needs to be updated/repaired');
         $I->see('is not present');
@@ -235,7 +235,7 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/editcontent/resources');
+        $I->amOnPage('/bolt/editcontent/resources');
 
         $I->see('New Resource', 'h1');
 
@@ -264,7 +264,7 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt');
+        $I->amOnPage('/bolt');
 
         // Pages
         $I->see('Pages',      Locator::href('/bolt/overview/pages'));
@@ -299,13 +299,13 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/file/edit/config/permissions.yml');
+        $I->amOnPage('/bolt/file/edit/config/permissions.yml');
 
         $yaml = $I->getUpdatedPermissions();
         $I->fillField('#form_contents', $yaml);
         $I->click('Save', '#saveeditfile');
 
-        $I->amOnPage('bolt/file/edit/config/permissions.yml');
+        $I->amOnPage('/bolt/file/edit/config/permissions.yml');
         $I->see('change-ownership: [ ]');
     }
 
@@ -321,13 +321,13 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/file/edit/config/taxonomy.yml');
+        $I->amOnPage('/bolt/file/edit/config/taxonomy.yml');
 
         $yaml = $I->getUpdatedTaxonomy();
         $I->fillField('#form_contents', $yaml);
         $I->click('Save', '#saveeditfile');
 
-        $I->amOnPage('bolt/file/edit/config/taxonomy.yml');
+        $I->amOnPage('/bolt/file/edit/config/taxonomy.yml');
         $I->see('options: [books, events, fun, life, love, movies, music, news]');
     }
 
@@ -343,13 +343,13 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/file/edit/config/menu.yml');
+        $I->amOnPage('/bolt/file/edit/config/menu.yml');
 
         $yaml = $I->getUpdatedMenu();
         $I->fillField('#form_contents', $yaml);
         $I->click('Save', '#saveeditfile');
 
-        $I->amOnPage('bolt/file/edit/config/menu.yml');
+        $I->amOnPage('/bolt/file/edit/config/menu.yml');
         $I->see('Showcases Listing');
         $I->see('path: showcases/');
     }
@@ -366,13 +366,13 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/file/edit/config/routing.yml');
+        $I->amOnPage('/bolt/file/edit/config/routing.yml');
 
         $yaml = $I->getUpdatedRouting();
         $I->fillField('#form_contents', $yaml);
         $I->click('Save', '#saveeditfile');
 
-        $I->amOnPage('bolt/file/edit/config/routing.yml');
+        $I->amOnPage('/bolt/file/edit/config/routing.yml');
         $I->see('pagebinding:');
         $I->see("/{slug}");
         $I->see("contenttype: pages");
@@ -390,7 +390,7 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/systemlog');
+        $I->amOnPage('/bolt/systemlog');
 
         // Layout
         $I->see('System Log', 'h1');
@@ -418,7 +418,7 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/changelog');
+        $I->amOnPage('/bolt/changelog');
 
         // Layout
         $I->see('Change Log', 'h1');
@@ -445,7 +445,7 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt/clearcache');
+        $I->amOnPage('/bolt/clearcache');
 
         $I->see('Deleted');
         $I->see('files from cache.');
@@ -464,14 +464,14 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie('bolt_authtoken', $this->cookies['bolt_authtoken']);
         $I->setCookie('bolt_session', $this->cookies['bolt_session']);
-        $I->amOnPage('bolt');
+        $I->amOnPage('/bolt');
 
         $I->see('Dashboard');
         $I->click('Logout');
 
         $I->see('You have been logged out');
 
-        $I->amOnPage('bolt');
+        $I->amOnPage('/bolt');
         $I->see('Please log on');
     }
 }
