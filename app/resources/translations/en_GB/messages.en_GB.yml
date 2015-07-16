@@ -467,6 +467,7 @@ field:
             address: "Street, ZIP code, city or other location"
     markdown:
         label:
+            markedview: "Markdown"
             preview: "Preview"
     slug:
         message:
