@@ -12,14 +12,14 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set ukkit_conf = {
-    height:    option.height,
+    height:         option.height,
     lblMarkedview:  __('field.markdown.label.markedview'),
-    lblPreview:  __('field.markdown.label.preview'),
-    markdown:  true,
-    markedOptions: {
-        breaks: false,
-    },
-    toolbar:   ['bold', 'italic', 'link', 'image', 'blockquote', 'listUl', 'listOl'],
+    lblPreview:     __('field.markdown.label.preview'),
+    markdown:       true,
+    markedOptions:  {
+                        breaks: false,
+                    },
+    toolbar:        ['bold', 'italic', 'link', 'image', 'blockquote', 'listUl', 'listOl'],
 } %}
 
 {% set attributes = {
