@@ -520,6 +520,7 @@ class RecordModifier
     {
         /** @var UrlGeneratorInterface $generator */
         $generator = $this->app['url_generator'];
+
         return $generator->generate($name, $params, $referenceType);
     }
 }
