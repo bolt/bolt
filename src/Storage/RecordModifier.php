@@ -298,11 +298,11 @@ class RecordModifier
 
         // Publish date
         switch ($content['datepublish'])  {
-            case '1900-01-01 00:00:00';
+            case '1900-01-01 00:00:00':
                 $datePublish = '';
                 break;
 
-            case '';
+            case '':
                 $datePublish = date('Y-m-d H:i:s');
                 break;
 
