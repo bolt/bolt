@@ -137,7 +137,6 @@
         init.passwordInput();
         init.dashboardCheckboxes();
         init.sortables();
-        init.omnisearch();
         init.uploads();
         init.focusStatusSelect();
         init.depublishTracking();
