@@ -222,7 +222,7 @@ var init = {
         });
 
         // Check if any records in the overview have been checked, and if so: show action buttons.
-        $('.dashboardlisting input:checkbox').click(function () {
+        $('.dashboardlisting input:checkbox[name="checkRow"]').click(function () {
             var aItems = getSelectedItems();
 
             if (aItems.length >= 1) {
