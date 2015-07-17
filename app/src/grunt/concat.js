@@ -23,7 +23,7 @@ module.exports = function (grunt, option) {
 
     var processLibCss = function(css, filepath) {
         var path = require('path'),
-            reDir = /(jquery[-.]\w+|select2)/,
+            reDir = /(jquery[-.]\w+)/,
             urls = [],
             img = {},
             relativePath;
