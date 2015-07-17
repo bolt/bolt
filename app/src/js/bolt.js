@@ -11,8 +11,9 @@
  * @mixes Bolt.data
  * @mixes Bolt.datetime
  * @mixes Bolt.files
- * @mixes Bolt.stack
+ * @mixes Bolt.omnisearch
  * @mixes Bolt.secmenu
+ * @mixes Bolt.stack
  * @mixes Bolt.video
  *
  * @mixes Bolt.fields

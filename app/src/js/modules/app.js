@@ -94,6 +94,7 @@
         bolt.actions.init();
         bolt.secmenu.init();
         bolt.stack.init();
+        bolt.omnisearch.init();
 
         bolt.activity.init();
         bolt.ckeditor.init();

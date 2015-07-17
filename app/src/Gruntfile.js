@@ -47,6 +47,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/liveeditor.js',
                 '<%= path.src.js %>/modules/stack.js',
                 '<%= path.src.js %>/modules/secmenu.js',
+                '<%= path.src.js %>/modules/omnisearch.js',
                 '<%= path.src.js %>/modules/video.js',
                 '<%= path.src.js %>/modules/fields.js',
                 '<%= path.src.js %>/modules/fields/categories.js',
