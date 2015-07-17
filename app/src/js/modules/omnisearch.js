@@ -68,7 +68,6 @@
 
                 return item.label;
             },
-            dropdownCssClass: "bigdrop",
             escapeMarkup: function (m) {
                 console.log('omnisearch: escapeMarkup');
                 return m;
