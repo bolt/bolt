@@ -193,11 +193,25 @@ var init = {
      * @returns {undefined}
      */
     dashboardCheckboxes: function () {
-        // Check all checkboxes
-        $(".dashboardlisting tr th:first-child input:checkbox").click(function () {
+        var getSelectedItems = function () {
+            var aItems = [];
+
+            $('.dashboardlisting input:checked[name="checkRow"]').each(function () {
+                if ($(this).parents('tr').attr('id')) {
+                    aItems.push($(this).parents('tr').attr('id').substr(5));
+                }
+            });
+
+            return aItems;
+        };
+
+        // Check all checkboxes.
+        $('.dashboardlisting tr th:first-child input:checkbox[name="checkRow"]').click(function () {
             var checkedStatus = this.checked;
-            $(this).closest('tbody').find('td input:checkbox').each(function () {
+
+            $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
                 this.checked = checkedStatus;
+
                 if (checkedStatus === this.checked) {
                     $(this).closest('table tbody tr').removeClass('row-checked');
                 }
@@ -206,9 +220,11 @@ var init = {
                 }
             });
         });
-        // Check if any records in the overview have been checked, and if so: show action buttons
-        $('.dashboardlisting input:checkbox').click(function () {
+
+        // Check if any records in the overview have been checked, and if so: show action buttons.
+        $('.dashboardlisting input:checkbox[name="checkRow"]').click(function () {
             var aItems = getSelectedItems();
+
             if (aItems.length >= 1) {
                 // if checked
                 $('a.checkchosen').removeClass('disabled');
@@ -219,20 +235,22 @@ var init = {
                 $('a.showifchosen').hide();
             }
         });
-        // Delete chosen Items
-        $("a.deletechosen").click(function (e) {
+
+        // Delete chosen Items.
+        $('a.deletechosen').click(function (e) {
             e.preventDefault();
             var aItems = getSelectedItems(),
                 notice,
                 rec;
 
             if (aItems.length > 0) {
-                notice = aItems.length === 1 ?
-                    Bolt.data('recordlisting.delete_one') : Bolt.data('recordlisting.delete_mult');
+                notice = aItems.length === 1 ? Bolt.data('recordlisting.delete_one')
+                                             : Bolt.data('recordlisting.delete_mult');
+
                 bootbox.confirm(notice, function (confirmed) {
                     $('.alert').alert();
                     if (confirmed === true) {
-                        // Delete request
+                        // Delete request.
                         $.ajax({
                             url: Bolt.conf('paths.bolt') + 'content/deletecontent/' +
                                 $('#item_' + aItems[0]).closest('table').data('contenttype') + '/' + aItems.join(',') +

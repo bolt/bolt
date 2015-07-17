@@ -35,8 +35,6 @@ module.exports = {
                 rootpath: true,             // bolt/extend.js/extend.twig
                 // Bolt global functions
                 bindFileUpload: true,       // bolt/bindfileuploads.js
-                getSelectedItems: true,     // bolt/fnc-helpers.js
-                validateContent: true,      // bolt/fnc-helpers.js
                 // Vendor
                 $: true,                    // jQuery
                 _: true,                    // underscore.js
