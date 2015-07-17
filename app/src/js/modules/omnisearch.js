@@ -39,8 +39,8 @@
                         q: term
                     };
                 },
-                results: function (data, page) {
-                    console.log('omnisearch: results');
+                processResults: function (data) {
+                    console.log('omnisearch: processResults');
                     var results = [];
                     $.each(data, function (index, item) {
                         results.push({
