@@ -206,7 +206,7 @@ var init = {
         };
 
         // Check all checkboxes.
-        $('.dashboardlisting tr th:first-child input:checkbox').click(function () {
+        $('.dashboardlisting tr th:first-child input:checkbox[name="checkRow"]').click(function () {
             var checkedStatus = this.checked;
 
             $(this).closest('tbody').find('td input:checkbox').each(function () {
