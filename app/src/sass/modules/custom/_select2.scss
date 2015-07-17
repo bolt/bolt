@@ -2,10 +2,15 @@
  * Styles for Select2
  */
 
-// Style the selection clear button.
+// Selection clear button.
 .select2-selection__clear {
     width: 1.5em;
     text-align: center;
+}
+
+// Make selection-clear and selection-arrow act more like buttons.
+.select2-selection__clear, .select2-selection__arrow {
+    border-left: 1px solid #eee;
 }
 
 /*.select2-container {
