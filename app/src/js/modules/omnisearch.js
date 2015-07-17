@@ -51,7 +51,7 @@
                     return {results: results};
                 }
             },
-            formatResult: function (item) {
+            templateResult: function (item) {
                 var markup = '<table class="omnisearch-result"><tr>' +
                     '<td class="omnisearch-result-info">' +
                     '<div class="omnisearch-result-label">' + item.label + '</div>' +
