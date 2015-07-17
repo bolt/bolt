@@ -130,7 +130,10 @@ class SessionServiceProvider implements ServiceProviderInterface
             }
             $initialized = true;
 
-            //TODO Pull from "session.storage.options" for BC
+            // Maintain BC for "session.storage.options"
+            if (isset($app['session.storage.options'])) {
+                $app['session.default_options'] = array_replace($app['session.default_options'], $app['session.storage.options']);
+            }
 
             if (!isset($app['sessions.options'])) {
                 $app['sessions.options'] = [
@@ -169,12 +172,9 @@ class SessionServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
-        $dispatcher = $app['dispatcher'];
-        /** @var \Pimple $listeners */
         $listeners = $app['sessions.listener'];
-        foreach ($listeners->keys() as $name) {
-            $dispatcher->addSubscriber($listeners[$name]);
+        foreach ($app['sessions.listener']->keys() as $name) {
+            $app['dispatcher']->addSubscriber($listeners[$name]);
         }
     }
 }
