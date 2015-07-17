@@ -30,7 +30,7 @@
             minimumInputLength: 3,
             multiple: true, // this is for better styling …
             ajax: {
-                url: Bolt.conf('paths.async') + 'omnisearch',
+                url: bolt.conf('paths.async') + 'omnisearch',
                 dataType: 'json',
                 data: function (term, page) {
                     return {
