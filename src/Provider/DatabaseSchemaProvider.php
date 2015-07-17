@@ -6,6 +6,11 @@ use Bolt\Storage\Database\Schema\Table;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
+/**
+ * Bolt database storage service provider.
+ *
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class DatabaseSchemaProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
@@ -16,23 +21,13 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
             }
         );
 
-        // The base schema. All new base tables must be listed in this array
-        $app['schema.base'] = [
-            'authtoken',
-            'cron',
-            'log_change',
-            'log_system',
-            'relations',
-            'taxonomy',
-            'users',
-        ];
-
-        $app['schema.tables'] = $app->share(function (Application $app) {
+        // Schemas of the Bolt base tables.
+        $app['schema.base_tables'] = $app->share(function (Application $app) {
             /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
             $platform = $app['db']->getDatabasePlatform();
 
             // @codingStandardsIgnoreStart
-            $acne = new \Pimple([
+            return new \Pimple([
                 'authtoken'  => $app->share(function () use ($platform) { return new Table\AuthToken($platform); }),
                 'cron'       => $app->share(function () use ($platform) { return new Table\Cron($platform); }),
                 'log_change' => $app->share(function () use ($platform) { return new Table\LogChange($platform); }),
@@ -41,11 +36,24 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
                 'taxonomy'   => $app->share(function () use ($platform) { return new Table\Taxonomy($platform); }),
                 'users'      => $app->share(function () use ($platform) { return new Table\Users($platform); }),
             ]);
-
-            foreach ($app['config']->get('contenttypes') as $contenttype) {
-                $acne[$contenttype['tablename']] = $app->share(function () use ($platform) { return new Table\ContentType($platform); });
-            }
             // @codingStandardsIgnoreEnd
+        });
+
+        // Schemas of all Bolt tables.
+        $app['schema.tables'] = $app->share(function (Application $app) {
+            $acne = new \Pimple();
+
+            foreach ($app['schema.base_tables']->keys() as $baseName) {
+                $acne[$baseName] = $app['schema.base_tables'][$baseName];
+            }
+
+            /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
+            $platform = $app['db']->getDatabasePlatform();
+            foreach ($app['config']->get('contenttypes') as $contenttype) {
+                // @codingStandardsIgnoreStart
+                $acne[$contenttype['tablename']] = $app->share(function () use ($platform) { return new Table\ContentType($platform); });
+                // @codingStandardsIgnoreEnd
+            }
 
             return $acne;
         });

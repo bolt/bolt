@@ -412,6 +412,8 @@ class Manager
     }
 
     /**
+     * Build the schema for base Bolt tables.
+     *
      * @param Schema $schema
      *
      * @return \Doctrine\DBAL\Schema\Table[]
@@ -419,14 +421,16 @@ class Manager
     protected function getBoltTablesSchema(Schema $schema)
     {
         $tables = [];
-        foreach ($this->app['schema.base'] as $name) {
-            $tables[] = $this->app['schema.tables'][$name]->buildTable($schema, $this->getTablename($name));
+        foreach ($this->app['schema.base_tables']->keys() as $name) {
+            $tables[] = $this->app['schema.base_tables'][$name]->buildTable($schema, $this->getTablename($name));
         }
 
         return $tables;
     }
 
     /**
+     * Build the schema for Bolt ContentType tables.
+     *
      * @param Schema $schema
      *
      * @return \Doctrine\DBAL\Schema\Table[]
@@ -437,7 +441,7 @@ class Manager
 
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
         foreach ($this->app['config']->get('contenttypes') as $contenttype) {
-            $tableObj = $this->app['schema.tables'][$contenttype['tablename']];
+            $tableObj = $this->getContentTypeTableObject($contenttype['tablename']);
             $tableName = $this->getTablename($contenttype['tablename']);
             $this->mapTableName($tableName, $contenttype['tablename']);
             $myTable = $tableObj->buildTable($schema, $tableName);
@@ -450,6 +454,25 @@ class Manager
         }
 
         return $tables;
+    }
+
+    /**
+     * Ensure any late added ContentTypes have a valid table object in the provider.
+     *
+     * @param string $contenttype
+     *
+     * @return \Bolt\Storage\Database\Schema\Table\ContentType
+     */
+    private function getContentTypeTableObject($contenttype)
+    {
+        if (!isset($this->app['schema.tables'][$contenttype])) {
+            $platform = $this->app['db']->getDatabasePlatform();
+            $this->app['schema.tables'][$contenttype] = $this->app->share(function () use ($platform) {
+                return new ContentType($platform);
+            });
+        }
+
+        return $this->app['schema.tables'][$contenttype];
     }
 
     /**
