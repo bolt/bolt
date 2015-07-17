@@ -205,11 +205,13 @@ var init = {
             return aItems;
         };
 
-        // Check all checkboxes
-        $(".dashboardlisting tr th:first-child input:checkbox").click(function () {
+        // Check all checkboxes.
+        $('.dashboardlisting tr th:first-child input:checkbox').click(function () {
             var checkedStatus = this.checked;
+
             $(this).closest('tbody').find('td input:checkbox').each(function () {
                 this.checked = checkedStatus;
+
                 if (checkedStatus === this.checked) {
                     $(this).closest('table tbody tr').removeClass('row-checked');
                 }
@@ -218,9 +220,11 @@ var init = {
                 }
             });
         });
-        // Check if any records in the overview have been checked, and if so: show action buttons
+
+        // Check if any records in the overview have been checked, and if so: show action buttons.
         $('.dashboardlisting input:checkbox').click(function () {
             var aItems = getSelectedItems();
+
             if (aItems.length >= 1) {
                 // if checked
                 $('a.checkchosen').removeClass('disabled');
@@ -231,7 +235,8 @@ var init = {
                 $('a.showifchosen').hide();
             }
         });
-        // Delete chosen Items
+
+        // Delete chosen Items.
         $("a.deletechosen").click(function (e) {
             e.preventDefault();
             var aItems = getSelectedItems(),
