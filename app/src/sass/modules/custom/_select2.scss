@@ -6,6 +6,7 @@
 .select2-selection__clear {
     width: 1.6em;
     text-align: center;
+    position: relative; // Fix select2 bug: Clear not clickable on items with long text.
 }
 
 // Make selection-clear and selection-arrow act more like buttons.
