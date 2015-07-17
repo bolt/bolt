@@ -237,19 +237,20 @@ var init = {
         });
 
         // Delete chosen Items.
-        $("a.deletechosen").click(function (e) {
+        $('a.deletechosen').click(function (e) {
             e.preventDefault();
             var aItems = getSelectedItems(),
                 notice,
                 rec;
 
             if (aItems.length > 0) {
-                notice = aItems.length === 1 ?
-                    Bolt.data('recordlisting.delete_one') : Bolt.data('recordlisting.delete_mult');
+                notice = aItems.length === 1 ? Bolt.data('recordlisting.delete_one')
+                                             : Bolt.data('recordlisting.delete_mult');
+
                 bootbox.confirm(notice, function (confirmed) {
                     $('.alert').alert();
                     if (confirmed === true) {
-                        // Delete request
+                        // Delete request.
                         $.ajax({
                             url: Bolt.conf('paths.bolt') + 'content/deletecontent/' +
                                 $('#item_' + aItems[0]).closest('table').data('contenttype') + '/' + aItems.join(',') +
