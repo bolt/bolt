@@ -2,6 +2,12 @@
  * Styles for Select2
  */
 
+// Style the selection clear button.
+.select2-selection__clear {
+    width: 1.5em;
+    text-align: center;
+}
+
 /*.select2-container {
     min-height: 30px;
 }
