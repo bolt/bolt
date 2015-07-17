@@ -193,6 +193,18 @@ var init = {
      * @returns {undefined}
      */
     dashboardCheckboxes: function () {
+        var getSelectedItems = function () {
+            var aItems = [];
+
+            $('.dashboardlisting input:checked').each(function () {
+                if ($(this).parents('tr').attr('id')) {
+                    aItems.push($(this).parents('tr').attr('id').substr(5));
+                }
+            });
+
+            return aItems;
+        };
+
         // Check all checkboxes
         $(".dashboardlisting tr th:first-child input:checkbox").click(function () {
             var checkedStatus = this.checked;
