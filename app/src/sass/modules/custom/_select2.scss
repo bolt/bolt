@@ -11,6 +11,10 @@
 // Make selection-clear and selection-arrow act more like buttons.
 .select2-selection__clear, .select2-selection__arrow {
     border-left: 1px solid #eee;
+
+    &:hover {
+        background: #f0f0f0;
+    }
 }
 
 /*.select2-container {
