@@ -25,6 +25,7 @@
      * @memberof Bolt.omnisearch
      */
     omnisearch.init = function () {
+
         $('.omnisearch').select2({
             placeholder: '',
             minimumInputLength: 3,
@@ -33,11 +34,13 @@
                 url: bolt.conf('paths.async') + 'omnisearch',
                 dataType: 'json',
                 data: function (term, page) {
+                    console.log('omnisearch: data');
                     return {
                         q: term
                     };
                 },
                 results: function (data, page) {
+                    console.log('omnisearch: results');
                     var results = [];
                     $.each(data, function (index, item) {
                         results.push({
@@ -52,6 +55,7 @@
                 }
             },
             templateResult: function (item) {
+                console.log('omnisearch: templateResult');
                 var markup = '<table class="omnisearch-result"><tr>' +
                     '<td class="omnisearch-result-info">' +
                     '<div class="omnisearch-result-label">' + item.label + '</div>' +
@@ -61,12 +65,14 @@
                 return markup;
             },
             templateSelection: function (item) {
+                console.log('omnisearch: templateSelection');
                 window.location.href = item.path;
 
                 return item.label;
             },
             dropdownCssClass: "bigdrop",
             escapeMarkup: function (m) {
+                console.log('omnisearch: escapeMarkup');
                 return m;
             }
         });
