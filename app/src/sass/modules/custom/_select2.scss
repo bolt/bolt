@@ -29,6 +29,18 @@
     border: solid #5897fb 2px;
 }
 
+// The selected item of a multi select.
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    padding: 2px 5px;
+}
+
+// Push the input line of a multi select into a new line.
+.select2-container--open .select2-search--inline {
+    clear: both;
+}
+
 /*.select2-container {
     min-height: 30px;
 }
