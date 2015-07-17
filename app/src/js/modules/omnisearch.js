@@ -33,11 +33,9 @@
             ajax: {
                 url: bolt.conf('paths.async') + 'omnisearch',
                 dataType: 'json',
-                data: function (term, page) {
+                data: function (params) {
                     console.log('omnisearch: data');
-                    return {
-                        q: term
-                    };
+                    return {q: params.term};
                 },
                 processResults: function (data) {
                     console.log('omnisearch: processResults');
