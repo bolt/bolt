@@ -16,6 +16,17 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
             }
         );
 
+        // The base schema. All new base tables must be listed in this array
+        $app['schema.base'] = [
+            'authtoken',
+            'cron',
+            'log_change',
+            'log_system',
+            'relations',
+            'taxonomy',
+            'users',
+        ];
+
         $app['schema.tables'] = $app->share(function (Application $app) {
             /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
             $platform = $app['db']->getDatabasePlatform();

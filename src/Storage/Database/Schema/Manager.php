@@ -419,7 +419,7 @@ class Manager
     protected function getBoltTablesSchema(Schema $schema)
     {
         $tables = [];
-        foreach ($this->app['schema.tables']->keys() as $name) {
+        foreach ($this->app['schema.base'] as $name) {
             $tables[] = $this->app['schema.tables'][$name]->buildTable($schema, $this->getTablename($name));
         }
 
