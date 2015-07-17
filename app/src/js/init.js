@@ -196,7 +196,7 @@ var init = {
         var getSelectedItems = function () {
             var aItems = [];
 
-            $('.dashboardlisting input:checked').each(function () {
+            $('.dashboardlisting input:checked[name="checkRow"]').each(function () {
                 if ($(this).parents('tr').attr('id')) {
                     aItems.push($(this).parents('tr').attr('id').substr(5));
                 }
