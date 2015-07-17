@@ -29,10 +29,10 @@
      */
     relationship.init = function (fieldset, fconf) {
         var select = $(fieldset).find('select'),
-            funcFormatSelection;
+            templateSelection;
 
         if (fconf.groupBy) {
-            funcFormatSelection = function (item) {
+            templateSelection = function (item) {
                 return $(item.element).parent().attr('label') + ': ' + item.text;
             };
         }
@@ -40,7 +40,7 @@
         select.select2({
             placeholder: bolt.data('field.relationship.text.placeholder'),
             allowClear: true,
-            formatSelection: funcFormatSelection
+            templateSelection: templateSelection
         });
     };
 
