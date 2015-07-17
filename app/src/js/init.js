@@ -209,7 +209,7 @@ var init = {
         $('.dashboardlisting tr th:first-child input:checkbox[name="checkRow"]').click(function () {
             var checkedStatus = this.checked;
 
-            $(this).closest('tbody').find('td input:checkbox').each(function () {
+            $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
                 this.checked = checkedStatus;
 
                 if (checkedStatus === this.checked) {
