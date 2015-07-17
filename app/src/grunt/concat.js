@@ -89,7 +89,7 @@ module.exports = function (grunt, option) {
                 '<%= path.tmp %>/jquery.iframe-transport.min.js',               //   2 kb
                 '<%= path.tmp %>/jquery.fileupload.min.js',                     //  15 kb
                 '<%= path.tmp %>/bootstrap.min.js',                             //   2 kb
-                '<%= path.src.lib %>/select2/select2.min.js',                   //  66 kb
+                '<%= path.src.bower %>/select2/dist/js/select2.full.min.js',    //  70 kb
                 '<%= path.tmp %>/moment.min.js',                                //  35 kb
                 '<%= path.tmp %>/modernizr-custom.min.js'                       //   5 kb
             ],
