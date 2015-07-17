@@ -23,6 +23,11 @@
     margin-right: 0;
 }
 
+// Overwrite border color and radius for focus (Original 1px black)
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: solid #5897fb 2px;
+}
+
 /*.select2-container {
     min-height: 30px;
 }
