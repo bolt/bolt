@@ -60,7 +60,7 @@
 
                 return markup;
             },
-            formatSelection: function (item) {
+            templateSelection: function (item) {
                 window.location.href = item.path;
 
                 return item.label;
