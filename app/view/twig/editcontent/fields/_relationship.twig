@@ -21,10 +21,6 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% set fieldset_conf = {
-    groupBy: groupby
-} %}
-
 {% block fieldset_type 'relationship' %}
 
 {% block fieldset_label_text  relation.label|default(relcontenttype|ucfirst) %}
@@ -37,7 +33,7 @@
                 <option value="0">{{ __('(none)') }}</option>
             {% endif %}
 
-            {% set optgroup = '' %}
+            {% set optgroup = 'Test' %}
             {% for item in listcontent(relcontenttype, relation, context.content) %}
                 {% if relcontenttype == app.request.get('relation') and item.id == app.request.get('relationid') %}
                     {% set selectedbyrelation = true %}

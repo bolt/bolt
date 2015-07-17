@@ -28,21 +28,16 @@
      * @param {FieldConf} fconf
      */
     relationship.init = function (fieldset, fconf) {
-        var select = $(fieldset).find('select'),
-            templateSelection;
-
-        if (fconf.groupBy) {
-            templateSelection = function (item) {
-                var label = $(item.element).parent().attr('label');
-
-                return (label ? label + ': ' : '') + item.text;
-            };
-        }
+        var select = $(fieldset).find('select');
 
         select.select2({
             placeholder: bolt.data('field.relationship.text.placeholder'),
             allowClear: true,
-            templateSelection: templateSelection
+            templateSelection: function (item) {
+                var label = $(item.element).parent().attr('label');
+
+                return (label ? label + ': ' : '') + item.text;
+            }
         });
     };
 
