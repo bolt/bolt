@@ -6,8 +6,9 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
+ * @param {Object} window - Window object.
  */
-(function (bolt, $) {
+(function (bolt, $, window) {
     /**
      * Bolt.omnisearch mixin container.
      *
@@ -74,4 +75,4 @@
     // Apply mixin container.
     bolt.omnisearch = omnisearch;
 
-})(Bolt || {}, jQuery);
+})(Bolt || {}, jQuery, window);
