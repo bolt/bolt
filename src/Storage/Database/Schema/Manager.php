@@ -437,11 +437,10 @@ class Manager
 
         // Now, iterate over the contenttypes, and create the tables if they don't exist.
         foreach ($this->app['config']->get('contenttypes') as $contenttype) {
-            $tablename = $this->getTablename($contenttype['tablename']);
-            $this->mapTableName($tablename, $contenttype['tablename']);
-
-            $tableObj = new ContentType($this->app['db']->getDatabasePlatform());
-            $myTable = $tableObj->buildTable($schema, $tablename);
+            $tableObj = $this->app['schema.tables'][$contenttype['tablename']];
+            $tableName = $this->getTablename($contenttype['tablename']);
+            $this->mapTableName($tableName, $contenttype['tablename']);
+            $myTable = $tableObj->buildTable($schema, $tableName);
 
             if (isset($contenttype['fields']) && is_array($contenttype['fields'])) {
                 $this->addContentTypeTableColumns($tableObj, $myTable, $contenttype['fields']);
