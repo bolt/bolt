@@ -20,8 +20,8 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
             /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
             $platform = $app['db']->getDatabasePlatform();
 
-            return new \Pimple([
-                // @codingStandardsIgnoreStart
+            // @codingStandardsIgnoreStart
+            $acne = new \Pimple([
                 'authtoken'  => $app->share(function () use ($platform) { return new Table\AuthToken($platform); }),
                 'cron'       => $app->share(function () use ($platform) { return new Table\Cron($platform); }),
                 'log_change' => $app->share(function () use ($platform) { return new Table\LogChange($platform); }),
@@ -29,8 +29,14 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
                 'relations'  => $app->share(function () use ($platform) { return new Table\Relations($platform); }),
                 'taxonomy'   => $app->share(function () use ($platform) { return new Table\Taxonomy($platform); }),
                 'users'      => $app->share(function () use ($platform) { return new Table\Users($platform); }),
-                // @codingStandardsIgnoreEnd
             ]);
+
+            foreach ($app['config']->get('contenttypes') as $contenttype) {
+                $acne[$contenttype['tablename']] = $app->share(function () use ($platform) { return new Table\ContentType($platform); });
+            }
+            // @codingStandardsIgnoreEnd
+
+            return $acne;
         });
     }
 
