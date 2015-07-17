@@ -1,9 +1,5 @@
 {#=== INIT ===========================================================================================================#}
 
-{% set magic_date = '1900-01-01 00:00:00' %}
-{% set can_publish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':publish:' ~ context.content.id) %}
-{% set can_depublish = isallowed('contenttype:' ~ context.contenttype.slug ~ ':depublish:' ~ context.content.id) %}
-
 {% set attributes = {
     id: {
         class:     'form-control narrow',
@@ -14,15 +10,15 @@
     },
 
     publish: {
-        disabled: (not can_publish),
+        disabled: (not context.can.publish),
         id:       'datepublish',
-        value:    ((context.content.datepublish == magic_date) ? '' : (context.content.datepublish == '') ? "now"|date('Y-m-d H:i:s') : context.content.datepublish),
+        value:    context.values.datepublish,
     },
 
     depublish: {
-        disabled:  (not can_depublish),
+        disabled:  (not context.can.depublish),
         id:        'datedepublish',
-        value:     (context.content.datedepublish == magic_date) ? '' : context.content.datedepublish,
+        value:     context.values.datedepublish,
         notice:     __('Depublish date is in the past. Change the status if you want to depublish now'),
     },
 
@@ -35,13 +31,13 @@
 
     ownerid: {
         class:     'form-control narrow',
-        disabled:  (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
+        disabled:  (not context.can.change_ownership),
         name:      'ownerid',
     },
 
     comment: {
         class:        'form-control',
-        disabled:     (not isallowed('contenttype:' ~ context.contenttype.slug ~ ':change-ownership:' ~ context.content.id)),
+        disabled:     (not context.can.change_ownership),
         name_id:      'changelog-comment',
         placeholder:  __('Add a brief, optional comment to describe what\'s changed.'),
         type:         'text',

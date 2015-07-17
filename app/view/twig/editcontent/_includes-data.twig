@@ -1,49 +1,21 @@
-{# Check which field types are used #}
+{# General data #}
 
-{% set used_fieldtypes = [] %}
+{% set template_alertbox %}
+    <div id="{{ '%NOTICE_ID%' }}" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <label for="%FIELD_ID%">{{ __('Field “%FIELD_NAME%”:') }}</label>
+        %MESSAGE%
+    </div>
+{% endset %}
 
-{# Regular fields #}
-{% for key, field in context.contenttype.fields %}
-    {% if field.type not in used_fieldtypes %}
-        {% set used_fieldtypes = used_fieldtypes|merge([field.type]) %}
-    {% endif %}
+{{ data('validation.alertbox',         template_alertbox|trim) }}
+{{ data('validation.generic_msg',      __('Is required or needs to match a pattern!')) }}
+
+{{ data('editcontent.msg.change_quit', __('You have unfinished changes on this page. If you continue without saving, you will lose these changes.')) }}
+{{ data('editcontent.msg.saving',      __('Saving …')) }}
+
+{# Process field specific includes and data #}
+
+{% for type in context.fieldtypes %}
+    {% include 'editcontent/fielddata/_' ~ type ~ '.twig' ignore missing %}
 {% endfor %}
-
-{# Templatefield fields #}
-{% if context.content.get('templatefields').contenttype.fields is defined %}
-    {% for key, field in context.content.get('templatefields').contenttype.fields %}
-        {% if field.type not in used_fieldtypes %}
-            {% set used_fieldtypes = used_fieldtypes|merge([field.type]) %}
-        {% endif %}
-    {% endfor %}
-{% endif %}
-
-{# Output includes #}
-
-{% if 'html' in used_fieldtypes %}
-    {% include 'editcontent/fielddata/_html.twig' %}
-{% endif %}
-
-{% if 'markdown' in used_fieldtypes %}
-    {% include 'editcontent/fielddata/_markdown.twig' %}
-{% endif %}
-
-{% if 'geolocation' in used_fieldtypes %}
-    {% include 'editcontent/fielddata/_geolocation.twig' %}
-{% endif %}
-
-{% if 'slug' in used_fieldtypes %}
-    {% include 'editcontent/fielddata/_slug.twig' %}
-{% endif %}
-
-{% if 'templateselect' in used_fieldtypes %}
-    {% include 'editcontent/fielddata/_templateselect.twig' %}
-{% endif %}
-
-{% if 'filelist' in used_fieldtypes %}
-    {% include 'editcontent/fielddata/_filelist.twig' %}
-{% endif %}
-
-{% if 'imagelist' in used_fieldtypes %}
-    {% include 'editcontent/fielddata/_imagelist.twig' %}
-{% endif %}

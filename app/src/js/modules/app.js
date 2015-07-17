@@ -28,12 +28,28 @@
                 conf = $(this).data('bolt-fconf');
 
             switch (type) {
+                case 'categories':
+                    bolt.fields.categories.init(this, conf);
+                    break;
+
                 case 'geolocation':
                     bolt.fields.geolocation.init(this, conf);
                     break;
 
+                case 'relationship':
+                    bolt.fields.relationship.init(this, conf);
+                    break;
+
+                case 'select':
+                    bolt.fields.select.init(this, conf);
+                    break;
+
                 case 'slug':
                     bolt.fields.slug.init(this, conf);
+                    break;
+
+                case 'tags':
+                    bolt.fields.tags.init(this, conf);
                     break;
 
                 case 'templateselect':
@@ -46,16 +62,12 @@
                 case 'file':
                 case 'filelist':
                 case 'float':
+                case 'grouping':
                 case 'html':
                 case 'image':
                 case 'imagelist':
                 case 'integer':
                 case 'markdown':
-                case 'relationship':
-                case 'select':
-                case 'taxonomy-categories':
-                case 'taxonomy-groups':
-                case 'taxonomy-tags':
                 case 'text':
                 case 'textarea':
                 case 'video':

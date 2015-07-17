@@ -1,0 +1,61 @@
+{#=== INIT ===========================================================================================================#}
+
+{% set id_select = 'taxonomy-' ~ taxonomy.slug %}
+{% set id_order = 'taxonomy-order-' ~ taxonomy.slug %}
+
+{% set attributes = {
+    select: {
+        name:      'taxonomy[' ~ taxonomy.slug ~ '][]',
+        id:        id_select,
+        class:     'form-control',
+    }
+} %}
+
+{#=== FIELDSET =======================================================================================================#}
+
+{% extends '_base/_fieldset.twig' %}
+
+{% block fieldset_type 'grouping' %}
+
+{% block fieldset_label_text  taxonomy.name %}
+{% block fieldset_label_class 'col-sm-3' %}
+
+{% block fieldset_controls %}
+    <div class="col-sm-9">
+        <div class="form-group">
+            <label for="{{ id_select }}" class="sr-only">{{ taxonomy.name }}</label>
+            <div class="col-xs-12">
+                <select{{ macro.attr(attributes.select) }}>
+                    <option value="">{{ __('(no group)') }}</option>
+                    <option value="" disabled>-----------</option>
+                    {% for slug, group in taxonomy.options %}
+                        {% set attr_opt = {
+                            value:     slug,
+                            selected:  context.content.taxonomy[taxonomy.slug] is defined
+                                       ? group in context.content.taxonomy[taxonomy.slug]
+                                       : taxonomy.default is defined and taxonomy.default == slug,
+                        } %}
+                        <option{{ macro.attr(attr_opt) }}>{{ group }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
+            {% set attr_order = {
+                class:  'form-control',
+                id:     id_order,
+                name:   'taxonomy-order[' ~ taxonomy.slug ~ ']',
+                step:   '1',
+                type:   'number',
+                value:  context.content.sortorder|default(0),
+            } %}
+            <div class="form-group">
+                <label for="{{ id_order }}" class="control-label col-xs-3">{{ __('Order') }}</label>
+                <div class="col-xs-9">
+                    <input{{ macro.attr(attr_order) }}>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock fieldset_controls %}

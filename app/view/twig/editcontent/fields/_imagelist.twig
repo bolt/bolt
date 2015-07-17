@@ -60,7 +60,7 @@
 
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
-        {% set can_upload = context.can_upload and option.can_upload %}
+        {% set can_upload = context.can.upload and option.can_upload %}
         <div class="clearfix">
             {{ macro.upload_buttons('image', key, attributes.fileupload, option.upload, can_upload) }}
 

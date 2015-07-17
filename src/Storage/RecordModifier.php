@@ -265,7 +265,7 @@ class RecordModifier
             }
         }
 
-        // For duplicating a record, clear base field values
+        // For duplicating a record, clear base field values.
         if ($duplicate) {
             $content->setValues([
                 'id'            => '',
@@ -290,44 +290,42 @@ class RecordModifier
             $contentowner = $this->app['users']->getUser($content['ownerid']);
         }
 
-        // Test write access for uploadable fields
+        // Test write access for uploadable fields.
         $contenttype['fields'] = $this->setCanUpload($contenttype['fields']);
         if ((!empty($content['templatefields'])) && (!empty($content['templatefields']->contenttype['fields']))) {
             $content['templatefields']->contenttype['fields'] = $this->setCanUpload($content['templatefields']->contenttype['fields']);
         }
 
-        // Determine which templates will result in templatefields
-        $templateFieldTemplates = $this->getTempateFieldTemplates($contenttype, $content);
-
-        // Information flags about what the record contains
-        $info = [
-            'hasIncomingRelations' => is_array($content->relation),
-            'hasRelations'         => isset($contenttype['relations']),
-            'hasTabs'              => $contenttype['groups'] !== false,
-            'hasTaxonomy'          => isset($contenttype['taxonomy']),
-            'hasTemplateFields'    => $content->hasTemplateFields()
+        // Build context for Twig.
+        $contextCan = [
+            'upload'             => $this->app['users']->isAllowed('files:uploads'),
+            'publish'            => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':publish:' . $content['id']),
+            'depublish'          => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':depublish:' . $content['id']),
+            'change_ownership'   => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':change-ownership:' . $content['id']),
         ];
-
-        // Generate tab groups
-        $groups = $this->createGroupTabs($contenttype, $info);
-
-        // Build context for Twig
+        $contextHas = [
+            'incoming_relations' => is_array($content->relation),
+            'relations'          => isset($contenttype['relations']),
+            'tabs'               => $contenttype['groups'] !== false,
+            'taxonomy'           => isset($contenttype['taxonomy']),
+            'templatefields'     => $content->hasTemplateFields(),
+        ];
+        $contextValues = [
+            'datepublish'        => $this->getPublishingDate($content['datepublish'], true),
+            'datedepublish'      => $this->getPublishingDate($content['datedepublish']),
+        ];
         $context = [
-            'contenttype'    => $contenttype,
-            'content'        => $content,
-            'allowed_status' => $allowedStatuses,
-            'contentowner'   => $contentowner,
-            'fields'         => $this->app['config']->fields->fields(),
-            'fieldtemplates' => $templateFieldTemplates,
-            'can_upload'     => $this->app['users']->isAllowed('files:uploads'),
-            'groups'         => $groups,
-            'has'            => [
-                'incoming_relations' => $info['hasIncomingRelations'],
-                'relations'          => $info['hasRelations'],
-                'tabs'               => $info['hasTabs'],
-                'taxonomy'           => $info['hasTaxonomy'],
-                'templatefields'     => $info['hasTemplateFields'],
-            ],
+            'contenttype'        => $contenttype,
+            'content'            => $content,
+            'allowed_status'     => $allowedStatuses,
+            'contentowner'       => $contentowner,
+            'fields'             => $this->app['config']->fields->fields(),
+            'fieldtemplates'     => $this->getTempateFieldTemplates($contenttype, $content),
+            'fieldtypes'         => $this->getUsedFieldtypes($contenttype, $content, $contextHas),
+            'groups'             => $this->createGroupTabs($contenttype, $contextHas),
+            'can'                => $contextCan,
+            'has'                => $contextHas,
+            'values'             => $contextValues,
         ];
 
         return $context;
@@ -366,8 +364,9 @@ class RecordModifier
     private function getTempateFieldTemplates(array $contenttype, Content $content)
     {
         $templateFieldTemplates = [];
+        $templateFieldsConfig = $this->app['config']->get('theme/templatefields');
 
-        if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
+        if ($templateFieldsConfig) {
             $templateFieldTemplates = array_keys($templateFieldsConfig);
             // Special case for default template
             $toRepair = [];
@@ -390,14 +389,33 @@ class RecordModifier
     }
 
     /**
-     * Generate tab groups.
+     * Converts database publishing/depublishing dates to values to be used in Twig.
      *
-     * @param array $contenttype
-     * @param array $info
+     * @param string $date
+     * @param bool   $setNowOnEmpty
      *
      * @return array
      */
-    private function createGroupTabs(array $contenttype, $info)
+    private function getPublishingDate($date, $setNowOnEmpty = false)
+    {
+        if ($setNowOnEmpty and $date === '') {
+            return date('Y-m-d H:i:s');
+        } elseif ($date === '1900-01-01 00:00:00') {
+            return '';
+        } else {
+            return $date;
+        }
+    }
+
+    /**
+     * Generate tab groups.
+     *
+     * @param array $contenttype
+     * @param array $has
+     *
+     * @return array
+     */
+    private function createGroupTabs(array $contenttype, array $has)
     {
         $groups = [];
         $groupIds = [];
@@ -427,17 +445,17 @@ class RecordModifier
             }
         }
 
-        if ($info['hasRelations'] || $info['hasIncomingRelations']) {
+        if ($has['relations'] || $has['incoming_relations']) {
             $addGroup('relations', Trans::__('contenttypes.generic.group.relations'));
             $groups['relations']['fields'][] = '*relations';
         }
 
-        if ($info['hasTaxonomy'] || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
+        if ($has['taxonomy'] || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
             $addGroup('taxonomy', Trans::__('contenttypes.generic.group.taxonomy'));
             $groups['taxonomy']['fields'][] = '*taxonomy';
         }
 
-        if ($info['hasTemplateFields'] || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
+        if ($has['templatefields'] || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
             $addGroup('template', Trans::__('Template'));
             $groups['template']['fields'][] = '*template';
         }
@@ -454,6 +472,42 @@ class RecordModifier
     }
 
     /**
+     * Create a list of fields types used in regular, template and virtual fields.
+     *
+     * @param array   $contenttype
+     * @param Content $content
+     * @param array   $has
+     *
+     * @return array
+     */
+    private function getUsedFieldtypes(array $contenttype, Content $content, array $has)
+    {
+        $fieldtypes = [
+            'meta' => true
+        ];
+
+        foreach ([$contenttype['fields'], $content->get('templatefields')->contenttype['fields'] ?: []] as $fields) {
+            foreach ($fields as $field) {
+                $fieldtypes[$field['type']] = true;
+            }
+        }
+
+        if ($has['relations'] || $has['incoming_relations']) {
+            $fieldtypes['relationship'] = true;
+        }
+
+        if ($has['taxonomy'] || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
+            $fieldtypes['taxonomy'] = true;
+        }
+
+        if ($has['templatefields'] || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
+            $fieldtypes['template'] = true;
+        }
+
+        return array_keys($fieldtypes);
+    }
+
+    /**
      * Shortcut for {@see UrlGeneratorInterface::generate}
      *
      * @param string $name          The name of the route
@@ -466,6 +520,7 @@ class RecordModifier
     {
         /** @var UrlGeneratorInterface $generator */
         $generator = $this->app['url_generator'];
+
         return $generator->generate($name, $params, $referenceType);
     }
 }

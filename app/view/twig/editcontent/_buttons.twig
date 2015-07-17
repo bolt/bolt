@@ -1,10 +1,12 @@
-<div class="form-group" style="margin-top: 40px;">
-    <div class="col-sm-12">
+<div class="form-group">
+    <div class="col-xs-12">
 
+        {# Save Contentype #}
         <div class="btn-group">
             <button type="button" class="btn btn-primary" id="savecontinuebutton">
                 <i class="fa fa-flag"></i> {{ __('contenttypes.generic.save', {'%contenttype%': context.contenttype.slug}) }}
             </button>
+            {# Dropdown #}
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
@@ -23,6 +25,7 @@
             </ul>
         </div>
 
+        {# Live Edit #}
         {% if context.contenttype.liveeditor is not defined or context.contenttype.liveeditor %}
             <div class="btn-group">
                 <button type="button" class="btn btn-tertiary" id="live-editor-button">
@@ -30,12 +33,14 @@
                 </button>
             </div>
         {% endif %}
-        
-        {% if not context.contenttype.viewless|default(false) %}{# don't show for viewless contenttypes. #}
+
+        {# Preview (Don't show for viewless contenttypes.) #}
+        {% if not context.contenttype.viewless|default(false) %}
             <div class="btn-group">
                 <button type="button" class="btn btn-default" id="previewbutton">
                     <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
                 </button>
+                {# Dropdown #}
                 {% if context.content.status == "published" and context.content.link is defined %}
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
@@ -44,18 +49,20 @@
                     <ul class="dropdown-menu" role="menu">
                         <li>
                             <a href="{{ context.content.link }}" target="_blank">
-                                <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}</a></li>
-                        </a>
+                                <i class="fa fa-external-link-square"></i> {{ __('View (saved version) on site') }}
+                            </a>
                         </li>
                     </ul>
                 {% endif %}
             </div>
         {% endif %}
 
-
-        <p class="lastsaved" style="margin-top: 12px;">
+        {# Last saved #}
+        <p class="lastsaved form-control-static">
             {% if context.content.id != 0 %}
-                {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
+                {{ __('Saved on:') }}
+                <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong>
+                <small>({{ macro.datetime(context.content.datechanged) }})</small>
             {% else %}
                 {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
             {% endif %}

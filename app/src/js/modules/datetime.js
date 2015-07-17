@@ -249,8 +249,8 @@
      * @returns {InputElements}
      */
     function elements(item) {
-        var field = {},
-            container = item.next();
+        var container = item.closest('.datetime-container'),
+            field = {};
 
         field.data = item;
         field.date = container.find('input.datepicker');

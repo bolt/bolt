@@ -12,7 +12,7 @@
     {% if config.get('taxonomy')[taxonomyslug] is defined %}
         {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
 
-        <div data-fieldtype="taxonomy-{{ taxonomy.behaves_like }}">
+        <div data-fieldtype="{{ taxonomy.behaves_like }}">
             {# Prefix #}
             {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
                 <div class="prefix">
@@ -21,12 +21,12 @@
             {% endif %}
 
             {# Fieldset #}
-            {% if taxonomy.behaves_like == "tags" %}
-                {% include 'editcontent/fields/_taxonomy-tags.twig' %}
-            {% elseif taxonomy.behaves_like == "categories" %}
-                {% include 'editcontent/fields/_taxonomy-categories.twig' %}
-            {% elseif taxonomy.behaves_like == "grouping" %}
-                {% include 'editcontent/fields/_taxonomy-grouping.twig' %}
+            {% if taxonomy.behaves_like == 'tags' %}
+                {% include 'editcontent/fields/_tags.twig' %}
+            {% elseif taxonomy.behaves_like == 'categories' %}
+                {% include 'editcontent/fields/_categories.twig' %}
+            {% elseif taxonomy.behaves_like == 'grouping' %}
+                {% include 'editcontent/fields/_grouping.twig' %}
             {% endif %}
 
             {# Postfix #}

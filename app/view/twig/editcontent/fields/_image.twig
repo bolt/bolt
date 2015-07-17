@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 {{ block.attributes(key, option, image) }}
-                {% set can_upload = context.can_upload and option.can_upload %}
+                {% set can_upload = context.can.upload and option.can_upload %}
                 {{ macro.upload_buttons('image', key, attributes.upload, option.upload, can_upload) }}
                 {{ block.progress(key) }}
                 {{ block.serverselect(key, __('Cancel')) }}

@@ -5,6 +5,14 @@ div[data-fieldtype] {
     margin-bottom: 10px;
 }
 
+// The last container, just before save buttons.
+div[data-fieldtype]:last-child,
+div[data-fieldtype="meta"] {
+    border-bottom: 1px solid #bbb;
+    padding-bottom: 20px;
+    margin-bottom: 15px;
+}
+
 /*** Styles for all Fieldsets ***/
 
 fieldset[data-bolt-field] {
