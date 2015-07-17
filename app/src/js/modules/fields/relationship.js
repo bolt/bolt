@@ -33,7 +33,9 @@
 
         if (fconf.groupBy) {
             templateSelection = function (item) {
-                return $(item.element).parent().attr('label') + ': ' + item.text;
+                var label = $(item.element).parent().attr('label');
+
+                return (label ? label + ': ' : '') + item.text;
             };
         }
 
