@@ -35,6 +35,7 @@
                 taxonomy.select2({
                     width: '100%',
                     tags: tags,
+                    allowClear: true,
                     minimumInputLength: 1,
                     tokenSeparators: [',', ' ']
                 });
