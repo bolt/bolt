@@ -9,7 +9,7 @@ use Bolt\Storage\Query\QueryParameterParser;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ContentQueryParserTest extends BoltUnitTest
+class QueryParameterParserTest extends BoltUnitTest
 {
     public function testValueParse()
     {
@@ -27,6 +27,24 @@ class ContentQueryParserTest extends BoltUnitTest
         $expr = $p->parse();
         $this->assertEquals('10', $expr['value']);
         $this->assertEquals('<>', $expr['operator']);
+    }
+    
+    public function testLikeValueParse()
+    {
+        $p = new QueryParameterParser('name', '%fred%');
+        $expr = $p->parse();
+        $this->assertEquals('%fred%', $expr['value']);
+        $this->assertEquals('LIKE', $expr['operator']);
+        
+        $p = new QueryParameterParser('name', 'fred%');
+        $expr = $p->parse();
+        $this->assertEquals('fred%', $expr['value']);
+        $this->assertEquals('LIKE', $expr['operator']);
+        
+        $p = new QueryParameterParser('name', '%fred');
+        $expr = $p->parse();
+        $this->assertEquals('%fred', $expr['value']);
+        $this->assertEquals('LIKE', $expr['operator']);
     }
     
 }
