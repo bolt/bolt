@@ -30,7 +30,15 @@
     tags.init = function (fieldset, fconf) {
         var slug = fconf.slug,
             taxonomy = $(fieldset).find('select'),
-            tagcloud = $(fieldset).find('div.tagcloud');
+            tagcloud = $(fieldset).find('div.tagcloud'),
+            initSelect = function (tags) {
+                taxonomy.select2({
+                    width: '100%',
+                    tags: tags,
+                    minimumInputLength: 1,
+                    tokenSeparators: [',', ' ']
+                });
+            };
 
         // Load all tags.
         $.ajax({
@@ -43,20 +51,10 @@
                     results.push( item.slug );
                 });
 
-                taxonomy.select2({
-                    width: '100%',
-                    tags: results,
-                    minimumInputLength: 1,
-                    tokenSeparators: [',', ' ']
-                });
+                initSelect(results);
             },
             error: function () {
-                taxonomy.select2({
-                    width: '100%',
-                    tags: [],
-                    minimumInputLength: 1,
-                    tokenSeparators: [',', ' ']
-                });
+                initSelect([]);
             }
         });
 
