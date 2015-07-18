@@ -44,6 +44,7 @@
                 });
 
                 taxonomy.select2({
+                    width: '100%',
                     tags: results,
                     minimumInputLength: 1,
                     tokenSeparators: [',', ' ']
@@ -51,6 +52,7 @@
             },
             error: function () {
                 taxonomy.select2({
+                    width: '100%',
                     tags: [],
                     minimumInputLength: 1,
                     tokenSeparators: [',', ' ']
