@@ -28,7 +28,7 @@
 
         $('.omnisearch').select2({
             width: '100%',
-            placeholder: '',
+            placeholder: bolt.data('omnisearch.placeholder'),
             minimumInputLength: 3,
             multiple: true, // this is for better styling …
             ajax: {
