@@ -35,13 +35,14 @@ class QueryParameterParser
         $this->addValueMatcher('>=(\w+)', ['value'=>"$1", 'operator' => Comparison::GTE]);
         $this->addValueMatcher('>(\w+)' , ['value'=>"$1", 'operator' => Comparison::GT]);
         $this->addValueMatcher('!(\w+)',  ['value'=>"$1", 'operator' => Comparison::NEQ]);
-        $this->addValueMatcher('(\w+)'  , ['value'=>"$1", 'operator' => Comparison::EQ]);
+        $this->addValueMatcher('(%\w+|\w+%|%\w+%)',  ['value'=>"$1", 'operator' => 'LIKE']);
+        $this->addValueMatcher('(\w+)',   ['value'=>"$1", 'operator' => Comparison::EQ]);
     }
     
     /**
      * Runs the keys/values through the relevant parsers
      * 
-     * @return void
+     * @return array matched values
      */
     public function parse()
     {
@@ -49,7 +50,7 @@ class QueryParameterParser
             $regex = sprintf('/%s/', $matcher['token']);
             $values = $matcher['params'];
             $values['key'] = $this->key;
-            if (preg_match($regex, $this->value)) {
+            if (preg_match($regex, preg_quote($this->value))) {
                 $values['value'] = preg_replace($regex, $values['value'], $this->value);
                 return $values;
             }
