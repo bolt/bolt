@@ -33,18 +33,36 @@ class QueryParameterParserTest extends BoltUnitTest
     {
         $p = new QueryParameterParser('name', '%fred%');
         $expr = $p->parse();
+        $this->assertEquals('name', $expr['key']);
         $this->assertEquals('%fred%', $expr['value']);
         $this->assertEquals('LIKE', $expr['operator']);
         
         $p = new QueryParameterParser('name', 'fred%');
         $expr = $p->parse();
+        $this->assertEquals('name', $expr['key']);
         $this->assertEquals('fred%', $expr['value']);
         $this->assertEquals('LIKE', $expr['operator']);
         
         $p = new QueryParameterParser('name', '%fred');
         $expr = $p->parse();
+        $this->assertEquals('name', $expr['key']);
         $this->assertEquals('%fred', $expr['value']);
         $this->assertEquals('LIKE', $expr['operator']);
+    }
+    
+    public function testCompositeOr()
+    {
+        $p = new QueryParameterParser('ownerid', '3||4');
+        $expr = $p->parse();
+        $this->assertEquals('ownerid', $expr['key']);
+        $this->assertEquals('3,4', $expr['value']);
+        $this->assertEquals('orX', $expr['operator']);
+        
+        $p = new QueryParameterParser('ownerid', 'fred || 4');
+        $expr = $p->parse();
+        $this->assertEquals('ownerid', $expr['key']);
+        $this->assertEquals('fred,4', $expr['value']);
+        $this->assertEquals('orX', $expr['operator']);
     }
     
 }
