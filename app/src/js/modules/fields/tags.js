@@ -29,7 +29,7 @@
      */
     tags.init = function (fieldset, fconf) {
         var slug = fconf.slug,
-            taxonomy = $(fieldset).find('input'),
+            taxonomy = $(fieldset).find('select'),
             tagcloud = $(fieldset).find('div.tagcloud');
 
         // Load all tags.

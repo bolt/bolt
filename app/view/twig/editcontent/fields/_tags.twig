@@ -1,18 +1,16 @@
 {#=== INIT ===========================================================================================================#}
 
 {% if context.content.taxonomy[taxonomy.slug] is defined %}
-    {% set tags = context.content.taxonomy[taxonomy.slug]|join(",") %}
+    {% set tags = context.content.taxonomy[taxonomy.slug] %}
 {% else %}
-    {% set tags = "" %}
+    {% set tags = [] %}
 {% endif %}
 
 {% set attributes = {
     taxonomy: {
-        id:     'taxonomy-' ~ taxonomy.slug,
-        name:   'taxonomy[' ~ taxonomy.slug ~ ']',
-        style:  'width: 100%;',
-        type:   'text',
-        value:  tags,
+        id:       'taxonomy-' ~ taxonomy.slug,
+        name:     'taxonomy[' ~ taxonomy.slug ~ ']',
+        multiple: true,
     }
 } %}
 
@@ -31,7 +29,11 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        <input{{ macro.attr(attributes.taxonomy) }}>
+        <select{{ macro.attr(attributes.taxonomy) }}>
+            {% for tag in tags %}
+                <option value="{{ tag }}" selected>{{ tag }}</option>
+            {% endfor %}
+        </select>
 
         {% if taxonomy.tagcloud %}
             <div class="tagcloud"></div>
