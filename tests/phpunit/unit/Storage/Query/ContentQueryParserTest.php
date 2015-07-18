@@ -65,6 +65,13 @@ class ContentQueryParserTest extends BoltUnitTest
         $this->assertEquals(['page'], $qb->getContentTypes());
         $this->assertEquals('select', $qb->getOperation());
         $this->assertEquals('5', $qb->getIdentifier());
+        
+        $qb = new ContentQueryParser($app['storage'], '(entries,events)/random/10');
+        $qb->parse();
+        $this->assertEquals(['entries','events'], $qb->getContentTypes());
+        $this->assertEquals('random', $qb->getOperation());
+        $this->assertEquals('10', $qb->getLimit());
+        $this->assertEmpty($qb->getIdentifier());
     }
     
 
