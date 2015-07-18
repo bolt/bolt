@@ -1,44 +1,45 @@
 /**
  * Styles for Select2
  */
-
-// Selection clear button.
-.select2-selection__clear {
-    width: 1.6em;
-    text-align: center;
-    position: relative; // Fix select2 bug: Clear not clickable on items with long text.
-}
-
-// Make selection-clear and selection-arrow act more like buttons.
-.select2-selection__clear, .select2-selection__arrow {
-    border-left: 1px solid #eee;
-
-    &:hover {
-        background: #f0f0f0;
+#editcontent {
+    // Selection clear button.
+    .select2-selection__clear {
+        width: 1.6em;
+        text-align: center;
+        position: relative; // Fix select2 bug: Clear not clickable on items with long text.
     }
-}
 
-// Multiple selection clear button
-.select2-container--default .select2-selection--multiple .select2-selection__clear {
-    border: 1px solid #eee;
-    margin-right: 0;
-}
+    // Make selection-clear and selection-arrow act more like buttons.
+    .select2-selection__clear, .select2-selection__arrow {
+        border-left: 1px solid #eee;
 
-// Overwrite border color and radius for focus (Original 1px black)
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-    border: solid #5897fb 2px;
-}
+        &:hover {
+            background: #f0f0f0;
+        }
+    }
 
-// The selected item of a multi select.
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
-    background-color: #f4f4f4;
-    border: 1px solid #ddd;
-    padding: 2px 5px;
-}
+    // Multiple selection clear button
+    .select2-container--default .select2-selection--multiple .select2-selection__clear {
+        border: 1px solid #eee;
+        margin-right: 0;
+    }
 
-// Push the input line of a multi select into a new line.
-.select2-container--open .select2-search--inline {
-    clear: both;
+    // Overwrite border color and radius for focus (Original 1px black)
+    .select2-container--default.select2-container--focus .select2-selection--multiple {
+        border: solid #5897fb 2px;
+    }
+
+    // The selected item of a multi select.
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #f4f4f4;
+        border: 1px solid #ddd;
+        padding: 2px 5px;
+    }
+
+    // Push the input line of a multi select into a new line.
+    .select2-container--open .select2-search--inline {
+        clear: both;
+    }
 }
 
 /*.select2-container {
