@@ -36,51 +36,6 @@
     }
 }
 
-/*
-    & > .select2-dropdown-open, & > .select2-container-active {
-        box-shadow: none !important;
-    }
-
-    & > .select2-choices {
-        background : transparent none !important;
-        border : none !important;
-        outline : 0 !important;
-        box-shadow: none !important;
-
-        & > .select2-search-field {
-
-            & > input, & > input:focus {
-                min-width: 180px;
-                @media (min-width: 1024px) {
-                    min-width: 280px;
-                }
-            }
-        }
-    }
-
-    .select2-search-choice {
-        display: none;
-    }
-
-    & > .select2-choices {
-        border: 0px;
-
-        & > .select2-search-field input {
-            padding : 0;
-            font-size: inherit;
-            font-family: inherit;
-        }
-    }
-
-    input.select2-input {
-        color: #AAA;
-    }
-
-    input.select2-input:focus {
-        color: #333;
-    }
-*/
-
 .omnisearchlisting tbody tr td a span {
     font-weight: normal;
     color:red;
