@@ -54,28 +54,26 @@
 }
 
 .omnisearch-result {
+    div {
+        font-weight: bold;
+
+        & span {
+            font-weight: normal;
+        }
+    }
+
+    small {
+        display: block;
+        color: #999;
+        margin-top: 3px;
+    }
 }
 
-.omnisearch-result-info {
-}
-
-.omnisearch-result-label {
-    font-weight: bold;
-}
-
-.omnisearch-result-label span {
-    font-weight: normal;
-}
-
-.omnisearch-result-description {
-    font-size: smaller;
-    color: #999;
-}
-
-.select2-highlighted .omnisearch-result-description {
+.select2-results__option--highlighted .omnisearch-result small {
     color : #FFF; // better contrast.
 }
 
 .omnisearchlisting tbody tr td a span {
     font-weight: normal;
+    color:red;
 }

@@ -55,14 +55,10 @@
                 }
             },
             templateResult: function (item) {
-                console.log('omnisearch: templateResult');
-                var markup = '<table class="omnisearch-result"><tr>' +
-                    '<td class="omnisearch-result-info">' +
-                    '<div class="omnisearch-result-label">' + item.label + '</div>' +
-                    '<div class="omnisearch-result-description">' + item.path + '</div>' +
-                    '</td></tr></table>';
-
-                return markup;
+                return '<div class="omnisearch-result">' +
+                            '<div>' + item.label + '</div>' +
+                            '<small>' + item.path + '</small>' +
+                       '</div>';
             },
             templateSelection: function (item) {
                 console.log('omnisearch: templateSelection');
