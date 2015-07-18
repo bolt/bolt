@@ -36,12 +36,13 @@
                 url: bolt.conf('paths.async') + 'omnisearch',
                 dataType: 'json',
                 data: function (params) {
-                    console.log('omnisearch: data');
-                    return {q: params.term};
+                    return {
+                        q: params.term
+                    };
                 },
                 processResults: function (data) {
-                    console.log('omnisearch: processResults');
                     var results = [];
+
                     $.each(data, function (index, item) {
                         results.push({
                             id: item.path,
@@ -61,13 +62,11 @@
                        '</div>';
             },
             templateSelection: function (item) {
-                console.log('omnisearch: templateSelection');
                 window.location.href = item.path;
 
                 return item.label;
             },
             escapeMarkup: function (m) {
-                console.log('omnisearch: escapeMarkup');
                 return m;
             }
         });
