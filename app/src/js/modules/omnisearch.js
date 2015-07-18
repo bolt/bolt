@@ -64,7 +64,7 @@
             templateSelection: function (item) {
                 window.location.href = item.path;
 
-                return item.label;
+                return null;
             },
             escapeMarkup: function (m) {
                 return m;
