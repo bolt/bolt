@@ -26,7 +26,7 @@
      */
     omnisearch.init = function () {
 
-        $('.omnisearch').select2({
+        $('.omnisearch select').select2({
             width: '100%',
             delay: 250,
             placeholder: bolt.data('omnisearch.placeholder'),
@@ -56,10 +56,7 @@
                 }
             },
             templateResult: function (item) {
-                return '<div class="omnisearch-result">' +
-                            '<div>' + item.label + '</div>' +
-                            '<small>' + item.path + '</small>' +
-                       '</div>';
+                return '<div>' + item.label + '</div><small>' + item.path + '</small>';
             },
             templateSelection: function (item) {
                 window.location.href = item.path;

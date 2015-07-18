@@ -1,12 +1,35 @@
-.omnisearch-primary {
+#navpage-primary .omnisearch {
     width: 280px;
 }
 
-.omnisearch-secondary {
+#navpage-secondary .omnisearch {
     width: 180px;
 }
 
 .omnisearch {
+    // Result.
+    .select2-results__option {
+        div {
+            font-weight: bold;
+
+            & span {
+                font-weight: normal;
+            }
+        }
+
+        small {
+            display: block;
+            font-size: smaller;
+            color: #999;
+        }
+    }
+
+    // Highlighted result.
+    .select2-results__option--highlighted small {
+        color : #FFF; // better contrast.
+    }
+}
+
 /*
     & > .select2-dropdown-open, & > .select2-container-active {
         box-shadow: none !important;
@@ -51,27 +74,6 @@
         color: #333;
     }
 */
-}
-
-.omnisearch-result {
-    div {
-        font-weight: bold;
-
-        & span {
-            font-weight: normal;
-        }
-    }
-
-    small {
-        display: block;
-        color: #999;
-        margin-top: 3px;
-    }
-}
-
-.select2-results__option--highlighted .omnisearch-result small {
-    color : #FFF; // better contrast.
-}
 
 .omnisearchlisting tbody tr td a span {
     font-weight: normal;
