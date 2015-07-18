@@ -32,7 +32,7 @@ class ContentQueryParser
         
     protected $sqlParams = [];
     
-    protected $operations = ['search', 'latest', 'first'];
+    protected $operations = ['search', 'latest', 'first', 'random'];
     
     protected $getquery;
     
@@ -130,6 +130,29 @@ class ContentQueryParser
     public function getLimit()
     {
         return $this->limit;
+    }
+    
+    /**
+     * Adds a new operation to the list supported
+     * @param string $operation name of operation to parse for
+     */
+    public function addOperation($operation)
+    {
+        if (!in_array($operation, $this->operations)) {
+            $this->operations[] = $operation;
+        }
+    }
+    
+    /**
+     * Removes an operation from the list supported
+     * @param string $operation name of operation to remove
+     */
+    public function removeOperation($operation)
+    {
+        if (in_array($operation, $this->operations)) {
+            $key = array_search($operation, $this->operations);
+            unset($this->operations[$key]);
+        }
     }
     
 
