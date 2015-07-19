@@ -117,6 +117,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $strategy = new NamingStrategy($app['config']->get('general/database/prefix', null));
             }
         );
+
     }
 
     public function boot(Application $app)
