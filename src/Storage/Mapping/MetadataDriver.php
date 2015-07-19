@@ -73,7 +73,7 @@ class MetadataDriver implements MappingDriver
         $this->contenttypes = $contenttypes;
         $this->taxonomies = $taxonomies;
         $this->typemap = $typemap;
-        $this->namingStrategy = $namingStrategy
+        $this->namingStrategy = $namingStrategy;
     }
 
     /**
