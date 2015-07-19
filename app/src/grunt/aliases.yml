@@ -22,6 +22,7 @@ updateLib:
     - concat:installLibJs                   # Concats min. library scripts   => view/js/lib.js
     - uglify:installLocaleDatepicker        # Copies min. datepicker locale  => view/js/locale/datepicker/*
     - uglify:installLocaleMoment            # Copies min. moment.js locale   => view/js/locale/moment/*
+    - uglify:installLocaleSelect2           # Copies min. select2 locale     => view/js/locale/select2/*
     - copy:installCkeditor1                 # Copies CKEditor files          => view/js/ckeditor/*
     - copy:installCkeditor2                 # Copies modified ckeditor.js    => view/js/ckeditor/ckeditor.js
     - uglify:installCodeMirror              # Copies CodeMirror locale       => view/js/codemirror/*

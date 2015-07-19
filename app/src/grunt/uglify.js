@@ -85,6 +85,25 @@ module.exports = {
     },
 
     /*
+     * TARGET:  Copies min. select2 locale
+     */
+    installLocaleSelect2: {
+        options: {
+            preserveComments: 'some'
+        },
+        files: [{
+            expand: true,
+            ext: '.min.js',
+            cwd: '<%= path.src.bower %>/select2/dist/js/i18n',
+            src: '*.js',
+            dest: '<%= path.dest.js %>/locale/select2',
+            rename: function (destBase, destPath) {
+                return destBase + '/' + destPath.replace('-', '_');
+            }
+        }]
+    },
+
+    /*
      * TARGET:  Copies min. moment.js locale
      */
     installLocaleMoment: {
