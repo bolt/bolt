@@ -34,12 +34,14 @@
 
         // Bind select-all button.
         selectAll.on('click', function () {
-            select.find('option').prop('selected', true);
+            select.find('option').prop('selected', true).trigger('change');
+            this.blur();
         });
 
         // Bind select-none button.
         selectNone.on('click', function () {
-            select.find('option').prop('selected', false);
+            select.val(null).trigger('change');
+            this.blur();
         });
     };
 
