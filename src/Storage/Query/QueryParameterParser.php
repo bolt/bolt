@@ -5,6 +5,7 @@ use Bolt\Exception\QueryParseException;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Query\Filter;
 use Doctrine\Common\Collections\Expr\Comparison;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 
 
@@ -25,11 +26,14 @@ class QueryParameterParser
     protected $keyMatchers = [];
     
     
-    public function __construct($key, $value = null, ExpressionBuilder $expression = null)
+    public function __construct($key, $value = null, QueryBuilder $qb = null)
     {
         $this->key = $key;
         $this->value = $value;
-        $this->expr = $expression;
+        
+        if ($qb) {
+            $this->expr = $qb->expr();   
+        }
         $this->setupDefaults();
     }
     
@@ -57,6 +61,8 @@ class QueryParameterParser
     {
         $filter = new Filter();
         $filterParams = [];
+        
+        // This first block makes sure that invalid queries are caught
         if (!$this->expr instanceof ExpressionBuilder) {
             throw new QueryParseException("Cannot call method without an Expression Builder parameter set", 1);
         }
@@ -65,6 +71,7 @@ class QueryParameterParser
             throw new QueryParseException("Mixed && and || operators are not supported", 1);
         }
         
+        // This block handles triple pipe queries
         if (strpos($this->key, '|||')){
             $keys = preg_split('/ *(\|\|\|) */', $this->key);
             $values = preg_split('/ *(\|\|\|) */', $this->value);
@@ -85,7 +92,7 @@ class QueryParameterParser
             return $filter;
         }
         
-        
+        // This block handles the parse if the query is a composite and / or filter
         if (strpos($this->value, '&&') || strpos($this->value, '||')) {
             $values = preg_split('/ *(&&|\|\|) */', $this->value, -1, PREG_SPLIT_DELIM_CAPTURE);
             $op = $values[1];
@@ -113,7 +120,15 @@ class QueryParameterParser
             $filter->setExpression(call_user_func_array([$this->expr, $comparison], $parts));
             $filter->setParameters($filterParams);
             return $filter;          
-        }        
+        }
+        
+        // Finally this block handle the simple key to value queries     
+        $val = $this->parseValue($this->value);
+        $key = $this->key;
+        $placeholder = $key."_1";
+        $exprMethod = $val['operator'];
+        $filter->setExpression($this->expr->andX($this->expr->$exprMethod($key, ":$placeholder")));
+        $filter->setParameters([$val['value']]);
         
         return $filter;
     }
