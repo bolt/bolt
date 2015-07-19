@@ -29,8 +29,23 @@
      */
     templateselect.init = function (fieldset, fconf) {
         var select = $(fieldset).find('select'),
+            selectNone = $(fieldset).find('.select-none'),
             warning = $(fieldset).find('p'),
             container = warning.parent();
+
+        select.select2({
+            width: '100%',
+            allowClear: true,
+            placeholder: bolt.data('field.templateselect.text.default'),
+            minimumResultsForSearch: Infinity
+        });
+
+        // Initialize the select-none button.
+        selectNone.prop('title', selectNone.text().trim());
+        selectNone.on('click', function () {
+            select.val(null).trigger('change');
+            this.blur();
+        });
 
         // Warn the user of potential template field changes if they change a templateselect field.
         select.change(function() {
