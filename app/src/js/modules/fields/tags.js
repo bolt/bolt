@@ -99,8 +99,8 @@
 
                         $.fn.tagcloud.defaults = {
                             size: {
-                                start: 12,
-                                end: 22,
+                                start: 10,
+                                end: 20,
                                 unit: 'px'
                             },
                             color: {
