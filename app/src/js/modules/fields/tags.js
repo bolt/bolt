@@ -30,32 +30,33 @@
     tags.init = function (fieldset, fconf) {
         var slug = fconf.slug,
             taxonomy = $(fieldset).find('select'),
-            tagcloud = $(fieldset).find('div.tagcloud'),
-            initSelect = function (tags) {
-                taxonomy.select2({
-                    width: '100%',
-                    tags: tags,
-                    allowClear: true,
-                    minimumInputLength: 1,
-                    tokenSeparators: [',', ' ']
-                });
-            };
+            tagcloud = $(fieldset).find('div.tagcloud');
+
+        // Initialize the tag selector.
+        taxonomy.select2({
+            width: '100%',
+            tags: tags,
+            allowClear: true,
+            minimumInputLength: 1,
+            tokenSeparators: [',', ' ']
+        });
 
         // Load all tags.
         $.ajax({
             url: bolt.conf('paths.root') + 'async/tags/' + slug,
             dataType: 'json',
             success: function (data) {
-                var results = [];
+                var options = taxonomy.val();
 
                 $.each(data, function (index, item) {
-                    results.push( item.slug );
+                    if (options.indexOf(item.slug) < 0) {
+                        options.push(item.slug);
+                        taxonomy.append($('<option/>', {
+                            value: item.slug,
+                            text: item.slug
+                        })).trigger('change');
+                    }
                 });
-
-                initSelect(results);
-            },
-            error: function () {
-                initSelect([]);
             }
         });
 
