@@ -4,24 +4,16 @@
 #editcontent {
     // Selection clear button.
     .select2-selection__clear {
-        width: 1.6em;
-        text-align: center;
-        position: relative; // Fix select2 bug: Clear not clickable on items with long text.
+        display: none;
     }
 
-    // Make selection-clear and selection-arrow act more like buttons.
-    .select2-selection__clear, .select2-selection__arrow {
+    // Make selection-arrow act more like buttons.
+    .select2-selection__arrow {
         border-left: 1px solid #eee;
 
         &:hover {
             background: #f0f0f0;
         }
-    }
-
-    // Multiple selection clear button
-    .select2-container--default .select2-selection--multiple .select2-selection__clear {
-        border: 1px solid #eee;
-        margin-right: 0;
     }
 
     // Overwrite border color and radius for focus (Original 1px black)
