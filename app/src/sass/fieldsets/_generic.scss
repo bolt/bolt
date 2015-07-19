@@ -61,6 +61,10 @@ fieldset[data-bolt-field] {
                 vertical-align: top;
 
                 button {
+                    // btn-default + btn-xs
+                    @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+                    @include button-size($padding-xs-vertical, $padding-xs-horizontal, $font-size-small, $line-height-small, $btn-border-radius-small);
+
                     margin-left: 6px;
                     margin-top: 4px;
 
