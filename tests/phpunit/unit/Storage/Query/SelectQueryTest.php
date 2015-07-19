@@ -18,10 +18,9 @@ class selectQueryTest extends BoltUnitTest
         
         $qb = $app['storage']->createQueryBuilder();
         
-        $contenttypes = ['pages'];
         $filters = ['username'=>'%fred%', 'email'=>'%fred', 'status'=>'published'];
         
-        $query = new SelectQuery($qb, $contenttypes, $filters);
+        $query = new SelectQuery($qb, 'pages', $filters);
         $expr = $query->getWhereExpression();
         $this->assertEquals('(username LIKE :username_1) AND (email LIKE :email_1) AND (status = :status_1)', $expr->__toString());
         $this->assertEquals(['%fred%','%fred','published'], $query->getWhereParameters());
