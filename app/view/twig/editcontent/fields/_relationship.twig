@@ -13,7 +13,6 @@
         id:       'relation-' ~ relcontenttype,
         class:    'wide',
         multiple: multiple,
-        style:    'width: 100%',
     }
  }%}
 
@@ -28,29 +27,40 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-8">
-        <select{{ macro.attr(attributes.select) }}>
-            {% if not multiple %}
-                <option></option> {# We need an empty option for singe selections #}
-            {% endif %}
+        <div class="select-component">
+            <div>
+                <div>
+                    <select{{ macro.attr(attributes.select) }}>
+                        {% if not multiple %}
+                            <option></option> {# We need an empty option for singe selections #}
+                        {% endif %}
 
-            {% set optgroup = 'Test' %}
-            {% for item in listcontent(relcontenttype, relation, context.content) %}
-                {% if relcontenttype == app.request.get('relation') and item.id == app.request.get('relationid') %}
-                    {% set selectedbyrelation = true %}
-                {% else %}
-                    {% set selectedbyrelation = false %}
-                {% endif %}
-                {% if groupby and optgroup != item[groupby] %}
-                    {% if optgroup != '' %}</optgroup>{% endif %}
-                    {% set optgroup = item[groupby] %}
-                    <optgroup label="{{ optgroup }}">
-                {% endif %}
-                <option value="{{ item.id }}"{% if item.selected or selectedbyrelation %} selected{% endif %}>
-                    {{ format|twig({'item': item}) }}
-                </option>
-            {% endfor %}
-            {% if optgroup != '' %}</optgroup>{% endif %}
+                        {% set optgroup = 'Test' %}
+                        {% for item in listcontent(relcontenttype, relation, context.content) %}
+                            {% if relcontenttype == app.request.get('relation') and item.id == app.request.get('relationid') %}
+                                {% set selectedbyrelation = true %}
+                            {% else %}
+                                {% set selectedbyrelation = false %}
+                            {% endif %}
+                            {% if groupby and optgroup != item[groupby] %}
+                                {% if optgroup != '' %}</optgroup>{% endif %}
+                                {% set optgroup = item[groupby] %}
+                                <optgroup label="{{ optgroup }}">
+                            {% endif %}
+                            <option value="{{ item.id }}"{% if item.selected or selectedbyrelation %} selected{% endif %}>
+                                {{ format|twig({'item': item}) }}
+                            </option>
+                        {% endfor %}
+                        {% if optgroup != '' %}</optgroup>{% endif %}
 
-        </select>
+                    </select>
+                </div>
+                    <div>
+                        <button type="button" class="btn select-none">
+                            <span class="sr-only">{{ __('Select none') }}</span>
+                        </button>
+                    </div>
+            </div>
+        </div>
     </div>
 {% endblock fieldset_controls %}
