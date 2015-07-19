@@ -40,16 +40,16 @@
                         {% endfor %}
                     </select>
                 </div>
-                    <div>
-                        {% if multiple %}
-                            <button type="button" class="btn select-all">
-                                <span class="sr-only">{{ __('Select all') }}</span>
-                            </button>
-                        {% endif %}
-                        <button type="button" class="btn select-none">
-                            <span class="sr-only">{{ __('Select none') }}</span>
+                <div>
+                    {% if multiple %}
+                        <button type="button" class="btn select-all">
+                            <span class="sr-only">{{ __('Select all') }}</span>
                         </button>
-                    </div>
+                    {% endif %}
+                    <button type="button" class="btn select-none">
+                        <span class="sr-only">{{ __('Select none') }}</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
