@@ -19,6 +19,7 @@
  * @mixes Bolt.fields
  * @mixes Bolt.fields.categories
  * @mixes Bolt.fields.geolocation
+ * @mixes Bolt.fields.meta
  * @mixes Bolt.fields.relationship
  * @mixes Bolt.fields.select
  * @mixes Bolt.fields.slug

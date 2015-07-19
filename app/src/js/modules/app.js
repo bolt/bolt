@@ -40,6 +40,10 @@
                     bolt.fields.geolocation.init(this, conf);
                     break;
 
+                case 'meta':
+                    bolt.fields.meta.init(this, conf);
+                    break;
+
                 case 'relationship':
                     bolt.fields.relationship.init(this, conf);
                     break;
