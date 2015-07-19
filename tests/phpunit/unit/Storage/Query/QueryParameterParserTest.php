@@ -60,7 +60,7 @@ class QueryParameterParserTest extends BoltUnitTest
     public function testCompositeOrAnd()
     {
         $app = $this->getApp();
-        $builder = $app['storage']->createExpressionBuilder();
+        $builder = $app['storage']->createQueryBuilder();
         
         $p = new QueryParameterParser('ownerid', '>1 && <4', $builder);
         $filter = $p->getFilter();
@@ -85,7 +85,7 @@ class QueryParameterParserTest extends BoltUnitTest
     public function testComplexOr()
     {
         $app = $this->getApp();
-        $builder = $app['storage']->createExpressionBuilder();
+        $builder = $app['storage']->createQueryBuilder();
         
         $p = new QueryParameterParser('username ||| email', 'tester', $builder);
         $filter = $p->getFilter();
