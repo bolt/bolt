@@ -42,6 +42,14 @@
     {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_short ~ '.min.js']) %}
 {% endif %}
 
+{# Add locale include for select2 #}
+{% set localepath = 'view/js/locale/select2/' %}
+{% if file_exists(paths.apppath ~ '/' ~ localepath ~ page_locale_long ~ '.min.js') %}
+    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_long ~ '.min.js']) %}
+{% elseif page_locale_short != 'en' and file_exists(paths.apppath ~ '/' ~ localepath ~ page_locale_short ~ '.min.js') %}
+    {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_short ~ '.min.js']) %}
+{% endif %}
+
 {% endspaceless -%}
 
 <!DOCTYPE html>
