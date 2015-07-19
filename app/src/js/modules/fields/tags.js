@@ -70,10 +70,14 @@
                 success: function(data) {
                     if (data.length > 0) {
                         $.each(data, function(index, item){
-                            tagcloud.append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
+                            tagcloud.append($('<button/>', {
+                                type: 'button',
+                                text: item.slug,
+                                rel: item.count
+                            })).append('');
                         });
 
-                        tagcloud.find('a').on('click', function (e) {
+                        tagcloud.find('button').on('click', function (e) {
                             var text = $(this).text(),
                                 option = taxonomy.find('option[value=' + text + ']');
 
@@ -104,7 +108,7 @@
                                 end: '#194770'
                             }
                         };
-                        tagcloud.find('a').tagcloud();
+                        tagcloud.find('button').tagcloud();
                     }
                 }
             });
