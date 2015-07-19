@@ -175,11 +175,11 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Internal method to hydrate and return a QueryBuilder query
+     * Method to hydrate and return a QueryBuilder query
      *
      * @return array Entity | false
      **/
-    protected function findWith(QueryBuilder $query)
+    public function findWith(QueryBuilder $query)
     {
         $result = $query->execute()->fetchAll();
         if ($result) {
