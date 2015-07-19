@@ -108,6 +108,8 @@
                             }
                         };
                         tagcloud.find('button').tagcloud();
+                        // Show the tagcloud.
+                        tagcloud.css('display', 'block');
                     }
                 }
             });
