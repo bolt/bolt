@@ -32,6 +32,12 @@
             selectAll = $(fieldset).find('.select-all'),
             selectNone = $(fieldset).find('.select-none');
 
+        select.select2({
+            width: '100%',
+            allowClear: true,
+            placeholder: bolt.data('field.categories.text.placeholder')
+        });
+
         // Initialize the select-all button.
         selectAll.prop('title', selectAll.text().trim());
         selectAll.on('click', function () {

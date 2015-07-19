@@ -1,7 +1,7 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set multiple = taxonomy.multiple is defined and taxonomy.multiple == 1 %}
-
+{% set multiple = not multiple %}
 {% set attributes = {
     select: {
         name:      'taxonomy[' ~ taxonomy.slug ~ '][]',
@@ -28,8 +28,7 @@
                 <div>
                     <select{{ macro.attr(attributes.select) }}>
                         {% if not multiple %}
-                            <option value="">{{ __('(no category)') }}</option>
-                            <option value="" disabled>-----------</option>
+                            <option value=""></option> {# We need an empty option for singe selections #}
                         {% endif %}
 
                         {% for slug, cat in taxonomy.options %}
@@ -41,16 +40,16 @@
                         {% endfor %}
                     </select>
                 </div>
-                {% if multiple %}
                     <div>
-                        <button type="button" class="btn select-all">
-                            <span class="sr-only">{{ __('Select all') }}</span>
-                        </button>
+                        {% if multiple %}
+                            <button type="button" class="btn select-all">
+                                <span class="sr-only">{{ __('Select all') }}</span>
+                            </button>
+                        {% endif %}
                         <button type="button" class="btn select-none">
                             <span class="sr-only">{{ __('Select none') }}</span>
                         </button>
                     </div>
-                {% endif %}
             </div>
         </div>
     </div>
