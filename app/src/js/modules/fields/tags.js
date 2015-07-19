@@ -81,8 +81,6 @@
                             var text = $(this).text(),
                                 option = taxonomy.find('option[value=' + text + ']');
 
-                            e.preventDefault();
-
                             if (option.length > 0) {
                                 // Just select if tag exists…
                                 option = option.not(':selected').attr('selected', true).trigger('change');
