@@ -3,6 +3,7 @@ namespace Bolt\Storage\Mapping;
 
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Mapping\ClassMetadata as BoltClassMetadata;
+use Bolt\Storage\NamingStrategy;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Schema\Table;
@@ -40,6 +41,8 @@ class MetadataDriver implements MappingDriver
 
     /** @var array */
     protected $typemap;
+    /** @var NamingStrategy */
+    protected $namingStrategy;
     /** @var array */
     protected $aliases = [];
 
@@ -64,12 +67,13 @@ class MetadataDriver implements MappingDriver
      * @param array   $taxonomies
      * @param array   $typemap
      */
-    public function __construct(Manager $schemaManager, array $contenttypes, array $taxonomies, array $typemap)
+    public function __construct(Manager $schemaManager, array $contenttypes, array $taxonomies, array $typemap, NamingStrategy $namingStrategy = null)
     {
         $this->schemaManager = $schemaManager;
         $this->contenttypes = $contenttypes;
         $this->taxonomies = $taxonomies;
         $this->typemap = $typemap;
+        $this->namingStrategy = $namingStrategy
     }
 
     /**
@@ -260,7 +264,7 @@ class MetadataDriver implements MappingDriver
     {
         if (null === $metadata) {
             $fullClassName = $this->resolveClassName($className);
-            $metadata = new BoltClassMetadata($fullClassName);
+            $metadata = new BoltClassMetadata($fullClassName, $this->namingStrategy);
         }
         if (!$this->initialized) {
             $this->initialize();

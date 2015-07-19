@@ -5,6 +5,7 @@ use Bolt\EventListener\StorageEventListener;
 use Bolt\Storage;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\MetadataDriver;
+use Bolt\Storage\NamingStrategy;
 use Bolt\Storage\RecordModifier;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -92,7 +93,8 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['schema'],
                     $app['config']->get('contenttypes'),
                     $app['config']->get('taxonomy'),
-                    $app['storage.typemap']
+                    $app['storage.typemap'],
+                    $app['storage.namingstrategy']
                 );
                 return $meta;
             }
@@ -109,6 +111,12 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.listener'] = $app->share(function () use ($app) {
             return new StorageEventListener($app['storage'], $app['authentication.hash.strength']);
         });
+        
+        $app['storage.namingstrategy'] = $app->share(
+            function ($app) {
+                $strategy = new NamingStrategy($app['config']->get('general/database/prefix', null));
+            }
+        );
     }
 
     public function boot(Application $app)
