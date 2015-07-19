@@ -36,9 +36,14 @@
         taxonomy.select2({
             width: '100%',
             tags: tags,
-            allowClear: true,
             minimumInputLength: 1,
             tokenSeparators: [',', ' ']
+        });
+
+        // Initialize clear button.
+        $('button.select-none').on('click', function () {
+            taxonomy.val(null).trigger('change');
+            this.blur();
         });
 
         // Load all tags.

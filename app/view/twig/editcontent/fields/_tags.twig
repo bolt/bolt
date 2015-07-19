@@ -29,11 +29,22 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        <select{{ macro.attr(attributes.taxonomy) }}>
-            {% for tag in tags %}
-                <option value="{{ tag }}" selected>{{ tag }}</option>
-            {% endfor %}
-        </select>
+        <div class="select-component">
+            <div>
+                <div>
+                    <select{{ macro.attr(attributes.taxonomy) }}>
+                        {% for tag in tags %}
+                            <option value="{{ tag }}" selected>{{ tag }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-default btn-xs select-none" title="{{ __('Select none') }}">
+                        <span class="sr-only">{{ __('Select none') }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
 
         {% if taxonomy.tagcloud %}
             <div class="tagcloud"></div>
