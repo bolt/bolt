@@ -28,6 +28,12 @@
      * @param {FieldConf} fconf
      */
     meta.init = function (fieldset, fconf) {
+        var statusselect = $(fieldset).find('#statusselect');
+
+        statusselect.select2({
+            width: '50%',
+            minimumResultsForSearch: Infinity
+        });
     };
 
     // Apply mixin container
