@@ -28,9 +28,15 @@
      * @param {FieldConf} fconf
      */
     meta.init = function (fieldset, fconf) {
-        var statusselect = $(fieldset).find('#statusselect');
+        var statusselect = $(fieldset).find('#statusselect'),
+            ownerid = $(fieldset).find('#ownerid');
 
         statusselect.select2({
+            width: '50%',
+            minimumResultsForSearch: Infinity
+        });
+
+        ownerid.select2({
             width: '50%',
             minimumResultsForSearch: Infinity
         });
