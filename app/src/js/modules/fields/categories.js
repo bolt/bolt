@@ -29,8 +29,8 @@
      */
     categories.init = function (fieldset, fconf) {
         var select = $(fieldset).find('select'),
-            selectAll = $(fieldset).find('button.select-all'),
-            selectNone = $(fieldset).find('button.select-none');
+            selectAll = $(fieldset).find('.select-all'),
+            selectNone = $(fieldset).find('.select-none');
 
         // Bind select-all button.
         selectAll.on('click', function () {

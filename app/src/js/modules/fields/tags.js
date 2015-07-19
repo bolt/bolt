@@ -30,7 +30,7 @@
     tags.init = function (fieldset, fconf) {
         var slug = fconf.slug,
             taxonomy = $(fieldset).find('select'),
-            tagcloud = $(fieldset).find('div.tagcloud'),
+            tagcloud = $(fieldset).find('.tagcloud'),
             selectNone = $(fieldset).find('.select-none');
 
         // Initialize the tag selector.
