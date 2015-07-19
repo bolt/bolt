@@ -18,15 +18,47 @@ class SelectQuery
 {
     
     protected $qb;
-    
+    protected $contenttypes;
+    protected $params;
     protected $filters = [];
     
     /**
      * 
      * @param QueryBuilder $qb
      */
-    public function __construct(array $filters, QueryBuilder $qb) {
+    public function __construct(QueryBuilder $qb, array $contenttypes, array $params = []) {
         $this->qb = $qb;
+        $this->contenttypes = $contenttypes;
+        $this->params = $params;
+        $this->processFilters();
+    }
+    
+    public function processFilters()
+    {
+        foreach ($this->params as $key => $value) {
+            $parser = new QueryParameterParser($key, $value, $this->qb);
+            $this->addFilter($parser->getFilter());
+        }
+    }
+    
+    public function getWhereExpression()
+    {
+        $expr = $this->qb->expr()->andX();
+        foreach ($this->filters as $filter) {
+            $expr = $expr->add($filter->getExpression()); 
+        }
+        
+        return $expr;
+    }
+    
+    public function getWhereParameters()
+    {
+        $params = [];
+        foreach ($this->filters as $filter) {
+            $params = array_merge($params, $filter->getParameters());
+        }
+        
+        return $params;
     }
     
     /**
