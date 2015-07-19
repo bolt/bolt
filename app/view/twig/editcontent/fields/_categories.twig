@@ -1,7 +1,7 @@
 {#=== INIT ===========================================================================================================#}
 
 {% set multiple = taxonomy.multiple is defined and taxonomy.multiple == 1 %}
-{% set multiple = not multiple %}
+
 {% set attributes = {
     select: {
         name:      'taxonomy[' ~ taxonomy.slug ~ '][]',
