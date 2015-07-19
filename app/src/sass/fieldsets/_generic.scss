@@ -39,4 +39,47 @@ fieldset[data-bolt-field] {
         color: #bbb;
         padding-left: 4px;
     }
+
+    /*** Select component ***/
+
+    .select-component {
+        display: table;
+        width: 100%;
+
+        & > div {
+            display: table-row;
+
+            // Select
+            & div:nth-child(odd) {
+                display: table-cell;
+                width: 100%;
+            }
+
+            // Buttons
+            & div:nth-child(even) {
+                display: table-cell;
+                vertical-align: top;
+
+                button {
+                    margin-left: 6px;
+                    margin-top: 4px;
+
+                    &::before {
+                        font-family: FontAwesome;
+                        display: block;
+                        width: 1.2em;
+                    }
+
+                    &.select-all::before {
+                        content: "\f00c";
+                    }
+
+                    &.select-none::before {
+                        content: "\f00d";
+                    }
+                }
+            }
+        }
+    }
+
 }
