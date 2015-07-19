@@ -1,14 +1,7 @@
 /*** Fieldset: Select ***/
 
 fieldset[data-bolt-field="select"] {
-    select {
-        display: block;
-        margin-bottom: 8px;
-        width: auto;
-        min-width: 200px;
-    }
-
-    .wide {
-        width: 100%;
+    .select2-selection--multiple {
+        min-height: 56px;
     }
 }
