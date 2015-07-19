@@ -30,7 +30,8 @@
     tags.init = function (fieldset, fconf) {
         var slug = fconf.slug,
             taxonomy = $(fieldset).find('select'),
-            tagcloud = $(fieldset).find('div.tagcloud');
+            tagcloud = $(fieldset).find('div.tagcloud'),
+            selectNone = $(fieldset).find('.select-none');
 
         // Initialize the tag selector.
         taxonomy.select2({
@@ -41,7 +42,7 @@
         });
 
         // Initialize clear button.
-        $('button.select-none').on('click', function () {
+        selectNone.on('click', function () {
             taxonomy.val(null).trigger('change');
             this.blur();
         });
