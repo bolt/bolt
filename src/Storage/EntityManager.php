@@ -303,6 +303,7 @@ class EntityManager
      */
     public function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
+        $this->getLogger()->warning('[DEPRECATED]  $app[\'storage\']->getContent() is replaced with $app[\'query\']->getContent() and will be removed in a future version.');
         return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
     }
 }
