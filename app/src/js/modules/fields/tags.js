@@ -74,15 +74,15 @@
                         });
 
                         tagcloud.find('a').on('click', function (e) {
-                            var data;
+                            var text = $(this).text(),
+                                option = $('<option></option>', {
+                                    value: text,
+                                    text: text,
+                                    selected: true
+                                });
 
                             e.preventDefault();
-                            data = taxonomy.select2('data');
-                            data.push({
-                                id: $(this).text(),
-                                text: $(this).text()
-                            });
-                            taxonomy.select2('data', data);
+                            taxonomy.append(option).trigger('change');
                         });
 
                         $.fn.tagcloud.defaults = {
