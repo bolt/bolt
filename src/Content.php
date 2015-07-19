@@ -466,13 +466,9 @@ class Content implements \ArrayAccess
 
         if (!empty($values['taxonomy'])) {
             foreach ($values['taxonomy'] as $taxonomytype => $value) {
-                if (!is_array($value)) {
-                    $value = explode(",", $value);
-                }
-
                 if (isset($values['taxonomy-order'][$taxonomytype])) {
                     foreach ($value as $k => $v) {
-                        $value[$k] = $v . "#" . $values['taxonomy-order'][$taxonomytype];
+                        $value[$k] = $v . '#' . $values['taxonomy-order'][$taxonomytype];
                     }
                 }
 
