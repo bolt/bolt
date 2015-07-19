@@ -41,7 +41,8 @@
             tokenSeparators: [',', ' ']
         });
 
-        // Initialize clear button.
+        // Initialize the select-none button.
+        selectNone.prop('title', selectNone.text().trim());
         selectNone.on('click', function () {
             taxonomy.val(null).trigger('change');
             this.blur();
