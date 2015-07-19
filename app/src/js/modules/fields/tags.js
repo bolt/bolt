@@ -75,14 +75,22 @@
 
                         tagcloud.find('a').on('click', function (e) {
                             var text = $(this).text(),
-                                option = $('<option></option>', {
+                                option = taxonomy.find('option[value=' + text + ']');
+
+                            e.preventDefault();
+
+                            if (option.length > 0) {
+                                // Just select if tag exists…
+                                option = option.not(':selected').attr('selected', true).trigger('change');
+                            } else {
+                                // … otherwise add.
+                                taxonomy.append($('<option/>', {
                                     value: text,
                                     text: text,
                                     selected: true
-                                });
+                                })).trigger('change');
+                            }
 
-                            e.preventDefault();
-                            taxonomy.append(option).trigger('change');
                         });
 
                         $.fn.tagcloud.defaults = {
