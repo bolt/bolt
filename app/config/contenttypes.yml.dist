@@ -152,7 +152,7 @@ showcases:
             type: float
         selectfield:
             type: select
-            values: [ none, foo, bar ]
+            values: [ foo, bar, baz ]
         multiselect:
             type: select
             values: [ A-tuin, Donatello, Rafael, Leonardo, Michelangelo, Koopa, Squirtle ]
@@ -187,11 +187,11 @@ showcases:
 # YAML allows the defining of "repeated nodes". These allow you to define a 'node'
 # with a 'key: &name' and referenced later with '<<: *name'
 #
-# Bolt allows you to define this with the special entry of '__nodes:' that itself 
+# Bolt allows you to define this with the special entry of '__nodes:' that itself
 # won't create a Contenttype, but will allow you to use it in actual contenttypes
 # to prevent repeating yourself.
 #
-# To achieve this, first create a key '__nodes:' 
+# To achieve this, first create a key '__nodes:'
 #__nodes:
 #    field_defaults: &field_defaults
 #        title:
@@ -207,7 +207,7 @@ showcases:
 #            filter: '*.twig'
 #            group: meta
 #
-# Then, as an example, you could create a Contenttype with default fields, with 
+# Then, as an example, you could create a Contenttype with default fields, with
 # an additional 'image' field.
 #
 #contenttype_abc:
@@ -222,7 +222,7 @@ showcases:
 #    taxonomy: [ chapters ]
 #    recordsperpage: 10
 #
-# Alternatively, or additionally, you then can thencreate a Contenttype with 
+# Alternatively, or additionally, you then can thencreate a Contenttype with
 # default fields, and a 'select' field, and a different 'templateselect' option.
 #
 #contenttype_xyz:
