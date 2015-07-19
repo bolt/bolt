@@ -18,17 +18,17 @@ use Doctrine\DBAL\Query\QueryBuilder;
 class SelectQuery
 {
     protected $qb;
-    protected $contenttypes;
+    protected $contenttype;
     protected $params;
     protected $filters = [];
 
     /**
      * @param QueryBuilder $qb
      */
-    public function __construct(QueryBuilder $qb, array $contenttypes, array $params = [])
+    public function __construct(QueryBuilder $qb, $contenttype, array $params = null)
     {
         $this->qb = $qb;
-        $this->contenttypes = $contenttypes;
+        $this->contenttype = $contenttype;
         $this->params = $params;
         $this->processFilters();
     }
@@ -68,4 +68,14 @@ class SelectQuery
     {
         $this->filters[] = $filter;
     }
+    
+    public function build()
+    {
+        $query = $this->qb
+            ->where($this->getWhereExpression())
+            ->setParameters($this->getWhereParameters());
+            
+        return $query;
+    }
+
 }
