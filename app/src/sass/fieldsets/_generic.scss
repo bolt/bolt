@@ -68,6 +68,10 @@ fieldset[data-bolt-field] {
                     margin-left: 6px;
                     margin-top: 4px;
 
+                    &:first-child {
+                        margin-top: 3px;
+                    }
+
                     &::before {
                         font-family: FontAwesome;
                         display: block;
