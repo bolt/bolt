@@ -21,6 +21,7 @@ addons:
   postgresql: "9.3"
 
 before_install:
+  - sudo sh -c "echo 'precedence ::ffff:0:0/96 100' >> /etc/gai.conf"
   - sudo add-apt-repository -y ppa:nginx/stable
   - sudo apt-get update
   - sudo apt-get --reinstall install -qq language-pack-en language-pack-fr && sudo locale-gen fr_FR
@@ -48,9 +49,7 @@ before_install:
   
 before_script:
   # Set up Composer
-# Disabled at 2015-07-18 due to problems with Travis & Composer
-# See: https://github.com/bolt/bolt/issues/3829
-#  - composer self-update || true
+  - composer self-update || true
   - composer install --prefer-dist
   # Set up permissions
   - chmod -R 777 app/database/ app/cache/ app/config/ extensions/ files/ theme/
