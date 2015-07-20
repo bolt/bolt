@@ -275,7 +275,6 @@ class Users
      */
     public function getUser($userId)
     {
-
         // Make sure users have been 'got' already.
         $this->getUsers();
 
@@ -287,6 +286,7 @@ class Users
         // Fallback: See if we can get it by username or email address.
         if ($userEntity = $this->repository->getUser($userId)) {
             $userEntity->setPassword('**dontchange**');
+
             return $userEntity->toArray();
         }
 
