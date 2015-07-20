@@ -40,7 +40,7 @@
             <div>
                 <div>
                     <select{{ macro.attr(attributes.select) }}>
-                        <option></option>
+                        <option value=""></option> {# We need an empty option for singe selections #}
                         {% for filename, name in listtemplates(option.filter) %}
                             <option{{ macro.attr({value: filename, selected: (context.content.get(contentkey) == filename)}) }}>
                                 {{- name -}}

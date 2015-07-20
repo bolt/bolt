@@ -32,7 +32,7 @@
                 <div>
                     <select{{ macro.attr(attributes.select) }}>
                         {% if not multiple %}
-                            <option></option> {# We need an empty option for singe selections #}
+                            <option value=""></option> {# We need an empty option for singe selections #}
                         {% endif %}
 
                         {% set optgroup = 'Test' %}
