@@ -511,6 +511,10 @@ field:
         matched-address: "Overeenkomstig adres:"
         placeholder:
             address: "Adres invullen"
+    markdown:
+        label:
+            markedview: "Markdown"
+            preview: "Voorvertoning"
     slug:
         message:
             set: "Stel de slug in als:"
