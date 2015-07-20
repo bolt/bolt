@@ -478,7 +478,6 @@ class Permissions
      */
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
-
         $contentobject = null;
 
         // $contenttype might be an array.
