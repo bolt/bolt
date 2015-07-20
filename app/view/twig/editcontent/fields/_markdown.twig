@@ -11,13 +11,25 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set ukkit_conf = {
+    height:         option.height,
+    lblMarkedview:  __('field.markdown.label.markedview'),
+    lblPreview:     __('field.markdown.label.preview'),
+    markdown:       true,
+    markedOptions:  {
+                        breaks: false,
+                    },
+    toolbar:        ['bold', 'italic', 'link', 'image', 'blockquote', 'listUl', 'listOl'],
+} %}
+
 {% set attr_text = {
-    class:          option.class,
-    name:           name,
-    id:             key,
-    required:       option.required,
-    data_errortext: option.errortext,
-    style:          (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '',
+    class:               option.class,
+    data_errortext:      option.errortext,
+    data_uk_htmleditor:  ukkit_conf|json_encode,
+    id:                  key,
+    name:                name,
+    required:            option.required,
+    style:               (option.height) ? 'height: ' ~ option.height ~ ' !important;' : '',
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -25,6 +37,6 @@
 <fieldset class="markdown">
     <div class="col-sm-12">
         <label class="control-label">{{ macro.infopop(labelkey, option.info) }}</label>
-        <textarea{{ macro.attr(attr_text) }} data-uk-htmleditor="{ markdown: true, height: '{{option.height}}'}">{{ context.content.get(contentkey)|default('') }}</textarea>
+        <textarea{{ macro.attr(attr_text) }}>{{ context.content.get(contentkey)|default('') }}</textarea>
     </div>
 </fieldset>

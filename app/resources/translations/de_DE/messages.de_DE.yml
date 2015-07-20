@@ -521,6 +521,10 @@ field:
         placeholder:
             address: "Straße, Postleitzahl, Stadt oder Ortsangabe"
         title-pin: "Pin"
+    markdown:
+        label:
+            markedview: "Markdown"
+            preview: "Preview"
     slug:
         message:
             set: "Slug setzen:"
