@@ -50,6 +50,11 @@ return call_user_func(
             );
         }
 
+        // Class aliases for BC
+        class_alias('\Bolt\Storage\Field\Base', '\Bolt\Field\Base');
+        class_alias('\Bolt\Storage\Field\FieldInterface', '\Bolt\Field\FieldInterface');
+        class_alias('\Bolt\Storage\Field\Manager', '\Bolt\Field\Manager');
+
         // Register a PHP shutdown function to catch early fatal errors
         register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrorsEarly']);
 
