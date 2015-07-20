@@ -15,15 +15,6 @@
         id:     key,
         name:   name,
     },
-
-    default: {
-        value:  '',
-    },
-
-    divider: {
-        disabled:  true,
-        value:     '',
-    }
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -45,15 +36,26 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        <select{{ macro.attr(attributes.select) }}>
-            <option{{ macro.attr(attributes.default) }}>{{ __('(default template)') }}</option>
-            <option{{ macro.attr(attributes.divider) }}>-----------</option>
-            {% for filename, name in listtemplates(option.filter) %}
-                <option{{ macro.attr({value: filename, selected: (context.content.get(contentkey) == filename)}) }}>
-                    {{- name -}}
-                </option>
-            {% endfor %}
-        </select>
+        <div class="select-component">
+            <div>
+                <div>
+                    <select{{ macro.attr(attributes.select) }}>
+                        <option value=""></option> {# We need an empty option for singe selections #}
+                        {% for filename, name in listtemplates(option.filter) %}
+                            <option{{ macro.attr({value: filename, selected: (context.content.get(contentkey) == filename)}) }}>
+                                {{- name -}}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <button type="button" class="btn select-none">
+                        <span class="sr-only">{{ __('Select none') }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
     <div class="hidden col-sm-9 col-sm-offset-3">
         <p class="form-control-static"></p>

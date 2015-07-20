@@ -29,31 +29,40 @@
      */
     tags.init = function (fieldset, fconf) {
         var slug = fconf.slug,
-            taxonomy = $(fieldset).find('input'),
-            tagcloud = $(fieldset).find('div.tagcloud');
+            taxonomy = $(fieldset).find('select'),
+            tagcloud = $(fieldset).find('.tagcloud'),
+            selectNone = $(fieldset).find('.select-none');
+
+        // Initialize the tag selector.
+        taxonomy.select2({
+            width: '100%',
+            tags: tags,
+            minimumInputLength: 1,
+            tokenSeparators: [',', ' ']
+        });
+
+        // Initialize the select-none button.
+        selectNone.prop('title', selectNone.text().trim());
+        selectNone.on('click', function () {
+            taxonomy.val(null).trigger('change');
+            this.blur();
+        });
 
         // Load all tags.
         $.ajax({
             url: bolt.conf('paths.root') + 'async/tags/' + slug,
             dataType: 'json',
             success: function (data) {
-                var results = [];
+                var options = taxonomy.val();
 
                 $.each(data, function (index, item) {
-                    results.push( item.slug );
-                });
-
-                taxonomy.select2({
-                    tags: results,
-                    minimumInputLength: 1,
-                    tokenSeparators: [',', ' ']
-                });
-            },
-            error: function () {
-                taxonomy.select2({
-                    tags: [],
-                    minimumInputLength: 1,
-                    tokenSeparators: [',', ' ']
+                    if (options.indexOf(item.slug) < 0) {
+                        options.push(item.slug);
+                        taxonomy.append($('<option/>', {
+                            value: item.slug,
+                            text: item.slug
+                        })).trigger('change');
+                    }
                 });
             }
         });
@@ -69,25 +78,35 @@
                 success: function(data) {
                     if (data.length > 0) {
                         $.each(data, function(index, item){
-                            tagcloud.append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
+                            tagcloud.append($('<button/>', {
+                                type: 'button',
+                                text: item.slug,
+                                rel: item.count
+                            })).append('');
                         });
 
-                        tagcloud.find('a').on('click', function (e) {
-                            var data;
+                        tagcloud.find('button').on('click', function (e) {
+                            var text = $(this).text(),
+                                option = taxonomy.find('option[value=' + text + ']');
 
-                            e.preventDefault();
-                            data = taxonomy.select2('data');
-                            data.push({
-                                id: $(this).text(),
-                                text: $(this).text()
-                            });
-                            taxonomy.select2('data', data);
+                            if (option.length > 0) {
+                                // Just select if tag exists…
+                                option = option.not(':selected').attr('selected', true).trigger('change');
+                            } else {
+                                // … otherwise add.
+                                taxonomy.append($('<option/>', {
+                                    value: text,
+                                    text: text,
+                                    selected: true
+                                })).trigger('change');
+                            }
+
                         });
 
                         $.fn.tagcloud.defaults = {
                             size: {
-                                start: 12,
-                                end: 22,
+                                start: 10,
+                                end: 20,
                                 unit: 'px'
                             },
                             color: {
@@ -95,7 +114,9 @@
                                 end: '#194770'
                             }
                         };
-                        tagcloud.find('a').tagcloud();
+                        tagcloud.find('button').tagcloud();
+                        // Show the tagcloud.
+                        tagcloud.css('display', 'block');
                     }
                 }
             });

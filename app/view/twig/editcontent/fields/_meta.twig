@@ -23,15 +23,16 @@
     },
 
     status: {
-        class:     'form-control narrow',
+        class:     'form-control',
         disabled:  (context.allowed_status|length <= 1),
         id:        'statusselect',
         name:      'status',
     },
 
     ownerid: {
-        class:     'form-control narrow',
+        class:     'form-control',
         disabled:  (not context.can.change_ownership),
+        id:        'ownerid',
         name:      'ownerid',
     },
 
@@ -48,7 +49,7 @@
 
 {% extends '_base/_fieldset.twig' %}
 
-{% block fieldset_type 'text' %}
+{% block fieldset_type 'meta' %}
 
 {% block fieldset_label_text  __('Meta information') %}
 {% block fieldset_label_class 'col-xs-12' ~ (context.has.tabs ? '' : ' hidden') %}

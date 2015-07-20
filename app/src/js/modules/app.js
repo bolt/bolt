@@ -23,6 +23,10 @@
      * @memberof Bolt.app
      */
     app.initFields = function () {
+        // Init select2 language.
+        $.fn.select2.defaults.set("language", bolt.conf('locale.long').replace('_', '-'));
+
+        // Init fieldsets
         $('[data-bolt-field]').each(function () {
             var type = $(this).data('bolt-field'),
                 conf = $(this).data('bolt-fconf');
@@ -34,6 +38,10 @@
 
                 case 'geolocation':
                     bolt.fields.geolocation.init(this, conf);
+                    break;
+
+                case 'meta':
+                    bolt.fields.meta.init(this, conf);
                     break;
 
                 case 'relationship':
@@ -94,6 +102,7 @@
         bolt.actions.init();
         bolt.secmenu.init();
         bolt.stack.init();
+        bolt.omnisearch.init();
 
         bolt.activity.init();
         bolt.ckeditor.init();
@@ -136,7 +145,6 @@
         init.passwordInput();
         init.dashboardCheckboxes();
         init.sortables();
-        init.omnisearch();
         init.uploads();
         init.focusStatusSelect();
         init.depublishTracking();

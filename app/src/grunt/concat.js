@@ -23,7 +23,7 @@ module.exports = function (grunt, option) {
 
     var processLibCss = function(css, filepath) {
         var path = require('path'),
-            reDir = /(jquery[-.]\w+|select2)/,
+            reDir = /(jquery[-.]\w+)/,
             urls = [],
             img = {},
             relativePath;
@@ -89,7 +89,7 @@ module.exports = function (grunt, option) {
                 '<%= path.tmp %>/jquery.iframe-transport.min.js',               //   2 kb
                 '<%= path.tmp %>/jquery.fileupload.min.js',                     //  15 kb
                 '<%= path.tmp %>/bootstrap.min.js',                             //   2 kb
-                '<%= path.src.lib %>/select2/select2.min.js',                   //  66 kb
+                '<%= path.src.bower %>/select2/dist/js/select2.min.js',         //  62 kb
                 '<%= path.tmp %>/moment.min.js',                                //  35 kb
                 '<%= path.tmp %>/modernizr-custom.min.js'                       //   5 kb
             ],
@@ -108,7 +108,7 @@ module.exports = function (grunt, option) {
             src: [
                 '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.structure.css',
                 '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.theme.css',
-                '<%= path.src.lib %>/select2/select2.css',
+                '<%= path.src.bower %>/select2/dist/css/select2.css',
                 '<%= path.src.bower %>/blueimp-file-upload/css/jquery.fileupload.css',
                 '<%= path.src.bower %>/blueimp-file-upload/css/jquery.fileupload-ui.css',
                 '<%= path.src.bower %>/magnific-popup/dist/magnific-popup.css'

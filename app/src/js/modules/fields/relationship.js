@@ -29,18 +29,24 @@
      */
     relationship.init = function (fieldset, fconf) {
         var select = $(fieldset).find('select'),
-            funcFormatSelection;
-
-        if (fconf.groupBy) {
-            funcFormatSelection = function (item) {
-                return $(item.element).parent().attr('label') + ': ' + item.text;
-            };
-        }
+            selectNone = $(fieldset).find('.select-none');
 
         select.select2({
+            width: '100%',
             placeholder: bolt.data('field.relationship.text.placeholder'),
             allowClear: true,
-            formatSelection: funcFormatSelection
+            templateSelection: function (item) {
+                var label = $(item.element).parent().attr('label');
+
+                return (label ? label + ': ' : '') + item.text;
+            }
+        });
+
+        // Initialize the select-none button.
+        selectNone.prop('title', selectNone.text().trim());
+        selectNone.on('click', function () {
+            select.val(null).trigger('change');
+            this.blur();
         });
     };
 

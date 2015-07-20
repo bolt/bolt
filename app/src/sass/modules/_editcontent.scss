@@ -54,12 +54,6 @@
         min-width: 50px;
     }
 
-
-    select.wide {
-        width: 70%;
-        min-width: 200px;
-    }
-
     .narrow.wide { /* Derp! */
         width: 60%;
         min-width: 200px;
@@ -172,17 +166,6 @@
         }
         .caret {
             margin: 0 -4px 0 4px;
-        }
-    }
-
-    /*** Tagcloud ***/
-
-    div.tagcloud {
-        margin-top: 6px;
-
-        a {
-            margin-right: 6px;
-            display: inline-block;
         }
     }
 

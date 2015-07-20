@@ -285,7 +285,7 @@ class Omnisearch
                 'label'       => sprintf('%s', Trans::__('Omnisearch')),
                 'description' => '',
                 'priority'    => self::OMNISEARCH_LANDINGPAGE,
-                'path'        => $this->app->generatePath('omnisearch', ['q' => $query]),
+                'path'        => $this->app->generatePath('omnisearch-results', ['q' => $query]),
             ];
         }
 

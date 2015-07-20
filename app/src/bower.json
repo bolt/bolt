@@ -26,6 +26,7 @@
         "jquery.tagcloud.js": "https://github.com/addywaddy/jquery.tagcloud.js.git",
         "magnific-popup": "~1.0.0",
         "moment": "~2.10.3",
+        "select2": "~4.0.0",
         "underscore": "~1.8.3"
     }
 }

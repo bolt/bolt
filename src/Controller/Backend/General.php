@@ -38,7 +38,7 @@ class General extends BackendBase
             ->bind('dashboard');
 
         $c->get('/omnisearch', 'omnisearch')
-            ->bind('omnisearch');
+            ->bind('omnisearch-results');
 
         $c->match('/prefill', 'prefill')
             ->bind('prefill');

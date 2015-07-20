@@ -1,46 +1,42 @@
 /**
  * Styles for Select2
  */
+#editcontent {
+    // Selection clear button.
+    .select2-selection__clear {
+        display: none;
+    }
 
-.select2-container {
-    min-height: 30px;
-}
+    // Make selection-arrow act more like buttons.
+    .select2-selection__arrow {
+        border-left: 1px solid #eee;
 
-.select2-container-multi .select2-choices {
-    color: #555;
-    border-radius: 2px;
-    border-color: #CCC;
-}
+        &:hover {
+            background: #f0f0f0;
+        }
+    }
 
-.select2-container-multi .select2-choices .select2-search-choice {
-    border-radius: 3px;
-    color: #555;
-    border-color: #CCC;
-    padding: 4px 5px 5px 15px;
-}
+    // Overwrite border color and radius for focus (Original 1px black)
+    .select2-container--default.select2-container--focus .select2-selection--multiple {
+        border: solid #5897fb 2px;
+    }
 
-.select2-container-multi .select2-choices .select2-search-choice a {
-    margin-top: 1px;
-}
+    // The selected item of a multi select.
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #f4f4f4;
+        border: 1px solid #ddd;
+        padding: 2px 5px;
+    }
 
-.select2-container a.select2-choice {
-    font-weight: normal !important;
-    border-radius: 2px;
-    border-color: #CCC;
-}
+    // Push the input line of a multi select into a new line.
+    .select2-container--open .select2-search--inline {
+        clear: both;
+    }
 
-.select2-container-multi .select2-choices .select2-search-choice span {
-    color: #999;
-    font-size: 85%;
-}
-
-.select2-drop-active {
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    border-color: #CCC;
-}
-
-.select2-container .select2-choice div {
-    border-bottom-right-radius: 2px;
-    border-top-right-radius: 2px;
+    // Make border same as other Bolt inputs
+    .select2-container--default .select2-selection--single,
+    .select2-container--default .select2-selection--multiple {
+        border-color: #ccc;
+        border-radius: 2px;
+    }
 }

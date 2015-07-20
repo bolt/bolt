@@ -11,13 +11,15 @@
  * @mixes Bolt.data
  * @mixes Bolt.datetime
  * @mixes Bolt.files
- * @mixes Bolt.stack
+ * @mixes Bolt.omnisearch
  * @mixes Bolt.secmenu
+ * @mixes Bolt.stack
  * @mixes Bolt.video
  *
  * @mixes Bolt.fields
  * @mixes Bolt.fields.categories
  * @mixes Bolt.fields.geolocation
+ * @mixes Bolt.fields.meta
  * @mixes Bolt.fields.relationship
  * @mixes Bolt.fields.select
  * @mixes Bolt.fields.slug

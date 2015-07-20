@@ -29,17 +29,27 @@
      */
     categories.init = function (fieldset, fconf) {
         var select = $(fieldset).find('select'),
-            selectAll = $(fieldset).find('button.select-all'),
-            selectNone = $(fieldset).find('button.select-none');
+            selectAll = $(fieldset).find('.select-all'),
+            selectNone = $(fieldset).find('.select-none');
 
-        // Bind select-all button.
-        selectAll.on('click', function () {
-            select.find('option').prop('selected', true);
+        select.select2({
+            width: '100%',
+            allowClear: true,
+            placeholder: bolt.data('field.categories.text.placeholder')
         });
 
-        // Bind select-none button.
+        // Initialize the select-all button.
+        selectAll.prop('title', selectAll.text().trim());
+        selectAll.on('click', function () {
+            select.find('option').prop('selected', true).trigger('change');
+            this.blur();
+        });
+
+        // Initialize the select-none button.
+        selectNone.prop('title', selectNone.text().trim());
         selectNone.on('click', function () {
-            select.find('option').prop('selected', false);
+            select.val(null).trigger('change');
+            this.blur();
         });
     };
 

@@ -1,7 +1,6 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:     ('form-control ' ~ field.class)|trim,
     label:     field.label,
     multiple:  (field.multiple is defined and field.multiple),
     values:    field.values|default([]),
@@ -41,11 +40,10 @@
 {# If the field has autocomplete, we need to set our own style, and remove the class attribute. #}
 {% set attributes = {
     select: {
-        class:     field.autocomplete|default(false) ? '' : option.class,
+        class:     'form-control',
         id:        key,
         multiple:  option.multiple,
         name:      (option.multiple) ? name ~ '[]' : name,
-        style:     field.autocomplete|default(false) ? 'width: 100%;' : '',
     }
 } %}
 
@@ -66,26 +64,31 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        <select{{ macro.attr(attributes.select) }}>
-            {% for id, value in values %}
-                {% set is_array = (value is iterable and (value | length) > 1) %}
-                {% set attr_opt = {
-                    value:     id,
-                    selected:  id in selection or (not onlyids and (is_array ? value[0] : value) in selection),
-                } %}
-                <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[0:]|join(' / ') : value }}</option>
-            {% endfor %}
-        </select>
-
-        {% if option.multiple %}
+        <div class="select-component">
             <div>
-                <button type="button" class="btn btn-default btn-xs select-all">
-                    <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
-                </button>
-                <button type="button" class="btn btn-default btn-xs select-none">
-                    <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
-                </button>
+                <div>
+                    <select{{ macro.attr(attributes.select) }}>
+                        {% for id, value in values %}
+                            {% set is_array = (value is iterable and (value | length) > 1) %}
+                            {% set attr_opt = {
+                                value:     id,
+                                selected:  id in selection or (not onlyids and (is_array ? value[0] : value) in selection),
+                            } %}
+                            <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[0:]|join(' / ') : value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    {% if option.multiple %}
+                        <button type="button" class="btn select-all">
+                            <span class="sr-only">{{ __('Select all') }}</span>
+                        </button>
+                    {% endif %}
+                    <button type="button" class="btn select-none">
+                        <span class="sr-only">{{ __('Select none') }}</span>
+                    </button>
+                </div>
             </div>
-        {% endif %}
+        </div>
     </div>
 {% endblock fieldset_controls %}

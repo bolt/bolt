@@ -23,30 +23,34 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        <select{{ macro.attr(attributes.select) }}>
-            {% if not multiple %}
-                <option value="">{{ __('(no category)') }}</option>
-                <option value="" disabled>-----------</option>
-            {% endif %}
-
-            {% for slug, cat in taxonomy.options %}
-                {% set attr_opt = {
-                    value:     slug,
-                    selected:  context.content.taxonomy[taxonomy.slug] is defined and cat in context.content.taxonomy[taxonomy.slug],
-                } %}
-                <option{{ macro.attr(attr_opt) }}>{{ cat }}</option>
-            {% endfor %}
-        </select>
-
-        {% if multiple %}
+        <div class="select-component">
             <div>
-                <button type="button" class="btn btn-default btn-xs select-all">
-                    <i class="fa fa-fw fa-check-square-o"></i>{{ __('Select all') }}
-                </button>
-                <button type="button" class="btn btn-default btn-xs select-none">
-                    <i class="fa fa-fw fa-square-o"></i>{{ __('Select none') }}
-                </button>
+                <div>
+                    <select{{ macro.attr(attributes.select) }}>
+                        {% if not multiple %}
+                            <option value=""></option> {# We need an empty option for singe selections #}
+                        {% endif %}
+
+                        {% for slug, cat in taxonomy.options %}
+                            {% set attr_opt = {
+                                value:     slug,
+                                selected:  context.content.taxonomy[taxonomy.slug] is defined and cat in context.content.taxonomy[taxonomy.slug],
+                            } %}
+                            <option{{ macro.attr(attr_opt) }}>{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    {% if multiple %}
+                        <button type="button" class="btn select-all">
+                            <span class="sr-only">{{ __('Select all') }}</span>
+                        </button>
+                    {% endif %}
+                    <button type="button" class="btn select-none">
+                        <span class="sr-only">{{ __('Select none') }}</span>
+                    </button>
+                </div>
             </div>
-        {% endif %}
+        </div>
     </div>
 {% endblock fieldset_controls %}

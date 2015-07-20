@@ -72,18 +72,6 @@ blockquote.quote cite {
     color: #999;
 }
 
-
-/**
- * Hide / show on phones or tablets.
- */
-
-@media (max-width: 480px) {
-    #editcontent div.tagcloud {
-        margin-left: 0;
-        width: 100%;
-    }
-}
-
 /**
  *
  * TODO: Everything below is copy/pasted from bolt.css, and needs to be reworked into the correct locations.
