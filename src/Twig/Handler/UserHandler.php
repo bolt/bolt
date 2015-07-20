@@ -65,7 +65,6 @@ class UserHandler
      */
     public function isAllowed($what, $content = null)
     {
-
         $contenttype = null;
         $contentid = null;
         if ($content instanceof \Bolt\Content) {
