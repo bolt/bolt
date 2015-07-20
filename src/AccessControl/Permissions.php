@@ -219,7 +219,9 @@ class Permissions
             $type = 'contenttype';
         }
 
-        if (is_array($item) && isset($item['username'])) {
+        if ($item instanceof \Bolt\Content) {
+            $itemStr = sprintf(' for object "%s/%s"', $item->contenttype['slug'], $item->values['id']);
+        } elseif (is_array($item) && isset($item['username'])) {
             $itemStr = sprintf(' for user "%s"', $item['username']);
         } elseif ($item) {
             $itemStr = " for $item";
@@ -476,15 +478,21 @@ class Permissions
      */
     public function isAllowed($what, $user, $contenttype = null, $contentid = null)
     {
-        // $contenttype must be a string, not an array.
+
+        $contentobject = null;
+
+        // $contenttype might be an array.
         if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
+            $contenttypeslug = $contenttype['slug'];
+        } elseif ($contenttype instanceof \Bolt\Content) {
+            $contenttypeslug = $contenttype->contenttype['slug'];
+            $contentobject = $contenttype;
         }
 
-        $this->audit("Checking permission query '$what' for user '{$user['username']}' with contenttype '$contenttype' and contentid '$contentid'");
+        $this->audit("Checking permission query '$what' for user '{$user['username']}' with contenttype '$contenttypeslug' and contentid '$contentid'");
 
         // First, let's see if we have the check in the per-request cache.
-        $rqCacheKey = $user['id'] . '//' . $what . '//' . $contenttype . '//' . $contentid;
+        $rqCacheKey = $user['id'] . '//' . $what . '//' . $contenttypeslug . '//' . $contentid;
         if (isset($this->rqcache[$rqCacheKey])) {
             return $this->rqcache[$rqCacheKey];
         }
@@ -498,7 +506,7 @@ class Permissions
             $this->app['cache']->save($cacheKey, json_encode($rule));
         }
         $userRoles = $this->getEffectiveRolesForUser($user);
-        $isAllowed = $this->isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid);
+        $isAllowed = $this->isAllowedRule($rule, $user, $userRoles, $contenttypeslug, $contentid, $contentobject);
 
         // Cache for the current request
         $this->rqcache[$rqCacheKey] = $isAllowed;
@@ -519,7 +527,7 @@ class Permissions
      *
      * @return boolean
      */
-    private function isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid)
+    private function isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid, $contentobject = null)
     {
         switch ($rule['type']) {
             case PermissionParser::P_TRUE:
@@ -527,10 +535,10 @@ class Permissions
             case PermissionParser::P_FALSE:
                 return false;
             case PermissionParser::P_SIMPLE:
-                return $this->isAllowedSingle($rule['value'], $user, $userRoles, $contenttype, $contentid);
+                return $this->isAllowedSingle($rule['value'], $user, $userRoles, $contenttype, $contentid, $contentobject);
             case PermissionParser::P_OR:
                 foreach ($rule['value'] as $subrule) {
-                    if ($this->isAllowedRule($subrule, $user, $userRoles, $contenttype, $contentid)) {
+                    if ($this->isAllowedRule($subrule, $user, $userRoles, $contenttype, $contentid, $contentobject)) {
                         return true;
                     }
                 }
@@ -538,7 +546,7 @@ class Permissions
                 return false;
             case PermissionParser::P_AND:
                 foreach ($rule['value'] as $subrule) {
-                    if (!$this->isAllowedRule($subrule, $user, $userRoles, $contenttype, $contentid)) {
+                    if (!$this->isAllowedRule($subrule, $user, $userRoles, $contenttype, $contentid, $contentobject)) {
                         return false;
                     }
                 }
@@ -560,7 +568,7 @@ class Permissions
      *
      * @return boolean
      */
-    private function isAllowedSingle($what, $user, $userRoles, $contenttype = null, $contentid = null)
+    private function isAllowedSingle($what, $user, $userRoles, $contenttype = null, $contentid = null, $content = null)
     {
         if ($contenttype !== null) {
             $parts = [
@@ -627,7 +635,12 @@ class Permissions
                     if (is_array($contenttype)) {
                         $contenttype = $contenttype['slug'];
                     }
-                    $content = $this->app['storage']->getContent("$contenttype/$contentid", ['hydrate' => false]);
+
+                    // Either fetch $content, or use the one we passed along.
+                    $isContent = $content instanceof \Bolt\Content;
+                    if (!$isContent) {
+                        $content = $thiss->app['storage']->getContent("$contenttype/$contentid", ['hydrate' => false]);
+                    }
                     if (intval($content['ownerid']) &&
                         (intval($content['ownerid']) === intval($user['id']))) {
                         $userRoles[] = Permissions::ROLE_OWNER;
@@ -655,7 +668,7 @@ class Permissions
                 break;
         }
 
-        return $this->checkPermission($userRoles, $permission, $contenttype);
+        return $this->checkPermission($userRoles, $permission, $contenttype, $contentobject);
     }
 
     /**
