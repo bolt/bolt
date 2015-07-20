@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Users
 {
-    /** @deprecated Visibility will be changed to 'private' for these two in Bolt 3.0 */
+    /** @internal Visibility will be changed to 'private' for these two in Bolt 3.0 */
     public $users = [];
     public $currentuser;
 
