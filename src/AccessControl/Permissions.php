@@ -638,7 +638,7 @@ class Permissions
                     // Either fetch $content, or use the one we passed along.
                     $isContent = $content instanceof \Bolt\Content;
                     if (!$isContent) {
-                        $content = $thiss->app['storage']->getContent("$contenttype/$contentid", ['hydrate' => false]);
+                        $content = $this->app['storage']->getContent("$contenttype/$contentid", ['hydrate' => false]);
                     }
                     if (intval($content['ownerid']) &&
                         (intval($content['ownerid']) === intval($user['id']))) {
