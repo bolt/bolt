@@ -56,7 +56,7 @@ class ContentQueryParser
                 $query = new SelectQuery($repo->createQueryBuilder(), $contenttype, $this->params);
                 $result = $repo->findWith($query->build());
                 if ($result) {
-                    $set->add($result);
+                    $set->add($result, $contenttype);
                 }
             }
             

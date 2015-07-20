@@ -22,7 +22,7 @@ class QueryResultset extends \AppendIterator
         if ($type) {
             $this->results[$type] = $results;
         } else {
-            $this->results[] = $results;
+            $this->results = array_merge($this->results, $results);
         }
         
         $this->append(new \ArrayIterator($results));
@@ -42,7 +42,16 @@ class QueryResultset extends \AppendIterator
             return $this->results[$label];
         }
         
-        return $this->results;
+        $results = [];        
+        foreach ($this->results as $k=>$v) {
+            if (is_array($v)) {
+                $results = array_merge($results, $v);
+            } else {
+                $results[] = $v;
+            }
+        }
+        
+        return $results;
     }
 
 }
