@@ -3,8 +3,6 @@
 namespace Bolt\Storage\Query;
 
 use Bolt\Storage\EntityManager;
-use Bolt\Storage\Query\QueryResultset;
-use Bolt\Storage\Query\SelectQuery;
 
 /**
  *  Handler class to convert the DSL for content queries into an
@@ -45,12 +43,12 @@ class ContentQueryParser
         $this->params = $params;
         $this->setupDefaults();
     }
-    
+
     public function setupDefaults()
     {
-        $this->addHandler('select', function(){
+        $this->addHandler('select', function () {
             $set = new QueryResultset();
-            
+
             foreach ($this->getContentTypes() as $contenttype) {
                 $repo = $this->em->getRepository($contenttype);
                 $query = new SelectQuery($repo->createQueryBuilder(), $contenttype, $this->params);
@@ -59,7 +57,7 @@ class ContentQueryParser
                     $set->add($result, $contenttype);
                 }
             }
-            
+
             return $set;
         });
     }
@@ -150,15 +148,16 @@ class ContentQueryParser
     {
         return $this->limit;
     }
-    
+
     public function addHandler($operation, callable $callback)
     {
         $this->handlers[$operation] = $callback;
     }
-    
+
     public function fetch()
     {
         $this->parse();
+
         return call_user_func_array($this->handlers[$this->getOperation()], []);
     }
 
