@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Users
 {
+    /** @internal Visibility will be changed to 'private' for these two in Bolt 3.0 */
     public $users = [];
     public $currentuser;
 
@@ -244,9 +245,9 @@ class Users
 
             /** @var \Bolt\Storage\Entity\Users $userEntity */
             foreach ($tempusers as $userEntity) {
-                $key = $userEntity->getUsername();
+                $id = $userEntity->getId();
                 $userEntity->setPassword('**dontchange**');
-                $this->users[$key] = $userEntity->toArray();
+                $this->users[$id] = $userEntity->toArray();
             }
         }
 
@@ -274,6 +275,15 @@ class Users
      */
     public function getUser($userId)
     {
+        // Make sure users have been 'got' already.
+        $this->getUsers();
+
+        // In most cases by far, we'll request an ID, and we can return it here.
+        if (array_key_exists($userId, $this->users)) {
+            return $this->users[$userId];
+        }
+
+        // Fallback: See if we can get it by username or email address.
         if ($userEntity = $this->repository->getUser($userId)) {
             $userEntity->setPassword('**dontchange**');
 

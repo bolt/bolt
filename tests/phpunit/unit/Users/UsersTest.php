@@ -35,7 +35,6 @@ class UsersTest extends BoltUnitTest
     {
         // Setup test
         $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
-        $users->users = [$this->user];
 
         // Run test
         $result = $users->getUser(2);
@@ -53,7 +52,6 @@ class UsersTest extends BoltUnitTest
     {
         // Setup test
         $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
-        $users->users = [$this->user];
 
         // Run test
         $result = $users->getUser(0);
@@ -69,7 +67,6 @@ class UsersTest extends BoltUnitTest
     {
         // Setup test
         $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
-        $users->users = [$this->user];
 
         // Run test
         $result = $users->getUser('editor');
@@ -87,7 +84,6 @@ class UsersTest extends BoltUnitTest
     {
         // Setup test
         $users = $this->getMock('Bolt\Users', ['getUsers'], [$this->getApp()]);
-        $users->users = [$this->user];
 
         // Run test
         $result = $users->getUser('anotheruser');

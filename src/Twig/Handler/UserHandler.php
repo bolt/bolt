@@ -69,7 +69,7 @@ class UserHandler
         $contentid = null;
         if ($content instanceof \Bolt\Content) {
             // It's a content record
-            $contenttype = $content->contenttype;
+            $contenttype = $content;
             $contentid = $content['id'];
         } elseif (is_array($content)) {
             // It's a contenttype
