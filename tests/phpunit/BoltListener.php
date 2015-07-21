@@ -204,7 +204,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
             @$fs->mkdir(PHPUNIT_WEBROOT . '/theme/', 0777);
 
             $name = basename($this->path);
-            $fs->mirror(realpath(TEST_ROOT . '/' . $this->path), TEST_ROOT . '/theme/' . $name);
+            $fs->mirror(realpath(TEST_ROOT . '/' . $this->path), PHPUNIT_WEBROOT . '/theme/' . $name);
 
             // Set the theme name in config.yml
             system('php ' . NUT_PATH . ' config:set theme ' . $name);
@@ -225,12 +225,6 @@ class BoltListener implements \PHPUnit_Framework_TestListener
 
             $fs->remove(PHPUNIT_ROOT . '/resources/files/');
             $fs->remove(PHPUNIT_WEBROOT);
-
-            // If enabled, remove the requested theme
-            if ($this->theme) {
-                $name = basename($this->path);
-                $fs->remove(TEST_ROOT . '/theme/' . $name);
-            }
         }
 
         // Empty the cache
