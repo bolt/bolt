@@ -45,13 +45,13 @@ class LowlevelChecksTest extends BoltUnitTest
             ],
             'extensions' => [
                 'type'    => E_ERROR,
-                'file'    => TEST_ROOT . '/extensions',
+                'file'    => PHPUNIT_WEBROOT . '/extensions',
                 'line'    => 1,
                 'message' => 'extension error'
             ],
             'extension' => [
                 'type'    => E_ERROR,
-                'file'    => TEST_ROOT . '/extensions/vendor/gawain/clippy',
+                'file'    => PHPUNIT_WEBROOT . '/extensions/vendor/gawain/clippy',
                 'line'    => 1,
                 'message' => 'extension error'
             ],
@@ -352,9 +352,6 @@ class LowlevelChecksTest extends BoltUnitTest
 
     public function testExtFatalErrorCatch()
     {
-        $app = ['resources' => new Standard(TEST_ROOT)];
-        ResourceManager::$theApp = $app;
-
         $this->php2
             ->expects($this->once())
             ->method('error_get_last')
