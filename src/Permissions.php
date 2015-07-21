@@ -462,27 +462,29 @@ class Permissions
      *
      * "contenttype:$contenttype:edit or contenttype:$contenttype:view"
      *
-     * @param string  $what        The desired permission, as elaborated upon above.
-     * @param mixed   $user        The user to check permissions against.
-     * @param string  $contenttype Optional: Content type slug. If specified,
-     *                             $what is taken to be a relative permission (e.g. 'edit')
-     *                             rather than an absolute one (e.g. 'contenttype:pages:edit').
-     * @param integer $contentid   Only used if $contenttype is given, to further
-     *                             specifiy the content item.
+     * @param string               $what      The desired permission, as elaborated upon above.
+     * @param mixed                $user      The user to check permissions against.
+     * @param string|array|Content $content   Optional: Content object/array or ContentType slug.
+     *                                        If specified, $what is taken to be a relative permission (e.g. 'edit')
+     *                                        rather than an absolute one (e.g. 'contenttype:pages:edit').
+     * @param integer              $contentId Only used if $content is given, to further specifiy the content item.
      *
      * @return boolean TRUE if the permission is granted, FALSE if denied.
      */
-    public function isAllowed($what, $user, $contenttype = null, $contentid = null)
+    public function isAllowed($what, $user, $content = null, $contentId = null)
     {
-        // $contenttype must be a string, not an array.
-        if (is_array($contenttype)) {
-            $contenttype = $contenttype['slug'];
+        if (is_array($content)) {
+            $contenttypeSlug = $content['slug'];
+        } elseif ($content instanceof \Bolt\Content) {
+            $contenttypeSlug = $content->contenttype['slug'];
+        } else {
+            $contenttypeSlug = $content;
         }
 
-        $this->audit("Checking permission query '$what' for user '{$user['username']}' with contenttype '$contenttype' and contentid '$contentid'");
+        $this->audit("Checking permission query '$what' for user '{$user['username']}' with contenttype '$contenttypeSlug' and contentid '$contentId'");
 
         // First, let's see if we have the check in the per-request cache.
-        $rqCacheKey = $user['id'] . '//' . $what . '//' . $contenttype . '//' . $contentid;
+        $rqCacheKey = $user['id'] . '//' . $what . '//' . $contenttypeSlug . '//' . $contentId;
         if (isset($this->rqcache[$rqCacheKey])) {
             return $this->rqcache[$rqCacheKey];
         }
@@ -496,7 +498,7 @@ class Permissions
             $this->app['cache']->save($cacheKey, json_encode($rule));
         }
         $userRoles = $this->getEffectiveRolesForUser($user);
-        $isAllowed = $this->isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid);
+        $isAllowed = $this->isAllowedRule($rule, $user, $userRoles, $content, $contenttypeSlug, $contentId);
 
         // Cache for the current request
         $this->rqcache[$rqCacheKey] = $isAllowed;
@@ -507,17 +509,18 @@ class Permissions
     /**
      * Check if a user is allowed a rule 'type'.
      *
-     * @param array   $rule
-     * @param array   $user
-     * @param array   $userRoles
-     * @param string  $contenttype
-     * @param integer $contentid
+     * @param array                $rule
+     * @param array                $user
+     * @param array                $userRoles
+     * @param string|array|Content $content
+     * @param string               $contenttype
+     * @param integer              $contentid
      *
      * @throws \Exception
      *
      * @return boolean
      */
-    private function isAllowedRule($rule, $user, $userRoles, $contenttype, $contentid)
+    private function isAllowedRule($rule, $user, $userRoles, $content, $contenttypeSlug, $contentid)
     {
         switch ($rule['type']) {
             case PermissionParser::P_TRUE:
@@ -525,10 +528,10 @@ class Permissions
             case PermissionParser::P_FALSE:
                 return false;
             case PermissionParser::P_SIMPLE:
-                return $this->isAllowedSingle($rule['value'], $user, $userRoles, $contenttype, $contentid);
+                return $this->isAllowedSingle($rule['value'], $user, $userRoles, $content, $contenttypeSlug, $contentid);
             case PermissionParser::P_OR:
                 foreach ($rule['value'] as $subrule) {
-                    if ($this->isAllowedRule($subrule, $user, $userRoles, $contenttype, $contentid)) {
+                    if ($this->isAllowedRule($subrule, $user, $userRoles, $content, $contenttypeSlug, $contentid)) {
                         return true;
                     }
                 }
@@ -536,7 +539,7 @@ class Permissions
                 return false;
             case PermissionParser::P_AND:
                 foreach ($rule['value'] as $subrule) {
-                    if (!$this->isAllowedRule($subrule, $user, $userRoles, $contenttype, $contentid)) {
+                    if (!$this->isAllowedRule($subrule, $user, $userRoles, $content, $contenttypeSlug, $contentid)) {
                         return false;
                     }
                 }
@@ -550,22 +553,23 @@ class Permissions
     /**
      * Check if a user has a specific role.
      *
-     * @param string  $what
-     * @param array   $user
-     * @param array   $userRoles
-     * @param string  $contenttype
-     * @param integer $contentid
+     * @param string               $what
+     * @param array                $user
+     * @param array                $userRoles
+     * @param string|array|Content $content
+     * @param string               $contenttype
+     * @param integer              $contentId
      *
      * @return boolean
      */
-    private function isAllowedSingle($what, $user, $userRoles, $contenttype = null, $contentid = null)
+    private function isAllowedSingle($what, $user, $userRoles, $content = null, $contenttypeSlug = null, $contentId = null)
     {
-        if ($contenttype !== null) {
+        if ($content !== null) {
             $parts = array(
                         'contenttype',
-                        $contenttype,
+                        $contenttypeSlug,
                         $what,
-                        $contentid,
+                        $contentId,
                         );
         } else {
             $parts = explode(':', $what);
@@ -605,31 +609,29 @@ class Permissions
 
             case 'contenttype':
                 $contenttype = $parts[1];
-                $permission = $contentid = null;
+                $permission = $contentId = null;
                 if (isset($parts[2])) {
                     $permission = $parts[2];
                 }
                 if (isset($parts[3])) {
-                    $contentid = $parts[3];
+                    $contentId = $parts[3];
                 }
                 if (empty($permission)) {
                     $permission = 'view';
                 }
+
                 // Handle special case for owner.
-                // It's a bit unfortunate that we have to fetch the content
-                // item for this, but since we're in the back-end, we probably
-                // won't see a lot of traffic here, so it's probably
-                // forgivable.
-                if (!empty($contentid)) {
-                    // $contenttype must be a string, not an array.
-                    if (is_array($contenttype)) {
-                        $contenttype = $contenttype['slug'];
-                    }
-                    $content = $this->app['storage']->getContent("$contenttype/$contentid", array('hydrate' => false));
-                    if (intval($content['ownerid']) &&
-                        (intval($content['ownerid']) === intval($user['id']))) {
-                        $userRoles[] = Permissions::ROLE_OWNER;
-                    }
+                if ($contentId === null) {
+                    break;
+                }
+
+                // If $content was passed in as a string, fetch the Content object
+                if (is_string($content)) {
+                    $content = $this->app['storage']->getContent("$contenttypeSlug/$contentId", array('hydrate' => false));
+                }
+
+                if (intval($content['ownerid']) && (intval($content['ownerid']) === intval($user['id']))) {
+                    $userRoles[] = Permissions::ROLE_OWNER;
                 }
                 break;
 
