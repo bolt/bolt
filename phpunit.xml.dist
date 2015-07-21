@@ -19,7 +19,7 @@
            <arguments>
               <boolean>true</boolean>
               <boolean>true</boolean>
-              <boolean>false</boolean>
+              <boolean>true</boolean>
               <string>theme/base-2014</string>
            </arguments>
         </listener>
