@@ -22,6 +22,11 @@ if (!defined('PHPUNIT_ROOT')) {
     define('PHPUNIT_ROOT', realpath(TEST_ROOT . '/tests/phpunit/unit'));
 }
 
+// PHPUnit's temporary web root
+if (!defined('PHPUNIT_WEBROOT')) {
+    define('PHPUNIT_WEBROOT', PHPUNIT_ROOT . '/../web-root');
+}
+
 if (!defined('BOLT_AUTOLOAD')) {
     if (is_dir(TEST_ROOT . '/../../../vendor/')) {
         // Composer install
