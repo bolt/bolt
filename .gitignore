@@ -22,7 +22,7 @@ tests/codeception/acceptance/AcceptanceTester.php
 tests/codeception/functional/FunctionalTester.php
 tests/codeception/unit/UnitTester.php
 *.codeception-backup
-/bolt.db
+tests/phpunit/web-root/
 
 # Grunt stuff
 node_modules
