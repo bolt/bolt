@@ -841,7 +841,7 @@ class Users
                 $tempusers = $queryBuilder->execute()->fetchAll();
 
                 foreach ($tempusers as $user) {
-                    $key = $user['username'];
+                    $key = $user['id'];
                     $this->users[$key] = $user;
                     $this->users[$key]['password'] = '**dontchange**';
 
@@ -895,6 +895,14 @@ class Users
             } else {
                 $key = 'email';
             }
+        }
+
+        // Make sure users have been 'got' already.
+        $this->getUsers();
+
+        // In most cases by far, we'll request an ID, and we can return it here.
+        if (array_key_exists($id, $this->users)) {
+            return $this->users[$id];
         }
 
         /** @var \Doctrine\DBAL\Query\QueryBuilder $queryBuilder */
