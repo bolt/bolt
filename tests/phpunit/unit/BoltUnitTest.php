@@ -64,8 +64,17 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 'path'   => TEST_ROOT . '/bolt.db'
             ]
         );
+
+        // Set paths to the temporary web directories
+        $bolt['resources']->setPath('config', PHPUNIT_WEBROOT . '/app/config');
+        $bolt['resources']->setPath('cache', PHPUNIT_WEBROOT . '/app/cache');
+        $bolt['resources']->setPath('web', PHPUNIT_WEBROOT . '/');
+        $bolt['resources']->setPath('files', PHPUNIT_WEBROOT . '/files');
+        $bolt['resources']->setPath('themebase', PHPUNIT_WEBROOT . '/theme/');
+        $bolt['resources']->setPath('extensionsconfig', PHPUNIT_WEBROOT . '/config/extensions');
+        $bolt['resources']->setPath('extensions', PHPUNIT_WEBROOT . '/extensions');
+
         $bolt['config']->set('general/canonical', 'bolt.dev');
-        $bolt['resources']->setPath('files', PHPUNIT_ROOT . '/resources/files');
         $bolt['slugify'] = Slugify::create();
 
         return $bolt;
