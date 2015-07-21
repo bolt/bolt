@@ -27,9 +27,9 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     protected function resetDb()
     {
         // Make sure we wipe the db file to start with a clean one
-        if (is_readable(TEST_ROOT . '/bolt.db')) {
-            unlink(TEST_ROOT . '/bolt.db');
-            copy(PHPUNIT_ROOT . '/resources/db/bolt.db', TEST_ROOT . '/bolt.db');
+        if (is_readable(PHPUNIT_WEBROOT . '/app/database/bolt.db')) {
+            unlink(PHPUNIT_WEBROOT . '/app/database/bolt.db');
+            copy(PHPUNIT_ROOT . '/resources/db/bolt.db', PHPUNIT_WEBROOT . '/app/database/bolt.db');
         }
     }
 
@@ -60,7 +60,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 'driver' => 'pdo_sqlite',
                 'prefix' => 'bolt_',
                 'user'   => 'test',
-                'path'   => TEST_ROOT . '/bolt.db'
+                'path'   => PHPUNIT_WEBROOT . '/app/database/bolt.db'
             )
         );
 
