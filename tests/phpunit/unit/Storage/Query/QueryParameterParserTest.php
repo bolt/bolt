@@ -98,6 +98,27 @@ class QueryParameterParserTest extends BoltUnitTest
         $this->assertEquals(['username_1'=>'tester','email_2'=>'faker'], $filter->getParameters());
     }
     
+    public function testMissingBuilderError()
+    {
+        $p = new QueryParameterParser('username ||| email', 'tester');
+        $this->setExpectedException('Bolt\Exception\QueryParseException');
+        $filter = $p->getFilter();
+    }
+    
+    public function testAddingCustomMatcher()
+    {
+        $app = $this->getApp();
+        $builder = $app['storage']->createQueryBuilder();
+        
+        // In this test we'll make a custom matcher that allows a new syntax: username: '~test' as an alias for a like query
+        
+        $p = new QueryParameterParser('username', '~test', $builder);
+        $p->addValueMatcher('\~(\w+)', ['value' => '%$1%', 'operator' => 'like'], true);
+        $filter = $p->getFilter();
+        $this->assertEquals('username LIKE :username_1', $filter->getExpression());
+        $this->assertEquals(['%test%'], $filter->getParameters());
+    }
+    
     
 }
 
