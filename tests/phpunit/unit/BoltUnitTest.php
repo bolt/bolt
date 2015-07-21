@@ -50,6 +50,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $config = new Standard(TEST_ROOT);
+        $config->setPath('config', PHPUNIT_WEBROOT . '/app/config');
         $config->verify();
 
         $bolt = new Application(array('resources' => $config));
