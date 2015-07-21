@@ -22,7 +22,7 @@ tests/phpunit/unit/report
 tests/phpunit/unit/resources/*
 !tests/phpunit/unit/resources/db/
 *.codeception-backup
-/bolt.db
+tests/phpunit/web-root/
 
 # Grunt stuff
 node_modules
