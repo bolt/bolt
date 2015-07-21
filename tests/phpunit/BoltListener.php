@@ -180,16 +180,28 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     {
         $fs = new Filesystem();
 
-        // Make sure we wipe the db file to start with a clean one
-        $fs->copy(PHPUNIT_ROOT . '/resources/db/bolt.db', TEST_ROOT . '/bolt.db', true);
-
         // Create needed directories
-        @$fs->mkdir(TEST_ROOT . '/app/cache/', 0777);
         @$fs->mkdir(PHPUNIT_ROOT . '/resources/files/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/app/cache/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/app/config/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/app/database/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/extensions/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/files/', 0777);
+
+        // Make sure we wipe the db file to start with a clean one
+        $fs->copy(PHPUNIT_ROOT . '/resources/db/bolt.db', PHPUNIT_WEBROOT . '/app/database/bolt.db', true);
+
+        // Copy in fresh config distribution files
+        $fs->copy(TEST_ROOT . '/app/config/config.yml.dist',       PHPUNIT_WEBROOT . '/app/config/config.yml.dist', true);
+        $fs->copy(TEST_ROOT . '/app/config/contenttypes.yml.dist', PHPUNIT_WEBROOT . '/app/config/contenttypes.yml.dist', true);
+        $fs->copy(TEST_ROOT . '/app/config/menu.yml.dist',         PHPUNIT_WEBROOT . '/app/config/menu.yml.dist', true);
+        $fs->copy(TEST_ROOT . '/app/config/permissions.yml.dist',  PHPUNIT_WEBROOT . '/app/config/permissions.yml.dist', true);
+        $fs->copy(TEST_ROOT . '/app/config/routing.yml.dist',      PHPUNIT_WEBROOT . '/app/config/routing.yml.dist', true);
+        $fs->copy(TEST_ROOT . '/app/config/taxonomy.yml.dist',     PHPUNIT_WEBROOT . '/app/config/taxonomy.yml.dist', true);
 
         // If enabled, copy in the requested theme
         if ($this->theme) {
-            @$fs->mkdir(TEST_ROOT . '/theme/', 0777);
+            @$fs->mkdir(PHPUNIT_WEBROOT . '/theme/', 0777);
 
             $name = basename($this->path);
             $fs->mirror(realpath(TEST_ROOT . '/' . $this->path), TEST_ROOT . '/theme/' . $name);
@@ -211,8 +223,8 @@ class BoltListener implements \PHPUnit_Framework_TestListener
         if ($this->reset) {
             $fs = new Filesystem();
 
-            $fs->remove(TEST_ROOT . '/bolt.db');
             $fs->remove(PHPUNIT_ROOT . '/resources/files/');
+            $fs->remove(PHPUNIT_WEBROOT);
 
             // If enabled, remove the requested theme
             if ($this->theme) {
