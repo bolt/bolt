@@ -358,13 +358,13 @@ class Users
      *
      * @return integer
      */
-    public function setEnabled($id, $enabled = 1)
+    public function setEnabled($id, $enabled = true)
     {
         if (!$user = $this->getUser($id)) {
             return false;
         }
 
-        $user['enabled'] = $enabled;
+        $user['enabled'] = (integer) $enabled;
 
         return $this->saveUser($user);
     }

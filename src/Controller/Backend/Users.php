@@ -242,7 +242,7 @@ class Users extends BackendBase
                 break;
 
             case 'enable':
-                if ($this->users()->setEnabled($id, 1)) {
+                if ($this->users()->setEnabled($id, true)) {
                     $this->app['logger.system']->info("Enabled user '{$user->getDisplayname()}'.", ['event' => 'security']);
                     $this->flashes()->info(Trans::__("User '%s' is enabled.", ['%s' => $user->getDisplayname()]));
                 } else {
