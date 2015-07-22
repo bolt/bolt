@@ -207,7 +207,7 @@ class Permissions
      *                               roles, as these are not added at this point.
      * @param string $permissionName Which permission to check
      * @param string $type
-     * @param string $item
+     * @param mixed  $item
      *
      * @return bool TRUE if granted, FALSE if not.
      */
