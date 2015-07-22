@@ -682,15 +682,12 @@ class Permissions
         switch ($toStatus) {
             case 'draft':
             case 'held':
-                if (empty($fromStatus)) {
-                    return null;
-                } else {
-                    return 'depublish';
-                }
-                break;
+                return empty($fromStatus) ? null : 'depublish';
+
             case 'timed':
             case 'published':
                 return 'publish';
+
             default:
                 throw new \Exception("Invalid content status transition: $fromStatus -> $toStatus");
         }
