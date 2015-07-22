@@ -134,8 +134,6 @@ class AdminHandler
     public function trans(array $args, $numArgs)
     {
         switch ($numArgs) {
-            case 5:
-                return Trans::__($args[0], $args[1], $args[2], $args[3], $args[4]);
             case 4:
                 return Trans::__($args[0], $args[1], $args[2], $args[3]);
             case 3:
