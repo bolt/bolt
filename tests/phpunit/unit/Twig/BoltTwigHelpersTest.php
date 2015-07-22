@@ -205,9 +205,10 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // Test on normal mode
         $app = $this->getApp();
+        $app['resources']->setPath('files', PHPUNIT_ROOT . '/resources');
         $handlers = $this->getTwigHandlers($app);
         $twig = new TwigExtension($app, $handlers, false);
-        $img = '../generic-logo.png';
+        $img = 'generic-logo.png';
         $info = $twig->imageInfo($img);
         $this->assertEquals(12, count($info));
 
