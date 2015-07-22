@@ -515,7 +515,7 @@ class Permissions
      * @param array                $user
      * @param array                $userRoles
      * @param string|array|Content $content
-     * @param string               $contenttype
+     * @param string               $contenttypeSlug
      * @param integer              $contentid
      *
      * @throws \Exception
@@ -559,7 +559,7 @@ class Permissions
      * @param array                $user
      * @param array                $userRoles
      * @param string|array|Content $content
-     * @param string               $contenttype
+     * @param string               $contenttypeSlug
      * @param integer              $contentId
      *
      * @return boolean
