@@ -444,13 +444,13 @@ abstract class BaseExtension implements ExtensionInterface
      * @param string $callback
      * @param array  $extraparameters
      */
-    public function addSnippet($location, $callback, $extraparameters = [])
+    public function addSnippet($location, $callback, array $extraparameters = [])
     {
         if ($callback instanceof BoltResponse) {
             $callback = (string) $callback;
         }
 
-        $this->app['asset.queue.snippet']->add($location, $callback, $this->getName(), (array) $extraparameters);
+        $this->app['asset.queue.snippet']->add($location, $callback, $this->getName(), $extraparameters);
     }
 
     /**
