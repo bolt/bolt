@@ -36,12 +36,12 @@ class TemplateChooser
         if ($this->app['config']->get('theme/homepage_template')) {
             $template = $this->app['config']->get('theme/homepage_template');
         }
-        
+
         // Fallback if no content: index.twig
         if (empty($content) && empty($template)) {
                 $template = 'index.twig';
         }
-        
+
         // Fallback with content: use record() or listing() to choose template
         if (empty($template)) {
             if (is_array($content)) {
@@ -102,7 +102,7 @@ class TemplateChooser
     /**
      * Select a template for listing pages.
      *
-     * @param string $contenttype
+     * @param array $contenttype
      *
      * @return string
      */
