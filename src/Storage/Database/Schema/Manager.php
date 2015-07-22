@@ -34,9 +34,6 @@ class Manager
     public function __construct(Application $app)
     {
         $this->app = $app;
-
-        // Check the table integrity only once per hour, per session. (since it's pretty time-consuming.
-        $this->checktimer = 3600;
     }
 
     /**
