@@ -33,7 +33,6 @@ class YamlUpdater
      */
     public function __construct(Silex\Application $app, $filename = '')
     {
-        $this->changed = false;
         $this->file = $app['filesystem']->get('config://' . $filename, new File());
         $this->parser = new Parser();
 
