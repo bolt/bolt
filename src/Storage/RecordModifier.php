@@ -464,7 +464,7 @@ class RecordModifier
         $groups['meta']['fields'][] = '*meta';
 
         // References fields in tab group data.
-        foreach ($contenttype['fields'] as $fieldname=>$field) {
+        foreach ($contenttype['fields'] as $fieldname => $field) {
             $groups[$field['group']]['fields'][] = $fieldname;
         }
 
