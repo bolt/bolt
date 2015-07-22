@@ -11,7 +11,7 @@ use Bolt\Tests\BoltUnitTest;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ExtensionsProviderTest extends BoltUnitTest
+class ExtensionsProviderTest extends AbstractExtensionsUnitTest
 {
     public $template = <<<HTML
 <html>
@@ -178,10 +178,6 @@ HTML;
         return $app;
     }
 
-    public function tearDown()
-    {
-    }
-
     public function testExtensionRegister()
     {
         $app = $this->getApp();
@@ -299,19 +295,15 @@ HTML;
         return $html;
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testLocalload()
     {
-        $app = $this->makeApp();
-        $app['resources']->setPath('extensions', __DIR__ . '/resources');
-        $jsonFile = $app['resources']->getPath('extensions/composer.json');
-        $lockFile = $app['resources']->getPath('cache/.local.autoload.built');
-        @unlink($jsonFile);
+        $jsonFile = PHPUNIT_WEBROOT . '/extensions/composer.json';
+        $lockFile = PHPUNIT_WEBROOT . '/cache/.local.autoload.built';
         @unlink($lockFile);
 
-        $app->initialize();
+        $this->localExtensionInstall();
+        $app = $this->getApp();
+
         $this->assertTrue($app['extensions']->isEnabled('testlocal'));
 
         $this->assertFileExists($jsonFile, 'Extension composer.json file not created');
@@ -322,10 +314,7 @@ HTML;
         $this->assertArrayHasKey('autoload', $json);
         $this->assertArrayHasKey('psr-4', $json['autoload']);
         $this->assertArrayHasKey('Bolt\\Extensions\\TestVendor\\TestExt\\', $json['autoload']['psr-4']);
-        $this->assertSame(
-            'local/testvendor/testext/',
-            $json['autoload']['psr-4']['Bolt\\Extensions\\TestVendor\\TestExt\\']
-        );
+        $this->assertRegExp('#local/testvendor/testext/#', $json['autoload']['psr-4']['Bolt\\Extensions\\TestVendor\\TestExt\\']);
     }
 
     /**
@@ -333,11 +322,11 @@ HTML;
      */
     public function testLocalloadAutoload()
     {
-        $app = $this->makeApp();
-        $app['resources']->setPath('extensions', __DIR__ . '/resources');
-        $app->initialize();
+        $this->tearDown();
+        $this->localExtensionInstall();
+        $app = $this->getApp();
 
-        require_once __DIR__ .'/resources/vendor/autoload.php';
+        require_once PHPUNIT_WEBROOT .'/extensions/vendor/autoload.php';
 
         $koala = new \Bolt\Extensions\TestVendor\TestExt\GumLeaves();
         $this->assertSame('Koala Power!', $koala->getDropBear());
