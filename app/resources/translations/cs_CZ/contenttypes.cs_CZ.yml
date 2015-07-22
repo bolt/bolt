@@ -1,10 +1,10 @@
-# app/resources/translations/cs_CZ/contenttypes.cs_CZ.yml – generated on 2015-01-05 08:54:06 UTC
+# app/resources/translations/cs_CZ/contenttypes.cs_CZ.yml – generated on 2015-07-21 13:44:01 Europe/Prague
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -12,9 +12,9 @@
 #  no untranslated messages
 #  no untranslated keyword based messages
 #  no translations
-# 103 keyword based translations
+# 106 keyword based translations
 
-#--- 103 keyword based translations -------------------------------------------
+#--- 106 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
@@ -46,6 +46,7 @@ contenttypes:
             overview: "Přehled Novinek"
             publish: "Publikovat novinku"
             recent: "Poslední novinky"
+            recent-changes-one: "Poslední změny této Novinky"
             recently-edited: "Poslední úpravy:"
             reserved-name: "Typ obsahu 'Novinka' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
             save: "Uložit Novinku"
@@ -83,6 +84,7 @@ contenttypes:
             overview: "Přehled stran"
             publish: "Publikovat stranu"
             recent: "Poslední strany"
+            recent-changes-one: "Poslední změny této Strany"
             recently-edited: "Poslední úpravy:"
             reserved-name: "Typ obsahu 'Strana' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
             save: "Uložit Stranu"
@@ -123,6 +125,7 @@ contenttypes:
             overview: " přehled"
             publish: "Publikovat "
             recent: "Poslední "
+            recent-changes-one: "Poslední změny této Ukázky"
             recently-edited: "Poslední úpravy: "
             reserved-name: "Typ obsahu 'Ukázka' má definováno pole '%field%', což je rezervovaný název. Proveďte prosím potřebné úpravy v contenttypes.yml."
             save: "Uložit Ukázku"
