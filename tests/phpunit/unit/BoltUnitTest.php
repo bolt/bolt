@@ -50,7 +50,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $config = new Standard(TEST_ROOT);
-        $config->setPath('config', PHPUNIT_WEBROOT . '/app/config');
+        $this->setAppPaths($config);
         $config->verify();
 
         $bolt = new Application(array('resources' => $config));
@@ -65,21 +65,25 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        // Set paths to the temporary web directories
-        $bolt['resources']->setPath('config', PHPUNIT_WEBROOT . '/app/config');
-        $bolt['resources']->setPath('cache', PHPUNIT_WEBROOT . '/app/cache');
-        $bolt['resources']->setPath('web', PHPUNIT_WEBROOT . '/');
-        $bolt['resources']->setPath('files', PHPUNIT_WEBROOT . '/files');
-        $bolt['resources']->setPath('themebase', PHPUNIT_WEBROOT . '/theme/');
-        $bolt['resources']->setPath('extensionsconfig', PHPUNIT_WEBROOT . '/config/extensions');
-        $bolt['resources']->setPath('extensions', PHPUNIT_WEBROOT . '/extensions');
-
         $bolt['config']->set('general/canonical', 'bolt.dev');
         $bolt['session'] = $sessionMock;
         $bolt['resources']->setPath('files', PHPUNIT_ROOT . '/resources/files');
         $bolt['slugify'] = Slugify::create();
 
+        $this->setAppPaths($bolt['resources']);
+
         return $bolt;
+    }
+
+    protected function setAppPaths($config)
+    {
+        $config->setPath('config', PHPUNIT_WEBROOT . '/app/config');
+        $config->setPath('cache', PHPUNIT_WEBROOT . '/app/cache');
+        $config->setPath('web', PHPUNIT_WEBROOT . '/');
+        $config->setPath('files', PHPUNIT_WEBROOT . '/files');
+        $config->setPath('themebase', PHPUNIT_WEBROOT . '/theme/');
+        $config->setPath('extensionsconfig', PHPUNIT_WEBROOT . '/config/extensions');
+        $config->setPath('extensions', PHPUNIT_WEBROOT . '/extensions');
     }
 
     protected function rmdir($dir)
