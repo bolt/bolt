@@ -11,29 +11,8 @@ use Bolt\Tests\BoltUnitTest;
  *
  * @runTestsInSeparateProcesses
  */
-class BaseExtensionTest extends BoltUnitTest
+class BaseExtensionTest extends AbstractExtensionsUnitTest
 {
-    public function setup()
-    {
-        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt')
-            ->mockFunction('file_exists')
-            ->mockFunction('is_readable')
-            ->mockFunction('is_dir')
-            ->mockFunction('copy')
-            ->mockFunction('file_get_contents')
-            ->getMock();
-
-        $this->php2 = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Tests\Extensions\Mock')
-            ->mockFunction('file_get_contents')
-            ->getMock();
-    }
-
-    public function tearDown()
-    {
-        \PHPUnit_Extension_FunctionMocker::tearDown();
-        @unlink(TEST_ROOT . '/app/cache/config_cache.php');
-    }
-
     public function testSetup()
     {
         $app = $this->getApp();
@@ -45,9 +24,8 @@ class BaseExtensionTest extends BoltUnitTest
 
     public function testComposerLoading()
     {
-        $app = $this->makeApp();
-        $app['resources']->setPath('extensions', __DIR__."/resources");
-        $app->initialize();
+        $this->localExtensionInstall();
+        $app = $this->getApp();
         $this->assertTrue($app['extensions']->isEnabled('testlocal'));
         $config = $app['extensions.testlocal']->getExtensionConfig();
         $this->assertNotEmpty($config);

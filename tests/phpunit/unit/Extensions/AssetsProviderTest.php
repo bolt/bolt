@@ -12,7 +12,7 @@ use Bolt\Tests\BoltUnitTest;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class AssetsProviderTest extends BoltUnitTest
+class AssetsProviderTest extends AbstractExtensionsUnitTest
 {
     public $template = <<<HTML
 <html>
