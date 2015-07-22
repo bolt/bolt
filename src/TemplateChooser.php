@@ -106,7 +106,7 @@ class TemplateChooser
      *
      * @return string
      */
-    public function listing($contenttype)
+    public function listing(array $contenttype)
     {
         // First candidate: Global config.yml
         $template = $this->app['config']->get('general/listing_template');
