@@ -18,6 +18,9 @@ class YamlFile implements InputFileInterface
     /** @var \SplFileInfo $file */
     private $file;
 
+    /** @var \Symfony\Component\Yaml\Parser */
+    private $parser;
+
     /**
      * Constructor.
      *
