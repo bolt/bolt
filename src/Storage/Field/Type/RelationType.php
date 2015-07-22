@@ -70,7 +70,12 @@ class RelationType extends FieldTypeBase
             },
             $result
         );
-        $proposed = array_map(function ($el) {return $el->reference;}, $relations);
+        $proposed = array_map(
+            function ($el) {
+                return $el->reference;
+            },
+            $relations
+        );
 
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
