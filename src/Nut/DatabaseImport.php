@@ -14,9 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DatabaseImport extends BaseCommand
 {
-    /** @var array Contenttypes in use */
-    private $contenttypes = [];
-
     protected function configure()
     {
         $this
