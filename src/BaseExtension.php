@@ -440,11 +440,9 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Insert a snippet into the generated HTML.
      *
-     * @param string $name
+     * @param string $location
      * @param string $callback
-     * @param string $var1
-     * @param string $var2
-     * @param string $var3
+     * @param array  $extraparameters
      */
     public function addSnippet($location, $callback, $extraparameters = [])
     {
