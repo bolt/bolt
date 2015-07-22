@@ -1531,8 +1531,8 @@ class Content implements \ArrayAccess
         }
 
         foreach ($this->contenttype['fields'] as $config) {
-            if ($config['type'] == 'slug') {
-                foreach ($config['uses'] as $ptrField) {
+            if ($config['type'] == 'slug' && isset($config['uses'])) {
+                foreach ((array) $config['uses'] as $ptrField) {
                     if (isset($fields[$ptrField])) {
                         $fields[$ptrField] = 100;
                     }
