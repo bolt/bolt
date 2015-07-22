@@ -101,8 +101,8 @@ class RecordHandler
     /**
      * Create an excerpt for the given content.
      *
-     * @param \Bolt\Content|array $content
-     * @param integer             $length  Defaults to 200 characters
+     * @param \Bolt\Content|array|string $content
+     * @param integer                    $length  Defaults to 200 characters
      *
      * @return string Resulting excerpt
      */
