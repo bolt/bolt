@@ -179,6 +179,9 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     private function buildTestEnv()
     {
         $fs = new Filesystem();
+        if ($fs->exists(PHPUNIT_WEBROOT)) {
+            $fs->remove(PHPUNIT_WEBROOT);
+        }
 
         // Create needed directories
         @$fs->mkdir(PHPUNIT_ROOT . '/resources/files/', 0777);
