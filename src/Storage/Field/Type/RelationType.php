@@ -64,7 +64,12 @@ class RelationType extends FieldTypeBase
                             ->setParameter(1, $entity->getContenttype())
                             ->setParameter(2, $field);
         $result = $existingQuery->execute()->fetchAll();
-        $existing = array_map(function ($el) {return $el['to_id'];}, $result);
+        $existing = array_map(
+            function ($el) {
+                return $el['to_id'];
+            },
+            $result
+        );
         $proposed = array_map(function ($el) {return $el->reference;}, $relations);
 
         $toInsert = array_diff($proposed, $existing);
