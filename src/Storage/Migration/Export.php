@@ -91,6 +91,8 @@ class Export extends AbstractMigration
             $last = false;
             $end  = array_keys($records);
             $end  = end($end);
+        } else {
+            $end = null;
         }
 
         foreach ($records as $key => $record) {
