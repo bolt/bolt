@@ -27,6 +27,13 @@
      * @param {Object} buic
      */
     checkbox.init = function (buic) {
+        var button = $(buic).find('button');
+
+        button.on('click', function () {
+            var state = $(this).prev();
+
+            state.prop('checked', !state.prop('checked'));
+        });
     };
 
     // Apply mixin container
