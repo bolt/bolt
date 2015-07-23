@@ -3,6 +3,7 @@
 namespace Bolt\Helpers;
 
 use Bolt\Translation\Translator as Trans;
+use GuzzleHttp\Url;
 use Silex\Application;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
@@ -107,9 +108,21 @@ class MenuBuilder
     private function resolveRouteToLink(array $item)
     {
         $param = !empty($item['param']) ? $item['param'] : [];
-        $add = !empty($item['add']) ? $item['add'] : '';
 
-        return $this->app['url_generator']->generate($item['route'], $param, $add);
+        if (isset($item['add'])) {
+            $this->app['logger.system']->warning(
+                Trans::__('Menu item property "add" is deprecated. Use "fragment" under "param" instead.'),
+                ['event' => 'config']
+            );
+            $add = $item['add'];
+            if (!empty($add) && $add[0] !== '?') {
+                $add = '?' . $add;
+            }
+            $url = Url::fromString($add);
+            $param = array_merge($param, $url->getQuery()->toArray());
+            $param['fragment'] = $url->getFragment();
+        }
+        return $this->app['url_generator']->generate($item['route'], $param);
     }
 
     /**
