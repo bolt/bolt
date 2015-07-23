@@ -17,6 +17,18 @@
     var app = {};
 
     /**
+     * Initializes BUICs.
+     *
+     * @function initFields
+     * @memberof Bolt.app
+     */
+    app.initBuic = function () {
+        $('.buic-checkbox').each(function () {
+            bolt.buic.checkbox.init(this);
+        });
+    };
+
+    /**
      * Initializes fields.
      *
      * @function initFields
@@ -109,6 +121,7 @@
         bolt.datetime.init();
 
         legacyInit();
+        bolt.app.initBuic();
         bolt.app.initFields();
     };
 
