@@ -2,8 +2,8 @@
 
 namespace Bolt\Helpers;
 
-use Bolt\Application;
 use Bolt\Translation\Translator as Trans;
+use Silex\Application;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class MenuBuilder
@@ -89,15 +89,27 @@ class MenuBuilder
         }
 
         if (isset($item['route'])) {
-            $param = !empty($item['param']) ? $item['param'] : [];
-            $add = !empty($item['add']) ? $item['add'] : '';
-
-            $item['link'] = $this->app->generatePath($item['route'], $param, $add);
+            $item['link'] = $this->resolveRouteToLink($item);
         } elseif (isset($item['path'])) {
             $item = $this->resolvePathToContent($item);
         }
 
         return $item;
+    }
+
+    /**
+     * Resolve the route to a generated url
+     *
+     * @param array $item
+     *
+     * @return string
+     */
+    private function resolveRouteToLink(array $item)
+    {
+        $param = !empty($item['param']) ? $item['param'] : [];
+        $add = !empty($item['add']) ? $item['add'] : '';
+
+        return $this->app['url_generator']->generate($item['route'], $param, $add);
     }
 
     /**
