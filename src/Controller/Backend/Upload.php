@@ -18,7 +18,7 @@ class Upload extends BackendBase
 {
     protected function addRoutes(ControllerCollection $c)
     {
-        $c->match('/{namespace}', 'uploadNamspace')
+        $c->match('/{namespace}', 'uploadNamespace')
             ->before([$this, 'before'])
             ->value('namespace', 'files')
             ->bind('upload');
@@ -34,7 +34,7 @@ class Upload extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function uploadNamspace(Request $request, $namespace)
+    public function uploadNamespace(Request $request, $namespace)
     {
         if ($handler = $request->get('handler')) {
             // Use custom handlers
