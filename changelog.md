@@ -3,8 +3,28 @@ Bolt 2.2.next
 
 Nothing yet.
 
+Bolt 2.2.5
+----------
+
+Released 2015-07-24. Notable changes:
+
+ - Performance: Don't request users if we don't have too, and streamline `isAllowed()` functionality. (#3847)
+ - Fixed / security: If a user is not root, do not allow them to change the file extension on rename in UI. (Thanks to Tim Coen of Curesec GmbH for bringing this issue to our attention. See #3815)
+ - Fixed: Layout issue in Chrome 44. Pretty sure it's a weird bug in Chrome. (#3858)
+ - Changed: Update JS Markdown Options to match Parsedown for consistency. (#3820)
+ - Added: A Nut command to rebuild the extension autoloaders. (#3786)
+ - Changed: Send "New Bolt site" e-mail upon first user creation only. (Thanks Fabschurt, see #3792)
+ - Fixed: Issue in Geolocation field, where it would 'forget' the retrieved address. (#3813)
+ - Fixed / Added: Have the Async file/directory routes return useful JSON responses. Display an UI alert on file/directory request failures. (#3815)
+ - Fixed: Trigger database update notifications for changed field names (#3816)
+ - Fixed: The database platform's method `getCreateTableSQL` allows foreign keys to be added. (Thanks Ntomka, see #3745)
+ - Added: Add caching for the translation provider (#3753)
+ - Fixed: If vendor/autoload.php is missing, include `LowlevelException.php` manually.
+
 Bolt 2.2.4
 ----------
+
+Released 2015-06-25. Notable changes:
 
  - Fixed: Logic preventing building of local extension autoloader (Thanks timcooper, see #3699)
  - Fixed: Clipboard paste issue with fileuploader (Thanks timcooper, see #3702)
