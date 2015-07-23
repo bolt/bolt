@@ -34,9 +34,9 @@ class UrlGeneratorFragmentWrapper implements UrlGeneratorInterface, Configurable
     public function generate($name, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $fragment = null;
-        if (isset($parameters['fragment'])) {
-            $fragment = $parameters['fragment'];
-            unset($parameters['fragment']);
+        if (isset($parameters['#'])) {
+            $fragment = $parameters['#'];
+            unset($parameters['#']);
         }
 
         $url = $this->wrapped->generate($name, $parameters, $referenceType);
