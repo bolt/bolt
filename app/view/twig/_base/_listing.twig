@@ -85,7 +85,7 @@
                 {{ content.excerpt(excerptlength - title|length) }}
             </span>
         </td>
-        <td class="listthumb" style="width: {{thumbsize}}px;">
+        <td class="listthumb" style="width: {{ thumbsize + 4 }}px;">
             {% if content.getImage is not empty %}
                 {# Hack to add alt attribute #}
                 {#{ content.getImage|popup(thumbsize, thumbsize * 0.75, 'c') }#}
