@@ -28,7 +28,7 @@ class SessionServiceProviderTest extends BoltUnitTest
         $app = $this->getApp();
         $provider = new SessionServiceProvider($app);
         $app->register($provider);
-        $this->assertInstanceOf('Bolt\Session\Generator\NativeGenerator',                          $app['session.storage.generator']);
+        $this->assertInstanceOf('Bolt\Session\Generator\RandomGenerator',                          $app['session.storage.generator']);
         $this->assertInstanceOf('Bolt\Session\Serializer\NativeSerializer',                        $app['session.storage.serializer']);
         $this->assertInstanceOf('Pimple',                                                          $app['sessions']);
         $this->assertInstanceOf('Pimple',                                                          $app['sessions.listener']);
