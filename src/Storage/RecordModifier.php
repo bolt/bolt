@@ -121,13 +121,13 @@ class RecordModifier
             if ($returnTo === 'new') {
                 return new RedirectResponse($this->generateUrl('editcontent', [
                     'contenttypeslug' => $contenttype['slug'],
-                    'fragment'        => $returnTo,
                     'id'              => $id,
+                    '#'               => $returnTo,
                 ]));
             } elseif ($returnTo === 'saveandnew') {
                 return new RedirectResponse($this->generateUrl('editcontent', [
                     'contenttypeslug' => $contenttype['slug'],
-                    'fragment'        => $returnTo,
+                    '#'               => $returnTo,
                 ]));
             } elseif ($returnTo === 'ajax') {
                 return $this->createJsonUpdate($contenttype, $id, true);
