@@ -215,4 +215,23 @@ class AdminHandler
 
         return $str;
     }
+
+    /**
+     * Generates pretty class attributes.
+     *
+     * @param array|string  $classes
+     *
+     * @return string Class attribute
+     */
+    public function hclass($classes)
+    {
+        if (is_array($classes)) {
+           $classes = join(' ', $classes);
+        }
+        $classes = preg_split('/ +/', trim($classes));
+        $classes = array_map('htmlspecialchars', $classes);
+        $classes = join(' ', $classes);
+
+        return $classes ? ' class="' . $classes . '"' : '';
+    }
 }
