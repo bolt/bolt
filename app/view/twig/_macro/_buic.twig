@@ -1,0 +1,35 @@
+{##
+ # Renders a checkbox component.
+ #
+ # Options:
+ #    class     []:          Classname added to the component container.
+ #    disabled  [false]:     Input is disabled.
+ #    id        [name]:      Id of the checkbox.
+ #    name      <required>:  Name of the checkbox.
+ #    required  [false]:     Input is required.
+ #
+ # @param array opt Options defining the component
+ #}
+{% macro checkbox(opt) %}
+    {% spaceless %}
+        {% from '_macro/_macro.twig' import attr %}
+
+        {% set attributes = {
+            'checked':   opt.checked|default(false),
+            'class':     'form-control',
+            'disabled':  opt.disabled|default(false),
+            'id':        opt.id|default(opt.name),
+            'name':      opt.name,
+            'required':  opt.required|default(false),
+            'type':      'checkbox',
+            'value':     '1',
+        } %}
+
+        <div class="{{ ('checkbox ' ~ opt.class|default())|trim }}">
+            <label>
+                <input{{ attr(attributes) }}>
+                <button type="button" onclick="var x=$(this).prev();x.prop('checked', !x.prop('checked'));"></button>
+            </label>
+        </div>
+    {% endspaceless %}
+{% endmacro %}
