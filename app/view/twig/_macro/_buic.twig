@@ -25,7 +25,7 @@
             'value':     '1',
         } %}
 
-        <div class="{{ ('buic-checkbox ' ~ opt.class|default())|trim }}">
+        <div{{ hclass(['buic-checkbox', opt.class|default()]) }}>
             <label>
                 <input{{ attr(attributes) }}>
                 <button type="button"></button>
