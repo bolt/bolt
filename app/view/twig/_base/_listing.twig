@@ -67,22 +67,25 @@
     {% endblock %}
 
     {% block listing_content %}
-        <td class="excerpt {% if not compact %}large{% endif %}"><span>
-            <strong class="visible-xs">№ {{ content.id }}. </strong>
-            <strong>
-                {% if editable %}
-                    <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" title="Slug: {{ content.slug }}">
-                        {{ content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw }}
-                    </a>
-                {% else %}
-                     <strong>
-                        {{ content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw }}
-                    </strong>
-                 {% endif %}
-            </strong>
-            {{ content.excerpt(excerptlength) }}
-                        </span></td>
-        <td class="listthumb">
+        <td class="excerpt {% if not compact %}large{% endif %}">
+            {% set title = content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw %}
+            <span>
+                <strong class="visible-xs">№ {{ content.id }}. </strong>
+                <strong>
+                    {% if editable %}
+                        <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" title="Slug: {{ content.slug }}">
+                            {{ title }}
+                        </a>
+                    {% else %}
+                        <strong>
+                            {{ title }}
+                        </strong>
+                     {% endif %}
+                </strong>
+                {{ content.excerpt(excerptlength - title|length) }}
+            </span>
+        </td>
+        <td class="listthumb" style="width: {{thumbsize}}px;">
             {% if content.getImage is not empty %}
                 {# Hack to add alt attribute #}
                 {#{ content.getImage|popup(thumbsize, thumbsize * 0.75, 'c') }#}
