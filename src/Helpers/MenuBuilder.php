@@ -111,7 +111,7 @@ class MenuBuilder
 
         if (isset($item['add'])) {
             $this->app['logger.system']->warning(
-                Trans::__('Menu item property "add" is deprecated. Use "fragment" under "param" instead.'),
+                Trans::__('Menu item property "add" is deprecated. Use "#" under "param" instead.'),
                 ['event' => 'deprecated']
             );
             $add = $item['add'];
@@ -120,7 +120,7 @@ class MenuBuilder
             }
             $url = Url::fromString($add);
             $param = array_merge($param, $url->getQuery()->toArray());
-            $param['fragment'] = $url->getFragment();
+            $param['#'] = $url->getFragment();
         }
         return $this->app['url_generator']->generate($item['route'], $param);
     }
