@@ -56,6 +56,12 @@ class Content implements \ArrayAccess
 
                     // add support for taxonomy default value when options is set
                     $defaultValue = $this->app['config']->get('taxonomy/' . $taxonomytype . '/default');
+                    
+                    // add support for taxonomy default per contenttype
+                     if (isset($this->contenttype['default'.$taxonomytype])){
+                        $defaultValue = $this->contenttype['default'.$taxonomytype];
+                    }
+
                     $options = $this->app['config']->get('taxonomy/' . $taxonomytype . '/options');
                     if (isset($options) &&
                             isset($defaultValue) &&
