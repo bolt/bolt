@@ -2,8 +2,9 @@
 
 namespace Bolt\Helpers;
 
-use Bolt\Application;
 use Bolt\Translation\Translator as Trans;
+use GuzzleHttp\Url;
+use Silex\Application;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class MenuBuilder
@@ -89,15 +90,39 @@ class MenuBuilder
         }
 
         if (isset($item['route'])) {
-            $param = !empty($item['param']) ? $item['param'] : [];
-            $add = !empty($item['add']) ? $item['add'] : '';
-
-            $item['link'] = $this->app->generatePath($item['route'], $param, $add);
+            $item['link'] = $this->resolveRouteToLink($item);
         } elseif (isset($item['path'])) {
             $item = $this->resolvePathToContent($item);
         }
 
         return $item;
+    }
+
+    /**
+     * Resolve the route to a generated url
+     *
+     * @param array $item
+     *
+     * @return string
+     */
+    private function resolveRouteToLink(array $item)
+    {
+        $param = !empty($item['param']) ? $item['param'] : [];
+
+        if (isset($item['add'])) {
+            $this->app['logger.system']->warning(
+                Trans::__('Menu item property "add" is deprecated. Use "fragment" under "param" instead.'),
+                ['event' => 'deprecated']
+            );
+            $add = $item['add'];
+            if (!empty($add) && $add[0] !== '?') {
+                $add = '?' . $add;
+            }
+            $url = Url::fromString($add);
+            $param = array_merge($param, $url->getQuery()->toArray());
+            $param['fragment'] = $url->getFragment();
+        }
+        return $this->app['url_generator']->generate($item['route'], $param);
     }
 
     /**
