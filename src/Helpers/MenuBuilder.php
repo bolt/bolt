@@ -112,7 +112,7 @@ class MenuBuilder
         if (isset($item['add'])) {
             $this->app['logger.system']->warning(
                 Trans::__('Menu item property "add" is deprecated. Use "fragment" under "param" instead.'),
-                ['event' => 'config']
+                ['event' => 'deprecated']
             );
             $add = $item['add'];
             if (!empty($add) && $add[0] !== '?') {
