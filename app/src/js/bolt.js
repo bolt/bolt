@@ -16,6 +16,9 @@
  * @mixes Bolt.stack
  * @mixes Bolt.video
  *
+ * @mixes Bolt.buic
+ * @mixes Bolt.buic.checkbox
+ *
  * @mixes Bolt.fields
  * @mixes Bolt.fields.categories
  * @mixes Bolt.fields.geolocation
