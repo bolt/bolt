@@ -217,7 +217,8 @@ class AdminHandler
     }
 
     /**
-     * Generates pretty class attributes.
+     * Prepares attributes ready to attach to an html tag.
+     *
      * - Handles boolean attributes.
      * - Omits empty attributes if not forced by appending '!' to the name.
      * - JSON encodes array values
@@ -243,7 +244,7 @@ class AdminHandler
             $force = substr($name, -1) === '!';
             $name = rtrim($name, '!');
 
-            // Check for being boolean attribute.
+            // Check for being a boolean attribute.
             $is_boolean = in_array($name, $booleans);
 
             // Assume integer 0, float 0.0 and string "0" as not empty on non booleans.
