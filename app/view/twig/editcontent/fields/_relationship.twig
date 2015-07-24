@@ -35,7 +35,7 @@
                             <option value=""></option> {# We need an empty option for singe selections #}
                         {% endif %}
 
-                        {% set optgroup = 'Test' %}
+                        {% set optgroup = '' %}
                         {% for item in listcontent(relcontenttype, relation, context.content) %}
                             {% if relcontenttype == app.request.get('relation') and item.id == app.request.get('relationid') %}
                                 {% set selectedbyrelation = true %}
