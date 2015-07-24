@@ -4,13 +4,58 @@ Bolt 2.3 DEV-head
 Not yet released. 
 
  - Lots (list needs to be compiled)
- - Added: Swedish translation. (Thanks SahAssar, see #3659)
 
+Bolt 2.2.5
+----------
+
+Released 2015-07-24. Notable changes:
+
+ - Performance: Don't request users if we don't have to, and streamline `isAllowed()` functionality. (#3847)
+ - Fixed / security: If a user is not root, do not allow them to change the file extension on rename in UI. (Thanks to Tim Coen of Curesec GmbH for bringing this issue to our attention. See #3815)
+ - Fixed: Layout issue in Chrome 44. Pretty sure it's a weird bug in Chrome. (#3856)
+ - Changed: Update JS Markdown Options to match Parsedown for consistency. (#3820)
+ - Added: A Nut command to rebuild the extension autoloaders. (#3786)
+ - Changed: Send "New Bolt site" e-mail upon first user creation only. (Thanks Fabschurt, see #3792)
+ - Fixed: Issue in Geolocation field, where it would 'forget' the retrieved address. (#3813)
+ - Fixed / Added: Have the Async file/directory routes return useful JSON responses. Display an UI alert on file/directory request failures. (#3815)
+ - Fixed: Trigger database update notifications for changed field names (#3816)
+ - Fixed: The database platform's method `getCreateTableSQL` allows foreign keys to be added. (Thanks Ntomka, see #3745)
+ - Added: Add caching for the translation provider (#3753)
+ - Fixed: If vendor/autoload.php is missing, include `LowlevelException.php` manually.
+
+Bolt 2.2.4
+----------
+
+Released 2015-06-25. Notable changes:
+
+ - Fixed: Logic preventing building of local extension autoloader (Thanks timcooper, see #3699)
+ - Fixed: Clipboard paste issue with fileuploader (Thanks timcooper, see #3702)
+ - Added: Now possibile to use the search feature for specific contenttype(s) (Thanks sbani, see #3713)
+ - Fixed: Wrong interpretation of max_upload_filesize / post_max_size (Thanks tvlooy, see #3732)
+ - Fixed: Password reset "Error: Divide by zero" (see #3730)
+
+Bolt 2.2.3
+----------
+
+Released 2015-06-15. Notable changes:
+
+ - Fixed: Yaml config read and write fixed for other indentations than '2 spaces'. (See #3682)
+
+Bolt 2.2.2
+----------
+
+Released 2015-06-12. Notable changes:
+
+ - Added: Swedish translation. (Thanks SahAssar, see #3659)
+ - Fixed: In menus: Don't assume root URL is '/'
+ - Fixed: Generate search pager link
+ - Fixed: Sorting in 'overviews':`content.TitleColumnName()` is an array now. (see #3635)
+ - Fixed: Set link of item in Menu properly, and fixes bug in populateItemFromRecord. (See #3655)
 
 Bolt 2.2.1
 ----------
 
-Released 2015-06-05. Notable chages: 
+Released 2015-06-05. Notable changes:
 
  - Update: Silex is now version 1.3.0
  - Added: Implement `title_format:`, to control the behaviour of what's seen as the 'title' in overviews and listings. See #3635
@@ -19,6 +64,7 @@ Released 2015-06-05. Notable chages:
  - Fixed: Two more overrides in `composer.json` for symfony components that got bumped to v2.7.0. See #3634
  - Fixed: Extend SSL/TLS Handling. Fixes bug/warnings in Packagemanager. See #3633
  - Fixed: Generated `<meta>`-tags always stay in the `<head>` section, now. See #3637
+
 
 Bolt 2.2.0
 ----------
