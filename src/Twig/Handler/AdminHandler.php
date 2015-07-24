@@ -221,7 +221,7 @@ class AdminHandler
      * - Handles boolean attributes.
      * - Omits empty attributes if not forced by appending '!' to the name.
      * - JSON encodes array values
-     * - Trims class attribut
+     * - Prettied output of class attribute and array data is handled.
      *
      * @param array  $attributes
      *
@@ -256,7 +256,7 @@ class AdminHandler
                     $add('name', $value);
                     $add('id', $value);
                 } elseif ($name === 'class') {
-                    $add($name, trim($value));
+                    $add($name, $this->hclass($value, true));
                 } elseif (is_array($value)) {
                     $add($name, json_encode($value));
                 } else {
