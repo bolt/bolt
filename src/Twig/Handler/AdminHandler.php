@@ -245,13 +245,13 @@ class AdminHandler
             $name = rtrim($name, '!');
 
             // Check for being a boolean attribute.
-            $is_boolean = in_array($name, $booleans);
+            $isBoolean = in_array($name, $booleans);
 
             // Assume integer 0, float 0.0 and string "0" as not empty on non booleans.
-            $set = !empty($value) || !$is_boolean && (string) $value === '0';
+            $set = !empty($value) || !$isBoolean && (string) $value === '0';
 
-            if ($set || !$is_boolean && $force) {
-                if ($is_boolean) {
+            if ($set || !$isBoolean && $force) {
+                if ($isBoolean) {
                     $add($name);
                 } elseif ($name === 'name+id') {
                     $add('name', $value);
