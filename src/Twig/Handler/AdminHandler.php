@@ -218,6 +218,58 @@ class AdminHandler
 
     /**
      * Generates pretty class attributes.
+     * - Handles boolean attributes.
+     * - Omits empty attributes if not forced by appending '!' to the name.
+     * - JSON encodes array values
+     * - Trims class attribut
+     *
+     * @param array  $attributes
+     *
+     * @return string Attributes
+     */
+    public function hattr($attributes)
+    {
+        // http://www.w3.org/html/wg/drafts/html/master/infrastructure.html#boolean-attributes
+        // We implement only a subset for now that is used in Bolt.
+        $booleans = ['checked', 'disabled', 'multiple', 'readonly', 'required', 'selected'];
+        $return = '';
+
+        $add = function ($name, $value = null) use (&$return) {
+            $return .= ' ' .$name . ($value === null ? '' : '="' . htmlspecialchars($value) . '"');
+        };
+
+        foreach ($attributes as $name => $value) {
+            // Force outputting of empty non booleans.
+            $force = substr($name, -1) === '!';
+            $name = rtrim($name, '!');
+
+            // Check for being boolean attribute.
+            $is_boolean = in_array($name, $booleans);
+
+            // Assume integer 0, float 0.0 and string "0" as not empty on non booleans.
+            $set = !empty($value) || !$is_boolean && (string) $value === '0';
+
+            if ($set || !$is_boolean && $force) {
+                if ($is_boolean) {
+                    $add($name);
+                } elseif ($name === 'name+id') {
+                    $add('name', $value);
+                    $add('id', $value);
+                } elseif ($name === 'class') {
+                    $add($name, trim($value));
+                } elseif (is_array($value)) {
+                    $add($name, json_encode($value));
+                } else {
+                    $add($name, $value);
+                }
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Generates pretty class attributes.
      *
      * @param array|string  $classes
      *

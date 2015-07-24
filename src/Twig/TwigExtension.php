@@ -57,6 +57,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('first',              [$this, 'first']),
             new \Twig_SimpleFunction('getuser',            [$this, 'getUser']),
             new \Twig_SimpleFunction('getuserid',          [$this, 'getUserId']),
+            new \Twig_SimpleFunction('hattr',              [$this, 'hattr'],       $safe),
             new \Twig_SimpleFunction('hclass',             [$this, 'hclass'],      $safe),
             new \Twig_SimpleFunction('htmllang',           [$this, 'htmlLang']),
             new \Twig_SimpleFunction('image',              [$this, 'image']),
@@ -255,6 +256,14 @@ class TwigExtension extends \Twig_Extension
     public function getUserId($who)
     {
         return $this->handlers['user']->getUserId($who);
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\AdminHandler::hattr()
+     */
+    public function hattr($attributes)
+    {
+        return $this->handlers['admin']->hattr($attributes);
     }
 
     /**
