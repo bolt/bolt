@@ -39,7 +39,6 @@
         enctype: 'multipart/form-data',
         id:      'editcontent',
         method:  'post',
-        role:    'form',
     } %}
 
     {% set attributes = {
@@ -51,7 +50,6 @@
 
         hid_contenttype: {
             name_id:   'contenttype',
-            readonly:  true,
             type:      'hidden',
             value:     context.contenttype.slug,
         },
