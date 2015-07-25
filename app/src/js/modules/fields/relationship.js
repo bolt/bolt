@@ -28,8 +28,7 @@
      * @param {FieldConf} fconf
      */
     relationship.init = function (fieldset, fconf) {
-        var select = $(fieldset).find('select'),
-            selectNone = $(fieldset).find('.select-none');
+        var select = $(fieldset).find('select');
 
         select.select2({
             width: '100%',
@@ -40,13 +39,6 @@
 
                 return (label ? label + ': ' : '') + item.text;
             }
-        });
-
-        // Initialize the select-none button.
-        selectNone.prop('title', selectNone.text().trim());
-        selectNone.on('click', function () {
-            select.val(null).trigger('change');
-            this.blur();
         });
     };
 
