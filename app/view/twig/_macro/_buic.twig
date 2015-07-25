@@ -50,7 +50,6 @@
  #
  #    options:     Array of {value: …, text|html…, group: …, selected: …}.
  #    - value:     option value, required
- #    - html:      escaped html for option label, if not set <text> is used.
  #    - text:      unescaped hatml for option label, if not set <value> is used.
  #    - group:     Group title or false or not set.
  #    - selected:  Boolean, not set is false.
@@ -91,15 +90,8 @@
                             {% endif %}
 
                             {# option #}
-                            {% if option.html is defined %}
-                                {% set text = option.html|raw %}
-                            {% elseif option.text is defined %}
-                                {% set text = option.text|e %}
-                            {% else %}
-                                {% set text = option.id|e %}
-                            {% endif %}
                             {% set optattr = {'value': option.value, 'selected': option.selected|default(false) } %}
-                            <option{{ hattr(optattr) }}>{{ text|raw }}</option>
+                            <option{{ hattr(optattr) }}>{{ option.text|default(option.value)|striptags|e }}</option>
                         {% endfor %}
 
                         {# Close open optgroup #}
