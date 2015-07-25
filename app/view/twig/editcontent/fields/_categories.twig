@@ -28,7 +28,7 @@
                 <div>
                     <select{{ macro.attr(attributes.select) }}>
                         {% if not multiple %}
-                            <option value=""></option> {# We need an empty option for singe selections #}
+                            <option value="" label="–"></option> {# We need an empty option for single selections #}
                         {% endif %}
 
                         {% for slug, cat in taxonomy.options %}
