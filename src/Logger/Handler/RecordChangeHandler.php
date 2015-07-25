@@ -79,12 +79,6 @@ class RecordChangeHandler extends AbstractProcessingHandler
         // Get the context data
         $data = $this->getData($context);
 
-        if ($context['new']) {
-            $values = $context['new'];
-        } else {
-            $values = $context['old'];
-        }
-
         // Get the ContentType
         $contenttype = $context['contenttype'];
         if (!is_array($contenttype)) {
@@ -92,6 +86,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
         }
 
         // Get the content object.
+        $values = $context['new'] ?: $context['old'];
         $content = $this->getContentObject($contenttype, $values);
 
         $title = $content->getTitle();
