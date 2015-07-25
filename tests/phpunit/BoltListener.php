@@ -277,25 +277,22 @@ class BoltListener implements \PHPUnit_Framework_TestListener
         @$fs->mkdir(PHPUNIT_WEBROOT . '/app/database/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/extensions/', 0777);
         @$fs->mkdir(PHPUNIT_WEBROOT . '/files/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/theme/', 0777);
 
         // Make sure we wipe the db file to start with a clean one
-        $fs->copy(PHPUNIT_ROOT . '/resources/db/bolt.db', PHPUNIT_WEBROOT . '/app/database/bolt.db', true);
+        $fs->copy($this->boltdb, PHPUNIT_WEBROOT . '/app/database/bolt.db', true);
 
         // Copy in config files
         foreach ($this->configs as $config) {
             $fs->copy($config, PHPUNIT_WEBROOT . '/app/config/' . basename($config), true);
         }
 
-        // If enabled, copy in the requested theme
-        if ($this->theme) {
-            @$fs->mkdir(PHPUNIT_WEBROOT . '/theme/', 0777);
+        // Copy in the theme
+        $name = basename($this->theme);
+        $fs->mirror($this->theme, PHPUNIT_WEBROOT . '/theme/' . $name);
 
-            $name = basename($this->path);
-            $fs->mirror(realpath(TEST_ROOT . '/' . $this->path), PHPUNIT_WEBROOT . '/theme/' . $name);
-
-            // Set the theme name in config.yml
-            system('php ' . NUT_PATH . ' config:set theme ' . $name);
-        }
+        // Set the theme name in config.yml
+        system('php ' . NUT_PATH . ' config:set theme ' . $name);
 
         // Empty the cache
         system('php ' . NUT_PATH . ' cache:clear');
