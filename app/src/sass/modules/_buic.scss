@@ -103,6 +103,6 @@
 
     // Overwrite select2 that sets inline style width that is too wide.
     .select2-search__field {
-        width: 100% !important;
+        max-width: 100% !important;
     }
 }
