@@ -281,13 +281,10 @@ class BoltListener implements \PHPUnit_Framework_TestListener
         // Make sure we wipe the db file to start with a clean one
         $fs->copy(PHPUNIT_ROOT . '/resources/db/bolt.db', PHPUNIT_WEBROOT . '/app/database/bolt.db', true);
 
-        // Copy in fresh config distribution files
-        $fs->copy(TEST_ROOT . '/app/config/config.yml.dist',       PHPUNIT_WEBROOT . '/app/config/config.yml.dist', true);
-        $fs->copy(TEST_ROOT . '/app/config/contenttypes.yml.dist', PHPUNIT_WEBROOT . '/app/config/contenttypes.yml.dist', true);
-        $fs->copy(TEST_ROOT . '/app/config/menu.yml.dist',         PHPUNIT_WEBROOT . '/app/config/menu.yml.dist', true);
-        $fs->copy(TEST_ROOT . '/app/config/permissions.yml.dist',  PHPUNIT_WEBROOT . '/app/config/permissions.yml.dist', true);
-        $fs->copy(TEST_ROOT . '/app/config/routing.yml.dist',      PHPUNIT_WEBROOT . '/app/config/routing.yml.dist', true);
-        $fs->copy(TEST_ROOT . '/app/config/taxonomy.yml.dist',     PHPUNIT_WEBROOT . '/app/config/taxonomy.yml.dist', true);
+        // Copy in config files
+        foreach ($this->configs as $config) {
+            $fs->copy($config, PHPUNIT_WEBROOT . '/app/config/' . basename($config), true);
+        }
 
         // If enabled, copy in the requested theme
         if ($this->theme) {
