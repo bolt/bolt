@@ -30,8 +30,7 @@
     tags.init = function (fieldset, fconf) {
         var slug = fconf.slug,
             taxonomy = $(fieldset).find('select'),
-            tagcloud = $(fieldset).find('.tagcloud'),
-            selectNone = $(fieldset).find('.select-none');
+            tagcloud = $(fieldset).find('.tagcloud');
 
         // Initialize the tag selector.
         taxonomy.select2({
@@ -39,13 +38,6 @@
             tags: tags,
             minimumInputLength: 1,
             tokenSeparators: [',', ' ']
-        });
-
-        // Initialize the select-none button.
-        selectNone.prop('title', selectNone.text().trim());
-        selectNone.on('click', function () {
-            taxonomy.val(null).trigger('change');
-            this.blur();
         });
 
         // Load all tags.
