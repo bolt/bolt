@@ -1,7 +1,6 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:   ('form-control narrow ' ~ field.class)|trim,
     filter:  field.filter|default({}),
     label:   field.label,
     info:    field.info|default('')
@@ -9,12 +8,22 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attributes = {
-    select: {
-        class:  option.class,
-        id:     key,
-        name:   name,
-    },
+{# Build the select options array #}
+{% set options = [] %}
+{% for filename, name in listtemplates(option.filter) %}
+    {% set options = options|merge([{
+        value:     filename,
+        text:      name,
+        selected:  context.content.get(contentkey) == filename,
+    }]) %}
+{% endfor %}
+
+{# BUIC options #}
+{% set buico_select = {
+    'clear':    true,
+    'id':       key,
+    'name':     name,
+    'options':  options,
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -35,27 +44,10 @@
 {% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
-    <div class="col-sm-9">
-        <div class="select-component">
-            <div>
-                <div>
-                    <select{{ macro.attr(attributes.select) }}>
-                        <option value="" label="–"></option> {# We need an empty option for single selections #}
-                        {% for filename, name in listtemplates(option.filter) %}
-                            <option{{ macro.attr({value: filename, selected: (context.content.get(contentkey) == filename)}) }}>
-                                {{- name -}}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <button type="button" class="btn select-none">
-                        <span class="sr-only">{{ __('Select none') }}</span>
-                    </button>
-                </div>
-            </div>
-        </div>
+    {% import '_macro/_buic.twig' as buic %}
 
+    <div class="col-sm-9">
+        {{ buic.select(buico_select) }}
     </div>
     <div class="hidden col-sm-9 col-sm-offset-3">
         <p class="form-control-static"></p>
