@@ -184,7 +184,6 @@ class IntegrityChecker
                         $msg = 'Table `' . $table->getName() . '` is not the correct schema: ';
                         $msgParts = array();
 
-                        // No check on foreign keys yet because we don't use them
                         /** @var $col Column */
                         foreach ($diff->addedColumns as $col) {
                             $msgParts[] = 'missing column `' . $col->getName() . '`';
@@ -209,6 +208,23 @@ class IntegrityChecker
                         }
                         foreach ($diff->renamedColumns as $colName => $val) {
                             $msgParts[] = 'renamed column `' . $colName . '`';
+                        }
+                        foreach ($diff->addedForeignKeys as $index) {
+                            $msgParts[] = 'missing foreign key on `'
+                                . implode(', ', $index->getUnquotedLocalColumns())
+                                . '` related to `'
+                                . $index->getForeignTableName() . '.'
+                                . implode(', ' . $index->getForeignTableName() . '.', $index->getUnquotedForeignColumns()) . '`';
+                        }
+                        foreach ($diff->changedForeignKeys as $index) {
+                            $msgParts[] = 'changed foreign key on `'
+                                . implode(', ', $index->getUnquotedLocalColumns())
+                                . '`, it is now related to `'
+                                . $index->getForeignTableName() . '.'
+                                . implode(', ' . $index->getForeignTableName() . '.', $index->getUnquotedForeignColumns()) . '`';
+                        }
+                        foreach ($diff->removedForeignKeys as $indexName => $index) {
+                            $msgParts[] = 'removed foreign key from `' . implode(', ', $index->getUnquotedLocalColumns()) . '`';
                         }
 
                         if (!empty($msgParts)) {
