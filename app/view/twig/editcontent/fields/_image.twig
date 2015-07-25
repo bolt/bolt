@@ -60,7 +60,7 @@
             {% if attrib|lower == 'title' %}
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label for="{{ key }}[title]">{{ __('Title') }}</label>
+                        <label for="{{ key }}-title">{{ __('Title') }}</label>
                     </div>
                     <div class="col-sm-10">
                         <input type="text" name="{{ key }}[title]" id="{{ key }}-title" value="{{ image.title|default('') }}" class="form-control">
@@ -70,7 +70,7 @@
             {% if attrib|lower in ['alt text', 'alt'] %}
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label for="{{ key }}[alt]">{{ __('Alt') }}</label>
+                        <label for="{{ key }}-alt">{{ __('Alt') }}</label>
                     </div>
                     <div class="col-sm-10">
                         <input type="text" name="{{ key }}[alt]" id="{{ key }}-alt" value="{{ image.alt|default('') }}" class="form-control">
