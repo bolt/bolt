@@ -2,11 +2,11 @@
  # Renders a checkbox component.
  #
  # Options:
- #    class     []:          Classname added to the component container.
- #    disabled  [false]:     Input is disabled.
- #    id        [name]:      Id of the checkbox.
- #    name      <required>:  Name of the checkbox.
- #    required  [false]:     Input is required.
+ #    class      ''         Classname added to the component container.
+ #    disabled   false      Input is disabled.
+ #    id         name       Id of the checkbox.
+ #    name       required   Name of the checkbox.
+ #    required   false      Input is required.
  #
  # @param array opt Options defining the component
  #}
@@ -70,7 +70,7 @@
             <div>
                 <div>
                     <select{{ hattr(attributes) }}>
-                        {% if not opt.multiple %}
+                        {% if not opt.multiple|default(false) %}
                             <option value="" label="–"></option>
                         {% endif %}
 
