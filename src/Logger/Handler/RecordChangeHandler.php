@@ -108,10 +108,19 @@ class RecordChangeHandler extends AbstractProcessingHandler
         }
 
         if ($record['context']['new']) {
-            $content = new Content($this->app, $record['context']['contenttype'], $record['context']['new']);
+            $values = $record['context']['new'];
         } else {
-            $content = new Content($this->app, $record['context']['contenttype'], $record['context']['old']);
+            $values = $record['context']['old'];
         }
+
+        // Get the ContentType
+        $contenttype = $record['context']['contenttype'];
+        if (!is_array($contenttype)) {
+            $contenttype = $this->app['storage']->getContentType($contenttype);
+        }
+
+        // Get the content object.
+        $content = $this->getContentObject($contenttype, $values);
 
         $title = $content->getTitle();
         if (empty($title)) {
@@ -145,6 +154,34 @@ class RecordChangeHandler extends AbstractProcessingHandler
             );
         } catch (\Exception $e) {
             // Nothing.
+        }
+    }
+
+    /**
+     * Get the content object.
+     *
+     * @param array $contenttype
+     * @param array $values
+     *
+     * @return \Bolt\Content
+     */
+    protected function getContentObject(array $contenttype, array $values)
+    {
+        if (!empty($contenttype['class'])) {
+            if (class_exists($contenttype['class'])) {
+                $content = new $contenttype['class']($this->app, $contenttype, $values);
+
+                if (!($content instanceof Content)) {
+                    throw new \Exception($contenttype['class'] . ' does not extend \\Bolt\\Content.');
+                }
+
+                return $content;
+            }
+
+            $msg = sprintf('The ContentType %s has an invalid class specified. Unable to log the changes to its records', $contenttype['slug'], $contenttype['class']);
+            $this->app['logger.system']->error($msg, ['event' => 'content']);
+        } else {
+            return new Content($this->app, $contenttype, $values);
         }
     }
 
