@@ -24,27 +24,34 @@
     {% set values = lookups|selectfield(lookupfield, option.multiple, field.keys|default('id')) %}
 {% endif %}
 
-{# get the current selection. Either a single value, or an array. #}
+{# Get the current selection. Either a single value, or an array. #}
 {% set selection = context.content.get(contentkey)|default(null) %}
 {% if selection is not iterable %}
     {% set selection = [ selection ] %}
 {% endif %}
 
 {# If the current selection contains an existing id, we must use _only_ the id, and not accept a fallback. #}
-{% if selection|first in values|keys %}
-    {% set onlyids = true %}
-{% else %}
-    {% set onlyids = false %}
-{% endif %}
+{% set onlyids = selection|first in values|keys %}
 
-{# If the field has autocomplete, we need to set our own style, and remove the class attribute. #}
-{% set attributes = {
-    select: {
-        class:     'form-control',
-        id:        key,
-        multiple:  option.multiple,
-        name:      (option.multiple) ? name ~ '[]' : name,
-    }
+{# Build the select options array #}
+{% set options = [] %}
+{% for id, value in values %}
+    {% set is_array = (value is iterable and (value | length) > 1) %}
+    {% set options = options|merge([{
+        value:     id,
+        text:      is_array ? value[0:]|join(' / ') : value,
+        selected:  id in selection or (not onlyids and (is_array ? value[0] : value) in selection),
+    }]) %}
+{% endfor %}
+
+{# BUIC options #}
+{% set buico_select = {
+    'all':       option.multiple,
+    'clear':     true,
+    'id':        key,
+    'multiple':  option.multiple,
+    'name':      option.multiple ? name ~ '[]' : name,
+    'options':   options,
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -63,32 +70,9 @@
 {% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
+    {% import '_macro/_buic.twig' as buic %}
+
     <div class="col-sm-9">
-        <div class="select-component">
-            <div>
-                <div>
-                    <select{{ macro.attr(attributes.select) }}>
-                        {% for id, value in values %}
-                            {% set is_array = (value is iterable and (value | length) > 1) %}
-                            {% set attr_opt = {
-                                value:     id,
-                                selected:  id in selection or (not onlyids and (is_array ? value[0] : value) in selection),
-                            } %}
-                            <option{{ macro.attr(attr_opt) }}>{{ is_array ? value[0:]|join(' / ') : value }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    {% if option.multiple %}
-                        <button type="button" class="btn select-all">
-                            <span class="sr-only">{{ __('Select all') }}</span>
-                        </button>
-                    {% endif %}
-                    <button type="button" class="btn select-none">
-                        <span class="sr-only">{{ __('Select none') }}</span>
-                    </button>
-                </div>
-            </div>
-        </div>
+        {{ buic.select(buico_select) }}
     </div>
 {% endblock fieldset_controls %}
