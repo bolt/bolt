@@ -33,3 +33,97 @@
         </div>
     {% endspaceless %}
 {% endmacro %}
+
+{##
+ # Renders a select component.
+ #
+ # Options:
+ #    all         false      Add "select all" button.
+ #    class       ''         Classname(s) added to the component container.
+ #    clear       false      Add "clear" button.
+ #    disabled    false      Input is disabled.
+ #    id          ''         Id of the checkbox.
+ #    multiple    false      Multiple selections mode.
+ #    name        required   Name of the checkbox.
+ #    options     []         Array of select options, see below.
+ #    required    false      Input is required.
+ #
+ #    options:     Array of {value: …, text|html…, group: …, selected: …}.
+ #    - value:     option value, required
+ #    - html:      escaped html for option label, if not set <text> is used.
+ #    - text:      unescaped hatml for option label, if not set <value> is used.
+ #    - group:     Group title or false or not set.
+ #    - selected:  Boolean, not set is false.
+ #
+ # @param array opt Options defining the component
+ #}
+{% macro select(opt) %}
+    {% spaceless %}
+        {% set attributes = {
+            'disabled':  opt.disabled|default(false),
+            'id':        opt.id|default(opt['name+id']|default('')),
+            'multiple':  opt.multiple|default(false),
+            'name':      opt.name|default(opt['name+id']|default('')),
+            'required':  opt.required|default(false),
+        } %}
+
+        <div{{ hclass(['buic-select', opt.class|default()]) }}>
+            <div>
+                <div>
+                    <select{{ hattr(attributes) }}>
+                        {% if not opt.multiple %}
+                            {<option value=""></option>}
+                        {% endif %}
+
+                        {% set last_optgroup = false %}
+
+                        {% for option in opt.options|default([]) %}
+                            {# optgroup #}
+                            {% set optgroup = option.group|default(false) %}
+                            {% if optgroup != last_optgroup %}
+                                {% if last_optgroup != false %}
+                                    </optgroup>
+                                {% endif %}
+                                {% if optgroup != false %}
+                                    <optgroup label="{{ optgroup }}">
+                                {% endif %}
+                                {% set last_optgroup = optgroup %}
+                            {% endif %}
+
+                            {# option #}
+                            {% if option.html is defined %}
+                                {% set text = option.html|raw %}
+                            {% elseif option.text is defined %}
+                                {% set text = option.text|e %}
+                            {% else %}
+                                {% set text = option.id|e %}
+                            {% endif %}
+                            {% set optattr = {'value': option.value, 'selected': option.selected|default(false) } %}
+                            <option{{ hattr(optattr) }}>{{ text|raw }}</option>
+                        {% endfor %}
+
+                        {# Close open optgroup #}
+                        {% if last_optgroup != false %}
+                            </optgroup>
+                        {% endif %}
+
+                    </select>
+                </div>
+                {% if opt.clear %}
+                    <div>
+                        {% if opt.clear %}
+                            <button type="button" class="btn select-none">
+                                <span class="sr-only">{{ __('Select none') }}</span>
+                            </button>
+                        {% endif %}
+                        {% if opt.all %}
+                            <button type="button" class="btn select-all">
+                                <span class="sr-only">{{ __('Select all') }}</span>
+                            </button>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endmacro %}
