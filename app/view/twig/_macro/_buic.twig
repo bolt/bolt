@@ -72,7 +72,7 @@
                 <div>
                     <select{{ hattr(attributes) }}>
                         {% if not opt.multiple %}
-                            {<option value=""></option>}
+                            <option value="" label="–"></option>
                         {% endif %}
 
                         {% set last_optgroup = false %}
