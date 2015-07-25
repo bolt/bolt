@@ -230,7 +230,7 @@
         {% endif %}
 
         {# Button: Select from Server #}
-        <button type="button" class="btn btn-tertiary" data-target="#selectModal-{{ key }}" href="{{ href }}" data-toggle="modal">
+        <button type="button" class="btn btn-tertiary" data-target="#selectModal-{{ key }}" data-remote="{{ href }}" data-toggle="modal">
             <i class="fa fa-download"></i>
             {{ __('field.general.select-from-server') }}
         </button>
