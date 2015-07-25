@@ -26,6 +26,9 @@
         $('.buic-checkbox').each(function () {
             bolt.buic.checkbox.init(this);
         });
+        $('.buic-select').each(function () {
+            bolt.buic.select.init(this);
+        });
     };
 
     /**
