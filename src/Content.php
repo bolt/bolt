@@ -1574,7 +1574,7 @@ class Content implements \ArrayAccess
 
         $ct = $this->contenttype['slug'];
         if ((is_null($contenttypeFields)) || (!isset($contenttypeFields[$ct]))) {
-            // Should run only once per contenttype (e.g. singlular_name)
+            // Should run only once per contenttype (e.g. singular_name)
             $contenttypeFields[$ct] = $this->getFieldWeights();
             $contenttypeTaxonomies[$ct] = $this->getTaxonomyWeights();
         }

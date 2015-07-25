@@ -75,21 +75,21 @@ abstract class BackendBase extends Base
         $tableExists = $app['schema']->checkUserTableIntegrity();
 
         // Test if we have a valid users in our table
-        $hasUsers = false;
+        $userCount = 0;
         if ($tableExists) {
-            $hasUsers = $this->users()->hasUsers();
+            $userCount = $this->users()->hasUsers();
         }
 
         // If the users table is present, but there are no users, and we're on
         // /bolt/userfirst, we let the user stay, because they need to set up
         // the first user.
-        if ($tableExists && !$hasUsers && $route === 'userfirst') {
+        if ($tableExists && $userCount === 0 && $route === 'userfirst') {
             return null;
         }
 
         // If there are no users in the users table, or the table doesn't exist.
         // Repair the DB, and let's add a new user.
-        if (!$tableExists || !$hasUsers) {
+        if (!$tableExists || $userCount === 0) {
             $app['schema']->repairTables();
             $app['logger.flash']->info(Trans::__('There are no users in the database. Please create the first user.'));
 

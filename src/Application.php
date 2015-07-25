@@ -74,17 +74,19 @@ class Application extends Silex\Application
     protected function initSession()
     {
         $this->register(new Provider\TokenServiceProvider())
-            ->register(new Silex\Provider\SessionServiceProvider(), [
-                'session.storage.options' => [
-                    'name'            => $this['token.session.name'],
-                    'cookie_path'     => $this['resources']->getUrl('root'),
-                    'cookie_domain'   => $this['config']->get('general/cookies_domain'),
-                    'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
-                    'cookie_httponly' => true
-                ],
-                'session.test' => isset($this['session.test']) ? $this['session.test'] : false
-            ]
-        );
+            ->register(
+                new Silex\Provider\SessionServiceProvider(),
+                [
+                    'session.storage.options' => [
+                        'name'            => $this['token.session.name'],
+                        'cookie_path'     => $this['resources']->getUrl('root'),
+                        'cookie_domain'   => $this['config']->get('general/cookies_domain'),
+                        'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
+                        'cookie_httponly' => true
+                    ],
+                    'session.test' => isset($this['session.test']) ? $this['session.test'] : false
+                ]
+            );
 
         // Disable Silex's built-in native filebased session handler, and fall back to
         // whatever's set in php.ini.

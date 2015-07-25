@@ -322,10 +322,10 @@ class MetadataDriver implements MappingDriver
     /**
      * Adds an alias mapping from an internal name to a Fully Qualified Entity.
      *
-     * @param string $alias.
-     * @param string $entity.
+     * @param string $alias
+     * @param string $entity
      *
-     * @return void.
+     * @return void
      */
     public function setDefaultAlias($alias, $entity)
     {

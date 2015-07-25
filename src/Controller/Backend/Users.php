@@ -242,7 +242,7 @@ class Users extends BackendBase
                 break;
 
             case 'enable':
-                if ($this->users()->setEnabled($id, 1)) {
+                if ($this->users()->setEnabled($id, true)) {
                     $this->app['logger.system']->info("Enabled user '{$user->getDisplayname()}'.", ['event' => 'security']);
                     $this->flashes()->info(Trans::__("User '%s' is enabled.", ['%s' => $user->getDisplayname()]));
                 } else {
@@ -366,7 +366,8 @@ class Users extends BackendBase
         }
 
         $login = $this->login()->login($request, $userEntity->getUsername(), $form->get('password')->getData());
-        if ($login && $token = $this->session()->get('authentication')) {
+        $token = $this->session()->get('authentication');
+        if ($login && $token) {
             $this->flashes()->clear();
             $this->flashes()->info(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity->getDisplayname()]));
 

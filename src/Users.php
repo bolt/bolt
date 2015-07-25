@@ -358,7 +358,7 @@ class Users
      *
      * @return integer
      */
-    public function setEnabled($id, $enabled = 1)
+    public function setEnabled($id, $enabled = true)
     {
         if (!$user = $this->getUser($id)) {
             return false;

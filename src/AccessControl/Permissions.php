@@ -207,7 +207,7 @@ class Permissions
      *                               roles, as these are not added at this point.
      * @param string $permissionName Which permission to check
      * @param string $type
-     * @param string $item
+     * @param mixed  $item
      *
      * @return bool TRUE if granted, FALSE if not.
      */
@@ -515,7 +515,7 @@ class Permissions
      * @param array                $user
      * @param array                $userRoles
      * @param string|array|Content $content
-     * @param string               $contenttype
+     * @param string               $contenttypeSlug
      * @param integer              $contentid
      *
      * @throws \Exception
@@ -559,7 +559,7 @@ class Permissions
      * @param array                $user
      * @param array                $userRoles
      * @param string|array|Content $content
-     * @param string               $contenttype
+     * @param string               $contenttypeSlug
      * @param integer              $contentId
      *
      * @return boolean
@@ -682,15 +682,12 @@ class Permissions
         switch ($toStatus) {
             case 'draft':
             case 'held':
-                if (empty($fromStatus)) {
-                    return null;
-                } else {
-                    return 'depublish';
-                }
-                break;
+                return empty($fromStatus) ? null : 'depublish';
+
             case 'timed':
             case 'published':
                 return 'publish';
+
             default:
                 throw new \Exception("Invalid content status transition: $fromStatus -> $toStatus");
         }

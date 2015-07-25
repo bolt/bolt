@@ -297,7 +297,7 @@ class Repository implements ObjectRepository
      *
      * @param object $entity The entity to update.
      *
-     * @return bool.
+     * @return bool
      */
     public function update($entity)
     {
