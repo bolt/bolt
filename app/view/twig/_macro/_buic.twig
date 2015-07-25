@@ -58,25 +58,37 @@
  #}
 {% macro select(opt) %}
     {% spaceless %}
-        {% set attributes = {
+        {% set conf = {
+            'all':       opt.all|default(false),
+            'class':     opt.class|default(),
+            'clear':     opt.clear|default(false),
             'disabled':  opt.disabled|default(false),
             'id':        opt.id|default(opt['name+id']|default('')),
             'multiple':  opt.multiple|default(false),
             'name':      opt.name|default(opt['name+id']|default('')),
+            'options':   opt.options|default([]),
             'required':  opt.required|default(false),
         } %}
 
-        <div{{ hclass(['buic-select', opt.class|default()]) }}>
+        {% set attributes = {
+            'disabled':  conf.disabled,
+            'id':        conf.id,
+            'multiple':  conf.multiple,
+            'name':      conf.name,
+            'required':  conf.required,
+        } %}
+
+        <div{{ hclass(['buic-select', conf.class]) }}>
             <div>
                 <div>
                     <select{{ hattr(attributes) }}>
-                        {% if not opt.multiple|default(false) %}
+                        {% if not conf.multiple %}
                             <option value="" label="–"></option>
                         {% endif %}
 
                         {% set last_optgroup = false %}
 
-                        {% for option in opt.options|default([]) %}
+                        {% for option in conf.options %}
                             {# optgroup #}
                             {% set optgroup = option.group|default(false) %}
                             {% if optgroup != last_optgroup %}
@@ -101,14 +113,14 @@
 
                     </select>
                 </div>
-                {% if opt.clear|default(false) %}
+                {% if conf.clear or conf.all %}
                     <div>
-                        {% if opt.clear|default(false) %}
+                        {% if conf.clear %}
                             <button type="button" class="btn select-none">
                                 <span class="sr-only">{{ __('Select none') }}</span>
                             </button>
                         {% endif %}
-                        {% if opt.all|default(false) %}
+                        {% if conf.all %}
                             <button type="button" class="btn select-all">
                                 <span class="sr-only">{{ __('Select all') }}</span>
                             </button>
