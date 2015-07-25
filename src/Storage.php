@@ -1557,7 +1557,7 @@ class Storage
     /**
      * Run existence and perform publish/depublishes.
      *
-     * @param array<string> contenttypeslugs to check
+     * @param array ContentType slugs to check
      *
      * @return mixed false, if any table doesn't exist
      *               true, if all is fine
