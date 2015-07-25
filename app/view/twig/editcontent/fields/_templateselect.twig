@@ -13,7 +13,7 @@
 {% for filename, name in listtemplates(option.filter) %}
     {% set options = options|merge([{
         value:     filename,
-        text:      name,
+        text:      name ~ (filename in context.fieldtemplates ? ' (+)' : ''),
         selected:  context.content.get(contentkey) == filename,
     }]) %}
 {% endfor %}
