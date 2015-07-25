@@ -109,14 +109,14 @@
 
                     </select>
                 </div>
-                {% if opt.clear %}
+                {% if opt.clear|default(false) %}
                     <div>
-                        {% if opt.clear %}
+                        {% if opt.clear|default(false) %}
                             <button type="button" class="btn select-none">
                                 <span class="sr-only">{{ __('Select none') }}</span>
                             </button>
                         {% endif %}
-                        {% if opt.all %}
+                        {% if opt.all|default(false) %}
                             <button type="button" class="btn select-all">
                                 <span class="sr-only">{{ __('Select all') }}</span>
                             </button>
