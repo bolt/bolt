@@ -70,51 +70,54 @@ class RecordChangeHandler extends AbstractProcessingHandler
             $this->initialize();
         }
 
+        // Get the context values
+        $context = $record['context'];
+
         // Check for a valid call
-        if (!in_array($record['context']['action'], $this->allowed)) {
-            throw new \Exception("Invalid action '{$record['context']['action']}' specified for changelog (must be one of [ " . implode(', ', $this->allowed) . " ])");
+        if (!in_array($context['action'], $this->allowed)) {
+            throw new \Exception("Invalid action '{$context['action']}' specified for changelog (must be one of [ " . implode(', ', $this->allowed) . " ])");
         }
-        if (empty($record['context']['old']) && empty($record['context']['new'])) {
+        if (empty($context['old']) && empty($context['new'])) {
             throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
         }
-        if (empty($record['context']['old']) && in_array($record['context']['action'], ['UPDATE', 'DELETE'])) {
-            throw new \Exception("Cannot log action '{$record['context']['action']}' when old content doesn't exist");
+        if (empty($context['old']) && in_array($context['action'], ['UPDATE', 'DELETE'])) {
+            throw new \Exception("Cannot log action '{$context['action']}' when old content doesn't exist");
         }
-        if (empty($record['context']['new']) && in_array($record['context']['action'], ['INSERT', 'UPDATE'])) {
-            throw new \Exception("Cannot log action '{$record['context']['action']}' when new content is empty");
+        if (empty($context['new']) && in_array($context['action'], ['INSERT', 'UPDATE'])) {
+            throw new \Exception("Cannot log action '{$context['action']}' when new content is empty");
         }
 
         $data = [];
-        switch ($record['context']['action']) {
+        switch ($context['action']) {
             case 'UPDATE':
-                $diff = DeepDiff::diff($record['context']['old'], $record['context']['new']);
+                $diff = DeepDiff::diff($context['old'], $context['new']);
                 foreach ($diff as $item) {
                     list($k, $old, $new) = $item;
-                    if (isset($record['context']['new'][$k])) {
+                    if (isset($context['new'][$k])) {
                         $data[$k] = [$old, $new];
                     }
                 }
                 break;
             case 'INSERT':
-                foreach ($record['context']['new'] as $k => $val) {
+                foreach ($context['new'] as $k => $val) {
                     $data[$k] = [null, $val];
                 }
                 break;
             case 'DELETE':
-                foreach ($record['context']['old'] as $k => $val) {
+                foreach ($context['old'] as $k => $val) {
                     $data[$k] = [$val, null];
                 }
                 break;
         }
 
-        if ($record['context']['new']) {
-            $values = $record['context']['new'];
+        if ($context['new']) {
+            $values = $context['new'];
         } else {
-            $values = $record['context']['old'];
+            $values = $context['old'];
         }
 
         // Get the ContentType
-        $contenttype = $record['context']['contenttype'];
+        $contenttype = $context['contenttype'];
         if (!is_array($contenttype)) {
             $contenttype = $this->app['storage']->getContentType($contenttype);
         }
@@ -125,7 +128,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
         $title = $content->getTitle();
         if (empty($title)) {
             /** @var \Bolt\Content $content */
-            $content = $this->app['storage']->getContent($record['context']['contenttype'] . '/' . $record['context']['id']);
+            $content = $this->app['storage']->getContent($context['contenttype'] . '/' . $context['id']);
             $title = $content->getTitle();
         }
 
@@ -145,11 +148,11 @@ class RecordChangeHandler extends AbstractProcessingHandler
                     'date'          => $record['datetime']->format('Y-m-d H:i:s'),
                     'ownerid'       => $user['id'],
                     'title'         => $title,
-                    'contenttype'   => $record['context']['contenttype'],
-                    'contentid'     => $record['context']['id'],
-                    'mutation_type' => $record['context']['action'],
+                    'contenttype'   => $context['contenttype'],
+                    'contentid'     => $context['id'],
+                    'mutation_type' => $context['action'],
                     'diff'          => $str,
-                    'comment'       => $record['context']['comment']
+                    'comment'       => $context['comment']
                 ]
             );
         } catch (\Exception $e) {
