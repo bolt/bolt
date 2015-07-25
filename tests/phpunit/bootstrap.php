@@ -6,10 +6,12 @@
  */
 
 // Define our install type
-if (file_exists(__DIR__ . '/../../../../../vendor/bolt/bolt/')) {
-    $installType = 'composer';
-} else {
-    $installType = 'git';
+if (!defined('INSTALL_TYPE')) {
+    if (file_exists(__DIR__ . '/../../../../../vendor/bolt/bolt/')) {
+        define('INSTALL_TYPE', 'composer');
+    } else {
+        define('INSTALL_TYPE', 'git');
+    }
 }
 
 // Install base location
@@ -28,11 +30,9 @@ if (!defined('PHPUNIT_WEBROOT')) {
 }
 
 if (!defined('BOLT_AUTOLOAD')) {
-    if (is_dir(TEST_ROOT . '/../../../vendor/')) {
-        // Composer install
+    if (INSTALL_TYPE === 'composer') {
         define('BOLT_AUTOLOAD', TEST_ROOT . '/../../autoload.php');
     } else {
-        // Git/tarball install
         define('BOLT_AUTOLOAD', TEST_ROOT . '/vendor/autoload.php');
     }
 
@@ -42,9 +42,9 @@ if (!defined('BOLT_AUTOLOAD')) {
 
 // Path to Nut
 if (!defined('NUT_PATH')) {
-    if ($installType === 'composer') {
+    if (INSTALL_TYPE === 'composer') {
         define('NUT_PATH', realpath(TEST_ROOT . '/vendor/bolt/bolt/app/nut'));
-    } elseif ($installType === 'git') {
+    } elseif (INSTALL_TYPE === 'git') {
         define('NUT_PATH', realpath(TEST_ROOT . '/app/nut'));
     }
 }
