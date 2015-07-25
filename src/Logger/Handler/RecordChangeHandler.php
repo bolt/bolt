@@ -76,28 +76,8 @@ class RecordChangeHandler extends AbstractProcessingHandler
         // Check for a valid call
         $this->checkTransaction($context);
 
-        $data = [];
-        switch ($context['action']) {
-            case 'UPDATE':
-                $diff = DeepDiff::diff($context['old'], $context['new']);
-                foreach ($diff as $item) {
-                    list($k, $old, $new) = $item;
-                    if (isset($context['new'][$k])) {
-                        $data[$k] = [$old, $new];
-                    }
-                }
-                break;
-            case 'INSERT':
-                foreach ($context['new'] as $k => $val) {
-                    $data[$k] = [null, $val];
-                }
-                break;
-            case 'DELETE':
-                foreach ($context['old'] as $k => $val) {
-                    $data[$k] = [$val, null];
-                }
-                break;
-        }
+        // Get the context data
+        $data = $this->getData($context);
 
         if ($context['new']) {
             $values = $context['new'];
@@ -170,6 +150,41 @@ class RecordChangeHandler extends AbstractProcessingHandler
         if (empty($context['new']) && in_array($context['action'], ['INSERT', 'UPDATE'])) {
             throw new \UnexpectedValueException("Cannot log action '{$context['action']}' when new content is empty");
         }
+    }
+
+    /**
+     * Get the context data.
+     *
+     * @param array $context
+     *
+     * @return array
+     */
+    protected function getData(array $context)
+    {
+        $data = [];
+        switch ($context['action']) {
+            case 'UPDATE':
+                $diff = DeepDiff::diff($context['old'], $context['new']);
+                foreach ($diff as $item) {
+                    list($k, $old, $new) = $item;
+                    if (isset($context['new'][$k])) {
+                        $data[$k] = [$old, $new];
+                    }
+                }
+                break;
+            case 'INSERT':
+                foreach ($context['new'] as $k => $val) {
+                    $data[$k] = [null, $val];
+                }
+                break;
+            case 'DELETE':
+                foreach ($context['old'] as $k => $val) {
+                    $data[$k] = [$val, null];
+                }
+                break;
+        }
+
+        return $data;
     }
 
     /**
