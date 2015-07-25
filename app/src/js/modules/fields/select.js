@@ -34,7 +34,10 @@
 
         select.select2({
             width: '100%',
-            placeholder: bolt.data('field.select.text.placeholder'),
+            placeholder: {
+                id: '',
+                text: bolt.data('field.select.text.placeholder')
+            },
             allowClear: true,
             minimumResultsForSearch: fconf.autocomplete ? 0 : Infinity
         });

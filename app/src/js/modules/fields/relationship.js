@@ -32,7 +32,10 @@
 
         select.select2({
             width: '100%',
-            placeholder: bolt.data('field.relationship.text.placeholder'),
+            placeholder: {
+                id: '',
+                text: bolt.data('field.relationship.text.placeholder')
+            },
             allowClear: true,
             templateSelection: function (item) {
                 var label = $(item.element).parent().attr('label');

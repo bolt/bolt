@@ -35,7 +35,10 @@
         select.select2({
             width: '100%',
             allowClear: true,
-            placeholder: bolt.data('field.categories.text.placeholder')
+            placeholder: {
+                id: '',
+                text: bolt.data('field.categories.text.placeholder')
+            }
         });
 
         // Initialize the select-all button.

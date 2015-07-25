@@ -36,7 +36,10 @@
         select.select2({
             width: '100%',
             allowClear: true,
-            placeholder: bolt.data('field.templateselect.text.default'),
+            placeholder: {
+                id: '',
+                text: bolt.data('field.templateselect.text.default')
+            },
             minimumResultsForSearch: Infinity
         });
 
