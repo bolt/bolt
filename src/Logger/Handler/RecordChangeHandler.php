@@ -74,18 +74,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
         $context = $record['context'];
 
         // Check for a valid call
-        if (!in_array($context['action'], $this->allowed)) {
-            throw new \Exception("Invalid action '{$context['action']}' specified for changelog (must be one of [ " . implode(', ', $this->allowed) . " ])");
-        }
-        if (empty($context['old']) && empty($context['new'])) {
-            throw new \Exception("Tried to log something that cannot be: both old and new content are empty");
-        }
-        if (empty($context['old']) && in_array($context['action'], ['UPDATE', 'DELETE'])) {
-            throw new \Exception("Cannot log action '{$context['action']}' when old content doesn't exist");
-        }
-        if (empty($context['new']) && in_array($context['action'], ['INSERT', 'UPDATE'])) {
-            throw new \Exception("Cannot log action '{$context['action']}' when new content is empty");
-        }
+        $this->checkTransaction($context);
 
         $data = [];
         switch ($context['action']) {
@@ -157,6 +146,29 @@ class RecordChangeHandler extends AbstractProcessingHandler
             );
         } catch (\Exception $e) {
             // Nothing.
+        }
+    }
+
+    /**
+     * Check that the requested log transaction is valid.
+     *
+     * @param array $context
+     *
+     * @throws \UnexpectedValueException
+     */
+    protected function checkTransaction(array $context)
+    {
+        if (!in_array($context['action'], $this->allowed)) {
+            throw new \UnexpectedValueException("Invalid action '{$context['action']}' specified for changelog (must be one of [ " . implode(', ', $this->allowed) . " ])");
+        }
+        if (empty($context['old']) && empty($context['new'])) {
+            throw new \UnexpectedValueException("Tried to log something that cannot be: both old and new content are empty");
+        }
+        if (empty($context['old']) && in_array($context['action'], ['UPDATE', 'DELETE'])) {
+            throw new \UnexpectedValueException("Cannot log action '{$context['action']}' when old content doesn't exist");
+        }
+        if (empty($context['new']) && in_array($context['action'], ['INSERT', 'UPDATE'])) {
+            throw new \UnexpectedValueException("Cannot log action '{$context['action']}' when new content is empty");
         }
     }
 
