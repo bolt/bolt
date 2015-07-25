@@ -65,11 +65,12 @@
                 timeout: undefined
             };
 
-        if (typeof google !== 'undefined' && google.maps) {
+        $(fieldset).on('bolt:gmapsapi:loaded', function (event) {
             initGoogleMap(field, fconf.latitude, fconf.longitude);
-        } else {
-            console.log('ERROR: Google Maps not loaded!');
-        }
+        });
+
+        // Request loading of Google Maps API.
+        bolt.app.initGmapsApi($(fieldset));
     };
 
     /**

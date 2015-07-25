@@ -9,12 +9,68 @@
  */
 (function (bolt, $) {
     /**
+     * Geolocation field data.
+     *
+     * @typedef {Object} GmapsApiState
+     * @memberof Bolt.app
+     *
+     * @property {boolean|undefined} loaded  Values: undefined: initial state; false: pending; true: loaded.
+     * @property {Array} queue - Queue of requesters.
+     */
+
+    /**
      * Bolt.app mixin container.
      *
      * @private
      * @type {Object}
      */
     var app = {};
+
+    /**
+     * Loading state of Google Maps API and queue of objects waiting for it.
+     *
+     * @private
+     * @type {GmapsApiState}
+     */
+    var gmapsApi = {
+        loaded: undefined,
+        queue: []
+    };
+
+    /**
+     * Request loading of Google Maps API.
+     *
+     * @function initGmapsApi
+     * @memberof Bolt.app
+     *
+     * @param {Object|undefined} obj Object that requests loading or undefined for ready callback.
+     */
+    app.initGmapsApi = function (obj) {
+        // Callback from Google Maps API => loaded.
+        if (typeof obj === 'undefined') {
+            gmapsApi.loaded = true;
+            while (gmapsApi.queue.length) {
+                gmapsApi.queue.shift().trigger('bolt:gmapsapi:loaded');
+            }
+        // Request to load Google Maps API.
+        } else {
+            // Not loaded yet, require it.
+            if (gmapsApi.loaded === undefined) {
+                gmapsApi.loaded = false;
+                $.getScript('https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.initGmapsApi')
+                    .fail(function (jqxhr, settings, exception) {
+                        console.log('ERROR: Google Maps not loaded!');
+                    });
+            }
+            // Pending: queue the object with the handler.
+            if (gmapsApi.loaded === false) {
+                gmapsApi.queue.push(obj);
+            // Loaded: trigger the event.
+            } else if (gmapsApi.loaded === true) {
+                obj.trigger('bolt:gmapsapi:loaded');
+            }
+        }
+    };
 
     /**
      * Initializes BUICs.
