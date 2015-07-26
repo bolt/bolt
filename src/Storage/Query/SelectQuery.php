@@ -64,6 +64,10 @@ class SelectQuery implements QueryInterface
      */
     public function getWhereExpression()
     {
+        if (!count($this->filters)) {
+            return null;
+        }
+
         $expr = $this->qb->expr()->andX();
         foreach ($this->filters as $filter) {
             $expr = $expr->add($filter->getExpression());
@@ -128,9 +132,11 @@ class SelectQuery implements QueryInterface
      */
     public function build()
     {
-        $query = $this->qb
-            ->where($this->getWhereExpression())
-            ->setParameters($this->getWhereParameters());
+        $query = $this->qb;
+        if ($expr = $this->getWhereExpression()) {
+           $query->where($this->getWhereExpression());
+        }
+        $query->setParameters($this->getWhereParameters());
             
         return $query;
     }
