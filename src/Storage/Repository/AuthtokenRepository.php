@@ -11,7 +11,6 @@ class AuthtokenRepository extends Repository
     /**
      * Fetches an existing token for the given user / ip
      *
-     * @param string      $token
      * @param string      $ip
      * @param string|null $useragent
      *

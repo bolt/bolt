@@ -263,7 +263,7 @@ class Users
     {
         $rows = $this->repository->hasUsers();
 
-        return $rows ? $rows['count'] : 0;
+        return $rows ? (integer) $rows['count'] : 0;
     }
 
     /**
@@ -353,18 +353,18 @@ class Users
     /**
      * Enable or disable a user, specified by id.
      *
-     * @param integer|string $id
-     * @param boolean        $enabled
+     * @param integer|string  $id
+     * @param boolean|integer $enabled
      *
      * @return integer
      */
-    public function setEnabled($id, $enabled = 1)
+    public function setEnabled($id, $enabled = true)
     {
         if (!$user = $this->getUser($id)) {
             return false;
         }
 
-        $user['enabled'] = $enabled;
+        $user['enabled'] = (integer) $enabled;
 
         return $this->saveUser($user);
     }

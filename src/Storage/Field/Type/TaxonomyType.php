@@ -66,7 +66,12 @@ class TaxonomyType extends FieldTypeBase
                             ->setParameter(2, $field);
         $result = $existingQuery->execute()->fetchAll();
 
-        $existing = array_map(function ($el) {return $el['slug'];}, $result);
+        $existing = array_map(
+            function ($el) {
+                return $el['slug'];
+            },
+            $result
+        );
         $proposed = $taxonomy;
 
         $toInsert = array_diff($proposed, $existing);

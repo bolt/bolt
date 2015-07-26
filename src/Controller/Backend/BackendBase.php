@@ -71,29 +71,10 @@ abstract class BackendBase extends Base
             $app['logger.flash']->info($notice);
         }
 
-        // Check the database users table exists
-        $tableExists = $app['schema']->checkUserTableIntegrity();
-
-        // Test if we have a valid users in our table
-        $hasUsers = false;
-        if ($tableExists) {
-            $hasUsers = $this->users()->hasUsers();
-        }
-
-        // If the users table is present, but there are no users, and we're on
-        // /bolt/userfirst, we let the user stay, because they need to set up
-        // the first user.
-        if ($tableExists && !$hasUsers && $route === 'userfirst') {
-            return null;
-        }
-
-        // If there are no users in the users table, or the table doesn't exist.
-        // Repair the DB, and let's add a new user.
-        if (!$tableExists || !$hasUsers) {
-            $app['schema']->repairTables();
-            $app['logger.flash']->info(Trans::__('There are no users in the database. Please create the first user.'));
-
-            return $this->redirectToRoute('userfirst');
+        // Check for first user set up
+        $response = $this->checkFirstUser($app, $route);
+        if ($response !== true) {
+            return $response;
         }
 
         // Confirm the user is enabled or bounce them
@@ -171,5 +152,43 @@ abstract class BackendBase extends Base
     protected function password()
     {
         return $this->app['authentication.password'];
+    }
+
+    /**
+     * Check and handle first user set up.
+     *
+     * @param Application $app
+     * @param mixed       $route
+     *
+     * @return null|true|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    private function checkFirstUser(Application $app, $route)
+    {
+        // Check the database users table exists
+        $tableExists = $app['schema']->checkUserTableIntegrity();
+
+        // Test if we have a valid users in our table
+        $userCount = 0;
+        if ($tableExists) {
+            $userCount = $this->users()->hasUsers();
+        }
+
+        // If the users table is present, but there are no users, and we're on
+        // /bolt/userfirst, we let the user stay, because they need to set up
+        // the first user.
+        if ($tableExists && $userCount === 0 && $route === 'userfirst') {
+            return null;
+        }
+
+        // If there are no users in the users table, or the table doesn't exist.
+        // Repair the DB, and let's add a new user.
+        if (!$tableExists || $userCount === 0) {
+            $app['schema']->repairTables();
+            $app['logger.flash']->info(Trans::__('There are no users in the database. Please create the first user.'));
+
+            return $this->redirectToRoute('userfirst');
+        }
+
+        return true;
     }
 }

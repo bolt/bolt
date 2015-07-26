@@ -308,7 +308,7 @@ abstract class Base implements ControllerProviderInterface
      * Shortcut for {@see \Bolt\Config::get}.
      *
      * @param string $path
-     * @param string $default
+     * @param mixed  $default
      *
      * @return string|integer|array|null
      */
