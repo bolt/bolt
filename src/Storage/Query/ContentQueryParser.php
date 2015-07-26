@@ -47,17 +47,17 @@ class ContentQueryParser
      */
     protected function setupDefaults()
     {
-        $this->addHandler('select', function () {
+        $this->addHandler('select', function (ContentQueryParser $contentQuery) {
             $set = new QueryResultset();
 
-            foreach ($this->getContentTypes() as $contenttype) {
-                $query = $this->services['select'];
-                $repo = $this->em->getRepository($contenttype);
+            foreach ($contentQuery->getContentTypes() as $contenttype) {
+                $query = $contentQuery->getService('select');
+                $repo = $contentQuery->em->getRepository($contenttype);
                 $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
                 $query->setContentType($contenttype);
 
-                $query->setParameters($this->params);
-                $this->runDirectives($query);
+                $query->setParameters($contentQuery->getParameters());
+                $contentQuery->runDirectives($query);
 
                 $result = $repo->queryWith($query);
                 if ($result) {
@@ -66,6 +66,10 @@ class ContentQueryParser
             }
 
             return $set;
+        });
+
+        $this->addHandler('random', function (ContentQueryParser $contentQuery) {
+
         });
 
         $this->addDirectiveHandler('returnsingle', function (QueryInterface $query) {
@@ -309,6 +313,18 @@ class ContentQueryParser
     }
 
     /**
+     * Returns a service for the named operation.
+     *
+     * @param string $operation
+     *
+     * @return QueryInterface
+     */
+    public function getService($operation)
+    {
+        return $this->services[$operation];
+    }
+
+    /**
      * Returns the current parameters.
      *
      * @return array
@@ -339,7 +355,7 @@ class ContentQueryParser
     {
         $this->parse();
 
-        return call_user_func_array($this->handlers[$this->getOperation()], []);
+        return call_user_func_array($this->handlers[$this->getOperation()], [$this]);
     }
 
     /**
