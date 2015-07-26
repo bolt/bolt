@@ -78,6 +78,20 @@ class ContentQueryParser
                
             return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
         });
+        
+        $this->addHandler('first', function (ContentQueryParser $contentQuery) {
+            $contentQuery->setDirective('order', 'id');
+            $contentQuery->setDirective('limit', 1);
+            $contentQuery->setDirective('returnsingle', true);
+            return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
+        });
+        
+        $this->addHandler('latest', function (ContentQueryParser $contentQuery) {
+            $contentQuery->setDirective('order', '-id');
+            $contentQuery->setDirective('limit', 1);
+            $contentQuery->setDirective('returnsingle', true);
+            return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
+        });
 
         $this->addDirectiveHandler('returnsingle', function (QueryInterface $query) {
             $query->getQueryBuilder()->setMaxResults(1);
