@@ -353,8 +353,8 @@ class Users
     /**
      * Enable or disable a user, specified by id.
      *
-     * @param integer|string $id
-     * @param boolean        $enabled
+     * @param integer|string  $id
+     * @param boolean|integer $enabled
      *
      * @return integer
      */
