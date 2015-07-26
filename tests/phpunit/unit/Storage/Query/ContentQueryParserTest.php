@@ -79,11 +79,14 @@ class ContentQueryParserTest extends BoltUnitTest
     {
         $app = $this->getApp();
         
-        $qb = new ContentQueryParser($app['storage'], 'entries', ['order'=>'datepublish DESC']);
+        $qb = new ContentQueryParser($app['storage'], 'entries', ['order'=>'-datepublish', 'id'=>'!1']);
+        $qb->addService('select', $app['query.select']);
         $qb->parse();
         $this->assertEquals(['entries'], $qb->getContentTypes());
         $this->assertEquals('select', $qb->getOperation());
-        $this->assertEquals('datepublish DESC', $qb->getDirective('order'));
+        $this->assertEquals('-datepublish', $qb->getDirective('order'));
+        $this->assertEquals('!1', $qb->getParameter('id'));
+        $this->assertEquals(1, count($qb->getParameters()));
 
     }
     
