@@ -41,6 +41,16 @@ class Filter
         $this->parameters = $parameters;
     }
     
+    public function hasParameter($param)
+    {
+        return array_key_exists($param, $this->parameters);
+    }
+    
+    public function setParameter($param, $value)
+    {
+        $this->parameters[$param] = $value;
+    }
+    
     
     
 }
