@@ -90,5 +90,15 @@ class ContentQueryParserTest extends BoltUnitTest
 
     }
     
+    public function testPrintQuery()
+    {
+        $app = $this->getApp();
+        $qb = new ContentQueryParser($app['storage'], 'entries', ['order'=>'-datepublish', 'id'=>'!1', 'printquery'=>true]);
+        $qb->addService('select', $app['query.select']);        
+        $this->expectOutputString("SELECT entries.* FROM bolt_entries entries WHERE entries.id <> :id_1 ORDER BY datepublish DESC");
+        $qb->fetch();
+
+    }
+    
 
 }
