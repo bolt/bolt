@@ -23,9 +23,18 @@ class RelationType extends FieldTypeBase
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
         $boltname = $metadata->getBoltName();
+        
+        $from = $query->getQueryPart('from');
+        
+        if (isset($from[0]['alias'])) {
+            $alias = $from[0]['alias'];
+        } else {
+            $alias = $from[0]['table'];
+        }
+        
         $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
-            ->leftJoin('content', $target, $field, "content.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
-            ->addGroupBy("content.id");
+            ->leftJoin($alias, $target, $field, "$alias.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
+            ->addGroupBy("$alias.id");
     }
 
     /**

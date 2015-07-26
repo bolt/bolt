@@ -27,10 +27,18 @@ class TaxonomyType extends FieldTypeBase
         } else {
             $order = "$field.id";
         }
+        
+        $from = $query->getQueryPart('from');
+        
+        if (isset($from[0]['alias'])) {
+            $alias = $from[0]['alias'];
+        } else {
+            $alias = $from[0]['table'];
+        }
 
         $query->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field, $query))
-            ->leftJoin('content', 'bolt_taxonomy', $field, "content.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
-            ->addGroupBy("content.id");
+            ->leftJoin($alias, 'bolt_taxonomy', $field, "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
+            ->addGroupBy("$alias.id");
     }
 
     /**
