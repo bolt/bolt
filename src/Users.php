@@ -263,7 +263,7 @@ class Users
     {
         $rows = $this->repository->hasUsers();
 
-        return $rows ? $rows['count'] : 0;
+        return $rows ? (integer) $rows['count'] : 0;
     }
 
     /**
