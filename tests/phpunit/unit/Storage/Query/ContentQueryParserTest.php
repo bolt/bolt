@@ -112,5 +112,17 @@ class ContentQueryParserTest extends BoltUnitTest
 
     }
     
+    public function testRandomHandler()
+    {
+        $app = $this->getApp();
+        $this->addSomeContent($app);
+        
+        $qb = new ContentQueryParser($app['storage'], '(pages,showcases)/random/4');
+        $qb->addService('select', $app['query.select']);
+        $res = $qb->fetch();
+        
+        $this->assertEquals(8, count($res));
+    }
+    
 
 }
