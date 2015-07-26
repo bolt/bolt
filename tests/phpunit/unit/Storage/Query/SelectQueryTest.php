@@ -15,15 +15,15 @@ class selectQueryTest extends BoltUnitTest
     public function testQuery()
     {
         $app = $this->getApp();
-        
-        $qb = $app['storage']->createQueryBuilder();
-        
+                
         $filters = ['username'=>'%fred%', 'email'=>'%fred', 'status'=>'published'];
         
-        $query = new SelectQuery($qb, 'pages', $filters);
+        $query = new SelectQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler']);
+        $query->setContentType('pages');
+        $query->setParameters(($filters));
         $expr = $query->getWhereExpression();
-        $this->assertEquals('(username LIKE :username_1) AND (email LIKE :email_1) AND (status = :status_1)', $expr->__toString());
-        $this->assertEquals(['%fred%','%fred','published'], $query->getWhereParameters());
+        $this->assertEquals('(pages.username LIKE :username_1) AND (pages.email LIKE :email_1) AND (pages.status = :status_1)', $expr->__toString());
+        $this->assertEquals(['%fred%','%fred','published'], array_values($query->getWhereParameters()));
     }
     
 }
