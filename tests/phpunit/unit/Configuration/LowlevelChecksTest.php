@@ -45,13 +45,13 @@ class LowlevelChecksTest extends BoltUnitTest
             ),
             'extensions' => array(
                 'type'    => E_ERROR,
-                'file'    => TEST_ROOT . '/extensions',
+                'file'    => PHPUNIT_WEBROOT . '/extensions',
                 'line'    => 1,
                 'message' => 'extension error'
             ),
             'extension' => array(
                 'type'    => E_ERROR,
-                'file'    => TEST_ROOT . '/extensions/vendor/gawain/clippy',
+                'file'    => PHPUNIT_WEBROOT . '/extensions/vendor/gawain/clippy',
                 'line'    => 1,
                 'message' => 'extension error'
             ),

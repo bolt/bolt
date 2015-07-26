@@ -74,7 +74,7 @@ class ImageHandler
             return null;
         }
 
-        $fullpath = sprintf('%s/%s', $this->app['paths']['filespath'], $filename);
+        $fullpath = sprintf('%s/%s', $this->app['resources']->getPath('filespath'), $filename);
 
         if (!is_readable($fullpath) || !is_file($fullpath)) {
             return false;

@@ -12,41 +12,128 @@ use Symfony\Component\Filesystem\Filesystem;
 class BoltListener implements \PHPUnit_Framework_TestListener
 {
     /** @var array */
-    protected $tracker = array();
-
+    protected $configs = array(
+        'config'       => 'app/config/config.yml.dist',
+        'contenttypes' => 'app/config/contenttypes.yml.dist',
+        'menu'         => 'app/config/menu.yml.dist',
+        'permissions'  => 'app/config/permissions.yml.dist',
+        'routing'      => 'app/config/routing.yml.dist',
+        'taxonomy'     => 'app/config/taxonomy.yml.dist'
+    );
+    /** @var string */
+    protected $theme;
+    /** @var string */
+    protected $boltdb;
     /** @var boolean */
     protected $timer;
-
-    /** @var boolean */
-    protected $reset;
-
-    /** @var boolean */
-    protected $theme;
-
-    /** @var string */
-    protected $path;
-
+    /** @var array */
+    protected $tracker = array();
     /** @var string */
     protected $currentSuite;
+    /** @var boolean */
+    protected $reset;
 
     /**
      * Called on init of PHPUnit exectution.
      *
      * @see PHPUnit_Util_Configuration
      *
-     * @param boolean $timer Create test execution timer output
-     * @param boolean $reset Reset test environment after run
-     * @param boolean $theme Copy in theme directory
-     * @param string  $path  Relative path to a theme to import
+     * @param array   $configs Location of configuration files
+     * @param string  $theme   Location of the theme
+     * @param string  $boltdb  Location of Sqlite database
+     * @param boolean $reset   Reset test environment after run
+     * @param boolean $timer   Create test execution timer output
      */
-    public function __construct($timer, $reset, $theme, $path)
+    public function __construct($configs = array(), $theme = false, $boltdb = false, $reset = true, $timer = true)
     {
-        $this->timer = $timer;
+        $this->configs = $this->getConfigs($configs);
+        $this->theme = $this->getTheme($theme);
+        $this->boltdb = $this->getBoltDb($boltdb);
         $this->reset = $reset;
-        $this->theme = $theme;
-        $this->path  = $path;
+        $this->timer = $timer;
 
         $this->buildTestEnv();
+    }
+
+    /**
+     * Get a valid array of configuration files.
+     *
+     * @param array $configs
+     *
+     * @return array
+     */
+    protected function getConfigs(array $configs)
+    {
+        foreach ($configs as $name => $file) {
+            if (empty($file)) {
+                $configs[$name] = $this->getPath($name, $this->config[$name]);
+            } else {
+                $configs[$name] = $this->getPath($name, $file);
+            }
+        }
+
+        return $configs;
+    }
+
+    /**
+     * Get the path to the theme to be used in the unit test.
+     *
+     * @param string $theme
+     *
+     * @return string
+     */
+    protected function getTheme($theme)
+    {
+        if ($theme === false || (isset($theme['theme']) && $theme['theme'] === '')) {
+            return $this->getPath('theme', 'theme/base-2014');
+        } else {
+            return $this->getPath('theme', $theme['theme']);
+        }
+    }
+
+    /**
+     * Get the Bolt unit test Sqlite database.
+     *
+     * @param string $boltdb
+     *
+     * @return string
+     */
+    protected function getBoltDb($boltdb)
+    {
+        if ($boltdb === false || (isset($boltdb['boltdb']) && $boltdb['boltdb'] === '')) {
+            return $this->getPath('bolt.db', 'tests/phpunit/unit/resources/db/bolt.db');
+        } else {
+            return $this->getPath('bolt.db', $boltdb['boltdb']);
+        }
+    }
+
+    /**
+     * Resolve a file path.
+     *
+     * @param string $name
+     * @param string $file
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return string
+     */
+    protected function getPath($name, $file)
+    {
+        if (INSTALL_TYPE === 'composer') {
+            if (file_exists(TEST_ROOT . '/vendor/bolt/bolt/' . $file)) {
+                return TEST_ROOT . '/' . $file;
+            }
+        } else {
+            if (file_exists(TEST_ROOT . '/' . $file)) {
+                return TEST_ROOT . '/' . $file;
+            }
+        }
+
+        if (file_exists($file)) {
+            return $file;
+        }
+
+        throw new \InvalidArgumentException("The file parameter '$name:' '$file' in the PHPUnit XML file is invalid.");
     }
 
     /**
@@ -179,24 +266,33 @@ class BoltListener implements \PHPUnit_Framework_TestListener
     private function buildTestEnv()
     {
         $fs = new Filesystem();
-
-        // Make sure we wipe the db file to start with a clean one
-        $fs->copy(PHPUNIT_ROOT . '/resources/db/bolt.db', TEST_ROOT . '/bolt.db', true);
+        if ($fs->exists(PHPUNIT_WEBROOT)) {
+            $fs->remove(PHPUNIT_WEBROOT);
+        }
 
         // Create needed directories
-        @$fs->mkdir(TEST_ROOT . '/app/cache/', 0777);
         @$fs->mkdir(PHPUNIT_ROOT . '/resources/files/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/app/cache/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/app/config/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/app/database/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/extensions/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/files/', 0777);
+        @$fs->mkdir(PHPUNIT_WEBROOT . '/theme/', 0777);
 
-        // If enabled, copy in the requested theme
-        if ($this->theme) {
-            @$fs->mkdir(TEST_ROOT . '/theme/', 0777);
+        // Make sure we wipe the db file to start with a clean one
+        $fs->copy($this->boltdb, PHPUNIT_WEBROOT . '/app/database/bolt.db', true);
 
-            $name = basename($this->path);
-            $fs->mirror(realpath(TEST_ROOT . '/' . $this->path), TEST_ROOT . '/theme/' . $name);
-
-            // Set the theme name in config.yml
-            system('php ' . NUT_PATH . ' config:set theme ' . $name);
+        // Copy in config files
+        foreach ($this->configs as $config) {
+            $fs->copy($config, PHPUNIT_WEBROOT . '/app/config/' . basename($config), true);
         }
+
+        // Copy in the theme
+        $name = basename($this->theme);
+        $fs->mirror($this->theme, PHPUNIT_WEBROOT . '/theme/' . $name);
+
+        // Set the theme name in config.yml
+        system('php ' . NUT_PATH . ' config:set theme ' . $name);
 
         // Empty the cache
         system('php ' . NUT_PATH . ' cache:clear');
@@ -211,14 +307,8 @@ class BoltListener implements \PHPUnit_Framework_TestListener
         if ($this->reset) {
             $fs = new Filesystem();
 
-            $fs->remove(TEST_ROOT . '/bolt.db');
             $fs->remove(PHPUNIT_ROOT . '/resources/files/');
-
-            // If enabled, remove the requested theme
-            if ($this->theme) {
-                $name = basename($this->path);
-                $fs->remove(TEST_ROOT . '/theme/' . $name);
-            }
+            $fs->remove(PHPUNIT_WEBROOT);
         }
 
         // Empty the cache
