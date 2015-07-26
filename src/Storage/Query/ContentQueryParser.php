@@ -69,7 +69,14 @@ class ContentQueryParser
         });
 
         $this->addHandler('random', function (ContentQueryParser $contentQuery) {
-
+            $params = $contentQuery->getEntityManager()->createQueryBuilder()->getConnection()->getParams();
+            if (strpos($params['driver'], 'mysql') !== false ) {
+                $contentQuery->setDirective('order', 'RAND()');
+            } else {
+                $contentQuery->setDirective('order', 'RANDOM()');
+            }
+               
+            return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
         });
 
         $this->addDirectiveHandler('returnsingle', function (QueryInterface $query) {
@@ -114,6 +121,16 @@ class ContentQueryParser
     public function setParameters($params)
     {
         $this->params = $params;
+    }
+    
+    /**
+     * Sets a single input parameter.
+     *
+     * @param array $params
+     */
+    public function setParameter($param, $value)
+    {
+        $this->params[$param] = $value;
     }
 
     public function parse()
@@ -210,6 +227,15 @@ class ContentQueryParser
             }
         }
     }
+    
+    /**
+     * Gets the object EntityManager
+     * @return EntityManager
+     */
+    public function getEntityManager()
+    {
+        return $this->em;
+    }
 
     /**
      * Returns the parsed content types.
@@ -251,6 +277,18 @@ class ContentQueryParser
     public function getDirective($key)
     {
         return $this->directives[$key];
+    }
+    
+    /**
+     * Sets a directive for the named key.
+     *
+     * @param string $key
+     * @param mixed $value
+     *
+     */
+    public function setDirective($key, $value)
+    {
+        $this->directives[$key] = $value;
     }
 
     /**
@@ -299,6 +337,17 @@ class ContentQueryParser
     public function addHandler($operation, callable $callback)
     {
         $this->handlers[$operation] = $callback;
+    }
+    
+    /**
+     * Returns a handler for the named operation.
+     *
+     * @param string   $operation
+     * @return callable
+     */
+    public function getHandler($operation)
+    {
+        return $this->handlers[$operation];
     }
 
     /**
