@@ -2,21 +2,19 @@
 
 namespace Bolt\Storage\Query;
 
-use Bolt\Storage\EntityManager;
-
 class Query
 {
-    protected $em;
+    protected $parser;
 
-    public function __construct(EntityManager $em)
+    public function __construct(ContentQueryParser $parser)
     {
-        $this->em = $em;
+        $this->parser = $parser;
     }
-    
+
     /**
      * getContent based on a 'human readable query'.
      *
-     * Used directly by {% setcontent %} but also directly.
+     * Used by the twig command {% setcontent %} but also directly.
      * For reference refer to @link https://docs.bolt.cm/content-fetching
      *
      * @param string $textquery
@@ -26,8 +24,9 @@ class Query
      */
     public function getContent($textquery, $parameters = null)
     {
-        $parser = new ContentQueryParser($this->em, $textquery, $parameters);
+        $this->parser->setQuery($textquery);
+        $this->parser->setParameters($parameters);
 
-        return $parser->fetch();
+        return $this->parser->fetch();
     }
 }
