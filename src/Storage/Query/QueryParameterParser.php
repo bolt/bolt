@@ -18,18 +18,14 @@ class QueryParameterParser
     protected $key;
     protected $value;
     protected $expr;
+    public $alias;
 
     protected $valueMatchers = [];
     protected $filterHandlers = [];
 
-    public function __construct($key, $value = null, QueryBuilder $qb = null)
+    public function __construct(ExpressionBuilder $expr = null)
     {
-        $this->key = $key;
-        $this->value = $value;
-
-        if ($qb) {
-            $this->expr = $qb->expr();
-        }
+        $this->expr = $expr;
         $this->setupDefaults();
     }
 
@@ -51,6 +47,16 @@ class QueryParameterParser
         $this->addFilterHandler([$this, 'multipleKeyAndValueHandler']);
         $this->addFilterHandler([$this, 'incorrectQueryHandler']);
     }
+    
+    /**
+     * Sets the select alias to be used in sql queries.
+     * 
+     * @param string $alias
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias.".";
+    }
 
     /**
      * Runs the keys/values through the relevant parsers.
@@ -59,14 +65,15 @@ class QueryParameterParser
      *
      * @throws Bolt\Exception\QueryParseException
      */
-    public function getFilter()
+    public function getFilter($key, $value = null)
     {
+        
         if (!$this->expr instanceof ExpressionBuilder) {
             throw new QueryParseException('Cannot call method without an Expression Builder parameter set', 1);
         }
 
         foreach ($this->filterHandlers as $callback) {
-            $result = $callback($this->key, $this->value, $this->expr);
+            $result = $callback($key, $value, $this->expr);
             if ($result instanceof Filter) {
                 return $result;
             }
@@ -115,7 +122,7 @@ class QueryParameterParser
                 $placeholder = $key.'_'.$count;
                 $filterParams[$placeholder] = $val['value'];
                 $exprMethod = $val['operator'];
-                $parts[] = $this->expr->$exprMethod($key, ":$placeholder");
+                $parts[] = $this->expr->$exprMethod($this->alias.$key, ":$placeholder");
                 $count++;
             }
 
@@ -164,7 +171,7 @@ class QueryParameterParser
                 $placeholder = $key.'_'.$count;
                 $filterParams[$placeholder] = $val['value'];
                 $exprMethod = $val['operator'];
-                $parts[] = $this->expr->$exprMethod($key, ":$placeholder");
+                $parts[] = $this->expr->$exprMethod($this->alias.$key, ":$placeholder");
                 $count++;
             }
 
@@ -192,8 +199,8 @@ class QueryParameterParser
         $exprMethod = $val['operator'];
 
         $filter = new Filter();
-        $filter->setExpression($expr->andX($expr->$exprMethod($key, ":$placeholder")));
-        $filter->setParameters([$val['value']]);
+        $filter->setExpression($expr->andX($expr->$exprMethod($this->alias.$key, ":$placeholder")));
+        $filter->setParameters([$placeholder => $val['value']]);
 
         return $filter;
     }
@@ -211,11 +218,9 @@ class QueryParameterParser
      *
      * @return array parsed values
      */
-    public function parseValue($value = null)
+    public function parseValue($value)
     {
-        if (!$value) {
-            $value = $this->value;
-        }
+        
         foreach ($this->valueMatchers as $matcher) {
             $regex = sprintf('/%s/', $matcher['token']);
             $values = $matcher['params'];
