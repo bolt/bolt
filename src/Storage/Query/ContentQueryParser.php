@@ -28,6 +28,8 @@ class ContentQueryParser
 
     protected $directives = [];
     
+    protected $directiveHandlers = [];
+    
     protected $handlers = [];
     
     protected $services = [];
@@ -50,10 +52,9 @@ class ContentQueryParser
                 $repo = $this->em->getRepository($contenttype);
                 $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
                 $query->setContentType($contenttype);
-                
-                $this->parseDirectives($query);
-                
+                                
                 $query->setParameters($this->params);
+                $this->runDirectives($query);
 
                 $result = $repo->queryWith($query);
                 if ($result) {
@@ -64,23 +65,23 @@ class ContentQueryParser
             return $set;
         });    
         
-        $this->addDirective('returnsingle', function(QueryInterface $query){
+        $this->addDirectiveHandler('returnsingle', function(QueryInterface $query){
             $query->getQueryBuilder()->setMaxResults(1);
         });
         
-        $this->addDirective('order', function(QueryInterface $query, $order){
+        $this->addDirectiveHandler('order', function(QueryInterface $query, $order){
             $query->getQueryBuilder()->orderBy($order);
         });
         
-        $this->addDirective('limit', function(QueryInterface $query, $limit){
+        $this->addDirectiveHandler('limit', function(QueryInterface $query, $limit){
             $query->getQueryBuilder()->setMaxResults($limit);
         });
         
-        $this->addDirective('getquery', function(QueryInterface $query, callable $callback){
+        $this->addDirectiveHandler('getquery', function(QueryInterface $query, callable $callback){
             
         });
         
-        $this->addDirective('printquery', function(QueryInterface $query){
+        $this->addDirectiveHandler('printquery', function(QueryInterface $query){
             
         });
         
@@ -100,6 +101,7 @@ class ContentQueryParser
     {
         $this->parseContent();
         $this->parseOperation();
+        $this->parseDirectives();
     }
 
     /**
@@ -161,25 +163,34 @@ class ContentQueryParser
      * 
      * @return void
      */
-    protected function parseDirectives(QueryInterface $query)
+    protected function parseDirectives()
     {
         if (!$this->params) {
             return;
         }
-        
-        $directives = [];
-        
+                
         foreach ($this->params as $key => $value) {
-            if ($this->hasDirective($key)) {
-                $directives[$key] = $this->getDirective($key);
+            if ($this->hasDirectiveHandler($key)) {
+                $this->directives[$key] = $value;
                 unset($this->params[$key]);
             }
         }
         
-        foreach ($directives as $key => $value) {
-            if ($this->hasDirective($key)) {
-                if (is_callable($this->getDirective($key))) {
-                    call_user_func_array($this->getDirective($key), [$query, $value]);
+        
+    }
+    
+    /**
+     * This runs the callbacks attached to each directive command.
+     * 
+     * @param  QueryInterface $query
+     * @return void
+     */
+    public function runDirectives(QueryInterface $query)
+    {
+        foreach ($this->directives as $key => $value) {
+            if ($this->hasDirectiveHandler($key)) {
+                if (is_callable($this->getDirectiveHandler($key))) {
+                    call_user_func_array($this->getDirectiveHandler($key), [$query, $value]);
                 }
             }
         }
@@ -200,21 +211,25 @@ class ContentQueryParser
         return $this->identifier;
     }
 
-
-    public function getDirective($check)
+    public function getDirective($key)
     {
-        return $this->directives[$check];
+        return $this->directives[$key];
     }
 
-    public function hasDirective($check)
+    public function getDirectiveHandler($check)
     {
-        return array_key_exists($check, $this->directives);
+        return $this->directiveHandlers[$check];
+    }
+
+    public function hasDirectiveHandler($check)
+    {
+        return array_key_exists($check, $this->directiveHandlers);
     }
     
-    public function addDirective($key, callable $callback = null )
+    public function addDirectiveHandler($key, callable $callback = null )
     {
-        if (!array_key_exists($key, $this->directives)) {
-            $this->directives[$key] = $callback;
+        if (!array_key_exists($key, $this->directiveHandlers)) {
+            $this->directiveHandlers[$key] = $callback;
         }
     }
 
