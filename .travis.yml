@@ -84,10 +84,10 @@ script:
   # Codeception Sqlite run (PHP >5.3)
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
   # Codeception MySQL run (PHP >5.3)
-  - ./tests/scripts/travis-db-config mysql
+  - ./tests/travis/test-db-config mysql
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
   # Codeception PostgreSQL run (PHP >5.3)
-  - ./tests/scripts/travis-db-config postgres
+  - ./tests/travis/test-db-config postgres
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
   ## Composer install test
   # To enable Composer tests, set RUN_COMPOSER_TEST=true in the web UI at https://travis-ci.org/bolt/bolt/settings/env_vars
@@ -109,10 +109,10 @@ script:
   # Codeception Sqlite run (PHP >5.3)
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
   # Codeception MySQL run (PHP >5.3)
-  - ./vendor/bolt/bolt/tests/scripts/travis-db-config mysql
+  - ./vendor/bolt/bolt/tests/travis/test-db-config mysql
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
   # Codeception PostgreSQL run (PHP >5.3)
-  - ./vendor/bolt/bolt/tests/scripts/travis-db-config postgres
+  - ./vendor/bolt/bolt/tests/travis/test-db-config postgres
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
 
 after_script:
