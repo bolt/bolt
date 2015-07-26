@@ -85,11 +85,11 @@ class ContentQueryParser
         });
 
         $this->addDirectiveHandler('getquery', function (QueryInterface $query, callable $callback) {
-
+            $callback($query);
         });
 
         $this->addDirectiveHandler('printquery', function (QueryInterface $query) {
-
+            echo $query;
         });
     }
     /**
