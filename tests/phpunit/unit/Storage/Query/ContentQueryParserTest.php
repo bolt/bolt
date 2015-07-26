@@ -52,7 +52,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->parse();
         $this->assertEquals(['pages'], $qb->getContentTypes());
         $this->assertEquals('first', $qb->getOperation());
-        $this->assertEquals('3', $qb->getParameter('limit'));
+        $this->assertEquals('3', $qb->getDirective('limit'));
         $this->assertEmpty($qb->getIdentifier());
 
         $qb = new ContentQueryParser($app['storage'], 'pages,entries/search');
@@ -71,7 +71,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->parse();
         $this->assertEquals(['entries','events'], $qb->getContentTypes());
         $this->assertEquals('random', $qb->getOperation());
-        $this->assertEquals('10', $qb->getParameter('limit'));
+        $this->assertEquals('10', $qb->getDirective('limit'));
         $this->assertEmpty($qb->getIdentifier());
     }
     
@@ -79,6 +79,11 @@ class ContentQueryParserTest extends BoltUnitTest
     {
         $app = $this->getApp();
         
+        $qb = new ContentQueryParser($app['storage'], 'entries', ['order'=>'datepublish DESC']);
+        $qb->parse();
+        $this->assertEquals(['entries'], $qb->getContentTypes());
+        $this->assertEquals('select', $qb->getOperation());
+        $this->assertEquals('datepublish DESC', $qb->getDirective('order'));
 
     }
     
