@@ -8,7 +8,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  * This class works keeps a set of queries that will eventually
  * be executed sequentially.
  */
-class QueryResultset extends \AppendIterator
+class QueryResultset extends \AppendIterator implements \Countable
 {
     
     protected $results = [];
@@ -40,18 +40,28 @@ class QueryResultset extends \AppendIterator
     {
         if ($label && array_key_exists($label, $this->results)) {
             return $this->results[$label];
-        }
+        } else {
         
-        $results = [];        
-        foreach ($this->results as $k=>$v) {
-            if (is_array($v)) {
-                $results = array_merge($results, $v);
-            } else {
-                $results[] = $v;
+            $results = [];        
+            foreach ($this->results as $k=>$v) {
+                if (is_array($v)) {
+                    $results = array_merge($results, $v);
+                } else {
+                    $results[] = $v;
+                }
             }
+            
+            return $results;
         }
-        
-        return $results;
+        return [];
+    }
+    
+    /**
+     * Returns the total count
+     * @return int
+     */
+    public function count() {
+        return count($this->get());
     }
 
 }
