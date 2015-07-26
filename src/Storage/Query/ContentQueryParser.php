@@ -24,19 +24,15 @@ class ContentQueryParser
 
     protected $identifier;
 
-    protected $selectType = 'all';
-
-    protected $limit;
-
-    protected $sqlParams = [];
-
     protected $operations = ['search', 'latest', 'first', 'random'];
 
-    protected $getquery;
+    protected $directives = [];
+    
+    protected $handlers = [];
+    
+    protected $services = [];
 
-    protected $printquery;
-
-    public function __construct(EntityManager $em, $query, array $params = [])
+    public function __construct(EntityManager $em, $query = null, array $params = [])
     {
         $this->em = $em;
         $this->query = $query;
@@ -49,10 +45,17 @@ class ContentQueryParser
         $this->addHandler('select', function () {
             $set = new QueryResultset();
 
-            foreach ($this->getContentTypes() as $contenttype) {
+            foreach ($this->getContentTypes() as $contenttype) {                
+                $query = $this->services['select'];
                 $repo = $this->em->getRepository($contenttype);
-                $query = new SelectQuery($repo->createQueryBuilder(), $contenttype, $this->params);
-                $result = $repo->findWith($query->build());
+                $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
+                $query->setContentType($contenttype);
+                
+                $this->parseDirectives($query);
+                
+                $query->setParameters($this->params);
+
+                $result = $repo->queryWith($query);
                 if ($result) {
                     $set->add($result, $contenttype);
                 }
@@ -60,13 +63,43 @@ class ContentQueryParser
 
             return $set;
         });
+        
+        $this->addDirective('printquery', function(QueryInterface $query){
+            
+        });
+        
+        $this->addDirective('getquery', function(QueryInterface $query, callable $callback){
+            
+        });
+        
+        $this->addDirective('returnsingle', function(QueryInterface $query){
+            $query->getQueryBuilder()->setMaxResults(1);
+        });
+        
+        $this->addDirective('order', function(QueryInterface $query, $order){
+            $query->getQueryBuilder()->orderBy($order);
+        });
+        
+        $this->addDirective('limit', function(QueryInterface $query, $limit){
+            $query->getQueryBuilder()->setMaxResults($limit);
+        });
+        
+    }
+    
+    public function setQuery($query)
+    {
+        $this->query = $query;
+    }
+    
+    public function setParameters($params)
+    {
+        $this->params = $params;
     }
 
     public function parse()
     {
         $this->parseContent();
-        $this->operation = $this->parseOperation();
-        $this->parseDirectives();
+        $this->parseOperation();
     }
 
     /**
@@ -87,6 +120,15 @@ class ContentQueryParser
         $this->contentTypes = $content;
     }
 
+    /**
+     * Internal method that takes the 'query' part of the input and
+     * parses it into one of the various operations supported.
+     * 
+     * A simple select operation will just contain the contenttype eg 'pages'
+     * but additional operations can be triggered using the '/' separator.
+     * 
+     * @return string Parsed operation name
+     */
     protected function parseOperation()
     {
         $operation = 'select';
@@ -95,36 +137,41 @@ class ContentQueryParser
         array_shift($queryParts);
 
         if (!count($queryParts)) {
-            return $operation;
+            $this->operation = $operation;
+            return;
         }
 
         if (in_array($queryParts[0], $this->operations)) {
             $operation = array_shift($queryParts);
-            $this->limit = array_shift($queryParts);
+            $this->params['limit'] = array_shift($queryParts);
             $this->identifier = implode(',', $queryParts);
         } else {
             $this->identifier = implode(',', $queryParts);
         }
 
-        return $operation;
+        $this->operation = $operation;
     }
 
-    protected function parseDirectives()
+    /**
+     * Directives are all of the other parameters supported by Bolt that do not
+     * relate to an actual filter query. Some examples include 'printquery', 'limit',
+     * 'order' or 'returnsingle'
+     * 
+     * All these need to parsed and taken out of the params that are sent to the query.
+     * 
+     * @return void
+     */
+    protected function parseDirectives(QueryInterface $query)
     {
+        if (!$this->params) {
+            return;
+        }
         foreach ($this->params as $key => $value) {
-            if ($key == 'printquery') {
-                $this->printquery = true;
-                unset($this->params['printquery']);
-            }
-
-            if ($key == 'getquery') {
-                $this->getquery = $value;
-                unset($this->params['getquery']);
-            }
-
-            if ($key == 'returnsingle') {
-                $this->limit = 1;
-                unset($this->params['returnsingle']);
+            if ($this->hasDirective($key)) {
+                if (is_callable($this->getDirective($key))) {
+                    unset($this->params[$key]);
+                    call_user_func_array($this->getDirective($key), [$query, $value]);
+                }
             }
         }
     }
@@ -144,14 +191,42 @@ class ContentQueryParser
         return $this->identifier;
     }
 
-    public function getLimit()
+
+    public function getDirective($check)
     {
-        return $this->limit;
+        return $this->directives[$check];
+    }
+
+    public function hasDirective($check)
+    {
+        return array_key_exists($check, $this->directives);
+    }
+    
+    public function addDirective($key, callable $callback = null )
+    {
+        if (!array_key_exists($key, $this->directives)) {
+            $this->directives[$key] = $callback;
+        }
     }
 
     public function addHandler($operation, callable $callback)
     {
         $this->handlers[$operation] = $callback;
+    }
+    
+    public function addService($operation, $service)
+    {
+        $this->services[$operation] = $service;
+    }
+    
+    public function getParameters()
+    {
+        return $this->params;
+    }
+    
+    public function getParameter($param)
+    {
+        return $this->params[$param];
     }
 
     public function fetch()
