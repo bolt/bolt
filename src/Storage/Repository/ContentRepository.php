@@ -9,4 +9,9 @@ use Bolt\Storage\Repository;
  */
 class ContentRepository extends Repository
 {
+    
+    public function createQueryBuilder($alias = 'content')
+    {
+        return parent::createQueryBuilder($alias);   
+    }
 }

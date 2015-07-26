@@ -5,6 +5,7 @@ use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query\QueryInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -181,6 +182,8 @@ class Repository implements ObjectRepository
      **/
     public function findWith(QueryBuilder $query)
     {
+        $this->loader->load($query, $this->getClassMetadata());
+
         $result = $query->execute()->fetchAll();
         if ($result) {
             return $this->hydrateAll($result, $query);
@@ -190,12 +193,13 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Internal method to hydrate and return a single QueryBuilder result
+     * Method to hydrate and return a single QueryBuilder result
      *
      * @return Entity | false
      **/
-    protected function findOneWith(QueryBuilder $query)
+    public function findOneWith(QueryBuilder $query)
     {
+        $this->loader->load($query, $this->getClassMetadata());
         $result = $query->execute()->fetch();
         if ($result) {
             return $this->hydrate($result, $query);
@@ -203,6 +207,24 @@ class Repository implements ObjectRepository
             return false;
         }
     }
+    
+    /**
+     * Method to execute query from a Bolt QueryInterface object
+     * The query is passed to the pre-load handlers then built into a
+     * QueryBuilder instance that can be executed. 
+     * 
+     * @param  QueryInterface $query [description]
+     * @return [type]                [description]
+     */
+    public function queryWith(QueryInterface $query)
+    {
+        $this->loader->query($query, $this->getClassMetadata());
+        $queryBuilder = $query->build();
+        
+        return $this->findWith($queryBuilder);
+    }
+    
+    
 
     /**
      * Internal method to initialise and return a QueryBuilder instance.
