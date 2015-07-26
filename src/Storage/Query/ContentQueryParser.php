@@ -62,15 +62,7 @@ class ContentQueryParser
             }
 
             return $set;
-        });
-        
-        $this->addDirective('printquery', function(QueryInterface $query){
-            
-        });
-        
-        $this->addDirective('getquery', function(QueryInterface $query, callable $callback){
-            
-        });
+        });    
         
         $this->addDirective('returnsingle', function(QueryInterface $query){
             $query->getQueryBuilder()->setMaxResults(1);
@@ -82,6 +74,14 @@ class ContentQueryParser
         
         $this->addDirective('limit', function(QueryInterface $query, $limit){
             $query->getQueryBuilder()->setMaxResults($limit);
+        });
+        
+        $this->addDirective('getquery', function(QueryInterface $query, callable $callback){
+            
+        });
+        
+        $this->addDirective('printquery', function(QueryInterface $query){
+            
         });
         
     }
@@ -166,10 +166,19 @@ class ContentQueryParser
         if (!$this->params) {
             return;
         }
+        
+        $directives = [];
+        
         foreach ($this->params as $key => $value) {
             if ($this->hasDirective($key)) {
+                $directives[$key] = $this->getDirective($key);
+                unset($this->params[$key]);
+            }
+        }
+        
+        foreach ($directives as $key => $value) {
+            if ($this->hasDirective($key)) {
                 if (is_callable($this->getDirective($key))) {
-                    unset($this->params[$key]);
                     call_user_func_array($this->getDirective($key), [$query, $value]);
                 }
             }
