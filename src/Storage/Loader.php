@@ -3,6 +3,7 @@ namespace Bolt\Storage;
 
 use Bolt\Storage\Field\Type\FieldTypeInterface;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query\QueryInterface;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -28,5 +29,22 @@ class Loader
         }
 
         return $qb;
+    }
+
+    /**
+     * @param QueryInterface $query
+     * @param ClassMetadata  $metadata
+     *
+     * @return QueryInterface
+     */    
+    public function query(QueryInterface $query, ClassMetadata $metadata)
+    {
+        foreach ($metadata->getFieldMappings() as $field) {
+            /** @var FieldTypeInterface $fieldtype */
+            $fieldtype = new $field['fieldtype']($field);
+            $fieldtype->query($query, $metadata);
+        }
+
+        return $query;
     }
 }
