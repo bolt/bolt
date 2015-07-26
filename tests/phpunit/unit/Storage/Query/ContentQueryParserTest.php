@@ -52,7 +52,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->parse();
         $this->assertEquals(['pages'], $qb->getContentTypes());
         $this->assertEquals('first', $qb->getOperation());
-        $this->assertEquals('3', $qb->getLimit());
+        $this->assertEquals('3', $qb->getParameter('limit'));
         $this->assertEmpty($qb->getIdentifier());
 
         $qb = new ContentQueryParser($app['storage'], 'pages,entries/search');
@@ -71,8 +71,15 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->parse();
         $this->assertEquals(['entries','events'], $qb->getContentTypes());
         $this->assertEquals('random', $qb->getOperation());
-        $this->assertEquals('10', $qb->getLimit());
+        $this->assertEquals('10', $qb->getParameter('limit'));
         $this->assertEmpty($qb->getIdentifier());
+    }
+    
+    public function testDirectiveParsing()
+    {
+        $app = $this->getApp();
+        
+
     }
     
 
