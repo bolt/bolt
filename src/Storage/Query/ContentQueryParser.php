@@ -27,11 +27,11 @@ class ContentQueryParser
     protected $operations = ['search', 'latest', 'first', 'random'];
 
     protected $directives = [];
-    
+
     protected $directiveHandlers = [];
-    
+
     protected $handlers = [];
-    
+
     protected $services = [];
 
     public function __construct(EntityManager $em, $query = null, array $params = [])
@@ -42,17 +42,20 @@ class ContentQueryParser
         $this->setupDefaults();
     }
 
-    public function setupDefaults()
+    /**
+     * Internal method to initialise the default handlers.
+     */
+    protected function setupDefaults()
     {
         $this->addHandler('select', function () {
             $set = new QueryResultset();
 
-            foreach ($this->getContentTypes() as $contenttype) {                
+            foreach ($this->getContentTypes() as $contenttype) {
                 $query = $this->services['select'];
                 $repo = $this->em->getRepository($contenttype);
                 $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
                 $query->setContentType($contenttype);
-                                
+
                 $query->setParameters($this->params);
                 $this->runDirectives($query);
 
@@ -63,35 +66,47 @@ class ContentQueryParser
             }
 
             return $set;
-        });    
-        
-        $this->addDirectiveHandler('returnsingle', function(QueryInterface $query){
+        });
+
+        $this->addDirectiveHandler('returnsingle', function (QueryInterface $query) {
             $query->getQueryBuilder()->setMaxResults(1);
         });
-        
-        $this->addDirectiveHandler('order', function(QueryInterface $query, $order){
-            $query->getQueryBuilder()->orderBy($order);
+
+        $this->addDirectiveHandler('order', function (QueryInterface $query, $order) {
+            if (strpos($order, '-') === 0) {
+                $direction = 'DESC';
+                $order = substr($order, 1);
+            }
+            $query->getQueryBuilder()->orderBy($order, $direction);
         });
-        
-        $this->addDirectiveHandler('limit', function(QueryInterface $query, $limit){
+
+        $this->addDirectiveHandler('limit', function (QueryInterface $query, $limit) {
             $query->getQueryBuilder()->setMaxResults($limit);
         });
-        
-        $this->addDirectiveHandler('getquery', function(QueryInterface $query, callable $callback){
-            
+
+        $this->addDirectiveHandler('getquery', function (QueryInterface $query, callable $callback) {
+
         });
-        
-        $this->addDirectiveHandler('printquery', function(QueryInterface $query){
-            
+
+        $this->addDirectiveHandler('printquery', function (QueryInterface $query) {
+
         });
-        
     }
-    
+    /**
+     * Sets the input query.
+     *
+     * @param string $query
+     */
     public function setQuery($query)
     {
         $this->query = $query;
     }
-    
+
+    /**
+     * Sets the input parameters to handle.
+     *
+     * @param array $params
+     */
     public function setParameters($params)
     {
         $this->params = $params;
@@ -125,10 +140,10 @@ class ContentQueryParser
     /**
      * Internal method that takes the 'query' part of the input and
      * parses it into one of the various operations supported.
-     * 
+     *
      * A simple select operation will just contain the contenttype eg 'pages'
      * but additional operations can be triggered using the '/' separator.
-     * 
+     *
      * @return string Parsed operation name
      */
     protected function parseOperation()
@@ -140,6 +155,7 @@ class ContentQueryParser
 
         if (!count($queryParts)) {
             $this->operation = $operation;
+
             return;
         }
 
@@ -157,33 +173,28 @@ class ContentQueryParser
     /**
      * Directives are all of the other parameters supported by Bolt that do not
      * relate to an actual filter query. Some examples include 'printquery', 'limit',
-     * 'order' or 'returnsingle'
-     * 
+     * 'order' or 'returnsingle'.
+     *
      * All these need to parsed and taken out of the params that are sent to the query.
-     * 
-     * @return void
      */
     protected function parseDirectives()
     {
         if (!$this->params) {
             return;
         }
-                
+
         foreach ($this->params as $key => $value) {
             if ($this->hasDirectiveHandler($key)) {
                 $this->directives[$key] = $value;
                 unset($this->params[$key]);
             }
         }
-        
-        
     }
-    
+
     /**
      * This runs the callbacks attached to each directive command.
-     * 
-     * @param  QueryInterface $query
-     * @return void
+     *
+     * @param QueryInterface $query
      */
     public function runDirectives(QueryInterface $query)
     {
@@ -196,63 +207,134 @@ class ContentQueryParser
         }
     }
 
+    /**
+     * Returns the parsed content types.
+     *
+     * @return array
+     */
     public function getContentTypes()
     {
         return $this->contentTypes;
     }
 
+    /**
+     * Returns the parsed operation.
+     *
+     * @return string
+     */
     public function getOperation()
     {
         return $this->operation;
     }
 
+    /**
+     * Returns the parsed identifier.
+     *
+     * @return string
+     */
     public function getIdentifier()
     {
         return $this->identifier;
     }
 
+    /**
+     * Returns a directive from the parsed list.
+     *
+     * @param string $key
+     *
+     * @return string
+     */
     public function getDirective($key)
     {
         return $this->directives[$key];
     }
 
+    /**
+     * Returns the handler for the named directive.
+     *
+     * @param string $check
+     *
+     * @return callable
+     */
     public function getDirectiveHandler($check)
     {
         return $this->directiveHandlers[$check];
     }
 
+    /**
+     * Returns boolean for existence of handler.
+     *
+     * @param string $check
+     *
+     * @return bool
+     */
     public function hasDirectiveHandler($check)
     {
         return array_key_exists($check, $this->directiveHandlers);
     }
-    
-    public function addDirectiveHandler($key, callable $callback = null )
+
+    /**
+     * Adds a handler for the named directive.
+     *
+     * @param string        $key
+     * @param callable|null $callback
+     */
+    public function addDirectiveHandler($key, callable $callback = null)
     {
         if (!array_key_exists($key, $this->directiveHandlers)) {
             $this->directiveHandlers[$key] = $callback;
         }
     }
 
+    /**
+     * Adds a handler for the named operation.
+     *
+     * @param string   $operation
+     * @param callable $callback
+     */
     public function addHandler($operation, callable $callback)
     {
         $this->handlers[$operation] = $callback;
     }
-    
+
+    /**
+     * Adds a service for the named operation.
+     *
+     * @param string         $operation
+     * @param QueryInterface $service
+     */
     public function addService($operation, $service)
     {
         $this->services[$operation] = $service;
     }
-    
+
+    /**
+     * Returns the current parameters.
+     *
+     * @return array
+     */
     public function getParameters()
     {
         return $this->params;
     }
-    
+
+    /**
+     * Returns a single named parameter.
+     *
+     * @param string $param
+     *
+     * @return array
+     */
     public function getParameter($param)
     {
         return $this->params[$param];
     }
 
+    /**
+     * Runs the query and fetches the results.
+     *
+     * @return QueryResult
+     */
     public function fetch()
     {
         $this->parse();
