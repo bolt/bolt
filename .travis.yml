@@ -41,8 +41,8 @@ before_install:
   - if [[ $TRAVIS_PHP_VERSION =~ ^7 ]]; then perl -p -i -e 's/nobody/travis/g' $PHP_BASE/etc/php-fpm.d/www.conf ; fi
   - if [[ $TRAVIS_PHP_VERSION =~ ^[57] ]]; then sudo $PHP_BASE/sbin/php-fpm ; fi
   # Set up Nginx
-  - PWD=$(pwd) ; perl -p -i -e 's/%ROOTDIR%/$ENV{PWD}/g' .travis.nginx.conf
-  - sudo cp .travis.nginx.conf /etc/nginx/nginx.conf
+  - PWD=$(pwd) ; perl -p -i -e 's/%ROOTDIR%/$ENV{PWD}/g' tests/travis/nginx.conf
+  - sudo cp tests/travis/nginx.conf /etc/nginx/nginx.conf
   - sudo service nginx restart
   # Start postfix
   - sudo service postfix restart
@@ -84,10 +84,10 @@ script:
   # Codeception Sqlite run (PHP >5.3)
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
   # Codeception MySQL run (PHP >5.3)
-  - ./tests/scripts/travis-db-config mysql
+  - ./tests/travis/test-db-config mysql
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
   # Codeception PostgreSQL run (PHP >5.3)
-  - ./tests/scripts/travis-db-config postgres
+  - ./tests/travis/test-db-config postgres
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run ; fi
   ## Composer install test
   # To enable Composer tests, set RUN_COMPOSER_TEST=true in the web UI at https://travis-ci.org/bolt/bolt/settings/env_vars
@@ -109,10 +109,10 @@ script:
   # Codeception Sqlite run (PHP >5.3)
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
   # Codeception MySQL run (PHP >5.3)
-  - ./vendor/bolt/bolt/tests/scripts/travis-db-config mysql
+  - ./vendor/bolt/bolt/tests/travis/test-db-config mysql
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
   # Codeception PostgreSQL run (PHP >5.3)
-  - ./vendor/bolt/bolt/tests/scripts/travis-db-config postgres
+  - ./vendor/bolt/bolt/tests/travis/test-db-config postgres
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
 
 after_script:
