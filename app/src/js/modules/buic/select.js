@@ -29,7 +29,8 @@
     select.init = function (buic) {
         var select = $(buic).find('select'),
             buttonAll = $(buic).find('.select-all'),
-            buttonNone = $(buic).find('.select-none');
+            buttonNone = $(buic).find('.select-none'),
+            setButtonState;
 
         // Initialize the select-all button.
         buttonAll.prop('title', buttonAll.text().trim());
@@ -44,6 +45,20 @@
             select.val(null).trigger('change');
             this.blur();
         });
+
+        // Enable/disable buttons.
+        setButtonState = function () {
+            var options = select.find('option'),
+                count = options.length,
+                selected = options.filter(':selected').length,
+                empty = select.prop('multiple') ? selected === 0 : select.val() === '';
+
+            buttonAll.prop('disabled', selected === count);
+            buttonNone.prop('disabled', empty);
+        };
+
+        setButtonState();
+        select.on('change', setButtonState);
     };
 
     // Apply mixin container
