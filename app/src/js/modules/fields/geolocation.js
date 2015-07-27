@@ -63,11 +63,20 @@
                 map: null,
                 marker: null,
                 timeout: undefined
-            };
+            },
+            spinner = field.mapholder.find('i');
 
-        $(bolt).one('bolt:gmaps-loaded', function () {
-            initGoogleMap(field, fconf.latitude, fconf.longitude);
-        });
+        $(bolt)
+            .one('bolt:gmaps-loaded', function () {
+                initGoogleMap(field, fconf.latitude, fconf.longitude);
+             })
+            .on('bolt:gmaps-failed', function () {
+                spinner.removeClass('fa-spinner fa-spin').addClass('fa-refresh').one('click', function () {
+                    spinner.removeClass('fa-refresh').addClass('fa-spinner fa-spin');
+                    $(bolt).trigger('bolt:gmaps-load');
+                });
+            });
+
         // Request loading of Google Maps API.
         $(bolt).trigger('bolt:gmaps-load');
     };

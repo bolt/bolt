@@ -219,13 +219,15 @@
             // Google Maps API loading
             // - bolt:gmaps-load:   request API loading.
             // - bolt:gmaps-loaded: API loaded successfully.
+            // - bolt:gmaps-failed: loading failed.
             .on('bolt:gmaps-load', function (e) {
                 if (gMapsApiLoaded === undefined) {
                     // Request loading Google Maps API.
                     gMapsApiLoaded = false;
                     $.getScript('https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.gMapsApiReady')
                         .fail(function (jqxhr, settings, exception) {
-                            console.log('ERROR: Google Maps not loaded!');
+                            gMapsApiLoaded = undefined;
+                            $(bolt).trigger('bolt:gmaps-failed');
                         });
                 } else if (gMapsApiLoaded === true) {
                     // Already loaded, signal it.
