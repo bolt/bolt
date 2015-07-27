@@ -13,6 +13,7 @@ use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use utilphp\util;
 
@@ -1056,30 +1057,7 @@ class Storage
             return;
         }
 
-        $this->checkedfortimed["publish-" . $contenttype['slug']] = true;
-        $tablename = $this->getContenttypeTablename($contenttype);
-
-        try {
-            // Check if there are any records that need publishing.
-            $stmt = $this->app['db']->executeQuery(
-                "SELECT id FROM $tablename WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP"
-            );
-
-            // If there's a result, we need to set these to 'publish'.
-            if ($stmt->fetch() !== false) {
-                // This is where we do black magic voodoo, because `datechanged` has the server
-                // time, which is not necessarily the same as `CURRENT_TIMESTAMP()`. Awesome!
-                $query = sprintf(
-                    "UPDATE %s SET status = 'published', datechanged = '%s' WHERE status = 'timed' and datepublish < CURRENT_TIMESTAMP",
-                    $tablename,
-                    date('Y-m-d H:i:s')
-                );
-                $this->app['db']->query($query);
-            }
-        } catch (DBALException $e) {
-            $message = "Timed publication of records for $contenttype failed: " . $e->getMessage();
-            $this->app['logger.system']->critical($message, array('event' => 'exception', 'exception' => $e));
-        }
+        $this->timedHandleRecords($contenttype['slug'], 'publish');
     }
 
     /**
@@ -1090,32 +1068,117 @@ class Storage
     public function depublishExpiredRecords($contenttype)
     {
         // We need to do this only once per contenttype, max.
-        if (isset($this->checkedfortimed["depublish-" . $contenttype['slug']])) {
+        if (isset($this->checkedfortimed['depublish-' . $contenttype])) {
             return;
         }
 
-        $this->checkedfortimed["depublish-" . $contenttype['slug']] = true;
-        $tablename = $this->getContenttypeTablename($contenttype);
+        $this->timedHandleRecords($contenttype['slug'], 'depublish');
+    }
+
+    /**
+     * Handle scheduled publishing/de-publishing of records.
+     *
+     * @param string $contenttypeSlug
+     * @param string $type
+     */
+    private function timedHandleRecords($contenttypeSlug, $type)
+    {
+        $this->checkedfortimed[$type . '-' . $contenttypeSlug] = true;
+        $tablename = $this->getContenttypeTablename($contenttypeSlug);
 
         try {
-
-            // Check if there are any records that need depublishing.
-            $stmt = $this->app['db']->executeQuery(
-                "SELECT id FROM $tablename WHERE status = 'published' and datedepublish <= CURRENT_TIMESTAMP and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish"
-            );
-
-            // If there's a result, we need to set these to 'held'.
-            if ($stmt->fetch() !== false) {
-                $query = sprintf(
-                    "UPDATE %s SET status = 'held', datechanged = '%s' WHERE status = 'published' and datedepublish <= CURRENT_TIMESTAMP and datedepublish > '1900-01-01 00:00:01' and datechanged < datedepublish",
-                    $tablename,
-                    date('Y-m-d H:i:s')
-                );
-                $this->app['db']->query($query);
+            // Check for record that need to be published/de-published
+            $recordIds = $this->timedListRecords($contenttypeSlug, $type);
+            if ($recordIds === false) {
+                return;
             }
+
+            /** @var QueryBuilder $query */
+            $query = $this->app['db']->createQueryBuilder()
+                        ->update($tablename)
+                        ->set('status', ':newstatus')
+                        ->set('datechanged', ':datechanged')
+                        ->setParameter('datechanged', date('Y-m-d H:i:s'))
+            ;
+
+            $this->timedWhere($query, $type);
+
+            $query->execute();
         } catch (DBALException $e) {
-            $message = "Timed de-publication of records for $contenttype failed: " . $e->getMessage();
+            $message = "Timed $type of records for $contenttypeSlug failed: " . $e->getMessage();
             $this->app['logger.system']->critical($message, array('event' => 'exception', 'exception' => $e));
+
+            return;
+        }
+
+        // If there are no listeners for this event, we can safely return early.
+        if (! $this->app['dispatcher']->hasListeners("timed.$type")) {
+            return;
+        }
+
+        try {
+            foreach ($recordIds as $recordId) {
+                $content = $this->getContent("$contenttypeSlug/$recordId", array('hydrate' => false, 'returnsingle' => true));
+
+                $event = new StorageEvent($content, array('contenttype' => $contenttypeSlug, 'create' => false));
+                $this->app['dispatcher']->dispatch("timed.$type", $event);
+            }
+        } catch (\Exception $e) {
+            $this->app['logger.system']->critical("Dispatch handling failed for $contenttypeSlug.", array('event' => 'exception', 'exception' => $e));
+        }
+    }
+
+    /**
+     * Set the QueryBuilder where parameters.
+     *
+     * @param QueryBuilder $query
+     * @param string       $type
+     *
+     * @return array|false
+     */
+    private function timedListRecords($contenttypeSlug, $type)
+    {
+        $tablename = $this->getContenttypeTablename($contenttypeSlug);
+
+        /** @var QueryBuilder $query */
+        $query = $this->app['db']->createQueryBuilder()
+            ->select('id')
+            ->from($tablename)
+            ->set('status', ':newstatus')
+            ->set('datechanged', ':datechanged')
+            ->setParameter('datechanged', date('Y-m-d H:i:s'))
+        ;
+
+        $this->timedWhere($query, $type);
+
+        return $query->execute()->fetchAll();
+    }
+
+    /**
+     * Set the QueryBuilder where parameters.
+     *
+     * @param QueryBuilder $query
+     * @param string       $type
+     */
+    private function timedWhere(QueryBuilder $query, $type)
+    {
+        if ($type === 'publish') {
+            $query
+                ->where('status = :oldstatus')
+                ->andWhere('datepublish < CURRENT_TIMESTAMP')
+                ->setParameter('oldstatus', 'timed')
+                ->setParameter('newstatus', 'published')
+            ;
+        } else {
+            $query
+                ->where('status = :oldstatus')
+                ->andWhere('datepublish <= CURRENT_TIMESTAMP')
+                ->andWhere('datepublish > :zeroday')
+                ->andWhere('datechanged < datedepublish')
+                ->setParameter('oldstatus', 'published')
+                ->setParameter('newstatus', 'held')
+                ->setParameter('zeroday', '1900-01-01 00:00:01')
+            ;
         }
     }
 
