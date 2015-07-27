@@ -136,17 +136,15 @@
 {##
  # Renders a info popup.
  #
- # @param string label
+ # @param string title
  # @param string id
- # @param string afterlabel
  #}
-{% macro info(label, id, afterlabel) %}
+{% macro info(label, id) %}
     {% set attributes = {
         'class':         'info-pop fa fa-info-circle',
         'data-content':  app.translator.trans(id, {}, 'infos'),
         'data-html':     true,
         'data-title':    label|trans,
     } %}
-    {{ label }}{% if afterlabel is defined %} {{ afterlabel|raw }}{% endif %}
     <i{{ hattr(attributes) }}><span class="sr-only">{{ __('Info') }}</span></i>
 {% endmacro %}

@@ -14,15 +14,13 @@
 } %}
 
 {% if block('fieldset_label_info') %}
-    {% set field_label = buic.info(block('fieldset_label_text'), block('fieldset_label_info')) %}
-{% else %}
-    {% set field_label = block('fieldset_label_text') %}
+    {% set field_info = buic.info(block('fieldset_label_text'), block('fieldset_label_info')) %}
 {% endif %}
 
 {#=== OUTPUT =========================================================================================================#}
 
 <fieldset{{ macro.attr(attributes_fieldset) }}>
     <legend class="sr-only">{% block fieldset_label_text %}{% endblock fieldset_label_text %}</legend>
-    <label{{ macro.attr(attributes_label) }}>{{ field_label }}</label>
+    <label{{ macro.attr(attributes_label) }}>{{ block('fieldset_label_text') }}{{ field_info|default('') }}</label>
     {% block fieldset_controls %}{% endblock fieldset_controls %}
 </fieldset>
