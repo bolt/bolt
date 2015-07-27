@@ -38,21 +38,6 @@
     };
 
     /**
-     * Initializes BUICs.
-     *
-     * @function initFields
-     * @memberof Bolt.app
-     */
-    app.initBuic = function () {
-        $('.buic-checkbox').each(function () {
-            bolt.buic.checkbox.init(this);
-        });
-        $('.buic-select').each(function () {
-            bolt.buic.select.init(this);
-        });
-    };
-
-    /**
      * Initializes fields.
      *
      * @function initFields
@@ -148,7 +133,7 @@
         bolt.datetime.init();
 
         legacyInit();
-        bolt.app.initBuic();
+        initBuic();
         bolt.app.initFields();
     };
 
@@ -234,6 +219,22 @@
                     $(bolt).trigger('bolt:gmaps-loaded');
                 }
             });
+    }
+
+    /**
+     * Initializes BUICs.
+     *
+     * @private
+     * @function initBuic
+     * @memberof Bolt.app
+     */
+    function initBuic() {
+        $('.buic-checkbox').each(function () {
+            bolt.buic.checkbox.init(this);
+        });
+        $('.buic-select').each(function () {
+            bolt.buic.select.init(this);
+        });
     }
 
     // Apply mixin container
