@@ -38,79 +38,6 @@
     };
 
     /**
-     * Initializes fields.
-     *
-     * @function initFields
-     * @memberof Bolt.app
-     */
-    app.initFields = function () {
-        // Init select2 language.
-        $.fn.select2.defaults.set("language", bolt.conf('locale.long').replace('_', '-'));
-
-        // Init fieldsets
-        $('[data-bolt-field]').each(function () {
-            var type = $(this).data('bolt-field'),
-                conf = $(this).data('bolt-fconf');
-
-            switch (type) {
-                case 'categories':
-                    bolt.fields.categories.init(this, conf);
-                    break;
-
-                case 'geolocation':
-                    bolt.fields.geolocation.init(this, conf);
-                    break;
-
-                case 'meta':
-                    bolt.fields.meta.init(this, conf);
-                    break;
-
-                case 'relationship':
-                    bolt.fields.relationship.init(this, conf);
-                    break;
-
-                case 'select':
-                    bolt.fields.select.init(this, conf);
-                    break;
-
-                case 'slug':
-                    bolt.fields.slug.init(this, conf);
-                    break;
-
-                case 'tags':
-                    bolt.fields.tags.init(this, conf);
-                    break;
-
-                case 'templateselect':
-                    bolt.fields.templateselect.init(this, conf);
-                    break;
-
-                case 'checkbox':
-                case 'date':
-                case 'datetime':
-                case 'file':
-                case 'filelist':
-                case 'float':
-                case 'grouping':
-                case 'html':
-                case 'image':
-                case 'imagelist':
-                case 'integer':
-                case 'markdown':
-                case 'text':
-                case 'textarea':
-                case 'video':
-                    // Not implemented yet.
-                    break;
-
-                default:
-                    console.log('Unknown field type: ' + type);
-            }
-
-        });
-    };
-
-    /**
      * Initializes and then starts the Bolt module.
      * Is automatically executed on jQueries ``$(document).ready()``.
      *
@@ -134,7 +61,7 @@
 
         legacyInit();
         initBuic();
-        bolt.app.initFields();
+        initFields();
     };
 
     /*
@@ -234,6 +161,80 @@
         });
         $('.buic-select').each(function () {
             bolt.buic.select.init(this);
+        });
+    }
+
+    /**
+     * Initializes fieldsets.
+     *
+     * @private
+     * @function initFields
+     * @memberof Bolt.app
+     */
+    function initFields() {
+        // Init select2 language.
+        $.fn.select2.defaults.set("language", bolt.conf('locale.long').replace('_', '-'));
+
+        // Init fieldsets
+        $('[data-bolt-field]').each(function () {
+            var type = $(this).data('bolt-field'),
+                conf = $(this).data('bolt-fconf');
+
+            switch (type) {
+                case 'categories':
+                    bolt.fields.categories.init(this, conf);
+                    break;
+
+                case 'geolocation':
+                    bolt.fields.geolocation.init(this, conf);
+                    break;
+
+                case 'meta':
+                    bolt.fields.meta.init(this, conf);
+                    break;
+
+                case 'relationship':
+                    bolt.fields.relationship.init(this, conf);
+                    break;
+
+                case 'select':
+                    bolt.fields.select.init(this, conf);
+                    break;
+
+                case 'slug':
+                    bolt.fields.slug.init(this, conf);
+                    break;
+
+                case 'tags':
+                    bolt.fields.tags.init(this, conf);
+                    break;
+
+                case 'templateselect':
+                    bolt.fields.templateselect.init(this, conf);
+                    break;
+
+                case 'checkbox':
+                case 'date':
+                case 'datetime':
+                case 'file':
+                case 'filelist':
+                case 'float':
+                case 'grouping':
+                case 'html':
+                case 'image':
+                case 'imagelist':
+                case 'integer':
+                case 'markdown':
+                case 'text':
+                case 'textarea':
+                case 'video':
+                    // Not implemented yet.
+                    break;
+
+                default:
+                    console.log('Unknown field type: ' + type);
+            }
+
         });
     }
 
