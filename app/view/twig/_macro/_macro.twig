@@ -40,6 +40,17 @@
 {% endmacro %}
 
 {##
+ # Renders a datetime/date input component
+ #
+ # @param string datetime ISO-datetime to display
+ #}
+{% macro timemoment(datetime) %}
+    {% spaceless %}
+        <time class="moment" datetime="{{ datetime|date("c") }}" title="{{ datetime }}">{{ datetime }}</time>
+    {% endspaceless %}
+{% endmacro %}
+
+{##
  # Outputs tag attributes.
  #}
 {% macro attr(attributes) %}
@@ -184,17 +195,6 @@
             </button>
         </div>
     </div>
-{% endmacro %}
-
-{##
- # Renders a datetime/date input component
- #
- # @param string datetime ISO-datetime to display
- #}
-{% macro timemoment(datetime) %}
-    {% spaceless %}
-        <time class="moment" datetime="{{ datetime|date("c") }}" title="{{ datetime }}">{{ datetime }}</time>
-    {% endspaceless %}
 {% endmacro %}
 
 {##
