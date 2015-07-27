@@ -9,16 +9,6 @@
  */
 (function (bolt, $) {
     /**
-     * Geolocation field data.
-     *
-     * @typedef {Object} GmapsApiState
-     * @memberof Bolt.app
-     *
-     * @property {boolean|undefined} loaded  Values: undefined: initial state; false: pending; true: loaded.
-     * @property {Array} queue - Queue of requesters.
-     */
-
-    /**
      * Bolt.app mixin container.
      *
      * @private
@@ -27,49 +17,24 @@
     var app = {};
 
     /**
-     * Loading state of Google Maps API and queue of objects waiting for it.
+     * Loading state of Google Maps API.
      *
      * @private
-     * @type {GmapsApiState}
+     * @type {boolean|undefined} Values: undefined: initial state; false: pending; true: loaded.
      */
-    var gmapsApi = {
-        loaded: undefined,
-        queue: []
-    };
+    var gMapsApiLoaded;
 
     /**
-     * Request loading of Google Maps API.
+     * Callback that signals that Google Maps API is fully loaded.
      *
-     * @function initGmapsApi
+     * See: https://developers.google.com/maps/documentation/javascript/tutorial#asynch
+     *
+     * @function gMapsApiReady
      * @memberof Bolt.app
-     *
-     * @param {Object|undefined} obj Object that requests loading or undefined for ready callback.
      */
-    app.initGmapsApi = function (obj) {
-        // Callback from Google Maps API => loaded.
-        if (typeof obj === 'undefined') {
-            gmapsApi.loaded = true;
-            while (gmapsApi.queue.length) {
-                gmapsApi.queue.shift().trigger('bolt:gmapsapi:loaded');
-            }
-        // Request to load Google Maps API.
-        } else {
-            // Not loaded yet, require it.
-            if (gmapsApi.loaded === undefined) {
-                gmapsApi.loaded = false;
-                $.getScript('https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.initGmapsApi')
-                    .fail(function (jqxhr, settings, exception) {
-                        console.log('ERROR: Google Maps not loaded!');
-                    });
-            }
-            // Pending: queue the object with the handler.
-            if (gmapsApi.loaded === false) {
-                gmapsApi.queue.push(obj);
-            // Loaded: trigger the event.
-            } else if (gmapsApi.loaded === true) {
-                obj.trigger('bolt:gmapsapi:loaded');
-            }
-        }
+    app.gMapsApiReady = function () {
+        gMapsApiLoaded = true;
+        $(bolt).trigger('bolt:gmaps-loaded');
     };
 
     /**
@@ -170,6 +135,9 @@
     app.run = function () {
         bolt.conf.init();
         bolt.data.init();
+
+        initHandler();
+
         bolt.actions.init();
         bolt.secmenu.init();
         bolt.stack.init();
@@ -236,6 +204,34 @@
                 default: console.log('Binding ' + data.bind + ' failed!');
             }
         });
+    }
+
+    /**
+     * Initializes Bolts event handler.
+     *
+     * @private
+     * @static
+     * @function initHandler
+     * @memberof Bolt.app
+     */
+    function initHandler() {
+        $(bolt)
+            // Google Maps API loading
+            // - bolt:gmaps-load:   request API loading.
+            // - bolt:gmaps-loaded: API loaded successfully.
+            .on('bolt:gmaps-load', function (e) {
+                if (gMapsApiLoaded === undefined) {
+                    // Request loading Google Maps API.
+                    gMapsApiLoaded = false;
+                    $.getScript('https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.gMapsApiReady')
+                        .fail(function (jqxhr, settings, exception) {
+                            console.log('ERROR: Google Maps not loaded!');
+                        });
+                } else if (gMapsApiLoaded === true) {
+                    // Already loaded, signal it.
+                    $(bolt).trigger('bolt:gmaps-loaded');
+                }
+            });
     }
 
     // Apply mixin container
