@@ -33,6 +33,7 @@ class ContentQueryParser
     protected $handlers = [];
 
     protected $services = [];
+    
 
     public function __construct(EntityManager $em, $query = null, array $params = [])
     {
@@ -47,51 +48,13 @@ class ContentQueryParser
      */
     protected function setupDefaults()
     {
-        $this->addHandler('select', function (ContentQueryParser $contentQuery) {
-            $set = new QueryResultset();
+        $this->addHandler('select', new SelectQueryHandler());
 
-            foreach ($contentQuery->getContentTypes() as $contenttype) {
-                $query = $contentQuery->getService('select');
-                $repo = $contentQuery->em->getRepository($contenttype);
-                $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
-                $query->setContentType($contenttype);
-
-                $query->setParameters($contentQuery->getParameters());
-                $contentQuery->runDirectives($query);
-
-                $result = $repo->queryWith($query);
-                if ($result) {
-                    $set->add($result, $contenttype);
-                }
-            }
-
-            return $set;
-        });
-
-        $this->addHandler('random', function (ContentQueryParser $contentQuery) {
-            $params = $contentQuery->getEntityManager()->createQueryBuilder()->getConnection()->getParams();
-            if (strpos($params['driver'], 'mysql') !== false ) {
-                $contentQuery->setDirective('order', 'RAND()');
-            } else {
-                $contentQuery->setDirective('order', 'RANDOM()');
-            }
-               
-            return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
-        });
+        $this->addHandler('random', new SelectQueryHandler());
         
-        $this->addHandler('first', function (ContentQueryParser $contentQuery) {
-            $contentQuery->setDirective('order', 'id');
-            $contentQuery->setDirective('limit', 1);
-            $contentQuery->setDirective('returnsingle', true);
-            return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
-        });
+        $this->addHandler('first', new FirstQueryHandler());
         
-        $this->addHandler('latest', function (ContentQueryParser $contentQuery) {
-            $contentQuery->setDirective('order', '-id');
-            $contentQuery->setDirective('limit', 1);
-            $contentQuery->setDirective('returnsingle', true);
-            return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
-        });
+        $this->addHandler('latest', new LatestQueryHandler());
 
         $this->addDirectiveHandler('returnsingle', function (QueryInterface $query) {
             $query->getQueryBuilder()->setMaxResults(1);
