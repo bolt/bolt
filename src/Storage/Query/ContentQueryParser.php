@@ -3,6 +3,10 @@
 namespace Bolt\Storage\Query;
 
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Query\Handler\FirstQueryHandler;
+use Bolt\Storage\Query\Handler\LatestQueryHandler;
+use Bolt\Storage\Query\Handler\RandomQueryHandler;
+use Bolt\Storage\Query\Handler\SelectQueryHandler;
 
 /**
  *  Handler class to convert the DSL for content queries into an

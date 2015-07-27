@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Query\Handler;
 
 use Bolt\Storage\Query\ContentQueryParser;
+use Bolt\Storage\Query\QueryResultset;
 
 /**
  *  
@@ -15,7 +16,7 @@ class SelectQueryHandler
 
         foreach ($contentQuery->getContentTypes() as $contenttype) {
             $query = $contentQuery->getService('select');
-            $repo = $contentQuery->em->getRepository($contenttype);
+            $repo = $contentQuery->getEntityManager()->getRepository($contenttype);
             $query->setQueryBuilder($repo->createQueryBuilder($contenttype));
             $query->setContentType($contenttype);
 
