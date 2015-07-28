@@ -13,6 +13,7 @@
 {% block panel_body %}
 
     {% import '_macro/_macro.twig' as macro %}
+    {% import '_macro/_buic.twig' as buic %}
 
     <ul class="activity">
         {% for log in context.system %}
@@ -24,9 +25,7 @@
                 {% else %}
                     <em>{{ log.message }}</em>
                 {% endif %}
-                <small>
-                    (<time class="moment" datetime="{{ log.date|date("c") }}" title="{{ log.date|date("c") }}">{{ log.date|date("c") }}</time>)
-                </small>
+                <small>({{ buic.moment(log.date) }})</small>
             </li>
         {% endfor %}
     </ul>

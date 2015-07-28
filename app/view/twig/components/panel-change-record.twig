@@ -13,13 +13,16 @@
 {% block panel_head __('contenttypes.generic.recent-changes-one',{'%contenttype%': context.contenttype}) %}
 
 {% block panel_body %}
+    {% import '_macro/_buic.twig' as buic %}
+
     <div id="changeholder">
         <div class="row">
             <div class="col-xs-12">
             {% for item in context.entries %}
                 <p>- <a href="{{ path('changelogrecordsingle', {'contenttype': item.contenttype, 'contentid': item.contentid, 'id': item.id}) }}">
-                          <time class="moment" datetime="{{ item.date|date("c") }}" title="{{ item.date|date("c") }}"></time>
-                          </a> changed by <em>{{ macro.userlink(item.ownerid|default('')) }}</em></p>
+                    {{ buic.moment(item.date) }}
+                    </a> changed by <em>{{ macro.userlink(item.ownerid|default('')) }}</em>
+                </p>
             {% else %}
                 <div class="nochangeitems">{{ __('There are no saved changes, yet.') }}</div>
             {% endfor %}
