@@ -45,6 +45,8 @@
      * @memberof Bolt.app
      */
     app.run = function () {
+        initGlobal();
+
         bolt.conf.init();
         bolt.data.init();
 
@@ -146,6 +148,16 @@
                     $(bolt).trigger('bolt:gmaps-loaded');
                 }
             });
+    }
+
+    /**
+     * Initializes globals.
+     *
+     * @private
+     * @function initBuic
+     * @memberof Bolt.app
+     */
+    function initGlobal() {
     }
 
     /**
