@@ -13,7 +13,7 @@ var Moments = Backbone.Model.extend({
         moment.locale(Bolt.conf('locale.long'));
 
         // Something to update?
-        if ($('time.moment').length) {
+        if ($('time.buic-moment').length) {
             this.update();
         }
     },
@@ -23,7 +23,7 @@ var Moments = Backbone.Model.extend({
             next;
 
         // Update all moment fields
-        $('time.moment').each(function () {
+        $('time.buic-moment').each(function () {
             $(this).html(moment($(this).attr('datetime')).fromNow());
         });
 
