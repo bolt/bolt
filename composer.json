@@ -70,7 +70,10 @@
     "autoload" : {
         "psr-4" : {
             "Bolt\\" : "src"
-        }
+        },
+        "files" : [
+            "app/deprecated.php"
+        ]
     },
     "autoload-dev" : {
         "psr-4" : {
