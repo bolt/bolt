@@ -25,8 +25,10 @@
      */
     activity.init = function () {
         if ($('#latestactivity').is('*')) {
+            console.log('activity.init');
             setTimeout(
                 function () {
+                    //console.log('bolt.activity.update()');
                     bolt.activity.update();
                 },
                 intervall
@@ -45,9 +47,13 @@
         $.get(
             bolt.conf('paths.async') + 'latestactivity',
             function (data) {
-                $('#latesttemp').html(data);
-                bolt.moments.update();
-                $('#latestactivity').html($('#latesttemp').html());
+                var newActivity = $(data).find('.buic-moment').each(
+                        function () {
+                            bolt.buic.moment.init(this);
+                        }
+                    ).end();
+
+                $('#latestactivity').empty().append(newActivity);
             }
         );
 

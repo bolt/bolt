@@ -268,9 +268,7 @@
                     .done(function (data) {
                         $('p.lastsaved').html(savedon);
                         $('p.lastsaved').find('strong').text(moment(data.datechanged).format('MMM D, HH:mm'));
-                        $('p.lastsaved').find('time').attr('datetime', moment(data.datechanged).format());
-                        $('p.lastsaved').find('time').attr('title', moment(data.datechanged).format());
-                        bolt.moments.update();
+                        bolt.buic.moment.set($('p.lastsaved').find('time'), data.datechanged);
 
                         $('a#lastsavedstatus strong').html(
                             '<i class="fa fa-circle status-' + $('#statusselect option:selected').val() + '"></i> ' +
