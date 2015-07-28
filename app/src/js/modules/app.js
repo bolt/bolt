@@ -6,8 +6,10 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
+ * @param {Object} moment - moment.js.
+ * @param {Object} init - Bolts deprectated init object.
  */
-(function (bolt, $) {
+(function (bolt, $, moment, init) {
     /**
      * Bolt.app mixin container.
      *
@@ -261,4 +263,4 @@
     // Apply mixin container
     bolt.app = app;
 
-})(Bolt || {}, jQuery);
+})(Bolt || {}, jQuery, moment, init);
