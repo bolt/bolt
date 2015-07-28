@@ -62,7 +62,7 @@
             {% if context.content.id != 0 %}
                 {{ __('Saved on:') }}
                 <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong>
-                <small>({{ macro.datetime(context.content.datechanged) }})</small>
+                <small>({{ buic.moment(context.content.datechanged) }})</small>
             {% else %}
                 {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
             {% endif %}
