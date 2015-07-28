@@ -11,10 +11,14 @@ class AuthtokenRepository extends Repository
     /**
      * Fetches an existing token for the given user / ip
      *
+<<<<<<< HEAD
+=======
+     * @param string      $username
+>>>>>>> Fix AuthtokenRepository PHPDocs
      * @param string      $ip
      * @param string|null $useragent
      *
-     * @return Bolt\Entity\Authtoken
+     * @return \Bolt\Storage\Entity\Authtoken
      **/
     public function getUserToken($username, $ip, $useragent = null)
     {
@@ -47,7 +51,7 @@ class AuthtokenRepository extends Repository
      * @param string      $ip
      * @param string|null $useragent
      *
-     * @return Bolt\Entity\Authtoken
+     * @return \Bolt\Storage\Entity\Authtoken
      **/
     public function getToken($token, $ip, $useragent = null)
     {
@@ -120,7 +124,7 @@ class AuthtokenRepository extends Repository
     /**
      * Fetches all active sessions
      *
-     * @return Bolt\Entity\Authtoken[]
+     * @return \Bolt\Storage\Entity\Authtoken[]
      **/
     public function getActiveSessions()
     {
@@ -141,8 +145,8 @@ class AuthtokenRepository extends Repository
     /**
      * Creates a query builder instance namespaced to this repository
      *
-     * @return QueryBuilder
-     **/
+     * @return \Doctrine\DBAL\Query\QueryBuilder
+     */
     public function createQueryBuilder($alias = null)
     {
         return $this->em->createQueryBuilder()
