@@ -16,9 +16,7 @@
                     </a>
                 </td>
                 <td>
-                    <time class="moment" datetime="{{ folder.modified|date("c") }}" title="{{ folder.modified }}">
-                        {{ folder.modified }}
-                    </time>
+                    {{ buic.moment(folder.modified) }}
                 </td>
                 <td class="actions">
                 {% if context.form != false %}
