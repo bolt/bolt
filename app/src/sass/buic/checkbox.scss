@@ -1,0 +1,48 @@
+/**
+ * BUIC: Checkbox.
+ */
+.buic-checkbox {
+    margin-top: 6px;
+
+    label {
+        font-size: 15px;
+        width: 1px;
+        overflow: visible;
+        padding-left: 2px;
+        white-space: nowrap;
+    }
+
+    input {
+        display: none;
+
+        & + button:before {
+            line-height: 22px;
+            font-family: FontAwesome;
+            display: inline-block;
+            font-size: 22px;
+            width: 22px;
+            height: 22px;
+            margin: -2px 0 0 -2px;
+        }
+
+        & + button:before {
+            content: " ";
+        }
+
+        &:checked + button:before {
+            content: "\f00d";
+            color: #333;
+        }
+    }
+
+    button {
+        line-height: 21px;
+        width: 21px;
+        height: 21px;
+        padding: 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        background: none;
+        overflow: hidden;
+    }
+}
