@@ -18,6 +18,7 @@
  *
  * @mixes Bolt.buic
  * @mixes Bolt.buic.checkbox
+ * @mixes Bolt.buic.moment
  * @mixes Bolt.buic.select
  *
  * @mixes Bolt.fields

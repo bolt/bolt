@@ -52,6 +52,7 @@ module.exports = function(grunt) {
                 // BUIC
                 '<%= path.src.js %>/modules/buic.js',
                 '<%= path.src.js %>/modules/buic/checkbox.js',
+                '<%= path.src.js %>/modules/buic/moment.js',
                 '<%= path.src.js %>/modules/buic/select.js',
                 // Fields
                 '<%= path.src.js %>/modules/fields.js',
