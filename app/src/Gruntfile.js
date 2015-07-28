@@ -33,6 +33,8 @@ module.exports = function(grunt) {
                 // Prerequisites
                 '<%= path.src.js %>/console.js',
                 '<%= path.src.js %>/class-extends.js',
+                // Old stuff
+                '<%= path.src.js %>/init.js',
                 // Bolt module
                 '<%= path.src.js %>/bolt.js',
                 '<%= path.src.js %>/modules/actions.js',
@@ -74,8 +76,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/obj-moments.js',
                 '<%= path.src.js %>/obj-datetime.js',
                 '<%= path.src.js %>/obj-validation.js',
-                '<%= path.src.js %>/extend.js',
-                '<%= path.src.js %>/init.js'
+                '<%= path.src.js %>/extend.js'
             ]
         },
 
