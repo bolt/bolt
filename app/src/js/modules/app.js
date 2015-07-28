@@ -47,11 +47,10 @@
      * @memberof Bolt.app
      */
     app.run = function () {
-        initGlobal();
-
         bolt.conf.init();
         bolt.data.init();
 
+        initGlobal();
         initHandler();
 
         bolt.actions.init();
