@@ -18,4 +18,7 @@ final class StorageEvents
 
     const PRE_DELETE    = 'preDelete';
     const POST_DELETE   = 'postDelete';
+
+    const TIMED_PUBLISH   = 'timed.publish';
+    const TIMED_DEPUBLISH = 'timed.depublish';
 }
