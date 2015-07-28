@@ -158,6 +158,8 @@
      * @memberof Bolt.app
      */
     function initGlobal() {
+        // Init select2 language.
+        $.fn.select2.defaults.set('language', bolt.conf('locale.long').replace('_', '-'));
     }
 
     /**
@@ -187,9 +189,6 @@
      * @memberof Bolt.app
      */
     function initFields() {
-        // Init select2 language.
-        $.fn.select2.defaults.set("language", bolt.conf('locale.long').replace('_', '-'));
-
         // Init fieldsets
         $('[data-bolt-field]').each(function () {
             var type = $(this).data('bolt-field'),
