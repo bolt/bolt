@@ -15,5 +15,6 @@ class ReturnSingleHandler
     public function __invoke(QueryInterface $query)
     {
         $query->getQueryBuilder()->setMaxResults(1);
+        $query->setSingleFetchMode(true);
     }
 }
