@@ -158,10 +158,14 @@
      * @memberof Bolt.app
      */
     function initGlobal() {
+        var localeLong = bolt.conf('locale.long');
+
         // Init select2 language.
-        $.fn.select2.defaults.set('language', bolt.conf('locale.long').replace('_', '-'));
+        $.fn.select2.defaults.set('language', localeLong.replace('_', '-'));
         // Set locale of moments.js.
-        moment.locale(bolt.conf('locale.long'));
+        moment.locale(localeLong);
+        // Set global datepicker locale.
+        $.datepicker.setDefaults($.datepicker.regional[localeLong]);
     }
 
     /**
