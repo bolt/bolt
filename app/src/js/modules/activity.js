@@ -31,7 +31,7 @@
                     //console.log('bolt.activity.update()');
                     bolt.activity.update();
                 },
-                intervall
+                interval
             );
         }
     };
@@ -61,18 +61,18 @@
             function () {
                 bolt.activity.update();
             },
-            intervall
+            interval
         );
     };
 
     /**
-     * Update intervall.
+     * Update interval.
      *
      * @private
-     * @constant {number} intervall
+     * @constant {number} interval
      * @memberof Bolt.activity
      */
-    var intervall = 30 * 1000; // 30 seconds
+    var interval = 30 * 1000; // 30 seconds
 
     // Apply mixin container
     bolt.activity = activity;
