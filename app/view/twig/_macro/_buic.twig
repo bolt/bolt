@@ -39,11 +39,11 @@
  #
  # @param string datetime ISO-datetime ('Y-m-d H:i:s') to display.
  #}
-{% macro moment(datetime) %}
-    {% set dt = datetime|date('Y-m-d\\TH:i:sP')%}
-    {% set tt = datetime|date('Y-m-d H:i:s P')%}
+{% macro moment(datetime) -%}
+    {%- set dt = datetime|date('Y-m-d\\TH:i:sP') -%}
+    {%- set tt = datetime|date('Y-m-d H:i:s P') -%}
     <time class="moment" datetime="{{ dt }}" title="{{ tt }}">{{ dt }}</time>
-{% endmacro %}
+{%- endmacro %}
 
 {##
  # Renders a select component.
