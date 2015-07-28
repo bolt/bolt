@@ -6,10 +6,15 @@ use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\QueryResultset;
 
 /**
- *  
+ *  Handler class to perform select query and return a resultset.
  */
 class SelectQueryHandler
 {
+    /**
+     * @param ContentQueryParser $contentQuery
+     *
+     * @return QueryResultset
+     */
     public function __invoke(ContentQueryParser $contentQuery)
     {
         $set = new QueryResultset();

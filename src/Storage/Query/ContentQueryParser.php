@@ -7,6 +7,11 @@ use Bolt\Storage\Query\Handler\FirstQueryHandler;
 use Bolt\Storage\Query\Handler\LatestQueryHandler;
 use Bolt\Storage\Query\Handler\RandomQueryHandler;
 use Bolt\Storage\Query\Handler\SelectQueryHandler;
+use Bolt\Storage\Query\Handler\ReturnSingleHandler;
+use Bolt\Storage\Query\Handler\OrderHandler;
+use Bolt\Storage\Query\Handler\LimitHandler;
+use Bolt\Storage\Query\Handler\GetQueryHandler;
+use Bolt\Storage\Query\Handler\PrintQueryHandler;
 
 /**
  *  Handler class to convert the DSL for content queries into an
@@ -53,36 +58,15 @@ class ContentQueryParser
     protected function setupDefaults()
     {
         $this->addHandler('select', new SelectQueryHandler());
-
-        $this->addHandler('random', new SelectQueryHandler());
-        
+        $this->addHandler('random', new RandomQueryHandler());
         $this->addHandler('first', new FirstQueryHandler());
-        
         $this->addHandler('latest', new LatestQueryHandler());
 
-        $this->addDirectiveHandler('returnsingle', function (QueryInterface $query) {
-            $query->getQueryBuilder()->setMaxResults(1);
-        });
-
-        $this->addDirectiveHandler('order', function (QueryInterface $query, $order) {
-            if (strpos($order, '-') === 0) {
-                $direction = 'DESC';
-                $order = substr($order, 1);
-            }
-            $query->getQueryBuilder()->orderBy($order, $direction);
-        });
-
-        $this->addDirectiveHandler('limit', function (QueryInterface $query, $limit) {
-            $query->getQueryBuilder()->setMaxResults($limit);
-        });
-
-        $this->addDirectiveHandler('getquery', function (QueryInterface $query, callable $callback) {
-            $callback($query);
-        });
-
-        $this->addDirectiveHandler('printquery', function (QueryInterface $query) {
-            echo $query;
-        });
+        $this->addDirectiveHandler('returnsingle', new ReturnSingleHandler());
+        $this->addDirectiveHandler('order', new OrderHandler());
+        $this->addDirectiveHandler('limit', new LimitHandler());
+        $this->addDirectiveHandler('getquery', new GetQueryHandler());
+        $this->addDirectiveHandler('printquery', new PrintQueryHandler());
     }
     /**
      * Sets the input query.

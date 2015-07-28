@@ -5,10 +5,16 @@ namespace Bolt\Storage\Query\Handler;
 use Bolt\Storage\Query\ContentQueryParser;
 
 /**
- *  
+ *  Handler for queries requested with the random modifier.
+ * 
+ *  eg: 'pages/random/10'
  */
 class RandomQueryHandler
 {
+    /**
+     * @param  ContentQueryParser $contentQuery
+     * @return QueryResultset
+     */
     public function __invoke(ContentQueryParser $contentQuery)
     {
         $params = $contentQuery->getEntityManager()->createQueryBuilder()->getConnection()->getParams();
