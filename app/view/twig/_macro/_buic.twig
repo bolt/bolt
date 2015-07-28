@@ -35,6 +35,17 @@
 {% endmacro %}
 
 {##
+ # Renders a datetime that displays relative time.
+ #
+ # @param string datetime ISO-datetime ('Y-m-d H:i:s') to display.
+ #}
+{% macro moment(datetime) %}
+    {% set dt = datetime|date('Y-m-d\\TH:i:sP')%}
+    {% set tt = datetime|date('Y-m-d H:i:s P')%}
+    <time class="moment" datetime="{{ dt }}" title="{{ tt }}">{{ dt }}</time>
+{% endmacro %}
+
+{##
  # Renders a select component.
  #
  # Options:
