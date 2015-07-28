@@ -23,13 +23,14 @@
 
 {% macro changelog_details(entry) %}
     {% import '_macro/_macro.twig' as macro %}
+    {% import '_macro/_buic.twig' as buic %}
 
     {% set preview_w = 200 %}
     {% set preview_h = 150 %}
 
     <h3>
         "<a href="{{ path('editcontent', {'contenttypeslug': entry.contenttype, 'id': entry.contentid}) }}">{{ entry.title }}</a>"
-        <em><span class="time">{{ _self.changelog_mutation(entry.mutation_type) }} {{ macro.datetime(entry.date|date("c")) }}</span>
+        <em><span class="time">{{ _self.changelog_mutation(entry.mutation_type) }} {{ buic.moment(entry.date) }}</span>
         {{ __('component.changelog-detail.by') }}</em> <strong>{{ macro.userlink(entry.ownerid|default('')) }}</strong>
     </h3>
 
