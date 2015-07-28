@@ -25,6 +25,7 @@ class SelectQuery implements QueryInterface
     protected $params;
     protected $filters = [];
     protected $replacements = [];
+    protected $singleFetchMode = false;
 
     /**
      * @param QueryBuilder $qb
@@ -162,6 +163,34 @@ class SelectQuery implements QueryInterface
     }
     
     /**
+     * Returns wether the query is in single fetch mode.
+     * @return bool
+     */
+    public function getSingleFetchMode()
+    {
+        return $this->singleFetchMode;
+    }
+    
+    /**
+     * Turns single fetch mode on or off.
+     * 
+     * @param bool $value
+     */
+    public function setSingleFetchMode($value)
+    {
+        $this->singleFetchMode = (bool)$value;
+    }
+    
+    /**
+     * @return string String representation of query
+     */
+    public function __toString()
+    {
+        $query = $this->build();
+        return $query->getSQL();
+    }
+    
+    /**
      * Internal method that runs the individual key/value input through
      * the QueryParamtererParser. This allows complicated expressions to
      * be turned into simple sql expressions
@@ -176,11 +205,6 @@ class SelectQuery implements QueryInterface
         }
     }
     
-    public function __toString()
-    {
-        $query = $this->build();
-        return $query->getSQL();
-    }
     
 
 }
