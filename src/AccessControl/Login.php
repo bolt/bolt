@@ -137,13 +137,13 @@ class Login extends AccessChecker
         if (!$userEntity = $this->repositoryUsers->getUser($userName)) {
             $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
 
-            return;
+            return null;
         }
 
         if (!$userEntity->getEnabled()) {
             $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
 
-            return;
+            return null;
         }
 
         return $userEntity;
@@ -237,7 +237,7 @@ class Login extends AccessChecker
      *
      * @param Entity\Users $userEntity
      *
-     * @return Entity\Token
+     * @return Entity\Authtoken
      */
     protected function updateAuthToken($userEntity)
     {

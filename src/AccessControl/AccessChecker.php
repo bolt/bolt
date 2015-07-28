@@ -52,6 +52,7 @@ class AccessChecker
      * @param FlashLoggerInterface $flashLogger
      * @param LoggerInterface      $systemLogger
      * @param Permissions          $permissions
+     * @param Generator            $randomGenerator
      * @param array                $cookieOptions
      */
     public function __construct(
