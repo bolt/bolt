@@ -160,6 +160,8 @@
     function initGlobal() {
         // Init select2 language.
         $.fn.select2.defaults.set('language', bolt.conf('locale.long').replace('_', '-'));
+        // Set locale of moments.js.
+        moment.locale(bolt.conf('locale.long'));
     }
 
     /**
