@@ -149,5 +149,22 @@ class ContentQueryParserTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Storage\Entity\Content', $res);
     }
     
+    public function testFirstHandler()
+    {
+        $app = $this->getApp();
+        $this->addSomeContent($app);
+        
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->setQuery('pages/first/4');
+        $res = $qb->fetch();
+                
+        $this->assertEquals(4, count($res));
+        $count = 1;
+        foreach ($res as $item) {
+            $this->assertEquals($count, $item['id']);
+            $count++;
+        }
+    }
+    
 
 }
