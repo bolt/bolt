@@ -41,8 +41,7 @@
  #}
 {% macro moment(datetime) -%}
     {%- set dt = datetime|date('Y-m-d\\TH:i:sP') -%}
-    {%- set tt = datetime|date('Y-m-d H:i:s P') -%}
-    <time class="buic-moment" datetime="{{ dt }}" title="{{ tt }}">{{ dt }}</time>
+    <time class="buic-moment" datetime="{{ dt }}">{{ dt }}</time>
 {%- endmacro %}
 
 {##
