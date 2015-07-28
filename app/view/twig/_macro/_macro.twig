@@ -33,13 +33,6 @@
 {% endmacro %}
 
 {##
- # Output a 'relative' datetime.
- #}
-{% macro datetime(d) %}
-    <time class="moment" datetime="{{ d|date("c") }}" title="{{ d|date("c") }}">{{ d|date("c") }}</time>
-{% endmacro %}
-
-{##
  # Renders a datetime/date input component
  #
  # @param string datetime ISO-datetime to display
