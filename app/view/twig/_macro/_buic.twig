@@ -35,6 +35,22 @@
 {% endmacro %}
 
 {##
+ # Renders a info popup.
+ #
+ # @param string title
+ # @param string id
+ #}
+{% macro info(label, id) %}
+    {% set attributes = {
+        'class':         'info-pop fa fa-info-circle',
+        'data-content':  app.translator.trans(id, {}, 'infos'),
+        'data-html':     true,
+        'data-title':    label|trans,
+    } %}
+    <i{{ hattr(attributes) }}><span class="sr-only">{{ __('Info') }}</span></i>
+{% endmacro %}
+
+{##
  # Renders a datetime that displays relative time.
  #
  # @param string datetime ISO-datetime ('Y-m-d H:i:s') to display.
@@ -140,21 +156,4 @@
             </div>
         </div>
     {% endspaceless %}
-{% endmacro %}
-
-
-{##
- # Renders a info popup.
- #
- # @param string title
- # @param string id
- #}
-{% macro info(label, id) %}
-    {% set attributes = {
-        'class':         'info-pop fa fa-info-circle',
-        'data-content':  app.translator.trans(id, {}, 'infos'),
-        'data-html':     true,
-        'data-title':    label|trans,
-    } %}
-    <i{{ hattr(attributes) }}><span class="sr-only">{{ __('Info') }}</span></i>
 {% endmacro %}
