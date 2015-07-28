@@ -44,11 +44,14 @@ class ContentQueryParser
     protected $services = [];
     
 
-    public function __construct(EntityManager $em, $query = null, array $params = [])
+    public function __construct(EntityManager $em, QueryInterface $queryHandler = null)
     {
         $this->em = $em;
-        $this->query = $query;
-        $this->params = $params;
+        
+        if ($queryHandler !== null) {
+            $this->addService('select', $queryHandler);   
+        }
+        
         $this->setupDefaults();
     }
 
