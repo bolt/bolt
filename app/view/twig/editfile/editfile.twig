@@ -11,6 +11,7 @@
 {% block page_main %}
 
     {% import '_macro/_macro.twig' as macro %}
+    {% import '_macro/_buic.twig' as buic %}
     {% from '_macro/_files_path.twig' import files_path %}
 
     {{ data('editcontent.msg', {
@@ -62,10 +63,10 @@
                   </div>
                 </div>
 
-            <p class='lastsaved' style='padding-top: 12px;'>
+            <p class="lastsaved" style="padding-top: 12px;">
                 {{ __('Saved on:') }}
                 <strong>{{ context.datechanged|localdate("%b %e, %H:%M") }}</strong>
-                <small>({{ macro.datetime(context.datechanged) }})</small>
+                ({{ buic.moment(context.datechanged) }})
             </p>
 
             </form>
