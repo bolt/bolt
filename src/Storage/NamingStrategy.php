@@ -5,7 +5,7 @@ namespace Bolt\Storage;
 /**
  * Handles Object to DB naming adjustments.
  */
-class NamingStrategy
+class NamingStrategy implements NamingStrategyInterface
 {
     public $prefix = '';
 
