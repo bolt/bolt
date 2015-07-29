@@ -36,7 +36,7 @@ abstract class AsyncBase extends Base
 
         // If there's no active session, don't do anything.
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
-        if (!$this->authentication()->isValidSession($authCookie)) {
+        if (!$this->accessControl()->isValidSession($authCookie)) {
             $this->abort(Response::HTTP_UNAUTHORIZED, 'You must be logged in to use this.');
         }
 
