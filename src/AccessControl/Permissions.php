@@ -623,7 +623,7 @@ class Permissions
                 }
 
                 // Handle special case for owner.
-                if ($contentId === null) {
+                if (empty($contentId)) {
                     break;
                 }
 
