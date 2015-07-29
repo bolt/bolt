@@ -80,20 +80,25 @@ class Application extends Silex\Application
             ->register(new Provider\TokenServiceProvider())
             ->register(new SessionServiceProvider(),
                 [
-                    'sessions.options' => [
+                    'session.default_options' => [
+                        'handler'         => 'files',
+                        'cookie_path'     => $this['resources']->getUrl('root'),
+                        'cookie_domain'   => $this['config']->get('general/cookies_domain'),
+                        'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
+                        'cookie_httponly' => true,
+                    ],
+                    'sessions.options'        => [
                         'main' => [
-                            'name'            => $this['token.session.name'],
-                            'cookie_path'     => $this['resources']->getUrl('root'),
-                            'cookie_domain'   => $this['config']->get('general/cookies_domain'),
-                            'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
-                            'cookie_httponly' => true
+                            'name' => $this['token.session.name'],
                         ],
                         'csrf' => [
+                            'name'                 => $this['token.session.name'] . '_csrf',
                             'cookie_restrict_path' => true,
                         ],
-                ],
-            ]
-        );
+                    ],
+                ]
+            )
+        ;
     }
 
     public function initialize()
