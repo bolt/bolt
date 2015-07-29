@@ -124,6 +124,15 @@ class SelectQuery implements QueryInterface
     }
     
     /**
+     * Returns all the filters attached to the query
+     * @return array[Filter]
+     */
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+    
+    /**
      * Part of the QueryInterface this turns all the input into a Doctrine
      * QueryBuilder object and is usually run just before query execution.
      * That allows modifications to be made to any of the parameters up until
