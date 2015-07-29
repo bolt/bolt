@@ -41,7 +41,6 @@ class GeneralListener implements EventSubscriberInterface
         $request = $event->getRequest();
 
         $this->mailConfigCheck($request);
-        $this->initializeStack($request);
         $this->app['access_control']->setRequest($request);
     }
 
@@ -93,18 +92,6 @@ class GeneralListener implements EventSubscriberInterface
         if (Zone::isBackend($request) && $this->app['config']->get('general/headers/x_frame_options')) {
             $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
             $response->headers->set('Frame-Options', 'SAMEORIGIN');
-        }
-    }
-
-    /**
-     * Initialise the Stack on backend requests.
-     *
-     * @param Request $request
-     */
-    protected function initializeStack(Request $request)
-    {
-        if (Zone::isBackend($request)) {
-            $this->app['stack']->initialize();
         }
     }
 

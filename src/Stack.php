@@ -71,6 +71,8 @@ class Stack
      */
     public function add($filename)
     {
+        $this->initialize();
+
         // If the item is already on the stack, delete it, so it can be added to the front.
         if (in_array($filename, $this->items)) {
             $this->delete($filename);
@@ -89,6 +91,8 @@ class Stack
      */
     public function delete($filename)
     {
+        $this->initialize();
+
         foreach ($this->items as $key => $item) {
             if ($item == $filename) {
                 unset($this->items[$key]);
@@ -106,6 +110,8 @@ class Stack
      */
     public function isOnStack($filename)
     {
+        $this->initialize();
+
         // We don't always need the "files/" part in the filename.
         $shortname = str_replace('files/', '', $filename);
 
@@ -143,6 +149,8 @@ class Stack
      */
     public function listitems($count = 100, $typefilter = '')
     {
+        $this->initialize();
+
         // Make sure typefilter is an array, if passed something like "image, document"
         if (!empty($typefilter)) {
             $typefilter = array_map('trim', explode(',', $typefilter));
@@ -227,6 +235,8 @@ class Stack
      */
     public function persist()
     {
+        $this->initialize();
+
         $this->items = array_slice($this->items, 0, self::MAX_ITEMS);
 
         $this->app['session']->set('stack', $this->items);
