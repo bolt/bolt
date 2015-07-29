@@ -166,5 +166,23 @@ class ContentQueryParserTest extends BoltUnitTest
         }
     }
     
+    public function testLatestHandler()
+    {
+        $this->resetDb();
+        $app = $this->getApp();
+        $this->addSomeContent($app);
+        
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->setQuery('pages/latest/4');
+        $res = $qb->fetch();
+                
+        $this->assertEquals(4, count($res));
+        $count = 5;
+        foreach ($res as $item) {
+            $this->assertEquals($count, $item['id']);
+            $count--;
+        }
+    }
+    
 
 }
