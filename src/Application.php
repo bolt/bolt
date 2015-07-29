@@ -14,6 +14,8 @@ use Doctrine\DBAL\DBALException;
 use RandomLib;
 use SecurityLib;
 use Silex;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 use Symfony\Component\Stopwatch;
 
 class Application extends Silex\Application
@@ -320,6 +322,10 @@ class Application extends Silex\Application
 
                 return $secret;
             }
+        });
+        $this['form.csrf_provider'] = $this->share(function ($app) {
+            $storage = new SessionTokenStorage($app['sessions']['csrf']);
+            return new CsrfTokenManager(null, $storage);
         });
 
         $this
