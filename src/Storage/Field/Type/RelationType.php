@@ -4,6 +4,7 @@ namespace Bolt\Storage\Field\Type;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\EntityProxy;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -15,6 +16,43 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class RelationType extends FieldTypeBase
 {
+    
+    /**
+     * Relation fields can allow filters on the relations fetched. For now this is limited
+     * to the id field because of the possible complexity of fetching and filtering 
+     * all the related data.
+     * 
+     * For example the following queries:
+     *     'pages', {'relationkey'=>'1'}
+     *     'pages', {'relationkey'=>'1 || 2 || 3'}.
+     *
+     * Because the search is actually on the join table, we replace the
+     * expression to filter the join side rather than on the main side.
+     *
+     * @param QueryInterface $query
+     * @param ClassMetadata  $metadata
+     */
+    public function query(QueryInterface $query, ClassMetadata $metadata)
+    {
+        $field = $this->mapping['fieldname'];
+
+        foreach ($query->getFilters() as $filter) {
+            if ($filter->getKey() == $field) {
+
+                // This gets the method name, one of andX() / orX() depending on type of expression
+                $method = strtolower($filter->getExpressionObject()->getType()).'X';
+
+                $newExpr = $query->getQueryBuilder()->expr()->$method();
+                foreach ($filter->getParameters() as $k => $v) {
+                    $newExpr->add("$field.to_id = :$k");
+                }
+
+                $filter->setExpression($newExpr);
+            }
+        }
+    }
+    
+    
     /**
      * @inheritdoc
      */
@@ -23,9 +61,18 @@ class RelationType extends FieldTypeBase
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
         $boltname = $metadata->getBoltName();
+        
+        $from = $query->getQueryPart('from');
+        
+        if (isset($from[0]['alias'])) {
+            $alias = $from[0]['alias'];
+        } else {
+            $alias = $from[0]['table'];
+        }
+        
         $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
-            ->leftJoin('content', $target, $field, "content.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
-            ->addGroupBy("content.id");
+            ->leftJoin($alias, $target, $field, "$alias.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
+            ->addGroupBy("$alias.id");
     }
 
     /**
