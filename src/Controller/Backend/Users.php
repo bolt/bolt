@@ -324,7 +324,7 @@ class Users extends BackendBase
     public function viewRoles()
     {
         $contenttypes = $this->getOption('contenttypes');
-        $permissions = ['view', 'edit', 'create', 'publish', 'depublish', 'change-ownership'];
+        $permissions = $this->app['permissions']->getContentTypePermissions();
         $effectivePermissions = [];
         foreach ($contenttypes as $contenttype) {
             foreach ($permissions as $permission) {
