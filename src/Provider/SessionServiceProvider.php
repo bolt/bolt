@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Session\CookiePathRestrictionListener;
 use Bolt\Session\FileSessionHandler;
 use Bolt\Session\Generator\RandomGenerator;
 use Bolt\Session\OptionsBag;
@@ -114,6 +115,10 @@ class SessionServiceProvider implements ServiceProviderInterface
         $app['session.listener'] = $app->share(function ($app) {
             return $app['session.listeners'][$app['sessions.default']];
         });
+
+        $app['session.cookie_path_restriction_listener.factory'] = $app->protect(function ($options) {
+            return new CookiePathRestrictionListener($options);
+        });
     }
 
     protected function registerOptions(Application $app)
@@ -173,8 +178,15 @@ class SessionServiceProvider implements ServiceProviderInterface
     public function boot(Application $app)
     {
         $listeners = $app['sessions.listener'];
-        foreach ($app['sessions.listener']->keys() as $name) {
+        foreach ($listeners->keys() as $name) {
             $app['dispatcher']->addSubscriber($listeners[$name]);
+        }
+        foreach ($app['sessions.options'] as $options) {
+            /** @var $options OptionsBag */
+            if ($options->getBoolean('cookie_restrict_path')) {
+                $listener = $app['session.cookie_path_restriction_listener.factory']($options);
+                $app['dispatcher']->addSubscriber($listener);
+            }
         }
     }
 }

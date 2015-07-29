@@ -86,7 +86,9 @@ class Application extends Silex\Application
                             'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
                             'cookie_httponly' => true
                         ],
-                        'csrf' => [],
+                        'csrf' => [
+                            'cookie_restrict_path' => true,
+                        ],
                 ],
             ]
         );
