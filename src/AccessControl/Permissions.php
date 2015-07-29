@@ -357,6 +357,16 @@ class Permissions
     }
 
     /**
+     * Get the list of ContentType permissions available.
+     *
+     * @return string[]
+     */
+    public function getContentTypePermissions()
+    {
+        return $this->contentTypePermissions;
+    }
+
+    /**
      * Return a list of ContentType permissions that a user has for the ContentType.
      *
      * @param array  $user
