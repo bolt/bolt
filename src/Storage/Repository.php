@@ -225,8 +225,6 @@ class Repository implements ObjectRepository
         return $this->findWith($queryBuilder);
     }
 
-
-
     /**
      * Internal method to initialise and return a QueryBuilder instance.
      * Note that the metadata fields will be passed the instance to modify where appropriate.

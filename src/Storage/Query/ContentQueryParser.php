@@ -43,7 +43,6 @@ class ContentQueryParser
 
     protected $services = [];
 
-
     public function __construct(EntityManager $em, QueryInterface $queryHandler = null)
     {
         $this->em = $em;

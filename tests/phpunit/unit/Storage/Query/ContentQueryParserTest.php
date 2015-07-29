@@ -2,8 +2,8 @@
 
 namespace Bolt\Tests\Storage\Query;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Storage\Query\ContentQueryParser;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Storage/Query/ContentQueryParser.
@@ -33,23 +33,21 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb = new ContentQueryParser($app['storage']);
         $qb->setQuery('(pages,entries)/search');
         $qb->parse();
-        $this->assertEquals(['pages','entries'], $qb->getContentTypes());
+        $this->assertEquals(['pages', 'entries'], $qb->getContentTypes());
         $this->assertEquals('search', $qb->getOperation());
         $this->assertEmpty($qb->getIdentifier());
-
-
 
         $qb = new ContentQueryParser($app['storage']);
         $qb->setQuery('(pages,entries,showcases)/latest');
         $qb->parse();
-        $this->assertEquals(['pages','entries','showcases'], $qb->getContentTypes());
+        $this->assertEquals(['pages', 'entries', 'showcases'], $qb->getContentTypes());
         $this->assertEquals('latest', $qb->getOperation());
         $this->assertEmpty($qb->getIdentifier());
 
         $qb = new ContentQueryParser($app['storage']);
         $qb->setQuery('pages,entries/about');
         $qb->parse();
-        $this->assertEquals(['pages','entries'], $qb->getContentTypes());
+        $this->assertEquals(['pages', 'entries'], $qb->getContentTypes());
         $this->assertEquals('select', $qb->getOperation());
         $this->assertEquals('about', $qb->getIdentifier());
 
@@ -65,7 +63,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setQuery('pages,entries/search');
         $qb->parse();
         $this->assertEquals('search', $qb->getOperation());
-        $this->assertEquals(['pages','entries'], $qb->getContentTypes());
+        $this->assertEquals(['pages', 'entries'], $qb->getContentTypes());
         $this->assertEmpty($qb->getIdentifier());
 
         $qb = new ContentQueryParser($app['storage']);
@@ -78,7 +76,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb = new ContentQueryParser($app['storage']);
         $qb->setQuery('(entries,events)/random/10');
         $qb->parse();
-        $this->assertEquals(['entries','events'], $qb->getContentTypes());
+        $this->assertEquals(['entries', 'events'], $qb->getContentTypes());
         $this->assertEquals('random', $qb->getOperation());
         $this->assertEquals('10', $qb->getDirective('limit'));
         $this->assertEmpty($qb->getIdentifier());
@@ -90,14 +88,13 @@ class ContentQueryParserTest extends BoltUnitTest
 
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('entries');
-        $qb->setParameters(['order'=>'-datepublish', 'id'=>'!1']);
+        $qb->setParameters(['order' => '-datepublish', 'id' => '!1']);
         $qb->parse();
         $this->assertEquals(['entries'], $qb->getContentTypes());
         $this->assertEquals('select', $qb->getOperation());
         $this->assertEquals('-datepublish', $qb->getDirective('order'));
         $this->assertEquals('!1', $qb->getParameter('id'));
         $this->assertEquals(1, count($qb->getParameters()));
-
     }
 
     public function testPrintQuery()
@@ -105,10 +102,9 @@ class ContentQueryParserTest extends BoltUnitTest
         $app = $this->getApp();
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('entries');
-        $qb->setParameters(['order'=>'-datepublish', 'id'=>'!1', 'printquery'=>true]);
+        $qb->setParameters(['order' => '-datepublish', 'id' => '!1', 'printquery' => true]);
         $this->expectOutputString("SELECT entries.* FROM bolt_entries entries WHERE entries.id <> :id_1 ORDER BY datepublish DESC");
         $qb->fetch();
-
     }
 
     public function testGetQuery()
@@ -116,12 +112,11 @@ class ContentQueryParserTest extends BoltUnitTest
         $app = $this->getApp();
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('pages');
-        $qb->setParameters(['order'=>'-datepublish', 'id'=>'!1', 'getquery'=>function($query){
+        $qb->setParameters(['order' => '-datepublish', 'id' => '!1', 'getquery' => function ($query) {
             echo $query;
         }]);
         $this->expectOutputString("SELECT pages.* FROM bolt_pages pages WHERE pages.id <> :id_1 ORDER BY datepublish DESC");
         $qb->fetch();
-
     }
 
     public function testRandomHandler()
@@ -143,7 +138,7 @@ class ContentQueryParserTest extends BoltUnitTest
 
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('pages/random/4');
-        $qb->setParameters(['returnsingle'=>true]);
+        $qb->setParameters(['returnsingle' => true]);
         $res = $qb->fetch();
 
         $this->assertInstanceOf('Bolt\Storage\Entity\Content', $res);
@@ -190,9 +185,7 @@ class ContentQueryParserTest extends BoltUnitTest
 
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('entries');
-        $qb->setParameters(['order'=>'-datepublish']);
+        $qb->setParameters(['order' => '-datepublish']);
         $qb->setParameter('id', '!1');
     }
-
-
 }

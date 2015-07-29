@@ -37,7 +37,6 @@ class QueryResultsetTest extends BoltUnitTest
         $this->assertEquals(3, count($set->get('set1')));
         $this->assertEquals(3, count($set->get('set2')));
         $this->assertEquals(6, count($set->get()));
-
     }
 
     public function testNoLabelFetch()

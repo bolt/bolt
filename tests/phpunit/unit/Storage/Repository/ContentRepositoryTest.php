@@ -2,7 +2,6 @@
 namespace Bolt\Tests\Storage\Repository;
 
 use Bolt\Storage\Entity\Content;
-use Bolt\Storage\EntityManager;
 use Bolt\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
 
@@ -92,5 +91,4 @@ class ContentRepositoryTest extends BoltUnitTest
 
         $this->assertInstanceOf('Bolt\Storage\Entity\Content', $record);
     }
-
 }

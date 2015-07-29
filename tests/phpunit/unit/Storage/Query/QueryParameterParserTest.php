@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Storage\Query;
 
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Storage\Query\QueryParameterParser;
+use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Storage/Query/QueryParameterParser.
@@ -65,17 +65,17 @@ class QueryParameterParserTest extends BoltUnitTest
         $p = new QueryParameterParser($expr);
         $filter = $p->getFilter('ownerid', '>1 && <4');
         $this->assertEquals('(ownerid > :ownerid_1) AND (ownerid < :ownerid_2)', $filter->getExpression());
-        $this->assertEquals(['ownerid_1'=>'1','ownerid_2'=>'4'], $filter->getParameters());
+        $this->assertEquals(['ownerid_1' => '1', 'ownerid_2' => '4'], $filter->getParameters());
 
         $p = new QueryParameterParser($expr);
         $filter = $p->getFilter('ownerid', '>1||<4');
         $this->assertEquals('(ownerid > :ownerid_1) OR (ownerid < :ownerid_2)', $filter->getExpression());
-        $this->assertEquals(['ownerid_1'=>'1','ownerid_2'=>'4'], $filter->getParameters());
+        $this->assertEquals(['ownerid_1' => '1', 'ownerid_2' => '4'], $filter->getParameters());
 
         $p = new QueryParameterParser($expr);
-        $filter = $p->getFilter('id','>29 && <=37');
+        $filter = $p->getFilter('id', '>29 && <=37');
         $this->assertEquals('(id > :id_1) AND (id <= :id_2)', $filter->getExpression());
-        $this->assertEquals(['id_1'=>'29','id_2'=>'37'], $filter->getParameters());
+        $this->assertEquals(['id_1' => '29', 'id_2' => '37'], $filter->getParameters());
 
         $this->setExpectedException('Bolt\Exception\QueryParseException');
         $p = new QueryParameterParser($expr);
@@ -90,12 +90,12 @@ class QueryParameterParserTest extends BoltUnitTest
         $p = new QueryParameterParser($expr);
         $filter = $p->getFilter('username ||| email', 'tester');
         $this->assertEquals('(username = :username_1) OR (email = :email_2)', $filter->getExpression());
-        $this->assertEquals(['username_1'=>'tester','email_2'=>'tester'], $filter->getParameters());
+        $this->assertEquals(['username_1' => 'tester', 'email_2' => 'tester'], $filter->getParameters());
 
         $p = new QueryParameterParser($expr);
         $filter = $p->getFilter('username ||| email', 'tester ||| faker');
         $this->assertEquals('(username = :username_1) OR (email = :email_2)', $filter->getExpression());
-        $this->assertEquals(['username_1'=>'tester','email_2'=>'faker'], $filter->getParameters());
+        $this->assertEquals(['username_1' => 'tester', 'email_2' => 'faker'], $filter->getParameters());
     }
 
     public function testMissingBuilderError()
@@ -118,9 +118,4 @@ class QueryParameterParserTest extends BoltUnitTest
         $this->assertEquals('username LIKE :username_1', $filter->getExpression());
         $this->assertEquals(['%test%'], array_values($filter->getParameters()));
     }
-
-
 }
-
-
-

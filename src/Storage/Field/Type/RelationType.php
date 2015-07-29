@@ -51,7 +51,6 @@ class RelationType extends FieldTypeBase
         }
     }
 
-
     /**
      * @inheritdoc
      */

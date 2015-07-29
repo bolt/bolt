@@ -2,7 +2,6 @@
 namespace Bolt\Tests\Storage;
 
 use Bolt\Storage;
-use Bolt\Storage\EntityManager;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;

@@ -29,7 +29,6 @@ class UsersRepositoryTest extends BoltUnitTest
         $queryGetUserByName = $repo->getUserQuery('user');
         $this->assertEquals('SELECT * FROM bolt_users users WHERE (username = :userId) OR (email = :userId)', $queryGetUserByName->getSql());
 
-
         $queryHasUsers = $repo->hasUsersQuery();
         $this->assertEquals('SELECT COUNT(id) as count FROM bolt_users users', $queryHasUsers->getSql());
 

@@ -2,7 +2,6 @@
 namespace Bolt\Tests\Storage\Repository;
 
 use Bolt\Tests\BoltUnitTest;
-use Psr\Log\LogLevel;
 
 /**
  * Class to test src/Storage/Repository/LogChangeRepository

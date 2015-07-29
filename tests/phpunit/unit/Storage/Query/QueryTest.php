@@ -20,7 +20,7 @@ class QueryTest extends BoltUnitTest
 
         $this->assertInstanceOf('Bolt\Storage\Query\QueryResultset', $results);
 
-        $results = $app['query']->getContent('pages', ['datepublish' => '>now || !last week','datedepublish'=>'<1 year ago']);
+        $results = $app['query']->getContent('pages', ['datepublish' => '>now || !last week', 'datedepublish' => '<1 year ago']);
         $this->assertInstanceOf('Bolt\Storage\Query\QueryResultset', $results);
     }
 
@@ -29,8 +29,7 @@ class QueryTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addSomeContent();
 
-        $results = $app['query']->getContent('pages', ['id' => '<10', 'returnsingle'=>true]);
+        $results = $app['query']->getContent('pages', ['id' => '<10', 'returnsingle' => true]);
         $this->assertEquals(1, count($results));
     }
-
 }
