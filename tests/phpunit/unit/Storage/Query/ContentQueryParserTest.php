@@ -184,5 +184,15 @@ class ContentQueryParserTest extends BoltUnitTest
         }
     }
     
+    public function testSetParameter()
+    {
+        $app = $this->getApp();
+        
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->setQuery('entries');
+        $qb->setParameters(['order'=>'-datepublish']);
+        $qb->setParameter('id', '!1');
+    }
+    
 
 }

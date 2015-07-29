@@ -115,6 +115,8 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.namingstrategy'] = $app->share(
             function ($app) {
                 $strategy = new NamingStrategy($app['config']->get('general/database/prefix', null));
+                
+                return $strategy;
             }
         );
 
