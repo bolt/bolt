@@ -220,7 +220,7 @@ class Stack
         $this->items = array_slice($this->items, 0, self::MAX_ITEMS);
         $ser = json_encode($this->items);
 
-        $this->app['session']->set('items', $ser);
+        $this->app['session']->set('stack', $ser);
 
         $currentuser = $this->app['users']->getCurrentUser();
         $currentuser['stack'] = $ser;
