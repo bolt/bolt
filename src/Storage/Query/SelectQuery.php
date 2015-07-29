@@ -143,7 +143,7 @@ class SelectQuery implements QueryInterface
     public function build()
     {
         $query = $this->qb;
-        if ($expr = $this->getWhereExpression()) {
+        if ($this->getWhereExpression()) {
            $query->where($this->getWhereExpression());
         }
         $query->setParameters($this->getWhereParameters());
