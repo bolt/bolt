@@ -1,8 +1,10 @@
 <?php
+
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -14,6 +16,38 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class TaxonomyType extends FieldTypeBase
 {
+    /**
+     * Taxonomy fields allows queries on the parameters passed in.
+     * For example the following queries:
+     *     'pages', {'categories'=>'news'}
+     *     'pages', {'categories'=>'news || events'}.
+     *
+     * Because the search is actually on the join table, we replace the
+     * expression to filter the join side rather than on the main side.
+     *
+     * @param QueryInterface $query
+     * @param ClassMetadata  $metadata
+     */
+    public function query(QueryInterface $query, ClassMetadata $metadata)
+    {
+        $field = $this->mapping['fieldname'];
+        $taxonomyParams = $query->getWhereParametersFor($field);
+        foreach ($query->getFilters() as $filter) {
+            if ($filter->getKey() == $field) {
+                
+                // This gets the method name, one of andX() / orX() depending on type of expression
+                $method = strtolower($filter->getExpressionObject()->getType()).'X';
+
+                $newExpr = $query->getQueryBuilder()->expr()->$method();
+                foreach ($filter->getParameters() as $k => $v) {
+                    $newExpr->add("$field.slug = :$k");
+                }
+
+                $filter->setExpression($newExpr);
+            }
+        }
+    }
+
     /**
      * @inheritdoc
      */
@@ -27,9 +61,9 @@ class TaxonomyType extends FieldTypeBase
         } else {
             $order = "$field.id";
         }
-        
+
         $from = $query->getQueryPart('from');
-        
+
         if (isset($from[0]['alias'])) {
             $alias = $from[0]['alias'];
         } else {
@@ -58,8 +92,8 @@ class TaxonomyType extends FieldTypeBase
     {
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
-        $accessor = "get".$field;
-        $taxonomy = (array)$entity->$accessor();
+        $accessor = 'get'.$field;
+        $taxonomy = (array) $entity->$accessor();
 
         // Fetch existing relations
 
@@ -88,17 +122,17 @@ class TaxonomyType extends FieldTypeBase
         foreach ($toInsert as $item) {
             $ins = $em->createQueryBuilder()->insert($target);
             $ins->values([
-                'content_id'   => '?',
-                'contenttype'  => '?',
+                'content_id' => '?',
+                'contenttype' => '?',
                 'taxonomytype' => '?',
-                'slug'         => '?',
-                'name'         => '?'
+                'slug' => '?',
+                'name' => '?',
             ])->setParameters([
                 0 => $entity->id,
                 1 => $entity->getContenttype(),
                 2 => $field,
                 3 => $item,
-                4 => $this->mapping['data']['options'][$item]
+                4 => $this->mapping['data']['options'][$item],
             ]);
 
             $queries->append($ins);
@@ -114,7 +148,7 @@ class TaxonomyType extends FieldTypeBase
                 0 => $entity->id,
                 1 => $entity->getContenttype(),
                 2 => $field,
-                3 => $item
+                3 => $item,
             ]);
 
             $queries->append($del);
@@ -130,7 +164,7 @@ class TaxonomyType extends FieldTypeBase
     }
 
     /**
-     * Get platform specific group_concat token for provided column
+     * Get platform specific group_concat token for provided column.
      *
      * @param string       $column
      * @param string       $order
