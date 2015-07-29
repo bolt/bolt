@@ -119,7 +119,6 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return $strategy;
             }
         );
-
     }
 
     public function boot(Application $app)

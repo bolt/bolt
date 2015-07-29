@@ -16,7 +16,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class RelationType extends FieldTypeBase
 {
-    
     /**
      * Relation fields can allow filters on the relations fetched. For now this is limited
      * to the id field because of the possible complexity of fetching and filtering 

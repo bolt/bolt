@@ -32,7 +32,7 @@ class AuthenticationServiceProvider implements ServiceProviderInterface
                 $repoAuth = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
                 $repoUser = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
 
-                $tracker= new AccessControl\AccessChecker(
+                $tracker = new AccessControl\AccessChecker(
                     $repoAuth,
                     $repoUser,
                     $app['session'],

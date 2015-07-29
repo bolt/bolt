@@ -2,7 +2,6 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Storage\NamingStrategy;
 use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Query\QueryParameterParser;
@@ -40,8 +39,6 @@ class QueryServiceProvider implements ServiceProviderInterface
                 return new SelectQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler']);
             }
         );
-    
-
     }
 
     public function boot(Application $app)

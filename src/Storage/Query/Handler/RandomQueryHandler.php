@@ -12,13 +12,14 @@ use Bolt\Storage\Query\ContentQueryParser;
 class RandomQueryHandler
 {
     /**
-     * @param  ContentQueryParser $contentQuery
+     * @param ContentQueryParser $contentQuery
+     *
      * @return QueryResultset
      */
     public function __invoke(ContentQueryParser $contentQuery)
     {
         $params = $contentQuery->getEntityManager()->createQueryBuilder()->getConnection()->getParams();
-        if (strpos($params['driver'], 'mysql') !== false ) {
+        if (strpos($params['driver'], 'mysql') !== false) {
             $contentQuery->setDirective('order', 'RAND()');
         } else {
             $contentQuery->setDirective('order', 'RANDOM()');

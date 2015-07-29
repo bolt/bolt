@@ -2,8 +2,6 @@
 
 namespace Bolt\Storage\Query;
 
-use Bolt\Storage\Query\QueryInterface;
-use Bolt\Storage\Query\QueryParameterParser;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -33,7 +31,7 @@ class SelectQuery implements QueryInterface
     public function __construct(QueryBuilder $qb, QueryParameterParser $parser)
     {
         $this->qb = $qb;
-        $this->parser = $parser;     
+        $this->parser = $parser;
     }
     
     /**
@@ -41,7 +39,7 @@ class SelectQuery implements QueryInterface
      * 
      * @param string $contenttype
      */
-    public function setContentType($contenttype) 
+    public function setContentType($contenttype)
     {
         $this->contenttype = $contenttype;
     }
@@ -61,7 +59,7 @@ class SelectQuery implements QueryInterface
      * Creates a composite expression that adds all the attached
      * filters individual expressions into a combined one.
      * 
-     * @return CompositeExpression 
+     * @return CompositeExpression
      */
     public function getWhereExpression()
     {
@@ -95,22 +93,23 @@ class SelectQuery implements QueryInterface
     /**
      * Gets all the parameters for a specific field name.
      * 
-     * @param  string $fieldname
-     * @return array             array of key=>value parameters
+     * @param string $fieldname
+     *
+     * @return array array of key=>value parameters
      */
     public function getWhereParametersFor($fieldname)
     {
         return array_intersect_key(
-            $this->getWhereParameters(), 
+            $this->getWhereParameters(),
             array_flip(preg_grep('/^'.$fieldname.'_/', array_keys($this->getWhereParameters())))
-        );   
+        );
     }
     
-    public function setWhereParameter($key, $val) 
+    public function setWhereParameter($key, $val)
     {
         foreach ($this->filters as $filter) {
             if ($filter->hasParameter($key)) {
-                $filter->setParameter($key,$val);
+                $filter->setParameter($key, $val);
             }
         }
     }
@@ -125,6 +124,7 @@ class SelectQuery implements QueryInterface
     
     /**
      * Returns all the filters attached to the query
+     *
      * @return array[Filter]
      */
     public function getFilters()
@@ -144,7 +144,7 @@ class SelectQuery implements QueryInterface
     {
         $query = $this->qb;
         if ($this->getWhereExpression()) {
-           $query->where($this->getWhereExpression());
+            $query->where($this->getWhereExpression());
         }
         $query->setParameters($this->getWhereParameters());
             
@@ -173,6 +173,7 @@ class SelectQuery implements QueryInterface
     
     /**
      * Returns wether the query is in single fetch mode.
+     *
      * @return bool
      */
     public function getSingleFetchMode()
@@ -213,7 +214,4 @@ class SelectQuery implements QueryInterface
             $this->addFilter($this->parser->getFilter($key, $value));
         }
     }
-    
-    
-
 }

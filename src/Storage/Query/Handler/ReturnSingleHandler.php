@@ -10,7 +10,7 @@ use Bolt\Storage\Query\QueryInterface;
 class ReturnSingleHandler
 {
     /**
-     * @param  QueryInterface $query
+     * @param QueryInterface $query
      */
     public function __invoke(QueryInterface $query)
     {

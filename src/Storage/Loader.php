@@ -36,7 +36,7 @@ class Loader
      * @param ClassMetadata  $metadata
      *
      * @return QueryInterface
-     */    
+     */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
         foreach ($metadata->getFieldMappings() as $field) {

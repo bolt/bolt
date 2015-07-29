@@ -122,11 +122,11 @@ class TaxonomyType extends FieldTypeBase
         foreach ($toInsert as $item) {
             $ins = $em->createQueryBuilder()->insert($target);
             $ins->values([
-                'content_id' => '?',
-                'contenttype' => '?',
+                'content_id'   => '?',
+                'contenttype'  => '?',
                 'taxonomytype' => '?',
-                'slug' => '?',
-                'name' => '?',
+                'slug'         => '?',
+                'name'         => '?',
             ])->setParameters([
                 0 => $entity->id,
                 1 => $entity->getContenttype(),

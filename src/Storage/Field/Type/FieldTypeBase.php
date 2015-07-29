@@ -3,8 +3,8 @@ namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
-use Bolt\Storage\QuerySet;
 use Bolt\Storage\Query\QueryInterface;
+use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
 

@@ -4,14 +4,14 @@ namespace Bolt\Storage\Query;
 
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Query\Handler\FirstQueryHandler;
-use Bolt\Storage\Query\Handler\LatestQueryHandler;
-use Bolt\Storage\Query\Handler\RandomQueryHandler;
-use Bolt\Storage\Query\Handler\SelectQueryHandler;
-use Bolt\Storage\Query\Handler\ReturnSingleHandler;
-use Bolt\Storage\Query\Handler\OrderHandler;
-use Bolt\Storage\Query\Handler\LimitHandler;
 use Bolt\Storage\Query\Handler\GetQueryHandler;
+use Bolt\Storage\Query\Handler\LatestQueryHandler;
+use Bolt\Storage\Query\Handler\LimitHandler;
+use Bolt\Storage\Query\Handler\OrderHandler;
 use Bolt\Storage\Query\Handler\PrintQueryHandler;
+use Bolt\Storage\Query\Handler\RandomQueryHandler;
+use Bolt\Storage\Query\Handler\ReturnSingleHandler;
+use Bolt\Storage\Query\Handler\SelectQueryHandler;
 
 /**
  *  Handler class to convert the DSL for content queries into an
@@ -49,7 +49,7 @@ class ContentQueryParser
         $this->em = $em;
         
         if ($queryHandler !== null) {
-            $this->addService('select', $queryHandler);   
+            $this->addService('select', $queryHandler);
         }
         
         $this->setupDefaults();
@@ -198,6 +198,7 @@ class ContentQueryParser
     
     /**
      * Gets the object EntityManager
+     *
      * @return EntityManager
      */
     public function getEntityManager()
@@ -251,8 +252,7 @@ class ContentQueryParser
      * Sets a directive for the named key.
      *
      * @param string $key
-     * @param mixed $value
-     *
+     * @param mixed  $value
      */
     public function setDirective($key, $value)
     {
@@ -310,7 +310,8 @@ class ContentQueryParser
     /**
      * Returns a handler for the named operation.
      *
-     * @param string   $operation
+     * @param string $operation
+     *
      * @return callable
      */
     public function getHandler($operation)

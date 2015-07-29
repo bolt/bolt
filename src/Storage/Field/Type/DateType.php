@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Doctrine\DBAL\Query\QueryBuilder;
 use Bolt\Exception\QueryParseException;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
@@ -14,21 +13,21 @@ use Bolt\Storage\Query\QueryInterface;
  */
 class DateType extends FieldTypeBase
 {
-    
     /**
      * Date fields perform substitution on the parameters passed in to query.
      * To handle this we pass every parameter through `strtotime()` to make 
      * sure that it is a valid search.
      * 
-     * @param  QueryInterface $query    
-     * @param  ClassMetadata  $metadata 
-     * @return void                   
+     * @param QueryInterface $query
+     * @param ClassMetadata  $metadata
+     *
+     * @return void
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
         $field = $this->mapping['fieldname'];
         $dateParams = $query->getWhereParametersFor($field);
-        foreach($dateParams as $key => $val) {
+        foreach ($dateParams as $key => $val) {
             $time = strtotime($val);
             if (!$time) {
                 throw new QueryParseException('Unable to query $field = $val, not a valid date search', 1);

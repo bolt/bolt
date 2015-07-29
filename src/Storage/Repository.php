@@ -213,8 +213,9 @@ class Repository implements ObjectRepository
      * The query is passed to the pre-load handlers then built into a
      * QueryBuilder instance that can be executed. 
      * 
-     * @param  QueryInterface $query [description]
-     * @return [type]                [description]
+     * @param QueryInterface $query [description]
+     *
+     * @return [type] [description]
      */
     public function queryWith(QueryInterface $query)
     {

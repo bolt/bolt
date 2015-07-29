@@ -3,8 +3,6 @@
 namespace Bolt\Storage\Query;
 
 use Bolt\Exception\QueryParseException;
-
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 
 /**
@@ -61,13 +59,12 @@ class QueryParameterParser
     /**
      * Runs the keys/values through the relevant parsers.
      *
-     * @return Expression matched values
-     *
      * @throws Bolt\Exception\QueryParseException
+     *
+     * @return Expression matched values
      */
     public function getFilter($key, $value = null)
     {
-        
         if (!$this->expr instanceof ExpressionBuilder) {
             throw new QueryParseException('Cannot call method without an Expression Builder parameter set', 1);
         }
@@ -83,9 +80,9 @@ class QueryParameterParser
     /**
      * Handles some errors in key/value string formatting.
      *
-     * @param string             $key
-     * @param string             $value
-     * @param ExpressionBuilder  $expr
+     * @param string            $key
+     * @param string            $value
+     * @param ExpressionBuilder $expr
      */
     public function incorrectQueryHandler($key, $value, $expr)
     {
@@ -223,7 +220,6 @@ class QueryParameterParser
      */
     public function parseValue($value)
     {
-        
         foreach ($this->valueMatchers as $matcher) {
             $regex = sprintf('/%s/', $matcher['token']);
             $values = $matcher['params'];
