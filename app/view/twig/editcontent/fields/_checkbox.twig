@@ -1,21 +1,17 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:  ('form-control ' ~ field.class)|trim,
     label:  field.label,
     info:   field.info|default('')
 } %}
 
 {#=== INIT ===========================================================================================================#}
 
-{% set attributes = {
+{% set buico = {
     checkbox: {
         checked:  context.content.get(contentkey),
-        class:    option.class,
         id:       key,
         name:     name,
-        type:     'checkbox',
-        value:    '1',
     }
 } %}
 
@@ -32,8 +28,6 @@
 
 {% block fieldset_controls %}
     <div class="col-md-9">
-        <div class="checkbox">
-            <label><input{{ macro.attr(attributes.checkbox) }}><button type="button" onclick="var x=$(this).prev();x.prop('checked', !x.prop('checked'));"></button></label>
-        </div>
+        {{ buic.checkbox(buico.checkbox) }}
     </div>
 {% endblock fieldset_controls %}

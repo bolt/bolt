@@ -45,11 +45,6 @@
 
 {% macro imagepath(labelkey, option, image, attr_inp) %}
     {% import '_macro/_macro.twig' as macro %}
-    {#  sbonardt: put this label as any other field in it's own place outside the div wrapper. More fine grained
-        control over positioning and alignment
-        <label class="control-label" style="min-width: 180px;">{{ macro.infopop(labelkey, option.info) }}</label>
-        note: the 'min-width: 180px;' is a bit of a nasty hack. if omitted, Chrome renders the
-        span 1px too small, making the 'info' popup go to the next line. #}
     <label>{{ __('Path to image file') }}</label>
     <input{{ macro.attr(attr_inp) }}>
 {% endmacro %}
@@ -60,7 +55,7 @@
             {% if attrib|lower == 'title' %}
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label for="{{ key }}[title]">{{ __('Title') }}</label>
+                        <label for="{{ key }}-title">{{ __('Title') }}</label>
                     </div>
                     <div class="col-sm-10">
                         <input type="text" name="{{ key }}[title]" id="{{ key }}-title" value="{{ image.title|default('') }}" class="form-control">
@@ -70,7 +65,7 @@
             {% if attrib|lower in ['alt text', 'alt'] %}
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label for="{{ key }}[alt]">{{ __('Alt') }}</label>
+                        <label for="{{ key }}-alt">{{ __('Alt') }}</label>
                     </div>
                     <div class="col-sm-10">
                         <input type="text" name="{{ key }}[alt]" id="{{ key }}-alt" value="{{ image.alt|default('') }}" class="form-control">

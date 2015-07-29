@@ -1,0 +1,159 @@
+{##
+ # Renders a checkbox component.
+ #
+ # Options:
+ #    class      ''         Classname added to the component container.
+ #    disabled   false      Input is disabled.
+ #    id         name       Id of the checkbox.
+ #    name       required   Name of the checkbox.
+ #    required   false      Input is required.
+ #
+ # @param array opt Options defining the component
+ #}
+{% macro checkbox(opt) %}
+    {% spaceless %}
+        {% from '_macro/_macro.twig' import attr %}
+
+        {% set attributes = {
+            'checked':   opt.checked|default(false),
+            'class':     'form-control',
+            'disabled':  opt.disabled|default(false),
+            'id':        opt.id|default(opt['name+id']|default('')),
+            'name':      opt.name|default(opt['name+id']|default('')),
+            'required':  opt.required|default(false),
+            'type':      'checkbox',
+            'value':     '1',
+        } %}
+
+        <div{{ hclass(['buic-checkbox', opt.class|default()]) }}>
+            <label>
+                <input{{ attr(attributes) }}>
+                <button type="button"></button>
+            </label>
+        </div>
+    {% endspaceless %}
+{% endmacro %}
+
+{##
+ # Renders a info popup.
+ #
+ # @param string title
+ # @param string id
+ #}
+{% macro info(label, id) %}
+    {% set attributes = {
+        'class':         'info-pop fa fa-info-circle',
+        'data-content':  app.translator.trans(id, {}, 'infos'),
+        'data-html':     true,
+        'data-title':    label|trans,
+    } %}
+    <i{{ hattr(attributes) }}><span class="sr-only">{{ __('Info') }}</span></i>
+{% endmacro %}
+
+{##
+ # Renders a datetime that displays relative time.
+ #
+ # @param string datetime ISO-datetime ('Y-m-d H:i:s') to display.
+ #}
+{% macro moment(datetime) -%}
+    {%- set dt = datetime|date('Y-m-d\\TH:i:sP') -%}
+    <time class="buic-moment" datetime="{{ dt }}">{{ dt }}</time>
+{%- endmacro %}
+
+{##
+ # Renders a select component.
+ #
+ # Options:
+ #    all         false      Add "select all" button.
+ #    class       ''         Classname(s) added to the component container.
+ #    clear       false      Add "clear" button.
+ #    disabled    false      Input is disabled.
+ #    id          ''         Id of the checkbox.
+ #    multiple    false      Multiple selections mode.
+ #    name        required   Name of the checkbox.
+ #    options     []         Array of select options, see below.
+ #    required    false      Input is required.
+ #
+ #    options:     Array of {value: …, text|html…, group: …, selected: …}.
+ #    - value:     option value, required
+ #    - text:      unescaped hatml for option label, if not set <value> is used.
+ #    - group:     Group title or false or not set.
+ #    - selected:  Boolean, not set is false.
+ #
+ # @param array opt Options defining the component
+ #}
+{% macro select(opt) %}
+    {% spaceless %}
+        {% set conf = {
+            'all':       opt.all|default(false),
+            'class':     opt.class|default(),
+            'clear':     opt.clear|default(false),
+            'disabled':  opt.disabled|default(false),
+            'id':        opt.id|default(opt['name+id']|default('')),
+            'multiple':  opt.multiple|default(false),
+            'name':      opt.name|default(opt['name+id']|default('')),
+            'options':   opt.options|default([]),
+            'required':  opt.required|default(false),
+        } %}
+
+        {% set attributes = {
+            'disabled':  conf.disabled,
+            'id':        conf.id,
+            'multiple':  conf.multiple,
+            'name':      conf.name,
+            'required':  conf.required,
+        } %}
+
+        <div{{ hclass(['buic-select', conf.class]) }}>
+            <div>
+                <div>
+                    <select{{ hattr(attributes) }}>
+                        {% if not conf.multiple %}
+                            <option value="" label="–"></option>
+                        {% endif %}
+
+                        {% set last_optgroup = false %}
+
+                        {% for option in conf.options %}
+                            {# optgroup #}
+                            {% set optgroup = option.group|default(false) %}
+                            {% if optgroup != last_optgroup %}
+                                {% if last_optgroup != false %}
+                                    </optgroup>
+                                {% endif %}
+                                {% if optgroup != false %}
+                                    <optgroup label="{{ optgroup }}">
+                                {% endif %}
+                                {% set last_optgroup = optgroup %}
+                            {% endif %}
+
+                            {# option #}
+                            {% set optattr = {'value': option.value, 'selected': option.selected|default(false) } %}
+                            <option{{ hattr(optattr) }}>{{ option.text|default(option.value)|striptags|e }}</option>
+                        {% endfor %}
+
+                        {# Close open optgroup #}
+                        {% if last_optgroup != false %}
+                            </optgroup>
+                        {% endif %}
+
+                    </select>
+                </div>
+                {% if conf.clear or conf.all %}
+                    <div>
+                        {% if conf.clear %}
+                            <button type="button" class="btn select-none">
+                                <span class="sr-only">{{ __('Select none') }}</span>
+                            </button>
+                        {% endif %}
+                        {% if conf.all %}
+                            <button type="button" class="btn select-all">
+                                <span class="sr-only">{{ __('Select all') }}</span>
+                            </button>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endmacro %}

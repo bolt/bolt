@@ -33,13 +33,6 @@
 {% endmacro %}
 
 {##
- # Output a 'relative' datetime.
- #}
-{% macro datetime(d) %}
-    <time class="moment" datetime="{{ d|date("c") }}" title="{{ d|date("c") }}">{{ d|date("c") }}</time>
-{% endmacro %}
-
-{##
  # Outputs tag attributes.
  #}
 {% macro attr(attributes) %}
@@ -187,17 +180,6 @@
 {% endmacro %}
 
 {##
- # Renders a datetime/date input component
- #
- # @param string datetime ISO-datetime to display
- #}
-{% macro timemoment(datetime) %}
-    {% spaceless %}
-        <time class="moment" datetime="{{ datetime|date("c") }}" title="{{ datetime }}">{{ datetime }}</time>
-    {% endspaceless %}
-{% endmacro %}
-
-{##
  # Renders a upload button combo [Upload] [Select from Server] [Select from Stack]
  #
  # @param string type Either 'image' or 'other,document'
@@ -230,7 +212,7 @@
         {% endif %}
 
         {# Button: Select from Server #}
-        <button type="button" class="btn btn-tertiary" data-target="#selectModal-{{ key }}" href="{{ href }}" data-toggle="modal">
+        <button type="button" class="btn btn-tertiary" data-target="#selectModal-{{ key }}" data-remote="{{ href }}" data-toggle="modal">
             <i class="fa fa-download"></i>
             {{ __('field.general.select-from-server') }}
         </button>

@@ -28,29 +28,16 @@
      * @param {FieldConf} fconf
      */
     select.init = function (fieldset, fconf) {
-        var select = $(fieldset).find('select'),
-            selectAll = $(fieldset).find('.select-all'),
-            selectNone = $(fieldset).find('.select-none');
+        var select = $(fieldset).find('select');
 
         select.select2({
             width: '100%',
-            placeholder: bolt.data('field.select.text.placeholder'),
+            placeholder: {
+                id: '',
+                text: bolt.data('field.select.text.placeholder')
+            },
             allowClear: true,
             minimumResultsForSearch: fconf.autocomplete ? 0 : Infinity
-        });
-
-        // Initialize the select-all button.
-        selectAll.prop('title', selectAll.text().trim());
-        selectAll.on('click', function () {
-            select.find('option').prop('selected', true).trigger('change');
-            this.blur();
-        });
-
-        // Initialize the select-none button.
-        selectNone.prop('title', selectNone.text().trim());
-        selectNone.on('click', function () {
-            select.val(null).trigger('change');
-            this.blur();
         });
     };
 

@@ -99,6 +99,13 @@ $navbar-padding-horizontal: 0;
 @import "modules/omnisearch";
 
 /**
+ * Bolt User Interface Components.
+ */
+@import "buic/checkbox";
+@import "buic/moment";
+@import "buic/select";
+
+/**
  * Fieldsets.
  */
 @import "fieldsets/generic";

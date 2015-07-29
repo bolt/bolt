@@ -215,4 +215,81 @@ class AdminHandler
 
         return $str;
     }
+
+    /**
+     * Prepares attributes ready to attach to an html tag.
+     *
+     * - Handles boolean attributes.
+     * - Omits empty attributes if not forced by appending '!' to the name.
+     * - JSON encodes array values
+     * - Prettied output of class attribute and array data is handled.
+     *
+     * @param array  $attributes
+     *
+     * @return string Attributes
+     */
+    public function hattr($attributes)
+    {
+        // http://www.w3.org/html/wg/drafts/html/master/infrastructure.html#boolean-attributes
+        // We implement only a subset for now that is used in Bolt.
+        $booleans = ['checked', 'disabled', 'multiple', 'readonly', 'required', 'selected'];
+        $return = '';
+
+        $add = function ($name, $value = null) use (&$return) {
+            $return .= ' ' .$name . ($value === null ? '' : '="' . htmlspecialchars($value) . '"');
+        };
+
+        foreach ($attributes as $name => $value) {
+            // Force outputting of empty non booleans.
+            $force = substr($name, -1) === '!';
+            $name = rtrim($name, '!');
+
+            // Check for being a boolean attribute.
+            $isBoolean = in_array($name, $booleans);
+
+            // Assume integer 0, float 0.0 and string "0" as not empty on non booleans.
+            $set = !empty($value) || !$isBoolean && (string) $value === '0';
+
+            if ($set || !$isBoolean && $force) {
+                if ($isBoolean) {
+                    $add($name);
+                } elseif ($name === 'name+id') {
+                    $add('name', $value);
+                    $add('id', $value);
+                } elseif ($name === 'class') {
+                    $add($name, $this->hclass($value, true));
+                } elseif (is_array($value)) {
+                    $add($name, json_encode($value));
+                } else {
+                    $add($name, $value);
+                }
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Generates pretty class attributes.
+     *
+     * @param array|string  $classes
+     * @param boolean       $raw
+     *
+     * @return string  Class attribute
+     */
+    public function hclass($classes, $raw = false)
+    {
+        if (is_array($classes)) {
+            $classes = join(' ', $classes);
+        }
+        $classes = preg_split('/ +/', trim($classes));
+        $classes = join(' ', $classes);
+
+        if ($raw) {
+            return $classes;
+        } else {
+            return $classes ? ' class="' . htmlspecialchars($classes) . '"' : '';
+        }
+
+    }
 }

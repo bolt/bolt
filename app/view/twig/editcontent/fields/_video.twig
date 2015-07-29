@@ -48,7 +48,6 @@
     hid_title: {
         id:        'video-' ~ key ~ '-title',
         name:      name ~ '[title]',
-        readonly:  true,
         type:      'hidden',
         value:     video.title|default(''),
     },
@@ -56,7 +55,6 @@
     hid_authorname: {
         id:        'video-' ~ key ~ '-author_name',
         name:      name ~ '[authorname]',
-        readonly:  true,
         type:      'hidden',
         value:     video.authorname|default(''),
     },
@@ -64,7 +62,6 @@
     hid_authorurl: {
         id:        'video-' ~ key ~ '-author_url',
         name:      name ~ '[authorurl]',
-        readonly:  true,
         type:      'hidden',
         value:     video.authorurl|default(''),
     },
@@ -72,7 +69,6 @@
     hid_html: {
         id:        'video-' ~ key ~ '-html',
         name:      name ~ '[html]',
-        readonly:  true,
         type:      'hidden',
         value:     (video.html is defined ? video.html|replace({'"': '\''}) : ''),
     },
@@ -80,7 +76,6 @@
     hid_thumbnail: {
         id:        'video-' ~ key ~ '-thumbnail',
         name:      name ~ '[thumbnail]',
-        readonly:  true,
         type:      'hidden',
         value:     video.thumbnail|default(''),
     }

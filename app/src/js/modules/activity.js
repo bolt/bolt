@@ -25,11 +25,13 @@
      */
     activity.init = function () {
         if ($('#latestactivity').is('*')) {
+            console.log('activity.init');
             setTimeout(
                 function () {
+                    //console.log('bolt.activity.update()');
                     bolt.activity.update();
                 },
-                intervall
+                interval
             );
         }
     };
@@ -45,9 +47,13 @@
         $.get(
             bolt.conf('paths.async') + 'latestactivity',
             function (data) {
-                $('#latesttemp').html(data);
-                bolt.moments.update();
-                $('#latestactivity').html($('#latesttemp').html());
+                var newActivity = $(data).find('.buic-moment').each(
+                        function () {
+                            bolt.buic.moment.init(this);
+                        }
+                    ).end();
+
+                $('#latestactivity').empty().append(newActivity);
             }
         );
 
@@ -55,18 +61,18 @@
             function () {
                 bolt.activity.update();
             },
-            intervall
+            interval
         );
     };
 
     /**
-     * Update intervall.
+     * Update interval.
      *
      * @private
-     * @constant {number} intervall
+     * @constant {number} interval
      * @memberof Bolt.activity
      */
-    var intervall = 30 * 1000; // 30 seconds
+    var interval = 30 * 1000; // 30 seconds
 
     // Apply mixin container
     bolt.activity = activity;

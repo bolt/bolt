@@ -28,25 +28,20 @@
      * @param {FieldConf} fconf
      */
     relationship.init = function (fieldset, fconf) {
-        var select = $(fieldset).find('select'),
-            selectNone = $(fieldset).find('.select-none');
+        var select = $(fieldset).find('select');
 
         select.select2({
             width: '100%',
-            placeholder: bolt.data('field.relationship.text.placeholder'),
+            placeholder: {
+                id: '',
+                text: bolt.data('field.relationship.text.placeholder')
+            },
             allowClear: true,
             templateSelection: function (item) {
                 var label = $(item.element).parent().attr('label');
 
                 return (label ? label + ': ' : '') + item.text;
             }
-        });
-
-        // Initialize the select-none button.
-        selectNone.prop('title', selectNone.text().trim());
-        selectNone.on('click', function () {
-            select.val(null).trigger('change');
-            this.blur();
         });
     };
 

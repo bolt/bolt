@@ -27,11 +27,7 @@
                     </td>
 
                     <td>
-                        {% if user.lastseen|date('Y') > "1901" %}
-                            <time class="moment" datetime="{{ user.lastseen|date("c") }}" title="{{ user.lastseen|date("c") }}">{{ user.lastseen|date("c") }}</time>
-                        {% else %}
-                        -
-                        {% endif %}
+                        {{ user.lastseen|date('Y') > '1901' ? buic.moment(user.lastseen) : '-' }}
                     </td>
 
                     <td class="contenttypes">

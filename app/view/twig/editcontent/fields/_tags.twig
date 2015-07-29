@@ -1,17 +1,22 @@
 {#=== INIT ===========================================================================================================#}
 
-{% if context.content.taxonomy[taxonomy.slug] is defined %}
-    {% set tags = context.content.taxonomy[taxonomy.slug] %}
-{% else %}
-    {% set tags = [] %}
-{% endif %}
+{# Build the select options array #}
+{% set options = [] %}
+{% for tag in context.content.taxonomy[taxonomy.slug]|default([]) %}
+    {% set options = options|merge([{
+        value:     tag,
+        text:      tag,
+        selected:  true,
+    }]) %}
+{% endfor %}
 
-{% set attributes = {
-    taxonomy: {
-        id:       'taxonomy-' ~ taxonomy.slug,
-        name:     'taxonomy[' ~ taxonomy.slug ~ '][]',
-        multiple: true,
-    }
+{# BUIC options #}
+{% set buico_select = {
+    'clear':     true,
+    'id':        'taxonomy-' ~ taxonomy.slug,
+    'multiple':  true,
+    'name':      'taxonomy[' ~ taxonomy.slug ~ '][]',
+    'options':   options,
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -29,23 +34,7 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        <div class="select-component">
-            <div>
-                <div>
-                    <select{{ macro.attr(attributes.taxonomy) }}>
-                        {% for tag in tags %}
-                            <option value="{{ tag }}" selected>{{ tag }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <button type="button" class="btn select-none">
-                        <span class="sr-only">{{ __('Select none') }}</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
+        {{ buic.select(buico_select) }}
         {% if taxonomy.tagcloud %}
             <div class="tagcloud"></div>
         {% endif %}

@@ -19,13 +19,13 @@
     {{ data('omnisearch.placeholder', __('Find')) }}
 
     <div id="navpage-wrapper"{% if app.request.cookies.get('sidebar') %} class="nav-secondary-collapsed nav-secondary-collapsed-hoverable"{% endif %}>
-        <nav id="navpage-primary" class="navbar navbar-static-top navbar-inverse navbar-bolt" role="navigation">
+        <nav id="navpage-primary" class="navbar navbar-static-top navbar-inverse navbar-bolt">
             <div class="container-fluid">
                 {% include 'nav/_primary.twig' %}
             </div>
         </nav>
 
-        <nav id="navpage-secondary" class="navbar-default navbar-static-side" role="navigation">
+        <nav id="navpage-secondary" class="navbar-default navbar-static-side">
             {% include 'nav/_secondary.twig' %}
         </nav>
 
