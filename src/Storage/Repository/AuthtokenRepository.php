@@ -11,15 +11,12 @@ class AuthtokenRepository extends Repository
     /**
      * Fetches an existing token for the given user / ip
      *
-<<<<<<< HEAD
-=======
      * @param string      $username
->>>>>>> Fix AuthtokenRepository PHPDocs
      * @param string      $ip
      * @param string|null $useragent
      *
      * @return \Bolt\Storage\Entity\Authtoken
-     **/
+     */
     public function getUserToken($username, $ip, $useragent = null)
     {
         $query = $this->getUserTokenQuery($username, $ip, $useragent);
@@ -52,7 +49,7 @@ class AuthtokenRepository extends Repository
      * @param string|null $useragent
      *
      * @return \Bolt\Storage\Entity\Authtoken
-     **/
+     */
     public function getToken($token, $ip, $useragent = null)
     {
         $query = $this->getTokenQuery($token, $ip, $useragent);
@@ -81,8 +78,8 @@ class AuthtokenRepository extends Repository
      *
      * @param $username
      *
-     * @return int
-     **/
+     * @return integer
+     */
     public function deleteTokens($username)
     {
         $query = $this->deleteTokensQuery($username);
@@ -102,8 +99,8 @@ class AuthtokenRepository extends Repository
     /**
      * Deletes all expired tokens
      *
-     * @return int
-     **/
+     * @return integer
+     */
     public function deleteExpiredTokens()
     {
         $query = $this->deleteExpiredTokensQuery();
@@ -125,7 +122,7 @@ class AuthtokenRepository extends Repository
      * Fetches all active sessions
      *
      * @return \Bolt\Storage\Entity\Authtoken[]
-     **/
+     */
     public function getActiveSessions()
     {
         $this->deleteExpiredTokens();
