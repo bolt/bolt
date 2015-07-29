@@ -66,7 +66,7 @@ class Users
     {
         $request = Request::createFromGlobals();
 
-        return $this->app['authentication']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
+        return $this->app['access_control']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
     }
 
     /**
@@ -76,7 +76,7 @@ class Users
     {
         $request = Request::createFromGlobals();
 
-        return $this->app['authentication']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
+        return $this->app['access_control']->isValidSession($request->cookies->get($this->app['token.authentication.name']));
     }
 
     /**
@@ -130,7 +130,7 @@ class Users
      */
     public function getActiveSessions()
     {
-        return $this->app['authentication']->getActiveSessions();
+        return $this->app['access_control']->getActiveSessions();
     }
 
     /**
@@ -166,7 +166,7 @@ class Users
     {
         $request = Request::createFromGlobals();
 
-        return $this->app['authentication.login']->login($request, $user, $password);
+        return $this->app['access_control.login']->login($request, $user, $password);
     }
 
     /**
@@ -174,7 +174,7 @@ class Users
      */
     protected function loginEmail($email, $password)
     {
-        return $this->app['authentication.login']->login($email, $password);
+        return $this->app['access_control.login']->login($email, $password);
     }
 
     /**
@@ -182,7 +182,7 @@ class Users
      */
     public function loginUsername($username, $password)
     {
-        return $this->app['authentication.login']->login($username, $password);
+        return $this->app['access_control.login']->login($username, $password);
     }
 
     /**
@@ -192,7 +192,7 @@ class Users
     {
         $request = Request::createFromGlobals();
 
-        return $this->app['authentication.login']->login($request, null, null);
+        return $this->app['access_control.login']->login($request, null, null);
     }
 
     /**
@@ -200,7 +200,7 @@ class Users
      */
     public function resetPasswordRequest($username)
     {
-        return $this->app['authentication.password']->resetPasswordRequest($username);
+        return $this->app['access_control.password']->resetPasswordRequest($username);
     }
 
     /**
@@ -208,7 +208,7 @@ class Users
      */
     public function resetPasswordConfirm($token)
     {
-        return $this->app['authentication.password']->resetPasswordConfirm($token);
+        return $this->app['access_control.password']->resetPasswordConfirm($token);
     }
 
     /**
@@ -216,7 +216,7 @@ class Users
      */
     public function logout()
     {
-        return $this->app['authentication']->revokeSession();
+        return $this->app['access_control']->revokeSession();
     }
 
     /**
@@ -610,6 +610,6 @@ class Users
      */
     public function updateUserLogin($user)
     {
-        return $this->app['authentication']->updateUserLogin($user);
+        return $this->app['access_control']->updateUserLogin($user);
     }
 }

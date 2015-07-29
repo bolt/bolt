@@ -141,7 +141,7 @@ abstract class BackendBase extends Base
      */
     protected function login()
     {
-        return $this->app['authentication.login'];
+        return $this->app['access_control.login'];
     }
 
     /**
@@ -151,7 +151,7 @@ abstract class BackendBase extends Base
      */
     protected function password()
     {
-        return $this->app['authentication.password'];
+        return $this->app['access_control.password'];
     }
 
     /**

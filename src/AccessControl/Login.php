@@ -36,7 +36,7 @@ class Login extends AccessChecker
             $app['logger.system'],
             $app['permissions'],
             $app['randomgenerator'],
-            $app['authentication.cookie.options']
+            $app['access_control.cookie.options']
         );
 
         $this->app = $app;
@@ -85,7 +85,7 @@ class Login extends AccessChecker
             return false;
         }
 
-        $hasher = new PasswordHash($this->app['authentication.hash.strength'], true);
+        $hasher = new PasswordHash($this->app['access_control.hash.strength'], true);
         if (!$hasher->CheckPassword($password, $userEntity->getPassword())) {
             $this->loginFailed($userEntity);
 

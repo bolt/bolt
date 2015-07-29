@@ -187,7 +187,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function authentication()
     {
-        return $this->app['authentication'];
+        return $this->app['access_control'];
     }
 
     /**

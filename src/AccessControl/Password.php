@@ -44,7 +44,7 @@ class Password
         if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUser($username)) {
             $password = $this->app['randomgenerator']->generateString(12);
 
-            $hasher = new PasswordHash($this->app['authentication.hash.strength'], true);
+            $hasher = new PasswordHash($this->app['access_control.hash.strength'], true);
             $hashedpassword = $hasher->HashPassword($password);
 
             $userEntity->setPassword($hashedpassword);
@@ -121,7 +121,7 @@ class Password
         $delay = new \DateInterval('PT2H');
 
         // Generate shadow password and hash
-        $hasher = new PasswordHash($this->app['authentication.hash.strength'], true);
+        $hasher = new PasswordHash($this->app['access_control.hash.strength'], true);
         $shadowPassword = $this->app['randomgenerator']->generateString(12);
         $shadowPasswordHash = $hasher->HashPassword($shadowPassword);
 
