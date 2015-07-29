@@ -6,7 +6,7 @@ use Bolt\AccessControl;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
-class AuthenticationServiceProvider implements ServiceProviderInterface
+class AccessControlServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
