@@ -31,7 +31,7 @@ class TaxonomyType extends FieldTypeBase
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
         $field = $this->mapping['fieldname'];
-        $taxonomyParams = $query->getWhereParametersFor($field);
+
         foreach ($query->getFilters() as $filter) {
             if ($filter->getKey() == $field) {
                 
