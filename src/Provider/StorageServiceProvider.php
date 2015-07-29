@@ -111,11 +111,11 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.listener'] = $app->share(function () use ($app) {
             return new StorageEventListener($app['storage'], $app['authentication.hash.strength']);
         });
-        
+
         $app['storage.namingstrategy'] = $app->share(
             function ($app) {
                 $strategy = new NamingStrategy($app['config']->get('general/database/prefix', null));
-                
+
                 return $strategy;
             }
         );

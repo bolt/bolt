@@ -33,20 +33,20 @@ class SelectQuery implements QueryInterface
         $this->qb = $qb;
         $this->parser = $parser;
     }
-    
+
     /**
      * Sets the contenttype that this query will run against.
-     * 
+     *
      * @param string $contenttype
      */
     public function setContentType($contenttype)
     {
         $this->contenttype = $contenttype;
     }
-    
+
     /**
      * Sets the parameters that will filter / alter the query
-     * 
+     *
      * @param array $params
      */
     public function setParameters($params)
@@ -58,7 +58,7 @@ class SelectQuery implements QueryInterface
     /**
      * Creates a composite expression that adds all the attached
      * filters individual expressions into a combined one.
-     * 
+     *
      * @return CompositeExpression
      */
     public function getWhereExpression()
@@ -77,7 +77,7 @@ class SelectQuery implements QueryInterface
 
     /**
      * Returns all the parameters for the query.
-     * 
+     *
      * @return array
      */
     public function getWhereParameters()
@@ -89,10 +89,10 @@ class SelectQuery implements QueryInterface
 
         return $params;
     }
-    
+
     /**
      * Gets all the parameters for a specific field name.
-     * 
+     *
      * @param string $fieldname
      *
      * @return array array of key=>value parameters
@@ -104,7 +104,7 @@ class SelectQuery implements QueryInterface
             array_flip(preg_grep('/^'.$fieldname.'_/', array_keys($this->getWhereParameters())))
         );
     }
-    
+
     public function setWhereParameter($key, $val)
     {
         foreach ($this->filters as $filter) {
@@ -121,7 +121,7 @@ class SelectQuery implements QueryInterface
     {
         $this->filters[] = $filter;
     }
-    
+
     /**
      * Returns all the filters attached to the query
      *
@@ -131,13 +131,13 @@ class SelectQuery implements QueryInterface
     {
         return $this->filters;
     }
-    
+
     /**
      * Part of the QueryInterface this turns all the input into a Doctrine
      * QueryBuilder object and is usually run just before query execution.
      * That allows modifications to be made to any of the parameters up until
      * query execution time.
-     * 
+     *
      * @return QueryBuilder
      */
     public function build()
@@ -147,30 +147,30 @@ class SelectQuery implements QueryInterface
             $query->where($this->getWhereExpression());
         }
         $query->setParameters($this->getWhereParameters());
-            
+
         return $query;
     }
-    
+
     /**
      * Allows public access to the QueryBuilder object
-     * 
+     *
      * @return QueryBuilder
      */
     public function getQueryBuilder()
     {
         return $this->qb;
     }
-    
+
     /**
      * Allows replacing the default querybuilder
-     * 
+     *
      * @return QueryBuilder
      */
     public function setQueryBuilder(QueryBuilder $qb)
     {
         $this->qb = $qb;
     }
-    
+
     /**
      * Returns wether the query is in single fetch mode.
      *
@@ -180,17 +180,17 @@ class SelectQuery implements QueryInterface
     {
         return $this->singleFetchMode;
     }
-    
+
     /**
      * Turns single fetch mode on or off.
-     * 
+     *
      * @param bool $value
      */
     public function setSingleFetchMode($value)
     {
         $this->singleFetchMode = (bool)$value;
     }
-    
+
     /**
      * @return string String representation of query
      */
@@ -199,12 +199,12 @@ class SelectQuery implements QueryInterface
         $query = $this->build();
         return $query->getSQL();
     }
-    
+
     /**
      * Internal method that runs the individual key/value input through
      * the QueryParamtererParser. This allows complicated expressions to
      * be turned into simple sql expressions
-     * 
+     *
      * @return void
      */
     protected function processFilters()

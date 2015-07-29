@@ -15,9 +15,9 @@ class DateType extends FieldTypeBase
 {
     /**
      * Date fields perform substitution on the parameters passed in to query.
-     * To handle this we pass every parameter through `strtotime()` to make 
+     * To handle this we pass every parameter through `strtotime()` to make
      * sure that it is a valid search.
-     * 
+     *
      * @param QueryInterface $query
      * @param ClassMetadata  $metadata
      *
@@ -36,7 +36,7 @@ class DateType extends FieldTypeBase
             $query->setWhereParameter($key, $replacement);
         }
     }
-    
+
     /**
      * @inheritdoc
      */

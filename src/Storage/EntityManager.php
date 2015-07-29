@@ -57,7 +57,7 @@ class EntityManager
     {
         return new QueryBuilder($this->conn);
     }
-    
+
     /**
      * @return ExpressionBuilder
      */

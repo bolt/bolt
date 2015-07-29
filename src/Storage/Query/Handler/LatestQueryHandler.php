@@ -19,7 +19,7 @@ class LatestQueryHandler
     public function __invoke(ContentQueryParser $contentQuery)
     {
         $contentQuery->setDirective('order', '-id');
-        
+
         return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
     }
 }

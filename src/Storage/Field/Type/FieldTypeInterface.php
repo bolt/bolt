@@ -22,7 +22,7 @@ interface FieldTypeInterface
      * @param ClassMetadata $metadata
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata);
-    
+
     /**
      * Handle or ignore the query event.
      *

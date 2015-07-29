@@ -9,7 +9,7 @@ namespace Bolt\Storage\Query;
 class QueryResultset extends \AppendIterator implements \Countable
 {
     protected $results = [];
-    
+
     /**
      * @param array  $results A set of results
      * @param string $type    An optional label to partition results
@@ -21,15 +21,15 @@ class QueryResultset extends \AppendIterator implements \Countable
         } else {
             $this->results = array_merge($this->results, $results);
         }
-        
+
         $this->append(new \ArrayIterator($results));
     }
-    
+
     /**
      * Allows retrieval of a set or results, if a label has been used to
      * store results then passing the label as a parameter returns just
      * that set of results.
-     * 
+     *
      * @param string $label
      *
      * @return ArrayIterator
@@ -47,12 +47,12 @@ class QueryResultset extends \AppendIterator implements \Countable
                     $results[] = $v;
                 }
             }
-            
+
             return $results;
         }
         return [];
     }
-    
+
     /**
      * Returns the total count
      *

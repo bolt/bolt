@@ -18,9 +18,9 @@ class RelationType extends FieldTypeBase
 {
     /**
      * Relation fields can allow filters on the relations fetched. For now this is limited
-     * to the id field because of the possible complexity of fetching and filtering 
+     * to the id field because of the possible complexity of fetching and filtering
      * all the related data.
-     * 
+     *
      * For example the following queries:
      *     'pages', {'relationkey'=>'1'}
      *     'pages', {'relationkey'=>'1 || 2 || 3'}.
@@ -50,8 +50,8 @@ class RelationType extends FieldTypeBase
             }
         }
     }
-    
-    
+
+
     /**
      * @inheritdoc
      */
@@ -60,15 +60,15 @@ class RelationType extends FieldTypeBase
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
         $boltname = $metadata->getBoltName();
-        
+
         $from = $query->getQueryPart('from');
-        
+
         if (isset($from[0]['alias'])) {
             $alias = $from[0]['alias'];
         } else {
             $alias = $from[0]['table'];
         }
-        
+
         $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
             ->leftJoin($alias, $target, $field, "$alias.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
             ->addGroupBy("$alias.id");

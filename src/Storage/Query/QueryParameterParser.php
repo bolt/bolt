@@ -45,10 +45,10 @@ class QueryParameterParser
         $this->addFilterHandler([$this, 'multipleKeyAndValueHandler']);
         $this->addFilterHandler([$this, 'incorrectQueryHandler']);
     }
-    
+
     /**
      * Sets the select alias to be used in sql queries.
-     * 
+     *
      * @param string $alias
      */
     public function setAlias($alias)

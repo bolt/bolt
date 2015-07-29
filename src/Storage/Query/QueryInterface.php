@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Bolt\Storage\Query;
 
@@ -16,7 +16,7 @@ interface QueryInterface
      * @return QueryBuilder
      */
     public function build();
-    
+
     /**
      * Returns the current instance of QueryBuilder
      *

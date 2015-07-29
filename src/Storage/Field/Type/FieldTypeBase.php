@@ -30,7 +30,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     {
         return $query;
     }
-    
+
     /**
      * @inheritdoc
      */

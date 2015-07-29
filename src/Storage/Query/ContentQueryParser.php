@@ -42,16 +42,16 @@ class ContentQueryParser
     protected $handlers = [];
 
     protected $services = [];
-    
+
 
     public function __construct(EntityManager $em, QueryInterface $queryHandler = null)
     {
         $this->em = $em;
-        
+
         if ($queryHandler !== null) {
             $this->addService('select', $queryHandler);
         }
-        
+
         $this->setupDefaults();
     }
 
@@ -90,7 +90,7 @@ class ContentQueryParser
     {
         $this->params = $params;
     }
-    
+
     /**
      * Sets a single input parameter.
      *
@@ -195,7 +195,7 @@ class ContentQueryParser
             }
         }
     }
-    
+
     /**
      * Gets the object EntityManager
      *
@@ -247,7 +247,7 @@ class ContentQueryParser
     {
         return $this->directives[$key];
     }
-    
+
     /**
      * Sets a directive for the named key.
      *
@@ -306,7 +306,7 @@ class ContentQueryParser
     {
         $this->handlers[$operation] = $callback;
     }
-    
+
     /**
      * Returns a handler for the named operation.
      *

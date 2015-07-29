@@ -207,12 +207,12 @@ class Repository implements ObjectRepository
             return false;
         }
     }
-    
+
     /**
      * Method to execute query from a Bolt QueryInterface object
      * The query is passed to the pre-load handlers then built into a
-     * QueryBuilder instance that can be executed. 
-     * 
+     * QueryBuilder instance that can be executed.
+     *
      * @param QueryInterface $query [description]
      *
      * @return [type] [description]
@@ -221,11 +221,11 @@ class Repository implements ObjectRepository
     {
         $this->loader->query($query, $this->getClassMetadata());
         $queryBuilder = $query->build();
-        
+
         return $this->findWith($queryBuilder);
     }
-    
-    
+
+
 
     /**
      * Internal method to initialise and return a QueryBuilder instance.

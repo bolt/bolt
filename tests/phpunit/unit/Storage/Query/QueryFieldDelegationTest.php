@@ -19,16 +19,16 @@ class QueryFieldDelegationTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addSomeContent();
-        
+
         $test1 = $app['storage']->getContent('entries', ['categories'=>'news']);
         $test1count = count($test1);
-        
+
         $test2 = $app['query']->getContent('entries', ['categories'=>'news']);
         $test2count = count($test2);
-        
+
         $this->assertEquals($test1count, $test2count);
     }
-    
+
     public function testRelationFilter()
     {
         $app = $this->getApp();
@@ -41,9 +41,9 @@ class QueryFieldDelegationTest extends BoltUnitTest
             }
         }
     }
-    
-    
-    
+
+
+
     protected function addSomeContent()
     {
         $app = $this->getApp();
@@ -65,5 +65,5 @@ class QueryFieldDelegationTest extends BoltUnitTest
             }
         }
     }
-    
+
 }

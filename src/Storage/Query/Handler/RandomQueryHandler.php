@@ -6,7 +6,7 @@ use Bolt\Storage\Query\ContentQueryParser;
 
 /**
  *  Handler for queries requested with the random modifier.
- * 
+ *
  *  eg: 'pages/random/10'
  */
 class RandomQueryHandler
@@ -24,7 +24,7 @@ class RandomQueryHandler
         } else {
             $contentQuery->setDirective('order', 'RANDOM()');
         }
-           
+
         return call_user_func_array($contentQuery->getHandler('select'), [$contentQuery]);
     }
 }

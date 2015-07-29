@@ -92,5 +92,5 @@ class ContentRepositoryTest extends BoltUnitTest
 
         $this->assertInstanceOf('Bolt\Storage\Entity\Content', $record);
     }
-    
+
 }
