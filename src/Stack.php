@@ -18,6 +18,8 @@ class Stack
 {
     const MAX_ITEMS = 10;
 
+    /** @var boolean */
+    protected $initalized;
     /** @var array */
     private $items;
     /** @var array */
@@ -27,6 +29,7 @@ class Stack
     /** @var \Silex\Application */
     private $app;
 
+
     /**
      * Constructor.
      *
@@ -35,21 +38,29 @@ class Stack
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
+    }
+
+    public function initialize()
+    {
+        if ($this->initalized) {
+            return;
+        }
+
         $currentuser = $this->app['users']->getCurrentUser();
-        $stackItems = false;
 
         if ($this->app['session']->isStarted() && $this->app['session']->get('stack') !== null) {
             $stackItems = (array) Lib::smartUnserialize($this->app['session']->get('stack'));
         } else {
-            $stackItems = (array) Lib::smartUnserialize($currentuser['stack']);
+            $stackItems = $currentuser['stack'];
         }
 
         // intersect the allowed types with the types set
-        $confTypes = $app['config']->get('general/accept_file_types', []);
+        $confTypes = $this->app['config']->get('general/accept_file_types', []);
         $this->imageTypes = array_intersect($this->imageTypes, $confTypes);
         $this->documentTypes = array_intersect($this->documentTypes, $confTypes);
 
         $this->items = $stackItems;
+        $this->initalized = true;
     }
 
     /**
