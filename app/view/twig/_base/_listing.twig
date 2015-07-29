@@ -46,7 +46,7 @@
             </a>
         </th>
 
-        <th style="padding: 0; width: 0;">&nbsp;</th>
+        <th>&nbsp;</th>
 
         <th class="username hidden-xs"><a href="{{ link }}{% if request('order') == "datecreated" %}-{% endif %}datecreated">{{ __('Meta') }}</a></th>
 
@@ -86,11 +86,7 @@
                 {{ content.excerpt(excerptlength - title|length) }}
             </span>
         </td>
-        <td class="listthumb" style="{% if content.getImage is not empty -%}
-        width: {{ thumbsize + 4 }}px;
-        {%- else -%}
-        padding: 0; width: 0;
-        {%- endif %}">
+        <td class="listthumb">
             {% if content.getImage is not empty %}
                 {# Hack to add alt attribute #}
                 {#{ content.getImage|popup(thumbsize, thumbsize * 0.75, 'c') }#}
