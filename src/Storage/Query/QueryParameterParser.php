@@ -127,6 +127,7 @@ class QueryParameterParser
             }
 
             $filter = new Filter();
+            $filter->setKey($key);
             $filter->setExpression(call_user_func_array([$expr, 'orX'], $parts));
             $filter->setParameters($filterParams);
 
@@ -176,6 +177,7 @@ class QueryParameterParser
             }
 
             $filter = new Filter();
+            $filter->setKey($key);
             $filter->setExpression(call_user_func_array([$expr, $comparison], $parts));
             $filter->setParameters($filterParams);
 
@@ -199,6 +201,7 @@ class QueryParameterParser
         $exprMethod = $val['operator'];
 
         $filter = new Filter();
+        $filter->setKey($key);
         $filter->setExpression($expr->andX($expr->$exprMethod($this->alias.$key, ":$placeholder")));
         $filter->setParameters([$placeholder => $val['value']]);
 
