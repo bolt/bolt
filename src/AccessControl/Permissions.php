@@ -39,9 +39,10 @@ class Permissions
 
     /** @var \Silex\Application */
     private $app;
-
-    // per-request permission cache
+    /** @var array Per-request permission cache */
     private $rqcache;
+    /** @var array The list of ContentType permissions */
+    private $contentTypePermissions = ['view', 'edit', 'create', 'publish', 'depublish', 'change-ownership'];
 
     public function __construct(Silex\Application $app)
     {
@@ -353,6 +354,24 @@ class Permissions
         $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
 
         return in_array($roleName, $roles);
+    }
+
+    /**
+     * Return a list of ContentType permissions that a user has for the ContentType.
+     *
+     * @param array  $user
+     * @param string $contentTypeSlug
+     *
+     * @return boolean[]
+     */
+    public function getUserContentTypePermissions(array $user, $contentTypeSlug)
+    {
+        $permissions = [];
+        foreach ($this->contentTypePermissions as $contentTypePermission) {
+            $permissions[$contentTypePermission] = $this->isAllowed($contentTypePermission, $user, $contentTypeSlug);
+        }
+
+        return $permissions;
     }
 
     /**
