@@ -46,12 +46,12 @@ class Stack
             return;
         }
 
-        $currentuser = $this->app['users']->getCurrentUser();
-
         if ($this->app['session']->isStarted() && $this->app['session']->get('stack') !== null) {
-            $stackItems = (array) Lib::smartUnserialize($this->app['session']->get('stack'));
+            $this->items = $this->app['session']->get('stack');
         } else {
-            $stackItems = $currentuser['stack'];
+            $currentuser = $this->app['users']->getCurrentUser();
+            $this->items = $currentuser['stack'];
+            $this->app['session']->set('stack', $currentuser['stack']);
         }
 
         // intersect the allowed types with the types set
@@ -59,7 +59,6 @@ class Stack
         $this->imageTypes = array_intersect($this->imageTypes, $confTypes);
         $this->documentTypes = array_intersect($this->documentTypes, $confTypes);
 
-        $this->items = $stackItems;
         $this->initalized = true;
     }
 
@@ -229,12 +228,12 @@ class Stack
     public function persist()
     {
         $this->items = array_slice($this->items, 0, self::MAX_ITEMS);
-        $ser = json_encode($this->items);
 
-        $this->app['session']->set('stack', $ser);
+        $this->app['session']->set('stack', $this->items);
 
         $currentuser = $this->app['users']->getCurrentUser();
-        $currentuser['stack'] = $ser;
+        $currentuser['stack'] = $this->items;
+
         $this->app['users']->saveUser($currentuser);
     }
 
