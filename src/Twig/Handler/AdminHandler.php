@@ -280,7 +280,7 @@ class AdminHandler
     public function hclass($classes, $raw = false)
     {
         if (is_array($classes)) {
-           $classes = join(' ', $classes);
+            $classes = join(' ', $classes);
         }
         $classes = preg_split('/ +/', trim($classes));
         $classes = join(' ', $classes);
