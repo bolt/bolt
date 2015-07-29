@@ -14,6 +14,8 @@ use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcacheSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 
 /**
@@ -170,6 +172,42 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $app['session.storage.handler.factory.files'] = $app->protect(function ($handlerOptions) {
             return new FileSessionHandler($handlerOptions['save_path']);
+        });
+
+        $app['session.storage.handler.factory.memcache'] = $app->protect(function ($handlerOptions) {
+            $servers = explode(',', $handlerOptions['save_path']);
+            $memcache = new \Memcache();
+            foreach ($servers as $server) {
+                list($host, $port) = explode(':', $server);
+                $memcache->addServer($host, $port);
+            }
+
+            $options = [];
+            if (isset($handlerOptions['expiretime'])) {
+                $options['expiretime'] = $handlerOptions['expiretime'];
+            }
+            if (isset($handlerOptions['prefix'])) {
+                $options['prefix'] = $handlerOptions['prefix'];
+            }
+            return new MemcacheSessionHandler($memcache, $options);
+        });
+
+        $app['session.storage.handler.factory.memcached'] = $app->protect(function ($handlerOptions) {
+            $servers = explode(',', $handlerOptions['save_path']);
+            $memcached = new \Memcached();
+            foreach ($servers as $server) {
+                list($host, $port) = explode(':', $server);
+                $memcached->addServer($host, $port);
+            }
+
+            $options = [];
+            if (isset($handlerOptions['expiretime'])) {
+                $options['expiretime'] = $handlerOptions['expiretime'];
+            }
+            if (isset($handlerOptions['prefix'])) {
+                $options['prefix'] = $handlerOptions['prefix'];
+            }
+            return new MemcachedSessionHandler($memcached, $options);
         });
 
         //TODO Moar handlers
