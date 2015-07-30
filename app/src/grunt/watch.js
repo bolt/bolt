@@ -1,5 +1,3 @@
-/* global module */
-
 /*
  * WATCH: Run predefined tasks whenever watched file patterns are added, changed or deleted
  */

@@ -1,5 +1,3 @@
-/* global module */
-
 /*
  * SASS: Compile Sass to CSS
  */

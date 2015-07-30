@@ -1,5 +1,3 @@
-/* global module */
-
 /*
  * HTMLLINT: html validation using the vnu.jar markup checker.
  */
