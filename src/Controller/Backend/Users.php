@@ -327,7 +327,7 @@ class Users extends BackendBase
         $permissions = $this->app['permissions']->getContentTypePermissions();
         $effectivePermissions = [];
         foreach ($contenttypes as $contenttype) {
-            foreach ($permissions as $permission) {
+            foreach (array_keys($permissions) as $permission) {
                 $effectivePermissions[$contenttype['slug']][$permission] =
                 $this->app['permissions']->getRolesByContentTypePermission($permission, $contenttype['slug']);
             }
