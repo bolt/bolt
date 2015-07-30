@@ -29,7 +29,8 @@
                             <tr>
                                 {% if item.record|default() %}
                                     {% set content = item.record %}
-                                    {% set editable = isallowed('edit', content) %}
+                                    {% set permissions = item.permissions %}
+                                    {% set modifiable = permissions.create or permissions.delete or permissions.publish or permissions.depublish %}
                                     {% include 'omnisearch/_result.twig' with {'excerptlength': 280, 'thumbsize': 54, 'compact': true} %}
                                 {% else %}
                                     <td colspan="4">

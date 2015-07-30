@@ -1,4 +1,4 @@
-{% macro editable_record_list(contenttype, multiplecontent, extra_classes) %}
+{% macro editable_record_list(contenttype, multiplecontent, permissions, extra_classes) %}
 {% set lastgroup = "----" %}
 {% set any_deletable = false %}
 {% set any_editable = false %}
@@ -14,11 +14,12 @@
 
 <table class="{{ extra_classes }} dashboardlisting" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
     {% for content in multiplecontent %}
-        {% set editable = isallowed('edit', content) %}
+        {% set editable = permissions.edit %}
+        {% set modifiable = permissions.create or permissions.delete or permissions.publish or permissions.depublish %}
         {% if editable %}
             {% set any_editable = true %}
         {% endif %}
-        {% set deletable = isallowed('delete', content) %}
+        {% set deletable = permissions.delete %}
         {% if deletable %}
             {% set any_deletable = true %}
         {% endif %}
