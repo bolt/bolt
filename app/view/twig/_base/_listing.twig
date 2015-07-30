@@ -4,7 +4,7 @@
 {# If we have 'grouping', print the row with the groupname. #}
 {% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) and request('order') == '' %}
     {% if not loop.first %}</tbody>{% endif %}
-    <tbody {% if permissions.publish or permissions.depublish or permissions.create or permissions.delete %}class="sortable"{% endif %}>
+    <tbody {% if modifiable %}class="sortable"{% endif %}>
     <tr class="grouping">
         <th colspan="{% block listing_columns %}6{% endblock %}">
             <h3 {% if loop.first %}class="first"{% endif %}>
@@ -68,7 +68,6 @@
     {% endblock %}
 
     {% block listing_content %}
-
         <td class="excerpt {% if not compact %}large{% endif %}">
             {% set title = content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw %}
             <span>
@@ -126,7 +125,7 @@
     {% block listing_actions %}
         <td class="actions">
             <div class="btn-group">
-                {% if permissions.publish or permissions.depublish or permissions.create or permissions.delete %}
+                {% if modifiable %}
                 <a class="btn btn-default btn-xs" href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
                     <i class="fa fa-edit"></i> {{ __('Edit') }}
                 </a>
@@ -153,30 +152,30 @@
                 {% endif %}
 
                 {% from _self import actionform %}
-                {% if content.status != 'published' %}
-                    {% if permissions.publish %}
-                    <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('contenttypes.generic.publish',{'%contenttype%':content.contenttype.slug})) }}</li>
-                    {% endif %}
-                {% else %}
-                    {% if permissions.depublish %}
-                    <li>{{ macro.actionform(content, 'held', 'fa-circle status-held', __("Change status to 'held'")) }}</li>
-                    <li>{{ macro.actionform(content, 'draft', 'fa-circle status-draft', __("Change status to 'draft'")) }}</li>
+                {% if modifiable %}
+                    {% if content.status != 'published' %}
+                        {% if permissions.publish %}
+                        <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('contenttypes.generic.publish',{'%contenttype%':content.contenttype.slug})) }}</li>
+                        {% endif %}
+                    {% else %}
+                        {% if permissions.depublish %}
+                        <li>{{ macro.actionform(content, 'held', 'fa-circle status-held', __("Change status to 'held'")) }}</li>
+                        <li>{{ macro.actionform(content, 'draft', 'fa-circle status-draft', __("Change status to 'draft'")) }}</li>
 
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-                {% if permissions.create %}
-                <li><a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1}) }}">
-                    <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.slug}) }}</a></li>
-                {% endif %}
-                {% if permissions.delete %}
-                <li>{{ macro.actionform(content, 'delete',
-                                      'fa-trash',
-                                      __('contenttypes.generic.delete', {'%contenttype%': content.contenttype.slug}),
-                                      "Are you sure you want to delete '" ~ content.getTitle ~ "'?" ) }}
-                </li>
+                    {% if permissions.create %}
+                    <li><a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1}) }}">
+                        <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.slug}) }}</a></li>
+                    {% endif %}
+                    {% if permissions.delete %}
+                    <li>{{ macro.actionform(content, 'delete',
+                                          'fa-trash',
+                                          __('contenttypes.generic.delete', {'%contenttype%': content.contenttype.slug}),
+                                          "Are you sure you want to delete '" ~ content.getTitle ~ "'?" ) }}
+                    </li>
 
                 {% endif %}
-                {% if permissions.publish or permissions.depublish or permissions.create or permissions.delete %}
                     <li class="divider"></li>
                 {% endif %}
                     <li><a class="nolink">{{ __('Author:') }} <strong><i class="fa fa-user"></i>
