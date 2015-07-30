@@ -230,12 +230,13 @@ class Records extends BackendBase
         }
 
         $multiplecontent = $this->getContent($contenttypeslug, $contentparameters);
+        $user = $this->users()->getCurrentUser();
 
         $context = [
             'contenttype'     => $contenttype,
             'multiplecontent' => $multiplecontent,
             'filter'          => $filter,
-            'permissions'     => $this->app['permissions']->getUserContentTypePermissions($this->users()->getCurrentUser(), $contenttypeslug)
+            'permissions'     => $user ? $this->app['permissions']->getUserContentTypePermissions($user, $contenttypeslug) : null
         ];
 
         return $this->render('overview/overview.twig', $context);
