@@ -1,0 +1,33 @@
+{
+    "browser": true,
+    "curly": true,
+    "devel": true,
+    "immed": true,
+    "indent": 4,
+    "latedef": true,
+    "maxlen": 120,
+    "noarg": true,
+    "nonbsp": true,
+    "singleGroups": false,
+    "undef": true,
+    "globals": {
+        "$": true,
+        "Backbone": true,
+        "Bolt": true,
+        "CKEDITOR": true,
+        "CodeMirror": true,
+        "FilelistHolder": true,
+        "Modernizr": true,
+        "_": true,
+        "baseurl": true,
+        "bindFileUpload": true,
+        "bootbox": true,
+        "confirm": true,
+        "google": true,
+        "init": true,
+        "jQuery": true,
+        "moment": true,
+        "rootpath": true,
+        "site": true
+    }
+}
