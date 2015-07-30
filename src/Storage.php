@@ -1068,7 +1068,7 @@ class Storage
     public function depublishExpiredRecords($contenttype)
     {
         // We need to do this only once per contenttype, max.
-        if (isset($this->checkedfortimed['depublish-' . $contenttype])) {
+        if (isset($this->checkedfortimed['depublish-' . $contenttype['slug']])) {
             return;
         }
 
