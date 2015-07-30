@@ -250,7 +250,7 @@ class General extends BackendBase
                     'order'   => 'datechanged DESC',
                     'hydrate' => false
                 ]);
-                $permissions[$key] = $this->app['permissions']->getUserContentTypePermissions($user, $contenttype);
+                $permissions[$key] = $this->getContentTypeUserPermissions($contenttype, $user);
 
                 if (!empty($latest[$key])) {
                     $total += count($latest[$key]);
