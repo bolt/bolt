@@ -5,46 +5,44 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Local filesystem session handler.
+ *
+ * @author Carson Full <carsonfull@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class FileSessionHandler implements \SessionHandlerInterface
 {
     /** @var string */
     protected $savePath;
-
     /** @var \Symfony\Component\Filesystem\Filesystem */
-    private $fs;
-    /** @var bool */
-    private $gcCalled = false;
+    protected $fs;
 
     /**
      * Constructor.
      *
-     * @param string $savePath Path of directory to save session files.
-     *                         Default null will leave setting as defined by PHP.
-     *                         '/path', 'N;/path', or 'N;octal-mode;/path
-     *
-     * @see http://php.net/session.configuration.php#ini.session.save-path for
-     * further details.
-     *
-     * @throws \InvalidArgumentException On invalid $savePath
+     * @param string     $savePath Path of directory to save session files.
+     *                             Default null will leave setting as defined by system temp directory.
+     * @param Filesystem $filesystem
      */
-    public function __construct($savePath = null)
+    public function __construct($savePath = null, Filesystem $filesystem = null)
     {
-        $savePath = $savePath ?: ini_get('session.save_path') ?: sys_get_temp_dir();
+        $this->fs = $filesystem ?: new Filesystem();
 
-        $this->fs = new Filesystem();
-        $baseDir = $savePath;
+        $savePath = $savePath ?: sys_get_temp_dir();
 
+        // Handle BC 'N;/path' and 'N;octal-mode;/path` which are not supported here
         if ($count = substr_count($savePath, ';')) {
             if ($count > 2) {
                 throw new \InvalidArgumentException(sprintf('Invalid argument $savePath \'%s\'', $savePath));
             }
 
             // characters after last ';' are the path
-            $baseDir = ltrim(strrchr($savePath, ';'), ';');
+            $savePath = ltrim(strrchr($savePath, ';'), ';');
         }
 
-        if ($baseDir && !is_dir($baseDir)) {
-            $this->fs->mkdir($baseDir, 0777);
+        if (!is_dir($savePath)) {
+            $this->fs->mkdir($savePath, 0777);
         }
 
         $this->savePath = $savePath;
@@ -77,11 +75,7 @@ class FileSessionHandler implements \SessionHandlerInterface
      */
     public function read($sessionId)
     {
-        try {
-            return file_get_contents($this->getSessionFileName($sessionId));
-        } catch (IOException $e) {
-            return '';
-        }
+        return file_get_contents($this->getSessionFileName($sessionId));
     }
 
     /**
@@ -120,7 +114,7 @@ class FileSessionHandler implements \SessionHandlerInterface
         $finder = new Finder();
         $files = $finder->files()
             ->in($this->savePath)
-            ->name('/\.bolt_sess$/')
+            ->name('/\.sess$/')
             ->date("since $maxlifetime")
         ;
 
@@ -131,6 +125,8 @@ class FileSessionHandler implements \SessionHandlerInterface
                 return false;
             }
         }
+
+        return true;
     }
 
     /**
@@ -142,6 +138,6 @@ class FileSessionHandler implements \SessionHandlerInterface
      */
     private function getSessionFileName($sessionId)
     {
-        return $this->savePath . DIRECTORY_SEPARATOR . $sessionId . '.bolt_sess';
+        return $this->savePath . DIRECTORY_SEPARATOR . $sessionId . '.sess';
     }
 }
