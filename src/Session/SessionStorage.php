@@ -3,7 +3,7 @@ namespace Bolt\Session;
 
 use Bolt\Session\Generator\GeneratorInterface;
 use Bolt\Session\Serializer\SerializerInterface;
-use SessionHandlerInterface;
+use SessionHandlerInterface as HandlerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
@@ -44,7 +44,7 @@ class SessionStorage implements SessionStorageInterface
      */
     protected $data = [];
 
-    /** @var SessionHandlerInterface */
+    /** @var HandlerInterface */
     protected $handler;
 
     /** @var GeneratorInterface */
@@ -59,14 +59,19 @@ class SessionStorage implements SessionStorageInterface
     /**
      * Constructor.
      *
-     * @param OptionsBag              $options
-     * @param SessionHandlerInterface $handler
-     * @param GeneratorInterface      $generator
-     * @param SerializerInterface     $serializer
-     * @param MetadataBag             $metadataBag
+     * @param OptionsBag          $options
+     * @param HandlerInterface    $handler
+     * @param GeneratorInterface  $generator
+     * @param SerializerInterface $serializer
+     * @param MetadataBag         $metadataBag
      */
-    public function __construct(OptionsBag $options, SessionHandlerInterface $handler, GeneratorInterface $generator, SerializerInterface $serializer, MetadataBag $metadataBag = null)
-    {
+    public function __construct(
+        OptionsBag $options,
+        HandlerInterface $handler,
+        GeneratorInterface $generator,
+        SerializerInterface $serializer,
+        MetadataBag $metadataBag = null
+    ) {
         $this->options = $options;
         $this->name = $options->get('name');
 
@@ -84,8 +89,6 @@ class SessionStorage implements SessionStorageInterface
         if ($this->started) {
             return true;
         }
-
-        //TODO Check referer
 
         if (empty($this->id)) {
             $this->id = $this->generator->generateId();
@@ -256,9 +259,9 @@ class SessionStorage implements SessionStorageInterface
     /**
      * Set the handler
      *
-     * @param SessionHandlerInterface $handler
+     * @param HandlerInterface $handler
      */
-    public function setHandler(SessionHandlerInterface $handler)
+    public function setHandler(HandlerInterface $handler)
     {
         $this->handler = $handler;
     }
@@ -266,7 +269,7 @@ class SessionStorage implements SessionStorageInterface
     /**
      * Get the handler
      *
-     * @return SessionHandlerInterface
+     * @return HandlerInterface
      */
     public function getHandler()
     {
