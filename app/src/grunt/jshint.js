@@ -10,5 +10,19 @@ module.exports = {
             jshintrc: true
         },
         src: '<%= files.boltJs %>'
+    },
+
+    /*
+     * TARGET:  Checks grunt js files
+     */
+    grunt: {
+        options: {
+            jshintrc: true
+        },
+        src: [
+            'Gruntfile.js',
+            'grunt/**.js',
+            'grunt-tasks/**.js'
+        ]
     }
 };
