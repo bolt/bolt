@@ -12,6 +12,40 @@ module.exports = function (grunt) {
             options,
             queue = [];
 
+        function getNextPage() {
+            var next = queue.shift();
+
+            if (next) {
+                if (next.out.substr(0, 1) === '@') {
+                    grunt.log.writeln('Execute "' + next.out.substr(1) + '"');
+                } else {
+                    grunt.log.writeln('Get page "' + next.out + '"');
+                    grunt.verbose.writeln(require('util').inspect(next.opt, false, 2, true));
+                }
+
+                request(
+                    next.opt,
+                    function (error, response, body) {
+                        if (!error && (response.statusCode < 200 || response.statusCode >= 300)) {
+                            error = 'Status code: ' + response.statusCode;
+                        }
+                        if (error) {
+                            grunt.fail.warn(error);
+                            return done(false);
+                        }
+                        // Write response body to file.
+                        if (next.out.substr(0, 1) !== '@') {
+                            grunt.file.write(next.out, body);
+                        }
+                        // Go on with next request.
+                        getNextPage();
+                    }
+                );
+            } else {
+                done();
+            }
+        }
+
         // Require config variables.
         grunt.config.requires(
             'path.tmp',
@@ -88,39 +122,5 @@ module.exports = function (grunt) {
         }
 
         getNextPage();
-
-        function getNextPage() {
-            var next = queue.shift();
-
-            if (next) {
-                if (next.out.substr(0, 1) === '@') {
-                    grunt.log.writeln('Execute "' + next.out.substr(1) + '"');
-                } else {
-                    grunt.log.writeln('Get page "' + next.out + '"');
-                    grunt.verbose.writeln(require('util').inspect(next.opt, false, 2, true));
-                }
-
-                request(
-                    next.opt,
-                    function (error, response, body) {
-                        if (!error && (response.statusCode < 200 || response.statusCode >= 300)) {
-                            error = 'Status code: ' + response.statusCode;
-                        }
-                        if (error) {
-                            grunt.fail.warn(error);
-                            return done(false);
-                        }
-                        // Write response body to file.
-                        if (next.out.substr(0, 1) !== '@') {
-                            grunt.file.write(next.out, body);
-                        }
-                        // Go on with next request.
-                        getNextPage();
-                    }
-                );
-            } else {
-                done();
-            }
-        }
     });
 };
