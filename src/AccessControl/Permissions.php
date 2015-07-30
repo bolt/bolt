@@ -3,6 +3,7 @@
 namespace Bolt\AccessControl;
 
 use Bolt\Content;
+use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 
@@ -377,12 +378,12 @@ class Permissions
     /**
      * Return a list of ContentType permissions that a user has for the ContentType.
      *
-     * @param array  $user
-     * @param string $contentTypeSlug
+     * @param string             $contentTypeSlug
+     * @param array|Entity\Users $user
      *
      * @return boolean[]
      */
-    public function getUserContentTypePermissions(array $user, $contentTypeSlug)
+    public function getContentTypeUserPermissions($contentTypeSlug, $user)
     {
         $permissions = [];
         foreach (array_keys($this->contentTypePermissions) as $contentTypePermission) {
