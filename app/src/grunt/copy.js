@@ -1,5 +1,3 @@
-/* global module */
-
 /*
  * COPY: Copy files and folders
  */

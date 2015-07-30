@@ -1,5 +1,3 @@
-/* global module */
-
 /*
  * MODERNIZR: Modernizr builder
  */

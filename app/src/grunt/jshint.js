@@ -1,5 +1,3 @@
-/* global moduled */
-
 /*
  * JSHINT: Validates files with JSHint
  */

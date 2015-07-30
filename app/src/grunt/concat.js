@@ -1,5 +1,3 @@
-/* global module */
-
 /*
  * CONCAT: Concatenate files
  */
