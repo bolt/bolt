@@ -30,7 +30,7 @@
     {% set link = "?" ~ filter ~ "order=" %}
     <tr>
         {% block listing_header %}
-        {% if not compact and editable %}
+        {% if not compact and modifiable %}
             <th class="check hidden-xs"><input type="checkbox" name="checkRow" title="{{ __('Select all') }}" /></th>
         {% else %}
             <th style="margin: 0; padding: 0;"></th>
@@ -55,7 +55,7 @@
     </tr>
 {% endif %}
 
-<tr {% if content.status!='published' %}class="dim"{% endif %}{% if not compact and editable %} id="item_{{ content.id }}"{% endif %}>
+<tr {% if content.status!='published' %}class="dim"{% endif %}{% if not compact and modifiable %} id="item_{{ content.id }}"{% endif %}>
     {% block listing_id %}
 
         {% if not compact and permissions.delete %}
@@ -73,7 +73,7 @@
             <span>
                 <strong class="visible-xs">№ {{ content.id }}. </strong>
                 <strong>
-                    {% if editable %}
+                    {% if modifiable %}
                         <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" title="Slug: {{ content.slug }}">
                             {{ title }}
                         </a>
