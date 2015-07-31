@@ -1172,8 +1172,8 @@ class Storage
         } else {
             $query
                 ->where('status = :oldstatus')
-                ->andWhere('datepublish <= CURRENT_TIMESTAMP')
-                ->andWhere('datepublish > :zeroday')
+                ->andWhere('datedepublish <= CURRENT_TIMESTAMP')
+                ->andWhere('datedepublish > :zeroday')
                 ->andWhere('datechanged < datedepublish')
                 ->setParameter('oldstatus', 'published')
                 ->setParameter('newstatus', 'held')
