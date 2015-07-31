@@ -19,6 +19,7 @@
         "CKEDITOR": true,
         "CodeMirror": true,
         "FilelistHolder": true,
+        "JSON": true,
         "Modernizr": true,
         "_": true,
         "baseurl": true,
