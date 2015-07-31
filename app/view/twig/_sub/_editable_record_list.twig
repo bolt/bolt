@@ -15,7 +15,6 @@
 <table class="{{ extra_classes }} dashboardlisting" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
     {% for content in multiplecontent %}
         {% set editable = permissions.edit %}
-        {% set modifiable = permissions.create or permissions.delete or permissions.publish or permissions.depublish %}
         {% if editable %}
             {% set any_editable = true %}
         {% endif %}
