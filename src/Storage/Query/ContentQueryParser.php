@@ -376,6 +376,16 @@ class ContentQueryParser
     }
 
     /**
+     * Getter to return the currently registered operations.
+     *
+     * @return array
+     */
+    public function getOperations()
+    {
+        return $this->operations;
+    }
+
+    /**
      * Adds a new operation to the list supported.
      *
      * @param string $operation name of operation to parse for
