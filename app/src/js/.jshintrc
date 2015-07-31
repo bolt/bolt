@@ -16,6 +16,7 @@
     "nonew": true,
     "singleGroups": true,
     "undef": true,
+    "unused": true,
     "globals": {
         "$": true,
         "Backbone": true,

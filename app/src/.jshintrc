@@ -14,6 +14,7 @@
     "singleGroups": true,
     "strict": true,
     "undef": true,
+    "unused": true,
     "globals": {
         "module": true,
         "process": true,
