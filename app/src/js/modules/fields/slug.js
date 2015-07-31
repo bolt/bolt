@@ -8,6 +8,8 @@
  * @param {Object} $ - jQuery.
  */
 (function (bolt, $) {
+    'use strict';
+
     /**
      * Field configuration.
      *

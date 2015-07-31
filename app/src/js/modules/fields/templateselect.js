@@ -8,6 +8,7 @@
  * @param {Object} $ - jQuery.
  */
 (function (bolt, $) {
+    'use strict';
 
     /**
      * Bolt.fields.templateselect mixin container.
