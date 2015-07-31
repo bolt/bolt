@@ -1,6 +1,7 @@
 {
     "curly": true,
     "eqeqeq": true,
+    "forin": true,
     "immed": true,
     "indent": 4,
     "latedef": true,

@@ -4,6 +4,7 @@
     "devel": true,
     "eqeqeq": true,
     "es3": true,
+    "forin": true,
     "immed": true,
     "indent": 4,
     "latedef": true,
