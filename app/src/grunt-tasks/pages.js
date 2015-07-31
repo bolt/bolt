@@ -68,57 +68,59 @@ module.exports = function (grunt) {
         // Request all required pages.
         pages = grunt.config('pages.requests');
         for (var dest in pages) {
-            // Set request options.
-            if (typeof pages[dest] === 'object') {
-                // Command shortcut: Login
-                if (dest === '@login' && pages[dest].u && pages[dest].p) {
-                    options = {
-                        url: "login",
-                        method: "POST",
-                        form: {
-                            username: pages[dest].u,
-                            password: pages[dest].p,
-                            action: "login"
-                        }
-                    };
-                // Command shortcut: Logout
-                } else if (dest === '@logout') {
-                    options = {
-                        url: "logout",
-                        method: "POST",
-                        form: {}
-                    };
-                // Request options
+            if (pages.hasOwnProperty(dest)) {
+                // Set request options.
+                if (typeof pages[dest] === 'object') {
+                    // Command shortcut: Login
+                    if (dest === '@login' && pages[dest].u && pages[dest].p) {
+                        options = {
+                            url: "login",
+                            method: "POST",
+                            form: {
+                                username: pages[dest].u,
+                                password: pages[dest].p,
+                                action: "login"
+                            }
+                        };
+                    // Command shortcut: Logout
+                    } else if (dest === '@logout') {
+                        options = {
+                            url: "logout",
+                            method: "POST",
+                            form: {}
+                        };
+                    // Request options
+                    } else {
+                        options = pages[dest];
+                    }
                 } else {
-                    options = pages[dest];
+                    options = {
+                        url: pages[dest] !== '' ? pages[dest] : dest
+                    };
                 }
-            } else {
-                options = {
-                    url: pages[dest] !== '' ? pages[dest] : dest
-                };
-            }
-            options.baseUrl = options.baseUrl || grunt.config('pages.baseurl');
-            options.followAllRedirects = true; // "followRedirect" doesn't seem to work with 302.
-            options.jar = true;
-            if (typeof options.headers === 'undefined') {
-                options.headers = {};
-            }
-            if (typeof options.headers['User-Agent'] === 'undefined') {
-                options.headers['User-Agent'] = 'request';
-            }
+                options.baseUrl = options.baseUrl || grunt.config('pages.baseurl');
+                options.followAllRedirects = true; // "followRedirect" doesn't seem to work with 302.
+                options.jar = true;
+                if (typeof options.headers === 'undefined') {
+                    options.headers = {};
+                }
+                if (typeof options.headers['User-Agent'] === 'undefined') {
+                    options.headers['User-Agent'] = 'request';
+                }
 
-            // Path, where to put the file. Make it always end with ".html"
-            if (dest.substr(0, 1) === '@') {
-                outfile = dest;
-            } else {
-                outfile = outpath + '/' + dest.replace(/^(.+)\.html$/, '$1') + '.html';
-            }
+                // Path, where to put the file. Make it always end with ".html"
+                if (dest.substr(0, 1) === '@') {
+                    outfile = dest;
+                } else {
+                    outfile = outpath + '/' + dest.replace(/^(.+)\.html$/, '$1') + '.html';
+                }
 
-            // Build a request queue.
-            queue.push({
-                opt: options,
-                out: outfile
-            });
+                // Build a request queue.
+                queue.push({
+                    opt: options,
+                    out: outfile
+                });
+            }
         }
 
         getNextPage();

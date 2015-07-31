@@ -41,20 +41,22 @@ module.exports = function (grunt, option) {
             img.dir = (img.dir = reDir.exec(filepath)) ? img.dir[1].replace(/^jquery\./, 'jquery-') + '/' : '';
 
             for (var i in urls) {
-                // Set up paths.
-                img.src = path.dirname(filepath) + '/' + urls[i].path;
-                img.dst = option.path.dest.img + '/lib/' + img.dir + path.basename(urls[i].path);
-                img.url = relativePath + '/lib/' + img.dir + path.basename(urls[i].path);
+                if (urls.hasOwnProperty(i)) {
+                    // Set up paths.
+                    img.src = path.dirname(filepath) + '/' + urls[i].path;
+                    img.dst = option.path.dest.img + '/lib/' + img.dir + path.basename(urls[i].path);
+                    img.url = relativePath + '/lib/' + img.dir + path.basename(urls[i].path);
 
-                // Copy the image file.
-                grunt.verbose.writeln('Copy: ' + img.src + '\n   => ' + img.dst);
-                grunt.file.copy(img.src, img.dst);
+                    // Copy the image file.
+                    grunt.verbose.writeln('Copy: ' + img.src + '\n   => ' + img.dst);
+                    grunt.file.copy(img.src, img.dst);
 
-                // Replace url() paths in css.
-                css = css.replace(
-                    new RegExp(urls[i].match.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 'g'),
-                    'url(' + img.url + ')'
-                );
+                    // Replace url() paths in css.
+                    css = css.replace(
+                        new RegExp(urls[i].match.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), 'g'),
+                        'url(' + img.url + ')'
+                    );
+                }
             }
         }
 
