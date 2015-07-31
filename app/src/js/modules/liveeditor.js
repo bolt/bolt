@@ -20,8 +20,6 @@
      */
     var liveEditor = {};
 
-    var editcontent = bolt.editcontent;
-
     var editableTypes = [
         'text',
         'html',
@@ -38,7 +36,6 @@
      * @param {BindData} data - Editcontent configuration data
      */
     liveEditor.init = function(data) {
-        var editor = $('#live-editor-iframe');
         liveEditor.slug = data.singularSlug;
 
         if (Modernizr.contenteditable) {
@@ -65,7 +62,7 @@
      *
      * @param {Event} event - Triggering event
      */
-    liveEditor.start = function(e) {
+    liveEditor.start = function () {
         // Validate form first
         var valid = bolt.validation.run($('#editcontent')[0]);
         if (!valid) {
@@ -73,11 +70,11 @@
         }
 
         // Add Events
-        var preventClick = function(e) {
+        var preventClick = function (e) {
             e.preventDefault();
         };
 
-        var iframeReady = function() {
+        var iframeReady = function () {
             var iframe = $('#live-editor-iframe')[0];
             var win = iframe.contentWindow || iframe;
             var doc = win.document;
@@ -113,7 +110,7 @@
                     $(this).attr('contenteditable', true);
 
                     if (fieldType === 'html') {
-                        var editor = cke.inline(this, {
+                        cke.inline(this, {
                             allowedContent: ''
                         });
                     } else {
@@ -141,7 +138,7 @@
                         } else {
                             $(this).on('keypress', function (e) {
                                 return e.which !== 13;
-                            }).on('focus blur', function (e) {
+                            }).on('focus blur', function () {
                                 $(this).html($(this).text());
                             });
                         }
@@ -179,13 +176,13 @@
      *
      * @param {Event} event - Triggering event
      */
-    liveEditor.stop = function (e) {
+    liveEditor.stop = function () {
         var iframe = $('#live-editor-iframe')[0];
         var win = iframe.contentWindow || iframe;
         var doc = win.document;
         var jq = $(doc);
 
-        jq.find('[data-bolt-field]').each(function() {
+        jq.find('[data-bolt-field]').each(function () {
             // Find form field
             var fieldName = $(this).data('bolt-field');
             var field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName) + ']');

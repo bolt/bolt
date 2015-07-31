@@ -69,7 +69,7 @@ var BoltExtender = Object.extend(Object, {
 
     installReset: function () {
         var controller = this;
-        jQuery('#installModal').on('hide.bs.modal', function (e) {
+        jQuery('#installModal').on('hide.bs.modal', function () {
             controller.find('.stable-version-container .installed-version-item')
                 .html('<tr><td colspan="3"><strong>' + controller.messages.noStable + '</strong></td></tr>');
             controller.find('.dev-version-container .installed-version-item')
@@ -548,11 +548,11 @@ var BoltExtender = Object.extend(Object, {
         var controller = this;
 
         jQuery.get( baseurl + 'installInfo?package=' + jQuery(e.target).data('available') )
-        .done(function(data) {
+        .done(function () {
             controller.installInfo(jQuery(e.target).data('available'));
             e.preventDefault();
         })
-        .fail(function(data) {
+        .fail(function (data) {
             active_console.html(controller.formatErrorLog(data));
             controller.extensionFailedInstall(data);
         });
@@ -594,7 +594,7 @@ var BoltExtender = Object.extend(Object, {
     liveSearch: function () {
         var livesearch = this.find('input[name="check-package"]');
 
-        livesearch.on('keyup', function (e) {
+        livesearch.on('keyup', function () {
             var searchVal = jQuery(this).val();
             if (searchVal.length < 3) {
                 return;
@@ -667,11 +667,10 @@ var BoltExtender = Object.extend(Object, {
     },
 
     events: {
-        change: function (e, t) {
-            var controller = e.data;
+        change: function () {
         },
 
-        click: function (e, t) {
+        click: function (e) {
             var controller = e.data;
             var request = jQuery(e.target).data('request');
             switch (request) {

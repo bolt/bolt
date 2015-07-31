@@ -78,7 +78,7 @@
                             })).append('');
                         });
 
-                        tagcloud.find('button').on('click', function (e) {
+                        tagcloud.find('button').on('click', function () {
                             var text = $(this).text(),
                                 option = taxonomy.find('option[value=' + text + ']');
 

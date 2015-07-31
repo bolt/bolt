@@ -43,7 +43,7 @@
 
         $(elements).on(
             'loaded.bs.modal',
-            function (e) {
+            function () {
                 bolt.actions.init();
             }
         );
@@ -76,7 +76,7 @@
         $.ajax({
             url: bolt.conf('paths.async') + 'stack/add/' + filename,
             type: 'GET',
-            success: function (result) {
+            success: function () {
                 // Move all current items one down, and remove the last one.
                 var stack = $('#stackholder div.stackitem'),
                     i,

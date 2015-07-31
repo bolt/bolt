@@ -26,9 +26,8 @@
      * @memberof Bolt.fields.relationship
      *
      * @param {Object} fieldset
-     * @param {FieldConf} fconf
      */
-    relationship.init = function (fieldset, fconf) {
+    relationship.init = function (fieldset) {
         var select = $(fieldset).find('select');
 
         select.select2({

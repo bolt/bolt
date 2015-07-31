@@ -26,9 +26,8 @@
      * @memberof Bolt.fields.meta
      *
      * @param {Object} fieldset
-     * @param {FieldConf} fconf
      */
-    meta.init = function (fieldset, fconf) {
+    meta.init = function (fieldset) {
         var statusselect = $(fieldset).find('#statusselect'),
             ownerid = $(fieldset).find('#ownerid');
 
