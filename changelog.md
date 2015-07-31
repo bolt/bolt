@@ -3,6 +3,20 @@ Bolt 2.2.next
 
 Nothing yet.
 
+
+Bolt 2.2.8
+----------
+
+Released 2015-07-31. Notable changes:
+
+- Fixed: Ensure grouped taxonomies aren't wiped from listing pages when toggling the publication status. (see #3910)
+- Fixed: Timed entries will no longer switch to 'unpublished' after update to 2.2.7 (see #3899)
+- Fixed: "Notice: Array to string conversion in /..../src/Storage.php on line 1071" (See #3893)
+- Fixed: Avoid a missing array key from displaying a warning (Thanks Fabschurt)
+- Updated: `squizlabs/php_codesniffer` requirement to `~2.0` due to upstream changes.
+- Fixed: Send storage event in publishTimedRecords (see #3879)
+- Fixed: Memory leak / loop in "new content" (see #3883)
+
 Bolt 2.2.5
 ----------
 
