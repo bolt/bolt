@@ -79,7 +79,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         $app['session.storage.factory'] = $app->protect(function ($options) use ($app) {
             return new SessionStorage(
                 $options,
-                $app['session.storage.handler.factory']($options['handler'], $options),
+                $app['session.storage.handler.factory']($options['save_handler'], $options),
                 $app['session.storage.generator'],
                 $app['session.storage.serializer']
             );
@@ -126,7 +126,7 @@ class SessionServiceProvider implements ServiceProviderInterface
     protected function registerOptions(Application $app)
     {
         $app['session.default_options'] = [
-            'handler'         => 'files',
+            'save_handler'    => 'files',
             'save_path'       => '/tmp',
             'name'            => 'PHPSESSID',
 //          'auto_start' => false,

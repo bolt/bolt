@@ -81,7 +81,6 @@ class Application extends Silex\Application
             ->register(new SessionServiceProvider(),
                 [
                     'session.default_options' => [
-                        'handler'         => 'files',
                         'cookie_path'     => $this['resources']->getUrl('root'),
                         'cookie_domain'   => $this['config']->get('general/cookies_domain'),
                         'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
