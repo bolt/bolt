@@ -1,4 +1,6 @@
 module.exports = function(grunt) {
+    'use strict';
+
     grunt.util.linefeed = '\n';
 
     var options = {

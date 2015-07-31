@@ -2,6 +2,8 @@
  * PAGES: Downloads rendered pages from a Bolt server
  */
 module.exports = function (grunt) {
+    'use strict';
+
     grunt.registerTask('pages', 'Downloads rendered pages from a Bolt server', function () {
         var request = require('request'),
             done = this.async(),

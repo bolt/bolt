@@ -2,6 +2,8 @@
  * POSTCSS: Transforming CSS with JS plugins
  */
 module.exports = function (grunt, options) {
+    'use strict';
+
     var path = require('path'),
         proc = {
             autoprefixer: require('autoprefixer-core'),

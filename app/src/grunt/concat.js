@@ -2,6 +2,8 @@
  * CONCAT: Concatenate files
  */
 module.exports = function (grunt, option) {
+    'use strict';
+
     var extractUrls = function(css) {
         var reUrls = /url\((['"]?)(.+?)\1\)/g,
             urls = [],

@@ -12,6 +12,7 @@
     "nonbsp": true,
     "nonew": true,
     "singleGroups": true,
+    "strict": true,
     "undef": true,
     "globals": {
         "module": true,
