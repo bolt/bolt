@@ -130,9 +130,9 @@
                             }
                         });
 
-                        if(fieldType === 'textarea') {
+                        if (fieldType === 'textarea') {
                             $(this).on('keypress', function (e) {
-                                if(e.which === 13) {
+                                if (e.which === 13) {
                                     e.preventDefault();
                                     doc.execCommand('insertHTML', false, '<br><br>');
                                 }
@@ -226,7 +226,7 @@
      */
     liveEditor.cleanText = function(element, fieldType) {
         // Preserve newlines and spacing for textarea fields
-        if(fieldType === 'textarea') {
+        if (fieldType === 'textarea') {
             element.html(element.html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n'));
         }
 
