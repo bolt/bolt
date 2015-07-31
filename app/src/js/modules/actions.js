@@ -12,6 +12,8 @@
  * @param {Object} $ - jQuery.
  */
 (function (bolt, $) {
+    'use strict';
+
     /*
      * Bolt.actions mixin container.
      */

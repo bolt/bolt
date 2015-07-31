@@ -10,6 +10,7 @@
  * @param {Object|undefined} ckeditor - CKEDITOR global or undefined.
  */
 (function (bolt, $, window, ckeditor) {
+    'use strict';
 
     /**
      * Bolt.liveEditor mixin container.

@@ -10,6 +10,8 @@
  * @param {Object} init - Bolts deprectated init object.
  */
 (function (bolt, $, moment, init) {
+    'use strict';
+
     /**
      * Bolt.app mixin container.
      *

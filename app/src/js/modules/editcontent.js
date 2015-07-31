@@ -12,6 +12,8 @@
  * @param {Object|undefined} ckeditor - CKEDITOR global or undefined.
  */
 (function (bolt, $, window, moment, bootbox, ckeditor) {
+    'use strict';
+
     /**
      * Bind data.
      *

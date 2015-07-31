@@ -10,6 +10,8 @@
  *
  */
 (function (bolt, $, moment) {
+    'use strict';
+
     /**
      * Collection of input elements.
      *

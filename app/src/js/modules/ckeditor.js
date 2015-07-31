@@ -9,6 +9,8 @@
  * @param {Object|undefined} cke - CKEDITOR global or undefined.
  */
 (function (bolt, $, cke) {
+    'use strict';
+
     /**
      * Bolt.ckeditor mixin container.
      *

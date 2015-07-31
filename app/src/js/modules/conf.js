@@ -9,6 +9,8 @@
  * @param {undefined} undefined - Define undefined.
  */
 (function (bolt, $, undefined) {
+    'use strict';
+
     /**
      * Configuration data store.
      *

@@ -7,6 +7,7 @@
  * @param {Object} bolt - The Bolt module.
  */
 (function (bolt) {
+    'use strict';
 
     // Add placeholder for fields
     bolt.fields = {};
