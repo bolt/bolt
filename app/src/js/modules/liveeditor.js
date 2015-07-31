@@ -107,11 +107,11 @@
 
                 $(this).addClass('bolt-editable');
 
-                if ((!$(this).data('no-edit')) && editableTypes.indexOf(fieldType) != -1) {
+                if ((!$(this).data('no-edit')) && editableTypes.indexOf(fieldType) !== -1) {
 
                     $(this).attr('contenteditable', true);
 
-                    if (fieldType == 'html') {
+                    if (fieldType === 'html') {
                         var editor = cke.inline(this, {
                             allowedContent: ''
                         });
@@ -130,16 +130,16 @@
                             }
                         });
 
-                        if(fieldType == 'textarea') {
+                        if(fieldType === 'textarea') {
                             $(this).on('keypress', function (e) {
-                                if(e.which == 13) {
+                                if(e.which === 13) {
                                     e.preventDefault();
                                     doc.execCommand('insertHTML', false, '<br><br>');
                                 }
                             });
                         } else {
                             $(this).on('keypress', function (e) {
-                                return e.which != 13;
+                                return e.which !== 13;
                             }).on('focus blur', function (e) {
                                 $(this).html($(this).text());
                             });
@@ -226,7 +226,7 @@
      */
     liveEditor.cleanText = function(element, fieldType) {
         // Preserve newlines and spacing for textarea fields
-        if(fieldType == 'textarea') {
+        if(fieldType === 'textarea') {
             element.html(element.html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n'));
         }
 
