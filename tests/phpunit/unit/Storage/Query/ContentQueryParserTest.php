@@ -187,5 +187,27 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setQuery('entries');
         $qb->setParameters(['order' => '-datepublish']);
         $qb->setParameter('id', '!1');
+        $this->assertTrue(array_key_exists('id', $qb->getParameters()));
+    }
+    
+    public function testAddOperation()
+    {
+        $app = $this->getApp();
+        
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->addOperation('featured');
+        
+        $this->assertTrue(in_array('featured', $qb->getOperations()));
+    }
+    
+    public function testRemoveOperation()
+    {
+        $app = $this->getApp();
+        
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->addOperation('featured');
+        $this->assertTrue(in_array('featured', $qb->getOperations()));
+        $qb->removeOperation('featured');
+        $this->assertFalse(in_array('featured', $qb->getOperations()));
     }
 }
