@@ -43,7 +43,9 @@
         // First, make sure
         if (cke) {
             for (var instance in cke.instances) {
-                cke.instances[instance].updateElement();
+                if (cke.instances.hasOwnProperty(instance)) {
+                    cke.instances[instance].updateElement();
+                }
             }
         }
     };

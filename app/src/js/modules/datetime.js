@@ -78,7 +78,9 @@
      */
     datetime.update = function () {
         for (var i in fields) {
-            display(fields[i]);
+            if (fields.hasOwnProperty(i)) {
+                display(fields[i]);
+            }
         }
     };
 

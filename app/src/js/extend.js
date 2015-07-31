@@ -98,34 +98,38 @@ var BoltExtender = Object.extend(Object, {
             if (data.updates.length > 0 || data.installs.length > 0) {
                 var e, ext;
                 for (e in data.installs) {
-                    ext = data.installs[e];
+                    if (data.installs.hasOwnProperty(e)) {
+                        ext = data.installs[e];
 
-                    // Add an install button
-                    target.append(
-                        Bolt.data(
-                            'extend.packages.install_new',
-                            {
-                                '%PACKAGE%': ext.name,
-                                '%VERSION%': ext.version,
-                                '%PRETTYVERSION%': ext.prettyversion
-                            }
-                        )
-                    );
+                        // Add an install button
+                        target.append(
+                            Bolt.data(
+                                'extend.packages.install_new',
+                                {
+                                    '%PACKAGE%': ext.name,
+                                    '%VERSION%': ext.version,
+                                    '%PRETTYVERSION%': ext.prettyversion
+                                }
+                            )
+                        );
+                    }
                 }
                 for (e in data.updates) {
-                    ext = data.updates[e];
+                    if (data.updates.hasOwnProperty(e)) {
+                        ext = data.updates[e];
 
-                    // Add an update button
-                    target.append(
-                        Bolt.data(
-                            'extend.packages.install_update',
-                            {
-                                '%PACKAGE%': ext.name,
-                                '%VERSION%': ext.version,
-                                '%PRETTYVERSION%': ext.prettyversion
-                            }
-                        )
-                    );
+                        // Add an update button
+                        target.append(
+                            Bolt.data(
+                                'extend.packages.install_update',
+                                {
+                                    '%PACKAGE%': ext.name,
+                                    '%VERSION%': ext.version,
+                                    '%PRETTYVERSION%': ext.prettyversion
+                                }
+                            )
+                        );
+                    }
                 }
                 active_console.hide();
                 controller.find('.update-list').show();
@@ -271,51 +275,53 @@ var BoltExtender = Object.extend(Object, {
         var html = '';
 
         for (var e in data) {
-        	var ext = data[e],
-        	conf = Bolt.data('extend.packages'),
-        	authors = '',
-        	keywords = '',
-        	i = 0;
+            if (data.hasOwnProperty(e)) {
+                var ext = data[e],
+                conf = Bolt.data('extend.packages'),
+                authors = '',
+                keywords = '',
+                i = 0;
 
-        	// Authors array
-        	if (ext.authors && ext.authors.length > 0) {
-        		var authorsArray = ext.authors;
-        		for (i = 0; i < authorsArray.length; i++) {
-        			authors += conf.author.subst({'%AUTHOR%': authorsArray[i].name});
-        		}
-        	}
+                // Authors array
+                if (ext.authors && ext.authors.length > 0) {
+                    var authorsArray = ext.authors;
+                    for (i = 0; i < authorsArray.length; i++) {
+                        authors += conf.author.subst({'%AUTHOR%': authorsArray[i].name});
+                    }
+                }
 
-        	// Keyword array
-        	if (ext.keywords && ext.keywords.length > 0) {
-        		var keywordsArray = ext.keywords;
-        		for (i = 0; i < keywordsArray.length; i++) {
-        			keywords += conf.keyword.subst({'%KEYWORD%': keywordsArray[i]});
-        		}
-        	}
+                // Keyword array
+                if (ext.keywords && ext.keywords.length > 0) {
+                    var keywordsArray = ext.keywords;
+                    for (i = 0; i < keywordsArray.length; i++) {
+                        keywords += conf.keyword.subst({'%KEYWORD%': keywordsArray[i]});
+                    }
+                }
 
-        	// Available versions & uninstall buttons
-        	var available = '';
-        	var uninstall = '';
-        	if (composer) {
-        		available = conf.avail_button.subst({'%NAME%': ext.name});
-        		uninstall = conf.uninstall_button.subst({'%BASEURL%': baseurl, '%NAME%': ext.name});
-        	}
+                // Available versions & uninstall buttons
+                var available = '';
+                var uninstall = '';
+                if (composer) {
+                    available = conf.avail_button.subst({'%NAME%': ext.name});
+                    uninstall = conf.uninstall_button.subst({'%BASEURL%': baseurl, '%NAME%': ext.name});
+                }
 
-        	// Generate the HTML for a package item
-        	html += conf.item.subst({
-        		'%TITLE%':       ext.title ? ext.title : ext.name,
-				'%NAME%':        ext.name,
-				'%VERSION%':     ext.version,
-				'%AUTHORS%':     authors,
-				'%TYPE%':        ext.type,
-				'%AVAILABLE%':   available,
-				'%README%':      ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
-				'%CONFIG%':      ext.config ? conf.config_button.subst({'%CONFIG%': ext.config}) : '',
-				'%THEME%':       ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
-				'%BASEURL%':     baseurl,
-				'%UNINSTALL%':   uninstall,
-				'%DESCRIPTION%': ext.descrip ? ext.descrip : '&lt;No description provided&gt;',
-				'%KEYWORDS%':    keywords});
+                // Generate the HTML for a package item
+                html += conf.item.subst({
+                    '%TITLE%':       ext.title ? ext.title : ext.name,
+                    '%NAME%':        ext.name,
+                    '%VERSION%':     ext.version,
+                    '%AUTHORS%':     authors,
+                    '%TYPE%':        ext.type,
+                    '%AVAILABLE%':   available,
+                    '%README%':      ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
+                    '%CONFIG%':      ext.config ? conf.config_button.subst({'%CONFIG%': ext.config}) : '',
+                    '%THEME%':       ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
+                    '%BASEURL%':     baseurl,
+                    '%UNINSTALL%':   uninstall,
+                    '%DESCRIPTION%': ext.descrip ? ext.descrip : '&lt;No description provided&gt;',
+                    '%KEYWORDS%':    keywords});
+            }
         }
 
         return html;
@@ -373,19 +379,21 @@ var BoltExtender = Object.extend(Object, {
             aclass;
 
         for (var v in packages) {
-            version = packages[v];
-            aclass = version.buildStatus === 'approved' ? ' label-success' : '';
+            if (packages.hasOwnProperty(v)) {
+                version = packages[v];
+                aclass = version.buildStatus === 'approved' ? ' label-success' : '';
 
-            // Add a row and replace macro values
-            tpl += Bolt.data(
-                'extend.packages.versions',
-                {
-                    '%NAME%': version.name,
-                    '%VERSION%': version.version,
-                    '%CLASS%%': aclass,
-                    '%BUILDSTATUS%': version.buildStatus
-                }
-            );
+                // Add a row and replace macro values
+                tpl += Bolt.data(
+                    'extend.packages.versions',
+                    {
+                        '%NAME%': version.name,
+                        '%VERSION%': version.version,
+                        '%CLASS%%': aclass,
+                        '%BUILDSTATUS%': version.buildStatus
+                    }
+                );
+            }
         }
 
         return tpl;
@@ -604,11 +612,13 @@ var BoltExtender = Object.extend(Object, {
                     var cont = livesearch.parent().find('.auto-search');
                     cont.html('').show();
                     for (var p in data.packages) {
-                        var t = data.packages[p];
-                        var dataattr = 'data-request="prefill-package" data-packagename="' + t.name + '"';
-                        cont.append('<a class="btn btn-block btn-default prefill-package" ' +
-                            dataattr + 'style="text-align: left;">' + t.title +
-                            ' <small ' + dataattr + '>(' + t.authors + ' - ' + t.name + ')</small></a>');
+                        if (data.packages.hasOwnProperty(p)) {
+                            var t = data.packages[p];
+                            var dataattr = 'data-request="prefill-package" data-packagename="' + t.name + '"';
+                            cont.append('<a class="btn btn-block btn-default prefill-package" ' +
+                                dataattr + 'style="text-align: left;">' + t.title +
+                                ' <small ' + dataattr + '>(' + t.authors + ' - ' + t.name + ')</small></a>');
+                        }
                     }
                     livesearch.on('blur', function(){
                        cont.fadeOut();
