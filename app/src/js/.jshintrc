@@ -23,7 +23,7 @@
         "Bolt": true,
         "CKEDITOR": true,
         "CodeMirror": true,
-        "FilelistHolder": true,
+        "init": true,
         "JSON": true,
         "Modernizr": true,
         "_": true,
@@ -32,11 +32,17 @@
         "bootbox": true,
         "confirm": true,
         "google": true,
-        "init": true,
+        "FilelistHolder": true,
         "jQuery": true,
         "moment": true,
         "rootpath": true,
         "site": true
+    },
+    "exported": {
+        "Bolt": true,
+        "BoltExtender": true,
+        "FilelistHolder": true,
+        "init": true
     },
     "-W065": true
 }
