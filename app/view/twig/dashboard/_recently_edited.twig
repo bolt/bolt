@@ -10,7 +10,6 @@
 <table class="table table-striped dashboardlisting">
     {% for content in multiplecontent %}
         {% set permissions = context.permissions[contenttype] %}
-        {% set modifiable = permissions.create or permissions.delete or permissions.publish or permissions.depublish %}
         {% include ['custom/listing/' ~ content.contenttype.slug ~ '.twig', '_sub/_listing.twig']
             with {'excerptlength': 280, 'thumbsize': 54, 'compact': true, 'permissions': permissions} %}
     {% endfor %}
