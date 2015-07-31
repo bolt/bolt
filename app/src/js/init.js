@@ -46,7 +46,7 @@ var init = {
         $('#saveeditfile').bind('click', function (e) {
 
             // If not on mobile (i.e. Codemirror is present), copy back to the textarea.
-            if (typeof(CodeMirror) !== 'undefined') {
+            if (typeof CodeMirror !== 'undefined') {
                 $('#form_contents').val(editor.getValue());
             }
 
@@ -79,7 +79,7 @@ var init = {
                 });
         });
 
-        if (typeof(CodeMirror) !== 'undefined') {
+        if (typeof CodeMirror !== 'undefined') {
             var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
                 lineNumbers: true,
                 autofocus: true,
@@ -129,7 +129,7 @@ var init = {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
                 match = window.location.search.match(reParam);
 
-            return (match && match.length > 1) ? match[1] : null;
+            return match && match.length > 1 ? match[1] : null;
         };
         var funcNum = getUrlParam('CKEditorFuncNum');
 
@@ -150,7 +150,7 @@ var init = {
             var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i'),
                 match = window.location.search.match(reParam);
 
-            return (match && match.length > 1) ? match[1] : null;
+            return match && match.length > 1 ? match[1] : null;
         };
 
         var funcNum = getUrlParam('CKEditorFuncNum');
@@ -326,7 +326,7 @@ var init = {
                     profilerHeight = 37; // The size of the Symfony Profiler Bar is 37px.
 
                     // The whole menu must fit when trying to 'dropup', but always prefer to 'dropdown' (= default).
-                    if ((mousey - menuHeight) > 20 && menuVisY < profilerHeight) {
+                    if (mousey - menuHeight > 20 && menuVisY < profilerHeight) {
                         menu.css({
                             top: 'auto',
                             bottom: '100%'

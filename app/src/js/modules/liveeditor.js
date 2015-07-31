@@ -107,7 +107,7 @@
 
                 $(this).addClass('bolt-editable');
 
-                if ((!$(this).data('no-edit')) && editableTypes.indexOf(fieldType) !== -1) {
+                if (!$(this).data('no-edit') && editableTypes.indexOf(fieldType) !== -1) {
 
                     $(this).attr('contenteditable', true);
 
