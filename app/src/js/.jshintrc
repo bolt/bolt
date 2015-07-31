@@ -11,6 +11,7 @@
     "latedef": true,
     "maxlen": 120,
     "noarg": true,
+    "nocomma": true,
     "nonbsp": true,
     "singleGroups": false,
     "undef": true,
