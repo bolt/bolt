@@ -126,7 +126,25 @@ class SessionServiceProvider implements ServiceProviderInterface
     protected function registerOptions(Application $app)
     {
         $app['session.default_options'] = [
-            'handler' => 'files',
+            'handler'         => 'files',
+            'save_path'       => '/tmp',
+            'name'            => 'PHPSESSID',
+//          'auto_start' => false,
+//          'serialize_handler' => null,
+            'gc_probability'  => 1,
+            'gc_divisor'      => 1000,
+            'gc_maxlifetime'  => 1440,
+//          'referer_check' => '',
+//          'use_strict_mode' => false,
+            'cookie_lifetime' => 0,
+            'cookie_path'     => '/',
+            'cookie_domain'   => null,
+            'cookie_secure'   => false,
+            'cookie_httponly' => false,
+            // TODO Do started native sessions force "nocache" header in response?
+            // We don't have a way to force that, should we?
+//          'cache_limiter' => 'nocache',
+//          'cache_expire' => 180,
         ];
 
         $app['sessions.options.initializer'] = $app->protect(function () use ($app) {
