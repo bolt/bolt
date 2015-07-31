@@ -151,6 +151,12 @@ class Records extends BackendBase
             'publish' => 'published',
             'draft'   => 'draft',
         ];
+        // Map actions to requred permission
+        $actionPermissions = [
+            'publish' => 'publish',
+            'held'    => 'depublish',
+            'draft'   => 'depublish',
+        ];
 
         if (!isset($actionStatuses[$action])) {
             $this->flashes()->error(Trans::__('No such action for content.'));
@@ -162,9 +168,9 @@ class Records extends BackendBase
         $content = $this->getContent("$contenttypeslug/$id");
         $title = $content->getTitle();
 
-        if (!$this->isAllowed("contenttype:$contenttypeslug:edit:$id") ||
+        if (!$this->isAllowed("contenttype:$contenttypeslug:{$actionPermissions[$action]}:$id") ||
         !$this->users()->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttypeslug, $id)) {
-            $this->flashes()->error(Trans::__('You do not have the right privileges to edit that record.'));
+            $this->flashes()->error(Trans::__('You do not have the right privileges to %ACTION% that record.', ['%ACTION%' => $actionPermissions[$action]]));
 
             return $this->redirectToRoute('overview', ['contenttypeslug' => $contenttypeslug]);
         }
