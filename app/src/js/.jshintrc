@@ -3,6 +3,7 @@
     "curly": true,
     "devel": true,
     "eqeqeq": true,
+    "es3": true,
     "immed": true,
     "indent": 4,
     "latedef": true,
