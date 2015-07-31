@@ -125,27 +125,8 @@ class SessionServiceProvider implements ServiceProviderInterface
 
     protected function registerOptions(Application $app)
     {
-        $app['session.default_options'] = [
-            'save_handler'    => 'files',
-            'save_path'       => '/tmp',
-            'name'            => 'PHPSESSID',
-//          'auto_start' => false,
-//          'serialize_handler' => null,
-            'gc_probability'  => 1,
-            'gc_divisor'      => 1000,
-            'gc_maxlifetime'  => 1440,
-//          'referer_check' => '',
-//          'use_strict_mode' => false,
-            'cookie_lifetime' => 0,
-            'cookie_path'     => '/',
-            'cookie_domain'   => null,
-            'cookie_secure'   => false,
-            'cookie_httponly' => false,
-            // TODO Do started native sessions force "nocache" header in response?
-            // We don't have a way to force that, should we?
-//          'cache_limiter' => 'nocache',
-//          'cache_expire' => 180,
-        ];
+        $app['session.default_options'] = [];
+        $app['session.options.import_from_ini'] = true;
 
         $app['sessions.options.initializer'] = $app->protect(function () use ($app) {
             static $initialized = false;
@@ -154,6 +135,46 @@ class SessionServiceProvider implements ServiceProviderInterface
                 return;
             }
             $initialized = true;
+
+            /*
+             * Ok this does several things.
+             * 1) Merges options together for each session. Precedence is as follows:
+             *    - Options from individual session
+             *    - Options from "session.default_options"
+             *    - Options from ini (if enabled with "session.options.import_from_ini")
+             *    - Options hardcoded below
+             * 2) Converts "session.options" shortcut to sessions.options['default']
+             * 3) Sets "sessions.default" value to first session key in "sessions.options"
+             * 4) Converts options for each session to an OptionsBag instance
+             */
+            $actualDefaults = [
+                'save_handler'    => 'files',
+                'save_path'       => '/tmp',
+                'name'            => 'PHPSESSID',
+                //'auto_start' => false,
+                //'serialize_handler' => null,
+                'gc_probability'  => 1,
+                'gc_divisor'      => 1000,
+                'gc_maxlifetime'  => 1440,
+                //'referer_check' => '',
+                //'use_strict_mode' => false,
+                'cookie_lifetime' => 0,
+                'cookie_path'     => '/',
+                'cookie_domain'   => null,
+                'cookie_secure'   => false,
+                'cookie_httponly' => false,
+                // TODO Do started native sessions force "nocache" header in response?
+                // We don't have a way to force that, should we?
+                //'cache_limiter' => 'nocache',
+                //'cache_expire'  => 180,
+            ];
+
+            if (isset($app['session.options.import_from_ini']) && $app['session.options.import_from_ini']) {
+                foreach ($actualDefaults as $key => $value) {
+                    $actualDefaults[$key] = ini_get('session.' . $key);
+                }
+            }
+            $app['session.default_options'] = array_replace($actualDefaults, $app['session.default_options']);
 
             // Maintain BC for "session.storage.options"
             if (isset($app['session.storage.options'])) {

@@ -12,20 +12,6 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 class OptionsBag extends ParameterBag implements \ArrayAccess
 {
     /**
-     * Returns a parameter by name. If the parameter hasn't been set it is pulled from php.ini
-     *
-     * @param string  $path    The key
-     * @param mixed   $default
-     * @param boolean $deep
-     *
-     * @return mixed
-     */
-    public function get($path, $default = null, $deep = false)
-    {
-        return parent::get($path, null, false) ?: ini_get('session.' . $path);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function offsetExists($offset)
