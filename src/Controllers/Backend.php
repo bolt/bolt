@@ -1126,9 +1126,16 @@ class Backend implements ControllerProviderInterface
         // map actions to new statuses
         $actionStatuses = array(
             'held'    => 'held',
-            'publish' => 'published',
             'draft'   => 'draft',
+            'publish' => 'published',
         );
+        // Map actions to requre permission
+        $actionPermissions = array(
+            'publish' => 'publish',
+            'held'    => 'depublish',
+            'draft'   => 'depublish',
+        );
+
         if (!isset($actionStatuses[$action])) {
             $app['session']->getFlashBag()->add('error', Trans::__('No such action for content.'));
 
@@ -1136,9 +1143,9 @@ class Backend implements ControllerProviderInterface
         }
         $newStatus = $actionStatuses[$action];
 
-        if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id") ||
+        if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:{$actionPermissions[$action]}:$id") ||
             !$app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttype['slug'], $id)) {
-            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that record.'));
+            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to %ACTION% that record.', array('%ACTION%' => $actionPermissions[$action])));
 
             return Lib::redirect('overview', $redirectParameters);
         }
