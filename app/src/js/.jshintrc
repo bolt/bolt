@@ -31,5 +31,6 @@
         "moment": true,
         "rootpath": true,
         "site": true
-    }
+    },
+    "-W065": true
 }
