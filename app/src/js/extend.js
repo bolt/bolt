@@ -393,8 +393,8 @@ var BoltExtender = Object.extend(Object, {
 
     install: function (e) {
         var controller = this,
-            package = jQuery(e.target).data('package'),
-            version = jQuery(e.target).data('version');
+            packageName = jQuery(e.target).data('package'),
+            packageVersion = jQuery(e.target).data('version');
 
         controller.find('.install-response-container').show();
         controller.find('.install-version-container').hide();
@@ -403,11 +403,11 @@ var BoltExtender = Object.extend(Object, {
         controller.find('#installModal .loader .message').html(controller.messages.installing);
         jQuery.get(
             baseurl + 'install',
-            {'package': package, 'version': version}
+            {'package': packageName, 'version': packageVersion}
         )
         .done(function(data) {
             active_console.html(data);
-            controller.postInstall(package, version);
+            controller.postInstall(packageName, packageVersion);
             controller.find('.check-package').show();
             controller.find('input[name="check-package"]').val('');
             controller.checkInstalled();
@@ -419,11 +419,11 @@ var BoltExtender = Object.extend(Object, {
         e.preventDefault();
     },
 
-    postInstall: function (package, version) {
+    postInstall: function (packageName, packageVersion) {
         var controller = this;
         jQuery.get(
             baseurl + 'packageInfo',
-            {'package': package, 'version': version}
+            {'package': packageName, 'version': packageVersion}
         )
         .done(function(data) {
             if (data[0].type === 'bolt-extension') {

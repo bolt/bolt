@@ -210,8 +210,7 @@
             );
             $.ajax({
                 success: function (result) {
-
-                },
+                }
             });
         }
     };
