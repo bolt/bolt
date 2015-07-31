@@ -2,6 +2,7 @@
     "curly": true,
     "eqeqeq": true,
     "forin": true,
+    "futurehostile": true,
     "immed": true,
     "indent": 4,
     "latedef": true,
