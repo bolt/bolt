@@ -9,7 +9,6 @@ module.exports = function (grunt) {
             done = this.async(),
             outpath,
             outfile,
-            baseurl,
             pages,
             options,
             queue = [];

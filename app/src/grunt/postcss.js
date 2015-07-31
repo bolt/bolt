@@ -4,8 +4,7 @@
 module.exports = function (grunt, options) {
     'use strict';
 
-    var path = require('path'),
-        proc = {
+    var proc = {
             autoprefixer: require('autoprefixer-core'),
             cssMqPacker: require('css-mqpacker'),
             csswring: require('csswring'),
