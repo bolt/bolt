@@ -13,7 +13,8 @@
     "noarg": true,
     "nocomma": true,
     "nonbsp": true,
-    "singleGroups": false,
+    "nonew": true,
+    "singleGroups": true,
     "undef": true,
     "globals": {
         "$": true,
