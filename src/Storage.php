@@ -374,7 +374,7 @@ class Storage
         }
 
         // Update taxonomy and record relationships
-        $this->updateTaxonomy($contenttype, $content->values['id'], $content->taxonomy);
+        $this->updateTaxonomy($content, $content->values['id'], $content->taxonomy);
         $this->updateRelation($contenttype, $content->values['id'], $content->relation);
 
         // Dispatch post-save event
@@ -2355,15 +2355,44 @@ class Storage
     }
 
     /**
+     * Properly handle grouped taxonomy with ordering.
+     *
+     * @see https://github.com/bolt/bolt/issues/3908
+     *
+     * @param Content $content
+     * @param array   $taxonomy
+     *
+     * @return array
+     */
+    private function getIndexedTaxonomy($content, $taxonomy)
+    {
+        if (Arr::isIndexedArray($taxonomy)) {
+            return $taxonomy;
+        }
+
+        $ret = array();
+        foreach ($taxonomy as $key) {
+            if ($content->group !== null) {
+                $ret[] = $content->group['slug'] . '#' . $content->group['order'];
+            } else {
+                $ret[] = $key;
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
      * Update / insert taxonomy for a given content-unit.
      *
-     * @param string  $contenttype
+     * @param Content $content
      * @param integer $contentId
      * @param array   $taxonomy
      */
-    protected function updateTaxonomy($contenttype, $contentId, $taxonomy)
+    protected function updateTaxonomy($content, $contentId, $taxonomy)
     {
-        $tablename = $this->getTablename("taxonomy");
+        $contenttype = $content->contenttype;
+        $tablename = $this->getTablename('taxonomy');
         $configTaxonomies = $this->app['config']->get('taxonomy');
 
         // Make sure $contenttypeslug is a 'slug'
@@ -2379,10 +2408,9 @@ class Storage
         }
 
         foreach ($contenttype['taxonomy'] as $taxonomytype) {
-
             // Set 'newvalues to 'empty array' if not defined
             if (!empty($taxonomy[$taxonomytype])) {
-                $newslugs = $taxonomy[$taxonomytype];
+                $newslugs = $this->getIndexedTaxonomy($content, $taxonomy[$taxonomytype]);
             } else {
                 $newslugs = array();
             }
@@ -2481,7 +2509,9 @@ class Storage
                 $valuewithorder = $slug . "#" . $currentsortorder;
                 $slugkey = '/' . $configTaxonomies[$taxonomytype]['slug'] . '/' . $slug;
 
-                if (!in_array($slug, $newSlugsNormalised) && !in_array($valuewithorder, $newSlugsNormalised) && !array_key_exists($slugkey, $newSlugsNormalised)) {
+                if (!in_array($slug, $newSlugsNormalised)
+                    && !in_array($valuewithorder, $newSlugsNormalised)
+                    && !array_key_exists($slugkey, $newSlugsNormalised)) {
                     $this->app['db']->delete($tablename, array('id' => $id));
                 }
             }
