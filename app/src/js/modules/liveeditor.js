@@ -10,6 +10,7 @@
  * @param {Object|undefined} ckeditor - CKEDITOR global or undefined.
  */
 (function (bolt, $, window, ckeditor) {
+    'use strict';
 
     /**
      * Bolt.liveEditor mixin container.
@@ -18,8 +19,6 @@
      * @type {Object}
      */
     var liveEditor = {};
-
-    var editcontent = bolt.editcontent;
 
     var editableTypes = [
         'text',
@@ -37,7 +36,6 @@
      * @param {BindData} data - Editcontent configuration data
      */
     liveEditor.init = function(data) {
-        var editor = $('#live-editor-iframe');
         liveEditor.slug = data.singularSlug;
 
         if (Modernizr.contenteditable) {
@@ -64,7 +62,7 @@
      *
      * @param {Event} event - Triggering event
      */
-    liveEditor.start = function(e) {
+    liveEditor.start = function () {
         // Validate form first
         var valid = bolt.validation.run($('#editcontent')[0]);
         if (!valid) {
@@ -72,11 +70,11 @@
         }
 
         // Add Events
-        var preventClick = function(e) {
+        var preventClick = function (e) {
             e.preventDefault();
         };
 
-        var iframeReady = function() {
+        var iframeReady = function () {
             var iframe = $('#live-editor-iframe')[0];
             var win = iframe.contentWindow || iframe;
             var doc = win.document;
@@ -107,12 +105,12 @@
 
                 $(this).addClass('bolt-editable');
 
-                if ((!$(this).data('no-edit')) && editableTypes.indexOf(fieldType) != -1) {
+                if (!$(this).data('no-edit') && editableTypes.indexOf(fieldType) !== -1) {
 
                     $(this).attr('contenteditable', true);
 
-                    if (fieldType == 'html') {
-                        var editor = cke.inline(this, {
+                    if (fieldType === 'html') {
+                        cke.inline(this, {
                             allowedContent: ''
                         });
                     } else {
@@ -130,17 +128,17 @@
                             }
                         });
 
-                        if(fieldType == 'textarea') {
+                        if (fieldType === 'textarea') {
                             $(this).on('keypress', function (e) {
-                                if(e.which == 13) {
+                                if (e.which === 13) {
                                     e.preventDefault();
                                     doc.execCommand('insertHTML', false, '<br><br>');
                                 }
                             });
                         } else {
                             $(this).on('keypress', function (e) {
-                                return e.which != 13;
-                            }).on('focus blur', function (e) {
+                                return e.which !== 13;
+                            }).on('focus blur', function () {
                                 $(this).html($(this).text());
                             });
                         }
@@ -178,13 +176,13 @@
      *
      * @param {Event} event - Triggering event
      */
-    liveEditor.stop = function (e) {
+    liveEditor.stop = function () {
         var iframe = $('#live-editor-iframe')[0];
         var win = iframe.contentWindow || iframe;
         var doc = win.document;
         var jq = $(doc);
 
-        jq.find('[data-bolt-field]').each(function() {
+        jq.find('[data-bolt-field]').each(function () {
             // Find form field
             var fieldName = $(this).data('bolt-field');
             var field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName) + ']');
@@ -226,7 +224,7 @@
      */
     liveEditor.cleanText = function(element, fieldType) {
         // Preserve newlines and spacing for textarea fields
-        if(fieldType == 'textarea') {
+        if (fieldType === 'textarea') {
             element.html(element.html().replace(/&nbsp;/g, ' ').replace(/\s?<br.*?>\s?/g, '\n'));
         }
 

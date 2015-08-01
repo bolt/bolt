@@ -2,8 +2,9 @@
  * POSTCSS: Transforming CSS with JS plugins
  */
 module.exports = function (grunt, options) {
-    var path = require('path'),
-        proc = {
+    'use strict';
+
+    var proc = {
             autoprefixer: require('autoprefixer-core'),
             cssMqPacker: require('css-mqpacker'),
             csswring: require('csswring'),

@@ -9,6 +9,7 @@
  * @param {Object} momentjs - moment.js object.
  */
 (function (bolt, $, momentjs) {
+    'use strict';
 
     /**
      * Bolt.buic.moment mixin container.

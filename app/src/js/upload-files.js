@@ -82,7 +82,6 @@ var FilelistHolder = Backbone.View.extend({
         this.list.sort();
 
         var list = $(this.idPrefix + this.id + ' .list'),
-            data = list.data('list'),
             listtype = this.type,
             tmplItem = this.tmplItem,
             tmplProgress = this.tmplProgress,
@@ -251,14 +250,14 @@ var FilelistHolder = Backbone.View.extend({
             .bind('fileuploadprogress', function (e, data) {
                 var progress = data.loaded / data.total;
 
-                _.each(data.files, function (file, index) {
+                _.each(data.files, function (file) {
                     file.uploading.progress = progress;
                     var progressBar = file.uploading.element.find('.progress-bar');
                     progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
                 });
             })
             .bind('fileuploadalways', function (e, data) {
-                _.each(data.files, function (file, index) {
+                _.each(data.files, function (file) {
                     $this.uploading.remove(file.uploading);
                 });
                 $this.render();
@@ -295,7 +294,7 @@ var FilelistHolder = Backbone.View.extend({
             }
         });
 
-        $holder.find('.remove-selected-button').on('click', function (e) {
+        $holder.find('.remove-selected-button').on('click', function () {
             if (confirm(Bolt.data($this.datRemoveMulti))) {
                 $holder.find('.selected').each(function () {
                     $this.remove($(this).data('id'), true);

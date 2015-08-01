@@ -9,6 +9,8 @@
  * @param {Object} $ - jQuery.
  */
 (function (bolt, $) {
+    'use strict';
+
     /*
      * Bolt.video mixin container.
      */

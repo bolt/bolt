@@ -8,6 +8,7 @@
  * @param {Object} $ - jQuery.
  */
 (function (bolt, $) {
+    'use strict';
 
     /**
      * Bolt.fields.categories mixin container.
@@ -25,9 +26,8 @@
      * @memberof Bolt.fields.categories
      *
      * @param {Object} fieldset
-     * @param {FieldConf} fconf
      */
-    categories.init = function (fieldset, fconf) {
+    categories.init = function (fieldset) {
         var select = $(fieldset).find('select');
 
         select.select2({

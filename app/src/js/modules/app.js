@@ -10,6 +10,8 @@
  * @param {Object} init - Bolts deprectated init object.
  */
 (function (bolt, $, moment, init) {
+    'use strict';
+
     /**
      * Bolt.app mixin container.
      *
@@ -134,12 +136,12 @@
             // - bolt:gmaps-load:   request API loading.
             // - bolt:gmaps-loaded: API loaded successfully.
             // - bolt:gmaps-failed: loading failed.
-            .on('bolt:gmaps-load', function (e) {
+            .on('bolt:gmaps-load', function () {
                 if (gMapsApiLoaded === undefined) {
                     // Request loading Google Maps API.
                     gMapsApiLoaded = false;
                     $.getScript('https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.gMapsApiReady')
-                        .fail(function (jqxhr, settings, exception) {
+                        .fail(function () {
                             gMapsApiLoaded = undefined;
                             $(bolt).trigger('bolt:gmaps-failed');
                         });
@@ -202,7 +204,7 @@
 
             switch (type) {
                 case 'categories':
-                    bolt.fields.categories.init(this, conf);
+                    bolt.fields.categories.init(this);
                     break;
 
                 case 'geolocation':
@@ -210,11 +212,11 @@
                     break;
 
                 case 'meta':
-                    bolt.fields.meta.init(this, conf);
+                    bolt.fields.meta.init(this);
                     break;
 
                 case 'relationship':
-                    bolt.fields.relationship.init(this, conf);
+                    bolt.fields.relationship.init(this);
                     break;
 
                 case 'select':

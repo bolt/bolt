@@ -65,6 +65,8 @@ module.exports = {
         dest: '<%= path.dest.js %>/ckeditor/ckeditor.js',
         options: {
             process: function (cont) {
+                'use strict';
+
                 return cont.replace(/(CKEDITOR\.getUrl\()"lang\/"(\+a\+"\.js"\))/, '$1"../locale/ckeditor/"$2');
             }
         }

@@ -2,6 +2,8 @@
  * SASS-Task: Compile Sass to CSS.
  */
 module.exports = function (grunt) {
+    'use strict';
+
     var path = require('path'),
         sass = require('node-sass');
 

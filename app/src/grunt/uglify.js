@@ -77,6 +77,8 @@ module.exports = {
             src: '*.js',
             dest: '<%= path.dest.js %>/locale/datepicker',
             rename: function (destBase, destPath) {
+                'use strict';
+
                 return destBase + '/' + destPath.replace('datepicker-', '').replace('-', '_');
             }
         }]
@@ -96,6 +98,8 @@ module.exports = {
             src: '*.js',
             dest: '<%= path.dest.js %>/locale/select2',
             rename: function (destBase, destPath) {
+                'use strict';
+
                 return destBase + '/' + destPath.replace('-', '_');
             }
         }]
@@ -115,6 +119,8 @@ module.exports = {
             src: '*.js',
             dest: '<%= path.dest.js %>/locale/moment',
             rename: function (destBase, destPath) {
+                'use strict';
+
                 return destBase + '/' + destPath.replace(/([a-z]+)-([a-z]+)/, function (_, a, b) {
                     return a + '_' + b.toUpperCase();
                 });

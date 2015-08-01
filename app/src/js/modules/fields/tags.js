@@ -8,6 +8,7 @@
  * @param {Object} $ - jQuery.
  */
 (function (bolt, $) {
+    'use strict';
 
     /**
      * Bolt.fields.tags mixin container.
@@ -77,7 +78,7 @@
                             })).append('');
                         });
 
-                        tagcloud.find('button').on('click', function (e) {
+                        tagcloud.find('button').on('click', function () {
                             var text = $(this).text(),
                                 option = taxonomy.find('option[value=' + text + ']');
 

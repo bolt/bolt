@@ -12,6 +12,8 @@
  * @param {Object|undefined} ckeditor - CKEDITOR global or undefined.
  */
 (function (bolt, $, window, moment, bootbox, ckeditor) {
+    'use strict';
+
     /**
      * Bind data.
      *
@@ -49,7 +51,7 @@
         initSaveNew();
         initSaveContinue(data);
         initPreview(data.singularSlug);
-        initLiveEditor(data.singularSlug);
+        initLiveEditor();
         initDelete();
         initTabGroups();
         bolt.liveEditor.init(data);
@@ -144,11 +146,8 @@
      * @static
      * @function initLiveEditor
      * @memberof Bolt.editcontent
-     *
-     * @param {string} slug - Contenttype singular slug.
      */
-    function initLiveEditor(slug) {
-
+    function initLiveEditor() {
     }
 
     /**
@@ -177,7 +176,7 @@
                         $.ajax({
                             url: url,
                             type: 'GET',
-                            success: function (feedback) {
+                            success: function () {
                                 window.location.href = pathBolt + 'overview/' + $('#contenttype').val();
                             }
                         });
@@ -352,7 +351,7 @@
 
             // Initialize handler for 'closing window'
             window.onbeforeunload = function () {
-                if ((hasChanged()) || (bolt.liveEditor.active)) {
+                if (hasChanged() || bolt.liveEditor.active) {
                     return bolt.data('editcontent.msg.change_quit');
                  }
             };

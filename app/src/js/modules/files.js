@@ -8,6 +8,8 @@
  * @param {Object} $ - jQuery
  */
 (function (bolt, $) {
+    'use strict';
+
     /**
      * Bolt.files mixin container.
      *
@@ -53,9 +55,8 @@
      * @param {string} namespace - The namespace.
      * @param {string} parentPath - Parent path of the folder to rename.
      * @param {string} name - Old name of the file to be renamed.
-     * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement.
      */
-    files.renameFile = function (namespace, parentPath, name, element)
+    files.renameFile = function (namespace, parentPath, name)
     {
         var newName = window.prompt(bolt.data('files.msg.rename_file'), name);
 
@@ -94,7 +95,7 @@
                     filename: filename
                 },
                 'Failed to delete the file from the server',
-                function (result) {
+                function () {
                     // If we are on the files table, remove image row from the table, as visual feedback
                     if (element !== null) {
                         $(element).closest('tr').slideUp();
@@ -136,9 +137,8 @@
      *
      * @param {string} namespace - The namespace.
      * @param {string} parentPath - Parent path of the folder to create.
-     * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement.
      */
-    files.createFolder = function (namespace, parentPath, element)
+    files.createFolder = function (namespace, parentPath)
     {
         var newName = window.prompt(bolt.data('files.msg.create_folder'));
 
@@ -165,9 +165,8 @@
      * @param {string} namespace - The namespace.
      * @param {string} parentPath - Parent path of the folder to rename.
      * @param {string} name - Old name of the folder to be renamed.
-     * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement.
      */
-    files.renameFolder = function (namespace, parentPath, name, element)
+    files.renameFolder = function (namespace, parentPath, name)
     {
         var newName = window.prompt(bolt.data('files.msg.rename_folder'), name);
 
@@ -195,9 +194,8 @@
      * @param {string} namespace - The namespace.
      * @param {string} parentPath - Parent path of the folder to remove.
      * @param {string} name - Name of the folder to remove.
-     * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement.
      */
-    files.deleteFolder = function (namespace, parentPath, name, element) {
+    files.deleteFolder = function (namespace, parentPath, name) {
         if (window.confirm(bolt.data('files.msg.delete_folder', {'%FOLDERNAME%': name}))) {
             exec(
                 'folder/remove',
@@ -209,9 +207,8 @@
                 'Something went wrong renaming this folder!'
             );
             $.ajax({
-                success: function (result) {
-
-                },
+                success: function () {
+                }
             });
         }
     };
@@ -234,7 +231,7 @@
             url: bolt.conf('paths.async') + cmd,
             type: 'POST',
             data: data,
-            success: function (result) {
+            success: function () {
                 document.location.reload();
             },
             error: function (result) {

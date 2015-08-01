@@ -2,6 +2,8 @@
  * BOOTLINT: HTML linter for Bootstrap projects
  */
 module.exports = function (grunt, options) {
+    'use strict';
+
     var conf = {
         relaxerror: ['W005'],
         showallerrors: false,

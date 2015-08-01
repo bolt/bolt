@@ -9,6 +9,8 @@
  * @param {Object} window - Window object.
  */
 (function (bolt, $, window) {
+    'use strict';
+
     /**
      * Bolt.secmenu mixin container.
      *
