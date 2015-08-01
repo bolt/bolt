@@ -32,7 +32,7 @@ class SearchConfig
     public function getConfig($contenttype)
     {
         if (array_key_exists($contenttype, $this->searchableTypes)) {
-            return $this->searchableTypes[$contenttypes];
+            return $this->searchableTypes[$contenttype];
         }
         
         return false;
@@ -114,9 +114,7 @@ class SearchConfig
             if (in_array($options['type'], ['text','textarea','html','markdown']) || $options['searchable'] == true) {
                 if (isset($options['searchweight'])) {
                     $weight = (int)$options['searchweight'];
-                } elseif (
-                        isset($fields['slug']['uses'] &&
-                        in_array($field, (array)$fields['slug']['uses'])) {
+                } elseif (isset($fields['slug']['uses']) && in_array($field, (array)$fields['slug']['uses'])) {
                         $weight = 100;
                 } else {
                     $weight = 50;
