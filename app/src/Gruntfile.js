@@ -78,8 +78,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/upload-files.js',
                 '<%= path.src.js %>/obj-moments.js',
                 '<%= path.src.js %>/obj-datetime.js',
-                '<%= path.src.js %>/obj-validation.js',
-                '<%= path.src.js %>/extend.js'
+                '<%= path.src.js %>/obj-validation.js'
             ]
         },
 

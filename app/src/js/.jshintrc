@@ -40,7 +40,6 @@
     },
     "exported": {
         "Bolt": true,
-        "BoltExtender": true,
         "FilelistHolder": true,
         "init": true
     },
