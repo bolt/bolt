@@ -413,7 +413,7 @@
 "Welcome to your new Bolt site, %USER%.": "Willkommen auf Ihrer neuen Bolt Webseite, %USER%."
 "Written by <em>%name%</em> on %date%": "Geschrieben von <em>%name%</em> am %date%"
 "You can discover new extensions by visiting": "Hier können Sie neue Erweiterungen entdecken:"
-"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "Sie können die installierte Eerweiterung jetzt verwenden. Dokumentation und weitere Anweisungen können unter dem Link weiter unten gefunden werden."
+"You can now start using the installed extension, documentation and implementation instructions can be found using the link below.": "Sie können die installierte Erweiterung jetzt verwenden. Dokumentation und weitere Anweisungen können unter dem Link weiter unten gefunden werden."
 "You cannot '%s' yourself.": "Sie können sich nicht selbst '%s'."
 "You do not have the right privileges to edit that record.": "Sie haben nicht die erforderlichen Rechte, um diesen Datensatz zu bearbeiten."
 "You do not have the right privileges to edit that user.": "Sie haben nicht die erforderlichen Rechte, um diesen Benutzer zu bearbeiten."
