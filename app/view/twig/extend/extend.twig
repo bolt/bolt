@@ -29,10 +29,7 @@
         <div class="col-md-9">
 
             {% if not context.writeable %}
-            {% set msg = __('The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ' ~
-                   'This means that you cannot manage Bolt extensions through the backend; consider ' ~
-                   'managing extensions manually, or changing file permissions to allow Bolt ' ~
-                   'write access to (<code>%dir%</code>).', {'%dir%': context.extensionsPath}) %}
+            {% set msg = __('The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%dir%</code>).', {'%dir%': context.extensionsPath}) %}
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                     {{ msg|ymllink }}
@@ -40,9 +37,7 @@
             {% endif %}
 
             {% if not context.enabled %}
-            {% set msg = __('Extensions loading has been disabled by an administrator in the %config% file. ' ~
-                   'You may install, update and uninstall extensions but they will not load until this setting ' ~
-                   'has been changed.', {'%config%': 'config.yml'|ymllink }) %}
+            {% set msg = __('Extensions loading has been disabled by an administrator in the %config% file. You may install, update and uninstall extensions but they will not load until this setting has been changed.', {'%config%': 'config.yml'|ymllink }) %}
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                     {{ msg|ymllink }}
