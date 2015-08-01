@@ -5,10 +5,12 @@ namespace Bolt\Provider;
 use Bolt\Session\CookiePathRestrictionListener;
 use Bolt\Session\FileSessionHandler;
 use Bolt\Session\Generator\RandomGenerator;
+use Bolt\Session\Handler\RedisHandler;
 use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
-use Bolt\Session\SessionStorage;
 use Bolt\Session\SessionListener;
+use Bolt\Session\SessionStorage;
+use GuzzleHttp\Url;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
@@ -249,7 +251,45 @@ class SessionServiceProvider implements ServiceProviderInterface
             return new MemcachedSessionHandler($memcached, $options);
         });
 
-        //TODO Moar handlers
+        $app['session.storage.handler.factory.backing_redis'] = $app->protect(function ($connections) {
+            if (class_exists('Redis')) {
+                $redis = new \Redis();
+                foreach ($connections as $conn) {
+                    $params = [$conn['path'] ?: $conn['host'], $conn['port'], $conn['timeout'] ?: 0];
+                    call_user_func_array([$redis, $conn['persistant'] ? 'pconnect' : 'connect'], $params);
+                    if (!empty($conn['password'])) {
+                        $redis->auth($conn['password']);
+                    }
+                    if ($conn['database'] > 0) {
+                        $redis->select($conn['database']);
+                    }
+                    if (!empty($conn['prefix'])) {
+                        $redis->setOption(\Redis::OPT_PREFIX, $conn['prefix']);
+                    }
+                }
+            } elseif (class_exists('Predis\Client')) {
+                $params = [];
+                $options = [];
+                foreach ($connections as $conn) {
+                    $params[] = $conn;
+                    if (!empty($conn['prefix'])) {
+                        $options['prefix'] = $conn['prefix'];
+                    }
+                }
+                $redis = new \Predis\Client($params, $options);
+            } else {
+                throw new \RuntimeException('Neither Redis nor Predis\Client exist');
+            }
+
+            return $redis;
+        });
+
+        $app['session.storage.handler.factory.redis'] = $app->protect(function ($options) use ($app) {
+            $connections = $this->parseConnections($options, 'localhost', 6379);
+            $redis = $app['session.storage.handler.factory.backing_redis']($connections);
+
+            return new RedisHandler($redis, $options['gc_maxlifetime']);
+        });
     }
 
     public function boot(Application $app)
@@ -265,5 +305,57 @@ class SessionServiceProvider implements ServiceProviderInterface
                 $app['dispatcher']->addSubscriber($listener);
             }
         }
+    }
+
+    protected function parseConnections($options, $defaultHost, $defaultPort)
+    {
+        if (isset($options['host']) || isset($options['port'])) {
+            $options['connections'][] = $options;
+        }
+
+        /** @var Url[] $toParse */
+        $toParse = [];
+        if (isset($options['connections'])) {
+            foreach ((array) $options['connections'] as $alias => $conn) {
+                if (is_string($conn)) {
+                    $conn = ['host' => $conn];
+                }
+                $scheme = isset($conn['scheme']) ? $conn['scheme'] : 'tcp';
+                $host = isset($conn['host']) ? $conn['host'] : $defaultHost;
+                $url = new Url($scheme, $host);
+                $url->setPort(isset($conn['port']) ? $conn['port'] : $defaultPort);
+                if (isset($conn['path'])) {
+                    $url->setPath($conn['path']);
+                }
+                if (isset($conn['password'])) {
+                    $url->setPassword($conn['password']);
+                }
+                $url->getQuery()->replace($conn);
+                $toParse[] = $url;
+            }
+        } elseif (isset($options['save_path'])) {
+            foreach (explode(',', $options['save_path']) as $conn) {
+                $toParse = Url::fromString($conn);
+            }
+        }
+
+        $connections = [];
+        foreach ($toParse as $url) {
+            $connections[] = [
+                'scheme'     => $url->getScheme(),
+                'host'       => $url->getHost(),
+                'port'       => $url->getPort(),
+                'path'       => $url->getPath(),
+                'alias'      => $url->getQuery()->get('alias'),
+                'prefix'     => $url->getQuery()->get('prefix'),
+                'password'   => $url->getPassword(),
+                'database'   => $url->getQuery()->get('database'),
+                'persistent' => $url->getQuery()->get('persistent'),
+                'weight'     => $url->getQuery()->get('weight'),
+                'timeout'    => $url->getQuery()->get('timeout'),
+            ];
+        }
+
+        return $connections;
     }
 }
