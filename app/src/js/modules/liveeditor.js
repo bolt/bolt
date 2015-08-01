@@ -59,8 +59,6 @@
      * @static
      * @function start
      * @memberof Bolt.liveEditor
-     *
-     * @param {Event} event - Triggering event
      */
     liveEditor.start = function () {
         // Validate form first
@@ -173,8 +171,6 @@
      * @static
      * @function stop
      * @memberof Bolt.liveEditor
-     *
-     * @param {Event} event - Triggering event
      */
     liveEditor.stop = function () {
         var iframe = $('#live-editor-iframe')[0];
