@@ -47,6 +47,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/data.js',
                 '<%= path.src.js %>/modules/datetime.js',
                 '<%= path.src.js %>/modules/editcontent.js',
+                '<%= path.src.js %>/modules/extend.js',
                 '<%= path.src.js %>/modules/files.js',
                 '<%= path.src.js %>/modules/liveeditor.js',
                 '<%= path.src.js %>/modules/stack.js',
