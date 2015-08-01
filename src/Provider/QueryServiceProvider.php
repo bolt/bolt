@@ -5,6 +5,8 @@ namespace Bolt\Provider;
 use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Query\QueryParameterParser;
+use Bolt\Storage\Query\SearchConfig;
+use Bolt\Storage\Query\SearchQuery;
 use Bolt\Storage\Query\SelectQuery;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -37,6 +39,18 @@ class QueryServiceProvider implements ServiceProviderInterface
         $app['query.select'] = $app->share(
             function ($app) {
                 return new SelectQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler']);
+            }
+        );
+        
+        $app['query.search'] = $app->share(
+            function ($app) {
+                return new SearchQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler'], $app['query.search_config']);
+            }
+        );
+        
+        $app['query.search_config'] = $app->share(
+            function ($app) {
+                return new SearchConfig($app['config']);
             }
         );
     }
