@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Query;
 
+use Bolt\Exception\QueryParseException;
+use Bolt\Storage\Query\SearchConfig;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -24,7 +26,7 @@ class SearchQuery extends SelectQuery implements QueryInterface
     /**
      * @param QueryBuilder $qb
      */
-    public function __construct(QueryBuilder $qb, QueryParameterParser $parser, array $config)
+    public function __construct(QueryBuilder $qb, QueryParameterParser $parser, SearchConfig $config)
     {
         parent::__construct($qb, $parser);
         $this->config = $config;
@@ -33,5 +35,41 @@ class SearchQuery extends SelectQuery implements QueryInterface
     public function setSearch($search)
     {
         $this->search = $search;
+        $this->processFilters();
     }
+    
+    protected function getSearchParameter()
+    {
+        $words = explode(" ", $this->search);
+        
+        return '%'.implode("% || %", $words).'%';
+    }
+    
+    protected function processFilters()
+    {
+        if (!$this->contenttype) {
+            throw new QueryParseException("You have attempted to run a search query without specifying a contenttype", 1);
+        }
+
+        if (!$config = $this->config->getConfig($this->contenttype)) {
+            throw new QueryParseException("You have attempted to run a search query on an unknown contenttype", 1);
+        }
+                
+        $params = [];
+        foreach($config as $field => $options) {
+            if ($field === 'taxonomy') {
+                foreach($options as $taxonomy => $values) {
+                    $params[$taxonomy] = $this->getSearchParameter();
+                }
+            } else {
+                $params[$field] = $this->getSearchParameter();
+            }
+            
+        }
+        
+        $this->params = $params;
+
+        parent::processFilters();
+    }
+    
 }
