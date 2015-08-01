@@ -26,7 +26,7 @@
 
             {% include '_sub/_messages.twig' %}
 
-            {{ list(context.contenttype, context.multiplecontent, 'table-striped') }}
+            {{ list(context.contenttype, context.multiplecontent, context.permissions, 'table-striped') }}
 
         </div>
 

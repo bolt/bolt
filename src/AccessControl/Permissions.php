@@ -3,6 +3,7 @@
 namespace Bolt\AccessControl;
 
 use Bolt\Content;
+use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Silex;
 
@@ -39,9 +40,18 @@ class Permissions
 
     /** @var \Silex\Application */
     private $app;
-
-    // per-request permission cache
+    /** @var array Per-request permission cache */
     private $rqcache;
+    /** @var array The list of ContentType permissions */
+    private $contentTypePermissions = [
+        'create'           => false,
+        'change-ownership' => false,
+        'delete'           => false,
+        'edit'             => false,
+        'publish'          => false,
+        'depublish'        => false,
+        'view'             => false,
+    ];
 
     public function __construct(Silex\Application $app)
     {
@@ -353,6 +363,34 @@ class Permissions
         $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
 
         return in_array($roleName, $roles);
+    }
+
+    /**
+     * Get the list of ContentType permissions available.
+     *
+     * @return boolean[]
+     */
+    public function getContentTypePermissions()
+    {
+        return $this->contentTypePermissions;
+    }
+
+    /**
+     * Return a list of ContentType permissions that a user has for the ContentType.
+     *
+     * @param string             $contentTypeSlug
+     * @param array|Entity\Users $user
+     *
+     * @return boolean[]
+     */
+    public function getContentTypeUserPermissions($contentTypeSlug, $user)
+    {
+        $permissions = [];
+        foreach (array_keys($this->contentTypePermissions) as $contentTypePermission) {
+            $permissions[$contentTypePermission] = $this->isAllowed($contentTypePermission, $user, $contentTypeSlug);
+        }
+
+        return $permissions;
     }
 
     /**

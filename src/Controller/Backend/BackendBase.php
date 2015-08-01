@@ -135,6 +135,21 @@ abstract class BackendBase extends Base
     }
 
     /**
+     * Helper to get a user's permissions for a ContentType.
+     *
+     * @param string             $contentTypeSlug
+     * @param array|Entity\Users $user
+     */
+    protected function getContentTypeUserPermissions($contentTypeSlug, $user = null)
+    {
+        if ($user === null) {
+            return $this->app['permissions']->getContentTypePermissions();
+        }
+
+        return $this->app['permissions']->getContentTypeUserPermissions($contentTypeSlug, $user);
+    }
+
+    /**
      * Returns the Login object.
      *
      * @return \Bolt\AccessControl\Login

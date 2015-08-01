@@ -238,16 +238,19 @@ class General extends BackendBase
     {
         $total  = 0;
         $latest = [];
+        $user = $this->users()->getCurrentUser();
+        $permissions = [];
         $limit  = $limit ?: $this->getOption('general/recordsperdashboardwidget');
 
         // Get the 'latest' from each of the content types.
         foreach ($this->getOption('contenttypes') as $key => $contenttype) {
-            if ($this->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true) {
+            if ($this->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true && $user !== null) {
                 $latest[$key] = $this->getContent($key, [
                     'limit'   => $limit,
                     'order'   => 'datechanged DESC',
                     'hydrate' => false
                 ]);
+                $permissions[$key] = $this->getContentTypeUserPermissions($contenttype, $user);
 
                 if (!empty($latest[$key])) {
                     $total += count($latest[$key]);
@@ -257,6 +260,7 @@ class General extends BackendBase
 
         return [
             'latest'          => $latest,
+            'permissions'     => $permissions,
             'suggestloripsum' => ($total === 0),
         ];
     }
