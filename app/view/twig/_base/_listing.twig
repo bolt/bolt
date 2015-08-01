@@ -1,9 +1,11 @@
 {% import '_macro/_macro.twig' as macro %}
 
+{% set modifiable = permissions.create or permissions.delete or permissions.publish or permissions.depublish %}
+
 {# If we have 'grouping', print the row with the groupname. #}
 {% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) and request('order') == '' %}
     {% if not loop.first %}</tbody>{% endif %}
-    <tbody {% if isallowed('edit', contenttype) %}class="sortable"{% endif %}>
+    <tbody {% if modifiable %}class="sortable"{% endif %}>
     <tr class="grouping">
         <th colspan="{% block listing_columns %}6{% endblock %}">
             <h3 {% if loop.first %}class="first"{% endif %}>
@@ -29,7 +31,7 @@
     {% set link = "?" ~ filter ~ "order=" %}
     <tr>
         {% block listing_header %}
-        {% if not compact and editable %}
+        {% if not compact and modifiable %}
             <th class="check hidden-xs"><input type="checkbox" name="checkRow" title="{{ __('Select all') }}" /></th>
         {% else %}
             <th style="margin: 0; padding: 0;"></th>
@@ -54,10 +56,10 @@
     </tr>
 {% endif %}
 
-<tr {% if content.status!='published' %}class="dim"{% endif %}{% if not compact and editable %} id="item_{{ content.id }}"{% endif %}>
+<tr {% if content.status!='published' %}class="dim"{% endif %}{% if not compact and modifiable %} id="item_{{ content.id }}"{% endif %}>
     {% block listing_id %}
 
-        {% if not compact and editable and isallowed('delete', contenttype) %}
+        {% if not compact and permissions.delete %}
             <td class="check hidden-xs"><input type="checkbox" name="checkRow"></td>
         {% else %}
             <td style="margin: 0; padding: 0;"></td>
@@ -72,7 +74,7 @@
             <span>
                 <strong class="visible-xs">№ {{ content.id }}. </strong>
                 <strong>
-                    {% if editable %}
+                    {% if modifiable %}
                         <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" title="Slug: {{ content.slug }}">
                             {{ title }}
                         </a>
@@ -125,7 +127,7 @@
     {% block listing_actions %}
         <td class="actions">
             <div class="btn-group">
-                {% if editable %}
+                {% if modifiable %}
                 <a class="btn btn-default btn-xs" href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
                     <i class="fa fa-edit"></i> {{ __('Edit') }}
                 </a>
@@ -153,24 +155,23 @@
 
 
                 {% from _self import actionform %}
-                {% if editable %}
+                {% if modifiable %}
                     {% if content.status != 'published' %}
-                        {% if isallowed('publish', content) %}
-
+                        {% if permissions.publish %}
                         <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('contenttypes.generic.publish',{'%contenttype%':content.contenttype.slug})) }}</li>
                         {% endif %}
                     {% else %}
-                        {% if isallowed('depublish', content) %}
+                        {% if permissions.depublish %}
                         <li>{{ macro.actionform(content, 'held', 'fa-circle status-held', __("Change status to 'held'")) }}</li>
                         <li>{{ macro.actionform(content, 'draft', 'fa-circle status-draft', __("Change status to 'draft'")) }}</li>
 
                         {% endif %}
                     {% endif %}
-                    {% if isallowed('create', content) %}
+                    {% if permissions.create %}
                     <li><a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1}) }}">
                         <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.slug}) }}</a></li>
                     {% endif %}
-                    {% if isallowed('delete', content) %}
+                    {% if permissions.delete %}
                     <li>{{ macro.actionform(content, 'delete',
                                           'fa-trash',
                                           __('contenttypes.generic.delete', {'%contenttype%': content.contenttype.slug}),

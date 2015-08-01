@@ -164,10 +164,14 @@ class Backend implements ControllerProviderInterface
 
         $total = 0;
         $latest = array();
-        // get the 'latest' from each of the content types.
+        $user = $app['users']->getCurrentUser();
+        $permissions = array();
+
+        // Get the 'latest' from each of the content types.
         foreach ($app['config']->get('contenttypes') as $key => $contenttype) {
-            if ($app['users']->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true) {
+            if ($app['users']->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true && $user !== null) {
                 $latest[$key] = $app['storage']->getContent($key, array('limit' => $limit, 'order' => 'datechanged DESC', 'hydrate' => false));
+                $permissions[$key] = $this->getContentTypeUserPermissions($app, $contenttype, $user);
                 if (!empty($latest[$key])) {
                     $total += count($latest[$key]);
                 }
@@ -176,6 +180,7 @@ class Backend implements ControllerProviderInterface
 
         $context = array(
             'latest'          => $latest,
+            'permissions'     => $permissions,
             'suggestloripsum' => ($total == 0), // Nothing in the DB, then suggest to create some dummy content.
         );
 
@@ -602,7 +607,8 @@ class Backend implements ControllerProviderInterface
         $context = array(
             'contenttype'     => $contenttype,
             'multiplecontent' => $multiplecontent,
-            'filter'          => $filter
+            'filter'          => $filter,
+            'permissions'     => $this->getContentTypeUserPermissions($app, $contenttypeslug, $app['users']->getCurrentUser())
         );
 
         return $app['render']->render('overview/overview.twig', array('context' => $context));
@@ -677,6 +683,7 @@ class Backend implements ControllerProviderInterface
             'relations'        => $relations,
             'show_contenttype' => $showContenttype,
             'related_content'  => is_null($relations) ? null : $content->related($showContenttype['slug']),
+            'permissions'      => $this->getContentTypeUserPermissions($app, $contenttypeslug, $app['users']->getCurrentUser())
         );
 
         return $app['render']->render('relatedto/relatedto.twig', array('context' => $context));
@@ -1119,9 +1126,16 @@ class Backend implements ControllerProviderInterface
         // map actions to new statuses
         $actionStatuses = array(
             'held'    => 'held',
-            'publish' => 'published',
             'draft'   => 'draft',
+            'publish' => 'published',
         );
+        // Map actions to requre permission
+        $actionPermissions = array(
+            'publish' => 'publish',
+            'held'    => 'depublish',
+            'draft'   => 'depublish',
+        );
+
         if (!isset($actionStatuses[$action])) {
             $app['session']->getFlashBag()->add('error', Trans::__('No such action for content.'));
 
@@ -1129,9 +1143,9 @@ class Backend implements ControllerProviderInterface
         }
         $newStatus = $actionStatuses[$action];
 
-        if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:edit:$id") ||
+        if (!$app['users']->isAllowed("contenttype:{$contenttype['slug']}:{$actionPermissions[$action]}:$id") ||
             !$app['users']->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttype['slug'], $id)) {
-            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to edit that record.'));
+            $app['session']->getFlashBag()->add('error', Trans::__('You do not have the right privileges to %ACTION% that record.', array('%ACTION%' => $actionPermissions[$action])));
 
             return Lib::redirect('overview', $redirectParameters);
         }
@@ -1183,10 +1197,10 @@ class Backend implements ControllerProviderInterface
     public function roles(Application $app)
     {
         $contenttypes = $app['config']->get('contenttypes');
-        $permissions = array('view', 'edit', 'create', 'publish', 'depublish', 'change-ownership');
+        $permissions = $app['permissions']->getContentTypePermissions();
         $effectivePermissions = array();
         foreach ($contenttypes as $contenttype) {
-            foreach ($permissions as $permission) {
+            foreach (array_keys($permissions) as $permission) {
                 $effectivePermissions[$contenttype['slug']][$permission] =
                     $app['permissions']->getRolesByContentTypePermission($permission, $contenttype['slug']);
             }
@@ -2228,5 +2242,21 @@ class Backend implements ControllerProviderInterface
         );
 
         return $form;
+    }
+
+    /**
+     * Helper to get a user's permissions for a ContentType.
+     *
+     * @param Application $app
+     * @param string      $contentTypeSlug
+     * @param array       $user
+     */
+    private function getContentTypeUserPermissions(Application $app, $contentTypeSlug, $user = null)
+    {
+        if ($user === null) {
+            return $app['permissions']->getContentTypePermissions();
+        }
+
+        return $app['permissions']->getContentTypeUserPermissions($contentTypeSlug, $user);
     }
 }
