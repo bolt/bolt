@@ -11,6 +11,7 @@ use Bolt\Storage\Query\Handler\OrderHandler;
 use Bolt\Storage\Query\Handler\PrintQueryHandler;
 use Bolt\Storage\Query\Handler\RandomQueryHandler;
 use Bolt\Storage\Query\Handler\ReturnSingleHandler;
+use Bolt\Storage\Query\Handler\SearchQueryHandler;
 use Bolt\Storage\Query\Handler\SelectQueryHandler;
 
 /**
@@ -60,6 +61,7 @@ class ContentQueryParser
     protected function setupDefaults()
     {
         $this->addHandler('select', new SelectQueryHandler());
+        $this->addHandler('search', new SearchQueryHandler());
         $this->addHandler('random', new RandomQueryHandler());
         $this->addHandler('first', new FirstQueryHandler());
         $this->addHandler('latest', new LatestQueryHandler());
