@@ -4,6 +4,7 @@ namespace Bolt\Storage\Query\Handler;
 
 use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\QueryResultset;
+use Bolt\Storage\Query\SearchQueryResultset;
 
 /**
  *  Handler class to perform search query and then weight the fetched resultset.
@@ -28,14 +29,15 @@ class SearchQueryHandler
             $searchParam = $contentQuery->getParameter('filter');
             $query->setParameters($contentQuery->getParameters());
             $query->setSearch($searchParam);
-            
+                        
             $contentQuery->runDirectives($query);
-
+            
             $result = $repo->queryWith($query);
             if ($result) {
                 
                 if (count($result)>0) {
                     $weighter = $contentQuery->getService('search_weighter');
+                    $weighter->setContentType($contenttype);
                     $weighter->setResults($result);
                     $weighter->setSearchWords($query->getSearchWords());
                     
