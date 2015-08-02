@@ -38,11 +38,25 @@ class SearchQuery extends SelectQuery implements QueryInterface
         $this->processFilters();
     }
     
+    public function setParameters($params)
+    {
+        $this->params = $params;
+    }
+    
+    public function getSearchWords()
+    {
+        return explode(' ', $this->search);
+    }
+    
     protected function getSearchParameter()
     {
-        $words = explode(" ", $this->search);
-        
-        return '%'.implode("% || %", $words).'%';
+        if (strpos($this->search, "+")) {
+            $words = preg_split('/[\s\+]+/', $this->search);
+            return '%'.implode("% && %", $words).'%'; 
+        } else {
+            $words = explode(" ", $this->search);
+            return '%'.implode("% || %", $words).'%';
+        }
     }
     
     protected function processFilters()
@@ -55,7 +69,9 @@ class SearchQuery extends SelectQuery implements QueryInterface
             throw new QueryParseException("You have attempted to run a search query on an unknown contenttype", 1);
         }
                 
-        $params = [];
+        $params = $this->params;
+        unset($params['filter']);
+
         foreach($config as $field => $options) {
             if ($field === 'taxonomy') {
                 foreach($options as $taxonomy => $values) {
@@ -70,6 +86,26 @@ class SearchQuery extends SelectQuery implements QueryInterface
         $this->params = $params;
 
         parent::processFilters();
+    }
+    
+    /**
+     * Creates a composite expression that adds all the attached
+     * filters individual expressions into a combined one.
+     *
+     * @return CompositeExpression
+     */
+    public function getWhereExpression()
+    {
+        if (!count($this->filters)) {
+            return null;
+        }
+
+        $expr = $this->qb->expr()->orX();
+        foreach ($this->filters as $filter) {
+            $expr = $expr->add($filter->getExpression());
+        }
+
+        return $expr;
     }
     
 }
