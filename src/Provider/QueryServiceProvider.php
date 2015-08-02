@@ -7,6 +7,7 @@ use Bolt\Storage\Query\Query;
 use Bolt\Storage\Query\QueryParameterParser;
 use Bolt\Storage\Query\SearchConfig;
 use Bolt\Storage\Query\SearchQuery;
+use Bolt\Storage\Query\SearchWeighter;
 use Bolt\Storage\Query\SelectQuery;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -25,6 +26,8 @@ class QueryServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $parser = new ContentQueryParser($app['storage']);
                 $parser->addService('select', $app['query.select']);
+                $parser->addService('search', $app['query.search']);
+                $parser->addService('search_weighter', $app['query.search_weighter']);
 
                 return $parser;
             }
@@ -51,6 +54,12 @@ class QueryServiceProvider implements ServiceProviderInterface
         $app['query.search_config'] = $app->share(
             function ($app) {
                 return new SearchConfig($app['config']);
+            }
+        );
+        
+        $app['query.search_weighter'] = $app->share(
+            function ($app) {
+                return new SearchWeighter($app['query.search_config']);
             }
         );
     }
