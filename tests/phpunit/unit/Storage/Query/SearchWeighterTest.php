@@ -19,6 +19,7 @@ class SearchWeighterTest extends BoltUnitTest
         $this->addSomeContent();
 
         $results = $app['query']->getContent('pages/first/3');
+        $results = iterator_to_array($results);
         
         $weighter = $app['query.search_weighter'];
         $weighter->setResults($results);
@@ -39,11 +40,8 @@ class SearchWeighterTest extends BoltUnitTest
         $results[1]->setTitle("Lorem Ipsum");  
         $results[1]->setBody("Lorem Ipsum");  
         
-        $newset = new QueryResultset;
-        $newset->add($results);
-        
         $weighter = $app['query.search_weighter'];
-        $weighter->setResults($newset);
+        $weighter->setResults($results);
         $weighter->setSearchWords(['lorem', 'ipsum']);
         $weighter->setContentType('pages');
         $scores = $weighter->weight();
