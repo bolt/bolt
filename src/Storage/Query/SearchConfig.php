@@ -85,11 +85,10 @@ class SearchConfig
     protected function parseTaxonomies($contenttype, $taxonomies)
     {
         foreach ((array)$taxonomies as $taxonomy) {
-            $taxonomyConfig = $this->config->get('taxonomies/'.$taxonomy);
-            
+            $taxonomyConfig = $this->config->get('taxonomy/'.$taxonomy);
             if (isset($taxonomyConfig['searchweight'])) {
                 $weight = $taxonomyConfig['searchweight'];
-            } elseif (isset($taxonomyConfig['behaves_like']) && $taxonomyConfig['behaves_like'] == 'tags') {
+            } elseif (isset($taxonomyConfig['behaves_like']) && $taxonomyConfig['behaves_like'] === 'tags') {
                 $weight = 75;
             } else {
                 $weight = 50;
