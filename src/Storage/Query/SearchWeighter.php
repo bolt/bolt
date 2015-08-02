@@ -34,7 +34,7 @@ class SearchWeighter
      *
      * @param QueryResultset $results
      */
-    public function setResults(QueryResultset $results)
+    public function setResults(array $results)
     {
         $this->results = $results;
     }
