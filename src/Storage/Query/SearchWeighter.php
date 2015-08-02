@@ -113,11 +113,19 @@ class SearchWeighter
         
         foreach ($this->getContentFields() as $field => $weightings) {
             $textualContent = $result->{$field};
+            
+            // This is to handle taxonomies that need to be converted from an array
+            // into a string of words.
+            if (is_array($textualContent)) {
+                $textualContent = implode(" ", $textualContent);
+            }
+            
             $textualContent = strip_tags($textualContent);
             $textualContent = preg_replace('/[^\w\s]/', '', $textualContent);
             $textualContent = mb_strtolower($textualContent);
             $corpus[$field] = $textualContent;
         }
+        
         $dictionary = [];
         $count = array();
 
