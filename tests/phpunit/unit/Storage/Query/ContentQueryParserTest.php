@@ -210,4 +210,20 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->removeOperation('featured');
         $this->assertFalse(in_array('featured', $qb->getOperations()));
     }
+    
+    public function testSearchHandler()
+    {
+        $app = $this->getApp();
+
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->addService('search', $app['query.search']);
+        $qb->addService('search_weighter', $app['query.search_weighter']);
+        $qb->setQuery('pages/search/4');
+        $qb->setParameters(['filter' => 'lorem ipsum']);
+        $res = $qb->fetch();
+        $this->assertEquals(4, $res->count());
+
+    }
+    
+
 }
