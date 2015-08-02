@@ -94,7 +94,7 @@ class SearchConfig
             } else {
                 $weight = 50;
             }
-            $this->searchableTypes[$contenttype]['taxonomy'][$taxonomy] = ['weight'=>$weight];
+            $this->searchableTypes[$contenttype][$taxonomy] = ['weight'=>$weight];
            
         }
         
