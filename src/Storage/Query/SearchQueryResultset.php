@@ -19,7 +19,7 @@ class SearchQueryResultset extends QueryResultset
      */
     public function add($results, $type = null, $scores = [])
     {
-        if ($type) {
+        if ($type !== null) {
             $this->results[$type] = $results;
             $this->scores[$type] = $scores;
             $this->sortSingle($type);
@@ -41,7 +41,7 @@ class SearchQueryResultset extends QueryResultset
             $sorted[] = $results[$k];
         }
         
-        $this->results[$type] = $sorted;
+        $this->results[$label] = $sorted;
     }
     
     public function sortAll()
