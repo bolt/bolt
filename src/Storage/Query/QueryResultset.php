@@ -3,8 +3,10 @@
 namespace Bolt\Storage\Query;
 
 /**
- * This class works keeps a set of queries that will eventually
- * be executed sequentially.
+ * This class is a wrapper that handles single or multiple
+ * sets or results fetched via a query. They can be iterated
+ * normally, or split by label, eg just results from one
+ * contenttype.
  */
 class QueryResultset extends \AppendIterator implements \Countable
 {
