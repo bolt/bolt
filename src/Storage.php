@@ -2780,7 +2780,7 @@ class Storage
     {
         // We only should check each table once.
         if (isset($this->tables[$name])) {
-            return true;
+            return $this->tables[$name];
         }
 
         // See if the table exists.
@@ -2795,14 +2795,11 @@ class Storage
         }
 
         $res = $this->app['db']->fetchColumn($query);
-
         if (empty($res)) {
-            return false;
+            return $this->tables[$name] = false;
         }
 
-        $this->tables[$name] = true;
-
-        return true;
+        return $this->tables[$name] = true;
     }
 
     /**
