@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Session;
 
-use Bolt\Session\FileSessionHandler;
+use Bolt\Session\Handler\FileSessionHandler;
 use Bolt\Tests\BoltUnitTest;
 
 /**

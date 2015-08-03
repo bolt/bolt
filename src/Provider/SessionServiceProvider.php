@@ -3,8 +3,8 @@
 namespace Bolt\Provider;
 
 use Bolt\Session\CookiePathRestrictionListener;
-use Bolt\Session\FileSessionHandler;
 use Bolt\Session\Generator\RandomGenerator;
+use Bolt\Session\Handler\FileSessionHandler;
 use Bolt\Session\Handler\RedisHandler;
 use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;

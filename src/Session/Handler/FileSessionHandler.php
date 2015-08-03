@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Session;
+namespace Bolt\Session\Handler;
 
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
