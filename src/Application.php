@@ -99,8 +99,6 @@ class Application extends Silex\Application
                 ]
             )
         ;
-
-        //TODO handle/remove config->get(general/session_use_storage_handler)
     }
 
     public function initialize()
