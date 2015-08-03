@@ -92,20 +92,14 @@ class SearchQuery extends SelectQuery implements QueryInterface
         }
 
         if (!$config = $this->config->getConfig($this->contenttype)) {
-            throw new QueryParseException('You have attempted to run a search query on an unknown contenttype', 1);
+            throw new QueryParseException('You have attempted to run a search query on an unknown contenttype or one that is not searchable', 1);
         }
 
         $params = $this->params;
         unset($params['filter']);
 
         foreach ($config as $field => $options) {
-            if ($field === 'taxonomy') {
-                foreach ($options as $taxonomy => $values) {
-                    $params[$taxonomy] = $this->getSearchParameter();
-                }
-            } else {
-                $params[$field] = $this->getSearchParameter();
-            }
+            $params[$field] = $this->getSearchParameter();
         }
 
         $this->params = $params;
