@@ -6,7 +6,7 @@ interface SerializerInterface
     /**
      * Serializes session data to string
      *
-     * @param mixed $data Session data
+     * @param array $data Session data
      *
      * @return string Serialized data
      */
@@ -19,7 +19,7 @@ interface SerializerInterface
      *
      * @throws \RuntimeException If unserialization fails
      *
-     * @return mixed Session data
+     * @return array Session data
      */
     public function unserialize($data);
 }
