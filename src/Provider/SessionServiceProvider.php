@@ -231,46 +231,29 @@ class SessionServiceProvider implements ServiceProviderInterface
             return $memcache;
         });
 
-        $app['session.storage.handler.factory.memcache'] = $app->protect(function ($options) use ($app) {
-            $connections = $this->parseConnections($options, 'localhost', 11211);
-            $memcache = $app['session.storage.handler.factory.backing_memcache']($connections);
+        $app['session.storage.handler.factory.memcache'] = $app->protect(
+            function ($options, $key = 'memcache') use ($app) {
+                $connections = $this->parseConnections($options, 'localhost', 11211);
+                $memcache = $app['session.storage.handler.factory.backing_' . $key]($connections);
 
-            $handlerOptions = [];
-            if (isset($options['expiretime'])) {
-                $handlerOptions['expiretime'] = $options['expiretime'];
+                $handlerOptions = [];
+                if (isset($options['expiretime'])) {
+                    $handlerOptions['expiretime'] = $options['expiretime'];
+                }
+                if (isset($options['prefix'])) {
+                    $handlerOptions['prefix'] = $options['prefix'];
+                }
+
+                if ($key === 'memcache') {
+                    return new MemcacheSessionHandler($memcache, $handlerOptions);
+                } else {
+                    return new MemcachedSessionHandler($memcache, $handlerOptions);
+                }
             }
-            if (isset($options['prefix'])) {
-                $handlerOptions['prefix'] = $options['prefix'];
-            }
-            return new MemcacheSessionHandler($memcache, $handlerOptions);
-        });
-
-        $app['session.storage.handler.factory.backing_memcached'] = $app->protect(function ($connections) {
-            $memcache = new \Memcached();
-
-            foreach ($connections as $conn) {
-                $memcache->addServer(
-                    $conn['host'] ?: 'localhost',
-                    $conn['port'] ?: 11211,
-                    $conn['weight'] ?: 0
-                );
-            }
-
-            return $memcache;
-        });
+        );
 
         $app['session.storage.handler.factory.memcached'] = $app->protect(function ($options) use ($app) {
-            $connections = $this->parseConnections($options, 'localhost', 11211);
-            $memcached = $app['session.storage.handler.factory.backing_memcached']($connections);
-
-            $handlerOptions = [];
-            if (isset($options['expiretime'])) {
-                $handlerOptions['expiretime'] = $options['expiretime'];
-            }
-            if (isset($options['prefix'])) {
-                $handlerOptions['prefix'] = $options['prefix'];
-            }
-            return new MemcachedSessionHandler($memcached, $handlerOptions);
+            return $app['session.storage.handler.factory.memcache']($options, 'memcached');
         });
 
         $app['session.storage.handler.factory.backing_redis'] = $app->protect(function ($connections) {
