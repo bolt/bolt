@@ -355,14 +355,6 @@ cookies_lifetime: 1209600
 # to '.example.org'.
 cookies_domain:
 
-# If your system is using a custom session configuration (such as a Redis 
-# handler from a PHP extension) then we need to disable our session storage
-# handler. In that case, set this setting to false.
-# See: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
-#
-# Do not change this, unless you know what you're doing!
-session_use_storage_handler: true
-
 # The hash_strength determines the amount of iterations for encrypting 
 # passwords.
 #
