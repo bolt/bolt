@@ -1,15 +1,15 @@
 <?php
 namespace Bolt\Tests\Session;
 
-use Bolt\Session\Handler\FileSessionHandler;
+use Bolt\Session\Handler\FileHandler;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test src/Session/FileSessionHandler.
+ * Class to test src/Session/Handler/FileHandler.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FileSessionHandlerTest extends BoltUnitTest
+class FileHandlerTest extends BoltUnitTest
 {
     /** @var string */
     protected $savePath;
@@ -28,10 +28,10 @@ class FileSessionHandlerTest extends BoltUnitTest
 
     public function testConstructor()
     {
-        $this->assertClassHasAttribute('savePath', 'Bolt\Session\FileSessionHandler');
-        $this->assertClassHasAttribute('fs',       'Bolt\Session\FileSessionHandler');
+        $this->assertClassHasAttribute('savePath', 'Bolt\Session\Handler\FileHandler');
+        $this->assertClassHasAttribute('fs',       'Bolt\Session\Handler\FileHandler');
 
-        $fsh = new FileSessionHandler($this->savePath);
+        $fsh = new FileHandler($this->savePath);
 
         $this->assertObjectHasAttribute('savePath', $fsh);
         $this->assertObjectHasAttribute('fs',       $fsh);
@@ -41,7 +41,7 @@ class FileSessionHandlerTest extends BoltUnitTest
 
     public function testOpen()
     {
-        $fsh = new FileSessionHandler($this->savePath);
+        $fsh = new FileHandler($this->savePath);
 
         $result = $fsh->open($this->savePath, $this->sessionName);
         $this->assertTrue($result);
@@ -50,7 +50,7 @@ class FileSessionHandlerTest extends BoltUnitTest
 
     public function testClose()
     {
-        $fsh = new FileSessionHandler($this->savePath);
+        $fsh = new FileHandler($this->savePath);
 
         $result = $fsh->close();
         $this->assertTrue($result);
@@ -62,7 +62,7 @@ class FileSessionHandlerTest extends BoltUnitTest
      */
     public function testWriteRead()
     {
-        $fsh = new FileSessionHandler($this->savePath);
+        $fsh = new FileHandler($this->savePath);
         $fsh->open($this->savePath, $this->sessionName);
 
         $result = $fsh->write($this->sessionName, 'kittens');
@@ -75,7 +75,7 @@ class FileSessionHandlerTest extends BoltUnitTest
 
     public function testDestroy()
     {
-        $fsh = new FileSessionHandler($this->savePath);
+        $fsh = new FileHandler($this->savePath);
         $fsh->open($this->savePath, $this->sessionName);
 
         $fsh->write($this->sessionName, 'kittens');
@@ -88,7 +88,7 @@ class FileSessionHandlerTest extends BoltUnitTest
 
     public function testGc()
     {
-        $fsh = new FileSessionHandler($this->savePath);
+        $fsh = new FileHandler($this->savePath);
         $fsh->open($this->savePath, $this->sessionName);
 
         $fsh->write($this->sessionName, 'kittens');

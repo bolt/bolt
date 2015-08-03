@@ -4,7 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Session\CookiePathRestrictionListener;
 use Bolt\Session\Generator\RandomGenerator;
-use Bolt\Session\Handler\FileSessionHandler;
+use Bolt\Session\Handler\FileHandler;
 use Bolt\Session\Handler\RedisHandler;
 use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
@@ -212,7 +212,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         });
 
         $app['session.storage.handler.factory.files'] = $app->protect(function ($options) {
-            return new FileSessionHandler($options['save_path']);
+            return new FileHandler($options['save_path']);
         });
 
         $app['session.storage.handler.factory.backing_memcache'] = $app->protect(function ($connections) {

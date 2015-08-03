@@ -11,7 +11,7 @@ use Symfony\Component\Finder\Finder;
  * @author Carson Full <carsonfull@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FileSessionHandler implements \SessionHandlerInterface
+class FileHandler implements \SessionHandlerInterface
 {
     /** @var string */
     protected $savePath;
