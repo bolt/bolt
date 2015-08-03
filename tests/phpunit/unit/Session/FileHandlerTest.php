@@ -94,8 +94,9 @@ class FileHandlerTest extends BoltUnitTest
         $fsh->write($this->sessionName, 'kittens');
         $this->assertFileExists($this->sessionFile);
 
-        $result = $fsh->gc('yesterday');
-        $this->assertNull($result);
+        sleep(1);
+        $result = $fsh->gc(1);
+        $this->assertTrue($result);
         $this->assertFileNotExists($this->sessionName);
     }
 }

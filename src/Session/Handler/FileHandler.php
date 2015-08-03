@@ -115,7 +115,7 @@ class FileHandler implements \SessionHandlerInterface
         $files = $finder->files()
             ->in($this->savePath)
             ->name('/\.sess$/')
-            ->date("since $maxlifetime")
+            ->date("< now - $maxlifetime seconds")
         ;
 
         foreach ($files as $file) {
