@@ -16,7 +16,9 @@ class NativeSerializer implements SerializerInterface
      */
     public function unserialize($data)
     {
+        // @codingStandardsIgnoreStart
         set_error_handler(function () {});
+        // @codingStandardsIgnoreEnd
         $session = unserialize($data);
         restore_error_handler();
         if ($session === false) {
