@@ -23,20 +23,18 @@ class FileSessionHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $this->savePath = $app['resources']->getPath('cache');
         $this->sessionName = 'george';
-        $this->sessionFile = $this->savePath . '/' . $this->sessionName . '.bolt_sess';
+        $this->sessionFile = $this->savePath . '/' . $this->sessionName . '.sess';
     }
 
     public function testConstructor()
     {
         $this->assertClassHasAttribute('savePath', 'Bolt\Session\FileSessionHandler');
         $this->assertClassHasAttribute('fs',       'Bolt\Session\FileSessionHandler');
-        $this->assertClassHasAttribute('gcCalled', 'Bolt\Session\FileSessionHandler');
 
         $fsh = new FileSessionHandler($this->savePath);
 
         $this->assertObjectHasAttribute('savePath', $fsh);
         $this->assertObjectHasAttribute('fs',       $fsh);
-        $this->assertObjectHasAttribute('gcCalled', $fsh);
 
         $this->assertAttributeEquals($this->savePath, 'savePath', $fsh);
     }
