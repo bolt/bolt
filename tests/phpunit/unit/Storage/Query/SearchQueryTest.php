@@ -63,6 +63,25 @@ class SearchQueryTest extends BoltUnitTest
         $this->assertEquals('%ipsum%', $params['body_2']);
         $this->assertEquals('%lorem%', $params['chapters_1']);
         $this->assertEquals('%ipsum%', $params['chapters_2']);
-        
+    }
+    
+    public function testContenttypeFailure()
+    {
+        $app = $this->getApp();
+        $filter = 'main other';
+        $query = $app['query.search'];
+        $query->setContentType('showcases');
+        $this->setExpectedException('Bolt\Exception\QueryParseException');
+        $query->setSearch($filter);
+    }
+    
+    public function testMissingContenttypeFailure()
+    {
+        $app = $this->getApp();
+        $filter = 'main other';
+        $query = $app['query.search'];
+        $query->setContentType('nonexistent');
+        $this->setExpectedException('Bolt\Exception\QueryParseException');
+        $query->setSearch($filter);
     }
 }
