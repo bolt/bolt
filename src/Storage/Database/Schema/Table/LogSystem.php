@@ -51,6 +51,8 @@ class LogSystem extends BaseTable
      */
     public function ignoredChanges()
     {
-        return ['column' => 'source', 'property' => 'type'];
+        return [
+            ['column' => 'source', 'property' => 'type']
+        ];
     }
 }

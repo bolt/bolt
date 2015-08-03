@@ -181,7 +181,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             ->method('isValidSession')
             ->will($this->returnValue(true));
 
-        $app['authentication'] = $auth;
+        $app['access_control'] = $auth;
     }
 
     /**
@@ -201,7 +201,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 $app['logger.system'],
                 $app['permissions'],
                 $app['randomgenerator'],
-                $app['authentication.cookie.options']
+                $app['access_control.cookie.options']
             ]
         );
 

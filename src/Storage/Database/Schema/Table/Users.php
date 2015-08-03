@@ -21,7 +21,7 @@ class Users extends BaseTable
         $this->table->addColumn('lastseen',       'datetime',   ['notnull' => false, 'default' => null]);
         $this->table->addColumn('lastip',         'string',     ['length' => 32, 'default' => '']);
         $this->table->addColumn('displayname',    'string',     ['length' => 32]);
-        $this->table->addColumn('stack',          'string',     ['length' => 1024, 'default' => '[]']);
+        $this->table->addColumn('stack',          'json_array', ['length' => 1024]);
         $this->table->addColumn('enabled',        'boolean',    []);
         $this->table->addColumn('shadowpassword', 'string',     ['length' => 128, 'default' => '']);
         $this->table->addColumn('shadowtoken',    'string',     ['length' => 128, 'default' => '']);
@@ -56,6 +56,9 @@ class Users extends BaseTable
      */
     public function ignoredChanges()
     {
-        return ['column' => 'roles', 'property' => 'type'];
+        return [
+            ['column' => 'stack', 'property' => 'type'],
+            ['column' => 'roles', 'property' => 'type']
+        ];
     }
 }

@@ -94,7 +94,7 @@ abstract class BackendBase extends Base
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
-        if (!$this->authentication()->isValidSession($authCookie) && !$this->isAllowed($route)) {
+        if (!$this->accessControl()->isValidSession($authCookie) && !$this->isAllowed($route)) {
             $app['logger.flash']->info(Trans::__('Please log on.'));
 
             return $this->redirectToRoute('login');
@@ -156,7 +156,7 @@ abstract class BackendBase extends Base
      */
     protected function login()
     {
-        return $this->app['authentication.login'];
+        return $this->app['access_control.login'];
     }
 
     /**
@@ -166,7 +166,7 @@ abstract class BackendBase extends Base
      */
     protected function password()
     {
-        return $this->app['authentication.password'];
+        return $this->app['access_control.password'];
     }
 
     /**

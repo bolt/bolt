@@ -6,11 +6,11 @@ use Bolt\AccessControl;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
-class AuthenticationServiceProvider implements ServiceProviderInterface
+class AccessControlServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['authentication.cookie.options'] = $app->share(
+        $app['access_control.cookie.options'] = $app->share(
             function () use ($app) {
                 return [
                     'remoteaddr'   => $app['config']->get('general/cookies_use_remoteaddr', true),
@@ -21,13 +21,13 @@ class AuthenticationServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['authentication.hash.strength'] = $app->share(
+        $app['access_control.hash.strength'] = $app->share(
             function () use ($app) {
                 return max($app['config']->get('general/hash_strength'), 8);
             }
         );
 
-        $app['authentication'] = $app->share(
+        $app['access_control'] = $app->share(
             function ($app) {
                 $repoAuth = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
                 $repoUser = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
@@ -40,14 +40,14 @@ class AuthenticationServiceProvider implements ServiceProviderInterface
                     $app['logger.system'],
                     $app['permissions'],
                     $app['randomgenerator'],
-                    $app['authentication.cookie.options']
+                    $app['access_control.cookie.options']
                 );
 
                 return $tracker;
             }
         );
 
-        $app['authentication.login'] = $app->share(
+        $app['access_control.login'] = $app->share(
             function ($app) {
                 $login = new AccessControl\Login(
                     $app
@@ -57,7 +57,7 @@ class AuthenticationServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['authentication.password'] = $app->share(
+        $app['access_control.password'] = $app->share(
             function ($app) {
                 $password = new AccessControl\Password($app);
 

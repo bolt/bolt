@@ -42,7 +42,7 @@ class UserResetPassword extends BaseCommand
             return false;
         }
 
-        $password = $this->app['authentication.password']->setRandomPassword($username);
+        $password = $this->app['access_control.password']->setRandomPassword($username);
 
         if ($password !== false) {
             $output->writeln("<info>New password for {$username} is {$password}</info>");

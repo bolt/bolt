@@ -51,6 +51,8 @@ class LogChange extends BaseTable
      */
     public function ignoredChanges()
     {
-        return ['column' => 'diff', 'property' => 'type'];
+        return [
+            ['column' => 'diff', 'property' => 'type']
+        ];
     }
 }

@@ -49,12 +49,13 @@ class Token
         if ($this->user !== null) {
             return $this->user->getEnabled();
         }
+        return null;
     }
 
     /**
      * Get stored user entity object.
      *
-     * @return \Entity\Users
+     * @return Entity\Users
      */
     public function getUser()
     {

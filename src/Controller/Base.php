@@ -185,9 +185,9 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return \Bolt\AccessControl\AccessChecker
      */
-    protected function authentication()
+    protected function accessControl()
     {
-        return $this->app['authentication'];
+        return $this->app['access_control'];
     }
 
     /**

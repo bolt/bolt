@@ -9,6 +9,7 @@ use utilphp\util;
 
 /**
  * Simple stack implementation for remembering "10 last items".
+ *
  * Each user (by design) has their own stack. No sharesies!
  *
  * @author Bob den Otter, bob@twokings.nl
@@ -17,33 +18,48 @@ class Stack
 {
     const MAX_ITEMS = 10;
 
+    /** @var boolean */
+    protected $initalized;
+    /** @var array */
     private $items;
-    private $imagetypes = ['jpg', 'jpeg', 'png', 'gif'];
-    private $documenttypes = ['doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'];
+    /** @var array */
+    private $imageTypes = ['jpg', 'jpeg', 'png', 'gif'];
+    /** @var array */
+    private $documentTypes = ['doc', 'docx', 'txt', 'md', 'pdf', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'];
+    /** @var \Silex\Application */
     private $app;
 
+
+    /**
+     * Constructor.
+     *
+     * @param Silex\Application $app
+     */
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
+    }
 
-        $currentuser = $this->app['users']->getCurrentUser();
+    public function initialize()
+    {
+        if ($this->initalized) {
+            return;
+        }
 
-        $stackItems = false;
-        if (isset($_SESSION['stack'])) {
-            $stackItems = Lib::smartUnserialize($_SESSION['stack']);
-        }
-        if (!is_array($stackItems)) {
-            $stackItems = Lib::smartUnserialize($currentuser['stack']);
-        }
-        if (!is_array($stackItems)) {
-            $stackItems = [];
+        if ($this->app['session']->isStarted() && $this->app['session']->get('stack') !== null) {
+            $this->items = $this->app['session']->get('stack');
+        } else {
+            $currentuser = $this->app['users']->getCurrentUser();
+            $this->items = $currentuser['stack'];
+            $this->app['session']->set('stack', $currentuser['stack']);
         }
 
         // intersect the allowed types with the types set
-        $this->imagetypes = array_intersect($this->imagetypes, $app['config']->get('general/accept_file_types'));
-        $this->documenttypes = array_intersect($this->documenttypes, $app['config']->get('general/accept_file_types'));
+        $confTypes = $this->app['config']->get('general/accept_file_types', []);
+        $this->imageTypes = array_intersect($this->imageTypes, $confTypes);
+        $this->documentTypes = array_intersect($this->documentTypes, $confTypes);
 
-        $this->items = $stackItems;
+        $this->initalized = true;
     }
 
     /**
@@ -51,10 +67,12 @@ class Stack
      *
      * @param string $filename
      *
-     * @return bool
+     * @return boolean
      */
     public function add($filename)
     {
+        $this->initialize();
+
         // If the item is already on the stack, delete it, so it can be added to the front.
         if (in_array($filename, $this->items)) {
             $this->delete($filename);
@@ -73,6 +91,8 @@ class Stack
      */
     public function delete($filename)
     {
+        $this->initialize();
+
         foreach ($this->items as $key => $item) {
             if ($item == $filename) {
                 unset($this->items[$key]);
@@ -86,12 +106,14 @@ class Stack
      *
      * @param string $filename
      *
-     * @return bool
+     * @return boolean
      */
     public function isOnStack($filename)
     {
+        $this->initialize();
+
         // We don't always need the "files/" part in the filename.
-        $shortname = str_replace("files/", "", $filename);
+        $shortname = str_replace('files/', '', $filename);
 
         foreach ($this->items as $item) {
             if ($item == $filename || $item == $shortname) {
@@ -107,7 +129,7 @@ class Stack
      *
      * @param string $filename
      *
-     * @return bool
+     * @return boolean
      */
     public function isStackable($filename)
     {
@@ -120,16 +142,18 @@ class Stack
      * Return a list with the current stacked items. Add some relevant info to each item,
      * and also check if the item is present and readable.
      *
-     * @param int    $count
-     * @param string $typefilter
+     * @param integer $count
+     * @param string  $typefilter
      *
      * @return array
      */
-    public function listitems($count = 100, $typefilter = "")
+    public function listitems($count = 100, $typefilter = '')
     {
+        $this->initialize();
+
         // Make sure typefilter is an array, if passed something like "image, document"
         if (!empty($typefilter)) {
-            $typefilter = array_map("trim", explode(",", $typefilter));
+            $typefilter = array_map('trim', explode(',', $typefilter));
         }
 
         // Our basepaths for all files that can be on the stack: 'files' and 'theme'.
@@ -141,12 +165,12 @@ class Stack
 
         foreach ($items as $item) {
             $extension = strtolower(Lib::getExtension($item));
-            if (in_array($extension, $this->imagetypes)) {
-                $type = "image";
-            } elseif (in_array($extension, $this->documenttypes)) {
-                $type = "document";
+            if (in_array($extension, $this->imageTypes)) {
+                $type = 'image';
+            } elseif (in_array($extension, $this->documentTypes)) {
+                $type = 'document';
             } else {
-                $type = "other";
+                $type = 'other';
             }
 
             // Skip this one, if it doesn't match the type.
@@ -156,10 +180,10 @@ class Stack
 
             // Figure out the full path, based on the two possible locations.
             $fullpath = '';
-            if (is_readable(str_replace("files/files/", "files/", $filespath . "/" . $item))) {
-                $fullpath = str_replace("files/files/", "files/", $filespath . "/" . $item);
-            } elseif (is_readable($themepath . "/" . $item)) {
-                $fullpath = $themepath . "/" . $item;
+            if (is_readable(str_replace('files/files/', 'files/', $filespath . '/' . $item))) {
+                $fullpath = str_replace('files/files/', 'files/', $filespath . '/' . $item);
+            } elseif (is_readable($themepath . '/' . $item)) {
+                $fullpath = $themepath . '/' . $item;
             }
 
             // No dice! skip this one.
@@ -170,17 +194,17 @@ class Stack
             $thisitem = [
                 'basename'    => basename($item),
                 'extension'   => $extension,
-                'filepath'    => str_replace("files/", "", $item),
+                'filepath'    => str_replace('files/', '', $item),
                 'type'        => $type,
                 'writable'    => is_writable($fullpath),
                 'readable'    => is_readable($fullpath),
                 'filesize'    => Lib::formatFilesize(filesize($fullpath)),
-                'modified'    => date("Y/m/d H:i:s", filemtime($fullpath)),
+                'modified'    => date('Y/m/d H:i:s', filemtime($fullpath)),
                 'permissions' => util::full_permissions($fullpath)
             ];
 
             $thisitem['info'] = sprintf(
-                "%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>",
+                '%s: <code>%s</code><br>%s: %s<br>%s: %s<br>%s: <code>%s</code>',
                 Trans::__('Path'),
                 $thisitem['filepath'],
                 Trans::__('Filesize'),
@@ -191,10 +215,10 @@ class Stack
                 $thisitem['permissions']
             );
 
-            if ($type == "image") {
+            if ($type == 'image') {
                 $size = getimagesize($fullpath);
-                $thisitem['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
-                $thisitem['info'] .= sprintf("<br>%s: %s × %s px", Trans::__('Size'), $size[0], $size[1]);
+                $thisitem['imagesize'] = sprintf('%s × %s', $size[0], $size[1]);
+                $thisitem['info'] .= sprintf('<br>%s: %s × %s px', Trans::__('Size'), $size[0], $size[1]);
             }
 
             //add it to our list.
@@ -211,21 +235,25 @@ class Stack
      */
     public function persist()
     {
-        $this->items = array_slice($this->items, 0, self::MAX_ITEMS);
-        $ser = json_encode($this->items);
+        $this->initialize();
 
-        $_SESSION['items'] = $ser;
+        $this->items = array_slice($this->items, 0, self::MAX_ITEMS);
+
+        $this->app['session']->set('stack', $this->items);
 
         $currentuser = $this->app['users']->getCurrentUser();
-        $currentuser['stack'] = $ser;
+        $currentuser['stack'] = $this->items;
+
         $this->app['users']->saveUser($currentuser);
     }
 
     /**
      * Get the allowed filetypes.
+     *
+     * @return array
      */
     public function getFileTypes()
     {
-        return array_merge($this->imagetypes, $this->documenttypes);
+        return array_merge($this->imageTypes, $this->documentTypes);
     }
 }

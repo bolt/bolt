@@ -17,7 +17,7 @@ use Bolt\AccessControl\Permissions;
  * @method string    getShadowpassword()
  * @method string    getShadowtoken()
  * @method string    getShadowvalidity()
- * @method intger    getFailedlogins()
+ * @method integer   getFailedlogins()
  * @method \DateTime getThrottleduntil()
  * @method setId($id)
  * @method setUsername($username)

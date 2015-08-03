@@ -11,11 +11,12 @@ class AuthtokenRepository extends Repository
     /**
      * Fetches an existing token for the given user / ip
      *
+     * @param string      $username
      * @param string      $ip
      * @param string|null $useragent
      *
-     * @return Bolt\Entity\Authtoken
-     **/
+     * @return \Bolt\Storage\Entity\Authtoken
+     */
     public function getUserToken($username, $ip, $useragent = null)
     {
         $query = $this->getUserTokenQuery($username, $ip, $useragent);
@@ -47,8 +48,8 @@ class AuthtokenRepository extends Repository
      * @param string      $ip
      * @param string|null $useragent
      *
-     * @return Bolt\Entity\Authtoken
-     **/
+     * @return \Bolt\Storage\Entity\Authtoken
+     */
     public function getToken($token, $ip, $useragent = null)
     {
         $query = $this->getTokenQuery($token, $ip, $useragent);
@@ -77,8 +78,8 @@ class AuthtokenRepository extends Repository
      *
      * @param $username
      *
-     * @return int
-     **/
+     * @return integer
+     */
     public function deleteTokens($username)
     {
         $query = $this->deleteTokensQuery($username);
@@ -98,8 +99,8 @@ class AuthtokenRepository extends Repository
     /**
      * Deletes all expired tokens
      *
-     * @return int
-     **/
+     * @return integer
+     */
     public function deleteExpiredTokens()
     {
         $query = $this->deleteExpiredTokensQuery();
@@ -120,8 +121,8 @@ class AuthtokenRepository extends Repository
     /**
      * Fetches all active sessions
      *
-     * @return Bolt\Entity\Authtoken[]
-     **/
+     * @return \Bolt\Storage\Entity\Authtoken[]
+     */
     public function getActiveSessions()
     {
         $this->deleteExpiredTokens();
@@ -141,8 +142,8 @@ class AuthtokenRepository extends Repository
     /**
      * Creates a query builder instance namespaced to this repository
      *
-     * @return QueryBuilder
-     **/
+     * @return \Doctrine\DBAL\Query\QueryBuilder
+     */
     public function createQueryBuilder($alias = null)
     {
         return $this->em->createQueryBuilder()

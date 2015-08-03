@@ -17,6 +17,7 @@ class StackTest extends BoltUnitTest
         $app = $this->getApp();
         $users = $this->getMock('Bolt\Users', ['getCurrentUser', 'saveUser'], [$app]);
         $app['users'] = $users;
+        $app['session']->set('stack', []);
         $stack = new Stack($app);
         $stack->add('mytestfile');
 
@@ -34,6 +35,7 @@ class StackTest extends BoltUnitTest
         $app = $this->getApp();
         $users = $this->getMock('Bolt\Users', ['getCurrentUser', 'saveUser'], [$app]);
         $app['users'] = $users;
+        $app['session']->set('stack', []);
         $stack = new Stack($app);
         $stack->add('mytestfile');
         $stack->add('mytestfile');
@@ -48,6 +50,7 @@ class StackTest extends BoltUnitTest
 
         $users = $this->getMock('Bolt\Users', ['getCurrentUser', 'saveUser'], [$app]);
         $app['users'] = $users;
+        $app['session']->set('stack', []);
         $stack = new Stack($app);
 
         $stack->add('files/testing.md');

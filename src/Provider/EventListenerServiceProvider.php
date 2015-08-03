@@ -45,7 +45,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                 $app['session'],
                 $app['url_generator.lazy'],
                 $app['users'],
-                $app['authentication']
+                $app['access_control']
             );
         });
 

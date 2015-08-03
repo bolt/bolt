@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class DatabaseTest extends ControllerUnitTest
 {
     /**
-     * @covers Bolt\Storage\Database\Schema\CheckResponse
+     * @covers \Bolt\Storage\Database\Schema\CheckResponse
      */
     public function testCheck()
     {

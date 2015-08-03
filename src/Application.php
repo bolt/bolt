@@ -7,12 +7,15 @@ use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Str;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
+use Bolt\Provider\SessionServiceProvider;
 use Bolt\Provider\WhoopsServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Doctrine\DBAL\DBALException;
 use RandomLib;
 use SecurityLib;
 use Silex;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 use Symfony\Component\Stopwatch;
 
 class Application extends Silex\Application
@@ -73,25 +76,30 @@ class Application extends Silex\Application
 
     protected function initSession()
     {
-        $this->register(new Provider\TokenServiceProvider())
-            ->register(new Silex\Provider\SessionServiceProvider(), [
-                'session.storage.options' => [
-                    'name'            => $this['token.session.name'],
-                    'cookie_path'     => $this['resources']->getUrl('root'),
-                    'cookie_domain'   => $this['config']->get('general/cookies_domain'),
-                    'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
-                    'cookie_httponly' => true
-                ],
-                'session.test' => isset($this['session.test']) ? $this['session.test'] : false
-            ]
-        );
+        $this
+            ->register(new Provider\TokenServiceProvider())
+            ->register(new SessionServiceProvider(),
+                [
+                    'session.default_options' => [
+                        'cookie_path'     => $this['resources']->getUrl('root'),
+                        'cookie_domain'   => $this['config']->get('general/cookies_domain'),
+                        'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
+                        'cookie_httponly' => true,
+                    ],
+                    'sessions.options'        => [
+                        'main' => [
+                            'name' => $this['token.session.name'],
+                        ],
+                        'csrf' => [
+                            'name'                 => $this['token.session.name'] . '_csrf',
+                            'cookie_restrict_path' => true,
+                        ],
+                    ],
+                ]
+            )
+        ;
 
-        // Disable Silex's built-in native filebased session handler, and fall back to
-        // whatever's set in php.ini.
-        // @see: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
-        if ($this['config']->get('general/session_use_storage_handler') === false) {
-            $this['session.storage.handler'] = null;
-        }
+        //TODO handle/remove config->get(general/session_use_storage_handler)
     }
 
     public function initialize()
@@ -321,6 +329,10 @@ class Application extends Silex\Application
                 return $secret;
             }
         });
+        $this['form.csrf_provider'] = $this->share(function ($app) {
+            $storage = new SessionTokenStorage($app['sessions']['csrf']);
+            return new CsrfTokenManager(null, $storage);
+        });
 
         $this
             ->register(new Silex\Provider\HttpFragmentServiceProvider())
@@ -331,7 +343,7 @@ class Application extends Silex\Application
             ->register(new Provider\PermissionsServiceProvider())
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\QueryServiceProvider())
-            ->register(new Provider\AuthenticationServiceProvider())
+            ->register(new Provider\AccessControlServiceProvider())
             ->register(new Provider\UsersServiceProvider())
             ->register(new Provider\CacheServiceProvider())
             ->register(new Provider\ExtensionServiceProvider())

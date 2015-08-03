@@ -333,9 +333,11 @@ class Manager
             return;
         }
 
-        if (isset($diff->changedColumns[$ignored['column']])
-            && $diff->changedColumns[$ignored['column']]->changedProperties === [$ignored['property']]) {
-            unset($diff->changedColumns[$ignored['column']]);
+        foreach ($ignored as $ignore) {
+            if (isset($diff->changedColumns[$ignore['column']])
+                && $diff->changedColumns[$ignore['column']]->changedProperties === [$ignore['property']]) {
+                unset($diff->changedColumns[$ignore['column']]);
+            }
         }
     }
 
