@@ -7,7 +7,6 @@ use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Str;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
-use Bolt\Provider\SessionServiceProvider;
 use Bolt\Provider\WhoopsServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Doctrine\DBAL\DBALException;
@@ -78,9 +77,10 @@ class Application extends Silex\Application
     {
         $this
             ->register(new Provider\TokenServiceProvider())
-            ->register(new SessionServiceProvider(),
+            ->register(new Provider\SessionServiceProvider(),
                 [
                     'session.default_options' => [
+                        'cookie_lifetime' => $this['config']->get('general/cookies_lifetime'),
                         'cookie_path'     => $this['resources']->getUrl('root'),
                         'cookie_domain'   => $this['config']->get('general/cookies_domain'),
                         'cookie_secure'   => $this['config']->get('general/enforce_ssl'),
@@ -93,6 +93,7 @@ class Application extends Silex\Application
                         'csrf' => [
                             'name'                 => $this['token.session.name'] . '_csrf',
                             'cookie_restrict_path' => true,
+                            'cookie_lifetime'      => 0,
                         ],
                     ],
                 ]
