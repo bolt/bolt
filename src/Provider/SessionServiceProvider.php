@@ -215,6 +215,27 @@ class SessionServiceProvider implements ServiceProviderInterface
             return new FileHandler($options['save_path']);
         });
 
+        $this->registerMemcacheHandler($app);
+        $this->registerRedisHandler($app);
+    }
+
+    public function boot(Application $app)
+    {
+        $listeners = $app['sessions.listener'];
+        foreach ($listeners->keys() as $name) {
+            $app['dispatcher']->addSubscriber($listeners[$name]);
+        }
+        foreach ($app['sessions.options'] as $options) {
+            /** @var $options OptionsBag */
+            if ($options->getBoolean('cookie_restrict_path')) {
+                $listener = $app['session.cookie_path_restriction_listener.factory']($options);
+                $app['dispatcher']->addSubscriber($listener);
+            }
+        }
+    }
+
+    protected function registerMemcacheHandler(Application $app)
+    {
         $app['session.storage.handler.factory.backing_memcache'] = $app->protect(function ($connections) {
             $memcache = new \Memcache();
 
@@ -255,7 +276,10 @@ class SessionServiceProvider implements ServiceProviderInterface
         $app['session.storage.handler.factory.memcached'] = $app->protect(function ($options) use ($app) {
             return $app['session.storage.handler.factory.memcache']($options, 'memcached');
         });
+    }
 
+    protected function registerRedisHandler(Application $app)
+    {
         $app['session.storage.handler.factory.backing_redis'] = $app->protect(function ($connections) {
             if (class_exists('Redis')) {
                 $redis = new \Redis();
@@ -295,21 +319,6 @@ class SessionServiceProvider implements ServiceProviderInterface
 
             return new RedisHandler($redis, $options['gc_maxlifetime']);
         });
-    }
-
-    public function boot(Application $app)
-    {
-        $listeners = $app['sessions.listener'];
-        foreach ($listeners->keys() as $name) {
-            $app['dispatcher']->addSubscriber($listeners[$name]);
-        }
-        foreach ($app['sessions.options'] as $options) {
-            /** @var $options OptionsBag */
-            if ($options->getBoolean('cookie_restrict_path')) {
-                $listener = $app['session.cookie_path_restriction_listener.factory']($options);
-                $app['dispatcher']->addSubscriber($listener);
-            }
-        }
     }
 
     protected function parseConnections($options, $defaultHost, $defaultPort)
