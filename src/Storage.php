@@ -384,7 +384,7 @@ class Storage
             $event = new StorageEvent($content, ['contenttype' => $contenttype, 'create' => $create]);
             $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
 
-            // Re-enable the dispather
+            // Re-enable the dispatcher
             $this->inDispatcher = false;
         }
 
