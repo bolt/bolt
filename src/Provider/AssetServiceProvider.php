@@ -36,9 +36,9 @@ class AssetServiceProvider implements ServiceProviderInterface
             $fullPath = $app['resources']->getPath('root') . '/' . $fileName;
 
             if (is_readable($fullPath)) {
-                return substr(md5($app['asset.salt'] . (string) filemtime($fullPath)), 0, 10);
+                return substr(md5($app['asset.salt'] . $fullPath . (string) filemtime($fullPath)), 0, 10);
             } elseif (is_readable($fileName)) {
-                return substr(md5($app['asset.salt'] . (string) filemtime($fileName)), 0, 10);
+                return substr(md5($app['asset.salt'] . $fileName . (string) filemtime($fileName)), 0, 10);
             }
         });
 
