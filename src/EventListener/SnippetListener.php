@@ -46,7 +46,7 @@ class SnippetListener implements EventSubscriberInterface
      */
     public function onResponse(FilterResponseEvent $event)
     {
-        if (!$this->isEnabled($event)) {
+        if (!$event->isMasterRequest()) {
             return;
         }
 
@@ -58,23 +58,6 @@ class SnippetListener implements EventSubscriberInterface
         $this->addSnippets();
 
         $response->setContent($this->render->postProcess($response));
-    }
-
-    /**
-     * Check if snippets are allowed for this request.
-     *
-     * @param FilterResponseEvent $event
-     */
-    protected function isEnabled(FilterResponseEvent $event)
-    {
-        if (!$event->isMasterRequest()) {
-            return false;
-        }
-        if (Zone::isFrontend($event->getRequest())) {
-            return true;
-        }
-
-        return $event->getRequest()->attributes->get('allow_snippets', false);
     }
 
     /**
