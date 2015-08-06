@@ -665,8 +665,9 @@ class Permissions
                     break;
                 }
 
-                // If $content was passed in as a string, fetch the Content object
-                if (is_string($content)) {
+                // If content was not passed but our rule contains the content
+                // we need, lets fetch the Content object @see #3909
+                if (is_string($content) || ($contenttype && $contentId)) {
                     $content = $this->app['storage']->getContent("$contenttypeSlug/$contentId", ['hydrate' => false]);
                 }
 
