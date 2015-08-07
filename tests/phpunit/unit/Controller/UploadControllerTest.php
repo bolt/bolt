@@ -183,9 +183,9 @@ class UploadControllerTest extends BoltUnitTest
         return $request;
     }
 
-    protected function getApp()
+    protected function getApp($boot = true)
     {
-        $bolt = parent::getApp();
+        $bolt = parent::getApp($boot);
 
         return $this->authApp($bolt);
     }

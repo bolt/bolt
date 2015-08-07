@@ -167,7 +167,7 @@ HTML;
 </html>
 HTML;
 
-    public function getApp()
+    protected function getApp($boot = true)
     {
         $app = parent::getApp();
         $app['asset.file.hash'] = $app->protect(function ($fileName) {

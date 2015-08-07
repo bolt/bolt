@@ -70,7 +70,7 @@ class LowlevelChecksTest extends BoltUnitTest
         );
     }
 
-    protected function getApp()
+    protected function getApp($boot = true)
     {
         $this->php
             ->expects($this->any())
@@ -89,7 +89,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('is_readable')
             ->will($this->returnValue(true));
 
-        return parent::getApp();
+        return parent::getApp($boot);
     }
 
     public function tearDown()
