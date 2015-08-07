@@ -176,7 +176,7 @@ class UploadTest extends ControllerUnitTest
         return $this->getRequest();
     }
 
-//     protected function getApp()
+//     protected function getApp($boot = true)
 //     {
 //         $bolt = parent::getApp();
 

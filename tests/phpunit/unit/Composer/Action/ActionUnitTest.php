@@ -12,7 +12,7 @@ abstract class ActionUnitTest extends BoltUnitTest
         $action->updateJson();
     }
 
-    protected function getApp()
+    protected function getApp($boot = true)
     {
         $bolt = parent::getApp();
         $bolt['extend.action.options']['basedir'] = $bolt['resources']->getPath('extensions');

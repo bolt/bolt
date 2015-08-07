@@ -70,7 +70,7 @@ class LowlevelChecksTest extends BoltUnitTest
         ];
     }
 
-    protected function getApp()
+    protected function getApp($boot = true)
     {
         $this->php
             ->expects($this->any())

@@ -37,12 +37,15 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    protected function getApp()
+    protected function getApp($boot = true)
     {
         if (!$this->app) {
             $this->app = $this->makeApp();
             $this->app->initialize();
-            $this->app->boot();
+
+            if ($boot) {
+                $this->app->boot();
+            }
         }
         return $this->app;
     }

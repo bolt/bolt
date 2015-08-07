@@ -28,7 +28,7 @@ abstract class ControllerUnitTest extends BoltUnitTest
         return $this->getApp()->offsetGet('request');
     }
 
-    protected function getApp()
+    protected function getApp($boot = true)
     {
         if (!$this->app) {
             $this->app = $this->makeApp();

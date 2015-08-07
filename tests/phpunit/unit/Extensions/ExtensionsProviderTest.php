@@ -168,9 +168,9 @@ HTML;
 </html>
 HTML;
 
-    public function getApp()
+    protected function getApp($boot = true)
     {
-        $app = parent::getApp();
+        $app = parent::getApp($boot);
         $app['asset.file.hash'] = $app->protect(function ($fileName) {
             return md5($fileName);
         });
