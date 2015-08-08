@@ -50,8 +50,9 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
             /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
             $platform = $app['db']->getDatabasePlatform();
             foreach ($app['config']->get('contenttypes') as $contenttype) {
+                $serviceName = 'schema.' . $contenttype['tablename'];
                 // @codingStandardsIgnoreStart
-                $acne[$contenttype['tablename']] = $app->share(function () use ($platform) { return new Table\ContentType($platform); });
+                $acne[$serviceName] = $app->share(function () use ($platform) { return new Table\ContentType($platform); });
                 // @codingStandardsIgnoreEnd
             }
 
