@@ -21,6 +21,15 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
             }
         );
 
+        /** @deprecated Will be removed in Bolt 3 */
+        $app['integritychecker'] = $app->share(
+            function ($app) {
+                $app['logger.system']->warning("[DEPRECATED]: An extension is using app['integritychecker'] and this has been replaced with app['schema'].", ['event' => 'deprecated']);
+
+                return $app['schema'];
+            }
+        );
+
         // Schemas of the Bolt base tables.
         $app['schema.base_tables'] = $app->share(function (Application $app) {
             /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
