@@ -48,7 +48,6 @@ class StorageEventListener implements EventSubscriberInterface
 
         foreach ($contenttypes as $contenttype) {
             $contenttype = $this->storage->getContentType($contenttype['slug']);
-            $tablename = $this->storage->getContenttypeTablename($contenttype);
 
             // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
             $this->storage->publishTimedRecords($contenttype);

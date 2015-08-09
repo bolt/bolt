@@ -160,7 +160,7 @@ class Config
      * $var = $config->get('general/wysiwyg/ck/contentsCss');
      *
      * @param string $path
-     * @param string $default
+     * @param mixed  $default
      *
      * @return mixed
      */
