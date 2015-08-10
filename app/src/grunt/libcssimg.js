@@ -8,9 +8,9 @@ module.exports = function (grunt, option) {
             pathRel = '../img/lib',
             urls = /url\((['"]?)(.+?)\1\)/g,
             repl = {
-                'jquery-ui':    /^lib\/jquery-ui-.+?\/images\/ui-/,
-                'select2':      /^lib\/select2\//,
-                'jquery-upl':   /^lib\/jquery-fileupload\/img\//
+                'jquery-ui':    /^\.\.\/lib\/jquery-ui-.+?\/images\/ui-/,
+                'select2':      /^\.\.\/lib\/select2\//,
+                'jquery-upl':   /^\.\.\/lib\/jquery-fileupload\/img\//
             },
             done = {},
             css,
