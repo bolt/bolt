@@ -57,8 +57,8 @@ class FileHandlerTest extends BoltUnitTest
     }
 
     /**
-     * @covers \Bolt\Session\FileSessionHandler::write
-     * @covers \Bolt\Session\FileSessionHandler::read
+     * @covers \Bolt\Session\FileHandler::write
+     * @covers \Bolt\Session\FileHandler::read
      */
     public function testWriteRead()
     {
