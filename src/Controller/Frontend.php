@@ -247,7 +247,12 @@ class Frontend extends ConfigurableBase
         $pagerid = Pager::makeParameterId($contenttypeslug);
         // First, get some content
         $page = $request->query->get($pagerid, $request->query->get('page', 1));
-        $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $this->getOption('general/listing_records'));
+        
+        // Theme value takes precedence over CT & default config (https://github.com/bolt/bolt/issues/3951)
+        if(!($amount = $this->getOption("theme/listing_records", false))) {
+            $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $this->getOption('general/listing_records'));    
+        }
+        
         $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $this->getOption('general/listing_sort'));
         $content = $this->getContent($contenttype['slug'], ['limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true]);
 
@@ -288,7 +293,8 @@ class Frontend extends ConfigurableBase
          /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
         $query = $request->query;
         $page = $query->get($pagerid, $query->get('page', 1));
-        $amount = $this->getOption('general/listing_records');
+        // Theme value takes precedence over default config (https://github.com/bolt/bolt/issues/3951)
+        $amount = $this->getOption("theme/listing_records", false) ?: $this->getOption('general/listing_records');
         $order = $this->getOption('general/listing_sort');
         $content = $this->app['storage']->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
 
