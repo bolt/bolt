@@ -361,8 +361,13 @@ class Frontend extends ConfigurableBase
         $param = Pager::makeParameterId($context);
         $page = $request->query->get($param, $request->query->get('page', 1));
 
-        $pageSize = $this->getOption('general/search_results_records') ?: ($this->getOption('general/listing_records') ?: 10);
-
+        // Theme value takes precedence over default config (https://github.com/bolt/bolt/issues/3951)
+        if(!($pageSize = $this->getOption("theme/search_results_records", false))) {
+            if(!($pageSize = $this->getOption("general/search_results_records", false))) {
+                $pageSize = ($this->getOption('general/listing_records') ?: 10);
+            }
+        }
+        
         $offset = ($page - 1) * $pageSize;
         $limit = $pageSize;
 
