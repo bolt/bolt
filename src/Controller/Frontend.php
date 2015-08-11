@@ -252,8 +252,10 @@ class Frontend extends ConfigurableBase
         if(!($amount = $this->getOption("theme/listing_records", false))) {
             $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $this->getOption('general/listing_records'));    
         }
+        if(!($order = $this->getOption("theme/listing_sort", false))) {
+            $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $this->getOption('general/listing_sort'));    
+        }
         
-        $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $this->getOption('general/listing_sort'));
         $content = $this->getContent($contenttype['slug'], ['limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true]);
 
         $template = $this->templateChooser()->listing($contenttype);
@@ -295,7 +297,7 @@ class Frontend extends ConfigurableBase
         $page = $query->get($pagerid, $query->get('page', 1));
         // Theme value takes precedence over default config (https://github.com/bolt/bolt/issues/3951)
         $amount = $this->getOption("theme/listing_records", false) ?: $this->getOption('general/listing_records');
-        $order = $this->getOption('general/listing_sort');
+        $order = $this->getOption("theme/listing_sort", false) ?: $this->getOption('general/listing_sort');
         $content = $this->app['storage']->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
 
         // See https://github.com/bolt/bolt/pull/2310
