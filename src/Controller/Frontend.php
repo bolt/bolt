@@ -364,7 +364,7 @@ class Frontend extends ConfigurableBase
         // Theme value takes precedence over default config (https://github.com/bolt/bolt/issues/3951)
         if(!($pageSize = $this->getOption("theme/search_results_records", false))) {
             if(!($pageSize = $this->getOption("general/search_results_records", false))) {
-                $pageSize = ($this->getOption('general/listing_records') ?: 10);
+                $pageSize = $this->getOption("theme/listing_records", false) ?: $this->getOption('general/listing_records', 10);
             }
         }
         
