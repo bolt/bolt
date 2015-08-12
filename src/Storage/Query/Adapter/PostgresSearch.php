@@ -26,5 +26,6 @@ class PostgresSearch
     {
         $words = implode("&", $this->searchWords);
         $this->qb->addSelect("ts_rank(bsearch.document, to_tsquery('".$words."'))", "score");
+
     }
 }
