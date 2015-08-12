@@ -296,12 +296,12 @@ class Frontend extends ConfigurableBase
          /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
         $query = $request->query;
         $page = $query->get($pagerid, $query->get('page', 1));
-        // Theme value takes precedence over default config (https://github.com/bolt/bolt/issues/3951)
-        $amount = $this->getOption("theme/listing_records", false) ?: $this->getOption('general/listing_records');
-        $order = $this->getOption("theme/listing_sort", false) ?: $this->getOption('general/listing_sort');
+        // Theme value takes precedence over default config @see https://github.com/bolt/bolt/issues/3951
+        $amount = $this->getOption('theme/listing_records', false) ?: $this->getOption('general/listing_records');
+        $order = $this->getOption('theme/listing_sort', false) ?: $this->getOption('general/listing_sort');
         $content = $this->app['storage']->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
 
-        // See https://github.com/bolt/bolt/pull/2310
+        // @see https://github.com/bolt/bolt/pull/2310
         if (
                 ($taxonomy['behaves_like'] === 'tags' && !$content) ||
                 (
