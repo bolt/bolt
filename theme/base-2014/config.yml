@@ -23,6 +23,13 @@ headerimage:
 # listing_template: listing.twig
 # search_results_template: listing.twig
 
+# Amount of records and sorting in listing. If you 're creating a theme for distribution, you can 
+# specify the amount of records displayed on listing pages, including search results. The values 
+# you will set in this config will override the ones defined in the global app/config/config.yml.
+# listing_records : 10
+# listing_sort : datepublish DESC
+# search_results_records: 10
+
 templatefields:
     extrafields.twig:
         section_1:
