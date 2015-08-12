@@ -34,7 +34,7 @@ class ContentQueryParser
 
     protected $identifier;
 
-    protected $operations = ['search', 'latest', 'first', 'random'];
+    protected $operations = ['search', 'latest', 'first', 'random', 'nativesearch'];
 
     protected $directives = [];
 
@@ -65,6 +65,7 @@ class ContentQueryParser
         $this->addHandler('random', new RandomQueryHandler());
         $this->addHandler('first', new FirstQueryHandler());
         $this->addHandler('latest', new LatestQueryHandler());
+        $this->addHandler('nativesearch', new NativeSearchHandler());
 
         $this->addDirectiveHandler('returnsingle', new ReturnSingleHandler());
         $this->addDirectiveHandler('order', new OrderHandler());
