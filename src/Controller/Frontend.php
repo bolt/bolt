@@ -247,15 +247,16 @@ class Frontend extends ConfigurableBase
         $pagerid = Pager::makeParameterId($contenttypeslug);
         // First, get some content
         $page = $request->query->get($pagerid, $request->query->get('page', 1));
-        
-        // Theme value takes precedence over CT & default config (https://github.com/bolt/bolt/issues/3951)
-        if (!($amount = $this->getOption("theme/listing_records", false))) {
-            $amount = (!empty($contenttype['listing_records']) ? $contenttype['listing_records'] : $this->getOption('general/listing_records'));    
+
+        // Theme value takes precedence over CT & default config
+        // @see https://github.com/bolt/bolt/issues/3951
+        if (!$amount = $this->getOption('theme/listing_records', false)) {
+            $amount = empty($contenttype['listing_records']) ? $this->getOption('general/listing_records') : $contenttype['listing_records'];
         }
-        if (!($order = $this->getOption("theme/listing_sort", false))) {
-            $order = (!empty($contenttype['sort']) ? $contenttype['sort'] : $this->getOption('general/listing_sort'));    
+        if (!$order = $this->getOption('theme/listing_sort', false)) {
+            $order = empty($contenttype['sort']) ? $this->getOption('general/listing_sort') : $contenttype['sort'];
         }
-        
+
         $content = $this->getContent($contenttype['slug'], ['limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true]);
 
         $template = $this->templateChooser()->listing($contenttype);
@@ -367,7 +368,7 @@ class Frontend extends ConfigurableBase
                 $pageSize = $this->getOption("theme/listing_records", false) ?: $this->getOption('general/listing_records', 10);
             }
         }
-        
+
         $offset = ($page - 1) * $pageSize;
         $limit = $pageSize;
 
