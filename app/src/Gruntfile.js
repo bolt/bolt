@@ -116,7 +116,8 @@ module.exports = function(grunt) {
             staticMappings: {
                 pages: 'grunt-tasks/pages.js',
                 sass: 'grunt-tasks/sass.js',
-                htmllint: 'grunt-html'
+                htmllint: 'grunt-html',
+                bom: 'grunt-bom-removal'
             }
         }
     });
