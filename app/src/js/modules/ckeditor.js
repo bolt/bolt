@@ -77,49 +77,49 @@
             config.extraPlugins = 'codemirror';
 
             config.toolbar = list(
-                [                 { name: 'styles',      items: list( [                 'Format'       ],
-                                                                      [set.styles,      'Styles'       ] )}],
+                [                 { name: 'styles',      items: list( [                 'Format'        ],
+                                                                      [set.styles,      'Styles'        ] )}],
 
-                [                 { name: 'basicstyles', items: list( [                 'Bold'         ],
-                                                                      [                 'Italic'       ],
-                                                                      [set.underline,   'Underline'    ],
-                                                                      [set.strike,      'Strike'       ] )}],
+                [                 { name: 'basicstyles', items: list( [                 'Bold'          ],
+                                                                      [                 'Italic'        ],
+                                                                      [set.underline,   'Underline'     ],
+                                                                      [set.strike,      'Strike'        ] )}],
 
-                [                 { name: 'paragraph',   items: list( [                 'NumberedList' ],
-                                                                      [                 'BulletedList' ],
-                                                                      [                 'Indent'       ],
-                                                                      [                 'Outdent'      ],
-                                                                      [set.blockquote,  '|Blockquote'  ] )}],
+                [                 { name: 'paragraph',   items: list( [                 'NumberedList'  ],
+                                                                      [                 'BulletedList'  ],
+                                                                      [                 'Indent'        ],
+                                                                      [                 'Outdent'       ],
+                                                                      [set.blockquote,  '|Blockquote'   ] )}],
 
-                [                 { name: 'links',       items: list( [                 'Link'         ],
-                                                                      [                 'Unlink'       ],
-                                                                      [set.anchor,      '|Anchor'      ] )}],
+                [                 { name: 'links',       items: list( [                 'Link'          ],
+                                                                      [                 'Unlink'        ],
+                                                                      [set.anchor,      '|Anchor'       ] )}],
 
-                [set.subsuper,    { name: 'subsuper',    items: list( [                 'Subscript'    ],
-                                                                      [                 'Superscript'  ] )}],
+                [set.subsuper,    { name: 'subsuper',    items: list( [                 'Subscript'     ],
+                                                                      [                 'Superscript'   ] )}],
 
-                [set.images,      { name: 'image',       items: list( [                 'Image'        ] )}],
+                [set.images,      { name: 'image',       items: list( [                 'Image'         ] )}],
 
-                [set.embed,       { name: 'embed',       items: list( [                 'oembed'       ] )}],
+                [set.embed,       { name: 'embed',       items: list( [                 'oembed'        ] )}],
 
-                [set.tables,      { name: 'table',       items: list( [                 'Table'        ] )}],
+                [set.tables,      { name: 'table',       items: list( [                 'Table'         ] )}],
 
                 [set.ruler,       { name: 'ruler',       items: list( [                 'HorizontalRule'] )}],
 
-                [set.align,       { name: 'align',       items: list( [                 'JustifyLeft'  ],
-                                                                      [                 'JustifyCenter'],
-                                                                      [                 'JustifyRight' ],
-                                                                      [                 'JustifyBlock' ] )}],
+                [set.align,       { name: 'align',       items: list( [                 'JustifyLeft'   ],
+                                                                      [                 'JustifyCenter' ],
+                                                                      [                 'JustifyRight'  ],
+                                                                      [                 'JustifyBlock'  ] )}],
 
-                [set.fontcolor,   { name: 'colors',      items: list( [                 'TextColor'    ],
-                                                                      [                 'BGColor'      ] )}],
+                [set.fontcolor,   { name: 'colors',      items: list( [                 'TextColor'     ],
+                                                                      [                 'BGColor'       ] )}],
 
-                [set.codesnippet, { name: 'code',        items: list( [                 '|CodeSnippet' ] )}],
+                [set.codesnippet, { name: 'code',        items: list( [                 '|CodeSnippet'  ] )}],
 
-                [                 { name: 'tools',       items: list( [                 'RemoveFormat' ],
-                                                                      [                 'Maximize'     ],
-                                                                      [                 '|Source'      ],
-                                                                      [set.specialchar, '|SpecialChar' ] )}]
+                [                 { name: 'tools',       items: list( [                 'RemoveFormat'  ],
+                                                                      [                 'Maximize'      ],
+                                                                      [                 '|Source'       ],
+                                                                      [set.specialchar, '|SpecialChar'  ] )}]
             );
 
             if (set.embed) {
