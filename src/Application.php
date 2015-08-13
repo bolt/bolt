@@ -124,7 +124,8 @@ class Application extends Silex\Application
         // Initialize enabled extensions before executing handlers.
         $this->initExtensions();
 
-        $this->initMailCheck();
+        // Mail config checks for extensions
+        $this->before(array($this, 'initMailCheck'));
 
         // Initialise the global 'before' handler.
         $this->before(array($this, 'beforeHandler'));
