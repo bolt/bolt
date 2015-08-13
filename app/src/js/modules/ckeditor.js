@@ -104,6 +104,8 @@
 
                 [set.tables,      { name: 'table',       items: list( [                 'Table'        ] )}],
 
+                [set.ruler,       { name: 'ruler',       items: list( [                 'HorizontalRule'] )}],
+
                 [set.align,       { name: 'align',       items: list( [                 'JustifyLeft'  ],
                                                                       [                 'JustifyCenter'],
                                                                       [                 'JustifyRight' ],
