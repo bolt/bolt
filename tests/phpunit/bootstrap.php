@@ -42,11 +42,7 @@ if (!defined('BOLT_AUTOLOAD')) {
 
 // Path to Nut
 if (!defined('NUT_PATH')) {
-    if (INSTALL_TYPE === 'composer') {
-        define('NUT_PATH', realpath(TEST_ROOT . '/vendor/bolt/bolt/app/nut'));
-    } elseif (INSTALL_TYPE === 'git') {
-        define('NUT_PATH', realpath(TEST_ROOT . '/app/nut'));
-    }
+    define('NUT_PATH', realpath(TEST_ROOT . '/app/nut'));
 }
 
 // Load the upload bootstrap
