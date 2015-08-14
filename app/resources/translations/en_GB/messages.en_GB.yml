@@ -496,6 +496,11 @@ generic:
 
 page:
     extend:
+        button:
+            update-check: "Run update check"
+            update-all: "Run all Updates"
+            install-all: "Install all Packages"
+            browse-versions: "Browse Versions"
         message:
             bad-json: "Malformed JSON response. Ensure no debugging or other code is being added to the response"
             confirm-remove: "Please confirm that you want to remove this extension?"
