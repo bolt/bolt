@@ -121,7 +121,6 @@ contenttypes.general.choose-an-entry: "Choose an entry"
 "Everybody": "Everybody"
 "Excerpt": "Excerpt"
 "Expand sidebar": "Expand sidebar"
-"Extend %boltname%": "Extend %boltname%"
 "Extension log": "Extension log"
 "Extensions": "Extensions"
 "Extras": "Extras"
@@ -389,6 +388,7 @@ page.extend.messages.marked-as-stable: "The versions listed below are marked as 
 page.extend.messages.compatible-unstable-versions: "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems."
 page.extend.messages.start-using-extension: "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
 page.extend.messages.before-theme-start: "Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here."
+page.extend.pagetitle: "Extend %BOLTNAME%"
 
 #--- 132 keyword based translations -------------------------------------------
 
