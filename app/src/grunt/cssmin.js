@@ -8,8 +8,7 @@ module.exports = {
     installLibCss: {
         options: {
             compatibility: 'ie8',
-            relativeTo: 'css/',
-            target: 'css/'
+            rebase: true
         },
         files: {
             '<%= path.dest.css %>/lib.css': [
