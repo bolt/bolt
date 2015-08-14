@@ -290,8 +290,6 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
             foreach ($info->version as $version) {
                 $versions[$version->stability][] = $version;
             }
-        } else {
-            $versions = array('error' => true, 'dev' => array(), 'stable' => array());
         }
 
         return new JsonResponse($versions);

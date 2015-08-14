@@ -338,8 +338,9 @@ var BoltExtender = Object.extend(Object, {
 
     installInfo: function (ext) {
         var controller = this;
-
-        active_console = false;
+        var target = controller.find('.update-output');
+        active_console = target;
+        
         jQuery.get(baseurl + 'installInfo?package=' + ext, function(data) {
 
             var devpacks = data.dev;
@@ -361,7 +362,10 @@ var BoltExtender = Object.extend(Object, {
             controller.find('#installModal .loader').hide();
         })
         .fail(function(data) {
-            active_console.html(controller.formatErrorLog(data));
+        	var target = controller.find('.modal-failed');
+        	target.html(controller.formatErrorLog(data));
+
+            controller.find('#installModal .loader').hide();
             controller.extensionFailedInstall(data);
         });
     },
@@ -621,16 +625,30 @@ var BoltExtender = Object.extend(Object, {
 
     formatErrorLog: function(data) {
         var errObj = $.parseJSON(data.responseText),
-        html = '';
+                     html = '',
+                     msg = '';
         if (errObj.error.type === 'Bolt\\Exception\\PackageManagerException') {
             // Clean up Composer messages
-            var msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
+            msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
 
             html = Bolt.data(
                 'extend.packages.error',
                 {
                     '%ERROR_TYPE%': 'Composer Error',
-                    '%ERROR_MESSAGE%': msg
+                    '%ERROR_MESSAGE%': msg,
+                    '%ERROR_LOCATION%': ''
+                }
+            );
+        } else if (errObj.error.type === 'Bolt\\Exception\\ExtensionsInfoServiceException') {
+        	// Get the exception details
+        	msg = errObj.error.message;
+
+        	html = Bolt.data(
+                'extend.packages.error',
+                {
+                    '%ERROR_TYPE%': 'Extension Site Error',
+                    '%ERROR_MESSAGE%': msg,
+                    '%ERROR_LOCATION%': ''
                 }
             );
         } else {
