@@ -204,8 +204,6 @@ class Extend extends BackendBase
             foreach ($info->version as $version) {
                 $versions[$version->stability][] = $version;
             }
-        } else {
-            $versions = ['error' => true, 'dev' => [], 'stable' => []];
         }
 
         return $this->json($versions);
