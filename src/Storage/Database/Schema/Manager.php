@@ -307,7 +307,7 @@ class Manager
 
         // Some diff changes can be ignored… Because… DBAL.
         $alias = $this->getTableAlias($diff->fromTable->getName());
-        if ($ignored = $this->app['schema.tables'][$alias]->ignoredChanges()) {
+        if (isset($this->app['schema.tables'][$alias]) && $ignored = $this->app['schema.tables'][$alias]->ignoredChanges()) {
             $this->removeIgnoredChanges($this->app['schema.tables'][$alias], $diff, $ignored);
         }
 
