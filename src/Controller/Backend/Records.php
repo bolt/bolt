@@ -202,19 +202,16 @@ class Records extends BackendBase
             return $this->redirectToRoute('dashboard');
         }
 
-        $contenttype = $this->getContentType($contenttypeslug);
-
-        $filter = [];
-
-        $contentparameters = ['paging' => true, 'hydrate' => true];
-
         // Order has to be set carefully. Either set it explicitly when the user
-        // sorts, or fall back to what's defined in the contenttype. The exception
-        // is a contenttype that has a "grouping taxonomy", because that should
-        // override it. The exception is handled in $app['storage']->getContent().
+        // sorts, or fall back to what's defined in the contenttype. Except for
+        // a ContentType that has a "grouping taxonomy", as that should override
+        // it. That exception state is handled by the query OrderHandler.
+        $contenttype = $this->getContentType($contenttypeslug);
+        $contentparameters = ['paging' => true, 'hydrate' => true];
         $contentparameters['order'] = $request->query->get('order', $contenttype['sort']);
         $contentparameters['page'] = $request->query->get('page');
 
+        $filter = [];
         if ($request->query->get('filter')) {
             $contentparameters['filter'] = $request->query->get('filter');
             $filter[] = $request->query->get('filter');
