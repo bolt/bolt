@@ -103,9 +103,7 @@ class Manager
         $this->tables = [];
 
         foreach ($sm->listTables() as $table) {
-            if (strpos($table->getName(), $this->getTablenamePrefix()) === 0) {
-                $this->tables[$table->getName()] = $table;
-            }
+            $this->tables[$table->getName()] = $table;
         }
 
         return $this->tables;
