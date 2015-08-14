@@ -29,7 +29,7 @@
         <div class="col-md-9">
 
             {% if not context.writeable %}
-            {% set msg = __('page.extend.button.message.ext-dir-missing', {'%DIRECTORY%': context.extensionsPath}) %}
+            {% set msg = __('page.extend.message.ext-dir-missing', {'%DIRECTORY%': context.extensionsPath}) %}
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                     {{ msg|ymllink }}
@@ -37,7 +37,7 @@
             {% endif %}
 
             {% if not context.enabled %}
-            {% set msg = __('page.extend.button.message.loading-disabled', {'%CONFIG%': 'config.yml'|ymllink }) %}
+            {% set msg = __('page.extend.message.loading-disabled', {'%CONFIG%': 'config.yml'|ymllink }) %}
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                     {{ msg|ymllink }}
@@ -49,9 +49,9 @@
             <div class="update-container hide-block">
                 <h3>{{ __('page.extend.headline.updates') }}</h3>
                 {% if context.writeable %}
-                <pre class="update-output console">{{ __('page.extend.button.message.checkung-for-updates') }}..</pre>
+                <pre class="update-output console">{{ __('page.extend.message.checkung-for-updates') }}..</pre>
                 {% else %}
-                <pre class="update-output">{{ __('page.extend.button.message.no-update-check-in-readmode') }}</pre>
+                <pre class="update-output">{{ __('page.extend.message.no-update-check-in-readmode') }}</pre>
                 {% endif %}
                 <div class="update-list hide-block">
                     <table class="dashboardlisting table">
@@ -71,9 +71,9 @@
             <section class="installed-container">
                 <h2>{{ __('page.extend.headline.currently-installed') }}</h2>
                 {% if context.writeable %}
-                <pre class="installed console" data-request="installed">{{ __('page.extend.button.message.checking-installed-packages') }}..</pre>
+                <pre class="installed console" data-request="installed">{{ __('page.extend.message.checking-installed-packages') }}..</pre>
                 {% else %}
-                <pre class="installed">{{ __('page.extend.button.message.no-package-check-in-readmode') }}</pre>
+                <pre class="installed">{{ __('page.extend.message.no-package-check-in-readmode') }}</pre>
                 {% endif %}
                 <div class="installed-list hide-block">
                     <div class="installed-list-items">
@@ -138,7 +138,7 @@
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-check') }}
                             </a>
                         </div>
-                        <p>{{ __('page.extend.button.message.shows-updates') }}</p>
+                        <p>{{ __('page.extend.message.shows-updates') }}</p>
                         <hr>
                         <p><strong>{{ __('page.extend.message.install-all-updates') }}</strong></p>
                         <div class="btn-group">
@@ -146,14 +146,14 @@
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-all') }}
                             </a>
                         </div>
-                        <p>{{ __('page.extend.button.message.installs-updates') }}</p>
+                        <p>{{ __('page.extend.message.installs-updates') }}</p>
                         <hr>
                         <div class="btn-group">
                             <a class="btn btn-primary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="install-run">
                                 <i class="fa fa-download fa-fw"></i> {{ __('page.extend.button.install-all') }}
                             </a>
                         </div>
-                        <p>{{ __('page.extend.button.message.installs-all-listed-packages') }}</p>
+                        <p>{{ __('page.extend.message.installs-all-listed-packages') }}</p>
                 </div>
             </div>
         </aside>
