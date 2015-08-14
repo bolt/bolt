@@ -278,26 +278,26 @@ strict_variables: false
 # enable them for your editors, please instruct them thoroughly on their
 # responsibility not to break the layout.
 wysiwyg:
-    images: false
-    anchor: false
-    tables: false
+    images: false            # Allow users to insert images in the content.
+    anchor: false            # Adds a button to create internal anchors to link to. 
+    tables: false            # Adds a button to insert and modify tables in the content.
     fontcolor: false         # Allow users to mess around with font coloring.
-    align: false             # Add 'align left', 'align right',etc.
-    subsuper: false          # Add buttons for subscript and superscript, using <sub> and <sup>
+    align: false             # Adds buttons for 'align left', 'align right', etc.
+    subsuper: false          # Adds buttons for subscript and superscript, using `<sub>` and `<sup>`.
     embed: false             # Allows the user to insert embedded video's from Youtube, Vimeo, etc.
-    underline: false         # Add a button to underline text, using the <u>-tag.
-    ruler: true              # Add a button to add a horizontal ruler, using the <hr>-tag.
-    strike: false            # Add a button to add stikethrough, using the <s>-tag.
-    blockquote: false
-    codesnippet: false
+    underline: false         # Adds a button to underline text, using the `<u>`-tag.
+    ruler: true              # Adds a button to add a horizontal ruler, using the `<hr>`-tag.
+    strike: false            # Adds a button to add stikethrough, using the `<s>`-tag.
+    blockquote: false        # Allows the user to insert code snippets using `<pre><code>`-tags.
+    codesnippet: false       # Allows the user to insert blockquotes using the `<blockquote>`-tag.
     specialchar: false       # Adds a button to insert special chars like '€' or '™'.
     ck:
         allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
-        autoParagraph: true  # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
+        autoParagraph: true  # If set to 'true', any pasted content is wrapped in `<p>`-tags for multiple line-breaks
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
-        # viewSourceRoles: [ 'admin', 'developer' ] # the roles which are allowed to use the [Source]-button.
-
+        # viewSourceRoles: [ 'admin', 'developer' ] # The roles which are allowed to use the [Source]-button.
+        
 # Global option to enable/disable the live editor
 liveeditor: true
 
