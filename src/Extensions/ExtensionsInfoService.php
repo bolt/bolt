@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Extensions;
 
+use Bolt\Exception\ExtensionsInfoServiceException;
 use GuzzleHttp\Client;
 
 /**
@@ -98,7 +99,8 @@ class ExtensionsInfoService
             return ($this->format === 'json') ? json_decode($result) : (string) $result;
         } catch (\Exception $e) {
             if ($this->isRetry) {
-                return false;
+                $msg = "Error connecting to the Extension Marketplace:\n". $e->getMessage();
+                throw new ExtensionsInfoServiceException($msg, $e->getCode(), $e);
             }
             $this->isRetry = true;
             $this->site = str_replace('https://', 'http://', $this->site);
