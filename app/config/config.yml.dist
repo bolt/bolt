@@ -297,7 +297,7 @@ wysiwyg:
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
         # viewSourceRoles: [ 'admin', 'developer' ] # The roles which are allowed to use the [Source]-button.
-        
+
 # Global option to enable/disable the live editor
 liveeditor: true
 
