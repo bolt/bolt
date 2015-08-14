@@ -585,7 +585,6 @@ panel:
         button:
             more: "Mer aktivitet"
         by: "av"
-        fixme: "Fixamig:"
         change: "Senaste ändringar"
         logged-in: "Loggade in"
         logged-out: "Loggade ut"

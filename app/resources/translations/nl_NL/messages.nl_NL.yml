@@ -634,7 +634,6 @@ panel:
         change: "Recente wijzigingen"
         created: "Aangemaakt"
         deleted: "Verwijderd"
-        fixme: "Fixmij:"
         logged-in: "ingelogd"
         logged-out: "uitgelogd"
         saved: "Opgeslagen"

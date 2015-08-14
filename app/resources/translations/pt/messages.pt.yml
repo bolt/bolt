@@ -597,7 +597,6 @@ panel:
         button:
             more: "mais atividades"
         by: "por"
-        fixme: "Corrija-me"
         logged-in: "conectado"
         logged-out: "desconectado"
         saved: "Salvo"

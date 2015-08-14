@@ -580,7 +580,6 @@ panel:
         button:
             more: "更多活動日誌"
         by: "由"
-        fixme: "Fixme:"
         change: "Latest changes"
         logged-in: "登入"
         logged-out: "登出"

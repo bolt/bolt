@@ -605,7 +605,6 @@ panel:
         button:
             more: "more activity"
         by: "by"
-        fixme: "Fixme:"
         change: "Latest changes"
         logged-in: "logged in"
         logged-out: "logged out"

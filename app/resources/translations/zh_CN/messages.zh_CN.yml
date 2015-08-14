@@ -555,7 +555,6 @@ panel:
         button:
             more: "更多活动日志"
         by: "由"
-        fixme: "Fixme:"
         logged-in: "登录"
         logged-out: "登出"
         saved: "已保存"
