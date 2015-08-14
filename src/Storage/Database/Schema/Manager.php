@@ -348,11 +348,19 @@ class Manager
     {
         $schema = new Schema();
 
-        return array_merge(
-            $this->getBoltTablesSchema($schema),
-            $this->getContentTypeTablesSchema($schema),
-            $this->getExtensionTablesSchema($schema)
-        );
+        $tables = array_merge(
+             $this->getBoltTablesSchema($schema),
+             $this->getContentTypeTablesSchema($schema),
+             $this->getExtensionTablesSchema($schema)
+         );
+
+        foreach ($tables as $index => $table) {
+            if (strpos($table->getName(), $this->getTablenamePrefix()) === false) {
+                unset($tables[$index]);
+            }
+        }
+
+        return $tables;
     }
 
     /**
