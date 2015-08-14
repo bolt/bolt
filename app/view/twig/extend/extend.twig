@@ -47,7 +47,7 @@
             {% include '_sub/_messages.twig' %}
 
             <div class="update-container hide-block">
-                <h3>{{ __('Updates') }}</h3>
+                <h3>{{ __('page.extend.headline.updates') }}</h3>
                 {% if context.writeable %}
                 <pre class="update-output console">{{ __('page.extend.button.message.checkung-for-updates') }}..</pre>
                 {% else %}
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <section class="installed-container">
-                <h2>{{ __('Your Currently Installed Extensions') }}</h2>
+                <h2>{{ __('page.extend.headline.currently-installed') }}</h2>
                 {% if context.writeable %}
                 <pre class="installed console" data-request="installed">{{ __('page.extend.button.message.checking-installed-packages') }}..</pre>
                 {% else %}
@@ -99,7 +99,7 @@
 
             <hr />
             <section>
-                <h2>{{ __('Install a new Extension') }}</h2>
+                <h2>{{ __('page.extend.headline.install-new-extension') }}</h2>
                 <p>
                     {% if context.writeable and context.online %}
                     {{ __('Add a new extension using the form below.') }}

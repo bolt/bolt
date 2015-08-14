@@ -79,15 +79,12 @@
 "Selectentry": # "Select entry"
 "Selectfield": # "Select field"
 "Slug": #
-"Stable versions": #
 "Teaser": #
 "Template": #
 "Textarea": #
 "The Bolt extensions Repo at %repository% is currently unavailable. Check your connection and try again shortly.": #
-"Theme installation complete": #
 "Theme successfully generated. You can now edit it directly from your theme folder.": #
 "Time in 24h/12h format": #
-"Unstable test versions": #
 "Video": #
 "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
 "You must specify both a name and a version to install!": #
@@ -272,10 +269,10 @@ page.extend.listheader.extension: "Extensão"
 "If you would like to give the theme an alternative name you can add one here.": "Se você quiser dar um nome alternativo para o tema você pode adiciona-lo aqui."
 "Image": "Imagem"
 "Info": "Informações"
-"Install a new Extension": "Instalar uma nova Extensão"
+page.extend.headline.install-new-extension: "Instalar uma nova Extensão"
 "Install all updates": "Instalar todos as atualizações"
-"Installation complete": "Instalação completa"
-"Installing package": "Instalando pacote"
+page.extend.headline.installation-complete: "Instalação completa"
+page.extend.headline.installing-package: "Instalando pacote"
 "Installing selected package version (this may take up to 60 seconds).": "Instalando a versão selecionada do pacote (isso pode levar até 60 segundos)."
 "Last known IP": "Último IP conhecido"
 "Last seen": "Última visualização"
@@ -410,7 +407,7 @@ page.extend.button.message.shows-updates: "Isso não vai instalar nada, apenas m
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Tente fazer o login com o seu ftp-client e tornar o arquivo legível. Caso contrário, tente <a>voltar</a> para a última página."
 "Types": "Tipos"
 "Update the database": "Atualizar o banco de dados"
-"Updates": "Atualizações"
+page.extend.headline.updates: "Atualizações"
 "Upload": "Upload"
 "Upload a file to this folder": "Fazer upload de um arquivo para esta pasta"
 "Upload file": "Upload de arquivo"
@@ -445,7 +442,7 @@ page.extend.listheader.version: "Versão"
 "You have been logged out.": "Você desconectou."
 "You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": "Você deve definir 'homepage:' em seu 'app / config / config.yml' para um registro existente. Certifique-se de que o conteúdo está publicado, caso contrário ele não será mostrado."
 "You've been logged on successfully.": "Autenticação realizada com sucesso!"
-"Your Currently Installed Extensions": "Suas extensões instalados atualmente"
+page.extend.headline.currently-installed: "Suas extensões instalados atualmente"
 "Your account is disabled. Sorry about that.": "Sua conta está desabilitada."
 "Your database is already up to date.": "Seu banco de dados está atualizado."
 "Your database is now up to date.": "Seu banco de dados agora está atualizado!"
