@@ -208,7 +208,7 @@ page.extend.message.bad-json: "Misvormde JSON respons. Zorg ervoor dat er geen d
 "Modifications made to the database:": "Aanpassingen gedaan aan de database:"
 "Modifications needed:": "Vereiste aanpassingen:"
 "Modified": "Aangepast"
-"More info/help": "Meer info/help"
+page.extend.button.info-help: "Meer info/help"
 "Multiselect": "Multiselect"
 "Next": "Volgende"
 "No Bolt Extensions installed.": "Geen Bolt extensies geinstalleerd."

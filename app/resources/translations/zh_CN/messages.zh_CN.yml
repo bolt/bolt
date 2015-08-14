@@ -187,7 +187,7 @@ page.extend.messages.installing-selected-package: "安装选择的包版本 (最
 "Modifications made to the database:": "对数据库作出的变更："
 "Modifications needed:": "需要作出的修改："
 "Modified": "已修改"
-"More info/help": "更多信息/帮助"
+page.extend.button.info-help: "更多信息/帮助"
 "Multiselect": "多选"
 page.extend.message.no-stable-versions-available: "没有可用的稳定版本"
 page.extend.message.no-test-versions-available: "没有可用的测试版本"

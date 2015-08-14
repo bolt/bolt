@@ -211,7 +211,7 @@ page.extend.message.bad-json: "Fehlerhafte JSON-Antwort. Stellen Sie sicher, das
 "Modifications made to the database:": "Durchgeführte Änderungen an der Datenbank:"
 "Modifications needed:": "Benötigte Änderungen:"
 "Modified": "Bearbeitet"
-"More info/help": "Mehr Info/Hilfe"
+page.extend.button.info-help: "Mehr Info/Hilfe"
 "Multiselect": "Mehrfachauswahl"
 "New Bolt site has been set up": "Die neue Bolt Webseite wurde erstellt"
 "No Bolt Extensions installed.": "Keine Bolt Erweiterung instaliert."

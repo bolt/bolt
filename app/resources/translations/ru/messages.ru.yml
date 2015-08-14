@@ -184,7 +184,7 @@ page.extend.messages.installing-selected-package: "Установка выбра
 "Modifications made to the database:": "Изменения выполнены для базы данных:"
 "Modifications needed:": "Изменения необходимы:"
 "Modified": "Изменено"
-"More info/help": "Больше информации/помощь"
+page.extend.button.info-help: "Больше информации/помощь"
 "Multiselect": "Multi-select"
 page.extend.message.no-stable-versions-available: "Нет доступных Стабильных версий"
 page.extend.message.no-test-versions-available: "Нет доступных Тестовых версий"

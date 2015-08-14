@@ -191,7 +191,7 @@ page.extend.messages.installing-selected-package: "安裝選擇的包版本 (最
 "Modifications made to the database:": "對資料庫作出的變更："
 "Modifications needed:": "需要作出的修改："
 "Modified": "已修改"
-"More info/help": "更多資訊/幫助"
+page.extend.button.info-help: "更多資訊/幫助"
 "Multiselect": "多選"
 "Next": "下一個"
 page.extend.message.no-stable-versions-available: "沒有可用的穩定版本"

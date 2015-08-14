@@ -290,7 +290,7 @@ page.extend.messages.installing-selected-package: "Instalando a versão selecion
 "Modifications made to the database:": "Modificações a fazer no banco de dados:"
 "Modifications needed:": "Modificações necessárias"
 "Modified": "Modificado"
-"More info/help": "Mais informação/ajuda"
+page.extend.button.info-help: "Mais informação/ajuda"
 page.extend.message.no-stable-versions-available: "Versões estáveis não disponíveis"
 page.extend.message.no-test-versions-available: "Versões de teste não disponíveis"
 "No relations found!": "Não há relações encontradas!"

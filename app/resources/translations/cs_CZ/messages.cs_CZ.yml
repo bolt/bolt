@@ -210,7 +210,7 @@ page.extend.message.bad-json: "Neznámá odezva JSON. Ujistěte se, že není sp
 "Modifications made to the database:": "Změny provedené v databázi:"
 "Modifications needed:": "Potřebné úpravy:"
 "Modified": "Upraveno"
-"More info/help": "Více informací / nápověda"
+page.extend.button.info-help: "Více informací / nápověda"
 "Multiselect": "Multivýběr"
 "New Bolt site has been set up": "Nový web na systému BOLT byl právě nastaven."
 "No Bolt Extensions installed.": "Nejsou nainstalována žádná rozšíření."

@@ -191,7 +191,7 @@ page.extend.messages.installing-selected-package: "Installerar den valda paketve
 "Modifications made to the database:": "Modifikationer skrivna till databasen:"
 "Modifications needed:": "Modifikationer som behövs:"
 "Modified": "Modifierad"
-"More info/help": "Mer info/hjälp"
+page.extend.button.info-help: "Mer info/hjälp"
 "Multiselect": "Flerval"
 "Next": "Nästa"
 page.extend.message.no-stable-versions-available: "Inga stabila versioner tillgängliga"

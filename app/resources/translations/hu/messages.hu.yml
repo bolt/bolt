@@ -227,7 +227,7 @@ page.extend.message.bad-json: "Hibás JSON válasz. Győződj meg róla, hogy de
 "Modifications made to the database:": "Elvégzett módosítások az adatbázison:"
 "Modifications needed:": "Szükséges módosítások:"
 "Modified": "Módosítva"
-"More info/help": "További információ"
+page.extend.button.info-help: "További információ"
 "New Bolt site has been set up": "Az új Bolt site elkészült"
 "No Bolt Extensions installed.": "Nincs telepített bővítmény."
 page.extend.message.no-stable-versions-available: "Stabil verzió nem áll rendelkezésre"
