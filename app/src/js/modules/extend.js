@@ -351,7 +351,8 @@
     };
 
     var installInfo = function (ext) {
-        activeConsole = false;
+        activeConsole = find('.update-output');
+
         $.get(bolt.data('extend.baseurl') + 'installInfo?package=' + ext, function(data) {
 
             var devpacks = data.dev;
@@ -373,7 +374,10 @@
             find('#installModal .loader').hide();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
+            var target = find('.modal-failed');
+
+            target.html(formatErrorLog(data));
+            find('#installModal .loader').hide();
             extensionFailedInstall(data);
         });
     };
@@ -632,17 +636,31 @@
 
     var formatErrorLog = function(data) {
         var errObj = $.parseJSON(data.responseText),
-            html = '';
+            html = '',
+            msg = '';
 
         if (errObj.error.type === 'Bolt\\Exception\\PackageManagerException') {
             // Clean up Composer messages.
-            var msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
+            msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
 
             html = bolt.data(
                 'extend.packages.error',
                 {
                     '%ERROR_TYPE%': 'Composer Error',
-                    '%ERROR_MESSAGE%': msg
+                    '%ERROR_MESSAGE%': msg,
+                    '%ERROR_LOCATION%': ''
+                }
+            );
+        } else if (errObj.error.type === 'Bolt\\Exception\\ExtensionsInfoServiceException') {
+            // Get the exception details
+            msg = errObj.error.message;
+
+            html = bolt.data(
+                'extend.packages.error',
+                {
+                    '%ERROR_TYPE%': 'Extension Site Error',
+                    '%ERROR_MESSAGE%': msg,
+                    '%ERROR_LOCATION%': ''
                 }
             );
         } else {
