@@ -47,7 +47,6 @@
 "Body": "Treść"
 "Bolt - Fatal error.": "Bolt - Błąd krytyczny."
 "Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Nie znaleziono rozszerzenia Bolt. Proszę sprawdzić na %site% czy nazwa jest prawidłowa."
-"Browse Versions": "Przegladaj Wersje"
 "Browser / platform": "Przeglądarka / platforma"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Wbudowana rola, automatycznie przyznawana przez cały czas, nawet gdy użytkownik nie jest zalogowany"
 "Built-in role, automatically granted to every registered user": "Wbudowana rola, automatycznie przyznawana każdemu zarejestrowanemu użytkownikowi"
@@ -173,7 +172,6 @@
 "Install Package": "Zainstaluj pakiet"
 "Install This Version": "Zainstaluj tą wersję"
 "Install a new Extension": "Zainstaluj nowe rozszerzenie"
-"Install all Packages": "Zainstaluj wszystkie pakiety"
 "Install all updates": "Zainstaluj wszystkie aktualizacje"
 "Installation complete": "Instalacja zakończona"
 "Installing package": "Instalowanie pakietu"
@@ -261,8 +259,6 @@
 "Rename %foldername%": "Zmiań nazwę %foldername%"
 "Roles": "Role"
 "Roles and Permissions": "Role i uprawnienia"
-"Run all Updates": "Wykonaj wszystkie aktualizacje"
-"Run update check": "Wykonaj wyszukiwanie aktualizacji"
 "Running install of all packages …": "Uruchamianie instalacji wszystkich pakietów …"
 "Running update …": "Uruchamianie aktualizacji …"
 "Save & create new record": "Zapisz i utwórz nowy rekord"
@@ -520,6 +516,12 @@ menu:
         routing: "Ustawienia trasowania"
 
 page:
+    extend:
+        button:
+            update-check: "Wykonaj wyszukiwanie aktualizacji"
+            update-all: "Wykonaj wszystkie aktualizacje"
+            install-all: "Zainstaluj wszystkie pakiety"
+            browse-versions: "Przegladaj Wersje"
     ckeditor-browse-server:
         files: "Pliki"
         folders: "Katalogi"

@@ -81,7 +81,6 @@
 "Body": "Body"
 "Bolt - Fatal error.": "Bolt - Végzetes hiba."
 "Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Ez a Bolt bővítmény nem található. Itt tudod ellenőrizni, hogy helyes névre hivatkozol: %site%."
-"Browse Versions": "Verziók áttekintése"
 "Browser / platform": "Böngésző / platform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Beépített szerepkör, automatikusan biztosítva minden alkalommal még ha nincs is bejelentkezett felhasználó"
 "Built-in role, automatically granted to every registered user": "Beépített szerepkör, automatikusan biztosítva minden regisztrált felhasználónak"
@@ -198,7 +197,6 @@
 "Install Package": "Csomag telepítése"
 "Install This Version": "Ezt a verziót telepítsd"
 "Install a new Extension": "Új bővítmény telepítése"
-"Install all Packages": "Az összes csomag telepítése"
 "Install all updates": "Frissítések telepítése"
 "Installation complete": "A telepítés ebfejeződött"
 "Installing package": "Csomag telepítése"
@@ -287,8 +285,6 @@
 "Rename %foldername%": "%foldername% átnevezése"
 "Roles": "Szerepek"
 "Roles and Permissions": "Szerepek és Engedélyek"
-"Run all Updates": "Teljes frissítés"
-"Run update check": "Frissítések ellenőrzése"
 "Running install of all packages …": "A csomagok telepítése folyamatban…"
 "Running update …": "A frissítés fut…"
 "Save & create new record": "Mentés és Új rekord"
@@ -544,6 +540,12 @@ menu:
         routing: "Útvonalkezelő beállítása"
 
 page:
+    extend:
+        button:
+            update-check: "Frissítések ellenőrzése"
+            update-all: "Teljes frissítés"
+            install-all: "Az összes csomag telepítése"
+            browse-versions: "Verziók áttekintése"
     ckeditor-browse-server:
         files: "Fájlok"
         folders: "Könyvtárak"

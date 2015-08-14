@@ -51,7 +51,6 @@ general.about-bolt: "Over Bolt"
 "Body": "Broodtekst"
 "Bolt - Fatal error.": "Bolt - Kritieke fout."
 "Bolt Extension could not be found. Please check at %site% to ensure correct name.": "De Bolt extensie kon niet worden gevonden. Controleer op %site% of je de goede naam gebruikt."
-"Browse Versions": "Blader tussen versies"
 "Browser / platform": "Browser / platform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Ingebouwde rol die aan iedereen wordt toegekend, ook als de gebruiker niet is ingelogd"
 "Built-in role, automatically granted to every registered user": "Ingebouwde rol die aan iedere ingelogde gebruiker wordt toegekend"
@@ -179,7 +178,7 @@ general.about-bolt: "Over Bolt"
 "Imagelist": "Afbeeldingenlijst"
 "Info": "Info"
 "Install a new Extension": "Installeer een nieuwe extensie"
-"Install all Packages": "Installeer alle packages"
+
 "Install all updates": "Installeer alle updates"
 "Install Package": "Installeer package"
 "Install This Version": "Installeer deze versie"
@@ -278,8 +277,6 @@ general.about-bolt: "Over Bolt"
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen en permissies"
 menu.configuration.routing: "Route instellingen"
-"Run all Updates": "Doe alle updates"
-"Run update check": "Doe update check"
 "Running install of all packages …": "Bezig met de installatie van alle packages …"
 "Running update …": "Bezig met updaten …"
 "Save & create new record": "Sla op & maak nieuwe"
@@ -541,6 +538,12 @@ generic:
         message: "Momenteel is Javascript uitgeschakeld in je browser. De meeste functionaliteiten in Bolt werken wel, maar voor prettiger gebruik adviseren we om Javascript in te schakelen."
 
 page:
+    extend:
+        button:
+            update-check: "Doe update check"
+            update-all: "Doe alle updates"
+            install-all: "Installeer alle packages"
+            browse-versions: "Blader tussen versies"
     ckeditor-browse-server:
         files: "Bestanden"
         folders: "Mappen"

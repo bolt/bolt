@@ -49,7 +49,7 @@
 "Body": "Inhalt"
 "Bolt - Fatal error.": "Bolt - Schwerwiegender Fehler."
 "Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Die Bolt Erweiterung konnte nicht gefunden werden. Bitte prüfen Sie auf %site% um den richtigen Namen sicherzustellen"
-"Browse Versions": "Versionen anzeigen"
+
 "Browser / platform": "Browser / Plattform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Standard-Rolle, automatisch eingeräumt, selbst wenn kein Benutzer eingeloggt ist"
 "Built-in role, automatically granted to every registered user": "Standard-Rolle, automatisch eingeräumt für jeden registrierten Benutzer"
@@ -181,7 +181,7 @@
 "Install Package": "Paket installieren"
 "Install This Version": "Installiere diese Version"
 "Install a new Extension": "Eine neue Erweiterung installieren"
-"Install all Packages": "Installiere alle Pakete"
+
 "Install all updates": "Installiere alle Aktualisierungen"
 "Installation complete": "Installation ausgeführt"
 "Installing package": "Installiere Paket"
@@ -274,11 +274,9 @@
 "Roles": "Rollen"
 "Roles and Permissions": "Rollen und Berechtigungen"
 "Run PHP extension checks": "PHP-Erweiterungen überprüfen"
-"Run all Updates": "Alle Aktualisierungen ausführen"
 "Run all checks": "Alle Überprüfungen ausführen"
 "Run directory checks": "Verzeichnisse überprüfen"
 "Run email checks": "E-Mail-Einstellungen überprüfungen"
-"Run update check": "Auf Aktualisierungen prüfen"
 "Running install of all packages …": "Installation aller Pakete ausführen …"
 "Running update …": "Führe Update aus …"
 "Save & create new record": "Speichern & neuen Eintrag erstellen"
@@ -548,6 +546,12 @@ menu:
         routing: "Routing einrichten"
 
 page:
+    extend:
+        button:
+            update-check: "Auf Aktualisierungen prüfen"
+            update-all: "Alle Aktualisierungen ausführen"
+            install-all: "Installiere alle Pakete"
+            browse-versions: "Versionen anzeigen"
     ckeditor-browse-server:
         files: "Dateien"
         folders: "Verzeichnisse"
