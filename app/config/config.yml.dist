@@ -21,10 +21,10 @@ payoff: The amazing payoff goes here
 theme: base-2014
 
 # The locale that'll be used by the application. If no locale is set the
-# fallback locale is 'en_GB'. For available options, see: 
+# fallback locale is 'en_GB'. For available options, see:
 # http://docs.bolt.cm/locales
 #
-# In some cases it may be needed to specify (non-standard) variations of the 
+# In some cases it may be needed to specify (non-standard) variations of the
 # locale to get everything to work as desired.
 #
 # This can be done as [nl_NL, Dutch_Netherlands] when specifying multiple
@@ -57,19 +57,19 @@ cron_hour: 3
 
 # If your site is reachable under different urls (say, both blog.example.org/
 # as well as example.org/), it's a good idea to set one of these as the
-# canonical, so it's clear which is the primary address of the site. 
+# canonical, so it's clear which is the primary address of the site.
 #
 # If you include `https://`, it will be included in the canonical urls.
 #canonical: example.org
 
-# Bolt can insert a <link rel="shortcut icon"> for all pages on the site. 
+# Bolt can insert a <link rel="shortcut icon"> for all pages on the site.
 
 # Note: The location given is relative to the currently selected theme. If
 #       you want to set the icon yourself, just don't enable the following line.
 #favicon: images/favicon-bolt.ico
 
 # The default content to use for the homepage, and the template to render it
-# with. 
+# with.
 #
 # Note: If you've changed the filename, and your changes do not show up on
 #       the website, be sure to check for a config.yml file in your theme's
@@ -89,10 +89,10 @@ homepage_template: index.twig
 notfound: page/not-found
 
 # The default template and amount of records to use for listing-pages on the
-# site. 
+# site.
 #
 # Can be overridden for each contenttype and for each record, if it has a
-# 'templateselect' field. 
+# 'templateselect' field.
 #
 # Note: If you've changed the filename, and your changes do not show up on the
 #       website, be sure to check for a config.yml file in your theme's folder.
@@ -138,11 +138,11 @@ add_jquery: false
 recordsperpage: 10
 
 # Settings for caching in parts of Bolt.
-# - config:        Caches the parsed .yml files from /app/config. It's updated 
-#                  immediately when one of the files changes on disk. There 
+# - config:        Caches the parsed .yml files from /app/config. It's updated
+#                  immediately when one of the files changes on disk. There
 #                  should be no good reason to turn this off.
 # - templates:     Caches rendered templates.
-# - request:       Caches entire rendered pages like '/page/about', but only on 
+# - request:       Caches entire rendered pages like '/page/about', but only on
 #                  GET requests.
 # - duration:      The duration (in minutes) for the 'templates' and 'request'
 #                  options. default is 10 minutes. Note that the duration is set
@@ -166,18 +166,18 @@ caching:
 changelog:
     enabled: false
 
-# Default settings for thumbnails. 
+# Default settings for thumbnails.
 #
-# Quality should be between 0 (horrible, small file) and 100 (best, huge file). 
+# Quality should be between 0 (horrible, small file) and 100 (best, huge file).
 #
 # cropping:           One of either crop, fit, borders, resize.
-# default_thumbnail:  The default size of images, when using 
+# default_thumbnail:  The default size of images, when using
 #                     {{ record.image|thumbnail() }}
 # default_image:      The default size of images, when using
 #                     {{ record.image|image() }}
 # allow_upscale:      Determines whether small images will be enlarged to fit
 #                     the requested dimensions.
-# browser_cache_time: Sets the amount of seconds that the browser will cache 
+# browser_cache_time: Sets the amount of seconds that the browser will cache
 #                     images for. Set it to activate browser caching.
 #
 # Note: If you change these values, you might need to clear the cache before
@@ -218,7 +218,7 @@ htmlcleaner:
 # the 'files' screen.
 accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
 
-# Alternatively, if you wish to limit these, uncomment the following list 
+# Alternatively, if you wish to limit these, uncomment the following list
 # instead. It includes file types that are harder to exploit.
 # accept_file_types: [ gif, jpg, jpeg, png, txt, md, pdf, epub, mp3, svg ]
 
@@ -226,11 +226,11 @@ accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, t
 # variables here, that determine the name of the backend, and adds a primary
 # support/contact link to the footer.
 #
-# Additionally you can change the mount 
-# point for the backend, either for convenience or to obscure it from prying 
+# Additionally you can change the mount
+# point for the backend, either for convenience or to obscure it from prying
 # eyes.
 #
-# The Bolt backend is accessible as /bolt/ by default, if you change it here, 
+# The Bolt backend is accessible as /bolt/ by default, if you change it here,
 # it will only be accessible through the value set in 'path'.
 #
 # Keep the path simple: lowercase only, no extra slashes or other special
@@ -276,24 +276,25 @@ strict_variables: false
 # enable them for your editors, please instruct them thoroughly on their
 # responsibility not to break the layout.
 wysiwyg:
-    images: false
-    anchor: false
-    tables: false
+    images: false            # Allow users to insert images in the content.
+    anchor: false            # Adds a button to create internal anchors to link to.
+    tables: false            # Adds a button to insert and modify tables in the content.
     fontcolor: false         # Allow users to mess around with font coloring.
-    align: false             # Add 'align left', 'align right',etc.
-    subsuper: false          # Add buttons for subscript and superscript, using <sub> and <sup>
-    embed: false             # allows the user to insert embedded video's from Youtube, Vimeo, etc.
-    underline: false         # add a button to underline text, using the <u>-tag.
-    strike: false            # add a button to add stikethrough, using the <s>-tag.
-    blockquote: false
-    codesnippet: false
-    specialchar: false       # adds a button to insert special chars like '€' or '™'.
+    align: false             # Adds buttons for 'align left', 'align right', etc.
+    subsuper: false          # Adds buttons for subscript and superscript, using `<sub>` and `<sup>`.
+    embed: false             # Allows the user to insert embedded video's from Youtube, Vimeo, etc.
+    underline: false         # Adds a button to underline text, using the `<u>`-tag.
+    ruler: false             # Adds a button to add a horizontal ruler, using the `<hr>`-tag.
+    strike: false            # Adds a button to add stikethrough, using the `<s>`-tag.
+    blockquote: false        # Allows the user to insert code snippets using `<pre><code>`-tags.
+    codesnippet: false       # Allows the user to insert blockquotes using the `<blockquote>`-tag.
+    specialchar: false       # Adds a button to insert special chars like '€' or '™'.
     ck:
         allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
-        autoParagraph: true  # If set to 'true', any pasted content is wrapped in <p> tags for multiple line-breaks
+        autoParagraph: true  # If set to 'true', any pasted content is wrapped in `<p>`-tags for multiple line-breaks
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
-        # viewSourceRoles: [ 'admin', 'developer' ] # the roles which are allowed to use the [Source]-button.
+        # viewSourceRoles: [ 'admin', 'developer' ] # The roles which are allowed to use the [Source]-button.
 
 # Global option to enable/disable the live editor
 liveeditor: true
@@ -353,7 +354,7 @@ cookies_lifetime: 1209600
 # to '.example.org'.
 cookies_domain:
 
-# If your system is using a custom session configuration (such as a Redis 
+# If your system is using a custom session configuration (such as a Redis
 # handler from a PHP extension) then we need to disable our session storage
 # handler. In that case, set this setting to false.
 # See: http://silex.sensiolabs.org/doc/providers/session.html#custom-session-configurations
@@ -361,7 +362,7 @@ cookies_domain:
 # Do not change this, unless you know what you're doing!
 session_use_storage_handler: true
 
-# The hash_strength determines the amount of iterations for encrypting 
+# The hash_strength determines the amount of iterations for encrypting
 # passwords.
 #
 # A higher number means a harder to decrypt password, but takes longer to
@@ -369,7 +370,7 @@ session_use_storage_handler: true
 hash_strength: 10
 
 # Bolt sets the `X-Frame-Options` and `Frame-Options` to `SAMEORIGIN` by
-# default, to prevent. 
+# default, to prevent.
 #
 # Setting this to 'false', will prevent the setting of these headers.
 # headers:
