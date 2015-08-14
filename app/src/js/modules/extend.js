@@ -512,10 +512,8 @@
             t.show();
             activeConsole = t;
 
-            $.get(
-                bolt.data('extend.baseurl') + 'generateTheme',
-                {'theme': theme, 'name': themename}
-            ).done(function (data) {
+            $.get(bolt.data('extend.baseurl') + 'generateTheme', {'theme': theme, 'name': themename})
+            .done(function (data) {
                 activeConsole.html(data);
                 delay(function () {
                     t.hide();
@@ -530,7 +528,7 @@
     };
 
     var packageReadme = function (e) {
-        $.get( $(e.target).data('readme') )
+        $.get($(e.target).data('readme') )
         .done(function(data) {
             bootbox.dialog({
                 message: data ? data : 'Readme is empty.'
@@ -545,7 +543,7 @@
     };
 
     var packageAvailable = function (e) {
-        $.get( bolt.data('extend.baseurl') + 'installInfo?package=' + $(e.target).data('available') )
+        $.get(bolt.data('extend.baseurl') + 'installInfo?package=' + $(e.target).data('available'))
         .done(function () {
             installInfo($(e.target).data('available'));
             e.preventDefault();
