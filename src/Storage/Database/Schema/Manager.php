@@ -103,9 +103,7 @@ class Manager
         $this->tables = [];
 
         foreach ($sm->listTables() as $table) {
-            if (strpos($table->getName(), $this->getTablenamePrefix()) === 0) {
-                $this->tables[$table->getName()] = $table;
-            }
+            $this->tables[$table->getName()] = $table;
         }
 
         return $this->tables;
@@ -307,7 +305,7 @@ class Manager
 
         // Some diff changes can be ignored… Because… DBAL.
         $alias = $this->getTableAlias($diff->fromTable->getName());
-        if ($ignored = $this->app['schema.tables'][$alias]->ignoredChanges()) {
+        if (isset($this->app['schema.tables'][$alias]) && $ignored = $this->app['schema.tables'][$alias]->ignoredChanges()) {
             $this->removeIgnoredChanges($this->app['schema.tables'][$alias], $diff, $ignored);
         }
 
@@ -350,11 +348,19 @@ class Manager
     {
         $schema = new Schema();
 
-        return array_merge(
-            $this->getBoltTablesSchema($schema),
-            $this->getContentTypeTablesSchema($schema),
-            $this->getExtensionTablesSchema($schema)
-        );
+        $tables = array_merge(
+             $this->getBoltTablesSchema($schema),
+             $this->getContentTypeTablesSchema($schema),
+             $this->getExtensionTablesSchema($schema)
+         );
+
+        foreach ($tables as $index => $table) {
+            if (strpos($table->getName(), $this->getTablenamePrefix()) === false) {
+                unset($tables[$index]);
+            }
+        }
+
+        return $tables;
     }
 
     /**
