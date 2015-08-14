@@ -1,5 +1,5 @@
 {% set package_empty %}
-    <div class="ext-list"><strong class="no-results">{{ __('No Bolt Extensions installed.') }}</strong></div>
+    <div class="ext-list"><strong class="no-results">{{ __('page.extend.messages.no-bolt-extensions-installed') }}</strong></div>
 {% endset %}
 
 {% set package_item %}
@@ -58,27 +58,27 @@
 
 {% set package_readme_button %}
     <a data-request="package-readme" data-readme="%README%" class='btn btn-sm btn-tertiary' href="#">
-        <i class='fa fa-quote-right fa-fw'></i> {{ __('Readme') }}</a>&nbsp;
+        <i class='fa fa-quote-right fa-fw'></i> {{ __('page.extend.button.readme') }}</a>&nbsp;
 {% endset %}
 
 {% set package_config_button %}
     <a href="%CONFIG%" class="btn btn-sm btn-tertiary">
-        <i class="fa fa-cog fa-fw"></i> {{ __('Config') }}</a>&nbsp;
+        <i class="fa fa-cog fa-fw"></i> {{ __('page.extend.button.config') }}</a>&nbsp;
 {% endset %}
 
 {% set package_theme_button %}
     <a data-request="package-copy" data-theme="%NAME%" class="btn btn-sm btn-tertiary" href="#">
-        <i class="fa fa-copy fa-fw"></i> {{ __('Copy to theme folder') }}</a>&nbsp;
+        <i class="fa fa-copy fa-fw"></i> {{ __('page.extend.button.copy-to-theme-folder') }}</a>&nbsp;
 {% endset %}
 
 {% set package_available_button %}
     <a data-request="package-available" data-available="%NAME%" data-toggle="modal" data-target="#installModal" class='btn btn-sm btn-primary' href="#">
-        <i class='fa fa-list fa-fw'></i> {{ __('Versions') }}</a>&nbsp;
+        <i class='fa fa-list fa-fw'></i> {{ __('page.extend.button.versions') }}</a>&nbsp;
 {% endset %}
 
 {% set package_uninstall_button %}
     <a data-request="uninstall-package" class="btn btn-sm btn-danger" href="%BASEURL%uninstall?package=%NAME%">
-        <i class="fa fa-trash-o fa-fw"></i> {{ __('Uninstall') }}</a>
+        <i class="fa fa-trash-o fa-fw"></i> {{ __('page.extend.button.uninstall') }}</a>
 {% endset %}
 
 {% set package_versions %}
@@ -88,7 +88,7 @@
         <td><span class="label label-default-%CLASS%">%BUILDSTATUS%</span></td>
         <td>
             <div class="btn-group"><a href="#" data-request="install-package" class="btn btn-primary btn-sm" data-package="%NAME%" data-version="%VERSION%">
-            <i class="icon-gears"></i> {{ __('Install This Version') }}</a></div>
+            <i class="icon-gears"></i> {{ __('page.extend.button.install-this-version') }}</a></div>
         </td>
     </tr>
 {% endset %}
@@ -97,7 +97,7 @@
     <tr data-package="%PACKAGE%">
         <td class="ext-list"><strong class="title">%PACKAGE%</strong></td>
         <td class="ext-list">%PRETTYVERSION%</td>
-        <td><a data-request="update-package" class="btn btn-sm btn-warning" data-package="%PACKAGE%" data-version="%VERSION%">{{ __('Install Package') }}</a></td>
+        <td><a data-request="update-package" class="btn btn-sm btn-warning" data-package="%PACKAGE%" data-version="%VERSION%">{{ __('page.extend.button.install-package') }}</a></td>
     </tr>
 {% endset %}
 
@@ -105,7 +105,7 @@
     <tr data-package="%PACKAGE%">
         <td class="ext-list"><strong class="title">%PACKAGE%</strong></td>
         <td class="ext-list">%PRETTYVERSION%</td>
-        <td><a data-request="update-package" class="btn btn-sm btn-tertiary" data-package="%PACKAGE%" data-version="%VERSION%">{{ __('Update Package') }}</a></td>
+        <td><a data-request="update-package" class="btn btn-sm btn-tertiary" data-package="%PACKAGE%" data-version="%VERSION%">{{ __('page.extend.button.update-package') }}</a></td>
     </tr>
 {% endset %}
 

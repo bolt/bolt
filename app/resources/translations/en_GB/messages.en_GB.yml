@@ -389,6 +389,15 @@ page.extend.messages.start-using-extension: "You can now start using the install
 page.extend.messages.before-theme-start: "Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here."
 page.extend.pagetitle: "Extend %BOLTNAME%"
 page.extend.button.info-help: "More info/help"
+page.extend.messages.no-bolt-extensions-installed: "No Bolt Extensions installed."
+page.extend.button.readme: "Readme"
+page.extend.button.config: "Config"
+page.extend.button.copy-to-theme-folder: "Copy to theme folder"
+page.extend.button.versions: "Versions"
+page.extend.button.uninstall: "Uninstall"
+page.extend.button.install-this-version: "Install This Version"
+page.extend.button.install-package: "Install Package"
+page.extend.button.update-package: "Update Package"
 
 #--- 132 keyword based translations -------------------------------------------
 
