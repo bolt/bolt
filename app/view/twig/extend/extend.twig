@@ -102,9 +102,9 @@
                 <h2>{{ __('page.extend.headline.install-new-extension') }}</h2>
                 <p>
                     {% if context.writeable and context.online %}
-                    {{ __('page.extend.messages.add-extension-with-form') }}
+                    {{ __('page.extend.message.add-extension-with-form') }}
                     {% endif %}
-                    {{ __('page.extend.messages.discover-by-visiting') }}
+                    {{ __('page.extend.message.discover-by-visiting') }}
                     <a href="{{ context.site }}" target="_blank">{{ context.site }}</a>
                 </p>
                 {% if context.writeable and context.online %}
@@ -132,7 +132,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-cog fa-fw"></i>Extensions Options</div>
                 <div class="panel-body">
-                        <p><strong>{{ __('page.extend.messages.check-for-updates') }}</strong></p>
+                        <p><strong>{{ __('page.extend.message.check-for-updates') }}</strong></p>
                         <div class="btn-group">
                             <a class="btn btn-tertiary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="update-check">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-check') }}
@@ -140,7 +140,7 @@
                         </div>
                         <p>{{ __('page.extend.button.message.shows-updates') }}</p>
                         <hr>
-                        <p><strong>{{ __('page.extend.messages.install-all-updates') }}</strong></p>
+                        <p><strong>{{ __('page.extend.message.install-all-updates') }}</strong></p>
                         <div class="btn-group">
                             <a class="btn btn-primary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="update-run">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-all') }}
