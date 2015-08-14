@@ -115,9 +115,7 @@ class IntegrityChecker
         $this->tables = array();
 
         foreach ($sm->listTables() as $table) {
-            if (strpos($table->getName(), $this->getTablenamePrefix()) === 0) {
-                $this->tables[$table->getName()] = $table;
-            }
+            $this->tables[$table->getName()] = $table;
         }
 
         return $this->tables;
@@ -353,11 +351,19 @@ class IntegrityChecker
     {
         $schema = new Schema();
 
-        return array_merge(
+        $tables = array_merge(
             $this->getBoltTablesSchema($schema),
             $this->getContentTypeTablesSchema($schema),
             $this->getExtensionTablesSchema($schema)
         );
+
+        foreach ($tables as $index => $table) {
+            if (strpos($table->getName(), $this->getTablenamePrefix()) === false) {
+                unset($tables[$index]);
+            }
+        }
+
+        return $tables;
     }
 
     /**
