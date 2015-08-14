@@ -279,14 +279,14 @@ strict_variables: false
 # responsibility not to break the layout.
 wysiwyg:
     images: false            # Allow users to insert images in the content.
-    anchor: false            # Adds a button to create internal anchors to link to. 
+    anchor: false            # Adds a button to create internal anchors to link to.
     tables: false            # Adds a button to insert and modify tables in the content.
     fontcolor: false         # Allow users to mess around with font coloring.
     align: false             # Adds buttons for 'align left', 'align right', etc.
     subsuper: false          # Adds buttons for subscript and superscript, using `<sub>` and `<sup>`.
     embed: false             # Allows the user to insert embedded video's from Youtube, Vimeo, etc.
     underline: false         # Adds a button to underline text, using the `<u>`-tag.
-    ruler: true              # Adds a button to add a horizontal ruler, using the `<hr>`-tag.
+    ruler: false             # Adds a button to add a horizontal ruler, using the `<hr>`-tag.
     strike: false            # Adds a button to add stikethrough, using the `<s>`-tag.
     blockquote: false        # Allows the user to insert code snippets using `<pre><code>`-tags.
     codesnippet: false       # Allows the user to insert blockquotes using the `<blockquote>`-tag.
