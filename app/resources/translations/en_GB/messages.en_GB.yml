@@ -495,6 +495,20 @@ generic:
         message: "JavaScript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable JavaScript in your browser."
 
 page:
+    extend:
+        message:
+            bad-json: "Malformed JSON response. Ensure no debugging or other code is being added to the response"
+            confirm-remove: "Please confirm that you want to remove this extension?"
+            copying: "Copying theme assets …"
+            install-all: "Running install of all packages …"
+            installing: "Preparing to install package …"
+            no-stable: "No Stable Versions Available"
+            no-test: "No Test Versions Available"
+            overwrite: "This will overwrite any existing files! Are you sure?"
+            removing: "Preparing to remove package …"
+            running-update: "Running update …"
+            updating: "Searching for available updates …"
+            updated: "Everything is up to date!"
     ckeditor-browse-server:
         files: "Files"
         folders: "Folders"
