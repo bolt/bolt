@@ -68,8 +68,8 @@ class SystemHandler extends AbstractProcessingHandler
                 array(
                     'file'     => $e->getFile(),
                     'line'     => $e->getLine(),
-                    'class'    => $trace['class'],
-                    'function' => $trace['function'],
+                    'class'    => isset($trace['class']) ? $trace['class'] : '',
+                    'function' => isset($trace['function']) ? $trace['function'] : '',
                     'message'  => $e->getMessage()
                 )
             );
