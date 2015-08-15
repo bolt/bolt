@@ -42,6 +42,9 @@ class NativeSearchHandler
             $adapter = new PostgresSearch($query, $config, explode(' ', $search));
             $adapter->setContentType($contenttype);
             $result = $repo->findWith($adapter->getQuery());
+            $set->add($result, $contenttype);
         }
+        
+        return $set;
     }
 }
