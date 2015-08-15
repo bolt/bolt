@@ -10,7 +10,7 @@
         </div>
 
         <div class="panel-body">
-            <div class="description">%DESCRIPTION%</div>
+            %DESCRIPTION%
             %KEYWORDS%
             %AUTHORS%
         </div>
@@ -21,6 +21,10 @@
             </div>
         </div>
     </div>
+{% endset %}
+
+{% set package_description %}
+    <div class="description">%DESCRIPTION%</div>
 {% endset %}
 
 {% set package_author %}
@@ -100,6 +104,7 @@
 
 {{ data('extend.packages.empty',            package_empty|trim) }}
 {{ data('extend.packages.item',             package_item|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.description',      package_description|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.versions',         package_versions|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.author',           package_author|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.authors',          package_authors|trim|preg_replace('/>\\s+</', '><')) }}

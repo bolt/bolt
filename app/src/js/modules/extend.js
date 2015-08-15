@@ -323,7 +323,7 @@
                     '%THEME%':       ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
                     '%BASEURL%':     bolt.data('extend.baseurl'),
                     '%UNINSTALL%':   uninstall,
-                    '%DESCRIPTION%': ext.descrip ? ext.descrip : '&lt;No description provided&gt;',
+                    '%DESCRIPTION%': !ext.descrip ? conf.description.subst({'%DESCRIPTION%': ext.descrip}) : '',
                     '%KEYWORDS%':    keywords});
             }
         }
