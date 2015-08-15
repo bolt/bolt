@@ -7,6 +7,7 @@ use Bolt\Storage\Query\Handler\FirstQueryHandler;
 use Bolt\Storage\Query\Handler\GetQueryHandler;
 use Bolt\Storage\Query\Handler\LatestQueryHandler;
 use Bolt\Storage\Query\Handler\LimitHandler;
+use Bolt\Storage\Query\Handler\NativeSearchHandler;
 use Bolt\Storage\Query\Handler\OrderHandler;
 use Bolt\Storage\Query\Handler\PrintQueryHandler;
 use Bolt\Storage\Query\Handler\RandomQueryHandler;
