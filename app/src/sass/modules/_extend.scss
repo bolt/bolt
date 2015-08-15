@@ -15,6 +15,16 @@
         }
     }
 
+    .installed-container {
+        .panel-footer {
+            @include clearfix;
+            background: #fff;
+            & > div {
+                float: right;
+            }
+        }
+    }
+
     .auto-search {
         position: absolute;
         top: 28px;
