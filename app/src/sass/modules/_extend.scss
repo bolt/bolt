@@ -17,16 +17,19 @@
 
     .installed-container {
         .panel-heading {
+            @include clearfix;
             padding-top: 5px;
-            padding-bottom: 0;
+            padding-bottom: 2px;
 
-            em {
+            & > em {
                 font-style: normal;
                 font-weight: bold;
                 font-size: 120%;
-                color: #666;
+                color: #555;
 
                 &:before {
+                    position: relative;
+                    top: -1px;
                     display: inline-block;
                     font-size: 140%;
                     font-family: Fontawesome;
@@ -43,6 +46,25 @@
 
                 &.bolt-theme:before  {
                     content: $fa-var-photo;
+                }
+            }
+
+            & > div {
+                float: right;
+
+                em {
+                    float: right;
+                    clear: both;
+                    font-size: 120%;
+                    font-style: normal;
+                    font-weight: bold;
+                    color: #555;
+                }
+
+                small {
+                    float: right;
+                    clear: both;
+                    color: #999;
                 }
             }
         }
