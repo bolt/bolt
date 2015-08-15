@@ -276,17 +276,14 @@
             if (data.hasOwnProperty(e)) {
                 var ext = data[e],
                 conf = bolt.data('extend.packages'),
-                authors = '',
+                authors = [],
                 keywords = '',
                 i = 0;
 
                 // Authors array.
                 if (ext.authors && ext.authors.length > 0) {
-                    var authorsArray = ext.authors;
-                    for (i = 0; i < authorsArray.length; i++) {
-                        authors += conf.author.subst({
-                            '%AUTHOR%': authorsArray[i].name
-                        });
+                    for (i = 0; i < ext.authors.length; i++) {
+                        authors.push(conf.author.subst({'%AUTHOR%': ext.authors[i].name}));
                     }
                 }
 
@@ -319,7 +316,7 @@
                     '%TITLE%':       ext.title ? ext.title : ext.name,
                     '%NAME%':        ext.name,
                     '%VERSION%':     ext.version,
-                    '%AUTHORS%':     authors,
+                    '%AUTHORS%':     authors.length ? authors.join(' ') : '–',
                     '%TYPE%':        ext.type,
                     '%AVAILABLE%':   available,
                     '%README%':      ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',

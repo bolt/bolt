@@ -46,6 +46,32 @@
             }
         }
 
+        .panel-body {
+            .tags, .author {
+                margin-top: 5px;
+                text-indent: -1em;
+                padding-left: 1.4em;
+            }
+
+            .tags:before {
+                display: inline-block;
+                font-family: Fontawesome;
+                vertical-align: middle;
+                width: 1em;
+                text-align: center;
+                content: $fa-var-tag;
+            }
+
+            .author:before {
+                display: inline-block;
+                font-family: Fontawesome;
+                vertical-align: middle;
+                width: 1em;
+                text-align: center;
+                content: $fa-var-user;
+            }
+        }
+
         .panel-footer {
             @include clearfix;
             background: #fff;
