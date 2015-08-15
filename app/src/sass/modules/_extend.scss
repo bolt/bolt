@@ -18,7 +18,7 @@
     .installed-container {
         .panel-heading {
             padding-top: 5px;
-            padding-bottom: 5px;
+            padding-bottom: 0;
 
             em {
                 font-style: normal;
@@ -27,8 +27,6 @@
                 color: #666;
 
                 &:before {
-                    position: relative;
-                    top: -2px;
                     display: inline-block;
                     font-size: 140%;
                     font-family: Fontawesome;
@@ -53,7 +51,7 @@
             & > div {
                 margin-top: 5px;
                 text-indent: -1em;
-                padding-left: 1.4em;
+                padding-left: 1.5em;
 
                 &:first-child {
                     margin-top: 0;
