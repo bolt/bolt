@@ -12,8 +12,8 @@
 
         <div class="panel-body">
             <div class="description">%DESCRIPTION%</div>
-            <div class="tags">%KEYWORDS%</div>
-            <div class="author">%AUTHORS%</div>
+            %KEYWORDS%
+            %AUTHORS%
         </div>
 
         <div class="panel-footer">
@@ -28,8 +28,16 @@
     <span class="label label-primary">%AUTHOR%</span>
 {% endset %}
 
+{% set package_authors %}
+    <div class="author">%AUTHORS%</div>
+{% endset %}
+
 {% set package_keyword %}
     <span class="tag label label-info">%KEYWORD%</span>&nbsp;
+{% endset %}
+
+{% set package_keywords %}
+    <div class="tags">%KEYWORDS%</div>
 {% endset %}
 
 {% set package_readme_button %}
@@ -95,7 +103,9 @@
 {{ data('extend.packages.item',             package_item|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.versions',         package_versions|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.author',           package_author|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.authors',          package_authors|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.keyword',          package_keyword|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.keywords',         package_keywords|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.readme_button',    package_readme_button|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.config_button',    package_config_button|trim|preg_replace('/>\\s+</', '><')) }}
 {{ data('extend.packages.theme_button',     package_theme_button|trim|preg_replace('/>\\s+</', '><')) }}

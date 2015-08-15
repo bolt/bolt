@@ -277,25 +277,24 @@
                 var ext = data[e],
                 conf = bolt.data('extend.packages'),
                 authors = [],
-                keywords = '',
+                keywords = [],
                 i = 0;
 
-                // Authors array.
+                // Authorsv.
                 if (ext.authors && ext.authors.length > 0) {
                     for (i = 0; i < ext.authors.length; i++) {
                         authors.push(conf.author.subst({'%AUTHOR%': ext.authors[i].name}));
                     }
                 }
+                authors = authors.length ? conf.authors.subst({'%AUTHORS%': authors.join(' ')}) : '';
 
-                // Keyword array.
+                // Keywords list.
                 if (ext.keywords && ext.keywords.length > 0) {
-                    var keywordsArray = ext.keywords;
-                    for (i = 0; i < keywordsArray.length; i++) {
-                        keywords += conf.keyword.subst({
-                            '%KEYWORD%': keywordsArray[i]
-                        });
+                    for (i = 0; i < ext.keywords.length; i++) {
+                        keywords.push(conf.keyword.subst({'%KEYWORD%': ext.keywords[i]}));
                     }
                 }
+                keywords = keywords.length ? conf.keywords.subst({'%KEYWORDS%': keywords.join(' ')}) : '';
 
                 // Available versions & uninstall buttons.
                 var available = '',
@@ -316,7 +315,7 @@
                     '%TITLE%':       ext.title ? ext.title : ext.name,
                     '%NAME%':        ext.name,
                     '%VERSION%':     ext.version,
-                    '%AUTHORS%':     authors.length ? authors.join(' ') : '–',
+                    '%AUTHORS%':     authors,
                     '%TYPE%':        ext.type,
                     '%AVAILABLE%':   available,
                     '%README%':      ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
