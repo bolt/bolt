@@ -16,6 +16,7 @@ class SearchConfig
     
     protected $config = [];
     protected $searchableTypes = [];
+    protected $joins = [];
     
     
     public function __construct(Config $config)
@@ -94,9 +95,21 @@ class SearchConfig
                 $weight = 50;
             }
             $this->searchableTypes[$contenttype][$taxonomy] = ['weight'=>$weight];
-           
+            $this->joins[$contenttype][] = $taxonomy;
         }
         
+    }
+    
+    /**
+     * Helper method to return the join search columns for a contenttype
+     * weighting based on type.
+     *
+     * @param  string $contenttype
+     * @return array
+     */
+    public function getJoins($contenttype)
+    {
+        return $this->joins[$contenttype];
     }
     
     /**
