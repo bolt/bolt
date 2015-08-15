@@ -1,10 +1,11 @@
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    </button>
     <h4 class="modal-title">{{ __('page.extend.headline.installing-package') }}</h4>
 </div>
 
 <div class="modal-body">
-
     <div class="row">
         <div class="col-md-12">
 
@@ -32,7 +33,9 @@
                             </tr>
                         </thead>
                         <tbody class="installed-version-item">
-                        <tr><td colspan="4"><strong>{{ __('page.extend.message.no-stable-versions-available') }}</strong></td></tr>
+                            <tr>
+                                <td colspan="4"><strong>{{ __('page.extend.message.no-stable-versions-available') }}</strong></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -50,7 +53,9 @@
                             </tr>
                         </thead>
                         <tbody class="installed-version-item">
-                            <tr><td colspan="4"><strong>{{ __('page.extend.message.no-test-versions-available') }}</strong></td></tr>
+                            <tr>
+                                <td colspan="4"><strong>{{ __('page.extend.message.no-test-versions-available') }}</strong></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -60,10 +65,7 @@
             <div class="theme-postinstall">
                 <div class="theme-generation-container hide-block">
                     <h3>{{ __('page.extend.headline.theme-installation-complete') }}</h3>
-                    <p>
-                        {{ __('page.extend.message.before-theme-start' }}
-                    </p>
-
+                    <p>{{ __('page.extend.message.before-theme-start' }}</p>
                     <fieldset>
                         <input type="text" id="theme-name" placeholder="Optionally change theme name">
                         <a href="#" class="theme-generator btn btn-primary" data-request="generate-theme" data-theme="">Generate Theme</a>
@@ -75,18 +77,14 @@
             <div class="extension-postinstall hide-block">
                 <div class="modal-success hide-block">
                     <h3>{{ __('page.extend.headline.installation-complete') }}</h3>
-                    <p>
-                        {{ __('page.extend.message.start-using-extension') }}
-                    </p>
+                    <p>{{ __('page.extend.message.start-using-extension') }}</p>
                 </div>
 
                 <div class="modal-failed hide-block"></div>
             </div>
 
         </div>
-
     </div>
-
 </div>
 
 <div class="modal-footer postinstall-footer hide-block">
