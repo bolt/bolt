@@ -16,6 +16,36 @@
     }
 
     .installed-container {
+        .panel-heading {
+            em {
+                font-style: normal;
+                font-weight: bold;
+                font-size: 120%;
+                color: #666;
+
+                &:before {
+                    position: relative;
+                    top: -2px;
+                    display: inline-block;
+                    font-size: 140%;
+                    font-family: Fontawesome;
+                    vertical-align: middle;
+                    width: (18em / 14);
+                    margin-right: 0.3em;
+                    text-align: center;
+                    content: $fa-var-question-circle;
+                }
+
+                &.bolt-extension:before  {
+                    content: $fa-var-cube;
+                }
+
+                &.bolt-theme:before  {
+                    content: $fa-var-photo;
+                }
+            }
+        }
+
         .panel-footer {
             @include clearfix;
             background: #fff;
