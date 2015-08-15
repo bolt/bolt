@@ -47,27 +47,33 @@
         }
 
         .panel-body {
-            .tags, .author {
+            & > div {
                 margin-top: 5px;
                 text-indent: -1em;
                 padding-left: 1.4em;
+
+                &:first-child {
+                    margin-top: 0;
+                }
+
+                &:before {
+                    display: inline-block;
+                    font-family: Fontawesome;
+                    vertical-align: middle;
+                    width: 1em;
+                    text-align: center;
+                }
+            }
+
+            .description:before {
+                content: $fa-var-info-circle;
             }
 
             .tags:before {
-                display: inline-block;
-                font-family: Fontawesome;
-                vertical-align: middle;
-                width: 1em;
-                text-align: center;
                 content: $fa-var-tag;
             }
 
             .author:before {
-                display: inline-block;
-                font-family: Fontawesome;
-                vertical-align: middle;
-                width: 1em;
-                text-align: center;
                 content: $fa-var-user;
             }
         }
