@@ -12,22 +12,8 @@
         <div class="panel-body">
             {# Action buttons #}
             <div class="actions pull-right">
-                {# Available #}
                 %AVAILABLE%
-
-                <div class="btn-group">
-
-                    {# Readme #}
-                    %README%
-
-                    {# Config #}
-                    %CONFIG%
-
-                    {# Theme #}
-                    %THEME%
-
-                </div>
-
+                <div class="btn-group">%README% %CONFIG% %THEME%</div>
                 %UNINSTALL%
             </div>
 
@@ -115,18 +101,16 @@
     <p>%ERROR_LOCATION%</p>
 {% endset %}
 
-{{ data('extend.packages', {'empty':            package_empty|trim,
-                            'item':             package_item|trim|preg_replace('/>\\s+</', '><'),
-                            'versions':         package_versions|trim|preg_replace('/>\\s+</', '><'),
-                            'author' :          package_author|trim|preg_replace('/>\\s+</', '><'),
-                            'keyword' :         package_keyword|trim|preg_replace('/>\\s+</', '><'),
-                            'readme_button':    package_readme_button|trim|preg_replace('/>\\s+</', '><'),
-                            'config_button':    package_config_button|trim|preg_replace('/>\\s+</', '><'),
-                            'theme_button':     package_theme_button|trim|preg_replace('/>\\s+</', '><'),
-                            'avail_button':     package_available_button|trim|preg_replace('/>\\s+</', '><'),
-                            'install_new':      package_install_new|trim|preg_replace('/>\\s+</', '><'),
-                            'install_update':   package_install_update|trim|preg_replace('/>\\s+</', '><'),
-                            'uninstall_button': package_uninstall_button|trim|preg_replace('/>\\s+</', '><'),
-                            'error':            package_error|trim|preg_replace('/>\\s+</', '><')
-                          })
-}}
+{{ data('extend.packages.empty',            package_empty|trim) }}
+{{ data('extend.packages.item',             package_item|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.versions',         package_versions|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.author',           package_author|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.keyword',          package_keyword|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.readme_button',    package_readme_button|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.config_button',    package_config_button|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.theme_button',     package_theme_button|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.avail_button',     package_available_button|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.install_new',      package_install_new|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.install_update',   package_install_update|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.uninstall_button', package_uninstall_button|trim|preg_replace('/>\\s+</', '><')) }}
+{{ data('extend.packages.error',            package_error|trim|preg_replace('/>\\s+</', '><')) }}
