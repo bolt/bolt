@@ -222,7 +222,6 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setParameters(['filter' => 'lorem ipsum']);
         $res = $qb->fetch();
         $this->assertEquals(4, $res->count());
-
     }
     
     public function testNativeSearchHandlerFallback()
@@ -236,8 +235,5 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setParameters(['filter' => 'lorem ipsum']);
         $res = $qb->fetch();
         $this->assertEquals(4, $res->count());
-
     }
-        
-
 }

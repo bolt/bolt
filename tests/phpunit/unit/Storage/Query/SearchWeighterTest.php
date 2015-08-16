@@ -2,8 +2,6 @@
 
 namespace Bolt\Tests\Storage\Query;
 
-use Bolt\Storage\Query\QueryResultset;
-use Bolt\Storage\Query\SearchWeighter;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -28,7 +26,6 @@ class SearchWeighterTest extends BoltUnitTest
         $scores = $weighter->weight();
         $this->assertTrue(is_array($scores));
         $this->assertEquals(count($results), count($scores));
-        
     }
     
     public function testScoring()
@@ -36,9 +33,9 @@ class SearchWeighterTest extends BoltUnitTest
         $app = $this->getApp();
         $results = $app['query']->getContent('pages/first/3');
         $results = iterator_to_array($results);
-        $results[2]->setTitle("Lorem Ipsum title to improve lorem ipsum result");  
-        $results[1]->setTitle("Lorem Ipsum");  
-        $results[1]->setBody("Lorem Ipsum");  
+        $results[2]->setTitle("Lorem Ipsum title to improve lorem ipsum result");
+        $results[1]->setTitle("Lorem Ipsum");
+        $results[1]->setBody("Lorem Ipsum");
         
         $weighter = $app['query.search_weighter'];
         $weighter->setResults($results);
@@ -46,7 +43,7 @@ class SearchWeighterTest extends BoltUnitTest
         $weighter->setContentType('pages');
         $scores = $weighter->weight();
 
-        $this->assertGreaterThan($scores[0], $scores[2], 'message');        
-        $this->assertGreaterThan($scores[2], $scores[1], 'message');        
+        $this->assertGreaterThan($scores[0], $scores[2], 'message');
+        $this->assertGreaterThan($scores[2], $scores[1], 'message');
     }
 }

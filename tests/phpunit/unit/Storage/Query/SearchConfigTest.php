@@ -67,6 +67,4 @@ class SearchConfigTest extends BoltUnitTest
         $fieldConfig = $search->getFieldConfig('entries', 'tags');
         $this->assertEquals(75, $fieldConfig['weight']);
     }
-
-
 }

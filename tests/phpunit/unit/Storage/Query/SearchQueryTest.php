@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Storage\Query;
 
-use Bolt\Storage\Query\SelectQuery;
 use Bolt\Tests\BoltUnitTest;
 
 /**
@@ -34,7 +33,7 @@ class SearchQueryTest extends BoltUnitTest
         $this->assertArrayHasKey('chapters_1', $params);
         $this->assertArrayHasKey('chapters_2', $params);
         $this->assertEquals('%lorem%', $params['title_1']);
-        $this->assertEquals('%ipsum%', $params['title_2']);        
+        $this->assertEquals('%ipsum%', $params['title_2']);
     }
     
     public function testAndParameterQuery()
