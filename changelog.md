@@ -5,6 +5,40 @@ Not yet released.
 
  - Lots (list needs to be compiled)
 
+Bolt 2.2.next
+-------------
+
+Not yet released. Notable changes:
+
+- Added: Add a button for `<hr>` / horizontal ruler in CKeditor for (see #3539)
+- Fixed: Don't allow extension tables that do not use the configured prefix (see #3968)
+- Fixed: Don't attempt to log array elements that aren't set. (see #3969)
+- Chaned: Provide UI feedback on extension site timeouts. (see #3972)
+- Updated: CKeditor updated to version 4.5.2
+- Updated: Symfony updated to 2.6.11
+- Updated: Silex updated to 1.3.1
+- Updated: Font Awesome to 4.4
+- Fixed: Fix path to Nut for Composer installs (See #3959)
+- Tests: Allow getStatementMock() to be passed a desired return value (See #3957)
+- Fixed: Move initMailCheck() call to a before() handler (See #3953)
+- Fixed: Allow edit permission to be assigned to the owner role. Fixes "Unable to edit entry with
+  owner permission". (See #3938)
+- Updated: Database integrity checker. Add foreign key checks to IntegrityChecker (See #3872)
+
+Bolt 2.2.8
+----------
+
+Released 2015-07-31. Notable changes:
+
+- Fixed: Ensure grouped taxonomies aren't wiped from listing pages when toggling the publication status. (see #3910)
+- Fixed: Timed entries will no longer switch to 'unpublished' after update to 2.2.7 (see #3899)
+- Fixed: "Notice: Array to string conversion in /..../src/Storage.php on line 1071" (See #3893)
+- Fixed: Avoid a missing array key from displaying a warning (Thanks Fabschurt)
+- Updated: `squizlabs/php_codesniffer` requirement to `~2.0` due to upstream changes.
+- Fixed: Send storage event in publishTimedRecords (see #3879)
+- Fixed: Memory leak / loop in "new content" (see #3883)
+
+
 Bolt 2.2.5
 ----------
 
