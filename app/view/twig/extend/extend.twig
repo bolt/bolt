@@ -4,7 +4,7 @@
 
 {% block page_nav 'ExtendBolt' %}
 
-{% block page_title __('Extend %boltname%', {'%boltname%': app.config.get('general/branding/name')}) %}
+{% block page_title __('page.extend.pagetitle', {'%BOLTNAME%': app.config.get('general/branding/name')}) %}
 
 {# clear default messages, because we use them in a different spot, in this template #}
 {% block messages "" %}
@@ -29,10 +29,7 @@
         <div class="col-md-9">
 
             {% if not context.writeable %}
-            {% set msg = __('The extensions directory (<code>%dir%</code>) does not exist, or it is not writable. ' ~
-                   'This means that you cannot manage Bolt extensions through the backend; consider ' ~
-                   'managing extensions manually, or changing file permissions to allow Bolt ' ~
-                   'write access to (<code>%dir%</code>).', {'%dir%': context.extensionsPath}) %}
+            {% set msg = __('page.extend.message.ext-dir-missing', {'%DIRECTORY%': context.extensionsPath}) %}
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                     {{ msg|ymllink }}
@@ -40,9 +37,7 @@
             {% endif %}
 
             {% if not context.enabled %}
-            {% set msg = __('Extensions loading has been disabled by an administrator in the %config% file. ' ~
-                   'You may install, update and uninstall extensions but they will not load until this setting ' ~
-                   'has been changed.', {'%config%': 'config.yml'|ymllink }) %}
+            {% set msg = __('page.extend.message.loading-disabled', {'%CONFIG%': 'config.yml'|ymllink }) %}
             <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                     {{ msg|ymllink }}
@@ -52,19 +47,19 @@
             {% include '_sub/_messages.twig' %}
 
             <div class="update-container hide-block">
-                <h3>{{ __('Updates') }}</h3>
+                <h3>{{ __('page.extend.headline.updates') }}</h3>
                 {% if context.writeable %}
-                <pre class="update-output console">{{ __('Checking for available updates (this may take up to 60 seconds)') }}..</pre>
+                <pre class="update-output console">{{ __('page.extend.message.checkung-for-updates') }}..</pre>
                 {% else %}
-                <pre class="update-output">{{ __('Cannot check for updates in read-only mode') }}</pre>
+                <pre class="update-output">{{ __('page.extend.message.no-update-check-in-readmode') }}</pre>
                 {% endif %}
                 <div class="update-list hide-block">
                     <table class="dashboardlisting table">
                         <thead>
                             <tr>
-                                <th>{{ __('Extension') }}</th>
-                                <th>{{ __('Version') }}</th>
-                                <th>{{ __('Actions') }}</th>
+                                <th>{{ __('page.extend.listheader.extension') }}</th>
+                                <th>{{ __('page.extend.listheader.version') }}</th>
+                                <th>{{ __('page.extend.listheader.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody class="update-list-items">
@@ -74,11 +69,11 @@
                 </div>
             </div>
             <section class="installed-container">
-                <h2>{{ __('Your Currently Installed Extensions') }}</h2>
+                <h2>{{ __('page.extend.headline.currently-installed') }}</h2>
                 {% if context.writeable %}
-                <pre class="installed console" data-request="installed">{{ __('Checking installed packages') }}..</pre>
+                <pre class="installed console" data-request="installed">{{ __('page.extend.message.checking-installed-packages') }}..</pre>
                 {% else %}
-                <pre class="installed">{{ __('Cannot check installed packages in read-only mode') }}</pre>
+                <pre class="installed">{{ __('page.extend.message.no-package-check-in-readmode') }}</pre>
                 {% endif %}
                 <div class="installed-list hide-block">
                     <div class="installed-list-items">
@@ -104,12 +99,12 @@
 
             <hr />
             <section>
-                <h2>{{ __('Install a new Extension') }}</h2>
+                <h2>{{ __('page.extend.headline.install-new-extension') }}</h2>
                 <p>
                     {% if context.writeable and context.online %}
-                    {{ __('Add a new extension using the form below.') }}
+                    {{ __('page.extend.message.add-extension-with-form') }}
                     {% endif %}
-                    {{ __('You can discover new extensions by visiting') }}
+                    {{ __('page.extend.message.discover-by-visiting') }}
                     <a href="{{ context.site }}" target="_blank">{{ context.site }}</a>
                 </p>
                 {% if context.writeable and context.online %}
@@ -117,7 +112,7 @@
                         <div class="auto-search hide-block"></div>
                         <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
                         <a class="btn btn-tertiary check-package" data-request="check-package" data-toggle="modal" data-target="#installModal">
-                            <i class="icon-gears"></i> {{ __('Browse Versions') }}
+                            <i class="icon-gears"></i> {{ __('page.extend.button.browse-versions') }}
                         </a>
 
                         <div class="modal fade" id="installModal" tabindex="-1" role="dialog">
@@ -137,58 +132,49 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-cog fa-fw"></i>Extensions Options</div>
                 <div class="panel-body">
-                        <p><strong>{{ __('Check for updates') }}</strong></p>
+                        <p><strong>{{ __('page.extend.message.check-for-updates') }}</strong></p>
                         <div class="btn-group">
                             <a class="btn btn-tertiary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="update-check">
-                                <i class="fa fa-refresh fa-fw"></i> {{ __('Run update check') }}
+                                <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-check') }}
                             </a>
                         </div>
-                        <p>{{ __("This won't install anything, just show you available updates") }}</p>
+                        <p>{{ __('page.extend.message.shows-updates') }}</p>
                         <hr>
-                        <p><strong>{{ __('Install all updates') }}</strong></p>
+                        <p><strong>{{ __('page.extend.message.install-all-updates') }}</strong></p>
                         <div class="btn-group">
                             <a class="btn btn-primary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="update-run">
-                                <i class="fa fa-refresh fa-fw"></i> {{ __('Run all Updates') }}
+                                <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-all') }}
                             </a>
                         </div>
-                        <p>{{ __("This will install all available updates.") }}</p>
+                        <p>{{ __('page.extend.message.installs-updates') }}</p>
                         <hr>
                         <div class="btn-group">
                             <a class="btn btn-primary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="install-run">
-                                <i class="fa fa-download fa-fw"></i> {{ __('Install all Packages') }}
+                                <i class="fa fa-download fa-fw"></i> {{ __('page.extend.button.install-all') }}
                             </a>
                         </div>
-                        <p>{{ __("This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension.") }}</p>
+                        <p>{{ __('page.extend.message.installs-all-listed-packages') }}</p>
                 </div>
             </div>
         </aside>
 
     </div>
 
-    <script>
-        var site = '{{ context.site }}';
-        var baseurl = '{{ paths.bolt }}extend/';
-        var rootpath = '{{ paths.rootpath }}';
+    {{ data('extend.text.bad-json',       __('page.extend.message.bad-json')) }}
+    {{ data('extend.text.confirm-remove', __('page.extend.message.confirm-remove')) }}
+    {{ data('extend.text.copying',        __('page.extend.message.copying')) }}
+    {{ data('extend.text.install-all',    __('page.extend.message.install-all')) }}
+    {{ data('extend.text.installing',     __('page.extend.message.installing')) }}
+    {{ data('extend.text.no-stable',      __('page.extend.message.no-stable-versions-available')) }}
+    {{ data('extend.text.no-test',        __('page.extend.message.no-test-versions-available')) }}
+    {{ data('extend.text.overwrite',      __('page.extend.message.overwrite')) }}
+    {{ data('extend.text.removing',       __('page.extend.message.removing')) }}
+    {{ data('extend.text.running-update', __('page.extend.message.running-update')) }}
+    {{ data('extend.text.updating',       __('page.extend.message.updating')) }}
+    {{ data('extend.text.updated',        __('page.extend.message.updated')) }}
 
-        jQuery(document).ready(function($) {
-            var boltExt = new BoltExtender();
-            boltExt.setMessage('badJson', '{{ __('Malformed JSON response. Ensure no debugging or other code is being added to the response') }}' );
-            boltExt.setMessage('confirmRemove', '{{ __('Please confirm that you want to remove this extension?') }}');
-            boltExt.setMessage('copying', '{{ __('Copying theme assets …') }}');
-            boltExt.setMessage('extError', '{{ __('Bolt Extension could not be found. Please check at %site% to ensure correct name.')|replace({'%site%': context.site}) }}' );
-            boltExt.setMessage('installAll', '{{ __('Running install of all packages …') }}');
-            boltExt.setMessage('installing', '{{ __('Preparing to install package …') }}');
-            boltExt.setMessage('noStable', '{{ __('No Stable Versions Available') }}');
-            boltExt.setMessage('noTest', '{{ __('No Test Versions Available') }}');
-            boltExt.setMessage('nothtingInstalled', '{{ __('No Bolt Extensions installed.') }}');
-            boltExt.setMessage('overwrite', '{{ __('This will overwrite any existing files! Are you sure?') }}');
-            boltExt.setMessage('removing', '{{ __('Preparing to remove package …') }}');
-            boltExt.setMessage('runningUpdate', '{{ __('Running update …') }}');
-            boltExt.setMessage('updating', '{{ __('Searching for available updates …') }}');
-            boltExt.setMessage('updated', '{{ __('Everything is up to date!') }}');
-            boltExt.setPath('extensionsconfigpath', '{{ paths.extensionsconfigpath }}');
-            boltExt.setPath('extensionspath', '{{ paths.extensionspath }}');
-        });
-    </script>
+    {{ data('extend.siteurl',             context.site) }}
+    {{ data('extend.baseurl',             paths.bolt ~ 'extend/') }}
+    {{ data('extend.rootpath',            paths.rootpath) }}
 
 {% endblock page_main %}

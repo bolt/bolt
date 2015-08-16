@@ -15,6 +15,100 @@
         }
     }
 
+    .installed-container {
+        .panel-heading {
+            @include clearfix;
+            padding: 5px 15px 4px 10px;
+
+            & > em {
+                display: inline-block;
+                margin-top: 3px;
+                font-style: normal;
+                font-size: 140%;
+
+                &:before {
+                    position: relative;
+                    top: -2px;
+                    display: inline-block;
+                    font-size: 120%;
+                    font-family: Fontawesome;
+                    vertical-align: middle;
+                    width: (18em / 14);
+                    margin-right: 0.3em;
+                    text-align: center;
+                    content: $fa-var-question-circle;
+                }
+
+                &.bolt-extension:before  {
+                    content: $fa-var-cube;
+                }
+
+                &.bolt-theme:before  {
+                    content: $fa-var-photo;
+                }
+            }
+
+            & > div {
+                float: right;
+
+                em {
+                    float: right;
+                    clear: both;
+                    font-size: 120%;
+                    font-style: normal;
+                    font-weight: bold;
+                    color: #555;
+                }
+
+                small {
+                    float: right;
+                    clear: both;
+                    color: #999;
+                }
+            }
+        }
+
+        .panel-body {
+            & > div {
+                margin-top: 5px;
+                text-indent: -1em;
+                padding-left: 1.5em;
+
+                &:first-child {
+                    margin-top: 0;
+                }
+
+                &:before {
+                    display: inline-block;
+                    font-family: Fontawesome;
+                    vertical-align: middle;
+                    width: 1em;
+                    text-align: center;
+                }
+            }
+
+            .description:before {
+                content: $fa-var-info-circle;
+            }
+
+            .tags:before {
+                content: $fa-var-tag;
+            }
+
+            .author:before {
+                content: $fa-var-user;
+            }
+        }
+
+        .panel-footer {
+            @include clearfix;
+            background: #fff;
+            & > div {
+                float: right;
+            }
+        }
+    }
+
     .auto-search {
         position: absolute;
         top: 28px;
