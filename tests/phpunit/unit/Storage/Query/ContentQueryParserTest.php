@@ -225,5 +225,19 @@ class ContentQueryParserTest extends BoltUnitTest
 
     }
     
+    public function testNativeSearchHandlerFallback()
+    {
+        $app = $this->getApp();
+
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->addService('search', $app['query.search']);
+        $qb->addService('search_weighter', $app['query.search_weighter']);
+        $qb->setQuery('pages/nativesearch/4');
+        $qb->setParameters(['filter' => 'lorem ipsum']);
+        $res = $qb->fetch();
+        $this->assertEquals(4, $res->count());
+
+    }
+        
 
 }
