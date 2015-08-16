@@ -177,7 +177,6 @@ class CheckResponse
         $this->getRemovedIndexes($tableName, $diff);
         $this->getRemovedForeignKeys($tableName, $diff);
 
-
         if ($this->hinting && count($diff->removedColumns) > 0) {
             $hint = sprintf(
                 'The following fields in the `%s` table are not defined in your configuration. You can safely delete them manually if they are no longer needed: ',

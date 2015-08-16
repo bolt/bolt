@@ -5,15 +5,14 @@ namespace Bolt\Storage\Query;
 use Bolt\Config;
 
 /**
-* This class takes an overall config array as input and parses into values
-* applicable for performing searches.
-*
-* This takes into account contenttypes that aren't searchable along with
-* taxonomy and field weightings.
-*/
+ * This class takes an overall config array as input and parses into values
+ * applicable for performing searches.
+ *
+ * This takes into account contenttypes that aren't searchable along with
+ * taxonomy and field weightings.
+ */
 class SearchConfig
 {
-    
     protected $config = [];
     protected $searchableTypes = [];
     protected $joins = [];
@@ -27,7 +26,9 @@ class SearchConfig
     
     /**
      * Get the config of all fields for a given content type.
-     * @param  string $contenttype
+     *
+     * @param string $contenttype
+     *
      * @return array|false
      */
     public function getConfig($contenttype)
@@ -41,8 +42,10 @@ class SearchConfig
     
     /**
      * Get the config of one given field for a given content type.
-     * @param  string $contenttype
-     * @param  string $field
+     *
+     * @param string $contenttype
+     * @param string $field
+     *
      * @return array|false
      */
     public function getFieldConfig($contenttype, $field)
@@ -79,8 +82,9 @@ class SearchConfig
      * Iterates the taxonomies for a given contenttype, then assigns a
      * weighting based on type.
      *
-     * @param  string $contenttype
-     * @param  array $taxonomies
+     * @param string $contenttype
+     * @param array  $taxonomies
+     *
      * @return void
      */
     protected function parseTaxonomies($contenttype, $taxonomies)
@@ -94,17 +98,17 @@ class SearchConfig
             } else {
                 $weight = 50;
             }
-            $this->searchableTypes[$contenttype][$taxonomy] = ['weight'=>$weight];
+            $this->searchableTypes[$contenttype][$taxonomy] = ['weight' => $weight];
             $this->joins[$contenttype][] = $taxonomy;
         }
-        
     }
     
     /**
      * Helper method to return the join search columns for a contenttype
      * weighting based on type.
      *
-     * @param  string $contenttype
+     * @param string $contenttype
+     *
      * @return array
      */
     public function getJoins($contenttype)
@@ -115,7 +119,8 @@ class SearchConfig
     /**
      * Determine what columns are searchable for a given contenttype.
      *
-     * @param  string $type
+     * @param string $type
+     *
      * @return void
      */
     protected function getSearchableColumns($type)
@@ -123,16 +128,16 @@ class SearchConfig
         $fields = $this->config->get('contenttypes/'.$type.'/fields');
         
         foreach ($fields as $field => $options) {
-            if (in_array($options['type'], ['text','textarea','html','markdown']) || $options['searchable'] == true) {
+            if (in_array($options['type'], ['text', 'textarea', 'html', 'markdown']) || $options['searchable'] == true) {
                 if (isset($options['searchweight'])) {
                     $weight = (int)$options['searchweight'];
                 } elseif (isset($fields['slug']['uses']) && in_array($field, (array)$fields['slug']['uses'])) {
-                        $weight = 100;
+                    $weight = 100;
                 } else {
                     $weight = 50;
                 }
                 
-                        $this->searchableTypes[$type][$field] = ['weight'=>$weight];
+                $this->searchableTypes[$type][$field] = ['weight' => $weight];
             }
         }
     }
@@ -141,7 +146,8 @@ class SearchConfig
      * Does some checks to see whether a contenttype should appear in search results.
      * This is based on contenttype options.
      *
-     * @param  string  $contenttype
+     * @param string $contenttype
+     *
      * @return boolean
      */
     protected function isInvisible($contenttype)

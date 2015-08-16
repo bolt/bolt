@@ -44,6 +44,7 @@ class SearchQuery extends SelectQuery implements QueryInterface
     /**
      * Sets the overall parameters on the query. This may include others
      * than the search query itself which gets set to the 'filter' param.
+     *
      * @param [type] $params [description]
      */
     public function setParameters($params)
@@ -53,6 +54,7 @@ class SearchQuery extends SelectQuery implements QueryInterface
 
     /**
      * Gets the individual elements of the search query as an array
+     *
      * @return array
      */
     public function getSearchWords()
@@ -83,7 +85,6 @@ class SearchQuery extends SelectQuery implements QueryInterface
      * This overrides the SelectQuery default to do some extra preparation for a search query.
      * Firstly it builds separate filters for the search query and then it removes the filter
      * from the params and the others will then get processed normally by the parent.
-     * 
      */
     protected function processFilters()
     {

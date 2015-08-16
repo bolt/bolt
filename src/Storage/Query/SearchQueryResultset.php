@@ -37,11 +37,10 @@ class SearchQueryResultset extends QueryResultset
         arsort($scores);
         $sorted = [];
         
-        foreach ($scores as $k=>$v) {
+        foreach ($scores as $k => $v) {
             $sorted[] = $results[$k];
         }
         
         $this->results[$label] = $sorted;
     }
-    
 }

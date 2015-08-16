@@ -2,10 +2,9 @@
 
 namespace Bolt\Storage\Query\Handler;
 
-use Bolt\Storage\Query\ContentQueryParser;
-use Bolt\Storage\Query\QueryResultset;
-use Bolt\Storage\Query\SearchQueryResultset;
 use Bolt\Storage\Query\Adapter\PostgresSearch;
+use Bolt\Storage\Query\ContentQueryParser;
+use Bolt\Storage\Query\SearchQueryResultset;
 
 /**
  *  Handler class to perform a native search where the db adapter supports full=text
@@ -20,14 +19,12 @@ class NativeSearchHandler
      */
     public function __invoke(ContentQueryParser $contentQuery)
     {
-        
         $params = $contentQuery->getEntityManager()->createQueryBuilder()->getConnection()->getParams();
         if (strpos($params['driver'], 'postgres') !== false) {
             return $this->postgresSearch($contentQuery);
         } else {
             return call_user_func_array($contentQuery->getHandler('search'), [$contentQuery]);
         }
-        
     }
     
     public function postgresSearch(ContentQueryParser $contentQuery)

@@ -154,8 +154,9 @@ class SearchWeighter
      * score calculations for each word of the query, versus each word of the 
      * index dictionary.
      * 
-     * @param  Object $result 
-     * @return float         
+     * @param Object $result
+     *
+     * @return float
      */
     protected function getResultScore($result)
     {

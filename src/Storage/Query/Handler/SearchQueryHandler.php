@@ -3,7 +3,6 @@
 namespace Bolt\Storage\Query\Handler;
 
 use Bolt\Storage\Query\ContentQueryParser;
-use Bolt\Storage\Query\QueryResultset;
 use Bolt\Storage\Query\SearchQueryResultset;
 
 /**
@@ -34,19 +33,17 @@ class SearchQueryHandler
             
             $result = $repo->queryWith($query);
             if ($result) {
-                
-                if (count($result)>0) {
+                if (count($result) > 0) {
                     $weighter = $contentQuery->getService('search_weighter');
                     $weighter->setContentType($contenttype);
                     $weighter->setResults($result);
                     $weighter->setSearchWords($query->getSearchWords());
                     
-                    $scores = $weighter->weight();                    
+                    $scores = $weighter->weight();
                     $set->add($result, $contenttype, $scores);
                 } else {
                     $set->add($result, $contenttype);
                 }
-                
             }
         }
 

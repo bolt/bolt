@@ -10,7 +10,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class PostgresSearch
 {
-    
     protected $qb;
     protected $config;
     protected $searchWords;
@@ -23,7 +22,8 @@ class PostgresSearch
         $this->searchWords = $searchWords;
     }
     
-    public function setContentType($type) {
+    public function setContentType($type)
+    {
         $this->contenttype = $type;
     }
    
@@ -45,13 +45,12 @@ class PostgresSearch
         } else {
             $alias = $from[0]['table'];
         }
-        foreach ($fieldsToSearch as $fieldName=>$config) {
+        foreach ($fieldsToSearch as $fieldName => $config) {
             $weight = $this->getWeight($config['weight']);
             $select[] = "setweight(to_tsvector($alias.$fieldName), '$weight')";
         }
         $sub->select("*, ".implode(' || ', $select). ' AS document');
         $sub->groupBy("$alias.id");
-
 
         $this->qb->from("(".$sub->getSQL().")", 'bsearch');
         
@@ -60,7 +59,8 @@ class PostgresSearch
         return $this->qb;
     }
     
-    public function getWeight($score) {
+    public function getWeight($score)
+    {
         switch (true) {
             case ($score >= 75):
                 return 'A';
@@ -73,7 +73,7 @@ class PostgresSearch
                 break;
             case ($score < 25):
                 return 'D';
-                break;           
+                break;
         }
         return 'A';
     }
