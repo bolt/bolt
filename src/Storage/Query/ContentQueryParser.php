@@ -7,10 +7,12 @@ use Bolt\Storage\Query\Handler\FirstQueryHandler;
 use Bolt\Storage\Query\Handler\GetQueryHandler;
 use Bolt\Storage\Query\Handler\LatestQueryHandler;
 use Bolt\Storage\Query\Handler\LimitHandler;
+use Bolt\Storage\Query\Handler\NativeSearchHandler;
 use Bolt\Storage\Query\Handler\OrderHandler;
 use Bolt\Storage\Query\Handler\PrintQueryHandler;
 use Bolt\Storage\Query\Handler\RandomQueryHandler;
 use Bolt\Storage\Query\Handler\ReturnSingleHandler;
+use Bolt\Storage\Query\Handler\SearchQueryHandler;
 use Bolt\Storage\Query\Handler\SelectQueryHandler;
 
 /**
@@ -33,7 +35,7 @@ class ContentQueryParser
 
     protected $identifier;
 
-    protected $operations = ['search', 'latest', 'first', 'random'];
+    protected $operations = ['search', 'latest', 'first', 'random', 'nativesearch'];
 
     protected $directives = [];
 
@@ -60,9 +62,11 @@ class ContentQueryParser
     protected function setupDefaults()
     {
         $this->addHandler('select', new SelectQueryHandler());
+        $this->addHandler('search', new SearchQueryHandler());
         $this->addHandler('random', new RandomQueryHandler());
         $this->addHandler('first', new FirstQueryHandler());
         $this->addHandler('latest', new LatestQueryHandler());
+        $this->addHandler('nativesearch', new NativeSearchHandler());
 
         $this->addDirectiveHandler('returnsingle', new ReturnSingleHandler());
         $this->addDirectiveHandler('order', new OrderHandler());
