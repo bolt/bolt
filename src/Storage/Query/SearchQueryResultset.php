@@ -44,10 +44,4 @@ class SearchQueryResultset extends QueryResultset
         $this->results[$label] = $sorted;
     }
     
-    public function sortAll()
-    {
-        
-    }
-    
-    
 }
