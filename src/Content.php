@@ -812,9 +812,10 @@ class Content implements \ArrayAccess
     public function isHome()
     {
         $homepage = $this->app['config']->get('general/homepage');
+        $uriID = $this->contenttype['singular_slug'] . '/' . $this->get('id');
+        $uriSlug = $this->contenttype['singular_slug'] . '/' . $this->get('slug');
 
-        return (($this->contenttype['singular_slug'].'/'.$this->get('id') == $homepage) ||
-           ($this->contenttype['singular_slug'].'/'.$this->get('slug') == $homepage));
+        return $uriID === $homepage || $uriSlug === $homepage;
     }
 
     /**
