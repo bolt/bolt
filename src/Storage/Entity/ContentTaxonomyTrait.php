@@ -34,6 +34,40 @@ trait ContentTaxonomyTrait
     }
 
     /**
+     * Set the 'group', 'groupname' and 'sortorder' properties of the current object.
+     *
+     * @param string  $group
+     * @param string  $name
+     * @param string  $taxonomytype
+     * @param integer $sortorder
+     *
+     * @return void
+     */
+    public function setGroup($group, $name, $taxonomytype, $sortorder = 0)
+    {
+        $this->group = [
+            'slug' => $group,
+            'name' => $name
+        ];
+
+        $hasSortOrder = $this->app['config']->get('taxonomy/' . $taxonomytype . '/has_sortorder');
+
+        // Only set the sortorder, if the contenttype has a taxonomy that has sortorder
+        if ($hasSortOrder !== false) {
+            $this->group['order'] = (int) $sortorder;
+        }
+
+        // Set the 'index', so we can sort on it later.
+        $index = array_search($group, array_keys($this->app['config']->get('taxonomy/' . $taxonomytype . '/options')));
+
+        if ($index !== false) {
+            $this->group['index'] = $index;
+        } else {
+            $this->group['index'] = 2147483647; // Max for 32 bit int.
+        }
+    }
+
+    /**
      * Set a taxonomy for the current object.
      *
      * @param string       $taxonomyType
