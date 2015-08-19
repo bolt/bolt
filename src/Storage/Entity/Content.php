@@ -8,10 +8,14 @@ class Content extends Entity
 {
     protected $_contenttype;
     protected $id;
+    protected $slug;
     protected $datecreated;
     protected $datechanged;
     protected $datepublish = null;
     protected $datedepublish = null;
+    protected $ownerid;
+    protected $status;
+    protected $templatefields;
 
     public function getDatecreated()
     {
