@@ -6,7 +6,7 @@ use Bolt\Helpers\Html;
 use Bolt\Helpers\Input;
 use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
-use Bolt\Storage\Entity\ContentValuesTrait;
+use Bolt\Storage\Entity;
 use Maid\Maid;
 use Silex;
 use Symfony\Component\Filesystem\Filesystem;
@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class Content implements \ArrayAccess
 {
-    use ContentRelationTrait;
-    use ContentTaxonomyTrait;
-    use ContentValuesTrait;
+    use Entity\ContentRelationTrait;
+    use Entity\ContentTaxonomyTrait;
+    use Entity\ContentValuesTrait;
 
     public $id;
     public $values = [];
