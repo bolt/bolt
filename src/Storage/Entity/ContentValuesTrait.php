@@ -1,6 +1,9 @@
 <?php
 namespace Bolt\Storage\Entity;
 
+use Bolt\Helpers\Html;
+use Bolt\Library as Lib;
+
 /**
  * Trait class for ContentType record values.
  *
@@ -207,10 +210,10 @@ trait ContentValuesTrait
 
         if (!isset($this->values['datechanged']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
-                $this->values['datechanged'] = date("Y-m-d H:i:s");
-            }
+            $this->values['datechanged'] = date("Y-m-d H:i:s");
+        }
 
-            $this->values[$key] = $value;
+        $this->values[$key] = $value;
     }
 
     /**
