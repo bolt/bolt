@@ -11,6 +11,7 @@ use Bolt\Library as Lib;
  */
 trait ContentValuesTrait
 {
+
     /**
      * Pseudo-magic function, used for when templates use {{ content.get(title) }},
      * so we can map it to $this->values['title'].
@@ -34,6 +35,63 @@ trait ContentValuesTrait
         } else {
             return false;
         }
+    }
+
+    /**
+     * Alias for getExcerpt()
+     */
+    public function excerpt($length = 200, $includetitle = false)
+    {
+        return $this->getExcerpt($length, $includetitle);
+    }
+
+    /**
+     * Create an excerpt for the content.
+     *
+     * @param integer $length
+     * @param boolean $includetitle
+     *
+     * @return \Twig_Markup
+     */
+    public function getExcerpt($length = 200, $includetitle = false)
+    {
+        if ($includetitle) {
+            $title = Html::trimText(strip_tags($this->getTitle()), $length);
+            $length = $length - strlen($title);
+        }
+
+        if ($length > 0) {
+            $excerptParts = [];
+
+            if (!empty($this->contenttype['fields'])) {
+                foreach ($this->contenttype['fields'] as $key => $field) {
+                    // Skip empty fields, and fields used as 'title'.
+                    if (!isset($this->values[$key]) || in_array($key, $this->getTitleColumnName())) {
+                        continue;
+                    }
+
+                    // add 'text', 'html' and 'textarea' fields.
+                    if (in_array($field['type'], ['text', 'html', 'textarea'])) {
+                        $excerptParts[] = $this->values[$key];
+                    }
+                    // add 'markdown' field
+                    if ($field['type'] === 'markdown') {
+                        $excerptParts[] = $this->app['markdown']->text($this->values[$key]);
+                    }
+                }
+            }
+
+            $excerpt = implode(' ', $excerptParts);
+            $excerpt = Html::trimText(strip_tags($excerpt), $length);
+        } else {
+            $excerpt = '';
+        }
+
+        if (!empty($title)) {
+            $excerpt = '<b>' . $title . '</b> ' . $excerpt;
+        }
+
+        return new \Twig_Markup($excerpt, 'UTF-8');
     }
 
     /**
