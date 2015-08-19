@@ -12,6 +12,31 @@ use Bolt\Library as Lib;
 trait ContentValuesTrait
 {
     /**
+     * Pseudo-magic function, used for when templates use {{ content.get(title) }},
+     * so we can map it to $this->values['title'].
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function get($name)
+    {
+        // For fields that are stored as arrays, like 'video'
+        if (strpos($name, '.') > 0) {
+            list($name, $attr) = explode('.', $name);
+            if (!empty($attr) && isset($this->values[$name][$attr])) {
+                return $this->values[$name][$attr];
+            }
+        }
+
+        if (isset($this->values[$name])) {
+            return $this->values[$name];
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Return a content objects values.
      *
      * @param boolean $json     Set to TRUE to return JSON encoded values for arrays
