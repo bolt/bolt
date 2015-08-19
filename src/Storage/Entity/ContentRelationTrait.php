@@ -9,16 +9,17 @@ namespace Bolt\Storage\Entity;
 trait ContentRelationTrait
 {
     /**
-     *
+     * Alias for getRelation()
      */
-    public function getRelation()
+    public function related($filterContentType = null, $options = [])
     {
+        return $this->getRelation($filterContentType, $options);
     }
 
     /**
      * Gets one or more related records.
      *
-     * @param string $filtercontenttype Contenttype to filter returned results on
+     * @param string $filterContentType Contenttype to filter returned results on
      * @param array  $options           A set of 'WHERE' options to apply to the filter
      *
      * Backward compatability note:
@@ -26,7 +27,7 @@ trait ContentRelationTrait
      *
      * @return \Bolt\Content[]
      */
-    public function related($filtercontenttype = null, $options = [])
+    public function getRelation($filterContentType = null, $options = [])
     {
         if (empty($this->relation)) {
             return false; // nothing to do here.
@@ -42,7 +43,7 @@ trait ContentRelationTrait
         $records = [];
 
         foreach ($this->relation as $contenttype => $ids) {
-            if (!empty($filtercontenttype) && ($contenttype != $filtercontenttype)) {
+            if (!empty($filterContentType) && ($contenttype != $filterContentType)) {
                 continue; // Skip other contenttypes, if we requested a specific type.
             }
 
