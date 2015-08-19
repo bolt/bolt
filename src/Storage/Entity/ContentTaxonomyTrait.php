@@ -81,7 +81,7 @@ trait ContentTaxonomyTrait
 
         // Make sure sortorder is set correctly;
         if ($this->app['config']->get('taxonomy/' . $taxonomyType . '/has_sortorder') === false) {
-            $sortorder = false;
+            $sortorder = 0;
         } else {
             $sortorder = (int) $sortorder;
             // Note: by doing this we assume a contenttype can have only one taxonomy which has has_sortorder: true.
