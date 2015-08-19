@@ -222,7 +222,6 @@
 "Everybody": "Todos"
 "Excerpt": "Resumo"
 "Expand sidebar": "Expandir barra lateral"
-"Extend %BOLTNAME%": "Estender %BOLTNAME%"
 "Extension log": "Registro de extensão"
 "Extensions": "Extensões"
 "Extras": "Extras"
@@ -454,6 +453,7 @@ page.extend.message.shows-updates: "Isso não vai instalar nada, apenas mostrar 
 page.extend.message.start-using-extension: "Agora você pode começar a usar a extensão instalada, documentação e instruções de execução pode ser encontrada usando o link abaixo."
 page.extend.message.updated: "Tudo está atualizado!"
 page.extend.message.updating: "Procurando por atualizações disponíveis …"
+page.extend.pagetitle: "Estender %BOLTNAME%"
 users.actions-for-users: "Ações para usuários"
 users.your-password: "Sua senha"
 
