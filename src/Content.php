@@ -341,28 +341,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Add a relation.
-     *
-     * @param string|array $contenttype
-     * @param integer      $id
-     *
-     * @return void
-     */
-    public function setRelation($contenttype, $id)
-    {
-        if (!empty($this->relation[$contenttype])) {
-            $ids = $this->relation[$contenttype];
-        } else {
-            $ids = [];
-        }
-
-        $ids[] = $id;
-        sort($ids);
-
-        $this->relation[$contenttype] = array_unique($ids);
-    }
-
-    /**
      * Get the decoded version of a value of the current object.
      *
      * @param string $name name of the value to get
