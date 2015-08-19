@@ -18,6 +18,114 @@ trait ContentValuesTrait
      */
     public function getValues($json = false, $stripped = false)
     {
+        // Prevent 'slug may not be NULL'
+        if (!isset($this->values['slug'])) {
+            $this->values['slug'] = '';
+        }
+
+        // Return raw values
+        if ($json === false) {
+            return $this->values;
+        }
+
+        $contenttype = $this->contenttype;
+        if (!$stripped) {
+            $newvalue = $this->values;
+        } else {
+            $newvalue = [];
+        }
+
+        // add the fields for this contenttype,
+        if (is_array($contenttype)) {
+            foreach ($contenttype['fields'] as $field => $property) {
+                switch ($property['type']) {
+
+                    // Set the slug, while we're at it
+                    case 'slug':
+                        if (!empty($property['uses']) && empty($this->values[$field])) {
+                            $uses = '';
+                            foreach ($property['uses'] as $usesField) {
+                                $uses .= $this->values[$usesField] . ' ';
+                            }
+                            $newvalue[$field] = $this->app['slugify']->slugify($uses);
+                        } elseif (!empty($this->values[$field])) {
+                            $newvalue[$field] = $this->app['slugify']->slugify($this->values[$field]);
+                        } elseif (empty($this->values[$field]) && $this->values['id']) {
+                            $newvalue[$field] = $this->values['id'];
+                        }
+                        break;
+
+                    case 'video':
+                        foreach (['html', 'responsive'] as $subkey) {
+                            if (!empty($this->values[$field][$subkey])) {
+                                $this->values[$field][$subkey] = (string) $this->values[$field][$subkey];
+                            }
+                        }
+                        if (!empty($this->values[$field]['url'])) {
+                            $newvalue[$field] = json_encode($this->values[$field]);
+                        } else {
+                            $newvalue[$field] = '';
+                        }
+                        break;
+
+                    case 'geolocation':
+                        if (!empty($this->values[$field]['latitude']) && !empty($this->values[$field]['longitude'])) {
+                            $newvalue[$field] = json_encode($this->values[$field]);
+                        } else {
+                            $newvalue[$field] = '';
+                        }
+                        break;
+
+                    case 'image':
+                        if (!empty($this->values[$field]['file'])) {
+                            $newvalue[$field] = json_encode($this->values[$field]);
+                        } else {
+                            $newvalue[$field] = '';
+                        }
+                        break;
+
+                    case 'imagelist':
+                    case 'filelist':
+                        if (is_array($this->values[$field])) {
+                            $newvalue[$field] = json_encode($this->values[$field]);
+                        } elseif (!empty($this->values[$field]) && strlen($this->values[$field]) < 3) {
+                            // Don't store '[]'
+                            $newvalue[$field] = '';
+                        }
+                        break;
+
+                    case 'integer':
+                        $newvalue[$field] = round($this->values[$field]);
+                        break;
+
+                    case 'select':
+                        if (is_array($this->values[$field])) {
+                            $newvalue[$field] = json_encode($this->values[$field]);
+                        }
+                        break;
+
+                    case 'html':
+                        // Remove &nbsp; characters from CKEditor, unless configured to leave them in.
+                        if (!$this->app['config']->get('general/wysiwyg/ck/allowNbsp')) {
+                            $newvalue[$field] = str_replace('&nbsp;', ' ', $this->values[$field]);
+                        }
+                        break;
+                    default:
+                        $newvalue[$field] = $this->values[$field];
+                        break;
+                }
+            }
+        }
+
+        if (!$stripped) {
+            if (!empty($this['templatefields'])) {
+                $newvalue['templatefields'] = json_encode($this->values['templatefields']->getValues(true, true));
+            } else {
+                $newvalue['templatefields'] = '';
+            }
+        }
+
+        return $newvalue;
     }
 
     /**
