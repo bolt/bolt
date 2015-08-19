@@ -28,11 +28,6 @@ class Input
             if ($stripControlChars) {
                 $var = preg_replace('/[[:cntrl:][:space:]]/', ' ', $var);
             }
-
-            // Ah, the joys of \"magic quotes\"!
-            if ($stripslashes && get_magic_quotes_gpc()) {
-                $var = stripslashes($var);
-            }
         }
 
         return $var;
