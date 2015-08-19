@@ -136,6 +136,81 @@ trait ContentValuesTrait
      */
     public function setValue($key, $value)
     {
+        // Don't set templateFields if not a real contenttype
+        if (($key === 'templatefields') && (!$this->isRootType)) {
+            return;
+        }
+
+        // Check if the value need to be unserialized.
+        if (is_string($value) && substr($value, 0, 2) === "a:") {
+            try {
+                $unserdata = Lib::smartUnserialize($value);
+            } catch (\Exception $e) {
+                $unserdata = false;
+            }
+
+            if ($unserdata !== false) {
+                $value = $unserdata;
+            }
+        }
+
+        if ($key == 'id') {
+            $this->id = $value;
+        }
+
+        // Set the user in the object.
+        if ($key === 'ownerid' && !empty($value)) {
+            $this->user = $this->app['users']->getUser($value);
+        }
+
+        // Only set values if they have are actually a field.
+        $allowedcolumns = self::getBaseColumns();
+        $allowedcolumns[] = 'taxonomy';
+        if (!isset($this->contenttype['fields'][$key]) && !in_array($key, $allowedcolumns)) {
+            return;
+        }
+
+        if (in_array($key, ['datecreated', 'datechanged', 'datepublish', 'datedepublish'])) {
+            if (!preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value)) {
+                // @todo Try better date-parsing, instead of just setting it to
+                // 'now' (or 'the past' for datedepublish)
+                if ($key == 'datedepublish') {
+                    $value = null;
+                } else {
+                    $value = date('Y-m-d H:i:s');
+                }
+            }
+        }
+
+        if ($key === 'templatefields') {
+            if ((is_string($value)) || (is_array($value))) {
+                if (is_string($value)) {
+                    try {
+                        $unserdata = Lib::smartUnserialize($value);
+                    } catch (\Exception $e) {
+                        $unserdata = false;
+                    }
+                } else {
+                    $unserdata = $value;
+                }
+
+                if (is_array($unserdata)) {
+                    $templateContent = new Content($this->app, $this->getTemplateFieldsContentType(), [], false);
+                    $value = $templateContent;
+                    $this->populateTemplateFieldsContenttype($value);
+                    $templateContent->setValues($unserdata);
+                } else {
+                    $value = null;
+                }
+            }
+        }
+
+        if (!isset($this->values['datechanged']) ||
+            !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
+                $this->values['datechanged'] = date("Y-m-d H:i:s");
+            }
+
+            $this->values[$key] = $value;
     }
 
     /**
