@@ -481,7 +481,7 @@ trait ContentValuesTrait
         if (isset($values['ownerid'])) {
             if ($this['ownerid'] != $values['ownerid']) {
                 if (!$this->app['users']->isAllowed("contenttype:{$contenttype['slug']}:change-ownership:{$this->id}")) {
-                    throw new \Exception("Changing ownership is not allowed.");
+                    throw new \Exception('Changing ownership is not allowed.');
                 }
                 $this['ownerid'] = intval($values['ownerid']);
             }
@@ -520,62 +520,6 @@ trait ContentValuesTrait
             unset($values['relation']);
         } else {
             $this->relation = [];
-        }
-
-        // @todo check for allowed file types.
-
-        // Handle file-uploads.
-        if (!empty($_FILES)) {
-            foreach ($_FILES as $key => $file) {
-                if (empty($file['name'][0])) {
-                    continue; // Skip 'empty' uploads.
-                }
-
-                $paths = $this->app['resources']->getPaths();
-
-                $filename = sprintf(
-                    '%sfiles/%s/%s',
-                    $paths['rootpath'],
-                    date('Y-m'),
-                    Str::makeSafe($file['name'][0], false, '[]{}()')
-                );
-                $basename = sprintf('/%s/%s', date('Y-m'), Str::makeSafe($file['name'][0], false, "[]{}()"));
-
-                if ($file['error'][0] != UPLOAD_ERR_OK) {
-                    $message = 'Error occured during upload: ' . $file['error'][0] . " - $filename";
-                    $this->app['logger.system']->error($message, ['event' => 'upload']);
-                    continue;
-                }
-
-                if (substr($key, 0, 11) != 'fileupload-') {
-                    $message = "Skipped an upload that wasn't for content: $filename";
-                    $this->app['logger.system']->error($message, ['event' => 'upload']);
-                    continue;
-                }
-
-                $fieldname  = substr($key, 11);
-                $fileSystem = new Filesystem();
-
-                // Make sure the folder exists.
-                $fileSystem->mkdir(dirname($filename));
-
-                // Check if we don't have doubles.
-                if (is_file($filename)) {
-                    while (is_file($filename)) {
-                        $filename = $this->upcountName($filename);
-                        $basename = $this->upcountName($basename);
-                    }
-                }
-
-                if (is_writable(dirname($filename))) {
-                    // Yes, we can create the file!
-                    move_uploaded_file($file['tmp_name'][0], $filename);
-                    $values[$fieldname] = $basename;
-                    $this->app['logger.system']->info("Upload: uploaded file '$basename'.", ['event' => 'upload']);
-                } else {
-                    $this->app['logger.system']->error("Upload: couldn't write upload '$basename'.", ['event' => 'upload']);
-                }
-            }
         }
 
         $this->setValues($values);
