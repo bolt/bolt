@@ -9,6 +9,15 @@ namespace Bolt\Storage\Entity;
 trait ContentTaxonomyTrait
 {
     /**
+     * NOTE: This probably needs to implement, or be called by, Bolt\Storage::getTaxonomy()
+     *
+     * @param string $taxonomyType
+     */
+    public function getTaxonomy($taxonomyType)
+    {
+    }
+
+    /**
      * Set a taxonomy for the current object.
      *
      * @param string       $taxonomyType
