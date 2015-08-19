@@ -20,22 +20,6 @@ trait ContentTaxonomyTrait
     }
 
     /**
-     * Get a specific taxonomy's type.
-     *
-     * @param string $type
-     *
-     * @return string|boolean
-     */
-    public function getTaxonomyType($type)
-    {
-        if (isset($this->config['taxonomy'][$type])) {
-            return $this->config['taxonomy'][$type];
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Set the 'group', 'groupname' and 'sortorder' properties of the current object.
      *
      * @param string  $group
