@@ -3,12 +3,9 @@
 namespace Bolt;
 
 use Bolt\Helpers\Html;
-use Bolt\Helpers\Input;
-use Bolt\Helpers\Str;
 use Bolt\Storage\Entity;
 use Maid\Maid;
 use Silex;
-use Symfony\Component\Filesystem\Filesystem;
 
 class Content implements \ArrayAccess
 {
@@ -120,131 +117,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Set a Contenttype record values from a HTTP POST.
-     *
-     * @param array  $values
-     * @param string $contenttype
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function setFromPost($values, $contenttype)
-    {
-        $values = Input::cleanPostedData($values);
-
-        if (!$this->id) {
-            // this is a new record: current user becomes the owner.
-            $user = $this->app['users']->getCurrentUser();
-            $this['ownerid'] = $user['id'];
-        }
-
-        // If the owner is set explicitly, check if the current user is allowed
-        // to do this.
-        if (isset($values['ownerid'])) {
-            if ($this['ownerid'] != $values['ownerid']) {
-                if (!$this->app['users']->isAllowed("contenttype:{$contenttype['slug']}:change-ownership:{$this->id}")) {
-                    throw new \Exception("Changing ownership is not allowed.");
-                }
-                $this['ownerid'] = intval($values['ownerid']);
-            }
-        }
-
-        // Make sure we have a proper status.
-        if (!in_array($values['status'], ['published', 'timed', 'held', 'draft'])) {
-            if ($this['status']) {
-                $values['status'] = $this['status'];
-            } else {
-                $values['status'] = "draft";
-            }
-        }
-
-        // Make sure we only get the current taxonomies, not those that were fetched from the DB.
-        $this->taxonomy = [];
-
-        if (!empty($values['taxonomy'])) {
-            foreach ($values['taxonomy'] as $taxonomytype => $value) {
-                if (isset($values['taxonomy-order'][$taxonomytype])) {
-                    foreach ($value as $k => $v) {
-                        $value[$k] = $v . '#' . $values['taxonomy-order'][$taxonomytype];
-                    }
-                }
-
-                $this->taxonomy[$taxonomytype] = $value;
-            }
-            unset($values['taxonomy']);
-            unset($values['taxonomy-order']);
-        }
-
-        // Get the relations from the POST-ed values.
-        // @todo use $this->setRelation() for this
-        if (!empty($values['relation'])) {
-            $this->relation = $values['relation'];
-            unset($values['relation']);
-        } else {
-            $this->relation = [];
-        }
-
-        // @todo check for allowed file types.
-
-        // Handle file-uploads.
-        if (!empty($_FILES)) {
-            foreach ($_FILES as $key => $file) {
-                if (empty($file['name'][0])) {
-                    continue; // Skip 'empty' uploads.
-                }
-
-                $paths = $this->app['resources']->getPaths();
-
-                $filename = sprintf(
-                    '%sfiles/%s/%s',
-                    $paths['rootpath'],
-                    date('Y-m'),
-                    Str::makeSafe($file['name'][0], false, '[]{}()')
-                );
-                $basename = sprintf('/%s/%s', date('Y-m'), Str::makeSafe($file['name'][0], false, "[]{}()"));
-
-                if ($file['error'][0] != UPLOAD_ERR_OK) {
-                    $message = 'Error occured during upload: ' . $file['error'][0] . " - $filename";
-                    $this->app['logger.system']->error($message, ['event' => 'upload']);
-                    continue;
-                }
-
-                if (substr($key, 0, 11) != 'fileupload-') {
-                    $message = "Skipped an upload that wasn't for content: $filename";
-                    $this->app['logger.system']->error($message, ['event' => 'upload']);
-                    continue;
-                }
-
-                $fieldname  = substr($key, 11);
-                $fileSystem = new Filesystem();
-
-                // Make sure the folder exists.
-                $fileSystem->mkdir(dirname($filename));
-
-                // Check if we don't have doubles.
-                if (is_file($filename)) {
-                    while (is_file($filename)) {
-                        $filename = $this->upcountName($filename);
-                        $basename = $this->upcountName($basename);
-                    }
-                }
-
-                if (is_writable(dirname($filename))) {
-                    // Yes, we can create the file!
-                    move_uploaded_file($file['tmp_name'][0], $filename);
-                    $values[$fieldname] = $basename;
-                    $this->app['logger.system']->info("Upload: uploaded file '$basename'.", ['event' => 'upload']);
-                } else {
-                    $this->app['logger.system']->error("Upload: couldn't write upload '$basename'.", ['event' => 'upload']);
-                }
-            }
-        }
-
-        $this->setValues($values);
-    }
-
-    /**
      * Get the template associate with a Contenttype field.
      *
      * @return string
@@ -279,10 +151,10 @@ class Content implements \ArrayAccess
         if ((!$this->contenttype['viewless'])
             && (!empty($this['templatefields']))
             && ($templateFieldsConfig = $this->app['config']->get('theme/templatefields'))) {
-                $template = $this->app['templatechooser']->record($this);
-                if (array_key_exists($template, $templateFieldsConfig)) {
-                    return true;
-                }
+            $template = $this->app['templatechooser']->record($this);
+            if (array_key_exists($template, $templateFieldsConfig)) {
+                return true;
+            }
         }
 
         return false;
