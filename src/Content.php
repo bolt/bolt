@@ -817,51 +817,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Creates RSS safe content. Wraps it in CDATA tags, strips style and
-     * scripts out. Can optionally also return a (cleaned) excerpt.
-     *
-     * Note: To conform to the template style, this method name is not following PSR-1:
-     *    {{ record.rss_safe() }}
-     *
-     * @param string  $fields        Comma separated list of fields to clean up
-     * @param integer $excerptLength Number of chars of the excerpt
-     *
-     * @return string RSS safe string
-     */
-    public function /*@codingStandardsIgnoreStart*/rss_safe/*@codingStandardsIgnoreEnd*/($fields = '', $excerptLength = 0)
-    {
-        // Make sure we have an array of fields. Even if it's only one.
-        if (!is_array($fields)) {
-            $fields = explode(',', $fields);
-        }
-        $fields = array_map('trim', $fields);
-
-        $result = '';
-
-        foreach ($fields as $field) {
-            if (array_key_exists($field, $this->values)) {
-
-                // Completely remove style and script blocks
-                $maid = new Maid(
-                    [
-                        'output-format'   => 'html',
-                        'allowed-tags'    => ['a', 'b', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'p', 'strong', 'em', 'i', 'u', 'strike', 'ul', 'ol', 'li', 'img'],
-                        'allowed-attribs' => ['id', 'class', 'name', 'value', 'href', 'src']
-                    ]
-                );
-
-                $result .= $maid->clean($this->values[$field]);
-            }
-        }
-
-        if ($excerptLength > 0) {
-            $result .= Html::trimText($result, $excerptLength);
-        }
-
-        return '<![CDATA[ ' . $result . ' ]]>';
-    }
-
-    /**
      * Weight a text part relative to some other part.
      *
      * @param string  $subject  The subject to search in.
