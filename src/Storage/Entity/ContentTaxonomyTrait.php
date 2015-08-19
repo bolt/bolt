@@ -82,4 +82,36 @@ trait ContentTaxonomyTrait
 
         return true;
     }
+
+    /**
+     * Sort the taxonomy of the current object, based on the order given in taxonomy.yml.
+     *
+     * @return void
+     */
+    public function sortTaxonomy()
+    {
+        if (empty($this->taxonomy)) {
+            // Nothing to do here.
+            return;
+        }
+
+        foreach (array_keys($this->taxonomy) as $type) {
+            $taxonomytype = $this->app['config']->get('taxonomy/' . $type);
+            // Don't order tags.
+            if ($taxonomytype['behaves_like'] == "tags") {
+                continue;
+            }
+
+            // Order them by the order in the contenttype.
+            $new = [];
+            foreach ($this->app['config']->get('taxonomy/' . $type . '/options') as $key => $value) {
+                if ($foundkey = array_search($key, $this->taxonomy[$type])) {
+                    $new[$foundkey] = $value;
+                } elseif ($foundkey = array_search($value, $this->taxonomy[$type])) {
+                    $new[$foundkey] = $value;
+                }
+            }
+            $this->taxonomy[$type] = $new;
+        }
+    }
 }
