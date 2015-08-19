@@ -5,12 +5,10 @@ namespace Bolt;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Input;
 use Bolt\Helpers\Str;
-use Bolt\Library as Lib;
 use Bolt\Storage\Entity;
 use Maid\Maid;
 use Silex;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class Content implements \ArrayAccess
 {
