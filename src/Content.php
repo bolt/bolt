@@ -591,9 +591,10 @@ class Content implements \ArrayAccess
      */
     protected function isApplicableRoute(array $route)
     {
-        return (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug']) ||
-        (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug']) ||
-        (isset($route['recordslug']) && $route['recordslug'] === $this->getReference());
+        return (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug'])
+            || (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug'])
+            || (isset($route['recordslug'])  && $route['recordslug']  === $this->getReference())
+        ;
     }
 
     /**
