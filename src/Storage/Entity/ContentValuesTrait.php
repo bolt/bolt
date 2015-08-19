@@ -223,7 +223,7 @@ trait ContentValuesTrait
                 }
 
                 if (is_array($unserdata)) {
-                    $templateContent = new Content($this->app, $this->getTemplateFieldsContentType(), [], false);
+                    $templateContent = new \Bolt\Content($this->app, $this->getTemplateFieldsContentType(), [], false);
                     $value = $templateContent;
                     $this->populateTemplateFieldsContenttype($value);
                     $templateContent->setValues($unserdata);
