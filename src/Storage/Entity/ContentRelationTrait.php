@@ -9,6 +9,13 @@ namespace Bolt\Storage\Entity;
 trait ContentRelationTrait
 {
     /**
+     *
+     */
+    public function getRelation()
+    {
+    }
+
+    /**
      * Add a relation.
      *
      * @param string|array $contenttype
