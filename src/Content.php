@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class Content implements \ArrayAccess
 {
+    use ContentTaxonomyTrait;
     use ContentValuesTrait;
 
     public $id;
