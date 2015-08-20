@@ -289,7 +289,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
-        return $this->app['query']->getContent($textquery, $parameters, $pager, $whereparameters);
+        return $this->app['storage']->getContent($textquery, $parameters, $pager, $whereparameters);
     }
 
     /**
