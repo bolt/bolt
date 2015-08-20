@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Legacy;
 
 use Bolt\Helpers\Html;
 use Bolt\Storage\Entity;
