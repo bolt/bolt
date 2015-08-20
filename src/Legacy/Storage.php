@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Legacy;
 
 use Bolt;
 use Bolt\Events\StorageEvent;
