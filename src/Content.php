@@ -691,16 +691,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the content's query weight… and something to eat… it looks hungry.
-     *
-     * @return integer
-     */
-    public function getSearchResultWeight()
-    {
-        return $this->lastWeight;
-    }
-
-    /**
      * ArrayAccess support.
      *
      * @param mixed $offset

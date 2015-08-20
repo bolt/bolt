@@ -18,6 +18,16 @@ namespace Bolt\Storage\Entity;
 trait ContentSearchTrait
 {
     /**
+     * Get the content's query weight… and something to eat… it looks hungry.
+     *
+     * @return integer
+     */
+    public function getSearchResultWeight()
+    {
+        return $this->lastWeight;
+    }
+
+    /**
      * Weigh this content against a query.
      *
      * The query is assumed to be in a format as returned by decode Storage->decodeSearchQuery().
