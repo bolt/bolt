@@ -360,22 +360,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Creates a link to EDIT this record, if the user is logged in.
-     *
-     * @return string
-     */
-    public function editlink()
-    {
-        $perm = 'contenttype:' . $this->contenttype['slug'] . ':edit:' . $this->id;
-
-        if ($this->app['users']->isAllowed($perm)) {
-            return $this->app->generatePath('editcontent', ['contenttypeslug' => $this->contenttype['slug'], 'id' => $this->id ]);
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Creates a URL for the content record.
      *
      * @return string

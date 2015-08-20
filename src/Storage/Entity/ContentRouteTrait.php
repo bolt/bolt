@@ -18,6 +18,22 @@ namespace Bolt\Storage\Entity;
 trait ContentRouteTrait
 {
     /**
+     * Creates a link to EDIT this record, if the user is logged in.
+     *
+     * @return string
+     */
+    public function editlink()
+    {
+        $perm = 'contenttype:' . $this->contenttype['slug'] . ':edit:' . $this->id;
+
+        if ($this->app['users']->isAllowed($perm)) {
+            return $this->app->generatePath('editcontent', ['contenttypeslug' => $this->contenttype['slug'], 'id' => $this->id ]);
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Checks if the current record is set as the homepage.
      *
      * @return boolean
