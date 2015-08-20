@@ -786,51 +786,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Weigh this content against a query.
-     *
-     * The query is assumed to be in a format as returned by decode Storage->decodeSearchQuery().
-     *
-     * @param array $query Query to weigh against
-     *
-     * @return void
-     */
-    public function weighSearchResult($query)
-    {
-        static $contenttypeFields = null;
-        static $contenttypeTaxonomies = null;
-
-        $ct = $this->contenttype['slug'];
-        if ((is_null($contenttypeFields)) || (!isset($contenttypeFields[$ct]))) {
-            // Should run only once per contenttype (e.g. singular_name)
-            $contenttypeFields[$ct] = $this->getFieldWeights();
-            $contenttypeTaxonomies[$ct] = $this->getTaxonomyWeights();
-        }
-
-        $weight = 0;
-
-        // Go over all field, and calculate the overall weight.
-        foreach ($contenttypeFields[$ct] as $key => $fieldWeight) {
-            $value = $this->values[$key];
-            if (is_array($value)) {
-                $value = implode(' ', $value);
-            }
-            $weight += $this->weighQueryText($value, $query['use_q'], $query['words'], $fieldWeight);
-        }
-
-        // Go over all taxonomies, and calculate the overall weight.
-        foreach ($contenttypeTaxonomies[$ct] as $key => $taxonomy) {
-
-            // skip empty taxonomies.
-            if (empty($this->taxonomy[$key])) {
-                continue;
-            }
-            $weight += $this->weighQueryText(implode(' ', $this->taxonomy[$key]), $query['use_q'], $query['words'], $taxonomy);
-        }
-
-        $this->lastWeight = $weight;
-    }
-
-    /**
      * Get the content's query weight… and something to eat… it looks hungry.
      *
      * @return integer
