@@ -117,42 +117,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * "upcount" a filename: Add (1), (2), etc. for filenames that already exist.
-     * Taken from jQuery file upload.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    protected function upcountName($name)
-    {
-        return preg_replace_callback(
-            '/(?:(?: \(([\d]+)\))?(\.[^.]+))?$/',
-            [$this, 'upcountNameCallback'],
-            $name,
-            1
-        );
-    }
-
-    /**
-     * "upcount" callback helper function
-     * Taken from jQuery file upload.
-     *
-     * @see upcountName()
-     *
-     * @param array $matches
-     *
-     * @return string
-     */
-    protected function upcountNameCallback($matches)
-    {
-        $index = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
-        $ext = isset($matches[2]) ? $matches[2] : '';
-
-        return ' (' . $index . ')' . $ext;
-    }
-
-    /**
      * Set the Contenttype for the record.
      *
      * @param array|string $contenttype
