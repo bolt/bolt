@@ -104,4 +104,16 @@ trait ContentRouteTrait
             || (isset($route['recordslug'])  && $route['recordslug']  === $this->getReference())
         ;
     }
+
+    /**
+     * Get the reference to this record, to uniquely identify this specific record.
+     *
+     * @return string
+     */
+    protected function getReference()
+    {
+        $reference = $this->contenttype['singular_slug'] . '/' . $this->values['slug'];
+
+        return $reference;
+    }
 }

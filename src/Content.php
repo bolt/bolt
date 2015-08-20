@@ -360,18 +360,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the reference to this record, to uniquely identify this specific record.
-     *
-     * @return string
-     */
-    protected function getReference()
-    {
-        $reference = $this->contenttype['singular_slug'] . '/' . $this->values['slug'];
-
-        return $reference;
-    }
-
-    /**
      * Creates a link to EDIT this record, if the user is logged in.
      *
      * @return string
