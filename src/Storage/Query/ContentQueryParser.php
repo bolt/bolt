@@ -11,6 +11,8 @@ use Bolt\Storage\Query\Handler\NativeSearchHandler;
 use Bolt\Storage\Query\Handler\OrderHandler;
 use Bolt\Storage\Query\Handler\PrintQueryHandler;
 use Bolt\Storage\Query\Handler\RandomQueryHandler;
+use Bolt\Storage\Query\Handler\HydrateHandler;
+use Bolt\Storage\Query\Handler\PagingHandler;
 use Bolt\Storage\Query\Handler\ReturnSingleHandler;
 use Bolt\Storage\Query\Handler\SearchQueryHandler;
 use Bolt\Storage\Query\Handler\SelectQueryHandler;
@@ -68,11 +70,13 @@ class ContentQueryParser
         $this->addHandler('latest', new LatestQueryHandler());
         $this->addHandler('nativesearch', new NativeSearchHandler());
 
-        $this->addDirectiveHandler('returnsingle', new ReturnSingleHandler());
-        $this->addDirectiveHandler('order', new OrderHandler());
-        $this->addDirectiveHandler('limit', new LimitHandler());
         $this->addDirectiveHandler('getquery', new GetQueryHandler());
+        $this->addDirectiveHandler('hydrate', new HydrateHandler());
+        $this->addDirectiveHandler('limit', new LimitHandler());
+        $this->addDirectiveHandler('order', new OrderHandler());
+        $this->addDirectiveHandler('paging', new PagingHandler());
         $this->addDirectiveHandler('printquery', new PrintQueryHandler());
+        $this->addDirectiveHandler('returnsingle', new ReturnSingleHandler());
     }
     /**
      * Sets the input query.
