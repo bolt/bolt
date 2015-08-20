@@ -57,7 +57,7 @@ class LogTest extends ControllerUnitTest
         $this->getService('config')->set('general/changelog/enabled', true);
 
         $this->setRequest(Request::create('/bolt/editcontent/pages/1'));
-        /** @var \Bolt\Content $record */
+        /** @var \Bolt\Legacy\Content $record */
         $record = $this->getService('storage')->getContent('pages/1');
         $record->setValue('title', 'Clippy was here!');
         $this->getService('storage')->saveContent($record, 'Saving');
@@ -101,7 +101,7 @@ class LogTest extends ControllerUnitTest
 
         // This block generates a changelog on the page in question so we have something to test.
         $this->setRequest(Request::create('/'));
-        /** @var \Bolt\Content $content */
+        /** @var \Bolt\Legacy\Content $content */
         $content = $this->getService('storage')->getContent('pages/1');
         $content->setValues(['status' => 'draft', 'ownerid' => 99]);
         $this->getService('storage')->saveContent($content, 'Test Suite Update');

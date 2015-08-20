@@ -82,7 +82,7 @@ class ChangeLogTest extends BoltUnitTest
         // For now we need to mock the request object.
         $app['request'] = Request::create('/');
         $content = $storage->getContent('pages/1');
-        $this->assertInstanceOf('\Bolt\Content', $content);
+        $this->assertInstanceOf('\Bolt\Legacy\Content', $content);
 
         $content->setValues(['status' => 'draft', 'ownerid' => 99]);
         $storage->saveContent($content, 'Test Suite Update');

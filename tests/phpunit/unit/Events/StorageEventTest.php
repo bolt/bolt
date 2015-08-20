@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Events;
 
-use Bolt\Content;
+use Bolt\Legacy\Content;
 use Bolt\Events\StorageEvent;
 use Bolt\Tests\BoltUnitTest;
 
