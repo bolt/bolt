@@ -267,34 +267,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the first image in the content.
-     *
-     * @return string
-     */
-    public function getImage()
-    {
-        // No fields, no image.
-        if (empty($this->contenttype['fields'])) {
-            return '';
-        }
-
-        // Grab the first field of type 'image', and return that.
-        foreach ($this->contenttype['fields'] as $key => $field) {
-            if ($field['type'] == 'image') {
-                // After v1.5.1 we store image data as an array
-                if (is_array($this->values[$key])) {
-                    return $this->values[$key]['file'];
-                }
-
-                return $this->values[$key];
-            }
-        }
-
-        // otherwise, no image.
-        return '';
-    }
-
-    /**
      * Get the previous record. In this case 'previous' is defined as 'latest one published before
      * this one' by default. You can pass a parameter like 'id' or '-title' to use that as
      * the column to sort on.
