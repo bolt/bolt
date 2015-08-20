@@ -481,6 +481,48 @@ trait ContentValuesTrait
     }
 
     /**
+     * Get the columnname of the title, name, caption or subject.
+     *
+     * @return array
+     */
+    public function getTitleColumnName()
+    {
+        // If we specified a specific fieldname or array of fieldnames as 'title'.
+        if (!empty($this->contenttype['title_format'])) {
+            if (!is_array($this->contenttype['title_format'])) {
+                $this->contenttype['title_format'] = [$this->contenttype['title_format']];
+            }
+            return $this->contenttype['title_format'];
+        }
+
+        // Sets the names of some 'common' names for the 'title' column.
+        $names = ['title', 'name', 'caption', 'subject'];
+
+        // Some localised options as well
+        $names = array_merge($names, ['titel', 'naam', 'onderwerp']); // NL
+        $names = array_merge($names, ['nom', 'sujet']); // FR
+        $names = array_merge($names, ['nombre', 'sujeto']); // ES
+
+        foreach ($names as $name) {
+            if (isset($this->values[$name])) {
+                return [$name];
+            }
+        }
+
+        // Otherwise, grab the first field of type 'text', and assume that's the title.
+        if (!empty($this->contenttype['fields'])) {
+            foreach ($this->contenttype['fields'] as $key => $field) {
+                if ($field['type'] == 'text') {
+                    return [$key];
+                }
+            }
+        }
+
+        // Nope, no title was found.
+        return [];
+    }
+
+    /**
      * Check if a Contenttype field has a template set.
      *
      * @return boolean
