@@ -61,4 +61,38 @@ trait ContentSearchTrait
 
         $this->lastWeight = $weight;
     }
+
+    /**
+     * Calculate the default field weights.
+     *
+     * This gives more weight to the 'slug pointer fields'.
+     *
+     * @return array
+     */
+    private function getFieldWeights()
+    {
+        // This could be more configurable
+        // (see also Storage->searchSingleContentType)
+        $searchableTypes = ['text', 'textarea', 'html', 'markdown'];
+
+        $fields = [];
+
+        foreach ($this->contenttype['fields'] as $key => $config) {
+            if (in_array($config['type'], $searchableTypes)) {
+                $fields[$key] = isset($config['searchweight']) ? $config['searchweight'] : 50;
+            }
+        }
+
+        foreach ($this->contenttype['fields'] as $config) {
+            if ($config['type'] === 'slug' && isset($config['uses'])) {
+                foreach ((array) $config['uses'] as $ptrField) {
+                    if (isset($fields[$ptrField])) {
+                        $fields[$ptrField] = 100;
+                    }
+                }
+            }
+        }
+
+        return $fields;
+    }
 }
