@@ -18,6 +18,20 @@ namespace Bolt\Storage\Entity;
 trait ContentRouteTrait
 {
     /**
+     * Checks if the current record is set as the homepage.
+     *
+     * @return boolean
+     */
+    public function isHome()
+    {
+        $homepage = $this->app['config']->get('general/homepage');
+        $uriID = $this->contenttype['singular_slug'] . '/' . $this->get('id');
+        $uriSlug = $this->contenttype['singular_slug'] . '/' . $this->get('slug');
+
+        return $uriID === $homepage || $uriSlug === $homepage;
+    }
+
+    /**
      * Retrieves the first route applicable to the content as a two-element array consisting of the binding and the
      * route array. Returns `null` if there is no applicable route.
      *

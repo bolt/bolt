@@ -432,20 +432,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Checks if the current record is set as the homepage.
-     *
-     * @return boolean
-     */
-    public function isHome()
-    {
-        $homepage = $this->app['config']->get('general/homepage');
-        $uriID = $this->contenttype['singular_slug'] . '/' . $this->get('id');
-        $uriSlug = $this->contenttype['singular_slug'] . '/' . $this->get('slug');
-
-        return $uriID === $homepage || $uriSlug === $homepage;
-    }
-
-    /**
      * Get the previous record. In this case 'previous' is defined as 'latest one published before
      * this one' by default. You can pass a parameter like 'id' or '-title' to use that as
      * the column to sort on.
