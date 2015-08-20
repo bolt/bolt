@@ -730,28 +730,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Calculate the default taxonomy weights.
-     *
-     * Adds weights to taxonomies that behave like tags.
-     *
-     * @return array
-     */
-    private function getTaxonomyWeights()
-    {
-        $taxonomies = [];
-
-        if (isset($this->contenttype['taxonomy'])) {
-            foreach ($this->contenttype['taxonomy'] as $key) {
-                if ($this->app['config']->get('taxonomy/' . $key . '/behaves_like') == 'tags') {
-                    $taxonomies[$key] = $this->app['config']->get('taxonomy/' . $key . '/searchweight', 75);
-                }
-            }
-        }
-
-        return $taxonomies;
-    }
-
-    /**
      * Get the content's query weight… and something to eat… it looks hungry.
      *
      * @return integer
