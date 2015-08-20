@@ -691,45 +691,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Weight a text part relative to some other part.
-     *
-     * @param string  $subject  The subject to search in.
-     * @param string  $complete The complete search term (lowercased).
-     * @param array   $words    All the individual search terms (lowercased).
-     * @param integer $max      Maximum number of points to return.
-     *
-     * @return integer The weight
-     */
-    private function weighQueryText($subject, $complete, $words, $max)
-    {
-        $lowSubject = mb_strtolower(trim($subject));
-
-        if ($lowSubject == $complete) {
-            // a complete match is 100% of the maximum
-            return round((100 / 100) * $max);
-        }
-        if (strstr($lowSubject, $complete)) {
-            // when the whole query is found somewhere is 70% of the maximum
-            return round((70 / 100) * $max);
-        }
-
-        $wordMatches = 0;
-        $cntWords = count($words);
-        for ($i = 0; $i < $cntWords; $i++) {
-            if (strstr($lowSubject, $words[$i])) {
-                $wordMatches++;
-            }
-        }
-        if ($wordMatches > 0) {
-            // marcel: word matches are maximum of 50% of the maximum per word
-            // xiao: made (100/100) instead of (50/100).
-            return round(($wordMatches / $cntWords) * (100 / 100) * $max);
-        }
-
-        return 0;
-    }
-
-    /**
      * Get the content's query weight… and something to eat… it looks hungry.
      *
      * @return integer
