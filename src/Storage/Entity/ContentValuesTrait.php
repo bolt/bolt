@@ -502,4 +502,25 @@ trait ContentValuesTrait
 
         return false;
     }
+
+    /**
+     * Get the template associate with a Contenttype field.
+     *
+     * @return string
+     */
+    protected function getTemplateFieldsContentType()
+    {
+        if (!is_array($this->contenttype)) {
+            return '';
+        }
+
+        if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
+            $template = $this->app['templatechooser']->record($this);
+            if (array_key_exists($template, $templateFieldsConfig)) {
+                return $templateFieldsConfig[$template];
+            }
+        }
+
+        return '';
+    }
 }

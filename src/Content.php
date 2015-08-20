@@ -117,27 +117,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the template associate with a Contenttype field.
-     *
-     * @return string
-     */
-    protected function getTemplateFieldsContentType()
-    {
-        if (!is_array($this->contenttype)) {
-            return '';
-        }
-
-        if ($templateFieldsConfig = $this->app['config']->get('theme/templatefields')) {
-            $template = $this->app['templatechooser']->record($this);
-            if (array_key_exists($template, $templateFieldsConfig)) {
-                return $templateFieldsConfig[$template];
-            }
-        }
-
-        return '';
-    }
-
-    /**
      * "upcount" a filename: Add (1), (2), etc. for filenames that already exist.
      * Taken from jQuery file upload.
      *
