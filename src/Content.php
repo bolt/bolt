@@ -267,29 +267,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Get the title, name, caption or subject.
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        $titleParts = array();
-
-        foreach ($this->getTitleColumnName() as $fieldName) {
-            $titleParts[] = strip_tags($this->values[$fieldName]);
-        }
-
-        if (!empty($titleParts)) {
-            $title = implode(' ', $titleParts);
-        } else {
-            // nope, no title was found.
-            $title = '(untitled)';
-        }
-
-        return $title;
-    }
-
-    /**
      * Get the first image in the content.
      *
      * @return string
