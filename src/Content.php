@@ -446,21 +446,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Check if a route is applicable to this record.
-     *
-     * @param array $route
-     *
-     * @return boolean
-     */
-    protected function isApplicableRoute(array $route)
-    {
-        return (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug'])
-            || (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug'])
-            || (isset($route['recordslug'])  && $route['recordslug']  === $this->getReference())
-        ;
-    }
-
-    /**
      * Get the previous record. In this case 'previous' is defined as 'latest one published before
      * this one' by default. You can pass a parameter like 'id' or '-title' to use that as
      * the column to sort on.

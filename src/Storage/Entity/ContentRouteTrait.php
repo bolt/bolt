@@ -75,4 +75,19 @@ trait ContentRouteTrait
 
         return $params;
     }
+
+    /**
+     * Check if a route is applicable to this record.
+     *
+     * @param array $route
+     *
+     * @return boolean
+     */
+    protected function isApplicableRoute(array $route)
+    {
+        return (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug'])
+            || (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug'])
+            || (isset($route['recordslug'])  && $route['recordslug']  === $this->getReference())
+        ;
+    }
 }
