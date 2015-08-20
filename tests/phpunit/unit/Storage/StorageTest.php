@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Tests\Storage;
 
-use Bolt\Content;
+use Bolt\Legacy\Content;
+use Bolt\Legacy\Storage;
 use Bolt\Events\StorageEvents;
-use Bolt\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Doctrine\DBAL\Connection;
@@ -26,18 +26,18 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $storage = new Storage($app);
         $content = $storage->getContentObject('pages');
-        $this->assertInstanceOf('Bolt\Content', $content);
+        $this->assertInstanceOf('Bolt\Legacy\Content', $content);
 
         $fields = $app['config']->get('contenttypes/pages/fields');
 
-        $mock = $this->getMock('Bolt\Content', null, [$app], 'Pages');
+        $mock = $this->getMock('Bolt\Legacy\Content', null, [$app], 'Pages');
         $content = $storage->getContentObject(['class' => 'Pages', 'fields' => $fields]);
         $this->assertInstanceOf('Pages', $content);
-        $this->assertInstanceOf('Bolt\Content', $content);
+        $this->assertInstanceOf('Bolt\Legacy\Content', $content);
 
-        // Test that a class not instanceof Bolt\Content fails
+        // Test that a class not instanceof Bolt\Legacy\Content fails
         $mock = $this->getMock('stdClass', null, [], 'Failing');
-        $this->setExpectedException('Exception', 'Failing does not extend \Bolt\Content.');
+        $this->setExpectedException('Exception', 'Failing does not extend \Bolt\Legacy\Content.');
         $content = $storage->getContentObject(['class' => 'Failing', 'fields' => $fields]);
     }
 
@@ -137,7 +137,7 @@ class StorageTest extends BoltUnitTest
         $app = $this->getApp();
         $storage = new Storage($app);
         $showcase = $storage->getEmptyContent('showcase');
-        $this->assertInstanceOf('Bolt\Content', $showcase);
+        $this->assertInstanceOf('Bolt\Legacy\Content', $showcase);
         $this->assertEquals('showcases', $showcase->contenttype['slug']);
     }
 

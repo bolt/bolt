@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Controller;
 
-use Bolt\Content;
 use Bolt\Controller\Zone;
+use Bolt\Legacy\Content;
 use Bolt\Response\BoltResponse;
 use Bolt\Storage;
 use Bolt\Tests\Mocks\LoripsumMock;

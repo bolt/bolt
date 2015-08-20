@@ -2,14 +2,14 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Content;
 use Bolt\Helpers\Html;
+use Bolt\Legacy\Content;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 
 /**
- * Bolt specific Twig functions and filters that provide \Bolt\Content manipulation
+ * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation
  *
  * @internal
  */
@@ -32,7 +32,7 @@ class RecordHandler
      * If we're on page/foo, and content is that page, you can use
      * {% is page|current %}class='active'{% endif %}
      *
-     * @param \Bolt\Content|array $content
+     * @param \Bolt\Legacy\Content|array $content
      *
      * @return boolean True if the given content is on the curent page.
      */
@@ -51,7 +51,7 @@ class RecordHandler
 
         if (is_array($content) && isset($content['link'])) {
             $linkToCheck = $content['link'];
-        } elseif ($content instanceof \Bolt\Content) {
+        } elseif ($content instanceof \Bolt\Legacy\Content) {
             $linkToCheck = $content->link();
         } else {
             $linkToCheck = (string) $content;
@@ -101,7 +101,7 @@ class RecordHandler
     /**
      * Create an excerpt for the given content.
      *
-     * @param \Bolt\Content|array|string $content
+     * @param \Bolt\Legacy\Content|array|string $content
      * @param integer                    $length  Defaults to 200 characters
      *
      * @return string Resulting excerpt
@@ -168,9 +168,9 @@ class RecordHandler
      * Lists content of a specific contenttype, specifically for editing
      * relations in the backend.
      *
-     * @param string        $contenttype
-     * @param array         $relationoptions
-     * @param \Bolt\Content $content
+     * @param string               $contenttype
+     * @param array                $relationoptions
+     * @param \Bolt\Legacy\Content $content
      *
      * @return string
      */

@@ -145,7 +145,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->assertEquals('…', mb_substr($excerpt1, -1, 1, 'UTF-8'));
 
         // If passed an object excerpt will try to call an excerpt() method on it
-        $mock = $this->getMock('Bolt\Content', ['excerpt'], [$app]);
+        $mock = $this->getMock('Bolt\Legacy\Content', ['excerpt'], [$app]);
         $mock->expects($this->any())
             ->method('excerpt')
             ->will($this->returnValue('called'));

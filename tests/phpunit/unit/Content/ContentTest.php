@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Content;
 
-use Bolt\Content;
+use Bolt\Legacy\Content;
 use Bolt\Tests\BoltUnitTest;
 
 /**

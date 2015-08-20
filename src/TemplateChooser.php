@@ -23,7 +23,7 @@ class TemplateChooser
     /**
      * Choose a template for the homepage.
      *
-     * @param \Bolt\Content|\Bolt\Content[] $content
+     * @param \Bolt\Legacy\Content|\Bolt\Legacy\Content[] $content
      *
      * @return string
      */
@@ -60,11 +60,14 @@ class TemplateChooser
      * - '/page/about'
      * - '/entry/lorum-ipsum'
      *
-     * @param \Bolt\Content $record
+     * Refactor note: Using a FQCN for the hint here as a `use` statement causes
+     * a fatal in the unit tests… 'cause PHP and class_alias() versus namespaces.
+     *
+     * @param \Bolt\Legacy\Content $record
      *
      * @return string
      */
-    public function record(Content $record)
+    public function record(\Bolt\Legacy\Content $record)
     {
         // First candidate: global config.yml
         $template = $this->app['config']->get('general/record_template');

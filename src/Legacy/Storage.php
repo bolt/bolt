@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt;
+namespace Bolt\Legacy;
 
 use Bolt;
 use Bolt\Events\StorageEvent;
@@ -9,6 +9,7 @@ use Bolt\Exception\StorageException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
+use Bolt\Pager;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Doctrine\DBAL\DBALException;
@@ -46,14 +47,15 @@ class Storage
 
     /**
      * Get an object for the content of a specific contenttype. This will be
-     * \Bolt\Content, unless the contenttype defined another class to be used.
+     * \Bolt\Legacy\Content, unless the contenttype defined another class to be
+     * used.
      *
      * @param array|string $contenttype
      * @param array        $values
      *
      * @throws \Exception
      *
-     * @return \Bolt\Content
+     * @return \Bolt\Legacy\Content
      */
     public function getContentObject($contenttype, $values = [])
     {
@@ -67,9 +69,9 @@ class Storage
         if (!empty($contenttype['class']) && class_exists($contenttype['class'])) {
             $content = new $contenttype['class']($this->app, $contenttype, $values);
 
-            // Check if the class actually extends \Bolt\Content.
+            // Check if the class actually extends \Bolt\Legacy\Content.
             if (!($content instanceof Content)) {
-                throw new \Exception($contenttype['class'] . ' does not extend \\Bolt\\Content.');
+                throw new \Exception($contenttype['class'] . ' does not extend \\Bolt\\Legacy\\Content.');
             }
         } else {
             $content = new Content($this->app, $contenttype, $values);
@@ -446,8 +448,8 @@ class Storage
     /**
      * Insert a new contenttype record in the database.
      *
-     * @param \Bolt\Content $content Record content to insert
-     * @param string        $comment Editor's comment
+     * @param \Bolt\Legacy\Content $content Record content to insert
+     * @param string               $comment Editor's comment
      *
      * @return boolean
      */
@@ -485,14 +487,14 @@ class Storage
     /**
      * Update a Bolt contenttype record.
      *
-     * @param \Bolt\Content $content The content object to be updated
-     * @param string        $comment Add a comment to save with change.
+     * @param \Bolt\Legacy\Content $content The content object to be updated
+     * @param string               $comment Add a comment to save with change.
      *
      * @throws \Bolt\Exception\StorageException
      *
      * @return bool
      */
-    private function updateContent(Bolt\Content $content, $comment = null)
+    private function updateContent(Content $content, $comment = null)
     {
         $tablename = $this->getContenttypeTablename($content->contenttype);
 
@@ -634,7 +636,7 @@ class Storage
      * @param       $fields
      * @param array $filter
      *
-     * @return \Bolt\Content
+     * @return \Bolt\Legacy\Content
      */
     private function searchSingleContentType($query, $contenttype, $fields, array $filter = null)
     {
@@ -723,8 +725,8 @@ class Storage
      *
      * Or fallback to dates or title
      *
-     * @param \Bolt\Content $a
-     * @param \Bolt\Content $b
+     * @param \Bolt\Legacy\Content $a
+     * @param \Bolt\Legacy\Content $b
      *
      * @return int
      */
@@ -1720,7 +1722,7 @@ class Storage
 
             $rows = $this->app['db']->fetchAll($statement, $query['params']);
 
-            // Convert the row 'arrays' into \Bolt\Content objects.
+            // Convert the row 'arrays' into \Bolt\Legacy\Content objects.
             // Only get the Taxonomies and Relations if we have to.
             $rows = $this->hydrateRows($query['contenttype'], $rows, $decoded['hydrate']);
 
@@ -2246,7 +2248,7 @@ class Storage
     /**
      * Get the taxonomy for one or more units of content, return the array with the taxonomy attached.
      *
-     * @param \Bolt\Content[] $content
+     * @param \Bolt\Legacy\Content[] $content
      *
      * @return array $content
      */

@@ -2,7 +2,7 @@
 
 namespace Bolt\AccessControl;
 
-use Bolt\Content;
+use Bolt\Legacy\Content;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Silex;
@@ -515,7 +515,7 @@ class Permissions
     {
         if (is_array($content)) {
             $contenttypeSlug = $content['slug'];
-        } elseif ($content instanceof \Bolt\Content) {
+        } elseif ($content instanceof \Bolt\Legacy\Content) {
             $contenttypeSlug = $content->contenttype['slug'];
         } else {
             $contenttypeSlug = $content;

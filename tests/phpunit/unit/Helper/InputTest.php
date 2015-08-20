@@ -27,13 +27,6 @@ class InputTest extends BoltUnitTest
            'second' => "test\t"
         ];
         $this->assertEquals(['first' => 'test  ', 'second' => 'test    '], Input::cleanPostedData($vals, false, true));
-
-        // Test Slashed
-        $vals = [
-           'first'  => "\\\"test\\\"",
-           'second' => "a \\\"test\\\" val"
-        ];
-        $this->assertEquals(['first' => '"test"', 'second' => 'a "test" val'], Input::cleanPostedData($vals, true, true));
     }
 }
 

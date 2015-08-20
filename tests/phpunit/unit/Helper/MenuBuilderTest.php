@@ -190,7 +190,7 @@ class MenuBuilderTest extends BoltUnitTest
         $app['request'] = Request::createFromGlobals();
 
         if (false !== $content) {
-            $contentMock = $this->getMock('Bolt\Content', ['getContent', 'link'], [$app], '', false);
+            $contentMock = $this->getMock('Bolt\Legacy\Content', ['getContent', 'link'], [$app], '', false);
             $contentMock->expects($this->once())
                 ->method('link')
                 ->will($this->returnValue($link));

@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\EventListener;
 
-use Bolt\Content;
 use Bolt\Controller\Zone;
+use Bolt\Legacy\Content;
 use Bolt\Render;
 use Bolt\Storage;
 use Bolt\TemplateChooser;

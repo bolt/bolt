@@ -87,10 +87,10 @@ class ArrayHandler
     }
 
     /**
-     * Helper function for sorting an array of \Bolt\Content.
+     * Helper function for sorting an array of \Bolt\Legacy\Content.
      *
-     * @param \Bolt\Content|array $a
-     * @param \Bolt\Content|array $b
+     * @param \Bolt\Legacy\Content|array $a
+     * @param \Bolt\Legacy\Content|array $b
      *
      * @return boolean
      */
