@@ -3,8 +3,8 @@
 namespace Bolt\Logger\Handler;
 
 use Bolt\Application;
-use Bolt\Content;
 use Bolt\DeepDiff;
+use Bolt\Legacy\Content;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 
@@ -91,7 +91,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
 
         $title = $content->getTitle();
         if (empty($title)) {
-            /** @var \Bolt\Content $content */
+            /** @var \Bolt\Legacy\Content $content */
             $content = $this->app['storage']->getContent($context['contenttype'] . '/' . $context['id']);
             $title = $content->getTitle();
         }
@@ -188,7 +188,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
      * @param array $contenttype
      * @param array $values
      *
-     * @return \Bolt\Content
+     * @return \Bolt\Legacy\Content
      */
     protected function getContentObject(array $contenttype, array $values)
     {

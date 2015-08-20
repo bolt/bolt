@@ -3,9 +3,9 @@
 namespace Bolt\Twig\Handler;
 
 use Bolt\Application;
-use Bolt\Content;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
+use Bolt\Legacy\Content;
 use Maid\Maid;
 use Silex;
 
@@ -64,10 +64,10 @@ class HtmlHandler
     /**
      * Makes a piece of HTML editable.
      *
-     * @param string        $html    The HTML to be editable
-     * @param \Bolt\Content $content The actual content
-     * @param string        $field
-     * @param boolean       $safe
+     * @param string               $html    The HTML to be editable
+     * @param \Bolt\Legacy\Content $content The actual content
+     * @param string               $field
+     * @param boolean              $safe
      *
      * @return string
      */

@@ -274,7 +274,7 @@ class Content implements \ArrayAccess
      * @param string $field
      * @param array  $where
      *
-     * @return \Bolt\Content
+     * @return \Bolt\Legacy\Content
      */
     public function previous($field = 'datepublish', $where = [])
     {
@@ -305,7 +305,7 @@ class Content implements \ArrayAccess
      * @param string $field
      * @param array  $where
      *
-     * @return \Bolt\Content
+     * @return \Bolt\Legacy\Content
      */
     public function next($field = 'datepublish', $where = [])
     {

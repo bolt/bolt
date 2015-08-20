@@ -34,7 +34,7 @@ trait ContentRelationTrait
      * Backward compatability note:
      * The $options parameter used to be $filterid, an integer.
      *
-     * @return \Bolt\Content[]
+     * @return \Bolt\Legacy\Content[]
      */
     public function getRelation($filterContentType = null, $options = [])
     {

@@ -299,7 +299,7 @@ class EntityManager
      * @param array  $pager
      * @param array  $whereparameters
      *
-     * @return \Bolt\Content|\Bolt\Content[]
+     * @return \Bolt\Legacy\Content|\Bolt\Legacy\Content[]
      */
     public function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
