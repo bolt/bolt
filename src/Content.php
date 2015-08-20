@@ -10,6 +10,7 @@ use Silex;
 class Content implements \ArrayAccess
 {
     use Entity\ContentRelationTrait;
+    use Entity\ContentRouteTrait;
     use Entity\ContentSearchTrait;
     use Entity\ContentTaxonomyTrait;
     use Entity\ContentValuesTrait;
