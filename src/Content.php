@@ -442,7 +442,7 @@ class Content implements \ArrayAccess
      *
      * @return string
      */
-    public function getReference()
+    protected function getReference()
     {
         $reference = $this->contenttype['singular_slug'] . '/' . $this->values['slug'];
 
