@@ -479,4 +479,27 @@ trait ContentValuesTrait
 
         $this->setValues($values);
     }
+
+    /**
+     * Check if a Contenttype field has a template set.
+     *
+     * @return boolean
+     */
+    public function hasTemplateFields()
+    {
+        if (!is_array($this->contenttype)) {
+            return false;
+        }
+
+        if ((!$this->contenttype['viewless'])
+            && (!empty($this['templatefields']))
+            && ($templateFieldsConfig = $this->app['config']->get('theme/templatefields'))) {
+            $template = $this->app['templatechooser']->record($this);
+            if (array_key_exists($template, $templateFieldsConfig)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
