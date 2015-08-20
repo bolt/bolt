@@ -446,31 +446,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Retrieves the first route applicable to the content as a two-element array consisting of the binding and the
-     * route array. Returns `null` if there is no applicable route.
-     *
-     * @return array|null
-     */
-    protected function getRoute()
-    {
-        $allroutes = $this->app['config']->get('routing');
-
-        // First, try to find a custom route that's applicable
-        foreach ($allroutes as $binding => $route) {
-            if ($this->isApplicableRoute($route)) {
-                return [$binding, $route];
-            }
-        }
-
-        // Just return the 'generic' contentlink route.
-        if (!empty($allroutes['contentlink'])) {
-            return ['contentlink', $allroutes['contentlink']];
-        }
-
-        return null;
-    }
-
-    /**
      * Check if a route is applicable to this record.
      *
      * @param array $route
