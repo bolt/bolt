@@ -446,40 +446,6 @@ class Content implements \ArrayAccess
     }
 
     /**
-     * Build a Contenttype's route parameters
-     *
-     * @param array $route
-     *
-     * @return array
-     */
-    protected function getRouteRequirementParams(array $route)
-    {
-        $params = [];
-        if (isset($route['requirements'])) {
-            foreach ($route['requirements'] as $fieldName => $requirement) {
-                if ('\d{4}-\d{2}-\d{2}' === $requirement) {
-                    // Special case, if we need to have a date
-                    $params[$fieldName] = substr($this->values[$fieldName], 0, 10);
-                } elseif (isset($this->taxonomy[$fieldName])) {
-                    // Turn something like '/chapters/meta' to 'meta'. Note: we use
-                    // two temp vars here, to prevent "Only variables should be passed
-                    // by reference"-notices.
-                    $tempKeys = array_keys($this->taxonomy[$fieldName]);
-                    $tempValues = explode('/', array_shift($tempKeys));
-                    $params[$fieldName] = array_pop($tempValues);
-                } elseif (isset($this->values[$fieldName])) {
-                    $params[$fieldName] = $this->values[$fieldName];
-                } else {
-                    // unkown
-                    $params[$fieldName] = null;
-                }
-            }
-        }
-
-        return $params;
-    }
-
-    /**
      * Retrieves the first route applicable to the content as a two-element array consisting of the binding and the
      * route array. Returns `null` if there is no applicable route.
      *
