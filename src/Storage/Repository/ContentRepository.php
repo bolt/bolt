@@ -3,7 +3,6 @@
 namespace Bolt\Storage\Repository;
 
 use Bolt\Events\HydrationEvent;
-use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\Repository;
@@ -13,7 +12,6 @@ use Bolt\Storage\Repository;
  */
 class ContentRepository extends Repository
 {
-    
     protected $legacy;
     
     
@@ -32,6 +30,6 @@ class ContentRepository extends Repository
     public function hydrateLegacyHandler(HydrationEvent $event)
     {
         $entity = $event->getSubject();
-        $entity->setLegacyService($this->legacy);        
+        $entity->setLegacyService($this->legacy);
     }
 }

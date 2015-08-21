@@ -3,10 +3,7 @@ namespace Bolt\Storage\Entity;
 
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Input;
-use Bolt\Helpers\Str;
 use Bolt\Library as Lib;
-use Maid\Maid;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Trait class for ContentType relations.

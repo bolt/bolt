@@ -4,11 +4,10 @@ namespace Bolt\Storage;
 use Bolt\Application;
 
 /**
-* 
-*/
+ * 
+ */
 class ContentLegacyService
 {
-    
     use Entity\ContentRelationTrait;
     use Entity\ContentRouteTrait;
     use Entity\ContentSearchTrait;
@@ -24,6 +23,5 @@ class ContentLegacyService
     
     public function initialize($entity)
     {
-        
     }
 }
