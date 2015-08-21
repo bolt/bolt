@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage\Entity;
 
+use Bolt\Storage\ContentLegacyService;
+
 /**
  * Entity for Content.
  *
