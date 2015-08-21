@@ -62,5 +62,6 @@ class Content extends Entity
     public function setLegacyService(ContentLegacyService $service)
     {
         $this->_legacy = $service;
+        $this->_legacy->initialize($this);
     }
 }
