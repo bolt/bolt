@@ -18,6 +18,7 @@ namespace Bolt\Storage\Entity;
 class Content extends Entity
 {
     protected $_contenttype;
+    protected $_legacy;
     protected $id;
     protected $slug;
     protected $datecreated;
@@ -54,5 +55,10 @@ class Content extends Entity
     public function setContenttype($value)
     {
         $this->_contenttype = $value;
+    }
+    
+    public function setLegacyService(ContentLegacyService $service)
+    {
+        $this->_legacy = $service;
     }
 }
