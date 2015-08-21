@@ -19,7 +19,7 @@ class ContentRepository extends Repository
     public function setLegacyService(ContentLegacyService $service)
     {
         $this->legacy = $service;
-        $this->event()->addEventListener(StorageEvents::POST_HYDRATE, [$this, 'hydrateLegacyHandler']);
+        $this->event()->addListener(StorageEvents::POST_HYDRATE, [$this, 'hydrateLegacyHandler']);
     }
     
     
