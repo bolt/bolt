@@ -494,7 +494,7 @@ class RecordModifier
             'meta' => true
         ];
 
-        foreach ([$contenttype['fields'], $content->get('templatefields')->contenttype['fields'] ?: []] as $fields) {
+        foreach ([$contenttype['fields'], $content->getTemplatefields() ?: []] as $fields) {
             foreach ($fields as $field) {
                 $fieldtypes[$field['type']] = true;
             }
