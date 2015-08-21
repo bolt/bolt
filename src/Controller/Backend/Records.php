@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller\Backend;
 
+use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,11 +104,12 @@ class Records extends BackendBase
             return $this->recordModifier()->handleSaveRequest($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
         }
 
+        // Get the record
+        $repo = $this->getRepository($contenttypeslug);
         if ($new) {
-            $content = $this->app['storage']->getEmptyContent($contenttypeslug);
+            $content = $repo->create(['contenttype' => $contenttypeslug]);
         } else {
-            $content = $this->getContent($contenttypeslug, ['id' => $id]);
-
+            $content = $repo->find($id);
             if (empty($content)) {
                 // Record not found, advise and redirect to the dashboard
                 $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', ['%contenttype%' => $contenttypeslug]));
