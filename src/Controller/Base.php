@@ -278,6 +278,18 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
+     * Return a repository.
+     *
+     * @param string $repository
+     *
+     * @return \Bolt\Storage\Repository
+     */
+    protected function getRepository($repository)
+    {
+        return $this->app['storage']->getRepository($repository);
+    }
+
+    /**
      * Shortcut for {@see \Bolt\Storage::getContent}
      *
      * @param string $textquery
