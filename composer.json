@@ -27,6 +27,7 @@
         "league/flysystem" : "^1.0",
         "miljar/php-exif": "~0.4",
         "monolog/monolog" : "~1.12",
+        "nesbot/carbon" : "^1.20",
         "php" : ">=5.4.16",
         "siriusphp/upload" : "~1.2",
         "silex/silex" : "^1.3",
