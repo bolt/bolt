@@ -296,7 +296,7 @@ class Users extends BackendBase
                 $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $user->getDisplayname()]), ['event' => 'security']);
 
                 $user = new Entity\Users($form->getData());
-                if ($this->getRepository()->save($user)) {
+                if ($this->getRepository('Bolt\Storage\Entity\Users')->save($user)) {
                     $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $user->getDisplayname()]));
                 } else {
                     $this->flashes()->error(Trans::__('page.edit-users.message.saving-user', ['%user%' => $user->getDisplayname()]));
@@ -340,15 +340,6 @@ class Users extends BackendBase
         ];
 
         return $this->render('roles/roles.twig', $context);
-    }
-
-
-    /**
-     * @return \Bolt\Storage\Entity\Users
-     */
-    protected function getRepository()
-    {
-        return $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
     }
 
     /**
@@ -653,7 +644,7 @@ class Users extends BackendBase
             $userEntity->setRoles($this->users()->filterManipulatableRoles($userEntity->getId(), $userEntity->getRoles()));
         }
 
-        if ($this->getRepository()->save($userEntity)) {
+        if ($this->getRepository('Bolt\Storage\Entity\Users')->save($userEntity)) {
             $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));
             $this->notifyUserSave($request, $userEntity->getDisplayname(), $userEntity->getEmail(), $firstuser);
         } else {
