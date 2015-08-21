@@ -2,6 +2,9 @@
 
 namespace Bolt\Storage\Repository;
 
+use Bolt\Events\StorageEvent;
+use Bolt\Events\StorageEvents;
+use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\Repository;
 
 /**
@@ -9,8 +12,25 @@ use Bolt\Storage\Repository;
  */
 class ContentRepository extends Repository
 {
+    
+    protected $legacy;
+    
+    
+    public function setLegacyService(ContentLegacyService $service)
+    {
+        $this->legacy = $service;
+        $this->event()->addEventListener(StorageEvents::POST_HYDRATE, [$this, 'hydrateLegacyHandler'];
+    }
+    
+    
     public function createQueryBuilder($alias = 'content')
     {
         return parent::createQueryBuilder($alias);
+    }
+    
+    protected function hydrateLegacyHandler(StorageEvent $event)
+    {
+        $entity = $event->getContent();
+        $entity->setLegacyService($this->legacy);        
     }
 }
