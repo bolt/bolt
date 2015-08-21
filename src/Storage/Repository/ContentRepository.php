@@ -28,7 +28,7 @@ class ContentRepository extends Repository
         return parent::createQueryBuilder($alias);
     }
     
-    protected function hydrateLegacyHandler(StorageEvent $event)
+    public function hydrateLegacyHandler(StorageEvent $event)
     {
         $entity = $event->getContent();
         $entity->setLegacyService($this->legacy);        
