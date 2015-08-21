@@ -31,7 +31,7 @@ class ContentRepository extends Repository
     
     public function hydrateLegacyHandler(HydrationEvent $event)
     {
-        $entity = $event->getContent();
+        $entity = $event->getSubject();
         $entity->setLegacyService($this->legacy);        
     }
 }
