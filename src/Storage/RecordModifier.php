@@ -2,7 +2,8 @@
 
 namespace Bolt\Storage;
 
-use Bolt\Legacy\Content;
+use Bolt\Application;
+use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
 use Silex\Application;
