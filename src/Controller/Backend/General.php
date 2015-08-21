@@ -247,7 +247,7 @@ class General extends BackendBase
             if ($this->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true && $user !== null) {
                 $latest[$key] = $this->getContent($key, [
                     'limit'   => $limit,
-                    'order'   => 'datechanged DESC',
+                    'order'   => '-datechanged',
                     'hydrate' => false
                 ]);
                 $permissions[$key] = $this->getContentTypeUserPermissions($contenttype, $user);

@@ -14,6 +14,7 @@ class Hydrator
     protected $handler;
     /** @var ClassMetadata */
     protected $metadata;
+    
 
     /**
      * Constructor.
