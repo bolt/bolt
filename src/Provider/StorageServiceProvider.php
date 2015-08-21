@@ -3,6 +3,7 @@ namespace Bolt\Provider;
 
 use Bolt\EventListener\StorageEventListener;
 use Bolt\Storage;
+use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
@@ -17,6 +18,12 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.legacy'] = $app->share(
             function ($app) {
                 return new Storage($app);
+            }
+        );
+        
+        $app['storage.legacy_service'] = $app->share(
+            function ($app) {
+                return new ContentLegacyService($app);
             }
         );
 
@@ -38,6 +45,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                     function ($classMetadata) use ($app) {
                         $repoClass = $app['storage.repository.default'];
                         $repo = new $repoClass($app['storage'], $classMetadata);
+                        $repo->setLegacyService($app['storage.legacy_service']);
 
                         return $repo;
                     }
