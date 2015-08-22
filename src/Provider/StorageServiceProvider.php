@@ -20,7 +20,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return new Storage($app);
             }
         );
-        
+
         $app['storage.legacy_service'] = $app->share(
             function ($app) {
                 return new ContentLegacyService($app);
@@ -81,6 +81,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'select'                           => 'Bolt\Storage\Field\Type\SelectType',
             'slug'                             => 'Bolt\Storage\Field\Type\SlugType',
             'taxonomy'                         => 'Bolt\Storage\Field\Type\TaxonomyType',
+            'templatefields'                   => 'Bolt\Storage\Field\Type\TemplateFieldsType',
             'templateselect'                   => 'Bolt\Storage\Field\Type\TemplateSelectType',
             'text'                             => 'Bolt\Storage\Field\Type\TextType',
             'textarea'                         => 'Bolt\Storage\Field\Type\TextAreaType',

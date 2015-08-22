@@ -35,6 +35,7 @@ class ContentType extends BaseTable
         'markdown'       => 'columnText',
         'select'         => 'columnText',
         'textarea'       => 'columnText',
+        'templatefields' => 'columnText',
         'video'          => 'columnText',
     ];
 
