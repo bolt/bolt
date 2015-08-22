@@ -613,7 +613,7 @@ page:
             change-self: "Sie wurden abgemeldet weil Sie Ihren Benutzernamen geändert haben. Bitte melden Sie sich erneut an."
             saving-user: "Benutzer %user% konnte nicht gespeichert werden, oder es wurde nichts geändert."
             user-saved: "Benutzer %user% wurde gespeichert."
-        note-sqlite: "Sie verwenden momentan SQLite um den ersten Benutzer anzulegen. Wenn Sie MySQL oder PostgreSQL benutzen wollen, bearbeiten Sie <tt>'app/config/config.yml'</tt> und Bolt wird die Datenbank für Die erzeugen. Aktualisieren Sie anschließend die Seite, bevor Sie fortfahren."
+        note-sqlite: "Sie verwenden momentan SQLite um den ersten Benutzer anzulegen. Wenn Sie MySQL oder PostgreSQL benutzen wollen, bearbeiten Sie <tt>'app/config/config.yml'</tt> und Bolt wird die Datenbank für Sie erzeugen. Aktualisieren Sie anschließend die Seite, bevor Sie fortfahren."
         placeholder:
             displayname: "Anzeigename eingeben"
             email: "Gültige E-Mail Adresse eingeben"
