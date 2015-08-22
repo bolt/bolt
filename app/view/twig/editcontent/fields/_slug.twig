@@ -9,11 +9,11 @@
 
 {% set attributes = {
     slug: {
-        class:  'form-control',
-        id:     key,
-        name:   name,
-        type:   'hidden',
-        value:  context.content.get(key),
+        class: 'form-control',
+        id:    key,
+        name:  name,
+        type:  'hidden',
+        value: context.content.get(key),
     }
 } %}
 
@@ -22,11 +22,11 @@
 {% extends '_base/_fieldset.twig' %}
 
 {% set fieldset_conf = {
-    contentId:  context.content.id,
-    isEmpty:    (context.content.get(contentkey) == ''),
-    key:        key,
-    slug:       context.content.contenttype.slug,
-    uses:       option.uses,
+    contentId: context.content.id,
+    isEmpty:   (context.content.get(contentkey) == ''),
+    key:       key,
+    slug:      context.content.contenttype.slug,
+    uses:      option.uses,
 }%}
 
 {% block fieldset_type 'slug' %}
