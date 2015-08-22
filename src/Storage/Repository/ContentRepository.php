@@ -12,21 +12,33 @@ use Bolt\Storage\Repository;
  */
 class ContentRepository extends Repository
 {
+    /** @var ContentLegacyService */
     protected $legacy;
-    
-    
+
+    /**
+     * Set the legacy Content service object.
+     *
+     * @param ContentLegacyService $service
+     */
     public function setLegacyService(ContentLegacyService $service)
     {
         $this->legacy = $service;
         $this->event()->addListener(StorageEvents::POST_HYDRATE, [$this, 'hydrateLegacyHandler']);
     }
-    
-    
+
+    /**
+     * {@inheritdoc}
+     */
     public function createQueryBuilder($alias = 'content')
     {
         return parent::createQueryBuilder($alias);
     }
-    
+
+    /**
+     * Hydration handler for the legacy object.
+     *
+     * @param HydrationEvent $event
+     */
     public function hydrateLegacyHandler(HydrationEvent $event)
     {
         $entity = $event->getSubject();
