@@ -110,7 +110,7 @@ class Records extends BackendBase
             $content = $repo->create(['contenttype' => $contenttypeslug]);
         } else {
             $content = $repo->find($id);
-            if (empty($content)) {
+            if ($content === false) {
                 // Record not found, advise and redirect to the dashboard
                 $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', ['%contenttype%' => $contenttypeslug]));
 
