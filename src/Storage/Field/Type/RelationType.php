@@ -80,11 +80,11 @@ class RelationType extends FieldTypeBase
     {
         $field = $this->mapping['fieldname'];
         $relations = array_filter(explode(',', $data[$field]));
-        $values = [];
+        $values = $entity->getRelation();
         foreach ($relations as $id) {
-            $values[] = new EntityProxy($field, $id, $em);
+            $values[$field][] = new EntityProxy($field, $id, $em);
         }
-        $entity->$field = $values;
+        $entity->setRelation($values);
     }
 
     /**
