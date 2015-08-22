@@ -1,22 +1,20 @@
 {#=== INIT ===========================================================================================================#}
 
 {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
-{% set format = relation.format|default("{{ item.title|escape }} (№ {{ item.id }})") %}
+{% set format = context.content.relation.format|default("{{ title|escape }} (№ {{ id }})") %}
 
 {# Use option groups #}
 {% set groupby = relation.groupby|default(false) %}
 
 {# Build the select options array #}
 {% set options = [] %}
-{% for item in listcontent(relcontenttype, relation, context.content) %}
-    {% set selectedbyrelation = relcontenttype == app.request.get('relation') and
-                                item.id == app.request.get('relationid') %}
 
+{% for item in context.content.relation[relcontenttype] %}
     {% set options = options|merge([{
         value:     item.id,
-        text:      format|twig({'item': item}),
+        text:      format|twig({'title': item.get('title'), 'id': item.get('id')}),
         group:     groupby ? item.values[groupby]|default(false) : false,
-        selected:  item.selected or selectedbyrelation,
+        selected:  true,
     }]) %}
 {% endfor %}
 
