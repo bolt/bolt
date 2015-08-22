@@ -81,8 +81,9 @@ class TaxonomyType extends FieldTypeBase
     public function hydrate($data, $entity, EntityManager $em = null)
     {
         $field = $this->mapping['fieldname'];
-        $taxonomies = array_filter(explode(',', $data[$field]));
-        $entity->$field = $taxonomies;
+        $values = $entity->getTaxonomy();
+        $values[$field] = array_filter(explode(',', $data[$field]));
+        $entity->setTaxonomy($values);
     }
 
     /**
