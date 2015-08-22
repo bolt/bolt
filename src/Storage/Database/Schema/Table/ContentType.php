@@ -40,6 +40,8 @@ class ContentType extends BaseTable
         'templatefields' => 'columnJson',
         'video'          => 'columnJson',
     ];
+    /** @var array */
+    protected $ignoredChanges = [];
 
     /**
      * {@inheritdoc}
@@ -86,9 +88,11 @@ class ContentType extends BaseTable
      */
     public function ignoredChanges()
     {
-        return [
+        $ignoredChanges = [
             ['column' => 'templatefields', 'property' => 'type'],
         ];
+
+        return array_merge($this->ignoredChanges, $ignoredChanges);
     }
 
     /**
@@ -116,6 +120,10 @@ class ContentType extends BaseTable
 
         if ($addIndex) {
             $this->table->addIndex([$fieldName]);
+        }
+
+        if ($this->typeMap[$type] === 'columnJson') {
+            $this->ignoredChanges[] = ['column' => $fieldName, 'property' => 'type'];
         }
     }
 
