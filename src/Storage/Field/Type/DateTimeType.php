@@ -10,7 +10,7 @@ namespace Bolt\Storage\Field\Type;
 class DateTimeType extends DateType
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {

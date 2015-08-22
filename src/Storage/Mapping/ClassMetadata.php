@@ -42,7 +42,7 @@ class ClassMetadata implements ClassMetadataInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {

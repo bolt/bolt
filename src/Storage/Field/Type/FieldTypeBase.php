@@ -24,7 +24,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -32,7 +32,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
@@ -40,7 +40,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em = null)
     {
@@ -62,7 +62,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hydrate($data, $entity, EntityManager $em = null)
     {
@@ -74,14 +74,14 @@ abstract class FieldTypeBase implements FieldTypeInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function present($entity)
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {

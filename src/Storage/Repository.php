@@ -84,7 +84,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function find($id)
     {
@@ -102,7 +102,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findAll()
     {
@@ -110,7 +110,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {

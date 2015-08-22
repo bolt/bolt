@@ -29,7 +29,7 @@ class LazyUrlGenerator implements UrlGeneratorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setContext(RequestContext $context)
     {
@@ -52,7 +52,7 @@ class LazyUrlGenerator implements UrlGeneratorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getContext()
     {
@@ -60,7 +60,7 @@ class LazyUrlGenerator implements UrlGeneratorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
     {

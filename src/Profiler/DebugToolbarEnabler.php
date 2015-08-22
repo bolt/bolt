@@ -44,7 +44,7 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function register(Application $app)
     {
@@ -52,7 +52,7 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function boot(Application $app)
     {
@@ -62,7 +62,7 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {

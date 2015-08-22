@@ -258,7 +258,7 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata = null)
     {
@@ -306,7 +306,7 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAllClassNames()
     {

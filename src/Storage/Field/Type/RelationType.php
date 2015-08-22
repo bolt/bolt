@@ -52,7 +52,7 @@ class RelationType extends FieldTypeBase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -74,7 +74,7 @@ class RelationType extends FieldTypeBase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function hydrate($data, $entity, EntityManager $em = null)
     {
@@ -88,7 +88,7 @@ class RelationType extends FieldTypeBase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function persist(QuerySet $queries, $entity, EntityManager $em = null)
     {
@@ -160,7 +160,7 @@ class RelationType extends FieldTypeBase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {
