@@ -12,11 +12,15 @@ use Carbon\Carbon;
  * @method integer getOwnerid()
  * @method string  getStatus()
  * @method array   getTemplatefields()
+ * @method array   getRelation()
+ * @method array   getTaxonomy()
  * @method setId(integer $id)
  * @method setSlug(string $slug)
  * @method setOwnerid(integer $ownerid)
  * @method setStatus(string $status)
  * @method setTemplatefields(array $templatefields)
+ * @method setRelation(array $relation)
+ * @method setTaxonomy(array $taxonomy)
  */
 class Content extends Entity
 {
@@ -31,6 +35,8 @@ class Content extends Entity
     protected $ownerid;
     protected $status;
     protected $templatefields;
+    protected $relation;
+    protected $taxonomy;
 
     /**
      * Getter for templates using {{ content.get(title) }} functions.
