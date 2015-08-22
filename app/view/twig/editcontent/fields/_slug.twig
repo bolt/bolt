@@ -9,7 +9,7 @@
 
 {% set attributes = {
     slug: {
-        class: 'form-control',
+        class:  'form-control',
         id:    key,
         name:  name,
         type:  'hidden',
@@ -25,7 +25,7 @@
     contentId: context.content.id,
     isEmpty:   (context.content.get(contentkey) == ''),
     key:       key,
-    slug:      context.content.contenttype.slug,
+    slug:      context.content.contenttype,
     uses:      option.uses,
 }%}
 
@@ -37,7 +37,7 @@
 {% block fieldset_controls %}
     <div class="col-sm-9">
         <div class="input-group input-group-sm locked">
-            <span class="input-group-addon">/{{ context.content.contenttype.singular_slug }}/<em>{{ context.content.get(contentkey) }}</em></span>
+            <span class="input-group-addon">/{{ context.content.contenttype }}/<em>{{ context.content.get(contentkey) }}</em></span>
             <input{{ macro.attr(attributes.slug) }}>
             <span class="input-group-btn">
                 <button type="button" class="btn btn-default lock"><i class="fa fa-fw"></i></button>
