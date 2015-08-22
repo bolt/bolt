@@ -539,7 +539,7 @@ class Manager
     private function getContentTypeTableColumnType(array $values)
     {
         // Multi-value selects are stored as JSON arrays
-        if ($values['type'] === 'select' && $values['multiple'] == 'true') {
+        if (isset($values['type']) && $values['type'] === 'select' && isset($values['multiple']) && $values['multiple'] === 'true') {
             return 'selectmultiple';
         }
 
