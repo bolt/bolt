@@ -222,7 +222,7 @@ showcases:
 #    taxonomy: [ chapters ]
 #    recordsperpage: 10
 #
-# Alternatively, or additionally, you then can thencreate a Contenttype with
+# Alternatively, or additionally, you then can then create a Contenttype with
 # default fields, and a 'select' field, and a different 'templateselect' option.
 #
 #contenttype_xyz:
