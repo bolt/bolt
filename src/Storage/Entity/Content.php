@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Entity;
 
 use Bolt\Storage\ContentLegacyService;
+use Carbon\Carbon;
 
 /**
  * Entity for Content.
@@ -46,7 +47,7 @@ class Content extends Entity
     public function getDatecreated()
     {
         if (!$this->datecreated) {
-            return new \DateTime();
+            return new Carbon();
         }
 
         return $this->datecreated;
@@ -55,7 +56,7 @@ class Content extends Entity
     public function getDatechanged()
     {
         if (!$this->datechanged) {
-            return new \DateTime();
+            return new Carbon();
         }
 
         return $this->datechanged;
