@@ -130,9 +130,6 @@ showcases:
             group: files
         filelist:
             type: filelist
-        template:
-            type: templateselect
-            filter: '*.twig'
         checkbox:
             type: checkbox
             label: "This is a checkbox"
@@ -164,6 +161,10 @@ showcases:
             postfix: "Select an entry"
             autocomplete: true
             sort: title
+        template:
+            type: templateselect
+            filter: '*.twig'
+            group: meta
     relations:
         entries:
             multiple: false
