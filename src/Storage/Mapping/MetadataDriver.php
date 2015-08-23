@@ -182,6 +182,7 @@ class MetadataDriver implements MappingDriver
         if ($contentKey) {
             $this->setRelations($contentKey, $className, $table);
             $this->setTaxonomies($contentKey, $className, $table);
+            $this->setTemplatefields($contentKey, $className, $table);
         }
 
         foreach ($this->getAliases() as $alias => $table) {
@@ -255,6 +256,31 @@ class MetadataDriver implements MappingDriver
             $this->metadata[$className]['fields'][$taxonomy] = $mapping;
             $this->metadata[$className]['fields'][$taxonomy]['data'] = $taxonomyConfig;
         }
+    }
+    
+    /**
+     * Setup a templatefields field if needed.
+     *
+     * @param string $contentKey
+     * @param string $className
+     * @param Table  $table
+     */
+    public function setTemplatefields($contentKey, $className, $table)
+    {
+        if (!isset($this->contenttypes[$contentKey]['templatefields'])) {
+            return;
+        }
+        
+        $config = $this->contenttypes[$contentKey]['templatefields'];
+
+        $mapping = [
+            'fieldname' => 'templatefields',
+            'type'      => 'null',
+            'fieldtype' => $this->typemap['templatefields'],
+            'config'    => $config,
+        ];
+
+        $this->metadata[$className]['fields']['templatefields'] = $mapping;
     }
 
     /**
