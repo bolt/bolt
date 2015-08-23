@@ -69,6 +69,7 @@ class Config
     {
         if (!$this->loadCache()) {
             $this->data = $this->getConfig();
+            $this->parseTemplatefields();
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
@@ -380,9 +381,31 @@ class Config
             }
 
             $themeConfig['templatefields'] = $templateContentTypes;
+            
         }
 
         return $themeConfig;
+    }
+    
+    /**
+     * This method pulls the templatefields config from the theme config and appends it
+     * to the contenttypes configuration.
+     * 
+     */
+    protected function parseTemplatefields()
+    {
+        $theme = $this->data['theme'];
+                
+        if (isset($theme['templatefields'])) {
+            foreach ($this->data['contenttypes'] as $key => $ct) {
+                foreach ($ct['fields'] as $fieldkey => $value) {
+                    if ($fieldkey['type'] === 'templateselect') {
+                        $this->data['contenttypes'][$key]['templatefields'] = $theme['templatefields'];
+                    }
+                }
+            }
+        }
+        
     }
 
     /**
