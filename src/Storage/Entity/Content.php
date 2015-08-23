@@ -34,7 +34,6 @@ class Content extends Entity
     protected $datedepublish = null;
     protected $ownerid;
     protected $status;
-    protected $templatefields;
     protected $relation;
     protected $taxonomy;
 

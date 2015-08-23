@@ -275,7 +275,7 @@ class MetadataDriver implements MappingDriver
 
         $mapping = [
             'fieldname' => 'templatefields',
-            'type'      => 'null',
+            'type'      => 'json_array',
             'fieldtype' => $this->typemap['templatefields'],
             'config'    => $config,
         ];

@@ -113,8 +113,7 @@ class Content implements \ArrayAccess
             'datepublish',
             'datedepublish',
             'ownerid',
-            'status',
-            'templatefields'
+            'status'
         ];
     }
 
