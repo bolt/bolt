@@ -257,7 +257,7 @@ class MetadataDriver implements MappingDriver
             $this->metadata[$className]['fields'][$taxonomy]['data'] = $taxonomyConfig;
         }
     }
-    
+
     /**
      * Setup a templatefields field if needed.
      *
@@ -270,7 +270,7 @@ class MetadataDriver implements MappingDriver
         if (!isset($this->contenttypes[$contentKey]['templatefields'])) {
             return;
         }
-        
+
         $config = $this->contenttypes[$contentKey]['templatefields'];
 
         $mapping = [

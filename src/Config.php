@@ -381,21 +381,20 @@ class Config
             }
 
             $themeConfig['templatefields'] = $templateContentTypes;
-            
         }
 
         return $themeConfig;
     }
-    
+
     /**
      * This method pulls the templatefields config from the theme config and appends it
      * to the contenttypes configuration.
-     * 
+     *
      */
     protected function parseTemplatefields()
     {
         $theme = $this->data['theme'];
-                
+
         if (isset($theme['templatefields'])) {
             foreach ($this->data['contenttypes'] as $key => $ct) {
                 foreach ($ct['fields'] as $field) {
@@ -405,7 +404,7 @@ class Config
                 }
             }
         }
-        
+
     }
 
     /**
