@@ -49,6 +49,11 @@ class Content extends Entity
         return $this->$key;
     }
 
+    /**
+     * Get creation date.
+     *
+     * @return \DateTime
+     */
     public function getDatecreated()
     {
         if (!$this->datecreated) {
@@ -58,6 +63,21 @@ class Content extends Entity
         return $this->datecreated;
     }
 
+    /**
+     * Set creation date.
+     *
+     * @param \DateTime|string|null
+     */
+    public function setDatecreated($date)
+    {
+        $this->datecreated = $this->getValidDateObject($date);
+    }
+
+    /**
+     * Get change date.
+     *
+     * @return \DateTime
+     */
     public function getDatechanged()
     {
         if (!$this->datechanged) {
@@ -65,6 +85,36 @@ class Content extends Entity
         }
 
         return $this->datechanged;
+    }
+
+    /**
+     * Set change date.
+     *
+     * @param \DateTime|string|null
+     */
+    public function setDatechanged($date)
+    {
+        $this->datechanged = $this->getValidDateObject($date);
+    }
+
+    /**
+     * Set published date.
+     *
+     * @param \DateTime|string|null
+     */
+    public function setDatepublish($date)
+    {
+        $this->datepublish = $this->getValidDateObject($date);
+    }
+
+    /**
+     * Set depublished date.
+     *
+     * @param \DateTime|string|null
+     */
+    public function setDatedepublish($date)
+    {
+        $this->datedepublish = $this->getValidDateObject($date);
     }
 
     public function getContenttype()
@@ -81,5 +131,22 @@ class Content extends Entity
     {
         $this->_legacy = $service;
         $this->_legacy->initialize($this);
+    }
+
+    /**
+     * Get a valid date property to persist.
+     *
+     * @param \DateTime|string|null $date
+     *
+     * @return \DateTime|null
+     */
+    protected function getValidDateObject($date)
+    {
+        if (empty($date)) {
+            return null;
+        } elseif (is_string($date)) {
+            return new Carbon($date);
+        }
+        return $date;
     }
 }
