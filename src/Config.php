@@ -398,8 +398,8 @@ class Config
                 
         if (isset($theme['templatefields'])) {
             foreach ($this->data['contenttypes'] as $key => $ct) {
-                foreach ($ct['fields'] as $fieldkey => $value) {
-                    if ($fieldkey['type'] === 'templateselect') {
+                foreach ($ct['fields'] as $field) {
+                    if (isset($field['type']) && $field['type'] === 'templateselect') {
                         $this->data['contenttypes'][$key]['templatefields'] = $theme['templatefields'];
                     }
                 }
