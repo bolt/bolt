@@ -3,6 +3,8 @@
 namespace Bolt\Storage;
 
 use Bolt\Application;
+use Bolt\Exception\AccessControlException;
+use Bolt\Helpers\Input;
 use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
@@ -50,13 +52,14 @@ class RecordModifier
     public function handleSaveRequest(array $formValues, array $contenttype, $id, $new, $returnTo, $editReferrer)
     {
         $contenttypeslug = $contenttype['slug'];
+        $repo = $this->app['storage']->getRepository($contenttypeslug);
 
         // If we have an ID now, this is an existing record
         if ($id) {
-            $content = $this->app['storage']->getContent($contenttypeslug, ['id' => $id, 'status' => '!undefined']);
+            $content = $repo->find($id);
             $oldStatus = $content['status'];
         } else {
-            $content = $this->app['storage']->getContentObject($contenttypeslug);
+            $content = $repo->create(['contenttype' => $contenttypeslug, 'status' => $contenttype['default_status']]);
             $oldStatus = '';
         }
 
@@ -67,24 +70,64 @@ class RecordModifier
             return new RedirectResponse($this->generateUrl('dashboard'));
         }
 
-        // Ensure all fields have valid values
-        $requestAll = $this->setSuccessfulControlValues($formValues, $contenttype['fields']);
+        // Set the POSTed values in the entity object
+        $this->setPostedValues($content, $formValues, $contenttype);
 
         // To check whether the status is allowed, we act as if a status
         // *transition* were requested.
-        $content->setFromPost($requestAll, $contenttype);
-        $newStatus = $content['status'];
-
-        $statusOK = $this->app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttypeslug, $id);
+        $statusOK = $this->app['users']->isContentStatusTransitionAllowed($oldStatus, $content->getStatus(), $contenttypeslug, $id);
         if ($statusOK) {
             // Get the associated record change comment
             $comment = isset($formValues['changelog-comment']) ? $formValues['changelog-comment'] : '';
+// FIXME do changelog update
 
             // Save the record
             return $this->saveContentRecord($content, $contenttype, $new, $comment, $returnTo, $editReferrer);
         } else {
             $this->app['logger.flash']->error(Trans::__('contenttypes.generic.error-saving', ['%contenttype%' => $contenttypeslug]));
             $this->app['logger.system']->error('Save error: ' . $content->getTitle(), ['event' => 'content']);
+        }
+    }
+
+    /**
+     * Set a Contenttype record values from a HTTP POST.
+     *
+     * @param Content $content
+     * @param array  $formValues
+     * @param string $contentType
+     *
+     * @throws \Exception
+     */
+    private function setPostedValues(Content $content, $formValues, $contentType)
+    {
+        // Ensure all fields have valid values
+        $formValues = $this->setSuccessfulControlValues($formValues, $contentType['fields']);
+        $formValues = Input::cleanPostedData($formValues);
+
+        if ($id = $content->getId()) {
+            // Owner is set explicitly, is current user is allowed to do this?
+            if (isset($formValues['ownerid']) && (integer) $formValues['ownerid'] !== $content->getOwnerid()) {
+                if (!$this->app['permissions']->isAllowed("contenttype:{$contentType['slug']}:change-ownership:$id")) {
+                    throw new AccessControlException('Changing ownership is not allowed.');
+                }
+                $content->setOwnerid($formValues['ownerid']);
+            }
+        } else {
+            $user = $this->app['users']->getCurrentUser();
+            $content->setOwnerid($user['id']);
+        }
+
+        // Make sure we have a proper status.
+        if (!in_array($formValues['status'], ['published', 'timed', 'held', 'draft'])) {
+            if ($status = $content->getStatus()) {
+                $formValues['status'] = $status;
+            } else {
+                $formValues['status'] = 'draft';
+            }
+        }
+
+        foreach ($formValues as $name => $value) {
+            $content[$name] = empty($value) ? null : $value;
         }
     }
 
@@ -103,7 +146,8 @@ class RecordModifier
     private function saveContentRecord(Content $content, array $contenttype, $new, $comment, $returnTo, $editReferrer)
     {
         // Save the record
-        $id = $this->app['storage']->saveContent($content, $comment);
+        $repo = $this->app['storage']->getRepository($contenttype['slug']);
+        $id = $repo->save($content);
 
         // Log the change
         if ($new) {
