@@ -2,7 +2,7 @@
 namespace Bolt\Provider;
 
 use Bolt\EventListener\StorageEventListener;
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\MetadataDriver;
