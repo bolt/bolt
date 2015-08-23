@@ -61,7 +61,7 @@ class RecordModifier
         }
 
         // Don't allow spoofing the $id.
-        if (!empty($content['id']) && $id != $content['id']) {
+        if (!empty($content->getId()) && $id !== $content->getId()) {
             $this->app['logger.flash']->error("Don't try to spoof the id!");
 
             return new RedirectResponse($this->generateUrl('dashboard'));
@@ -260,11 +260,11 @@ class RecordModifier
      *
      * @return array
      */
-    public function handleEditRequest($content, array $contenttype, $id, $new, $duplicate)
+    public function handleEditRequest(Content $content, array $contenttype, $id, $new, $duplicate)
     {
         $contenttypeslug = $contenttype['slug'];
 
-        $oldStatus = $content['status'];
+        $oldStatus = $content->getStatus();
         $allStatuses = ['published', 'held', 'draft', 'timed'];
         $allowedStatuses = [];
         foreach ($allStatuses as $status) {
@@ -275,16 +275,14 @@ class RecordModifier
 
         // For duplicating a record, clear base field values.
         if ($duplicate) {
-            $content->setValues([
-                'id'            => '',
-                'slug'          => '',
-                'datecreated'   => '',
-                'datepublish'   => '',
-                'datedepublish' => null,
-                'datechanged'   => '',
-                'username'      => '',
-                'ownerid'       => '',
-            ]);
+            $content->setId('');
+            $content->setSlug('');
+            $content->setDatecreated('');
+            $content->setDatepublish('');
+            $content->setDatedepublish(null);
+            $content->setDatechanged('');
+            $content->setUsername('');
+            $content->setOwnerid('');
 
             $this->app['logger.flash']->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contenttypeslug]));
         }
@@ -295,32 +293,32 @@ class RecordModifier
             $contentowner = $this->app['users']->getCurrentUser();
         } else {
             // For existing items, we'll just keep the current owner.
-            $contentowner = $this->app['users']->getUser($content['ownerid']);
+            $contentowner = $this->app['users']->getUser($content->getOwnerid());
         }
 
         // Test write access for uploadable fields.
         $contenttype['fields'] = $this->setCanUpload($contenttype['fields']);
-        if ((!empty($content['templatefields'])) && (!empty($content['templatefields']->contenttype['fields']))) {
-            $content['templatefields']->contenttype['fields'] = $this->setCanUpload($content['templatefields']->contenttype['fields']);
+        if ($templatefields = $content->getTemplatefields()) {
+            $content->setTemplatefields($this->setCanUpload($templatefields));
         }
 
         // Build context for Twig.
         $contextCan = [
             'upload'             => $this->app['users']->isAllowed('files:uploads'),
-            'publish'            => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':publish:' . $content['id']),
-            'depublish'          => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':depublish:' . $content['id']),
-            'change_ownership'   => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':change-ownership:' . $content['id']),
+            'publish'            => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':publish:' . $content->getId()),
+            'depublish'          => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':depublish:' . $content->getId()),
+            'change_ownership'   => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':change-ownership:' . $content->getId()),
         ];
         $contextHas = [
             'incoming_relations' => is_array($content->relation),
             'relations'          => isset($contenttype['relations']),
             'tabs'               => $contenttype['groups'] !== false,
             'taxonomy'           => isset($contenttype['taxonomy']),
-            'templatefields'     => $content->hasTemplateFields(),
+            'templatefields'     => $templatefields ? true : false,
         ];
         $contextValues = [
-            'datepublish'        => $this->getPublishingDate($content['datepublish'], true),
-            'datedepublish'      => $this->getPublishingDate($content['datedepublish']),
+            'datepublish'        => $this->getPublishingDate($content->getDatepublish(), true),
+            'datedepublish'      => $this->getPublishingDate($content->getDatedepublish()),
         ];
         $context = [
             'contenttype'        => $contenttype,
