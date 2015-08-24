@@ -211,6 +211,16 @@ class EntityManager
     }
 
     /**
+     * Gets the DBAL Driver Connection.
+     *
+     * @return Connection
+     */
+    public function getConnection()
+    {
+        return $this->conn;
+    }
+
+    /**
      * Gets the Event Manager.
      *
      * @return EventDispatcherInterface
