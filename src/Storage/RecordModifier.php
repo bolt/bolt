@@ -131,7 +131,7 @@ class RecordModifier
         }
 
         foreach ($formValues as $name => $value) {
-            $content[$name] = empty($value) ? null : $value;
+            $content->set($name, empty($value) ? null : $value);
         }
     }
 
