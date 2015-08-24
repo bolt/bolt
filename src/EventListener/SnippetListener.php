@@ -76,6 +76,8 @@ class SnippetListener implements EventSubscriberInterface
             $host = $this->resources->getUrl('hosturl');
             $theme = $this->resources->getUrl('theme');
             $this->queue->add(Target::END_OF_HEAD, $this->encode('<link rel="shortcut icon" href="%s%s%s">', $host, $theme, $favicon));
+        } else {
+            $this->queue->add(Target::END_OF_HEAD, '<link rel="icon" href="data:;base64,iVBORw0KGgo=">');
         }
     }
 
