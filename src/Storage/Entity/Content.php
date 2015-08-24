@@ -77,7 +77,7 @@ class Content extends Entity
     /**
      * Set creation date.
      *
-     * @param \DateTime|string|null
+     * @param \DateTime|string|null $date
      */
     public function setDatecreated($date)
     {
@@ -101,7 +101,7 @@ class Content extends Entity
     /**
      * Set change date.
      *
-     * @param \DateTime|string|null
+     * @param \DateTime|string|null $date
      */
     public function setDatechanged($date)
     {
@@ -111,7 +111,7 @@ class Content extends Entity
     /**
      * Set published date.
      *
-     * @param \DateTime|string|null
+     * @param \DateTime|string|null $date
      */
     public function setDatepublish($date)
     {
@@ -121,7 +121,7 @@ class Content extends Entity
     /**
      * Set depublished date.
      *
-     * @param \DateTime|string|null
+     * @param \DateTime|string|null $date
      */
     public function setDatedepublish($date)
     {
