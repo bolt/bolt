@@ -63,8 +63,11 @@ class RecordModifier
             $oldStatus = '';
         }
 
-        // Don't allow spoofing the $id.
-        if (!empty($content->getId()) && $id !== $content->getId()) {
+        // Don't allow spoofing the ID.
+        if ($content->getId() !== false && (integer) $id !== $content->getId()) {
+            if ($returnTo === 'ajax') {
+                throw new AccessControlException("Don't try to spoof the id!");
+            }
             $this->app['logger.flash']->error("Don't try to spoof the id!");
 
             return new RedirectResponse($this->generateUrl('dashboard'));
