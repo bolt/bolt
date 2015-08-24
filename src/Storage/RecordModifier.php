@@ -57,9 +57,11 @@ class RecordModifier
         // If we have an ID now, this is an existing record
         if ($id) {
             $content = $repo->find($id);
+            $oldContent = clone $content;
             $oldStatus = $content['status'];
         } else {
             $content = $repo->create(['contenttype' => $contenttypeslug, 'status' => $contenttype['default_status']]);
+            $oldContent = null;
             $oldStatus = '';
         }
 
@@ -85,7 +87,7 @@ class RecordModifier
 // FIXME do changelog update
 
             // Save the record
-            return $this->saveContentRecord($content, $contenttype, $new, $comment, $returnTo, $editReferrer);
+            return $this->saveContentRecord($content, $oldContent, $contenttype, $new, $comment, $returnTo, $editReferrer);
         } else {
             $this->app['logger.flash']->error(Trans::__('contenttypes.generic.error-saving', ['%contenttype%' => $contenttypeslug]));
             $this->app['logger.system']->error('Save error: ' . $content->getTitle(), ['event' => 'content']);
@@ -137,27 +139,32 @@ class RecordModifier
     /**
      * Commit the record to the database.
      *
-     * @param Content $content
-     * @param array   $contenttype
-     * @param boolean $new
-     * @param string  $comment
-     * @param string  $returnTo
-     * @param string  $editReferrer
+     * @param Content      $content
+     * @param Content|null $oldContent
+     * @param array        $contentType
+     * @param boolean      $new
+     * @param string       $comment
+     * @param string       $returnTo
+     * @param string       $editReferrer
      *
      * @return Response
      */
-    private function saveContentRecord(Content $content, array $contenttype, $new, $comment, $returnTo, $editReferrer)
+    private function saveContentRecord(Content $content, $oldContent, array $contentType, $new, $comment, $returnTo, $editReferrer)
     {
         // Save the record
-        $repo = $this->app['storage']->getRepository($contenttype['slug']);
+        $repo = $this->app['storage']->getRepository($contentType['slug']);
         $id = $repo->save($content);
+
+// FIXME \Bolt\Logger\Handler\RecordChangeHandler needs to be updated to handle Entity objects
+        // Create the change log entry if configured
+        $this->logChange($contentType, $content->getId(), $content, $oldContent, $comment);
 
         // Log the change
         if ($new) {
-            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contenttype['slug']]));
+            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contentType['slug']]));
             $this->app['logger.system']->info('Created: ' . $content->getTitle(), ['event' => 'content']);
         } else {
-            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contenttype['slug']]));
+            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contentType['slug']]));
             $this->app['logger.system']->info('Saved: ' . $content->getTitle(), ['event' => 'content']);
         }
 
@@ -168,19 +175,19 @@ class RecordModifier
         if ($returnTo) {
             if ($returnTo === 'new') {
                 return new RedirectResponse($this->generateUrl('editcontent', [
-                    'contenttypeslug' => $contenttype['slug'],
+                    'contenttypeslug' => $contentType['slug'],
                     'id'              => $id,
                     '#'               => $returnTo,
                 ]));
             } elseif ($returnTo === 'saveandnew') {
                 return new RedirectResponse($this->generateUrl('editcontent', [
-                    'contenttypeslug' => $contenttype['slug'],
+                    'contenttypeslug' => $contentType['slug'],
                     '#'               => $returnTo,
                 ]));
             } elseif ($returnTo === 'ajax') {
-                return $this->createJsonUpdate($contenttype, $id, true);
+                return $this->createJsonUpdate($contentType, $id, true);
             } elseif ($returnTo === 'test') {
-                return $this->createJsonUpdate($contenttype, $id, false);
+                return $this->createJsonUpdate($contentType, $id, false);
             }
         }
 
@@ -189,7 +196,7 @@ class RecordModifier
         if ($editReferrer) {
             return new RedirectResponse($editReferrer);
         } else {
-            return new RedirectResponse($this->generateUrl('overview', ['contenttypeslug' => $contenttype['slug']]));
+            return new RedirectResponse($this->generateUrl('overview', ['contenttypeslug' => $contentType['slug']]));
         }
     }
 
@@ -294,6 +301,32 @@ class RecordModifier
         $this->app['logger.flash']->clear();
 
         return new JsonResponse($val);
+    }
+
+    /**
+     * Add a change log entry to track the change.
+     *
+     * @param string       $contentType
+     * @param integer      $contentId
+     * @param Content      $newContent
+     * @param Content|null $oldContent
+     * @param string|null  $comment
+     */
+    private function logChange($contentType, $contentId, $newContent, $oldContent = null, $comment = null)
+    {
+        $type = $oldContent ? 'Update' : 'Insert';
+
+        $this->app['logger.change']->info(
+            $type . ' record',
+            [
+                'action'      => strtoupper($type),
+                'contenttype' => $contentType,
+                'id'          => $contentId,
+                'new'         => $newContent,
+                'old'         => $oldContent,
+                'comment'     => $comment
+            ]
+        );
     }
 
     /**
