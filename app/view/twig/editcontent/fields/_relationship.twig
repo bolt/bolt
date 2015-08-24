@@ -6,25 +6,34 @@
 {# Use option groups #}
 {% set groupby = relation.groupby|default(false) %}
 
+{# Currently selected relationship values #}
+{% set relselect = [] %}
+{% for item in context.content.relation[relcontenttype]|default([]) %}
+    {% set relselect =  relselect|merge([item.reference]) %}
+{% endfor %}
+
 {# Build the select options array #}
 {% set options = [] %}
 
-{% for item in context.content.relation[relcontenttype] %}
+{% for item in context.relations_list[relcontenttype] %}
+    {% set selectedbyrelation = relcontenttype == app.request.get('relation') and
+                                item.id == app.request.get('relationid') %}
+
     {% set options = options|merge([{
-        value:     item.id,
-        text:      format|twig({'title': item.get('title'), 'id': item.get('id')}),
-        group:     groupby ? item.values[groupby]|default(false) : false,
-        selected:  true,
+        value:    item.id,
+        text:     format|twig({'title': item.title, 'id': item.id}),
+        group:    groupby ? item.values[groupby]|default(false) : false,
+        selected: (item.id in relselect) or selectedbyrelation,
     }]) %}
 {% endfor %}
 
 {# BUIC options #}
 {% set buico_select = {
-    'name':      'relation[' ~ relcontenttype ~ '][]',
-    'id':        'relation-' ~ relcontenttype,
-    'multiple':  relation.multiple is defined and relation.multiple == 1,
-    'options':   options,
-    'clear':     true,
+    'name':     'relation[' ~ relcontenttype ~ '][]',
+    'id':       'relation-' ~ relcontenttype,
+    'multiple': relation.multiple is defined and relation.multiple == 1,
+    'options':  options,
+    'clear':    true,
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
