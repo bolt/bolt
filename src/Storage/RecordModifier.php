@@ -84,7 +84,6 @@ class RecordModifier
         if ($statusOK) {
             // Get the associated record change comment
             $comment = isset($formValues['changelog-comment']) ? $formValues['changelog-comment'] : '';
-// FIXME do changelog update
 
             // Save the record
             return $this->saveContentRecord($content, $oldContent, $contenttype, $new, $comment, $returnTo, $editReferrer);
@@ -155,7 +154,6 @@ class RecordModifier
         $repo = $this->app['storage']->getRepository($contentType['slug']);
         $id = $repo->save($content);
 
-// FIXME \Bolt\Logger\Handler\RecordChangeHandler needs to be updated to handle Entity objects
         // Create the change log entry if configured
         $this->logChange($contentType, $content->getId(), $content, $oldContent, $comment);
 
@@ -312,7 +310,7 @@ class RecordModifier
      * @param Content|null $oldContent
      * @param string|null  $comment
      */
-    private function logChange($contentType, $contentId, $newContent, $oldContent = null, $comment = null)
+    private function logChange($contentType, $contentId, $newContent = null, $oldContent = null, $comment = null)
     {
         $type = $oldContent ? 'Update' : 'Insert';
 
@@ -322,8 +320,8 @@ class RecordModifier
                 'action'      => strtoupper($type),
                 'contenttype' => $contentType,
                 'id'          => $contentId,
-                'new'         => $newContent,
-                'old'         => $oldContent,
+                'new'         => $newContent ? $newContent->toArray() : null,
+                'old'         => $oldContent ? $oldContent->toArray() : null,
                 'comment'     => $comment
             ]
         );
