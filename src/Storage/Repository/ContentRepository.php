@@ -16,6 +16,47 @@ class ContentRepository extends Repository
     protected $legacy;
 
     /**
+     * Fetches details on records for select lists.
+     *
+     * @param string $contentType
+     * @param string $order
+     *
+     * @return \Bolt\Storage\Entity\Cron
+     */
+    public function getSelectList($contentType, $order)
+    {
+        $query = $this->querySelectList($contentType, $order);
+
+        return $query->execute()->fetchAll();
+    }
+
+    /**
+     * Build the query for a record select list.
+     *
+     * @param string $contentType
+     * @param string $order
+     *
+     * @return QueryBuilder
+     */
+    public function querySelectList($contentType, $order)
+    {
+
+        if (strpos($order, '-') === 0) {
+            $direction = 'ASC';
+            $order = ltrim($order, '-');
+        } else {
+            $direction = 'DESC';
+        }
+
+        $qb = $this->createQueryBuilder($contentType);
+        $qb->select('id, ' . $this->getTitleColumnName() . ' as title')
+            ->orderBy($order, $direction)
+        ;
+
+        return $qb;
+    }
+
+    /**
      * Set the legacy Content service object.
      *
      * @param ContentLegacyService $service
@@ -43,5 +84,32 @@ class ContentRepository extends Repository
     {
         $entity = $event->getSubject();
         $entity->setLegacyService($this->legacy);
+    }
+
+    /**
+     * Get the likely column name of the title.
+     *
+     * @return array
+     */
+    protected function getTitleColumnName()
+    {
+        $names = [
+            'title', 'name', 'caption', 'subject', // EN
+            'titel', 'naam', 'onderwerp',          // NL
+            'nom', 'sujet',                        // FR
+            'nombre', 'sujeto'                     // ES
+        ];
+
+        $columns = $this->getEntityManager()
+            ->getConnection()
+            ->getSchemaManager()
+            ->listTableColumns($this->getTableName())
+        ;
+
+        foreach ($names as $name) {
+            if (isset($columns[$name])) {
+                return $name;
+            }
+        }
     }
 }

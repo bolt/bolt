@@ -410,9 +410,25 @@ class RecordModifier
             'can'                => $contextCan,
             'has'                => $contextHas,
             'values'             => $contextValues,
+            'relations_list'     => $this->getRelationsList($contenttype),
         ];
 
         return $context;
+    }
+
+    private function getRelationsList(array $contenttype)
+    {
+        $list = [];
+        if (!is_array($contenttype['relations'])) {
+            return $list;
+        }
+
+        foreach ($contenttype['relations'] as $contentType => $relation) {
+            $repo = $this->app['storage']->getRepository($contentType);
+            $list[$contentType] = $repo->getSelectList($contentType, $relation['order']);
+        }
+
+        return $list;
     }
 
     /**
