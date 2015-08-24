@@ -79,6 +79,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'relation'                         => 'Bolt\Storage\Field\Type\RelationType',
             'repeater'                         => 'Bolt\Storage\Field\Type\RepeaterType',
             'select'                           => 'Bolt\Storage\Field\Type\SelectType',
+            'selectmultiple'                   => 'Bolt\Storage\Field\Type\SelectMultipleType',
             'slug'                             => 'Bolt\Storage\Field\Type\SlugType',
             'taxonomy'                         => 'Bolt\Storage\Field\Type\TaxonomyType',
             'templatefields'                   => 'Bolt\Storage\Field\Type\TemplateFieldsType',
