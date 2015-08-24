@@ -96,10 +96,10 @@ class RecordModifier
      * Set a Contenttype record values from a HTTP POST.
      *
      * @param Content $content
-     * @param array  $formValues
-     * @param string $contentType
+     * @param array   $formValues
+     * @param string  $contentType
      *
-     * @throws \Exception
+     * @throws AccessControlException
      */
     private function setPostedValues(Content $content, $formValues, $contentType)
     {
