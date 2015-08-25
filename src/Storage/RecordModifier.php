@@ -130,9 +130,27 @@ class RecordModifier
             }
         }
 
-        foreach ($formValues as $name => $value) {
+        foreach ($formValues as $name => &$value) {
+            $value = $this->isJson($value) ? json_decode($value, true) : $value;
             $content->set($name, empty($value) ? null : $value);
         }
+    }
+
+    /**
+     * Check if a value is a JSON string.
+     *
+     * @param mixed $value
+     *
+     * @return boolean
+     */
+    private function isJson($value)
+    {
+        if (!is_string($value)) {
+            return false;
+        }
+        json_decode($value);
+
+        return json_last_error() === JSON_ERROR_NONE;
     }
 
     /**
