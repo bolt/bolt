@@ -2,8 +2,11 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Exception\QueryParseException;
+use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
+use Bolt\Storage\QuerySet;
+use Carbon\Carbon;
 use Doctrine\DBAL\Types\Type;
 
 /**
@@ -21,7 +24,6 @@ class DateType extends FieldTypeBase
     {
         parent::__construct($mapping);
         Type::overrideType(Type::DATE, 'Bolt\Storage\Mapping\Type\CarbonDateType');
-        Type::overrideType(Type::DATETIME, 'Bolt\Storage\Mapping\Type\CarbonDateType');
     }
 
     /**
@@ -46,6 +48,23 @@ class DateType extends FieldTypeBase
             $replacement = date('Y-m-d H:i:s', $time);
             $query->setWhereParameter($key, $replacement);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    {
+        $key = $this->mapping['fieldname'];
+        $value = $entity->get($key);
+
+        if (!$value instanceof \DateTime && $value !== null) {
+            $value = new Carbon($value);
+            $value::setToStringFormat('Y-m-d');
+            $entity->set($key, $value);
+        }
+
+        parent::persist($queries, $entity, $em);
     }
 
     /**
