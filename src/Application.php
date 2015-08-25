@@ -304,10 +304,6 @@ class Application extends Silex\Application
         // Make sure we keep our current locale.
         $currentlocale = $this['locale'];
 
-        // Setup Swiftmailer, with the selected Mail Transport options: smtp or `mail()`.
-        $this->register(new Silex\Provider\SwiftmailerServiceProvider());
-        $this->setSwiftmailerOptions();
-
         // Set up our secure random generator.
         $factory = new RandomLib\Factory();
         $this['randomgenerator'] = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
@@ -343,6 +339,7 @@ class Application extends Silex\Application
             ->register(new Provider\EventListenerServiceProvider())
             ->register(new Provider\AssetServiceProvider())
             ->register(new Provider\FormServiceProvider())
+            ->register(new Provider\MailerServiceProvider())
         ;
 
         $this['paths'] = $this['resources']->getPaths();
@@ -357,27 +354,6 @@ class Application extends Silex\Application
                 return new Stopwatch\Stopwatch();
             }
         );
-    }
-
-    /**
-     * Set up the optional parameters for Swiftmailer
-     */
-    private function setSwiftmailerOptions()
-    {
-        if ($this['config']->get('general/mailoptions')) {
-            // Use the preferred options. Assume it's SMTP, unless set differently.
-            $this['swiftmailer.options'] = $this['config']->get('general/mailoptions');
-        }
-
-        if (is_bool($this['config']->get('general/mailoptions/spool'))) {
-            // enable or disable the mail spooler.
-            $this['swiftmailer.use_spool'] = $this['config']->get('general/mailoptions/spool');
-        }
-
-        if ($this['config']->get('general/mailoptions/transport') === 'mail') {
-            // Use the 'mail' transport. Discouraged, but some people want it. ¯\_(ツ)_/¯
-            $this['swiftmailer.transport'] = \Swift_MailTransport::newInstance();
-        }
     }
 
     public function initExtensions()
