@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Storage\EntityManager;
+use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Types\Type;
 
 /**
@@ -9,7 +11,7 @@ use Doctrine\DBAL\Types\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ImageListType extends FieldTypeBase
+class ImageListType extends ListTypeBase
 {
     /**
      * {@inheritdoc}
@@ -17,13 +19,5 @@ class ImageListType extends FieldTypeBase
     public function getName()
     {
         return 'imagelist';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getStorageType()
-    {
-        return Type::getType('json_array');
     }
 }
