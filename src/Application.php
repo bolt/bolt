@@ -30,6 +30,9 @@ class Application extends Silex\Application
         $values['bolt_version'] = '2.3.0';
         $values['bolt_name'] = 'alpha 1';
         $values['bolt_released'] = false; // `true` for stable releases, `false` for alpha, beta and RC.
+        $values['bolt_long_version'] = function($app) {
+            return $app['bolt_version'] . ' ' . $app['bolt_name'];
+        };
 
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
@@ -432,14 +435,13 @@ class Application extends Silex\Application
      * @param boolean $long TRUE returns 'version name', FALSE 'version'
      *
      * @return string
+     *
+     * @deprecated since 2.3, will be removed in 3.0
+     *             Use parameters in application instead
      */
     public function getVersion($long = true)
     {
-        if ($long) {
-            return trim($this['bolt_version'] . ' ' . $this['bolt_name']);
-        }
-
-        return $this['bolt_version'];
+        return $this[$long ? 'bolt_long_version' : 'bolt_version'];
     }
 
     /**
