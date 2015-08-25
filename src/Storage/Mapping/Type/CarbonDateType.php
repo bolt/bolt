@@ -4,9 +4,9 @@ namespace Bolt\Storage\Mapping\Type;
 
 use Carbon\Carbon;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\DateTimeType;
+use Doctrine\DBAL\Types\DateType;
 
-class CarbonDateType extends DateTimeType
+class CarbonDateType extends DateType
 {
     /**
      * {@inheritdoc}
