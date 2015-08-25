@@ -304,9 +304,6 @@ class Application extends Silex\Application
 
     public function initProviders()
     {
-        // Make sure we keep our current locale.
-        $currentlocale = $this['locale'];
-
         // Set up our secure random generator.
         $factory = new RandomLib\Factory();
         $this['randomgenerator'] = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
@@ -346,10 +343,6 @@ class Application extends Silex\Application
         ;
 
         $this['paths'] = $this['resources']->getPaths();
-
-        // For some obscure reason, and under suspicious circumstances $app['locale'] might become 'null'.
-        // Re-set it here, just to be sure. See https://github.com/bolt/bolt/issues/1405
-        $this['locale'] = $currentlocale;
 
         // Initialize stopwatch even if debug is not enabled.
         $this['stopwatch'] = $this->share(
