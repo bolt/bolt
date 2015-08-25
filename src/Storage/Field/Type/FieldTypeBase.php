@@ -97,4 +97,21 @@ abstract class FieldTypeBase implements FieldTypeInterface
     {
         return Type::getType($this->mapping['type']);
     }
+
+    /**
+     * Check if a value is a JSON string.
+     *
+     * @param mixed $value
+     *
+     * @return boolean
+     */
+    protected function isJson($value)
+    {
+        if (!is_string($value)) {
+            return false;
+        }
+        json_decode($value);
+
+        return json_last_error() === JSON_ERROR_NONE;
+    }
 }
