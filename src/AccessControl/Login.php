@@ -185,6 +185,7 @@ class Login extends AccessChecker
         // Update the failed login attempts, and perhaps throttle the logins.
         $userEntity->setFailedlogins($userEntity->getFailedlogins() + 1);
         $userEntity->setThrottleduntil($this->throttleUntil($userEntity->getFailedlogins() + 1));
+        unset($userEntity->password);
         $this->repositoryUsers->save($userEntity);
     }
 
