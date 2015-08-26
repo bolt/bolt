@@ -184,9 +184,9 @@ class RecordModifier
                     '#'               => $returnTo,
                 ]));
             } elseif ($returnTo === 'ajax') {
-                return $this->createJsonUpdate($contentType, $id, true);
+                return $this->createJsonUpdate($content, true);
             } elseif ($returnTo === 'test') {
-                return $this->createJsonUpdate($contentType, $id, false);
+                return $this->createJsonUpdate($content, false);
             }
         }
 
@@ -241,13 +241,12 @@ class RecordModifier
      * Build a valid AJAX response for in-place saves that account for pre/post
      * save events.
      *
-     * @param array   $contenttype
-     * @param integer $id
+     * @param Content $content
      * @param boolean $flush
      *
      * @return JsonResponse
      */
-    private function createJsonUpdate($contenttype, $id, $flush)
+    private function createJsonUpdate(Content $content, $flush)
     {
         /*
          * Flush any buffers from saveConent() dispatcher hooks
@@ -260,11 +259,6 @@ class RecordModifier
          */
         if ($flush) {
             Response::closeOutputBuffers(0, false);
-        }
-
-        // Get our record after POST_SAVE hooks are dealt with and return the JSON
-        if (!$content = $this->app['storage']->getRepository($contenttype['tablename'])->find($id)) {
-            throw new StorageException('Unable to retrieve saved record for JSON update.');
         }
 
         $val = [];
