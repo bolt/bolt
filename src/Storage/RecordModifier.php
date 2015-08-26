@@ -131,9 +131,39 @@ class RecordModifier
             }
         }
 
+        // Set the object values appropriately
         foreach ($formValues as $name => $value) {
-            $content->set($name, empty($value) ? null : $value);
+            if ($name === 'relation') {
+                $this->setPostedRelations($content, $formValues);
+            } else {
+                $content->set($name, empty($value) ? null : $value);
+            }
         }
+    }
+
+    /**
+     * Convert POST relationship values to an array of Entity objects keyed by
+     * ContentType.
+     *
+     * @param Content    $content
+     * @param array|null $formValues
+     */
+    private function setPostedRelations(Content $content, $formValues)
+    {
+        if (!isset($formValues['relation'])) {
+            return;
+        }
+
+        $entities = [];
+        foreach ($formValues['relation'] as $contentType => $relations) {
+            $repo = $this->app['storage']->getRepository($contentType);
+            foreach ($relations as $id) {
+                if ($relation = $repo->find($id)) {
+                    $entities[$contentType][] = $relation;
+                }
+            }
+        }
+        $content->setRelation($entities);
     }
 
     /**
@@ -395,6 +425,14 @@ class RecordModifier
         return $context;
     }
 
+    /**
+     * Convert POST relationship values to an array of Entity objects keyed by
+     * ContentType.
+     *
+     * @param array $contenttype
+     *
+     * @return array
+     */
     private function getRelationsList(array $contenttype)
     {
         $list = [];
