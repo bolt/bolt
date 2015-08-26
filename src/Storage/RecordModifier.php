@@ -334,21 +334,20 @@ class RecordModifier
      *
      * @param Content $content     A content record
      * @param array   $contenttype The contenttype data
-     * @param integer $id          The record ID
-     * @param boolean $new         If TRUE this is a new record
      * @param boolean $duplicate   If TRUE create a duplicate record
      *
      * @return array
      */
-    public function handleEditRequest(Content $content, array $contenttype, $id, $new, $duplicate)
+    public function handleEditRequest(Content $content, array $contenttype, $duplicate)
     {
         $contenttypeSlug = $contenttype['slug'];
-
+        $new = $content->getId() === null ?: false;
         $oldStatus = $content->getStatus();
         $allStatuses = ['published', 'held', 'draft', 'timed'];
         $allowedStatuses = [];
+
         foreach ($allStatuses as $status) {
-            if ($this->app['permissions']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeSlug, $id)) {
+            if ($this->app['permissions']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeSlug, $content->getId())) {
                 $allowedStatuses[] = $status;
             }
         }

@@ -120,7 +120,7 @@ class Records extends BackendBase
 
         // We're doing a GET
         $duplicate = $request->query->get('duplicate', false);
-        $context = $this->recordModifier()->handleEditRequest($content, $contenttype, $id, $new, $duplicate);
+        $context = $this->recordModifier()->handleEditRequest($content, $contenttype, $duplicate);
 
         return $this->render('editcontent/editcontent.twig', $context);
     }
