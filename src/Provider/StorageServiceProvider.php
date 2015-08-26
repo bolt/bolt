@@ -5,6 +5,8 @@ use Bolt\EventListener\StorageEventListener;
 use Bolt\Legacy\Storage;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\FieldFactory;
+use Bolt\Storage\Hydrator;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
 use Bolt\Storage\RecordModifier;
@@ -46,6 +48,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                         $repoClass = $app['storage.repository.default'];
                         $repo = new $repoClass($app['storage'], $classMetadata);
                         $repo->setLegacyService($app['storage.legacy_service']);
+                        $repo->setHydrator(new Hydrator($classMetadata, $app['storage.field_factory']));
 
                         return $repo;
                     }
@@ -54,6 +57,22 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return $storage;
             }
         );
+        
+        $app['storage.field_factory'] = $app->share(
+            function ($app) {
+                $factory = new FieldFactory($app['storage.typemap']);
+                foreach ($app['storage.typemap'] as $field) {
+                    if (isset($app[$field])) {
+                        $factory->setHandler($field, $app[$field]);
+                    }
+                }
+            }
+        );
+        
+        $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = function ($mapping) {
+            $field = new Bolt\Storage\Field\Type\TemplateFieldsType($mapping);
+        };
+        
 
         $app['storage.repository.default'] = 'Bolt\Storage\Repository\ContentRepository';
 

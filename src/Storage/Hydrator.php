@@ -14,14 +14,15 @@ class Hydrator
     protected $handler;
     /** @var ClassMetadata */
     protected $metadata;
-
+    /** @var FieldFactory */
+    protected $fieldFactory;
 
     /**
      * Constructor.
      *
      * @param ClassMetadata $metadata
      */
-    public function __construct(ClassMetadata $metadata)
+    public function __construct(ClassMetadata $metadata, FieldFactory $fieldFactory = null)
     {
         $classHandler = $metadata->getName();
         if (!class_exists($classHandler)) {
@@ -29,6 +30,7 @@ class Hydrator
         }
         $this->handler = $classHandler;
         $this->metadata = $metadata;
+        $this->fieldFactory = $fieldFactory;
     }
 
     /**
@@ -47,7 +49,12 @@ class Hydrator
         foreach ($this->metadata->getFieldMappings() as $mapping) {
             // First step is to allow each Bolt field to transform the data.
             /** @var FieldTypeInterface $field */
-            $field = new $mapping['fieldtype']($mapping);
+            if ($this->fieldFactory !== null) {
+                $field = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
+            } else {
+                $field = new $mapping['fieldtype']($mapping);
+            }
+
             $field->hydrate($source, $entity, $em);
         }
 
