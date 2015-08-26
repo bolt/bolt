@@ -36,7 +36,7 @@ class QueryFieldDelegationTest extends BoltUnitTest
 
         $results = $app['query']->getContent('showcases', ['entries' => '1 || 2 || 3']);
         foreach ($results as $result) {
-            foreach ($result->entries as $entry) {
+            foreach ($result->relation['entries'] as $entry) {
                 $this->assertTrue(in_array($entry->id, [1, 2, 3]));
                 $this->assertEquals('entries', $entry->getContentType());
             }
