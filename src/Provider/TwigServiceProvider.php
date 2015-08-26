@@ -11,12 +11,15 @@ use Bolt\Twig\Handler\UserHandler;
 use Bolt\Twig\Handler\UtilsHandler;
 use Bolt\Twig\TwigExtension;
 use Silex\Application;
+use Silex\ServiceProviderInterface;
 
-class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
+class TwigServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        parent::register($app);
+        if (!isset($app['twig'])) {
+            $app->register(new \Silex\Provider\TwigServiceProvider());
+        }
 
         // Handlers
         $app['twig.handlers'] = $app->share(function (Application $app) {
@@ -67,5 +70,12 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
                 'autoescape'       => true,
             ];
         };
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boot(Application $app)
+    {
     }
 }
