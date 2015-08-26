@@ -1047,7 +1047,7 @@ class Config
 
             // Check to make sure the version is still the same. If not, effectively invalidate the
             // cached config to force a reload.
-            if (!isset($this->data['version']) || ($this->data['version'] != $this->app->getVersion())) {
+            if (!isset($this->data['version']) || ($this->data['version'] != $this->app['bolt_long_version'])) {
                 // The logger and the flashbags aren't available yet, so we set a flag to notify the user later.
                 $this->notify_update = true;
                 return false;
@@ -1069,7 +1069,7 @@ class Config
     protected function saveCache()
     {
         // Store the version number along with the config.
-        $this->data['version'] = $this->app->getVersion();
+        $this->data['version'] = $this->app['bolt_long_version'];
 
         if ($this->get('general/caching/config')) {
             Lib::saveSerialize($this->app['resources']->getPath('cache/config_cache.php'), $this->data);
