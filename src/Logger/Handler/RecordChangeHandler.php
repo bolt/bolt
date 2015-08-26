@@ -99,7 +99,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
             $title = $context['new'] ? $context['new']['title'] : $context['old']['title'];
             unset($data['bolt_csrf_token']);
 
-            $contenttype = $context['contenttype']['slug'];
+            $contenttype = $context['contenttype'];
         }
 
         // Don't store datechanged, or records that are only datechanged
