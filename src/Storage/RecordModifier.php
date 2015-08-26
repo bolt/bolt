@@ -261,19 +261,7 @@ class RecordModifier
             Response::closeOutputBuffers(0, false);
         }
 
-        $val = [];
-        foreach ($content->toArray() as $key => $value) {
-            // Some values are returned as \Twig_Markup and JSON can't deal with that
-            if (is_array($value)) {
-                foreach ($value as $subkey => $subvalue) {
-                    if ($subvalue instanceof \Twig_Markup || $subvalue instanceof Carbon) {
-                        $val[$key][$subkey] = (string) $subvalue;
-                    }
-                }
-            } else {
-                $val[$key] = $value;
-            }
-        }
+        $val = $content->toArray();
 
         if (isset($val['datechanged'])) {
             $val['datechanged'] = (new Carbon($val['datechanged']))->toIso8601String();
