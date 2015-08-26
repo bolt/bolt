@@ -267,15 +267,11 @@ class RecordModifier
             $val['datechanged'] = (new Carbon($val['datechanged']))->toIso8601String();
         }
 
-        $lc = localeconv();
-        foreach ($contenttype['fields'] as $key => $values) {
-            switch ($values['type']) {
-                case 'float':
-                    // Adjust decimal point dependent on locale
-                    if ($lc['decimal_point'] === ',') {
-                        $val[$key] = str_replace('.', ',', $val[$key]);
-                    }
-                    break;
+        // Adjust decimal point as some locales use a comma and… JavaScript
+        $fields = $this->app['config']->get('contenttypes/' . $content->getContenttype() . 'fields');
+        foreach ($fields as $key => $values) {
+            if ($values['type'] === 'float') {
+                $val[$key] = str_replace('.', ',', $val[$key]);
             }
         }
 
