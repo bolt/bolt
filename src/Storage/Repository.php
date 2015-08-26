@@ -271,8 +271,6 @@ class Repository implements ObjectRepository
      */
     public function save($entity)
     {
-        $qb = $this->em->createQueryBuilder();
-
         try {
             $existing = $entity->getId();
         } catch (\Exception $e) {
