@@ -2,7 +2,7 @@
 
 namespace Bolt\Tests\Storage\Query;
 
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
 use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
@@ -18,6 +18,7 @@ class QueryFieldDelegationTest extends BoltUnitTest
     public function testTaxonomyFilter()
     {
         $app = $this->getApp();
+        $this->addDefaultUser($app);
         $this->addSomeContent();
 
         $test1 = $app['storage']->getContent('entries', ['categories' => 'news']);
@@ -57,7 +58,7 @@ class QueryFieldDelegationTest extends BoltUnitTest
         $showcases = $storage->getContent('showcases');
         $randEntries = $storage->getContent('entries/random/2');
         foreach ($showcases as $show) {
-            foreach ($randEntries as $key => $entry) {
+            foreach (array_keys($randEntries) as $key) {
                 $show->setRelation('entries', $key);
                 $storage->saveContent($show);
             }
