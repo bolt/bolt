@@ -95,10 +95,9 @@ class RelationType extends FieldTypeBase
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
         $accessor = "get".$field;
-        $relations = (array)$entity->$accessor();
+        $relations = (array) $entity->$accessor();
 
         // Fetch existing relations
-
         $existingQuery = $em->createQueryBuilder()
                             ->select('*')
                             ->from($target)
@@ -128,16 +127,17 @@ class RelationType extends FieldTypeBase
         foreach ($toInsert as $item) {
             $ins = $em->createQueryBuilder()->insert($target);
             $ins->values([
-                'from_id'          => '?',
-                'from_contenttype' => '?',
-                'to_contenttype'   => '?',
-                'to_id'            => '?'
-            ])->setParameters([
-                0 => $entity->id,
-                1 => $entity->getContenttype(),
-                2 => $field,
-                3 => $item
-            ]);
+                    'from_id'          => '?',
+                    'from_contenttype' => '?',
+                    'to_contenttype'   => '?',
+                    'to_id'            => '?'
+                ])
+                ->setParameters([
+                    0 => $entity->id,
+                    1 => $entity->getContenttype(),
+                    2 => $field,
+                    3 => $item
+                ]);
 
             $queries->append($ins);
         }
@@ -149,11 +149,11 @@ class RelationType extends FieldTypeBase
                 ->andWhere('to_contenttype=?')
                 ->andWhere('to_id=?')
                 ->setParameters([
-                0 => $entity->id,
-                1 => $entity->getContenttype(),
-                2 => $field,
-                3 => $item
-            ]);
+                    0 => $entity->id,
+                    1 => $entity->getContenttype(),
+                    2 => $field,
+                    3 => $item
+                ]);
 
             $queries->append($del);
         }
