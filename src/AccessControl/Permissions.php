@@ -668,7 +668,7 @@ class Permissions
                 // If content was not passed but our rule contains the content
                 // we need, lets fetch the Content object @see #3909
                 if (is_string($content) || ($contenttype && $contentId)) {
-                    $content = $this->app['storage']->getContent("$contenttypeSlug/$contentId", ['hydrate' => false]);
+                    $content = $this->app['storage']->getContent("$contenttype/$contentId", ['hydrate' => false]);
                 }
 
                 if (intval($content['ownerid']) && (intval($content['ownerid']) === intval($user['id']))) {
