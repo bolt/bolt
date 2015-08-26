@@ -41,6 +41,7 @@ class TwigExtension extends \Twig_Extension
     {
         $safe = ['is_safe' => ['html']];
         $env  = ['needs_environment' => true];
+        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
@@ -51,7 +52,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('data',               [$this, 'addData']),
             new \Twig_SimpleFunction('dump',               [$this, 'printDump']),
             new \Twig_SimpleFunction('excerpt',            [$this, 'excerpt'],     $safe),
-            new \Twig_SimpleFunction('fancybox',           [$this, 'popup'],       $safe), // "Fancybox" is deprecated.
+            new \Twig_SimpleFunction('fancybox',           [$this, 'popup'],       $safe + $deprecated + ['alternative' => 'popup']),
             new \Twig_SimpleFunction('file_exists',        [$this, 'fileExists']),
             new \Twig_SimpleFunction('firebug',            [$this, 'printFirebug']),
             new \Twig_SimpleFunction('first',              [$this, 'first']),
@@ -69,10 +70,10 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('listcontent',        [$this, 'listContent']),
             new \Twig_SimpleFunction('listtemplates',      [$this, 'listTemplates']),
             new \Twig_SimpleFunction('markdown',           [$this, 'markdown'],    $safe),
-            new \Twig_SimpleFunction('menu',               [$this, 'menu'],        array_merge($env, $safe)),
+            new \Twig_SimpleFunction('menu',               [$this, 'menu'],        $env + $safe),
             new \Twig_SimpleFunction('pager',              [$this, 'pager'],       $env),
             new \Twig_SimpleFunction('popup',              [$this, 'popup'],       $safe),
-            new \Twig_SimpleFunction('print',              [$this, 'printDump']),           // Deprecated.
+            new \Twig_SimpleFunction('print',              [$this, 'printDump'],   $deprecated + ['alternative' => 'dump']),
             new \Twig_SimpleFunction('randomquote',        [$this, 'randomQuote'], $safe),
             new \Twig_SimpleFunction('redirect',           [$this, 'redirect'],    $safe),
             new \Twig_SimpleFunction('request',            [$this, 'request']),
@@ -80,9 +81,9 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('stacked',            [$this, 'stacked']),
             new \Twig_SimpleFunction('stackitems',         [$this, 'stackItems']),
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
-            new \Twig_SimpleFunction('token',              [$this, 'token'],       ['deprecated' => true]),
-            new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe),  // Deprecated.
-            new \Twig_SimpleFunction('widget',             [$this, 'widget'])
+            new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated),
+            new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
+            new \Twig_SimpleFunction('widget',             [$this, 'widget']),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -90,6 +91,7 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         $safe = ['is_safe' => ['html']];
+        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
@@ -98,14 +100,14 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('current',        [$this, 'current']),
             new \Twig_SimpleFilter('editable',       [$this, 'editable'],          $safe),
             new \Twig_SimpleFilter('excerpt',        [$this, 'excerpt'],           $safe),
-            new \Twig_SimpleFilter('fancybox',       [$this, 'popup'],             $safe), // "Fancybox" is deprecated.
+            new \Twig_SimpleFilter('fancybox',       [$this, 'popup'],             $safe + $deprecated + ['alternative' => 'popup']),
             new \Twig_SimpleFilter('first',          [$this, 'first']),
             new \Twig_SimpleFilter('image',          [$this, 'image']),
             new \Twig_SimpleFilter('imageinfo',      [$this, 'imageInfo']),
             new \Twig_SimpleFilter('json_decode',    [$this, 'jsonDecode']),
             new \Twig_SimpleFilter('last',           [$this, 'last']),
-            new \Twig_SimpleFilter('localdate',      [$this, 'localeDateTime'],    $safe),
-            new \Twig_SimpleFilter('localedatetime', [$this, 'localeDateTime'],    $safe), // Deprecated
+            new \Twig_SimpleFilter('localdate',      [$this, 'localeDateTime'],    $safe + $deprecated + ['alternative' => 'localedatetime']),
+            new \Twig_SimpleFilter('localedatetime', [$this, 'localeDateTime'],    $safe),
             new \Twig_SimpleFilter('loglevel',       [$this, 'logLevel']),
             new \Twig_SimpleFilter('markdown',       [$this, 'markdown'],          $safe),
             new \Twig_SimpleFilter('order',          [$this, 'order']),
@@ -118,11 +120,11 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('shy',            [$this, 'shy'],               $safe),
             new \Twig_SimpleFilter('slug',           [$this, 'slug']),
             new \Twig_SimpleFilter('thumbnail',      [$this, 'thumbnail']),
-            new \Twig_SimpleFilter('trimtext',       [$this, 'trim'],              $safe), // Deprecated.
+            new \Twig_SimpleFilter('trimtext',       [$this, 'trim'],              $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFilter('tt',             [$this, 'decorateTT'],        $safe),
             new \Twig_SimpleFilter('twig',           [$this, 'twig'],              $safe),
             new \Twig_SimpleFilter('ucfirst',        [$this, 'ucfirst']),
-            new \Twig_SimpleFilter('ymllink',        [$this, 'ymllink'],           $safe)
+            new \Twig_SimpleFilter('ymllink',        [$this, 'ymllink'],           $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -574,11 +576,11 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * @see \Bolt\Twig\Handler\RecordHandler::trim()
+     * @deprecated Use {@see \Bolt\Twig\TwigExtension::excerpt} instead
      */
     public function trim($content, $length = 200)
     {
-        return $this->handlers['record']->trim($content, $length);
+        return $this->excerpt($content, $length);
     }
 
     /**
