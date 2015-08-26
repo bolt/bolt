@@ -82,7 +82,7 @@ class Records extends BackendBase
     public function edit(Request $request, $contenttypeslug, $id)
     {
         // Is the record new or existing
-        $new = empty($id) ?: false;
+        $new = empty($id);
 
         // Test the access control
         if ($response = $this->checkEditAccess($request, $contenttypeslug, $id)) {
