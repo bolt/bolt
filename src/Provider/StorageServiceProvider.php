@@ -6,6 +6,7 @@ use Bolt\Legacy\Storage;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\FieldFactory;
+use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\Hydrator;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
@@ -70,7 +71,7 @@ class StorageServiceProvider implements ServiceProviderInterface
         );
         
         $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = function ($mapping) {
-            $field = new Bolt\Storage\Field\Type\TemplateFieldsType($mapping);
+            $field = new TemplateFieldsType($mapping);
         };
         
 
