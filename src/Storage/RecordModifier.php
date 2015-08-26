@@ -342,13 +342,13 @@ class RecordModifier
      */
     public function handleEditRequest(Content $content, array $contenttype, $id, $new, $duplicate)
     {
-        $contenttypeslug = $contenttype['slug'];
+        $contenttypeSlug = $contenttype['slug'];
 
         $oldStatus = $content->getStatus();
         $allStatuses = ['published', 'held', 'draft', 'timed'];
         $allowedStatuses = [];
         foreach ($allStatuses as $status) {
-            if ($this->app['users']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeslug, $id)) {
+            if ($this->app['permissions']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeSlug, $id)) {
                 $allowedStatuses[] = $status;
             }
         }
@@ -364,7 +364,7 @@ class RecordModifier
             $content->setUsername('');
             $content->setOwnerid('');
 
-            $this->app['logger.flash']->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contenttypeslug]));
+            $this->app['logger.flash']->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contenttypeSlug]));
         }
 
         // Set the users and the current owner of this content.
@@ -385,9 +385,9 @@ class RecordModifier
         // Build context for Twig.
         $contextCan = [
             'upload'             => $this->app['users']->isAllowed('files:uploads'),
-            'publish'            => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':publish:' . $content->getId()),
-            'depublish'          => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':depublish:' . $content->getId()),
-            'change_ownership'   => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':change-ownership:' . $content->getId()),
+            'publish'            => $this->app['users']->isAllowed('contenttype:' . $contenttypeSlug . ':publish:' . $content->getId()),
+            'depublish'          => $this->app['users']->isAllowed('contenttype:' . $contenttypeSlug . ':depublish:' . $content->getId()),
+            'change_ownership'   => $this->app['users']->isAllowed('contenttype:' . $contenttypeSlug . ':change-ownership:' . $content->getId()),
         ];
         $contextHas = [
             'incoming_relations' => is_array($content->relation),
