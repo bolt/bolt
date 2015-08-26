@@ -2,11 +2,12 @@
 
 namespace Bolt\Storage;
 
-use Bolt\Application;
 use Bolt\Exception\AccessControlException;
+use Bolt\Exception\StorageException;
 use Bolt\Helpers\Input;
 use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
+use Carbon\Carbon;
 use Cocur\Slugify\Slugify;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -262,15 +263,16 @@ class RecordModifier
         }
 
         // Get our record after POST_SAVE hooks are dealt with and return the JSON
-        $content = $this->app['storage']->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!undefined']);
+        if (!$content = $this->app['storage']->getRepository($contenttype['tablename'])->find($id)) {
+            throw new StorageException('Unable to retrieve saved record for JSON update.');
+        }
 
         $val = [];
-
-        foreach ($content->values as $key => $value) {
+        foreach ($content->toArray() as $key => $value) {
             // Some values are returned as \Twig_Markup and JSON can't deal with that
             if (is_array($value)) {
                 foreach ($value as $subkey => $subvalue) {
-                    if (gettype($subvalue) === 'object' && get_class($subvalue) === 'Twig_Markup') {
+                    if ($subvalue instanceof \Twig_Markup || $subvalue instanceof Carbon) {
                         $val[$key][$subkey] = (string) $subvalue;
                     }
                 }
@@ -280,7 +282,7 @@ class RecordModifier
         }
 
         if (isset($val['datechanged'])) {
-            $val['datechanged'] = date_format(new \DateTime($val['datechanged']), 'c');
+            $val['datechanged'] = (new Carbon($val['datechanged']))->toIso8601String();
         }
 
         $lc = localeconv();
