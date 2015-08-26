@@ -21,16 +21,16 @@ class ListTypeBase extends FieldTypeBase
         $key = $this->mapping['fieldname'];
         $value = $entity->get($key);
 
-        if ($value !== null && $this->isJson($value)) {
-            $value = json_decode($value, true);
-        }
+        if ($value !== null) {
+            $value = $this->isJson($value) ? json_decode($value, true) : $value;
 
-        // Remove elements that are not important for storage.
-        foreach ($value as &$v) {
-            unset($v['id']);
-            unset($v['order']);
-            unset($v['progress']);
-            unset($v['element']);
+            // Remove elements that are not important for storage.
+            foreach ($value as &$v) {
+                unset($v['id']);
+                unset($v['order']);
+                unset($v['progress']);
+                unset($v['element']);
+            }
         }
         $entity->set($key, $value);
 
