@@ -355,7 +355,7 @@ class RecordModifier
         $allowedStatuses = [];
 
         foreach ($allStatuses as $status) {
-            if ($this->app['permissions']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeSlug, $content->getId())) {
+            if ($this->app['users']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeSlug, $content->getId())) {
                 $allowedStatuses[] = $status;
             }
         }
