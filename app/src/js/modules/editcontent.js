@@ -283,6 +283,12 @@
                                     $.each(item, function (subindex, subitem) {
                                         $(':input[name="' + index + '[' + subindex + ']"]').val(subitem);
                                     });
+                                } else if ($.type(item) === 'array') {
+                                    // In 2.3 we return filelists, and imagelist
+                                    // as an array of "objects"… because JSON…
+                                    // and they now fail here because… JavaScript…
+                                    // so we're catching arrays and ignoring
+                                    // them, someone else can fix this!
                                 } else {
                                     // Either an input or a textarea, so get by ID
                                     $('#' + index).val(item);
