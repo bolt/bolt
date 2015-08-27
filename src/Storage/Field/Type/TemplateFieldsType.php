@@ -34,6 +34,7 @@ class TemplateFieldsType extends FieldTypeBase
         if ($value) {
             $repo = $em->getRepository($entity->getContenttype());
             $templateEntity = $repo->create($value);
+            $currentTemplate = $this->chooser->record($data);
             $entity->templatefields = $templateEntity;
         }
     }
