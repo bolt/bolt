@@ -314,7 +314,7 @@ class RecordModifier
         }
 
         // Adjust decimal point as some locales use a comma and… JavaScript
-        $fields = $this->app['config']->get('contenttypes/' . $content->getContenttype() . 'fields');
+        $fields = $this->app['config']->get('contenttypes/' . $content->getContenttype() . '/fields');
         foreach ($fields as $key => $values) {
             if ($values['type'] === 'float') {
                 $val[$key] = str_replace('.', ',', $val[$key]);
