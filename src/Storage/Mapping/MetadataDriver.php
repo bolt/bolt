@@ -306,6 +306,21 @@ class MetadataDriver implements MappingDriver
             throw new \Exception("Attempted to load mapping data for unmapped class $className");
         }
     }
+    
+    public function loadMetadataForFields(array $fields)
+    {
+        foreach($fields as &$field) {
+            $type = $field['type'];
+            if (isset($this->typemap[$type])) {
+                $type = new $this->typemap[$type];
+            } else {
+                $type = new $this->typemap['text'];
+            }
+            $field['fieldtype'] = $type;
+        }
+        
+        return $fields;
+    }
 
     /**
      * Get the field type for a given column.
