@@ -2,6 +2,8 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Hydrator;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\TemplateChooser;
 use Doctrine\DBAL\Types\Type;
 
@@ -32,10 +34,13 @@ class TemplateFieldsType extends FieldTypeBase
         $value = $type->convertToPHPValue($data[$key], $em->createQueryBuilder()->getConnection()->getDatabasePlatform());
         
         if ($value) {
-            $repo = $em->getRepository($entity->getContenttype());
-            $templateEntity = $repo->create($value);
+            $metadata = new ClassMetadata(get_class($entity));
             $currentTemplate = $this->chooser->record($data);
-            $entity->templatefields = $templateEntity;
+            if (isset($this->mapping['config'][$currentTemplate])) {
+                $metadata->setFieldMappings($this->mapping['config'][$currentTemplate]['fields']);
+            }
+            $hydrator = new Hydrator($metadata);
+            $entity->templatefields = $hydrator->hydrate($value);
         }
     }
     

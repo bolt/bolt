@@ -40,7 +40,7 @@ class Hydrator
      *
      * @return mixed Entity
      */
-    public function hydrate(array $source, QueryBuilder $qb, EntityManager $em = null)
+    public function hydrate(array $source, QueryBuilder $qb = null, EntityManager $em = null)
     {
         $classname = $this->handler;
         $entity = new $classname;
