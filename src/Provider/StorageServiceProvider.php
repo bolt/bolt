@@ -67,6 +67,8 @@ class StorageServiceProvider implements ServiceProviderInterface
                         $factory->setHandler($field, $app[$field]);
                     }
                 }
+                
+                return $factory;
             }
         );
         
