@@ -4,6 +4,7 @@ namespace Bolt\Storage\Field\Type;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Hydrator;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\TemplateChooser;
 use Doctrine\DBAL\Types\Type;
 
