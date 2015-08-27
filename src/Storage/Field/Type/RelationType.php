@@ -94,8 +94,7 @@ class RelationType extends FieldTypeBase
     {
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
-        $accessor = "get".$field;
-        $relations = (array) $entity->$accessor();
+        $relations = $entity->getRelation();
 
         // Fetch existing relations
         $existingQuery = $em->createQueryBuilder()
@@ -110,15 +109,15 @@ class RelationType extends FieldTypeBase
         $result = $existingQuery->execute()->fetchAll();
         $existing = array_map(
             function ($el) {
-                return $el['to_id'];
+                return isset($el['to_id']) ? $el['to_id'] : [];
             },
             $result
         );
         $proposed = array_map(
             function ($el) {
-                return $el->reference;
+                return $el ? $el->getId() : [];
             },
-            $relations
+            $relations[$field]
         );
 
         $toInsert = array_diff($proposed, $existing);
