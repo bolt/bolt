@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Storage\EntityManager;
 use Bolt\TemplateChooser;
 use Doctrine\DBAL\Types\Type;
 
