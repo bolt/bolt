@@ -259,23 +259,15 @@ class RecordModifier
     {
         foreach ($fields as $key => $values) {
             if (isset($formValues[$key])) {
-                switch ($values['type']) {
-                    case 'float':
-                        // We allow ',' and '.' as decimal point and need '.' internally
-                        $formValues[$key] = str_replace(',', '.', $formValues[$key]);
-                        break;
+                if ($values['type'] === 'float') {
+                    // We allow ',' and '.' as decimal point and need '.' internally
+                    $formValues[$key] = str_replace(',', '.', $formValues[$key]);
                 }
             } else {
-                switch ($values['type']) {
-                    case 'select':
-                        if (isset($values['multiple']) && $values['multiple'] === true) {
-                            $formValues[$key] = [];
-                        }
-                        break;
-
-                    case 'checkbox':
-                        $formValues[$key] = 0;
-                        break;
+                if ($values['type'] === 'select' && isset($values['multiple']) && $values['multiple'] === true) {
+                    $formValues[$key] = [];
+                } elseif ($values['type'] === 'checkbox') {
+                    $formValues[$key] = 0;
                 }
             }
         }
@@ -314,9 +306,10 @@ class RecordModifier
         }
 
         // Adjust decimal point as some locales use a comma and… JavaScript
+        $lc = localeconv();
         $fields = $this->app['config']->get('contenttypes/' . $content->getContenttype() . '/fields');
         foreach ($fields as $key => $values) {
-            if ($values['type'] === 'float') {
+            if ($values['type'] === 'float' && $lc['decimal_point'] === ',') {
                 $val[$key] = str_replace('.', ',', $val[$key]);
             }
         }
