@@ -24,6 +24,22 @@ class TemplateFieldsType extends FieldTypeBase
     /**
      * {@inheritdoc}
      */
+    public function hydrate($data, $entity, EntityManager $em = null)
+    {
+        $key = $this->mapping['fieldname'];
+        $type = $this->getStorageType();
+        $value = $type->convertToPHPValue($data[$key], $em->createQueryBuilder()->getConnection()->getDatabasePlatform());
+        
+        if ($value) {
+            $repo = $em->getRepository($entity->getContenttype());
+            $templateEntity = $repo->create($value);
+            $entity->templatefields = $templateEntity;
+        }
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'templatefields';
