@@ -111,13 +111,13 @@ class RelationType extends FieldTypeBase
             function ($el) {
                 return isset($el['to_id']) ? $el['to_id'] : [];
             },
-            $result
+            $result ?: []
         );
         $proposed = array_map(
             function ($el) {
                 return $el ? $el->getId() : [];
             },
-            $relations[$field]
+            isset($relations[$field]) ? $relations[$field] : []
         );
 
         $toInsert = array_diff($proposed, $existing);
