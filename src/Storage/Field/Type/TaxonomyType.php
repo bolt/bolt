@@ -112,7 +112,7 @@ class TaxonomyType extends FieldTypeBase
             function ($el) {
                 return $el ? $el['slug'] : [];
             },
-            $result
+            $result ?: []
         );
         $proposed = $taxonomy[$field] ?: [];
 
