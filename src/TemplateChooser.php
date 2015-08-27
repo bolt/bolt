@@ -69,7 +69,7 @@ class TemplateChooser
      *
      * @return string
      */
-    public function record(\Bolt\Legacy\Content $record)
+    public function record($record)
     {
         // First candidate: global config.yml
         $template = $this->app['config']->get('general/record_template');
