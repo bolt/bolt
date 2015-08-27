@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\TemplateChooser;
 use Doctrine\DBAL\Types\Type;
 
 /**
@@ -11,6 +12,15 @@ use Doctrine\DBAL\Types\Type;
  */
 class TemplateFieldsType extends FieldTypeBase
 {
+    
+    public $chooser;
+    
+    public function __construct(array $mapping = [], TemplateChooser $chooser = null)
+    {
+        $this->mapping = $mapping;
+        $this->chooser = $chooser;
+    }
+    
     /**
      * {@inheritdoc}
      */
