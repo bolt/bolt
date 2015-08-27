@@ -7,6 +7,7 @@ use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Cocur\Slugify\Slugify;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -93,11 +94,9 @@ class TaxonomyType extends FieldTypeBase
     {
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
-        $accessor = 'get'.$field;
-        $taxonomy = (array) $entity->$accessor();
+        $taxonomy = $entity->getTaxonomy();
 
         // Fetch existing relations
-
         $existingQuery = $em->createQueryBuilder()
                             ->select('*')
                             ->from($target)
@@ -111,11 +110,11 @@ class TaxonomyType extends FieldTypeBase
 
         $existing = array_map(
             function ($el) {
-                return $el['slug'];
+                return $el ? $el['slug'] : [];
             },
             $result
         );
-        $proposed = $taxonomy;
+        $proposed = $taxonomy[$field] ?: [];
 
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
@@ -132,8 +131,8 @@ class TaxonomyType extends FieldTypeBase
                 0 => $entity->id,
                 1 => $entity->getContenttype(),
                 2 => $field,
-                3 => $item,
-                4 => $this->mapping['data']['options'][$item],
+                3 => Slugify::create()->slugify($item),
+                4 => isset($this->mapping['data']['options'][$item]) ? $this->mapping['data']['options'][$item] : $item,
             ]);
 
             $queries->append($ins);
