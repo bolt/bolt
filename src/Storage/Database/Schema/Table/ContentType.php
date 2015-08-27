@@ -58,6 +58,7 @@ class ContentType extends BaseTable
         $this->table->addColumn('username',       'string',     ['length' => 32, 'default' => '', 'notnull' => false]); // We need to keep this around for backward compatibility. For now.
         $this->table->addColumn('ownerid',        'integer',    ['notnull' => false]);
         $this->table->addColumn('status',         'string',     ['length' => 32]);
+        $this->table->addColumn('templatefields', 'json_array', ['notnull' => false]);
         // @codingStandardsIgnoreEnd
     }
 
