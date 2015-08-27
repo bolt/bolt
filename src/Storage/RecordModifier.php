@@ -135,6 +135,8 @@ class RecordModifier
         foreach ($formValues as $name => $value) {
             if ($name === 'relation') {
                 $this->setPostedRelations($content, $formValues);
+            } elseif ($name === 'taxonomy') {
+                $this->setPostedTaxonomies($content, $formValues);
             } else {
                 $content->set($name, empty($value) ? null : $value);
             }
@@ -164,6 +166,20 @@ class RecordModifier
             }
         }
         $content->setRelation($entities);
+    }
+
+    /**
+     * Set valid POST taxonomies.
+     *
+     * @param Content    $content
+     * @param array|null $formValues
+     */
+    private function setPostedTaxonomies(Content $content, $formValues)
+    {
+        if (!isset($formValues['taxonomy'])) {
+            return;
+        }
+        $content->setTaxonomy($formValues['taxonomy']);
     }
 
     /**
