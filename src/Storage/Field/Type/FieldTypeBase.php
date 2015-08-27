@@ -69,8 +69,10 @@ abstract class FieldTypeBase implements FieldTypeInterface
         $key = $this->mapping['fieldname'];
         $type = $this->getStorageType();
         $val = $data[$key];
-        $value = $type->convertToPHPValue($val, $em->createQueryBuilder()->getConnection()->getDatabasePlatform());
-        $entity->$key = $value;
+        if ($val) {
+            $value = $type->convertToPHPValue($val, $em->createQueryBuilder()->getConnection()->getDatabasePlatform());
+            $entity->$key = $value;
+        }
     }
 
     /**
