@@ -64,7 +64,7 @@ class ContentRepository extends Repository
     public function setLegacyService(ContentLegacyService $service)
     {
         $this->legacy = $service;
-        $this->event()->addListener(StorageEvents::POST_HYDRATE, [$this, 'hydrateLegacyHandler']);
+        $this->event()->addListener(StorageEvents::PRE_HYDRATE, [$this, 'hydrateLegacyHandler']);
     }
 
     /**
@@ -82,7 +82,7 @@ class ContentRepository extends Repository
      */
     public function hydrateLegacyHandler(HydrationEvent $event)
     {
-        $entity = $event->getSubject();
+        $entity = $event->getArgument('entity');
         $entity->setLegacyService($this->legacy);
     }
 

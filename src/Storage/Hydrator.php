@@ -32,6 +32,21 @@ class Hydrator
         $this->metadata = $metadata;
         $this->fieldFactory = $fieldFactory;
     }
+    
+    /**
+     * Creates an entity ready for hydration.
+     * 
+     * @param  array  $source [description]
+     * @return [type]         [description]
+     */
+    public function create(array $source)
+    {
+        $classname = $this->handler;
+        $entity = new $classname;
+        $entity->setContenttype($this->metadata->getBoltName());
+        
+        return $entity;
+    }
 
     /**
      * @param array         $source data
@@ -40,11 +55,8 @@ class Hydrator
      *
      * @return mixed Entity
      */
-    public function hydrate(array $source, QueryBuilder $qb = null, EntityManager $em = null)
+    public function hydrate($entity, QueryBuilder $qb = null, EntityManager $em = null)
     {
-        $classname = $this->handler;
-        $entity = new $classname;
-        $entity->setContenttype($this->metadata->getBoltName());
 
         foreach ($this->metadata->getFieldMappings() as $mapping) {
             // First step is to allow each Bolt field to transform the data.

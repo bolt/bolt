@@ -341,13 +341,14 @@ class Repository implements ObjectRepository
      */
     protected function hydrate(array $data, QueryBuilder $qb)
     {
+        $entity = $this->hydrator->create($data);
         $preArgs = new HydrationEvent(
             $data,
-            ['entity' => $this->getEntityName(), 'repository' => $this]
+            ['entity' => $entity, 'repository' => $this]
         );
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preArgs);
 
-        $entity = $this->hydrator->hydrate($data, $qb, $this->em);
+        $entity = $this->hydrator->hydrate($entity, $qb, $this->em);
 
         $postArgs = new HydrationEvent(
             $entity,
