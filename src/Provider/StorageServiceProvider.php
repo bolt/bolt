@@ -70,9 +70,11 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
         
-        $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = function ($mapping) {
-            $field = new TemplateFieldsType($mapping);
-        };
+        $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = $app->protect(
+            function ($mapping) {
+                $field = new TemplateFieldsType($mapping);
+            }
+        );
         
 
         $app['storage.repository.default'] = 'Bolt\Storage\Repository\ContentRepository';
