@@ -17,11 +17,13 @@ class TemplateFieldsType extends FieldTypeBase
 {
     
     public $chooser;
+    public $metadata;
     
-    public function __construct(array $mapping = [], TemplateChooser $chooser = null)
+    public function __construct(array $mapping = [], TemplateChooser $chooser = null, MetadataDriver $metadata)
     {
         $this->mapping = $mapping;
         $this->chooser = $chooser;
+        $this->metadata = $metadata;
     }
     
     /**
@@ -36,8 +38,10 @@ class TemplateFieldsType extends FieldTypeBase
         if ($value) {
             $metadata = new ClassMetadata(get_class($entity));
             $currentTemplate = $this->chooser->record($data);
+            
             if (isset($this->mapping['config'][$currentTemplate])) {
-                $metadata->setFieldMappings($this->mapping['config'][$currentTemplate]['fields']);
+                $mappings = $this->metadata->loadMetadataForFields($this->mapping['config'][$currentTemplate]['fields']);
+                $metadata->setFieldMappings($mappings);
             }
             $hydrator = new Hydrator($metadata);
             $entity->templatefields = $hydrator->hydrate($value);
