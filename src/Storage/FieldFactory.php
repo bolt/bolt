@@ -25,6 +25,9 @@ class FieldFactory
     
     public function get($class, $mapping)
     {
+        if (is_object($class)) {
+            $class = get_class($class);
+        }
         if (array_key_exists($class, $this->handlers)) {
             $handler = $this->handlers[$class];
             return call_user_func_array($handler, [$mapping]);
