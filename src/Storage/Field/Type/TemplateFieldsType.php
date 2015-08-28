@@ -20,7 +20,7 @@ class TemplateFieldsType extends FieldTypeBase
     public $chooser;
     public $metadata;
     
-    public function __construct(array $mapping = [], TemplateChooser $chooser = null, MetadataDriver $metadata)
+    public function __construct(array $mapping = [], TemplateChooser $chooser = null, MetadataDriver $metadata = null)
     {
         $this->mapping = $mapping;
         $this->chooser = $chooser;
