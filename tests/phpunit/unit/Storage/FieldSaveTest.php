@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Storage;
 
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,17 +23,16 @@ class FieldSaveTest extends BoltUnitTest
 
         $record = $repo->find(1);
 
-        foreach ($record->entries as $entry) {
+        foreach ($record->relation['entries'] as $entry) {
             $this->assertNotEmpty($entry->id);
             $this->assertNotEmpty($entry->slug);
         }
-
-        $record->setEntries([]);
+        $record->setRelation([]);
         $em->save($record);
 
         // Test that there are no relations now on a fresh search
         $record1 = $repo->find(1);
-        $this->assertEquals([], $record1->entries);
+        $this->assertEquals([], $record1->relation);
     }
 
     public function testTaxonomySave()
@@ -46,15 +45,15 @@ class FieldSaveTest extends BoltUnitTest
 
         $record = $repo->find(1);
 
-        $this->assertTrue(is_array($record->categories));
-        $this->assertTrue(is_array($record->tags));
+        $this->assertTrue(is_array($record->taxonomy['categories']));
+        $this->assertTrue(is_array($record->taxonomy['tags']));
 
-        $record->setCategories([]);
+        $record->setTaxonomy([]);
         $em->save($record);
 
         // Test that there are no relations now on a fresh search
         $record1 = $repo->find(1);
-        $this->assertEquals([], $record1->categories);
+        $this->assertEquals([], $record1->taxonomy['categories']);
     }
 
     protected function addSomeContent()
@@ -73,7 +72,7 @@ class FieldSaveTest extends BoltUnitTest
         $showcases = $storage->getContent('showcases');
         $randEntries = $storage->getContent('entries/random/2');
         foreach ($showcases as $show) {
-            foreach ($randEntries as $key => $entry) {
+            foreach (array_keys($randEntries) as $key) {
                 $show->setRelation('entries', $key);
                 $storage->saveContent($show);
             }
