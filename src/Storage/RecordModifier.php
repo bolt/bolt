@@ -445,7 +445,7 @@ class RecordModifier
     private function getRelationsList(array $contenttype)
     {
         $list = [];
-        if (!is_array($contenttype['relations'])) {
+        if (!isset($contenttype['relations']) || !is_array($contenttype['relations'])) {
             return $list;
         }
 
