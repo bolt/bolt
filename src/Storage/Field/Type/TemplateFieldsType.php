@@ -37,7 +37,7 @@ class TemplateFieldsType extends FieldTypeBase
         
         if ($value) {
             $metadata = new ClassMetadata(get_class($entity));
-            $currentTemplate = $this->chooser->record($data);
+            $currentTemplate = $this->chooser->record($entity);
             
             if (isset($this->mapping['config'][$currentTemplate])) {
                 $mappings = $this->metadata->loadMetadataForFields($this->mapping['config'][$currentTemplate]['fields']);
