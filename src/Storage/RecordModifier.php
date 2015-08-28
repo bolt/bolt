@@ -67,7 +67,7 @@ class RecordModifier
         }
 
         // Don't allow spoofing the ID.
-        if ($content->getId() !== false && (integer) $id !== $content->getId()) {
+        if ($content->getId() !== null && (integer) $id !== $content->getId()) {
             if ($returnTo === 'ajax') {
                 throw new AccessControlException("Don't try to spoof the id!");
             }
