@@ -348,7 +348,7 @@ class Repository implements ObjectRepository
         );
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preArgs);
 
-        $entity = $this->hydrator->hydrate($entity, $qb, $this->em);
+        $entity = $this->hydrator->hydrate($entity, $data, $this->em);
 
         $postArgs = new HydrationEvent(
             $entity,

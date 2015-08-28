@@ -49,13 +49,13 @@ class Hydrator
     }
 
     /**
+     * @param Entity        $entity data
      * @param array         $source data
-     * @param QueryBuilder  $qb
      * @param EntityManager $em
      *
      * @return mixed Entity
      */
-    public function hydrate($entity, QueryBuilder $qb = null, EntityManager $em = null)
+    public function hydrate($entity, array $source, EntityManager $em = null)
     {
 
         foreach ($this->metadata->getFieldMappings() as $mapping) {
