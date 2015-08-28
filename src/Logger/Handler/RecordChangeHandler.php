@@ -118,7 +118,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
                     'date'          => $record['datetime']->format('Y-m-d H:i:s'),
                     'ownerid'       => $user['id'],
                     'title'         => $title,
-                    'contenttype'   => $contenttype,
+                    'contenttype'   => is_array($contenttype) ? $contenttype['slug'] : $contenttype,
                     'contentid'     => $context['id'],
                     'mutation_type' => $context['action'],
                     'diff'          => $str,
