@@ -10,6 +10,7 @@ use ArrayAccess;
 abstract class Entity implements ArrayAccess
 {
     protected $_fields = [];
+    protected $internal = ['contenttype'];
 
     public function __construct($data = [])
     {
@@ -88,6 +89,9 @@ abstract class Entity implements ArrayAccess
         $data = [];
         foreach ($this as $k => $v) {
             if (strpos($k, '_') === 0) {
+                continue;
+            }
+            if (in_array($k, $this->internal)) {
                 continue;
             }
             $method = "serialize".$k;
