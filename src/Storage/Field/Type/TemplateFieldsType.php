@@ -45,7 +45,7 @@ class TemplateFieldsType extends FieldTypeBase
             }
             $hydrator = new Hydrator($metadata);
             $entity = $hydrator->create();
-            $entity->templatefields = $hydrator->hydrate($entity, $value);
+            $entity->templatefields = $hydrator->hydrate($entity, $value, $em);
         }
     }
     
