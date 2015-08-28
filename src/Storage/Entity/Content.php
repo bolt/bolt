@@ -137,6 +137,17 @@ class Content extends Entity
     {
         $this->contenttype = $value;
     }
+    
+        
+    public function getTemplatefields()
+    {
+        return $this->templatefields;
+    }
+
+    public function setTemplatefields($value)
+    {
+        $this->templatefields = $value;
+    }
 
     public function setLegacyService(ContentLegacyService $service)
     {
