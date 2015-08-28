@@ -6,8 +6,8 @@ use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Cocur\Slugify\Slugify;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles

@@ -5,8 +5,8 @@ use Bolt\EventListener\StorageEventListener;
 use Bolt\Legacy\Storage;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\EntityManager;
-use Bolt\Storage\FieldFactory;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
+use Bolt\Storage\FieldFactory;
 use Bolt\Storage\Hydrator;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
@@ -58,7 +58,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return $storage;
             }
         );
-        
+
         $app['storage.field_factory'] = $app->share(
             function ($app) {
                 $factory = new FieldFactory($app['storage.typemap']);
@@ -67,19 +67,18 @@ class StorageServiceProvider implements ServiceProviderInterface
                         $factory->setHandler($field, $app[$field]);
                     }
                 }
-                
+
                 return $factory;
             }
         );
-        
+
         $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = $app->protect(
-            function ($mapping) use($app) {
+            function ($mapping) use ($app) {
                 $field = new TemplateFieldsType($mapping, $app['templatechooser'], $app['storage.metadata']);
-                
+
                 return $field;
             }
         );
-        
 
         $app['storage.repository.default'] = 'Bolt\Storage\Repository\ContentRepository';
 

@@ -3,7 +3,6 @@
 namespace Bolt\Storage;
 
 use Bolt\Exception\AccessControlException;
-use Bolt\Exception\StorageException;
 use Bolt\Helpers\Input;
 use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;

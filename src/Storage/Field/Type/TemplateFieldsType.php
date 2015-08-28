@@ -16,7 +16,6 @@ use Doctrine\DBAL\Types\Type;
  */
 class TemplateFieldsType extends FieldTypeBase
 {
-    
     public $chooser;
     public $metadata;
     

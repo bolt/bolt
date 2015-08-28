@@ -44,5 +44,4 @@ class ListTypeBase extends FieldTypeBase
     {
         return Type::getType('json_array');
     }
-
 }

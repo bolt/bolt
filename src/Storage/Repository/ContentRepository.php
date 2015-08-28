@@ -40,7 +40,6 @@ class ContentRepository extends Repository
      */
     public function querySelectList($contentType, $order)
     {
-
         if (strpos($order, '-') === 0) {
             $direction = 'ASC';
             $order = ltrim($order, '-');

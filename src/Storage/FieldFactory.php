@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Storage;
 
-use Bolt\Storage\Field\Type\FieldTypeInterface;
-
 /**
  * Uses a typemap to construct an instance of a Field 
  */
@@ -40,6 +38,4 @@ class FieldFactory
     {
         $this->handlers[$class] = $handler;
     }
-
-
 }

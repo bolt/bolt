@@ -309,7 +309,7 @@ class MetadataDriver implements MappingDriver
     
     public function loadMetadataForFields(array $fields)
     {
-        foreach($fields as $name => &$field) {
+        foreach ($fields as $name => &$field) {
             $type = $field['type'];
             if (isset($this->typemap[$type])) {
                 $type = new $this->typemap[$type];
