@@ -24,7 +24,7 @@ use Carbon\Carbon;
  */
 class Content extends Entity
 {
-    protected $_contenttype;
+    protected $contenttype;
     protected $_legacy;
     protected $id;
     protected $slug;
@@ -130,12 +130,12 @@ class Content extends Entity
 
     public function getContenttype()
     {
-        return $this->_contenttype;
+        return $this->contenttype;
     }
 
     public function setContenttype($value)
     {
-        $this->_contenttype = $value;
+        $this->contenttype = $value;
     }
 
     public function setLegacyService(ContentLegacyService $service)
