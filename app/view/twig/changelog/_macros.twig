@@ -45,7 +45,7 @@
                     {{ __('component.changelog-detail.by') }} <strong>{{ entry.username }}</strong>
                 </p>
                 {% if ischangelogenabled() %}
-                    {% if entry.comment %}<h4><strong>Comment</strong>: {{ entry.comment }}</h4>{% endif %}
+                    {% if entry.comment|default(false) %}<h4><strong>Comment</strong>: {{ entry.comment }}</h4>{% endif %}
                 {% endif %}
             </div>
 
