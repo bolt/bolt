@@ -16,4 +16,14 @@ class MarkdownType extends FieldTypeBase
     {
         return 'markdown';
     }
+    
+    /**
+     * Returns the name of the Doctrine storage type to use for a field.
+     *
+     * @return Type
+     */
+    public function getStorageType()
+    {
+        return Type::getType('text');
+    }
 }
