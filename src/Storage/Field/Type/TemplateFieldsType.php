@@ -50,10 +50,7 @@ class TemplateFieldsType extends FieldTypeBase
             $ct = new ContentType('templatefields', ['fields'=>$mappings]);
             $templatefieldsEntity->setContenttype($ct);
             
-            foreach($value as $k=>$v) {
-                $templatefieldsEntity->$k = $v;
-            }
-            
+            $hydrator->hydrate($templatefieldsEntity, $value, $em);
             $entity->templatefields = $templatefieldsEntity;
         }
     }
