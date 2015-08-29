@@ -97,10 +97,11 @@ class TaxonomyType extends FieldTypeBase
             if ($taxData['has_sortorder']) {
                 // Previously we only cared about the last one… so yeah
                 $index = array_search($data[$field . '_slug'], array_keys($taxData['options']));
+                $sortorder = $taxData['sortorder'];
                 $group = [
                     'slug' => $data[$field . '_slug'],
                     'name' => $taxValue,
-                    'order' => $taxData['sortorder'],
+                    'order' => $sortorder,
                     'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
                 ];
             }
@@ -109,6 +110,7 @@ class TaxonomyType extends FieldTypeBase
         $values[$field] = !empty($taxValueProxy) ? $taxValueProxy : null;
         $entity->setTaxonomy($values);
         $entity->setGroup($group);
+        $entity->setSortorder($sortorder);
     }
 
     /**
