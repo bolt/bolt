@@ -128,6 +128,7 @@ class EntityManager
      */
     public function getRepository($className)
     {
+        $className = (string) $className;
         if (array_key_exists($className, $this->aliases)) {
             $classMetadata = $this->getMapper()->loadMetadataForClass($this->aliases[$className]);
         } else {
