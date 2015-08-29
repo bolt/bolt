@@ -2,6 +2,7 @@
 namespace Bolt\Storage;
 
 use Bolt\Storage\Entity\Entity;
+use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Entity;
 use Silex\Application;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Legacy;
+namespace Bolt\Storage\Mapping;
 
 /**
  * Legacy bridge for ContentType array access.
