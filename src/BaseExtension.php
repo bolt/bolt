@@ -481,6 +481,16 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
+     * Clear all previously added assets.
+     * 
+     * @deprecated since 2.3 and will be removed in Bolt 3
+     */
+    public function clearAssets()
+    {
+        return $this->app['asset.queue.file']->clear();
+    }
+
+    /**
      * Add a javascript file to the rendered HTML.
      *
      * @param string $filename File name to add to src=""
