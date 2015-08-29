@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Legacy\ContentType;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Hydrator;
 use Bolt\Storage\Mapping\ClassMetadata;
@@ -45,6 +46,10 @@ class TemplateFieldsType extends FieldTypeBase
             }
             $hydrator = new Hydrator($metadata);
             $templatefieldsEntity = $hydrator->create();
+            
+            $ct = new ContentType('templatefields', $mappings);
+            $templatefieldsEntity->setContenttype($ct);
+            
             $hydrator->hydrate($templatefieldsEntity, $value, $em);
             $entity->templatefields = $templatefieldsEntity;
         }
