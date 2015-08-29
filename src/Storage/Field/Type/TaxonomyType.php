@@ -60,6 +60,7 @@ class TaxonomyType extends FieldTypeBase
 
         if ($this->mapping['data']['has_sortorder']) {
             $order = "$field.sortorder";
+            $query->addSelect("$field.sortorder as " . $field . '_sortorder');
         } else {
             $order = "$field.id";
         }
@@ -73,7 +74,7 @@ class TaxonomyType extends FieldTypeBase
         }
 
         $query
-            ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field, $query))
+            ->addSelect("$field.slug as " . $field . '_slug')
             ->addSelect($this->getPlatformGroupConcat("$field.name", $order, $field, $query))
             ->leftJoin($alias, 'bolt_taxonomy', $field, "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("$alias.id");
@@ -87,13 +88,27 @@ class TaxonomyType extends FieldTypeBase
         $taxValueProxy = [];
         $field = $this->mapping['fieldname'];
         $values = $entity->getTaxonomy();
+        $taxData = $this->mapping['data'];
+        $taxData['sortorder'] = isset($data[$field . '_sortorder']) ? $data[$field . '_sortorder'] : 0;
         $taxValues = array_filter(explode(',', $data[$field]));
         foreach ($taxValues as $taxValue) {
-            $taxValueProxy["$field/$taxValue"] = new TaxonomyValue($field, $taxValue, $this->mapping['data']);
+            $taxValueProxy["$field/$taxValue"] = new TaxonomyValue($field, $taxValue, $taxData);
+
+            if ($taxData['has_sortorder']) {
+                // Previously we only cared about the last one… so yeah
+                $index = array_search($data[$field . '_slug'], array_keys($taxData['options']));
+                $group = [
+                    'slug' => $data[$field . '_slug'],
+                    'name' => $taxValue,
+                    'order' => $taxData['sortorder'],
+                    'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
+                ];
+            }
         }
 
         $values[$field] = !empty($taxValueProxy) ? $taxValueProxy : null;
         $entity->setTaxonomy($values);
+        $entity->setGroup($group);
     }
 
     /**

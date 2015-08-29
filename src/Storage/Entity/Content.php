@@ -37,6 +37,9 @@ class Content extends Entity
     protected $relation;
     protected $taxonomy;
 
+    /** @var array @deprecated Since v2.3 will be removed in v3.0 */
+    protected $group;
+
     /**
      * Getter for templates using {{ content.get(title) }} functions.
      *
@@ -137,8 +140,7 @@ class Content extends Entity
     {
         $this->contenttype = $value;
     }
-    
-        
+
     public function getTemplatefields()
     {
         return $this->templatefields;
