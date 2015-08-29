@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Legacy\ContentType;
+use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Hydrator;
 use Bolt\Storage\Mapping\ClassMetadata;
