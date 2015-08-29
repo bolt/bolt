@@ -394,7 +394,7 @@ class RecordModifier
         // Test write access for uploadable fields.
         $contenttype['fields'] = $this->setCanUpload($contenttype['fields']);
         if ($templatefields = $content->getTemplatefields()) {
-            $content->setTemplatefields($this->setCanUpload($templatefields));
+            $this->setCanUpload($templatefields->getContenttype());
         }
 
         // Build context for Twig.
