@@ -508,6 +508,17 @@ class Extensions
         return $this->assets;
     }
 
+    /**
+     * Clear all previously added assets.
+     */
+    public function clearAssets()
+    {
+        $this->assets = array(
+            'css' => array(),
+            'js'  => array()
+        );
+    }
+
     private function getNamespace($extension)
     {
         $classname = get_class($extension);
