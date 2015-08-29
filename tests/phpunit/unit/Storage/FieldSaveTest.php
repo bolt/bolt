@@ -27,12 +27,13 @@ class FieldSaveTest extends BoltUnitTest
             $this->assertNotEmpty($entry->id);
             $this->assertNotEmpty($entry->slug);
         }
+
         $record->setRelation([]);
         $em->save($record);
 
         // Test that there are no relations now on a fresh search
         $record1 = $repo->find(1);
-        $this->assertEquals([], $record1->relation);
+        $this->assertNull($record1->relation);
     }
 
     public function testTaxonomySave()
@@ -53,7 +54,7 @@ class FieldSaveTest extends BoltUnitTest
 
         // Test that there are no relations now on a fresh search
         $record1 = $repo->find(1);
-        $this->assertEquals([], $record1->taxonomy['categories']);
+        $this->assertNull($record1->taxonomy['categories']);
     }
 
     protected function addSomeContent()
