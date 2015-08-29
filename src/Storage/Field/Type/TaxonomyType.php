@@ -146,6 +146,7 @@ class TaxonomyType extends FieldTypeBase
         $toDelete = array_diff($existing, $proposed);
 
         foreach ($toInsert as $item) {
+            $item = (string) $item;
             $ins = $em->createQueryBuilder()->insert($target);
             $ins->values([
                 'content_id'   => '?',
