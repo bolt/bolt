@@ -92,7 +92,7 @@ class TaxonomyType extends FieldTypeBase
         $taxData['sortorder'] = isset($data[$field . '_sortorder']) ? $data[$field . '_sortorder'] : 0;
         $taxValues = array_filter(explode(',', $data[$field]));
         foreach ($taxValues as $taxValue) {
-            $taxValueProxy["$field/$taxValue"] = new TaxonomyValue($field, $taxValue, $taxData);
+            $taxValueProxy[$field . '/' . $data[$field . '_slug']] = new TaxonomyValue($field, $taxValue, $taxData);
 
             if ($taxData['has_sortorder']) {
                 // Previously we only cared about the last one… so yeah
