@@ -4,6 +4,7 @@ namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Mapping\TaxonomyValue;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
 use Cocur\Slugify\Slugify;
@@ -71,7 +72,9 @@ class TaxonomyType extends FieldTypeBase
             $alias = $from[0]['table'];
         }
 
-        $query->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field, $query))
+        $query
+            ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field, $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.name", $order, $field, $query))
             ->leftJoin($alias, 'bolt_taxonomy', $field, "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("$alias.id");
     }
@@ -81,9 +84,15 @@ class TaxonomyType extends FieldTypeBase
      */
     public function hydrate($data, $entity, EntityManager $em = null)
     {
+        $taxValueProxy = [];
         $field = $this->mapping['fieldname'];
         $values = $entity->getTaxonomy();
-        $values[$field] = array_filter(explode(',', $data[$field]));
+        $taxValues = array_filter(explode(',', $data[$field]));
+        foreach ($taxValues as $taxValue) {
+            $taxValueProxy["$field/$taxValue"] = new TaxonomyValue($field, $taxValue, $this->mapping['data']);
+        }
+
+        $values[$field] = !empty($taxValueProxy) ? $taxValueProxy : null;
         $entity->setTaxonomy($values);
     }
 
