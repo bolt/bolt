@@ -32,7 +32,7 @@
                         {% set attr_opt = {
                             value:     slug,
                             selected:  context.content.taxonomy[taxonomy.slug] is defined
-                                       ? group in context.content.taxonomy[taxonomy.slug]
+                                       ? taxonomy.slug ~ '/' ~ slug in context.content.taxonomy[taxonomy.slug]|keys
                                        : taxonomy.default is defined and taxonomy.default == slug,
                         } %}
                         <option{{ macro.attr(attr_opt) }}>{{ group }}</option>
