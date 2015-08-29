@@ -39,6 +39,7 @@ class Content extends Entity
 
     /** @var array @deprecated Since v2.3 will be removed in v3.0 */
     protected $group;
+    protected $sortorder;
 
     /**
      * Getter for templates using {{ content.get(title) }} functions.

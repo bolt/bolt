@@ -1,10 +1,10 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Hydrator;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\TemplateChooser;
 use Doctrine\DBAL\Types\Type;
@@ -47,7 +47,7 @@ class TemplateFieldsType extends FieldTypeBase
             $hydrator = new Hydrator($metadata);
             $templatefieldsEntity = $hydrator->create();
             
-            $ct = new ContentType('templatefields', ['fields'=>$mappings]);
+            $ct = new ContentType('templatefields', ['fields' => $mappings]);
             $templatefieldsEntity->setContenttype($ct);
             
             $hydrator->hydrate($templatefieldsEntity, $value, $em);

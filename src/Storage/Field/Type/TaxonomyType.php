@@ -99,8 +99,8 @@ class TaxonomyType extends FieldTypeBase
                 $index = array_search($data[$field . '_slug'], array_keys($taxData['options']));
                 $sortorder = $taxData['sortorder'];
                 $group = [
-                    'slug' => $data[$field . '_slug'],
-                    'name' => $taxValue,
+                    'slug'  => $data[$field . '_slug'],
+                    'name'  => $taxValue,
                     'order' => $sortorder,
                     'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
                 ];

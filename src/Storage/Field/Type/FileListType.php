@@ -26,5 +26,4 @@ class FileListType extends ListTypeBase
     {
         return Type::getType('json_array');
     }
-    
 }

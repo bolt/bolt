@@ -18,7 +18,7 @@ class TaxonomyValue implements \ArrayAccess
     /**
      * Constructor.
      *
-     * @param array  $data
+     * @param array $data
      */
     public function __construct($name, $value, array $data)
     {
