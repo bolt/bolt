@@ -317,7 +317,6 @@ class MetadataDriver implements MappingDriver
                 $type = new $this->typemap['text'];
             }
             $field['fieldtype'] = $type;
-            $field['type'] = 'text';
             $field['fieldname'] = $name;
         }
         
