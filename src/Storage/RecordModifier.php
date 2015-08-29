@@ -463,7 +463,7 @@ class RecordModifier
      *
      * @return array
      */
-    private function setCanUpload(array $fields)
+    private function setCanUpload($fields)
     {
         $filesystem = $this->app['filesystem']->getFilesystem();
 
