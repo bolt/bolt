@@ -45,7 +45,7 @@ class TemplateFieldsType extends FieldTypeBase
             $hydrator = new Hydrator($metadata);
             $templatefieldsEntity = $hydrator->create();
             
-            $ct = new ContentType('templatefields', ['fields' => $mappings]);
+            $ct = new ContentType('templatefields', ['fields' => $metadata->getFieldMappings()]);
             $templatefieldsEntity->setContenttype($ct);
             
             $hydrator->hydrate($templatefieldsEntity, $value, $em);
