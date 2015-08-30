@@ -3,20 +3,34 @@ Bolt 2.2.next
 
 Not yet released. Notable changes:
 
+- nothing yet.
+
+Bolt 2.2.9
+----------
+
+Released 2015-08-30. Notable changes:
+
 - Added: Add a button for `<hr>` / horizontal ruler in CKeditor for (see #3539)
+- Added: Show "profile" button on users page, if not allowed to edit other users than themselves. (See #4008)
+- Fixed: Truly allow edit permission to be assigned to the owner role (Thanks @fabschurt, see #4019)
+- Fixed: Fix record retrieval for ownership checking (Thanks @fabschurt, see #4024)
 - Fixed: Don't allow extension tables that do not use the configured prefix (see #3968)
 - Fixed: Don't attempt to log array elements that aren't set. (see #3969)
-- Chaned: Provide UI feedback on extension site timeouts. (see #3972)
-- Updated: CKeditor updated to version 4.5.2
-- Updated: Symfony updated to 2.6.11
-- Updated: Silex updated to 1.3.1
-- Updated: Font Awesome to 4.4
-- Fixed: Fix path to Nut for Composer installs (See #3959)
-- Tests: Allow getStatementMock() to be passed a desired return value (See #3957)
+- Fixed: Changelog 'next' & 'previous' buttons didn't work as expected in Bolt 2.2.x (See #4009)
 - Fixed: Move initMailCheck() call to a before() handler (See #3953)
 - Fixed: Allow edit permission to be assigned to the owner role. Fixes "Unable to edit entry with
-  owner permission". (See #3938)
+- Fixed: Fix path to Nut for Composer installs (See #3959)
+- Changed: Provide UI feedback on extension site timeouts. (see #3972)
+- Changed: Move the Showcases template select to the Meta tab (See #4006)
+- Changed: Don't `Content::preParse()` return an error, log it and return a generic message (See #3990)
+- Changed: Lock Silex to version 1.2.* for PHP 5.3.3 support (See #4021)
+- Updated: CKeditor updated to version 4.5.2
+- Updated: Symfony updated to 2.6.11
+- Updated: Silex updated to 1.2.5
+- Updated: Font Awesome to 4.4
 - Updated: Database integrity checker. Add foreign key checks to IntegrityChecker (See #3872)
+- Tests: Allow getStatementMock() to be passed a desired return value (See #3957)
+  owner permission". (See #3938)
 
 Bolt 2.2.8
 ----------
