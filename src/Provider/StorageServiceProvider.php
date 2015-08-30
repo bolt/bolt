@@ -46,19 +46,22 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $storage->setRepository($entity, $repo);
                 }
 
-                $storage->setDefaultRepositoryFactory(
-                    function ($classMetadata) use ($app) {
-                        $repoClass = $app['storage.repository.default'];
-                        $repo = new $repoClass($app['storage'], $classMetadata);
-                        $repo->setLegacyService($app['storage.legacy_service']);
-                        $repo->setHydrator(new Hydrator($classMetadata, $app['storage.field_factory']));
-                        $repo->setPersister(new Persister($classMetadata, $app['storage.field_factory']));
-                        $repo->setBuilder($app['storage.entity_builder']);
-                        return $repo;
-                    }
-                );
+                $storage->setDefaultRepositoryFactory($app['storage.content_repository']);
 
                 return $storage;
+            }
+        );
+
+        $app['storage.content_repository'] = $app->protect(
+            function ($classMetadata) use ($app) {
+                $repoClass = $app['storage.repository.default'];
+                $repo = new $repoClass($app['storage'], $classMetadata);
+                $repo->setLegacyService($app['storage.legacy_service']);
+                $repo->setHydrator(new Hydrator($classMetadata, $app['storage.field_factory']));
+                $repo->setPersister(new Persister($classMetadata, $app['storage.field_factory']));
+                $repo->setBuilder($app['storage.entity_builder']);
+                
+                return $repo;
             }
         );
 
