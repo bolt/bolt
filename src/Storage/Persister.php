@@ -15,9 +15,10 @@ class Persister
 
     protected $disabledFields = [];
 
-    public function __construct(ClassMetadata $metadata)
+    public function __construct(ClassMetadata $metadata, FieldFactory $fieldFactory = null)
     {
         $this->metadata = $metadata;
+        $this->fieldFactory = $fieldFactory;
     }
 
     /**
@@ -31,8 +32,12 @@ class Persister
     {
         foreach ($this->getFields() as $key => $mapping) {
             // First step is to allow each Bolt field to transform the data.
-            /** @var FieldTypeInterface $field */
-            $field = new $mapping['fieldtype']($mapping);
+            if ($this->fieldFactory !== null) {
+                $field = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
+            } else {
+                $field = new $mapping['fieldtype']($mapping);
+            }
+
             $field->persist($queries, $entity, $em);
         }
 
