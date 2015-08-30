@@ -3,6 +3,8 @@ namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Hydrator;
+use Bolt\Storage\Persister;
+use Bolt\Storage\QuerySet;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Mapping\MetadataDriver;
@@ -37,13 +39,9 @@ class TemplateFieldsType extends FieldTypeBase
         $value = $type->convertToPHPValue($data[$key], $em->createQueryBuilder()->getConnection()->getDatabasePlatform());
         
         if ($value) {
-            $metadata = new ClassMetadata(get_class($entity));
-            $currentTemplate = $this->chooser->record($entity);
             
-            if (isset($this->mapping['config'][$currentTemplate])) {
-                $mappings = $this->metadata->loadMetadataForFields($this->mapping['config'][$currentTemplate]['fields']);
-                $metadata->setFieldMappings($mappings);
-            }
+            $metadata = $this->buildMetadata($entity);
+        
             $hydrator = new Hydrator($metadata);
             $templatefieldsEntity = $hydrator->create();
             
@@ -65,13 +63,31 @@ class TemplateFieldsType extends FieldTypeBase
         $type = $this->getStorageType();
 
         if (null !== $value) {
-            $value = $type->convertToDatabaseValue($value, $qb->getConnection()->getDatabasePlatform());
+            
+            $metadata = $this->buildMetadata($entity);
+            $persister = new Persister($metadata);
+            $newValue = $persister->persist($queries, $entity, $em);
+            
+            $value = $type->convertToDatabaseValue($newValue, $qb->getConnection()->getDatabasePlatform());
         } else {
             $value = $this->mapping['default'];
         }
         $qb->setValue($key, ":".$key);
         $qb->set($key, ":".$key);
         $qb->setParameter($key, $value);
+    }
+    
+    protected function buildMetadata($entity)
+    {
+        $template = $this->chooser->record($entity);
+        $metadata = new ClassMetadata(get_class($entity));
+        
+        if (isset($this->mapping['config'][$template])) {
+            $mappings = $this->metadata->loadMetadataForFields($this->mapping['config'][$template]['fields']);
+            $metadata->setFieldMappings($mappings);
+        }
+        
+        return $metadata;
     }
     
     /**
