@@ -1,7 +1,9 @@
 <?php
 namespace Bolt\Storage\Entity;
 
+use Bolt\Storage\FieldFactory;
 use Bolt\Storage\Hydrator;
+use Bolt\Storage\Mapping\MetadataDriver;
 
 /**
  * Builder class to create entity objects and populate with data.
