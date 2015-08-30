@@ -53,7 +53,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                         $repo->setLegacyService($app['storage.legacy_service']);
                         $repo->setHydrator(new Hydrator($classMetadata, $app['storage.field_factory']));
                         $repo->setPersister(new Persister($classMetadata, $app['storage.field_factory']));
-
+                        $repo->setBuilder($app['storage.entity_builder']);
                         return $repo;
                     }
                 );

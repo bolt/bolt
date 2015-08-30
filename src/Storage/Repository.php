@@ -4,6 +4,7 @@ namespace Bolt\Storage;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
+use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -26,6 +27,8 @@ class Repository implements ObjectRepository
     public $persister;
     /** @var Loader */
     public $loader;
+    /** @var Builder */
+    public $builder;
 
     /**
      * Initializes a new Repository.
@@ -55,8 +58,12 @@ class Repository implements ObjectRepository
      */
     public function create($params = null)
     {
-        $entityClass = $this->getClassName();
-        return new $entityClass($params);
+        if ($this->builder) {
+            return $this->builder->create($params);
+        } else {            
+            $entityClass = $this->getClassName();
+            return new $entityClass($params);
+        }
     }
 
     /**
@@ -407,6 +414,14 @@ class Repository implements ObjectRepository
     public function setLoader(Loader $loader)
     {
         $this->loader = $loader;
+    }
+    
+    /**
+     * @param Builder $builder
+     */
+    public function setBuilder(Builder $builder)
+    {
+        $this->builder = $builder;
     }
 
     /**
