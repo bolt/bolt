@@ -39,18 +39,23 @@ class TemplateFieldsType extends FieldTypeBase
         $value = $type->convertToPHPValue($data[$key], $em->createQueryBuilder()->getConnection()->getDatabasePlatform());
         
         if ($value) {
-            
-            $metadata = $this->buildMetadata($entity);
-        
-            $hydrator = new Hydrator($metadata);
-            $templatefieldsEntity = $hydrator->create();
-            
-            $ct = new ContentType('templatefields', ['fields' => $metadata->getFieldMappings()]);
-            $templatefieldsEntity->setContenttype($ct);
-            
-            $hydrator->hydrate($templatefieldsEntity, $value, $em);
-            $entity->templatefields = $templatefieldsEntity;
+            $this->set($entity, $value);
         }
+    }
+    
+    public function set($entity, $value)
+    {
+        $key = $this->mapping['fieldname'];
+        $metadata = $this->buildMetadata($entity);
+        
+        $hydrator = new Hydrator($metadata);
+        $templatefieldsEntity = $hydrator->create();
+        
+        $ct = new ContentType('templatefields', ['fields' => $metadata->getFieldMappings()]);
+        $templatefieldsEntity->setContenttype($ct);
+        
+        $hydrator->hydrate($templatefieldsEntity, $value, $em);
+        $entity->$key = $templatefieldsEntity;
     }
     
     public function persist(QuerySet $queries, $entity, EntityManager $em = null)
