@@ -63,17 +63,14 @@ class Builder
                 $handler = $this->handlers[$mapping['fieldtype']];
                 
                 if ($handler) {
-                    $value = call_user_func_array($handler, [$data]);
+                    $value = call_user_func_array($handler, [$entity, $data]);
                 } else {
-                    $value = call_user_func_array([$fieldType, 'set'], [$data]);
+                    $value = call_user_func_array([$fieldType, 'set'], [$entity, $data]);
                 }
                 
             }
         }
-        foreach ($data as $field => $value) {
-            
-            $entity->$field = $value;
-        }
+        
         return $entity;
     }
     
