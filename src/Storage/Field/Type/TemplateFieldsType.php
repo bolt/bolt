@@ -50,13 +50,11 @@ class TemplateFieldsType extends FieldTypeBase
         $key = $this->mapping['fieldname'];
         $metadata = $this->buildMetadata($entity);
         
-        $hydrator = new Hydrator($metadata);
         $templatefieldsEntity = $this->repository->create($value);
         
         $ct = new ContentType('templatefields', ['fields' => $metadata->getFieldMappings()]);
         $templatefieldsEntity->setContenttype($ct);
         
-        $hydrator->hydrate($templatefieldsEntity, $value, $em);
         $entity->$key = $templatefieldsEntity;
     }
     
