@@ -55,6 +55,25 @@ class TemplateFieldsType extends FieldTypeBase
         }
     }
     
+    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    {
+        $key = $this->mapping['fieldname'];
+        $qb = &$queries[0];
+        $valueMethod = 'serialize'.ucfirst($key);
+        $value = $entity->$valueMethod();
+
+        $type = $this->getStorageType();
+
+        if (null !== $value) {
+            $value = $type->convertToDatabaseValue($value, $qb->getConnection()->getDatabasePlatform());
+        } else {
+            $value = $this->mapping['default'];
+        }
+        $qb->setValue($key, ":".$key);
+        $qb->set($key, ":".$key);
+        $qb->setParameter($key, $value);
+    }
+    
     /**
      * {@inheritdoc}
      */
