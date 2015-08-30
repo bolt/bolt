@@ -21,12 +21,14 @@ class TemplateFieldsType extends FieldTypeBase
 {
     public $chooser;
     public $metadata;
+    public $repository;
     
-    public function __construct(array $mapping = [], TemplateChooser $chooser = null, MetadataDriver $metadata = null)
+    public function __construct(array $mapping = [], TemplateChooser $chooser = null, MetadataDriver $metadata = null, $contentRepo = null)
     {
         $this->mapping = $mapping;
         $this->chooser = $chooser;
         $this->metadata = $metadata;
+        $this->repository = $contentRepo;
     }
     
     /**
@@ -49,7 +51,7 @@ class TemplateFieldsType extends FieldTypeBase
         $metadata = $this->buildMetadata($entity);
         
         $hydrator = new Hydrator($metadata);
-        $templatefieldsEntity = $hydrator->create();
+        $templatefieldsEntity = $this->repository->create($value);
         
         $ct = new ContentType('templatefields', ['fields' => $metadata->getFieldMappings()]);
         $templatefieldsEntity->setContenttype($ct);
