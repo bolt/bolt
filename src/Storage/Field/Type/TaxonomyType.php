@@ -50,8 +50,17 @@ class TaxonomyType extends FieldTypeBase
         }
     }
 
+
     /**
-     * {@inheritdoc}
+     * For the taxonomy field the load event modifies the query to fetch taxonomies related
+     * to a content record from the join table.
+     * 
+     * It does this via an additional ->addSelect() and ->leftJoin() call on the QueryBuilder
+     * which includes then includes the taxonomies in the same query as the content fetch.
+     * 
+     * @param  QueryBuilder  $query    
+     * @param  ClassMetadata $metadata 
+     * 
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
