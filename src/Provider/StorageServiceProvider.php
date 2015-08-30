@@ -5,6 +5,7 @@ use Bolt\EventListener\StorageEventListener;
 use Bolt\Legacy\Storage;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldFactory;
 use Bolt\Storage\Hydrator;
@@ -79,6 +80,14 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $field = new TemplateFieldsType($mapping, $app['templatechooser'], $app['storage.metadata']);
 
                 return $field;
+            }
+        );
+        
+        $app['storage.entity_builder'] = $app->share(
+            function ($app) {
+                $builder = new Builder($app['storage.metadata'], $app['storage.field_factory']);
+
+                return $builder;
             }
         );
 
