@@ -65,6 +65,7 @@ class TaxonomyType extends FieldTypeBase
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
         $field = $this->mapping['fieldname'];
+        $target = $this->mapping['target'];
         $boltname = $metadata->getBoltName();
 
         if ($this->mapping['data']['has_sortorder']) {
@@ -85,7 +86,7 @@ class TaxonomyType extends FieldTypeBase
         $query
             ->addSelect("$field.slug as " . $field . '_slug')
             ->addSelect($this->getPlatformGroupConcat("$field.name", $order, $field, $query))
-            ->leftJoin($alias, 'bolt_taxonomy', $field, "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
+            ->leftJoin($alias, $target, $field, "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("$alias.id");
     }
 
