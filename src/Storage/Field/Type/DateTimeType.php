@@ -17,9 +17,9 @@ class DateTimeType extends DateType
     /**
      * @inheritdoc
      */
-    public function __construct(array $mapping = [])
+    public function __construct(array $mapping = [], EntityManager $em = null)
     {
-        parent::__construct($mapping);
+        parent::__construct($mapping, $em);
         Type::overrideType(Type::DATETIME, 'Bolt\Storage\Mapping\Type\CarbonDateTimeType');
     }
 
