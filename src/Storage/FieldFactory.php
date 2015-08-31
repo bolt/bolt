@@ -30,7 +30,7 @@ class FieldFactory
         }
         if (array_key_exists($class, $this->handlers)) {
             $handler = $this->handlers[$class];
-            return call_user_func_array($handler, [$mapping]);
+            return call_user_func_array($handler, [$mapping, $this->em]);
         }
         
         return new $class($mapping, $this->em);

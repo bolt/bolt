@@ -63,10 +63,10 @@ class Hydrator
             if ($this->fieldFactory !== null) {
                 $field = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
             } else {
-                $field = new $mapping['fieldtype']($mapping);
+                $field = new $mapping['fieldtype']($mapping, $em);
             }
 
-            $field->hydrate($source, $entity, $em);
+            $field->hydrate($source, $entity);
         }
 
         return $entity;
