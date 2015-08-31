@@ -68,7 +68,8 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.field_factory'] = $app->share(
             function ($app) {
-                $factory = new FieldFactory($app['storage']);
+                $factory = new FieldFactory();
+                $factory->setEntityManager($app['storage']);
                 foreach ($app['storage.typemap'] as $field) {
                     if (isset($app[$field])) {
                         $factory->setHandler($field, $app[$field]);
