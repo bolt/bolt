@@ -103,6 +103,7 @@ class EntityManager
      */
     public function setEntityBuilder(Builder $builder)
     {
+        $builder->setEntityManager($this);
         $this->builder = $builder;        
     }
 
