@@ -1,13 +1,15 @@
 <?php
 namespace Bolt\Storage;
 
+use Bolt\Storage\EntityManager;
+
 /**
  * Uses a typemap to construct an instance of a Field 
  */
 class FieldFactory
 {
     /** @var array */
-    protected $typemap;
+    protected $em;
     protected $handlers = [];
     
 
@@ -16,9 +18,9 @@ class FieldFactory
      *
      * @param array $typemap
      */
-    public function __construct(array $typemap)
+    public function __construct(EntityManager $em)
     {
-        $this->typemap = $typemap;
+        $this->em = $em;
     }
     
     public function get($class, $mapping)
@@ -31,7 +33,7 @@ class FieldFactory
             return call_user_func_array($handler, [$mapping]);
         }
         
-        return new $class($mapping);
+        return new $class($mapping, $this->em);
     }
     
     public function setHandler($class, callable $handler)
