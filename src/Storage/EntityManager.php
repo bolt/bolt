@@ -26,7 +26,9 @@ class EntityManager
     /** @var LoggerInterface */
     protected $logger;
     /** @var Builder */
-    protected $builder;
+    protected $fieldFactory;
+    /** @var Builder */
+    protected $fieldFactory;
     /** @var array */
     protected $repositories = [];
     /** @var array */
@@ -109,7 +111,15 @@ class EntityManager
     
     public function getFieldFactory()
     {
+        $factory = $this->fieldFactory;
+        $factory->setEntityManager($this);
         
+        return $factory;
+    }
+    
+    public function setFieldFactory(FieldFactory $fieldFactory)
+    {
+        $this->fieldFactory = $fieldFactory;
     }
 
     /**
