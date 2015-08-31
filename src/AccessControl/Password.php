@@ -176,11 +176,15 @@ class Password
         );
 
         $subject = sprintf('[ Bolt / %s ] Password reset.', $this->app['config']->get('general/sitename'));
+        $name = $this->app['config']->get('general/mailoptions/senderName', $this->app['config']->get('general/sitename'));
+        $email = $this->app['config']->get('general/mailoptions/senderMail', $userEntity->getEmail());
+        $from = [$email => $name];
 
         $message = $this->app['mailer']
             ->createMessage('message')
             ->setSubject($subject)
-            ->setFrom([$this->app['config']->get('general/mailoptions/senderMail', $userEntity->getEmail()) => $this->app['config']->get('general/mailoptions/senderName', $this->app['config']->get('general/sitename'))])
+            ->setFrom($from)
+            ->setReplyTo($from)
             ->setTo([$userEntity['email'] => $userEntity['displayname']])
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html')
