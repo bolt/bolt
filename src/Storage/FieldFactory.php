@@ -27,7 +27,7 @@ class FieldFactory
      * Set an instance of EntityManager
      * @param EntityManager $em
      */
-    public function setEntityManager(EntityManager $em)
+    public function setEntityManager(EntityManager $em = null)
     {
         $this->em = $em;
     }
