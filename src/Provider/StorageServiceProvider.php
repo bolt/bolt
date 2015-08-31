@@ -42,7 +42,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['logger.system']
                 );
                 $storage->setLegacyStorage($app['storage.legacy']);
-                $storage->setEntityBuilder($app['storage.entity_builder']);
+                //$storage->setEntityBuilder($app['storage.entity_builder']);
 
                 foreach ($app['storage.repositories'] as $entity => $repo) {
                     $storage->setRepository($entity, $repo);
