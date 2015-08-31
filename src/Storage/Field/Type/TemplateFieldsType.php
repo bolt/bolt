@@ -36,7 +36,7 @@ class TemplateFieldsType extends FieldTypeBase
     /**
      * {@inheritdoc}
      */
-    public function hydrate($data, $entity, EntityManager $em = null)
+    public function hydrate($data, $entity)
     {
         $key = $this->mapping['fieldname'];
         $type = $this->getStorageType();
@@ -58,11 +58,11 @@ class TemplateFieldsType extends FieldTypeBase
         $ct = new ContentType('templatefields', ['fields' => $metadata->getFieldMappings()]);
         $templatefieldsEntity->setContenttype($ct);
         
-        $hydrator->hydrate($templatefieldsEntity, $value, $em);
+        $hydrator->hydrate($templatefieldsEntity, $value, $this->em);
         $entity->$key = $templatefieldsEntity;
     }
     
-    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    public function persist(QuerySet $queries, $entity)
     {
         $key = $this->mapping['fieldname'];
         $qb = &$queries[0];
@@ -75,7 +75,7 @@ class TemplateFieldsType extends FieldTypeBase
             
             $metadata = $this->buildMetadata($entity);
             $persister = new Persister($metadata);
-            $newValue = $persister->persist($queries, $entity, $em);
+            $newValue = $persister->persist($queries, $entity, $this->em);
             
             $value = $type->convertToDatabaseValue($newValue, $this->getPlatform());
         } else {
