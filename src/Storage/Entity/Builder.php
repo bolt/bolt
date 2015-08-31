@@ -88,7 +88,7 @@ class Builder
         foreach ($classMetadata->getFieldMappings() as $key => $mapping) {
             if (array_key_exists($key, $data)) {
                 $fieldType = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
-                call_user_func_array([$fieldType, 'hydrate'], [$entity, $data]);
+                call_user_func_array([$fieldType, 'hydrate'], [$data, $entity]);
             }
         }
 
