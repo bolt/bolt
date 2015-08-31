@@ -1,8 +1,8 @@
 <?php
+
 namespace Bolt\Storage\Entity;
 
 use Bolt\Storage\FieldFactory;
-use Bolt\Storage\Hydrator;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
 
@@ -39,15 +39,27 @@ class Builder
     }
 
     /**
+     * Returns a new empty entity class.
      *
-     * Creates a new entity object.
-     *
-     * @param array|object $data Data to load into the entity.
-     *
-     * @return GenericEntity
-     *
+     * @return object
      */
-    public function create($data, ClassMetadata $classMetadata = null)
+    public function getEntity()
+    {
+        $class = $this->class;
+        $entity = new $class();
+
+        return $entity;
+    }
+
+    /**
+     * Uses either the class default or the supplied ClassMetadata to return
+     * a list of fields for this entity.
+     *
+     * @param ClassMetadata|null $classMetadata
+     *
+     * @return array
+     */
+    public function getFields(ClassMetadata $classMetadata = null)
     {
         $class = $this->class;
 
@@ -55,10 +67,23 @@ class Builder
             $classMetadata = $this->metadata->loadMetadataForClass($class);
         }
 
-        $entity = new $class;
+        return $classMetadata->getFieldMappings();
+    }
+
+    /**
+     * Creates a new entity object.
+     *
+     * @param array|object $data Data to load into the entity.
+     *
+     * @return object $entity
+     */
+    public function create($data, ClassMetadata $classMetadata = null)
+    {
+        $entity = $this->getEntity();
+        $fields = $this->getFields($classMetadata);
 
         // set fields
-        foreach ($classMetadata->getFieldMappings() as $key => $mapping) {
+        foreach ($fields as $key => $mapping) {
             if (array_key_exists($key, $data)) {
                 $fieldType = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
 
