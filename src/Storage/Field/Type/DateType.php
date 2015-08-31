@@ -20,9 +20,9 @@ class DateType extends FieldTypeBase
     /**
      * @inheritdoc
      */
-    public function __construct(array $mapping = [])
+    public function __construct(array $mapping = [], EntityManager $em)
     {
-        parent::__construct($mapping);
+        parent::__construct($mapping, $em);
         Type::overrideType(Type::DATE, 'Bolt\Storage\Mapping\Type\CarbonDateType');
     }
 
