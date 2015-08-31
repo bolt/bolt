@@ -30,7 +30,12 @@ class Loader
     {
         foreach ($metadata->getFieldMappings() as $field) {
             /** @var FieldTypeInterface $fieldtype */
-            $fieldtype = new $field['fieldtype']($field);
+            if ($this->fieldFactory !== null) {
+                $field = $this->fieldFactory->get($field['fieldtype'], $field);
+            } else {
+                $fieldtype = new $field['fieldtype']($field);
+            }
+            
             $fieldtype->load($qb, $metadata);
         }
 
