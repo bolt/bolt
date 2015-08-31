@@ -350,7 +350,7 @@ class Repository implements ObjectRepository
         $this->getEntityBuilder()->createFromDatabaseValues($data, $this->getClassMetadata(), $entity);
 
         $postEventArgs = new HydrationEvent($entity, ['data' => $data, 'repository' => $this]);
-        $this->event()->dispatch(StorageEvents::POST_HYDRATE, $postArgs);
+        $this->event()->dispatch(StorageEvents::POST_HYDRATE, $postEventArgs);
 
         return $entity;
     }
