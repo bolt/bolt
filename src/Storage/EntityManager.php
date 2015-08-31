@@ -93,7 +93,8 @@ class EntityManager
      */
     public function getEntityBuilder($className = null)
     {
-        $builder = $this->builder;
+        
+        $builder = new Builder($this->getMapper(), $this->getFieldFactory());
         if ($className !== null) {
             $builder->setClass($className);
         }
