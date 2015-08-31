@@ -91,11 +91,14 @@ class EntityManager
      * @param  string $className
      * @return Entity\Builder   
      */
-    public function getEntityBuilder($className)
+    public function getEntityBuilder($className = null)
     {
         $builder = $this->builder;
+        if ($className !== null) {
+            $builder->setClass($className);
+        }
         
-        return $builder->setClass($className);
+        return $builder;
     }
     
     /**
