@@ -26,8 +26,8 @@ class EntityManager
     /** @var LoggerInterface */
     protected $logger;
     /** @var Builder */
-    protected $fieldFactory;
-    /** @var Builder */
+    protected $builder;
+    /** @var FieldFactory */
     protected $fieldFactory;
     /** @var array */
     protected $repositories = [];
