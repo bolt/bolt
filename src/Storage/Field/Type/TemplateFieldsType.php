@@ -19,14 +19,18 @@ use Doctrine\DBAL\Types\Type;
  */
 class TemplateFieldsType extends FieldTypeBase
 {
+    public $mapping;
+    public $em;
     public $chooser;
-    public $metadata;
     
-    public function __construct(array $mapping = [], TemplateChooser $chooser = null, MetadataDriver $metadata = null)
+    public function __construct(array $mapping = [], EntityManager $em, TemplateChooser $chooser = null)
     {
         $this->mapping = $mapping;
         $this->chooser = $chooser;
-        $this->metadata = $metadata;
+        $this->em = $em;
+        if ($em) {
+            $this->setPlatform($em->createQueryBuilder()->getConnection()->getDatabasePlatform());
+        }
     }
     
     /**
@@ -36,7 +40,7 @@ class TemplateFieldsType extends FieldTypeBase
     {
         $key = $this->mapping['fieldname'];
         $type = $this->getStorageType();
-        $value = $type->convertToPHPValue($data[$key], $em->createQueryBuilder()->getConnection()->getDatabasePlatform());
+        $value = $type->convertToPHPValue($data[$key], $this->getPlatform());
         
         if ($value) {
             $this->set($entity, $value);
@@ -73,7 +77,7 @@ class TemplateFieldsType extends FieldTypeBase
             $persister = new Persister($metadata);
             $newValue = $persister->persist($queries, $entity, $em);
             
-            $value = $type->convertToDatabaseValue($newValue, $qb->getConnection()->getDatabasePlatform());
+            $value = $type->convertToDatabaseValue($newValue, $this->getPlatform());
         } else {
             $value = $this->mapping['default'];
         }
@@ -88,7 +92,7 @@ class TemplateFieldsType extends FieldTypeBase
         $metadata = new ClassMetadata(get_class($entity));
         
         if (isset($this->mapping['config'][$template])) {
-            $mappings = $this->metadata->loadMetadataForFields($this->mapping['config'][$template]['fields']);
+            $mappings = $this->em->getMapper()->loadMetadataForFields($this->mapping['config'][$template]['fields']);
             $metadata->setFieldMappings($mappings);
         }
         
