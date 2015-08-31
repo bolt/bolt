@@ -18,7 +18,16 @@ class FieldFactory
      *
      * @param array $typemap
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em = null)
+    {
+        $this->setEntityManager($em);
+    }
+    
+    /**
+     * Set an instance of EntityManager
+     * @param EntityManager $em
+     */
+    public function setEntityManager(EntityManager $em)
     {
         $this->em = $em;
     }
