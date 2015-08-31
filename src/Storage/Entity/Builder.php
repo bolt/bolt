@@ -43,10 +43,12 @@ class Builder
      *
      * @return object
      */
-    public function getEntity()
+    public function getEntity($entity = null)
     {
-        $class = $this->class;
-        $entity = new $class();
+        if ($entity === null) {
+            $class = $this->class;
+            $entity = new $class();
+        }
 
         return $entity;
     }
@@ -63,7 +65,7 @@ class Builder
     {
         $class = $this->class;
 
-        if ($classMetadata == null) {
+        if ($classMetadata === null) {
             $classMetadata = $this->metadata->loadMetadataForClass($class);
         }
 
@@ -77,9 +79,9 @@ class Builder
      *
      * @return object $entity
      */
-    public function create($data, ClassMetadata $classMetadata = null)
+    public function create($data, ClassMetadata $classMetadata = null, $entity = null)
     {
-        $entity = $this->getEntity();
+        $entity = $this->getEntity($entity);
         $fields = $this->getFields($classMetadata);
 
         // set fields
@@ -101,16 +103,21 @@ class Builder
         return $entity;
     }
 
-    public function createFromDatabaseValues($data, ClassMetadata $classMetadata = null)
+    /**
+     * Performs database to PHP transforms before creating new entity.
+     *
+     * @param array              $data
+     * @param ClassMetadata|null $classMetadata
+     *
+     * @return object $entity
+     */
+    public function createFromDatabaseValues($data, ClassMetadata $classMetadata = null, $entity = null)
     {
-        $class = $this->class;
-        if ($classMetadata == null) {
-            $classMetadata = $this->metadata->loadMetadataForClass($class);
-        }
+        $entity = $this->getEntity($entity);
+        $fields = $this->getFields($classMetadata);
 
-        $entity = new $class;
-
-        foreach ($classMetadata->getFieldMappings() as $key => $mapping) {
+        // set fields
+        foreach ($fields as $key => $mapping) {
             if (array_key_exists($key, $data)) {
                 $fieldType = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
                 call_user_func_array([$fieldType, 'hydrate'], [$data, $entity]);
