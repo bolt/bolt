@@ -81,10 +81,9 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = $app->protect(
             function ($mapping) use ($app) {
                 $field = new TemplateFieldsType(
-                    $mapping, 
-                    $app['templatechooser'], 
-                    $app['storage.metadata'], 
-                    $app['storage.content_repository']
+                    $mapping,
+                    $app['storage'],
+                    $app['templatechooser']
                 );
 
                 return $field;
