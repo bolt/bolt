@@ -70,7 +70,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    public function persist(QuerySet $queries, $entity)
     {
         $key = $this->mapping['fieldname'];
         $qb = &$queries[0];
@@ -92,7 +92,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function hydrate($data, $entity, EntityManager $em = null)
+    public function hydrate($data, $entity)
     {
         $key = $this->mapping['fieldname'];
         $type = $this->getStorageType();

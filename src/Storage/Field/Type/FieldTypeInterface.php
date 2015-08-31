@@ -38,7 +38,7 @@ interface FieldTypeInterface
      * @param mixed         $entity
      * @param EntityManager $em
      */
-    public function persist(QuerySet $queries, $entity, EntityManager $em = null);
+    public function persist(QuerySet $queries, $entity);
 
     /**
      * Handle or ignore the hydrate event.
