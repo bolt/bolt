@@ -5,6 +5,7 @@ use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Type;
 
@@ -17,10 +18,37 @@ use Doctrine\DBAL\Types\Type;
 abstract class FieldTypeBase implements FieldTypeInterface
 {
     public $mapping;
+    
+    protected $em;
+    protected $platform;
 
-    public function __construct(array $mapping = [])
+    public function __construct(array $mapping = [], EntityManager $em = null)
     {
         $this->mapping = $mapping;
+        $this->em = $em;
+        if ($em) {
+            $this->setPlatform($em->createQueryBuilder()->getConnection()->getDatabasePlatform());
+        }
+    }
+    
+    /**
+     * Returns the platform
+     * 
+     * @return AbstractPlatform
+     */
+    public function getPlatform()
+    {
+        return $this->platform;
+    }
+    
+    /**
+     * Sets the current platform to an instance of AbstractPlatform
+     * 
+     * @param AbstractPlatform $platform
+     */
+    public function setPlatform(AbstractPlatform $platform)
+    {
+        $this->platform = $platform;
     }
 
     /**
@@ -52,7 +80,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
         $type = $this->getStorageType();
 
         if (null !== $value) {
-            $value = $type->convertToDatabaseValue($value, $qb->getConnection()->getDatabasePlatform());
+            $value = $type->convertToDatabaseValue($value, $this->getPlatform());
         } else {
             $value = $this->mapping['default'];
         }
@@ -70,7 +98,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
         $type = $this->getStorageType();
         $val = $data[$key];
         if ($val) {
-            $value = $type->convertToPHPValue($val, $em->createQueryBuilder()->getConnection()->getDatabasePlatform());
+            $value = $type->convertToPHPValue($val, $this->getPlatform());
             $this->set($entity, $value);
         }
     }
