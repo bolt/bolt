@@ -39,12 +39,11 @@ class Repository implements ObjectRepository
      * @param Persister|null $persister
      * @param Loader|null    $loader
      */
-    public function __construct($em, ClassMetadata $classMetadata, $hydrator = null, $persister = null, $loader = null)
+    public function __construct($em, ClassMetadata $classMetadata, $persister = null, $loader = null)
     {
         $this->em = $em;
         $this->_class = $classMetadata;
         $this->entityName  = $classMetadata->getName();
-        $this->setHydrator($hydrator ?: new Hydrator($classMetadata));
         $this->setPersister($persister ?: new Persister($classMetadata));
         $this->setLoader($loader ?: new Loader());
     }
@@ -422,9 +421,12 @@ class Repository implements ObjectRepository
     /**
      * @return Builder $builder
      */
-    public function getBuilder()
+    public function getEntityBuilder()
     {
-        return $this->builder;
+        $builder = $this->em->getEntityBuilder();
+        $builder->setClass($this->getEntityName());
+        
+        return $builder;
     }
 
     /**

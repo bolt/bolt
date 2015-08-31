@@ -24,6 +24,8 @@ class EntityManager
     protected $mapping;
     /** @var LoggerInterface */
     protected $logger;
+    /** @var Builder */
+    protected $builder;
     /** @var array */
     protected $repositories = [];
     /** @var array */
@@ -88,9 +90,20 @@ class EntityManager
      */
     public function getEntityBuilder($className)
     {
-        $repo = $this->getRepository($className);
+        $builder = $this->builder;
         
-        return $repo->getBuilder();
+        return $builder->setClass($className);
+    }
+    
+    /**
+     * Set an entity builder instance.
+     * 
+     * @param  string $className
+     * @return Entity\Builder   
+     */
+    public function setEntityBuilder(Builder $builder)
+    {
+        $this->builder = $builder;        
     }
 
     /**
