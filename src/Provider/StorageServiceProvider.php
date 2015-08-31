@@ -63,10 +63,6 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $repo->setPersister(new Persister($classMetadata, $app['storage.field_factory']));
                 $repo->setLoader(new Loader($app['storage.field_factory']));
                 
-                $builder = $app['storage.entity_builder'];
-                $builder->setClass($classMetadata->getName());
-                $repo->setBuilder($builder);
-                
                 return $repo;
             }
         );
