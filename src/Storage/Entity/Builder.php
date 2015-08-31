@@ -75,4 +75,23 @@ class Builder
 
         return $entity;
     }
+
+    public function createFromDatabaseValues($data, ClassMetadata $classMetadata = null)
+    {
+        $class = $this->class;
+        if ($classMetadata == null) {
+            $classMetadata = $this->metadata->loadMetadataForClass($class);
+        }
+
+        $entity = new $class;
+
+        foreach ($classMetadata->getFieldMappings() as $key => $mapping) {
+            if (array_key_exists($key, $data)) {
+                $fieldType = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
+                call_user_func_array([$fieldType, 'hydrate'], [$entity, $data]);
+            }
+        }
+
+        return $entity;
+    }
 }
