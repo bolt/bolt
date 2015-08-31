@@ -13,6 +13,12 @@ use Doctrine\DBAL\Query\QueryBuilder;
 class Loader
 {
     public $handlers = [];
+    protected $fieldFactory;
+    
+    public function __construct(FieldFactory $fieldFactory = null)
+    {
+        $this->fieldFactory = $fieldFactory;
+    }
 
     /**
      * @param QueryBuilder  $qb

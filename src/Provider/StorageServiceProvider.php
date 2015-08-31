@@ -9,6 +9,7 @@ use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldFactory;
 use Bolt\Storage\Hydrator;
+use Bolt\Storage\Loader;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
 use Bolt\Storage\Persister;
@@ -59,6 +60,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $repo->setLegacyService($app['storage.legacy_service']);
                 $repo->setHydrator(new Hydrator($classMetadata, $app['storage.field_factory']));
                 $repo->setPersister(new Persister($classMetadata, $app['storage.field_factory']));
+                $repo->setLoader(new Loader($app['storage.field_factory']));
                 $repo->setBuilder($app['storage.entity_builder']);
                 
                 return $repo;
