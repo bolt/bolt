@@ -82,9 +82,9 @@
      * @param {string} key - Id of the video element.
      */
     var update = function (key) {
-        // Embed endpoint http://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
+        // Embed endpoint https://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
         // @TODO: Make less dependant on key.
-        var endpoint = '//api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=',
+        var endpoint = 'https://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=',
             val = $('#video-' + key).val(),
             url = endpoint + encodeURI(val);
 
