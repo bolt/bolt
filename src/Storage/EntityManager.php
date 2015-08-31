@@ -79,6 +79,19 @@ class EntityManager
         
         return $repo->create($data, $metadata);
     }
+    
+    /**
+     * Get an entity builder instance for a given class.
+     * 
+     * @param  string $className
+     * @return Entity\Builder   
+     */
+    public function getEntityBuilder($className)
+    {
+        $repo = $this->getRepository($className);
+        
+        return $repo->getBuilder();
+    }
 
     /**
      * Finds an object by its identifier.

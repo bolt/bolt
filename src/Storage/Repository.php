@@ -423,6 +423,14 @@ class Repository implements ObjectRepository
     {
         $this->builder = $builder;
     }
+    
+    /**
+     * @return Builder $builder
+     */
+    public function getBuilder()
+    {
+        return $this->builder;
+    }
 
     /**
      * @return string
