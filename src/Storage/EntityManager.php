@@ -65,6 +65,20 @@ class EntityManager
     {
         return new ExpressionBuilder($this->conn);
     }
+    
+    /**
+     * Creates an entity of the given class, with the data supplied.
+     * 
+     * @param  string $className    The type of entity to create
+     * @param  array $data          The data to use to hydrate the new entity
+     * @return Entity               
+     */
+    public function create($className, $data)
+    {
+        $repo = $this->getRepository($className);
+        
+        return $repo->create($data);
+    }
 
     /**
      * Finds an object by its identifier.
