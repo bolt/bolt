@@ -342,12 +342,12 @@ class Repository implements ObjectRepository
      */
     protected function hydrate(array $data, QueryBuilder $qb)
     {
-        $entity = $this->builder->getEntity();
+        $entity = $this->getEntityBuilder()->getEntity();
         
         $preEventArgs = new HydrationEvent($data, ['entity' => $entity, 'repository' => $this]);
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preEventArgs);
 
-        $this->builder->createFromDatabaseValues($data, null, $entity);
+        $this->getEntityBuilder()->createFromDatabaseValues($data, null, $entity);
 
         $postEventArgs = new HydrationEvent($entity, ['data' => $data, 'repository' => $this]);
         $this->event()->dispatch(StorageEvents::POST_HYDRATE, $postArgs);
@@ -403,14 +403,6 @@ class Repository implements ObjectRepository
     public function setLoader(Loader $loader)
     {
         $this->loader = $loader;
-    }
-    
-    /**
-     * @param Builder $builder
-     */
-    public function setBuilder(Builder $builder)
-    {
-        $this->builder = $builder;
     }
     
     /**
