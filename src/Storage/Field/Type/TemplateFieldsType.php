@@ -54,7 +54,7 @@ class TemplateFieldsType extends FieldTypeBase
         
         $type = (string)$entity->getContenttype();
         $builder = $this->em->getEntityBuilder($type);
-        $templatefieldsEntity = $builder->createFromDatabaseValues($type, $value, $metadata);
+        $templatefieldsEntity = $builder->createFromDatabaseValues($value, $metadata);
         
         $ct = new ContentType('templatefields', ['fields' => $metadata->getFieldMappings()]);
         $templatefieldsEntity->setContenttype($ct);
