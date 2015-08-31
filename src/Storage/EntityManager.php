@@ -73,11 +73,11 @@ class EntityManager
      * @param  array $data          The data to use to hydrate the new entity
      * @return Entity               
      */
-    public function create($className, $data)
+    public function create($className, $data, ClassMetadataInterface $metadata = null)
     {
         $repo = $this->getRepository($className);
         
-        return $repo->create($data);
+        return $repo->create($data, $metadata);
     }
 
     /**

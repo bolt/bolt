@@ -56,10 +56,10 @@ class Repository implements ObjectRepository
      *
      * @return Content
      */
-    public function create($params = null)
+    public function create($params = null, ClassMetadata $metadata = null)
     {
         if ($this->builder) {
-            return $this->builder->create($params);
+            return $this->builder->create($params, $metadata);
         } else {            
             $entityClass = $this->getClassName();
             return new $entityClass($params);
