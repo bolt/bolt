@@ -106,6 +106,11 @@ class EntityManager
     {
         $this->builder = $builder;        
     }
+    
+    public function getFieldFactory()
+    {
+        
+    }
 
     /**
      * Finds an object by its identifier.
