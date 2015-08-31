@@ -3,6 +3,7 @@ namespace Bolt\Storage\Entity;
 
 use Bolt\Storage\FieldFactory;
 use Bolt\Storage\Hydrator;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
 
 /**
@@ -46,15 +47,18 @@ class Builder
      * @return GenericEntity
      *
      */
-    public function create($data)
+    public function create($data, ClassMetadata $classMetadata = null)
     {
         $class = $this->class;
-        $classMetadata = $this->metadata->loadMetadataForClass($class);
+
+        if ($classMetadata == null) {
+            $classMetadata = $this->metadata->loadMetadataForClass($class);
+        }
 
         $entity = new $class;
 
         // set fields
-        foreach ($this->metadata->getFieldMappings() as $key => $mapping) {
+        foreach ($classMetadata->getFieldMappings() as $key => $mapping) {
             if (array_key_exists($key, $data)) {
                 $fieldType = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
 
@@ -66,12 +70,9 @@ class Builder
                 } else {
                     $value = call_user_func_array([$fieldType, 'set'], [$entity, $data]);
                 }
-
             }
         }
 
         return $entity;
     }
-
-
 }
