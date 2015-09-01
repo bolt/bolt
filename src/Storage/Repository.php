@@ -412,7 +412,8 @@ class Repository implements ObjectRepository
     {
         $builder = $this->em->getEntityBuilder();
         $builder->setClass($this->getEntityName());
-        
+        $builder->setClassMetadata($this->getClassMetadata());
+
         return $builder;
     }
 
