@@ -91,12 +91,17 @@ class EntityManager
      * @param  string $className
      * @return Entity\Builder   
      */
-    public function getEntityBuilder($className = null)
+    public function getEntityBuilder($className = null, ClassMetadata $classMetadata = null)
     {
         
         $builder = new Builder($this->getMapper(), $this->getFieldFactory());
+        
         if ($className !== null) {
             $builder->setClass($className);
+        }
+        
+        if ($classMetadata !== null) {
+            $builder->setClassMetadata($classMetadata);
         }
         
         return $builder;
