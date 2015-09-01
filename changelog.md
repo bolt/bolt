@@ -8,6 +8,8 @@ Not yet released. Notable changes:
 Bolt 2.2.9
 ----------
 
+Released 2015-08-30. Notable changes:
+
 - Added: Add a button for `<hr>` / horizontal ruler in CKeditor for (see #3539)
 - Fixed: Don't allow extension tables that do not use the configured prefix (see #3968)
 - Fixed: Don't attempt to log array elements that aren't set. (see #3969)
