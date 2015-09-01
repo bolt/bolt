@@ -17,6 +17,7 @@ class Builder
      * @var string
      */
     protected $class = 'Bolt\Storage\Entity\Content';
+    protected $classMetadata;
 
     protected $metadata;
     protected $fieldFactory;
@@ -28,11 +29,48 @@ class Builder
         $this->fieldFactory = $fieldFactory;
     }
 
+    /**
+     * Sets the entity class that will be built.
+     *
+     * @param string $class
+     */
     public function setClass($class)
     {
         $this->class = $class;
     }
 
+    /**
+     * Sets the metadata for the class to be built.
+     *
+     * @param ClassMetadata $classMetadata
+     */
+    public function setClassMetadata(ClassMetadata $classMetadata)
+    {
+        $this->classMetadata = $classMetadata;
+    }
+
+    /**
+     * Gets the metadata instance.
+     *
+     * @return ClassMetadata $classMetadata
+     */
+    public function getClassMetadata()
+    {
+        $class = $this->class;
+        if ($this->classMetadata === null) {
+            $classMetadata = $this->metadata->loadMetadataForClass($class);
+            $this->classMetadata = $classMetadata;
+        }
+
+        return $this->classMetadata;
+    }
+
+    /**
+     * Adds a transformer for a specific field type.
+     *
+     * @param string   $fieldTypeClass the class of the field type to transform
+     * @param callable $handler
+     */
     public function setTransformer($fieldTypeClass, callable $handler)
     {
         $this->transformers[$fieldTypeClass] = $handler;
@@ -61,15 +99,9 @@ class Builder
      *
      * @return array
      */
-    public function getFields(ClassMetadata $classMetadata = null)
+    public function getFields()
     {
-        $class = $this->class;
-
-        if ($classMetadata === null) {
-            $classMetadata = $this->metadata->loadMetadataForClass($class);
-        }
-
-        return $classMetadata->getFieldMappings();
+        return $this->getClassMetadata()->getFieldMappings();
     }
 
     /**
@@ -79,10 +111,10 @@ class Builder
      *
      * @return object $entity
      */
-    public function create($data, ClassMetadata $classMetadata = null, $entity = null)
+    public function create($data, $entity = null)
     {
         $entity = $this->getEntity($entity);
-        $fields = $this->getFields($classMetadata);
+        $fields = $this->getFields();
 
         // set fields
         foreach ($fields as $key => $mapping) {
@@ -111,10 +143,10 @@ class Builder
      *
      * @return object $entity
      */
-    public function createFromDatabaseValues($data, ClassMetadata $classMetadata = null, $entity = null)
+    public function createFromDatabaseValues($data, $entity = null)
     {
         $entity = $this->getEntity($entity);
-        $fields = $this->getFields($classMetadata);
+        $fields = $this->getFields();
 
         // set fields
         foreach ($fields as $key => $mapping) {
