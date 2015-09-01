@@ -343,9 +343,9 @@ class MetadataDriver implements MappingDriver
         }
 
         if (isset($this->typemap[$type])) {
-            $type = new $this->typemap[$type];
+            $type = $this->typemap[$type];
         } else {
-            $type = new $this->typemap['text'];
+            $type = $this->typemap['text'];
         }
 
         return $type;
