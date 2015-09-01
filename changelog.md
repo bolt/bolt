@@ -3,7 +3,15 @@ Bolt 2.2.next
 
 Not yet released. Notable changes:
 
-- 
+-
+
+
+Bolt 2.2.10
+-----------
+
+Released 2015-09-01. Notable changes:
+
+- Updated: Updated Doctrine and it's components to the latest version. (version 2.5.1, see [here for details](http://www.doctrine-project.org/2015/08/31/doctrine_orm_2_5_1_and_2_4_8_released.html))
 
 Bolt 2.2.9
 ----------
