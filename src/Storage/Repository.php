@@ -21,8 +21,6 @@ class Repository implements ObjectRepository
     public $_class;
     /** @var string */
     public $entityName;
-    /** @var Hydrator */
-    public $hydrator;
     /** @var Persister */
     public $persister;
     /** @var Loader */
@@ -35,7 +33,6 @@ class Repository implements ObjectRepository
      *
      * @param EntityManager  $em            The EntityManager to use.
      * @param ClassMetadata  $classMetadata The class descriptor.
-     * @param Hydrator|null  $hydrator
      * @param Persister|null $persister
      * @param Loader|null    $loader
      */
@@ -371,14 +368,6 @@ class Repository implements ObjectRepository
         }
 
         return $rows;
-    }
-
-    /**
-     * @param Hydrator $hydrator
-     */
-    public function setHydrator(Hydrator $hydrator)
-    {
-        $this->hydrator = $hydrator;
     }
 
     /**

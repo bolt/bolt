@@ -8,7 +8,6 @@ use Bolt\Storage\EntityManager;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldFactory;
-use Bolt\Storage\Hydrator;
 use Bolt\Storage\Loader;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;

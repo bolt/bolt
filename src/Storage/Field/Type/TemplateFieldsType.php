@@ -2,7 +2,6 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
-use Bolt\Storage\Hydrator;
 use Bolt\Storage\Persister;
 use Bolt\Storage\QuerySet;
 use Bolt\Storage\Mapping\ClassMetadata;
