@@ -325,5 +325,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
                 file_put_contents($file, "$time\t\t$test\n", FILE_APPEND);
             }
         }
+
+        echo "\n\033[32mTest timings written out to: " . TEST_ROOT . "/app/cache/phpunit-test-timer.txt\033[0m\n\n";
     }
 }
