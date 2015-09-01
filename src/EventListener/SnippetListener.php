@@ -55,7 +55,9 @@ class SnippetListener implements EventSubscriberInterface
             return;
         }
 
-        $this->addSnippets();
+        if (!Zone::isAsync($event->getRequest())) {
+            $this->addSnippets();
+        }
 
         $response->setContent($this->render->postProcess($response));
     }
