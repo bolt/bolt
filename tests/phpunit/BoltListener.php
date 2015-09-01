@@ -301,6 +301,9 @@ class BoltListener implements \PHPUnit_Framework_TestListener
      */
     private function cleanTestEnv()
     {
+        // Empty the cache
+        system('php ' . NUT_PATH . ' cache:clear');
+
         // Remove the test database
         if ($this->reset) {
             $fs = new Filesystem();
@@ -308,9 +311,6 @@ class BoltListener implements \PHPUnit_Framework_TestListener
             $fs->remove(PHPUNIT_ROOT . '/resources/files/');
             $fs->remove(PHPUNIT_WEBROOT);
         }
-
-        // Empty the cache
-        system('php ' . NUT_PATH . ' cache:clear');
 
         // Write out a report about each test's execution time
         if ($this->timer) {
