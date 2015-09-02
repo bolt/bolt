@@ -138,19 +138,27 @@ class TwigExtension extends \Twig_Extension
     {
         /** @var \Bolt\Config $config */
         $config = $this->app['config'];
+        $configVal = $this->safe ? null : $config;
         /** @var \Bolt\Users $users */
         $users = $this->app['users'];
         /** @var \Bolt\Configuration\ResourceManager $resources */
         $resources = $this->app['resources'];
-
-        $configVal = $this->safe ? null : $config;
-        $usersVal = $this->safe ? null : $users->getUsers();
 
         $zone = null;
         /** @var RequestStack $requestStack */
         $requestStack = $this->app['request_stack'];
         if ($request = $requestStack->getCurrentRequest()) {
             $zone = Zone::get($request);
+        }
+
+        // User calls can cause exceptions that block the exception handler
+        try {
+            /** @deprecated Since 2.3 to be removed in 3.0 */
+            $usersVal = $this->safe ? null : $users->getUsers();
+            $usersCur = $users->getCurrentUser();
+        } catch (\Exception $e) {
+            $usersVal = null;
+            $usersCur = null;
         }
 
         // Structured to allow PHPStorm's SymfonyPlugin to provide code completion
@@ -162,7 +170,7 @@ class TwigExtension extends \Twig_Extension
             'async'        => $zone === Zone::ASYNC,
             'paths'        => $resources->getPaths(),
             'theme'        => $config->get('theme'),
-            'user'         => $users->getCurrentUser(),
+            'user'         => $usersCur,
             'users'        => $usersVal,
             'config'       => $configVal,
         ];
