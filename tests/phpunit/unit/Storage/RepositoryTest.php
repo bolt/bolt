@@ -18,7 +18,8 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $entityName = 'Bolt\Storage\Entity\Authtoken';
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        
+        $em = $app['storage'];
         $repo = $em->getRepository($entityName);
 
         $this->assertSame($em, \PHPUnit_Framework_Assert::readAttribute($repo, 'em'));
@@ -28,7 +29,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $entityName = 'Bolt\Storage\Entity\Authtoken';
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository($entityName);
 
         $this->assertEquals('bolt_authtoken', $repo->getTableName());
@@ -38,7 +39,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $entityName = 'Bolt\Storage\Entity\Authtoken';
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository($entityName);
 
         $this->assertEquals($entityName, $repo->getEntityName());
@@ -49,7 +50,7 @@ class RepositoryTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
         $entityName = 'Bolt\Storage\Entity\Users';
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository($entityName);
 
         $result = $repo->find(1);
@@ -62,7 +63,7 @@ class RepositoryTest extends BoltUnitTest
         $app = $this->getApp();
         $entityName = 'Bolt\Storage\Entity\Users';
 
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository($entityName);
         $result = $repo->findAll();
 
@@ -77,7 +78,7 @@ class RepositoryTest extends BoltUnitTest
         $app = $this->getApp();
         $entityName = 'Bolt\Storage\Entity\Users';
 
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository($entityName);
         $result = $repo->findBy(['id' => 1]);
 
@@ -91,7 +92,7 @@ class RepositoryTest extends BoltUnitTest
         $entityName = 'Bolt\Storage\Entity\Users';
         $this->runListenCount($app, 'preHydrate');
 
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository($entityName);
         $result = $repo->findOneBy(['id' => 1]);
 
@@ -106,7 +107,7 @@ class RepositoryTest extends BoltUnitTest
         $this->runListenCount($app, 'preSave');
         $this->runListenCount($app, 'postSave');
 
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository($entityName);
 
         $newUser = [
@@ -138,7 +139,7 @@ class RepositoryTest extends BoltUnitTest
         $this->runListenCount($app, 'preSave');
         $this->runListenCount($app, 'postSave');
 
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository($entityName);
         $existing = $repo->findOneBy(['displayname' => 'Test User']);
 
@@ -161,7 +162,7 @@ class RepositoryTest extends BoltUnitTest
         $this->runListenCount($app, 'preDelete');
         $this->runListenCount($app, 'postDelete');
 
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $repo = $em->getRepository($entityName);
         $existing = $repo->findOneBy(['displayname' => 'Test User']);
 
