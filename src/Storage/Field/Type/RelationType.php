@@ -90,7 +90,7 @@ class RelationType extends FieldTypeBase
         $relations = array_filter(explode(',', $data[$field]));
         $values = $entity->getRelation();
         foreach ($relations as $id) {
-            $values[$field][] = new EntityProxy($field, $id, $em);
+            $values[$field][] = new EntityProxy($field, $id, $this->em);
         }
         $entity->setRelation($values);
     }
