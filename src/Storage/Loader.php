@@ -33,7 +33,7 @@ class Loader
             if ($this->fieldFactory !== null) {
                 $fieldtype = $this->fieldFactory->get($field['fieldtype'], $field);
             } else {
-                $fieldtype = new $field['fieldtype']($field);
+                $fieldtype = new $field['fieldtype']($field, $this->em);
             }
             
             $fieldtype->load($qb, $metadata);
@@ -52,7 +52,11 @@ class Loader
     {
         foreach ($metadata->getFieldMappings() as $field) {
             /** @var FieldTypeInterface $fieldtype */
-            $fieldtype = new $field['fieldtype']($field);
+            if ($this->fieldFactory !== null) {
+                $fieldtype = $this->fieldFactory->get($field['fieldtype'], $field);
+            } else {
+                $fieldtype = new $field['fieldtype']($field, $this->em);
+            }
             $fieldtype->query($query, $metadata);
         }
 
