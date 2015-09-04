@@ -206,7 +206,7 @@
 "Long messages": "Messages longs"
 "Main configuration": "Configuration principale"
 "Maintenance": "Maintenance"
-"Malformed JSON response. Ensure no debugging or other code is being added to the response": "Réponse JSON malformée. Merci de vérifier qu'aucun code de debug ou trace n'est ajouté à la réponse"
+"Malformed JSON response. Ensure no debugging or other code is being added to the response": "Réponse JSON malformée. Merci de vérifier qu\'aucun code de debug ou trace n\'est ajouté à la réponse"
 "Markdown": "Markdown"
 "Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": "La propriété de menu \"add\" est dépréciée. Veuillez utiliser \"#\" dans la clef \"param\" à la place."
 "Menu setup": "Configuration des menus"
