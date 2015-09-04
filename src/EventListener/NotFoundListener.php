@@ -4,7 +4,7 @@ namespace Bolt\EventListener;
 use Bolt\Controller\Zone;
 use Bolt\Legacy\Content;
 use Bolt\Render;
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
 use Bolt\TemplateChooser;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;

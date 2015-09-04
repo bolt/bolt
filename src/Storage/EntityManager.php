@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Storage;
 
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
