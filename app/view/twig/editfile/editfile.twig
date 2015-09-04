@@ -65,7 +65,7 @@
 
             <p class="lastsaved" style="padding-top: 12px;">
                 {{ __('Saved on:') }}
-                <strong>{{ context.datechanged|localdate("%b %e, %H:%M") }}</strong>
+                <strong>{{ context.datechanged|localdate("%c") }}</strong>
                 ({{ buic.moment(context.datechanged) }})
             </p>
 
