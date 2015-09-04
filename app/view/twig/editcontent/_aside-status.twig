@@ -10,7 +10,7 @@
 
 <p class="lastsaved">
     {% if context.content.id is not empty %}
-    {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong>
+    {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%c") }}</strong>
     <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
 {% else %}
     {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
