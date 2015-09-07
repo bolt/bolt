@@ -194,6 +194,7 @@ class Storage
             }
         }
 
+        $content['title'] = rtrim($content['title'], '.,;:');
         $content['slug'] = $this->app['slugify']->slugify($content['title']);
 
         $contentobject = $this->getContentObject($contenttype);
