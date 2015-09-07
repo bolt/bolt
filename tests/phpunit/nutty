@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+namespace Bolt\Tests;
+
+require_once __DIR__ . '/bootstrap.php';
+
+class Nutty extends BoltUnitTest
+{
+    public function getApp($boot = true)
+    {
+        return parent::getApp($boot);
+    }
+}
+
+if (!is_readable(PHPUNIT_WEBROOT . '/app/cache')) {
+    echo "\n\033[42mWeb root hasn't been created, exiting.\033[0m\n\n";
+    return;
+}
+
+$app = (new Nutty())->getApp();
+$application = $app['nut'];
+$application->run();
