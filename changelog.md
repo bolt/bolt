@@ -3,7 +3,8 @@ Bolt 2.2.next
 
 Not yet released. Notable changes:
 
--
+- Changed: date-time format uses a more i18n-friendly format (See #4053)
+- Fixed: Fix the info text for imagelist fields (See #4051)
 
 
 Bolt 2.2.10
