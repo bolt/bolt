@@ -74,7 +74,7 @@ about:
         </p>
     licence: |
         <p>Все части Bolt можно свободно использовать в соответствии с лицензией MIT с открытым исходным кодом. Полный текст лицензии может быть
-           здесь, в прилагаемом <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
+           здесь, в прилагаемом <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
         </p>
 prefill:
     short_help: |
