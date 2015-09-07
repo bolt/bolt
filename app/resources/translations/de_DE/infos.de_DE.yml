@@ -67,7 +67,7 @@ about:
     licence: |
         <p>
             Alle Teile von Bolt sind frei benutzbar unter der Open-Source MIT-Lizenz. Der vollständige Lizenztext kann hier, in
-            der enthaltenen <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>, eingesehen werden.
+            der enthaltenen <a href="%paths_root%LICENSE.md">LICENSE.md</a>, eingesehen werden.
         </p>
 prefill:
     short_help: |
