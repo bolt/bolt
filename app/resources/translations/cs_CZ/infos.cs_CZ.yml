@@ -55,7 +55,7 @@ about:
         Bolt je Open Source a využívá různé Open Source komponenty. Pokud jste vývojář, vaše pomoc při vývoji systému Bolt bude více než vítána.
         </p>
     licence: |
-        <p>Redakční systím Bolt, včetně všech jeho částí, je volně k užití v rámci MIT open-source licence. Plné znění licence najde v souboru <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
+        <p>Redakční systím Bolt, včetně všech jeho částí, je volně k užití v rámci MIT open-source licence. Plné znění licence najde v souboru <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
         </p>
 prefill:
     short_help: |

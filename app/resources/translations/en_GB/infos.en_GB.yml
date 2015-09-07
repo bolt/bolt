@@ -74,7 +74,7 @@ about:
         </p>
     licence: |
         <p>All parts of Bolt are free to use under the open-source MIT license. The full licensing text can be
-            found here, in the included <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
+            found here, in the included <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
         </p>
 prefill:
     short_help: |

@@ -55,7 +55,7 @@ about:
             Bolt是開源項目，也用到了其他的開源元件。如果你是開發者，也歡迎你參與到Bolt的後續開發之中。
         </p>
     licence: |
-        <p>Bolt的所有元件都可以在MIT開源協議下使用，協議文字可以在 <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>
+        <p>Bolt的所有元件都可以在MIT開源協議下使用，協議文字可以在 <a href="%paths_root%LICENSE.md">LICENSE.md</a>
         中找到。
         </p>
 prefill:
