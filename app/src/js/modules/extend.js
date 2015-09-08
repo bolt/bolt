@@ -82,6 +82,7 @@
             find('.theme-generate-response').hide();
             find('.extension-postinstall').hide();
             find('.install-response-container').hide();
+            find('.install-latest-container').hide();
             find('.install-version-container').hide();
             find('.postinstall-footer').hide();
             find('#installModal .loader').show();
@@ -380,11 +381,8 @@
     };
 
     var showAllVersions = function () {
-
         find('.install-latest-container').hide();
         find('.install-version-container').show();
-        console.log('booya!');
-
     };
 
     var buildVersionTable = function (packages) {
@@ -418,6 +416,7 @@
             packageVersion = $(e.target).data('version');
 
         find('.install-response-container').show();
+        find('.install-latest-container').hide();
         find('.install-version-container').hide();
         activeConsole = find('.install-response-container .console');
         activeConsole.html(bolt.data('extend.text.installing'));
@@ -426,9 +425,9 @@
             bolt.data('extend.baseurl') + 'install',
             {'package': packageName, 'version': packageVersion}
         )
-        .done(function(data) {
-            activeConsole.html(data);
+        .done(function() {
             postInstall(packageName, packageVersion);
+            find('.install-response-container').hide();
             find('.check-package').show();
             find('input[name="check-package"]').val('');
             checkInstalled();
