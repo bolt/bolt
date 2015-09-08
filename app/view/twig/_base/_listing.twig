@@ -118,7 +118,7 @@
                     <i class="fa fa-circle status-{{ content.status }} fa-fw"></i> {{ content.datepublish|localdate('%x') }}<br>
                 {% endif %}
                 {% if content.sortorder|default() is not empty %}
-                    <span class="sorthandle"><i class="fa fa-sort fa-fw"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}</span> <br>
+                    <i class="fa fa-sort fa-fw"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}<br>
                 {% endif %}
             </td>
         {% endblock %}
