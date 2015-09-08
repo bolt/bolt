@@ -478,6 +478,14 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
+     * Clear all previously added assets.
+     */
+    public function clearAssets()
+    {
+        return $this->app['extensions']->clearAssets();
+    }
+
+    /**
      * Add a javascript file to the rendered HTML.
      *
      * @param string $filename File name to add to src=""

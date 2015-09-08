@@ -4,6 +4,16 @@ Bolt 2.2.next
 Not yet released. Notable changes:
 
 - nothing yet.
+- Changed: date-time format uses a more i18n-friendly format (See #4053)
+- Fixed: Fix the info text for imagelist fields (See #4051)
+
+
+Bolt 2.2.10
+-----------
+
+Released 2015-09-01. Notable changes:
+
+- Updated: Updated Doctrine and it's components to the latest version. (version 2.5.1, see [here for details](http://www.doctrine-project.org/2015/08/31/doctrine_orm_2_5_1_and_2_4_8_released.html))
 
 Bolt 2.2.9
 ----------

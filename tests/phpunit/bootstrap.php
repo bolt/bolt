@@ -42,7 +42,7 @@ if (!defined('BOLT_AUTOLOAD')) {
 
 // Path to Nut
 if (!defined('NUT_PATH')) {
-    define('NUT_PATH', realpath(TEST_ROOT . '/app/nut'));
+    define('NUT_PATH', realpath(__DIR__ . '/nutty'));
 }
 
 // Load the upload bootstrap

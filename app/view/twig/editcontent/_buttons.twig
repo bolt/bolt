@@ -30,7 +30,7 @@
                 </button>
             </div>
         {% endif %}
-        
+
         {% if not context.contenttype.viewless|default(false) %}{# don't show for viewless contenttypes. #}
             <div class="btn-group">
                 <button type="button" class="btn btn-default" id="previewbutton">
@@ -55,7 +55,7 @@
 
         <p class="lastsaved" style="margin-top: 12px;">
             {% if context.content.id != 0 %}
-                {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%b %e, %H:%M") }}</strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
+                {{ __('Saved on:') }} <strong>{{ context.content.datechanged|localdate("%c") }}</strong> <small>({{ macro.datetime(context.content.datechanged) }})</small></p>
             {% else %}
                 {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
             {% endif %}

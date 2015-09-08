@@ -66,7 +66,7 @@ about:
             </p>
     licence: |
             <p>Alla delar av Bolt är fria att använda under licensen open-source MIT.
-            Den fullständiga licenstexten finns här: <a href="%paths_app%LICENSE.txt">LICENSE.txt</a>.
+            Den fullständiga licenstexten finns här: <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
             </p>
 prefill:
     short_help: |

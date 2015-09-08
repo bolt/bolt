@@ -118,7 +118,7 @@
                 {% endif %}
 
                 {% if content.sortorder is defined and content.sortorder is not sameas(false) %}
-                    <span class="sorthandle"><i class="fa fa-sort fa-fw"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}</span> <br>
+                    <i class="fa fa-sort fa-fw"></i> {{ __('Order: %sort%',{'%sort%': content.sortorder}) }}<br>
                 {% endif %}
             </td>
         {% endblock %}
