@@ -687,7 +687,7 @@
                 case 'package-available': packageAvailable(e.originalEvent); break;
                 case 'package-copy':      copyTheme(e.originalEvent); break;
                 case 'package-readme':    packageReadme(e.originalEvent); break;
-                case 'package-readme':    showAllVersions(e.originalEvent); break;
+                case 'show-all':    showAllVersions(e.originalEvent); break;
             }
         }
     };
