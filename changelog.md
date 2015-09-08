@@ -27,8 +27,8 @@ Released 2015-08-30. Notable changes:
 - Fixed: Don't allow extension tables that do not use the configured prefix (see #3968)
 - Fixed: Don't attempt to log array elements that aren't set. (see #3969)
 - Fixed: Changelog 'next' & 'previous' buttons didn't work as expected in Bolt 2.2.x (See #4009)
-- Fixed: Move initMailCheck() call to a before() handler (See #3953)
-- Fixed: Allow edit permission to be assigned to the owner role. Fixes "Unable to edit entry with
+- Fixed: Move `initMailCheck()` call to a `before()` handler (See #3953)
+- Fixed: Allow edit permission to be assigned to the owner role. Fixes "Unable to edit entry with owner permission". (See #3938)
 - Fixed: Fix path to Nut for Composer installs (See #3959)
 - Changed: Provide UI feedback on extension site timeouts. (see #3972)
 - Changed: Move the Showcases template select to the Meta tab (See #4006)
@@ -39,8 +39,8 @@ Released 2015-08-30. Notable changes:
 - Updated: Silex updated to 1.2.5
 - Updated: Font Awesome to 4.4
 - Updated: Database integrity checker. Add foreign key checks to IntegrityChecker (See #3872)
-- Tests: Allow getStatementMock() to be passed a desired return value (See #3957)
-  owner permission". (See #3938)
+- Tests: Allow `getStatementMock()` to be passed a desired return value (See #3957)
+
 
 Bolt 2.2.8
 ----------
