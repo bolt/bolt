@@ -140,8 +140,7 @@
             }
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
     };
 
@@ -160,8 +159,7 @@
             checkInstalled();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
     };
 
@@ -183,8 +181,7 @@
             checkInstalled();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
 
         e.preventDefault();
@@ -206,8 +203,7 @@
             checkInstalled();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
 
         e.stopPropagation();
@@ -263,8 +259,7 @@
 
             })
             .fail(function(data) {
-                activeConsole.html(formatErrorLog(data));
-                extensionFailedInstall(data);
+                formatErrorLog(data);
             });
         });
     };
@@ -370,11 +365,7 @@
             find('#installModal .loader').hide();
         })
         .fail(function(data) {
-            var target = find('.modal-failed');
-
-            target.html(formatErrorLog(data));
-            find('#installModal .loader').hide();
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
     };
 
@@ -425,8 +416,7 @@
             checkInstalled();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
         e.preventDefault();
     };
@@ -445,8 +435,7 @@
             }
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
     };
 
@@ -454,13 +443,6 @@
         find('.extension-postinstall').show();
         find('.extension-postinstall .modal-success').show();
         find('.postinstall-footer .ext-link').attr('href', extension.source);
-        find('.postinstall-footer').show();
-    };
-
-    var extensionFailedInstall = function(extension) {
-        find('.extension-postinstall').show();
-        find('.extension-postinstall .modal-failed').show();
-        find('.postinstall-footer .ext-link').attr("href", extension.source);
         find('.postinstall-footer').show();
     };
 
@@ -489,8 +471,7 @@
             find('.theme-generation-container').hide();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
 
         e.preventDefault();
@@ -516,8 +497,7 @@
                 }, 5000);
             })
             .fail(function (data) {
-                activeConsole.html(formatErrorLog(data));
-                extensionFailedInstall(data);
+                formatErrorLog(data);
             });
         }
         e.preventDefault();
@@ -531,25 +511,14 @@
             });
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
 
         e.preventDefault();
     };
 
     var packageAvailable = function (e) {
-        $.get(bolt.data('extend.baseurl') + 'installInfo?package=' + $(e.target).data('available'))
-        .done(function () {
-            installInfo($(e.target).data('available'));
-            e.preventDefault();
-        })
-        .fail(function (data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
-        });
-
-        e.preventDefault();
+        installInfo($(e.target).data('available'));
     };
 
     var uninstall = function (e) {
@@ -575,8 +544,7 @@
             }, 2000);
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
 
         e.preventDefault();
@@ -671,7 +639,9 @@
             );
         }
 
-        return html;
+        $('.modal').modal('hide');
+        bootbox.alert(html);
+
     };
 
     var events = {
