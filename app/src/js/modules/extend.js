@@ -597,9 +597,17 @@
     };
 
     var formatErrorLog = function(data) {
-        var errObj = $.parseJSON(data.responseText),
+        var errObj = '',
             html = '',
             msg = '';
+
+        try {
+            errObj = $.parseJSON(data.responseText);
+        } catch(err) {
+            $('.modal').modal('hide');
+            bootbox.alert('<p>An unknown error occurred. This was the error message:</p>\n\n' +
+                '<pre>' + err.message + '</pre>');
+        }
 
         if (errObj.error.type === 'Bolt\\Exception\\PackageManagerException') {
             // Clean up Composer messages.
