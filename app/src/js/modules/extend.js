@@ -71,6 +71,8 @@
 
     var installReset = function () {
         $('#installModal').on('hide.bs.modal', function () {
+            find('.latest-version-container .installed-version-item')
+                .html('<tr><td colspan="3"><strong>' + bolt.data('extend.text.no-stable') + '</strong></td></tr>');
             find('.stable-version-container .installed-version-item')
                 .html('<tr><td colspan="3"><strong>' + bolt.data('extend.text.no-stable') + '</strong></td></tr>');
             find('.dev-version-container .installed-version-item')
@@ -348,6 +350,7 @@
 
             var devpacks = data.dev;
             var stablepacks = data.stable;
+            var latestpacks = [ data.stable[0] ];
 
             if (devpacks.length > 0) {
                 find('.dev-version-container .installed-version-item').html('');
@@ -361,12 +364,27 @@
                     .append(buildVersionTable(stablepacks));
             }
 
-            find('.install-version-container').show();
+            if (latestpacks.length > 0) {
+                find('.latest-version-container .installed-version-item').html('');
+                find('.latest-version-container .installed-version-item')
+                    .append(buildVersionTable(latestpacks));
+            }
+
+
+            find('.install-latest-container').show();
             find('#installModal .loader').hide();
         })
         .fail(function(data) {
             formatErrorLog(data);
         });
+    };
+
+    var showAllVersions = function () {
+
+        find('.install-latest-container').hide();
+        find('.install-version-container').show();
+        console.log('booya!');
+
     };
 
     var buildVersionTable = function (packages) {
@@ -669,6 +687,7 @@
                 case 'package-available': packageAvailable(e.originalEvent); break;
                 case 'package-copy':      copyTheme(e.originalEvent); break;
                 case 'package-readme':    packageReadme(e.originalEvent); break;
+                case 'package-readme':    showAllVersions(e.originalEvent); break;
             }
         }
     };
