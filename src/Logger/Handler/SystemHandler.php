@@ -98,16 +98,22 @@ class SystemHandler extends AbstractProcessingHandler
             $user = $user ? $user->getUser()->toArray() : null;
         }
 
+        // Get request data if available
+        $request = $this->app['request_stack']->getCurrentRequest();
+        $requestUri = $request ? $request->getRequestUri() : '';
+        $requestRoute = $request ? $request->get('_route') : '';
+        $requestIp = $request ? $request->getClientIp() : '127.0.0.1';
+
         $this->app['db']->insert(
             $this->tablename,
             [
                 'level'      => $record['level'],
                 'date'       => $record['datetime']->format('Y-m-d H:i:s'),
                 'message'    => $record['message'],
-                'ownerid'    => isset($user['id']) ? $user['id'] : '',
-                'requesturi' => $this->app['request']->getRequestUri(),
-                'route'      => $this->app['request']->get('_route', ''),
-                'ip'         => $this->app['request']->getClientIp() ? : '127.0.0.1',
+                'ownerid'    => isset($user['id']) ? $user['id'] : 0,
+                'requesturi' => $requestUri,
+                'route'      => $requestRoute,
+                'ip'         => $requestIp,
                 'context'    => isset($record['context']['event']) ? $record['context']['event'] : '',
                 'source'     => $source
             ]
