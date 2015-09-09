@@ -55,7 +55,7 @@ class SnippetListener implements EventSubscriberInterface
             return;
         }
 
-        if (!Zone::isAsync($event->getRequest())) {
+        if (!$event->getRequest()->isXmlHttpRequest()) {
             $this->addSnippets();
         }
 
