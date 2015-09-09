@@ -16,13 +16,43 @@ class FieldSetTest extends BoltUnitTest
     public function testSetWithNormalValues()
     {
         $app = $this->getApp();
+        $this->addSomeContent($app);
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
         $entity = $repo->create(['title'=> "This is a title" ]);
         $this->assertEquals("This is a title", $entity->getTitle());
-        $entity = $repo->create(['title'=> [1,2,3] ]);
-        $this->assertEquals("1,2,3", $entity->getTitle());
     }
+    
+    public function testSetWithUpdatedValues()
+    {
+        $app = $this->getApp();
+        
+        $app['config']->set('theme/templatefields', [
+            "record.twig" => [
+                'newoption1' => [
+                    "type" => 'text',
+                    "label" => 'Section 1'
+                ],
+                'newoption2' => [
+                    'type' => 'html',
+                    'label' => 'Section 2'
+                ],
+                'newoption3' => [
+                    'type' => 'image'
+                ]
+                
+            ]
+        ]);
+        
+        $em = $app['storage'];
+        $repo = $em->getRepository('pages');
+        $entity = $repo->find(1);
+        $entity->setTemplateFields(['title'=>'']);
+        print_r($entity->getTemplateFields());
+        
+    }
+    
+    
 
     
 }
