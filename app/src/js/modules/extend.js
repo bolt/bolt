@@ -71,6 +71,8 @@
 
     var installReset = function () {
         $('#installModal').on('hide.bs.modal', function () {
+            find('.latest-version-container .installed-version-item')
+                .html('<tr><td colspan="3"><strong>' + bolt.data('extend.text.no-stable') + '</strong></td></tr>');
             find('.stable-version-container .installed-version-item')
                 .html('<tr><td colspan="3"><strong>' + bolt.data('extend.text.no-stable') + '</strong></td></tr>');
             find('.dev-version-container .installed-version-item')
@@ -80,6 +82,7 @@
             find('.theme-generate-response').hide();
             find('.extension-postinstall').hide();
             find('.install-response-container').hide();
+            find('.install-latest-container').hide();
             find('.install-version-container').hide();
             find('.postinstall-footer').hide();
             find('#installModal .loader').show();
@@ -140,8 +143,7 @@
             }
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
     };
 
@@ -160,8 +162,7 @@
             checkInstalled();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
     };
 
@@ -183,8 +184,7 @@
             checkInstalled();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
 
         e.preventDefault();
@@ -206,8 +206,7 @@
             checkInstalled();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
 
         e.stopPropagation();
@@ -263,8 +262,7 @@
 
             })
             .fail(function(data) {
-                activeConsole.html(formatErrorLog(data));
-                extensionFailedInstall(data);
+                formatErrorLog(data);
             });
         });
     };
@@ -353,6 +351,7 @@
 
             var devpacks = data.dev;
             var stablepacks = data.stable;
+            var latestpacks = [ data.stable[0] ];
 
             if (devpacks.length > 0) {
                 find('.dev-version-container .installed-version-item').html('');
@@ -366,16 +365,24 @@
                     .append(buildVersionTable(stablepacks));
             }
 
-            find('.install-version-container').show();
+            if (latestpacks.length > 0) {
+                find('.latest-version-container .installed-version-item').html('');
+                find('.latest-version-container .installed-version-item')
+                    .append(buildVersionTable(latestpacks));
+            }
+
+
+            find('.install-latest-container').show();
             find('#installModal .loader').hide();
         })
         .fail(function(data) {
-            var target = find('.modal-failed');
-
-            target.html(formatErrorLog(data));
-            find('#installModal .loader').hide();
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
+    };
+
+    var showAllVersions = function () {
+        find('.install-latest-container').hide();
+        find('.install-version-container').show();
     };
 
     var buildVersionTable = function (packages) {
@@ -409,6 +416,7 @@
             packageVersion = $(e.target).data('version');
 
         find('.install-response-container').show();
+        find('.install-latest-container').hide();
         find('.install-version-container').hide();
         activeConsole = find('.install-response-container .console');
         activeConsole.html(bolt.data('extend.text.installing'));
@@ -417,16 +425,15 @@
             bolt.data('extend.baseurl') + 'install',
             {'package': packageName, 'version': packageVersion}
         )
-        .done(function(data) {
-            activeConsole.html(data);
+        .done(function() {
             postInstall(packageName, packageVersion);
+            find('.install-response-container').hide();
             find('.check-package').show();
             find('input[name="check-package"]').val('');
             checkInstalled();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
         e.preventDefault();
     };
@@ -445,8 +452,7 @@
             }
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
     };
 
@@ -454,13 +460,6 @@
         find('.extension-postinstall').show();
         find('.extension-postinstall .modal-success').show();
         find('.postinstall-footer .ext-link').attr('href', extension.source);
-        find('.postinstall-footer').show();
-    };
-
-    var extensionFailedInstall = function(extension) {
-        find('.extension-postinstall').show();
-        find('.extension-postinstall .modal-failed').show();
-        find('.postinstall-footer .ext-link').attr("href", extension.source);
         find('.postinstall-footer').show();
     };
 
@@ -489,8 +488,7 @@
             find('.theme-generation-container').hide();
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
 
         e.preventDefault();
@@ -516,8 +514,7 @@
                 }, 5000);
             })
             .fail(function (data) {
-                activeConsole.html(formatErrorLog(data));
-                extensionFailedInstall(data);
+                formatErrorLog(data);
             });
         }
         e.preventDefault();
@@ -531,25 +528,14 @@
             });
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
 
         e.preventDefault();
     };
 
     var packageAvailable = function (e) {
-        $.get(bolt.data('extend.baseurl') + 'installInfo?package=' + $(e.target).data('available'))
-        .done(function () {
-            installInfo($(e.target).data('available'));
-            e.preventDefault();
-        })
-        .fail(function (data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
-        });
-
-        e.preventDefault();
+        installInfo($(e.target).data('available'));
     };
 
     var uninstall = function (e) {
@@ -575,8 +561,7 @@
             }, 2000);
         })
         .fail(function(data) {
-            activeConsole.html(formatErrorLog(data));
-            extensionFailedInstall(data);
+            formatErrorLog(data);
         });
 
         e.preventDefault();
@@ -629,9 +614,17 @@
     };
 
     var formatErrorLog = function(data) {
-        var errObj = $.parseJSON(data.responseText),
+        var errObj = '',
             html = '',
             msg = '';
+
+        try {
+            errObj = $.parseJSON(data.responseText);
+        } catch(err) {
+            $('.modal').modal('hide');
+            bootbox.alert('<p>An unknown error occurred. This was the error message:</p>\n\n' +
+                '<pre>' + err.message + '</pre>');
+        }
 
         if (errObj.error.type === 'Bolt\\Exception\\PackageManagerException') {
             // Clean up Composer messages.
@@ -671,7 +664,9 @@
             );
         }
 
-        return html;
+        $('.modal').modal('hide');
+        bootbox.alert(html);
+
     };
 
     var events = {
@@ -691,6 +686,7 @@
                 case 'package-available': packageAvailable(e.originalEvent); break;
                 case 'package-copy':      copyTheme(e.originalEvent); break;
                 case 'package-readme':    packageReadme(e.originalEvent); break;
+                case 'show-all':    showAllVersions(e.originalEvent); break;
             }
         }
     };
