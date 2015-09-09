@@ -256,6 +256,8 @@ class Frontend extends ConfigurableBase
         if (!$order = $this->getOption('theme/listing_sort', false)) {
             $order = empty($contenttype['sort']) ? null : $contenttype['sort'];
         }
+        // If $order is not set, one of two things can happen: Either we let `getContent()` sort by itself, or we
+        // explicitly set it to sort on the general/listing_sort setting.
         if ($order === null) {
             $taxonomies = $this->getOption('taxonomy');
             $hassortorder = false;
