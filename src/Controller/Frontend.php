@@ -262,7 +262,7 @@ class Frontend extends ConfigurableBase
             $taxonomies = $this->getOption('taxonomy');
             $hassortorder = false;
             if (!empty($contenttype['taxonomy'])) {
-                foreach($contenttype['taxonomy'] as $contenttypetaxonomy) {
+                foreach ($contenttype['taxonomy'] as $contenttypetaxonomy) {
                     if ($taxonomies[ $contenttypetaxonomy ]['has_sortorder']) {
                         // We have a taxonomy with a sortorder, so we must keep $order = false, in order
                         // to let `getContent()` handle it. We skip the fallback that's a few lines below.
