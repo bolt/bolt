@@ -64,13 +64,8 @@
 
             <p class='lastsaved' style='padding-top: 12px;'>
                 {{ __('Saved on:') }}
-<<<<<<< HEAD
-                <strong>{{ context.datechanged|localdate("%b %e, %H:%M") }}</strong>
-                <small>({{ macro.datetime(context.datechanged) }})</small>
-=======
                 <strong>{{ context.datechanged|localdate("%c") }}</strong>
-                ({{ buic.moment(context.datechanged) }})
->>>>>>> 7736b5b... Change used date-time format to a more i18n-friendly format
+                <small>({{ macro.datetime(context.datechanged) }})</small>
             </p>
 
             </form>
