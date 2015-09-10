@@ -293,7 +293,7 @@ class Extensions
      */
     public function getComposerConfig($extensionName)
     {
-        return isset($this->composer[$extensionName]) ? $this->composer[$extensionName] : [];
+        return isset($this->composer[$extensionName]) ? $this->composer[$extensionName] : ['name' => $extensionName];
     }
 
     /**
