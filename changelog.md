@@ -12,6 +12,17 @@ Not yet released. Notable changes:
 
 - Changed: date-time format uses a more i18n-friendly format (See #4053)
 - Fixed: Fix the info text for imagelist fields (See #4051)
+- Updated: Updating UIkit (2.22), CodeMirror (5.6) and Marked.js (0.3.5) to latest versions.
+- Fixed: Don't sort getContent in listing view, when the contenttype has a taxonomy that has a sortorder.
+- Fixed: Don't show (non working) drag'n'drop in list overviews. #4065
+- Changed: Moved 'Install new extension' to the top of the screen.
+
+Bolt 2.2.10
+-----------
+
+Released 2015-09-01. Notable changes:
+
+- Updated: Updated Doctrine and it's components to the latest version. (version 2.5.1, see [here for details](http://www.doctrine-project.org/2015/08/31/doctrine_orm_2_5_1_and_2_4_8_released.html))
 
 Bolt 2.2.9
 ----------
