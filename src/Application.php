@@ -216,7 +216,7 @@ class Application extends Silex\Application
             ->register(new Provider\MenuServiceProvider())
             ->register(new Provider\UploadServiceProvider())
             ->register(new Provider\FilesystemProvider())
-            ->register(new Thumbs\ThumbnailProvider())
+            ->register(new Provider\ThumbnailsServiceProvider())
             ->register(new Provider\NutServiceProvider())
             ->register(new Provider\GuzzleServiceProvider())
             ->register(new Provider\PrefillServiceProvider())
