@@ -51,6 +51,36 @@
 
             {% include '_sub/_messages.twig' %}
 
+            <section>
+                <h2>{{ __('Install a new Extension') }}</h2>
+                <p>
+                    {% if writeable and online %}
+                    {{ __('Add a new extension using the form below.') }}
+                    {% endif %}
+                    {{ __('You can discover new extensions by visiting') }}
+                    <a href="{{ site }}" target="_blank">{{ site }}</a>
+                </p>
+                {% if writeable and online %}
+                <div class="install-container">
+                        <div class="auto-search hide-block"></div>
+                        <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
+                        <a class="btn btn-tertiary check-package" data-request="check-package" data-toggle="modal" data-target="#installModal">
+                            <i class="icon-gears"></i> {{ __('Browse Versions') }}
+                        </a>
+
+                        <div class="modal fade" id="installModal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    {% include 'extend/install-package.twig' %}
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                {% endif %}
+            </section>
+
+            <hr />
+
             <div class="update-container hide-block">
                 <h3>{{ __('Updates') }}</h3>
                 {% if writeable %}
@@ -101,35 +131,6 @@
                 </div>
               </div>
             </div>
-
-            <hr />
-            <section>
-                <h2>{{ __('Install a new Extension') }}</h2>
-                <p>
-                    {% if writeable and online %}
-                    {{ __('Add a new extension using the form below.') }}
-                    {% endif %}
-                    {{ __('You can discover new extensions by visiting') }}
-                    <a href="{{ site }}" target="_blank">{{ site }}</a>
-                </p>
-                {% if writeable and online %}
-                <div class="install-container">
-                        <div class="auto-search hide-block"></div>
-                        <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
-                        <a class="btn btn-tertiary check-package" data-request="check-package" data-toggle="modal" data-target="#installModal">
-                            <i class="icon-gears"></i> {{ __('Browse Versions') }}
-                        </a>
-
-                        <div class="modal fade" id="installModal" tabindex="-1" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    {% include 'extend/install-package.twig' %}
-                                </div>
-                            </div>
-                        </div>
-                </div>
-                {% endif %}
-            </section>
 
         </div>
 
