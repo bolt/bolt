@@ -45,6 +45,10 @@ body {
     margin: 0 auto;
 }
 
+code, kbd, pre, samp{
+    white-space: pre-wrap;
+}
+
 /* Fix IE11 stretch behavior */
 header,
 header>div,
