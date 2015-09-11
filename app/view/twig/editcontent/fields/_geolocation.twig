@@ -41,7 +41,14 @@
         placeholder: '—',
         readonly:    true,
         type:        'text',
-    }
+    },
+
+    snap: {
+        checked:     true,
+        class:       'snap',
+        name:        name ~ '_snap',
+        type:        'checkbox',
+    },
 } %}
 
 {% macro slot(attributes, key, geolocation) %}
@@ -75,6 +82,9 @@
     <div class="col-sm-4">
         <label>{{ __('field.geolocation.label.marker-placement') }}</label>
         <div class="mapholder"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+        <div class="checkbox">
+            <label><input{{ attr(attributes.snap) }}>{{ __('Snap to nearest address') }}</label>
+        </div>
     </div>
 {% endmacro %}
 
