@@ -462,6 +462,7 @@ field:
             latitude: "Latitude"
             longitude: "Longitude"
             marker-placement: "Marker placement"
+            snap: "Snap to nearest address"
         matched-address: "Matched address"
         marker: "Pin"
         placeholder:
