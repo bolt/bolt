@@ -1,0 +1,32 @@
+{% include "_header.twig"%}
+{# Make sure we can get info from both listings and single records: #}
+{% set record = record ?: records|first %}
+{% set image = record.image ?: theme.frontpage_image %}
+<div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
+<div class="flex container margin wide-padding popUppers">
+    {% if record %}
+        <article class="six m-twelve">
+                <h1>{{record.title}}</h1>
+                {{record.body}}
+        </article>
+    {% endif %}
+    {% for ct in theme.frontpage_contenttypes %}
+        {% setcontent records = ct ~ "/latest/3" %}
+            {% if records %}
+                <div class="three m-six s-twelve">
+                    {% for record in records %}
+                        {% set image = record.image ?: random(theme.images) %}
+                    {% if loop.first %}
+                    <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct}) }}</h2>
+                    {% endif %}
+                    <h3><a href="{{record.link}}">{{ record.title }}</a></h3>
+                    <p>{{record.body|excerpt(250)}}</p>
+                    {% if loop.last %}
+                    <p><a href="{{ paths.root }}{{ct}}">{{ __('contenttypes.generic.overview',{'%contenttypes%': ct}) }} &raquo;</a></p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+    {% endfor %}
+</div>
+{% include "_footer.twig"%}
