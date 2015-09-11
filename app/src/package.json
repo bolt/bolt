@@ -9,7 +9,7 @@
     },
     "devDependencies": {
         "autoprefixer-core": "~6.0.1",
-        "css-mqpacker": "~3.1.0",
+        "css-mqpacker": "~4.0.0",
         "csswring": "~3.0.5",
         "deep-extend": "~0.4.0",
         "grunt": "~0.4.5",
