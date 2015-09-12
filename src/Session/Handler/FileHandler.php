@@ -13,6 +13,10 @@ use Symfony\Component\Finder\Finder;
  */
 class FileHandler implements \SessionHandlerInterface
 {
+    /** @var integer */
+    protected $depth;
+    /** @var integer */
+    protected $mode;
     /** @var string */
     protected $savePath;
     /** @var \Symfony\Component\Filesystem\Filesystem */
@@ -29,6 +33,9 @@ class FileHandler implements \SessionHandlerInterface
     {
         $this->fs = $filesystem ?: new Filesystem();
 
+        // @see http://php.net/manual/en/session.configuration.php#ini.session.save-path
+        $depth = 1;
+        $mode = 0600;
         $savePath = $savePath ?: sys_get_temp_dir();
 
         // Handle BC 'N;/path' and 'N;octal-mode;/path` which are not supported here
@@ -37,14 +44,23 @@ class FileHandler implements \SessionHandlerInterface
                 throw new \InvalidArgumentException(sprintf('Invalid argument $savePath \'%s\'', $savePath));
             }
 
-            // characters after last ';' are the path
-            $savePath = ltrim(strrchr($savePath, ';'), ';');
+            $path = explode(';', $savePath);
+            if ($count === 1) {
+                $depth = $path[0];
+                $savePath = $path[1];
+            } else {
+                $depth = $path[0];
+                $mode = intval($path[1], 8);
+                $savePath = $path[2];
+            }
         }
 
         if (!is_dir($savePath)) {
             $this->fs->mkdir($savePath, 0777);
         }
 
+        $this->depth = $depth;
+        $this->mode = $mode;
         $this->savePath = $savePath;
     }
 
@@ -85,11 +101,17 @@ class FileHandler implements \SessionHandlerInterface
     {
         try {
             $this->fs->dumpFile($this->getSessionFileName($sessionId), $data);
-
-            return true;
         } catch (IOException $e) {
             return false;
         }
+
+        try {
+            $this->fs->chmod($this->getSessionFileName($sessionId), $this->mode);
+        } catch (IOException $e) {
+            trigger_error('Unable to set correct permissions on session file.', E_USER_WARNING);
+        }
+
+        return true;
     }
 
     /**
