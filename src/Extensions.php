@@ -606,24 +606,19 @@ class Extensions
      * @param int    $cacheduration
      * @param string $extraparameters
      */
-    public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = '', $defer = true, $cacheduration = 180, $extraparameters = "")
+    public function insertWidget($options)
     {
-        $authSession = $this->app['session']->get('authentication');
-        $sessionkey = $authSession->getToken()->getToken();
 
-        $key = substr(md5(sprintf("%s%s%s%s", $sessionkey, $type, $location, !is_array($callback) ? $callback : get_class($callback[0]) . $callback[1])), 0, 8);
+        // Was: $type, $location, $callback, $extensionname, $additionalhtml = '', $defer = true, $cacheduration = 180, $extraparameters = ""
 
-        $this->widgetqueue[] = [
-            'type'            => $type,
-            'location'        => $location,
-            'callback'        => $callback,
-            'additionalhtml'  => $additionalhtml,
-            'cacheduration'   => $cacheduration,
-            'extension'       => $extensionname,
-            'defer'           => $defer,
-            'extraparameters' => $extraparameters,
-            'key'             => $key
-        ];
+        // dump($options);
+
+        // $authSession = $this->app['session']->get('authentication');
+        // $sessionkey = $authSession->getToken()->getToken();
+
+        $options['key'] = substr(md5(serialize($options)), 0, 8);
+
+        $this->widgetqueue[] = $options;
     }
 
     /**
@@ -635,6 +630,9 @@ class Extensions
      */
     public function renderWidgetHolder($type, $location)
     {
+
+        // dump($this->widgetqueue);
+
         if (is_array($this->widgetqueue)) {
             foreach ($this->widgetqueue as $widget) {
                 if ($type == $widget['type'] && $location == $widget['location']) {
