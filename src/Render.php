@@ -73,8 +73,10 @@ class Render
         $html = $response->getContent();
 
         /** @var \Bolt\Asset\QueueInterface $queue */
-        foreach ($this->app['asset.queues'] as $queue) {
-            $html = $queue->process($html);
+        if (!$this->app['request_stack']->getCurrentRequest()->isXmlHttpRequest()) {
+            foreach ($this->app['asset.queues'] as $queue) {
+                $html = $queue->process($html);
+            }
         }
 
         $this->cacheRequest($html);
