@@ -450,7 +450,7 @@ abstract class BaseExtension implements ExtensionInterface
             $callback = (string) $callback;
         }
 
-        $this->app['asset.queue.snippet']->add($location, $callback, $this->getName(), (array) $extraparameters);
+        $this->app['asset.queue.snippet']->add($location, [$this, $callback], $this->getName(), (array) $extraparameters);
     }
 
     /**
@@ -482,7 +482,7 @@ abstract class BaseExtension implements ExtensionInterface
 
     /**
      * Clear all previously added assets.
-     * 
+     *
      * @deprecated since 2.3 and will be removed in Bolt 3
      */
     public function clearAssets()
