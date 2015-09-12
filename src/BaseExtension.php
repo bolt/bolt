@@ -387,8 +387,13 @@ abstract class BaseExtension implements ExtensionInterface
      */
     public function addTwigFunction($name, $callback, $options = [])
     {
+        // If we pass a callback as a simple string, we need to turn it into an array.
+        if (is_string($callback) && method_exists($this, $callback)) {
+            $callback = [$this, $callback];
+        }
+
         $this->initializeTwig();
-        $this->twigExtension->addTwigFunction(new \Twig_SimpleFunction($name, [$this, $callback], $options));
+        $this->twigExtension->addTwigFunction(new \Twig_SimpleFunction($name, $callback, $options));
     }
 
     /**
@@ -400,8 +405,13 @@ abstract class BaseExtension implements ExtensionInterface
      */
     public function addTwigFilter($name, $callback, $options = [])
     {
+        // If we pass a callback as a simple string, we need to turn it into an array.
+        if (is_string($callback) && method_exists($this, $callback)) {
+            $callback = [$this, $callback];
+        }
+
         $this->initializeTwig();
-        $this->twigExtension->addTwigFilter(new \Twig_SimpleFilter($name, [$this, $callback], $options));
+        $this->twigExtension->addTwigFilter(new \Twig_SimpleFilter($name, $callback, $options));
     }
 
     protected function initializeTwig()
@@ -450,7 +460,12 @@ abstract class BaseExtension implements ExtensionInterface
             $callback = (string) $callback;
         }
 
-        $this->app['asset.queue.snippet']->add($location, [$this, $callback], $this->getName(), (array) $extraparameters);
+        // If we pass a callback as a simple string, we need to turn it into an array.
+        if (is_string($callback) && method_exists($this, $callback)) {
+            $callback = [$this, $callback];
+        }
+
+        $this->app['asset.queue.snippet']->add($location, $callback, $this->getName(), (array) $extraparameters);
     }
 
     /**
