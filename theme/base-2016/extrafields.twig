@@ -5,7 +5,7 @@
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
 <div class="flex container margin wide-padding popUppers">
         <article class="eight">
-            <h1>{{ record.title }}</h1>
+            <h1 data-bolt-field="title">{{ record.title }}</h1>
             {% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'title', 'subtitle', 'ownerid', 'templatefields', 'image'] %}
                 {% if record.fieldtype(key) == "imagelist" and value is not empty %}
                     {% set list = attribute(record, key) %}
@@ -21,7 +21,7 @@
                 {% elseif record.fieldtype(key) == "geolocation" and value.latitude is defined %}
                     <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;markers={{ value.latitude }},{{ value.longitude }}">
                 {% elseif record.fieldtype(key) in ['html', 'markdown', 'textarea'] %}
-                    {{ attribute(record, key) }}
+                    <div data-bolt-field="{{key}}">{{ attribute(record, key) }}</div>
                 {% elseif record.fieldtype(key) == "select" and value is not empty %}
                     <p><strong>{{ key }}: </strong>
                         {{ attribute(record, key)|join(", ") }}
@@ -66,8 +66,8 @@
             <a href="{{ image(record.templatefields.image) }}">
                 <img src="{{ thumbnail(record.templatefields.image, 640, 480) }}">
             </a>
-            {{ record.templatefields.section_1 }}
-            {{ record.templatefields.section_2 }}
+            <div data-bolt-field="templatefields[section_1]">{{ record.templatefields.section_1 }}</div>
+            <div data-bolt-field="templatefields[section_2]">{{ record.templatefields.section_2 }}</div>
          </article>
     </div>
 {% include '_footer.twig' %}
