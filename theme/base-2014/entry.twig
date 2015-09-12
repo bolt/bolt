@@ -7,6 +7,23 @@
 
         <article>
 
+            <hr>
+                {% set list = taxonomylist('tags', { 'limit': 10, 'weighted': true } ) %}
+    <nav class="tags">
+    {% for item in list %}
+            <a class="taxonomy-{{ item.slug }} weight-{{ item.weightclass }}" href="{{ item.link }}" title="{{ item.name }}">
+                {{ item.name }}
+                <small>{{ item.count }} items</small>
+            </a>
+    {% endfor %}
+    </nav>
+    <hr>
+
+        {{ widget('maincolumn') }}
+
+    <hr>
+
+
             <h2>{{ record.title }}</h2>
 
             {% if record.image!="" %}
