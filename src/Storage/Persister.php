@@ -15,12 +15,12 @@ class Persister
 
     protected $disabledFields = [];
 
-    public function __construct(ClassMetadata $metadata, FieldFactory $fieldFactory = null)
+    public function __construct(ClassMetadata $metadata, FieldFactory $fieldFactory)
     {
         $this->metadata = $metadata;
         $this->fieldFactory = $fieldFactory;
     }
-
+    
     /**
      * @param QuerySet      $queries
      * @param mixed         $entity
@@ -31,13 +31,9 @@ class Persister
     public function persist(QuerySet $queries, $entity, EntityManager $em)
     {
         foreach ($this->getFields() as $key => $mapping) {
-            // First step is to allow each Bolt field to transform the data.
-            if ($this->fieldFactory !== null) {
-                $field = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
-            } else {
-                $field = new $mapping['fieldtype']($mapping);
-            }
-
+            // Allows each Bolt field to transform the data.
+            
+            $field = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
             $field->persist($queries, $entity, $em);
         }
 

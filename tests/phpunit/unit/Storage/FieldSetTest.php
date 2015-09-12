@@ -48,7 +48,6 @@ class FieldSetTest extends BoltUnitTest
         $repo = $em->getRepository('pages');
         $entity = $repo->find(1);
         $entity->setTemplateFields(['title'=>'']);
-        print_r($entity->getTemplateFields());
         
     }
     
