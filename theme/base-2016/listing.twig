@@ -17,7 +17,7 @@
             <h1>
                 {{ __('Search results for <b> %search% </b>.', { '%search%': search|escape }) }}
             </h1>
-        {% else %}
+        {% elseif records %}
             <h1>
                 {{ __('Overview for') }}
                 {{records|first.contenttype.name}}

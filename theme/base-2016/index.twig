@@ -1,7 +1,13 @@
 {% include "_header.twig"%}
 {# Make sure we can get info from both listings and single records: #}
-{% set record = record ?: records|first %}
-{% set image = record.image ?: theme.frontpage_image %}
+{% if record is not defined and records is defined %}
+    {% set record = records|first %}
+{% endif %}
+{% if record %}
+    {% set image = record.image ?: theme.frontpage_image %}
+{% else %}
+    {% set image = theme.frontpage_image %}
+{% endif %}
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
 <div class="flex container margin wide-padding popUppers">
     {% if record %}
