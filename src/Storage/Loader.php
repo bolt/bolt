@@ -15,7 +15,7 @@ class Loader
     public $handlers = [];
     protected $fieldFactory;
     
-    public function __construct(FieldFactory $fieldFactory = null)
+    public function __construct(FieldFactory $fieldFactory)
     {
         $this->fieldFactory = $fieldFactory;
     }
@@ -29,13 +29,7 @@ class Loader
     public function load(QueryBuilder $qb, ClassMetadata $metadata)
     {
         foreach ($metadata->getFieldMappings() as $field) {
-            /** @var FieldTypeInterface $fieldtype */
-            if ($this->fieldFactory !== null) {
-                $fieldtype = $this->fieldFactory->get($field['fieldtype'], $field);
-            } else {
-                $fieldtype = new $field['fieldtype']($field, $this->em);
-            }
-            
+            $fieldtype = $this->fieldFactory->get($field['fieldtype'], $field);
             $fieldtype->load($qb, $metadata);
         }
 
