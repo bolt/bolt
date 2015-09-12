@@ -44,7 +44,7 @@ class FileHandler implements \SessionHandlerInterface
         $mode = 0600;
         $savePath = $savePath ?: sys_get_temp_dir();
 
-        // Handle BC 'N;/path' and 'N;octal-mode;/path` which are not supported here
+        // Handle 'N;/path' and 'N;octal-mode;/path` values. We don't currently support depth handling.
         if ($count = substr_count($savePath, ';')) {
             if ($count > 2) {
                 throw new \InvalidArgumentException(sprintf('Invalid argument $savePath \'%s\'', $savePath));
