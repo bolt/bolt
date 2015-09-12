@@ -1,5 +1,5 @@
 {% include '_header.twig' %}
-{% set image = record|first.image ?: random(theme.images) %}
+{% set image = random(theme.images) %}
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
 <div class="flex container margin wide-padding popUppers">
     <section class="eight">
@@ -24,9 +24,6 @@
             </h1>
         {% endif %}
         {% for record in records %}
-            {% set image = record.image ?: attribute(theme.images, record.id) %}
-                <div class="four full-bg xs-twelve" style="background-image:url({{thumbnail(image, 1500, 800)}})">
-                </div>
                 <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
                 {# display something introduction-like.. #}
                 {% if record.introduction %}
