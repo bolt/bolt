@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Session\Handler;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -21,17 +23,21 @@ class FileHandler implements \SessionHandlerInterface
     protected $savePath;
     /** @var \Symfony\Component\Filesystem\Filesystem */
     protected $fs;
+    /** @var \Psr\Log\LoggerInterface */
+    protected $logger;
 
     /**
      * Constructor.
      *
-     * @param string     $savePath Path of directory to save session files.
-     *                             Default null will leave setting as defined by system temp directory.
-     * @param Filesystem $filesystem
+     * @param string          $savePath   Path of directory to save session files.
+     *                                    Default null will leave setting as defined by system temp directory.
+     * @param LoggerInterface $logger
+     * @param Filesystem      $filesystem
      */
-    public function __construct($savePath = null, Filesystem $filesystem = null)
+    public function __construct($savePath = null, LoggerInterface $logger = null, Filesystem $filesystem = null)
     {
         $this->fs = $filesystem ?: new Filesystem();
+        $this->logger = $logger ?: new NullLogger();
 
         // @see http://php.net/manual/en/session.configuration.php#ini.session.save-path
         $depth = 1;
@@ -102,13 +108,14 @@ class FileHandler implements \SessionHandlerInterface
         try {
             $this->fs->dumpFile($this->getSessionFileName($sessionId), $data);
         } catch (IOException $e) {
+            $this->logger->error('Unable to write session file to ' . $this->savePath);
             return false;
         }
 
         try {
             $this->fs->chmod($this->getSessionFileName($sessionId), $this->mode);
         } catch (IOException $e) {
-            trigger_error('Unable to set correct permissions on session file.', E_USER_WARNING);
+            $this->logger->error('Unable to set correct permissions on session file in ' . $this->savePath);
         }
 
         return true;
@@ -124,6 +131,7 @@ class FileHandler implements \SessionHandlerInterface
 
             return true;
         } catch (IOException $e) {
+            $this->logger->error('Unable to remove session file ' . $this->getSessionFileName($sessionId));
             return false;
         }
     }
@@ -144,6 +152,7 @@ class FileHandler implements \SessionHandlerInterface
             try {
                 $this->fs->remove($file);
             } catch (IOException $e) {
+                $this->logger->error('Unable to remove session file ' . $file);
                 return false;
             }
         }
