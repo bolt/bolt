@@ -153,7 +153,6 @@ class FileHandler implements \SessionHandlerInterface
                 $this->fs->remove($file);
             } catch (IOException $e) {
                 $this->logger->error('Unable to remove session file ' . $file);
-                return false;
             }
         }
 
