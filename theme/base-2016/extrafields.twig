@@ -1,0 +1,73 @@
+{% include '_header.twig' %}
+{# Make sure we have an image to use as background: #}
+{% set image = record.image ?: attribute(theme.images, record.id) %}
+{% set image = record.image ?: random(theme.images) %}
+<div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
+<div class="flex container margin wide-padding popUppers">
+        <article class="eight">
+            <h1>{{ record.title }}</h1>
+            {% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'title', 'subtitle', 'ownerid', 'templatefields', 'image'] %}
+                {% if record.fieldtype(key) == "imagelist" and value is not empty %}
+                    {% set list = attribute(record, key) %}
+                    <div class="images">
+                        {% for item in list %}
+                            <div class="imageholder">
+                                {{ popup(item.filename) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% elseif record.fieldtype(key) == "video" and value.responsive is defined %}
+                    {{ value.responsive }}
+                {% elseif record.fieldtype(key) == "geolocation" and value.latitude is defined %}
+                    <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;markers={{ value.latitude }},{{ value.longitude }}">
+                {% elseif record.fieldtype(key) in ['html', 'markdown', 'textarea'] %}
+                    {{ attribute(record, key) }}
+                {% elseif record.fieldtype(key) == "select" and value is not empty %}
+                    <p><strong>{{ key }}: </strong>
+                        {{ attribute(record, key)|join(", ") }}
+                    </p>
+                {% elseif record.fieldtype(key) == "checkbox" %}
+                        <p>Checkbox: {{value ? "checked" : "not checked"}}</p>
+                {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" and value is not empty  %}
+                    <p><strong>{{ key }}: </strong>
+                        {% if attribute(record, key) is iterable %}
+                            {{ dump(attribute(record, key)) }}
+                        {% else %}
+                            {{ attribute(record, key) }}
+                        {% endif %}
+                    </p>
+                {%  endif %}
+            {% endfor %}
+            {{ print(record) }}
+            {% include '_recordfooter.twig' with {'record': record} %}
+            <p class="meta">
+                {% set previous = record.previous('id') %}
+                {% if previous %}
+                    <a href="{{ previous.link }}">&laquo; {{ previous.title }}</a>
+                {% endif %}
+                -
+                {% set next = record.next('id') %}
+                {% if next %}
+                    <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
+                {% endif %}
+            </p>
+            {% set relatedrecords = record.related() %}
+            {% if relatedrecords is not empty %}
+                <p class="meta">{{ __('Related content:') }}
+                <ul>
+                    {% for related in relatedrecords %}
+                        <li><a href="{{ related.link }}">{{ related.title }}</a></li>
+                    {%  endfor %}
+                </ul>
+                </p>
+            {% endif %}
+        </article>
+        <article class="four m-twelve">
+            <a href="{{ image(record.templatefields.image) }}">
+                <img src="{{ thumbnail(record.templatefields.image, 640, 480) }}">
+            </a>
+            {{ record.templatefields.section_1 }}
+            {{ record.templatefields.section_2 }}
+         </article>
+    </div>
+{% include '_footer.twig' %}

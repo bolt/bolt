@@ -49,6 +49,11 @@ code, kbd, pre, samp{
     white-space: pre-wrap;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 /* Fix IE11 stretch behavior */
 header,
 header>div,
