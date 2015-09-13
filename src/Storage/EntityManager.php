@@ -27,8 +27,8 @@ class EntityManager
     protected $logger;
     /** @var Builder */
     protected $builder;
-    /** @var FieldFactory */
-    protected $fieldFactory;
+    /** @var FieldManager */
+    protected $fieldManager;
     /** @var array */
     protected $repositories = [];
     /** @var array */
@@ -94,7 +94,7 @@ class EntityManager
     public function getEntityBuilder($className = null, ClassMetadata $classMetadata = null)
     {
         
-        $builder = new Builder($this->getMapper(), $this->getFieldFactory());
+        $builder = new Builder($this->getMapper(), $this->getFieldManager());
         
         if ($className !== null) {
             $builder->setClass($className);
@@ -118,17 +118,17 @@ class EntityManager
         $this->builder = $builder;        
     }
     
-    public function getFieldFactory()
+    public function getFieldManager()
     {
-        $factory = $this->fieldFactory;
-        $factory->setEntityManager($this);
+        $manager = $this->fieldManager;
+        $manager->setEntityManager($this);
         
-        return $factory;
+        return $manager;
     }
     
-    public function setFieldFactory(FieldFactory $fieldFactory)
+    public function setFieldManager(FieldManager $fieldManager)
     {
-        $this->fieldFactory = $fieldFactory;
+        $this->fieldManager = $fieldManager;
     }
 
     /**

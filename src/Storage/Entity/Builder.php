@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Entity;
 
-use Bolt\Storage\FieldFactory;
+use Bolt\Storage\FieldManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
 
@@ -20,13 +20,13 @@ class Builder
     protected $classMetadata;
 
     protected $metadata;
-    protected $fieldFactory;
+    protected $fieldManager;
     protected $transformers = [];
 
-    public function __construct(MetadataDriver $metadata, FieldFactory $fieldFactory)
+    public function __construct(MetadataDriver $metadata, FieldManager $fieldManager)
     {
         $this->metadata = $metadata;
-        $this->fieldFactory = $fieldFactory;
+        $this->fieldManager = $fieldManager;
     }
 
     /**
@@ -123,7 +123,7 @@ class Builder
         // set fields
         foreach ($fields as $key => $mapping) {
             if (array_key_exists($key, $data)) {
-                $fieldType = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
+                $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
 
                 // If we have a transformer setup then this takes precedence
                 $handler = $this->handlers[$mapping['fieldtype']];
@@ -155,7 +155,7 @@ class Builder
         // set fields
         foreach ($fields as $key => $mapping) {
             if (array_key_exists($key, $data)) {
-                $fieldType = $this->fieldFactory->get($mapping['fieldtype'], $mapping);
+                $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
                 call_user_func_array([$fieldType, 'hydrate'], [$data, $entity]);
             }
         }

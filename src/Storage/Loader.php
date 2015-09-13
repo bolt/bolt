@@ -13,11 +13,11 @@ use Doctrine\DBAL\Query\QueryBuilder;
 class Loader
 {
     public $handlers = [];
-    protected $fieldFactory;
+    protected $fieldManager;
     
-    public function __construct(FieldFactory $fieldFactory)
+    public function __construct(FieldManager $fieldManager)
     {
-        $this->fieldFactory = $fieldFactory;
+        $this->fieldManager = $fieldManager;
     }
 
     /**
@@ -29,7 +29,7 @@ class Loader
     public function load(QueryBuilder $qb, ClassMetadata $metadata)
     {
         foreach ($metadata->getFieldMappings() as $field) {
-            $fieldtype = $this->fieldFactory->get($field['fieldtype'], $field);
+            $fieldtype = $this->fieldManager->get($field['fieldtype'], $field);
             $fieldtype->load($qb, $metadata);
         }
 
@@ -46,11 +46,7 @@ class Loader
     {
         foreach ($metadata->getFieldMappings() as $field) {
             /** @var FieldTypeInterface $fieldtype */
-            if ($this->fieldFactory !== null) {
-                $fieldtype = $this->fieldFactory->get($field['fieldtype'], $field);
-            } else {
-                $fieldtype = new $field['fieldtype']($field, $this->em);
-            }
+            $fieldtype = $this->fieldManager->get($field['fieldtype'], $field);
             $fieldtype->query($query, $metadata);
         }
 

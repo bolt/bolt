@@ -6,7 +6,7 @@ use Bolt\Storage\EntityManager;
 /**
  * Uses a typemap to construct an instance of a Field 
  */
-class FieldFactory
+class FieldManager
 {
     /** @var array */
     protected $em;

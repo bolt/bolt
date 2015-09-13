@@ -41,8 +41,8 @@ class Repository implements ObjectRepository
         $this->em = $em;
         $this->_class = $classMetadata;
         $this->entityName  = $classMetadata->getName();
-        $this->setPersister($persister ?: new Persister($classMetadata, $this->getEntityManager()->getFieldFactory()));
-        $this->setLoader($loader ?: new Loader($this->getEntityManager()->getFieldFactory()));
+        $this->setPersister($persister ?: new Persister($classMetadata, $this->getEntityManager()->getFieldManager()));
+        $this->setLoader($loader ?: new Loader($this->getEntityManager()->getFieldManager()));
     }
 
     /**

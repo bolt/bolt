@@ -7,7 +7,7 @@ use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
-use Bolt\Storage\FieldFactory;
+use Bolt\Storage\FieldManager;
 use Bolt\Storage\Loader;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
@@ -42,7 +42,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 );
                 $storage->setLegacyStorage($app['storage.legacy']);
                 $storage->setEntityBuilder($app['storage.entity_builder']);
-                $storage->setFieldFactory($app['storage.field_factory']);
+                $storage->setFieldManager($app['storage.field_manager']);
 
                 foreach ($app['storage.repositories'] as $entity => $repo) {
                     $storage->setRepository($entity, $repo);
@@ -59,24 +59,24 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $repoClass = $app['storage.repository.default'];
                 $repo = new $repoClass($app['storage'], $classMetadata);
                 $repo->setLegacyService($app['storage.legacy_service']);
-                $repo->setPersister(new Persister($classMetadata, $app['storage.field_factory']));
-                $repo->setLoader(new Loader($app['storage.field_factory']));
+                $repo->setPersister(new Persister($classMetadata, $app['storage.field_manager']));
+                $repo->setLoader(new Loader($app['storage.field_manager']));
                 
                 return $repo;
             }
         );
 
-        $app['storage.field_factory'] = $app->share(
+        $app['storage.field_manager'] = $app->share(
             function ($app) {
-                $factory = new FieldFactory();
+                $manager = new FieldManager();
 
                 foreach ($app['storage.typemap'] as $field) {
                     if (isset($app[$field])) {
-                        $factory->setHandler($field, $app[$field]);
+                        $manager->setHandler($field, $app[$field]);
                     }
                 }
 
-                return $factory;
+                return $manager;
             }
         );
 
@@ -94,7 +94,7 @@ class StorageServiceProvider implements ServiceProviderInterface
         
         $app['storage.entity_builder'] = $app->share(
             function ($app) {
-                $builder = new Builder($app['storage.metadata'], $app['storage.field_factory']);
+                $builder = new Builder($app['storage.metadata'], $app['storage.field_manager']);
 
                 return $builder;
             }
