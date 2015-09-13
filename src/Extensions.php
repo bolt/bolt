@@ -616,7 +616,7 @@ class Extensions
         // $authSession = $this->app['session']->get('authentication');
         // $sessionkey = $authSession->getToken()->getToken();
 
-        $options['key'] = substr(md5(serialize($options)), 0, 8);
+        $options['key'] = substr(md5(json_encode($options)), 0, 8);
 
         $this->widgetqueue[] = $options;
     }

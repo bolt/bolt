@@ -657,6 +657,11 @@ abstract class BaseExtension implements ExtensionInterface
         $options['name'] = $this->getName();
         $options['slug'] = $this->app['slugify']->slugify($this->getName());
 
+        // If we pass a callback as a simple string, we need to turn it into an array.
+        if (is_string($options['callback']) && method_exists($this, $options['callback'])) {
+            $options['callback'] = [$this, $options['callback']];
+        }
+
         // dump($options);
         // was: $type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = ""
 
