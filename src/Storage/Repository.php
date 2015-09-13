@@ -23,8 +23,6 @@ class Repository implements ObjectRepository
     public $entityName;
     /** @var Persister */
     public $persister;
-    /** @var Loader */
-    public $loader;
     /** @var Builder */
     public $builder;
 
@@ -34,15 +32,13 @@ class Repository implements ObjectRepository
      * @param EntityManager  $em            The EntityManager to use.
      * @param ClassMetadata  $classMetadata The class descriptor.
      * @param Persister|null $persister
-     * @param Loader|null    $loader
      */
-    public function __construct($em, ClassMetadata $classMetadata, $persister = null, $loader = null)
+    public function __construct($em, ClassMetadata $classMetadata, $persister = null)
     {
         $this->em = $em;
         $this->_class = $classMetadata;
         $this->entityName  = $classMetadata->getName();
         $this->setPersister($persister ?: new Persister($classMetadata, $this->getEntityManager()->getFieldManager()));
-        $this->setLoader($loader ?: new Loader($this->getEntityManager()->getFieldManager()));
     }
 
     /**
@@ -180,7 +176,7 @@ class Repository implements ObjectRepository
      **/
     public function findWith(QueryBuilder $query)
     {
-        $this->loader->load($query, $this->getClassMetadata());
+        $this->load($query);
 
         $result = $query->execute()->fetchAll();
         if ($result) {
@@ -197,7 +193,7 @@ class Repository implements ObjectRepository
      **/
     public function findOneWith(QueryBuilder $query)
     {
-        $this->loader->load($query, $this->getClassMetadata());
+        $this->load($query);
         $result = $query->execute()->fetch();
         if ($result) {
             return $this->hydrate($result, $query);
@@ -213,11 +209,11 @@ class Repository implements ObjectRepository
      *
      * @param QueryInterface $query [description]
      *
-     * @return [type] [description]
+     * @return array Entity | false
      */
     public function queryWith(QueryInterface $query)
     {
-        $this->loader->query($query, $this->getClassMetadata());
+        $this->query($query);
         $queryBuilder = $query->build();
 
         return $this->findWith($queryBuilder);
@@ -232,9 +228,42 @@ class Repository implements ObjectRepository
     protected function getLoadQuery()
     {
         $qb = $this->createQueryBuilder();
-        $this->loader->load($qb, $this->getClassMetadata());
+        $this->load($qb);
 
         return $qb;
+    }
+    
+    /**
+     * Internal method to run load method on each field for the managed entity.
+     * 
+     * Takes a QueryBuilder instance as input
+     * 
+     * @param  QueryBuilder $query
+     */
+    protected function load(QueryBuilder $query)
+    {
+        $metadata = $this->getClassMetadata();
+        foreach ($metadata->getFieldMappings() as $field) {
+            $fieldtype = $this->getFieldManager()->get($field['fieldtype'], $field);
+            $fieldtype->load($query, $metadata);
+        }
+    }
+    
+    /**
+     * Internal method to run query method on each field for the managed entity.
+     * 
+     * Takes a QueryInterface instance as input
+     * 
+     * @param  QueryInterface $query
+     */
+    protected function query(QueryInterface $query)
+    {
+        $metadata = $this->getClassMetadata();
+        
+        foreach ($metadata->getFieldMappings() as $field) {
+            $fieldtype = $this->getFieldManager()->get($field['fieldtype'], $field);
+            $fieldtype->query($query, $metadata);
+        }
     }
 
     /**
@@ -385,14 +414,16 @@ class Repository implements ObjectRepository
     {
         return $this->persister;
     }
-
+    
     /**
-     * @param Loader $loader
+     * Fetches FieldManager instance from the EntityManager
+     * @return FieldManager
      */
-    public function setLoader(Loader $loader)
+    public function getFieldManager()
     {
-        $this->loader = $loader;
+        return $this->em->getFieldManager();
     }
+
     
     /**
      * @return Builder $builder

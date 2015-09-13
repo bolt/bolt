@@ -8,7 +8,6 @@ use Bolt\Storage\EntityManager;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldManager;
-use Bolt\Storage\Loader;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
 use Bolt\Storage\Persister;
@@ -60,7 +59,6 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $repo = new $repoClass($app['storage'], $classMetadata);
                 $repo->setLegacyService($app['storage.legacy_service']);
                 $repo->setPersister(new Persister($classMetadata, $app['storage.field_manager']));
-                $repo->setLoader(new Loader($app['storage.field_manager']));
                 
                 return $repo;
             }
