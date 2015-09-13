@@ -10,7 +10,6 @@ use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldManager;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
-use Bolt\Storage\Persister;
 use Bolt\Storage\RecordModifier;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -58,7 +57,6 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $repoClass = $app['storage.repository.default'];
                 $repo = new $repoClass($app['storage'], $classMetadata);
                 $repo->setLegacyService($app['storage.legacy_service']);
-                $repo->setPersister(new Persister($classMetadata, $app['storage.field_manager']));
                 
                 return $repo;
             }

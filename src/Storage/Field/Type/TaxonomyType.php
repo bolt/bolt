@@ -93,7 +93,7 @@ class TaxonomyType extends FieldTypeBase
     /**
      * {@inheritdoc}
      */
-    public function hydrate($data, $entity, EntityManager $em = null)
+    public function hydrate($data, $entity)
     {
         $group = null;
         $sortorder = null;
@@ -128,14 +128,14 @@ class TaxonomyType extends FieldTypeBase
     /**
      * {@inheritdoc}
      */
-    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
         $taxonomy = $entity->getTaxonomy();
 
         // Fetch existing taxonomies
-        $existingQuery = $em->createQueryBuilder()
+        $existingQuery = $this->em->createQueryBuilder()
                             ->select('*')
                             ->from($target)
                             ->where('content_id = ?')
@@ -178,7 +178,7 @@ class TaxonomyType extends FieldTypeBase
         }
 
         foreach ($toDelete as $item) {
-            $del = $em->createQueryBuilder()->delete($target);
+            $del = $this->em->createQueryBuilder()->delete($target);
             $del->where('content_id=?')
                 ->andWhere('contenttype=?')
                 ->andWhere('taxonomytype=?')

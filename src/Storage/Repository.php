@@ -21,8 +21,6 @@ class Repository implements ObjectRepository
     public $_class;
     /** @var string */
     public $entityName;
-    /** @var Persister */
-    public $persister;
     /** @var Builder */
     public $builder;
 
@@ -31,14 +29,12 @@ class Repository implements ObjectRepository
      *
      * @param EntityManager  $em            The EntityManager to use.
      * @param ClassMetadata  $classMetadata The class descriptor.
-     * @param Persister|null $persister
      */
-    public function __construct($em, ClassMetadata $classMetadata, $persister = null)
+    public function __construct($em, ClassMetadata $classMetadata)
     {
         $this->em = $em;
         $this->_class = $classMetadata;
         $this->entityName  = $classMetadata->getName();
-        $this->setPersister($persister ?: new Persister($classMetadata, $this->getEntityManager()->getFieldManager()));
     }
 
     /**
@@ -265,6 +261,30 @@ class Repository implements ObjectRepository
             $fieldtype->query($query, $metadata);
         }
     }
+    
+    /**
+     * Internal method to run persist method on each field for the managed entity.
+     * 
+     * Takes a QuerySet instance as input
+     * 
+     * @param  QuerySet $queries
+     * @param  Entity   $entity
+     * @param  array    $exclusions
+     */
+    protected function persist(QuerySet $queries, $entity, $exclusions = [])
+    {
+        $metadata = $this->getClassMetadata();
+                
+        foreach ($metadata->getFieldMappings() as $field) {
+            if (in_array($field['fieldname'], $exclusions)) {
+                continue;
+            }
+            
+            $field = $this->getFieldManager()->get($field['fieldtype'], $field);            
+            $field->persist($queries, $entity);
+        }
+        
+    }
 
     /**
      * Deletes a single object.
@@ -331,9 +351,7 @@ class Repository implements ObjectRepository
         $qb = $this->em->createQueryBuilder();
         $qb->insert($this->getTableName());
         $querySet->append($qb);
-        $this->getPersister()->disableField('id');
-        $this->persister->persist($querySet, $entity, $this->em);
-        $this->getPersister()->enableField('id');
+        $this->persist($querySet, $entity, ['id']);
 
         return $querySet->execute();
     }
@@ -353,7 +371,7 @@ class Repository implements ObjectRepository
             ->where('id = :id')
             ->setParameter('id', $entity->getId());
         $querySet->append($qb);
-        $this->persister->persist($querySet, $entity, $this->em);
+        $this->persist($querySet, $entity);
 
         return $querySet->execute();
     }
@@ -399,21 +417,6 @@ class Repository implements ObjectRepository
         return $rows;
     }
 
-    /**
-     * @param Persister $persister
-     */
-    public function setPersister(Persister $persister)
-    {
-        $this->persister = $persister;
-    }
-
-    /**
-     * @return Persister $persister
-     */
-    public function getPersister()
-    {
-        return $this->persister;
-    }
     
     /**
      * Fetches FieldManager instance from the EntityManager

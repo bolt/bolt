@@ -84,7 +84,7 @@ class RelationType extends FieldTypeBase
     /**
      * {@inheritdoc}
      */
-    public function hydrate($data, $entity, EntityManager $em = null)
+    public function hydrate($data, $entity)
     {
         $field = $this->mapping['fieldname'];
         $relations = array_filter(explode(',', $data[$field]));
@@ -98,14 +98,14 @@ class RelationType extends FieldTypeBase
     /**
      * {@inheritdoc}
      */
-    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
         $relations = $entity->getRelation();
 
         // Fetch existing relations
-        $existingQuery = $em->createQueryBuilder()
+        $existingQuery = $this->em->createQueryBuilder()
                             ->select('*')
                             ->from($target)
                             ->where('from_id = ?')
@@ -132,7 +132,7 @@ class RelationType extends FieldTypeBase
         $toDelete = array_diff($existing, $proposed);
 
         foreach ($toInsert as $item) {
-            $ins = $em->createQueryBuilder()->insert($target);
+            $ins = $this->em->createQueryBuilder()->insert($target);
             $ins->values([
                     'from_id'          => '?',
                     'from_contenttype' => '?',
@@ -150,7 +150,7 @@ class RelationType extends FieldTypeBase
         }
 
         foreach ($toDelete as $item) {
-            $del = $em->createQueryBuilder()->delete($target);
+            $del = $this->em->createQueryBuilder()->delete($target);
             $del->where('from_id=?')
                 ->andWhere('from_contenttype=?')
                 ->andWhere('to_contenttype=?')
