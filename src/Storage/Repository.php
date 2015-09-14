@@ -363,7 +363,7 @@ class Repository implements ObjectRepository
      *
      * @return bool
      */
-    public function update($entity)
+    public function update($entity, $exclusions = [])
     {
         $querySet = new QuerySet();
         $qb = $this->em->createQueryBuilder();
@@ -371,7 +371,7 @@ class Repository implements ObjectRepository
             ->where('id = :id')
             ->setParameter('id', $entity->getId());
         $querySet->append($qb);
-        $this->persist($querySet, $entity);
+        $this->persist($querySet, $entity, $exclusions);
 
         return $querySet->execute();
     }
