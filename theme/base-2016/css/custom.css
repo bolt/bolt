@@ -1,42 +1,19 @@
-@font-face {
-    font-family: 'League Spartan';
-    src: url('../fonts/leaguespartan-bold-webfont.woff2') format('woff2'), url('../fonts/leaguespartan-bold-webfont.woff') format('woff'), url('../fonts/leaguespartan-bold-webfont.svg#league_spartanregular') format('svg');
-    font-weight: 700;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    src: url('../fonts/opensans-regular-webfont.woff2') format('woff2'), url('../fonts/opensans-regular-webfont.woff') format('woff'), url('../fonts/opensans-regular-webfont.svg#open_sansregular') format('svg');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    src: url('../fonts/opensans-italic-webfont.woff2') format('woff2'), url('../fonts/opensans-italic-webfont.woff') format('woff'), url('../fonts/opensans-italic-webfont.svg#open_sansitalic') format('svg');
-    font-weight: 400;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    src: url('../fonts/opensans-bold-webfont.woff2') format('woff2'), url('../fonts/opensans-bold-webfont.woff') format('woff'), url('../fonts/opensans-bold-webfont.svg#open_sansbold') format('svg');
-    font-weight: 700;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    src: url('../fonts/opensans-bolditalic-webfont.woff2') format('woff2'), url('../fonts/opensans-bolditalic-webfont.woff') format('woff'), url('../fonts/opensans-bolditalic-webfont.svg#open_sansbold_italic') format('svg');
-    font-weight: 700;
-    font-style: italic;
-}
-
 body {
     font-weight: 400;
     color: #333;
     font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    font-family: "Montserrat", HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .container {
@@ -45,7 +22,10 @@ body {
     margin: 0 auto;
 }
 
-code, kbd, pre, samp{
+code,
+kbd,
+pre,
+samp {
     white-space: pre-wrap;
 }
 
@@ -53,8 +33,8 @@ img {
     max-width: 100%;
     height: auto;
 }
-
 /* Fix IE11 stretch behavior */
+
 header,
 header>div,
 header>ul {
@@ -128,6 +108,7 @@ footer ul {
 
 @media (min-width: 1100px) {
     /* Fix IE11 stretch behavior */
+    
     footer>* {
         min-height: 10vh;
     }
