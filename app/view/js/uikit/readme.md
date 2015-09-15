@@ -10,15 +10,26 @@ build setup: https://github.com/uikit/uikit
 The compressed codemirror was built at http://codemirror.net/doc/compress.html
 with the following options:
 
-    Version: 4.13
+   Version: 5.6
 
-    CodeMirror Library:
-    - codemirror.js
-    Modes:
-    - gfm.js
-    - markdown.js
-    Add-ons:
-    - active-line.js
-    - colorize.js
-    - markdown-fold.js
-    - trailingspace.js
+   CodeMirror Library:
+   - codemirror.js
+   Modes:
+   - gfm.js
+   - htmlembedded.js
+   - htmlmixed.js
+   - markdown.js
+   - xml.js
+   Add-ons:
+   - active-line.js
+   - colorize.js
+   - comment.js
+   - markdown-fold.js
+   - mark-selection.js
+   - matchtags.js
+   - overlay.js
+   - trailingspace.js
+   - xml-fold.js
+
+
+

@@ -211,8 +211,8 @@ class SessionServiceProvider implements ServiceProviderInterface
             throw new \RuntimeException("Unsupported handler type '$handler' specified");
         });
 
-        $app['session.storage.handler.factory.files'] = $app->protect(function ($options) {
-            return new FileHandler($options['save_path']);
+        $app['session.storage.handler.factory.files'] = $app->protect(function ($options) use ($app) {
+            return new FileHandler($options['save_path'], $app['logger.system']);
         });
 
         $this->registerMemcacheHandler($app);
