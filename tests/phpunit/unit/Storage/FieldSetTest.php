@@ -27,27 +27,16 @@ class FieldSetTest extends BoltUnitTest
     {
         $app = $this->getApp();
         
-        $app['config']->set('theme/templatefields', [
-            "record.twig" => [
-                'newoption1' => [
-                    "type" => 'text',
-                    "label" => 'Section 1'
-                ],
-                'newoption2' => [
-                    'type' => 'html',
-                    'label' => 'Section 2'
-                ],
-                'newoption3' => [
-                    'type' => 'image'
-                ]
-                
-            ]
-        ]);
-        
         $em = $app['storage'];
         $repo = $em->getRepository('pages');
         $entity = $repo->find(1);
-        $entity->setTemplateFields(['title'=>'']);
+        $entity->setTemplate('extrafields.twig');
+        $entity->setTemplateFields([
+            'section_1'=> 'val1',
+            'image'    => ['file'=> 'path-to-image.jpg', 'title'=>'An awesome image']
+        ]);
+        $repo->save($entity);
+        
         
     }
     
