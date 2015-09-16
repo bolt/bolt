@@ -9,7 +9,7 @@ namespace Bolt\Storage\Entity;
 trait EntitySerializeTrait
 {
     
-    protected $internal = ['contenttype'];
+    protected $_internal = ['contenttype'];
 
     public function serialize()
     {
@@ -18,7 +18,7 @@ trait EntitySerializeTrait
             if (strpos($k, '_') === 0) {
                 continue;
             }
-            if (in_array($k, $this->internal)) {
+            if (in_array($k, $this->_internal)) {
                 continue;
             }
             $method = "serialize".$k;
