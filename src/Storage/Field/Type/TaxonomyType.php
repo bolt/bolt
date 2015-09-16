@@ -159,7 +159,7 @@ class TaxonomyType extends FieldTypeBase
 
         foreach ($toInsert as $item) {
             $item = (string) $item;
-            $ins = $em->createQueryBuilder()->insert($target);
+            $ins = $this->em->createQueryBuilder()->insert($target);
             $ins->values([
                 'content_id'   => '?',
                 'contenttype'  => '?',
