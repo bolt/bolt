@@ -24,7 +24,7 @@
         "grunt-eol": "~0.2.0",
         "grunt-html": "^5.0.0",
         "grunt-jsdoc": "^0.6.7",
-        "grunt-modernizr": "~0.6.0",
+        "grunt-modernizr": "metaloha/grunt-modernizr#d6657bf302bd9288e25a513197fb0e30c64ce677",
         "grunt-phpdocumentor": "^0.4.1",
         "grunt-remove": "~0.1.0",
         "grunt-sass": "^1.0.0",
