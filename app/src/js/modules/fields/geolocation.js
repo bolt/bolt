@@ -30,6 +30,7 @@
      * @property {Object} mapholder - Element containing map.
      * @property {Object} latitude - Input: Latitude.
      * @property {Object} longitude - Input: Longitude.
+     * @property {Object} snap - Checkbox: Snap.
      * @property {Object} map - Google map object.
      * @property {Object} marker - Map marker.
      * @property {integer} timeout - Timeout for location resolving.
@@ -60,6 +61,7 @@
                 mapholder: $(fieldset).find('.mapholder'),
                 latitude: $(fieldset).find('.latitude'),
                 longitude: $(fieldset).find('.longitude'),
+                snap: $(fieldset).find('.snap'),
                 map: null,
                 marker: null,
                 timeout: undefined
@@ -88,7 +90,13 @@
                 search,
                 function (results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
-                        var location = results[0].geometry.location;
+                        var location;
+
+                        if (search.latLng && !$(field.snap).is(':checked')) {
+                            location = search.latLng;
+                        } else {
+                            location = results[0].geometry.location;
+                        }
 
                         display(field, results[0].formatted_address, location.lat(), location.lng());
 
