@@ -44,6 +44,11 @@ trait ContentRouteTrait
             return null;
         }
 
+        // No links for records that are 'viewless'
+        if (isset($this->contenttype['viewless']) && $this->contenttype['viewless'] == true) {
+            return null;
+        }
+
         list($binding, $route) = $this->getRoute();
 
         if (!$route) {
