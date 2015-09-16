@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Entity\TemplateFields;
 use Bolt\Storage\Persister;
 use Bolt\Storage\QuerySet;
 use Bolt\Storage\Mapping\ClassMetadata;
@@ -71,18 +72,30 @@ class TemplateFieldsType extends FieldTypeBase
         $type = $this->getStorageType();
 
         if (null !== $value) {
+            $metadata = $this->buildMetadata($entity);           
+            $value = $this->serialize($value, $metadata);
+            $value = $type->convertToDatabaseValue($value, $this->getPlatform());
             
-            $metadata = $this->buildMetadata($entity);
-            $persister = new Persister($metadata);
-            $newValue = $persister->persist($queries, $entity, $this->em);
-            
-            $value = $type->convertToDatabaseValue($newValue, $this->getPlatform());
         } else {
             $value = $this->mapping['default'];
         }
+
         $qb->setValue($key, ":".$key);
         $qb->set($key, ":".$key);
         $qb->setParameter($key, $value);
+    }
+    
+    protected function serialize($input, $metadata)
+    {
+        $output = [];
+        foreach ($metadata->getFieldMappings() as $field) {
+            $fieldobj = $this->em->getFieldManager()->get($field['fieldtype'], $field);
+            $type = $fieldobj->getStorageType();
+            $key = $field['fieldname'];
+            $output[$key] = $type->convertToDatabaseValue($input[$key], $this->getPlatform());
+        }
+        
+        return $output;
     }
     
     protected function buildMetadata($entity)
