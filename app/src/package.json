@@ -33,6 +33,6 @@
         "load-grunt-tasks": "~3.2.0",
         "node-sass": "~3.3.2",
         "postcss-single-charset": "~1.0.0",
-        "request": "~2.61.0"
+        "request": "~2.62.0"
     }
 }
