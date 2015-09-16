@@ -138,10 +138,11 @@ class UsersRepository extends Repository
      * Saves a single object that already exists.
      *
      * @param object $entity The entity to save.
+     * @param array  $exclusions ignore updates to these fields
      *
      * @return boolean
      */
-    public function update($entity)
+    public function update($entity, $exclusions = [])
     {
         $password = $entity->getPassword(); // PHP 5.4 compatibility
         if (empty($password) || $entity->getPassword() === '**dontchange**') {
