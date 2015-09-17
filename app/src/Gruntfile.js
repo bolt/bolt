@@ -116,6 +116,7 @@ module.exports = function(grunt) {
             staticMappings: {
                 pages: 'grunt-tasks/pages.js',
                 sass: 'grunt-tasks/sass.js',
+                modernizr: 'grunt-tasks/modernizr.js',
                 htmllint: 'grunt-html',
                 bom: 'grunt-bom-removal'
             }
