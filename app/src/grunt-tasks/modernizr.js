@@ -8,8 +8,12 @@ module.exports = function (grunt) {
 
 	grunt.registerMultiTask('modernizr', 'Build custom modernizr', function () {
         var done = this.async(),
-            options = this.data;
+            conf = this.data;
 
-        done();
+        modernizr.build(conf.options, function (result) {
+            grunt.file.write(conf.dest, result);
+            grunt.log.ok('File "' + conf.dest + '" written.');
+            done();
+        });
 	});
 };
