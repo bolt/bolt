@@ -6,7 +6,7 @@ module.exports = function (grunt) {
 
     var modernizr = require('modernizr');
 
-	grunt.registerMultiTask('modernizr', 'Build custom modernizr', function () {
+    grunt.registerMultiTask('modernizr', 'Build custom modernizr', function () {
         var done = this.async(),
             conf = this.data;
 
@@ -15,5 +15,5 @@ module.exports = function (grunt) {
             grunt.log.ok('File "' + conf.dest + '" written.');
             done();
         });
-	});
+    });
 };
