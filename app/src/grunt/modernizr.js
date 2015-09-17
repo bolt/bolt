@@ -9,7 +9,7 @@ module.exports = {
         dest: '<%= path.tmp %>/modernizr-custom.js',
         options: {
             minify: false,
-            classPrefix: '',
+            classPrefix: 'modernizr-',
             options: [
                 'html5shiv',    // Enables HTML5 sectioning elements in IE9
                 'setClasses'
