@@ -37,6 +37,10 @@ class FieldSetTest extends BoltUnitTest
         ]);
         $repo->save($entity);
         
+
+        $entity2 = $repo->find(1);        
+        $this->assertEquals('An awesome image', $entity2->templatefields->image['title']);
+        
         
     }
     
