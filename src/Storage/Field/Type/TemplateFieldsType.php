@@ -41,18 +41,18 @@ class TemplateFieldsType extends FieldTypeBase
         $key = $this->mapping['fieldname'];
         $type = $this->getStorageType();
         $value = $type->convertToPHPValue($data[$key], $this->getPlatform());
-        
+
         if ($value) {
-            $this->set($entity, $value);
+            $this->set($entity, $value, $data);
         }
     }
     
-    public function set($entity, $value)
+    public function set($entity, $value, $rawData = null)
     {
         $key = $this->mapping['fieldname'];
-        $metadata = $this->buildMetadata($entity);
+        $metadata = $this->buildMetadata($entity, $rawData);
         
-        $builder = $this->em->getEntityBuilder(get_class($entity));
+        $builder = $this->em->getEntityBuilder('Bolt\Storage\Entity\TemplateFields');
         $builder->setClassMetadata($metadata);
         $templatefieldsEntity = $builder->createFromDatabaseValues($value);
         
@@ -98,14 +98,14 @@ class TemplateFieldsType extends FieldTypeBase
         return $output;
     }
     
-    protected function buildMetadata($entity)
+    protected function buildMetadata($entity, $rawData = null)
     {
-        $template = $this->chooser->record($entity);
+        $template = $this->chooser->record($entity, $rawData);
         $metadata = new ClassMetadata(get_class($entity));
         
         if (isset($this->mapping['config'][$template])) {
             $mappings = $this->em->getMapper()->loadMetadataForFields($this->mapping['config'][$template]['fields']);
-            $metadata->setFieldMappings($mappings);
+            $metadata->setFieldMappings((array)$mappings);
         }
         
         return $metadata;
