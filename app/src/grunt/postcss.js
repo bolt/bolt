@@ -5,7 +5,7 @@ module.exports = function (grunt, options) {
     'use strict';
 
     var proc = {
-            autoprefixer: require('autoprefixer-core'),
+            autoprefixer: require('autoprefixer'),
             cssMqPacker: require('css-mqpacker'),
             csswring: require('csswring'),
             singleCharset: require('postcss-single-charset')
