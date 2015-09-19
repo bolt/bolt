@@ -60,9 +60,11 @@ class TranslationServiceProvider implements ServiceProviderInterface
 
             static::addResources($app, $app['locale']);
 
-            // Load english fallbacks
-            if ($app['locale'] != \Bolt\Application::DEFAULT_LOCALE) {
-                static::addResources($app, \Bolt\Application::DEFAULT_LOCALE);
+            // Load fallbacks
+            foreach ($app['locale_fallbacks'] as $fallback) {
+                if ($app['locale'] !== $fallback) {
+                    static::addResources($app, $fallback);
+                }
             }
         }
     }

@@ -18,7 +18,7 @@ use Symfony\Component\Stopwatch;
 class Application extends Silex\Application
 {
     /**
-     * The default locale, used as fallback.
+     * @deprecated Since 2.3, to be removed in 3.0. Use $app['locale_fallbacks'] instead.
      */
     const DEFAULT_LOCALE = 'en_GB';
 
