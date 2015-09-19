@@ -740,7 +740,7 @@ class Config
                 // Check 'uses'. If it's an array, split it up, and check the separate parts. We also need to check
                 // for the fields that are always present, like 'id'.
                 if (is_array($field) && !empty($field['uses'])) {
-                    foreach ($field['uses'] as $useField) {
+                    foreach ((array) $field['uses'] as $useField) {
                         if (!empty($field['uses']) && empty($ct['fields'][$useField]) && !in_array($useField, $this->reservedFieldNames)) {
                             $error = Trans::__(
                                 'contenttypes.generic.wrong-use-field',
