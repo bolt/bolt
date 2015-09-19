@@ -57,6 +57,21 @@ class SessionServiceProvider implements ServiceProviderInterface
         $this->configure($app);
     }
 
+    public function boot(Application $app)
+    {
+        $listeners = $app['sessions.listener'];
+        foreach ($listeners->keys() as $name) {
+            $app['dispatcher']->addSubscriber($listeners[$name]);
+        }
+        foreach ($app['sessions.options'] as $options) {
+            /** @var $options OptionsBag */
+            if ($options->getBoolean('cookie_restrict_path')) {
+                $listener = $app['session.cookie_path_restriction_listener.factory']($options);
+                $app['dispatcher']->addSubscriber($listener);
+            }
+        }
+    }
+
     /**
      * This should be the only place in this class that is specific to bolt.
      *
@@ -83,7 +98,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         ];
     }
 
-    public function registerSessions(Application $app)
+    protected function registerSessions(Application $app)
     {
         $app['sessions'] = $app->share(function () use ($app) {
             $app['sessions.options.initializer']();
@@ -122,7 +137,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         });
     }
 
-    public function registerListeners(Application $app)
+    protected function registerListeners(Application $app)
     {
         $app['sessions.listener'] = $app->share(function () use ($app) {
             $app['sessions.options.initializer']();
@@ -245,21 +260,6 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $this->registerMemcacheHandler($app);
         $this->registerRedisHandler($app);
-    }
-
-    public function boot(Application $app)
-    {
-        $listeners = $app['sessions.listener'];
-        foreach ($listeners->keys() as $name) {
-            $app['dispatcher']->addSubscriber($listeners[$name]);
-        }
-        foreach ($app['sessions.options'] as $options) {
-            /** @var $options OptionsBag */
-            if ($options->getBoolean('cookie_restrict_path')) {
-                $listener = $app['session.cookie_path_restriction_listener.factory']($options);
-                $app['dispatcher']->addSubscriber($listener);
-            }
-        }
     }
 
     protected function registerMemcacheHandler(Application $app)
