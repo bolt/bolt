@@ -86,23 +86,7 @@ class Users
      */
     public function getAntiCSRFToken()
     {
-        $request = $this->app['request'];
-        $seed = $this->app['request']->cookies->get($this->app['token.session.name']);
-
-        if ($this->app['config']->get('general/cookies_use_remoteaddr')) {
-            $seed .= '-' . $request->getClientIp() ?: '127.0.0.1';
-        }
-        if ($this->app['config']->get('general/cookies_use_browseragent')) {
-            $seed .= '-' . $request->server->get('HTTP_USER_AGENT');
-        }
-        if ($this->app['config']->get('general/cookies_use_httphost')) {
-            $seed .= '-' . $request->getHost();
-        }
-
-        $token = substr(md5($seed), 0, 8);
-
-        return $token;
-
+        return $this->app['form.csrf_provider']->getToken('bolt')->getValue();
     }
 
     /**
