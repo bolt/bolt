@@ -53,9 +53,52 @@ class SessionServiceProvider implements ServiceProviderInterface
         $app['session.bag.metadata'] = function () {
             return new MetadataBag();
         };
+
+        $this->configure($app);
     }
 
-    public function registerSessions(Application $app)
+    public function boot(Application $app)
+    {
+        $listeners = $app['sessions.listener'];
+        foreach ($listeners->keys() as $name) {
+            $app['dispatcher']->addSubscriber($listeners[$name]);
+        }
+        foreach ($app['sessions.options'] as $options) {
+            /** @var $options OptionsBag */
+            if ($options->getBoolean('cookie_restrict_path')) {
+                $listener = $app['session.cookie_path_restriction_listener.factory']($options);
+                $app['dispatcher']->addSubscriber($listener);
+            }
+        }
+    }
+
+    /**
+     * This should be the only place in this class that is specific to bolt.
+     *
+     * @param Application $app
+     */
+    public function configure(Application $app)
+    {
+        $app['session.default_options'] = [
+            'cookie_lifetime' => $app['config']->get('general/cookies_lifetime'),
+            'cookie_path'     => $app['resources']->getUrl('root'),
+            'cookie_domain'   => $app['config']->get('general/cookies_domain'),
+            'cookie_secure'   => $app['config']->get('general/enforce_ssl'),
+            'cookie_httponly' => true,
+        ];
+        $app['sessions.options'] = [
+            'main' => [
+                'name' => $app['token.session.name'],
+            ],
+            'csrf' => [
+                'name'                 => $app['token.session.name'] . '_csrf',
+                'cookie_restrict_path' => true,
+                'cookie_lifetime'      => 0,
+            ],
+        ];
+    }
+
+    protected function registerSessions(Application $app)
     {
         $app['sessions'] = $app->share(function () use ($app) {
             $app['sessions.options.initializer']();
@@ -94,7 +137,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         });
     }
 
-    public function registerListeners(Application $app)
+    protected function registerListeners(Application $app)
     {
         $app['sessions.listener'] = $app->share(function () use ($app) {
             $app['sessions.options.initializer']();
@@ -217,21 +260,6 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $this->registerMemcacheHandler($app);
         $this->registerRedisHandler($app);
-    }
-
-    public function boot(Application $app)
-    {
-        $listeners = $app['sessions.listener'];
-        foreach ($listeners->keys() as $name) {
-            $app['dispatcher']->addSubscriber($listeners[$name]);
-        }
-        foreach ($app['sessions.options'] as $options) {
-            /** @var $options OptionsBag */
-            if ($options->getBoolean('cookie_restrict_path')) {
-                $listener = $app['session.cookie_path_restriction_listener.factory']($options);
-                $app['dispatcher']->addSubscriber($listener);
-            }
-        }
     }
 
     protected function registerMemcacheHandler(Application $app)
