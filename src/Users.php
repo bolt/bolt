@@ -81,8 +81,6 @@ class Users
 
     /**
      * @deprecated Since Bolt 2.3 and will be removed in Bolt 3.
-     *
-     * Unsafe! Do not use!
      */
     public function getAntiCSRFToken()
     {
@@ -91,8 +89,6 @@ class Users
 
     /**
      * @deprecated Since Bolt 2.3 and will be removed in Bolt 3.
-     *
-     * Unsafe! Do not use!
      */
     public function checkAntiCSRFToken($token = '')
     {
