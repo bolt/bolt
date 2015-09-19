@@ -86,6 +86,8 @@ class UserHandler
      *
      * @see \Bolt\Authentication::getAntiCSRFToken()
      *
+     * @deprecated Since 2.3, to be removed in 3.0. Use Symfony forms instead.
+     *
      * @return string
      */
     public function token()
