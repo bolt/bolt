@@ -17,8 +17,11 @@ class OrderHandler
      */
     public function __invoke(QueryInterface $query, $order)
     {
-        $separatedOrders = $this->getOrderBys($order);
+        if($order === false) {
+            return;
+        }
 
+        $separatedOrders = $this->getOrderBys($order);
         foreach ($separatedOrders as $order) {
             $order = trim($order);
             if (strpos($order, '-') === 0) {
@@ -29,7 +32,6 @@ class OrderHandler
             }
             $query->getQueryBuilder()->addOrderBy($order, $direction);
         }
-
     }
 
     /**
