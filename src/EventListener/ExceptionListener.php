@@ -59,11 +59,12 @@ class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterfac
         $exception = $event->getException();
 
         // Log the error message
+        $message = $exception->getMessage();
         $level = LogLevel::CRITICAL;
         if ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() < 500) {
             $level = LogLevel::WARNING;
         }
-        $this->logger->log($level, $exception->getMessage(), ['event' => 'exception', 'exception' => $exception]);
+        $this->logger->log($level, $message, ['event' => 'exception', 'exception' => $exception]);
 
         if ($exception instanceof HttpExceptionInterface && !Zone::isBackend($event->getRequest())) {
             $message = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
