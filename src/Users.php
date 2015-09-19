@@ -5,6 +5,7 @@ namespace Bolt;
 use Bolt\AccessControl\Permissions;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
+use Silex;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,9 +28,9 @@ class Users
     private $app;
 
     /**
-     * @param Application $app
+     * @param Silex\Application $app
      */
-    public function __construct(Application $app)
+    public function __construct(Silex\Application $app)
     {
         $this->app = $app;
         $this->repository = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');

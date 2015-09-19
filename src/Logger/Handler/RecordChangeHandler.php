@@ -2,11 +2,11 @@
 
 namespace Bolt\Logger\Handler;
 
-use Bolt\Application;
 use Bolt\DeepDiff;
 use Bolt\Legacy\Content;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
+use Silex\Application;
 
 /**
  * Monolog Database handler for record changes (changelog).

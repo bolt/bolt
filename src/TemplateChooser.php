@@ -2,20 +2,22 @@
 
 namespace Bolt;
 
+use Silex;
+
 /**
  * A class for choosing whichever template should be used.
  */
 class TemplateChooser
 {
-    /** @var Application */
+    /** @var Silex\Application */
     private $app;
 
     /**
      * Constructor.
      *
-     * @param Application $app
+     * @param Silex\Application $app
      */
-    public function __construct(Application $app)
+    public function __construct(Silex\Application $app)
     {
         $this->app = $app;
     }

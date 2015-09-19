@@ -2,8 +2,8 @@
 
 namespace Bolt\DataCollector;
 
-use Bolt\Application;
 use Bolt\Translation\Translator as Trans;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;

@@ -2,12 +2,12 @@
 
 namespace Bolt\Composer;
 
-use Bolt\Application;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Ring\Client\ClientUtils;
+use Silex\Application;
 
 class PackageManager
 {

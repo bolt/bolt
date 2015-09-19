@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Response\BoltResponse;
+use Silex;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -26,10 +27,10 @@ class Render
     /**
      * Set up the object.
      *
-     * @param \Bolt\Application|\Silex\Application $app
-     * @param bool                                 $safe
+     * @param \Silex\Application $app
+     * @param bool               $safe
      */
-    public function __construct(Application $app, $safe = false)
+    public function __construct(Silex\Application $app, $safe = false)
     {
         $this->app = $app;
         $this->safe = $safe;

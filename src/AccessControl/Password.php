@@ -1,10 +1,10 @@
 <?php
 namespace Bolt\AccessControl;
 
-use Bolt\Application;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Hautelook\Phpass\PasswordHash;
+use Silex\Application;
 
 /**
  * Password handling.
@@ -13,7 +13,7 @@ use Hautelook\Phpass\PasswordHash;
  */
 class Password
 {
-    /** @var \Bolt\Application $app */
+    /** @var \Silex\Application $app */
     protected $app;
 
     public function __construct(Application $app)

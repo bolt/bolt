@@ -10,6 +10,7 @@ use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
 use Eloquent\Pathogen\PathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
+use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
@@ -21,7 +22,7 @@ use Symfony\Component\Yaml\Parser;
  */
 class Config
 {
-    /** @var Application */
+    /** @var Silex\Application */
     protected $app;
 
     /** @var array */
@@ -53,9 +54,9 @@ class Config
     protected $yamlParser = false;
 
     /**
-     * @param Application $app
+     * @param Silex\Application $app
      */
-    public function __construct(Application $app)
+    public function __construct(Silex\Application $app)
     {
         $this->app = $app;
         $this->fields = new Storage\Field\Manager();

@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Storage\Migration;
 
-use Bolt\Application;
+use Silex\Application;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 abstract class AbstractMigration
 {
-    /** @var \Bolt\Application */
+    /** @var \Silex\Application */
     protected $app;
     /** @var \Symfony\Component\Filesystem\Filesystem */
     protected $fs;
@@ -38,7 +38,7 @@ abstract class AbstractMigration
     /**
      * Constructor.
      *
-     * @param \Bolt\Application $app
+     * @param \Silex\Application $app
      */
     public function __construct(Application $app)
     {

@@ -2,10 +2,10 @@
 namespace Bolt\AccessControl;
 
 use Bolt\AccessControl\Token\Token;
-use Bolt\Application;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Hautelook\Phpass\PasswordHash;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Login extends AccessChecker
 {
-    /** @var \Bolt\Application $app */
+    /** @var \Silex\Application $app */
     protected $app;
 
     /**

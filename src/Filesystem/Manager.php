@@ -1,11 +1,11 @@
 <?php
 namespace Bolt\Filesystem;
 
-use Bolt\Application;
 use League\Flysystem\Adapter\NullAdapter;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\MountManager;
+use Silex\Application;
 
 class Manager extends MountManager
 {

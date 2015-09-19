@@ -2,7 +2,7 @@
 
 namespace Bolt\Extensions;
 
-use Bolt\Application;
+use Silex\Application;
 
 class StatService
 {

@@ -2,7 +2,7 @@
 
 namespace Bolt\Nut;
 
-use Bolt\Application;
+use Silex\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Request;
  */
 abstract class BaseCommand extends Command
 {
-    /** @var \Bolt\Application */
+    /** @var \Silex\Application */
     protected $app;
 
     /**
-     * @param \Bolt\Application $app
-     * @param Request           $request Reserved for tests
+     * @param \Silex\Application $app
+     * @param Request            $request Reserved for tests
      */
     public function __construct(Application $app, Request $request = null)
     {

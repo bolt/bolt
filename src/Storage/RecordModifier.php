@@ -2,10 +2,10 @@
 
 namespace Bolt\Storage;
 
-use Bolt\Application;
 use Bolt\Legacy\Content;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
