@@ -786,7 +786,7 @@ class Config
             $this->app['users']->getCurrentUsername()) {
             $msg = Trans::__(
                 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.",
-                ['%link%' => $this->app->generatePath('dbcheck')]
+                ['%link%' => $this->app['url_generator']->generate('dbcheck')]
             );
             $this->app['logger.flash']->error($msg);
 
