@@ -64,16 +64,15 @@ class PostgresSearch
         switch (true) {
             case ($score >= 75):
                 return 'A';
-                break;
+
             case ($score >= 50):
                 return 'B';
-                break;
+
             case ($score >= 25):
                 return 'C';
-                break;
+
             case ($score < 25):
                 return 'D';
-                break;
         }
         return 'A';
     }
