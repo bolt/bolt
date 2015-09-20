@@ -950,7 +950,7 @@ class Config
     public function getTwigPath()
     {
         $themepath = $this->app['resources']->getPath('templatespath');
-        $end = $this->getWhichEnd($this->get('general/branding/path'));
+        $end = $this->getWhichEnd();
 
         $twigpath = [];
 
