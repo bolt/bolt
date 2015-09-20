@@ -52,7 +52,6 @@ class QueryResultset extends \AppendIterator implements \Countable
 
             return $results;
         }
-        return [];
     }
 
     /**
