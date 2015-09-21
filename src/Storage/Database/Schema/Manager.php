@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Database\Schema;
 
-use Bolt\Application;
 use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Bolt\Storage\Database\Schema\Table\ContentType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -10,11 +9,12 @@ use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
 
 class Manager
 {
-    /** @var \Bolt\Application */
+    /** @var \Silex\Application */
     private $app;
     /** @var string */
     private $prefix;

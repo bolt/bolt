@@ -16,7 +16,7 @@ class NutServiceProvider implements ServiceProviderInterface
                 $console = new NutApplication();
 
                 $console->setName('Bolt console tool - Nut');
-                if ($app instanceof \Bolt\Application) {
+                if (isset($app['bolt_long_version'])) {
                     $console->setVersion($app['bolt_long_version']);
                 }
 

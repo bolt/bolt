@@ -2,8 +2,8 @@
 
 namespace Bolt\Filesystem;
 
-use Bolt\Application;
 use Bolt\Library as Lib;
+use Silex\Application;
 
 /**
  * Use to check if an access to a file is allowed.
@@ -12,7 +12,7 @@ use Bolt\Library as Lib;
  */
 class FilePermissions
 {
-    /** @var \Bolt\Application */
+    /** @var \Silex\Application */
     protected $app;
     /** @var string[] List of Filesystem prefixes that are editable. */
     protected $allowedPrefixes = [];

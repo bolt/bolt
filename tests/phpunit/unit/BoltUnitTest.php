@@ -188,8 +188,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Bolt\Application $app
-     * @param array             $functions Defaults to ['isValidSession']
+     * @param \Silex\Application $app
+     * @param array              $functions Defaults to ['isValidSession']
      */
     protected function getAccessCheckerMock($app, $functions = ['isValidSession'])
     {
@@ -212,8 +212,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Bolt\Application $app
-     * @param array             $functions Defaults to ['login']
+     * @param \Silex\Application $app
+     * @param array              $functions Defaults to ['login']
      */
     protected function getLoginMock($app, $functions = ['login'])
     {

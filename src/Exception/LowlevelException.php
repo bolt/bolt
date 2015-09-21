@@ -1,9 +1,8 @@
 <?php
 namespace Bolt\Exception;
 
-use Bolt\Application;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 
 class LowlevelException extends \Exception
 {
@@ -218,8 +217,8 @@ HTML;
      * Attempt to rebuild extension autoloader when a "Class not found" error
      * occurs.
      *
-     * @param \Bolt\Application $app
-     * @param array             $error
+     * @param \Silex\Application $app
+     * @param array              $error
      */
     private static function attemptExtensionRecovery($app, $error)
     {

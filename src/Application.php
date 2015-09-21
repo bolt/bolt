@@ -396,13 +396,13 @@ class Application extends Silex\Application
     /**
      * Generates a path from the given parameters.
      *
-     * Note: This can be pulled in from Silex\Application\UrlGeneratorTrait
-     * once we support Traits.
-     *
      * @param string $route      The name of the route
      * @param array  $parameters An array of parameters
      *
      * @return string The generated path
+     *
+     * @deprecated Since 2.3, to be removed in 3.0.
+     *             Use {@see \Symfony\Component\Routing\Generator\UrlGeneratorInterface} instead.
      */
     public function generatePath($route, $parameters = [])
     {

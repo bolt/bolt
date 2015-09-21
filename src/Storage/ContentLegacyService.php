@@ -1,7 +1,7 @@
 <?php 
 namespace Bolt\Storage;
 
-use Bolt\Application;
+use Silex\Application;
 
 /**
  * 

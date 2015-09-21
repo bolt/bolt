@@ -2,8 +2,8 @@
 
 namespace Bolt\Translation;
 
-use Bolt\Application;
 use Bolt\Configuration\ResourceManager;
+use Silex\Application;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 
 /**
@@ -135,7 +135,7 @@ class Translator
 
         // Try to get a real translation from contenttypes.xx_XX.yml
         $trans = self::trans($key, $encParams, 'contenttypes', $locale, false);
-        $transFallback = self::trans($key, $encParams, 'contenttypes', Application::DEFAULT_LOCALE, false);
+        $transFallback = self::trans($key, $encParams, 'contenttypes', \Bolt\Application::DEFAULT_LOCALE, false);
 
         // We don't want fallback translation here
         if ($trans === $transFallback) {

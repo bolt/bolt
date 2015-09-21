@@ -9,11 +9,12 @@ use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
 use Composer\Json\JsonFile;
 use Monolog\Logger;
+use Silex;
 use Symfony\Component\Finder\Finder;
 
 class Extensions
 {
-    /** @var \Bolt\Application */
+    /** @var \Silex\Application */
     private $app;
     /** @var string The extension base folder. */
     private $basefolder;
@@ -37,7 +38,7 @@ class Extensions
 
     private $isInitialized = false;
 
-    public function __construct(Application $app)
+    public function __construct(Silex\Application $app)
     {
         $this->app = $app;
         $this->basefolder = $app['resources']->getPath('extensions');
