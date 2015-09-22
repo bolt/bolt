@@ -49,11 +49,11 @@
                 var options = taxonomy.val();
 
                 $.each(data, function (index, item) {
-                    if (options.indexOf(item.slug) < 0) {
-                        options.push(item.slug);
+                    if (options.indexOf(item.name) < 0) {
+                        options.push(item.name);
                         taxonomy.append($('<option/>', {
-                            value: item.slug,
-                            text: item.slug
+                            value: item.name,
+                            text: item.name
                         })).trigger('change');
                     }
                 });
@@ -73,7 +73,7 @@
                         $.each(data, function(index, item){
                             tagcloud.append($('<button/>', {
                                 type: 'button',
-                                text: item.slug,
+                                text: item.name,
                                 rel: item.count
                             })).append('');
                         });
