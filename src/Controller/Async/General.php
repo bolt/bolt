@@ -215,7 +215,7 @@ class General extends AsyncBase
         $table .= 'taxonomy';
 
         $query = $this->createQueryBuilder()
-            ->select('slug, COUNT(slug) AS count')
+            ->select('name, COUNT(slug) AS count')
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
             ->groupBy('slug')
@@ -230,11 +230,11 @@ class General extends AsyncBase
         usort(
             $results,
             function ($a, $b) {
-                if ($a['slug'] == $b['slug']) {
+                if ($a['name'] == $b['name']) {
                     return 0;
                 }
 
-                return ($a['slug'] < $b['slug']) ? -1 : 1;
+                return ($a['name'] < $b['name']) ? -1 : 1;
             }
         );
 
@@ -281,10 +281,10 @@ class General extends AsyncBase
         $table .= 'taxonomy';
 
         $query = $this->createQueryBuilder()
-            ->select("DISTINCT $table.slug")
+            ->select("DISTINCT $table.name")
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
-            ->orderBy('slug', 'ASC')
+            ->orderBy('name', 'ASC')
             ->setParameters([
                 ':taxonomytype' => $taxonomytype
             ]);
