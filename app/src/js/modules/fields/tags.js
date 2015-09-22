@@ -30,15 +30,19 @@
      */
     tags.init = function (fieldset, fconf) {
         var slug = fconf.slug,
+            separators = [','],
             taxonomy = $(fieldset).find('select'),
             tagcloud = $(fieldset).find('.tagcloud');
 
         // Initialize the tag selector.
+        if (!fconf.allow_spaces) {
+          separators.push(' ');
+        }
         taxonomy.select2({
             width: '100%',
             tags: tags,
             minimumInputLength: 1,
-            tokenSeparators: [',', ' ']
+            tokenSeparators: separators
         });
 
         // Load all tags.
