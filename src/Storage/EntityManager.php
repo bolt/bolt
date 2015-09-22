@@ -3,6 +3,7 @@ namespace Bolt\Storage;
 
 use Bolt\Legacy\Storage;
 use Bolt\Storage\Entity\Builder;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
 use Doctrine\DBAL\Connection;
@@ -70,62 +71,65 @@ class EntityManager
     {
         return new ExpressionBuilder($this->conn);
     }
-    
+
     /**
      * Creates an entity of the given class, with the data supplied.
-     * 
-     * @param  string $className    The type of entity to create
-     * @param  array $data          The data to use to hydrate the new entity
-     * @return Entity               
+     *
+     * @param string $className The type of entity to create
+     * @param array  $data      The data to use to hydrate the new entity
+     *
+     * @return Entity
      */
     public function create($className, $data, ClassMetadataInterface $metadata = null)
     {
         $repo = $this->getRepository($className);
-        
+
         return $repo->create($data, $metadata);
     }
-    
+
     /**
      * Get an entity builder instance for a given class.
-     * 
-     * @param  string $className
-     * @return Entity\Builder   
+     *
+     * @param string $className
+     * @param ClassMetadata $classMetadata
+     *
+     * @return Entity\Builder
      */
     public function getEntityBuilder($className = null, ClassMetadata $classMetadata = null)
     {
-        
         $builder = new Builder($this->getMapper(), $this->getFieldManager());
-        
+
         if ($className !== null) {
             $builder->setClass($className);
         }
-        
+
         if ($classMetadata !== null) {
             $builder->setClassMetadata($classMetadata);
         }
-        
+
         return $builder;
     }
-    
+
     /**
      * Set an entity builder instance.
-     * 
-     * @param  string $className
-     * @return Entity\Builder   
+     *
+     * @param string $className
+     *
+     * @return Entity\Builder
      */
     public function setEntityBuilder(Builder $builder)
     {
-        $this->builder = $builder;        
+        $this->builder = $builder;
     }
-    
+
     public function getFieldManager()
     {
         $manager = $this->fieldManager;
         $manager->setEntityManager($this);
-        
+
         return $manager;
     }
-    
+
     public function setFieldManager(FieldManager $fieldManager)
     {
         $this->fieldManager = $fieldManager;

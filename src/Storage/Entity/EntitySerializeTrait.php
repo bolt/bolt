@@ -8,7 +8,6 @@ namespace Bolt\Storage\Entity;
  */
 trait EntitySerializeTrait
 {
-    
     protected $_internal = ['contenttype'];
 
     public function serialize()

@@ -1,13 +1,11 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\EntityManager;
 use Bolt\Storage\Entity\TemplateFields;
-use Bolt\Storage\Persister;
-use Bolt\Storage\QuerySet;
+use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\ContentType;
-use Bolt\Storage\Mapping\MetadataDriver;
+use Bolt\Storage\QuerySet;
 use Bolt\TemplateChooser;
 use Doctrine\DBAL\Types\Type;
 
@@ -72,10 +70,9 @@ class TemplateFieldsType extends FieldTypeBase
         $type = $this->getStorageType();
 
         if (null !== $value) {
-            $metadata = $this->buildMetadata($entity);           
+            $metadata = $this->buildMetadata($entity);
             $value = $this->serialize($value, $metadata);
             $value = $type->convertToDatabaseValue($value, $this->getPlatform());
-            
         } else {
             $value = $this->mapping['default'];
         }

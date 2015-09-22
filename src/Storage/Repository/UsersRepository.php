@@ -137,7 +137,7 @@ class UsersRepository extends Repository
     /**
      * Saves a single object that already exists.
      *
-     * @param object $entity The entity to save.
+     * @param object $entity     The entity to save.
      * @param array  $exclusions ignore updates to these fields
      *
      * @return boolean

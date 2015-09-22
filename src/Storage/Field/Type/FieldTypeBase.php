@@ -112,7 +112,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
      * designed to receive raw data to initialise an entity.
      * 
      * @param object $entity
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function set($entity, $value)
     {

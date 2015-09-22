@@ -17,7 +17,7 @@ class OrderHandler
      */
     public function __invoke(QueryInterface $query, $order)
     {
-        if($order === false) {
+        if ($order === false) {
             return;
         }
 

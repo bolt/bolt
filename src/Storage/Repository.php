@@ -27,8 +27,8 @@ class Repository implements ObjectRepository
     /**
      * Initializes a new Repository.
      *
-     * @param EntityManager  $em            The EntityManager to use.
-     * @param ClassMetadata  $classMetadata The class descriptor.
+     * @param EntityManager $em            The EntityManager to use.
+     * @param ClassMetadata $classMetadata The class descriptor.
      */
     public function __construct($em, ClassMetadata $classMetadata)
     {
@@ -234,7 +234,7 @@ class Repository implements ObjectRepository
      * 
      * Takes a QueryBuilder instance as input
      * 
-     * @param  QueryBuilder $query
+     * @param QueryBuilder $query
      */
     protected function load(QueryBuilder $query)
     {
@@ -250,7 +250,7 @@ class Repository implements ObjectRepository
      * 
      * Takes a QueryInterface instance as input
      * 
-     * @param  QueryInterface $query
+     * @param QueryInterface $query
      */
     protected function query(QueryInterface $query)
     {
@@ -267,9 +267,9 @@ class Repository implements ObjectRepository
      * 
      * Takes a QuerySet instance as input
      * 
-     * @param  QuerySet $queries
-     * @param  Entity   $entity
-     * @param  array    $exclusions
+     * @param QuerySet $queries
+     * @param Entity   $entity
+     * @param array    $exclusions
      */
     protected function persist(QuerySet $queries, $entity, $exclusions = [])
     {
@@ -280,10 +280,9 @@ class Repository implements ObjectRepository
                 continue;
             }
             
-            $field = $this->getFieldManager()->get($field['fieldtype'], $field);            
+            $field = $this->getFieldManager()->get($field['fieldtype'], $field);
             $field->persist($queries, $entity);
         }
-        
     }
 
     /**
@@ -359,7 +358,7 @@ class Repository implements ObjectRepository
     /**
      * Updates an object into the database.
      *
-     * @param object $entity The entity to update.
+     * @param object $entity     The entity to update.
      * @param array  $exclusions ignore updates to these fields
      *
      * @return bool
@@ -421,6 +420,7 @@ class Repository implements ObjectRepository
     
     /**
      * Fetches FieldManager instance from the EntityManager
+     *
      * @return FieldManager
      */
     public function getFieldManager()

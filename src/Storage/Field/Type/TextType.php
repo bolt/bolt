@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\EntityProxy;
-
 /**
  * This is one of a suite of basic Bolt field transformers that handles
  * the lifecycle of a field from pre-query to persist.
@@ -11,7 +9,6 @@ use Bolt\Storage\EntityProxy;
  */
 class TextType extends FieldTypeBase
 {
-    
     /**
      * {@inheritdoc}
      */

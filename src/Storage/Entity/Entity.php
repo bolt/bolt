@@ -10,7 +10,6 @@ use JsonSerializable;
  */
 abstract class Entity implements ArrayAccess, JsonSerializable
 {
-    
     use MagicAttributeTrait;
     use EntitySerializeTrait;
     use EntityArrayAccessTrait;
@@ -33,6 +32,4 @@ abstract class Entity implements ArrayAccess, JsonSerializable
     {
         return get_class($this);
     }
-
-
 }

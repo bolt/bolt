@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\EntityManager;
 use Bolt\Storage\EntityProxy;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
@@ -58,9 +57,8 @@ class RelationType extends FieldTypeBase
      * IDs are returned comma-separated which the ->hydrate() method can then turn into pointers
      * to the related entities.
      * 
-     * @param  QueryBuilder  $query    
-     * @param  ClassMetadata $metadata
-     * 
+     * @param QueryBuilder  $query
+     * @param ClassMetadata $metadata
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {

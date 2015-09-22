@@ -6,8 +6,6 @@ namespace Bolt\Storage\Entity;
  */
 class TemplateFields extends Entity
 {
-    
-    
     /**
      * Getter for templates using {{ content.get(title) }} functions.
      *
@@ -20,5 +18,4 @@ class TemplateFields extends Entity
         $accessor = 'get'.ucfirst($key);
         return $this->$accessor();
     }
-    
 }

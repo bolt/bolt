@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Storage;
 
-use Bolt\Storage\EntityManager;
-
 /**
  * Uses a typemap to construct an instance of a Field 
  */
@@ -25,6 +23,7 @@ class FieldManager
     
     /**
      * Set an instance of EntityManager
+     *
      * @param EntityManager $em
      */
     public function setEntityManager(EntityManager $em = null)
