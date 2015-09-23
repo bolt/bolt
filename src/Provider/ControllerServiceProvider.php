@@ -9,10 +9,6 @@ use Bolt\Thumbs\ThumbnailProvider;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 class ControllerServiceProvider implements ServiceProviderInterface, EventSubscriberInterface
 {
@@ -154,41 +150,10 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $event->mount('', $app['controller.frontend'], -50);
     }
 
-    /**
-     * Initial request event.
-     *
-     * @param GetResponseEvent $event
-     */
-    public function onKernelRequest(GetResponseEvent $event)
-    {
-    }
-
-    /**
-     * Pre-send response event.
-     *
-     * @param FilterResponseEvent $event
-     */
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
-    }
-
-    /**
-     * Response event upon exception.
-     *
-     * @param GetResponseForExceptionEvent $event
-     */
-    public function onKernelException(GetResponseForExceptionEvent $event)
-    {
-        //$e = $event->getException();
-    }
-
     public static function getSubscribedEvents()
     {
         return [
             ControllerEvents::MOUNT => 'mount',
-            KernelEvents::REQUEST   => ['onKernelRequest', 32], // Higher than 32 and we don't know the controller
-            KernelEvents::RESPONSE  => ['onKernelResponse', -128],
-            KernelEvents::EXCEPTION => ['onKernelException', -128],
         ];
     }
 }
