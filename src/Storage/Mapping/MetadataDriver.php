@@ -290,7 +290,7 @@ class MetadataDriver implements MappingDriver
     protected function getFieldTypeFor($name, $column)
     {
         $contentKey = $this->schemaManager->getKeyForTable($name);
-        if ($contentKey && isset($this->contenttypes[$contentKey][$column->getName()])) {
+        if ($contentKey && isset($this->contenttypes[$contentKey]['fields'][$column->getName()])) {
             $type = $this->contenttypes[$contentKey]['fields'][$column->getName()]['type'];
         } elseif ($column->getType()) {
             $type = get_class($column->getType());

@@ -312,20 +312,23 @@ class RecordHandler
         } else {
             $retval = [''];
         }
-        foreach ($content as $c) {
-            if (is_array($fieldname)) {
-                $row = [];
-                foreach ($fieldname as $fn) {
-                    if (isset($c->values[$fn])) {
-                        $row[] = $c->values[$fn];
-                    } else {
-                        $row[] = null;
+
+        if(!empty($content)) {
+            foreach ($content as $c) {
+                if (is_array($fieldname)) {
+                    $row = [];
+                    foreach ($fieldname as $fn) {
+                        if (isset($c->values[$fn])) {
+                            $row[] = $c->values[$fn];
+                        } else {
+                            $row[] = null;
+                        }
                     }
-                }
-                $retval[$c->values[$keyname]] = $row;
-            } else {
-                if (isset($c->values[$fieldname])) {
-                    $retval[$c->values[$keyname]] = $c->values[$fieldname];
+                    $retval[$c->values[$keyname]] = $row;
+                } else {
+                    if (isset($c->values[$fieldname])) {
+                        $retval[$c->values[$keyname]] = $c->values[$fieldname];
+                    }
                 }
             }
         }
