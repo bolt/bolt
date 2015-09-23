@@ -135,7 +135,8 @@ class Translator
 
         // Try to get a real translation from contenttypes.xx_XX.yml
         $trans = self::trans($key, $encParams, 'contenttypes', $locale, false);
-        $transFallback = self::trans($key, $encParams, 'contenttypes', \Bolt\Application::DEFAULT_LOCALE, false);
+        $app = ResourceManager::getApp();
+        $transFallback = self::trans($key, $encParams, 'contenttypes', reset($app['locale_fallbacks']), false);
 
         // We don't want fallback translation here
         if ($trans === $transFallback) {

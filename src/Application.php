@@ -15,7 +15,7 @@ use Symfony\Component\Stopwatch;
 class Application extends Silex\Application
 {
     /**
-     * The default locale, used as fallback.
+     * @deprecated Since 2.3, to be removed in 3.0. Use $app['locale_fallbacks'] instead.
      */
     const DEFAULT_LOCALE = 'en_GB';
 
@@ -56,6 +56,9 @@ class Application extends Silex\Application
         $this['resources']->initialize();
 
         $this['debug'] = $this['config']->get('general/debug', false);
+
+        $locales = (array) $this['config']->get('general/locale');
+        $this['locale'] = reset($locales);
 
         // Initialize the 'editlink' and 'edittitle'.
         $this['editlink'] = '';
@@ -226,41 +229,6 @@ class Application extends Silex\Application
 
     public function initLocale()
     {
-        $configLocale = (array) $this['config']->get('general/locale', Application::DEFAULT_LOCALE);
-
-        // $app['locale'] should only be a single value.
-        $this['locale'] = reset($configLocale);
-
-        // Set the default timezone if provided in the Config
-        date_default_timezone_set($this['config']->get('general/timezone') ?: ini_get('date.timezone') ?: 'UTC');
-
-        // for javascript datetime calculations, timezone offset. e.g. "+02:00"
-        $this['timezone_offset'] = date('P');
-
-        // Set default locale, for Bolt
-        $locale = [];
-        foreach ($configLocale as $value) {
-            $locale = array_merge($locale, [
-                $value . '.UTF-8',
-                $value . '.utf8',
-                $value,
-                Application::DEFAULT_LOCALE . '.UTF-8',
-                Application::DEFAULT_LOCALE . '.utf8',
-                Application::DEFAULT_LOCALE,
-                substr(Application::DEFAULT_LOCALE, 0, 2)
-            ]);
-        }
-
-        setlocale(LC_ALL, array_unique($locale));
-
-        $this->register(
-            new Silex\Provider\TranslationServiceProvider(),
-            [
-                'translator.cache_dir' => $this['resources']->getPath('cache/trans'),
-                'locale_fallbacks'     => [Application::DEFAULT_LOCALE]
-            ]
-        );
-
         $this->register(new Provider\TranslationServiceProvider());
     }
 

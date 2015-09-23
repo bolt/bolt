@@ -851,7 +851,7 @@ class Config
             ],
             'sitename'                    => 'Default Bolt site',
             'homepage'                    => 'page/*',
-            'locale'                      => \Bolt\Application::DEFAULT_LOCALE,
+            'locale'                      => 'en_GB',
             'recordsperpage'              => 10,
             'recordsperdashboardwidget'   => 5,
             'systemlog'                   => [

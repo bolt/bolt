@@ -100,7 +100,7 @@ class HtmlHandler
      */
     public function htmlLang()
     {
-        return str_replace('_', '-', $this->app['config']->get('general/locale', Application::DEFAULT_LOCALE));
+        return str_replace('_', '-', $this->app['locale']);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Library as Lib;
+use Silex;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Translation\Loader as TranslationLoader;
@@ -11,7 +12,32 @@ class TranslationServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        return null;
+        if (!isset($app['translator'])) {
+            $app->register(
+                new Silex\Provider\TranslationServiceProvider(),
+                [
+                    'translator.cache_dir' => $app['resources']->getPath('cache/trans'),
+                    'locale_fallbacks'     => ['en_GB', 'en']
+                ]
+            );
+        }
+
+        $locales = (array) $app['config']->get('general/locale');
+
+        // Add fallback locales to list if they are not already there
+        $locales = array_unique(array_merge($locales, $app['locale_fallbacks']));
+        // Merge in generic versions of each locale
+        $locales = $this->mergeGenericLocales($locales);
+        // Merge in UTF-8 suffixes for each locale
+        $locales = $this->mergeUtf8Locales($locales);
+        // Set locales for native php...not sure why?
+        setlocale(LC_ALL, $locales);
+
+        // Set the default timezone if provided in the Config
+        date_default_timezone_set($app['config']->get('general/timezone') ?: ini_get('date.timezone') ?: 'UTC');
+
+        // for javascript datetime calculations, timezone offset. e.g. "+02:00"
+        $app['timezone_offset'] = date('P');
     }
 
     /**
@@ -31,9 +57,11 @@ class TranslationServiceProvider implements ServiceProviderInterface
 
             static::addResources($app, $app['locale']);
 
-            // Load english fallbacks
-            if ($app['locale'] != \Bolt\Application::DEFAULT_LOCALE) {
-                static::addResources($app, \Bolt\Application::DEFAULT_LOCALE);
+            // Load fallbacks
+            foreach ($app['locale_fallbacks'] as $fallback) {
+                if ($app['locale'] !== $fallback) {
+                    static::addResources($app, $fallback);
+                }
             }
         }
     }
@@ -76,5 +104,48 @@ class TranslationServiceProvider implements ServiceProviderInterface
         if ($needsSecondPass && strlen($locale) === 5) {
             static::addResources($app, substr($locale, 0, 2));
         }
+    }
+
+    /**
+     * Adds generic locales into a given list.
+     *
+     * [fr_FR, es, en_GB, en_US] -> [fr_FR, fr, es, en_GB, en_US, en]
+     *
+     * @param string[] $inputLocales
+     *
+     * @return string[]
+     */
+    protected function mergeGenericLocales(array $inputLocales)
+    {
+        $locales = [];
+        foreach ($inputLocales as $locale) {
+            $locales[] = $locale;
+            if (strlen($locale) === 5) {
+                $locale = substr($locale, 0, 2);
+                $locales[] = $locale;
+            }
+        }
+
+        $locales = array_reverse(array_unique(array_reverse($locales)));
+
+        return $locales;
+    }
+
+    /**
+     * Adds UTF-8 suffixes for each locale in given list.
+     *
+     * @param string[] $inputLocales
+     *
+     * @return string[]
+     */
+    protected function mergeUtf8Locales(array $inputLocales)
+    {
+        $locales = [];
+        foreach ($inputLocales as $locale) {
+            $locales[] = $locale . '.UTF-8';
+            $locales[] = $locale . '.utf8';
+            $locales[] = $locale;
+        }
+        return $locales;
     }
 }

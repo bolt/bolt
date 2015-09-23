@@ -106,7 +106,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // Custom Locale de_DE
         $app = $this->getApp();
-        $app['config']->set('general/locale', 'de_DE');
+        $app['locale'] = 'de_DE';
         $handlers = $this->getTwigHandlers($app);
         $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals('de-DE', $twig->htmlLang());
