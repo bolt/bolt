@@ -49,13 +49,24 @@ class TwigServiceProvider implements ServiceProviderInterface
             )
         );
 
+        $app['twig.loader.filesystem'] = $app->share(
+            $app->extend(
+                'twig.loader.filesystem',
+                function ($filesystem, $app) {
+                    $filesystem->addPath($app['resources']->getPath('app/view/twig'), 'bolt');
+
+                    return $filesystem;
+                }
+            )
+        );
+
         // Twig paths
-        $app['twig.path'] = function (Application $app) {
+        $app['twig.path'] = function () use ($app) {
             return $app['config']->getTwigPath();
         };
 
         // Twig options
-        $app['twig.options'] = function (Application $app) {
+        $app['twig.options'] = function () use ($app) {
             // Should we cache or not?
             if ($app['config']->get('general/caching/templates')) {
                 $cache = $app['resources']->getPath('cache');
