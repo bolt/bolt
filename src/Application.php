@@ -2,6 +2,8 @@
 
 namespace Bolt;
 
+use Bolt\Events\ControllerEvents;
+use Bolt\Events\MountEvent;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Str;
 use Bolt\Provider\LoggerServiceProvider;
@@ -283,6 +285,24 @@ class Application extends Silex\Application
     {
         $this['extensions']->checkLocalAutoloader();
         $this['extensions']->initialize();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function mount($prefix, $controllers)
+    {
+        if (!$this->booted) {
+            // Forward call to mount event if we can (which handles prioritization).
+            $this->on(ControllerEvents::MOUNT, function (MountEvent $event) use ($prefix, $controllers) {
+                $event->mount($prefix, $controllers);
+            });
+        } else {
+            // Already missed mounting event just append it to bottom of controller list
+            parent::mount($prefix, $controllers);
+        }
+
+        return $this;
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Events;
 
+use LogicException;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -14,24 +15,23 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class MountEvent extends Event
 {
-    /**
-     * @var Application
-     */
+    /** @var Application */
     protected $app;
 
-    /**
-     * Controllers grouped by priorities
-     *
-     * @var array
-     */
+    /** @var ControllerCollection */
+    protected $collection;
+
+    /** @var array Controllers grouped by priorities */
     protected $priorities = [];
 
     /**
      * @param Application $app
+     * @param ControllerCollection $collection
      */
-    public function __construct(Application $app)
+    public function __construct(Application $app, ControllerCollection $collection)
     {
         $this->app = $app;
+        $this->collection = $collection;
     }
 
     /**
@@ -51,6 +51,7 @@ class MountEvent extends Event
      */
     public function mount($prefix, $controllers, $priority = 0)
     {
+        $controllers = $this->verifyCollection($controllers);
         $this->priorities[$priority][] = [$prefix, $controllers];
     }
 
@@ -67,10 +68,47 @@ class MountEvent extends Event
         foreach ($this->priorities as $priority) {
             foreach ($priority as $list) {
                 list($prefix, $controllers) = $list;
-                $this->app->mount($prefix, $controllers);
+                $this->collection->mount($prefix, $controllers);
             }
         }
 
         $this->stopPropagation();
+    }
+
+    /**
+     * Verifies collection is correct type and calls connect on providers.
+     *
+     * Note: This is the same code as {@see Silex\Application::mount}
+     *
+     * @param ControllerProviderInterface|ControllerCollection $collection
+     *
+     * @throws LogicException If controllers is not an instance of ControllerProviderInterface or ControllerCollection
+     *
+     * @return ControllerCollection
+     */
+    protected function verifyCollection($collection)
+    {
+        if ($collection instanceof ControllerProviderInterface) {
+            $connectedControllers = $collection->connect($this->app);
+
+            if (!$connectedControllers instanceof ControllerCollection) {
+                throw new LogicException(
+                    sprintf(
+                        'The method "%s::connect" must return a "ControllerCollection" instance. Got: "%s"',
+                        get_class($collection),
+                        is_object($connectedControllers) ?
+                            get_class($connectedControllers) : gettype($connectedControllers)
+                    )
+                );
+            }
+
+            $collection = $connectedControllers;
+        } elseif (!$collection instanceof ControllerCollection) {
+            throw new LogicException(
+                'The "mount" method takes either a "ControllerCollection" or a "ControllerProviderInterface" instance.'
+            );
+        }
+
+        return $collection;
     }
 }
