@@ -1,5 +1,5 @@
 <?php
-namespace Bolt\Debug;
+namespace Bolt\Profiler;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;

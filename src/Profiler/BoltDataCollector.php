@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\DataCollector;
+namespace Bolt\Profiler;
 
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
@@ -14,7 +14,6 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 class BoltDataCollector extends DataCollector
 {
     protected $app;
-    protected $data;
 
     public function __construct(Application $app)
     {

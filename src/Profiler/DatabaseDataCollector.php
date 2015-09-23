@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\DataCollector;
+namespace Bolt\Profiler;
 
 use Doctrine\DBAL\Logging\DebugStack;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,8 +15,6 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 class DatabaseDataCollector extends DataCollector
 {
     private $logger;
-
-    protected $data;
 
     public function __construct(DebugStack $logger)
     {

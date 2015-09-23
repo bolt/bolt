@@ -1,7 +1,7 @@
 <?php
-namespace Bolt\Tests\DataCollector;
+namespace Bolt\Tests\Profiler;
 
-use Bolt\DataCollector\DatabaseDataCollector;
+use Bolt\Profiler\DatabaseDataCollector;
 use Bolt\Tests\BoltUnitTest;
 use Doctrine\DBAL\Logging\DebugStack;
 use Symfony\Component\HttpFoundation\Request;
