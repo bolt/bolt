@@ -10,8 +10,6 @@ use Bolt\Provider\PathServiceProvider;
 use Bolt\Provider\WhoopsServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
 use Doctrine\DBAL\DBALException;
-use RandomLib;
-use SecurityLib;
 use Silex;
 use Symfony\Component\Stopwatch;
 
@@ -284,16 +282,13 @@ class Application extends Silex\Application
 
     public function initProviders()
     {
-        // Set up our secure random generator.
-        $factory = new RandomLib\Factory();
-        $this['randomgenerator'] = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
-
         $this
             ->register(new Silex\Provider\HttpFragmentServiceProvider())
             ->register(new Silex\Provider\UrlGeneratorServiceProvider())
             ->register(new Silex\Provider\ValidatorServiceProvider())
             ->register(new Provider\RoutingServiceProvider())
             ->register(new Silex\Provider\ServiceControllerServiceProvider()) // must be after Routing
+            ->register(new Provider\RandomGeneratorServiceProvider())
             ->register(new Provider\PermissionsServiceProvider())
             ->register(new Provider\StorageServiceProvider())
             ->register(new Provider\QueryServiceProvider())
