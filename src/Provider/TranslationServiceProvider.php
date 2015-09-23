@@ -24,9 +24,6 @@ class TranslationServiceProvider implements ServiceProviderInterface
 
         $locales = (array) $app['config']->get('general/locale');
 
-        // $app['locale'] should only be a single value.
-        $app['locale'] = reset($locales);
-
         // Add fallback locales to list if they are not already there
         $locales = array_unique(array_merge($locales, $app['locale_fallbacks']));
         // Merge in generic versions of each locale

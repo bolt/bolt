@@ -60,6 +60,9 @@ class Application extends Silex\Application
 
         $this['debug'] = $this['config']->get('general/debug', false);
 
+        $locales = (array) $this['config']->get('general/locale');
+        $this['locale'] = reset($locales);
+
         // Initialize the 'editlink' and 'edittitle'.
         $this['editlink'] = '';
         $this['edittitle'] = '';
