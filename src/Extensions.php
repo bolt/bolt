@@ -108,7 +108,7 @@ class Extensions
         $this->basefolder = $app['resources']->getPath('extensions');
         $this->matchedcomments = array();
 
-        if ($app['config']->get('general/add_jquery')) {
+        if ($app['config']->get('general/add_jquery') || $app['config']->get('theme/add_jquery')) {
             $this->addjquery = true;
         } else {
             $this->addjquery = false;
