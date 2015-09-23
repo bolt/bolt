@@ -26,7 +26,8 @@
 {% block fieldset_type 'tags' %}
 
 {% set fieldset_conf = {
-    slug:  taxonomy.slug,
+    slug: taxonomy.slug,
+    allow_spaces: taxonomy.allow_spaces,
 }%}
 
 {% block fieldset_label_text  taxonomy.name %}
