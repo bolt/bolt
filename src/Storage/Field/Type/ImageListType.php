@@ -18,7 +18,7 @@ class ImageListType extends ListTypeBase
     {
         return 'imagelist';
     }
-    
+
     /**
      * {@inheritdoc}
      */

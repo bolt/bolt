@@ -29,18 +29,18 @@ class SearchQueryResultset extends QueryResultset
 
         $this->append(new \ArrayIterator($results));
     }
-    
+
     public function sortSingle($label)
     {
         $results = $this->get($label);
         $scores = $this->scores[$label];
         arsort($scores);
         $sorted = [];
-        
+
         foreach ($scores as $k => $v) {
             $sorted[] = $results[$k];
         }
-        
+
         $this->results[$label] = $sorted;
     }
 }

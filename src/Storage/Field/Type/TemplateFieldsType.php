@@ -20,7 +20,7 @@ class TemplateFieldsType extends FieldTypeBase
     public $mapping;
     public $em;
     public $chooser;
-    
+
     public function __construct(array $mapping = [], EntityManager $em, TemplateChooser $chooser = null)
     {
         $this->mapping = $mapping;
@@ -30,7 +30,7 @@ class TemplateFieldsType extends FieldTypeBase
             $this->setPlatform($em->createQueryBuilder()->getConnection()->getDatabasePlatform());
         }
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -44,22 +44,22 @@ class TemplateFieldsType extends FieldTypeBase
             $this->set($entity, $value, $data);
         }
     }
-    
+
     public function set($entity, $value, $rawData = null)
     {
         $key = $this->mapping['fieldname'];
         $metadata = $this->buildMetadata($entity, $rawData);
-        
+
         $builder = $this->em->getEntityBuilder('Bolt\Storage\Entity\TemplateFields');
         $builder->setClassMetadata($metadata);
         $templatefieldsEntity = $builder->createFromDatabaseValues($value);
-        
+
         $ct = new ContentType('templatefields', ['fields' => $metadata->getFieldMappings()]);
         $templatefieldsEntity->setContenttype($ct);
-        
+
         $entity->$key = $templatefieldsEntity;
     }
-    
+
     public function persist(QuerySet $queries, $entity)
     {
         $key = $this->mapping['fieldname'];
@@ -81,7 +81,7 @@ class TemplateFieldsType extends FieldTypeBase
         $qb->set($key, ":".$key);
         $qb->setParameter($key, $value);
     }
-    
+
     protected function serialize($input, $metadata)
     {
         $output = [];
@@ -91,23 +91,23 @@ class TemplateFieldsType extends FieldTypeBase
             $key = $field['fieldname'];
             $output[$key] = $type->convertToDatabaseValue($input[$key], $this->getPlatform());
         }
-        
+
         return $output;
     }
-    
+
     protected function buildMetadata($entity, $rawData = null)
     {
         $template = $this->chooser->record($entity, $rawData);
         $metadata = new ClassMetadata(get_class($entity));
-        
+
         if (isset($this->mapping['config'][$template])) {
             $mappings = $this->em->getMapper()->loadMetadataForFields($this->mapping['config'][$template]['fields']);
             $metadata->setFieldMappings((array)$mappings);
         }
-        
+
         return $metadata;
     }
-    
+
     /**
      * {@inheritdoc}
      */

@@ -13,7 +13,7 @@ abstract class Entity implements ArrayAccess, JsonSerializable
     use MagicAttributeTrait;
     use EntitySerializeTrait;
     use EntityArrayAccessTrait;
-    
+
 
     public function __construct($data = [])
     {

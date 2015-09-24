@@ -19,14 +19,14 @@ class FieldSetTest extends BoltUnitTest
         $this->addSomeContent($app);
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
-        $entity = $repo->create(['title'=> "This is a title" ]);
-        $this->assertEquals("This is a title", $entity->getTitle());
+        $entity = $repo->create(['title' => 'This is a title']);
+        $this->assertEquals('This is a title', $entity->getTitle());
     }
-    
+
     public function testSetWithUpdatedValues()
     {
         $app = $this->getApp();
-        
+
         $em = $app['storage'];
         $repo = $em->getRepository('pages');
         $entity = $repo->find(1);
@@ -36,15 +36,8 @@ class FieldSetTest extends BoltUnitTest
             'image'    => ['file'=> 'path-to-image.jpg', 'title'=>'An awesome image']
         ]);
         $repo->save($entity);
-        
 
-        $entity2 = $repo->find(1);        
+        $entity2 = $repo->find(1);
         $this->assertEquals('An awesome image', $entity2->templatefields->image['title']);
-        
-        
     }
-    
-    
-
-    
 }

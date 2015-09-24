@@ -2,7 +2,7 @@
 namespace Bolt\Storage\Entity;
 
 /**
- * Provides access to entity attributes and the schema-less _fields 
+ * Provides access to entity attributes and the schema-less _fields
  * attribute via __get and __set magic methods.
  *
  * @author Ross Riley <riley.ross@gmail.com>
@@ -10,7 +10,7 @@ namespace Bolt\Storage\Entity;
 trait MagicAttributeTrait
 {
     public $_fields = [];
-    
+
     public function __get($key)
     {
         $method = "get".ucfirst($key);
@@ -43,7 +43,7 @@ trait MagicAttributeTrait
 
         return false;
     }
-    
+
     public function __call($method, $arguments)
     {
         $var = lcfirst(substr($method, 3));
@@ -69,7 +69,7 @@ trait MagicAttributeTrait
             }
         }
     }
-    
+
     /**
      * An internal method that builds a list of available fields depending on context
      *

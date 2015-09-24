@@ -18,7 +18,7 @@ class HtmlType extends FieldTypeBase
     {
         return 'html';
     }
-    
+
     /**
      * Returns the name of the Doctrine storage type to use for a field.
      *

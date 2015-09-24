@@ -306,7 +306,7 @@ class MetadataDriver implements MappingDriver
             throw new \Exception("Attempted to load mapping data for unmapped class $className");
         }
     }
-    
+
     public function loadMetadataForFields(array $fields)
     {
         foreach ($fields as $name => &$field) {
@@ -319,7 +319,7 @@ class MetadataDriver implements MappingDriver
             $field['fieldtype'] = $type;
             $field['fieldname'] = $name;
         }
-        
+
         return $fields;
     }
 

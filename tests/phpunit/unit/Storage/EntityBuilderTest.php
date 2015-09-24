@@ -15,10 +15,10 @@ class EntityBuilderTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $builder = $app['storage.entity_builder'];
-        
-        
-        
+
+
+
     }
 
-    
+
 }

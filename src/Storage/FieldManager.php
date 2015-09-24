@@ -2,14 +2,14 @@
 namespace Bolt\Storage;
 
 /**
- * Uses a typemap to construct an instance of a Field 
+ * Uses a typemap to construct an instance of a Field
  */
 class FieldManager
 {
     /** @var array */
     protected $em;
     protected $handlers = [];
-    
+
 
     /**
      * Constructor.
@@ -20,7 +20,7 @@ class FieldManager
     {
         $this->setEntityManager($em);
     }
-    
+
     /**
      * Set an instance of EntityManager
      *
@@ -30,7 +30,7 @@ class FieldManager
     {
         $this->em = $em;
     }
-    
+
     public function get($class, $mapping)
     {
         if (is_object($class)) {
@@ -40,10 +40,10 @@ class FieldManager
             $handler = $this->handlers[$class];
             return call_user_func_array($handler, [$mapping, $this->em]);
         }
-        
+
         return new $class($mapping, $this->em);
     }
-    
+
     public function setHandler($class, callable $handler)
     {
         $this->handlers[$class] = $handler;

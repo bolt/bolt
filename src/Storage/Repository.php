@@ -228,12 +228,12 @@ class Repository implements ObjectRepository
 
         return $qb;
     }
-    
+
     /**
      * Internal method to run load method on each field for the managed entity.
-     * 
+     *
      * Takes a QueryBuilder instance as input
-     * 
+     *
      * @param QueryBuilder $query
      */
     protected function load(QueryBuilder $query)
@@ -244,29 +244,29 @@ class Repository implements ObjectRepository
             $fieldtype->load($query, $metadata);
         }
     }
-    
+
     /**
      * Internal method to run query method on each field for the managed entity.
-     * 
+     *
      * Takes a QueryInterface instance as input
-     * 
+     *
      * @param QueryInterface $query
      */
     protected function query(QueryInterface $query)
     {
         $metadata = $this->getClassMetadata();
-        
+
         foreach ($metadata->getFieldMappings() as $field) {
             $fieldtype = $this->getFieldManager()->get($field['fieldtype'], $field);
             $fieldtype->query($query, $metadata);
         }
     }
-    
+
     /**
      * Internal method to run persist method on each field for the managed entity.
-     * 
+     *
      * Takes a QuerySet instance as input
-     * 
+     *
      * @param QuerySet $queries
      * @param Entity   $entity
      * @param array    $exclusions
@@ -274,12 +274,12 @@ class Repository implements ObjectRepository
     protected function persist(QuerySet $queries, $entity, $exclusions = [])
     {
         $metadata = $this->getClassMetadata();
-                
+
         foreach ($metadata->getFieldMappings() as $field) {
             if (in_array($field['fieldname'], $exclusions)) {
                 continue;
             }
-            
+
             $field = $this->getFieldManager()->get($field['fieldtype'], $field);
             $field->persist($queries, $entity);
         }
@@ -387,7 +387,7 @@ class Repository implements ObjectRepository
     protected function hydrate(array $data, QueryBuilder $qb)
     {
         $entity = $this->getEntityBuilder()->getEntity();
-        
+
         $preEventArgs = new HydrationEvent($data, ['entity' => $entity, 'repository' => $this]);
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preEventArgs);
 
@@ -417,7 +417,7 @@ class Repository implements ObjectRepository
         return $rows;
     }
 
-    
+
     /**
      * Fetches FieldManager instance from the EntityManager
      *
@@ -428,7 +428,7 @@ class Repository implements ObjectRepository
         return $this->em->getFieldManager();
     }
 
-    
+
     /**
      * @return Builder $builder
      */

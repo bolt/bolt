@@ -18,7 +18,7 @@ class FileListType extends ListTypeBase
     {
         return 'filelist';
     }
-    
+
     /**
      * {@inheritdoc}
      */

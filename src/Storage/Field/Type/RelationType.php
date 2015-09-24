@@ -51,12 +51,12 @@ class RelationType extends FieldTypeBase
     }
 
     /**
-     * For relations, the load method adds an extra ->addSelect() and ->leftJoin() to the query that 
+     * For relations, the load method adds an extra ->addSelect() and ->leftJoin() to the query that
      * fetches the related records from the join table in the same query as the content fetch.
-     * 
+     *
      * IDs are returned comma-separated which the ->hydrate() method can then turn into pointers
      * to the related entities.
-     * 
+     *
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
      */

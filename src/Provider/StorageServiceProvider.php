@@ -57,7 +57,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $repoClass = $app['storage.repository.default'];
                 $repo = new $repoClass($app['storage'], $classMetadata);
                 $repo->setLegacyService($app['storage.legacy_service']);
-                
+
                 return $repo;
             }
         );
@@ -87,7 +87,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return $field;
             }
         );
-        
+
         $app['storage.entity_builder'] = $app->share(
             function ($app) {
                 $builder = new Builder($app['storage.metadata'], $app['storage.field_manager']);

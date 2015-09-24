@@ -47,7 +47,7 @@ interface FieldTypeInterface
      * @param $entity
      */
     public function hydrate($data, $entity);
-    
+
     /**
      * Handle transforms on a field set.
      *
@@ -55,7 +55,7 @@ interface FieldTypeInterface
      * @param $value
      */
     public function set($entity, $value);
-    
+
     /**
      * Handle or ignore the present event.
      *

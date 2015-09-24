@@ -18,7 +18,7 @@ class RepositoryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $entityName = 'Bolt\Storage\Entity\Authtoken';
-        
+
         $em = $app['storage'];
         $repo = $em->getRepository($entityName);
 

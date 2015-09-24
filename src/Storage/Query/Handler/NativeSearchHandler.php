@@ -26,7 +26,7 @@ class NativeSearchHandler
             return call_user_func_array($contentQuery->getHandler('search'), [$contentQuery]);
         }
     }
-    
+
     public function postgresSearch(ContentQueryParser $contentQuery)
     {
         $set = new SearchQueryResultset();
@@ -41,7 +41,7 @@ class NativeSearchHandler
             $result = $repo->findWith($adapter->getQuery());
             $set->add($result, $contenttype);
         }
-        
+
         return $set;
     }
 }

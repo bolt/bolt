@@ -28,9 +28,9 @@ class SearchQueryHandler
             $searchParam = $contentQuery->getParameter('filter');
             $query->setParameters($contentQuery->getParameters());
             $query->setSearch($searchParam);
-                        
+
             $contentQuery->runDirectives($query);
-            
+
             $result = $repo->queryWith($query);
             if ($result) {
                 if (count($result) > 0) {
@@ -38,7 +38,7 @@ class SearchQueryHandler
                     $weighter->setContentType($contenttype);
                     $weighter->setResults($result);
                     $weighter->setSearchWords($query->getSearchWords());
-                    
+
                     $scores = $weighter->weight();
                     $set->add($result, $contenttype, $scores);
                 } else {
