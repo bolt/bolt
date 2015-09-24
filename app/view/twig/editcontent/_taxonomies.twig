@@ -49,7 +49,7 @@
                         success: function(data) {
                             var results = [];
                             $.each(data, function(index, item){
-                                results.push( item.slug );
+                                results.push( item.name );
                             });
                             $('#taxonomy-{{ taxonomy.slug }}').select2({tags: results, minimumInputLength: 1, tokenSeparators: [",", " "]});
                         },
@@ -67,7 +67,7 @@
                         success: function(data) {
                             if (data.length > 0) {
                                 $.each(data, function(index, item){
-                                    $("#tagcloud-{{ taxonomy.slug }}").append('<a href="#" rel="' + item.count + '">' + item.slug + '</a>');
+                                    $("#tagcloud-{{ taxonomy.slug }}").append('<a href="#" rel="' + item.count + '">' + item.name + '</a>');
                                 });
                                 $("#tagcloud-{{ taxonomy.slug }} a").on('click', function (e) {
                                     e.preventDefault();

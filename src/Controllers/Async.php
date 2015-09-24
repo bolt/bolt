@@ -341,7 +341,7 @@ class Async implements ControllerProviderInterface
         $table .= 'taxonomy';
 
         $query = $app['db']->createQueryBuilder()
-            ->select("DISTINCT $table.slug")
+            ->select("DISTINCT $table.name")
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
             ->orderBy('slug', 'ASC')
@@ -369,7 +369,7 @@ class Async implements ControllerProviderInterface
         $table .= 'taxonomy';
 
         $query = $app['db']->createQueryBuilder()
-            ->select('slug, COUNT(slug) AS count')
+            ->select('name, COUNT(slug) AS count')
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
             ->groupBy('slug')
@@ -384,11 +384,11 @@ class Async implements ControllerProviderInterface
         usort(
             $results,
             function ($a, $b) {
-                if ($a['slug'] == $b['slug']) {
+                if ($a['name'] == $b['name']) {
                     return 0;
                 }
 
-                return ($a['slug'] < $b['slug']) ? -1 : 1;
+                return ($a['name'] < $b['name']) ? -1 : 1;
             }
         );
 
