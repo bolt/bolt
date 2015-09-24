@@ -1922,7 +1922,7 @@ class Storage
         $totalOrderByElements = count($separatedOrders);
 
         foreach ($separatedOrders as $index => $name) {
-            list($name, $asc) = $this->getSortOrder($name);
+            list($name, $asc) = $this->getSortOrder(trim($name));
 
             // If we don't have a name, we can't determine a sortorder.
             if (empty($name)) {

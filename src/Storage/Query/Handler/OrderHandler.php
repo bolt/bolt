@@ -20,6 +20,7 @@ class OrderHandler
         $separatedOrders = $this->getOrderBys($order);
 
         foreach ($separatedOrders as $order) {
+            $order = trim($order);
             if (strpos($order, '-') === 0) {
                 $direction = 'DESC';
                 $order = substr($order, 1);
