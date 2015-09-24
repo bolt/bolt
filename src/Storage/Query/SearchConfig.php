@@ -17,7 +17,6 @@ class SearchConfig
     protected $searchableTypes = [];
     protected $joins = [];
 
-
     public function __construct(Config $config)
     {
         $this->config = $config;
@@ -56,7 +55,6 @@ class SearchConfig
 
         return false;
     }
-
 
     /**
      * Iterates over the main config and delegates weighting to both

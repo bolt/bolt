@@ -14,7 +14,6 @@ abstract class Entity implements ArrayAccess, JsonSerializable
     use EntitySerializeTrait;
     use EntityArrayAccessTrait;
 
-
     public function __construct($data = [])
     {
         foreach ($data as $key => $value) {

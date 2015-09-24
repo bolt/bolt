@@ -10,7 +10,6 @@ class FieldManager
     protected $em;
     protected $handlers = [];
 
-
     /**
      * Constructor.
      *

@@ -417,7 +417,6 @@ class Repository implements ObjectRepository
         return $rows;
     }
 
-
     /**
      * Fetches FieldManager instance from the EntityManager
      *
@@ -427,7 +426,6 @@ class Repository implements ObjectRepository
     {
         return $this->em->getFieldManager();
     }
-
 
     /**
      * @return Builder $builder

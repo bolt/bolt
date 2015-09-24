@@ -90,7 +90,7 @@ class EntityManager
     /**
      * Get an entity builder instance for a given class.
      *
-     * @param string $className
+     * @param string        $className
      * @param ClassMetadata $classMetadata
      *
      * @return Entity\Builder
