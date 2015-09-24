@@ -308,6 +308,9 @@ class Config
             if (!isset($taxonomy['has_sortorder'])) {
                 $taxonomy['has_sortorder'] = false;
             }
+            if (!isset($taxonomy['allow_spaces'])) {
+                $taxonomy['allow_spaces'] = false;
+            }
 
             // Make sure the options are $key => $value pairs, and not have implied integers for keys.
             if (!empty($taxonomy['options']) && is_array($taxonomy['options'])) {
