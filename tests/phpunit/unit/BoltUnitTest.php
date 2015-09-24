@@ -2,11 +2,11 @@
 namespace Bolt\Tests;
 
 use Bolt\AccessControl\Token;
-use Bolt\Storage\Entity;
 use Bolt\Application;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
 use Bolt\Storage;
+use Bolt\Storage\Entity;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Twig\Handler\AdminHandler;
 use Bolt\Twig\Handler\ArrayHandler;

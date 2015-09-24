@@ -77,7 +77,7 @@ class PagerTest extends BoltUnitTest
                 'for'  => 'acategory',
             ],
             [
-                'a' => 'b',
+                'a'              => 'b',
                 'page_acategory' => 5
             ],
         ];
@@ -88,7 +88,7 @@ class PagerTest extends BoltUnitTest
                 'for'  => 'acategory',
             ],
             [
-                'a' => 'b',
+                'a'    => 'b',
                 'page' => 5
             ],
         ];
@@ -99,8 +99,8 @@ class PagerTest extends BoltUnitTest
                 'for'  => '',
             ],
             [
-                'a' => 'b',
-                'page' => 5,
+                'a'              => 'b',
+                'page'           => 5,
                 'page_acategory' => 6
             ],
         ];
@@ -111,8 +111,8 @@ class PagerTest extends BoltUnitTest
                 'for'  => 'acategory',
             ],
             [
-                'a' => 'b',
-                'page' => 5,
+                'a'              => 'b',
+                'page'           => 5,
                 'page_acategory' => 6
             ],
         ];
@@ -140,7 +140,7 @@ class PagerTest extends BoltUnitTest
     public function testRecursiveMakelink()
     {
         $test = [
-            'for'  => 'acategory',
+            'for'        => 'acategory',
             'showing_to' => [
                 'link'  => 'reclink',
             ],

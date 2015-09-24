@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests\Storage;
 
-use Bolt\Storage\EntityManager;
 use Bolt\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
 
