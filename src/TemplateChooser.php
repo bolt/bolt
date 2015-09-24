@@ -96,19 +96,19 @@ class TemplateChooser
                 $template = $record->contenttype['record_template'];
             }
         }
-        
+
         // Fifth candidate: An entity has a templateselect field, and it's set.
         if (isset($record->contenttype['fields'])) {
             foreach ($record->contenttype['fields'] as $name => $field) {
-                
-                if ($field['type'] == 'templateselect' && $data !== null && isset($data[$name])) {
+
+                if ($field['type'] == 'templateselect' && $data !== null && !empty($data[$name])) {
                     $template = $data[$name];
                 }
-                
-                if ($field['type'] == 'templateselect' && isset($record[$name])) {
-                    $template = $record[$name];
+
+                if ($field['type'] == 'templateselect' && !empty($record->values[$name])) {
+                    $template = $record->values[$name];
                 }
-                
+
             }
         }
 
