@@ -2,7 +2,7 @@
 namespace Bolt\Tests\Extensions;
 
 use Bolt\Provider\NutServiceProvider;
-use Bolt\Tests\BoltUnitTest;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Class to test src/BaseExtension.
@@ -561,12 +561,11 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
     public function testAddNutCommand()
     {
         $app = $this->makeApp();
+        $app->register(new NutServiceProvider());
+
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $command = $this->getMock('Symfony\Component\Console\Command\Command', null, ['mockCommand']);
-        $provider = new NutServiceProvider($app);
-        $app->register($provider);
-        $app->boot();
-        $ext->addConsoleCommand($command);
-        $this->assertTrue(in_array($command, $app['nut.commands']));
+        $ext->addConsoleCommand(new Command('test_command'));
+
+        $this->assertTrue($app['nut']->has('test_command'));
     }
 }
