@@ -1915,25 +1915,69 @@ class Storage
      */
     private function getEscapedSortorder($name, $prefix = 'r')
     {
-        list($name, $asc) = $this->getSortOrder($name);
+        $order = '';
 
-        // If we don't have a name, we can't determine a sortorder.
-        if (empty($name)) {
-            return false;
-        }
-        if (strpos($name, 'RAND') !== false) {
-            $order = $name;
-        } elseif ($prefix !== false) {
-            $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
-        } else {
-            $order = $this->app['db']->quoteIdentifier($name);
-        }
+        $separatedOrders = $this->getOrderBys($name);
 
-        if (! $asc) {
-            $order .= ' DESC';
+        $totalOrderByElements = count($separatedOrders);
+
+        foreach ($separatedOrders as $index => $name) {
+            list($name, $asc) = $this->getSortOrder($name);
+
+            // If we don't have a name, we can't determine a sortorder.
+            if (empty($name)) {
+                return false;
+            }
+            if (strpos($name, 'RAND') !== false) {
+                $order .= $name;
+            } elseif ($prefix !== false) {
+                $order .= $this->app['db']->quoteIdentifier($prefix . '.' . $name);
+            } else {
+                $order .= $this->app['db']->quoteIdentifier($name);
+            }
+
+            if (! $asc) {
+                $order .= ' DESC';
+            }
+
+            if ($this->isNotLastItemInArray($totalOrderByElements, $index))
+                $order .= ',';
         }
 
         return $order;
+    }
+
+    /**
+     * @param $totalOrderByElements
+     * @param $index
+     * @return bool
+     */
+    protected function isNotLastItemInArray($totalOrderByElements, $index)
+    {
+        return $totalOrderByElements !== ($index+1);
+    }
+
+    /**
+     * @param $order
+     * @return array
+     */
+    protected function getOrderBys($order)
+    {
+        $separatedOrders[] = $order;
+
+        if ($this->isMultiOrderQuery($order))
+            $separatedOrders = explode(",", $order);
+
+        return $separatedOrders;
+    }
+
+    /**
+     * @param $order
+     * @return bool
+     */
+    protected function isMultiOrderQuery($order)
+    {
+        return ( strpos($order, ',') !== FALSE ? TRUE : FALSE );
     }
 
     /**
