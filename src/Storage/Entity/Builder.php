@@ -129,9 +129,9 @@ class Builder
                 $handler = $this->transformers[$mapping['fieldtype']];
 
                 if ($handler) {
-                    $value = call_user_func_array($handler, [$entity, $data[$key]]);
+                    call_user_func_array($handler, [$entity, $data[$key]]);
                 } else {
-                    $value = call_user_func_array([$fieldType, 'set'], [$entity, $data[$key]]);
+                    call_user_func_array([$fieldType, 'set'], [$entity, $data[$key]]);
                 }
             }
         }
