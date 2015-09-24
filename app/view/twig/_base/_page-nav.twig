@@ -7,7 +7,7 @@
  #         page_subtitle: used as html title (optional)
  #         page_script:   script added after the body tag (script tags needed!)
  #}
-{% extends '_base/_page.twig' %}
+{% extends '@bolt/_base/_page.twig' %}
 
 {% set page_bodyclass = '' %}
 
@@ -21,12 +21,12 @@
     <div id="navpage-wrapper"{% if app.request.cookies.get('sidebar') %} class="nav-secondary-collapsed nav-secondary-collapsed-hoverable"{% endif %}>
         <nav id="navpage-primary" class="navbar navbar-static-top navbar-inverse navbar-bolt">
             <div class="container-fluid">
-                {% include 'nav/_primary.twig' %}
+                {% include '@bolt/nav/_primary.twig' %}
             </div>
         </nav>
 
         <nav id="navpage-secondary" class="navbar-default navbar-static-side">
-            {% include 'nav/_secondary.twig' %}
+            {% include '@bolt/nav/_secondary.twig' %}
         </nav>
 
         <div id="navpage-content" class="container-fluid">
@@ -56,7 +56,7 @@
             </div>
 
             {% block messages %}
-                {% include '_sub/_messages.twig' with {'wrapper': true} %}
+                {% include '@bolt/_sub/_messages.twig' with {'wrapper': true} %}
             {% endblock messages %}
 
             {% block page_main %}[PAGE_MAIN]{% endblock page_main %}

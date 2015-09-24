@@ -127,7 +127,7 @@ class Records extends BackendBase
         $duplicate = $request->query->get('duplicate', false);
         $context = $this->recordModifier()->handleEditRequest($content, $contenttype, $duplicate);
 
-        return $this->render('editcontent/editcontent.twig', $context);
+        return $this->render('@bolt/editcontent/editcontent.twig', $context);
     }
 
     /**
@@ -254,7 +254,7 @@ class Records extends BackendBase
             'permissions'     => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser())
         ];
 
-        return $this->render('overview/overview.twig', $context);
+        return $this->render('@bolt/overview/overview.twig', $context);
     }
 
     /**
@@ -318,7 +318,7 @@ class Records extends BackendBase
             'permissions'      => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser())
         ];
 
-        return $this->render('relatedto/relatedto.twig', $context);
+        return $this->render('@bolt/relatedto/relatedto.twig', $context);
     }
 
     /**

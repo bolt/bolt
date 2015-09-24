@@ -1,6 +1,6 @@
 {# Page: Footer > About #}
 
-{% extends '_base/_page-nav.twig' %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_title __('System Configuration Checks') %}
 
@@ -34,7 +34,7 @@
         </div>
 
         <aside class="col-md-4">
-            {% include 'checks/_aside.twig' %}
+            {% include '@bolt/checks/_aside.twig' %}
         </aside>
     </div>
 

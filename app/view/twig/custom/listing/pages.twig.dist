@@ -3,7 +3,7 @@
    Add a template "/app/view/twig/custom/listing/<contenttypeslug>.twig" and add the blocks you want to display different.
    Unchanged Blocks use the defaults
 #}
-{% extends '_base/_listing.twig' %}
+{% extends '@bolt/_base/_listing.twig' %}
 
 
 {# The number of columns used in listing table #}

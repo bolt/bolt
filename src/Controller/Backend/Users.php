@@ -68,7 +68,7 @@ class Users extends BackendBase
             'sessions'    => $sessions
         ];
 
-        return $this->render('users/users.twig', $context);
+        return $this->render('@bolt/users/users.twig', $context);
     }
 
     /**
@@ -133,7 +133,7 @@ class Users extends BackendBase
             'displayname' => $userEntity['displayname'],
         ];
 
-        return $this->render('edituser/edituser.twig', $context);
+        return $this->render('@bolt/edituser/edituser.twig', $context);
     }
 
     /**
@@ -189,7 +189,7 @@ class Users extends BackendBase
             'sitename'    => $this->getOption('general/sitename'),
         ];
 
-        return $this->render('firstuser/firstuser.twig', $context);
+        return $this->render('@bolt/firstuser/firstuser.twig', $context);
     }
 
     /**
@@ -313,7 +313,7 @@ class Users extends BackendBase
             'displayname' => $user->getDisplayname(),
         ];
 
-        return $this->render('edituser/edituser.twig', $context);
+        return $this->render('@bolt/edituser/edituser.twig', $context);
     }
 
     /**
@@ -339,7 +339,7 @@ class Users extends BackendBase
             'global_permissions'    => $globalPermissions,
         ];
 
-        return $this->render('roles/roles.twig', $context);
+        return $this->render('@bolt/roles/roles.twig', $context);
     }
 
     /**
@@ -685,7 +685,7 @@ class Users extends BackendBase
     {
         // Create a welcome email
         $mailhtml = $this->render(
-            'email/firstuser.twig',
+            '@bolt/email/firstuser.twig',
             ['sitename' => $this->getOption('general/sitename')]
         )->getContent();
 

@@ -1,4 +1,4 @@
-{% import '_macro/_panels.twig' as panels %}
+{% import '@bolt/_macro/_panels.twig' as panels %}
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -6,12 +6,12 @@
     </div>
 
     <div class="panel-body">
-        {% include 'editcontent/_aside-save.twig' %}
-        {% include 'editcontent/_aside-live-editor.twig' %}
-        {% include 'editcontent/_aside-preview.twig' %}
-        {% include 'editcontent/_aside-status.twig' %}
+        {% include '@bolt/editcontent/_aside-save.twig' %}
+        {% include '@bolt/editcontent/_aside-live-editor.twig' %}
+        {% include '@bolt/editcontent/_aside-preview.twig' %}
+        {% include '@bolt/editcontent/_aside-status.twig' %}
         {% if isallowed('delete', context.content) and context.content.id is not empty %}
-            {% include 'editcontent/_aside-delete.twig' %}
+            {% include '@bolt/editcontent/_aside-delete.twig' %}
         {% endif %}
     </div>
 </div>

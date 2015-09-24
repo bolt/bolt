@@ -17,5 +17,5 @@
 {# Process field specific includes and data #}
 
 {% for type in context.fieldtypes %}
-    {% include 'editcontent/fielddata/_' ~ type ~ '.twig' ignore missing %}
+    {% include '@bolt/editcontent/fielddata/_' ~ type ~ '.twig' ignore missing %}
 {% endfor %}

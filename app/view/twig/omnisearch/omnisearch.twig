@@ -1,6 +1,6 @@
 {# Page: NavPrimary | NavSecondary > Omnisearch #}
 
-{% extends '_base/_page-nav.twig' %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_title __('Omnisearch') %}
 
@@ -31,7 +31,7 @@
                                     {% set content = item.record %}
                                     {% set permissions = item.permissions %}
                                     {% set modifiable = permissions.create or permissions.delete or permissions.publish or permissions.depublish %}
-                                    {% include 'omnisearch/_result.twig' with {'excerptlength': 280, 'thumbsize': 54, 'compact': true} %}
+                                    {% include '@bolt/omnisearch/_result.twig' with {'excerptlength': 280, 'thumbsize': 54, 'compact': true} %}
                                 {% else %}
                                     <td colspan="4">
                                         <a href="{{ item.path }}">{{ item.label|raw }}</a>
@@ -54,7 +54,7 @@
         </div>
 
         <aside class="col-md-4">
-            {% include 'omnisearch/_aside.twig' %}
+            {% include '@bolt/omnisearch/_aside.twig' %}
         </aside>
 
     </div>

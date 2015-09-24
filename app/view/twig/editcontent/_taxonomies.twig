@@ -22,11 +22,11 @@
 
             {# Fieldset #}
             {% if taxonomy.behaves_like == 'tags' %}
-                {% include 'editcontent/fields/_tags.twig' %}
+                {% include '@bolt/editcontent/fields/_tags.twig' %}
             {% elseif taxonomy.behaves_like == 'categories' %}
-                {% include 'editcontent/fields/_categories.twig' %}
+                {% include '@bolt/editcontent/fields/_categories.twig' %}
             {% elseif taxonomy.behaves_like == 'grouping' %}
-                {% include 'editcontent/fields/_grouping.twig' %}
+                {% include '@bolt/editcontent/fields/_grouping.twig' %}
             {% endif %}
 
             {# Postfix #}
@@ -40,5 +40,5 @@
 {% endfor %}
 
 {% if context.has.tabs and 'taxonomy' in context.contenttype.groups %}
-    {% include 'editcontent/_fields.twig' %}
+    {% include '@bolt/editcontent/_fields.twig' %}{# TODO doesn't exist #}
 {% endif %}

@@ -1,7 +1,7 @@
 {##
  # Sidebar-Panel: Displays actions for contenttype
  #}
-{% extends '_base/_panel.twig' %}
+{% extends '@bolt/_base/_panel.twig' %}
 
 {% block panel_class 'panel-actions' %}
 
@@ -11,7 +11,7 @@
 
 {% block panel_body %}
 
-    {% import '_macro/_panels.twig' as panels %}
+    {% import '@bolt/_macro/_panels.twig' as panels %}
 
     <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': context.show_contenttype.slug, 'id': '', 'relation': context.contenttype.slug, 'relationid': context.id}) }}">
         <i class="fa fa-plus"></i> {{ __('contenttypes.generic.new', {'%contenttype%': context.show_contenttype.slug}) }}

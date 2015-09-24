@@ -114,7 +114,7 @@ class FileManager extends BackendBase
             'datechanged'    => date_format(new \DateTime('@' . $file->getTimestamp()), 'c')
         ];
 
-        return $this->render('editfile/editfile.twig', $context);
+        return $this->render('@bolt/editfile/editfile.twig', $context);
     }
 
     /**
@@ -198,9 +198,9 @@ class FileManager extends BackendBase
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
         // from CKeditor to insert a file.
         if (!$request->query->has('CKEditor')) {
-            $twig = 'files/files.twig';
+            $twig = '@bolt/files/files.twig';
         } else {
-            $twig = 'files_ck/files_ck.twig';
+            $twig = '@bolt/files_ck/files_ck.twig';
         }
 
         $context = [

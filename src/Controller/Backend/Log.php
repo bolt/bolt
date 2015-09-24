@@ -69,7 +69,7 @@ class Log extends BackendBase
         ];
         $activity = $this->manager()->getActivity('change', $page, 16, $options);
 
-        return $this->render('activity/changelog.twig', ['entries' => $activity]);
+        return $this->render('@bolt/activity/changelog.twig', ['entries' => $activity]);
     }
 
     /**
@@ -100,7 +100,7 @@ class Log extends BackendBase
             'prev_entry'  => $prev
         ];
 
-        return $this->render('changelog/changelog_record_single.twig', $context);
+        return $this->render('@bolt/changelog/changelog_record_single.twig', $context);
     }
 
     /**
@@ -144,7 +144,7 @@ class Log extends BackendBase
             'pagecount'   => $pagination['limit'] ? ceil($data['count'] / $pagination['limit']) : null
         ];
 
-        return $this->render('changelog/changelog_record_all.twig', $context);
+        return $this->render('@bolt/changelog/changelog_record_all.twig', $context);
     }
 
     /**
@@ -180,7 +180,7 @@ class Log extends BackendBase
 
         $activity = $this->manager()->getActivity('system', $page, 16, $options);
 
-        return $this->render('activity/systemlog.twig', ['entries' => $activity]);
+        return $this->render('@bolt/activity/systemlog.twig', ['entries' => $activity]);
     }
 
     /**
@@ -192,7 +192,7 @@ class Log extends BackendBase
     }
 
     /**
-     * @return \Bolt\Storage\Repository\LogChange
+     * @return \Bolt\Storage\Repository\LogChangeRepository
      */
     protected function changeLogRepository()
     {
@@ -200,7 +200,7 @@ class Log extends BackendBase
     }
 
     /**
-     * @return \Bolt\Storage\Repository\LogSystem
+     * @return \Bolt\Storage\Repository\LogSystemRepository
      */
     protected function systemLogRepository()
     {

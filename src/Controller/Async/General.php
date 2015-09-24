@@ -88,7 +88,7 @@ class General extends AsyncBase
             'entries'     => $this->storage()->getRepository('Bolt\Storage\Entity\LogChange')->getChangeLogByContentType($contenttype, $options)
         ];
 
-        return $this->render('components/panel-change-record.twig', ['context' => $context]);
+        return $this->render('@bolt/components/panel-change-record.twig', ['context' => $context]);
     }
 
     /**
@@ -111,7 +111,7 @@ class General extends AsyncBase
             'disable'     => $this->getOption('general/backend/news/disable')
         ];
 
-        $response = $this->render('components/panel-news.twig', ['context' => $context]);
+        $response = $this->render('@bolt/components/panel-news.twig', ['context' => $context]);
         $response->setCache(['s_maxage' => '3600', 'public' => true]);
 
         return $response;
@@ -153,7 +153,7 @@ class General extends AsyncBase
         $change = $this->app['logger.manager']->getActivity('change', $page, 8);
         $system = $this->app['logger.manager']->getActivity('system', $page, 8, ['context' => ['authentication', 'security']]);
 
-        $response = $this->render('components/panel-activity.twig', ['context' => [
+        $response = $this->render('@bolt/components/panel-activity.twig', ['context' => [
             'change' => $change,
             'system' => $system,
         ]]);
@@ -347,7 +347,7 @@ class General extends AsyncBase
 
                     // Iterate over the items, pick the first news-item that
                     // applies and the first alert we need to show
-                    $version = $this->app->getVersion();
+                    $version = $this->app['bolt_version'];
                     foreach ($fetchedNewsItems as $item) {
                         $type = ($item->type === 'alert') ? 'alert' : 'information';
                         if (!isset($news[$type])
@@ -389,7 +389,7 @@ class General extends AsyncBase
         $url = sprintf(
             '%s?v=%s&p=%s&db=%s&name=%s',
             $source,
-            rawurlencode($this->app->getVersion()),
+            rawurlencode($this->app['bolt_version']),
             phpversion(),
             $driver,
             base64_encode($hostname)
@@ -446,7 +446,7 @@ class General extends AsyncBase
             'filtered'    => $isFiltered,
         ];
 
-        $response = $this->render('components/panel-lastmodified.twig', ['context' => $context]);
+        $response = $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
         $response->setPublic()->setSharedMaxAge(60);
 
         return $response;
@@ -472,7 +472,7 @@ class General extends AsyncBase
             'contenttype' => $contenttype
         ];
 
-        $response = $this->render('components/panel-lastmodified.twig', ['context' => $context]);
+        $response = $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);
         $response->setPublic()->setSharedMaxAge(60);
 
         return $response;

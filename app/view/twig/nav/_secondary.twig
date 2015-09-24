@@ -1,10 +1,10 @@
-{% import 'nav/_macros.twig' as nav %}
+{% import '@bolt/nav/_macros.twig' as nav %}
 
 <ul class="nav">
     {% if app.session.get('authentication') is not null %}
 
         {# Omnisearch: one here for "extra small", the other in the header-navbar #}
-        {% include 'nav/_secondary-search.twig' %}
+        {% include '@bolt/nav/_secondary-search.twig' %}
 
         {# Dashboard #}
         {{ nav.link('fa:dashboard', __('Dashboard'), 'dashboard', (page_nav == 'Dashboard')) }}
@@ -16,16 +16,16 @@
 
         {# Contenttypes #}
         {{ nav.heading(__('Content'), 'fa:file-text') }}
-        {% include 'nav/_secondary-content.twig' %}
+        {% include '@bolt/nav/_secondary-content.twig' %}
 
         {# Settings #}
         {% if isallowed('settings') %}
-            {% set nav_config %}{% include 'nav/_secondary-configuration.twig' %}{% endset %}
-            {% set nav_files %}{% include 'nav/_secondary-filemanagement.twig' %}{% endset %}
-            {% set nav_trans %}{% include 'nav/_secondary-translations.twig' %}{% endset %}
+            {% set nav_config %}{% include '@bolt/nav/_secondary-configuration.twig' %}{% endset %}
+            {% set nav_files %}{% include '@bolt/nav/_secondary-filemanagement.twig' %}{% endset %}
+            {% set nav_trans %}{% include '@bolt/nav/_secondary-translations.twig' %}{% endset %}
             {# Link to Extend Bolt #}
             {% if app.extensions.hasMenuoptions or isallowed('extensions||extensions:config') %}
-                {% set nav_extend %}{% include 'nav/_secondary-extensions.twig' %}{% endset %}
+                {% set nav_extend %}{% include '@bolt/nav/_secondary-extensions.twig' %}{% endset %}
             {% else %}
                 {% set nav_extend = '' %}
             {% endif %}

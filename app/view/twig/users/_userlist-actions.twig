@@ -14,7 +14,7 @@
             {% if user.enabled %}
                 <li>
                     <form action="{{ path('useraction', {'action': 'disable', 'id': user.id}) }}" method="post">
-                        {% include('_sub/_csrf_token.twig') %}
+                        {% include '@bolt/_sub/_csrf_token.twig' %}
                         <button type="submit" class="btn btn-block btn-link">
                             <span class="pull-left">{{ __('Disable %username%',{'%username%':user.displayname}) }}</span>
                         </button>
@@ -23,7 +23,7 @@
             {% else %}
                 <li>
                     <form action="{{ path('useraction', {'action': 'enable', 'id': user.id}) }}" method="post">
-                        {% include('_sub/_csrf_token.twig') %}
+                        {% include '@bolt/_sub/_csrf_token.twig' %}
                         <button type="submit" class="btn btn-block btn-link">
                             <span class="pull-left">{{ __('Enable %username%',{'%username%':user.displayname}) }}</span>
                         </button>
@@ -32,7 +32,7 @@
             {% endif %}
             <li>
                 <form action="{{ path('useraction', {'action': 'delete', 'id': user.id}) }}" method="post">
-                    {% include('_sub/_csrf_token.twig') %}
+                    {% include '@bolt/_sub/_csrf_token.twig' %}
                     <button type="submit" class="btn btn-block btn-link confirm"
                     data-confirm="{{ __('Are you sure you want to delete %username%?',{'%username%':user.displayname}) }}" >
                         <span class="pull-left">{{ __('Delete %username%',{'%username%':user.displayname}) }}</span>

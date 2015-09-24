@@ -19,7 +19,7 @@ class Manager
     public function __construct()
     {
         foreach ($this->defaults as $default) {
-            $field = new Base($default, 'editcontent/fields/_' . $default . '.twig');
+            $field = new Base($default, '@bolt/editcontent/fields/_' . $default . '.twig');
             $this->addField($field);
         }
     }

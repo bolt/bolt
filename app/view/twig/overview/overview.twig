@@ -1,9 +1,9 @@
 {# Page: NavSecondary > Content ... > #}
 
-{% from '_sub/_editable_record_list.twig' import editable_record_list as list %}
-{% import '_macro/_panels.twig' as panels %}
+{% from '@bolt/_sub/_editable_record_list.twig' import editable_record_list as list %}
+{% import '@bolt/_macro/_panels.twig' as panels %}
 
-{% extends '_base/_page-nav.twig' %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_nav 'Content/*' %}
 
@@ -24,14 +24,14 @@
     <div class="row">
         <div class="col-md-8">
 
-            {% include '_sub/_messages.twig' %}
+            {% include '@bolt/_sub/_messages.twig' %}
 
             {{ list(context.contenttype, context.multiplecontent, context.permissions, 'table-striped') }}
 
         </div>
 
         <aside class="col-md-4">
-            {% include 'overview/_panel-actions_overview.twig' %}
+            {% include '@bolt/overview/_panel-actions_overview.twig' %}
             {{ panels.lastmodified(context.contenttype.slug) }}
         </aside>
     </div>

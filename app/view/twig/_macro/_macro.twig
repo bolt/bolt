@@ -66,7 +66,7 @@
  #}
 {% macro actionform(content, action, icon, text, confirmation_text) %}
     <form action="{{ path('contentaction', {'action': action, 'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" method="POST">
-        {% include('_sub/_csrf_token.twig') %}
+        {% include '@bolt/_sub/_csrf_token.twig' %}
         <button type="submit"
             {% if confirmation_text %}
                 class="btn btn-link btn-block confirm" data-confirm="{{ confirmation_text }}"

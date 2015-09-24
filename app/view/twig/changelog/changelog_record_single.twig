@@ -1,6 +1,6 @@
 {# Page: NavSecondary > Content ... > Recent modifications > view #}
 
-{% from 'changelog/_macros.twig' import changelog_details %}
+{% from '@bolt/changelog/_macros.twig' import changelog_details %}
 
 {% if context.prev_entry %}
     {% set left_link = path(
@@ -28,7 +28,7 @@
     {% set right_link = false %}
 {% endif %}
 
-{% extends '_base/_page-nav.twig' %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_nav 'Content/*' %}
 

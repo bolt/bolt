@@ -3,8 +3,8 @@
 {% set any_deletable = false %}
 {% set any_editable = false %}
 {% set includes = [
-    'custom/listing/' ~ contenttype.slug ~ '.twig',
-    '_sub/_listing.twig']
+    '@bolt/custom/listing/' ~ contenttype.slug ~ '.twig',
+    '@bolt/_sub/_listing.twig']
 %}
 
 {{ data('recordlisting', {
@@ -57,7 +57,7 @@
 {% endif %}
 #}
 
-{% from '_macro/_pager.twig' import pager %}
+{% from '@bolt/_macro/_pager.twig' import pager %}
 {{ pager(contenttype.slug) }}
 
 {% endmacro %}
