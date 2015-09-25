@@ -52,6 +52,6 @@ class OrderHandler
      */
     protected function isMultiOrderQuery($order)
     {
-        return ( strpos($order, ',') !== FALSE ? TRUE : FALSE );
+        return ( strpos($order, ',') !== false ? true : false );
     }
 }
