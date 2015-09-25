@@ -1090,7 +1090,7 @@ class Storage
         try {
             // Check for record that need to be published/de-published
             $recordIds = $this->timedListRecords($contenttypeSlug, $type);
-            if ($recordIds === false) {
+            if (empty($recordIds)) {
                 return;
             }
 
