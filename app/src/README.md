@@ -31,6 +31,9 @@ Generates documentation of Bolt source files in folder ``docs\php``.
 - **``grunt lintHtml``**<br>
 Downloads Bolt backend pages defined in ``grunt-local/pages.js`` and checks them for html errors and problems.
 
+- **``grunt lintBoot``**<br>
+Downloads Bolt backend pages defined in ``grunt-local/pages.js`` and checks them for Bootstrap errors and problems.
+
 ## Local options
 
 Add JS options files to ``app/src/grunt-local/`` in which you put the options you want to overwrite.
