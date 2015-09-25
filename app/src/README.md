@@ -25,6 +25,9 @@ Does some cleanup on CKEditor files in ``lib/ckeditor`` after updating CKEditor.
 - **``grunt docJs``**<br>
 Generates documentation of Bolts own Javascript modules in folder ``docs\js``.
 
+- **``grunt docPhp``**<br>
+Generates documentation of Bolt source files in folder ``docs\php``.
+
 ## Local options
 
 Add JS options files to ``app/src/grunt-local/`` in which you put the options you want to overwrite.
