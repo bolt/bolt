@@ -101,8 +101,11 @@
 
             {% if taxonomy.behaves_like == "categories" %}
 
-                {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
-                <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control" multiple>
+                {% if taxonomy.autocomplete|default(false) %}
+                <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" style="width: 100%;" {% if taxonomy.multiple|default(false) %}multiple{% endif %}>
+                {% elseif taxonomy.multiple|default(false) %}
+                <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control"
+                    multiple style="height: {{ taxonomy.height|default('5em') }};">
                 {% else %}
                 <select name="taxonomy[{{ taxonomy.slug }}][]" id="taxonomy-{{ taxonomy.slug }}" class="form-control">
                     <option value="">{{ __('(no category)') }}</option>
@@ -115,7 +118,7 @@
 
                 </select>
 
-                {% if taxonomy.multiple is defined and taxonomy.multiple == 1 %}
+                {% if taxonomy.multiple|default(false) and not taxonomy.autocomplete|default(false) %}
                 <label><span class="left" style="line-height: 1px;">&nbsp;</span></label>
                 <div style="margin-top: -14px;">{# TODO:onclick-events to JS #}
                     <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#taxonomy-{{ taxonomy.slug }} option').prop('selected', true); return false;">
@@ -125,6 +128,17 @@
                         <i class="fa fa-fw fa-square-o"></i>{{ __("Select none") }}
                     </a>
                 </div>
+                {% endif %}
+
+                {% if taxonomy.autocomplete|default(false) %}
+                <script>
+                    $(function() {
+                        $('#taxonomy-{{ taxonomy.slug }}').select2({
+                            placeholder: "{{ __('(none)') }}",
+                            allowClear: true
+                        });
+                    });
+                </script>
                 {% endif %}
 
             {% endif %}
