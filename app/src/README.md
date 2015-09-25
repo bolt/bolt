@@ -14,6 +14,14 @@ Updates everything that depends on external resources, either provided by bower 
 This command mainly builds ``lib.js`` and ``lib.css`` from external libraries, installs fonts, CKEditor and library
 locale files. It has to be run after and update to those external resources.
 
+- **``grunt prepareCkeditor``**<br>
+Does some cleanup on CKEditor files in ``lib/ckeditor`` after updating CKEditor. Update process:
+
+    * Get newer version with URL extracted from ``lib/ckeditor/build-config.js``.
+    * Empty ``lib/ckeditor`` and unpack the newer version in that folder.
+    * Run ``grunt prepareCkeditor`` go get files prepared.
+    * Run ``grunt updateLib`` go get everything in place.
+
 ## Local options
 
 Add JS options files to ``app/src/grunt-local/`` in which you put the options you want to overwrite.
