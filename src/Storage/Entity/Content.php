@@ -15,7 +15,7 @@ use Bolt\Storage\ContentLegacyService;
  * @method setSlug(string $slug)
  * @method setOwnerid(integer $ownerid)
  * @method setStatus(string $status)
- * @method getTemplatefields(array $templatefields)
+ * @method setTemplatefields(array $templatefields)
  */
 class Content extends Entity
 {
