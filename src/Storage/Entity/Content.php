@@ -12,9 +12,9 @@ use Bolt\Storage\ContentLegacyService;
  * @method string  getStatus()
  * @method array   getTemplatefields()
  * @method setId(integer $id)
- * @method setSlug(string  $slug)
+ * @method setSlug(string $slug)
  * @method setOwnerid(integer $ownerid)
- * @method setStatus(string  $status)
+ * @method setStatus(string $status)
  * @method getTemplatefields(array $templatefields)
  */
 class Content extends Entity
@@ -58,7 +58,7 @@ class Content extends Entity
     {
         $this->_contenttype = $value;
     }
-    
+
     public function setLegacyService(ContentLegacyService $service)
     {
         $this->_legacy = $service;
