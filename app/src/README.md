@@ -23,10 +23,10 @@ Does some cleanup on CKEditor files in ``lib/ckeditor`` after updating CKEditor.
     * Run ``grunt updateLib`` go get everything in place.
 
 - **``grunt docJs``**<br>
-Generates documentation of Bolts own Javascript modules in folder ``docs\js``.
+Generates documentation of Bolts own Javascript modules in folder ``docs/js``.
 
 - **``grunt docPhp``**<br>
-Generates documentation of Bolt source files in folder ``docs\php``.
+Generates documentation of Bolt source files in folder ``docs/php``.
 
 - **``grunt lintHtml``**<br>
 Downloads Bolt backend pages defined in ``grunt-local/pages.js`` and checks them for html errors and problems.
