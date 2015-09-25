@@ -1090,7 +1090,7 @@ class Storage
         try {
             // Check for record that need to be published/de-published
             $recordIds = $this->timedListRecords($contenttypeSlug, $type);
-            if ($recordIds === false) {
+            if (empty($recordIds)) {
                 return;
             }
 
@@ -1166,19 +1166,21 @@ class Storage
         if ($type === 'publish') {
             $query
                 ->where('status = :oldstatus')
-                ->andWhere('datepublish < CURRENT_TIMESTAMP')
+                ->andWhere('datepublish < :currenttime')
                 ->setParameter('oldstatus', 'timed')
                 ->setParameter('newstatus', 'published')
+                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
             ;
         } else {
             $query
                 ->where('status = :oldstatus')
-                ->andWhere('datedepublish <= CURRENT_TIMESTAMP')
+                ->andWhere('datedepublish <= :currenttime')
                 ->andWhere('datedepublish > :zeroday')
                 ->andWhere('datechanged < datedepublish')
                 ->setParameter('oldstatus', 'published')
                 ->setParameter('newstatus', 'held')
                 ->setParameter('zeroday', '1900-01-01 00:00:01')
+                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
             ;
         }
     }
