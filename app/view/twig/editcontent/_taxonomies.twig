@@ -42,6 +42,12 @@
                 <script>
                 $(function() {
 
+                    {% if taxonomy.allow_spaces %}
+                        var separators = [","];
+                    {% else %}
+                        var separators = [",", " "];
+                    {% endif %}
+
                     // load all tags
                     $.ajax({
                         url: "{{ paths.root }}async/tags/{{ taxonomy.slug }}",
@@ -51,10 +57,10 @@
                             $.each(data, function(index, item){
                                 results.push( item.name );
                             });
-                            $('#taxonomy-{{ taxonomy.slug }}').select2({tags: results, minimumInputLength: 1, tokenSeparators: [",", " "]});
+                            $('#taxonomy-{{ taxonomy.slug }}').select2({tags: results, minimumInputLength: 1, tokenSeparators: separators});
                         },
                         error: function() {
-                            $('#taxonomy-{{ taxonomy.slug }}').select2({tags: [], minimumInputLength: 1, tokenSeparators: [",", " "]});
+                            $('#taxonomy-{{ taxonomy.slug }}').select2({tags: [], minimumInputLength: 1, tokenSeparators: separators});
                         }
                     });
 
