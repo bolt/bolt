@@ -23,8 +23,10 @@
     /**
      * Loading state of Google Maps API.
      *
+     * Values: undefined: initial state; false: pending; true: loaded.
+     *
      * @private
-     * @type {boolean|undefined} Values: undefined: initial state; false: pending; true: loaded.
+     * @type {boolean|undefined}
      */
     var gMapsApiLoaded;
 
