@@ -111,7 +111,8 @@ class Queue implements QueueInterface
      */
     protected function addJquery($html)
     {
-        if (!$this->app['config']->get('general/add_jquery', false)) {
+        if (!$this->app['config']->get('general/add_jquery', false) &&
+            !$this->app['config']->get('theme/add_jquery', false)) {
             return $html;
         }
 
