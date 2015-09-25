@@ -22,6 +22,9 @@ Does some cleanup on CKEditor files in ``lib/ckeditor`` after updating CKEditor.
     * Run ``grunt prepareCkeditor`` go get files prepared.
     * Run ``grunt updateLib`` go get everything in place.
 
+- **``grunt docJs``**<br>
+Generates documentation of Bolts own Javascript modules in folder ``docs\js``.
+
 ## Local options
 
 Add JS options files to ``app/src/grunt-local/`` in which you put the options you want to overwrite.
