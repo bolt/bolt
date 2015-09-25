@@ -9,6 +9,10 @@ Starts the watch task that watches Bolts own Javascript and Sass files and autom
 - **``grunt updateBolt``**<br>
 Manually starts a rebuild of ``bolt.js``, ``bolt.css`` and ``liveeditor.css``.
 
+- **``grunt updateLib``**<br>
+Updates everything that depends on external resources, either provided by bower or embeded in the ``lib`` folder.
+This command mainly builds ``lib.js`` and ``lib.css`` from external libraries, installs fonts, CKEditor and library
+locale files. It has to be run after and update to those external resources.
 
 ## Local options
 
