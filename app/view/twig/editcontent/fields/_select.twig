@@ -70,7 +70,7 @@
             {% endfor %}
         </select>
 
-        {% if option.multiple %}
+        {% if option.multiple and not field.autocomplete|default(false) %}
         <div>{# TODO: move onclick-events to JS #}
             <a href="#" class="btn btn-default btn-xs" onclick="jQuery('#{{ key }} option').prop('selected', true); return false;">
                 <i class="fa fa-fw fa-check-square-o"></i>{{ __("Select all") }}
