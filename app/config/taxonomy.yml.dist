@@ -24,3 +24,5 @@ categories:
     behaves_like: categories
     multiple: true
     options: [ news, events, movies, music, books, life, love, fun ]
+    # autocomplete: false
+    # height: 10em
