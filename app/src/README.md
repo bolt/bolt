@@ -6,6 +6,10 @@
 Starts the watch task that watches Bolts own Javascript and Sass files and automatically rebuilds ``bolt.js``,
 ``bolt.css`` and ``liveeditor.css`` on changes.
 
+- **``grunt updateBolt``**<br>
+Manually starts a rebuild of ``bolt.js``, ``bolt.css`` and ``liveeditor.css``.
+
+
 ## Local options
 
 Add JS options files to ``app/src/grunt-local/`` in which you put the options you want to overwrite.
