@@ -498,8 +498,14 @@ class BackendAdminCest
         $I->see('Trim Change Log', 'a');
         $I->see('Clear Change Log', 'a');
 
-        // An expect entry
-        $I->see('title, slug, body, status, templatefields, ownerid, datepublish, datedepublish, datecreated', 'td');
+        $I->see('Type', 'th');
+        $I->see('ContentType', 'th');
+        $I->see('ID', 'th');
+        $I->see('Title', 'th');
+        $I->see('Changed Fields', 'th');
+        $I->see("Editor's Comment", 'th');
+        $I->see('User', 'th');
+        $I->see('Date', 'th');
 
         // Trim
         $I->click('Trim Change Log', 'a');
