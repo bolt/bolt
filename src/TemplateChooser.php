@@ -105,8 +105,8 @@ class TemplateChooser
                     $template = $data[$name];
                 }
 
-                if ($field['type'] == 'templateselect' && !empty($record->values[$name])) {
-                    $template = $record->values[$name];
+                if ($field['type'] == 'templateselect' && !empty($record[$name])) {
+                    $template = $record[$name];
                 }
 
             }
