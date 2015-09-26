@@ -427,7 +427,8 @@ class TranslationFile
         // if the file doesn't exist yet, point to the fallback one
         if (!file_exists($path) || filesize($path) < 10) {
             // fallback
-            list($path) = $this->buildPath('infos', reset($this->app['locale_fallbacks']));
+            $localeFallbacks = $app['locale_fallbacks'];
+            list($path) = $this->buildPath('infos', reset($localeFallbacks));
 
             if (!file_exists($path)) {
                 $this->app['logger.flash']->error('Locale infos yml file not found. Fallback also not found.');
