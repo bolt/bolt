@@ -126,7 +126,8 @@ class Builder
                 $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
 
                 // If we have a transformer setup then this takes precedence
-                $handler = $this->transformers[$mapping['fieldtype']];
+                $mappedType = $mapping['fieldtype'];
+                $handler = isset($this->transformers[$mappedType]) ? $this->transformers[$mappedType] : null;
 
                 if ($handler) {
                     call_user_func_array($handler, [$entity, $data[$key]]);
