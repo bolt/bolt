@@ -74,7 +74,7 @@ class TemplateFieldsType extends FieldTypeBase
             $value = $this->serialize($value, $metadata);
             $value = $type->convertToDatabaseValue($value, $this->getPlatform());
         } else {
-            $value = $this->mapping['default'];
+            $value = isset($this->mapping['default']) ? $this->mapping['default'] : null;
         }
 
         $qb->setValue($key, ":".$key);
