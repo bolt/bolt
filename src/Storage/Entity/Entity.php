@@ -17,7 +17,7 @@ abstract class Entity implements ArrayAccess, JsonSerializable
     public function __construct($data = [])
     {
         foreach ($data as $key => $value) {
-            $method = "set".ucfirst($key);
+            $method = 'set'.ucfirst($key);
             $this->$method($value);
         }
     }

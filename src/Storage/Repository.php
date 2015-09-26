@@ -63,9 +63,9 @@ class Repository implements ObjectRepository
         }
 
         if (empty($alias)) {
-            $select = "*";
+            $select = '*';
         } else {
-            $select = $alias.".*";
+            $select = $alias.'.*';
         }
 
         return $this->em->createQueryBuilder()
@@ -298,7 +298,7 @@ class Repository implements ObjectRepository
         $this->event()->dispatch(StorageEvents::PRE_DELETE, $event);
         $qb = $this->em->createQueryBuilder()
             ->delete($this->getTableName())
-            ->where("id = :id")
+            ->where('id = :id')
             ->setParameter('id', $entity->getId());
 
         $response = $qb->execute();

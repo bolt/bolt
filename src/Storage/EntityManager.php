@@ -272,7 +272,7 @@ class EntityManager
     public function getDefaultRepositoryFactory($classMetadata)
     {
         if (!is_callable($this->defaultRepositoryFactory)) {
-            throw new \RuntimeException("Unable to handle unmapped data without a defaultRepositoryFactory set", 1);
+            throw new \RuntimeException('Unable to handle unmapped data without a defaultRepositoryFactory set', 1);
         }
 
         $factory = $this->defaultRepositoryFactory;
@@ -366,7 +366,7 @@ class EntityManager
      */
     public function __call($method, $args)
     {
-        //$this->getLogger()->warning("[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.");
+        //$this->getLogger()->warning('[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.');
         return call_user_func_array([$this->legacy(), $method], $args);
     }
 

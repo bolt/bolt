@@ -53,7 +53,7 @@ class QueryParameterParser
      */
     public function setAlias($alias)
     {
-        $this->alias = $alias.".";
+        $this->alias = $alias.'.';
     }
 
     /**

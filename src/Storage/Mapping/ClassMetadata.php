@@ -34,7 +34,7 @@ class ClassMetadata implements ClassMetadataInterface
     public function __construct($className, NamingStrategyInterface $namingStrategy = null)
     {
         if (!class_exists($className)) {
-            throw new \InvalidArgumentException("Value passed must be a valid class name", 1);
+            throw new \InvalidArgumentException('Value passed must be a valid class name', 1);
         }
 
         $this->name = $className;

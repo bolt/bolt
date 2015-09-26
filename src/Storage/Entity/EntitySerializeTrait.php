@@ -20,12 +20,12 @@ trait EntitySerializeTrait
             if (in_array($k, $this->_internal)) {
                 continue;
             }
-            $method = "serialize".$k;
+            $method = 'serialize'.$k;
             $data[$k] = $this->$method();
         }
 
         foreach ($this->_fields as $k => $v) {
-            $method = "serialize".$k;
+            $method = 'serialize'.$k;
             $data[$k] = $this->$method();
         }
 

@@ -117,7 +117,7 @@ class SearchWeighter
             // This is to handle taxonomies that need to be converted from an array
             // into a string of words.
             if (is_array($textualContent)) {
-                $textualContent = implode(" ", $textualContent);
+                $textualContent = implode(' ', $textualContent);
             }
 
             $textualContent = strip_tags($textualContent);

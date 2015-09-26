@@ -29,10 +29,10 @@ class PostgresSearch
 
     public function getQuery()
     {
-        $words = implode("&", $this->searchWords);
+        $words = implode('&', $this->searchWords);
         $sub = clone $this->qb;
         $this->qb->addSelect("ts_rank(bsearch.document, to_tsquery('".$words."')) as score");
-        $sub->select("*");
+        $sub->select('*');
         $select = [];
 
         $fieldsToSearch = $this->config->getConfig($this->contenttype);
@@ -49,10 +49,10 @@ class PostgresSearch
             $weight = $this->getWeight($config['weight']);
             $select[] = "setweight(to_tsvector($alias.$fieldName), '$weight')";
         }
-        $sub->select("*, ".implode(' || ', $select). ' AS document');
+        $sub->select('*, '.implode(' || ', $select). ' AS document');
         $sub->groupBy("$alias.id");
 
-        $this->qb->from("(".$sub->getSQL().")", 'bsearch');
+        $this->qb->from('('.$sub->getSQL().')', 'bsearch');
 
         $this->qb->where("bsearch.document @@ to_tsquery('".$words."')");
         $this->qb->orderBy('score', 'DESC');
