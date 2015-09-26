@@ -130,6 +130,7 @@ class TaxonomyType extends FieldTypeBase
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
         $taxonomy = $entity->getTaxonomy();
+        $taxonomy[$field] = $this->filterArray($taxonomy[$field]);
 
         // Fetch existing taxonomies
         $existingQuery = $this->em->createQueryBuilder()
@@ -149,7 +150,7 @@ class TaxonomyType extends FieldTypeBase
             },
             $result ?: []
         );
-        $proposed = $taxonomy[$field] ?: [];
+        $proposed = !empty($taxonomy[$field]) ? $taxonomy[$field] : [];
 
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
@@ -189,6 +190,24 @@ class TaxonomyType extends FieldTypeBase
 
             $queries->append($del);
         }
+    }
+
+    /**
+     * Filter empty attributes from an array.
+     *
+     * @param array $arr
+     *
+     * @return array
+     */
+    protected function filterArray(array $arr)
+    {
+        foreach ($arr as $key => $value) {
+            if (empty($value)) {
+                unset($arr[$key]);
+            }
+        }
+
+        return $arr;
     }
 
     /**
