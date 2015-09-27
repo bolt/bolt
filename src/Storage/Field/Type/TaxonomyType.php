@@ -139,11 +139,19 @@ class TaxonomyType extends FieldTypeBase
         // Fetch existing taxonomies
         $result = $this->getExistingTaxonomies($entity);
 
+        $result = $result ?: [];
         $existing = array_map(
-            function ($el) {
-                return $el ? $el['slug'] : [];
+            function (&$k, $v) {
+                // We transform to [key => value] as 'tags' entry doesn't contain a slug
+                if ($v) {
+                    $k = $v['slug'];
+                    $v = $v['name'];
+                }
+
+                return $v;
             },
-            $result ?: []
+            array_keys($result),
+            $result
         );
 
         $toInsert = array_diff($taxonomy[$field], $existing);
