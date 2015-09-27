@@ -144,10 +144,9 @@ class TaxonomyType extends FieldTypeBase
             },
             $result ?: []
         );
-        $proposed = !empty($taxonomy[$field]) ? $taxonomy[$field] : [];
 
-        $toInsert = array_diff($proposed, $existing);
-        $toDelete = array_diff($existing, $proposed);
+        $toInsert = array_diff($taxonomy[$field], $existing);
+        $toDelete = array_diff($existing, $taxonomy[$field]);
 
         $this->appendInsertQueries($queries, $entity, $toInsert);
         $this->appendDeleteQueries($queries, $entity, $toDelete);
