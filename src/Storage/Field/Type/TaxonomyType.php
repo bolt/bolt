@@ -97,28 +97,30 @@ class TaxonomyType extends FieldTypeBase
         $group = null;
         $sortorder = null;
         $taxValueProxy = [];
-        $field = $this->mapping['fieldname'];
         $values = $entity->getTaxonomy();
+        $taxName = $this->mapping['fieldname'];
         $taxData = $this->mapping['data'];
-        $taxData['sortorder'] = isset($data[$field . '_sortorder']) ? $data[$field . '_sortorder'] : 0;
-        $taxValues = array_filter(explode(',', $data[$field]));
-        foreach ($taxValues as $taxValue) {
-            $taxValueProxy[$field . '/' . $data[$field . '_slug']] = new TaxonomyValue($field, $taxValue, $taxData);
+        $taxData['sortorder'] = isset($data[$taxName . '_sortorder']) ? $data[$taxName . '_sortorder'] : 0;
+        $taxValues = $this->getTaxonomyValues($taxName, $data);
+
+        foreach ($taxValues as $taxValueSlug => $taxValueName) {
+            $keyName = $taxName . '/' . $taxValueSlug;
+            $taxValueProxy[$keyName] = new TaxonomyValue($taxName, $taxValueName, $taxData);
 
             if ($taxData['has_sortorder']) {
                 // Previously we only cared about the last one… so yeah
-                $index = array_search($data[$field . '_slug'], array_keys($taxData['options']));
+                $index = array_search($data[$taxName . '_slug'], array_keys($taxData['options']));
                 $sortorder = $taxData['sortorder'];
                 $group = [
-                    'slug'  => $data[$field . '_slug'],
-                    'name'  => $taxValue,
+                    'slug'  => $taxValueSlug,
+                    'name'  => $taxValueName,
                     'order' => $sortorder,
                     'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
                 ];
             }
         }
 
-        $values[$field] = !empty($taxValueProxy) ? $taxValueProxy : null;
+        $values[$taxName] = !empty($taxValueProxy) ? $taxValueProxy : null;
         $entity->setTaxonomy($values);
         $entity->setGroup($group);
         $entity->setSortorder($sortorder);
