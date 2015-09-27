@@ -83,7 +83,7 @@ class TaxonomyType extends FieldTypeBase
         }
 
         $query
-            ->addSelect("$field.slug as " . $field . '_slug')
+            ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field.'_slugs', $query))
             ->addSelect($this->getPlatformGroupConcat("$field.name", $order, $field, $query))
             ->leftJoin($alias, $target, $field, "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("$alias.id");
