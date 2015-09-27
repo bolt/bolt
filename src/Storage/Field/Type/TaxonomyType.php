@@ -137,7 +137,7 @@ class TaxonomyType extends FieldTypeBase
         $taxonomy[$field] = isset($taxonomy[$field]) ? $this->filterArray($taxonomy[$field]) : [];
 
         // Fetch existing taxonomies
-        $result = $this->getExisting($entity);
+        $result = $this->getExistingTaxonomies($entity);
 
         $existing = array_map(
             function ($el) {

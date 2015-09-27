@@ -40,7 +40,7 @@ trait TaxonomyTypeTrait
      *
      * @return array
      */
-    public function getExisting($entity)
+    public function getExistingTaxonomies($entity)
     {
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
