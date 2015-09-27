@@ -14,6 +14,26 @@ use Cocur\Slugify\Slugify;
 trait TaxonomyTypeTrait
 {
     /**
+     * Get an associative array of ['slug' => 'name'] for taxonomy values.
+     *
+     * @param string $taxName
+     * @param array  $data
+     *
+     * @return array
+     */
+    public function getTaxonomyValues($taxName, array $data)
+    {
+        $taxonomy = [];
+        $slugs = explode(',', $data[$taxName . '_slugs']);
+        $names = explode(',', $data[$taxName]);
+        foreach ($slugs as $index => $value) {
+            $taxonomy[$value] = $names[$index];
+        }
+
+        return $taxonomy;
+    }
+
+    /**
      * Get existing taxonomy records.
      *
      * @param mixed $entity
