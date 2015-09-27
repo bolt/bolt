@@ -109,7 +109,8 @@ class TaxonomyType extends FieldTypeBase
 
             if ($taxData['has_sortorder']) {
                 // Previously we only cared about the last one… so yeah
-                $index = array_search($data[$taxName . '_slug'], array_keys($taxData['options']));
+                $needle = isset($data[$taxName . '_slug']) ? $data[$taxName . '_slug'] : $data[$taxName];
+                $index = array_search($needle, array_keys($taxData['options']));
                 $sortorder = $taxData['sortorder'];
                 $group = [
                     'slug'  => $taxValueSlug,
