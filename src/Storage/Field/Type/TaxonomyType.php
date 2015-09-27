@@ -130,9 +130,10 @@ class TaxonomyType extends FieldTypeBase
     public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
-
         $taxonomy = $entity->getTaxonomy();
-        $taxonomy[$field] = $this->filterArray($taxonomy[$field]);
+        if (isset($taxonomy[$field])) {
+            $taxonomy[$field] = $this->filterArray($taxonomy[$field]);
+        }
 
         // Fetch existing taxonomies
         $result = $this->getExisting($entity);
