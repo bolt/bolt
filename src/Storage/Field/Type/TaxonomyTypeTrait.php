@@ -76,18 +76,18 @@ trait TaxonomyTypeTrait
             $ins = $this->em->createQueryBuilder()
                 ->insert($this->mapping['target'])
                 ->values([
-                'content_id'   => '?',
-                'contenttype'  => '?',
-                'taxonomytype' => '?',
-                'slug'         => '?',
-                'name'         => '?',
-            ])->setParameters([
-                0 => $entity->id,
-                1 => $entity->getContenttype(),
-                2 => $this->mapping['fieldname'],
-                3 => Slugify::create()->slugify($item),
-                4 => isset($this->mapping['data']['options'][$item]) ? $this->mapping['data']['options'][$item] : $item,
-            ]);
+                    'content_id'   => ':content_id',
+                    'contenttype'  => ':contenttype',
+                    'taxonomytype' => ':taxonomytype',
+                    'slug'         => ':slug',
+                    'name'         => ':name',
+                ])->setParameters([
+                    'content_id'   => $entity->id,
+                    'contenttype'  => $entity->getContenttype(),
+                    'taxonomytype' => $this->mapping['fieldname'],
+                    'slug'         => Slugify::create()->slugify($item),
+                    'name'         => isset($this->mapping['data']['options'][$item]) ? $this->mapping['data']['options'][$item] : $item,
+                ]);
 
             $queries->append($ins);
         }
@@ -105,16 +105,16 @@ trait TaxonomyTypeTrait
         foreach ($toDelete as $item) {
             $del = $this->em->createQueryBuilder()
                 ->delete($this->mapping['target'])
-                ->where('content_id=?')
-                ->andWhere('contenttype=?')
-                ->andWhere('taxonomytype=?')
-                ->andWhere('slug=?')
+                ->where('content_id = :content_id')
+                ->andWhere('contenttype = :contenttype')
+                ->andWhere('taxonomytype = :taxonomytype')
+                ->andWhere('slug = :slug')
                 ->setParameters([
-                    0 => $entity->id,
-                    1 => $entity->getContenttype(),
-                    2 => $this->mapping['fieldname'],
-                    3 => $item,
-            ]);
+                    'content_id'   => $entity->id,
+                    'contenttype'  => $entity->getContenttype(),
+                    'taxonomytype' => $this->mapping['fieldname'],
+                    'slug'         => $item,
+                ]);
 
             $queries->append($del);
         }
