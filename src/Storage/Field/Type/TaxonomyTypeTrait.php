@@ -21,7 +21,7 @@ trait TaxonomyTypeTrait
      *
      * @return array
      */
-    public function getTaxonomyValues($taxName, array $data)
+    protected function getTaxonomyValues($taxName, array $data)
     {
         $taxonomy = [];
         $slugs = explode(',', $data[$taxName . '_slugs']);
@@ -40,7 +40,7 @@ trait TaxonomyTypeTrait
      *
      * @return array
      */
-    public function getExistingTaxonomies($entity)
+    protected function getExistingTaxonomies($entity)
     {
         $field = $this->mapping['fieldname'];
         $target = $this->mapping['target'];
@@ -69,7 +69,7 @@ trait TaxonomyTypeTrait
      * @param mixed    $entity
      * @param array    $toInsert
      */
-    public function appendInsertQueries(QuerySet $queries, $entity, array $toInsert)
+    protected function appendInsertQueries(QuerySet $queries, $entity, array $toInsert)
     {
         foreach ($toInsert as $item) {
             $item = (string) $item;
@@ -100,7 +100,7 @@ trait TaxonomyTypeTrait
      * @param mixed    $entity
      * @param array    $toDelete
      */
-    public function appendDeleteQueries(QuerySet $queries, $entity, array $toDelete)
+    protected function appendDeleteQueries(QuerySet $queries, $entity, array $toDelete)
     {
         foreach ($toDelete as $item) {
             $del = $this->em->createQueryBuilder()
