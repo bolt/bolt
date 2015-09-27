@@ -17,6 +17,8 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class TaxonomyType extends FieldTypeBase
 {
+    use TaxonomyTypeTrait;
+
     /**
      * Taxonomy fields allows queries on the parameters passed in.
      * For example the following queries:
@@ -128,21 +130,12 @@ class TaxonomyType extends FieldTypeBase
     public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
-        $target = $this->mapping['target'];
+
         $taxonomy = $entity->getTaxonomy();
         $taxonomy[$field] = $this->filterArray($taxonomy[$field]);
 
         // Fetch existing taxonomies
-        $existingQuery = $this->em->createQueryBuilder()
-                            ->select('*')
-                            ->from($target)
-                            ->where('content_id = ?')
-                            ->andWhere('contenttype = ?')
-                            ->andWhere('taxonomytype = ?')
-                            ->setParameter(0, $entity->id)
-                            ->setParameter(1, $entity->getContenttype())
-                            ->setParameter(2, $field);
-        $result = $existingQuery->execute()->fetchAll();
+        $result = $this->getExisting($entity);
 
         $existing = array_map(
             function ($el) {
@@ -155,59 +148,8 @@ class TaxonomyType extends FieldTypeBase
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
 
-        foreach ($toInsert as $item) {
-            $item = (string) $item;
-            $ins = $this->em->createQueryBuilder()->insert($target);
-            $ins->values([
-                'content_id'   => '?',
-                'contenttype'  => '?',
-                'taxonomytype' => '?',
-                'slug'         => '?',
-                'name'         => '?',
-            ])->setParameters([
-                0 => $entity->id,
-                1 => $entity->getContenttype(),
-                2 => $field,
-                3 => Slugify::create()->slugify($item),
-                4 => isset($this->mapping['data']['options'][$item]) ? $this->mapping['data']['options'][$item] : $item,
-            ]);
-
-            $queries->append($ins);
-        }
-
-        foreach ($toDelete as $item) {
-            $del = $this->em->createQueryBuilder()->delete($target);
-            $del->where('content_id=?')
-                ->andWhere('contenttype=?')
-                ->andWhere('taxonomytype=?')
-                ->andWhere('slug=?')
-                ->setParameters([
-                0 => $entity->id,
-                1 => $entity->getContenttype(),
-                2 => $field,
-                3 => $item,
-            ]);
-
-            $queries->append($del);
-        }
-    }
-
-    /**
-     * Filter empty attributes from an array.
-     *
-     * @param array $arr
-     *
-     * @return array
-     */
-    protected function filterArray(array $arr)
-    {
-        foreach ($arr as $key => $value) {
-            if (empty($value)) {
-                unset($arr[$key]);
-            }
-        }
-
-        return $arr;
+        $this->appendInsertQueries($queries, $entity, $toInsert);
+        $this->appendDeleteQueries($queries, $entity, $toDelete);
     }
 
     /**
