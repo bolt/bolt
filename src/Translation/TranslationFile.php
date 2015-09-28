@@ -427,7 +427,7 @@ class TranslationFile
         // if the file doesn't exist yet, point to the fallback one
         if (!file_exists($path) || filesize($path) < 10) {
             // fallback
-            $localeFallbacks = $app['locale_fallbacks'];
+            $localeFallbacks = $this->app['locale_fallbacks'];
             list($path) = $this->buildPath('infos', reset($localeFallbacks));
 
             if (!file_exists($path)) {
