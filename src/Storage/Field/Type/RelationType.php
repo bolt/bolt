@@ -106,12 +106,14 @@ class RelationType extends FieldTypeBase
         $existingQuery = $this->em->createQueryBuilder()
                             ->select('*')
                             ->from($target)
-                            ->where('from_id = ?')
-                            ->andWhere('from_contenttype = ?')
-                            ->andWhere('to_contenttype = ?')
-                            ->setParameter(0, $entity->id)
-                            ->setParameter(1, $entity->getContenttype())
-                            ->setParameter(2, $field);
+                            ->where('from_id = :from_id')
+                            ->andWhere('from_contenttype = :from_contenttype')
+                            ->andWhere('to_contenttype = :to_contenttype')
+                            ->setParameters([
+                                'from_id'          => $entity->id,
+                                'from_contenttype' => $entity->getContenttype(),
+                                'to_contenttype'   => $field,
+                            ]);
         $result = $existingQuery->execute()->fetchAll();
         $existing = array_map(
             function ($el) {
@@ -132,16 +134,16 @@ class RelationType extends FieldTypeBase
         foreach ($toInsert as $item) {
             $ins = $this->em->createQueryBuilder()->insert($target);
             $ins->values([
-                    'from_id'          => '?',
-                    'from_contenttype' => '?',
-                    'to_contenttype'   => '?',
-                    'to_id'            => '?'
+                    'from_id'          => ':from_id',
+                    'from_contenttype' => ':from_contenttype',
+                    'to_contenttype'   => ':to_contenttype',
+                    'to_id'            => ':to_id'
                 ])
                 ->setParameters([
-                    0 => $entity->id,
-                    1 => $entity->getContenttype(),
-                    2 => $field,
-                    3 => $item
+                    'from_id'          => $entity->id,
+                    'from_contenttype' => $entity->getContenttype(),
+                    'to_contenttype'   => $field,
+                    'to_id'            => $item
                 ]);
 
             $queries->append($ins);
@@ -149,15 +151,15 @@ class RelationType extends FieldTypeBase
 
         foreach ($toDelete as $item) {
             $del = $this->em->createQueryBuilder()->delete($target);
-            $del->where('from_id=?')
-                ->andWhere('from_contenttype=?')
-                ->andWhere('to_contenttype=?')
-                ->andWhere('to_id=?')
+            $del->where('from_id = :from_id')
+                ->andWhere('from_contenttype = :from_contenttype')
+                ->andWhere('to_contenttype = :to_contenttype')
+                ->andWhere('to_id = :to_id')
                 ->setParameters([
-                    0 => $entity->id,
-                    1 => $entity->getContenttype(),
-                    2 => $field,
-                    3 => $item
+                    'from_id'          => $entity->id,
+                    'from_contenttype' => $entity->getContenttype(),
+                    'to_contenttype'   => $field,
+                    'to_id'            => $item
                 ]);
 
             $queries->append($del);
