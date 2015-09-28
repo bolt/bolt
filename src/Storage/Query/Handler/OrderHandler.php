@@ -38,10 +38,11 @@ class OrderHandler
      */
     protected function getOrderBys($order)
     {
-        $separatedOrders[] = $order;
+        $separatedOrders = [$order];
 
-        if ($this->isMultiOrderQuery($order))
+        if ($this->isMultiOrderQuery($order)) {
             $separatedOrders = explode(",", $order);
+        }
 
         return $separatedOrders;
     }
@@ -52,6 +53,6 @@ class OrderHandler
      */
     protected function isMultiOrderQuery($order)
     {
-        return ( strpos($order, ',') !== false ? true : false );
+        return strpos($order, ',') !== false;
     }
 }

@@ -1878,16 +1878,13 @@ class Storage
             }
             $name = $this->getFieldName($name);
         }
-
         // Check if the $name is in the contenttype's fields.
         if (isset($contenttype['fields'][$name])) {
             return true;
         }
-
         if (in_array($name, Content::getBaseColumns())) {
             return true;
         }
-
         return false;
     }
 
@@ -1940,8 +1937,9 @@ class Storage
                 $order .= ' DESC';
             }
 
-            if ($this->isNotLastItemInArray($totalOrderByElements, $index))
+            if ($this->isNotLastItemInArray($totalOrderByElements, $index)) {
                 $order .= ',';
+            }
         }
 
         return $order;
@@ -1963,7 +1961,7 @@ class Storage
      */
     protected function getOrderBys($order)
     {
-        $separatedOrders[] = $order;
+        $separatedOrders = [$order];
 
         if ($this->isMultiOrderQuery($order))
             $separatedOrders = explode(",", $order);
@@ -1977,7 +1975,7 @@ class Storage
      */
     protected function isMultiOrderQuery($order)
     {
-        return ( strpos($order, ',') !== false ? true : false );
+        return strpos($order, ',') !== false;
     }
 
     /**
