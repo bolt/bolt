@@ -88,6 +88,12 @@ trait TaxonomyTypeTrait
                     'slug'         => Slugify::create()->slugify($item),
                     'name'         => isset($this->mapping['data']['options'][$item]) ? $this->mapping['data']['options'][$item] : $item,
                 ]);
+                
+            $queries->onResult(function($query, $result, $id) use($ins) {
+                if ($query === $ins && $result === 1 && $id) {
+                    $query->setParameter('content_id', $id);
+                }                
+            });
 
             $queries->append($ins);
         }
