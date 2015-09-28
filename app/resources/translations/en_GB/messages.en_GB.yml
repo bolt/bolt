@@ -444,7 +444,7 @@ contenttypes:
         recent-changes-one: "Recent changes to this %contenttype%"
         reserved-name: "In the contenttype for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
         save: "Save %contenttype%"
-        saved-changes: "The changes to this %contenttype% have been saved."
+        saved-changes: "The changes to the %contenttype% have been saved."
         saved-new: "The new %contenttype% has been saved."
         saving-impossible: "Could not save %contenttype%."
         show-more: "More %contenttypes%"
