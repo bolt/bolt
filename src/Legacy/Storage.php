@@ -1963,8 +1963,9 @@ class Storage
     {
         $separatedOrders = [$order];
 
-        if ($this->isMultiOrderQuery($order))
+        if ($this->isMultiOrderQuery($order)) {
             $separatedOrders = explode(",", $order);
+        }
 
         return $separatedOrders;
     }
