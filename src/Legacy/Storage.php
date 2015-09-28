@@ -1871,21 +1871,43 @@ class Storage
      */
     private function isValidColumn($name, $contenttype, $allowVariants = false)
     {
-        // Strip the minus in '-title' if allowed.
-        if ($allowVariants) {
-            if ((strlen($name) > 0) && ($name[0] == "-")) {
-                $name = substr($name, 1);
+        $isValidColumn = false;
+
+        if ($this->isMultiOrderQuery($name)) {
+            $separatedOrders = $this->getOrderBys($name);
+        } else {
+            $separatedOrders = [$name];
+        }
+
+        //Loop through each term if multiple
+        foreach ($separatedOrders as $index => $name) {
+
+            $name = trim($name);
+
+            // Strip the minus in '-title' if allowed.
+            if ($allowVariants) {
+                if ((strlen($name) > 0) && ($name[0] == "-")) {
+                    $name = substr($name, 1);
+                }
+                $name = $this->getFieldName($name);
             }
-            $name = $this->getFieldName($name);
+
+            // Check if the $name is in the contenttype's fields.
+            if (isset($contenttype['fields'][$name])) {
+                $isValidColumn = true;
+            }
+
+            if (in_array($name, Content::getBaseColumns())) {
+                $isValidColumn = true;
+            }
+
+            if (! $isValidColumn) {
+                return false;
+            }
+
         }
-        // Check if the $name is in the contenttype's fields.
-        if (isset($contenttype['fields'][$name])) {
-            return true;
-        }
-        if (in_array($name, Content::getBaseColumns())) {
-            return true;
-        }
-        return false;
+
+        return true;
     }
 
     /**
