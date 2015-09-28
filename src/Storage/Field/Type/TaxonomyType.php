@@ -104,6 +104,11 @@ class TaxonomyType extends FieldTypeBase
         $taxValues = $this->getTaxonomyValues($taxName, $data);
 
         foreach ($taxValues as $taxValueSlug => $taxValueName) {
+            
+            if (empty($taxValueSlug)) {
+                continue;
+            }
+            
             $keyName = $taxName . '/' . $taxValueSlug;
             $taxValueProxy[$keyName] = new TaxonomyValue($taxName, $taxValueName, $taxData);
 
@@ -122,6 +127,12 @@ class TaxonomyType extends FieldTypeBase
         }
 
         $values[$taxName] = !empty($taxValueProxy) ? $taxValueProxy : null;
+
+        foreach ($values as $tname => $tval) {
+            $setter = 'set'.ucfirst($tname);
+            $entity->$setter($tval);
+        }
+        
         $entity->setTaxonomy($values);
         $entity->setGroup($group);
         $entity->setSortorder($sortorder);
