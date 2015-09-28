@@ -448,7 +448,7 @@ class Application extends Silex\Application
      */
     public function initMailCheck()
     {
-        if (!$this['config']->get('general/mailoptions') && $this['extensions']->hasMailSenders()) {
+        if ($this['users']->getCurrentuser() && !$this['config']->get('general/mailoptions') && $this['extensions']->hasMailSenders()) {
             $error = "One or more installed extensions need to be able to send email. Please set up the 'mailoptions' in config.yml.";
             $this['session']->getFlashBag()->add('error', Trans::__($error));
         }
