@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage\Mapping;
 
+use Bolt\Exception\StorageException;
+
 /**
  * Taxonomy mapping.
  *
@@ -18,10 +20,16 @@ class TaxonomyValue implements \ArrayAccess
     /**
      * Constructor.
      *
+     * @throws StorageException
+     *
      * @param array $data
      */
     public function __construct($name, $value, array $data)
     {
+        if (empty($value)) {
+            throw new StorageException('Taxonomy value can not be empty!');
+        }
+
         $this->name = $name;
         $this->value = $value;
         $this->data = $data;
