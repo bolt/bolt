@@ -27,6 +27,7 @@ class ContentType extends BaseTable
         // String, 128, not null, empty default
         'slug'           => 'columnStringNotNull',
         // Text, platform default size
+        'hidden'         => 'columnText',
         'html'           => 'columnText',
         'markdown'       => 'columnText',
         'select'         => 'columnText',
