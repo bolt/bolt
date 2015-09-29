@@ -14,7 +14,7 @@ class Manager
 
     protected $defaults = array(
         'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'video', 'html',
-        'textarea', 'datetime', 'date', 'select', 'templateselect', 'markdown', 'checkbox', 'slug'
+        'textarea', 'datetime', 'date', 'select', 'templateselect', 'markdown', 'checkbox', 'slug', 'hidden'
     );
 
     public function __construct()

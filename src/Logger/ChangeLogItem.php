@@ -275,6 +275,7 @@ class ChangeLogItem implements \ArrayAccess
                 case 'html':
                 case 'markdown':
                 case 'textarea':
+                case 'hidden':
                     $changedfields[$key]['type'] = $fields[$key]['type'];
 
                     break;
