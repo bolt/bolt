@@ -225,14 +225,14 @@ class ImageHandler
      */
     private function getThubnailUri(Thumbnail $thumb)
     {
-        $thumbStr = sprintf(
-            '%sx%s%s/%s',
-            $thumb->getWidth(),
-            $thumb->getHeight(),
-            $thumb->getScale(),
-            $thumb->getFileName()
+        return $this->app['url_generator']->generate(
+            'thumb',
+            [
+                'width'  => $thumb->getWidth(),
+                'height' => $thumb->getHeight(),
+                'action' => $thumb->getScale(),
+                'file'   => $thumb->getFileName(),
+            ]
         );
-
-        return $this->app['url_generator']->generate('thumb', ['thumb' => $thumbStr]);
     }
 }
