@@ -107,6 +107,7 @@ class RecordModifier
         // Ensure all fields have valid values
         $formValues = $this->setSuccessfulControlValues($formValues, $contentType['fields']);
         $formValues = Input::cleanPostedData($formValues);
+        unset($formValues['contenttype']);
 
         if ($id = $content->getId()) {
             // Owner is set explicitly, is current user is allowed to do this?
