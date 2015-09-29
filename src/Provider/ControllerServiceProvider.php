@@ -101,10 +101,15 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
 
         $event = new MountEvent($app, $app['controllers']);
         $dispatcher->dispatch(ControllerEvents::MOUNT, $event);
-        $event->finish();
     }
 
-    public function mount(MountEvent $event)
+    public function onMountFrontend(MountEvent $event)
+    {
+        $app = $event->getApp();
+        $event->mount('', $app['controller.frontend']);
+    }
+
+    public function onMountBackend(MountEvent $event)
     {
         $app = $event->getApp();
 
@@ -145,15 +150,15 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
 
         // Mount the 'thumbnail' provider on /thumbs.
         $event->mount('/thumbs', new ThumbnailProvider());
-
-        // Mount the Frontend controller
-        $event->mount('', $app['controller.frontend'], -50);
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            ControllerEvents::MOUNT => 'mount',
+            ControllerEvents::MOUNT => [
+                ['onMountFrontend', -50],
+                ['onMountBackend'],
+            ],
         ];
     }
 }

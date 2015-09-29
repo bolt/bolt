@@ -21,9 +21,6 @@ class MountEvent extends Event
     /** @var ControllerCollection */
     protected $collection;
 
-    /** @var array Controllers grouped by priorities */
-    protected $priorities = [];
-
     /**
      * @param Application $app
      * @param ControllerCollection $collection
@@ -47,32 +44,11 @@ class MountEvent extends Event
      *
      * @param string                                           $prefix      The route prefix
      * @param ControllerCollection|ControllerProviderInterface $controllers A ControllerCollection or a ControllerProviderInterface instance
-     * @param int                                              $priority    Priority at which they should be mounted
      */
-    public function mount($prefix, $controllers, $priority = 0)
+    public function mount($prefix, $controllers)
     {
         $controllers = $this->verifyCollection($controllers);
-        $this->priorities[$priority][] = [$prefix, $controllers];
-    }
-
-    /**
-     * Finish mounting process by sorting them and mounting them to application
-     */
-    public function finish()
-    {
-        if ($this->isPropagationStopped()) {
-            return;
-        }
-
-        krsort($this->priorities);
-        foreach ($this->priorities as $priority) {
-            foreach ($priority as $list) {
-                list($prefix, $controllers) = $list;
-                $this->collection->mount($prefix, $controllers);
-            }
-        }
-
-        $this->stopPropagation();
+        $this->collection->mount($prefix, $controllers);
     }
 
     /**
