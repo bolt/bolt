@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage;
 
 use Bolt\Events\HydrationEvent;
@@ -34,7 +35,7 @@ class Repository implements ObjectRepository
     {
         $this->em = $em;
         $this->_class = $classMetadata;
-        $this->entityName  = $classMetadata->getName();
+        $this->entityName = $classMetadata->getName();
     }
 
     /**
@@ -162,11 +163,12 @@ class Repository implements ObjectRepository
         if ($offset) {
             $qb->setFirstResult($offset);
         }
+
         return $qb;
     }
 
     /**
-     * Method to hydrate and return a QueryBuilder query
+     * Method to hydrate and return a QueryBuilder query.
      *
      * @return array Entity | false
      **/
@@ -183,7 +185,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Method to hydrate and return a single QueryBuilder result
+     * Method to hydrate and return a single QueryBuilder result.
      *
      * @return Entity | false
      **/
@@ -290,7 +292,7 @@ class Repository implements ObjectRepository
      *
      * @param object $entity The entity to delete.
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($entity)
     {
@@ -313,7 +315,7 @@ class Repository implements ObjectRepository
      *
      * @param object $entity The entity to delete.
      *
-     * @return boolean
+     * @return bool
      */
     public function save($entity)
     {
@@ -342,7 +344,7 @@ class Repository implements ObjectRepository
      *
      * @param object $entity The entity to insert.
      *
-     * @return boolean
+     * @return bool
      */
     public function insert($entity)
     {
@@ -352,7 +354,17 @@ class Repository implements ObjectRepository
         $querySet->append($qb);
         $this->persist($querySet, $entity, ['id']);
 
-        return $querySet->execute();
+        $result = $querySet->execute();
+
+        // Try and set the entity id using the response from the insert
+        try {
+            $entity->setId($querySet->getInsertId());
+            $this->refresh($entity);
+            
+        } catch (\Exception $e) {
+        }
+
+        return $result;
     }
 
     /**
@@ -416,9 +428,20 @@ class Repository implements ObjectRepository
 
         return $rows;
     }
+    
+    /**
+     * Internal method to refresh (re-hydrate an entity) using
+     * the field setters.
+     * 
+     * @param  $entity
+     */
+    protected function refresh($entity)
+    {
+        // Not implemented yet
+    }
 
     /**
-     * Fetches FieldManager instance from the EntityManager
+     * Fetches FieldManager instance from the EntityManager.
      *
      * @return FieldManager
      */
@@ -480,7 +503,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Getter for class metadata
+     * Getter for class metadata.
      *
      * @return ClassMetadata
      */
@@ -490,7 +513,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Shortcut method to fetch the Event Dispatcher
+     * Shortcut method to fetch the Event Dispatcher.
      *
      * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
