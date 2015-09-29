@@ -39,8 +39,6 @@ class FieldSaveTest extends BoltUnitTest
     public function testTaxonomySave()
     {
         $app = $this->getApp();
-        $app['schema']->repairTables();
-        $this->addSomeContent();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
 
@@ -49,12 +47,27 @@ class FieldSaveTest extends BoltUnitTest
         $this->assertTrue(is_array($record->taxonomy['categories']));
         $this->assertTrue(is_array($record->taxonomy['tags']));
 
-        $record->setTaxonomy([]);
-        $em->save($record);
+        $record->setTaxonomy(['categories'=>[]]);
+        $repo->save($record);
 
         // Test that there are no relations now on a fresh search
         $record1 = $repo->find(1);
-        $this->assertNull($record1->taxonomy['categories']);
+        $this->assertEquals(0, count($record1->taxonomy['categories']));
+    }
+    
+    public function testEntityCreateTaxonomySave()
+    {
+        $app = $this->getApp();
+        $em = $app['storage'];
+        $repo = $em->getRepository('showcases');
+        
+        $newEntity = $repo->create(['title'=>'Testing', 'slug'=>'testing', 'status'=>'published']);
+        $newEntity->setTaxonomy(['categories' => ['news','events']] );
+        $repo->save($newEntity);
+        
+        $savedEntity = $repo->find($newEntity->getId());
+        $this->assertEquals(2, count($savedEntity->getCategories()));
+
     }
 
     protected function addSomeContent()
