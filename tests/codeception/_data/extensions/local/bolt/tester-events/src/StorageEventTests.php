@@ -54,6 +54,8 @@ class StorageEventTests
         $contenttype = $event->getContentType();
 
         if ($contenttype === 'pages') {
+            $repo = $this->app['storage']->getRepository($contenttype);
+            
             $record = $event->getContent();
             $values = $record->getValues();
 
@@ -68,7 +70,7 @@ class StorageEventTests
             }
 
             // Save the changes to the database
-            $this->app['storage']->saveContent($record);
+            $repo->update($record);
         }
     }
 
