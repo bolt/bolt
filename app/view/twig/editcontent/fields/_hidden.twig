@@ -1,0 +1,21 @@
+{#=== OPTIONS ========================================================================================================#}
+
+{% set option = {
+    info:         field.info|default('')
+} %}
+
+{#=== INIT ===========================================================================================================#}
+
+{% set attr_text = {
+    name:           name,
+    id:             key,
+    type:           'hidden',
+    value:          context.content.get(contentkey),
+} %}
+
+{#=== FIELDSET =======================================================================================================#}
+
+<fieldset class="text">
+    <!-- {{ (option.info) ? macro.infopop(labelkey , option.info) :labelkey }} -->
+    <input{{ macro.attr(attr_text) }}>
+</fieldset>
