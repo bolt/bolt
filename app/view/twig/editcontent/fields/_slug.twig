@@ -25,7 +25,7 @@
     contentId: context.content.id,
     isEmpty:   (context.content.get(contentkey) == ''),
     key:       key,
-    slug:      context.content.contenttype,
+    slug:      context.content.contenttype.slug,
     uses:      option.uses,
 }%}
 
