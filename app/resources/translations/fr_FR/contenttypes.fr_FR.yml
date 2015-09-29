@@ -1,0 +1,137 @@
+# app/resources/translations/fr_FR/contenttypes.fr_FR.yml – generated on 2015-08-19 04:25:31 America/New_York
+
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
+
+#  no unused messages
+#  no untranslated messages
+#  no untranslated keyword based messages
+#  no translations
+# 106 keyword based translations
+
+#--- 106 keyword based translations -------------------------------------------
+
+contenttypes:
+    entries:
+        description: "Le type de contenu **Billet** peut être utilisé pour des _'actualités'_ ou des _'post de blog'_. Il possède une accroche qui peut être affichée dans les pages de listes ainsi que des champs image et vidéo (optionnels) La définition de ce type de contenu est stockée dans le fichier `contenttypes.yml` situé dans le répertoire `app/config/`. Ce fichier peut être modifié manuellement ou par l'élément 'Configuration'  » 'Types de contenu' dans le menu latéral."
+        group:
+            content: "Contenu"
+            media: "Médias"
+        name:
+            plural: "Billets"
+            singular: "Billet"
+        text:
+            actions-all: "Actions sur les billets"
+            actions-one: "Actions du billet"
+            created: "Ce billet a été créé"
+            delete: "Supprimer le billet"
+            duplicate: "Dupliquer le billet"
+            duplicated-finalize: "Le billet a été dupliqué. Cliquer sur 'Enregistrer' pour finir."
+            edit: "Modifier le billet"
+            error-saving: "Une erreur est survenue lors de l'enregistrement du billet"
+            invalid-field: "Impossible de définir le champ %field% pour le billet : champ invalide"
+            last-modified: "Derniers billets modifiés"
+            new: "Nouveau billet"
+            no-latest: "Aucun billet"
+            no-proper-type: "Dans le type de contenu 'Billet', le champ '%field%' a pour type '%type%' qui n'est pas un type de champ autorisé. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+            no-recent: "Aucun billet récent"
+            none-available: "Aucun billet disponible"
+            not-existing: "Le billet que vous recherchez n'existe pas. Il a été soit supprimé soit n'a jamais existé."
+            not-saved-yet: "Ce billet n'a pas encore été enregistré."
+            overview: "Aperçu des billets"
+            publish: "Publier le billet"
+            recent: "Billets récents"
+            recent-changes-one: "Changements récents sur ce billet"
+            recently-edited: "Derniers billets modifiés"
+            reserved-name: "Le champ '%field' est défini pour le type de contenu 'Billet' : ce nom est réservé par le système. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+            save: "Enregistrer"
+            saved-changes: "Les modifications de ce billet ont été enregistrées."
+            saved-new: "Le nouveau billet a été enregistré."
+            saving-impossible: "Impossible d'enregistrer le billet."
+            show-more: "Plus de billets"
+            view: "Afficher les billets"
+            wrong-use-field: "Dans le type de contenu 'Billet', le champ '%field%' référence le champ '%uses%' qui n'existe pas. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+    pages:
+        description: "Le type de contenu **Pages** est particulièrement recommandé pour les contenus 'statiques' de votre site comme une page 'A propos', 'Nous contacter' ou 'Mentions légales'. La définition de ce type de contenu est stockée dans le fichier `contenttypes.yml` situé dans le répertoire `app/config/`. Ce fichier peut être modifié manuellement ou par l'élément 'Configuration'  » 'Types de contenu' dans le menu latéral."
+        group:
+            content: "Contenu"
+        name:
+            plural: "Pages"
+            singular: "Page"
+        text:
+            actions-all: "Actions pour les pages"
+            actions-one: "Actions"
+            created: "La page a été créée."
+            delete: "Supprimer la page"
+            duplicate: "Dupliquer la page"
+            duplicated-finalize: "La page a été dupliquée. Cliquer sur 'Enregistrer' pour finir."
+            edit: "Modifier la page"
+            error-saving: "Une erreur est survenue lors de l'enregistrement de cette page."
+            invalid-field: "Impossible de définir le champ %field% pour la page : champ invalide"
+            last-modified: "Dernières pages modifiées"
+            new: "Nouvelle page"
+            no-latest: "Aucune page"
+            no-proper-type: "Dans le type de contenu 'Page', le champ '%field%' a pour type '%type%' qui n'est pas un type de champ autorisé. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+            no-recent: "Aucune page récente"
+            none-available: "Aucune page disponible"
+            not-existing: "La page que vous recherchez n'existe pas. Elle a été soit supprimée soit n'a jamais existé."
+            not-saved-yet: "Cette page n'a pas encore été enregistrée."
+            overview: "Aperçu des pages"
+            publish: "Publier la page"
+            recent: "Pages récentes"
+            recent-changes-one: "Changements récents sur cette page"
+            recently-edited: "Dernières pages modifiées"
+            reserved-name: "Le champ '%field' est défini pour le type de contenu 'Page' : ce nom est réservé par le système. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+            save: "Enregistrer"
+            saved-changes: "Les modifications de cette page ont été enregistrées."
+            saved-new: "La nouvelle page a été enregistrée."
+            saving-impossible: "Impossible d'enregistrer la page."
+            show-more: "Plus de pages"
+            view: "Afficher les pages"
+            wrong-use-field: "Dans le type de contenu 'Page', le champ '%field%' référence le champ '%uses%' qui n'existe pas. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+    showcases:
+        description: "Le type de contenu **Démonstration** est une vitrine des types de champs disponibles et de leurs usages. En pratique, son utilité est limitée. La définition de ce type de contenu est stockée dans le fichier `contenttypes.yml` situé dans le répertoire `app/config/`. Ce fichier peut être modifié manuellement ou par l'élément 'Configuration'  » 'Types de contenu' dans le menu latéral."
+        group:
+            files: "Fichiers"
+            media: "Médias"
+            other: "Autres"
+            text: "Texte"
+        name:
+            plural: "Démonstrations"
+            singular: "Démonstration"
+        text:
+            actions-all: "Actions sur les démonstrations"
+            actions-one: "Action de la démonstration"
+            created: "Cette démonstration a été créée"
+            delete: "Supprimer la démonstration"
+            duplicate: "Dupliquer la démonstration"
+            duplicated-finalize: "La démonstration a été dupliquée. Cliquer sur 'Enregistrer' pour finir."
+            edit: "Modifier la démonstration"
+            error-saving: "Une erreur est survenue lors de l'enregistrement de la démonstration"
+            invalid-field: "Impossible de définir le champ %field% pour la démonstration : champ invalide"
+            last-modified: "Dernières démonstrations modifiées"
+            new: "Nouvelle démonstration"
+            no-latest: "Aucune démonstration"
+            no-proper-type: "Dans le type de contenu 'Démonstration', le champ '%field%' a pour type '%type%' qui n'est pas un type de champ autorisé. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+            no-recent: "Aucune démonstration récente"
+            none-available: "Aucune démonstration disponible"
+            not-existing: "La démonstration que vous recherchez n'existe pas. Elle a été soit supprimée soit n'a jamais existé."
+            not-saved-yet: "Cette démonstration n'a pas encore été enregistrée."
+            overview: "Aperçu des démonstrations"
+            publish: "Publier la démonstration"
+            recent: "Démonstrations récentes"
+            recent-changes-one: "Changements récents sur cette démonstration"
+            recently-edited: "Dernières démonstrations modifiées"
+            reserved-name: "Le champ '%field' est défini pour le type de contenu 'Démonstration' : ce nom est réservé par le système. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+            save: "Enregistrer"
+            saved-changes: "Les modifications de cette démonstration ont été enregistrées."
+            saved-new: "La nouvelle démonstration a été enregistrée."
+            saving-impossible: "Impossible d'enregistrer la démonstration."
+            show-more: "Plus de démonstrations"
+            view: "Afficher les démonstrations"
+            wrong-use-field: "Dans le type de contenu 'Démonstration', le champ '%field%' référence le champ '%uses%' qui n'existe pas. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."

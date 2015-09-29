@@ -68,14 +68,14 @@ info:
 
 about:
     bolt: |
-        <p>Bolt is een CMS dat ernaar streeft om simpel, snel, ongecompliceerd te zijn. Voor developers
+        <p>Bols is een CMS dat ernaar streeft om simpel, snel, ongecompliceerd te zijn. Voor developers
             en voor content editors. Bolt is Open Source, en maakt ook gebruik van andere Open Source
             componenten. Als u een developer bent, bent u van harte welkom om te helpen bij de verdere
             ontwikkeling van Bolt.
         </p>
     licence: |
         <p>Alle onderdelen van Bolt zijn vrij te gebruiken volgense de open-source MIT licentie. De volledige
-            licentie tekst is beschikbaar in het bijgevoegde <a href="%paths_root%LICENSE.md">LICENSE.md</a> bestand.
+            licentie tekst is beschikbaar in de bijgevoegde <a href="%paths_root%LICENSE.md">LICENSE.md</a> bestand.
         </p>
 
 prefill:

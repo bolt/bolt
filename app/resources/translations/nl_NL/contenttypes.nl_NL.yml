@@ -1,0 +1,137 @@
+# app/resources/translations/nl_NL/contenttypes.nl_NL.yml – generated on 2015-08-16 19:19:52 Europe/Amsterdam
+
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
+
+#  no unused messages
+#  no untranslated messages
+#  no untranslated keyword based messages
+#  no translations
+# 106 keyword based translations
+
+#--- 106 keyword based translations -------------------------------------------
+
+contenttypes:
+    entries:
+        description: "Het **Berichten** contenttype kan worden gebruikt voor zaken als _'nieuws'_ of _'blogposts'_. Ze hebben een teaser, die kan worden gebruikt voor een introductie van op overzichtpagina's, zodat bezoekers door kunnen klikken naar de rest van het bericht. Er kan ook een afbeelding en optioneel een video aan toegevoegd worden. Om de velden die in dit contenttype te veranderen, bewerkt u het bestand `contenttypes.yml` in de map `app/config/`, met behulp van uw eigen editor, of door naar 'Configuratie' » 'Contenttypen' aan te klikken in het menu aan de linkerkant."
+        group:
+            content: "Content"
+            media: "Media"
+        name:
+            plural: "Berichten"
+            singular: "Bericht"
+        text:
+            actions-all: "Handelingen voor berichten"
+            actions-one: "Handelingen voor dit bericht"
+            created: "Het bericht is aangemaakt"
+            delete: "Verwijder bericht"
+            duplicate: "Dupliceer bericht"
+            duplicated-finalize: "Het bericht is gedupliceerd. Klik op 'Bericht opslaan' om de wijzigingen op te slaan."
+            edit: "Bewerk bericht"
+            error-saving: "Er is een fout opgetreden bij het opslaan van dit bericht"
+            invalid-field: "Het veld %field% kan niet ingevoerd worden: Ongeldig veld."
+            last-modified: "Laatst gewijzigde berichten"
+            new: "Nieuw bericht"
+            no-latest: "Geen laatste bericht gevonden"
+            no-proper-type: "In het contenttype voor 'Entry', is het type '%type%' voor het veld '%field%' geen geldig veld type. Bewerk contenttypes.yml om dit te corrigeren."
+            no-recent: "Geen recent bericht."
+            none-available: "Geen berichten beschikbaar."
+            not-existing: "Het bericht dat je zocht, bestaat niet. Het bericht is waarschijnlijk verwijdeerd of heeft nooit bestaan."
+            not-saved-yet: "Dit bericht is nog niet opgeslagen."
+            overview: "Berichten overzicht"
+            publish: "Publiceer bericht"
+            recent: "Recente berichten"
+            recent-changes-one: "Recente wijzigen aan dit bericht"
+            recently-edited: "Recent gewijzigde berichten"
+            reserved-name: "Het veld '%field%' in het contenttype voor 'Entry', is een gereserveerde naam. Bewerk contenttypes.yml om dit te corrigeren."
+            save: "Bericht opslaan"
+            saved-changes: "De wijzigingen voor dit bericht zijn opgeslagen."
+            saved-new: "Het nieuwe bericht is opgeslagen."
+            saving-impossible: "Het bericht kon niet opgeslagen worden."
+            show-more: "Meer berichten"
+            view: "Bekijk berichten"
+            wrong-use-field: "Het veld '%field%' in het contenttype 'Entry', bevat 'uses: %uses%', maar het veld '%uses%' bestaat niet. Bewerk contenttypes.yml om dit te corrigeren."
+    pages:
+        description: "Het **Pagina's** contenttype kan worden gebruikt voor de meer 'statische' pagina's op uw site. Pagina's zoals _'over ons'_, _'contact'_ of _'disclaimer'_. Om de velden in dit contenttype te veranderen, bewerkt u het bestand `contenttypes.yml` in de map `app/config/`, met behulp uw eigen editor, of door naar 'Configuratie' » 'Contenttypen' te gaan in het menu aan de linkerkant."
+        group:
+            content: "Content"
+        name:
+            plural: "Pagina's"
+            singular: "Pagina"
+        text:
+            actions-all: "Handelingen voor pagina's"
+            actions-one: "Handelingen voor deze pagina"
+            created: "De pagina is aangemaakt"
+            delete: "Verwijdere pagina"
+            duplicate: "Dupliceer pagina"
+            duplicated-finalize: "De pagina is gedupliceerd. Klik op 'Pagina opslaan' om de nieuwe pagina op te slaan."
+            edit: "Pagina bewerken"
+            error-saving: "Er is een fout opgetreden bij het opslaan van deze pagina."
+            invalid-field: "Het veld %field% kan niet ingevoerd worden: Ongeldig veld."
+            last-modified: "Laatst gewijzigde pagina's"
+            new: "Nieuwe pagina"
+            no-latest: "Geen laatste pagina gevonden"
+            no-proper-type: "In het contenttype voor 'Page', is het type '%type%' voor het veld '%field%' geen geldig veld type. Bewerk contenttypes.yml om dit te corrigeren."
+            no-recent: "Geen recente pagina."
+            none-available: "Geen pagina's beschikbaar."
+            not-existing: "De pagina die je zocht, bestaat niet. De pagina is waarschijnlijk verwijdeerd of heeft nooit bestaan."
+            not-saved-yet: "Deze pagina is nog niet opgeslagen."
+            overview: "Pagina's overzicht"
+            publish: "Publiceer pagina"
+            recent: "Recente pagina's"
+            recent-changes-one: "Recente wijzigen aan deze pagina"
+            recently-edited: "Recent gewijzigde pagina's"
+            reserved-name: "Het veld '%field%' in het contenttype voor 'Page', is een gereserveerde naam. Bewerk contenttypes.yml om dit te corrigeren."
+            save: "Pagina opslaan"
+            saved-changes: "De wijzigingen voor deze pagina zijn opgeslagen."
+            saved-new: "De nieuwe pagina is opgeslagen."
+            saving-impossible: "De pagina kon niet opgeslagen worden."
+            show-more: "Meer pagina's"
+            view: "Bekijk pagina's"
+            wrong-use-field: "Het veld '%field%' in het contenttype 'Page', bevat 'uses: %uses%', maar het veld '%uses%' bestaat niet. Bewerk contenttypes.yml om dit te corrigeren."
+    showcases:
+        description: "Het **Showcases** contenttype wordt gebruikt om alle beschikbare veldtypes te tonen. In de praktijk, zal het weinig gebruikt worden. Maar het is een goede manier om een indruk te krijgen van de verschillende velden die u kunt gebruiken. Voor het wijzigen (of verwijderen) van velden in dit contenttype, bewerkt u het bestand `contenttypes.yml` in de map `app/config/`, met behulp van uw eigen editor, of door naar 'Configuratie' » 'Contenttypen' te gaan in het menu aan de linkerkant."
+        group:
+            files: "Bestanden"
+            media: "Media"
+            other: "Anders"
+            text: "Tekst"
+        name:
+            plural: "Showcases"
+            singular: "Showcase"
+        text:
+            actions-all: "Handelingen voor showcases"
+            actions-one: "Handelingen voor deze showcase"
+            created: "De showcase is aangemaakt"
+            delete: "Verwijder showcase"
+            duplicate: "Dupliceer showcase"
+            duplicated-finalize: "De showcase is gedupliceerd. Klik op 'Showcase opslaan' om de wijzigingen op te slaan."
+            edit: "Bewerk showcase"
+            error-saving: "Er is een probleem opgetreden bij het opslaan van deze showcase."
+            invalid-field: "Het veld %field% kan niet ingevoerd worden: Ongeldig veld."
+            last-modified: "Laatst gewijzigde showcase"
+            new: "Nieuwe showcase"
+            no-latest: "Geen laatste showcase gevonden"
+            no-proper-type: "In het contenttype voor 'Showcase', is het type '%type%' voor het veld '%field%' geen geldig veld type. Bewerk contenttypes.yml om dit te corrigeren."
+            no-recent: "Geen recente showcase."
+            none-available: "Geen showcases beschikbaar."
+            not-existing: "De showcase die je zocht bestaat niet. Het is waarschijnlijk verwijderd, of heeft nooit bestaan."
+            not-saved-yet: "Deze showcase is nog niet opgeslagen."
+            overview: "Showcases overzicht"
+            publish: "Publiceer showcase"
+            recent: "Recente showcases"
+            recent-changes-one: "Recente wijzigen aan deze Showcase"
+            recently-edited: "Recent gewijzigde showcases"
+            reserved-name: "Het veld '%field%' in het contenttype voor 'Showcase', is een gereserveerde naam. Bewerk contenttypes.yml om dit te corrigeren."
+            save: "Showcase opslaan"
+            saved-changes: "De aanpassingen aan deze showcase zijn opgeslagen."
+            saved-new: "De nieuwe showcase is opgeslagen."
+            saving-impossible: "De showcase kon niet opgeslagen worden."
+            show-more: "Meer showcases"
+            view: "Bekijk showcases"
+            wrong-use-field: "Het veld '%field%' in het contenttype 'Showcase', bevat 'uses: %uses%', maar het veld '%uses%' bestaat niet. Bewerk contenttypes.yml om dit te corrigeren."
