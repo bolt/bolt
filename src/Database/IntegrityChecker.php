@@ -626,6 +626,7 @@ class IntegrityChecker
                     case 'filelist':
                     case 'imagelist':
                     case 'select':
+                    case 'hidden':
                         $myTable->addColumn($field, 'text', array('default' => $this->getTextDefault()));
                         break;
                     case 'datetime':
