@@ -47,7 +47,12 @@ class Repository implements ObjectRepository
      */
     public function create($params = [], ClassMetadata $metadata = null)
     {
-        return $this->getEntityBuilder()->create($params, $metadata);
+        $entity = $this->getEntityBuilder()->create($params, $metadata);
+        $preEventArgs = new HydrationEvent($data, ['entity' => $entity, 'repository' => $this]);
+        $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preEventArgs);
+        $this->event()->dispatch(StorageEvents::POST_HYDRATE, $preEventArgs);
+        
+        return $entity;
     }
 
     /**
@@ -333,7 +338,7 @@ class Repository implements ObjectRepository
         } else {
             $response = $this->insert($entity);
         }
-
+        $this->refresh($entity);
         $this->event()->dispatch(StorageEvents::POST_SAVE, $event);
 
         return $response;
@@ -436,7 +441,7 @@ class Repository implements ObjectRepository
      */
     protected function refresh($entity)
     {
-        // Not implemented yet
+        $this->getEntityBuilder()->refresh($entity);
     }
 
     /**

@@ -163,4 +163,18 @@ class Builder
 
         return $entity;
     }
+    
+    public function refresh($entity)
+    {
+        $fields = $this->getFields();
+        
+        foreach ((array)$fields as $key => $mapping) {
+            $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
+            $getter = 'get'.ucFirst($key);
+            $value = $entity->$getter();
+            if ($value) {
+                call_user_func_array([$fieldType, 'set'], [$entity, $value]);
+            }
+        }
+    }
 }
