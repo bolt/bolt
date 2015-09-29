@@ -360,7 +360,6 @@ class Repository implements ObjectRepository
         try {
             $entity->setId($querySet->getInsertId());
             $this->refresh($entity);
-            
         } catch (\Exception $e) {
         }
 

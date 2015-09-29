@@ -37,7 +37,7 @@ class QuerySet extends \ArrayIterator
         $result = null;
         // Only return the result of the primary query
         foreach ($this as $query) {
-            /* @var QueryBuilder $query */
+            /** @var QueryBuilder $query */
             try {
                 if ($result === null) {
                     $result = $query->execute();

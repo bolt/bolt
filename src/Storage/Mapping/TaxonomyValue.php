@@ -20,9 +20,10 @@ class TaxonomyValue implements \ArrayAccess
     /**
      * Constructor.
      *
-     * @throws StorageException
      *
      * @param array $data
+     *
+     * @throws StorageException
      */
     public function __construct($name, $value, array $data)
     {

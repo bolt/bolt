@@ -6,7 +6,6 @@ use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\TaxonomyValue;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
-use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -104,7 +103,6 @@ class TaxonomyType extends FieldTypeBase
         $taxValues = $this->getTaxonomyValues($taxName, $data);
 
         foreach ($taxValues as $taxValueSlug => $taxValueName) {
-            
             if (empty($taxValueSlug)) {
                 continue;
             }
