@@ -82,4 +82,3 @@ prefill:
     short_help: |
         <p>Controleer de contenttypes waarvoor u Lorem Ipsum dummy inhoud wilt laten genereren.</p>
         <p>Als alle vakjes uitgevinkt worden gelaten, zal Bolt alleen de contenttypes vullen die nog geen content bevatten.</p>
-
