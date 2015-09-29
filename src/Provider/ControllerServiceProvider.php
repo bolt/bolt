@@ -9,10 +9,6 @@ use Bolt\Thumbs\ThumbnailProvider;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 class ControllerServiceProvider implements ServiceProviderInterface, EventSubscriberInterface
 {
@@ -103,12 +99,17 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         /** @deprecated Since 2.3 and will be removed in Bolt v3.0 */
         $dispatcher->addListener(ControllerEvents::MOUNT, [$app, 'initMountpoints'], -10);
 
-        $event = new MountEvent($app);
+        $event = new MountEvent($app, $app['controllers']);
         $dispatcher->dispatch(ControllerEvents::MOUNT, $event);
-        $event->finish();
     }
 
-    public function mount(MountEvent $event)
+    public function onMountFrontend(MountEvent $event)
+    {
+        $app = $event->getApp();
+        $event->mount('', $app['controller.frontend']);
+    }
+
+    public function onMountBackend(MountEvent $event)
     {
         $app = $event->getApp();
 
@@ -149,46 +150,15 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
 
         // Mount the 'thumbnail' provider on /thumbs.
         $event->mount('/thumbs', new ThumbnailProvider());
-
-        // Mount the Frontend controller
-        $event->mount('', $app['controller.frontend'], -50);
-    }
-
-    /**
-     * Initial request event.
-     *
-     * @param GetResponseEvent $event
-     */
-    public function onKernelRequest(GetResponseEvent $event)
-    {
-    }
-
-    /**
-     * Pre-send response event.
-     *
-     * @param FilterResponseEvent $event
-     */
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
-    }
-
-    /**
-     * Response event upon exception.
-     *
-     * @param GetResponseForExceptionEvent $event
-     */
-    public function onKernelException(GetResponseForExceptionEvent $event)
-    {
-        //$e = $event->getException();
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            ControllerEvents::MOUNT => 'mount',
-            KernelEvents::REQUEST   => ['onKernelRequest', 32], // Higher than 32 and we don't know the controller
-            KernelEvents::RESPONSE  => ['onKernelResponse', -128],
-            KernelEvents::EXCEPTION => ['onKernelException', -128],
+            ControllerEvents::MOUNT => [
+                ['onMountFrontend', -50],
+                ['onMountBackend'],
+            ],
         ];
     }
 }
