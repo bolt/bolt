@@ -112,6 +112,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'filelist'                         => 'Bolt\Storage\Field\Type\FileListType',
             'float'                            => 'Bolt\Storage\Field\Type\FloatType',
             'geolocation'                      => 'Bolt\Storage\Field\Type\GeolocationType',
+            'hidden'                           => 'Bolt\Storage\Field\Type\HiddenType',
             'html'                             => 'Bolt\Storage\Field\Type\HtmlType',
             'image'                            => 'Bolt\Storage\Field\Type\ImageType',
             'imagelist'                        => 'Bolt\Storage\Field\Type\ImageListType',
