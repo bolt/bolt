@@ -15,6 +15,8 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class RelationType extends FieldTypeBase
 {
+    use RelationTypeTrait;
+
     /**
      * Relation fields can allow filters on the relations fetched. For now this is limited
      * to the id field because of the possible complexity of fetching and filtering
@@ -99,27 +101,16 @@ class RelationType extends FieldTypeBase
     public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
-        $target = $this->mapping['target'];
         $relations = $entity->getRelation();
 
+        $relations[$field] = isset($relations[$field]) ? $this->filterArray($relations[$field]) : [];
         // Fetch existing relations
-        $existingQuery = $this->em->createQueryBuilder()
-                            ->select('*')
-                            ->from($target)
-                            ->where('from_id = :from_id')
-                            ->andWhere('from_contenttype = :from_contenttype')
-                            ->andWhere('to_contenttype = :to_contenttype')
-                            ->setParameters([
-                                'from_id'          => $entity->id,
-                                'from_contenttype' => $entity->getContenttype(),
-                                'to_contenttype'   => $field,
-                            ]);
-        $result = $existingQuery->execute()->fetchAll();
+        $result = $this->getExistingRelations($entity);
         $existing = array_map(
             function ($el) {
                 return isset($el['to_id']) ? $el['to_id'] : [];
             },
-            $result ?: []
+            $result
         );
         $proposed = array_map(
             function ($el) {
@@ -131,39 +122,8 @@ class RelationType extends FieldTypeBase
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
 
-        foreach ($toInsert as $item) {
-            $ins = $this->em->createQueryBuilder()->insert($target);
-            $ins->values([
-                    'from_id'          => ':from_id',
-                    'from_contenttype' => ':from_contenttype',
-                    'to_contenttype'   => ':to_contenttype',
-                    'to_id'            => ':to_id'
-                ])
-                ->setParameters([
-                    'from_id'          => $entity->id,
-                    'from_contenttype' => $entity->getContenttype(),
-                    'to_contenttype'   => $field,
-                    'to_id'            => $item
-                ]);
-
-            $queries->append($ins);
-        }
-
-        foreach ($toDelete as $item) {
-            $del = $this->em->createQueryBuilder()->delete($target);
-            $del->where('from_id = :from_id')
-                ->andWhere('from_contenttype = :from_contenttype')
-                ->andWhere('to_contenttype = :to_contenttype')
-                ->andWhere('to_id = :to_id')
-                ->setParameters([
-                    'from_id'          => $entity->id,
-                    'from_contenttype' => $entity->getContenttype(),
-                    'to_contenttype'   => $field,
-                    'to_id'            => $item
-                ]);
-
-            $queries->append($del);
-        }
+        $this->appendInsertQueries($queries, $entity, $toInsert);
+        $this->appendDeleteQueries($queries, $entity, $toDelete);
     }
 
     /**
