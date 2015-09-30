@@ -43,15 +43,13 @@
 
     {# Show stuff! #}
     {% if allowedany %}
-        {% if allowedamount == 1 and not force_submenu|default(false) %}
-            {% set item = allowedsingle %}
-            <li>
+        <li{% if class %} class="{{ class }}"{% endif %}>
+            {% if allowedamount == 1 and not force_submenu|default(false) %}
+                {% set item = allowedsingle %}
                 <a href="{{ item.link }}">
                     {{ icon(item.icon, "icon") }}{{ item.label|default("<em>(" ~ __("no content …") ~ ")</em>")|raw }}
                 </a>
-            </li>
-        {% else %}
-            <li{% if class %} class="{{ class }}"{% endif %}>
+            {% else %}
                 <a  href="{% if popoveritems %}{{ popoveritems.0.link }}{% else %}#{% endif %}" class="menu-pop">
                     {{ label(icon, label) }}
                 </a>
@@ -70,8 +68,8 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
-            </li>
-        {% endif %}
+            {% endif %}
+        </li>
     {% endif %}
 
 {% endmacro %}
