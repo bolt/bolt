@@ -27,6 +27,7 @@
         "magnific-popup": "~1.0.0",
         "moment": "~2.10.6",
         "select2": "~4.0.0",
+        "source-sans-pro": "git://github.com/adobe-fonts/source-sans-pro.git#2.020R-ro/1.075R-it",
         "underscore": "~1.8.3"
     }
 }
