@@ -119,6 +119,18 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->fetch();
     }
 
+    public function testMultipleOrder()
+    {
+        $app = $this->getApp();
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->setQuery('entries');
+        $qb->setParameters(['order' => '-datepublish, title', 'getquery' => function ($query) {
+            echo $query;
+        }]);
+        $this->expectOutputString("SELECT entries.* FROM bolt_entries entries ORDER BY datepublish DESC, title ASC");
+        $qb->fetch();
+    }
+
     public function testRandomHandler()
     {
         $app = $this->getApp();
