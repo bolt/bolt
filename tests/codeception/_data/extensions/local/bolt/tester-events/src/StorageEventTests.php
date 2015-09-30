@@ -55,7 +55,7 @@ class StorageEventTests
 
         if ($contenttype === 'pages') {
             $repo = $this->app['storage']->getRepository($contenttype);
-            
+
             $record = $event->getContent();
             $values = $record->getValues();
 
