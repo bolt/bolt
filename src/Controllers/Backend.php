@@ -1051,6 +1051,7 @@ class Backend implements ControllerProviderInterface
             'contentowner'   => $contentowner,
             'fields'         => $app['config']->fields->fields(),
             'fieldtemplates' => $templateFieldTemplates,
+            'permissions'    => $this->getContentTypeUserPermissions($app, $contenttypeslug, $app['users']->getCurrentUser()),
             'can_upload'     => $app['users']->isAllowed('files:uploads'),
             'groups'         => $groups,
             'has'            => array(

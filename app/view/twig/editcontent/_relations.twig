@@ -21,7 +21,7 @@
                 {% setcontent record = reltype ~ '/' ~ id %}
                 {% if record %}
                     {% set editable = isallowed('edit', record) %}
-                    {% include ['_sub/_listing.twig'] with {'excerptlength': 280, 'thumbsize': 54, 'compact': true, 'content': record} %}
+                    {% include ['_sub/_listing.twig'] with {'excerptlength': 280, 'thumbsize': 54, 'compact': true, 'content': record, 'permissions': context.permissions} %}
                 {% endif %}
             {% endfor %}
         </table>
