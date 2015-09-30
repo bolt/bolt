@@ -48,10 +48,10 @@ class Repository implements ObjectRepository
     public function create($params = [], ClassMetadata $metadata = null)
     {
         $entity = $this->getEntityBuilder()->create($params, $metadata);
-        $preEventArgs = new HydrationEvent($data, ['entity' => $entity, 'repository' => $this]);
+        $preEventArgs = new HydrationEvent($params, ['entity' => $entity, 'repository' => $this]);
         $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preEventArgs);
         $this->event()->dispatch(StorageEvents::POST_HYDRATE, $preEventArgs);
-        
+
         return $entity;
     }
 
@@ -432,11 +432,11 @@ class Repository implements ObjectRepository
 
         return $rows;
     }
-    
+
     /**
      * Internal method to refresh (re-hydrate an entity) using
      * the field setters.
-     * 
+     *
      * @param  $entity
      */
     protected function refresh($entity)
