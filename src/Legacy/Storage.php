@@ -1968,17 +1968,23 @@ class Storage
     }
 
     /**
+     * Check if this is the last element in the array.
+     *
      * @param $totalOrderByElements
      * @param $index
-     * @return bool
+     *
+     * @return boolean
      */
     protected function isNotLastItemInArray($totalOrderByElements, $index)
     {
-        return $totalOrderByElements !== ($index+1);
+        return $totalOrderByElements !== ($index + 1);
     }
 
     /**
+     * Get the ORDER BY parameters for the query.
+     *
      * @param $order
+     *
      * @return array
      */
     protected function getOrderBys($order)
@@ -1986,15 +1992,18 @@ class Storage
         $separatedOrders = [$order];
 
         if ($this->isMultiOrderQuery($order)) {
-            $separatedOrders = explode(",", $order);
+            $separatedOrders = explode(',', $order);
         }
 
         return $separatedOrders;
     }
 
     /**
+     * Check if this query has multiple ORDER BY parameters.
+     *
      * @param $order
-     * @return bool
+     *
+     * @return boolean
      */
     protected function isMultiOrderQuery($order)
     {
