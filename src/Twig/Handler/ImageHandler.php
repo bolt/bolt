@@ -2,7 +2,6 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Helpers\Image\Image;
 use Bolt\Helpers\Image\Thumbnail;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
@@ -58,13 +57,12 @@ class ImageHandler
     }
 
     /**
-     * Get an array with the dimensions of an image, together with its
-     * aspectratio and some other info.
+     * Get an image.
      *
      * @param string  $filename
      * @param boolean $safe
      *
-     * @return array Specifics
+     * @return \Bolt\Filesystem\Image|false
      */
     public function imageInfo($filename, $safe)
     {
@@ -74,11 +72,13 @@ class ImageHandler
             return null;
         }
 
-        return new Image(
-            $filename,
-            $this->app['resources']->getPath('filespath'),
-            $this->app['resources']->getUrl('files')
-        );
+        $image = $this->app['filesystem']->getImage('files://' . $filename);
+
+        if (!$image->exists()) {
+            return false;
+        }
+
+        return $image;
     }
 
     /**
