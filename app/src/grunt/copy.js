@@ -14,6 +14,24 @@ module.exports = {
             ],
             filter: 'isFile',
             dest: '<%= path.dest.fonts %>/'
+        }, {
+            src: '<%= path.src.bower %>/source-sans-pro/WOFF/OTF/SourceSansPro-It.otf.woff',
+            dest: '<%= path.dest.fonts %>/SourceSansPro-It.woff'
+        }, {
+            src: '<%= path.src.bower %>/source-sans-pro/WOFF/OTF/SourceSansPro-Regular.otf.woff',
+            dest: '<%= path.dest.fonts %>/SourceSansPro-Regular.woff'
+        }, {
+            src: '<%= path.src.bower %>/source-sans-pro/WOFF/OTF/SourceSansPro-Semibold.otf.woff',
+            dest: '<%= path.dest.fonts %>/SourceSansPro-Semibold.woff'
+        }, {
+            src: '<%= path.src.bower %>/source-sans-pro/WOFF2/OTF/SourceSansPro-It.otf.woff2',
+            dest: '<%= path.dest.fonts %>/SourceSansPro-It.woff2'
+        }, {
+            src: '<%= path.src.bower %>/source-sans-pro/WOFF2/OTF/SourceSansPro-Regular.otf.woff2',
+            dest: '<%= path.dest.fonts %>/SourceSansPro-Regular.woff2'
+        }, {
+            src: '<%= path.src.bower %>/source-sans-pro/WOFF2/OTF/SourceSansPro-Semibold.otf.woff2',
+            dest: '<%= path.dest.fonts %>/SourceSansPro-Semibold.woff2'
         }]
     },
 
