@@ -27,7 +27,7 @@ class OrderHandler
             } else {
                 $direction = null;
             }
-            $query->getQueryBuilder()->orderBy($order, $direction);
+            $query->getQueryBuilder()->addOrderBy($order, $direction);
         }
 
     }
@@ -42,7 +42,7 @@ class OrderHandler
         $separatedOrders = [$order];
 
         if ($this->isMultiOrderQuery($order)) {
-            $separatedOrders = explode(",", $order);
+            $separatedOrders = explode(',', $order);
         }
 
         return $separatedOrders;
