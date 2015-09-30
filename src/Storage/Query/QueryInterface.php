@@ -13,14 +13,14 @@ interface QueryInterface
     /**
      * Builds the query and returns an instance of QueryBuilder
      *
-     * @return QueryBuilder
+     * @return \Doctrine\DBAL\Query\QueryBuilder
      */
     public function build();
 
     /**
      * Returns the current instance of QueryBuilder
      *
-     * @return QueryBuilder
+     * @return \Doctrine\DBAL\Query\QueryBuilder
      */
     public function getQueryBuilder();
 }

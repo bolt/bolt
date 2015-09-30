@@ -34,6 +34,7 @@ class OrderHandler
 
     /**
      * @param $order
+     *
      * @return array
      */
     protected function getOrderBys($order)
@@ -49,6 +50,7 @@ class OrderHandler
 
     /**
      * @param $order
+     *
      * @return bool
      */
     protected function isMultiOrderQuery($order)
