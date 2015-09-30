@@ -30,7 +30,19 @@ class Browse implements PluginInterface
 
         $ignored = ['.', '..', '.DS_Store', '.gitignore', '.htaccess'];
 
-        foreach ($list as $entry) {
+        foreach ($list as $file) {
+            $entry = [
+                'basename' => $file->getFilename(),
+                'type' => $file->getType(),
+                'path' => $file->getPath(),
+                'dirname' => $file->getDirname(),
+                'extension' => $file->getExtension(),
+            ];
+            if ($file->isFile()) {
+                $entry['size'] = $file->getSize();
+                $entry['timestamp'] = $file->getTimestamp();
+            }
+
             if (in_array($entry['basename'], $ignored)) {
                 continue;
             }
@@ -39,7 +51,7 @@ class Browse implements PluginInterface
                 continue;
             }
 
-            if ($entry['type'] === 'file') {
+            if ($entry['type'] === 'file' || $entry['type'] === 'image') {
                 try {
                     $url = $this->filesystem->url($entry['path']);
                 } catch (\Exception $e) {
