@@ -42,20 +42,17 @@ trait TaxonomyTypeTrait
      */
     protected function getExistingTaxonomies($entity)
     {
-        $field = $this->mapping['fieldname'];
-        $target = $this->mapping['target'];
-
         // Fetch existing taxonomies
         $query = $this->em->createQueryBuilder()
             ->select('*')
-            ->from($target)
+            ->from($this->mapping['target'])
             ->where('content_id = :content_id')
             ->andWhere('contenttype = :contenttype')
             ->andWhere('taxonomytype = :taxonomytype')
             ->setParameters([
                 'content_id'   => $entity->id,
                 'contenttype'  => $entity->getContenttype(),
-                'taxonomytype' => $field,
+                'taxonomytype' => $this->mapping['fieldname'],
             ]);
         $result = $query->execute()->fetchAll();
 
@@ -88,7 +85,7 @@ trait TaxonomyTypeTrait
                     'slug'         => Slugify::create()->slugify($item),
                     'name'         => isset($this->mapping['data']['options'][$item]) ? $this->mapping['data']['options'][$item] : $item,
                 ]);
-                
+
             $queries->onResult(function ($query, $result, $id) use ($ins) {
                 if ($query === $ins && $result === 1 && $id) {
                     $query->setParameter('content_id', $id);
