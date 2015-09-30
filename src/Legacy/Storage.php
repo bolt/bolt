@@ -1871,24 +1871,43 @@ class Storage
      */
     private function isValidColumn($name, $contenttype, $allowVariants = false)
     {
-        // Strip the minus in '-title' if allowed.
-        if ($allowVariants) {
-            if ((strlen($name) > 0) && ($name[0] == "-")) {
-                $name = substr($name, 1);
+        $isValidColumn = false;
+
+        if ($this->isMultiOrderQuery($name)) {
+            $separatedOrders = $this->getOrderBys($name);
+        } else {
+            $separatedOrders = [$name];
+        }
+
+        //Loop through each term if multiple
+        foreach ($separatedOrders as $index => $name) {
+
+            $name = trim($name);
+
+            // Strip the minus in '-title' if allowed.
+            if ($allowVariants) {
+                if ((strlen($name) > 0) && ($name[0] == "-")) {
+                    $name = substr($name, 1);
+                }
+                $name = $this->getFieldName($name);
             }
-            $name = $this->getFieldName($name);
+
+            // Check if the $name is in the contenttype's fields.
+            if (isset($contenttype['fields'][$name])) {
+                $isValidColumn = true;
+            }
+
+            if (in_array($name, Content::getBaseColumns())) {
+                $isValidColumn = true;
+            }
+
+            if (! $isValidColumn) {
+                return false;
+            }
+
         }
 
-        // Check if the $name is in the contenttype's fields.
-        if (isset($contenttype['fields'][$name])) {
-            return true;
-        }
-
-        if (in_array($name, Content::getBaseColumns())) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**
@@ -1915,25 +1934,71 @@ class Storage
      */
     private function getEscapedSortorder($name, $prefix = 'r')
     {
-        list($name, $asc) = $this->getSortOrder($name);
+        $order = '';
 
-        // If we don't have a name, we can't determine a sortorder.
-        if (empty($name)) {
-            return false;
-        }
-        if (strpos($name, 'RAND') !== false) {
-            $order = $name;
-        } elseif ($prefix !== false) {
-            $order = $this->app['db']->quoteIdentifier($prefix . '.' . $name);
-        } else {
-            $order = $this->app['db']->quoteIdentifier($name);
-        }
+        $separatedOrders = $this->getOrderBys($name);
 
-        if (! $asc) {
-            $order .= ' DESC';
+        $totalOrderByElements = count($separatedOrders);
+
+        foreach ($separatedOrders as $index => $name) {
+            list($name, $asc) = $this->getSortOrder(trim($name));
+
+            // If we don't have a name, we can't determine a sortorder.
+            if (empty($name)) {
+                return false;
+            }
+            if (strpos($name, 'RAND') !== false) {
+                $order .= $name;
+            } elseif ($prefix !== false) {
+                $order .= $this->app['db']->quoteIdentifier($prefix . '.' . $name);
+            } else {
+                $order .= $this->app['db']->quoteIdentifier($name);
+            }
+
+            if (! $asc) {
+                $order .= ' DESC';
+            }
+
+            if ($this->isNotLastItemInArray($totalOrderByElements, $index)) {
+                $order .= ',';
+            }
         }
 
         return $order;
+    }
+
+    /**
+     * @param $totalOrderByElements
+     * @param $index
+     * @return bool
+     */
+    protected function isNotLastItemInArray($totalOrderByElements, $index)
+    {
+        return $totalOrderByElements !== ($index+1);
+    }
+
+    /**
+     * @param $order
+     * @return array
+     */
+    protected function getOrderBys($order)
+    {
+        $separatedOrders = [$order];
+
+        if ($this->isMultiOrderQuery($order)) {
+            $separatedOrders = explode(",", $order);
+        }
+
+        return $separatedOrders;
+    }
+
+    /**
+     * @param $order
+     * @return bool
+     */
+    protected function isMultiOrderQuery($order)
+    {
+        return strpos($order, ',') !== false;
     }
 
     /**
