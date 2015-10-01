@@ -39,10 +39,7 @@ class TemplateFieldsType extends FieldTypeBase
         $key = $this->mapping['fieldname'];
         $type = $this->getStorageType();
         $value = $type->convertToPHPValue($data[$key], $this->getPlatform());
-
-        if ($value) {
-            $this->set($entity, $value, $data);
-        }
+        $this->set($entity, $value, $data);
     }
 
     public function set($entity, $value, $rawData = null)
