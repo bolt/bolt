@@ -49,4 +49,13 @@ class ContentType implements \ArrayAccess
     {
         return isset($this->contentType[$offset]) ? $this->contentType[$offset] : null;
     }
+    
+    public function getFields()
+    {
+        if (isset($this->contentType['fields'])) {
+            return $this->contentType['fields'];
+        } else {
+            return [];
+        }
+    }
 }
