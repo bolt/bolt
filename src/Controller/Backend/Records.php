@@ -107,7 +107,7 @@ class Records extends BackendBase
         // Get the record
         $repo = $this->getRepository($contenttypeslug);
         if ($new) {
-            $content = $repo->create(['contenttype' => $contenttypeslug]);
+            $content = $repo->create(['contenttype' => $contenttypeslug, 'status'=>$contenttype['default_status']]);
         } else {
             $content = $repo->find($id);
             if ($content === false) {
