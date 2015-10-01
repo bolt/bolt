@@ -199,7 +199,8 @@ class RecordModifier
     {
         // Save the record
         $repo = $this->app['storage']->getRepository($contentType['slug']);
-        $id = $repo->save($content);
+        $repo->save($content);
+        $id = $content->getId();
 
         // Create the change log entry if configured
         $this->logChange($contentType, $content->getId(), $content, $oldContent, $comment);
