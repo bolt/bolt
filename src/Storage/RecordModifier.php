@@ -98,7 +98,7 @@ class RecordModifier
      *
      * @param Content $content
      * @param array   $formValues
-     * @param string  $contentType
+     * @param array   $contentType
      *
      * @throws AccessControlException
      */
