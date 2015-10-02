@@ -2359,19 +2359,22 @@ class Storage
      * @see https://github.com/bolt/bolt/issues/3908
      *
      * @param Content $content
+     * @param string  $taxonomytype
      * @param array   $taxonomy
      *
      * @return array
      */
-    private function getIndexedTaxonomy($content, $taxonomy)
+    private function getIndexedTaxonomy($content, $taxonomytype, $taxonomy)
     {
+        $configTaxonomies = $this->app['config']->get('taxonomy');
+
         if (Arr::isIndexedArray($taxonomy)) {
             return $taxonomy;
         }
 
         $ret = array();
         foreach ($taxonomy as $key) {
-            if ($content->group !== null) {
+            if ($configTaxonomies[$taxonomytype]['behaves_like'] == 'grouping' && $content->group !== null) {
                 $ret[] = $content->group['slug'] . '#' . $content->group['order'];
             } else {
                 $ret[] = $key;
@@ -2409,7 +2412,7 @@ class Storage
         foreach ($contenttype['taxonomy'] as $taxonomytype) {
             // Set 'newvalues to 'empty array' if not defined
             if (!empty($taxonomy[$taxonomytype])) {
-                $newslugs = $this->getIndexedTaxonomy($content, $taxonomy[$taxonomytype]);
+                $newslugs = $this->getIndexedTaxonomy($content, $taxonomytype, $taxonomy[$taxonomytype]);
             } else {
                 $newslugs = array();
             }
