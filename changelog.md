@@ -22,6 +22,8 @@ Not yet released. Notable changes:
 - Changed: date-time format uses a more i18n-friendly format (See #4053)
 - Changed: Moving 'Install new extension' to the top of the screen.
 - Fixed: Don't sort getContent in listing view, when the contenttype has a taxonomy that has a sortorder.
+- Fixed: Use hydration for `{{ record.previous() }}` and `{{ record.next() }}`, so routes that use taxonmies in slugs work correctly. (see #4193)
+- Fixed: Don't override "templatechosen" if previously set. Makes sure the correct template is shown in the Twig nub in the Toolbar. (see #4191) 
 - Fixed: Don't show (non working) drag'n'drop in list overviews.
 - Fixed: Fix the info text for imagelist fields (See #4051)
 - Fixed: Fix to #3991 – Geolocation snaps pin to matched address.
