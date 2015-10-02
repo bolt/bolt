@@ -1254,7 +1254,7 @@ class Content implements \ArrayAccess
             'limit'        => 1,
             'order'        => $field . $order,
             'returnsingle' => true,
-            'hydrate'      => false
+            'hydrate'      => true
         );
 
         $pager = array();
@@ -1285,7 +1285,7 @@ class Content implements \ArrayAccess
             'limit'        => 1,
             'order'        => $field . $order,
             'returnsingle' => true,
-            'hydrate'      => false
+            'hydrate'      => true
         );
 
         $pager = array();
