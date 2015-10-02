@@ -161,7 +161,11 @@ class StorageServiceProvider implements ServiceProviderInterface
         );
 
         $app['storage.listener'] = $app->share(function () use ($app) {
-            return new StorageEventListener($app['storage'], $app['access_control.hash.strength']);
+            return new StorageEventListener(
+                $app['storage'],
+                $app['config'],
+                $app['access_control.hash.strength']
+            );
         });
 
         $app['storage.namingstrategy'] = $app->share(
