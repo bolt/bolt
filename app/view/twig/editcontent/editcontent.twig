@@ -16,7 +16,7 @@
     {% endif %}
 {% endblock page_title %}
 
-{% block page_subtitle context.content.title|default('') %}
+{% block page_subtitle context.content.title|default('')|striptags %}
 
 {# clear default messages, because we use them in a different spot, in this template #}
 {% block messages "" %}
