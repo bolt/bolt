@@ -67,7 +67,7 @@ class BackendManagerCest
 
         $I->click('Save', '#savecontinuebutton');
 
-        $I->see('The changes to this Page have been saved.');
+        $I->see('The changes to the Page have been saved.');
     }
 
     /**
@@ -90,6 +90,6 @@ class BackendManagerCest
 
         $I->click('Save', '#savecontinuebutton');
 
-        $I->see('The changes to this Page have been saved.');
+        $I->see('The changes to the Page have been saved.');
     }
 }

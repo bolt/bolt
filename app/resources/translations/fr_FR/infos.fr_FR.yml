@@ -1,0 +1,78 @@
+info:
+    upload:
+        image: |
+            Utilisez ce champ pour envoyer une image ou une photo. Cliquez sur le bouton pour envoyer le fichier
+            à partir de votre ordinateur. Si vous utilisez une version récente de Firefox ou de Chrome, vous pouvez effectuer
+            un glisser-déposer de votre fichier.<br/>
+            Vous pouvez aussi choisir un fichier image déjà envoyé. Il vous suffit de taper les premières lettres de son nom
+            et celui-ci sera complété automatiquement.
+        file: |
+            Utilisez ce champ pour envoyer un fichier à inclure. Cliquez sur le bouton pour envoyer un fichier
+            à partir de votre ordinateur. Si vous utilisez une version récente de Firefox ou de Chrome, vous pouvez effectuer
+            un glisser-déposer de votre fichier.<br/>
+            Vous pouvez aussi choisir un fichier déjà envoyé. Il vous suffit de taper les premières lettres de son nom
+            et celui-ci sera complété automatiquement.
+        filelist: |
+            Utilisez ce champ pour envoyer plusieurs fichiers, avec des descriptions si nécessaire. Comme pour l'envoi de
+            fichier unique, vous pouvez effectuer un glisser-déposer si vous disposez d'un navigateur récent.
+        filesmall: |
+            Utilisez ce bouton pour envoyer un fichier. Vous pouvez aussi choisir un fichier déjà envoyé. Il vous suffit de taper
+            les premières lettres de son nom et celui-ci sera complété automatiquement.
+        imagelist: |
+            Utilisez ce champ pour envoyer un groupe d'images ou de photos. Cliquer sur le bouton pour envoyer les fichiers.
+            Comme pour l'envoi de fichier unique, vous pouvez effectuer un glisser-déposer si vous disposez d'un navigateur
+            récent.<br/>
+            Vous pouvez aussi choisir un fichier déjà envoyé. Il vous suffit de taper les premières lettres de son nom
+            et celui-ci sera complété automatiquement.<br/>
+            Vous pouvez enfin réorganiser les images par glisser-déposer et modifier leur description.
+        video: |
+            Utilisez ce champ pour intégrer une vidéo. Il vous suffit de copier-coller l'adresse d'une vidéo sur
+            Youtube, Vimeo ou tout autre site de partage de vidéos. <br />
+            Bolt se chargera de récupérer le code pour intégrer la vidéo ainsi que ses dimensions et son titre.
+            Si vous modifiez la hauteur ou la largeur de la vidéo, l'autre dimension sera mise à jour pour respecter
+            le ratio original.
+    geolocation: |
+        Utilisez ce champ pour obtenir la géolocalisation de n'importe quelle adresse où d'en définir une en déplaçant
+        le marqueur manuellement. Saisissez l'adresse dans le champ 'adresse' et les coordonnées correspondantes seront
+        récupérées à partie de Google Maps ainsi que l'adresse connue la plus proche. <br/>
+        Si vous désirez déplacement le marqueur, il vous suffit de le déplacer sur la minicarte. Les coordonnées seront
+        mises à jour automatiquement.
+    markdown: |
+        Markdown est un outil de conversion text-vers-HTML simple.
+            <p>Markdown vous permet d'écrire des textes facile à lire et dans un format compréhensible,
+            tout en vous permettant de produire du HTML valide.</p>
+            <p><strong>Référence rapide:</strong><br>
+            # Ceci est une balise &lt;h1&gt;<br>
+            ## Ceci est une balise &lt;h2&gt;<br>
+            ###### Ceci est une balise &lt;h6&gt;</p>
+            <p>Ce texte est en _<em>italique</em>_, celui-ci en __<strong>gras</strong>__, et celui-là
+            ___<em><strong>les deux</strong></em>___. Vous pouvez aussi utiliser des astérisques: Texte en *<em>italiques</em>*,
+            texte en **<strong>gras</strong>**.
+            <p>Créer des <a href='#'>liens</a> de cette manière:<br>
+            Un [site génial](http://example.org/ &amp;quot;Titre du lien&amp;quot;)</p>
+            <p>&nbsp; * Ceci est une liste non ordonnée<br>
+            &nbsp; * Elément 2</p>
+            <p>&nbsp; 1 Ceci est une liste ordonnée<br>
+            &nbsp; 2 Elément 2</p>
+    relationships: |
+        En choisissant d'autres enregistrements comme 'relation', vous créez un lien entre cet enregistrement et
+        celui que vous avez choisi. Vous pourrez ainsi obtenir une section "Articles associés" sur votre site ou
+        faire une structuration spécifique de vos contenus.
+    taxonomy: |
+        En choisissant une ou plusieurs taxonomies pour cet enregistrement, vous lui ajoutez des propriétés de
+        classement. Sur le site, vous pourrez ainsi grouper vos contenus et créer des liens entre les contenus
+        de la même taxonomie.
+about:
+    bolt: |
+        <p>Bolt est un CMS qui se veut simple, rapide et facile à utiliser, tant pour les développeurs que les
+        rédacteurs. Bolt est Open Source, et en tant que tel, utilise d'autres composants Open Source. Si vous
+        êtes développeur, vous êtes cordialement invité à participer au développement de Bolt.
+        </p>
+    licence: |
+        <p>Le code de Bolt est publié sous licence MIT opensource. Le texte complet de la licence peut être lu
+        dans le fichier <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
+        </p>
+prefill:
+    short_help: |
+        <p>Cocher les types de contenus pour lesquels doivent être générés des enregistrements de démonstration.<p>
+        <p>Si rien n'est coché, seuls les types de contenus sans contenu existant seront pré-remplis.</p>
