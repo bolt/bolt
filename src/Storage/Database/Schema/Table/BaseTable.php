@@ -79,6 +79,21 @@ abstract class BaseTable
     {
         return false;
     }
+    
+    
+    /**
+     * Default value for TEXT fields, differs per platform.
+     *
+     * @return string|null
+     */
+    protected function getTextDefault()
+    {
+        if ($this->platform instanceof SqlitePlatform || $this->platform instanceof PostgreSqlPlatform) {
+            return '';
+        }
+
+        return null;
+    }
 
     /**
      * Add columns to the table.
