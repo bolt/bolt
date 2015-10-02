@@ -22,7 +22,7 @@ Not yet released. Notable changes:
 - Fixed: "Timed publish" fixed for SQLITE (Now using a `DateTime` object instead of `CURRENT_TIMESTAMP`)
 - Fixed: Fix: Don't show notice about `mailoptions` when not logged on.
 - Fixed: Alignment of #navpage-secondary menu item icons in FireFox. (See #4178)
-- Fixed: Strip tags from <title> in editcontent. Fixes: #3590.
+- Fixed: Strip tags from `<title>` in editcontent. Fixes: #3590.
 - Fixed: Fix secondary nav element's class not being output in certain cases.
 
 Bolt 2.2.10
