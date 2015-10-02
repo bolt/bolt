@@ -346,7 +346,7 @@ class Users extends BackendBase
      * Handle a first user creation POST.
      *
      * @param Request $request
-     * @param Form $form
+     * @param Form    $form
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|false
      */
@@ -482,8 +482,8 @@ class Users extends BackendBase
     /**
      * Get the editable fields for the user form.
      *
-     * @param FormBuilder  $form
-     * @param integer      $id
+     * @param FormBuilder $form
+     * @param integer     $id
      *
      * @return \Symfony\Component\Form\FormBuilder
      */
@@ -688,7 +688,6 @@ class Users extends BackendBase
             'email/firstuser.twig',
             ['sitename' => $this->getOption('general/sitename')]
         )->getContent();
-
 
         try {
             // Send a welcome email

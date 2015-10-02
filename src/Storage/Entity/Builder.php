@@ -122,17 +122,17 @@ class Builder
 
         // set fields
         foreach ($fields as $key => $mapping) {
-                $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
+            $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
 
-                // If we have a transformer setup then this takes precedence
-                $mappedType = $mapping['fieldtype'];
-                $handler = isset($this->transformers[$mappedType]) ? $this->transformers[$mappedType] : null;
+            // If we have a transformer setup then this takes precedence
+            $mappedType = $mapping['fieldtype'];
+            $handler = isset($this->transformers[$mappedType]) ? $this->transformers[$mappedType] : null;
 
-                if ($handler) {
-                    call_user_func_array($handler, [$entity, $data[$key]]);
-                } else {
-                    call_user_func_array([$fieldType, 'set'], [$entity, $data[$key]]);
-                }
+            if ($handler) {
+                call_user_func_array($handler, [$entity, $data[$key]]);
+            } else {
+                call_user_func_array([$fieldType, 'set'], [$entity, $data[$key]]);
+            }
         }
 
         return $entity;
@@ -159,11 +159,11 @@ class Builder
 
         return $entity;
     }
-    
+
     public function refresh($entity)
     {
         $fields = $this->getFields();
-        
+
         foreach ((array)$fields as $key => $mapping) {
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
             $getter = 'get'.ucFirst($key);

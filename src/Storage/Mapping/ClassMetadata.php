@@ -139,7 +139,7 @@ class ClassMetadata implements ClassMetadataInterface
      */
     public function getFieldMappings()
     {
-        return (array)$this->fieldMappings;
+        return (array) $this->fieldMappings;
     }
 
     /**
