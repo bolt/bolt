@@ -122,7 +122,6 @@ class Builder
 
         // set fields
         foreach ($fields as $key => $mapping) {
-            if (array_key_exists($key, $data)) {
                 $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
 
                 // If we have a transformer setup then this takes precedence
@@ -134,7 +133,6 @@ class Builder
                 } else {
                     call_user_func_array([$fieldType, 'set'], [$entity, $data[$key]]);
                 }
-            }
         }
 
         return $entity;
@@ -155,10 +153,8 @@ class Builder
 
         // set fields
         foreach ((array)$fields as $key => $mapping) {
-            if (array_key_exists($key, $data)) {
-                $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
-                call_user_func_array([$fieldType, 'hydrate'], [$data, $entity]);
-            }
+            $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
+            call_user_func_array([$fieldType, 'hydrate'], [$data, $entity]);
         }
 
         return $entity;
