@@ -110,22 +110,22 @@ class SearchWeighter
     protected function buildResultIndex($result)
     {
         $corpus = [];
-        
+
         foreach ($this->getContentFields() as $field => $weightings) {
             $textualContent = $result->{$field};
-            
+
             // This is to handle taxonomies that need to be converted from an array
             // into a string of words.
             if (is_array($textualContent)) {
-                $textualContent = implode(" ", $textualContent);
+                $textualContent = implode(' ', $textualContent);
             }
-            
+
             $textualContent = strip_tags($textualContent);
             $textualContent = preg_replace('/[^\w\s]/', '', $textualContent);
             $textualContent = mb_strtolower($textualContent);
             $corpus[$field] = $textualContent;
         }
-        
+
         $dictionary = [];
         $count = array();
 
@@ -151,9 +151,9 @@ class SearchWeighter
 
     /**
      * This method uses the index built in the method above to do some quick
-     * score calculations for each word of the query, versus each word of the 
+     * score calculations for each word of the query, versus each word of the
      * index dictionary.
-     * 
+     *
      * @param Object $result
      *
      * @return float
@@ -167,9 +167,9 @@ class SearchWeighter
 
         // This block iterates the search query words and checks both their
         // existence and frequency in the index.
-        // 
+        //
         // The score is passed through log(x, 2) to reduce the smooth the difference.
-        // 
+        //
         foreach ($this->searchWords as $word) {
             $word = mb_strtolower($word);
             if (isset($corpus['dictionary'][$word])) {

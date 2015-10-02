@@ -10,10 +10,10 @@
 {% set attributes = {
     slug: {
         class:  'form-control',
-        id:     key,
-        name:   name,
-        type:   'hidden',
-        value:  context.content.get(key),
+        id:    key,
+        name:  name,
+        type:  'hidden',
+        value: context.content.get(key),
     }
 } %}
 
@@ -22,11 +22,11 @@
 {% extends '_base/_fieldset.twig' %}
 
 {% set fieldset_conf = {
-    contentId:  context.content.id,
-    isEmpty:    (context.content.get(contentkey) == ''),
-    key:        key,
-    slug:       context.content.contenttype.slug,
-    uses:       option.uses,
+    contentId: context.content.id,
+    isEmpty:   (context.content.get(contentkey) == ''),
+    key:       key,
+    slug:      context.content.contenttype.slug,
+    uses:      option.uses,
 }%}
 
 {% block fieldset_type 'slug' %}
@@ -37,7 +37,7 @@
 {% block fieldset_controls %}
     <div class="col-sm-9">
         <div class="input-group input-group-sm locked">
-            <span class="input-group-addon">/{{ context.content.contenttype.singular_slug }}/<em>{{ context.content.get(contentkey) }}</em></span>
+            <span class="input-group-addon">/{{ context.content.contenttype }}/<em>{{ context.content.get(contentkey) }}</em></span>
             <input{{ macro.attr(attributes.slug) }}>
             <span class="input-group-btn">
                 <button type="button" class="btn btn-default lock"><i class="fa fa-fw"></i></button>

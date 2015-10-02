@@ -129,7 +129,6 @@ class GeneralTest extends ControllerUnitTest
         $this->assertEquals(['item' => 'one'], (array)$context['context']['information']);
     }
 
-
     public function testDashboardNews()
     {
         $this->setRequest(Request::create('/async/dashboardnews'));

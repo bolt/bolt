@@ -40,7 +40,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testDeleteFile()
     {
-//         $this->setRequest(Request::create('/async/file/delete', 'POST', [
+        //         $this->setRequest(Request::create('/async/file/delete', 'POST', [
 //             'namespace' => 'files',
 //             'filename'  => 'foo.txt',
 //         ]));
@@ -51,7 +51,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testDuplicateFile()
     {
-//         $this->setRequest(Request::create('/async/file/duplicate', 'POST', [
+        //         $this->setRequest(Request::create('/async/file/duplicate', 'POST', [
 //             'namespace' => 'files',
 //             'filename'  => 'foo.txt',
 //         ]));
@@ -99,7 +99,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRenameFile()
     {
-//         $this->setRequest(Request::create('/async/file/rename', 'POST', [
+        //         $this->setRequest(Request::create('/async/file/rename', 'POST', [
 //             'namespace' => 'files',
 //             'parent'    => '',
 //             'oldname'   => 'foo.txt',
@@ -112,7 +112,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRenameFolder()
     {
-//         $this->setRequest(Request::create('/async/renamefolder', 'POST', [
+        //         $this->setRequest(Request::create('/async/renamefolder', 'POST', [
 //             'namespace' => 'files',
 //             'parent'    => '',
 //             'oldname'   => 'foo',

@@ -2,9 +2,12 @@
 namespace Bolt\Provider;
 
 use Bolt\EventListener\StorageEventListener;
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Entity\Builder;
+use Bolt\Storage\Field\Type\TemplateFieldsType;
+use Bolt\Storage\FieldManager;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
 use Bolt\Storage\RecordModifier;
@@ -20,7 +23,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return new Storage($app);
             }
         );
-        
+
         $app['storage.legacy_service'] = $app->share(
             function ($app) {
                 return new ContentLegacyService($app);
@@ -36,22 +39,60 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['logger.system']
                 );
                 $storage->setLegacyStorage($app['storage.legacy']);
+                $storage->setEntityBuilder($app['storage.entity_builder']);
+                $storage->setFieldManager($app['storage.field_manager']);
 
                 foreach ($app['storage.repositories'] as $entity => $repo) {
                     $storage->setRepository($entity, $repo);
                 }
 
-                $storage->setDefaultRepositoryFactory(
-                    function ($classMetadata) use ($app) {
-                        $repoClass = $app['storage.repository.default'];
-                        $repo = new $repoClass($app['storage'], $classMetadata);
-                        $repo->setLegacyService($app['storage.legacy_service']);
-
-                        return $repo;
-                    }
-                );
+                $storage->setDefaultRepositoryFactory($app['storage.content_repository']);
 
                 return $storage;
+            }
+        );
+
+        $app['storage.content_repository'] = $app->protect(
+            function ($classMetadata) use ($app) {
+                $repoClass = $app['storage.repository.default'];
+                $repo = new $repoClass($app['storage'], $classMetadata);
+                $repo->setLegacyService($app['storage.legacy_service']);
+
+                return $repo;
+            }
+        );
+
+        $app['storage.field_manager'] = $app->share(
+            function ($app) {
+                $manager = new FieldManager();
+
+                foreach ($app['storage.typemap'] as $field) {
+                    if (isset($app[$field])) {
+                        $manager->setHandler($field, $app[$field]);
+                    }
+                }
+
+                return $manager;
+            }
+        );
+
+        $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = $app->protect(
+            function ($mapping) use ($app) {
+                $field = new TemplateFieldsType(
+                    $mapping,
+                    $app['storage'],
+                    $app['templatechooser']
+                );
+
+                return $field;
+            }
+        );
+
+        $app['storage.entity_builder'] = $app->share(
+            function ($app) {
+                $builder = new Builder($app['storage.metadata'], $app['storage.field_manager']);
+
+                return $builder;
             }
         );
 
@@ -71,6 +112,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'filelist'                         => 'Bolt\Storage\Field\Type\FileListType',
             'float'                            => 'Bolt\Storage\Field\Type\FloatType',
             'geolocation'                      => 'Bolt\Storage\Field\Type\GeolocationType',
+            'hidden'                           => 'Bolt\Storage\Field\Type\HiddenType',
             'html'                             => 'Bolt\Storage\Field\Type\HtmlType',
             'image'                            => 'Bolt\Storage\Field\Type\ImageType',
             'imagelist'                        => 'Bolt\Storage\Field\Type\ImageListType',
@@ -79,8 +121,10 @@ class StorageServiceProvider implements ServiceProviderInterface
             'relation'                         => 'Bolt\Storage\Field\Type\RelationType',
             'repeater'                         => 'Bolt\Storage\Field\Type\RepeaterType',
             'select'                           => 'Bolt\Storage\Field\Type\SelectType',
+            'selectmultiple'                   => 'Bolt\Storage\Field\Type\SelectMultipleType',
             'slug'                             => 'Bolt\Storage\Field\Type\SlugType',
             'taxonomy'                         => 'Bolt\Storage\Field\Type\TaxonomyType',
+            'templatefields'                   => 'Bolt\Storage\Field\Type\TemplateFieldsType',
             'templateselect'                   => 'Bolt\Storage\Field\Type\TemplateSelectType',
             'text'                             => 'Bolt\Storage\Field\Type\TextType',
             'textarea'                         => 'Bolt\Storage\Field\Type\TextAreaType',

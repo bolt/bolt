@@ -64,14 +64,14 @@ class RecordsTest extends ControllerUnitTest
         $response = $this->controller()->edit($this->getRequest(), 'pages', 4);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
-        $this->assertInstanceOf('Bolt\Legacy\Content', $context['context']['content']);
+        $this->assertInstanceOf('Bolt\Storage\Entity\Content', $context['context']['content']);
 
         // Test creation
         $this->setRequest(Request::create('/bolt/editcontent/pages'));
         $response = $this->controller()->edit($this->getRequest(), 'pages', null);
         $context = $response->getContext();
         $this->assertEquals('Pages', $context['context']['contenttype']['name']);
-        $this->assertInstanceOf('Bolt\Legacy\Content', $context['context']['content']);
+        $this->assertInstanceOf('Bolt\Storage\Entity\Content', $context['context']['content']);
         $this->assertNull($context['context']['content']->id);
 
         // Test that non-existent throws a redirect

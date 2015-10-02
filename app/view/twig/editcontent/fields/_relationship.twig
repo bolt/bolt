@@ -1,32 +1,39 @@
 {#=== INIT ===========================================================================================================#}
 
 {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
-{% set format = relation.format|default("{{ item.title|escape }} (№ {{ item.id }})") %}
+{% set format = context.content.relation.format|default("{{ title|escape }} (№ {{ id }})") %}
 
 {# Use option groups #}
 {% set groupby = relation.groupby|default(false) %}
 
+{# Currently selected relationship values #}
+{% set relselect = [] %}
+{% for item in context.content.relation[relcontenttype]|default([]) %}
+    {% set relselect =  relselect|merge([item.reference]) %}
+{% endfor %}
+
 {# Build the select options array #}
 {% set options = [] %}
-{% for item in listcontent(relcontenttype, relation, context.content) %}
+
+{% for item in context.relations_list[relcontenttype] %}
     {% set selectedbyrelation = relcontenttype == app.request.get('relation') and
                                 item.id == app.request.get('relationid') %}
 
     {% set options = options|merge([{
-        value:     item.id,
-        text:      format|twig({'item': item}),
-        group:     groupby ? item.values[groupby]|default(false) : false,
-        selected:  item.selected or selectedbyrelation,
+        value:    item.id,
+        text:     format|twig({'title': item.title, 'id': item.id}),
+        group:    groupby ? item.values[groupby]|default(false) : false,
+        selected: (item.id in relselect) or selectedbyrelation,
     }]) %}
 {% endfor %}
 
 {# BUIC options #}
 {% set buico_select = {
-    'name':      'relation[' ~ relcontenttype ~ '][]',
-    'id':        'relation-' ~ relcontenttype,
-    'multiple':  relation.multiple is defined and relation.multiple == 1,
-    'options':   options,
-    'clear':     true,
+    'name':     'relation[' ~ relcontenttype ~ '][]',
+    'id':       'relation-' ~ relcontenttype,
+    'multiple': relation.multiple is defined and relation.multiple == 1,
+    'options':  options,
+    'clear':    true,
 } %}
 
 {#=== FIELDSET =======================================================================================================#}

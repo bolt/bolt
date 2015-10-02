@@ -1,9 +1,11 @@
 <?php
+
 namespace Bolt\Storage;
 
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
+use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -20,30 +22,20 @@ class Repository implements ObjectRepository
     public $_class;
     /** @var string */
     public $entityName;
-    /** @var Hydrator */
-    public $hydrator;
-    /** @var Persister */
-    public $persister;
-    /** @var Loader */
-    public $loader;
+    /** @var Builder */
+    public $builder;
 
     /**
      * Initializes a new Repository.
      *
-     * @param EntityManager  $em            The EntityManager to use.
-     * @param ClassMetadata  $classMetadata The class descriptor.
-     * @param Hydrator|null  $hydrator
-     * @param Persister|null $persister
-     * @param Loader|null    $loader
+     * @param EntityManager $em            The EntityManager to use.
+     * @param ClassMetadata $classMetadata The class descriptor.
      */
-    public function __construct($em, ClassMetadata $classMetadata, $hydrator = null, $persister = null, $loader = null)
+    public function __construct($em, ClassMetadata $classMetadata)
     {
         $this->em = $em;
         $this->_class = $classMetadata;
-        $this->entityName  = $classMetadata->getName();
-        $this->setHydrator($hydrator ?: new Hydrator($classMetadata));
-        $this->setPersister($persister ?: new Persister($classMetadata));
-        $this->setLoader($loader ?: new Loader());
+        $this->entityName = $classMetadata->getName();
     }
 
     /**
@@ -53,10 +45,14 @@ class Repository implements ObjectRepository
      *
      * @return Content
      */
-    public function create($params = null)
+    public function create($params = [], ClassMetadata $metadata = null)
     {
-        $entityClass = $this->getClassName();
-        return new $entityClass($params);
+        $entity = $this->getEntityBuilder()->create($params, $metadata);
+        $preEventArgs = new HydrationEvent($params, ['entity' => $entity, 'repository' => $this]);
+        $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preEventArgs);
+        $this->event()->dispatch(StorageEvents::POST_HYDRATE, $preEventArgs);
+
+        return $entity;
     }
 
     /**
@@ -73,9 +69,9 @@ class Repository implements ObjectRepository
         }
 
         if (empty($alias)) {
-            $select = "*";
+            $select = '*';
         } else {
-            $select = $alias.".*";
+            $select = $alias.'.*';
         }
 
         return $this->em->createQueryBuilder()
@@ -84,7 +80,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function find($id)
     {
@@ -102,7 +98,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findAll()
     {
@@ -110,7 +106,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
@@ -172,17 +168,18 @@ class Repository implements ObjectRepository
         if ($offset) {
             $qb->setFirstResult($offset);
         }
+
         return $qb;
     }
 
     /**
-     * Method to hydrate and return a QueryBuilder query
+     * Method to hydrate and return a QueryBuilder query.
      *
      * @return array Entity | false
      **/
     public function findWith(QueryBuilder $query)
     {
-        $this->loader->load($query, $this->getClassMetadata());
+        $this->load($query);
 
         $result = $query->execute()->fetchAll();
         if ($result) {
@@ -193,13 +190,13 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Method to hydrate and return a single QueryBuilder result
+     * Method to hydrate and return a single QueryBuilder result.
      *
      * @return Entity | false
      **/
     public function findOneWith(QueryBuilder $query)
     {
-        $this->loader->load($query, $this->getClassMetadata());
+        $this->load($query);
         $result = $query->execute()->fetch();
         if ($result) {
             return $this->hydrate($result, $query);
@@ -215,11 +212,11 @@ class Repository implements ObjectRepository
      *
      * @param QueryInterface $query [description]
      *
-     * @return [type] [description]
+     * @return array Entity | false
      */
     public function queryWith(QueryInterface $query)
     {
-        $this->loader->query($query, $this->getClassMetadata());
+        $this->query($query);
         $queryBuilder = $query->build();
 
         return $this->findWith($queryBuilder);
@@ -234,9 +231,65 @@ class Repository implements ObjectRepository
     protected function getLoadQuery()
     {
         $qb = $this->createQueryBuilder();
-        $this->loader->load($qb, $this->getClassMetadata());
+        $this->load($qb);
 
         return $qb;
+    }
+
+    /**
+     * Internal method to run load method on each field for the managed entity.
+     *
+     * Takes a QueryBuilder instance as input
+     *
+     * @param QueryBuilder $query
+     */
+    protected function load(QueryBuilder $query)
+    {
+        $metadata = $this->getClassMetadata();
+        foreach ($metadata->getFieldMappings() as $field) {
+            $fieldtype = $this->getFieldManager()->get($field['fieldtype'], $field);
+            $fieldtype->load($query, $metadata);
+        }
+    }
+
+    /**
+     * Internal method to run query method on each field for the managed entity.
+     *
+     * Takes a QueryInterface instance as input
+     *
+     * @param QueryInterface $query
+     */
+    protected function query(QueryInterface $query)
+    {
+        $metadata = $this->getClassMetadata();
+
+        foreach ($metadata->getFieldMappings() as $field) {
+            $fieldtype = $this->getFieldManager()->get($field['fieldtype'], $field);
+            $fieldtype->query($query, $metadata);
+        }
+    }
+
+    /**
+     * Internal method to run persist method on each field for the managed entity.
+     *
+     * Takes a QuerySet instance as input
+     *
+     * @param QuerySet $queries
+     * @param Entity   $entity
+     * @param array    $exclusions
+     */
+    protected function persist(QuerySet $queries, $entity, $exclusions = [])
+    {
+        $metadata = $this->getClassMetadata();
+
+        foreach ($metadata->getFieldMappings() as $field) {
+            if (in_array($field['fieldname'], $exclusions)) {
+                continue;
+            }
+
+            $field = $this->getFieldManager()->get($field['fieldtype'], $field);
+            $field->persist($queries, $entity);
+        }
     }
 
     /**
@@ -244,7 +297,7 @@ class Repository implements ObjectRepository
      *
      * @param object $entity The entity to delete.
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($entity)
     {
@@ -252,7 +305,7 @@ class Repository implements ObjectRepository
         $this->event()->dispatch(StorageEvents::PRE_DELETE, $event);
         $qb = $this->em->createQueryBuilder()
             ->delete($this->getTableName())
-            ->where("id = :id")
+            ->where('id = :id')
             ->setParameter('id', $entity->getId());
 
         $response = $qb->execute();
@@ -266,30 +319,37 @@ class Repository implements ObjectRepository
      * Saves a single object.
      *
      * @param object $entity The entity to delete.
+     * @param bool   $silent Suppress events
      *
-     * @return boolean
+     * @return bool
      */
-    public function save($entity)
+    public function save($entity, $silent = null)
     {
-        $qb = $this->em->createQueryBuilder();
-
         try {
-            $existing = $entity->getId();
+            if ($existing = $entity->getId()) {
+                $creating = false;
+            } else {
+                $creating = true;
+            }
         } catch (\Exception $e) {
-            $existing = false;
+            $creating = $existing = false;
         }
 
-        $event = new StorageEvent($entity, ['create' => $existing]);
-        $this->event()->dispatch(StorageEvents::PRE_SAVE, $event);
+        if ($silent === null) {
+            $event = new StorageEvent($entity, ['create' => $creating]);
+            $this->event()->dispatch(StorageEvents::PRE_SAVE, $event);
+        }
 
         if ($existing) {
             $response = $this->update($entity);
         } else {
             $response = $this->insert($entity);
         }
-
-        $this->event()->dispatch(StorageEvents::POST_SAVE, $event);
-
+        
+        if ($silent === null) {
+            $this->event()->dispatch(StorageEvents::POST_SAVE, $event);
+        }
+        
         return $response;
     }
 
@@ -298,7 +358,7 @@ class Repository implements ObjectRepository
      *
      * @param object $entity The entity to insert.
      *
-     * @return boolean
+     * @return bool
      */
     public function insert($entity)
     {
@@ -306,21 +366,28 @@ class Repository implements ObjectRepository
         $qb = $this->em->createQueryBuilder();
         $qb->insert($this->getTableName());
         $querySet->append($qb);
-        $this->getPersister()->disableField('id');
-        $this->persister->persist($querySet, $entity, $this->em);
-        $this->getPersister()->enableField('id');
+        $this->persist($querySet, $entity, ['id']);
 
-        return $querySet->execute();
+        $result = $querySet->execute();
+
+        // Try and set the entity id using the response from the insert
+        try {
+            $entity->setId($querySet->getInsertId());
+        } catch (\Exception $e) {
+        }
+
+        return $result;
     }
 
     /**
      * Updates an object into the database.
      *
-     * @param object $entity The entity to update.
+     * @param object $entity     The entity to update.
+     * @param array  $exclusions ignore updates to these fields
      *
      * @return bool
      */
-    public function update($entity)
+    public function update($entity, $exclusions = [])
     {
         $querySet = new QuerySet();
         $qb = $this->em->createQueryBuilder();
@@ -328,7 +395,7 @@ class Repository implements ObjectRepository
             ->where('id = :id')
             ->setParameter('id', $entity->getId());
         $querySet->append($qb);
-        $this->persister->persist($querySet, $entity, $this->em);
+        $this->persist($querySet, $entity, $exclusions);
 
         return $querySet->execute();
     }
@@ -343,19 +410,15 @@ class Repository implements ObjectRepository
      */
     protected function hydrate(array $data, QueryBuilder $qb)
     {
-        $preArgs = new HydrationEvent(
-            $data,
-            ['entity' => $this->getEntityName(), 'repository' => $this]
-        );
-        $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preArgs);
+        $entity = $this->getEntityBuilder()->getEntity();
 
-        $entity = $this->hydrator->hydrate($data, $qb, $this->em);
+        $preEventArgs = new HydrationEvent($data, ['entity' => $entity, 'repository' => $this]);
+        $this->event()->dispatch(StorageEvents::PRE_HYDRATE, $preEventArgs);
 
-        $postArgs = new HydrationEvent(
-            $entity,
-            ['data' => $data, 'repository' => $this]
-        );
-        $this->event()->dispatch(StorageEvents::POST_HYDRATE, $postArgs);
+        $this->getEntityBuilder()->createFromDatabaseValues($data, $entity);
+
+        $postEventArgs = new HydrationEvent($entity, ['data' => $data, 'repository' => $this]);
+        $this->event()->dispatch(StorageEvents::POST_HYDRATE, $postEventArgs);
 
         return $entity;
     }
@@ -379,35 +442,36 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * @param Hydrator $hydrator
+     * Internal method to refresh (re-hydrate an entity) using
+     * the field setters.
+     *
+     * @param  $entity
      */
-    public function setHydrator(Hydrator $hydrator)
+    protected function refresh($entity)
     {
-        $this->hydrator = $hydrator;
+        $this->getEntityBuilder()->refresh($entity);
     }
 
     /**
-     * @param Persister $persister
+     * Fetches FieldManager instance from the EntityManager.
+     *
+     * @return FieldManager
      */
-    public function setPersister(Persister $persister)
+    public function getFieldManager()
     {
-        $this->persister = $persister;
+        return $this->em->getFieldManager();
     }
 
     /**
-     * @return Persister $persister
+     * @return Builder $builder
      */
-    public function getPersister()
+    public function getEntityBuilder()
     {
-        return $this->persister;
-    }
+        $builder = $this->em->getEntityBuilder();
+        $builder->setClass($this->getEntityName());
+        $builder->setClassMetadata($this->getClassMetadata());
 
-    /**
-     * @param Loader $loader
-     */
-    public function setLoader(Loader $loader)
-    {
-        $this->loader = $loader;
+        return $builder;
     }
 
     /**
@@ -451,7 +515,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Getter for class metadata
+     * Getter for class metadata.
      *
      * @return ClassMetadata
      */
@@ -461,7 +525,7 @@ class Repository implements ObjectRepository
     }
 
     /**
-     * Shortcut method to fetch the Event Dispatcher
+     * Shortcut method to fetch the Event Dispatcher.
      *
      * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */

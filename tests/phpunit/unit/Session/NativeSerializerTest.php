@@ -22,7 +22,7 @@ class NativeSerializerTest extends BoltUnitTest
     public function testUnserialize()
     {
         $cornFlakes = new NativeSerializer();
-        $weetBix = $cornFlakes->unserialize( 'a:1:{s:4:"milk";s:4:"bowl";}');
+        $weetBix = $cornFlakes->unserialize('a:1:{s:4:"milk";s:4:"bowl";}');
 
         $this->assertArrayHasKey('milk', $weetBix);
         $this->assertSame('bowl', $weetBix['milk']);

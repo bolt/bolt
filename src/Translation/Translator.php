@@ -136,7 +136,8 @@ class Translator
         // Try to get a real translation from contenttypes.xx_XX.yml
         $trans = self::trans($key, $encParams, 'contenttypes', $locale, false);
         $app = ResourceManager::getApp();
-        $transFallback = self::trans($key, $encParams, 'contenttypes', reset($app['locale_fallbacks']), false);
+        $localeFallbacks = $app['locale_fallbacks'];
+        $transFallback = self::trans($key, $encParams, 'contenttypes', reset($localeFallbacks), false);
 
         // We don't want fallback translation here
         if ($trans === $transFallback) {

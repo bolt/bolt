@@ -3,7 +3,6 @@ namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\SessionServiceProvider;
 use Bolt\Tests\BoltUnitTest;
-use Silex\Application;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**

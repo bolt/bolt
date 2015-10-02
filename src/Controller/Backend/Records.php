@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller\Backend;
 
+use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,7 +82,7 @@ class Records extends BackendBase
     public function edit(Request $request, $contenttypeslug, $id)
     {
         // Is the record new or existing
-        $new = empty($id) ?: false;
+        $new = empty($id);
 
         // Test the access control
         if ($response = $this->checkEditAccess($request, $contenttypeslug, $id)) {
@@ -103,12 +104,13 @@ class Records extends BackendBase
             return $this->recordModifier()->handleSaveRequest($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
         }
 
+        // Get the record
+        $repo = $this->getRepository($contenttypeslug);
         if ($new) {
-            $content = $this->app['storage']->getEmptyContent($contenttypeslug);
+            $content = $repo->create(['contenttype' => $contenttypeslug, 'status' => $contenttype['default_status']]);
         } else {
-            $content = $this->getContent($contenttypeslug, ['id' => $id]);
-
-            if (empty($content)) {
+            $content = $repo->find($id);
+            if ($content === false) {
                 // Record not found, advise and redirect to the dashboard
                 $this->flashes()->error(Trans::__('contenttypes.generic.not-existing', ['%contenttype%' => $contenttypeslug]));
 
@@ -118,7 +120,7 @@ class Records extends BackendBase
 
         // We're doing a GET
         $duplicate = $request->query->get('duplicate', false);
-        $context = $this->recordModifier()->handleEditRequest($content, $contenttype, $id, $new, $duplicate);
+        $context = $this->recordModifier()->handleEditRequest($content, $contenttype, $duplicate);
 
         return $this->render('editcontent/editcontent.twig', $context);
     }

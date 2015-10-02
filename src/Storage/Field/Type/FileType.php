@@ -10,7 +10,7 @@ namespace Bolt\Storage\Field\Type;
 class FileType extends FieldTypeBase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {

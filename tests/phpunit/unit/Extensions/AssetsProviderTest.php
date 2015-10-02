@@ -4,7 +4,6 @@ namespace Bolt\Tests\Extensions;
 use Bolt\Asset\Target;
 use Bolt\Extensions;
 use Bolt\Storage\Entity;
-use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test correct operation and locations of assets provider.
@@ -204,7 +203,7 @@ HTML;
     public function testAddJs()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('javascript','testfile.js');
+        $app['asset.queue.file']->add('javascript', 'testfile.js');
         $assets = $app['asset.queue.file']->getQueue();
         $this->assertEquals(1, count($assets['javascript']));
     }

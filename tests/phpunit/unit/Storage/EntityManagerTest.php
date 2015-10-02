@@ -14,7 +14,7 @@ class EntityManagerTest extends BoltUnitTest
     public function testConnect()
     {
         $app = $this->getApp();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
         $this->assertSame($app['db'], \PHPUnit_Framework_Assert::readAttribute($em, 'conn'));
         $this->assertSame($app['dispatcher'], \PHPUnit_Framework_Assert::readAttribute($em, 'eventManager'));
     }
@@ -22,7 +22,7 @@ class EntityManagerTest extends BoltUnitTest
     public function testCreateQueryBuilder()
     {
         $app = $this->getApp();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
 
         $qb = $em->createQueryBuilder();
         $this->assertInstanceOf('Doctrine\DBAL\Query\QueryBuilder', $qb);
@@ -31,7 +31,7 @@ class EntityManagerTest extends BoltUnitTest
     public function testGetRepository()
     {
         $app = $this->getApp();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
 
         $repo = $em->getRepository('Bolt\Storage\Entity\Users');
 
@@ -41,7 +41,7 @@ class EntityManagerTest extends BoltUnitTest
     public function testGetRepositoryWithAliases()
     {
         $app = $this->getApp();
-        $em = new EntityManager($app['db'], $app['dispatcher'], $app['storage.metadata']);
+        $em = $app['storage'];
 
         $customRepoClass = 'Bolt\Tests\Storage\Mock\TestRepository';
         $em->setRepository('Bolt\Storage\Entity\Users', $customRepoClass);

@@ -2,7 +2,6 @@
 namespace Bolt\Tests\Extensions;
 
 use Bolt\Tests\BoltUnitTest;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**

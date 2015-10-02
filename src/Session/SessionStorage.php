@@ -82,7 +82,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function start()
     {
@@ -104,7 +104,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function regenerate($destroy = false, $lifetime = null)
     {
@@ -127,7 +127,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -135,7 +135,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setId($id)
     {
@@ -147,7 +147,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -155,7 +155,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setName($name)
     {
@@ -163,7 +163,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save()
     {
@@ -180,7 +180,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function clear()
     {
@@ -195,7 +195,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function registerBag(SessionBagInterface $bag)
     {
@@ -203,7 +203,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBag($name)
     {
@@ -229,7 +229,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getMetadataBag()
     {
@@ -277,7 +277,7 @@ class SessionStorage implements SessionStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isStarted()
     {

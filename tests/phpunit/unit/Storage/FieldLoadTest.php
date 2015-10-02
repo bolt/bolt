@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Tests\Storage;
 
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class FieldLoadTest extends BoltUnitTest
 
         $record = $repo->find(1);
 
-        foreach ($record->entries as $entry) {
+        foreach ($record->relation['entries'] as $entry) {
             $this->assertNotEmpty($entry->id);
             $this->assertNotEmpty($entry->slug);
         }
@@ -39,8 +39,8 @@ class FieldLoadTest extends BoltUnitTest
         $repo = $em->getRepository('showcases');
 
         $record = $repo->find(1);
-        $this->assertTrue(is_array($record->categories));
-        $this->assertTrue(is_array($record->tags));
+        $this->assertTrue(is_array($record->taxonomy['categories']));
+        $this->assertTrue(is_array($record->taxonomy['tags']));
     }
 
     protected function addSomeContent()
@@ -58,7 +58,7 @@ class FieldLoadTest extends BoltUnitTest
         $showcases = $storage->getContent('showcases');
         $randEntries = $storage->getContent('entries/random/2');
         foreach ($showcases as $show) {
-            foreach ($randEntries as $key => $entry) {
+            foreach (array_keys($randEntries) as $key) {
                 $show->setRelation('entries', $key);
                 $storage->saveContent($show);
             }

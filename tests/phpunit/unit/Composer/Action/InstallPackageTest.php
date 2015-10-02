@@ -2,7 +2,6 @@
 namespace Bolt\Tests\Composer\Action;
 
 use Bolt\Composer\Action\InstallPackage;
-use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Composer/Action/InstallPackage.

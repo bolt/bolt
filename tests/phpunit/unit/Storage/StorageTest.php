@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Tests\Storage;
 
+use Bolt\Events\StorageEvents;
 use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
-use Bolt\Events\StorageEvents;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Doctrine\DBAL\Connection;

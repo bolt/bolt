@@ -10,20 +10,23 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class QuerySet extends \ArrayIterator
 {
+    protected $resultCallbacks = [];
+    protected $lastInsertId;
+
     /**
      * @param QueryBuilder $qb A QueryBuilder instance
      */
     public function append($qb)
     {
         if (!$qb instanceof QueryBuilder) {
-            throw new \InvalidArgumentException("QuerySet will only accept QueryBuilder instances", 1);
+            throw new \InvalidArgumentException('QuerySet will only accept QueryBuilder instances', 1);
         }
 
         parent::append($qb);
     }
 
     /**
-     * Execute function, iterate the queries, and execute them sequentially
+     * Execute function, iterate the queries, and execute them sequentially.
      *
      * @throws \Exception
      *
@@ -38,13 +41,41 @@ class QuerySet extends \ArrayIterator
             try {
                 if ($result === null) {
                     $result = $query->execute();
+                    if ($query->getType() === 3) {
+                        $this->lastInsertId = $query->getConnection()->lastInsertId();
+                    }
                 } else {
+                    foreach ($this->resultCallbacks as $callback) {
+                        $callback($query, $result, $this->lastInsertId);
+                    }
                     $query->execute();
                 }
             } catch (\Exception $e) {
                 throw $e;
             }
         }
+
         return $result;
+    }
+
+    /**
+     * Add a callback that gets run before a secondary query that passes the supplementary
+     * query and the result of the first query into the callable.
+     *
+     * @param callable $callback [description]
+     */
+    public function onResult(callable $callback)
+    {
+        $this->resultCallbacks[] = $callback;
+    }
+
+    /**
+     * Getter method to return last insert ID from query.
+     *
+     * @return int|null
+     */
+    public function getInsertId()
+    {
+        return $this->lastInsertId;
     }
 }

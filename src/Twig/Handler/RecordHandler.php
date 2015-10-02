@@ -165,46 +165,6 @@ class RecordHandler
     }
 
     /**
-     * Lists content of a specific contenttype, specifically for editing
-     * relations in the backend.
-     *
-     * @param string               $contenttype
-     * @param array                $relationoptions
-     * @param \Bolt\Legacy\Content $content
-     *
-     * @return string
-     */
-    public function listContent($contenttype, $relationoptions, Content $content)
-    {
-        // Just the relations for the current record, and just the current $contenttype.
-        $current = isset($content->relation[$contenttype]) ? $content->relation[$contenttype] : null;
-
-        // We actually only need the 'order' in options.
-        $options = [];
-        if (!empty($relationoptions['order'])) {
-            $options['order'] = $relationoptions['order'];
-            $options['limit'] = 10000;
-            $options['hydrate'] = false;
-        }
-
-        // @todo Perhaps make something more lightweight for this?
-        $results = $this->app['storage']->getContent($contenttype, $options);
-
-        // Loop the array, set records in 'current' to have a 'selected' flag.
-        if (!empty($current) && !empty($results)) {
-            foreach ($results as $key => $result) {
-                if (in_array($result->id, $current)) {
-                    $results[$key]['selected'] = true;
-                } else {
-                    $results[$key]['selected'] = false;
-                }
-            }
-        }
-
-        return $results;
-    }
-
-    /**
      * Lists templates, optionally filtered by $filter.
      *
      * @param string  $filter

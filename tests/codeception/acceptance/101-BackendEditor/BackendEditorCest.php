@@ -106,6 +106,7 @@ class BackendEditorCest
         $I->see('New Page',   Locator::href('/bolt/editcontent/pages'));
 
         $I->fillField('#title',  'A page I made');
+        $I->fillField('#slug',   'a-page-i-made');
         $I->fillField('#teaser', 'Woop woop woop! Crazy nice stuff inside!');
         $I->fillField('#body',   'Take it, take it! I have three more of these!');
 

@@ -2,8 +2,12 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Exception\QueryParseException;
+use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
+use Bolt\Storage\QuerySet;
+use Carbon\Carbon;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -13,6 +17,15 @@ use Bolt\Storage\Query\QueryInterface;
  */
 class DateType extends FieldTypeBase
 {
+    /**
+     * @inheritdoc
+     */
+    public function __construct(array $mapping = [], EntityManager $em = null)
+    {
+        parent::__construct($mapping, $em);
+        Type::overrideType(Type::DATE, 'Bolt\Storage\Mapping\Type\CarbonDateType');
+    }
+
     /**
      * Date fields perform substitution on the parameters passed in to query.
      * To handle this we pass every parameter through `strtotime()` to make
@@ -38,7 +51,24 @@ class DateType extends FieldTypeBase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     */
+    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    {
+        $key = $this->mapping['fieldname'];
+        $value = $entity->get($key);
+
+        if (!$value instanceof \DateTime && $value !== null) {
+            $value = new Carbon($value);
+            $value::setToStringFormat('Y-m-d');
+            $entity->set($key, $value);
+        }
+
+        parent::persist($queries, $entity, $em);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getName()
     {

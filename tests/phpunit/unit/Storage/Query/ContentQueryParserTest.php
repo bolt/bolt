@@ -119,6 +119,18 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->fetch();
     }
 
+    public function testMultipleOrder()
+    {
+        $app = $this->getApp();
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->setQuery('entries');
+        $qb->setParameters(['order' => '-datepublish, title', 'getquery' => function ($query) {
+            echo $query;
+        }]);
+        $this->expectOutputString("SELECT entries.* FROM bolt_entries entries ORDER BY datepublish DESC, title ASC");
+        $qb->fetch();
+    }
+
     public function testRandomHandler()
     {
         $app = $this->getApp();
@@ -189,28 +201,28 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setParameter('id', '!1');
         $this->assertTrue(array_key_exists('id', $qb->getParameters()));
     }
-    
+
     public function testAddOperation()
     {
         $app = $this->getApp();
-        
+
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->addOperation('featured');
-        
+
         $this->assertTrue(in_array('featured', $qb->getOperations()));
     }
-    
+
     public function testRemoveOperation()
     {
         $app = $this->getApp();
-        
+
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->addOperation('featured');
         $this->assertTrue(in_array('featured', $qb->getOperations()));
         $qb->removeOperation('featured');
         $this->assertFalse(in_array('featured', $qb->getOperations()));
     }
-    
+
     public function testSearchHandler()
     {
         $app = $this->getApp();
@@ -223,7 +235,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $res = $qb->fetch();
         $this->assertEquals(4, $res->count());
     }
-    
+
     public function testNativeSearchHandlerFallback()
     {
         $app = $this->getApp();

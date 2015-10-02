@@ -66,10 +66,11 @@ class TemplateChooser
      * a fatal in the unit tests… 'cause PHP and class_alias() versus namespaces.
      *
      * @param \Bolt\Legacy\Content $record
+     * @param array $data
      *
      * @return string
      */
-    public function record(\Bolt\Legacy\Content $record)
+    public function record($record, $data = null)
     {
         // First candidate: global config.yml
         $template = $this->app['config']->get('general/record_template');
@@ -81,9 +82,11 @@ class TemplateChooser
 
         // Third candidate: a template with the same filename as the name of
         // the contenttype.
-        $templatefile = $this->app['resources']->getPath('templatespath/' . $record->contenttype['singular_slug'] . '.twig');
-        if (is_readable($templatefile)) {
-            $template = $record->contenttype['singular_slug'] . '.twig';
+        if (isset($record->contenttype['singular_slug'])) {
+            $templatefile = $this->app['resources']->getPath('templatespath/' . $record->contenttype['singular_slug'] . '.twig');
+            if (is_readable($templatefile)) {
+                $template = $record->contenttype['singular_slug'] . '.twig';
+            }
         }
 
         // Fourth candidate: defined specificaly in the contenttype.
@@ -94,10 +97,27 @@ class TemplateChooser
             }
         }
 
-        // Fifth candidate: The record has a templateselect field, and it's set.
-        foreach ($record->contenttype['fields'] as $name => $field) {
-            if ($field['type'] == 'templateselect' && !empty($record->values[$name])) {
-                $template = $record->values[$name];
+        // Fifth candidate: An entity has a templateselect field, and it's set.
+        if (isset($record->contenttype['fields'])) {
+            foreach ($record->contenttype['fields'] as $name => $field) {
+
+                if ($field['type'] == 'templateselect' && $data !== null && !empty($data[$name])) {
+                    $template = $data[$name];
+                }
+
+                if ($field['type'] == 'templateselect' && !empty($record[$name])) {
+                    $template = $record[$name];
+                }
+
+            }
+        }
+
+        // Sixth candidate: A legacy Content record has a templateselect field, and it's set.
+        if (isset($record->contenttype['fields'])) {
+            foreach ($record->contenttype['fields'] as $name => $field) {
+                if ($field['type'] == 'templateselect' && !empty($record->values[$name])) {
+                    $template = $record->values[$name];
+                }
             }
         }
 

@@ -10,7 +10,7 @@ namespace Bolt\Storage\Field\Type;
 class TextAreaType extends FieldTypeBase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {

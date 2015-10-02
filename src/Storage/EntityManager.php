@@ -1,7 +1,9 @@
 <?php
 namespace Bolt\Storage;
 
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
+use Bolt\Storage\Entity\Builder;
+use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
 use Doctrine\DBAL\Connection;
@@ -24,6 +26,10 @@ class EntityManager
     protected $mapping;
     /** @var LoggerInterface */
     protected $logger;
+    /** @var Builder */
+    protected $builder;
+    /** @var FieldManager */
+    protected $fieldManager;
     /** @var array */
     protected $repositories = [];
     /** @var array */
@@ -64,6 +70,69 @@ class EntityManager
     public function createExpressionBuilder()
     {
         return new ExpressionBuilder($this->conn);
+    }
+
+    /**
+     * Creates an entity of the given class, with the data supplied.
+     *
+     * @param string $className The type of entity to create
+     * @param array  $data      The data to use to hydrate the new entity
+     *
+     * @return Entity
+     */
+    public function create($className, $data, ClassMetadataInterface $metadata = null)
+    {
+        $repo = $this->getRepository($className);
+
+        return $repo->create($data, $metadata);
+    }
+
+    /**
+     * Get an entity builder instance for a given class.
+     *
+     * @param string        $className
+     * @param ClassMetadata $classMetadata
+     *
+     * @return Entity\Builder
+     */
+    public function getEntityBuilder($className = null, ClassMetadata $classMetadata = null)
+    {
+        $builder = new Builder($this->getMapper(), $this->getFieldManager());
+
+        if ($className !== null) {
+            $builder->setClass($className);
+        }
+
+        if ($classMetadata !== null) {
+            $builder->setClassMetadata($classMetadata);
+        }
+
+        return $builder;
+    }
+
+    /**
+     * Set an entity builder instance.
+     *
+     * @param string $className
+     *
+     * @return Entity\Builder
+     */
+    public function setEntityBuilder(Builder $builder)
+    {
+        $this->builder = $builder;
+    }
+
+    public function getFieldManager()
+    {
+        $manager = $this->fieldManager;
+        $manager->setEntityManager($this);
+
+        return $manager;
+    }
+
+    public function setFieldManager(FieldManager $fieldManager)
+    {
+        $this->fieldManager = $fieldManager;
     }
 
     /**
@@ -128,6 +197,7 @@ class EntityManager
      */
     public function getRepository($className)
     {
+        $className = (string) $className;
         if (array_key_exists($className, $this->aliases)) {
             $classMetadata = $this->getMapper()->loadMetadataForClass($this->aliases[$className]);
         } else {
@@ -202,12 +272,22 @@ class EntityManager
     public function getDefaultRepositoryFactory($classMetadata)
     {
         if (!is_callable($this->defaultRepositoryFactory)) {
-            throw new \RuntimeException("Unable to handle unmapped data without a defaultRepositoryFactory set", 1);
+            throw new \RuntimeException('Unable to handle unmapped data without a defaultRepositoryFactory set', 1);
         }
 
         $factory = $this->defaultRepositoryFactory;
 
         return $factory($classMetadata);
+    }
+
+    /**
+     * Gets the DBAL Driver Connection.
+     *
+     * @return Connection
+     */
+    public function getConnection()
+    {
+        return $this->conn;
     }
 
     /**
@@ -286,7 +366,7 @@ class EntityManager
      */
     public function __call($method, $args)
     {
-        //$this->getLogger()->warning("[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.");
+        //$this->getLogger()->warning('[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.');
         return call_user_func_array([$this->legacy(), $method], $args);
     }
 

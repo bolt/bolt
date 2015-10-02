@@ -34,6 +34,9 @@ return call_user_func(
         foreach ($autodetectionMappings as $autoloadPath => $configType) {
             if (file_exists($autoloadPath)) {
                 $loader = require $autoloadPath;
+                // Register a PHP shutdown function to catch early fatal errors
+                register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrorsEarly']);
+                // Instantiate the configuration class
                 $configClass = '\\Bolt\\Configuration\\' . $configType;
                 $config = new $configClass($loader);
                 break;
@@ -49,9 +52,6 @@ return call_user_func(
                 "you've installed the required components with Composer."
             );
         }
-
-        // Register a PHP shutdown function to catch early fatal errors
-        register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrorsEarly']);
 
         /** @var \Bolt\Configuration\ResourceManager $config */
         $config->verify();

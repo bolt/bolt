@@ -35,7 +35,7 @@ class SearchQueryTest extends BoltUnitTest
         $this->assertEquals('%lorem%', $params['title_1']);
         $this->assertEquals('%ipsum%', $params['title_2']);
     }
-    
+
     public function testAndParameterQuery()
     {
         $app = $this->getApp();
@@ -63,7 +63,7 @@ class SearchQueryTest extends BoltUnitTest
         $this->assertEquals('%lorem%', $params['chapters_1']);
         $this->assertEquals('%ipsum%', $params['chapters_2']);
     }
-    
+
     public function testContenttypeFailure()
     {
         $app = $this->getApp();
@@ -73,7 +73,7 @@ class SearchQueryTest extends BoltUnitTest
         $this->setExpectedException('Bolt\Exception\QueryParseException');
         $query->setSearch($filter);
     }
-    
+
     public function testMissingContenttypeFailure()
     {
         $app = $this->getApp();
