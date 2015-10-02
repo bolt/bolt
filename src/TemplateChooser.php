@@ -217,7 +217,7 @@ class TemplateChooser
      */
     private function setTemplateChosen($template, $chosen)
     {
-        if (isset($this->app['twig.logger'])) {
+        if (isset($this->app['twig.logger']) && empty($this->app['twig.logger']->getTrackedValue('templatechosen'))) {
             $this->app['twig.logger']->setTrackedValue('templatechosen', $this->app['config']->get('general/theme') . "/$template ($chosen)");
         }
     }
