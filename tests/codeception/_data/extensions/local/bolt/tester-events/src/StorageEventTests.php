@@ -42,7 +42,6 @@ class StorageEventTests
                 // Add a unique paragraph to the end of the teaser
                 $record->setTeaser($values['teaser'] . '<p>Added to teaser during PRE_SAVE on save: ' . date('Y-m-d H:i:s') . '</p>');
             }
-
         }
     }
 
