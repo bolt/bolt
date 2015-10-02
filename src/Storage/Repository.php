@@ -319,10 +319,11 @@ class Repository implements ObjectRepository
      * Saves a single object.
      *
      * @param object $entity The entity to delete.
+     * @param bool   $silent Suppress events
      *
      * @return bool
      */
-    public function save($entity)
+    public function save($entity, $silent = null)
     {
         try {
             if ($existing = $entity->getId()) {
@@ -331,20 +332,24 @@ class Repository implements ObjectRepository
                 $creating = true;
             }
         } catch (\Exception $e) {
-            $existing = false;
+            $creating = $existing = false;
         }
 
-        $event = new StorageEvent($entity, ['create' => $existing]);
-        $this->event()->dispatch(StorageEvents::PRE_SAVE, $event);
+        if ($silent === null) {
+            $event = new StorageEvent($entity, ['create' => $creating]);
+            $this->event()->dispatch(StorageEvents::PRE_SAVE, $event);
+        }
 
         if ($existing) {
             $response = $this->update($entity);
         } else {
             $response = $this->insert($entity);
         }
-        $this->refresh($entity);
-        $this->event()->dispatch(StorageEvents::POST_SAVE, $event);
-
+        
+        if ($silent === null) {
+            $this->event()->dispatch(StorageEvents::POST_SAVE, $event);
+        }
+        
         return $response;
     }
 
@@ -368,7 +373,6 @@ class Repository implements ObjectRepository
         // Try and set the entity id using the response from the insert
         try {
             $entity->setId($querySet->getInsertId());
-            $this->refresh($entity);
         } catch (\Exception $e) {
         }
 
