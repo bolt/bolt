@@ -66,7 +66,7 @@ before_script:
   - git clone https://github.com/bolt/composer-install.git .tmp
   # - cd .tmp
   # Add requires
-  - composer require --working-dir=.tmp/ --no-update bolt/bolt:dev-master phpunit/phpunit:^4.5 codeception/codeception:^2.1 lstrojny/phpunit-function-mocker:dev-master guzzlehttp/guzzle:^5.3
+  - composer require --working-dir=.tmp/ --no-update bolt/bolt:dev-master phpunit/phpunit:^4.5 codeception/codeception:2.1.2 lstrojny/phpunit-function-mocker:dev-master guzzlehttp/guzzle:^5.3
   # Create the project
   - composer create-project --working-dir=.tmp/ --no-interaction --prefer-dist
   # Update the Composer Bolt install with the PR files
