@@ -234,17 +234,4 @@ class ContentType extends BaseTable
         $this->table->addColumn($fieldName, 'text', ['default' => $this->getTextDefault()]);
     }
 
-    /**
-     * Default value for TEXT fields, differs per platform.
-     *
-     * @return string|null
-     */
-    private function getTextDefault()
-    {
-        if ($this->platform instanceof SqlitePlatform || $this->platform instanceof PostgreSqlPlatform) {
-            return '';
-        }
-
-        return null;
-    }
 }
