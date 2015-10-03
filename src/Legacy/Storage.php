@@ -1624,44 +1624,6 @@ class Storage
     }
 
     /**
-     * Run existence and perform publish/depublishes.
-     *
-     * @param array ContentType slugs to check
-     *
-     * @return mixed false, if any table doesn't exist
-     *               true, if all is fine
-     */
-    private function runContenttypeChecks(array $contenttypes)
-    {
-        $checkedcontenttype = [];
-
-        foreach ($contenttypes as $contenttypeslug) {
-
-            // Make sure we do this only once per contenttype
-            if (isset($checkedcontenttype[$contenttypeslug])) {
-                continue;
-            }
-
-            $contenttype = $this->getContentType($contenttypeslug);
-            $tablename = $this->getContenttypeTablename($contenttype);
-
-            // If the table doesn't exist (yet), return false.
-            if (!$this->tableExists($tablename)) {
-                return false;
-            }
-
-            // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
-            $this->publishTimedRecords($contenttype);
-            $this->depublishExpiredRecords($contenttype);
-
-            // "mark" this one as checked.
-            $checkedcontenttype[$contenttypeslug] = true;
-        }
-
-        return true;
-    }
-
-    /**
      * Hydrate database rows into objects.
      *
      * @param array|string $contenttype
@@ -1851,8 +1813,8 @@ class Storage
             return false;
         }
 
-        // Run checks and some actions (@todo put these somewhere else?)
-        if (!$this->runContenttypeChecks($decoded['contenttypes'])) {
+        // Run table checks
+        if (!$this->runContentTypeTableChecks($decoded['contenttypes'])) {
             $this->app['stopwatch']->stop('bolt.getcontent');
 
             return false;
@@ -1923,6 +1885,34 @@ class Storage
         $this->app['stopwatch']->stop('bolt.getcontent');
 
         return $results;
+    }
+
+    /**
+     * Check for the existence of ContentType tables.
+     *
+     * @param array $contenttypes ContentType slugs to check
+     *
+     * @return boolean
+     */
+    private function runContentTypeTableChecks(array $contenttypes)
+    {
+        $checkedcontenttype = [];
+        foreach ($contenttypes as $contenttypeslug) {
+            // Make sure we do this only once per contenttype
+            if (isset($checkedcontenttype[$contenttypeslug])) {
+                continue;
+            }
+            $checkedcontenttype[$contenttypeslug] = true;
+
+            // If the table doesn't exist (yet), return false.
+            $contenttype = $this->getContentType($contenttypeslug);
+            $tablename = $this->getContenttypeTablename($contenttype);
+            if (!$this->tableExists($tablename)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
