@@ -74,10 +74,7 @@
                 id: fconf.contentId
             };
 
-        field.lock.on('click', function () {
-            field.group.removeClass('unlocked').addClass('locked');
-            stopAutoGeneration(field);
-        });
+        field.lock.on('click', lock(field));
 
         field.unlock.on('click', function () {
             // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
@@ -111,6 +108,20 @@
      * @memberof Bolt.fields.slug
      */
     var timeout = [];
+
+    /**
+     * Locks the slug field.
+     *
+     * @private
+     * @function lock
+     * @memberof Bolt.fields.slug
+     *
+     * @param {FieldData} field - Field data.
+     */
+    function lock(field) {
+        field.group.removeClass('unlocked').addClass('locked');
+        stopAutoGeneration(field);
+    }
 
     /**
      * Get URI for slug from remote.
