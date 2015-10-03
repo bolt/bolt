@@ -133,7 +133,7 @@ class YamlHelper extends \Codeception\Module
         $permissions['contenttypes'] = [
             'pages'     => [
                 'create'           => ['editor'],
-                'edit'             => ['editor'],
+                'edit'             => ['editor', 'author'],
                 'change-ownership' => ['owner']
             ],
             'entries'   => [
