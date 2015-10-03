@@ -636,15 +636,13 @@ class Extensions
         if (is_array($this->widgetqueue)) {
             foreach ($this->widgetqueue as $widget) {
                 if ($type == $widget['type'] && $position == $widget['position']) {
-                    $html = sprintf(
-                        "<section><div class='widget' id='widget-%s' data-key='%s'%s>%s</div>%s</section>",
-                        $widget['key'],
-                        $widget['key'],
-                        !$widget['defer'] ? '' : " data-defer='true'",
-                        $widget['defer'] ? '' : $this->renderWidget($widget['key']),
-                        empty($widget['additionalhtml']) ? '' : "\n" . $widget['additionalhtml']
-                    );
 
+                    $html = ''
+
+                    $html = $this->app['render']->render('widgetholder.twig', [
+                        'widget' => $widget,
+                        'html' => $html
+                    ]);
                     echo $html;
                 }
             }
