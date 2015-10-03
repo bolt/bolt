@@ -79,7 +79,7 @@
         });
 
         field.unlock.on('click', function () {
-            unlock(field, fconf);
+            unlock(field, fconf.isEmpty);
         });
 
         field.edit.on('click', function () {
@@ -122,11 +122,11 @@
      * @memberof Bolt.fields.slug
      *
      * @param {FieldData} field - Field data.
-     * @param {FieldConf} fconf
+     * @param {boolean} wasEmpty - Slug is currently empty
      */
-    function unlock(field, fconf) {
+    function unlock(field, wasEmpty) {
         // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-        if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
+        if (wasEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
             field.group.removeClass('locked').addClass('unlocked');
             startAutoGeneration(field);
         }
