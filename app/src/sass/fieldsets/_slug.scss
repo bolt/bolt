@@ -18,14 +18,12 @@
             font-family: "FontAwesome";
         }
 
-        .locked button.lock i:before {
-            content: "\f023";
-            color: #800;
+        .locked li.lock {
+            display: none;
         }
 
-        .unlocked button.lock i:before {
-            content: "\f09c";
-            color: #080;
+        .unlocked li.unlock {
+            display: none;
         }
     }
 }
