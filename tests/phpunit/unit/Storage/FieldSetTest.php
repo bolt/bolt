@@ -23,8 +23,6 @@ class FieldSetTest extends BoltUnitTest
 
     public function testSetWithUpdatedValues()
     {
-        $this->markTestIncomplete('Test dying with: Invalid argument supplied for foreach()');
-
         $app = $this->getApp();
 
         $em = $app['storage'];
