@@ -9,10 +9,13 @@
             background: #fff;
             text-align: left;
             font-family: monospace;
+            color: #aaa;
 
             em {
+                color: black;
                 font-style: normal;
-                font-weight: bold;
+                font-weight: normal;
+                line-height: 1.4;
             }
         }
 
