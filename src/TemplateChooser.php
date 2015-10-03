@@ -41,7 +41,7 @@ class TemplateChooser
 
         // Fallback if no content: index.twig
         if (empty($content) && empty($template)) {
-                $template = 'index.twig';
+            $template = 'index.twig';
         }
 
         // Fallback with content: use record() or listing() to choose template
@@ -66,7 +66,7 @@ class TemplateChooser
      * a fatal in the unit tests… 'cause PHP and class_alias() versus namespaces.
      *
      * @param \Bolt\Legacy\Content $record
-     * @param array $data
+     * @param array                $data
      *
      * @return string
      */
@@ -100,7 +100,6 @@ class TemplateChooser
         // Fifth candidate: An entity has a templateselect field, and it's set.
         if (isset($record->contenttype['fields'])) {
             foreach ($record->contenttype['fields'] as $name => $field) {
-
                 if ($field['type'] == 'templateselect' && $data !== null && !empty($data[$name])) {
                     $template = $data[$name];
                 }
@@ -108,7 +107,6 @@ class TemplateChooser
                 if ($field['type'] == 'templateselect' && !empty($record[$name])) {
                     $template = $record[$name];
                 }
-
             }
         }
 

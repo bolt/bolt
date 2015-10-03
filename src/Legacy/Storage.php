@@ -1936,7 +1936,6 @@ class Storage
 
         //Loop through each term if multiple
         foreach ($separatedOrders as $index => $name) {
-
             $name = trim($name);
 
             // Strip the minus in '-title' if allowed.
@@ -1959,7 +1958,6 @@ class Storage
             if (! $isValidColumn) {
                 return false;
             }
-
         }
 
         return true;

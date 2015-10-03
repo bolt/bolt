@@ -91,7 +91,7 @@ class StorageEventListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST  => ['onKernelRequest', 31],
+            KernelEvents::REQUEST   => ['onKernelRequest', 31],
             StorageEvents::PRE_SAVE => 'onPreSave',
         ];
     }

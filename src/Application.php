@@ -29,7 +29,7 @@ class Application extends Silex\Application
         $values['bolt_version'] = '2.3.0';
         $values['bolt_name'] = 'alpha 2';
         $values['bolt_released'] = false; // `true` for stable releases, `false` for alpha, beta and RC.
-        $values['bolt_long_version'] = function($app) {
+        $values['bolt_long_version'] = function ($app) {
             return $app['bolt_version'] . ' ' . $app['bolt_name'];
         };
 

@@ -628,7 +628,7 @@ class Users extends BackendBase
      * @param Form    $form      A Symfony form
      * @param boolean $firstuser If this is a first user set up
      *
-     * @return Entity\Users|false User entity, or false
+     * @return Entity\Users|false
      */
     private function validateUserForm(Request $request, Form $form, $firstuser = false)
     {

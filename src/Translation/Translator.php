@@ -3,7 +3,6 @@
 namespace Bolt\Translation;
 
 use Bolt\Configuration\ResourceManager;
-use Silex\Application;
 use Symfony\Component\Translation\Exception\InvalidResourceException;
 
 /**

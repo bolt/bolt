@@ -26,7 +26,7 @@ class Field extends BaseTable
      */
     protected function addIndexes()
     {
-        $this->table->addIndex(['contenttype']);    
+        $this->table->addIndex(['contenttype']);
         $this->table->addIndex(['content_id']);
     }
 

@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Events;
 
-use Bolt;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**

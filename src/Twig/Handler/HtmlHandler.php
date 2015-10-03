@@ -2,7 +2,6 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Application;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Legacy\Content;

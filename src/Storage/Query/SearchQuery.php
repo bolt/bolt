@@ -17,7 +17,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  *
  *  @author Ross Riley <riley.ross@gmail.com>
  */
-class SearchQuery extends SelectQuery implements QueryInterface
+class SearchQuery extends SelectQuery
 {
     protected $search;
 
@@ -112,7 +112,7 @@ class SearchQuery extends SelectQuery implements QueryInterface
      * Creates a composite expression that adds all the attached
      * filters individual expressions into a combined one.
      *
-     * @return CompositeExpression
+     * @return CompositeExpression|null
      */
     public function getWhereExpression()
     {

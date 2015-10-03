@@ -13,7 +13,7 @@ class FieldManager
     /**
      * Constructor.
      *
-     * @param array $typemap
+     * @param EntityManager $em
      */
     public function __construct(EntityManager $em = null)
     {
@@ -30,6 +30,14 @@ class FieldManager
         $this->em = $em;
     }
 
+    /**
+     * Get a field type object.
+     *
+     * @param string|object $class
+     * @param mixed         $mapping
+     *
+     * @return object
+     */
     public function get($class, $mapping)
     {
         if (is_object($class)) {
@@ -43,6 +51,12 @@ class FieldManager
         return new $class($mapping, $this->em);
     }
 
+    /**
+     * Set  the field's handler.
+     *
+     * @param string   $class
+     * @param callable $handler
+     */
     public function setHandler($class, callable $handler)
     {
         $this->handlers[$class] = $handler;

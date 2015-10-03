@@ -21,6 +21,11 @@ class QueryParameterParser
     protected $valueMatchers = [];
     protected $filterHandlers = [];
 
+    /**
+     * Constructor.
+     *
+     * @param ExpressionBuilder $expr
+     */
     public function __construct(ExpressionBuilder $expr = null)
     {
         $this->expr = $expr;
@@ -59,9 +64,12 @@ class QueryParameterParser
     /**
      * Runs the keys/values through the relevant parsers.
      *
+     * @param string $key
+     * @param mixed  $value
+     *
      * @throws Bolt\Exception\QueryParseException
      *
-     * @return Expression matched values
+     * @return Filter|null
      */
     public function getFilter($key, $value = null)
     {
@@ -212,11 +220,11 @@ class QueryParameterParser
      *     'value' => <the value remaining after the parse>
      *     'operator'=> <the operator that should be used>
      *     'matched' => <the pattern that the value matched>
-     * ].
+     * ]
      *
      * @param string $value Value to process
      *
-     * @return array parsed values
+     * @return array Parsed values
      */
     public function parseValue($value)
     {
@@ -237,7 +245,8 @@ class QueryParameterParser
      * Adding a handler here will push the new filter callback onto the top
      * of the Queue along with the built in defaults.
      *
-     * Note: the callback should either return nothing or an instance of Bolt\Storage\Query\Filter
+     * Note: the callback should either return nothing or an instance of
+     * \Bolt\Storage\Query\Filter
      *
      * @param Callable $handler [description]
      */

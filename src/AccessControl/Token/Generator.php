@@ -32,7 +32,6 @@ class Generator
 
     public function __toString()
     {
-
         return $this->token;
     }
 }

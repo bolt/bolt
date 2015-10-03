@@ -102,7 +102,7 @@ class RecordHandler
      * Create an excerpt for the given content.
      *
      * @param \Bolt\Legacy\Content|array|string $content
-     * @param integer                    $length  Defaults to 200 characters
+     * @param integer                           $length  Defaults to 200 characters
      *
      * @return string Resulting excerpt
      */
@@ -273,7 +273,7 @@ class RecordHandler
             $retval = [''];
         }
 
-        if(!empty($content)) {
+        if (!empty($content)) {
             foreach ($content as $c) {
                 if (is_array($fieldname)) {
                     $row = [];

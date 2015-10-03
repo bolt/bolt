@@ -13,7 +13,6 @@ class FirstQueryHandler
 {
     /**
      * @param ContentQueryParser $contentQuery
-     * @param int                $limit
      *
      * @return QueryResultset
      */
