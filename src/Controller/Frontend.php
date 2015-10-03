@@ -54,7 +54,7 @@ class Frontend extends ConfigurableBase
         if (!$this->app['users']->getUsers()) {
             $this->flashes()->info(Trans::__('There are no users in the database. Please create the first user.'));
 
-            return $this->redirectToRoute('useredit', ['id' => '']);
+            return $this->redirectToRoute('userfirst');
         }
 
         // If we are in maintenance mode and current user is not logged in, show maintenance notice.
