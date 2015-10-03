@@ -58,7 +58,7 @@ class StorageEventListener implements EventSubscriberInterface
             return;
         }
 
-        $contenttypes = $this->config->get('contenttypes', array());
+        $contenttypes = $this->config->get('contenttypes', []);
 
         foreach ($contenttypes as $contenttype) {
             $contenttype = $this->em->getContentType($contenttype['slug']);

@@ -122,7 +122,7 @@ class ContentQueryParser
     {
         $contentString = strtok($this->query, '/');
 
-        $content = array();
+        $content = [];
         $delim = '(),';
         $tok = strtok($contentString, $delim);
         while ($tok !== false) {

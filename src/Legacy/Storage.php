@@ -1110,7 +1110,7 @@ class Storage
             $query->execute();
         } catch (DBALException $e) {
             $message = "Timed $type of records for $contenttypeSlug failed: " . $e->getMessage();
-            $this->app['logger.system']->critical($message, array('event' => 'exception', 'exception' => $e));
+            $this->app['logger.system']->critical($message, ['event' => 'exception', 'exception' => $e]);
 
             return;
         }
@@ -1122,13 +1122,13 @@ class Storage
 
         try {
             foreach ($recordIds as $recordId) {
-                $content = $this->getContent("$contenttypeSlug/".$recordId['id'], array('hydrate' => false, 'returnsingle' => true));
+                $content = $this->getContent("$contenttypeSlug/".$recordId['id'], ['hydrate' => false, 'returnsingle' => true]);
 
-                $event = new StorageEvent($content, array('contenttype' => $contenttypeSlug, 'create' => false));
+                $event = new StorageEvent($content, ['contenttype' => $contenttypeSlug, 'create' => false]);
                 $this->app['dispatcher']->dispatch("timed.$type", $event);
             }
         } catch (\Exception $e) {
-            $this->app['logger.system']->critical("Dispatch handling failed for $contenttypeSlug.", array('event' => 'exception', 'exception' => $e));
+            $this->app['logger.system']->critical("Dispatch handling failed for $contenttypeSlug.", ['event' => 'exception', 'exception' => $e]);
         }
     }
 
