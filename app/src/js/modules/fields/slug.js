@@ -72,23 +72,20 @@
                 uses: fconf.uses,
                 slug: fconf.slug,
                 id: fconf.contentId
-            },
-            lockState = function () {
-                if (field.group.hasClass('locked')) {
-                    // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-                    if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
-                        field.group.removeClass('locked').addClass('unlocked');
-                        startAutoGeneration(field);
-                    }
-                } else {
-                    field.group.removeClass('unlocked').addClass('locked');
-                    stopAutoGeneration(field);
-                }
-                this.blur();
             };
 
-        field.lock.on('click', lockState);
-        field.unlock.on('click', lockState);
+        field.lock.on('click', function () {
+            field.group.removeClass('unlocked').addClass('locked');
+            stopAutoGeneration(field);
+        });
+
+        field.unlock.on('click', function () {
+            // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
+            if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
+                field.group.removeClass('locked').addClass('unlocked');
+                startAutoGeneration(field);
+            }
+        });
 
         field.edit.on('click', function () {
             var newslug = prompt(bolt.data('field.slug.message.set'), field.data.val());
