@@ -69,6 +69,6 @@ class BackendAuthorCest
 
         $I->click('Save Page', '#savecontinuebutton');
 
-        $I->see('The new Page has been saved.');
+        $I->see('The changes to the Page have been saved.');
     }
 }
