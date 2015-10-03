@@ -127,7 +127,7 @@ class SearchWeighter
         }
 
         $dictionary = [];
-        $count = array();
+        $count = [];
 
         foreach ($corpus as $id => $doc) {
             $terms = explode(' ', $doc);

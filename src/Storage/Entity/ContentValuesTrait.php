@@ -512,7 +512,7 @@ trait ContentValuesTrait
      */
     public function getTitle()
     {
-        $titleParts = array();
+        $titleParts = [];
 
         foreach ($this->getTitleColumnName() as $fieldName) {
             $titleParts[] = strip_tags($this->values[$fieldName]);
