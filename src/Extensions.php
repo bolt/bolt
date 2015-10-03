@@ -628,14 +628,14 @@ class Extensions
      * @param string $type
      * @param string $location For convenience, use the constant from Bolt\Extensions\Snippets\Location
      */
-    public function renderWidgetHolder($type, $location)
+    public function renderWidgetHolder($type, $position)
     {
 
         // dump($this->widgetqueue);
 
         if (is_array($this->widgetqueue)) {
             foreach ($this->widgetqueue as $widget) {
-                if ($type == $widget['type'] && $location == $widget['location']) {
+                if ($type == $widget['type'] && $position == $widget['position']) {
                     $html = sprintf(
                         "<section><div class='widget' id='widget-%s' data-key='%s'%s>%s</div>%s</section>",
                         $widget['key'],
