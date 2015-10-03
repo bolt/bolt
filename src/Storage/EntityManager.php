@@ -14,7 +14,14 @@ use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Manages all loaded entities across application, provides access to Repository Classes.
+ * Manages all loaded entities across application, provides access to Repository
+ * Classes.
+ *
+ * Legacy methods:
+ *
+ * @method array getContentType($contenttypeslug)
+ * @method void  publishTimedRecords($contenttype)
+ * @method void  depublishTimedRecords($contenttype)
  */
 class EntityManager
 {
@@ -113,7 +120,7 @@ class EntityManager
     /**
      * Set an entity builder instance.
      *
-     * @param string $className
+     * @param Builder $builder
      *
      * @return Entity\Builder
      */
@@ -122,6 +129,9 @@ class EntityManager
         $this->builder = $builder;
     }
 
+    /**
+     * @return FieldManager
+     */
     public function getFieldManager()
     {
         $manager = $this->fieldManager;
@@ -130,6 +140,9 @@ class EntityManager
         return $manager;
     }
 
+    /**
+     * @param FieldManager $fieldManager
+     */
     public function setFieldManager(FieldManager $fieldManager)
     {
         $this->fieldManager = $fieldManager;

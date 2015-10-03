@@ -23,6 +23,12 @@ class Builder
     protected $fieldManager;
     protected $transformers = [];
 
+    /**
+     * Constructor.
+     *
+     * @param MetadataDriver $metadata
+     * @param FieldManager   $fieldManager
+     */
     public function __construct(MetadataDriver $metadata, FieldManager $fieldManager)
     {
         $this->metadata = $metadata;
@@ -68,7 +74,7 @@ class Builder
     /**
      * Adds a transformer for a specific field type.
      *
-     * @param string   $fieldTypeClass the class of the field type to transform
+     * @param string   $fieldTypeClass Class of the field type to transform
      * @param callable $handler
      */
     public function setTransformer($fieldTypeClass, callable $handler)
@@ -78,6 +84,8 @@ class Builder
 
     /**
      * Returns a new empty entity class.
+     *
+     * @param object|null $entity
      *
      * @return object
      */
@@ -99,8 +107,6 @@ class Builder
      * Uses either the class default or the supplied ClassMetadata to return
      * a list of fields for this entity.
      *
-     * @param ClassMetadata|null $classMetadata
-     *
      * @return array
      */
     public function getFields()
@@ -111,7 +117,8 @@ class Builder
     /**
      * Creates a new entity object.
      *
-     * @param array|object $data Data to load into the entity.
+     * @param array|object $data   Data to load into the entity.
+     * @param object|null  $entity
      *
      * @return object $entity
      */
@@ -141,8 +148,8 @@ class Builder
     /**
      * Performs database to PHP transforms before creating new entity.
      *
-     * @param array              $data
-     * @param ClassMetadata|null $classMetadata
+     * @param array       $data
+     * @param object|null $entity
      *
      * @return object $entity
      */
@@ -160,11 +167,16 @@ class Builder
         return $entity;
     }
 
+    /**
+     * Refresh an entities values.
+     *
+     * @param object|null $entity
+     */
     public function refresh($entity)
     {
         $fields = $this->getFields();
 
-        foreach ((array)$fields as $key => $mapping) {
+        foreach ((array) $fields as $key => $mapping) {
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
             $getter = 'get'.ucFirst($key);
             $value = $entity->$getter();

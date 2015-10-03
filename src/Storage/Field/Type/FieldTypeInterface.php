@@ -20,6 +20,8 @@ interface FieldTypeInterface
      *
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
+     *
+     * @return QueryBuilder|null
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata);
 
@@ -28,15 +30,16 @@ interface FieldTypeInterface
      *
      * @param QueryInterface $query
      * @param ClassMetadata  $metadata
+     *
+     * @return QueryBuilder|null
      */
     public function query(QueryInterface $query, ClassMetadata $metadata);
 
     /**
      * Handle or ignore the persist event.
      *
-     * @param QuerySet      $queries
-     * @param mixed         $entity
-     * @param EntityManager $em
+     * @param QuerySet $queries
+     * @param mixed    $entity
      */
     public function persist(QuerySet $queries, $entity);
 

@@ -389,7 +389,6 @@ class Config
     /**
      * This method pulls the templatefields config from the theme config and appends it
      * to the contenttypes configuration.
-     *
      */
     protected function parseTemplatefields()
     {
@@ -404,7 +403,6 @@ class Config
                 }
             }
         }
-
     }
 
     /**

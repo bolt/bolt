@@ -521,7 +521,7 @@ class RecordModifier
      * @param string $date
      * @param bool   $setNowOnEmpty
      *
-     * @return array
+     * @return string
      */
     private function getPublishingDate($date, $setNowOnEmpty = false)
     {

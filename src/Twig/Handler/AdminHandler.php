@@ -224,7 +224,7 @@ class AdminHandler
      * - JSON encodes array values
      * - Prettied output of class attribute and array data is handled.
      *
-     * @param array  $attributes
+     * @param array $attributes
      *
      * @return string Attributes
      */
@@ -272,10 +272,10 @@ class AdminHandler
     /**
      * Generates pretty class attributes.
      *
-     * @param array|string  $classes
-     * @param boolean       $raw
+     * @param array|string $classes
+     * @param boolean      $raw
      *
-     * @return string  Class attribute
+     * @return string Class attribute
      */
     public function hclass($classes, $raw = false)
     {
@@ -290,6 +290,5 @@ class AdminHandler
         } else {
             return $classes ? ' class="' . htmlspecialchars($classes) . '"' : '';
         }
-
     }
 }

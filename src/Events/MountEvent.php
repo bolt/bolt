@@ -22,7 +22,7 @@ class MountEvent extends Event
     protected $collection;
 
     /**
-     * @param Application $app
+     * @param Application          $app
      * @param ControllerCollection $collection
      */
     public function __construct(Application $app, ControllerCollection $collection)

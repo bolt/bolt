@@ -112,7 +112,7 @@ class SearchQuery extends SelectQuery
      * Creates a composite expression that adds all the attached
      * filters individual expressions into a combined one.
      *
-     * @return CompositeExpression
+     * @return CompositeExpression|null
      */
     public function getWhereExpression()
     {

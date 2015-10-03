@@ -38,6 +38,9 @@ class Extensions
 
     private $isInitialized = false;
 
+    /**
+     * @param \Silex\Application $app
+     */
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
@@ -523,6 +526,11 @@ class Extensions
         return $assets;
     }
 
+    /**
+     * Get the namespcae from a FQCN.
+     *
+     * @param ExtensionInterface $extension
+     */
     private function getNamespace($extension)
     {
         $classname = get_class($extension);
