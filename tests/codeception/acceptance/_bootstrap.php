@@ -16,6 +16,12 @@ Fixtures::add('users', [
         'email'       => 'admin@example.com',
         'displayname' => 'Admin Person'
     ],
+    'author' => [
+        'username'    => 'author',
+        'password'    => 'iamanartisandarnit',
+        'email'       => 'author@example.com',
+        'displayname' => 'Author Person'
+    ],
     'editor' => [
         'username'    => 'editor',
         'password'    => 'nomoresecrets',
