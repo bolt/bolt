@@ -34,6 +34,7 @@
      * @property {Object} show - Slug display.
      * @property {Object} data - Data field.
      * @property {Object} lock - Lock button.
+     * @property {Object} unlock - Unlock button.
      * @property {Object} edit - Edit button.
      * @property {string} key - The field key
      * @property {Array} uses - Fields used to automatically generate a slug.
@@ -64,27 +65,30 @@
                 group: $(fieldset).find('.input-group'),
                 show: $(fieldset).find('em'),
                 data: $(fieldset).find('input'),
-                lock: $(fieldset).find('button.lock'),
-                edit: $(fieldset).find('button.edit'),
+                lock: $(fieldset).find('li.lock a'),
+                unlock: $(fieldset).find('li.unlock a'),
+                edit: $(fieldset).find('li.edit a'),
                 key: fconf.key,
                 uses: fconf.uses,
                 slug: fconf.slug,
                 id: fconf.contentId
+            },
+            lockState = function () {
+                if (field.group.hasClass('locked')) {
+                    // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
+                    if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
+                        field.group.removeClass('locked').addClass('unlocked');
+                        startAutoGeneration(field);
+                    }
+                } else {
+                    field.group.removeClass('unlocked').addClass('locked');
+                    stopAutoGeneration(field);
+                }
+                this.blur();
             };
 
-        field.lock.on('click', function () {
-            if (field.group.hasClass('locked')) {
-                // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-                if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
-                    field.group.removeClass('locked').addClass('unlocked');
-                    startAutoGeneration(field);
-                }
-            } else {
-                field.group.removeClass('unlocked').addClass('locked');
-                stopAutoGeneration(field);
-            }
-            this.blur();
-        });
+        field.lock.on('click', lockState);
+        field.unlock.on('click', lockState);
 
         field.edit.on('click', function () {
             var newslug = prompt(bolt.data('field.slug.message.set'), field.data.val());
