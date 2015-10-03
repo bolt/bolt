@@ -17,7 +17,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  *
  *  @author Ross Riley <riley.ross@gmail.com>
  */
-class SearchQuery extends SelectQuery implements QueryInterface
+class SearchQuery extends SelectQuery
 {
     protected $search;
 
