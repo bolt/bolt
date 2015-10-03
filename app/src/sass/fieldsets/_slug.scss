@@ -13,17 +13,39 @@
             }
         }
 
-        button {
-            padding: 5px;
+        span.input-group-addon:before {
+            display: inline-block;
+            position: relative;
+            left: -5px;
+            width: 20px;
+            padding: 3px 0;
+            text-align: center;
+            line-height: 1;
             font-family: "FontAwesome";
+            background: #f0f0f0;
+            border-radius: 3px;
         }
 
-        .locked li.lock {
-            display: none;
+        .locked {
+            li.lock {
+                display: none;
+            }
+
+            span.input-group-addon:before {
+                content: "\f023";
+                color: #a00;
+            }
         }
 
-        .unlocked li.unlock {
-            display: none;
+        .unlocked {
+            li.unlock {
+                display: none;
+            }
+
+            span.input-group-addon:before {
+                content: "\f09c";
+                color: #080;
+            }
         }
     }
 }
