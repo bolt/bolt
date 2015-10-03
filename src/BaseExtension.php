@@ -710,10 +710,10 @@ abstract class BaseExtension implements ExtensionInterface
      *
      * @return bool|string
      */
-    public function parseWidget($callback, $var1 = '', $var2 = '', $var3 = '')
+    public function parseWidget($callback, $parameters)
     {
         if (method_exists($this, $callback)) {
-            return call_user_func([$this, $callback], $var1, $var2, $var3);
+            return call_user_func([$this, $callback], $parameters);
         } else {
             return false;
         }
