@@ -1,9 +1,6 @@
 <?php
 namespace Bolt\Storage\Database\Schema\Table;
 
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
-
 class ContentType extends BaseTable
 {
     /** @var array Mapping of field type to column type function */
@@ -233,5 +230,4 @@ class ContentType extends BaseTable
     {
         $this->table->addColumn($fieldName, 'text', ['default' => $this->getTextDefault()]);
     }
-
 }
