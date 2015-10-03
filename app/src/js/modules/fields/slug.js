@@ -74,14 +74,12 @@
                 id: fconf.contentId
             };
 
-        field.lock.on('click', lock(field));
+        field.lock.on('click', function () {
+            lock(field);
+        });
 
         field.unlock.on('click', function () {
-            // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-            if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
-                field.group.removeClass('locked').addClass('unlocked');
-                startAutoGeneration(field);
-            }
+            unlock(field, fconf);
         });
 
         field.edit.on('click', function () {
@@ -121,6 +119,24 @@
     function lock(field) {
         field.group.removeClass('unlocked').addClass('locked');
         stopAutoGeneration(field);
+    }
+
+    /**
+     * Unlocks the slug field.
+     *
+     * @private
+     * @function unlock
+     * @memberof Bolt.fields.slug
+     *
+     * @param {FieldData} field - Field data.
+     * @param {FieldConf} fconf
+     */
+    function unlock(field, fconf) {
+        // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
+        if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
+            field.group.removeClass('locked').addClass('unlocked');
+            startAutoGeneration(field);
+        }
     }
 
     /**
