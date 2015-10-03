@@ -29,7 +29,6 @@ class Stack
     /** @var \Silex\Application */
     private $app;
 
-
     /**
      * Constructor.
      *
