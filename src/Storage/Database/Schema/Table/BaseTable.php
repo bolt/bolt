@@ -2,6 +2,8 @@
 namespace Bolt\Storage\Database\Schema\Table;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -78,6 +80,20 @@ abstract class BaseTable
     public function ignoredChanges()
     {
         return false;
+    }
+
+    /**
+     * Default value for TEXT fields, differs per platform.
+     *
+     * @return string|null
+     */
+    protected function getTextDefault()
+    {
+        if ($this->platform instanceof SqlitePlatform || $this->platform instanceof PostgreSqlPlatform) {
+            return '';
+        }
+
+        return null;
     }
 
     /**
