@@ -36,7 +36,7 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        <div class="input-group input-group-sm locked">
+        <div class="input-group locked">
             <span class="input-group-addon">/{{ context.content.contenttype }}/<em>{{ context.content.get(contentkey) }}</em></span>
             <input{{ macro.attr(attributes.slug) }}>
             <div class="input-group-btn">
