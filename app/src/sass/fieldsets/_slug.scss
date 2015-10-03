@@ -2,30 +2,76 @@
 
 #editcontent {
     fieldset[data-bolt-field="slug"] {
+        $icon-right-margin: 6px;
+        $icon-width: 20px;
+
         .input-group-addon {
             background: #fff;
             text-align: left;
             font-family: monospace;
+            color: #aaa;
 
             em {
+                color: black;
                 font-style: normal;
-                font-weight: bold;
+                font-weight: normal;
+                line-height: 1.4;
             }
         }
 
-        button {
-            padding: 5px;
+        span.input-group-addon:before {
+            display: inline-block;
+            margin-right: $icon-right-margin;
+            width: $icon-width;
+            padding: 2px 0;
+            text-align: center;
+            line-height: 1;
             font-family: "FontAwesome";
+            background: #f0f0f0;
+            border-radius: 3px;
+            text-indent: 0;
         }
 
-        .locked button.lock i:before {
-            content: "\f023";
-            color: #800;
+        .locked {
+            li.lock {
+                display: none;
+            }
+
+            span.input-group-addon:before {
+                content: "\f023";
+                color: #a00;
+            }
         }
 
-        .unlocked button.lock i:before {
-            content: "\f09c";
-            color: #080;
+        .unlocked {
+            li.unlock {
+                display: none;
+            }
+
+            span.input-group-addon:before {
+                content: "\f13e";
+                color: #080;
+            }
+        }
+
+        .input-group-btn {
+            button {
+                height: 100%;
+                padding-top: 0;
+                padding-bottom: 0;
+                padding: 0 $padding-base-vertical;
+            }
+        }
+
+        span.input-group-addon {
+            display: inline-block;
+            margin: 1px 0;
+            width: 100%;
+            text-indent: -$icon-width - $icon-right-margin;
+            padding-left: $icon-width + $padding-base-vertical + $icon-right-margin;
+            white-space: normal;
+            word-break: break-all;
+            cursor: default;
         }
     }
 }
