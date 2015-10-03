@@ -34,6 +34,7 @@
      * @property {Object} show - Slug display.
      * @property {Object} data - Data field.
      * @property {Object} lock - Lock button.
+     * @property {Object} edit - Edit button.
      * @property {string} key - The field key
      * @property {Array} uses - Fields used to automatically generate a slug.
      * @property {string} slug - Content slug.
@@ -64,6 +65,7 @@
                 show: $(fieldset).find('em'),
                 data: $(fieldset).find('input'),
                 lock: $(fieldset).find('button.lock'),
+                edit: $(fieldset).find('button.edit'),
                 key: fconf.key,
                 uses: fconf.uses,
                 slug: fconf.slug,
@@ -84,7 +86,7 @@
             this.blur();
         });
 
-        $(fieldset).find('button.edit').on('click', function () {
+        field.edit.on('click', function () {
             var newslug = prompt(bolt.data('field.slug.message.set'), field.data.val());
 
             if (newslug) {
