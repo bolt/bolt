@@ -83,14 +83,7 @@
         });
 
         field.edit.on('click', function () {
-            var newslug = prompt(bolt.data('field.slug.message.set'), field.data.val());
-
-            if (newslug) {
-                field.group.removeClass('unlocked').addClass('locked');
-                stopAutoGeneration(field);
-                getUriAjax(field, newslug);
-            }
-            this.blur();
+            edit(field);
         });
 
         if (fconf.isEmpty) {
@@ -136,6 +129,25 @@
         if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
             field.group.removeClass('locked').addClass('unlocked');
             startAutoGeneration(field);
+        }
+    }
+
+    /**
+     * Edit the slug.
+     *
+     * @private
+     * @function edit
+     * @memberof Bolt.fields.slug
+     *
+     * @param {FieldData} field - Field data.
+     */
+    function edit(field) {
+        var newslug = prompt(bolt.data('field.slug.message.set'), field.data.val());
+
+        if (newslug) {
+            field.group.removeClass('unlocked').addClass('locked');
+            stopAutoGeneration(field);
+            getUriAjax(field, newslug);
         }
     }
 
