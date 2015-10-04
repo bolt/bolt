@@ -3,7 +3,9 @@
 
 {% set modifiable = permissions.create or permissions.edit or permissions.delete or permissions.publish or permissions.depublish %}
 
-{# If we have 'grouping', print the row with the groupname. #}
+{#
+ # GROUPNAME: If we have 'grouping', print the row with the groupname.
+ #}
 {% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) and request('order') == '' %}
     {% if not loop.first %}</tbody>{% endif %}
     <tbody {% if modifiable %}class="sortable"{% endif %}>
@@ -20,7 +22,9 @@
     </tr>
 {% endif %}
 
-{# print the header for the first row. #}
+{#
+ # HEADER ROW: Print the header for the first row.
+ #}
 {% if not compact and (loop.first or (content.group.name is defined and content.group.name != lastgroup) and request('order') == '') %}
     {% set lastgroup = content.group.name|default %}
     {% if "filter" in app.request.query.all|keys %}
@@ -57,7 +61,12 @@
     </tr>
 {% endif %}
 
+{#
+ # DATA ROW
+ #}
 <tr {% if content.status!='published' %}class="dim"{% endif %}{% if not compact and modifiable %} id="item_{{ content.id }}"{% endif %}>
+
+    {### BLOCK: ID ###}
     {% block listing_id %}
 
         {% if not compact and permissions.delete %}
@@ -69,6 +78,7 @@
 
     {% endblock %}
 
+    {### BLOCK: CONTENT ###}
     {% block listing_content %}
         <td class="excerpt {% if not compact %}large{% endif %}">
             {% set title = content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw %}
@@ -124,6 +134,7 @@
         {% endblock %}
     {% endif %}
 
+    {### BLOCK: ACTIONS ###}
     {% block listing_actions %}
         <td class="actions">
             <div class="btn-group">
