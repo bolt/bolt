@@ -1,63 +1,68 @@
 {% macro editable_record_list(contenttype, multiplecontent, permissions, extra_classes) %}
-{% set lastgroup = "----" %}
-{% set any_deletable = false %}
-{% set any_editable = false %}
-{% set includes = [
-    '@bolt/custom/listing/' ~ contenttype.slug ~ '.twig',
-    '@bolt/_sub/_listing.twig']
-%}
+    {% set lastgroup = "----" %}
+    {% set any_deletable = false %}
+    {% set any_editable = false %}
+    {% set includes = [
+        '@bolt/custom/listing/' ~ contenttype.slug ~ '.twig',
+        '@bolt/_sub/_listing.twig']
+    %}
 
-{{ data('recordlisting', {
-    'delete_one':   __('Are you sure you wish to delete this record? There is no undo.'),
-    'delete_mult':  __('Are you sure you wish to delete these records? There is no undo.')
-})}}
+    {{ data('recordlisting', {
+        'delete_one':   __('Are you sure you wish to delete this record? There is no undo.'),
+        'delete_mult':  __('Are you sure you wish to delete these records? There is no undo.')
+    })}}
 
-<table class="{{ extra_classes }} dashboardlisting" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
-    {% for content in multiplecontent %}
-        {% set editable = permissions.edit %}
-        {% if editable %}
-            {% set any_editable = true %}
-        {% endif %}
-        {% set deletable = permissions.delete %}
-        {% if deletable %}
-            {% set any_deletable = true %}
-        {% endif %}
-        {% include includes with {'excerptlength': 380, 'thumbsize': 80, 'compact': false} %}
-        {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
-            {% set lastgroup = content.group.name %}
-        {% endif %}
-    {% else %}
-        {{ __('contenttypes.generic.none-available', {'%contenttypes%': contenttype.slug}) }}
-    {% endfor %}
-</table>
+    <table class="{{ extra_classes }} dashboardlisting" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
+        {% for content in multiplecontent %}
+            {% set editable = permissions.edit %}
+            {% if editable %}
+                {% set any_editable = true %}
+            {% endif %}
+            {% set deletable = permissions.delete %}
+            {% if deletable %}
+                {% set any_deletable = true %}
+            {% endif %}
+            {% include includes with {'excerptlength': 380, 'thumbsize': 80, 'compact': false} %}
+            {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
+                {% set lastgroup = content.group.name %}
+            {% endif %}
+        {% else %}
+            {{ __('contenttypes.generic.none-available', {'%contenttypes%': contenttype.slug}) }}
+        {% endfor %}
+    </table>
 
-{% if any_deletable %}
-    <div class="btn-group">
-        <a href="#" class="btn btn-silent-danger deletechosen showifchosen" style="display:none;">
-            <i class="fa fa-trash"></i>
-            {{ __('Delete selected') }}
-        </a>
-    </div>
-{% endif %}
+    {% if any_deletable %}
+        <div class="btn-group">
+            <a href="#" class="btn btn-silent-danger deletechosen showifchosen" style="display:none;">
+                <i class="fa fa-trash"></i>
+                {{ __('Delete selected') }}
+            </a>
+        </div>
+    {% endif %}
 
-{# -- commented out for now.. Finish when needed.
-{% if any_editable %}
-    <div class="btn-group">
-        <a href="#" class="btn btn-default publishchosen showifchosen" style="display:none;">
-            <i class="fa fa-circle status-published"></i>
-            {{ __('Publish selected') }}
-        </a>
-    </div>
-    <div class="btn-group">
-        <a href="#" class="btn btn-default unpublishchosen showifchosen" style="display:none;">
-            <i class="fa fa-circle status-held"></i>
-            {{ __('Depublish selected') }}
-        </a>
-    </div>
-{% endif %}
-#}
+    {# -- commented out for now.. Finish when needed.
+    {% if any_editable %}
+        <div class="btn-group">
+            <a href="#" class="btn btn-default publishchosen showifchosen" style="display:none;">
+                <i class="fa fa-circle status-published"></i>
+                {{ __('Publish selected') }}
+            </a>
+        </div>
+        <div class="btn-group">
+            <a href="#" class="btn btn-default unpublishchosen showifchosen" style="display:none;">
+                <i class="fa fa-circle status-held"></i>
+                {{ __('Depublish selected') }}
+            </a>
+        </div>
+    {% endif %}
+    #}
 
+<<<<<<< Upstream, based on master
 {% from '@bolt/_macro/_pager.twig' import pager %}
 {{ pager(contenttype.slug) }}
+=======
+    {% from '_macro/_pager.twig' import pager %}
+    {{ pager(contenttype.slug) }}
+>>>>>>> 36bbdaa Indent macro
 
 {% endmacro %}
