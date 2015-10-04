@@ -9,8 +9,13 @@
 
 <table class="table table-striped dashboardlisting">
     {% for content in multiplecontent %}
-        {% set permissions = context.permissions[contenttype] %}
-        {% include ['@bolt/custom/listing/' ~ content.contenttype.slug ~ '.twig', '@bolt/_sub/_listing.twig']
-            with {'excerptlength': 280, 'thumbsize': 54, 'compact': true, 'permissions': permissions} %}
+        {% set listing_vars = {
+            'compact':       true,
+            'content':       content,
+            'excerptlength': 280,
+            'permissions':   context.permissions[contenttype],
+            'thumbsize':     54,
+        } %}
+        {% include ['@bolt/custom/listing/' ~ content.contenttype.slug ~ '.twig', '@bolt/_sub/_listing.twig'] with listing_vars %}
     {% endfor %}
 </table>

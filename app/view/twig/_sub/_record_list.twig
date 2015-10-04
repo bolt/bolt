@@ -25,7 +25,14 @@
 
             {% set new_group = content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
 
-            {% include includes with {'excerptlength': 380, 'thumbsize': 80, 'compact': false} %}
+            {% set listing_vars = {
+                'compact':       false,
+                'content':       content,
+                'excerptlength': 380,
+                'permissions':   permissions,
+                'thumbsize':     80,
+            } %}
+            {% include includes with listing_vars %}
 
             {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
                 {% set lastgroup = content.group.name %}
