@@ -1,4 +1,4 @@
-{% macro editable_record_list(contenttype, multiplecontent, permissions, extra_classes) %}
+{% macro record_list(contenttype, multiplecontent, permissions, extra_classes) %}
     {% set lastgroup = "----" %}
     {% set any_deletable = false %}
     {% set any_editable = false %}
@@ -57,12 +57,7 @@
     {% endif %}
     #}
 
-<<<<<<< Upstream, based on master
-{% from '@bolt/_macro/_pager.twig' import pager %}
-{{ pager(contenttype.slug) }}
-=======
     {% from '_macro/_pager.twig' import pager %}
     {{ pager(contenttype.slug) }}
->>>>>>> 36bbdaa Indent macro
 
 {% endmacro %}
