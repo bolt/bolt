@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="{{ htmllang() }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% if record is defined %}
+            <title>{{ record.title ? (app.config.get('general/sitename') ~ ' | ' ~ record.title|excerpt(55)) : app.config.get('general/sitename') }}</title>
+            <meta name="description" content="{{ record.body|excerpt(160) ?: app.config.get('general/payoff') }}">
+        {% else %}
+            <title>{{ app.config.get('general/sitename') }}</title>
+            <meta name="description" content="{{ app.config.get('general/payoff') }}">
+        {% endif %}
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:700|Open+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{ paths.theme }}css/style.combined.css">
+        <link rel="stylesheet" href="{{ paths.theme }}css/custom.css">
+    </head>
+    <body class="{% if app.request.pathInfo == "/" %}homepage{% endif %}{{app.request.pathInfo|split("/")|join(" ")}}">
+        <header class="flex margin">
+            <div class="four m-six logo align center left">
+                <a href="/">
+                    {{ app.config.get('general/sitename') }}
+                </a>
+            </div>
+            <ul class="menu eight m-six align center space-between">{{ menu('main', '_menu.twig') }}</ul>
+            <div class=" align center right"><div id="menu-icon"><span class="first"></span><span class="second"></span><span class="third"></span></div></div>
+        </header>
+        {% block body %}
+        {% endblock %}
+        <footer class="flex margin padding">
+            <div class="six m-twelve logo align center left m-align m-center m-space-between">
+                <p>{{ __("This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.",{'%url%':'http://bolt.cm'}) }}
+                </p>
+            </div>
+            <ul class="six m-twelve align center space-between">
+                {{ menu('main', '_menu_footer.twig') }}
+            </ul>
+        </footer>
+        <script src="{{ paths.theme }}js/script.combined.js"></script>
+        <script src="{{ paths.theme }}js/custom.js"></script>
+    </body>
+</html>

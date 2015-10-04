@@ -1,0 +1,10 @@
+{% macro display_menu_item(item, loop) %}
+<li class="index-{{ loop.index }}{% if loop.first %} first{% endif %}{% if loop.last %} last{% endif %}{% if item.submenu is defined %} dropdown{% endif %}{% if item|current %} active{% endif %}{% if item.submenu is defined %} sub-menu{% endif %}">
+    <a href="{{ item.link }}" {% if item.title is defined %}title='{{ item.title|escape }}' {% endif %} {% if item.class is defined %}class='{{item.class}}'{% endif %}>{{item.label}}</a>{% if item.submenu is defined %}
+    <ul class="sub-menu-items">
+        {% for submenu in item.submenu %}{{ _self.display_menu_item(submenu, loop) }}{% endfor %}
+    </ul>
+    {% endif %}
+</li>
+{% endmacro %}
+{% for item in menu %}{% if item.label is defined %}{{ _self.display_menu_item(item, loop) }}{% endif %}{% endfor %}

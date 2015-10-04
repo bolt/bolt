@@ -1,0 +1,53 @@
+# Variables that are in this file, can be used in your twig template like {{ theme.foo }}
+# Note: If variables do not immediately show up, clear the cache, in the Bolt Backend.
+foo: bar
+
+# Choose which image is shown on the frontpage, will be overridden if your homepage record has an image
+frontpage_image: base-2016/images/image1.jpg
+
+# Choose which contenttypes are listed on the frontpage
+frontpage_contenttypes:
+    - entries
+#    - pages
+
+# Choose which images are used on listings and record views where the record has no image
+images:
+    - base-2016/images/image2.jpg
+    - base-2016/images/image3.jpg
+    - base-2016/images/image4.jpg
+
+# Template filenames. If you 're creating a theme for distribution, you can specify
+# the filenames of the templates here. The templates you will set in this config
+# file will override the ones in the global app/config/config.yml, so beware!
+# maintenance_template: maintenance_default.twig
+#
+# homepage_template: index.twig
+# record_template: record.twig
+# listing_template: listing.twig
+# search_results_template: listing.twig
+
+# Amount of records and sorting in listing. If you're creating a theme for
+# distribution, you can specify the amount of records displayed on listing pages,
+# including search results. The values you will set in this config will override
+# the ones defined in the global app/config/config.yml.
+#
+# listing_records : 10
+# listing_sort : datepublish DESC
+# search_results_records: 10
+
+templatefields:
+    extrafields.twig:
+        section_1:
+            type: text
+            label: Section 1
+        section_2:
+            type: html
+            label: Section 2
+        image:
+            type: image
+
+# There can be defined the templates for the template chooser
+templateselect:
+    templates:
+         - name: 'Template with extra fields'
+           filename: 'extrafields.twig'
