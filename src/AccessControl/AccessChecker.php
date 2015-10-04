@@ -5,6 +5,7 @@ use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Repository\AuthtokenRepository;
 use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Log\LoggerInterface;
 use RandomLib\Generator;
 use Symfony\Component\HttpFoundation\Request;
@@ -190,11 +191,15 @@ class AccessChecker
     {
         $userAgent = $this->cookieOptions['browseragent'] ? $this->userAgent : null;
 
-        if (!$authTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->remoteIP, $userAgent)) {
-            return false;
-        }
+        try {
+            if (!$authTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->remoteIP, $userAgent)) {
+                return false;
+            }
 
-        if (!$databaseUser = $this->repositoryUsers->getUser($authTokenEntity->getUsername())) {
+            if (!$databaseUser = $this->repositoryUsers->getUser($authTokenEntity->getUsername())) {
+                return false;
+            }
+        } catch (TableNotFoundException $e) {
             return false;
         }
 
