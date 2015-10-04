@@ -6,7 +6,7 @@
 {% set prop = {
     extended:       not compact,
     has_groupname:  content.group.name is defined,
-    nextgroup:      content.group.name|default() != lastgroup,
+    nextgroup:      new_group|default(false),
     unordered:      request('order') == '',
     first:          loop.first
 }%}
@@ -30,7 +30,6 @@
  # HEADER ROW: Print the header for the first row.
  #}
 {% if prop.extended and (prop.first or (prop.has_groupname and prop.nextgroup) and prop.unordered) %}
-    {% set lastgroup = content.group.name|default %}
     {% if 'filter' in app.request.query.all|keys %}
         {% set filter = 'filter=' ~ app.request.query.all.filter ~ '&' %}
     {% else %}
