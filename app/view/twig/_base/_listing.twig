@@ -38,9 +38,10 @@
     {% endif %}
 
     <tr>
+        {% set link = '?' ~ filter ~ 'order=' %}
+
         {% block listing_header %}
             {% set column_title = content.TitleColumnName()|first %}
-            {% set link = '?' ~ filter ~ 'order=' %}
             {% set href = {
                 content: link ~ (request('order') == column_title  ? '-' : '') ~ column_title,
                 meta:    link ~ (request('order') == 'datecreated' ? '-' : '') ~ 'datecreated',
