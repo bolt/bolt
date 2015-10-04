@@ -3,6 +3,7 @@ namespace Bolt\Controller;
 
 use Bolt\Routing\DefaultControllerClassAwareInterface;
 use Bolt\Storage\Entity;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -230,6 +231,25 @@ abstract class Base implements ControllerProviderInterface
     protected function users()
     {
         return $this->app['users'];
+    }
+
+    /**
+     * Check to see if the user table exists and has records.
+     *
+     * @return boolean
+     */
+    protected function hasUsers()
+    {
+        try {
+            $users = $this->app['users']->getUsers();
+            if (empty($users)) {
+                return false;
+            }
+
+            return true;
+        } catch (TableNotFoundException $e) {
+            return false;
+        }
     }
 
     /**

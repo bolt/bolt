@@ -49,9 +49,9 @@ class Frontend extends ConfigurableBase
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.frontend.before');
 
-        // If there are no users in the users table, or the table doesn't exist. Repair
-        // the DB, and let's add a new user.
-        if (!$this->app['users']->getUsers()) {
+        // If there are no users in the users table, or the table doesn't exist.
+        // Repair the DB, and let's add a new user.
+        if (!$this->hasUsers()) {
             $this->flashes()->info(Trans::__('There are no users in the database. Please create the first user.'));
 
             return $this->redirectToRoute('userfirst');
