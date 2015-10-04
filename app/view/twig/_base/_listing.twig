@@ -40,26 +40,32 @@
             {% set href_sort = link ~ (request('order') == column_title ? '-' : '') ~ column_title %}
             {% set href_meta = link ~ (request('order') == 'datecreated' ? '-' : '') ~ 'datecreated' %}
 
+            {# COLUMN: Select #}
             {% if not compact and modifiable %}
                 <th class="check hidden-xs"><input type="checkbox" name="checkRow" title="{{ __('Select all') }}" /></th>
             {% else %}
                 <th style="margin: 0; padding: 0;"></th>
             {% endif %}
 
+            {# COLUMN: ID #}
             <th class="hidden-xs">
                 <a href="{{ link }}{% if request('order') == 'id' %}-{% endif %}id">{{ __('Id') }}</a>
             </th>
 
+            {# COLUMN: Content #}
             <th style="width:80%">
                 <a href="{{ href_sort }}">{{ __('Title') }} / {{ __('Excerpt') }}</a>
             </th>
 
+            {# COLUMN: Thumbnail #}
             <th>&nbsp;</th>
 
+            {# COLUMN: Meta #}
             <th class="username hidden-xs">
                 <a href="{{ href_meta }}">{{ __('Meta') }}</a>
             </th>
 
+            {# COLUMN: Action #}
             <th>
                 <a href="?">{{ __('Actions') }}</a>
             </th>
@@ -74,16 +80,20 @@
 
     {### BLOCK: ID ###}
     {% block listing_id %}
+        {# COLUMN: Select #}
         {% if not compact and permissions.delete %}
             <td class="check hidden-xs"><input type="checkbox" name="checkRow"></td>
         {% else %}
             <td style="margin: 0; padding: 0;"></td>
         {% endif %}
+
+        {# COLUMN: ID #}
         <td class="id hidden-xs">№ {{ content.id }}</td>
     {% endblock %}
 
     {### BLOCK: CONTENT ###}
     {% block listing_content %}
+        {# COLUMN: Content #}
         <td class="excerpt {% if not compact %}large{% endif %}">
             {% set title = content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw %}
             <span>
@@ -102,6 +112,8 @@
                 {{ content.excerpt(excerptlength - title|length) }}
             </span>
         </td>
+
+        {# COLUMN: Thumbnail #}
         <td class="listthumb">
             {% if content.getImage is not empty %}
                 {# Hack to add alt attribute #}
@@ -119,6 +131,7 @@
 
     {% if not compact %}
         {% block listing_meta %}
+            {# COLUMN: Meta #}
             <td class="username hidden-xs">
                 <i class="fa fa-user fa-fw"></i>
                 {% if content.user.displayname is defined %}
@@ -140,6 +153,7 @@
 
     {### BLOCK: ACTIONS ###}
     {% block listing_actions %}
+        {# COLUMN: Action #}
         <td class="actions">
             <div class="btn-group">
                 {% if modifiable %}
