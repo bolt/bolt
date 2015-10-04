@@ -29,7 +29,7 @@
 {#
  # HEADER ROW: Print the header for the first row.
  #}
-{% if prop.extended and prop.unordered and (prop.first or (prop.has_groupname and prop.nextgroup)) %}
+{% if prop.extended and (prop.first or (prop.has_groupname and prop.nextgroup) and prop.unordered) %}
     {% if 'filter' in app.request.query.all|keys %}
         {% set filter = 'filter=' ~ app.request.query.all.filter ~ '&' %}
     {% else %}
