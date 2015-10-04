@@ -12,11 +12,7 @@
     <tr class="grouping">
         <th colspan="{% block listing_columns %}6{% endblock %}">
             <h3 {% if loop.first %}class="first"{% endif %}>
-                {% if content.group.name %}
-                    {{ content.group.name }}
-                {% else %}
-                    {{ __('(no group)') }}
-                {% endif %}
+                {{ content.group.name|default(__('(no group)')) }}
             </h3>
         </th>
     </tr>
