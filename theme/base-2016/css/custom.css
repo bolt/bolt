@@ -114,7 +114,7 @@ footer ul {
     }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 800px) {
     .popUppers >:nth-child(2),
     .popUppers >:nth-child(3) {
         margin-top: 0;
