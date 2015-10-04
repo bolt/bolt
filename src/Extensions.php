@@ -647,7 +647,7 @@ class Extensions
 
                     // If it's a widget in the frontend, _and_ we're using it defered,
                     // insert a snippet of Javascript to fetch the actual widget's contents.
-                    if ($widget['type'] == 'frontend') {
+                    if ($widget['type'] == 'frontend' && $widget['defer'] == true) {
                         $javascript = $this->app['render']->render('widgetjavascript.twig', [
                             'widget' => $widget
                         ]);
