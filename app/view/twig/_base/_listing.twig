@@ -23,18 +23,21 @@
  #}
 {% if not compact and (loop.first or (content.group.name is defined and content.group.name != lastgroup) and request('order') == '') %}
     {% set lastgroup = content.group.name|default %}
-    {% if "filter" in app.request.query.all|keys %}
-        {% set filter = "filter=" ~ app.request.query.all.filter ~ "&" %}
+    {% if 'filter' in app.request.query.all|keys %}
+        {% set filter = 'filter=' ~ app.request.query.all.filter ~ '&' %}
     {% else %}
-        {% set filter = "" %}
+        {% set filter = '' %}
     {% endif %}
-    {% set link = "?" ~ filter ~ "order=" %}
 
     <tr>
         {% block listing_header %}
             {% set column_title = content.TitleColumnName()|first %}
-            {% set href_sort = link ~ (request('order') == column_title ? '-' : '') ~ column_title %}
-            {% set href_meta = link ~ (request('order') == 'datecreated' ? '-' : '') ~ 'datecreated' %}
+            {% set link = '?' ~ filter ~ 'order=' %}
+            {% set href = {
+                content: link ~ (request('order') == column_title  ? '-' : '') ~ column_title,
+                meta:    link ~ (request('order') == 'datecreated' ? '-' : '') ~ 'datecreated',
+                id:      link ~ (request('order') == 'id'          ? '-' : '') ~ 'id'
+            }%}
 
             {# COLUMN: Select #}
             {% if not compact and modifiable %}
@@ -45,12 +48,12 @@
 
             {# COLUMN: ID #}
             <th class="hidden-xs">
-                <a href="{{ link }}{% if request('order') == 'id' %}-{% endif %}id">{{ __('Id') }}</a>
+                <a href="{{ href.id }}">{{ __('Id') }}</a>
             </th>
 
             {# COLUMN: Content #}
             <th style="width:80%">
-                <a href="{{ href_sort }}">{{ __('Title') }} / {{ __('Excerpt') }}</a>
+                <a href="{{ href.content }}">{{ __('Title') }} / {{ __('Excerpt') }}</a>
             </th>
 
             {# COLUMN: Thumbnail #}
@@ -58,7 +61,7 @@
 
             {# COLUMN: Meta #}
             <th class="username hidden-xs">
-                <a href="{{ href_meta }}">{{ __('Meta') }}</a>
+                <a href="{{ href.meta }}">{{ __('Meta') }}</a>
             </th>
 
             {# COLUMN: Action #}
