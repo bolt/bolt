@@ -3,15 +3,23 @@
 
 {% set modifiable = permissions.create or permissions.edit or permissions.delete or permissions.publish or permissions.depublish %}
 
+{% set prop = {
+    extended:       not compact,
+    has_groupname:  content.group.name is defined,
+    nextgroup:      content.group.name|default() != lastgroup,
+    unordered:      request('order') == '',
+    first:          loop.first
+}%}
+
 {#
  # GROUPNAME: If we have 'grouping', print the row with the groupname.
  #}
-{% if not compact and content.group.name is defined and (loop.first or content.group.name != lastgroup) and request('order') == '' %}
-    {% if not loop.first %}</tbody>{% endif %}
+{% if prop.extended and prop.has_groupname and (prop.first or prop.nextgroup) and prop.unordered %}
+    {% if not prop.first %}</tbody>{% endif %}
     <tbody {% if modifiable %}class="sortable"{% endif %}>
     <tr class="grouping">
         <th colspan="{% block listing_columns %}6{% endblock %}">
-            <h3 {% if loop.first %}class="first"{% endif %}>
+            <h3 {% if prop.first %}class="first"{% endif %}>
                 {{ content.group.name|default(__('(no group)')) }}
             </h3>
         </th>
@@ -21,7 +29,7 @@
 {#
  # HEADER ROW: Print the header for the first row.
  #}
-{% if not compact and (loop.first or (content.group.name is defined and content.group.name != lastgroup) and request('order') == '') %}
+{% if prop.extended and (prop.first or (prop.has_groupname and prop.nextgroup) and prop.unordered) %}
     {% set lastgroup = content.group.name|default %}
     {% if 'filter' in app.request.query.all|keys %}
         {% set filter = 'filter=' ~ app.request.query.all.filter ~ '&' %}
@@ -40,7 +48,7 @@
             }%}
 
             {# COLUMN: Select #}
-            {% if not compact and modifiable %}
+            {% if prop.extended and modifiable %}
                 <th class="check hidden-xs"><input type="checkbox" name="checkRow" title="{{ __('Select all') }}" /></th>
             {% else %}
                 <th style="margin: 0; padding: 0;"></th>
@@ -75,12 +83,12 @@
 {#
  # DATA ROW
  #}
-<tr {% if content.status!='published' %}class="dim"{% endif %}{% if not compact and modifiable %} id="item_{{ content.id }}"{% endif %}>
+<tr {% if content.status!='published' %}class="dim"{% endif %}{% if prop.extended and modifiable %} id="item_{{ content.id }}"{% endif %}>
 
     {### BLOCK: ID ###}
     {% block listing_id %}
         {# COLUMN: Select #}
-        {% if not compact and permissions.delete %}
+        {% if prop.extended and permissions.delete %}
             <td class="check hidden-xs"><input type="checkbox" name="checkRow"></td>
         {% else %}
             <td style="margin: 0; padding: 0;"></td>
@@ -93,7 +101,7 @@
     {### BLOCK: CONTENT ###}
     {% block listing_content %}
         {# COLUMN: Content #}
-        <td class="excerpt {% if not compact %}large{% endif %}">
+        <td class="excerpt {% if prop.extended %}large{% endif %}">
             {% set title = content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw %}
             <span>
                 <strong class="visible-xs">№ {{ content.id }}. </strong>
@@ -128,7 +136,7 @@
         </td>
     {% endblock %}
 
-    {% if not compact %}
+    {% if prop.extended %}
         {% block listing_meta %}
             {# COLUMN: Meta #}
             <td class="username hidden-xs">
