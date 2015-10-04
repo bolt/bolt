@@ -1,4 +1,5 @@
-{% include '_header.twig' %}
+{% extends '_base.twig' %}
+{% block body %}
 {% set image = random(theme.images) %}
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
 <div class="flex container margin wide-padding popUppers">
@@ -57,4 +58,4 @@
     </section>
     {% include '_aside.twig' %}
     </div>
-{% include '_footer.twig' %}
+{% endblock %}

@@ -1,4 +1,5 @@
-{% include "_header.twig"%}
+{% extends '_base.twig' %}
+{% block body %}
 {# Make sure we can get info from both listings and single records: #}
 {% if record is not defined and records is defined %}
     {% set record = records|first %}
@@ -35,4 +36,4 @@
             {% endif %}
     {% endfor %}
 </div>
-{% include "_footer.twig"%}
+{% endblock %}
