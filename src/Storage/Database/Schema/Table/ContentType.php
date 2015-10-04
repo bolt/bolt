@@ -87,6 +87,10 @@ class ContentType extends BaseTable
     public function ignoredChanges()
     {
         $ignoredChanges = [
+            ['column' => 'datecreated', 'property' => 'type'],
+            ['column' => 'datechanged', 'property' => 'type'],
+            ['column' => 'datepublish', 'property' => 'type'],
+            ['column' => 'datedepublish', 'property' => 'type'],
             ['column' => 'templatefields', 'property' => 'type'],
         ];
 
@@ -120,7 +124,7 @@ class ContentType extends BaseTable
             $this->table->addIndex([$fieldName]);
         }
 
-        if ($this->typeMap[$type] === 'columnJson') {
+        if ($this->typeMap[$type] === 'columnDate' || $this->typeMap[$type] === 'columnDateTime' || $this->typeMap[$type] === 'columnJson') {
             $this->ignoredChanges[] = ['column' => $fieldName, 'property' => 'type'];
         }
     }

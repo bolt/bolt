@@ -40,4 +40,15 @@ class AuthToken extends BaseTable
     {
         $this->table->setPrimaryKey(['id']);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function ignoredChanges()
+    {
+        return [
+            ['column' => 'lastseen', 'property' => 'type'],
+            ['column' => 'validity', 'property' => 'type']
+        ];
+    }
 }

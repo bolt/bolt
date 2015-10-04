@@ -35,4 +35,14 @@ class Cron extends BaseTable
     {
         $this->table->setPrimaryKey(['id']);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function ignoredChanges()
+    {
+        return [
+            ['column' => 'lastrun', 'property' => 'type']
+        ];
+    }
 }
