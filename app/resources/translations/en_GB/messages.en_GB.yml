@@ -472,6 +472,10 @@ field:
             markedview: "Markdown"
             preview: "Preview"
     slug:
+        button:
+            edit: "Edit"
+            lock: "Lock"
+            unlock: "Unlock"
         message:
             set: "Set the slug to:"
             unlock: "Are you sure you wish to unlock the slug? This might break existing links to this record."

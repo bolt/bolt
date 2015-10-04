@@ -87,7 +87,7 @@
         });
 
         if (fconf.isEmpty) {
-            field.lock.trigger('click');
+            field.unlock.trigger('click');
         }
     };
 
