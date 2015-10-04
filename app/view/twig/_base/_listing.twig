@@ -14,7 +14,7 @@
 {#
  # GROUPNAME: If we have 'grouping', print the row with the groupname.
  #}
-{% if prop.extended and prop.has_groupname and (prop.first or prop.nextgroup) and prop.unordered %}
+{% if prop.extended and prop.unordered and prop.has_groupname and (prop.first or prop.nextgroup) %}
     {% if not prop.first %}</tbody>{% endif %}
     <tbody {% if modifiable %}class="sortable"{% endif %}>
     <tr class="grouping">
@@ -29,7 +29,7 @@
 {#
  # HEADER ROW: Print the header for the first row.
  #}
-{% if prop.extended and (prop.first or (prop.has_groupname and prop.nextgroup) and prop.unordered) %}
+{% if prop.extended and prop.unordered and (prop.first or (prop.has_groupname and prop.nextgroup)) %}
     {% if 'filter' in app.request.query.all|keys %}
         {% set filter = 'filter=' ~ app.request.query.all.filter ~ '&' %}
     {% else %}
