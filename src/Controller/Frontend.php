@@ -299,7 +299,7 @@ class Frontend extends ConfigurableBase
      *
      * @return BoltResponse|false
      */
-    public function taxonomy($request, $taxonomytype, $slug)
+    public function taxonomy(Request $request, $taxonomytype, $slug)
     {
         $taxonomy = $this->app['storage']->getTaxonomyType($taxonomytype);
         // No taxonomytype, no possible content.
