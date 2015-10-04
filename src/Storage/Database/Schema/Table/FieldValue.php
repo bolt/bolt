@@ -49,6 +49,8 @@ class FieldValue extends BaseTable
     public function ignoredChanges()
     {
         return [
+            ['column' => 'value_date', 'property' => 'type'],
+            ['column' => 'value_datetime', 'property' => 'type'],
             ['column' => 'value_json', 'property' => 'type']
         ];
     }

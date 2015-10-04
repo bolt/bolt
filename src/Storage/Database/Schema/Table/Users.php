@@ -57,8 +57,11 @@ class Users extends BaseTable
     public function ignoredChanges()
     {
         return [
+            ['column' => 'lastseen', 'property' => 'type'],
+            ['column' => 'roles', 'property' => 'type'],
+            ['column' => 'shadowvalidity', 'property' => 'type'],
             ['column' => 'stack', 'property' => 'type'],
-            ['column' => 'roles', 'property' => 'type']
+            ['column' => 'throttleduntil', 'property' => 'type'],
         ];
     }
 }
