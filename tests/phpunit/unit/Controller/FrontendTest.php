@@ -418,7 +418,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->before($this->getRequest());
 
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\RedirectResponse', $response);
-        $this->assertEquals('/bolt/users/edit/', $response->getTargetUrl());
+        $this->assertEquals('/bolt/userfirst', $response->getTargetUrl());
     }
 
     public function testBeforeHandlerForMaintenanceMode()
