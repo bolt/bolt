@@ -5,13 +5,42 @@ Not yet released.
 
  - Lots (list needs to be compiled)
 
-Bolt 2.2.next
--------------
+
+Bolt 2.2.12
+-----------
 
 Not yet released. Notable changes:
 
+- Added: Allow height and autocomplete in categories taxonomies.
+- Added: Allow for 'type: hidden' fields in `contenttypes.yml`
+- Added: Allow the theme's `config.yml` to set add_jquery. Fixes #4098
+- Added: Optionally allow spaces in tags.
+- Updated: Updating UIkit(2.22), CodeMirror and Marked.js
+- Changed: Ignore theme directory except for base-* and default
+- Changed: Use tag names instead of slugs for autocomplete and tag cloud. #4125
+- Changed: Strip periods, commas, colons & semi-colons from prefill titles
 - Changed: date-time format uses a more i18n-friendly format (See #4053)
+- Changed: Moving 'Install new extension' to the top of the screen.
+- Fixed: Don't sort getContent in listing view, when the contenttype has a taxonomy that has a sortorder.
+- Fixed: Use hydration for `{{ record.previous() }}` and `{{ record.next() }}`, so routes that use taxonmies in slugs work correctly. (see #4193)
+- Fixed: Don't override "templatechosen" if previously set. Makes sure the correct template is shown in the Twig nub in the Toolbar. (see #4191) 
+- Fixed: Don't show (non working) drag'n'drop in list overviews.
 - Fixed: Fix the info text for imagelist fields (See #4051)
+- Fixed: Fix to #3991 – Geolocation snaps pin to matched address.
+- Fixed: No links for records that are 'viewless'. Fixes #3999 for [2.2]
+- Fixed: [2.2] Allow non-strings as query parameters with pager. issue #4109
+- Fixed: "Timed publish" fixed for SQLITE (Now using a `DateTime` object instead of `CURRENT_TIMESTAMP`)
+- Fixed: Fix: Don't show notice about `mailoptions` when not logged on.
+- Fixed: Alignment of #navpage-secondary menu item icons in FireFox. (See #4178)
+- Fixed: Strip tags from `<title>` in editcontent. Fixes: #3590.
+- Fixed: Fix secondary nav element's class not being output in certain cases.
+
+Bolt 2.2.10
+-----------
+
+Released 2015-09-01. Notable changes:
+
+- Updated: Updated Doctrine and it's components to the latest version. (version 2.5.1, see [here for details](http://www.doctrine-project.org/2015/08/31/doctrine_orm_2_5_1_and_2_4_8_released.html))
 
 Bolt 2.2.9
 ----------

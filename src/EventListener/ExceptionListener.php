@@ -4,7 +4,10 @@ namespace Bolt\EventListener;
 use Bolt\Controller\Zone;
 use Bolt\Render;
 use Exception;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -17,14 +20,14 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class ExceptionListener implements EventSubscriberInterface
+class ExceptionListener implements EventSubscriberInterface, LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /** @var string */
     protected $rootPath;
     /** @var Render */
     protected $render;
-    /** @var LoggerInterface */
-    protected $logger;
     /** @var SessionInterface  */
     protected $session;
     /** @var boolean  */
@@ -41,7 +44,7 @@ class ExceptionListener implements EventSubscriberInterface
     {
         $this->rootPath = $rootPath;
         $this->render = $render;
-        $this->logger = $logger;
+        $this->setLogger($logger);
         $this->session = $session;
         $this->isDebug = $isDebug;
     }
@@ -57,7 +60,11 @@ class ExceptionListener implements EventSubscriberInterface
 
         // Log the error message
         $message = $exception->getMessage();
-        $this->logger->critical($message, ['event' => 'exception', 'exception' => $exception]);
+        $level = LogLevel::CRITICAL;
+        if ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() < 500) {
+            $level = LogLevel::WARNING;
+        }
+        $this->logger->log($level, $message, ['event' => 'exception', 'exception' => $exception]);
 
         if ($exception instanceof HttpExceptionInterface && !Zone::isBackend($event->getRequest())) {
             $message = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";

@@ -1,10 +1,10 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Application;
 use Composer\Autoload\ClassLoader;
 use Eloquent\Pathogen\AbsolutePathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
+use Silex\Application;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -17,14 +17,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ResourceManager
 {
-    /** @var \Bolt\Application */
+    /** @var \Silex\Application */
     public $app;
 
     /** @var string */
     public $urlPrefix = '';
 
     /**
-     * @var \Bolt\Application
+     * @var \Silex\Application
      *
      * @deprecated Don't use! Will probably refactored out soon
      */
@@ -504,7 +504,7 @@ class ResourceManager
      *
      * @throws \RuntimeException
      *
-     * @return \Bolt\Application
+     * @return \Silex\Application
      */
     public static function getApp()
     {

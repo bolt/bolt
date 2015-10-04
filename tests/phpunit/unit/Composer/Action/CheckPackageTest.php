@@ -1,11 +1,7 @@
 <?php
 namespace Bolt\Tests\Composer\Action;
 
-use Bolt\Composer\Action\BoltExtendJson;
 use Bolt\Composer\Action\CheckPackage;
-use Bolt\Composer\Action\RemovePackage;
-use Bolt\Composer\Action\RequirePackage;
-use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Composer/Action/CheckPackage.

@@ -4,7 +4,6 @@ namespace Bolt\Tests\Extensions\Mock;
 use Bolt\Application;
 use Bolt\Asset\Target;
 use Bolt\Extensions\ExtensionInterface;
-use Bolt\Extensions\Snippets\Location as SnippetLocation;
 
 /**
  * Class to test correct operation and locations of composer configuration.

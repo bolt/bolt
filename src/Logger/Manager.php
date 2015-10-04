@@ -4,8 +4,6 @@ namespace Bolt\Logger;
 
 use Bolt\Pager;
 use Bolt\Storage\Repository;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
 
 /**
@@ -25,7 +23,7 @@ class Manager
     /**
      * Constructor.
      *
-     * @param Application $app
+     * @param Application          $app
      * @param Repository\LogChange $changeRepository
      * @param Repository\LogSystem $systemRepository
      */

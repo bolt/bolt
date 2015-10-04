@@ -2,7 +2,6 @@
 namespace Bolt\Tests\Composer\Action;
 
 use Bolt\Composer\Action\SearchPackage;
-use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test src/Composer/Action/SearchPackage.

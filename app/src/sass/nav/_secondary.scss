@@ -123,13 +123,18 @@
     & > a,
     & > form,
     & > em {
-        padding: $nav-secondary-v-padding $nav-secondary-h-padding $nav-secondary-v-padding ($nav-secondary-h-padding + $nav-secondary-indent);
+        padding: ($nav-secondary-v-padding + 4px) $nav-secondary-h-padding $nav-secondary-v-padding ($nav-secondary-h-padding + $nav-secondary-indent + 2px);
         color: $sidebarlink;
         display: block;
-        text-indent: -$nav-secondary-indent;
+        //text-indent: -$nav-secondary-indent;
         font-weight: normal;
         max-height: 4.8em;
         cursor: pointer;
+    }
+    &.nav-secondary-dashboard {
+        & > a {
+            padding: ($nav-secondary-v-padding + 4px) $nav-secondary-h-padding ($nav-secondary-v-padding + 4px) ($nav-secondary-h-padding + $nav-secondary-indent + 2px);
+        }
     }
 
     a.menu-pop {
@@ -145,7 +150,7 @@
         font-size: 120%;
         padding-left: 4px;
         color: darken($sidebarlink, 25);
-        line-height: $nav-secondary-icon-size;
+        line-height: ($nav-secondary-icon-size - 2px);
     }
 
     &:hover > a,
@@ -162,6 +167,7 @@
         i.icon {
             background: none;
             color: lighten($sidebarbackgroundactive, 40);
+            top:15px;
         }
     }
 
@@ -206,7 +212,7 @@
     }
 
     i.icon {
-        display: inline-block;
+        display: block;
         margin-right: $nav-secondary-icon-margin;
         width: $nav-secondary-icon-size;
         height: $nav-secondary-icon-size;
@@ -220,6 +226,9 @@
         border-radius: 3px;
         font-size: ($nav-secondary-icon-size - 8px);
         color: #333;
+        position:absolute;
+        left:10px;
+        top:9px;
 
         &:before {
             font-weight: normal;

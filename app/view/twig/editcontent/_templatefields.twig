@@ -5,7 +5,7 @@
 {% endif %}
 
 {% set templatefields = context.content.get('templatefields').contenttype %}
-{% if templatefields is not empty %}
+{% if templatefields.fields is not empty %}
     {% for templatekey, templatefield in templatefields.fields %}
 
             <div data-fieldtype="{{ templatefield.type }}">

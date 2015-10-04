@@ -1,5 +1,39 @@
 # Bolts backend’s frontend workflow using grunt
 
+## Available grunt tasks
+
+- **``grunt``**<br>
+Starts the watch task that watches Bolts own Javascript and Sass files and automatically rebuilds ``bolt.js``,
+``bolt.css`` and ``liveeditor.css`` on changes.
+
+- **``grunt updateBolt``**<br>
+Manually starts a rebuild of ``bolt.js``, ``bolt.css`` and ``liveeditor.css``.
+
+- **``grunt updateLib``**<br>
+Updates everything that depends on external resources, either provided by bower or embeded in the ``lib`` folder.
+This command mainly builds ``lib.js`` and ``lib.css`` from external libraries, installs fonts, CKEditor and library
+locale files. It has to be run after and update to those external resources.
+
+- **``grunt prepareCkeditor``**<br>
+Does some cleanup on CKEditor files in ``lib/ckeditor`` after updating CKEditor. Update process:
+
+    * Get newer version with URL extracted from ``lib/ckeditor/build-config.js``.
+    * Empty ``lib/ckeditor`` and unpack the newer version in that folder.
+    * Run ``grunt prepareCkeditor`` go get files prepared.
+    * Run ``grunt updateLib`` go get everything in place.
+
+- **``grunt docJs``**<br>
+Generates documentation of Bolts own Javascript modules in folder ``docs/js``.
+
+- **``grunt docPhp``**<br>
+Generates documentation of Bolt source files in folder ``docs/php``.
+
+- **``grunt lintHtml``**<br>
+Downloads Bolt backend pages defined in ``grunt-local/pages.js`` and checks them for html errors and problems.
+
+- **``grunt lintBoot``**<br>
+Downloads Bolt backend pages defined in ``grunt-local/pages.js`` and checks them for Bootstrap errors and problems.
+
 ## Local options
 
 Add JS options files to ``app/src/grunt-local/`` in which you put the options you want to overwrite.

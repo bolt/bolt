@@ -1,0 +1,27 @@
+{#=== OPTIONS ========================================================================================================#}
+
+{% set option = {
+    info:         field.info|default('')
+} %}
+
+{#=== INIT ===========================================================================================================#}
+
+{% set attr_text = {
+    name:           name,
+    id:             key,
+    type:           'hidden',
+    value:          context.content.get(contentkey),
+} %}
+
+{#=== FIELDSET =======================================================================================================#}
+
+{% extends '_base/_fieldset.twig' %}
+
+{% block fieldset_type 'hidden' %}
+
+{% block fieldset_controls %}
+
+    <!-- {{ (option.info) ? macro.infopop(labelkey , option.info) :labelkey }} -->
+    <input{{ macro.attr(attr_text) }}>
+
+{% endblock fieldset_controls %}

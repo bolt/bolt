@@ -34,6 +34,8 @@
      * @property {Object} show - Slug display.
      * @property {Object} data - Data field.
      * @property {Object} lock - Lock button.
+     * @property {Object} unlock - Unlock button.
+     * @property {Object} edit - Edit button.
      * @property {string} key - The field key
      * @property {Array} uses - Fields used to automatically generate a slug.
      * @property {string} slug - Content slug.
@@ -63,7 +65,9 @@
                 group: $(fieldset).find('.input-group'),
                 show: $(fieldset).find('em'),
                 data: $(fieldset).find('input'),
-                lock: $(fieldset).find('button.lock'),
+                lock: $(fieldset).find('li.lock a'),
+                unlock: $(fieldset).find('li.unlock a'),
+                edit: $(fieldset).find('li.edit a'),
                 key: fconf.key,
                 uses: fconf.uses,
                 slug: fconf.slug,
@@ -71,28 +75,15 @@
             };
 
         field.lock.on('click', function () {
-            if (field.group.hasClass('locked')) {
-                // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-                if (fconf.isEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
-                    field.group.removeClass('locked').addClass('unlocked');
-                    startAutoGeneration(field);
-                }
-            } else {
-                field.group.removeClass('unlocked').addClass('locked');
-                stopAutoGeneration(field);
-            }
-            this.blur();
+            lock(field);
         });
 
-        $(fieldset).find('button.edit').on('click', function () {
-            var newslug = prompt(bolt.data('field.slug.message.set'), field.data.val());
+        field.unlock.on('click', function () {
+            unlock(field, fconf.isEmpty);
+        });
 
-            if (newslug) {
-                field.group.removeClass('unlocked').addClass('locked');
-                stopAutoGeneration(field);
-                getUriAjax(field, newslug);
-            }
-            this.blur();
+        field.edit.on('click', function () {
+            edit(field);
         });
 
         if (fconf.isEmpty) {
@@ -108,6 +99,57 @@
      * @memberof Bolt.fields.slug
      */
     var timeout = [];
+
+    /**
+     * Locks the slug field.
+     *
+     * @private
+     * @function lock
+     * @memberof Bolt.fields.slug
+     *
+     * @param {FieldData} field - Field data.
+     */
+    function lock(field) {
+        field.group.removeClass('unlocked').addClass('locked');
+        stopAutoGeneration(field);
+    }
+
+    /**
+     * Unlocks the slug field.
+     *
+     * @private
+     * @function unlock
+     * @memberof Bolt.fields.slug
+     *
+     * @param {FieldData} field - Field data.
+     * @param {boolean} wasEmpty - Slug is currently empty
+     */
+    function unlock(field, wasEmpty) {
+        // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
+        if (wasEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
+            field.group.removeClass('locked').addClass('unlocked');
+            startAutoGeneration(field);
+        }
+    }
+
+    /**
+     * Edit the slug.
+     *
+     * @private
+     * @function edit
+     * @memberof Bolt.fields.slug
+     *
+     * @param {FieldData} field - Field data.
+     */
+    function edit(field) {
+        var newslug = prompt(bolt.data('field.slug.message.set'), field.data.val());
+
+        if (newslug) {
+            field.group.removeClass('unlocked').addClass('locked');
+            stopAutoGeneration(field);
+            getUriAjax(field, newslug);
+        }
+    }
 
     /**
      * Get URI for slug from remote.

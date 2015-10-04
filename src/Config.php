@@ -10,6 +10,7 @@ use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
 use Eloquent\Pathogen\PathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
+use Silex;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
@@ -21,7 +22,7 @@ use Symfony\Component\Yaml\Parser;
  */
 class Config
 {
-    /** @var Application */
+    /** @var Silex\Application */
     protected $app;
 
     /** @var array */
@@ -53,9 +54,9 @@ class Config
     protected $yamlParser = false;
 
     /**
-     * @param Application $app
+     * @param Silex\Application $app
      */
-    public function __construct(Application $app)
+    public function __construct(Silex\Application $app)
     {
         $this->app = $app;
         $this->fields = new Storage\Field\Manager();
@@ -68,6 +69,7 @@ class Config
     {
         if (!$this->loadCache()) {
             $this->data = $this->getConfig();
+            $this->parseTemplatefields();
             $this->saveCache();
 
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
@@ -308,6 +310,9 @@ class Config
             if (!isset($taxonomy['has_sortorder'])) {
                 $taxonomy['has_sortorder'] = false;
             }
+            if (!isset($taxonomy['allow_spaces'])) {
+                $taxonomy['allow_spaces'] = false;
+            }
 
             // Make sure the options are $key => $value pairs, and not have implied integers for keys.
             if (!empty($taxonomy['options']) && is_array($taxonomy['options'])) {
@@ -379,6 +384,25 @@ class Config
         }
 
         return $themeConfig;
+    }
+
+    /**
+     * This method pulls the templatefields config from the theme config and appends it
+     * to the contenttypes configuration.
+     */
+    protected function parseTemplatefields()
+    {
+        $theme = $this->data['theme'];
+
+        if (isset($theme['templatefields'])) {
+            foreach ($this->data['contenttypes'] as $key => $ct) {
+                foreach ($ct['fields'] as $field) {
+                    if (isset($field['type']) && $field['type'] === 'templateselect') {
+                        $this->data['contenttypes'][$key]['templatefields'] = $theme['templatefields'];
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -739,8 +763,8 @@ class Config
 
                 // Check 'uses'. If it's an array, split it up, and check the separate parts. We also need to check
                 // for the fields that are always present, like 'id'.
-                if (is_array($field) && !empty($field['uses'])) {
-                    foreach ($field['uses'] as $useField) {
+                if (!empty($field['uses']) && is_array($field['uses'])) {
+                    foreach ((array) $field['uses'] as $useField) {
                         if (!empty($field['uses']) && empty($ct['fields'][$useField]) && !in_array($useField, $this->reservedFieldNames)) {
                             $error = Trans::__(
                                 'contenttypes.generic.wrong-use-field',
@@ -786,7 +810,7 @@ class Config
             $this->app['users']->getCurrentUsername()) {
             $msg = Trans::__(
                 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.",
-                ['%link%' => $this->app->generatePath('dbcheck')]
+                ['%link%' => $this->app['url_generator']->generate('dbcheck')]
             );
             $this->app['logger.flash']->error($msg);
 
@@ -850,7 +874,7 @@ class Config
             ],
             'sitename'                    => 'Default Bolt site',
             'homepage'                    => 'page/*',
-            'locale'                      => \Bolt\Application::DEFAULT_LOCALE,
+            'locale'                      => 'en_GB',
             'recordsperpage'              => 10,
             'recordsperdashboardwidget'   => 5,
             'systemlog'                   => [
@@ -950,7 +974,7 @@ class Config
     public function getTwigPath()
     {
         $themepath = $this->app['resources']->getPath('templatespath');
-        $end = $this->getWhichEnd($this->get('general/branding/path'));
+        $end = $this->getWhichEnd();
 
         $twigpath = [];
 

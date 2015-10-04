@@ -17,12 +17,46 @@ class OrderHandler
      */
     public function __invoke(QueryInterface $query, $order)
     {
-        if (strpos($order, '-') === 0) {
-            $direction = 'DESC';
-            $order = substr($order, 1);
-        } else {
-            $direction = null;
+        if ($order === false) {
+            return;
         }
-        $query->getQueryBuilder()->orderBy($order, $direction);
+
+        $separatedOrders = $this->getOrderBys($order);
+        foreach ($separatedOrders as $order) {
+            $order = trim($order);
+            if (strpos($order, '-') === 0) {
+                $direction = 'DESC';
+                $order = substr($order, 1);
+            } else {
+                $direction = null;
+            }
+            $query->getQueryBuilder()->addOrderBy($order, $direction);
+        }
+    }
+
+    /**
+     * @param $order
+     *
+     * @return array
+     */
+    protected function getOrderBys($order)
+    {
+        $separatedOrders = [$order];
+
+        if ($this->isMultiOrderQuery($order)) {
+            $separatedOrders = explode(',', $order);
+        }
+
+        return $separatedOrders;
+    }
+
+    /**
+     * @param $order
+     *
+     * @return bool
+     */
+    protected function isMultiOrderQuery($order)
+    {
+        return strpos($order, ',') !== false;
     }
 }

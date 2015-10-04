@@ -3,6 +3,7 @@ namespace Bolt\Provider;
 
 use Bolt\Nut;
 use Bolt\Nut\NutApplication;
+use LogicException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Console\Command\Command;
@@ -16,7 +17,7 @@ class NutServiceProvider implements ServiceProviderInterface
                 $console = new NutApplication();
 
                 $console->setName('Bolt console tool - Nut');
-                if ($app instanceof \Bolt\Application) {
+                if (isset($app['bolt_long_version'])) {
                     $console->setVersion($app['bolt_long_version']);
                 }
 
@@ -54,15 +55,50 @@ class NutServiceProvider implements ServiceProviderInterface
             }
         );
 
+        /**
+         * This is a shortcut to add commands to nut lazily.
+         *
+         * Add a single command:
+         *
+         *     $app['nut.commands.add'](function ($app) {
+         *         return new Command1($app);
+         *     });
+         *
+         * Or add multiple commands:
+         *
+         *     $app['nut.commands.add'](function ($app) {
+         *         return [
+         *             new Command1($app),
+         *             new Command2($app),
+         *         ];
+         *     });
+         *
+         * Commands can also be passed in directly. However,
+         * this is NOT recommended because commands are created
+         * even when they are not used, e.g. web requests.
+         *
+         *     $app['nut.commands.add'](new Command1($app));
+         */
         $app['nut.commands.add'] = $app->protect(
-            function (Command $command) use ($app) {
+            function ($commandsToAdd) use ($app) {
                 $app['nut.commands'] = $app->share(
                     $app->extend(
                         'nut.commands',
-                        function ($commands) use ($command) {
-                            $commands[] = $command;
+                        function ($existingCommands, $app) use ($commandsToAdd) {
+                            if (is_callable($commandsToAdd)) {
+                                $commandsToAdd = $commandsToAdd($app);
+                            }
+                            $commandsToAdd = is_array($commandsToAdd) ? $commandsToAdd : [$commandsToAdd];
+                            foreach ($commandsToAdd as $command) {
+                                if (!$command instanceof Command) {
+                                    throw new LogicException(
+                                        'Nut commands must be instances of \Symfony\Component\Console\Command\Command'
+                                    );
+                                }
+                                $existingCommands[] = $command;
+                            }
 
-                            return $commands;
+                            return $existingCommands;
                         }
                     )
                 );

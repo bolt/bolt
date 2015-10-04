@@ -47,6 +47,12 @@ class ContentQueryParser
 
     protected $services = [];
 
+    /**
+     * Constructor.
+     *
+     * @param EntityManager  $em
+     * @param QueryInterface $queryHandler
+     */
     public function __construct(EntityManager $em, QueryInterface $queryHandler = null)
     {
         $this->em = $em;
@@ -101,13 +107,17 @@ class ContentQueryParser
     /**
      * Sets a single input parameter.
      *
-     * @param array $params
+     * @param array $param
+     * @param mixed $value
      */
     public function setParameter($param, $value)
     {
         $this->params[$param] = $value;
     }
 
+    /**
+     * Parse a query.
+     */
     public function parse()
     {
         $this->parseContent();
@@ -122,7 +132,7 @@ class ContentQueryParser
     {
         $contentString = strtok($this->query, '/');
 
-        $content = array();
+        $content = [];
         $delim = '(),';
         $tok = strtok($contentString, $delim);
         while ($tok !== false) {

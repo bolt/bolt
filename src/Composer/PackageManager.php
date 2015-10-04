@@ -2,12 +2,12 @@
 
 namespace Bolt\Composer;
 
-use Bolt\Application;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Ring\Client\ClientUtils;
+use Silex\Application;
 
 class PackageManager
 {
@@ -359,7 +359,7 @@ class PackageManager
         // Check if we have a config file, and if it's readable. (yet)
         $configfilepath = $this->app['resources']->getPath('extensionsconfig/' . $configfilename);
         if (is_readable($configfilepath)) {
-            return $this->app->generatePath('fileedit', ['namespace' => 'config', 'file' => 'extensions/' . $configfilename]);
+            return $this->app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'extensions/' . $configfilename]);
         }
 
         return null;

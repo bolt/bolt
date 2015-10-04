@@ -42,7 +42,7 @@ class QueryResultset extends \AppendIterator implements \Countable
             return $this->results[$label];
         } else {
             $results = [];
-            foreach ($this->results as $k => $v) {
+            foreach ($this->results as $v) {
                 if (is_array($v)) {
                     $results = array_merge($results, $v);
                 } else {
@@ -52,7 +52,6 @@ class QueryResultset extends \AppendIterator implements \Countable
 
             return $results;
         }
-        return [];
     }
 
     /**

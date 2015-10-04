@@ -14,6 +14,15 @@ module.exports = {
             ],
             filter: 'isFile',
             dest: '<%= path.dest.fonts %>/'
+        }, {
+            expand: true,
+            flatten: true,
+            cwd: '<%= path.src.bower %>/source-sans-pro',
+            src: 'WOFF?(2)/OTF/SourceSansPro-@(It|Regular|Semibold).otf.woff?(2)',
+            dest: '<%= path.dest.fonts %>',
+            rename: function(dest, src) {
+                return dest + '/' + src.replace(/\.otf(\.woff2?)$/, '$1');
+            }
         }]
     },
 

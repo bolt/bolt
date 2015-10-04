@@ -106,7 +106,7 @@ class BoltTwigHelpersTest extends BoltUnitTest
 
         // Custom Locale de_DE
         $app = $this->getApp();
-        $app['config']->set('general/locale', 'de_DE');
+        $app['locale'] = 'de_DE';
         $handlers = $this->getTwigHandlers($app);
         $twig = new TwigExtension($app, $handlers, false);
         $this->assertEquals('de-DE', $twig->htmlLang());
@@ -364,51 +364,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $handlers = $this->getTwigHandlers($app);
         $twig = new TwigExtension($app, $handlers, true);
         $this->assertNull($twig->listTemplates());
-    }
-
-    public function testListContent()
-    {
-        $app = $this->getApp();
-        $phpunit = $this;
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $storage = new Storage($app);
-
-        // First up we seed the database with a showcase and some related entries.
-        $content = $storage->getEmptyContent('entries');
-        $content->setValues(['title' => 'New Entry 1', 'slug' => 'new-entry-1', 'status' => 'published']);
-        $storage->saveContent($content);
-
-        $content = $storage->getEmptyContent('entries');
-        $content->setValues(['title' => 'New Entry 2', 'slug' => 'new-entry-2', 'status' => 'published']);
-        $storage->saveContent($content);
-
-        $content = $storage->getEmptyContent('entries');
-        $content->setValues(['title' => 'New Entry 3', 'slug' => 'new-entry-3', 'status' => 'published']);
-        $storage->saveContent($content);
-
-        $content = $storage->getEmptyContent('showcases');
-        $content->setValues(['title' => 'New Showcase', 'slug' => 'new-showcase', 'status' => 'published']);
-        $content->setRelation('entries', 1);
-        $content->setRelation('entries', 2);
-        $storage->saveContent($content);
-
-        $request = Request::create('/');
-        $app->before(
-            function ($request, $app) use ($phpunit, $twig, $storage) {
-                $fetched = $storage->getContent('showcases/latest/1', ['returnsingle' => true]);
-
-                $content = $twig->listContent('entries', ['order' => 'title'], $fetched);
-                $phpunit->assertEquals(2, count($content));
-                $phpunit->assertFalse($content[2]['selected']);
-            }
-        );
-        $app->handle($request);
-
-        // Clean up test database
-        $storage->deleteContent('entries', 1);
-        $storage->deleteContent('entries', 2);
-        $storage->deleteContent('entries', 3);
     }
 
     public function testPager()

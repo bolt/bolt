@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\EntityManager;
 use Bolt\Storage\EntityProxy;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
@@ -16,6 +15,8 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class RelationType extends FieldTypeBase
 {
+    use RelationTypeTrait;
+
     /**
      * Relation fields can allow filters on the relations fetched. For now this is limited
      * to the id field because of the possible complexity of fetching and filtering
@@ -52,7 +53,14 @@ class RelationType extends FieldTypeBase
     }
 
     /**
-     * @inheritdoc
+     * For relations, the load method adds an extra ->addSelect() and ->leftJoin() to the query that
+     * fetches the related records from the join table in the same query as the content fetch.
+     *
+     * IDs are returned comma-separated which the ->hydrate() method can then turn into pointers
+     * to the related entities.
+     *
+     * @param QueryBuilder  $query
+     * @param ClassMetadata $metadata
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -74,93 +82,52 @@ class RelationType extends FieldTypeBase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function hydrate($data, $entity, EntityManager $em = null)
+    public function hydrate($data, $entity)
     {
         $field = $this->mapping['fieldname'];
         $relations = array_filter(explode(',', $data[$field]));
-        $values = [];
+        $values = $entity->getRelation();
         foreach ($relations as $id) {
-            $values[] = new EntityProxy($field, $id, $em);
+            $values[$field][] = new EntityProxy($field, $id, $this->em);
         }
-        $entity->$field = $values;
+        $entity->setRelation($values);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function persist(QuerySet $queries, $entity, EntityManager $em = null)
+    public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
-        $target = $this->mapping['target'];
-        $accessor = "get".$field;
-        $relations = (array)$entity->$accessor();
+        $relations = $entity->getRelation();
 
+        $relations[$field] = isset($relations[$field]) ? $this->filterArray($relations[$field]) : [];
         // Fetch existing relations
-
-        $existingQuery = $em->createQueryBuilder()
-                            ->select('*')
-                            ->from($target)
-                            ->where('from_id = ?')
-                            ->andWhere('from_contenttype = ?')
-                            ->andWhere('to_contenttype = ?')
-                            ->setParameter(0, $entity->id)
-                            ->setParameter(1, $entity->getContenttype())
-                            ->setParameter(2, $field);
-        $result = $existingQuery->execute()->fetchAll();
+        $result = $this->getExistingRelations($entity);
         $existing = array_map(
             function ($el) {
-                return $el['to_id'];
+                return isset($el['to_id']) ? $el['to_id'] : [];
             },
             $result
         );
         $proposed = array_map(
             function ($el) {
-                return $el->reference;
+                return $el ? $el->getId() : [];
             },
-            $relations
+            isset($relations[$field]) ? $relations[$field] : []
         );
 
         $toInsert = array_diff($proposed, $existing);
         $toDelete = array_diff($existing, $proposed);
 
-        foreach ($toInsert as $item) {
-            $ins = $em->createQueryBuilder()->insert($target);
-            $ins->values([
-                'from_id'          => '?',
-                'from_contenttype' => '?',
-                'to_contenttype'   => '?',
-                'to_id'            => '?'
-            ])->setParameters([
-                0 => $entity->id,
-                1 => $entity->getContenttype(),
-                2 => $field,
-                3 => $item
-            ]);
-
-            $queries->append($ins);
-        }
-
-        foreach ($toDelete as $item) {
-            $del = $em->createQueryBuilder()->delete($target);
-            $del->where('from_id=?')
-                ->andWhere('from_contenttype=?')
-                ->andWhere('to_contenttype=?')
-                ->andWhere('to_id=?')
-                ->setParameters([
-                0 => $entity->id,
-                1 => $entity->getContenttype(),
-                2 => $field,
-                3 => $item
-            ]);
-
-            $queries->append($del);
-        }
+        $this->appendInsertQueries($queries, $entity, $toInsert);
+        $this->appendDeleteQueries($queries, $entity, $toDelete);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {

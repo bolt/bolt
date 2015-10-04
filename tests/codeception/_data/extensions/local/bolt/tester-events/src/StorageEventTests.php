@@ -25,21 +25,22 @@ class StorageEventTests
         $contenttype = $event->getContentType();
 
         if ($contenttype === 'pages') {
+            $repo = $this->app['storage']->getRepository($contenttype);
             $record = $event->getContent();
-            $values = $record->getValues();
+            $values = $record->serialize();
 
             if ($event->isCreate()) {
                 // Make the new title uppercase
-                $record->setValue('title', strtoupper($values['title']));
+                $record->setTitle(strtoupper($values['title']));
 
                 // Add a unique paragraph to the end of the teaser
-                $record->setValue('teaser', $values['teaser'] . '<p>Snuck in to teaser during PRE_SAVE on create: ' . date('Y-m-d H:i:s') . '</p>');
+                $record->setTeaser($values['teaser'] . '<p>Snuck in to teaser during PRE_SAVE on create: ' . date('Y-m-d H:i:s') . '</p>');
             } else {
                 // Uppercase the first character of each word
-                $record->setValue('title', ucwords(strtolower($values['title'])));
+                $record->setTitle(ucwords(strtolower($values['title'])));
 
                 // Add a unique paragraph to the end of the teaser
-                $record->setValue('teaser', $values['teaser'] . '<p>Added to teaser during PRE_SAVE on save: ' . date('Y-m-d H:i:s') . '</p>');
+                $record->setTeaser($values['teaser'] . '<p>Added to teaser during PRE_SAVE on save: ' . date('Y-m-d H:i:s') . '</p>');
             }
         }
     }
@@ -54,21 +55,20 @@ class StorageEventTests
         $contenttype = $event->getContentType();
 
         if ($contenttype === 'pages') {
+            $repo = $this->app['storage']->getRepository($contenttype);
             $record = $event->getContent();
-            $values = $record->getValues();
+            $values = $record->serialize();
 
             if ($event->isCreate()) {
                 // Add a unique paragraph to the end of the body
-                $values['body'] .= '<p>Snuck in to body during POST_SAVE on create: ' . date('Y-m-d H:i:s') . '</p>';
-                $record->setValues($values);
+                $record->setBody($values['body'] . '<p>Snuck in to body during POST_SAVE on create: ' . date('Y-m-d H:i:s') . '</p>');
             } else {
                 // Add a unique paragraph to the end of the body
-                $values['body'] .= '<p>Added to body during POST_SAVE on save: ' . date('Y-m-d H:i:s') . '</p>';
-                $record->setValues($values);
+                $record->setBody($values['body'] . '<p>Added to body during POST_SAVE on save: ' . date('Y-m-d H:i:s') . '</p>');
             }
 
             // Save the changes to the database
-            $this->app['storage']->saveContent($record);
+            $repo->save($record, true);
         }
     }
 

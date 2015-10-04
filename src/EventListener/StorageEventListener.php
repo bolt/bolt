@@ -1,19 +1,24 @@
 <?php
 namespace Bolt\EventListener;
 
+use Bolt\Config;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Hautelook\Phpass\PasswordHash;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class StorageEventListener implements EventSubscriberInterface
 {
-    /** @var string */
-    protected $hashStrength;
     /** @var \Bolt\Storage\EntityManager */
     protected $em;
+    /** @var \Bolt\Config $config */
+    protected $config;
+    /** @var string */
+    protected $hashStrength;
 
     /**
      * Constructor.
@@ -21,9 +26,10 @@ class StorageEventListener implements EventSubscriberInterface
      * @param string        $hashStrength
      * @param EntityManager $em
      */
-    public function __construct(EntityManager $em, $hashStrength)
+    public function __construct(EntityManager $em, Config $config, $hashStrength)
     {
         $this->em = $em;
+        $this->config = $config;
         $this->hashStrength = $hashStrength;
     }
 
@@ -38,6 +44,28 @@ class StorageEventListener implements EventSubscriberInterface
         $entityRecord = $event->getContent();
         if ($entityRecord instanceof Entity\Users) {
             $this->passwordHash($entityRecord);
+        }
+    }
+
+    /**
+     * Kernel request listener callback.
+     *
+     * @param GetResponseEvent $event
+     */
+    public function onKernelRequest(GetResponseEvent $event)
+    {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
+        $contenttypes = $this->config->get('contenttypes', []);
+
+        foreach ($contenttypes as $contenttype) {
+            $contenttype = $this->em->getContentType($contenttype['slug']);
+
+            // Check if we need to 'publish' any 'timed' records, or 'depublish' any expired records.
+            $this->em->publishTimedRecords($contenttype);
+            $this->em->depublishExpiredRecords($contenttype);
         }
     }
 
@@ -63,6 +91,7 @@ class StorageEventListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
+            KernelEvents::REQUEST   => ['onKernelRequest', 31],
             StorageEvents::PRE_SAVE => 'onPreSave',
         ];
     }

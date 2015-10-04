@@ -79,7 +79,7 @@ class TranslationServiceProviderTest extends BoltUnitTest
             new \Silex\Provider\TranslationServiceProvider(),
             [
                 'translator.cache_dir' => null,
-                'locale_fallbacks'     => [Application::DEFAULT_LOCALE],
+                'locale_fallbacks'     => ['en_GB', 'en'],
             ]
         );
     }

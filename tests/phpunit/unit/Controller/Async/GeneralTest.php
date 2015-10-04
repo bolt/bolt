@@ -129,7 +129,6 @@ class GeneralTest extends ControllerUnitTest
         $this->assertEquals(['item' => 'one'], (array)$context['context']['information']);
     }
 
-
     public function testDashboardNews()
     {
         $this->setRequest(Request::create('/async/dashboardnews'));
@@ -214,7 +213,7 @@ class GeneralTest extends ControllerUnitTest
         $tags = $this->getDefaultTags();
 
         $this->assertCount(20, $json);
-        $this->assertTrue(in_array($json[0]->slug, $tags));
+        $this->assertTrue(in_array($json[0]->name, $tags));
     }
 
     public function testReadme()
@@ -233,7 +232,7 @@ class GeneralTest extends ControllerUnitTest
 //         $tags = $this->getDefaultTags();
 
 //         $this->assertCount(20, $json);
-//         $this->assertTrue(in_array($json[0]->slug, $tags));
+//         $this->assertTrue(in_array($json[0]->name, $tags));
     }
 
     public function testWidget()

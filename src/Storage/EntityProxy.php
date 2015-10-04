@@ -10,9 +10,9 @@ class EntityProxy
 {
     public $entity;
     public $reference;
-    private $em;
     protected $loaded = false;
     protected $proxy;
+    private $em;
 
     public function __construct($entity, $reference, EntityManager $em = null)
     {

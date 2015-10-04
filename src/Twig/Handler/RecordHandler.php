@@ -102,7 +102,7 @@ class RecordHandler
      * Create an excerpt for the given content.
      *
      * @param \Bolt\Legacy\Content|array|string $content
-     * @param integer                    $length  Defaults to 200 characters
+     * @param integer                           $length  Defaults to 200 characters
      *
      * @return string Resulting excerpt
      */
@@ -162,46 +162,6 @@ class RecordHandler
     public function trim($content, $length = 200)
     {
         return $this->excerpt($content, $length);
-    }
-
-    /**
-     * Lists content of a specific contenttype, specifically for editing
-     * relations in the backend.
-     *
-     * @param string               $contenttype
-     * @param array                $relationoptions
-     * @param \Bolt\Legacy\Content $content
-     *
-     * @return string
-     */
-    public function listContent($contenttype, $relationoptions, Content $content)
-    {
-        // Just the relations for the current record, and just the current $contenttype.
-        $current = isset($content->relation[$contenttype]) ? $content->relation[$contenttype] : null;
-
-        // We actually only need the 'order' in options.
-        $options = [];
-        if (!empty($relationoptions['order'])) {
-            $options['order'] = $relationoptions['order'];
-            $options['limit'] = 10000;
-            $options['hydrate'] = false;
-        }
-
-        // @todo Perhaps make something more lightweight for this?
-        $results = $this->app['storage']->getContent($contenttype, $options);
-
-        // Loop the array, set records in 'current' to have a 'selected' flag.
-        if (!empty($current) && !empty($results)) {
-            foreach ($results as $key => $result) {
-                if (in_array($result->id, $current)) {
-                    $results[$key]['selected'] = true;
-                } else {
-                    $results[$key]['selected'] = false;
-                }
-            }
-        }
-
-        return $results;
     }
 
     /**
@@ -312,20 +272,23 @@ class RecordHandler
         } else {
             $retval = [''];
         }
-        foreach ($content as $c) {
-            if (is_array($fieldname)) {
-                $row = [];
-                foreach ($fieldname as $fn) {
-                    if (isset($c->values[$fn])) {
-                        $row[] = $c->values[$fn];
-                    } else {
-                        $row[] = null;
+
+        if (!empty($content)) {
+            foreach ($content as $c) {
+                if (is_array($fieldname)) {
+                    $row = [];
+                    foreach ($fieldname as $fn) {
+                        if (isset($c->values[$fn])) {
+                            $row[] = $c->values[$fn];
+                        } else {
+                            $row[] = null;
+                        }
                     }
-                }
-                $retval[$c->values[$keyname]] = $row;
-            } else {
-                if (isset($c->values[$fieldname])) {
-                    $retval[$c->values[$keyname]] = $c->values[$fieldname];
+                    $retval[$c->values[$keyname]] = $row;
+                } else {
+                    if (isset($c->values[$fieldname])) {
+                        $retval[$c->values[$keyname]] = $c->values[$fieldname];
+                    }
                 }
             }
         }

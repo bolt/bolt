@@ -12,7 +12,7 @@ use Doctrine\DBAL\Types\Type;
 class GeolocationType extends FieldTypeBase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -20,7 +20,7 @@ class GeolocationType extends FieldTypeBase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getStorageType()
     {

@@ -439,7 +439,7 @@ contenttypes:
         recent-changes-one: "Senaste ändringar på denna %contenttype%"
         reserved-name: "I innehållstypen '%contenttype%', fältet '%field%' är definerat, men namnet är reserverat. Redigera contenttypes.yml för att lösa det."
         save: "Spara %contenttype%"
-        saved-changes: "Ändringarna i denna %contenttype% är sparade."
+        saved-changes: "Ändringarna i %contenttype% är sparade."
         saved-new: "Ny %contenttype% sparad."
         saving-impossible: "Kunde inte spara %contenttype%."
         show-more: "Fler %contenttypes%"

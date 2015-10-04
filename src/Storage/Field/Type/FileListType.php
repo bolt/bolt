@@ -9,10 +9,10 @@ use Doctrine\DBAL\Types\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class FileListType extends FieldTypeBase
+class FileListType extends ListTypeBase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -20,7 +20,7 @@ class FileListType extends FieldTypeBase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getStorageType()
     {

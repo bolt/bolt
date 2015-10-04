@@ -6,24 +6,18 @@ module.exports = {
      * TARGET:  Build custom Modernizr
      */
     prepare: {
-        devFile: 'remote',
-        outputFile: '<%= path.tmp %>/modernizr-custom.js',
-        extra: {
-            touch: true,
-            shiv: true,
-            cssclasses: true,
-            load: false
-        },
-        extensibility: {
-            teststyles: true,
-            prefixes: true
-        },
-        tests: [
-            'cookies',
-            'contenteditable'
-        ],
-        uglify: false,
-        matchCommunityTests: true,
-        parseFiles: false
+        dest: '<%= path.tmp %>/modernizr-custom.js',
+        options: {
+            minify: false,
+            classPrefix: 'modernizr-',
+            options: [
+                'html5shiv',    // Enables HTML5 sectioning elements in IE9
+                'setClasses'
+            ],
+            "feature-detects": [
+                'test/contenteditable',
+                'test/cookies'
+            ]
+        }
     }
 };

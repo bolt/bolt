@@ -83,7 +83,6 @@ interface FlashLoggerInterface
      */
     public function clear();
 
-
     /**
      * Returns a list of all defined types.
      *

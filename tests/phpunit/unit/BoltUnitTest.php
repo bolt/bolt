@@ -2,11 +2,11 @@
 namespace Bolt\Tests;
 
 use Bolt\AccessControl\Token;
-use Bolt\Storage\Entity;
 use Bolt\Application;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
 use Bolt\Storage;
+use Bolt\Storage\Entity;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Twig\Handler\AdminHandler;
 use Bolt\Twig\Handler\ArrayHandler;
@@ -188,8 +188,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Bolt\Application $app
-     * @param array             $functions Defaults to ['isValidSession']
+     * @param \Silex\Application $app
+     * @param array              $functions Defaults to ['isValidSession']
      */
     protected function getAccessCheckerMock($app, $functions = ['isValidSession'])
     {
@@ -212,8 +212,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Bolt\Application $app
-     * @param array             $functions Defaults to ['login']
+     * @param \Silex\Application $app
+     * @param array              $functions Defaults to ['login']
      */
     protected function getLoginMock($app, $functions = ['login'])
     {

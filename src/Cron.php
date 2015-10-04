@@ -55,8 +55,8 @@ class Cron extends Event
     /**
      * Constructor.
      *
-     * @param Application     $app
-     * @param OutputInterface $output
+     * @param Silex\Application $app
+     * @param OutputInterface   $output
      */
     public function __construct(Silex\Application $app, OutputInterface $output = null)
     {

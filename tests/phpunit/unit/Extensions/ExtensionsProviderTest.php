@@ -4,7 +4,6 @@ namespace Bolt\Tests\Extensions;
 use Bolt\Extensions;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
 use Bolt\Storage\Entity;
-use Bolt\Tests\BoltUnitTest;
 
 /**
  * Class to test correct operation and locations of extensions.

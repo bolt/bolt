@@ -14,7 +14,7 @@ use Whoops\Run;
 class WhoopsServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function register(Application $app)
     {
@@ -90,7 +90,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function boot(Application $app)
     {

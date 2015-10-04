@@ -1,9 +1,9 @@
 <?php
 
-namespace Bolt\DataCollector;
+namespace Bolt\Profiler;
 
-use Bolt\Application;
 use Bolt\Translation\Translator as Trans;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -14,7 +14,6 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 class BoltDataCollector extends DataCollector
 {
     protected $app;
-    protected $data;
 
     public function __construct(Application $app)
     {
@@ -40,7 +39,7 @@ class BoltDataCollector extends DataCollector
             'name'        => $this->app['bolt_name'],
             'fullversion' => 'Version: ' . $this->app['bolt_long_version'],
             'payoff'      => 'Sophisticated, lightweight & simple CMS',
-            'aboutlink'   => sprintf('<a href="%s">%s</a>', $this->app->generatePath('about'), 'About'),
+            'aboutlink'   => sprintf('<a href="%s">%s</a>', $this->app['url_generator']->generate('about'), 'About'),
             'branding'    => null,
             'editlink'    => null,
             'edittitle'   => null

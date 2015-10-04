@@ -16,7 +16,7 @@ class NativeSearchTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addSomeContent();
-        
+
         $repo = $app['storage']->getRepository('bolt_pages');
         $query = $repo->createQueryBuilder('pages');
         $handler = new PostgresSearch($query, $app['query.search_config'], explode(' ', 'lorem ipsum'));

@@ -1,6 +1,8 @@
 <?php
 namespace Bolt;
 
+use Silex;
+
 class Pager extends \ArrayObject
 {
     public $for;
@@ -19,7 +21,7 @@ class Pager extends \ArrayObject
 
     protected $app;
 
-    public function __construct($array, Application $app)
+    public function __construct($array, Silex\Application $app)
     {
         foreach ($array as $key => $value) {
             if (is_array($value)) {
@@ -52,14 +54,9 @@ class Pager extends \ArrayObject
         } else {
             unset($parameters['page']);
         }
-        array_walk(
-            $parameters,
-            function (&$item, $key) {
-                $item = "$key=$item";
-            }
-        );
-        $parameters[] = $pageid . '=';
-        $link = '?' . implode('&', $parameters);
+
+        $parameters[$pageid] = '';
+        $link = '?' . http_build_query($parameters);
 
         return $link;
     }

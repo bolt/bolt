@@ -67,7 +67,7 @@ class StrTest extends BoltUnitTest
     {
         // Swedish
         $input = "Skämt åsido satan vilket uruselt tillvägagångsätt";
-        $this->assertEquals("skaemt-asido-satan-vilket-uruselt-tillvaegagangsaett", Str::makeSafe($input, true, ';'));
+        $this->assertEquals("skaemt-aasido-satan-vilket-uruselt-tillvaegagaangsaett", Str::makeSafe($input, true, ';'));
     }
 
     public function testReplaceFirst()

@@ -174,7 +174,7 @@ class Log extends BackendBase
         $param = Pager::makeParameterId('activity');
         $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
         $options = [
-            'level' => $request->query->get('level'),
+            'level'   => $request->query->get('level'),
             'context' => $request->query->get('context')
         ];
 

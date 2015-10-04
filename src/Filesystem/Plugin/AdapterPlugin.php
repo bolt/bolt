@@ -2,10 +2,10 @@
 
 namespace Bolt\Filesystem\Plugin;
 
-use Bolt\Application;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\PluginInterface;
+use Silex\Application;
 
 abstract class AdapterPlugin implements PluginInterface
 {

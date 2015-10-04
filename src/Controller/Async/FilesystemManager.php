@@ -4,7 +4,6 @@ namespace Bolt\Controller\Async;
 use Bolt\Translation\Translator as Trans;
 use League\Flysystem\FileNotFoundException;
 use Silex\ControllerCollection;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

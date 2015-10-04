@@ -50,6 +50,10 @@ class SnippetListener implements EventSubscriberInterface
             return;
         }
 
+        if (Zone::isAsync($event->getRequest())) {
+            return;
+        }
+
         $response = $event->getResponse();
         if (strpos($response->headers->get('Content-Type'), 'text/html') === false) {
             return;

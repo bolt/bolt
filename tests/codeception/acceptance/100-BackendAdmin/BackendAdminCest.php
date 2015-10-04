@@ -53,6 +53,40 @@ class BackendAdminCest
     }
 
     /**
+     * Create a 'author' user with the 'author' role
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function createAuthorTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Create a 'author' user");
+
+        // Set up the browser
+        $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
+        $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
+        $I->amOnPage('/bolt/users');
+
+        $I->click('Add a new user', Locator::href('/bolt/users/edit/'));
+        $I->see('Create a new user account');
+
+        // Fill in form
+        $I->fillField('form[username]',              $this->user['author']['username']);
+        $I->fillField('form[password]',              $this->user['author']['password']);
+        $I->fillField('form[password_confirmation]', $this->user['author']['password']);
+        $I->fillField('form[email]',                 $this->user['author']['email']);
+        $I->fillField('form[displayname]',           $this->user['author']['displayname']);
+
+        // Add the "editor" role
+        $I->checkOption('#form_roles_1');
+
+        // Submit
+        $I->click('input[type=submit]');
+
+        // Save is successful?
+        $I->see("User {$this->user['author']['displayname']} has been saved");
+    }
+
+    /**
      * Create a 'editor' user with the 'editor' role
      *
      * @param \AcceptanceTester $I
@@ -498,8 +532,14 @@ class BackendAdminCest
         $I->see('Trim Change Log', 'a');
         $I->see('Clear Change Log', 'a');
 
-        // An expect entry
-        $I->see('title, slug, body, status, templatefields, ownerid, datepublish, datedepublish, datecreated', 'td');
+        $I->see('Type', 'th');
+        $I->see('ContentType', 'th');
+        $I->see('ID', 'th');
+        $I->see('Title', 'th');
+        $I->see('Changed Fields', 'th');
+        $I->see("Editor's Comment", 'th');
+        $I->see('User', 'th');
+        $I->see('Date', 'th');
 
         // Trim
         $I->click('Trim Change Log', 'a');

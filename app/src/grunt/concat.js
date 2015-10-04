@@ -62,6 +62,11 @@ module.exports = function (grunt, option) {
             }
         }
 
+        // Hack to prevent postcss/autoprefixer bug from triggering.
+        if (filepath.match(/select2\.css$/)) {
+            css = css.replace(/(background-image: -webkit-linear-gradient\(top, .+?\);)/g, '/* $1 */');
+        }
+
         return '/* Source: ' + filepath + '*/\n\n' + css;
     };
 

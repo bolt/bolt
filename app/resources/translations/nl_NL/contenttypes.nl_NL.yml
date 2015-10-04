@@ -1,4 +1,4 @@
-# app/resources/translations/nl_NL/contenttypes.nl_NL.yml – generated on 2015-08-16 19:19:52 Europe/Amsterdam
+# app/resources/translations/nl_NL/contenttypes.nl_NL.yml – generated on 2015-09-29 18:22:49 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
 #          at the moment. This is an ongoing process. Translations currently in the 
@@ -12,9 +12,9 @@
 #  no untranslated messages
 #  no untranslated keyword based messages
 #  no translations
-# 106 keyword based translations
+# 107 keyword based translations
 
-#--- 106 keyword based translations -------------------------------------------
+#--- 107 keyword based translations -------------------------------------------
 
 contenttypes:
     entries:
@@ -99,6 +99,7 @@ contenttypes:
         group:
             files: "Bestanden"
             media: "Media"
+            meta: "Meta"
             other: "Anders"
             text: "Tekst"
         name:

@@ -23,13 +23,13 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  => 'c',
             ],
             false,
             [
                 'title' => 'a',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  => 'c',
             ],
             'f',
         ];
@@ -38,7 +38,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => 'b',
-                'link'  =>  'f',
+                'link'  => 'f',
             ],
             [
                 'title'    => 'd',
@@ -47,7 +47,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  => 'c',
             ],
             'f',
         ];
@@ -56,7 +56,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => '',
-                'link'  =>  'f',
+                'link'  => 'f',
             ],
             [
                 'title'    => '',
@@ -65,7 +65,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => '',
-                'link'  =>  'c',
+                'link'  => 'c',
             ],
             'f',
         ];
@@ -74,7 +74,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => '',
                 'label' => 'b',
-                'link'  =>  'f',
+                'link'  => 'f',
             ],
             [
                 'title'    => 'd',
@@ -83,7 +83,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => '',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  => 'c',
             ],
             'f',
         ];
@@ -92,7 +92,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => 'd',
-                'link'  =>  'f',
+                'link'  => 'f',
             ],
             [
                 'title'    => 'd',
@@ -101,7 +101,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => '',
-                'link'  =>  'c',
+                'link'  => 'c',
             ],
             'f',
         ];
@@ -110,7 +110,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'e',
                 'label' => 'b',
-                'link'  =>  'f',
+                'link'  => 'f',
             ],
             [
                 'title'    => 'd',
@@ -119,7 +119,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => '',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  => 'c',
             ],
             'f',
         ];
@@ -128,7 +128,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => '',
-                'link'  =>  'f',
+                'link'  => 'f',
             ],
             [
                 'title'    => '',
@@ -137,7 +137,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => '',
-                'link'  =>  'c',
+                'link'  => 'c',
             ],
             'f',
         ];
@@ -146,7 +146,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => 'b',
-                'link'  =>  'f',
+                'link'  => 'f',
             ],
             [
                 'title'    => '',
@@ -155,7 +155,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  => 'c',
             ],
             'f',
         ];
@@ -164,7 +164,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => 'b',
-                'link'  =>  'f',
+                'link'  => 'f',
             ],
             [
                 'title'    => '',
@@ -173,7 +173,7 @@ class MenuBuilderTest extends BoltUnitTest
             [
                 'title' => 'a',
                 'label' => 'b',
-                'link'  =>  'c',
+                'link'  => 'c',
             ],
             'f',
         ];

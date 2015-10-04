@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Doctrine\Common\Cache\FilesystemCache;
+use Silex;
 
 /**
  * Simple, file based cache for volatile data.. Useful for storing non-vital
@@ -17,7 +18,7 @@ class Cache extends FilesystemCache
      */
     const DEFAULT_MAX_AGE = 600;
 
-    /** @var Application */
+    /** @var Silex\Application */
     private $app;
 
     /**
@@ -41,12 +42,12 @@ class Cache extends FilesystemCache
     /**
      * Set up the object. Initialize the proper folder for storing the files.
      *
-     * @param string      $cacheDir
-     * @param Application $app
+     * @param string            $cacheDir
+     * @param Silex\Application $app
      *
      * @throws \Exception
      */
-    public function __construct($cacheDir, Application $app)
+    public function __construct($cacheDir, Silex\Application $app)
     {
         $this->app = $app;
 

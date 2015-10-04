@@ -2,11 +2,11 @@
 
 namespace Bolt\Logger\Handler;
 
-use Bolt\Application;
 use Bolt\DeepDiff;
 use Bolt\Legacy\Content;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
+use Silex\Application;
 
 /**
  * Monolog Database handler for record changes (changelog).
@@ -17,13 +17,10 @@ class RecordChangeHandler extends AbstractProcessingHandler
 {
     /** @var Application */
     private $app;
-
     /** @var boolean */
     private $initialized = false;
-
     /** @var string */
     private $tablename;
-
     /** @var array */
     private $allowed;
 
@@ -79,21 +76,30 @@ class RecordChangeHandler extends AbstractProcessingHandler
         // Get the context data
         $data = $this->getData($context);
 
-        // Get the ContentType
-        $contenttype = $context['contenttype'];
-        if (!is_array($contenttype)) {
-            $contenttype = $this->app['storage']->getContentType($contenttype);
-        }
+        if ($context['old'] instanceof \Bolt\Legacy\Content || $context['new'] instanceof \Bolt\Legacy\Content) {
+            // Get the ContentType
+            $contenttype = $context['contenttype'];
+            if (!is_array($contenttype)) {
+                $contenttype = $this->app['storage']->getContentType($contenttype);
+            }
 
-        // Get the content object.
-        $values = $context['new'] ?: $context['old'];
-        $content = $this->getContentObject($contenttype, $values);
+            // Get the content object.
+            $values = $context['new'] ?: $context['old'];
+            $content = $this->getContentObject($contenttype, $values);
 
-        $title = $content->getTitle();
-        if (empty($title)) {
-            /** @var \Bolt\Legacy\Content $content */
-            $content = $this->app['storage']->getContent($context['contenttype'] . '/' . $context['id']);
             $title = $content->getTitle();
+            if (empty($title)) {
+                /** @var \Bolt\Legacy\Content $content */
+                $content = $this->app['storage']->getContent($context['contenttype'] . '/' . $context['id']);
+                $title = $content->getTitle();
+            }
+
+            $contenttype = $context['contenttype'];
+        } else {
+            $title = $context['new'] ? $context['new']['title'] : $context['old']['title'];
+            unset($data['bolt_csrf_token']);
+
+            $contenttype = $context['contenttype'];
         }
 
         // Don't store datechanged, or records that are only datechanged
@@ -112,7 +118,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
                     'date'          => $record['datetime']->format('Y-m-d H:i:s'),
                     'ownerid'       => $user['id'],
                     'title'         => $title,
-                    'contenttype'   => $context['contenttype'],
+                    'contenttype'   => is_array($contenttype) ? $contenttype['slug'] : $contenttype,
                     'contentid'     => $context['id'],
                     'mutation_type' => $context['action'],
                     'diff'          => $str,

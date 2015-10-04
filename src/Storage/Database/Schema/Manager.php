@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Database\Schema;
 
-use Bolt\Application;
 use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Bolt\Storage\Database\Schema\Table\ContentType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -10,11 +9,12 @@ use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
 
 class Manager
 {
-    /** @var \Bolt\Application */
+    /** @var \Silex\Application */
     private $app;
     /** @var string */
     private $prefix;
@@ -521,12 +521,29 @@ class Manager
             // Use loose comparison on true as 'true' in YAML is a string
             $addIndex = isset($values['index']) && $values['index'] == 'true';
             // Add the contenttype's specific fields
-            $tableObj->addCustomFields($fieldName, $values['type'], $addIndex);
+            $tableObj->addCustomFields($fieldName, $this->getContentTypeTableColumnType($values), $addIndex);
         } elseif ($handler = $this->app['config']->getFields()->getField($values['type'])) {
             // Add template fields
             /** @var $handler \Bolt\Storage\Field\FieldInterface */
             $table->addColumn($fieldName, $handler->getStorageType(), $handler->getStorageOptions());
         }
+    }
+
+    /**
+     * Certain field types can have single or JSON array types, figure it out.
+     *
+     * @param array $values
+     *
+     * @return string
+     */
+    private function getContentTypeTableColumnType(array $values)
+    {
+        // Multi-value selects are stored as JSON arrays
+        if (isset($values['type']) && $values['type'] === 'select' && isset($values['multiple']) && $values['multiple'] === 'true') {
+            return 'selectmultiple';
+        }
+
+        return $values['type'];
     }
 
     /**

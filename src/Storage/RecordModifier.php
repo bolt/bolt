@@ -2,10 +2,13 @@
 
 namespace Bolt\Storage;
 
-use Bolt\Application;
-use Bolt\Legacy\Content;
+use Bolt\Exception\AccessControlException;
+use Bolt\Helpers\Input;
+use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
+use Carbon\Carbon;
 use Cocur\Slugify\Slugify;
+use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,38 +52,41 @@ class RecordModifier
     public function handleSaveRequest(array $formValues, array $contenttype, $id, $new, $returnTo, $editReferrer)
     {
         $contenttypeslug = $contenttype['slug'];
+        $repo = $this->app['storage']->getRepository($contenttypeslug);
 
         // If we have an ID now, this is an existing record
         if ($id) {
-            $content = $this->app['storage']->getContent($contenttypeslug, ['id' => $id, 'status' => '!undefined']);
+            $content = $repo->find($id);
+            $oldContent = clone $content;
             $oldStatus = $content['status'];
         } else {
-            $content = $this->app['storage']->getContentObject($contenttypeslug);
+            $content = $repo->create(['contenttype' => $contenttypeslug, 'status' => $contenttype['default_status']]);
+            $oldContent = null;
             $oldStatus = '';
         }
 
-        // Don't allow spoofing the $id.
-        if (!empty($content['id']) && $id != $content['id']) {
+        // Don't allow spoofing the ID.
+        if ($content->getId() !== null && (integer) $id !== $content->getId()) {
+            if ($returnTo === 'ajax') {
+                throw new AccessControlException("Don't try to spoof the id!");
+            }
             $this->app['logger.flash']->error("Don't try to spoof the id!");
 
             return new RedirectResponse($this->generateUrl('dashboard'));
         }
 
-        // Ensure all fields have valid values
-        $requestAll = $this->setSuccessfulControlValues($formValues, $contenttype['fields']);
+        // Set the POSTed values in the entity object
+        $this->setPostedValues($content, $formValues, $contenttype);
 
         // To check whether the status is allowed, we act as if a status
         // *transition* were requested.
-        $content->setFromPost($requestAll, $contenttype);
-        $newStatus = $content['status'];
-
-        $statusOK = $this->app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttypeslug, $id);
+        $statusOK = $this->app['users']->isContentStatusTransitionAllowed($oldStatus, $content->getStatus(), $contenttypeslug, $id);
         if ($statusOK) {
             // Get the associated record change comment
             $comment = isset($formValues['changelog-comment']) ? $formValues['changelog-comment'] : '';
 
             // Save the record
-            return $this->saveContentRecord($content, $contenttype, $new, $comment, $returnTo, $editReferrer);
+            return $this->saveContentRecord($content, $oldContent, $contenttype, $new, $comment, $returnTo, $editReferrer);
         } else {
             $this->app['logger.flash']->error(Trans::__('contenttypes.generic.error-saving', ['%contenttype%' => $contenttypeslug]));
             $this->app['logger.system']->error('Save error: ' . $content->getTitle(), ['event' => 'content']);
@@ -88,28 +94,123 @@ class RecordModifier
     }
 
     /**
-     * Commit the record to the database.
+     * Set a Contenttype record values from a HTTP POST.
      *
      * @param Content $content
-     * @param array   $contenttype
-     * @param boolean $new
-     * @param string  $comment
-     * @param string  $returnTo
-     * @param string  $editReferrer
+     * @param array   $formValues
+     * @param array   $contentType
+     *
+     * @throws AccessControlException
+     */
+    private function setPostedValues(Content $content, $formValues, $contentType)
+    {
+        // Ensure all fields have valid values
+        $formValues = $this->setSuccessfulControlValues($formValues, $contentType['fields']);
+        $formValues = Input::cleanPostedData($formValues);
+        unset($formValues['contenttype']);
+
+        if ($id = $content->getId()) {
+            // Owner is set explicitly, is current user is allowed to do this?
+            if (isset($formValues['ownerid']) && (integer) $formValues['ownerid'] !== $content->getOwnerid()) {
+                if (!$this->app['permissions']->isAllowed("contenttype:{$contentType['slug']}:change-ownership:$id")) {
+                    throw new AccessControlException('Changing ownership is not allowed.');
+                }
+                $content->setOwnerid($formValues['ownerid']);
+            }
+        } else {
+            $user = $this->app['users']->getCurrentUser();
+            $content->setOwnerid($user['id']);
+        }
+
+        // Make sure we have a proper status.
+        if (!in_array($formValues['status'], ['published', 'timed', 'held', 'draft'])) {
+            if ($status = $content->getStatus()) {
+                $formValues['status'] = $status;
+            } else {
+                $formValues['status'] = 'draft';
+            }
+        }
+
+        // Set the object values appropriately
+        foreach ($formValues as $name => $value) {
+            if ($name === 'relation') {
+                $this->setPostedRelations($content, $formValues);
+            } elseif ($name === 'taxonomy') {
+                $this->setPostedTaxonomies($content, $formValues);
+            } else {
+                $content->set($name, empty($value) ? null : $value);
+            }
+        }
+    }
+
+    /**
+     * Convert POST relationship values to an array of Entity objects keyed by
+     * ContentType.
+     *
+     * @param Content    $content
+     * @param array|null $formValues
+     */
+    private function setPostedRelations(Content $content, $formValues)
+    {
+        if (!isset($formValues['relation'])) {
+            return;
+        }
+
+        $entities = [];
+        foreach ($formValues['relation'] as $contentType => $relations) {
+            $repo = $this->app['storage']->getRepository($contentType);
+            foreach ($relations as $id) {
+                if ($relation = $repo->find($id)) {
+                    $entities[$contentType][] = $relation;
+                }
+            }
+        }
+        $content->setRelation($entities);
+    }
+
+    /**
+     * Set valid POST taxonomies.
+     *
+     * @param Content    $content
+     * @param array|null $formValues
+     */
+    private function setPostedTaxonomies(Content $content, $formValues)
+    {
+        if (!isset($formValues['taxonomy'])) {
+            return;
+        }
+        $content->setTaxonomy($formValues['taxonomy']);
+    }
+
+    /**
+     * Commit the record to the database.
+     *
+     * @param Content      $content
+     * @param Content|null $oldContent
+     * @param array        $contentType
+     * @param boolean      $new
+     * @param string       $comment
+     * @param string       $returnTo
+     * @param string       $editReferrer
      *
      * @return Response
      */
-    private function saveContentRecord(Content $content, array $contenttype, $new, $comment, $returnTo, $editReferrer)
+    private function saveContentRecord(Content $content, $oldContent, array $contentType, $new, $comment, $returnTo, $editReferrer)
     {
         // Save the record
-        $id = $this->app['storage']->saveContent($content, $comment);
+        $repo = $this->app['storage']->getRepository($contentType['slug']);
+        $repo->save($content);
+        $id = $content->getId();
+
+        // Create the change log entry if configured
+        $this->logChange($contentType, $content->getId(), $content, $oldContent, $comment);
 
         // Log the change
         if ($new) {
-            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contenttype['slug']]));
+            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contentType['slug']]));
             $this->app['logger.system']->info('Created: ' . $content->getTitle(), ['event' => 'content']);
         } else {
-            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contenttype['slug']]));
+            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contentType['slug']]));
             $this->app['logger.system']->info('Saved: ' . $content->getTitle(), ['event' => 'content']);
         }
 
@@ -120,19 +221,19 @@ class RecordModifier
         if ($returnTo) {
             if ($returnTo === 'new') {
                 return new RedirectResponse($this->generateUrl('editcontent', [
-                    'contenttypeslug' => $contenttype['slug'],
+                    'contenttypeslug' => $contentType['slug'],
                     'id'              => $id,
                     '#'               => $returnTo,
                 ]));
             } elseif ($returnTo === 'saveandnew') {
                 return new RedirectResponse($this->generateUrl('editcontent', [
-                    'contenttypeslug' => $contenttype['slug'],
+                    'contenttypeslug' => $contentType['slug'],
                     '#'               => $returnTo,
                 ]));
             } elseif ($returnTo === 'ajax') {
-                return $this->createJsonUpdate($contenttype, $id, true);
+                return $this->createJsonUpdate($content, true);
             } elseif ($returnTo === 'test') {
-                return $this->createJsonUpdate($contenttype, $id, false);
+                return $this->createJsonUpdate($content, false);
             }
         }
 
@@ -141,7 +242,7 @@ class RecordModifier
         if ($editReferrer) {
             return new RedirectResponse($editReferrer);
         } else {
-            return new RedirectResponse($this->generateUrl('overview', ['contenttypeslug' => $contenttype['slug']]));
+            return new RedirectResponse($this->generateUrl('overview', ['contenttypeslug' => $contentType['slug']]));
         }
     }
 
@@ -159,23 +260,15 @@ class RecordModifier
     {
         foreach ($fields as $key => $values) {
             if (isset($formValues[$key])) {
-                switch ($values['type']) {
-                    case 'float':
-                        // We allow ',' and '.' as decimal point and need '.' internally
-                        $formValues[$key] = str_replace(',', '.', $formValues[$key]);
-                        break;
+                if ($values['type'] === 'float') {
+                    // We allow ',' and '.' as decimal point and need '.' internally
+                    $formValues[$key] = str_replace(',', '.', $formValues[$key]);
                 }
             } else {
-                switch ($values['type']) {
-                    case 'select':
-                        if (isset($values['multiple']) && $values['multiple'] === true) {
-                            $formValues[$key] = [];
-                        }
-                        break;
-
-                    case 'checkbox':
-                        $formValues[$key] = 0;
-                        break;
+                if ($values['type'] === 'select' && isset($values['multiple']) && $values['multiple'] === true) {
+                    $formValues[$key] = [];
+                } elseif ($values['type'] === 'checkbox') {
+                    $formValues[$key] = 0;
                 }
             }
         }
@@ -187,13 +280,12 @@ class RecordModifier
      * Build a valid AJAX response for in-place saves that account for pre/post
      * save events.
      *
-     * @param array   $contenttype
-     * @param integer $id
+     * @param Content $content
      * @param boolean $flush
      *
      * @return JsonResponse
      */
-    private function createJsonUpdate($contenttype, $id, $flush)
+    private function createJsonUpdate(Content $content, $flush)
     {
         /*
          * Flush any buffers from saveConent() dispatcher hooks
@@ -208,37 +300,18 @@ class RecordModifier
             Response::closeOutputBuffers(0, false);
         }
 
-        // Get our record after POST_SAVE hooks are dealt with and return the JSON
-        $content = $this->app['storage']->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!undefined']);
-
-        $val = [];
-
-        foreach ($content->values as $key => $value) {
-            // Some values are returned as \Twig_Markup and JSON can't deal with that
-            if (is_array($value)) {
-                foreach ($value as $subkey => $subvalue) {
-                    if (gettype($subvalue) === 'object' && get_class($subvalue) === 'Twig_Markup') {
-                        $val[$key][$subkey] = (string) $subvalue;
-                    }
-                }
-            } else {
-                $val[$key] = $value;
-            }
-        }
+        $val = $content->toArray();
 
         if (isset($val['datechanged'])) {
-            $val['datechanged'] = date_format(new \DateTime($val['datechanged']), 'c');
+            $val['datechanged'] = (new Carbon($val['datechanged']))->toIso8601String();
         }
 
+        // Adjust decimal point as some locales use a comma and… JavaScript
         $lc = localeconv();
-        foreach ($contenttype['fields'] as $key => $values) {
-            switch ($values['type']) {
-                case 'float':
-                    // Adjust decimal point dependent on locale
-                    if ($lc['decimal_point'] === ',') {
-                        $val[$key] = str_replace('.', ',', $val[$key]);
-                    }
-                    break;
+        $fields = $this->app['config']->get('contenttypes/' . $content->getContenttype() . '/fields');
+        foreach ($fields as $key => $values) {
+            if ($values['type'] === 'float' && $lc['decimal_point'] === ',') {
+                $val[$key] = str_replace('.', ',', $val[$key]);
             }
         }
 
@@ -249,43 +322,66 @@ class RecordModifier
     }
 
     /**
+     * Add a change log entry to track the change.
+     *
+     * @param string       $contentType
+     * @param integer      $contentId
+     * @param Content      $newContent
+     * @param Content|null $oldContent
+     * @param string|null  $comment
+     */
+    private function logChange($contentType, $contentId, $newContent = null, $oldContent = null, $comment = null)
+    {
+        $type = $oldContent ? 'Update' : 'Insert';
+
+        $this->app['logger.change']->info(
+            $type . ' record',
+            [
+                'action'      => strtoupper($type),
+                'contenttype' => $contentType,
+                'id'          => $contentId,
+                'new'         => $newContent ? $newContent->toArray() : null,
+                'old'         => $oldContent ? $oldContent->toArray() : null,
+                'comment'     => $comment
+            ]
+        );
+    }
+
+    /**
      * Do the edit form for a record.
      *
      * @param Content $content     A content record
      * @param array   $contenttype The contenttype data
-     * @param integer $id          The record ID
-     * @param boolean $new         If TRUE this is a new record
      * @param boolean $duplicate   If TRUE create a duplicate record
      *
      * @return array
      */
-    public function handleEditRequest($content, array $contenttype, $id, $new, $duplicate)
+    public function handleEditRequest(Content $content, array $contenttype, $duplicate)
     {
-        $contenttypeslug = $contenttype['slug'];
-
-        $oldStatus = $content['status'];
+        $contenttypeSlug = $contenttype['slug'];
+        $new = $content->getId() === null ?: false;
+        $oldStatus = $content->getStatus();
         $allStatuses = ['published', 'held', 'draft', 'timed'];
         $allowedStatuses = [];
+
         foreach ($allStatuses as $status) {
-            if ($this->app['users']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeslug, $id)) {
+            if ($this->app['users']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeSlug, $content->getId())) {
                 $allowedStatuses[] = $status;
             }
         }
 
         // For duplicating a record, clear base field values.
         if ($duplicate) {
-            $content->setValues([
-                'id'            => '',
-                'slug'          => '',
-                'datecreated'   => '',
-                'datepublish'   => '',
-                'datedepublish' => null,
-                'datechanged'   => '',
-                'username'      => '',
-                'ownerid'       => '',
-            ]);
+            $content->setId('');
+            $content->setSlug('');
+            $content->setDatecreated('');
+            $content->setDatepublish('');
+            $content->setDatedepublish(null);
+            $content->setDatechanged('');
+            $content->setUsername('');
+            $content->setOwnerid('');
 
-            $this->app['logger.flash']->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contenttypeslug]));
+            $this->app['logger.flash']->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contenttypeSlug]));
         }
 
         // Set the users and the current owner of this content.
@@ -294,32 +390,32 @@ class RecordModifier
             $contentowner = $this->app['users']->getCurrentUser();
         } else {
             // For existing items, we'll just keep the current owner.
-            $contentowner = $this->app['users']->getUser($content['ownerid']);
+            $contentowner = $this->app['users']->getUser($content->getOwnerid());
         }
 
         // Test write access for uploadable fields.
         $contenttype['fields'] = $this->setCanUpload($contenttype['fields']);
-        if ((!empty($content['templatefields'])) && (!empty($content['templatefields']->contenttype['fields']))) {
-            $content['templatefields']->contenttype['fields'] = $this->setCanUpload($content['templatefields']->contenttype['fields']);
+        if ($templatefields = $content->getTemplatefields()) {
+            $this->setCanUpload($templatefields->getContenttype());
         }
 
         // Build context for Twig.
         $contextCan = [
             'upload'             => $this->app['users']->isAllowed('files:uploads'),
-            'publish'            => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':publish:' . $content['id']),
-            'depublish'          => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':depublish:' . $content['id']),
-            'change_ownership'   => $this->app['users']->isAllowed('contenttype:' . $contenttypeslug . ':change-ownership:' . $content['id']),
+            'publish'            => $this->app['users']->isAllowed('contenttype:' . $contenttypeSlug . ':publish:' . $content->getId()),
+            'depublish'          => $this->app['users']->isAllowed('contenttype:' . $contenttypeSlug . ':depublish:' . $content->getId()),
+            'change_ownership'   => $this->app['users']->isAllowed('contenttype:' . $contenttypeSlug . ':change-ownership:' . $content->getId()),
         ];
         $contextHas = [
             'incoming_relations' => is_array($content->relation),
             'relations'          => isset($contenttype['relations']),
             'tabs'               => $contenttype['groups'] !== false,
             'taxonomy'           => isset($contenttype['taxonomy']),
-            'templatefields'     => $content->hasTemplateFields(),
+            'templatefields'     => $templatefields ? true : false,
         ];
         $contextValues = [
-            'datepublish'        => $this->getPublishingDate($content['datepublish'], true),
-            'datedepublish'      => $this->getPublishingDate($content['datedepublish']),
+            'datepublish'        => $this->getPublishingDate($content->getDatepublish(), true),
+            'datedepublish'      => $this->getPublishingDate($content->getDatedepublish()),
         ];
         $context = [
             'contenttype'        => $contenttype,
@@ -333,9 +429,33 @@ class RecordModifier
             'can'                => $contextCan,
             'has'                => $contextHas,
             'values'             => $contextValues,
+            'relations_list'     => $this->getRelationsList($contenttype),
         ];
 
         return $context;
+    }
+
+    /**
+     * Convert POST relationship values to an array of Entity objects keyed by
+     * ContentType.
+     *
+     * @param array $contenttype
+     *
+     * @return array
+     */
+    private function getRelationsList(array $contenttype)
+    {
+        $list = [];
+        if (!isset($contenttype['relations']) || !is_array($contenttype['relations'])) {
+            return $list;
+        }
+
+        foreach ($contenttype['relations'] as $contentType => $relation) {
+            $repo = $this->app['storage']->getRepository($contentType);
+            $list[$contentType] = $repo->getSelectList($contentType, $relation['order']);
+        }
+
+        return $list;
     }
 
     /**
@@ -345,7 +465,7 @@ class RecordModifier
      *
      * @return array
      */
-    private function setCanUpload(array $fields)
+    private function setCanUpload($fields)
     {
         $filesystem = $this->app['filesystem']->getFilesystem();
 
@@ -401,7 +521,7 @@ class RecordModifier
      * @param string $date
      * @param bool   $setNowOnEmpty
      *
-     * @return array
+     * @return string
      */
     private function getPublishingDate($date, $setNowOnEmpty = false)
     {
@@ -493,7 +613,7 @@ class RecordModifier
             'meta' => true
         ];
 
-        foreach ([$contenttype['fields'], $content->get('templatefields')->contenttype['fields'] ?: []] as $fields) {
+        foreach ([$contenttype['fields'], $content->getTemplatefields() ?: []] as $fields) {
             foreach ($fields as $field) {
                 $fieldtypes[$field['type']] = true;
             }

@@ -70,7 +70,7 @@ class UrlGeneratorFragmentWrapperTest extends BoltUnitTest
 
     public function testNonConfigurableRequirements()
     {
-        $generator = new UrlGeneratorFragmentWrapper(new LazyUrlGenerator(function() {}));
+        $generator = new UrlGeneratorFragmentWrapper(new LazyUrlGenerator(function () {}));
         $generator->setStrictRequirements(true);
         $this->assertNull($generator->isStrictRequirements());
     }

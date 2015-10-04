@@ -6,7 +6,7 @@ if [ "$PHP_NEW_ENOUGH" ]
         php -S localhost:8123 -t . index.php &
         SERVER_PID=$!
         $CODECEPT build
-        $CODECEPT run
+        $CODECEPT run "$@"
         RC=$?
         kill "$SERVER_PID"
     else

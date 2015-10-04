@@ -111,7 +111,8 @@ class Queue implements QueueInterface
      */
     protected function addJquery($html)
     {
-        if (!$this->app['config']->get('general/add_jquery', false)) {
+        if (!$this->app['config']->get('general/add_jquery', false) &&
+            !$this->app['config']->get('theme/add_jquery', false)) {
             return $html;
         }
 
@@ -149,9 +150,9 @@ class Queue implements QueueInterface
         } elseif ($callable = $this->getCallable($extensionName, $callback)) {
             // Snippet is defined in the extension itself.
             return call_user_func_array($callable, (array) $parameters);
-        } elseif (is_string($callback)) {
+        } elseif (is_string($callback) || $callback instanceof \Twig_Markup) {
             // Insert the 'callback' as a string.
-            return $callback;
+            return (string) $callback;
         }
 
         try {

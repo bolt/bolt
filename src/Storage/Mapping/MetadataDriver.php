@@ -182,6 +182,7 @@ class MetadataDriver implements MappingDriver
         if ($contentKey) {
             $this->setRelations($contentKey, $className, $table);
             $this->setTaxonomies($contentKey, $className, $table);
+            $this->setTemplatefields($contentKey, $className, $table);
         }
 
         foreach ($this->getAliases() as $alias => $table) {
@@ -258,7 +259,32 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
-     * @inheritdoc
+     * Setup a templatefields field if needed.
+     *
+     * @param string $contentKey
+     * @param string $className
+     * @param Table  $table
+     */
+    public function setTemplatefields($contentKey, $className, $table)
+    {
+        if (!isset($this->contenttypes[$contentKey]['templatefields'])) {
+            return;
+        }
+
+        $config = $this->contenttypes[$contentKey]['templatefields'];
+
+        $mapping = [
+            'fieldname' => 'templatefields',
+            'type'      => 'json_array',
+            'fieldtype' => $this->typemap['templatefields'],
+            'config'    => $config,
+        ];
+
+        $this->metadata[$className]['fields']['templatefields'] = $mapping;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function loadMetadataForClass($className, ClassMetadata $metadata = null)
     {
@@ -281,6 +307,22 @@ class MetadataDriver implements MappingDriver
         }
     }
 
+    public function loadMetadataForFields(array $fields)
+    {
+        foreach ($fields as $name => &$field) {
+            $type = $field['type'];
+            if (isset($this->typemap[$type])) {
+                $type = new $this->typemap[$type];
+            } else {
+                $type = new $this->typemap['text'];
+            }
+            $field['fieldtype'] = $type;
+            $field['fieldname'] = $name;
+        }
+
+        return $fields;
+    }
+
     /**
      * Get the field type for a given column.
      *
@@ -290,23 +332,27 @@ class MetadataDriver implements MappingDriver
     protected function getFieldTypeFor($name, $column)
     {
         $contentKey = $this->schemaManager->getKeyForTable($name);
-        if ($contentKey && isset($this->contenttypes[$contentKey][$column->getName()])) {
+        if ($contentKey && isset($this->contenttypes[$contentKey]['fields'][$column->getName()])) {
             $type = $this->contenttypes[$contentKey]['fields'][$column->getName()]['type'];
         } elseif ($column->getType()) {
             $type = get_class($column->getType());
         }
 
+        if ($type === 'select' && isset($this->contenttypes[$contentKey]['fields'][$column->getName()]['multiple']) && $this->contenttypes[$contentKey]['fields'][$column->getName()]['multiple'] === true) {
+            $type = 'selectmultiple';
+        }
+
         if (isset($this->typemap[$type])) {
-            $type = new $this->typemap[$type];
+            $type = $this->typemap[$type];
         } else {
-            $type = new $this->typemap['text'];
+            $type = $this->typemap['text'];
         }
 
         return $type;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAllClassNames()
     {

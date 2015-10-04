@@ -18,7 +18,7 @@ class SearchWeighterTest extends BoltUnitTest
 
         $results = $app['query']->getContent('pages/first/3');
         $results = iterator_to_array($results);
-        
+
         $weighter = $app['query.search_weighter'];
         $weighter->setResults($results);
         $weighter->setSearchWords(['lorem', 'ipsum']);
@@ -27,7 +27,7 @@ class SearchWeighterTest extends BoltUnitTest
         $this->assertTrue(is_array($scores));
         $this->assertEquals(count($results), count($scores));
     }
-    
+
     public function testScoring()
     {
         $app = $this->getApp();
@@ -36,7 +36,7 @@ class SearchWeighterTest extends BoltUnitTest
         $results[2]->setTitle("Lorem Ipsum title to improve lorem ipsum result");
         $results[1]->setTitle("Lorem Ipsum");
         $results[1]->setBody("Lorem Ipsum");
-        
+
         $weighter = $app['query.search_weighter'];
         $weighter->setResults($results);
         $weighter->setSearchWords(['lorem', 'ipsum']);

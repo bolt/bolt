@@ -41,6 +41,13 @@
         placeholder: '—',
         readonly:    true,
         type:        'text',
+    },
+
+    snap: {
+        checked:     true,
+        class:       'snap',
+        name:        name ~ '_snap',
+        type:        'checkbox',
     }
 } %}
 
@@ -75,6 +82,9 @@
     <div class="col-sm-4">
         <label>{{ __('field.geolocation.label.marker-placement') }}</label>
         <div class="mapholder"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+        <div class="checkbox">
+            <label><input{{ attr(attributes.snap) }}>{{ __('field.geolocation.label.snap') }}</label>
+        </div>
     </div>
 {% endmacro %}
 

@@ -3,6 +3,7 @@ namespace Bolt\Controller;
 
 use Bolt\Routing\DefaultControllerClassAwareInterface;
 use Bolt\Storage\Entity;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -233,6 +234,25 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
+     * Check to see if the user table exists and has records.
+     *
+     * @return boolean
+     */
+    protected function hasUsers()
+    {
+        try {
+            $users = $this->app['users']->getUsers();
+            if (empty($users)) {
+                return false;
+            }
+
+            return true;
+        } catch (TableNotFoundException $e) {
+            return false;
+        }
+    }
+
+    /**
      * Return current user or user by ID.
      *
      * @param integer|string|null $userId
@@ -275,6 +295,18 @@ abstract class Base implements ControllerProviderInterface
         }
 
         return $this->app['permissions']->isAllowed($what, $user, $contenttype, $contentid);
+    }
+
+    /**
+     * Return a repository.
+     *
+     * @param string $repository
+     *
+     * @return \Bolt\Storage\Repository
+     */
+    protected function getRepository($repository)
+    {
+        return $this->app['storage']->getRepository($repository);
     }
 
     /**
