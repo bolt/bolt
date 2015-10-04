@@ -1,6 +1,6 @@
 <!-- Sidebar -->
 
-<aside class="four m-twelve">
+<aside class="four s-twelve">
     {% for ct in app.config.get('contenttypes') if not ct.viewless|default(false) %}
         {% setcontent records = ct.slug ~ "/latest/5" %}
         <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct.slug}) }}</h2>
