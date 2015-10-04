@@ -32,31 +32,35 @@
     {% else %}
         {% set filter = "" %}
     {% endif %}
-
     {% set link = "?" ~ filter ~ "order=" %}
+
     <tr>
         {% block listing_header %}
-        {% if not compact and modifiable %}
-            <th class="check hidden-xs"><input type="checkbox" name="checkRow" title="{{ __('Select all') }}" /></th>
-        {% else %}
-            <th style="margin: 0; padding: 0;"></th>
-        {% endif %}
+            {% if not compact and modifiable %}
+                <th class="check hidden-xs"><input type="checkbox" name="checkRow" title="{{ __('Select all') }}" /></th>
+            {% else %}
+                <th style="margin: 0; padding: 0;"></th>
+            {% endif %}
 
-        <th class="hidden-xs"><a href="{{ link }}{% if request('order') == 'id' %}-{% endif %}id">
-            {{ __('Id') }}
-        </a></th>
+            <th class="hidden-xs">
+                <a href="{{ link }}{% if request('order') == 'id' %}-{% endif %}id">{{ __('Id') }}</a>
+            </th>
 
-        <th style="width:80%">
-            <a href="{{ link }}{% if request('order') == content.TitleColumnName()|first %}-{% endif %}{{ content.TitleColumnName()|first }}">
-                {{ __('Title') }} / {{ __('Excerpt') }}
-            </a>
-        </th>
+            <th style="width:80%">
+                <a href="{{ link }}{% if request('order') == content.TitleColumnName()|first %}-{% endif %}{{ content.TitleColumnName()|first }}">
+                    {{ __('Title') }} / {{ __('Excerpt') }}
+                </a>
+            </th>
 
-        <th>&nbsp;</th>
+            <th>&nbsp;</th>
 
-        <th class="username hidden-xs"><a href="{{ link }}{% if request('order') == "datecreated" %}-{% endif %}datecreated">{{ __('Meta') }}</a></th>
+            <th class="username hidden-xs">
+                <a href="{{ link }}{% if request('order') == "datecreated" %}-{% endif %}datecreated">{{ __('Meta') }}</a>
+            </th>
 
-        <th><a href="?">{{ __('Actions') }}</a></th>
+            <th>
+                <a href="?">{{ __('Actions') }}</a>
+            </th>
         {% endblock %}
     </tr>
 {% endif %}
@@ -68,14 +72,12 @@
 
     {### BLOCK: ID ###}
     {% block listing_id %}
-
         {% if not compact and permissions.delete %}
             <td class="check hidden-xs"><input type="checkbox" name="checkRow"></td>
         {% else %}
             <td style="margin: 0; padding: 0;"></td>
         {% endif %}
         <td class="id hidden-xs">№ {{ content.id }}</td>
-
     {% endblock %}
 
     {### BLOCK: CONTENT ###}
@@ -144,7 +146,6 @@
                 </a>
                 {% endif %}
                 <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
-
                     <i class="fa fa-info-sign"></i>
                     <span class="caret"></span>
                 </button>
@@ -221,5 +222,4 @@
 
         </td>
     {% endblock %}
-
 </tr>
