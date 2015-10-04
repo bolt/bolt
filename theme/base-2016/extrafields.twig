@@ -4,7 +4,7 @@
 {% set image = record.image ?: random(theme.images) %}
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
 <div class="flex container margin wide-padding popUppers">
-        <article class="eight">
+        <article class="eight s-twelve">
             <h1 data-bolt-field="title">{{ record.title }}</h1>
             {% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'title', 'subtitle', 'ownerid', 'templatefields', 'image'] %}
                 {% if record.fieldtype(key) == "imagelist" and value is not empty %}
@@ -62,7 +62,7 @@
                 </p>
             {% endif %}
         </article>
-        <article class="four m-twelve">
+        <article class="four s-twelve">
             {% if record.templatefields.image %}
                 <img src="{{ thumbnail(record.templatefields.image, 640, 480) }}">
             {% endif %}
