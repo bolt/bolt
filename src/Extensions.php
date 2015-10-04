@@ -637,11 +637,15 @@ class Extensions
             foreach ($this->widgetqueue as $widget) {
                 if ($type == $widget['type'] && $position == $widget['position']) {
 
-                    $html = ''
+                    if (!$widget['defer']) {
+                        $widgethtml = $this->renderWidget($widget['key']);
+                    } else {
+                        $widgethtml = '';
+                    }
 
                     $html = $this->app['render']->render('widgetholder.twig', [
                         'widget' => $widget,
-                        'html' => $html
+                        'html' => $widgethtml
                     ]);
                     echo $html;
                 }
