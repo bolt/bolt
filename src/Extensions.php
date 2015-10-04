@@ -630,9 +630,6 @@ class Extensions
      */
     public function renderWidgetHolder($type, $position)
     {
-
-        // dump($this->widgetqueue);
-
         if (is_array($this->widgetqueue)) {
             foreach ($this->widgetqueue as $widget) {
                 if ($type == $widget['type'] && $position == $widget['position']) {
@@ -643,21 +640,19 @@ class Extensions
                         $widgethtml = '';
                     }
 
-                    $paths = $this->app['resources']->getPaths();
-
                     $html = $this->app['render']->render('widgetholder.twig', [
                         'widget' => $widget,
                         'html' => $widgethtml
                     ]);
 
+                    // If it's a widget in the frontend, _and_ we're using it defered,
+                    // insert a snippet of Javascript to fetch the actual widget's contents.
                     if ($widget['type'] == 'frontend') {
                         $javascript = $this->app['render']->render('widgetjavascript.twig', [
-                            'widget' => $widget,
-                            'asyncpath' => $paths['async']
+                            'widget' => $widget
                         ]);
                         $this->app['asset.queue.snippet']->add(Target::AFTER_BODY_JS, (string) $javascript);
                     }
-
 
                     echo $html;
                 }

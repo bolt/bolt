@@ -11,7 +11,7 @@
             var key = $(this).data('key');
 
             $.ajax({
-                url: '{{ asyncpath }}widget/' + key,
+                url: '{{ paths.async }}widget/' + key,
                 type: 'GET',
                 success: function (result) {
                     $('#widget-' + key).html(result);
