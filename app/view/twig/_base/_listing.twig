@@ -36,6 +36,10 @@
 
     <tr>
         {% block listing_header %}
+            {% set column_title = content.TitleColumnName()|first %}
+            {% set href_sort = link ~ (request('order') == column_title ? '-' : '') ~ column_title %}
+            {% set href_meta = link ~ (request('order') == 'datecreated' ? '-' : '') ~ 'datecreated' %}
+
             {% if not compact and modifiable %}
                 <th class="check hidden-xs"><input type="checkbox" name="checkRow" title="{{ __('Select all') }}" /></th>
             {% else %}
@@ -47,15 +51,13 @@
             </th>
 
             <th style="width:80%">
-                <a href="{{ link }}{% if request('order') == content.TitleColumnName()|first %}-{% endif %}{{ content.TitleColumnName()|first }}">
-                    {{ __('Title') }} / {{ __('Excerpt') }}
-                </a>
+                <a href="{{ href_sort }}">{{ __('Title') }} / {{ __('Excerpt') }}</a>
             </th>
 
             <th>&nbsp;</th>
 
             <th class="username hidden-xs">
-                <a href="{{ link }}{% if request('order') == "datecreated" %}-{% endif %}datecreated">{{ __('Meta') }}</a>
+                <a href="{{ href_meta }}">{{ __('Meta') }}</a>
             </th>
 
             <th>
