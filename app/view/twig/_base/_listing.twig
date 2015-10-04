@@ -157,85 +157,110 @@
         <td class="actions">
             <div class="btn-group">
                 {% if modifiable %}
-                <a class="btn btn-default btn-xs" href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
-                    <i class="fa fa-edit"></i> {{ __('Edit') }}
-                </a>
+                    <a class="btn btn-default btn-xs" href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
+                        <i class="fa fa-edit"></i> {{ __('Edit') }}
+                    </a>
                 {% endif %}
                 <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
-                    <i class="fa fa-info-sign"></i>
-                    <span class="caret"></span>
+                    <i class="fa fa-info-sign"></i> <span class="caret"></span>
                 </button>
+
                 <ul class="dropdown-menu pull-right">
-                {% if content.status == "published" and content.link is defined %}
-                    <li>
-                        <a href="{{ content.link }}" target="_blank">
-                            <i class="fa fa-external-link-square"></i> {{ __('View on site') }}
-                        </a>
-                    </li>
-                {% endif %}
-                {% if content.relation %}{# i.e. we're viewing this as "related content" on the "edit record" page. #}
-                    <li>
-                        <a href="{{ path('relatedto', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
-                            <i class="fa fa-link"></i> {{ __('View related content') }}
-                        </a>
-                    </li>
-                {% endif %}
-
-                {% from _self import actionform %}
-                {% if modifiable %}
-                    {% if content.status != 'published' %}
-                        {% if permissions.publish %}
-                        <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('contenttypes.generic.publish',{'%contenttype%':content.contenttype.slug})) }}</li>
-                        {% endif %}
-                    {% else %}
-                        {% if permissions.depublish %}
-                        <li>{{ macro.actionform(content, 'held', 'fa-circle status-held', __("Change status to 'held'")) }}</li>
-                        <li>{{ macro.actionform(content, 'draft', 'fa-circle status-draft', __("Change status to 'draft'")) }}</li>
-
-                        {% endif %}
+                    {% if content.status == "published" and content.link is defined %}
+                        <li>
+                            <a href="{{ content.link }}" target="_blank">
+                                <i class="fa fa-external-link-square"></i> {{ __('View on site') }}
+                            </a>
+                        </li>
                     {% endif %}
-                    {% if permissions.create %}
-                    <li><a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1}) }}">
-                        <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.slug}) }}</a></li>
+                    {% if content.relation %}{# i.e. we're viewing this as "related content" on the "edit record" page. #}
+                        <li>
+                            <a href="{{ path('relatedto', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">
+                                <i class="fa fa-link"></i> {{ __('View related content') }}
+                            </a>
+                        </li>
                     {% endif %}
-                    {% if permissions.delete %}
-                    <li>{{ macro.actionform(content, 'delete',
-                                          'fa-trash',
-                                          __('contenttypes.generic.delete', {'%contenttype%': content.contenttype.slug}),
-                                          "Are you sure you want to delete '" ~ content.getTitle ~ "'?" ) }}
-                    </li>
 
-                {% endif %}
-                    <li class="divider"></li>
-                {% endif %}
-                    <li><a class="nolink">{{ __('Author:') }} <strong><i class="fa fa-user"></i>
-                        {% if content.user.displayname is defined %}
-                            {{ content.user.displayname|trimtext(15) }}
+                    {% from _self import actionform %}
+                    {% if modifiable %}
+                        {% if content.status != 'published' %}
+                            {% if permissions.publish %}
+                            <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('contenttypes.generic.publish',{'%contenttype%':content.contenttype.slug})) }}</li>
+                            {% endif %}
                         {% else %}
-                            <s>user {{ content.values.ownerid }} </s>
-                        {% endif %}</strong></a></li>
-                    <li><a class="nolink">{{ __('Current status:') }}
-                        <strong>{{ content.status }}</strong></a></li>
-                    <li><a class="nolink">{{ __('Slug:') }}
-                        <code title="{{ content.slug }}">{{ content.slug|trimtext(24) }}</code></a></li>
-                    <li><a class="nolink">{{ __('Created on:') }}
-                        <i class="fa fa-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}</a></li>
-                    <li><a class="nolink">{{ __('Published on:') }}
-                        <i class="fa fa-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}</a></li>
-                    <li><a class="nolink">{{ __('Last edited on:') }}
-                        <i class="fa fa-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}</a></li>
+                            {% if permissions.depublish %}
+                            <li>{{ macro.actionform(content, 'held', 'fa-circle status-held', __("Change status to 'held'")) }}</li>
+                            <li>{{ macro.actionform(content, 'draft', 'fa-circle status-draft', __("Change status to 'draft'")) }}</li>
+
+                            {% endif %}
+                        {% endif %}
+                        {% if permissions.create %}
+                            <li>
+                                <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id, 'duplicate': 1}) }}">
+                                    <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.slug}) }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if permissions.delete %}
+                            <li>
+                                {{ macro.actionform(content, 'delete',
+                                                  'fa-trash',
+                                                  __('contenttypes.generic.delete', {'%contenttype%': content.contenttype.slug}),
+                                                  "Are you sure you want to delete '" ~ content.getTitle ~ "'?" ) }}
+                            </li>
+                        {% endif %}
+                        <li class="divider"></li>
+                    {% endif %}
+                    <li>
+                        <a class="nolink">
+                            {{ __('Author:') }} <strong><i class="fa fa-user"></i>
+                            {% if content.user.displayname is defined %}
+                                {{ content.user.displayname|trimtext(15) }}
+                            {% else %}
+                                <s>user {{ content.values.ownerid }}</s>
+                            {% endif %}</strong>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nolink">{{ __('Current status:') }}<strong>{{ content.status }}</strong></a>
+                    </li>
+                    <li>
+                        <a class="nolink">{{ __('Slug:') }}
+                            <code title="{{ content.slug }}">{{ content.slug|trimtext(24) }}</code>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nolink">{{ __('Created on:') }}
+                            <i class="fa fa-asterisk"></i> {{ content.datecreated|date("Y-m-d H:i") }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nolink">{{ __('Published on:') }}
+                            <i class="fa fa-calendar"></i> {{ content.datepublish|date("Y-m-d H:i") }}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nolink">{{ __('Last edited on:') }}
+                            <i class="fa fa-refresh"></i> {{ content.datechanged|date("Y-m-d H:i") }}
+                        </a>
+                    </li>
                     {% for taxonomyslug, values in content.taxonomy %}
                         {% if values|length > 1 %}
-                            <li><a class="nolink">{{ config.get('taxonomy')[taxonomyslug].name }}:
-                                <i class="fa fa-tag"></i> {{ values|join(", ")|trimtext(24) }}</a></li>
+                            <li>
+                                <a class="nolink">{{ config.get('taxonomy')[taxonomyslug].name }}:
+                                    <i class="fa fa-tag"></i> {{ values|join(", ")|trimtext(24) }}
+                                </a>
+                            </li>
                         {% else %}
-                            <li><a class="nolink">{{ config.get('taxonomy')[taxonomyslug].singular_name }}:
-                                <i class="fa fa-tag"></i> {{ values|first|trimtext(24) }}</a></li>
+                            <li>
+                                <a class="nolink">{{ config.get('taxonomy')[taxonomyslug].singular_name }}:
+                                    <i class="fa fa-tag"></i> {{ values|first|trimtext(24) }}
+                                </a>
+                            </li>
                         {% endif %}
                     {% endfor %}
                 </ul>
             </div>
-
         </td>
     {% endblock %}
 </tr>
