@@ -17,4 +17,19 @@ table.recordlist {
             content: "\f0de";
         }
     }
+
+    tr.groupheading {
+        th {
+            padding: 1em 0.2em 0.1em 0.2em;
+            background: #fff !important;
+
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: $font-size-h3;
+            font-weight: normal;
+
+            &.first {
+                padding-top: 0;
+            }
+        }
+    }
 }

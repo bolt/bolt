@@ -25,11 +25,9 @@
 {% if prop.extended and prop.unordered and prop.has_groupname and (prop.first or prop.nextgroup) %}
     {% if not prop.first %}</tbody>{% endif %}
     <tbody {% if modifiable %}class="sortable"{% endif %}>
-    <tr class="grouping">
-        <th colspan="{% block listing_columns %}6{% endblock %}">
-            <h3 {% if prop.first %}class="first"{% endif %}>
-                {{ content.group.name|default(__('(no group)')) }}
-            </h3>
+    <tr class="groupheading">
+        <th colspan="{% block listing_columns %}6{% endblock %}"{% if prop.first %} class="first"{% endif %}>
+            {{ content.group.name|default(__('(no group)')) }}
         </th>
     </tr>
 {% endif %}

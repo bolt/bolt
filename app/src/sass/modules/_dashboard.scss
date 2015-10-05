@@ -50,29 +50,6 @@
     background-color: #FFF;
 }
 
-.dashboardlisting tr.grouping {
-    background-color: transparent !important;
-    padding: 0px 5px;
-    border-top: none !important;
-}
-
-.dashboardlisting tr.grouping th {
-    background-color: transparent !important;
-    text-align: left;
-    font-weight: bold;
-    color: #333;
-    padding: 4px 5px 12px;
-    border: 0px solid #FFF;
-}
-
-.dashboardlisting tr.grouping h3.first {
-    margin-top: 0px;
-}
-
-.dashboardlisting tr.grouping h3 {
-    margin-bottom: 0px;
-}
-
 .dashboardlisting tr.dim td.id,
 .dashboardlisting tr.dim td.excerpt,
 .dashboardlisting tr.dim td.listthumb,
