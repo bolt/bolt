@@ -1,3 +1,20 @@
 table.recordlist {
 
+    tr.header {
+        th.order-asc a:after {
+            display: inline-block;
+            margin-left: 3px;
+            color: #999;
+            font-family: FontAwesome;
+            content: "\f0dd";
+        }
+
+        th.order-desc a:after {
+            display: inline-block;
+            margin-left: 3px;
+            color: #999;
+            font-family: FontAwesome;
+            content: "\f0de";
+        }
+    }
 }

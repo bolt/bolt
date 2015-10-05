@@ -1,6 +1,14 @@
 {% import '@bolt/_macro/_macro.twig' as macro %}
 {% import '@bolt/_macro/_buic.twig' as buic %}
 
+{% macro order_class(order) %}
+    {% if request('order') == order %}
+        order-asc
+    {% elseif request('order') == '-' ~ order %}
+        order-desc
+    {% endif %}
+{% endmacro %}
+
 {% set modifiable = permissions.create or permissions.edit or permissions.delete or permissions.publish or permissions.depublish %}
 
 {% set prop = {
@@ -36,8 +44,10 @@
     {% endfor %}
     {% set link = '?' ~ params|url_encode ~ (params|length ? '&' : '') ~ 'order=' %}
 
-    <tr>
+    <tr class="header">
         {% block listing_header %}
+            {% from _self import order_class %}
+
             {% set column_title = content.TitleColumnName()|first %}
             {% set href = {
                 content: link ~ (request('order') == column_title  ? '-' : '') ~ column_title|url_encode,
@@ -53,12 +63,12 @@
             {% endif %}
 
             {# COLUMN: ID #}
-            <th class="hidden-xs">
+            <th{{ hclass(['hidden-xs',  order_class('id')]) }}>
                 <a href="{{ href.id }}">{{ __('Id') }}</a>
             </th>
 
             {# COLUMN: Content #}
-            <th style="width:80%">
+            <th style="width:80%"{{ hclass(order_class(column_title)) }}>
                 <a href="{{ href.content }}">{{ __('Title') }} / {{ __('Excerpt') }}</a>
             </th>
 
@@ -66,7 +76,7 @@
             <th>&nbsp;</th>
 
             {# COLUMN: Meta #}
-            <th class="username hidden-xs">
+            <th{{ hclass(['username hidden-xs', order_class('datecreated')]) }}>
                 <a href="{{ href.meta }}">{{ __('Meta') }}</a>
             </th>
 
