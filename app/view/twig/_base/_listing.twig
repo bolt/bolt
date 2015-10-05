@@ -1,5 +1,6 @@
 {% import '@bolt/_macro/_macro.twig' as macro %}
 {% import '@bolt/_macro/_buic.twig' as buic %}
+{% from _self import tbody_beg, tbody_end %}
 
 {% macro order_class(order) %}
     {% if request('order') == order %}
@@ -9,6 +10,14 @@
     {% endif %}
 {% endmacro %}
 
+{% macro tbody_beg(modifiable) %}
+    <tbody {% if modifiable %}class="sortable"{% endif %}>
+{% endmacro %}
+
+{% macro tbody_end() %}
+    </tbody>
+{% endmacro %}
+
 {% set modifiable = permissions.create or permissions.edit or permissions.delete or permissions.publish or permissions.depublish %}
 
 {% set prop = {
@@ -16,20 +25,27 @@
     has_groupname:  content.group.name is defined,
     nextgroup:      new_group|default(false),
     unordered:      request('order') == '',
-    first:          loop.first
+    first:          loop.first,
+    last:           loop.last
 }%}
 
 {#
  # GROUPNAME: If we have 'grouping', print the row with the groupname.
  #}
 {% if prop.extended and prop.unordered and prop.has_groupname and (prop.first or prop.nextgroup) %}
-    {% if not prop.first %}</tbody>{% endif %}
-    <tbody {% if modifiable %}class="sortable"{% endif %}>
+    {% if not prop.first %}
+        {{ tbody_end() }}
+    {% endif %}
+
+    {{ tbody_beg(modifiable) }}
+
     <tr class="groupheading">
         <th colspan="{% block listing_columns %}6{% endblock %}"{% if prop.first %} class="first"{% endif %}>
             {{ content.group.name|default(__('(no group)')) }}
         </th>
     </tr>
+{% elseif prop.first %}
+    {{ tbody_beg(modifiable) }}
 {% endif %}
 
 {#
@@ -277,3 +293,7 @@
         </td>
     {% endblock %}
 </tr>
+
+{% if prop.last %}
+    {{ tbody_end() }}
+{% endif %}
