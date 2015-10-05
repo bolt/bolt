@@ -30,19 +30,17 @@
  # HEADER ROW: Print the header for the first row.
  #}
 {% if prop.extended and (prop.first or (prop.has_groupname and prop.nextgroup) and prop.unordered) %}
-    {% if 'filter' in app.request.query.all|keys %}
-        {% set filter = 'filter=' ~ app.request.query.all.filter ~ '&' %}
-    {% else %}
-        {% set filter = '' %}
-    {% endif %}
+    {% set params = {} %}
+    {% for key, val in app.request.query.all if key != 'order' %}
+        {% set params = params|merge({(key): val}) %}
+    {% endfor %}
+    {% set link = '?' ~ params|url_encode ~ (params|length ? '&' : '') ~ 'order=' %}
 
     <tr>
-        {% set link = '?' ~ filter ~ 'order=' %}
-
         {% block listing_header %}
             {% set column_title = content.TitleColumnName()|first %}
             {% set href = {
-                content: link ~ (request('order') == column_title  ? '-' : '') ~ column_title,
+                content: link ~ (request('order') == column_title  ? '-' : '') ~ column_title|url_encode,
                 meta:    link ~ (request('order') == 'datecreated' ? '-' : '') ~ 'datecreated',
                 id:      link ~ (request('order') == 'id'          ? '-' : '') ~ 'id'
             }%}
