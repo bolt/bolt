@@ -61,7 +61,7 @@ class Records extends BackendBase
 
             if (!$this->isAllowed("contenttype:$contenttypeslug:delete:$id")) {
                 $this->flashes()->error(Trans::__('Permission denied', []));
-            } elseif ($this->checkAntiCSRFToken() && $this->app['storage']->deleteContent($contenttypeslug, $id)) {
+            } elseif ($this->checkAntiCSRFToken() && $this->storage()->deleteContent($contenttypeslug, $id)) {
                 $this->flashes()->info(Trans::__("Content '%title%' has been deleted.", ['%title%' => $title]));
             } else {
                 $this->flashes()->info(Trans::__("Content '%title%' could not be deleted.", ['%title%' => $title]));
@@ -145,7 +145,7 @@ class Records extends BackendBase
             return $this->delete($request, $contenttypeslug, $id);
         }
 
-        // This shoudln't happen
+        // This shouldn't happen
         if (!$this->getContentType($contenttypeslug)) {
             $this->flashes()->error(Trans::__('Attempt to modify invalid Contenttype.'));
 
@@ -186,7 +186,7 @@ class Records extends BackendBase
             return $this->redirectToRoute('overview', $queryParams);
         }
 
-        if ($this->app['storage']->updateSingleValue($contenttypeslug, $id, 'status', $newStatus)) {
+        if ($this->storage()->updateSingleValue($contenttypeslug, $id, 'status', $newStatus)) {
             $this->flashes()->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", ['%title%' => $title, '%newStatus%' => $newStatus]));
         } else {
             $this->flashes()->info(Trans::__("Content '%title%' could not be modified.", ['%title%' => $title]));

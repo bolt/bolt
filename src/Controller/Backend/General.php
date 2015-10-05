@@ -156,7 +156,7 @@ class General extends BackendBase
             $contenttypes = $form->get('contenttypes')->getData();
 
             try {
-                $content = $this->app['storage']->preFill($contenttypes);
+                $content = $this->storage()->preFill($contenttypes);
                 $this->flashes()->success($content);
             } catch (RequestException $e) {
                 $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";

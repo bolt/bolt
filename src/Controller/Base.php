@@ -271,7 +271,7 @@ abstract class Base implements ControllerProviderInterface
             return;
         }
 
-        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        $repo = $this->storage()->getRepository('Bolt\Storage\Entity\Users');
         if (($userEntity = $repo->getUser($userId)) && !$raw) {
             $userEntity->setPassword('**dontchange**');
         }
@@ -307,7 +307,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function getRepository($repository)
     {
-        return $this->app['storage']->getRepository($repository);
+        return $this->storage()->getRepository($repository);
     }
 
     /**
@@ -322,7 +322,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
-        return $this->app['storage']->getContent($textquery, $parameters, $pager, $whereparameters);
+        return $this->storage()->getContent($textquery, $parameters, $pager, $whereparameters);
     }
 
     /**
@@ -334,7 +334,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function getContentType($slug)
     {
-        return $this->app['storage']->getContentType($slug);
+        return $this->storage()->getContentType($slug);
     }
 
     /**

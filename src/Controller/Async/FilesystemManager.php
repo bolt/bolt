@@ -231,7 +231,7 @@ class FilesystemManager extends AsyncBase
     {
         $results = [];
 
-        foreach ($this->app['storage']->getContentTypes() as $contenttype) {
+        foreach ($this->storage()->getContentTypes() as $contenttype) {
             $records = $this->getContent($contenttype, ['published' => true, 'hydrate' => false]);
 
             foreach ($records as $record) {

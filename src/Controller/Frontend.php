@@ -188,7 +188,7 @@ class Frontend extends ConfigurableBase
         $contenttype = $this->getContentType($contenttypeslug);
 
         // First, get the preview from Post.
-        $content = $this->app['storage']->getContentObject($contenttypeslug);
+        $content = $this->storage()->getContentObject($contenttypeslug);
         $content->setFromPost($request->request->all(), $contenttype);
 
         $liveEditor = $request->get('_live-editor-preview');
@@ -301,7 +301,7 @@ class Frontend extends ConfigurableBase
      */
     public function taxonomy(Request $request, $taxonomytype, $slug)
     {
-        $taxonomy = $this->app['storage']->getTaxonomyType($taxonomytype);
+        $taxonomy = $this->storage()->getTaxonomyType($taxonomytype);
         // No taxonomytype, no possible content.
         if (empty($taxonomy)) {
             return false;
@@ -317,7 +317,7 @@ class Frontend extends ConfigurableBase
         // Theme value takes precedence over default config @see https://github.com/bolt/bolt/issues/3951
         $amount = $this->getOption('theme/listing_records', false) ?: $this->getOption('general/listing_records');
         $order = $this->getOption('theme/listing_sort', false) ?: $this->getOption('general/listing_sort');
-        $content = $this->app['storage']->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
+        $content = $this->storage()->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
 
         if (!$this->isTaxonomyValid($content, $slug, $taxonomy)) {
             $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
@@ -431,7 +431,7 @@ class Frontend extends ConfigurableBase
             $filters = null;
         }
 
-        $result = $this->app['storage']->searchContent($q, $contenttypes, $filters, $limit, $offset);
+        $result = $this->storage()->searchContent($q, $contenttypes, $filters, $limit, $offset);
 
         $pager = [
             'for'          => $context,
@@ -443,7 +443,7 @@ class Frontend extends ConfigurableBase
             'link'         => $this->generateUrl('search', ['q' => $q]) . '&page_search='
         ];
 
-        $this->app['storage']->setPager($context, $pager);
+        $this->storage()->setPager($context, $pager);
 
         $globals = [
             'records'      => $result['results'],
