@@ -3,6 +3,7 @@ namespace Bolt\Controller\Backend;
 
 use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
+use GuzzleHttp\Psr7\Uri;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,7 +68,11 @@ class Records extends BackendBase
             }
         }
 
-        return $this->redirectToRoute('overview', ['contenttypeslug' => $contenttypeslug]);
+        // Get the referer's query parameters
+        $queryParams = $this->getRefererQueryParameters($request);
+        $queryParams['contenttypeslug'] = $contenttypeslug;
+
+        return $this->redirectToRoute('overview', $queryParams);
     }
 
     /**
@@ -159,11 +164,15 @@ class Records extends BackendBase
             'held'    => 'depublish',
             'draft'   => 'depublish',
         ];
+        // Get the referer's query parameters
+        $queryParams = $this->getRefererQueryParameters($request);
+        $queryParams['contenttypeslug'] = $contenttypeslug;
+
 
         if (!isset($actionStatuses[$action])) {
             $this->flashes()->error(Trans::__('No such action for content.'));
 
-            return $this->redirectToRoute('overview', ['contenttypeslug' => $contenttypeslug]);
+            return $this->redirectToRoute('overview', $queryParams);
         }
 
         $newStatus = $actionStatuses[$action];
@@ -174,7 +183,7 @@ class Records extends BackendBase
         !$this->users()->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttypeslug, $id)) {
             $this->flashes()->error(Trans::__('You do not have the right privileges to %ACTION% that record.', ['%ACTION%' => $actionPermissions[$action]]));
 
-            return $this->redirectToRoute('overview', ['contenttypeslug' => $contenttypeslug]);
+            return $this->redirectToRoute('overview', $queryParams);
         }
 
         if ($this->app['storage']->updateSingleValue($contenttypeslug, $id, 'status', $newStatus)) {
@@ -183,7 +192,7 @@ class Records extends BackendBase
             $this->flashes()->info(Trans::__("Content '%title%' could not be modified.", ['%title%' => $title]));
         }
 
-        return $this->redirectToRoute('overview', ['contenttypeslug' => $contenttypeslug]);
+        return $this->redirectToRoute('overview', $queryParams);
     }
 
     /**
