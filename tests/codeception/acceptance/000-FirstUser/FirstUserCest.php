@@ -37,7 +37,7 @@ class FirstUserCest
         $I->wantTo('create the first user');
 
         // Ensure we're on the first user page
-        $I->amOnPage('/bolt/userfirst');
+        $I->amOnPage('/');
         $I->see('Please create the first user');
 
         // Fill in the form and submit
