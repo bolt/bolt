@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -347,6 +348,21 @@ abstract class Base implements ControllerProviderInterface
     protected function getOption($path, $default = null)
     {
         return $this->app['config']->get($path, $default);
+    }
+
+    /**
+     * Get an array of query parameters used in the request.
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    protected function getRefererQueryParameters(Request $request)
+    {
+        $referer = $request->server->get('HTTP_REFERER');
+        $request = Request::create($referer);
+
+        return (array) $request->query->getIterator();
     }
 
     /**
