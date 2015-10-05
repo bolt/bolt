@@ -91,6 +91,7 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         $safe = ['is_safe' => ['html']];
+        $env  = ['needs_environment' => true];
         $deprecated = ['deprecated' => true];
 
         return [
@@ -123,7 +124,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('trimtext',       [$this, 'trim'],              $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFilter('tt',             [$this, 'decorateTT'],        $safe),
             new \Twig_SimpleFilter('twig',           [$this, 'twig'],              $safe),
-            new \Twig_SimpleFilter('ucfirst',        [$this, 'ucfirst']),
+            new \Twig_SimpleFilter('ucfirst',        'twig_capitalize_string_filter', $env + $deprecated + ['alternative' => 'capitalize']),
             new \Twig_SimpleFilter('ymllink',        [$this, 'ymllink'],           $safe),
             // @codingStandardsIgnoreEnd
         ];
@@ -589,14 +590,6 @@ class TwigExtension extends \Twig_Extension
     public function twig($snippet, $extravars = [])
     {
         return $this->handlers['html']->twig($snippet, $extravars);
-    }
-
-    /**
-     * @see \Bolt\Twig\Handler\TextHandler::ucfirst()
-     */
-    public function ucfirst($str)
-    {
-        return $this->handlers['text']->ucfirst($str);
     }
 
     /**

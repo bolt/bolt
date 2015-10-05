@@ -252,14 +252,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->assertEquals('run: <tt>cat</tt>', $twig->decorateTT('run: `cat`'));
     }
 
-    public function testUcfirst()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals('Test this', $twig->ucfirst('test this'));
-    }
-
     public function testOrder()
     {
         $app = $this->getApp();

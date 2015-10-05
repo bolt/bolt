@@ -137,16 +137,4 @@ class TextHandler
 
         return (json_last_error() === JSON_ERROR_NONE);
     }
-
-    /**
-     * UCfirsts the given string.
-     *
-     * @param string $str
-     *
-     * @return string Same string where first character is in upper case
-     */
-    public function ucfirst($str)
-    {
-        return ucfirst($str);
-    }
 }
