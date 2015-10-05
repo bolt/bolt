@@ -1,7 +1,10 @@
 <?php
+namespace Bolt\Storage\Entity;
+
 /**
- * Created by PhpStorm.
- * User: ross
- * Date: 04/10/15
- * Time: 20:39
+ * Entity for TemplateFields.
  */
+class FieldValue extends Entity
+{
+
+}
