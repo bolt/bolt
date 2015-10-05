@@ -1955,6 +1955,11 @@ class Storage
                 $isValidColumn = true;
             }
 
+            // Repeating fields are handled differently so skip here
+            if (isset($contenttype['fields'][$name]) && $contenttype['fields'][$name]['type'] == 'repeater') {
+                $isValidColumn = false;
+            }
+
             if (! $isValidColumn) {
                 return false;
             }
