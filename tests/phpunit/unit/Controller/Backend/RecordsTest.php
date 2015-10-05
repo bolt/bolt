@@ -238,18 +238,17 @@ class RecordsTest extends ControllerUnitTest
 
         // Test that any save error gets reported
         $this->setRequest(Request::create('/bolt/content/held/pages/3'));
-
-        $storage = $this->getMock('Bolt\Storage', ['updateSingleValue'], [$this->getApp()]);
-        $storage->expects($this->once())
-            ->method('updateSingleValue')
+        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
+        $permissions->expects($this->any())
+            ->method('isAllowed')
             ->will($this->returnValue(false));
+        $this->setService('permissions', $permissions);
 
-        $this->setService('storage', $storage);
-
+        // Test that we can't depublish "held" a record
         $response = $this->controller()->modify($this->getRequest(), 'held', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getFlashBag()->get('info');
-        $this->assertRegExp('/could not be modified/', $err[0]);
+        $err = $this->getFlashBag()->get('error');
+        $this->assertRegExp('/You do not have the right privileges to depublish that record./', $err[0]);
 
         // Test the delete proxy action
         // Note that the response will be 'could not be deleted'. Since this just
@@ -258,8 +257,8 @@ class RecordsTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/content/delete/pages/3'));
         $response = $this->controller()->modify($this->getRequest(), 'delete', 'pages', 3);
         $this->assertEquals('/bolt/overview/pages', $response->getTargetUrl());
-        $err = $this->getFlashBag()->get('info');
-        $this->assertRegExp('/could not be deleted/', $err[0]);
+        $err = $this->getFlashBag()->get('error');
+        $this->assertRegExp('/Permission denied/', (string) $err[0]);
     }
 
     public function testOverview()
