@@ -724,11 +724,12 @@ class Permissions
                 return empty($fromStatus) ? null : 'depublish';
 
             case 'timed':
+            case 'publish':
             case 'published':
                 return 'publish';
 
             default:
-                throw new \Exception("Invalid content status transition: $fromStatus -> $toStatus");
+                throw new \Exception("Invalid content status transition: '$fromStatus' -> '$toStatus'");
         }
     }
 
