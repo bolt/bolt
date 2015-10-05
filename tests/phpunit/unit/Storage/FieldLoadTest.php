@@ -39,6 +39,7 @@ class FieldLoadTest extends BoltUnitTest
         $repo = $em->getRepository('showcases');
 
         $record = $repo->find(1);
+        print_r($record->taxonomy);
         $this->assertTrue(is_array($record->taxonomy['categories']));
         $this->assertTrue(is_array($record->taxonomy['tags']));
     }
