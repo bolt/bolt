@@ -248,6 +248,8 @@ class ImageHandler
                 $alt = $filename['alt'];
             } elseif (isset($filename['title'])) {
                 $alt = $filename['title'];
+            } else {
+                $alt = '';
             }
 
             if ($width === 0 || $height === 0) {
@@ -255,7 +257,7 @@ class ImageHandler
                     $filename = isset($filename['filename']) ? $filename['filename'] : $filename['file'];
                 }
 
-                $info = $this->imageInfo($filename);
+                $info = $this->imageInfo($filename, false);
 
                 if ($width !== 0) {
                     $height = round($width / $info['aspectratio']);
