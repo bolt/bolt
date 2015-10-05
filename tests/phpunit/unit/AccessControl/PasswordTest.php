@@ -4,6 +4,7 @@ namespace Bolt\Tests;
 use Bolt\AccessControl\Password;
 use Hautelook\Phpass\PasswordHash;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Test for AccessControl\Password
@@ -166,5 +167,28 @@ class PasswordTest extends BoltUnitTest
         $result = $password->resetPasswordRequest('sneakykoala', '8.8.8.8');
 
         $this->assertFalse($result);
+    }
+
+    public function testResetPasswordRequestNoMailOptions()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+
+        $config = $this->getMock('\Bolt\Config', ['getWhichEnd'], [$app]);
+        $config->expects($this->atLeastOnce())
+            ->method('getWhichEnd')
+            ->willReturn('backend');
+        $app['config'] = $config;
+        $app['config']->set('general/mailoptions', null);
+
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger->expects($this->atLeastOnce())
+            ->method('error');
+        $app['logger.flash'] = $logger;
+
+        $password = new Password($app);
+        $result = $password->resetPasswordRequest('admin', '8.8.8.8');
+
+        $this->assertTrue($result);
     }
 }
