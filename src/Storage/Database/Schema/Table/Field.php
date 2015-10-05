@@ -18,6 +18,7 @@ class Field extends BaseTable
         $this->table->addColumn('contenttype',  'string',   ['length' => 64, 'default' => '']);
         $this->table->addColumn('content_id',   'integer',  []);
         $this->table->addColumn('name',         'string',   ['length' => 128]);
+        $this->table->addColumn('sort',         'integer',  ['default' => 0]);
         // @codingStandardsIgnoreEnd
     }
 

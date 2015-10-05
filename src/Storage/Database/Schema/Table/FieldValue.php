@@ -16,11 +16,13 @@ class FieldValue extends BaseTable
         // @codingStandardsIgnoreStart
         $this->table->addColumn('id',               'integer',      ['autoincrement' => true]);
         $this->table->addColumn('field_id',         'integer',      []);
-        $this->table->addColumn('value_varchar',    'string',       ['length' => 255]);
-        $this->table->addColumn('value_text',       'text',         ['default' => $this->getTextDefault()]);
-        $this->table->addColumn('value_integer',    'integer',      ['default' => 0]);
-        $this->table->addColumn('value_float',      'float',        ['default' => 0]);
-        $this->table->addColumn('value_decimal',    'decimal',      ['precision' => '18', 'scale' => '9', 'default' => 0]);
+        $this->table->addColumn('name',             'string',       ['length' => 255]);
+        $this->table->addColumn('fieldtype',        'integer',      ['default' => 0]);
+        $this->table->addColumn('value_varchar',    'string',       ['length' => 255, 'notnull' => false]);
+        $this->table->addColumn('value_text',       'text',         ['default' => $this->getTextDefault(), 'notnull' => false]);
+        $this->table->addColumn('value_integer',    'integer',      ['default' => null, 'notnull' => false]);
+        $this->table->addColumn('value_float',      'float',        ['default' => null, 'notnull' => false]);
+        $this->table->addColumn('value_decimal',    'decimal',      ['precision' => '18', 'scale' => '9', 'default' => null, 'notnull' => false]);
         $this->table->addColumn('value_date',       'date',         ['notnull' => false]);
         $this->table->addColumn('value_datetime',   'datetime',     ['notnull' => false]);
         $this->table->addColumn('value_json',       'json_array',   ['notnull' => false]);
