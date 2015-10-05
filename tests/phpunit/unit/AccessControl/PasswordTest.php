@@ -3,6 +3,7 @@ namespace Bolt\Tests;
 
 use Bolt\AccessControl\Password;
 use Hautelook\Phpass\PasswordHash;
+use Carbon\Carbon;
 
 /**
  * Test for AccessControl\Password
@@ -11,6 +12,11 @@ use Hautelook\Phpass\PasswordHash;
  */
 class PasswordTest extends BoltUnitTest
 {
+    public function tearDown()
+    {
+        $this->resetDb();
+    }
+
     public function testSetRandomPassword()
     {
         $app = $this->getApp();
@@ -32,6 +38,32 @@ class PasswordTest extends BoltUnitTest
         $compare = $hasher->CheckPassword($newPass, $userEntity->getPassword());
 
         $this->assertTrue($compare);
+        $this->assertEmpty($userEntity->getShadowpassword());
+        $this->assertEmpty($userEntity->getShadowtoken());
+        $this->assertNull($userEntity->getShadowvalidity());
+    }
+
+    public function testResetPasswordConfirmValidUser()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $entityName = 'Bolt\Storage\Entity\Users';
+        $repo = $app['storage']->getRepository($entityName);
+
+        $shadowToken = $app['randomgenerator']->generateString(32);
+        $shadowTokenHash = md5($shadowToken . '-' . str_replace('.', '-', '8.8.8.8'));
+
+        $userEntity = $repo->getUser('admin');
+        $userEntity->setShadowpassword('hash-my-password');
+        $userEntity->setShadowtoken($shadowTokenHash);
+        $userEntity->setShadowvalidity(Carbon::create()->addHours(1));
+        $repo->save($userEntity);
+
+        $password = new Password($app);
+        $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8');
+        $userEntity = $repo->getUser('admin');
+
+        $this->assertTrue($result);
         $this->assertEmpty($userEntity->getShadowpassword());
         $this->assertEmpty($userEntity->getShadowtoken());
         $this->assertNull($userEntity->getShadowvalidity());
