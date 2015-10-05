@@ -9,6 +9,7 @@ use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -156,8 +157,14 @@ class Repository implements ObjectRepository
     {
         $qb = $this->getLoadQuery();
         foreach ($criteria as $col => $val) {
-            $qb->andWhere($this->getAlias().".$col = :$col");
-            $qb->setParameter(":$col", $val);
+            if (is_array($val)) {
+                $qb->andWhere($this->getAlias() . ".$col IN(:$col)");
+                $qb->setParameter(":$col", $val, Connection::PARAM_INT_ARRAY);
+            } else {
+                $qb->andWhere($this->getAlias() . ".$col = :$col");
+                $qb->setParameter(":$col", $val);
+            }
+
         }
         if ($orderBy) {
             $qb->orderBy($orderBy[0], $orderBy[1]);
