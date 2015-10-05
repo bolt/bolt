@@ -1,6 +1,12 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query\QueryInterface;
+use Bolt\Storage\QuerySet;
+use Bolt\Storage\ValuesCollection;
+use Doctrine\DBAL\Query\QueryBuilder;
+
 /**
  * This is one of a suite of basic Bolt field transformers that handles
  * the lifecycle of a field from pre-query to persist.
@@ -9,11 +15,85 @@ namespace Bolt\Storage\Field\Type;
  */
 class RepeaterType extends FieldTypeBase
 {
+
+    /**
+     * For repeating fields, the load method adds extra joins and selects to the query that
+     * fetches the related records from the field and field value tables in the same query as the content fetch.
+     *
+     * @param QueryBuilder  $query
+     * @param ClassMetadata $metadata
+     */
+    public function load(QueryBuilder $query, ClassMetadata $metadata)
+    {
+        $field = $this->mapping['fieldname'];
+        $boltname = $metadata->getBoltName();
+
+        $from = $query->getQueryPart('from');
+
+        if (isset($from[0]['alias'])) {
+            $alias = $from[0]['alias'];
+        } else {
+            $alias = $from[0]['table'];
+        }
+
+        $query->addSelect($this->getPlatformGroupConcat('fields', $query))
+            ->leftJoin($alias, $this->mapping['tables']['field'], 'f', "f.content_id = $alias.id AND f.contenttype='$boltname'")
+            ->leftJoin($alias, $this->mapping['tables']['field_value'], 'fv', "fv.field_id=f.id");
+    }
+
+    public function persist(QuerySet $queries, $entity)
+    {
+        $field = $this->mapping['fieldname'];
+
+    }
+
+    public function hydrate($data, $entity)
+    {
+        $key = $this->mapping['fieldname'];
+        $vals = array_filter(explode(',', $data['fields']));
+        $values = [];
+        foreach($vals as $fieldKey) {
+            $split = explode('_', $fieldKey);
+            $values[$split[0]][$split[1]][] = $split[2];
+        }
+
+        $entityVals = [];
+        foreach ($values[$key] as $field) {
+            $entityVals[] = new ValuesCollection($field, $this->em);
+        }
+
+        $this->set($entity, $entityVals);
+    }
+
+
     /**
      * {@inheritdoc}
      */
     public function getName()
     {
         return 'repeater';
+    }
+
+    /**
+     * Get platform specific group_concat token for provided column
+     *
+     * @param string       $column
+     * @param string       $alias
+     * @param QueryBuilder $query
+     *
+     * @return string
+     */
+    protected function getPlatformGroupConcat($alias, QueryBuilder $query)
+    {
+        $platform = $query->getConnection()->getDatabasePlatform()->getName();
+
+        switch ($platform) {
+            case 'mysql':
+                return "GROUP_CONCAT(DISTINCT $column) as $alias";
+            case 'sqlite':
+                return "GROUP_CONCAT(f.name||'_'||f.id||'_'||fv.id) as $alias";
+            case 'postgresql':
+                return "string_agg(distinct $column, ',') as $alias";
+        }
     }
 }
