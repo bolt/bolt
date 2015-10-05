@@ -33,4 +33,18 @@ table.recordlist {
             font-weight: normal;
         }
     }
+
+    tr.buttons {
+        display: none;
+
+        td {
+            background: #fff;
+            border: none;
+
+            button {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+        }
+    }
 }
