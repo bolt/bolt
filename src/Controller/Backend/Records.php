@@ -61,7 +61,7 @@ class Records extends BackendBase
 
             if (!$this->isAllowed("contenttype:$contenttypeslug:delete:$id")) {
                 $this->flashes()->error(Trans::__('Permission denied', []));
-            } elseif ($this->checkAntiCSRFToken() && $this->app['storage']->deleteContent($contenttypeslug, $id)) {
+            } elseif ($this->checkAntiCSRFToken() && $this->storage()->deleteContent($contenttypeslug, $id)) {
                 $this->flashes()->info(Trans::__("Content '%title%' has been deleted.", ['%title%' => $title]));
             } else {
                 $this->flashes()->info(Trans::__("Content '%title%' could not be deleted.", ['%title%' => $title]));
@@ -145,7 +145,7 @@ class Records extends BackendBase
             return $this->delete($request, $contenttypeslug, $id);
         }
 
-        // This shoudln't happen
+        // This shouldn't happen
         if (!$this->getContentType($contenttypeslug)) {
             $this->flashes()->error(Trans::__('Attempt to modify invalid Contenttype.'));
 
@@ -168,7 +168,6 @@ class Records extends BackendBase
         $queryParams = $this->getRefererQueryParameters($request);
         $queryParams['contenttypeslug'] = $contenttypeslug;
 
-
         if (!isset($actionStatuses[$action])) {
             $this->flashes()->error(Trans::__('No such action for content.'));
 
@@ -176,17 +175,20 @@ class Records extends BackendBase
         }
 
         $newStatus = $actionStatuses[$action];
-        $content = $this->getContent("$contenttypeslug/$id");
-        $title = $content->getTitle();
+        $repo = $this->storage()->getRepository($contenttypeslug);
+        $record = $repo->find($id);
+        $title = $record->getTitle();
+        $canModify = $this->isAllowed("contenttype:$contenttypeslug:{$actionPermissions[$action]}:$id");
+        $canTransition = $this->users()->isContentStatusTransitionAllowed($record->getStatus(), $newStatus, $contenttypeslug, $id);
 
-        if (!$this->isAllowed("contenttype:$contenttypeslug:{$actionPermissions[$action]}:$id") ||
-        !$this->users()->isContentStatusTransitionAllowed($content['status'], $newStatus, $contenttypeslug, $id)) {
+        if (!$canModify || !$canTransition) {
             $this->flashes()->error(Trans::__('You do not have the right privileges to %ACTION% that record.', ['%ACTION%' => $actionPermissions[$action]]));
 
             return $this->redirectToRoute('overview', $queryParams);
         }
 
-        if ($this->app['storage']->updateSingleValue($contenttypeslug, $id, 'status', $newStatus)) {
+        $record->setStatus($newStatus);
+        if ($repo->save($record)) {
             $this->flashes()->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", ['%title%' => $title, '%newStatus%' => $newStatus]));
         } else {
             $this->flashes()->info(Trans::__("Content '%title%' could not be modified.", ['%title%' => $title]));

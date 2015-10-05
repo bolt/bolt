@@ -171,7 +171,7 @@ class General extends AsyncBase
      */
     public function makeUri(Request $request)
     {
-        return $this->app['storage']->getUri(
+        return $this->storage()->getUri(
             $request->query->get('title'),
             $request->query->get('id'),
             $request->query->get('contenttypeslug'),
