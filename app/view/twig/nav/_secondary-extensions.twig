@@ -7,15 +7,9 @@
     {% set sub = sub|merge([
         {
             icon: 'fa:cubes',
-            label: __('View/install Extensions'),
+            label: __('Extensions'),
             link: path('extend', {}),
             isallowed: 'extensions'
-        },
-        {
-            icon: 'fa:cog',
-            label: __('Configure Extensions'),
-            link: path('files', {'namespace': 'config', 'path': 'extensions'}),
-            isallowed: 'extensions:config'
         }
     ]) %}
 
