@@ -43,6 +43,19 @@ class FieldLoadTest extends BoltUnitTest
         $this->assertTrue(is_array($record->taxonomy['tags']));
     }
 
+    public function testRepeaterLoad()
+    {
+        $app = $this->getApp();
+        $em = $app['storage'];
+        $repo = $em->getRepository('showcases');
+        $record = $repo->find(1);
+        foreach($record->repeat as $r) {
+            foreach($r as $fieldval) {
+
+            }
+        }
+    }
+
     protected function addSomeContent()
     {
         $app = $this->getApp();
@@ -64,4 +77,6 @@ class FieldLoadTest extends BoltUnitTest
             }
         }
     }
+
+
 }
