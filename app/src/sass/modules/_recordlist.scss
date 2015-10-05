@@ -1,4 +1,9 @@
 table.recordlist {
+    tbody {
+        &:first-child tr.groupheading th {
+            padding-top: 0;
+        }
+    }
 
     tr.header {
         th.order-asc a:after {
@@ -26,10 +31,6 @@ table.recordlist {
             font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: $font-size-h3;
             font-weight: normal;
-
-            &.first {
-                padding-top: 0;
-            }
         }
     }
 }

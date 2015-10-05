@@ -40,7 +40,7 @@
     {{ tbody_beg(modifiable) }}
 
     <tr class="groupheading">
-        <th colspan="{% block listing_columns %}6{% endblock %}"{% if prop.first %} class="first"{% endif %}>
+        <th colspan="{% block listing_columns %}6{% endblock %}">
             {{ content.group.name|default(__('(no group)')) }}
         </th>
     </tr>
