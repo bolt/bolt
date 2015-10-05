@@ -44,10 +44,7 @@ class Password
         if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUser($username)) {
             $password = $this->app['randomgenerator']->generateString(12);
 
-            $hasher = new PasswordHash($this->app['access_control.hash.strength'], true);
-            $hashedpassword = $hasher->HashPassword($password);
-
-            $userEntity->setPassword($hashedpassword);
+            $userEntity->setPassword($password);
             $userEntity->setShadowpassword('');
             $userEntity->setShadowtoken('');
             $userEntity->setShadowvalidity(null);
