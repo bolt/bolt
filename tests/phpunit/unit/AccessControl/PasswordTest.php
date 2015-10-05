@@ -191,4 +191,33 @@ class PasswordTest extends BoltUnitTest
 
         $this->assertTrue($result);
     }
+
+    public function testResetPasswordRequestSendSuccess()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+
+        $config = $this->getMock('\Bolt\Config', ['getWhichEnd'], [$app]);
+        $config->expects($this->atLeastOnce())
+            ->method('getWhichEnd')
+            ->willReturn('backend');
+        $app['config'] = $config;
+        $app['config']->set('general/mailoptions', ['transport' => 'smtp', 'spool' => true,'host' => 'localhost', 'port' => '25']);
+
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger->expects($this->never())
+            ->method('error');
+        $app['logger.flash'] = $logger;
+
+        $mailer = $this->getMock('\Swift_Mailer', array('send'), array($app['swiftmailer.transport']));
+        $mailer->expects($this->atLeastOnce())
+            ->method('send')
+            ->will($this->returnValue(true));
+        $app['mailer'] = $mailer;
+
+        $password = new Password($app);
+        $result = $password->resetPasswordRequest('admin', '8.8.8.8');
+
+        $this->assertTrue($result);
+    }
 }
