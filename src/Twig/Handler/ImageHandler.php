@@ -200,7 +200,7 @@ class ImageHandler
             
             if (is_array($filename) && isset($filename['alt'])) {
                 $alt = $filename['alt'];
-            }else {
+            } else {
                 $alt = $title;
             }
 
@@ -246,7 +246,7 @@ class ImageHandler
 
             if (isset($filename['alt'])) {
                 $alt = $filename['alt'];
-            }elseif (isset($filename['title'])) {
+            } elseif (isset($filename['title'])) {
                 $alt = $filename['title'];
             }
 
