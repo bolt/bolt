@@ -51,8 +51,8 @@ class RecordModifier
      */
     public function handleSaveRequest(array $formValues, array $contenttype, $id, $new, $returnTo, $editReferrer)
     {
-        $contenttypeslug = $contenttype['slug'];
-        $repo = $this->app['storage']->getRepository($contenttypeslug);
+        $contentTypeSlug = $contenttype['slug'];
+        $repo = $this->app['storage']->getRepository($contentTypeSlug);
 
         // If we have an ID now, this is an existing record
         if ($id) {
@@ -60,9 +60,9 @@ class RecordModifier
             $oldContent = clone $content;
             $oldStatus = $content['status'];
         } else {
-            $content = $repo->create(['contenttype' => $contenttypeslug, 'status' => $contenttype['default_status']]);
+            $content = $repo->create(['contenttype' => $contentTypeSlug, 'status' => $contenttype['default_status']]);
             $oldContent = null;
-            $oldStatus = '';
+            $oldStatus = 'draft';
         }
 
         // Don't allow spoofing the ID.
@@ -75,21 +75,32 @@ class RecordModifier
             return new RedirectResponse($this->generateUrl('dashboard'));
         }
 
-        // Set the POSTed values in the entity object
         $this->setPostedValues($content, $formValues, $contenttype);
+        $this->setTransitionStatus($content, $contentTypeSlug, $id, $oldStatus);
 
-        // To check whether the status is allowed, we act as if a status
-        // *transition* were requested.
-        $statusOK = $this->app['users']->isContentStatusTransitionAllowed($oldStatus, $content->getStatus(), $contenttypeslug, $id);
-        if ($statusOK) {
-            // Get the associated record change comment
-            $comment = isset($formValues['changelog-comment']) ? $formValues['changelog-comment'] : '';
+        // Get the associated record change comment
+        $comment = isset($formValues['changelog-comment']) ? $formValues['changelog-comment'] : '';
 
-            // Save the record
-            return $this->saveContentRecord($content, $oldContent, $contenttype, $new, $comment, $returnTo, $editReferrer);
-        } else {
-            $this->app['logger.flash']->error(Trans::__('contenttypes.generic.error-saving', ['%contenttype%' => $contenttypeslug]));
-            $this->app['logger.system']->error('Save error: ' . $content->getTitle(), ['event' => 'content']);
+        // Save the record
+        return $this->saveContentRecord($content, $oldContent, $contenttype, $new, $comment, $returnTo, $editReferrer);
+    }
+
+    /**
+     * Check whether the status is allowed.
+     *
+     * We act as if a status *transition* were requested and fallback to the old
+     * status otherwise.
+     *
+     * @param Entity\Entity $content
+     * @param string        $contentTypeSlug
+     * @param integer       $id
+     * @param string        $oldStatus
+     */
+    private function setTransitionStatus(Entity\Entity $content, $contentTypeSlug, $id, $oldStatus)
+    {
+        $canTransition = $this->app['users']->isContentStatusTransitionAllowed($oldStatus, $content->getStatus(), $contentTypeSlug, $id);
+        if (!$canTransition) {
+            $content->setStatus($oldStatus);
         }
     }
 
