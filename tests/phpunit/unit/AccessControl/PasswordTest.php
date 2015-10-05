@@ -96,4 +96,32 @@ class PasswordTest extends BoltUnitTest
 
         $this->assertFalse($result);
     }
+
+    public function testResetPasswordConfirmInvalidIp()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $entityName = 'Bolt\Storage\Entity\Users';
+        $repo = $app['storage']->getRepository($entityName);
+
+        $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+            ->method('error');
+        $app['logger.system'] = $logger;
+
+        $shadowToken = $app['randomgenerator']->generateString(32);
+        $shadowTokenHash = md5($shadowToken . '-' . str_replace('.', '-', '8.8.8.8'));
+
+        $userEntity = $repo->getUser('admin');
+        $userEntity->setShadowpassword('hash-my-password');
+        $userEntity->setShadowtoken($shadowTokenHash);
+        $userEntity->setShadowvalidity(Carbon::create()->addHours(2));
+        $repo->save($userEntity);
+
+        $password = new Password($app);
+        $result = $password->resetPasswordConfirm($shadowToken, '1.1.1.1');
+        $userEntity = $repo->getUser('admin');
+
+        $this->assertFalse($result);
+    }
 }
