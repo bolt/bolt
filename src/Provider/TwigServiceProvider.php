@@ -81,6 +81,20 @@ class TwigServiceProvider implements ServiceProviderInterface
                 'autoescape'       => true,
             ];
         };
+
+        $app['safe_twig.bolt_extension'] = function () use ($app) {
+            return new TwigExtension($app, $app['twig.handlers'], true);
+        };
+
+        $app['safe_twig'] = $app->share(
+            function ($app) {
+                $loader = new \Twig_Loader_String();
+                $twig = new \Twig_Environment($loader);
+                $twig->addExtension($app['safe_twig.bolt_extension']);
+
+                return $twig;
+            }
+        );
     }
 
     /**
