@@ -44,7 +44,10 @@ class RepeaterType extends FieldTypeBase
     public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
+        $existingFields = $this->getFieldsQuery();
 
+        $this->addDeleteFieldValuesQuery($queries, $existingFields);
+        $this->addDeleteFieldsQuery($queries, $existingFields);
     }
 
     public function hydrate($data, $entity)
@@ -58,7 +61,7 @@ class RepeaterType extends FieldTypeBase
         }
 
         $entityVals = [];
-        foreach ($values[$key] as $field) {
+        foreach ((array)$values[$key] as $field) {
             $entityVals[] = new ValuesCollection($field, $this->em);
         }
 
@@ -89,11 +92,56 @@ class RepeaterType extends FieldTypeBase
 
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT(DISTINCT $column) as $alias";
+                return "GROUP_CONCAT(CONCAT_WS('_', f.name, f.id, fv.id)) as $alias";
             case 'sqlite':
                 return "GROUP_CONCAT(f.name||'_'||f.id||'_'||fv.id) as $alias";
             case 'postgresql':
-                return "string_agg(distinct $column, ',') as $alias";
+                return "string_agg(f.name||'_'||f.id||'_'||fv.id) as $alias";
         }
+    }
+
+    /**
+     * Get existing fields for this record.
+     *
+     * @param mixed $entity
+     *
+     * @return array
+     */
+    protected function getFieldsQuery($entity)
+    {
+        $query = $this->em->createQueryBuilder()
+            ->select('id')
+            ->from($this->mapping['tables']['field'])
+            ->where('content_id = :id')
+            ->andWhere('contenttype = :contenttype')
+            ->andWhere('name = :name')
+            ->setParameters([
+                'id'          => $entity->id,
+                'contenttype' => $entity->getContenttype(),
+                'name'        => $this->mapping['fieldname'],
+            ]);
+
+        $result = $query->execute()->fetchAll();
+
+        return $result ?: [];
+    }
+
+    /**
+     * Query to delete existing field values.
+     *
+     * @param mixed $entity
+     *
+     * @return array
+     */
+    protected function addDeleteFieldValuesQuery(QuerySet $queries, $ids)
+    {
+        $query = $this->em->createQueryBuilder()
+            ->delete($this->mapping['tables']['field_value'], 'fv')
+            ->where('fv.field_id IN(:ids)')
+            ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
+
+        echo $query->getSQL(); exit;
+
+        $queries->append($query);
     }
 }
