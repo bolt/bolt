@@ -124,4 +124,31 @@ class PasswordTest extends BoltUnitTest
 
         $this->assertFalse($result);
     }
+
+    public function testResetPasswordConfirmInvalidToken()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $entityName = 'Bolt\Storage\Entity\Users';
+        $repo = $app['storage']->getRepository($entityName);
+
+        $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+            ->method('error');
+        $app['logger.system'] = $logger;
+
+        $shadowToken = $app['randomgenerator']->generateString(32);
+
+        $userEntity = $repo->getUser('admin');
+        $userEntity->setShadowpassword('hash-my-password');
+        $userEntity->setShadowtoken('this should not work');
+        $userEntity->setShadowvalidity(Carbon::create()->addHours(2));
+        $repo->save($userEntity);
+
+        $password = new Password($app);
+        $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8');
+        $userEntity = $repo->getUser('admin');
+
+        $this->assertFalse($result);
+    }
 }
