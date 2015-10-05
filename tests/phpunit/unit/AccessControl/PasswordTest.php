@@ -68,4 +68,32 @@ class PasswordTest extends BoltUnitTest
         $this->assertEmpty($userEntity->getShadowtoken());
         $this->assertNull($userEntity->getShadowvalidity());
     }
+
+    public function testResetPasswordConfirmExpiredToken()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $entityName = 'Bolt\Storage\Entity\Users';
+        $repo = $app['storage']->getRepository($entityName);
+
+        $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+            ->method('error');
+        $app['logger.system'] = $logger;
+
+        $shadowToken = $app['randomgenerator']->generateString(32);
+        $shadowTokenHash = md5($shadowToken . '-' . str_replace('.', '-', '8.8.8.8'));
+
+        $userEntity = $repo->getUser('admin');
+        $userEntity->setShadowpassword('hash-my-password');
+        $userEntity->setShadowtoken($shadowTokenHash);
+        $userEntity->setShadowvalidity(Carbon::create()->addHours(-1));
+        $repo->save($userEntity);
+
+        $password = new Password($app);
+        $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8');
+        $userEntity = $repo->getUser('admin');
+
+        $this->assertFalse($result);
+    }
 }
