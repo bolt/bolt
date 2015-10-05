@@ -151,4 +151,20 @@ class PasswordTest extends BoltUnitTest
 
         $this->assertFalse($result);
     }
+
+    public function testResetPasswordRequestInvalidUser()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['info']);
+        $logger->expects($this->atLeastOnce())
+            ->method('info');
+        $app['logger.flash'] = $logger;
+
+        $password = new Password($app);
+        $result = $password->resetPasswordRequest('sneakykoala', '8.8.8.8');
+
+        $this->assertFalse($result);
+    }
 }
