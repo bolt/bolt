@@ -6,20 +6,55 @@ table.recordlist {
     }
 
     tr.header {
-        th.order-asc a:after {
-            display: inline-block;
-            margin-left: 3px;
-            color: #999;
-            font-family: FontAwesome;
-            content: "\f0dd";
-        }
+        th {
+            $text-color:            #005394;
+            $symbol-order-none:     "\f0dc";
+            $symbol-order-asc:      "\f0dd";
+            $symbol-order-desc:     "\f0de";
+            $symbol-color:          #ddd;
+            $symbol-color-selected: #888;
+            $symbol-color-hover:    #00c;
+            $symbol-spacing:        0.3em;
 
-        th.order-desc a:after {
-            display: inline-block;
-            margin-left: 3px;
-            color: #999;
-            font-family: FontAwesome;
-            content: "\f0de";
+            color: $text-color;
+            vertical-align: middle;
+
+            a.order-none, a.order-asc, a.order-desc {
+                &:after {
+                    display: inline-block;
+                    margin-left: $symbol-spacing;
+                    color: $symbol-color;
+                    font-family: FontAwesome;
+                    content: $symbol-order-none;
+                }
+
+                &:hover:after {
+                    color: $symbol-color-hover;
+                    content: $symbol-order-asc;
+                }
+            }
+
+            a.order-asc {
+                &:after {
+                    color: $symbol-color-selected;
+                    content: $symbol-order-asc;
+                }
+
+                &:hover:after {
+                    content: $symbol-order-desc;
+                }
+            }
+
+            a.order-desc {
+                &:after {
+                    color: $symbol-color-selected;
+                    content: $symbol-order-desc;
+                }
+
+                &:hover:after {
+                    content: $symbol-order-none;
+                }
+            }
         }
     }
 

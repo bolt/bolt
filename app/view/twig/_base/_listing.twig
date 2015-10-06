@@ -7,6 +7,8 @@
         order-asc
     {% elseif request('order') == '-' ~ order %}
         order-desc
+    {% else %}
+        order-none
     {% endif %}
 {% endmacro %}
 
@@ -83,21 +85,21 @@
             {% endif %}
 
             {# COLUMN: ID #}
-            <th{{ hclass(['hidden-xs',  order_class('id')]) }}>
-                <a href="{{ href.id }}">{{ __('Id') }}</a>
+            <th class="hidden-xs">
+                <a href="{{ href.id }}"{{ hclass([order_class('id')]) }}>{{ __('Id') }}</a>
             </th>
 
             {# COLUMN: Content #}
-            <th style="width:80%"{{ hclass(order_class(column_title)) }}>
-                <a href="{{ href.content }}">{{ __('Title') }} / {{ __('Excerpt') }}</a>
+            <th style="width:80%">
+                <a href="{{ href.content }}"{{ hclass(order_class(column_title)) }}>{{ __('Title') }} / {{ __('Excerpt') }}</a>
             </th>
 
             {# COLUMN: Thumbnail #}
             <th>&nbsp;</th>
 
             {# COLUMN: Meta #}
-            <th{{ hclass(['username hidden-xs', order_class('datecreated')]) }}>
-                <a href="{{ href.meta }}">{{ __('Meta') }}</a>
+            <th class="username hidden-xs">
+                <a href="{{ href.meta }}"{{ hclass([order_class('datecreated')]) }}>{{ __('Meta') }}</a>
             </th>
 
             {# COLUMN: Action #}
