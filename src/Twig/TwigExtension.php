@@ -55,7 +55,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('fancybox',           [$this, 'popup'],       $safe + $deprecated + ['alternative' => 'popup']),
             new \Twig_SimpleFunction('file_exists',        [$this, 'fileExists']),
             new \Twig_SimpleFunction('firebug',            [$this, 'printFirebug']),
-            new \Twig_SimpleFunction('first',              [$this, 'first']),
+            new \Twig_SimpleFunction('first',              'twig_first',           $env + $deprecated),
             new \Twig_SimpleFunction('getuser',            [$this, 'getUser']),
             new \Twig_SimpleFunction('getuserid',          [$this, 'getUserId']),
             new \Twig_SimpleFunction('hattr',              [$this, 'hattr'],       $safe),
@@ -66,7 +66,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('isallowed',          [$this, 'isAllowed']),
             new \Twig_SimpleFunction('ischangelogenabled', [$this, 'isChangelogEnabled']),
             new \Twig_SimpleFunction('ismobileclient',     [$this, 'isMobileClient']),
-            new \Twig_SimpleFunction('last',               [$this, 'last']),
+            new \Twig_SimpleFunction('last',               'twig_last',            $env + $deprecated),
             new \Twig_SimpleFunction('listcontent',        [$this, 'listContent']),
             new \Twig_SimpleFunction('listtemplates',      [$this, 'listTemplates']),
             new \Twig_SimpleFunction('markdown',           [$this, 'markdown'],    $safe),
@@ -102,11 +102,9 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFilter('editable',       [$this, 'editable'],          $safe),
             new \Twig_SimpleFilter('excerpt',        [$this, 'excerpt'],           $safe),
             new \Twig_SimpleFilter('fancybox',       [$this, 'popup'],             $safe + $deprecated + ['alternative' => 'popup']),
-            new \Twig_SimpleFilter('first',          [$this, 'first']),
             new \Twig_SimpleFilter('image',          [$this, 'image']),
             new \Twig_SimpleFilter('imageinfo',      [$this, 'imageInfo']),
             new \Twig_SimpleFilter('json_decode',    [$this, 'jsonDecode']),
-            new \Twig_SimpleFilter('last',           [$this, 'last']),
             new \Twig_SimpleFilter('localdate',      [$this, 'localeDateTime'],    $safe + $deprecated + ['alternative' => 'localedatetime']),
             new \Twig_SimpleFilter('localedatetime', [$this, 'localeDateTime'],    $safe),
             new \Twig_SimpleFilter('loglevel',       [$this, 'logLevel']),
@@ -246,14 +244,6 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * @see \Bolt\Twig\Handler\ArrayHandler::first()
-     */
-    public function first($array)
-    {
-        return $this->handlers['array']->first($array);
-    }
-
-    /**
      * @see \Bolt\Twig\Handler\UserHandler::getUser()
      */
     public function getUser($who)
@@ -339,14 +329,6 @@ class TwigExtension extends \Twig_Extension
     public function jsonDecode($string)
     {
         return $this->handlers['text']->jsonDecode($string);
-    }
-
-    /**
-     * @see \Bolt\Twig\Handler\ArrayHandler::last()
-     */
-    public function last($array)
-    {
-        return $this->handlers['array']->last($array);
     }
 
     /**

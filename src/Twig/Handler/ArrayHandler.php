@@ -28,38 +28,6 @@ class ArrayHandler
     }
 
     /**
-     * Returns the first item of an array.
-     *
-     * @param array $array
-     *
-     * @return mixed
-     */
-    public function first($array)
-    {
-        if (!is_array($array)) {
-            return false;
-        } else {
-            return reset($array);
-        }
-    }
-
-    /**
-     * Returns the last item of an array.
-     *
-     * @param array $array
-     *
-     * @return mixed
-     */
-    public function last($array)
-    {
-        if (!is_array($array)) {
-            return false;
-        } else {
-            return end($array);
-        }
-    }
-
-    /**
      * Sorts / orders items of an array.
      *
      * @param array  $array
