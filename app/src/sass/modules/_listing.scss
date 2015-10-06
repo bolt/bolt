@@ -1,10 +1,29 @@
+/*
+ * Universal class for listings.
+ */
 table.listing {
-    tbody {
-        &:first-child tr.heading th {
-            padding-top: 0;
+    /*
+     * Display a table heading.
+     */
+    tr.heading {
+        th {
+            padding: 1em 0.2em 0.1em 0.2em;
+            background: #fff !important;
+
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: $font-size-h3;
+            font-weight: normal;
         }
     }
 
+    // No margin on first heading.
+    tbody:first-child tr.heading th {
+        padding-top: 0;
+    }
+
+    /*
+     * Header row, containing column titles that can trigger sorting.
+     */
     tr.header {
         th {
             $text-color:            #005394;
@@ -58,17 +77,9 @@ table.listing {
         }
     }
 
-    tr.heading {
-        th {
-            padding: 1em 0.2em 0.1em 0.2em;
-            background: #fff !important;
-
-            font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: $font-size-h3;
-            font-weight: normal;
-        }
-    }
-
+    /*
+     * Toolbar, displayed at the bottom of a listing when a row is selected.
+     */
     tr.selectiontoolbar {
         display: none;
 
