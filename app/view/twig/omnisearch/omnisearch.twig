@@ -21,7 +21,7 @@
 
             {% set has_results = false %}
             {% if context.results %}
-                <table class="table table-striped dashboardlisting omnisearchlisting listing">
+                <table class="table table-striped dashboardlisting omnisearchlisting buic-listing">
                     <tbody>
                         {% for item in context.results %}
                             {% if (app.paths.bolt ~ 'omnisearch') not in item.path %}
