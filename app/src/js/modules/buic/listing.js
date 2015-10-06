@@ -33,18 +33,36 @@
             var setStatus = this.checked;
 
             $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
-                var row = $(this).closest('tr');
-
                 this.checked = setStatus;
-
-                if (setStatus) {
-                    row.addClass('row-checked');
-                } else {
-                    row.removeClass('row-checked');
-                }
+                rowSelection(this);
             });
         });
+
+        // On check/unchecking a row selector.
+        $(buic).find('td input:checkbox[name="checkRow"]').on('click', function () {
+            rowSelection(this);
+        });
     };
+
+    /**
+     * Handle row selection.
+     *
+     * @private
+     * @static
+     * @function rowSelection
+     * @memberof Bolt.files
+     *
+     * @param {object} checkbox - Checkbox clicked.
+     */
+    function rowSelection(checkbox) {
+        var row = $(checkbox).closest('tr');
+
+        if (checkbox.checked) {
+            row.addClass('row-checked');
+        } else {
+            row.removeClass('row-checked');
+        }
+    }
 
     // Apply mixin container
     bolt.buic.listing = listing;
