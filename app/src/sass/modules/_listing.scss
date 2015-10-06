@@ -1,6 +1,6 @@
-table.recordlist {
+table.listing {
     tbody {
-        &:first-child tr.groupheading th {
+        &:first-child tr.heading th {
             padding-top: 0;
         }
     }
@@ -58,7 +58,7 @@ table.recordlist {
         }
     }
 
-    tr.groupheading {
+    tr.heading {
         th {
             padding: 1em 0.2em 0.1em 0.2em;
             background: #fff !important;
@@ -69,7 +69,7 @@ table.recordlist {
         }
     }
 
-    tr.buttons {
+    tr.selectiontoolbar {
         display: none;
 
         td {

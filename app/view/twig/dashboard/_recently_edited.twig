@@ -7,7 +7,7 @@
         <h3>{{ __('contenttypes.generic.recently-edited', {'%contenttypes%': contenttype}) }}</h3>
 </div>
 
-<table class="table table-striped dashboardlisting">
+<table class="table table-striped dashboardlisting listing">
     {% for content in multiplecontent %}
         {% set listing_vars = {
             'compact':       true,

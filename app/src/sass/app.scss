@@ -89,7 +89,6 @@ $navbar-padding-horizontal: 0;
 @import "modules/textstyles";
 @import "modules/popover";
 @import "modules/dashboard";
-@import "modules/recordlist";
 @import "modules/aside";
 @import "modules/stack";
 @import "modules/forms";
@@ -98,6 +97,8 @@ $navbar-padding-horizontal: 0;
 @import "modules/login";
 @import "modules/extend";
 @import "modules/omnisearch";
+// New stuff
+@import "modules/listing";
 
 /**
  * Bolt User Interface Components.
