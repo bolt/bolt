@@ -59,14 +59,14 @@ class LoginTest extends BoltUnitTest
 
         $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
-            ->method('error')
-            ->with($this->equalTo("Attempt to login with disabled account by 'admin'"));
+        ->method('error')
+        ->with($this->equalTo("Attempt to login with disabled account by 'admin'"));
         $app['logger.system'] = $logger;
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
         $logger->expects($this->atLeastOnce())
-            ->method('error')
-            ->with($this->equalTo('Your account is disabled. Sorry about that.'));
+        ->method('error')
+        ->with($this->equalTo('Your account is disabled. Sorry about that.'));
         $app['logger.flash'] = $logger;
 
         $entityName = 'Bolt\Storage\Entity\Users';
@@ -74,6 +74,29 @@ class LoginTest extends BoltUnitTest
         $userEntity = $repo->getUser('admin');
         $userEntity->setEnabled(false);
         $repo->save($userEntity);
+
+        $login = new Login($app);
+        $request = new Request();
+
+        $login->login($request, 'admin', 'sneaky');
+    }
+
+    public function testLoginWrongPassword()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+
+        $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+            ->method('info')
+            ->with($this->equalTo("Failed login attempt for 'Admin'."));
+        $app['logger.system'] = $logger;
+
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger->expects($this->atLeastOnce())
+            ->method('error')
+            ->with($this->equalTo('Username or password not correct. Please check your input.'));
+        $app['logger.flash'] = $logger;
 
         $login = new Login($app);
         $request = new Request();
