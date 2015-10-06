@@ -36,11 +36,13 @@
                 this.checked = setStatus;
                 rowSelection(this);
             });
+            toogleSelectionToolbar(this);
         });
 
         // On check/unchecking a row selector.
         $(buic).find('td input:checkbox[name="checkRow"]').on('click', function () {
             rowSelection(this);
+            toogleSelectionToolbar(this);
         });
     };
 
@@ -61,6 +63,28 @@
             row.addClass('row-selected');
         } else {
             row.removeClass('row-selected');
+        }
+    }
+
+    /**
+     * Hide/Show selection toolbar.
+     *
+     * @private
+     * @static
+     * @function toogleSelectionToolbar
+     * @memberof Bolt.files
+     *
+     * @param {object} element - Element inside a tbody.
+     */
+    function toogleSelectionToolbar(element) {
+        var tbody = $(element).closest('tbody'),
+            toolbar = tbody.find('tr.selectiontoolbar').first(),
+            count = tbody.find('td input:checkbox[name="checkRow"]:checked').length;
+
+        if (count) {
+            toolbar.removeClass('hidden');
+        } else {
+            toolbar.addClass('hidden');
         }
     }
 
