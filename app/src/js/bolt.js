@@ -19,6 +19,7 @@
  *
  * @mixes Bolt.buic
  * @mixes Bolt.buic.checkbox
+ * @mixes Bolt.buic.listing
  * @mixes Bolt.buic.moment
  * @mixes Bolt.buic.select
  *

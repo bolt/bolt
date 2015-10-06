@@ -184,6 +184,9 @@
         $('.buic-checkbox').each(function () {
             bolt.buic.checkbox.init(this);
         });
+        $('.buic-listing').each(function () {
+            bolt.buic.listing.init(this);
+        });
         $('.buic-moment').each(function () {
             bolt.buic.moment.init(this);
         });
