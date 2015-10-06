@@ -2,14 +2,25 @@
 {% import '@bolt/_macro/_buic.twig' as buic %}
 {% from _self import tbody_beg, tbody_end %}
 
-{% macro order_class(order) %}
-    {% if request('order') == order %}
-        order-asc
-    {% elseif request('order') == '-' ~ order %}
-        order-desc
+{% macro sortable_link(id, text, paramname) %}
+    {% set paramname = paramname|default('order') %}
+
+    {% set params = {} %}
+    {% for key, val in app.request.query.all if key != paramname %}
+        {% set params = params|merge({(key): val}) %}
+    {% endfor %}
+
+    {% if request(paramname) == id %}
+        {% set class = 'order-asc' %}
+        {% set params = params|merge({(paramname): '-' ~ id}) %}
+    {% elseif request(paramname) == '-' ~ id %}
+        {% set class = 'order-desc' %}
     {% else %}
-        order-none
+        {% set class = 'order-none' %}
+        {% set params = params|merge({(paramname): id}) %}
     {% endif %}
+
+    <a href="{{ '?' ~ params|url_encode }}" class="{{ class }}">{{ text }}</a>
 {% endmacro %}
 
 {% macro tbody_beg(modifiable) %}
@@ -60,22 +71,17 @@
  # HEADER ROW: Print the header for the first row.
  #}
 {% if prop.extended and (prop.first or (prop.has_groupname and prop.nextgroup) and prop.unordered) %}
+    {# Deprecated #}
     {% set params = {} %}
     {% for key, val in app.request.query.all if key != 'order' %}
         {% set params = params|merge({(key): val}) %}
     {% endfor %}
     {% set link = '?' ~ params|url_encode ~ (params|length ? '&' : '') ~ 'order=' %}
+    {# /Deprecated #}
 
     <tr class="header">
         {% block listing_header %}
-            {% from _self import order_class %}
-
-            {% set column_title = content.TitleColumnName()|first %}
-            {% set href = {
-                content: link ~ (request('order') == column_title  ? '-' : '') ~ column_title|url_encode,
-                meta:    link ~ (request('order') == 'datecreated' ? '-' : '') ~ 'datecreated',
-                id:      link ~ (request('order') == 'id'          ? '-' : '') ~ 'id'
-            }%}
+            {% from _self import sortable_link %}
 
             {# COLUMN: Select #}
             {% if prop.extended and modifiable %}
@@ -85,27 +91,19 @@
             {% endif %}
 
             {# COLUMN: ID #}
-            <th class="hidden-xs">
-                <a href="{{ href.id }}"{{ hclass([order_class('id')]) }}>{{ __('Id') }}</a>
-            </th>
+            <th class="hidden-xs">{{ sortable_link('id', __('Id'))}}</th>
 
             {# COLUMN: Content #}
-            <th style="width:80%">
-                <a href="{{ href.content }}"{{ hclass(order_class(column_title)) }}>{{ __('Title') }} / {{ __('Excerpt') }}</a>
-            </th>
+            <th style="width:80%">{{ sortable_link(content.TitleColumnName()|first, __('Title') ~ '/' ~ __('Excerpt')) }}</th>
 
             {# COLUMN: Thumbnail #}
             <th>&nbsp;</th>
 
             {# COLUMN: Meta #}
-            <th class="username hidden-xs">
-                <a href="{{ href.meta }}"{{ hclass([order_class('datecreated')]) }}>{{ __('Meta') }}</a>
-            </th>
+            <th class="username hidden-xs">{{ sortable_link('datecreated', __('Meta'))}}</th>
 
             {# COLUMN: Action #}
-            <th>
-                <a href="?">{{ __('Actions') }}</a>
-            </th>
+            <th>{{ __('Actions') }}</th>
         {% endblock %}
     </tr>
 {% endif %}
