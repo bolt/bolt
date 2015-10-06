@@ -33,4 +33,20 @@ class LoginTest extends BoltUnitTest
 
         $login->login($request);
     }
+
+    public function testLoginInvalidUsername()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger->expects($this->atLeastOnce())
+            ->method('error')
+            ->with($this->equalTo('Your account is disabled. Sorry about that.'));
+        $app['logger.flash'] = $logger;
+
+        $login = new Login($app);
+        $request = new Request();
+
+        $login->login($request, 'koala', 'sneaky');
+    }
 }
