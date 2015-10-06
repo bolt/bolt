@@ -59,14 +59,14 @@ class LoginTest extends BoltUnitTest
 
         $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
-        ->method('error')
-        ->with($this->equalTo("Attempt to login with disabled account by 'admin'"));
+            ->method('error')
+            ->with($this->equalTo("Attempt to login with disabled account by 'admin'"));
         $app['logger.system'] = $logger;
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
         $logger->expects($this->atLeastOnce())
-        ->method('error')
-        ->with($this->equalTo('Your account is disabled. Sorry about that.'));
+            ->method('error')
+            ->with($this->equalTo('Your account is disabled. Sorry about that.'));
         $app['logger.flash'] = $logger;
 
         $entityName = 'Bolt\Storage\Entity\Users';
@@ -134,8 +134,42 @@ class LoginTest extends BoltUnitTest
 
         $login = new Login($app);
         $request = Request::createFromGlobals();
+        $request->server->set('REMOTE_ADDR', '1.2.3.4');
         $request->cookies->set($app['token.authentication.name'], 'abc123');
 
         $login->login($request);
+    }
+
+    public function testLoginExpiredToken()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger->expects($this->atLeastOnce())
+            ->method('error')
+            ->with($this->equalTo('Invalid login parameters.'));
+        $app['logger.flash'] = $logger;
+
+        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+        $entityAuthtoken = new \Bolt\Storage\Entity\Authtoken();
+        $entityAuthtoken->setUsername('admin');
+        $entityAuthtoken->setToken('abc123');
+        $entityAuthtoken->setSalt('vinagre');
+        $entityAuthtoken->setLastseen(Carbon::now());
+        $entityAuthtoken->setIp('1.2.3.4');
+        $entityAuthtoken->setUseragent('Bolt PHPUnit tests');
+        $entityAuthtoken->setValidity(Carbon::create()->addHours(-1));
+        $repo->save($entityAuthtoken);
+
+        $login = new Login($app);
+        $request = Request::createFromGlobals();
+
+        $request->server->set('REMOTE_ADDR', '1.2.3.4');
+        $request->server->set('HTTP_USER_AGENT', 'Bolt PHPUnit tests');
+        $request->cookies->set($app['token.authentication.name'], 'abc123');
+
+        $response = $login->login($request);
+        $this->assertFalse($response);
     }
 }
