@@ -30,7 +30,7 @@
 {% macro tbody_end() %}
     <tr class="selectiontoolbar hidden">
         <td colspan="{{ block('listing_columns') }}">
-            <i class="fa fa-fw fa-rotate-270 fa-mail-forward"></i>
+            <i class="fa fa-fw fa-rotate-270 fa-mail-forward"></i><div class="count">0</div>
             <button class="btn btn-silent-danger btn-xs delete" type="button"><i class="fa fa-trash"></i> {{ __('Delete') }}</button>
         </td>
     </tr>

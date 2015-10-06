@@ -90,6 +90,19 @@ table.buic-listing {
                 padding-bottom: 0;
             }
         }
+
+        div.count {
+            display: inline-block;
+            padding: 0 0.2em;
+            min-width: 1.9em;
+            background: #f8f8f8;
+            border: 1px solid lighten(#7b9db8, 30%);
+            border-radius: 3px;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 1.5;
+            color: #7b9db8;
+        }
     }
 
     /*

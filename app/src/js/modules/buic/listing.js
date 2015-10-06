@@ -81,11 +81,14 @@
             toolbar = tbody.find('tr.selectiontoolbar').first(),
             count = tbody.find('td input:checkbox[name="checkRow"]:checked').length;
 
+        // Show/hide toolbar.
         if (count) {
             toolbar.removeClass('hidden');
         } else {
             toolbar.addClass('hidden');
         }
+        // Update selection count display.
+        toolbar.find('div.count').text(count);
     }
 
     // Apply mixin container
