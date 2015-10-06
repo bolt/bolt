@@ -123,6 +123,8 @@ class Login extends AccessChecker
             return $this->loginFinish($userEntity);
         }
 
+        $this->systemLogger->alert(sprintf('Attempt to login with an invalid token from %s', $this->remoteIP), ['event' => 'security']);
+
         return false;
     }
 
@@ -175,7 +177,7 @@ class Login extends AccessChecker
     }
 
     /**
-     * Add errormessages to logs and update the user
+     * Add error messages to logs and update the user.
      *
      * @param Entity\Users $userEntity
      */
