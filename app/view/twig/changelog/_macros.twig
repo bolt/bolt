@@ -41,7 +41,7 @@
 
         <div class="body">
             <p>
-                {% if ischangelogenabled() %}
+                {% if config.get('general/changelog/enabled') %}
                     {% if entry.comment %}<h4><strong>Comment</strong>: {{ entry.comment }}</h4>{% endif %}
                 {% endif %}
             </p>

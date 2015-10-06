@@ -64,7 +64,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('image',              [$this, 'image']),
             new \Twig_SimpleFunction('imageinfo',          [$this, 'imageInfo']),
             new \Twig_SimpleFunction('isallowed',          [$this, 'isAllowed']),
-            new \Twig_SimpleFunction('ischangelogenabled', [$this, 'isChangelogEnabled']),
+            new \Twig_SimpleFunction('ischangelogenabled', [$this, 'isChangelogEnabled'], $deprecated),
             new \Twig_SimpleFunction('ismobileclient',     [$this, 'isMobileClient']),
             new \Twig_SimpleFunction('last',               'twig_last',            $env + $deprecated),
             new \Twig_SimpleFunction('listcontent',        [$this, 'listContent']),
@@ -308,6 +308,8 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
+     * @deprecated Since 2.3, will be removed in 3.0. Just use config instead.
+     *
      * @see \Bolt\Twig\Handler\AdminHandler::isChangelogEnabled()
      */
     public function isChangelogEnabled()
