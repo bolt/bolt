@@ -31,10 +31,10 @@ class ExtendTest extends ControllerUnitTest
 
         $this->setRequest(Request::create('/bolt/extend'));
         $response = $this->controller()->overview();
-        $this->assertEquals('extend/extend.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/extend/extend.twig', $response->getTemplateName());
 
         $response = $this->controller()->installPackage();
-        $this->assertEquals('extend/install-package.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/extend/install-package.twig', $response->getTemplateName());
 
         $this->setRequest(Request::create('/', 'GET', ['package' => 'bolt/theme-2014']));
         /** @var \Bolt\Controller\Backend\Extend|\PHPUnit_Framework_MockObject_MockObject $controller */
@@ -69,7 +69,7 @@ class ExtendTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
         $this->setRequest(Request::create('/bolt/extend'));
-        $this->checkTwigForTemplate($this->getApp(), 'extend/extend.twig');
+        $this->checkTwigForTemplate($this->getApp(), '@bolt/extend/extend.twig');
 
         $response = $this->controller()->overview();
 
@@ -80,7 +80,7 @@ class ExtendTest extends ControllerUnitTest
     {
         $this->allowLogin($this->getApp());
         $this->setRequest(Request::create('/bolt/extend/installPackage'));
-        $this->checkTwigForTemplate($this->getApp(), 'extend/install-package.twig');
+        $this->checkTwigForTemplate($this->getApp(), '@bolt/extend/install-package.twig');
 
         $response = $this->controller()->installPackage();
 

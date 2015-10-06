@@ -160,7 +160,7 @@ class Password
 
         // Compile the email with the shadow password and reset link.
         $mailhtml = $this->app['render']->render(
-            'mail/passwordreset.twig',
+            '@bolt/mail/passwordreset.twig',
             [
                 'user'           => $userEntity,
                 'shadowpassword' => $shadowpassword,
