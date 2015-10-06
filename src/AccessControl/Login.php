@@ -142,7 +142,8 @@ class Login extends AccessChecker
         }
 
         if (!$userEntity->getEnabled()) {
-            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->systemLogger->alert("Attempt to login with disabled account by '$userName'", ['event' => 'security']);
+            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that. and stuff'));
 
             return null;
         }
