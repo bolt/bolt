@@ -31,7 +31,8 @@ class LoginTest extends BoltUnitTest
         $login = new Login($app);
         $request = new Request();
 
-        $login->login($request);
+        $response = $login->login($request);
+        $this->assertFalse($response);
     }
 
     public function testLoginInvalidUsername()
@@ -47,7 +48,8 @@ class LoginTest extends BoltUnitTest
         $login = new Login($app);
         $request = new Request();
 
-        $login->login($request, 'koala', 'sneaky');
+        $response = $login->login($request, 'koala', 'sneaky');
+        $this->assertFalse($response);
     }
 
     public function testLoginDisabledUsername()
@@ -78,7 +80,8 @@ class LoginTest extends BoltUnitTest
         $login = new Login($app);
         $request = new Request();
 
-        $login->login($request, 'admin', 'sneaky');
+        $response = $login->login($request, 'admin', 'sneaky');
+        $this->assertFalse($response);
     }
 
     public function testLoginWrongPassword()
@@ -101,7 +104,8 @@ class LoginTest extends BoltUnitTest
         $login = new Login($app);
         $request = new Request();
 
-        $login->login($request, 'admin', 'sneaky');
+        $response = $login->login($request, 'admin', 'sneaky');
+        $this->assertFalse($response);
     }
 
     public function testLoginSuccessPassword()
@@ -118,7 +122,8 @@ class LoginTest extends BoltUnitTest
         $request = Request::createFromGlobals();
         $request->server->set('HTTP_USER_AGENT', 'Bolt PHPUnit tests');
 
-        $login->login($request, 'admin', 'password');
+        $response = $login->login($request, 'admin', 'password');
+        $this->assertTrue($response);
     }
 
     public function testLoginInvalidToken()
@@ -137,7 +142,8 @@ class LoginTest extends BoltUnitTest
         $request->server->set('REMOTE_ADDR', '1.2.3.4');
         $request->cookies->set($app['token.authentication.name'], 'abc123');
 
-        $login->login($request);
+        $response = $login->login($request);
+        $this->assertFalse($response);
     }
 
     public function testLoginExpiredToken()
