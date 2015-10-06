@@ -178,4 +178,39 @@ class LoginTest extends BoltUnitTest
         $response = $login->login($request);
         $this->assertFalse($response);
     }
+
+    public function testLoginUnsaltedToken()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+
+        $logger = $this->getMock('\Monolog\Logger', ['alert', 'debug'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+            ->method('alert')
+            ->with($this->equalTo('Attempt to login with an invalid token from 1.2.3.4'));
+        $logger->expects($this->atLeastOnce())
+            ->method('debug');
+        $app['logger.system'] = $logger;
+
+        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+        $entityAuthtoken = new \Bolt\Storage\Entity\Authtoken();
+        $entityAuthtoken->setUsername('admin');
+        $entityAuthtoken->setToken('abc123');
+        $entityAuthtoken->setSalt('vinagre');
+        $entityAuthtoken->setLastseen(Carbon::now());
+        $entityAuthtoken->setIp('1.2.3.4');
+        $entityAuthtoken->setUseragent('Bolt PHPUnit tests');
+        $entityAuthtoken->setValidity(Carbon::create()->addHours(2));
+        $repo->save($entityAuthtoken);
+
+        $login = new Login($app);
+        $request = Request::createFromGlobals();
+
+        $request->server->set('REMOTE_ADDR', '1.2.3.4');
+        $request->server->set('HTTP_USER_AGENT', 'Bolt PHPUnit tests');
+        $request->cookies->set($app['token.authentication.name'], 'abc123');
+
+        $response = $login->login($request);
+        $this->assertFalse($response);
+    }
 }
