@@ -14,18 +14,11 @@ class RenderServiceProviderTest extends BoltUnitTest
     public function testProvider()
     {
         $app = $this->getApp();
-        $provider = new RenderServiceProvider($app, false);
-        $app->register($provider);
-        $this->assertInstanceOf('Bolt\Render', $app['render']);
-        $app->boot();
-    }
+        $app->register(new RenderServiceProvider());
 
-    public function testSafeProvider()
-    {
-        $app = $this->getApp();
-        $provider = new RenderServiceProvider($app, true);
-        $app->register($provider);
+        $this->assertInstanceOf('Bolt\Render', $app['render']);
         $this->assertInstanceOf('Bolt\Render', $app['safe_render']);
+
         $app->boot();
     }
 }

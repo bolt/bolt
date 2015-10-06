@@ -192,9 +192,7 @@ class Application extends Silex\Application
     public function initRendering()
     {
         $this->register(new Provider\TwigServiceProvider());
-
         $this->register(new Provider\RenderServiceProvider());
-        $this->register(new Provider\RenderServiceProvider(true));
     }
 
     /**
