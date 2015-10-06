@@ -1,6 +1,6 @@
 {# Page: NavSecondary > Dashboard > Configuration > System Log #}
 
-{% extends '_base/_page-nav.twig' %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_nav 'Settings/Configuration' %}
 
@@ -8,10 +8,10 @@
 
 {% block page_main %}
 
-    {% from '_macro/_pager.twig' import pager %}
+    {% from '@bolt/_macro/_pager.twig' import pager %}
 
-    {% import '_macro/_macro.twig' as macro %}
-    {% import '_macro/_buic.twig' as buic %}
+    {% import '@bolt/_macro/_macro.twig' as macro %}
+    {% import '@bolt/_macro/_buic.twig' as buic %}
 
     <div class="row">
         <div class="col-xs-12">

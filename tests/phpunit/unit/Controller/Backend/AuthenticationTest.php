@@ -75,7 +75,7 @@ class AuthenticationTest extends ControllerUnitTest
             ->will($this->returnValue(false));
         $this->setService('access_control.login', $loginMock);
 
-        $this->checkTwigForTemplate($this->getApp(), 'login/login.twig');
+        $this->checkTwigForTemplate($this->getApp(), '@bolt/login/login.twig');
         $this->controller()->postLogin($this->getRequest());
 
         // Test missing data fails
@@ -95,7 +95,7 @@ class AuthenticationTest extends ControllerUnitTest
         $loginMock->expects($this->any())
             ->method('login')
             ->will($this->returnValue(true));
-        $this->setService('authenticatio.loginn', $loginMock);
+        $this->setService('authentication.login', $loginMock);
 
         $this->setSessionUser(new Entity\Users(['username' => 'test', 'roles' => []]));
 

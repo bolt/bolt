@@ -216,7 +216,7 @@ class Extend extends BackendBase
      */
     public function installPackage()
     {
-        return $this->render('extend/install-package.twig', $this->getRenderContext());
+        return $this->render('@bolt/extend/install-package.twig', $this->getRenderContext());
     }
 
     /**
@@ -226,7 +226,7 @@ class Extend extends BackendBase
      */
     public function overview()
     {
-        return $this->render('extend/extend.twig', $this->getRenderContext());
+        return $this->render('@bolt/extend/extend.twig', $this->getRenderContext());
     }
 
     /**

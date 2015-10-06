@@ -19,7 +19,7 @@ class FileManagerTest extends ControllerUnitTest
 
         $response = $this->controller()->edit($this->getRequest(), 'config', 'config.yml');
 
-        $this->assertEquals('editfile/editfile.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/editfile/editfile.twig', $response->getTemplateName());
     }
 
     public function testManage()

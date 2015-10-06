@@ -2,7 +2,7 @@
  # Sidebar-Panel-Item: Displays the latest news on Bolt
  # (Usage Example: Dashboards sidebar)
  #}
-{% extends (news.title is defined) ? '_base/_panel.twig' : '_base/_nothing.twig' %}
+{% extends (news.title is defined) ? '@bolt/_base/_panel.twig' : '@bolt/_base/_nothing.twig' %}
 
 {% block panel_class 'panel-news' %}
 

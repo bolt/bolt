@@ -1,10 +1,10 @@
 {# Page: NavSecondary > File Management > Uploaded files #}
 
-{% import '_macro/_macro.twig' as macro %}
-{% from '_macro/_files_path.twig' import files_path %}
-{% import '_macro/_buic.twig' as buic %}
+{% import '@bolt/_macro/_macro.twig' as macro %}
+{% from '@bolt/_macro/_files_path.twig' import files_path %}
+{% import '@bolt/_macro/_buic.twig' as buic %}
 
-{% extends '_base/_page-nav.twig' %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_nav 'Settings/FileManagement' %}
 
@@ -30,7 +30,7 @@
             {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
 
             {% if context.folders|length > 0 %}
-                {% include 'files/_folders.twig' %}
+                {% include '@bolt/files/_folders.twig' %}
             {% endif %}
 
             <p>
@@ -51,12 +51,12 @@
             </p>
 
             {% if context.files|length > 0 %}
-                {% include 'files/_files.twig' %}
+                {% include '@bolt/files/_files.twig' %}
             {% endif %}
 
             {# Only show the "Upload here" form, if the folder is writable. #}
             {% if context.form != false %}
-                {% include 'files/_upload.twig' %}
+                {% include '@bolt/files/_upload.twig' %}
             {% else %}
                 <p><i class="fa fa-fw fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
             {% endif %}

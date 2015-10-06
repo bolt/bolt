@@ -12,7 +12,7 @@
  #}
 {% macro checkbox(opt) %}
     {% spaceless %}
-        {% from '_macro/_macro.twig' import attr %}
+        {% from '@bolt/_macro/_macro.twig' import attr %}
 
         {% set attributes = {
             'checked':   opt.checked|default(false),

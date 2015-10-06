@@ -1,6 +1,6 @@
 {# Page: NavSecondary > Configuration > Main configuration | Contenttypes | Taxonomy | ... #}
 
-{% extends '_base/_page-nav.twig' %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_nav 'Settings/Configuration' %}
 
@@ -10,9 +10,9 @@
 
 {% block page_main %}
 
-    {% import '_macro/_macro.twig' as macro %}
-    {% import '_macro/_buic.twig' as buic %}
-    {% from '_macro/_files_path.twig' import files_path %}
+    {% import '@bolt/_macro/_macro.twig' as macro %}
+    {% import '@bolt/_macro/_buic.twig' as buic %}
+    {% from '@bolt/_macro/_files_path.twig' import files_path %}
 
     {{ data('editcontent.msg', {
         'change_quit': __('You have unfinished changes on this page. If you continue without saving, you will lose these changes.'),

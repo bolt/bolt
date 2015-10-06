@@ -1,9 +1,9 @@
 {# Page: NavSecondary > Content ... > Edit #}
 
-{% import '_macro/_macro.twig' as macro %}
-{% import '_macro/_buic.twig' as buic %}
+{% import '@bolt/_macro/_macro.twig' as macro %}
+{% import '@bolt/_macro/_buic.twig' as buic %}
 
-{% extends '_base/_page-nav.twig' %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_nav 'Content/*' %}
 
@@ -64,7 +64,7 @@
     <div class="row">
         <div class="col-md-8">
 
-            {% include '_sub/_messages.twig' %}
+            {% include '@bolt/_sub/_messages.twig' %}
 
             {# Only if we have grouping tabs. #}
             {% if context.has.tabs %}
@@ -78,7 +78,7 @@
             {% endif %}
 
             <form{{ macro.attr(attr_form) }}>
-                {% include '_sub/_csrf_token.twig' %}
+                {% include '@bolt/_sub/_csrf_token.twig' %}
 
                 <input{{ macro.attr(attributes.hid_editreferrer) }}>
                 <input{{ macro.attr(attributes.hid_contenttype) }}>
@@ -92,21 +92,21 @@
                     {% for key in group.fields %}
 
                         {% if key == '*relations' %}
-                            {% include 'editcontent/_relations.twig' %}
+                            {% include '@bolt/editcontent/_relations.twig' %}
 
                         {% elseif key == '*taxonomy' %}
-                            {% include 'editcontent/_taxonomies.twig' %}
+                            {% include '@bolt/editcontent/_taxonomies.twig' %}
 
                         {% elseif key == '*meta' %}
                             <div data-fieldtype="meta">
-                                {% include 'editcontent/fields/_meta.twig' %}
+                                {% include '@bolt/editcontent/fields/_meta.twig' %}
                             </div>
 
                         {% elseif key == '*template' %}
-                            {% include 'editcontent/_templatefields.twig' %}
+                            {% include '@bolt/editcontent/_templatefields.twig' %}
 
                         {% else %}
-                            {% include 'editcontent/_field.twig' %}
+                            {% include '@bolt/editcontent/_field.twig' %}
                         {% endif %}
 
                     {% endfor %}
@@ -119,20 +119,20 @@
 
                 <input type="hidden" name="_live-editor-preview" value=""/>
 
-                {% include 'editcontent/_buttons.twig' %}
+                {% include '@bolt/editcontent/_buttons.twig' %}
             </form>
 
-            {% include 'editcontent/_includes-data.twig' %}
+            {% include '@bolt/editcontent/_includes-data.twig' %}
 
         </div>
 
         <aside class="col-md-4 hidden-sm">
-            {% include 'editcontent/_aside.twig' %}
+            {% include '@bolt/editcontent/_aside.twig' %}
         </aside>
     </div>
 
 {% endblock page_main %}
 
 {% block page_main_extra_content %}
-    {% include 'editcontent/_live-editor.twig' %}
+    {% include '@bolt/editcontent/_live-editor.twig' %}
 {% endblock %}

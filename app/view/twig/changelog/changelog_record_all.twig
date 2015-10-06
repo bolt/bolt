@@ -1,9 +1,9 @@
 {# Page: NavSecondary > Content > … > View … > Recent modifications > Full list #}
 
-{% from 'changelog/_macros.twig' import changelog_details %}
-{% from 'changelog/_macros.twig' import changelog_pager %}
+{% from '@bolt/changelog/_macros.twig' import changelog_details %}
+{% from '@bolt/changelog/_macros.twig' import changelog_pager %}
 
-{% extends '_base/_page-nav.twig' %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_nav 'Content/*' %}
 

@@ -57,7 +57,7 @@ class General extends BackendBase
      */
     public function about()
     {
-        return $this->render('about/about.twig');
+        return $this->render('@bolt/about/about.twig');
     }
 
     /**
@@ -67,7 +67,7 @@ class General extends BackendBase
      */
     public function checks()
     {
-        return $this->render('checks/checks.twig');
+        return $this->render('@bolt/checks/checks.twig');
     }
 
     /**
@@ -88,7 +88,7 @@ class General extends BackendBase
             $this->flashes()->success($output);
         }
 
-        return $this->render('clearcache/clearcache.twig');
+        return $this->render('@bolt/clearcache/clearcache.twig');
     }
 
     /**
@@ -98,7 +98,7 @@ class General extends BackendBase
      */
     public function dashboard()
     {
-        return $this->render('dashboard/dashboard.twig', $this->getLatest());
+        return $this->render('@bolt/dashboard/dashboard.twig', $this->getLatest());
     }
 
     /**
@@ -122,7 +122,7 @@ class General extends BackendBase
             'results' => $results
         ];
 
-        return $this->render('omnisearch/omnisearch.twig', $context);
+        return $this->render('@bolt/omnisearch/omnisearch.twig', $context);
     }
 
     /**
@@ -172,7 +172,7 @@ class General extends BackendBase
             'form'         => $form->createView(),
         ];
 
-        return $this->render('prefill/prefill.twig', $context);
+        return $this->render('@bolt/prefill/prefill.twig', $context);
     }
 
     /**
@@ -220,7 +220,7 @@ class General extends BackendBase
             'write_allowed' => $tr['writeallowed'],
         ];
 
-        return $this->render('editlocale/editlocale.twig', $context);
+        return $this->render('@bolt/editlocale/editlocale.twig', $context);
     }
 
     /**

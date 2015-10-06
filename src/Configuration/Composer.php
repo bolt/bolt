@@ -16,7 +16,6 @@ class Composer extends Standard
         parent::__construct($path, $request);
         $this->setPath('composer', realpath(dirname(__DIR__) . '/../'));
         $this->setPath('app', realpath(dirname(__DIR__) . '/../app/'));
-        $this->setPath('composerbackendviews', $this->getPath('root') . '/app/view/twig/');
         $this->setUrl('app', '/bolt-public/');
     }
 

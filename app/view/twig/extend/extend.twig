@@ -1,6 +1,6 @@
 {# Page: NavSecondary > Extend Bolt #}
 
-{% extends "_base/_page-nav.twig" %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_nav 'ExtendBolt' %}
 
@@ -10,7 +10,7 @@
 {% block messages "" %}
 
 {% block page_main %}
-    {% include 'extend/_package.twig' %}
+    {% include '@bolt/extend/_package.twig' %}
 
     {% if context.messages %}
         <div class="row">
@@ -44,7 +44,7 @@
             </div>
             {% endif %}
 
-            {% include '_sub/_messages.twig' %}
+            {% include '@bolt/_sub/_messages.twig' %}
 
             <section>
                 <h2>{{ __('page.extend.headline.install-new-extension') }}</h2>
@@ -66,7 +66,7 @@
                         <div class="modal fade" id="installModal" tabindex="-1" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    {% include 'extend/install-package.twig' %}
+                                    {% include '@bolt/extend/install-package.twig' %}
                                 </div>
                             </div>
                         </div>

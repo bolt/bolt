@@ -173,12 +173,6 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-
-        $config = $this->getMock('\Bolt\Config', ['getWhichEnd'], [$app]);
-        $config->expects($this->atLeastOnce())
-            ->method('getWhichEnd')
-            ->willReturn('backend');
-        $app['config'] = $config;
         $app['config']->set('general/mailoptions', null);
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
@@ -196,12 +190,6 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-
-        $config = $this->getMock('\Bolt\Config', ['getWhichEnd'], [$app]);
-        $config->expects($this->atLeastOnce())
-            ->method('getWhichEnd')
-            ->willReturn('backend');
-        $app['config'] = $config;
         $app['config']->set('general/mailoptions', ['transport' => 'smtp', 'spool' => true,'host' => 'localhost', 'port' => '25']);
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
@@ -225,12 +213,6 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-
-        $config = $this->getMock('\Bolt\Config', ['getWhichEnd'], [$app]);
-        $config->expects($this->atLeastOnce())
-            ->method('getWhichEnd')
-            ->willReturn('backend');
-        $app['config'] = $config;
         $app['config']->set('general/mailoptions', ['transport' => 'smtp', 'spool' => true,'host' => 'localhost', 'port' => '25']);
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);

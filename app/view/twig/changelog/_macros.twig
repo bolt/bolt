@@ -22,8 +22,8 @@
 {% endmacro %}
 
 {% macro changelog_details(entry) %}
-    {% import '_macro/_macro.twig' as macro %}
-    {% import '_macro/_buic.twig' as buic %}
+    {% import '@bolt/_macro/_macro.twig' as macro %}
+    {% import '@bolt/_macro/_buic.twig' as buic %}
 
     {% set preview_w = 200 %}
     {% set preview_h = 150 %}
@@ -41,7 +41,7 @@
 
         <div class="body">
             <p>
-                {% if ischangelogenabled() %}
+                {% if config.get('general/changelog/enabled') %}
                     {% if entry.comment %}<h4><strong>Comment</strong>: {{ entry.comment }}</h4>{% endif %}
                 {% endif %}
             </p>

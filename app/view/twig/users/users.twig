@@ -1,6 +1,6 @@
 {# Page: NavSecondary > Configuration > Users #}
 
-{% extends '_base/_page-nav.twig' %}
+{% extends '@bolt/_base/_page-nav.twig' %}
 
 {% block page_nav 'Settings/Configuration' %}
 
@@ -11,28 +11,28 @@
 
 {% block page_main %}
 
-    {% import '_macro/_macro.twig' as macro %}
-    {% import '_macro/_buic.twig' as buic %}
+    {% import '@bolt/_macro/_macro.twig' as macro %}
+    {% import '@bolt/_macro/_buic.twig' as buic %}
 
     <div class="row">
         <div class="col-md-9">
 
-            {% include '_sub/_messages.twig' %}
+            {% include '@bolt/_sub/_messages.twig' %}
 
-            {% include 'users/_userlist.twig' %}
+            {% include '@bolt/users/_userlist.twig' %}
 
             <h2><strong>{{ __('Roles and Permissions') }}</strong></h2>
 
-            {% include 'users/_roles-permissons.twig' %}
+            {% include '@bolt/users/_roles-permissons.twig' %}
 
             <h2><strong>{{ __('Current sessions') }}</strong></h2>
 
-            {% include 'users/_sessions.twig' %}
+            {% include '@bolt/users/_sessions.twig' %}
 
         </div>
 
         <aside class="col-md-3">
-            {% include 'users/_aside.twig' %}
+            {% include '@bolt/users/_aside.twig' %}
         </aside>
     </div>
 

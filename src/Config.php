@@ -974,32 +974,17 @@ class Config
     public function getTwigPath()
     {
         $themepath = $this->app['resources']->getPath('templatespath');
-        $end = $this->getWhichEnd();
 
         $twigpath = [];
 
-        // Backend and Async need access to `app/view/twig`
-        if ($end == 'backend' || $end == 'async') {
-            $twigpath[] = realpath($this->app['resources']->getPath('app/view/twig'));
-            if ($this->app['resources']->hasPath('composerbackendviews')) {
-                $backendviewpath = $this->app['resources']->getPath('composerbackendviews');
-                if (file_exists($backendviewpath)) {
-                    $twigpath[] = realpath($backendviewpath);
-                }
-            }
-        }
-
-        // The frontend as well as 'ajaxy' requests from the frontend need access to the theme's path.
-        if (($end == 'frontend' || $end == 'async') && file_exists($themepath)) {
+        if (file_exists($themepath)) {
             $twigpath[] = $themepath;
-        }
-
-        // If the template path doesn't exist, flash error on the dashboard.
-        if ($end === 'backend' && !file_exists($themepath)) {
+        } else {
+            // If the template path doesn't exist, flash error on the dashboard.
             $relativethemepath = basename($this->get('general/theme'));
-            $theme = $this->app['config']->get('theme');
+            $theme = $this->get('theme');
             if (isset($theme['template_directory'])) {
-                $relativethemepath .= '/' . $this->app['config']->get('theme/template_directory');
+                $relativethemepath .= '/' . $this->get('theme/template_directory');
             }
 
             $error = "Template folder 'theme/" . $relativethemepath . "' does not exist, or is not writable.";

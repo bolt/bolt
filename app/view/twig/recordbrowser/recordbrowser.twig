@@ -1,12 +1,12 @@
 {# Page: NavSecondary > Content ... > Edit > CkEditor > Link > Browse Server #}
 
-{% extends '_base/_page-popup.twig' %}
+{% extends '@bolt/_base/_page-popup.twig' %}
 
 {% block page_title __('Records') %}
 
 {% block page_main %}
 
-    {% import '_macro/_macro.twig' as macro %}
+    {% import '@bolt/_macro/_macro.twig' as macro %}
 
     <div class="row">
         <div class="col-xs-12">
@@ -16,9 +16,9 @@
 
     <div class="row">
         <div class="col-xs-12"{{ macro.attr({_bind: ['recordbrowser']}) }}>
-            {% include 'recordbrowser/_navigation.twig' %}
+            {% include '@bolt/recordbrowser/_navigation.twig' %}
 
-            {% include 'recordbrowser/_content.twig' %}
+            {% include '@bolt/recordbrowser/_content.twig' %}
 
             <hr>
 

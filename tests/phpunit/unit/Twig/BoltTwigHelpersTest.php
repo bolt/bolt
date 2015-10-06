@@ -252,14 +252,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->assertEquals('run: <tt>cat</tt>', $twig->decorateTT('run: `cat`'));
     }
 
-    public function testUcfirst()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals('Test this', $twig->ucfirst('test this'));
-    }
-
     public function testOrder()
     {
         $app = $this->getApp();
@@ -279,24 +271,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         // Test sort on secondary keys
         $result = array_values($twig->order($input, 'id', 'date'));
         $this->assertEquals('Gamma', $result[2]['title']);
-    }
-
-    public function testFirst()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals(1, $twig->first([1, 2, 3, 4]));
-        $this->assertFalse($twig->first(1));
-    }
-
-    public function testLast()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals(4, $twig->last([1, 2, 3, 4]));
-        $this->assertFalse($twig->last(1));
     }
 
     public function testCurrent()

@@ -28,7 +28,7 @@ class DatabaseTest extends ControllerUnitTest
 
         $this->setService('schema', $check);
         $this->setRequest(Request::create('/bolt/dbcheck'));
-        $this->checkTwigForTemplate($this->getApp(), 'dbcheck/dbcheck.twig');
+        $this->checkTwigForTemplate($this->getApp(), '@bolt/dbcheck/dbcheck.twig');
 
         $this->controller()->check();
     }
@@ -72,7 +72,7 @@ class DatabaseTest extends ControllerUnitTest
         $this->allowLogin($this->getApp());
 
         $this->setRequest(Request::create('/bolt/dbupdate_result'));
-        $this->checkTwigForTemplate($this->getApp(), 'dbcheck/dbcheck.twig');
+        $this->checkTwigForTemplate($this->getApp(), '@bolt/dbcheck/dbcheck.twig');
 
         $this->controller()->updateResult($this->getRequest());
     }

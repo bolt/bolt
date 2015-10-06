@@ -58,16 +58,16 @@ class Stack extends AsyncBase
 
         switch ($options) {
             case 'minimal':
-                $twig = 'components/stack-minimal.twig';
+                $twig = '@bolt/components/stack-minimal.twig';
                 break;
 
             case 'list':
-                $twig = 'components/stack-list.twig';
+                $twig = '@bolt/components/stack-list.twig';
                 break;
 
             case 'full':
             default:
-                $twig = 'components/panel-stack.twig';
+                $twig = '@bolt/components/panel-stack.twig';
                 break;
         }
 

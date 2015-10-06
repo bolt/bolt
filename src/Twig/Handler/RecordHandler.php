@@ -249,7 +249,7 @@ class RecordHandler
         /* Little hack to avoid doubling this function and having context without breaking frontend */
         if ($template == 'backend') {
             $context = ['context' => $context];
-            $template = 'components/pager.twig';
+            $template = '@bolt/components/pager.twig';
         }
 
         return new \Twig_Markup($env->render($template, $context), 'utf-8');

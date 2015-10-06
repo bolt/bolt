@@ -56,7 +56,7 @@ class GeneralTest extends ControllerUnitTest
         $response = $this->controller()->changeLogRecord('pages', 1);
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('components/panel-change-record.twig', $response->getTemplateName());
+        $this->assertSame('@bolt/components/panel-change-record.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
@@ -135,7 +135,7 @@ class GeneralTest extends ControllerUnitTest
 
         $response = $this->controller()->dashboardNews($this->getRequest());
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('components/panel-news.twig', $response->getTemplateName());
+        $this->assertSame('@bolt/components/panel-news.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
@@ -146,7 +146,7 @@ class GeneralTest extends ControllerUnitTest
         $response = $this->controller()->lastModified('page', 1);
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('components/panel-lastmodified.twig', $response->getTemplateName());
+        $this->assertSame('@bolt/components/panel-lastmodified.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
@@ -157,7 +157,7 @@ class GeneralTest extends ControllerUnitTest
         $response = $this->controller()->latestActivity($this->getRequest());
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('components/panel-activity.twig', $response->getTemplateName());
+        $this->assertSame('@bolt/components/panel-activity.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 

@@ -11,12 +11,15 @@ use Bolt\Twig\Handler\UserHandler;
 use Bolt\Twig\Handler\UtilsHandler;
 use Bolt\Twig\TwigExtension;
 use Silex\Application;
+use Silex\ServiceProviderInterface;
 
-class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
+class TwigServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        parent::register($app);
+        if (!isset($app['twig'])) {
+            $app->register(new \Silex\Provider\TwigServiceProvider());
+        }
 
         // Handlers
         $app['twig.handlers'] = $app->share(function (Application $app) {
@@ -46,13 +49,24 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
             )
         );
 
+        $app['twig.loader.filesystem'] = $app->share(
+            $app->extend(
+                'twig.loader.filesystem',
+                function ($filesystem, $app) {
+                    $filesystem->addPath($app['resources']->getPath('app/view/twig'), 'bolt');
+
+                    return $filesystem;
+                }
+            )
+        );
+
         // Twig paths
-        $app['twig.path'] = function (Application $app) {
+        $app['twig.path'] = function () use ($app) {
             return $app['config']->getTwigPath();
         };
 
         // Twig options
-        $app['twig.options'] = function (Application $app) {
+        $app['twig.options'] = function () use ($app) {
             // Should we cache or not?
             if ($app['config']->get('general/caching/templates')) {
                 $cache = $app['resources']->getPath('cache');
@@ -67,5 +81,26 @@ class TwigServiceProvider extends \Silex\Provider\TwigServiceProvider
                 'autoescape'       => true,
             ];
         };
+
+        $app['safe_twig.bolt_extension'] = function () use ($app) {
+            return new TwigExtension($app, $app['twig.handlers'], true);
+        };
+
+        $app['safe_twig'] = $app->share(
+            function ($app) {
+                $loader = new \Twig_Loader_String();
+                $twig = new \Twig_Environment($loader);
+                $twig->addExtension($app['safe_twig.bolt_extension']);
+
+                return $twig;
+            }
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boot(Application $app)
+    {
     }
 }

@@ -52,7 +52,7 @@
 } %}
 
 {% macro slot(attributes, key, geolocation) %}
-    {% from '_macro/_macro.twig' import attr %}
+    {% from '@bolt/_macro/_macro.twig' import attr %}
 
     <div class="col-sm-8">
         <div class="form-group">
@@ -90,7 +90,7 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
-{% extends '_base/_fieldset.twig' %}
+{% extends '@bolt/_base/_fieldset.twig' %}
 
 {% from _self import slot %}
 

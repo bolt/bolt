@@ -49,7 +49,7 @@ class Authentication extends BackendBase
             return $this->redirect(preg_replace('/^http:/i', 'https:', $request->getUri()));
         }
 
-        $response = $this->render('login/login.twig', ['randomquote' => true]);
+        $response = $this->render('@bolt/login/login.twig', ['randomquote' => true]);
         $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
 
         if ($resetCookies) {

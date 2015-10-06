@@ -44,7 +44,7 @@ class Database extends BackendBase
             'modifications_hints'    => $response->getHints(),
         ];
 
-        return $this->render('dbcheck/dbcheck.twig', $context);
+        return $this->render('@bolt/dbcheck/dbcheck.twig', $context);
     }
 
     /**
@@ -92,7 +92,7 @@ class Database extends BackendBase
             'modifications_required' => null,
         ];
 
-        return $this->render('dbcheck/dbcheck.twig', $context);
+        return $this->render('@bolt/dbcheck/dbcheck.twig', $context);
     }
 
     /**
