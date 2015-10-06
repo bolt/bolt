@@ -3,6 +3,7 @@ namespace Bolt\AccessControl;
 
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
+use Carbon\Carbon;
 use Hautelook\Phpass\PasswordHash;
 use Silex\Application;
 
@@ -44,10 +45,7 @@ class Password
         if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUser($username)) {
             $password = $this->app['randomgenerator']->generateString(12);
 
-            $hasher = new PasswordHash($this->app['access_control.hash.strength'], true);
-            $hashedpassword = $hasher->HashPassword($password);
-
-            $userEntity->setPassword($hashedpassword);
+            $userEntity->setPassword($password);
             $userEntity->setShadowpassword('');
             $userEntity->setShadowtoken('');
             $userEntity->setShadowvalidity(null);
@@ -117,9 +115,6 @@ class Password
             return false;
         }
 
-        $validity = new \DateTime();
-        $delay = new \DateInterval('PT2H');
-
         // Generate shadow password and hash
         $hasher = new PasswordHash($this->app['access_control.hash.strength'], true);
         $shadowPassword = $this->app['randomgenerator']->generateString(12);
@@ -132,7 +127,7 @@ class Password
         // Set the shadow password and related stuff in the database.
         $userEntity->setShadowpassword($shadowPasswordHash);
         $userEntity->setShadowtoken($shadowTokenHash);
-        $userEntity->setShadowvalidity($validity->add($delay));
+        $userEntity->setShadowvalidity(Carbon::create()->addHours(2));
 
         $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 

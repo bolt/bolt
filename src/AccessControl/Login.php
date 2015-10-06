@@ -4,6 +4,7 @@ namespace Bolt\AccessControl;
 use Bolt\AccessControl\Token\Token;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
+use Carbon\Carbon;
 use Hautelook\Phpass\PasswordHash;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -198,7 +199,7 @@ class Login extends AccessChecker
      */
     protected function updateUserLogin(Entity\Users $userEntity)
     {
-        $userEntity->setLastseen(new \DateTime());
+        $userEntity->setLastseen(Carbon::now());
         $userEntity->setLastip($this->remoteIP);
         $userEntity->setFailedlogins(0);
         $userEntity->setThrottleduntil($this->throttleUntil(0));
@@ -224,7 +225,7 @@ class Login extends AccessChecker
      */
     protected function updateUserShadowLogin(Entity\Users $userEntity)
     {
-        if (new \DateTime() > $userEntity->getShadowvalidity()) {
+        if (Carbon::now() > $userEntity->getShadowvalidity()) {
             $userEntity->setShadowpassword('');
             $userEntity->setShadowtoken('');
             $userEntity->setShadowvalidity(null);
@@ -251,15 +252,13 @@ class Login extends AccessChecker
         $username = $userEntity->getUsername();
         $token = $this->getAuthToken($username, $salt);
         $validityPeriod = $this->cookieOptions['lifetime'];
-        $validityDate = new \DateTime();
-        $validityInterval = new \DateInterval("PT{$validityPeriod}S");
 
         $tokenEntity->setUsername($userEntity->getUsername());
         $tokenEntity->setToken($token);
         $tokenEntity->setSalt($salt);
-        $tokenEntity->setValidity($validityDate->add($validityInterval));
+        $tokenEntity->setValidity(Carbon::create()->addSeconds($validityPeriod));
         $tokenEntity->setIp($this->remoteIP);
-        $tokenEntity->setLastseen(new \DateTime());
+        $tokenEntity->setLastseen(Carbon::now());
         $tokenEntity->setUseragent($this->userAgent);
 
         $this->repositoryAuthtoken->save($tokenEntity);
@@ -290,10 +289,7 @@ class Login extends AccessChecker
         } else {
             $wait = pow(($attempts - 4), 2);
 
-            $dt = new \DateTime();
-            $di = new \DateInterval("PT{$wait}S");
-
-            return $dt->add($di);
+            return Carbon::create()->addSeconds($wait);
         }
     }
 }
