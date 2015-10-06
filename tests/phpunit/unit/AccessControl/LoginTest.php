@@ -120,4 +120,22 @@ class LoginTest extends BoltUnitTest
 
         $login->login($request, 'admin', 'password');
     }
+
+    public function testLoginInvalidToken()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger->expects($this->atLeastOnce())
+            ->method('error')
+            ->with($this->equalTo('Invalid login parameters.'));
+        $app['logger.flash'] = $logger;
+
+        $login = new Login($app);
+        $request = Request::createFromGlobals();
+        $request->cookies->set($app['token.authentication.name'], 'abc123');
+
+        $login->login($request);
+    }
 }
