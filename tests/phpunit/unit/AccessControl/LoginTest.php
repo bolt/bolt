@@ -103,4 +103,21 @@ class LoginTest extends BoltUnitTest
 
         $login->login($request, 'admin', 'sneaky');
     }
+
+    public function testLoginSuccessPassword()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+
+        $logger = $this->getMock('\Monolog\Logger', ['debug'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+            ->method('debug');
+        $app['logger.system'] = $logger;
+
+        $login = new Login($app);
+        $request = Request::createFromGlobals();
+        $request->server->set('HTTP_USER_AGENT', 'Bolt PHPUnit tests');
+
+        $login->login($request, 'admin', 'password');
+    }
 }
