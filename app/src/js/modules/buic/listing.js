@@ -58,9 +58,9 @@
         var row = $(checkbox).closest('tr');
 
         if (checkbox.checked) {
-            row.addClass('row-checked');
+            row.addClass('row-selected');
         } else {
-            row.removeClass('row-checked');
+            row.removeClass('row-selected');
         }
     }
 
