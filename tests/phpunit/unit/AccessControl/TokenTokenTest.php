@@ -87,4 +87,21 @@ class TokenTokenTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Storage\Entity\AuthToken', $authToken);
         $this->assertSame('gum-leaves', $authToken->getToken());
     }
+
+    public function testSetToken()
+    {
+        $userEntity = new Entity\Users();
+        $tokenEntity = new Entity\Authtoken(['token' => 'gum-leaves']);
+        $token = new Token($userEntity, $tokenEntity);
+
+        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+
+        $tokenEntity = new Entity\Authtoken(['token' => 'cookies']);
+        $token->setToken($tokenEntity);
+
+        $authToken = $token->getToken();
+
+        $this->assertInstanceOf('Bolt\Storage\Entity\Authtoken', $authToken);
+        $this->assertSame('cookies', $authToken->getToken());
+    }
 }
