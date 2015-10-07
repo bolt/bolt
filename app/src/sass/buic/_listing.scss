@@ -84,11 +84,6 @@ table.buic-listing {
         td {
             background: #fff;
             border: none;
-
-            button {
-                padding-top: 0;
-                padding-bottom: 0;
-            }
         }
 
         div.count {
@@ -102,6 +97,19 @@ table.buic-listing {
             text-align: center;
             line-height: 1.5;
             color: #7b9db8;
+        }
+
+        button {
+            @extend .btn;
+            @extend .btn-default;
+            @extend .btn-xs;
+
+            padding-top: 0;
+            padding-bottom: 0;
+
+            &.danger {
+                @extend .btn-silent-danger;
+            }
         }
     }
 
