@@ -117,4 +117,18 @@ class TokenTokenTest extends BoltUnitTest
         $this->assertGreaterThan(time() - 1, $checked);
         $this->assertLessThanOrEqual(time(), $checked);
     }
+
+    public function testSetChecked()
+    {
+        $userEntity = new Entity\Users();
+        $tokenEntity = new Entity\Authtoken();
+        $token = new Token($userEntity, $tokenEntity);
+
+        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+
+        $token->setChecked();
+        $checked = $token->getChecked();
+        $this->assertGreaterThan(time() - 1, $checked);
+        $this->assertLessThanOrEqual(time(), $checked);
+    }
 }
