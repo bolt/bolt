@@ -2,12 +2,12 @@
 namespace Bolt\Tests;
 
 use Bolt\AccessControl\Login;
-use Hautelook\Phpass\PasswordHash;
+use Bolt\AccessControl\Token;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Test for AccessControl\LoginTest
+ * Test for AccessControl\Login
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -212,5 +212,63 @@ class LoginTest extends BoltUnitTest
 
         $response = $login->login($request);
         $this->assertFalse($response);
+    }
+
+    public function testLoginSuccessToken()
+    {
+        $app = $this->getApp();
+        $this->addDefaultUser($app);
+
+        $logger = $this->getMock('\Monolog\Logger', ['debug'], ['testlogger']);
+        $logger->expects($this->at(1))
+            ->method('debug')
+            ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
+        $logger->expects($this->at(2))
+            ->method('debug')
+            ->with($this->matchesRegularExpression("#Saving new login token#"));
+        $app['logger.system'] = $logger;
+
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['success']);
+        $logger->expects($this->at(0))
+            ->method('success')
+            ->with($this->equalTo('Session resumed.'));
+        $logger->expects($this->at(1))
+            ->method('success')
+            ->with($this->equalTo("You've been logged on successfully."));
+        $app['logger.flash'] = $logger;
+
+        $userName = 'admin';
+        $salt = 'vinagre';
+        $ipAddress = '1.2.3.4';
+        $hostName = 'bolt.dev';
+        $userAgent = 'Bolt PHPUnit tests';
+        $cookieOptions = [
+            'remoteaddr'   => true,
+            'httphost'     => true,
+            'browseragent' => false,
+        ];
+
+        $token = (string) new Token\Generator($userName, $salt, $ipAddress, $hostName, $userAgent, $cookieOptions);
+
+        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
+        $entityAuthtoken = new \Bolt\Storage\Entity\Authtoken();
+        $entityAuthtoken->setUsername($userName);
+        $entityAuthtoken->setToken($token);
+        $entityAuthtoken->setSalt($salt);
+        $entityAuthtoken->setLastseen(Carbon::now());
+        $entityAuthtoken->setIp('1.2.3.4');
+        $entityAuthtoken->setUseragent('Bolt PHPUnit tests');
+        $entityAuthtoken->setValidity(Carbon::create()->addHours(2));
+        $repo->save($entityAuthtoken);
+
+        $login = new Login($app);
+        $request = Request::createFromGlobals();
+
+        $request->server->set('REMOTE_ADDR', $ipAddress);
+        $request->server->set('HTTP_USER_AGENT', $userAgent);
+        $request->cookies->set($app['token.authentication.name'], $token);
+
+        $response = $login->login($request);
+        $this->assertTrue($response);
     }
 }
