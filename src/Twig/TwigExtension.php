@@ -36,6 +36,16 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         return 'Bolt';
     }
 
+    /**
+     * Used by setcontent tag.
+     *
+     * @return \Bolt\Storage\EntityManager
+     */
+    public function getStorage()
+    {
+        return $this->app['storage'];
+    }
+
     public function getFunctions()
     {
         $safe = ['is_safe' => ['html']];

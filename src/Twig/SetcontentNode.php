@@ -41,9 +41,10 @@ class SetcontentNode extends Node
 
         $compiler
             ->addDebugInfo($this)
-            ->write('$template_storage = $context[\'app\'][\'storage\'];' . "\n")
-            ->write('$context[\'' . $this->getAttribute('name') . '\'] = ')
-            ->write('$template_storage->getContent(')
+            ->write("\$context['")
+            ->raw($this->getAttribute('name'))
+            ->raw("'] = ")
+            ->raw("\$this->env->getExtension('Bolt')->getStorage()->getContent(")
             ->subcompile($this->getAttribute('contenttype'))
             ->raw(', ')
             ->subcompile($arguments)
