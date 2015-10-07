@@ -29,4 +29,21 @@ class TokenTokenTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
         $this->assertSame('cookies', (string) $token);
     }
+
+    public function testIsEnabled()
+    {
+        $userEntity = new Entity\Users(['enabled' => true]);
+        $tokenEntity = new Entity\Authtoken();
+        $token = new Token($userEntity, $tokenEntity);
+
+        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertTrue($token->isEnabled());
+
+        $userEntity = new Entity\Users(['enabled' => false]);
+        $tokenEntity = new Entity\Authtoken();
+        $token = new Token($userEntity, $tokenEntity);
+
+        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertFalse($token->isEnabled());
+    }
 }
