@@ -34,7 +34,7 @@
                 this.checked = true;
                 rowSelection(this);
             });
-            toogleSelectionToolbar(this);
+            handleSelectionState(this);
         });
 
         // Unselect all rows in a listing section.
@@ -43,13 +43,13 @@
                 this.checked = false;
                 rowSelection(this);
             });
-            toogleSelectionToolbar(this);
+            handleSelectionState(this);
         });
 
         // On check/unchecking a row selector.
         $(buic).find('td input:checkbox[name="checkRow"]').on('click', function () {
             rowSelection(this);
-            toogleSelectionToolbar(this);
+            handleSelectionState(this);
         });
 
         // Record delete action.
@@ -90,7 +90,7 @@
                                 $(selectedRows).each(function () {
                                     $(this).remove();
                                 });
-                                toogleSelectionToolbar(tbody);
+                                handleSelectionState(tbody);
                             }
                         });
                     }
@@ -124,12 +124,12 @@
      *
      * @private
      * @static
-     * @function toogleSelectionToolbar
+     * @function handleSelectionState
      * @memberof Bolt.files
      *
      * @param {object} element - Element inside a tbody.
      */
-    function toogleSelectionToolbar(element) {
+    function handleSelectionState(element) {
         var tbody = $(element).closest('tbody'),
             menu = tbody.find('tr.header th.menu'),
             menuSel = menu.find('li.dropdown-header'),
