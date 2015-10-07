@@ -3,6 +3,43 @@
  */
 table.buic-listing {
     /*
+     * Striping.
+     */
+    tbody {
+        $background-normal:          #fff;
+        $background-normal-stripe:   #f9f9f9;
+        $background-selected:        mix(#fff, #7b9db8, 90%);
+        $background-selected-stripe: mix(#fff, #7b9db8, 80%);
+
+        // No striping.
+        tr {
+            background: $background-normal;
+
+            &.row-selected {
+                background: $background-selected;
+            }
+        }
+
+        // Striping on odd rows.
+        &.striping_odd tr:nth-of-type(odd) {
+            background: $background-normal-stripe;
+
+            &.row-selected {
+                background: $background-selected-stripe;
+            }
+        }
+
+        // Striping on even rows.
+        &.striping_even tr:nth-of-type(even) {
+            background: $background-normal-stripe;
+
+            &.row-selected {
+                background: $background-selected-stripe;
+            }
+        }
+    }
+
+    /*
      * Display a table heading.
      */
     tr.heading {
@@ -127,25 +164,6 @@ table.buic-listing {
      * Data rows.
      */
     tr[id] {
-        // Striping.
-        &:nth-of-type(odd) {
-            background: #f9f9f9;
-        }
-
-        &:nth-of-type(even) {
-            background: #fff;
-        }
-
-        &.row-selected {
-            &:nth-of-type(odd) {
-                background: mix(#fff, #7b9db8, 90%);
-            }
-
-            &:nth-of-type(even) {
-                background: mix(#fff, #7b9db8, 95%);
-            }
-        }
-
         // Correct checkbox alignment.
         input[type=checkbox][name="checkRow"] {
             margin: 2px 0 0 1px;

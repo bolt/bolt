@@ -22,7 +22,7 @@
             {% set has_results = false %}
             {% if context.results %}
                 <table class="table dashboardlisting omnisearchlisting buic-listing">
-                    <tbody>
+                    <tbody class="striping_odd">
                         {% for item in context.results %}
                             {% if (app.paths.bolt ~ 'omnisearch') not in item.path %}
                             {% set has_results = true %}

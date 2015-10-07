@@ -23,8 +23,13 @@
     <a href="{{ '?' ~ params|url_encode }}" class="{{ class }}">{{ text }}</a>
 {% endmacro %}
 
-{% macro tbody_beg(modifiable) %}
-    <tbody {% if modifiable %}class="sortable"{% endif %}>
+{% macro tbody_beg(local, modifiable) %}
+    {% set class = [
+        modifiable ? 'sortable' : '',
+        local.row_heading and local.row_header ? 'striping_even' : 'striping_odd',
+    ] %}
+
+    <tbody{{ hclass(class)}}>
 {% endmacro %}
 
 {% macro tbody_end() %}
@@ -48,15 +53,20 @@
     last:           loop.last
 }%}
 
+{% set local = {
+    row_heading:    prop.extended and prop.unordered and prop.has_groupname and (prop.first or prop.nextgroup),
+    row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.nextgroup) and prop.unordered)
+} %}
+
 {#
  # GROUPNAME: If we have 'grouping', print the row with the groupname.
  #}
-{% if prop.extended and prop.unordered and prop.has_groupname and (prop.first or prop.nextgroup) %}
+{% if local.row_heading %}
     {% if not prop.first %}
         {{ tbody_end() }}
     {% endif %}
 
-    {{ tbody_beg(modifiable) }}
+    {{ tbody_beg(local, modifiable) }}
 
     <tr class="heading">
         <th colspan="{% block listing_columns %}6{% endblock %}">
@@ -64,13 +74,13 @@
         </th>
     </tr>
 {% elseif prop.first %}
-    {{ tbody_beg(modifiable) }}
+    {{ tbody_beg(local, modifiable) }}
 {% endif %}
 
 {#
  # HEADER ROW: Print the header for the first row.
  #}
-{% if prop.extended and (prop.first or (prop.has_groupname and prop.nextgroup) and prop.unordered) %}
+{% if local.row_header %}
     {# Deprecated #}
     {% set params = {} %}
     {% for key, val in app.request.query.all if key != 'order' %}
