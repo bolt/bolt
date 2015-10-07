@@ -63,4 +63,22 @@ class TokenGeneratorTest extends BoltUnitTest
 
         $this->assertSame('adf79fb05150a89782c040901b62e364', (string) $generator);
     }
+
+    public function testGenerateNoBrowserAgent()
+    {
+        $username = 'koala';
+        $salt = 'vinagre';
+        $remoteIP = '8.8.8.8';
+        $hostName = 'tests.bolt.cm';
+        $userAgent = 'Smith';
+        $cookieOptions = [
+            'remoteaddr'   => true,
+            'httphost'     => true,
+            'browseragent' => false,
+        ];
+
+        $generator = new Generator($username, $salt, $remoteIP, $hostName, $userAgent, $cookieOptions);
+
+        $this->assertSame('87089069215f0b7f2a066c3ad132a5c2', (string) $generator);
+    }
 }
