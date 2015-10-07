@@ -42,15 +42,6 @@
         {% endfor %}
     </table>
 
-    {% if any_deletable %}
-        <div class="btn-group">
-            <a href="#" class="btn btn-silent-danger deletechosen showifchosen" style="display:none;">
-                <i class="fa fa-trash"></i>
-                {{ __('Delete selected') }}
-            </a>
-        </div>
-    {% endif %}
-
     {# -- commented out for now.. Finish when needed.
     {% if any_editable %}
         <div class="btn-group">
