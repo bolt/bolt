@@ -21,12 +21,11 @@
 
             {% set has_results = false %}
             {% if context.results %}
-                <table class="table table-striped dashboardlisting omnisearchlisting buic-listing">
+                <table class="table dashboardlisting omnisearchlisting buic-listing">
                     <tbody>
                         {% for item in context.results %}
                             {% if (app.paths.bolt ~ 'omnisearch') not in item.path %}
                             {% set has_results = true %}
-                            <tr>
                                 {% if item.record|default() %}
                                     {% set permissions = item.permissions %}
                                     {% set modifiable = permissions.create or permissions.delete or permissions.publish or permissions.depublish %}
@@ -39,11 +38,12 @@
                                     } %}
                                     {% include '@bolt/omnisearch/_result.twig' with listing_vars %}
                                 {% else %}
-                                    <td colspan="4">
-                                        <a href="{{ item.path }}">{{ item.label|raw }}</a>
-                                    </td>
+                                    <tr>
+                                        <td colspan="4">
+                                            <a href="{{ item.path }}">{{ item.label|raw }}</a>
+                                        </td>
+                                    </tr>
                                 {% endif %}
-                            </tr>
                             {% endif %}
                         {% endfor %}
                     </tbody>
