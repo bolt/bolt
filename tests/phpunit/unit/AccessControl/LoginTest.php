@@ -114,8 +114,12 @@ class LoginTest extends BoltUnitTest
         $this->addDefaultUser($app);
 
         $logger = $this->getMock('\Monolog\Logger', ['debug'], ['testlogger']);
-        $logger->expects($this->atLeastOnce())
-            ->method('debug');
+        $logger->expects($this->at(0))
+            ->method('debug')
+            ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
+        $logger->expects($this->at(1))
+            ->method('debug')
+            ->with($this->matchesRegularExpression('#Saving new login token#'));
         $app['logger.system'] = $logger;
 
         $login = new Login($app);
@@ -189,7 +193,8 @@ class LoginTest extends BoltUnitTest
             ->method('alert')
             ->with($this->equalTo('Attempt to login with an invalid token from 1.2.3.4'));
         $logger->expects($this->atLeastOnce())
-            ->method('debug');
+            ->method('debug')
+            ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
         $app['logger.system'] = $logger;
 
         $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken');
