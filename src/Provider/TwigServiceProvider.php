@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
+use Bolt\Twig\ArrayAccessSecurityProxy;
 use Bolt\Twig\DumpExtension;
 use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\Handler;
@@ -88,7 +89,9 @@ class TwigServiceProvider implements ServiceProviderInterface
                         $twig->addExtension($app['twig.extension.dump']);
                     }
 
-                    $twig->addExtension($app['twig.extension.sandbox']);
+                    $sandbox = $app['twig.extension.sandbox'];
+                    $twig->addExtension($sandbox);
+                    $twig->addGlobal('app', new ArrayAccessSecurityProxy($app, $sandbox));
 
                     return $twig;
                 }

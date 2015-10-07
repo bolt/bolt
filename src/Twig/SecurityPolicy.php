@@ -108,11 +108,17 @@ class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
             return;
         }
 
+        if ($obj instanceof SecurityProxyInterface) {
+            $objClass = $obj->getProxiedClass();
+        } else {
+            $objClass = get_class($obj);
+        }
+
         $allowed = false;
         $method = strtolower($method);
 
         foreach ($this->allowedMethods as $class => $methods) {
-            if (!$this->matchAnyClassInTree($class, $obj)) {
+            if (!$this->matchAnyClassInTree($class, $objClass)) {
                 continue;
             }
             if ($this->globMatchAll($methods, $method)) {
@@ -123,7 +129,7 @@ class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
         }
 
         if (!$allowed) {
-            throw new SecurityError(sprintf('Calling "%s" method on a "%s" object is not allowed.', $method, get_class($obj)));
+            throw new SecurityError(sprintf('Calling "%s" method on a "%s" object is not allowed.', $method, $objClass));
         }
     }
 
@@ -134,8 +140,14 @@ class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
     {
         $allowed = false;
 
+        if ($obj instanceof SecurityProxyInterface) {
+            $objClass = $obj->getProxiedClass();
+        } else {
+            $objClass = get_class($obj);
+        }
+
         foreach ($this->allowedProperties as $class => $properties) {
-            if (!$this->matchAnyClassInTree($class, $obj)) {
+            if (!$this->matchAnyClassInTree($class, $objClass)) {
                 continue;
             }
             if ($this->globMatchAll((array) $properties, $property)) {
@@ -146,14 +158,14 @@ class SecurityPolicy extends Twig_Sandbox_SecurityPolicy
         }
 
         if (!$allowed) {
-            throw new SecurityError(sprintf('Calling "%s" property on a "%s" object is not allowed.', $property, get_class($obj)));
+            throw new SecurityError(sprintf('Calling "%s" property on a "%s" object is not allowed.', $property, $objClass));
         }
     }
 
-    protected function matchAnyClassInTree($class, $obj)
+    protected function matchAnyClassInTree($class, $objClass)
     {
-        foreach ($this->getAllClasses(get_class($obj)) as $objClass) {
-            if ($this->globMatch($class, $objClass)) {
+        foreach ($this->getAllClasses($objClass) as $aClass) {
+            if ($this->globMatch($class, $aClass)) {
                 return true;
             }
         }
