@@ -19,4 +19,14 @@ class TokenTokenTest extends BoltUnitTest
 
         $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
     }
+
+    public function testStringCast()
+    {
+        $userEntity = new Entity\Users();
+        $tokenEntity = new Entity\Authtoken(['token' => 'cookies']);
+        $token = new Token($userEntity, $tokenEntity);
+
+        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertSame('cookies', (string) $token);
+    }
 }
