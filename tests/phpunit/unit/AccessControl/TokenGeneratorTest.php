@@ -81,4 +81,24 @@ class TokenGeneratorTest extends BoltUnitTest
 
         $this->assertSame('87089069215f0b7f2a066c3ad132a5c2', (string) $generator);
     }
+
+    /**
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage Token generator requires an IP address to be provided
+     */
+    public function testNullRemoteIp()
+    {
+        $username = 'koala';
+        $salt = 'vinagre';
+        $remoteIP = null;
+        $hostName = 'tests.bolt.cm';
+        $userAgent = 'Smith';
+        $cookieOptions = [
+            'remoteaddr'   => true,
+            'httphost'     => true,
+            'browseragent' => true,
+        ];
+
+        new Generator($username, $salt, $remoteIP, $hostName, $userAgent, $cookieOptions);
+    }
 }
