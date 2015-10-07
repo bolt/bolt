@@ -102,7 +102,6 @@
         init.dropDowns();
         init.deferredWidgets();
         init.passwordInput();
-        init.dashboardCheckboxes();
         init.sortables();
         init.uploads();
         init.focusStatusSelect();
