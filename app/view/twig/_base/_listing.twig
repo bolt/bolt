@@ -85,7 +85,22 @@
 
             {# COLUMN: Select #}
             {% if prop.extended and modifiable %}
-                <th class="check hidden-xs"><input type="checkbox" name="checkRow" title="{{ __('Select all') }}" /></th>
+                <th class="menu hidden-xs">
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li class="select-all"><a href="#">{{ __('Select all') }}</a></li>
+                            <li class="select-none on-selection hidden"><a href="#">{{ __('Select none') }}</a></li>
+                            <li class="on-selection hidden divider" role="separator"></li>
+                            <li class="on-selection hidden dropdown-header">{{ __('Selection (#):') }}</li>
+                            <li class="on-selection hidden"><a href="#">• {{ __('Delete') }}</a></li>
+                            <li class="on-selection hidden disabled"><a href="#">• {{ __('Publish') }}</a></li>
+                            <li class="on-selection hidden disabled"><a href="#">• {{ __('Depublish') }}</a></li>
+                        </ul>
+                    </div>
+                </th>
             {% else %}
                 <th style="margin: 0; padding: 0;"></th>
             {% endif %}

@@ -28,12 +28,19 @@
      * @param {Object} buic
      */
     listing.init = function (buic) {
-        // Select/unselect all rows in a listing section.
-        $(buic).find('tr.header input:checkbox[name="checkRow"]').on('click', function () {
-            var setStatus = this.checked;
-
+        // Select all rows in a listing section.
+        $(buic).find('tr.header th.menu li.select-all a').on('click', function () {
             $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
-                this.checked = setStatus;
+                this.checked = true;
+                rowSelection(this);
+            });
+            toogleSelectionToolbar(this);
+        });
+
+        // Unselect all rows in a listing section.
+        $(buic).find('tr.header th.menu li.select-none a').on('click', function () {
+            $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
+                this.checked = false;
                 rowSelection(this);
             });
             toogleSelectionToolbar(this);
@@ -78,17 +85,23 @@
      */
     function toogleSelectionToolbar(element) {
         var tbody = $(element).closest('tbody'),
-            toolbar = tbody.find('tr.selectiontoolbar').first(),
+            menu = tbody.find('tr.header th.menu'),
+            menuSel = menu.find('li.dropdown-header'),
+            toolbar = tbody.find('tr.selectiontoolbar'),
             count = tbody.find('td input:checkbox[name="checkRow"]:checked').length;
 
-        // Show/hide toolbar.
+        // Show/hide toolbar & menu entries.
         if (count) {
             toolbar.removeClass('hidden');
+            menu.find('li.on-selection').removeClass('hidden');
         } else {
             toolbar.addClass('hidden');
+            menu.find('li.on-selection').addClass('hidden');
         }
         // Update selection count display.
         toolbar.find('div.count').text(count);
+        // Update menu.
+        menuSel.text(menuSel.text().replace(/\([#0-9]+\)/, '(' + count + ')'));
     }
 
     // Apply mixin container

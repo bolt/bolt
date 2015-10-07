@@ -74,6 +74,16 @@ table.buic-listing {
                     content: $symbol-order-none;
                 }
             }
+
+            // Menudropdown cell.
+            &.menu {
+                padding: 0;
+                text-align: center;
+
+                button {
+                    padding: 0 4px;
+                }
+            }
         }
     }
 
@@ -134,6 +144,11 @@ table.buic-listing {
             &:nth-of-type(even) {
                 background: mix(#fff, #7b9db8, 95%);
             }
+        }
+
+        // Correct checkbox alignment.
+        input[type=checkbox][name="checkRow"] {
+            margin: 2px 0 0 1px;
         }
     }
 }
