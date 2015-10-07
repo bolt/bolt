@@ -104,4 +104,17 @@ class TokenTokenTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Storage\Entity\Authtoken', $authToken);
         $this->assertSame('cookies', $authToken->getToken());
     }
+
+    public function testGetChecked()
+    {
+        $userEntity = new Entity\Users();
+        $tokenEntity = new Entity\Authtoken();
+        $token = new Token($userEntity, $tokenEntity);
+
+        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+
+        $checked = $token->getChecked();
+        $this->assertGreaterThan(time() - 1, $checked);
+        $this->assertLessThanOrEqual(time(), $checked);
+    }
 }
