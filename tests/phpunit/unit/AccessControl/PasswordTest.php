@@ -27,7 +27,8 @@ class PasswordTest extends BoltUnitTest
 
         $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('info')
+            ->with($this->equalTo("Password for user 'admin' was reset via Nut."));
         $app['logger.system'] = $logger;
 
         $password = new Password($app);
@@ -79,7 +80,8 @@ class PasswordTest extends BoltUnitTest
 
         $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
-            ->method('error');
+            ->method('error')
+            ->with($this->equalTo('Somebody tried to reset a password with an invalid token.'));
         $app['logger.system'] = $logger;
 
         $shadowToken = $app['randomgenerator']->generateString(32);
@@ -93,7 +95,6 @@ class PasswordTest extends BoltUnitTest
 
         $password = new Password($app);
         $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8');
-        $userEntity = $repo->getUser('admin');
 
         $this->assertFalse($result);
     }
@@ -107,7 +108,8 @@ class PasswordTest extends BoltUnitTest
 
         $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
-            ->method('error');
+            ->method('error')
+            ->with($this->equalTo('Somebody tried to reset a password with an invalid token.'));
         $app['logger.system'] = $logger;
 
         $shadowToken = $app['randomgenerator']->generateString(32);
@@ -121,7 +123,6 @@ class PasswordTest extends BoltUnitTest
 
         $password = new Password($app);
         $result = $password->resetPasswordConfirm($shadowToken, '1.1.1.1');
-        $userEntity = $repo->getUser('admin');
 
         $this->assertFalse($result);
     }
@@ -135,7 +136,8 @@ class PasswordTest extends BoltUnitTest
 
         $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
-            ->method('error');
+            ->method('error')
+            ->with($this->equalTo('Somebody tried to reset a password with an invalid token.'));
         $app['logger.system'] = $logger;
 
         $shadowToken = $app['randomgenerator']->generateString(32);
@@ -148,7 +150,6 @@ class PasswordTest extends BoltUnitTest
 
         $password = new Password($app);
         $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8');
-        $userEntity = $repo->getUser('admin');
 
         $this->assertFalse($result);
     }
@@ -160,7 +161,8 @@ class PasswordTest extends BoltUnitTest
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['info']);
         $logger->expects($this->atLeastOnce())
-            ->method('info');
+            ->method('info')
+            ->with($this->equalTo("A password reset link has been sent to 'sneakykoala'."));
         $app['logger.flash'] = $logger;
 
         $password = new Password($app);
@@ -177,8 +179,15 @@ class PasswordTest extends BoltUnitTest
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
         $logger->expects($this->atLeastOnce())
-            ->method('error');
+            ->method('error')
+            ->with($this->equalTo("The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."));
         $app['logger.flash'] = $logger;
+
+        $mailer = $this->getMock('\Swift_Mailer', array('send'), array($app['swiftmailer.transport']));
+        $mailer->expects($this->atLeastOnce())
+            ->method('send')
+            ->will($this->returnValue(true));
+        $app['mailer'] = $mailer;
 
         $password = new Password($app);
         $result = $password->resetPasswordRequest('admin', '8.8.8.8');
@@ -194,7 +203,8 @@ class PasswordTest extends BoltUnitTest
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
         $logger->expects($this->never())
-            ->method('error');
+            ->method('error')
+            ->with($this->equalTo("A password reset link has been sent to 'sneakykoala'."));
         $app['logger.flash'] = $logger;
 
         $mailer = $this->getMock('\Swift_Mailer', array('send'), array($app['swiftmailer.transport']));
@@ -217,12 +227,14 @@ class PasswordTest extends BoltUnitTest
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
         $logger->expects($this->atLeastOnce())
-            ->method('error');
+            ->method('error')
+            ->with($this->equalTo("Failed to send password request. Please check the email settings."));
         $app['logger.flash'] = $logger;
 
         $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
-            ->method('error');
+            ->method('error')
+            ->with($this->equalTo("Failed to send password request sent to 'Admin'."));
         $app['logger.system'] = $logger;
 
         $mailer = $this->getMock('\Swift_Mailer', array('send'), array($app['swiftmailer.transport']));

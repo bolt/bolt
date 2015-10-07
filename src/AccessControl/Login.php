@@ -117,11 +117,15 @@ class Login extends AccessChecker
                 return false;
             }
 
-            $this->repositoryAuthtoken->save($userEntity);
+            $userTokenEntity->setLastseen(Carbon::now());
+            $userTokenEntity->setValidity(Carbon::create()->addSeconds($this->cookieOptions['lifetime']));
+            $this->repositoryAuthtoken->save($userTokenEntity);
             $this->flashLogger->success(Trans::__('Session resumed.'));
 
             return $this->loginFinish($userEntity);
         }
+
+        $this->systemLogger->alert(sprintf('Attempt to login with an invalid token from %s', $this->remoteIP), ['event' => 'security']);
 
         return false;
     }
@@ -142,7 +146,8 @@ class Login extends AccessChecker
         }
 
         if (!$userEntity->getEnabled()) {
-            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->systemLogger->alert("Attempt to login with disabled account by '$userName'", ['event' => 'security']);
+            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that. and stuff'));
 
             return null;
         }
@@ -174,7 +179,7 @@ class Login extends AccessChecker
     }
 
     /**
-     * Add errormessages to logs and update the user
+     * Add error messages to logs and update the user.
      *
      * @param Entity\Users $userEntity
      */

@@ -46,10 +46,7 @@ class Token
      */
     public function isEnabled()
     {
-        if ($this->user !== null) {
-            return $this->user->getEnabled();
-        }
-        return null;
+        return $this->user->getEnabled();
     }
 
     /**
