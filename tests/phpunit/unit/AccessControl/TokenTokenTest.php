@@ -46,4 +46,16 @@ class TokenTokenTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
         $this->assertFalse($token->isEnabled());
     }
+
+    public function testGetUser()
+    {
+        $userEntity = new Entity\Users(['username' => 'koala']);
+        $tokenEntity = new Entity\Authtoken();
+        $token = new Token($userEntity, $tokenEntity);
+        $user = $token->getUser();
+
+        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertInstanceOf('Bolt\Storage\Entity\Users', $user);
+        $this->assertSame('koala', $user->getUsername());
+    }
 }
