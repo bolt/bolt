@@ -137,6 +137,7 @@ class AccessChecker
             return $this->validsession = true;
         }
         $this->validsession = false;
+        $this->systemLogger->debug("Clearing sessions for expired or invalid token: $authCookie", ['event' => 'authentication']);
 
         return $this->revokeSession();
     }
