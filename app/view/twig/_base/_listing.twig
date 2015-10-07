@@ -72,7 +72,7 @@
 
     <tr class="header">
         {% block listing_header %}
-            {% from "_macro/_buic-listing.twig" import sortable_link %}
+            {% from '@bolt/_macro/_buic-listing.twig' import sortable_link %}
 
             {# COLUMN: Select #}
             {% if prop.extended and modifiable %}
