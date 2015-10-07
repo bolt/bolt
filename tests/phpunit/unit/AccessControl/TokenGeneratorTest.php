@@ -121,4 +121,24 @@ class TokenGeneratorTest extends BoltUnitTest
 
         new Generator($username, $salt, $remoteIP, $hostName, $userAgent, $cookieOptions);
     }
+
+    /**
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage Token generator requires a browser user agent to be provided
+     */
+    public function testNullUserAgent()
+    {
+        $username = 'koala';
+        $salt = 'vinagre';
+        $remoteIP = '8.8.8.8';
+        $hostName = 'tests.bolt.cm';
+        $userAgent = null;
+        $cookieOptions = [
+            'remoteaddr'   => true,
+            'httphost'     => true,
+            'browseragent' => true,
+        ];
+
+        new Generator($username, $salt, $remoteIP, $hostName, $userAgent, $cookieOptions);
+    }
 }
