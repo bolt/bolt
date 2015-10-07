@@ -1,8 +1,10 @@
-Bolt 2.2.12
+Bolt 2.2.13
 -----------
 
-Not yet released. Notable changes:
+Released 2015-10-07. Notable changes:
 
+- Fixed: Taxonomies being wiped on status change using grouped taxonomy. (See #3868)
+- Fixed: Add edit permission to the `modifiable` property (See #4198)
 - Added: Allow height and autocomplete in categories taxonomies.
 - Added: Allow for 'type: hidden' fields in `contenttypes.yml`
 - Added: Allow the theme's `config.yml` to set add_jquery. Fixes #4098
