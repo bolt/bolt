@@ -51,23 +51,6 @@
         {% endfor %}
     </table>
 
-    {# -- commented out for now.. Finish when needed.
-    {% if any_editable %}
-        <div class="btn-group">
-            <a href="#" class="btn btn-default publishchosen showifchosen" style="display:none;">
-                <i class="fa fa-circle status-published"></i>
-                {{ __('Publish selected') }}
-            </a>
-        </div>
-        <div class="btn-group">
-            <a href="#" class="btn btn-default unpublishchosen showifchosen" style="display:none;">
-                <i class="fa fa-circle status-held"></i>
-                {{ __('Depublish selected') }}
-            </a>
-        </div>
-    {% endif %}
-    #}
-
     {% from '@bolt/_macro/_pager.twig' import pager %}
     {{ pager(contenttype.slug) }}
 
