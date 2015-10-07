@@ -101,4 +101,24 @@ class TokenGeneratorTest extends BoltUnitTest
 
         new Generator($username, $salt, $remoteIP, $hostName, $userAgent, $cookieOptions);
     }
+
+    /**
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage Token generator requires a remote host name to be provided
+     */
+    public function testNullHostName()
+    {
+        $username = 'koala';
+        $salt = 'vinagre';
+        $remoteIP = '8.8.8.8';
+        $hostName = null;
+        $userAgent = 'Smith';
+        $cookieOptions = [
+            'remoteaddr'   => true,
+            'httphost'     => true,
+            'browseragent' => true,
+        ];
+
+        new Generator($username, $salt, $remoteIP, $hostName, $userAgent, $cookieOptions);
+    }
 }
