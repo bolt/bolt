@@ -51,6 +51,52 @@
             rowSelection(this);
             toogleSelectionToolbar(this);
         });
+
+        // Record delete action.
+        $(buic).find('tr.selectiontoolbar button.records-delete').on('click', function () {
+            var tbody = $(this).closest('tbody'),
+                table = $(this).closest('table'),
+                checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
+                selectedIds = [],
+                selectedRows = [],
+                notice;
+
+            $(checkboxes).each(function () {
+                var row = $(this).parents('tr'),
+                    id = row.attr('id').substr(5);
+
+                if (id) {
+                    selectedIds.push(id);
+                    selectedRows.push(row);
+                }
+            });
+
+            if (selectedIds.length > 0) {
+                notice = selectedIds.length === 1 ? Bolt.data('recordlisting.delete_one')
+                                                  : Bolt.data('recordlisting.delete_mult');
+
+                bootbox.confirm(notice, function (confirmed) {
+                    $('.alert').alert();
+                    if (confirmed === true) {
+                        var url = Bolt.conf('paths.bolt') + 'content/deletecontent/' +
+                                $(table).data('contenttype') + '/' + selectedIds.join(',') +
+                                '?bolt_csrf_token=' + $(table).data('bolt_csrf_token');
+
+                        // Delete request.
+                        $.ajax({
+                            url: url,
+                            type: 'get',
+                            success: function () {
+                                $(selectedRows).each(function () {
+                                    $(this).remove();
+                                });
+                                toogleSelectionToolbar(tbody);
+                            }
+                        });
+                    }
+                });
+            }
+        });
     };
 
     /**
@@ -88,15 +134,16 @@
             menu = tbody.find('tr.header th.menu'),
             menuSel = menu.find('li.dropdown-header'),
             toolbar = tbody.find('tr.selectiontoolbar'),
-            count = tbody.find('td input:checkbox[name="checkRow"]:checked').length;
+            count = tbody.find('td input:checkbox[name="checkRow"]:checked').length,
+            menuitems = menu.find('li.on-selection');
 
         // Show/hide toolbar & menu entries.
         if (count) {
             toolbar.removeClass('hidden');
-            menu.find('li.on-selection').removeClass('hidden');
+            menuitems.removeClass('hidden');
         } else {
             toolbar.addClass('hidden');
-            menu.find('li.on-selection').addClass('hidden');
+            menuitems.addClass('hidden');
         }
         // Update selection count display.
         toolbar.find('div.count').text(count);
