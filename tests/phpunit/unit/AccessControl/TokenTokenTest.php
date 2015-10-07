@@ -75,4 +75,16 @@ class TokenTokenTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\Storage\Entity\Users', $user);
         $this->assertSame('clippy', $user->getUsername());
     }
+
+    public function testGetToken()
+    {
+        $userEntity = new Entity\Users();
+        $tokenEntity = new Entity\Authtoken(['token' => 'gum-leaves']);
+        $token = new Token($userEntity, $tokenEntity);
+        $authToken = $token->getToken();
+
+        $this->assertInstanceOf('Bolt\AccessControl\Token\Token', $token);
+        $this->assertInstanceOf('Bolt\Storage\Entity\AuthToken', $authToken);
+        $this->assertSame('gum-leaves', $authToken->getToken());
+    }
 }
