@@ -12,6 +12,12 @@
         'delete_mult':  __('Are you sure you wish to delete these records? There is no undo.')
     })}}
 
+    {% set selection_toolbar %}
+        <button class="danger delete" type="button"><i class="fa fa-trash"></i> {{ __('Delete') }}</button>
+        <button class="records-publish status-published disabled" type="button"><i class="fa fa-circle"></i> {{ __('Publish') }}</button>
+        <button class="records-publish status-held disabled" type="button"><i class="fa fa-circle"></i> {{ __('Depublish') }}</button>
+    {% endset %}
+
     <table class="{{ extra_classes }} dashboardlisting buic-listing" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
         {% for content in multiplecontent %}
             {% set editable = permissions.edit %}
@@ -31,6 +37,9 @@
                 'excerptlength': 380,
                 'permissions':   permissions,
                 'thumbsize':     80,
+                'internal': {
+                    'selection_toolbar': selection_toolbar
+                }
             } %}
             {% include includes with listing_vars %}
 

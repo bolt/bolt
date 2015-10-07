@@ -32,15 +32,15 @@
     <tbody{{ hclass(class)}}>
 {% endmacro %}
 
-{% macro tbody_end() %}
-    <tr class="selectiontoolbar hidden">
-        <td colspan="{{ block('listing_columns') }}">
-            <i class="fa fa-fw fa-rotate-270 fa-mail-forward"></i><div class="count">0</div>
-            <button class="danger delete" type="button"><i class="fa fa-trash"></i> {{ __('Delete') }}</button>
-            <button class="records-publish status-published disabled" type="button"><i class="fa fa-circle"></i> {{ __('Publish') }}</button>
-            <button class="records-publish status-held disabled" type="button"><i class="fa fa-circle"></i> {{ __('Depublish') }}</button>
-        </td>
-    </tr>
+{% macro tbody_end(toolbar) %}
+    {% if toolbar %}
+        <tr class="selectiontoolbar hidden">
+            <td colspan="{{ block('listing_columns') }}">
+                <i class="fa fa-fw fa-rotate-270 fa-mail-forward"></i><div class="count">0</div>
+                {{ toolbar }}
+            </td>
+        </tr>
+    {% endif %}
     </tbody>
 {% endmacro %}
 
@@ -65,7 +65,7 @@
  #}
 {% if local.row_heading %}
     {% if not prop.first %}
-        {{ tbody_end() }}
+        {{ tbody_end(internal.selection_toolbar|default()) }}
     {% endif %}
 
     {{ tbody_beg(local, modifiable) }}
@@ -328,5 +328,5 @@
 </tr>
 
 {% if prop.last %}
-    {{ tbody_end() }}
+    {{ tbody_end(internal.selection_toolbar|default()) }}
 {% endif %}
