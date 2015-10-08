@@ -95,9 +95,12 @@ class RepeaterType extends FieldTypeBase
         if (!$outerCollection instanceof RepeatingFieldCollection) {
             $collection = new RepeatingFieldCollection($this->em);
             $collection->setName($key);
-            foreach ($outerCollection as $group => $fields) {
-                if (is_array($fields)) {
-                    $collection->addFromArray($fields, $group);
+
+            if (is_array($outerCollection)) {
+                foreach ($outerCollection as $group => $fields) {
+                    if (is_array($fields)) {
+                        $collection->addFromArray($fields, $group);
+                    }
                 }
             }
 
@@ -254,7 +257,6 @@ class RepeaterType extends FieldTypeBase
      */
     protected function addToDeleteQuery(QuerySet $queries, $changes)
     {
-
 
     }
 
