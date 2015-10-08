@@ -12,6 +12,7 @@ class QuerySet extends \ArrayIterator
 {
     protected $resultCallbacks = [];
     protected $lastInsertId;
+    protected $parentId;
 
     /**
      * @param QueryBuilder $qb A QueryBuilder instance
@@ -45,10 +46,10 @@ class QuerySet extends \ArrayIterator
                         $this->lastInsertId = $query->getConnection()->lastInsertId();
                     }
                 } else {
-                    foreach ($this->resultCallbacks as $callback) {
-                        $callback($query, $result, $this->lastInsertId);
-                    }
                     $query->execute();
+                }
+                foreach ($this->resultCallbacks as $callback) {
+                    $callback($query, $result, $this->getParentId());
                 }
             } catch (\Exception $e) {
                 throw $e;
@@ -78,4 +79,26 @@ class QuerySet extends \ArrayIterator
     {
         return $this->lastInsertId;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getParentId()
+    {
+        if (!$this->parentId && $this->lastInsertId) {
+            return $this->lastInsertId;
+        }
+
+        return $this->parentId;
+    }
+
+    /**
+     * @param mixed $parentId
+     */
+    public function setParentId($parentId)
+    {
+        $this->parentId = $parentId;
+    }
+
+
 }
