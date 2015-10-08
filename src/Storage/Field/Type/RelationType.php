@@ -30,7 +30,8 @@ class RelationType extends FieldTypeBase
      * expression to filter the join side rather than on the main side.
      *
      * @param QueryInterface $query
-     * @param ClassMetadata  $metadata
+     * @param ClassMetadata $metadata
+     * @return void
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
@@ -59,8 +60,9 @@ class RelationType extends FieldTypeBase
      * IDs are returned comma-separated which the ->hydrate() method can then turn into pointers
      * to the related entities.
      *
-     * @param QueryBuilder  $query
+     * @param QueryBuilder $query
      * @param ClassMetadata $metadata
+     * @return void
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
