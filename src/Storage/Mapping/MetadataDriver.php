@@ -209,6 +209,15 @@ class MetadataDriver implements MappingDriver
             ];
 
             if ($data['type']==='repeater') {
+
+                foreach ($data['fields'] as $key => &$value) {
+                    if (isset($this->typemap[$value['type']])) {
+                        $value['fieldtype'] = $this->typemap[$value['type']];
+                    } else {
+                        $value['fieldtype'] = $this->typemap['text'];
+                    }
+                }
+
                 $this->metadata[$className]['fields'][$key] = $mapping;
                 $this->metadata[$className]['fields'][$key]['data'] = $data;
             }
@@ -354,8 +363,9 @@ class MetadataDriver implements MappingDriver
     /**
      * Get the field type for a given column.
      *
-     * @param string                       $name
+     * @param string $name
      * @param \Doctrine\DBAL\Schema\Column $column
+     * @return string
      */
     protected function getFieldTypeFor($name, $column)
     {
