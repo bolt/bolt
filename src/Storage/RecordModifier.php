@@ -120,16 +120,16 @@ class RecordModifier
         $formValues = Input::cleanPostedData($formValues);
         unset($formValues['contenttype']);
 
+        $user = $this->app['users']->getCurrentUser();
         if ($id = $content->getId()) {
             // Owner is set explicitly, is current user is allowed to do this?
             if (isset($formValues['ownerid']) && (integer) $formValues['ownerid'] !== $content->getOwnerid()) {
-                if (!$this->app['permissions']->isAllowed("contenttype:{$contentType['slug']}:change-ownership:$id")) {
+                if (!$this->app['permissions']->isAllowed("contenttype:{$contentType['slug']}:change-ownership:$id", $user)) {
                     throw new AccessControlException('Changing ownership is not allowed.');
                 }
                 $content->setOwnerid($formValues['ownerid']);
             }
         } else {
-            $user = $this->app['users']->getCurrentUser();
             $content->setOwnerid($user['id']);
         }
 
