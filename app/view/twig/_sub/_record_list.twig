@@ -1,0 +1,57 @@
+{% macro record_list(contenttype, multiplecontent, permissions, extra_classes) %}
+    {% set lastgroup = "----" %}
+    {% set any_deletable = false %}
+    {% set any_editable = false %}
+    {% set includes = [
+        '@bolt/custom/listing/' ~ contenttype.slug ~ '.twig',
+        '@bolt/_sub/_listing.twig']
+    %}
+
+    {{ data('recordlisting', {
+        'delete_one':   __('Are you sure you wish to delete this record? There is no undo.'),
+        'delete_mult':  __('Are you sure you wish to delete these records? There is no undo.')
+    })}}
+
+    {% set selection_toolbar %}
+        <button class="records-delete sdanger delete" type="button"><i class="fa fa-trash"></i> {{ __('Delete') }}</button>
+        <button class="records-publish status-published disabled" type="button"><i class="fa fa-circle"></i> {{ __('Publish') }}</button>
+        <button class="records-depublish status-held disabled" type="button"><i class="fa fa-circle"></i> {{ __('Depublish') }}</button>
+    {% endset %}
+
+    <table class="{{ extra_classes }} dashboardlisting buic-listing" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
+        {% for content in multiplecontent %}
+            {% set editable = permissions.edit %}
+            {% if editable %}
+                {% set any_editable = true %}
+            {% endif %}
+            {% set deletable = permissions.delete %}
+            {% if deletable %}
+                {% set any_deletable = true %}
+            {% endif %}
+
+            {% set new_group = content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
+
+            {% set listing_vars = {
+                'compact':       false,
+                'content':       content,
+                'excerptlength': 380,
+                'permissions':   permissions,
+                'thumbsize':     80,
+                'internal': {
+                    'selection_toolbar': selection_toolbar
+                }
+            } %}
+            {% include includes with listing_vars %}
+
+            {% if content.group.name is defined and (loop.first or content.group.name != lastgroup) %}
+                {% set lastgroup = content.group.name %}
+            {% endif %}
+        {% else %}
+            {{ __('contenttypes.generic.none-available', {'%contenttypes%': contenttype.slug}) }}
+        {% endfor %}
+    </table>
+
+    {% from '@bolt/_macro/_pager.twig' import pager %}
+    {{ pager(contenttype.slug) }}
+
+{% endmacro %}

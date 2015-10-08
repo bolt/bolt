@@ -21,23 +21,29 @@
 
             {% set has_results = false %}
             {% if context.results %}
-                <table class="table table-striped dashboardlisting omnisearchlisting">
-                    <tbody>
+                <table class="table dashboardlisting omnisearchlisting buic-listing">
+                    <tbody class="striping_odd">
                         {% for item in context.results %}
                             {% if (app.paths.bolt ~ 'omnisearch') not in item.path %}
                             {% set has_results = true %}
-                            <tr>
                                 {% if item.record|default() %}
-                                    {% set content = item.record %}
                                     {% set permissions = item.permissions %}
                                     {% set modifiable = permissions.create or permissions.delete or permissions.publish or permissions.depublish %}
-                                    {% include '@bolt/omnisearch/_result.twig' with {'excerptlength': 280, 'thumbsize': 54, 'compact': true} %}
+                                    {% set listing_vars = {
+                                        'compact':       true,
+                                        'content':       item.record,
+                                        'excerptlength': 280,
+                                        'permissions':   item.permissions,
+                                        'thumbsize':     54,
+                                    } %}
+                                    {% include '@bolt/omnisearch/_result.twig' with listing_vars %}
                                 {% else %}
-                                    <td colspan="4">
-                                        <a href="{{ item.path }}">{{ item.label|raw }}</a>
-                                    </td>
+                                    <tr>
+                                        <td colspan="4">
+                                            <a href="{{ item.path }}">{{ item.label|raw }}</a>
+                                        </td>
+                                    </tr>
                                 {% endif %}
-                            </tr>
                             {% endif %}
                         {% endfor %}
                     </tbody>

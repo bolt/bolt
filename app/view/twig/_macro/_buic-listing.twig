@@ -1,0 +1,20 @@
+{% macro sortable_link(id, text, paramname) %}
+    {% set paramname = paramname|default('order') %}
+
+    {% set params = {} %}
+    {% for key, val in app.request.query.all if key != paramname %}
+        {% set params = params|merge({(key): val}) %}
+    {% endfor %}
+
+    {% if request(paramname) == id %}
+        {% set class = 'order-asc' %}
+        {% set params = params|merge({(paramname): '-' ~ id}) %}
+    {% elseif request(paramname) == '-' ~ id %}
+        {% set class = 'order-desc' %}
+    {% else %}
+        {% set class = 'order-none' %}
+        {% set params = params|merge({(paramname): id}) %}
+    {% endif %}
+
+    <a href="{{ '?' ~ params|url_encode }}" class="{{ class }}">{{ text }}</a>
+{% endmacro %}
