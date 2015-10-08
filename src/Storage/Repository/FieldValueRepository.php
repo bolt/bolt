@@ -8,8 +8,9 @@
 
 namespace Bolt\Storage\Repository;
 
+use Bolt\Storage\Repository;
 
-class FieldValueRepository
+class FieldValueRepository extends Repository
 {
 
 }
