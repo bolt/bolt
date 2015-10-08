@@ -184,16 +184,34 @@ class ImageHandler
             $large = $this->thumbnail($filename, $fullwidth, $fullheight, 'r');
 
             if (empty($title)) {
-                $title = sprintf('%s: %s', Trans::__('Image'), $filename);
+                // try to get title from filename array
+                if (is_array($filename) && isset($filename['title'])) {
+                    $title = $filename['title'];
+                } else {
+                    // fallback to filename from array
+                    if (is_array($filename) && isset($filename['filename'])) {
+                        $title = $filename['filename'];
+                    } else {
+                        // fallback to filename as provided (string)
+                        $title = sprintf('%s: %s', Trans::__('Image'), $filename);
+                    }
+                }
+            }
+            
+            if (is_array($filename) && isset($filename['alt'])) {
+                $alt = $filename['alt'];
+            } else {
+                $alt = $title;
             }
 
             $output = sprintf(
-                '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s"></a>',
+                '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s" alt="%s"></a>',
                 $large,
                 $title,
                 $thumbnail,
                 $width,
-                $height
+                $height,
+                $alt
             );
         } else {
             $output = '&nbsp;';
@@ -226,8 +244,20 @@ class ImageHandler
             $width = intval($width);
             $height = intval($height);
 
+            if (isset($filename['alt'])) {
+                $alt = $filename['alt'];
+            } elseif (isset($filename['title'])) {
+                $alt = $filename['title'];
+            } else {
+                $alt = '';
+            }
+
             if ($width === 0 || $height === 0) {
-                $info = $this->imageInfo($filename);
+                if (is_array($filename)) {
+                    $filename = isset($filename['filename']) ? $filename['filename'] : $filename['file'];
+                }
+
+                $info = $this->imageInfo($filename, false);
 
                 if ($width !== 0) {
                     $height = round($width / $info['aspectratio']);
@@ -241,7 +271,7 @@ class ImageHandler
 
             $image = $this->thumbnail($filename, $width, $height, $crop);
 
-            return '<img src="' . $image . '" width="' . $width . '" height="' . $height . '">';
+            return '<img src="' . $image . '" width="' . $width . '" height="' . $height . '" alt="'. $alt .'">';
         }
     }
 
