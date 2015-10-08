@@ -397,6 +397,7 @@ class Repository implements ObjectRepository
     public function update($entity, $exclusions = [])
     {
         $querySet = new QuerySet();
+        $querySet->setParentId($entity->getId());
         $qb = $this->em->createQueryBuilder();
         $qb->update($this->getTableName())
             ->where('id = :id')
