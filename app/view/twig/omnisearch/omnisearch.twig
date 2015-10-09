@@ -35,6 +35,21 @@
                 </table>
             {% endfor %}
 
+            {# List file results #}
+            {% if context.files %}
+                <table class="table dashboardlisting buic-listing omnisearchlisting">
+                    <tbody class="striping_odd">
+                        {% for item in context.files %}
+                            <tr>
+                                <td>
+                                    <a href="{{ item.path }}">{{ item.label|raw }}</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
             {% set has_results = false %}
             {% if context.results %}
                 <table class="table dashboardlisting omnisearchlisting buic-listing">
