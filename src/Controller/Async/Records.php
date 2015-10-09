@@ -164,4 +164,24 @@ class Records extends AsyncBase
             }
         }
     }
+
+    /**
+     * Transition a record's status if permitted.
+     *
+     * @param string $contentTypeSlug
+     * @param Entity $entity
+     * @param string $newStatus
+     *
+     * @return boolean
+     */
+    protected function transistionRecord($contentTypeSlug, $entity, $newStatus)
+    {
+        $canTransition = $this->users()->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeSlug, $entity->getId());
+        if (!$canTransition) {
+            return false;
+        }
+        $entity->setStatus();
+
+        return true;
+    }
 }
