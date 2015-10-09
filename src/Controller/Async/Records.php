@@ -98,4 +98,22 @@ class Records extends AsyncBase
             }
         }
     }
+
+    /**
+     * Execute the deletion of a record.
+     *
+     * @param string $contentTypeSlug
+     * @param array  $recordIds
+     */
+    protected function deleteRecord($contentTypeSlug, $recordId)
+    {
+        if (!$this->isAllowed("contenttype:$contentTypeSlug:delete:$recordId")) {
+            return;
+        }
+
+        $repo = $this->getRepository($contentTypeSlug);
+        if ($entity = $repo->find($recordId)) {
+            $repo->delete($entity);
+        }
+    }
 }
