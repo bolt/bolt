@@ -42,7 +42,7 @@
 {#
  # GROUPNAME: If we have 'grouping', print the row with the groupname.
  #}
-{% if local.row_heading %}
+{% if local.row_heading or internal.heading %}
     {% if not prop.first %}
         {{ tbody_end(internal.selection_toolbar|default()) }}
     {% endif %}
@@ -51,7 +51,11 @@
 
     <tr class="heading">
         <th colspan="{% block listing_columns %}6{% endblock %}">
-            {{ content.group.name|default(__('(no group)')) }}
+            {% if internal.heading %}
+                {{ internal.heading }}
+            {% else %}
+                {{ content.group.name|default(__('(no group)')) }}
+            {% endif %}
         </th>
     </tr>
 {% elseif prop.first %}
