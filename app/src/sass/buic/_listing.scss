@@ -170,4 +170,14 @@ table.buic-listing {
             margin: 2px 0 0 1px;
         }
     }
+
+    /*
+     * Misc.
+     */
+    th, td {
+        &.maximum {
+            width: 100%;
+            background: lime;
+        }
+    }
 }
