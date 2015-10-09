@@ -116,4 +116,52 @@ class Records extends AsyncBase
             $repo->delete($entity);
         }
     }
+
+    /**
+     * Modify a record's value(s).
+     *
+     * @param string  $contentTypeSlug
+     * @param integer $recordId
+     * @param array   $fieldData
+     */
+    protected function modifyRecord($contentTypeSlug, $recordId, $fieldData)
+    {
+        // Map actions to requred permission
+        $actionPermissions = [
+            'publish' => 'publish',
+            'held'    => 'depublish',
+            'draft'   => 'depublish',
+        ];
+        $modified = false;
+        $repo = $this->getRepository($contentTypeSlug);
+
+        foreach ($fieldData as $action => $values) {
+            $canModify = $this->isAllowed("contenttype:$contentTypeSlug:{$actionPermissions[$action]}:$recordId");
+            if (!$canModify) {
+                continue;
+            }
+
+            $entity = $repo->find($recordId);
+            if (!$entity) {
+                continue;
+            }
+
+            foreach ($values as $field => $value) {
+                if (strtolower($field) === 'status') {
+                    $modified = $this->transistionRecord($contentTypeSlug, $entity, $value);
+                } else {
+                    $entity->$field = $value;
+                    $modified = true;
+                }
+            }
+
+            if ($modified) {
+                if ($repo->save($entity)) {
+// $this->flashes()->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", ['%title%' => $title, '%newStatus%' => $newStatus]));
+                } else {
+// $this->flashes()->info(Trans::__("Content '%title%' could not be modified.", ['%title%' => $title]));
+                }
+            }
+        }
+    }
 }
