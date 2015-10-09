@@ -50,7 +50,15 @@
     {{ tbody_beg(local, modifiable) }}
 
     <tr class="heading">
-        <th colspan="{% block listing_columns %}6{% endblock %}">
+        {% if false %}
+            {% block listing_columns %}6{% endblock %}
+        {% endif %}
+        {% if compact %}
+            {% set columns = block('listing_columns') - 1 %}
+        {% else %}
+            {% set columns = block('listing_columns') %}
+        {% endif %}
+        <th colspan="{{ columns }}">
             {% if internal.heading|default() %}
                 {{ internal.heading }}
             {% else %}
