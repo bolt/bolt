@@ -39,11 +39,12 @@
             {% if context.files %}
                 <table class="table dashboardlisting buic-listing omnisearchlisting">
                     <tbody class="striping_odd">
+                        <tr class="heading">
+                            <th>{{ __('Files') }}</th>
+                        </tr>
                         {% for item in context.files %}
                             <tr>
-                                <td>
-                                    <a href="{{ item.path }}">{{ item.label|raw }}</a>
-                                </td>
+                                <td><a href="{{ item.path }}">{{ item.label|raw }}</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
