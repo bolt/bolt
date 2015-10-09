@@ -19,6 +19,22 @@
                 </div>
             </form>
 
+            {# List results per contenttype #}
+            {% for contenttype in context.records %}
+                <table class="table dashboardlisting buic-listing">
+                {% for item in contenttype %}
+                    {% set listing_vars = {
+                        'compact':       true,
+                        'content':       item.record,
+                        'excerptlength': 280,
+                        'permissions':   item.permissions,
+                        'thumbsize':     54,
+                    } %}
+                    {% include '@bolt/omnisearch/_result.twig' with listing_vars %}
+                {% endfor %}
+                </table>
+            {% endfor %}
+
             {% set has_results = false %}
             {% if context.results %}
                 <table class="table dashboardlisting omnisearchlisting buic-listing">
