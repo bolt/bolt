@@ -19,10 +19,12 @@ class RepeatingFieldCollection extends ArrayCollection
     /**
      * RepeatingFieldCollection constructor.
      * @param EntityManager $em
+     * @param array $elements
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em , $elements = [])
     {
         $this->em = $em;
+        parent::__construct($elements);
     }
 
     /**
