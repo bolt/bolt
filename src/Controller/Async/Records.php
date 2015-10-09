@@ -18,7 +18,61 @@ class Records extends AsyncBase
     {
         $c->method('POST');
 
-        $c->post('/content/{action}/{contenttypeslug}/{id}', 'modify')
+        $c->post('/content/{action}', 'modify')
             ->bind('contentaction');
+    }
+
+    /**
+     * Perform an action on a Contenttype record.
+     *
+     * The action part of the POST request should take the form:
+     * [
+     *     contenttype => [
+     *         id => [
+     *             action => [field => value]
+     *         ]
+     *     ]
+     * ]
+     *
+     * For example:
+     * [
+     *     'pages'   => [
+     *         3 => ['modify' => ['status' => 'held']],
+     *         5 => null,
+     *         4 => ['modify' => ['status' => 'draft']],
+     *         1 => ['delete' => null],
+     *         2 => ['modify' => ['status' => 'published']],
+     *     ],
+     *     'entries' => [
+     *         4 => ['modify' => ['status' => 'published']],
+     *         1 => null,
+     *         5 => ['delete' => null],
+     *         2 => null,
+     *         3 => ['modify' => ['title' => 'Drop Bear Attacks']],
+     *     ]
+     * ]
+     *
+     * @param Request $request Symfony Request
+     *
+     * @return Response
+     */
+    public function modify(Request $request)
+    {
+        $actionData = $request->get('modifications');
+
+        if ($actionData === null) {
+            throw new \UnexpectedValueException('No content action data provided in the request.');
+        }
+
+        foreach ($actionData as $contentTypeSlug => $recordIds) {
+            if (!$this->getContentType($contentTypeSlug)) {
+// sprintf('Attempt to modify invalid ContentType: %s', $contentTypeSlug);
+                continue;
+            } else {
+                $this->modifyContentType($contentTypeSlug, $recordIds);
+            }
+        }
+
+        return $response;
     }
 }
