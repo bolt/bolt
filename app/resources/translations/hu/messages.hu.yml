@@ -190,7 +190,7 @@
 "No files in the list, yet.": "A listában még nincs fájl."
 "No images in the list, yet.": "A listában még nincs kép."
 "No relations found!": "Nincsenek kapcsolódások!"
-"No results found for '%search%'. Please try another search.": "Nincs találat a '%search%' keresésre. Próbálkozzon új kereséssel."
+"No results found for '%SEARCHTERM%'. Please try another search.": "Nincs találat a '%SEARCHTERM%' keresésre. Próbálkozzon új kereséssel."
 "No such action for content.": "Nincs ilyen művelet a tartalomhoz."
 "No such action for user '%s'.": "Nincs ilyen művelet a '%s' felhasználóhoz."
 "No such user.": "Ilyen felhasználó nincs."

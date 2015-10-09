@@ -144,7 +144,7 @@
 "Modified": "修正された"
 "Name of new menu": "新しいメニューの名前"
 "New user": "新しいユーザー"
-"No results found for '%search%'. Please try another search.": "'%search%'に対する検索結果は見つかりません。違うキーワードで検索してみてください。"
+"No results found for '%SEARCHTERM%'. Please try another search.": "'%SEARCHTERM%'に対する検索結果は見つかりません。違うキーワードで検索してみてください。"
 "No such action for content.": "コンテンツに対してそのアクションはありません。"
 "No such action for user '%s'.": "ユーザー '%s' に対してそのアクションはありません。"
 "None": "なし"

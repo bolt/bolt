@@ -170,7 +170,7 @@
 "Next": "下一個"
 "No recent %contenttype%.": "沒有最近的%contenttype%."
 "No relations found!": "沒有找到關聯！"
-"No results found for '%search%'. Please try another search.": "沒有找到 '%search%'，請嘗試其他關鍵詞。"
+"No results found for '%SEARCHTERM%'. Please try another search.": "沒有找到 '%SEARCHTERM%'，請嘗試其他關鍵詞。"
 "No such action for content.": "該內容無此項操作。"
 "No such action for user '%s'.": "使用者 '%s' 無此項操作。"
 "None": "無"

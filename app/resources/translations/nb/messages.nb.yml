@@ -117,7 +117,7 @@
 "Modifications needed:": "Endringer som trengs:"
 "Modified": "Endret"
 "New user": "Ny bruker"
-"No results found for '%search%'. Please try another search.": "Ingen resultat funnet for «%search%». Prøv et annet søk."
+"No results found for '%SEARCHTERM%'. Please try another search.": "Ingen resultat funnet for «%SEARCHTERM%». Prøv et annet søk."
 "No such action for content.": "Ingen slik handling for innhold."
 "No such action for user '%s'.": "Ingen slik handling for bruker «%s»."
 "Oops! An error has occurred!": "Oppsann! En feil har oppstått!"

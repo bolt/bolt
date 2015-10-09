@@ -166,7 +166,7 @@
 "Modified": "已修改"
 "Multiselect": "多选"
 "No relations found!": "没有找到关联！"
-"No results found for '%search%'. Please try another search.": "没有找到 '%search%'，请尝试其他关键词。"
+"No results found for '%SEARCHTERM%'. Please try another search.": "没有找到 '%SEARCHTERM%'，请尝试其他关键词。"
 "No such action for content.": "该内容无此项操作。"
 "No such action for user '%s'.": "用户 '%s' 无此项操作。"
 "None": "无"

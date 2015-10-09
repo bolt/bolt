@@ -165,7 +165,7 @@
 "Modified": "Изменено"
 "Multiselect": "Multi-select"
 "No relations found!": "Не найдено связей!"
-"No results found for '%search%'. Please try another search.": "Нет результатов для '%search%'. Попробуйте другой поиск."
+"No results found for '%SEARCHTERM%'. Please try another search.": "Нет результатов для '%SEARCHTERM%'. Попробуйте другой поиск."
 "No such action for content.": "Неверное действие для контента."
 "No such action for user '%s'.": "Неверное действие для пользователя '%s'."
 "None": "Отсутствует"

@@ -52,7 +52,7 @@
 
             {# Nothing found #}
             {% if not context.files and not context.records %}
-                <p>{{ __("No results found for '%search%'. Please try another search.", {'%search%': context.query|escape}) }}</p>
+                <p>{{ __("No results found for '%SEARCHTERM%'. Please try another search.", {'%SEARCHTERM%': context.query|escape}) }}</p>
             {% endif %}
         </div>
 
