@@ -22,6 +22,10 @@
             {# List results per contenttype #}
             {% for contenttype, results in context.records %}
                 {% set heading = __(['contenttypes', contenttype, 'name', 'plural'], {DEFAULT: contenttype}) %}
+                {% set includes = [
+                    '@bolt/custom/listing/' ~ contenttype ~ '.twig',
+                    '@bolt/_sub/_listing.twig']
+                %}
                 <table class="table dashboardlisting buic-listing">
                     {% for item in results %}
                         {% set listing_vars = {
@@ -34,7 +38,7 @@
                                 'heading': loop.first ? heading : '',
                             }
                         } %}
-                        {% include '@bolt/_sub/_listing.twig' with listing_vars %}
+                        {% include includes with listing_vars %}
                     {% endfor %}
                 </table>
             {% endfor %}
