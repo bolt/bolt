@@ -56,6 +56,7 @@ table.buic-listing {
     // No margin on first heading.
     tbody:first-child tr.heading th {
         padding-top: 0;
+        border-top: none;
     }
 
     /*
