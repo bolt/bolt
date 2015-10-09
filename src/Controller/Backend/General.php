@@ -111,12 +111,10 @@ class General extends BackendBase
     public function omnisearch(Request $request)
     {
         $query = $request->query->get('q', '');
-        $results = [];
         $records = [];
         $files = [];
 
         if (strlen($query) >= 3) {
-            $results = $this->app['omnisearch']->query($query, true);
             $path = $this->app['resources']->getUrl('bolt') . 'omnisearch';
 
             foreach ($this->app['omnisearch']->query($query, true) as $result) {
@@ -135,7 +133,6 @@ class General extends BackendBase
             'query'   => $query,
             'records' => $records,
             'files' => $files,
-            'results' => $results
         ];
 
         return $this->render('@bolt/omnisearch/omnisearch.twig', $context);

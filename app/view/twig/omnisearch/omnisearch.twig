@@ -54,45 +54,6 @@
             {% if not context.files and not context.records %}
                 <p>{{ __("No results found for '%search%'. Please try another search.", {'%search%': context.query|escape}) }}</p>
             {% endif %}
-
-            {% set has_results = false %}
-            {% if context.results %}
-                <table class="table dashboardlisting omnisearchlisting buic-listing">
-                    <tbody class="striping_odd">
-                        {% for item in context.results %}
-                            {% if (app.paths.bolt ~ 'omnisearch') not in item.path %}
-                            {% set has_results = true %}
-                                {% if item.record|default() %}
-                                    {% set permissions = item.permissions %}
-                                    {% set modifiable = permissions.create or permissions.delete or permissions.publish or permissions.depublish %}
-                                    {% set listing_vars = {
-                                        'compact':       true,
-                                        'content':       item.record,
-                                        'excerptlength': 280,
-                                        'permissions':   item.permissions,
-                                        'thumbsize':     54,
-                                    } %}
-                                    {% include '@bolt/omnisearch/_result.twig' with listing_vars %}
-                                {% else %}
-                                    <tr>
-                                        <td colspan="4">
-                                            <a href="{{ item.path }}">{{ item.label|raw }}</a>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {# todo: pagination, limit, offset? #}
-            {% endif %}
-
-            {% if not has_results and context.query %}
-                <p>{{ __("No results found for '%search%'. Please try another search.", {'%search%': context.query|escape}) }}</p>
-            {% elseif not has_results %}
-                {# <p>Some default text here...</p> #}
-            {% endif %}
-
         </div>
 
         <aside class="col-md-4">
