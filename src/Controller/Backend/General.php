@@ -112,13 +112,29 @@ class General extends BackendBase
     {
         $query = $request->query->get('q', '');
         $results = [];
+        $records = [];
+        $files = [];
 
         if (strlen($query) >= 3) {
             $results = $this->app['omnisearch']->query($query, true);
+            $path = $this->app['resources']->getUrl('bolt') . 'omnisearch';
+
+            foreach ($this->app['omnisearch']->query($query, true) as $result) {
+                if (isset($result['slug'])) {
+                    $records[$result['slug']][] = [
+                        'record' => $result['record'],
+                        'permissions' => $result['permissions'],
+                    ];
+                } elseif (substr($result['path'], 0, strlen($path)) != $path) {
+                    $files[] = $result;
+                }
+            }
         }
 
         $context = [
             'query'   => $query,
+            'records' => $records,
+            'files' => $files,
             'results' => $results
         ];
 
