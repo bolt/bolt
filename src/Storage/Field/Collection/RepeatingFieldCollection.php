@@ -71,7 +71,7 @@ class RepeatingFieldCollection extends ArrayCollection
     public function getNew()
     {
         $new = [];
-        foreach ($this as $set) {
+        foreach ($this->getIterator() as $set) {
             $new = array_merge($new, $set->getNew());
         }
 
@@ -84,7 +84,7 @@ class RepeatingFieldCollection extends ArrayCollection
     public function getExisting()
     {
         $existing = [];
-        foreach ($this as $set) {
+        foreach ($this->getIterator() as $set) {
             $existing = array_merge($existing, $set->getExisting());
         }
 
