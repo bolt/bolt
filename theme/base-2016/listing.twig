@@ -40,7 +40,7 @@
             <article>
                 {% if search is defined %}
                     <p>
-                        {{ __("No results found for '%search%'. Please try another search.", { '%search%': search|escape }) }}
+                        {{ __("No results found for '%SEARCHTERM%'. Please try another search.", { '%SEARCHTERM%': search|escape }) }}
                     </p>
                 {% else %}
                     <h2>{{ __("No content found.") }}</h2>

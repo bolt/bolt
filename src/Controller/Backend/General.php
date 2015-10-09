@@ -111,15 +111,33 @@ class General extends BackendBase
     public function omnisearch(Request $request)
     {
         $query = $request->query->get('q', '');
-        $results = [];
+        $records = [];
+        $files = [];
 
         if (strlen($query) >= 3) {
-            $results = $this->app['omnisearch']->query($query, true);
+            $pathSearch = $this->app['resources']->getUrl('bolt') . 'omnisearch';
+            $pathEdit = $this->app['resources']->getUrl('bolt') . 'file/edit/';
+
+            foreach ($this->app['omnisearch']->query($query, true) as $result) {
+                if (isset($result['slug'])) {
+                    $records[$result['slug']][] = [
+                        'record' => $result['record'],
+                        'permissions' => $result['permissions'],
+                    ];
+                } elseif (substr($result['path'], 0, strlen($pathEdit)) === $pathEdit) {
+                    $result['file'] = substr($result['path'], strlen($pathEdit));
+                    $files[] = $result;
+                } elseif (substr($result['path'], 0, strlen($pathSearch)) != $pathSearch) {
+                    $result['file'] = basename($result['path']);
+                    $files[] = $result;
+                }
+            }
         }
 
         $context = [
             'query'   => $query,
-            'results' => $results
+            'records' => $records,
+            'files' => $files,
         ];
 
         return $this->render('@bolt/omnisearch/omnisearch.twig', $context);

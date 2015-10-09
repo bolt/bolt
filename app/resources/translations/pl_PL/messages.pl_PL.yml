@@ -185,7 +185,7 @@
 "No files in the list, yet.": "Jeszcze nie ma żadnych plików."
 "No images in the list, yet.": "Jeszcze nie ma żadnych obrazów."
 "No relations found!": "Nie znaleziono relacji!"
-"No results found for '%search%'. Please try another search.": "Nie znaleziono wyników dla '%search%'. Proszę spróbować innych fraz."
+"No results found for '%SEARCHTERM%'. Please try another search.": "Nie znaleziono wyników dla '%SEARCHTERM%'. Proszę spróbować innych fraz."
 "No such action for content.": "Nie ma takiej akcji dla zawartości."
 "No such action for user '%s'.": "Nie ma takiej akcji dla użytkownika '%s'."
 "None": "Żaden"

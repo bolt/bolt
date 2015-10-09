@@ -56,6 +56,7 @@ table.buic-listing {
     // No margin on first heading.
     tbody:first-child tr.heading th {
         padding-top: 0;
+        border-top: none;
     }
 
     /*
@@ -167,6 +168,15 @@ table.buic-listing {
         // Correct checkbox alignment.
         input[type=checkbox][name="checkRow"] {
             margin: 2px 0 0 1px;
+        }
+    }
+
+    /*
+     * Misc.
+     */
+    th, td {
+        &.fill-max {
+            width: 100%;
         }
     }
 }

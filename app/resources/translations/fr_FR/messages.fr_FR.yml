@@ -1,10 +1,10 @@
 # app/resources/translations/fr_FR/messages.fr_FR.yml – generated on 2015-08-21 09:46:44 America/New_York
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -227,7 +227,7 @@
 "No files in the list, yet.": "Aucun fichier dans la liste"
 "No images in the list, yet.": "Aucune image dans la liste"
 "No relations found!": "Aucune relation trouvée !"
-"No results found for '%search%'. Please try another search.": "Aucun résultat pour la recherche de '%search%'. Veuillez réessayer."
+"No results found for '%SEARCHTERM%'. Please try another search.": "Aucun résultat pour la recherche de '%SEARCHTERM%'. Veuillez réessayer."
 "No such action for content.": "Aucune action possible pour ce contenu."
 "No such action for user '%s'.": "Aucune action possible pour l'utilisateur '%s'."
 "No theme name found. Theme is not generated.": "Aucun nom de thème trouvé. Le thème n'est pas généré."

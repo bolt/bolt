@@ -269,7 +269,7 @@
 "Modifications needed:": "Modificações necessárias"
 "Modified": "Modificado"
 "No relations found!": "Não há relações encontradas!"
-"No results found for '%search%'. Please try another search.": "Nenhum resultado encontrado para %search%. Tente outros termos."
+"No results found for '%SEARCHTERM%'. Please try another search.": "Nenhum resultado encontrado para %SEARCHTERM%. Tente outros termos."
 "No such action for content.": "Nenhuma ação para este conteúdo"
 "No such action for user '%s'.": "Nenhuma ação para o usuário '%s'."
 "None": "Nenhum"

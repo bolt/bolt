@@ -117,7 +117,7 @@
 "Modifications needed:": "Modificaciones necesarias"
 "Modified": "Modificado"
 "New user": "Nuevo usuario"
-"No results found for '%search%'. Please try another search.": "No hay resultados para %search%. Prueba otra búsqueda. "
+"No results found for '%SEARCHTERM%'. Please try another search.": "No hay resultados para %SEARCHTERM%. Prueba otra búsqueda. "
 "No such action for content.": "No existe esa acción para el contenido."
 "No such action for user '%s'.": "No existe esa acción para el usuario '%s'."
 "Oops! An error has occurred!": "¡Ups! ha ocurrido un error"

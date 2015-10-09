@@ -375,6 +375,7 @@ class Omnisearch
             ];
 
             if ($withRecord) {
+                $item['slug'] = $result->contenttype['slug'];
                 $item['record'] = $result;
                 $item['permissions'] = $this->app['permissions']->getContentTypeUserPermissions($result->contenttype['slug'], $user);
             }

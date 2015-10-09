@@ -11,7 +11,7 @@
             <form method="get">
                 <div class="form-group">
                     <div class="input-group">
-                    <input class="form-control" name="q" type="text" value="{{ context.query }}">
+                    <input class="form-control" name="q" type="text" value="{{ context.query }}" pattern=".{3,}" required title="{{ __('At least %NUM% characters required', {'%NUM%': 3})}}">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit"><i class="fa fa-search "></i> {{ __('Search') }}</button>
                         </span>
@@ -19,44 +19,57 @@
                 </div>
             </form>
 
-            {% set has_results = false %}
-            {% if context.results %}
-                <table class="table dashboardlisting omnisearchlisting buic-listing">
+            {# List results per contenttype #}
+            {% for contenttype, results in context.records %}
+                {% set heading = __(['contenttypes', contenttype, 'name', 'plural'], {DEFAULT: contenttype}) %}
+                {% set includes = [
+                    '@bolt/custom/listing/' ~ contenttype ~ '.twig',
+                    '@bolt/_sub/_listing.twig']
+                %}
+                <table class="table dashboardlisting buic-listing">
+                    {% for item in results %}
+                        {% set listing_vars = {
+                            'compact':       true,
+                            'content':       item.record,
+                            'excerptlength': 280,
+                            'permissions':   item.permissions,
+                            'thumbsize':     54,
+                            'internal': {
+                                'heading': loop.first ? heading : '',
+                            }
+                        } %}
+                        {% include includes with listing_vars %}
+                    {% endfor %}
+                </table>
+            {% endfor %}
+
+            {# List file results #}
+            {% if context.files %}
+                <table class="table dashboardlisting buic-listing omnisearchlisting">
                     <tbody class="striping_odd">
-                        {% for item in context.results %}
-                            {% if (app.paths.bolt ~ 'omnisearch') not in item.path %}
-                            {% set has_results = true %}
-                                {% if item.record|default() %}
-                                    {% set permissions = item.permissions %}
-                                    {% set modifiable = permissions.create or permissions.delete or permissions.publish or permissions.depublish %}
-                                    {% set listing_vars = {
-                                        'compact':       true,
-                                        'content':       item.record,
-                                        'excerptlength': 280,
-                                        'permissions':   item.permissions,
-                                        'thumbsize':     54,
-                                    } %}
-                                    {% include '@bolt/omnisearch/_result.twig' with listing_vars %}
-                                {% else %}
-                                    <tr>
-                                        <td colspan="4">
-                                            <a href="{{ item.path }}">{{ item.label|raw }}</a>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                            {% endif %}
+                        <tr class="heading">
+                            <th colspan="2">{{ __('Files') }}</th>
+                        </tr>
+                        {% for item in context.files %}
+                            <tr>
+                                <td class="fill-max">
+                                    {{ item.file }}
+                                </td>
+                                <td>
+                                    <a class="btn btn-default btn-xs" href="{{ item.path }}">
+                                        <i class="fa fa-edit"></i> {{ __('Edit') }}
+                                    </a>
+                                </td>
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                {# todo: pagination, limit, offset? #}
             {% endif %}
 
-            {% if not has_results and context.query %}
-                <p>{{ __("No results found for '%search%'. Please try another search.", {'%search%': context.query|escape}) }}</p>
-            {% elseif not has_results %}
-                {# <p>Some default text here...</p> #}
+            {# Nothing found #}
+            {% if not context.files and not context.records %}
+                <p>{{ __("No results found for '%SEARCHTERM%'. Please try another search.", {'%SEARCHTERM%': context.query|escape}) }}</p>
             {% endif %}
-
         </div>
 
         <aside class="col-md-4">

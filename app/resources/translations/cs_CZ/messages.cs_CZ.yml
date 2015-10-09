@@ -194,7 +194,7 @@
 "No files in the list, yet.": "Žádné soubory v seznamu."
 "No images in the list, yet.": "Žádné obrázky v seznamu."
 "No relations found!": "Nenalezeno žádné související"
-"No results found for '%search%'. Please try another search.": "Pro '%search%' nebyly nalezeny žádné výsledky. Zkuste to jinak."
+"No results found for '%SEARCHTERM%'. Please try another search.": "Pro '%SEARCHTERM%' nebyly nalezeny žádné výsledky. Zkuste to jinak."
 "No such action for content.": "Pro obsah není tato akce možná."
 "No such action for user '%s'.": "Pro uživatele '%s' není tato akce dostupná"
 "No such user.": "Uživatel neexistuje."

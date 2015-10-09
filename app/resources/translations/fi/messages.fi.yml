@@ -100,7 +100,7 @@
 "Modifications needed:": "Tarvittavat muutokset:"
 "Modified": "Muokattu"
 "New user": "Uusi käyttäjä"
-"No results found for '%search%'. Please try another search.": "Hakusi '%search%' ei tuottanu tuloksia. Ole hyvä ja kokeile toista hakua."
+"No results found for '%SEARCHTERM%'. Please try another search.": "Hakusi '%SEARCHTERM%' ei tuottanu tuloksia. Ole hyvä ja kokeile toista hakua."
 "No such action for content.": "Sisällölle ei ole vastaavaa toimintoa"
 "No such action for user '%s'.": "Käyttäjälle '%s' ei ole asetettu vastaavaa toimintoa"
 "Oops! An error has occurred!": "Voi saakeli! Tapahtui virhe!"
