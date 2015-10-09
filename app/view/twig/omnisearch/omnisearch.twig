@@ -44,7 +44,14 @@
                         </tr>
                         {% for item in context.files %}
                             <tr>
-                                <td><a href="{{ item.path }}">{{ item.label|raw }}</a></td>
+                                <td class="fill-max">
+                                    {{ item.file }}
+                                </td>
+                                <td>
+                                    <a class="btn btn-default btn-xs" href="{{ item.path }}">
+                                        <i class="fa fa-edit"></i> {{ __('Edit') }}
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
