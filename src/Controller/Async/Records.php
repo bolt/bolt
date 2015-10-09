@@ -75,4 +75,27 @@ class Records extends AsyncBase
 
         return $response;
     }
+
+    /**
+     * Modify an individual ContentType's records.
+     *
+     * @param string $contentTypeSlug
+     * @param array  $recordIds
+     */
+    protected function modifyContentType($contentTypeSlug, array $recordIds)
+    {
+        foreach ($recordIds as $recordId => $actions) {
+            if ($actions === null) {
+                continue;
+            }
+
+            foreach ($actions as $action => $fieldData) {
+                if ($action === 'delete') {
+                    return $this->deleteRecord($contentTypeSlug, $recordId);
+                } else {
+                    return $this->modifyRecord($contentTypeSlug, $recordId, $fieldData);
+                }
+            }
+        }
+    }
 }
