@@ -65,6 +65,9 @@ class RepeatingFieldCollection extends ArrayCollection
         $this->add($collection);
     }
 
+    /**
+     * @return array
+     */
     public function getNew()
     {
         $new = [];
@@ -75,6 +78,9 @@ class RepeatingFieldCollection extends ArrayCollection
         return $new;
     }
 
+    /**
+     * @return array
+     */
     public function getExisting()
     {
         $existing = [];

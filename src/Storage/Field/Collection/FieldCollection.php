@@ -20,12 +20,19 @@ class FieldCollection extends AbstractLazyCollection
     protected $grouping;
     protected $toRemove = [];
 
+    /**
+     * @param array $references
+     * @param EntityManager|null $em
+     */
     public function __construct(array $references = [], EntityManager $em = null)
     {
         $this->references = $references;
         $this->em = $em;
     }
 
+    /**
+     * @return array
+     */
     public function getNew()
     {
         $created = [];
@@ -39,6 +46,9 @@ class FieldCollection extends AbstractLazyCollection
         return $created;
     }
 
+    /**
+     * @return array
+     */
     public function getExisting()
     {
         $set = [];
@@ -70,6 +80,9 @@ class FieldCollection extends AbstractLazyCollection
         return parent::add($element);
     }
 
+    /**
+     * Handles the conversion of references to entities.
+     */
     protected function doInitialize()
     {
         $objects = [];
