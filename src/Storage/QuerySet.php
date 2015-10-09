@@ -7,6 +7,8 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * This class works keeps a set of queries that will eventually
  * be executed sequentially.
+
+ * @author Ross Riley <riley.ross@gmail.com>
  */
 class QuerySet extends \ArrayIterator
 {
