@@ -18,7 +18,7 @@
 
 contenttypes:
     entries:
-        description: "Der Datentyp **Einträge** kann beispielsweise für _„News“_ oder _„Blogpostings“_ verwendet werden. Er hat einen Teaser, der für eine Inhaltsangabe in den Auflistungsseiten verwendet werden kann, und den Besucher zum Rest des Eintrages führt. Er verfügt auch über Felder für ein Bild oder wahlweise ein Video. Um die Felder dieses Datentyps zu ändern, bearbeiten Sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor Ihrer Wahl, oder nutzen Sie den Menüpunkt „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
+        description: "Der Datentyp **Einträge** kann beispielsweise für _„News“_ oder _„Blogpostings“_ verwendet werden. Er hat einen Teaser, der für eine Inhaltsangabe in den Auflistungsseiten verwendet werden kann und den Besucher zum Rest des Eintrages führt. Er verfügt auch über Felder für ein Bild oder wahlweise ein Video. Um die Felder dieses Datentyps zu ändern, bearbeiten Sie die Datei `contenttypes.yml` im Verzeichnis `app/config/` mit dem Editor Ihrer Wahl, oder nutzen Sie den Menüpunkt „Konfiguration“ » „Datentypen“ im Menü auf der linken Seite."
         group:
             content: "Inhalt"
             media: "Medien"
@@ -66,7 +66,7 @@ contenttypes:
         text:
             actions-all: "Aktionen für Seiten"
             actions-one: "Aktionen für diese Seite"
-            created: "Diese Seite wurde erstellt"
+            created: "Die Seite wurde erstellt"
             delete: "Seite löschen"
             duplicate: "Seite kopieren"
             duplicated-finalize: "Inhalt wurde kopiert. Zum Beenden „Seite speichern“ klicken."

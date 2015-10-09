@@ -1,27 +1,27 @@
 info:
     upload:
         image: |
-            Benutzen Sie dieses Feld, um ein Photo oder Bild hochzuladen. Klicken Sie den Button, um eine Datei von deinem Computer
+            Benutzen Sie dieses Feld, um ein Foto oder Bild hochzuladen. Klicken Sie den Button, um eine Datei von deinem Computer
             auszuwählen, oder Sie können, falls Sie eine aktuelle Chrome oder Firefox-Version einsetzen, die Datei einfach per Drag'n'Drop
-            von Ihrem Desktop oder einem anderen Ordner in Ihr Browserfenster verschieben.<br/>
+            von Ihrem Desktop oder einem anderen Ordner in Ihr Browserfenster ziehen.<br/>
             Alternativ können Sie ein zuvor hochgeladenes Bild benutzen. Um eine zuvor hochgeladene Datei auszuwählen, schreiben Sie einfach
             (einen Teil) des Dateinamens in das Eingabefeld und es wird auto-vervollständigt.
         file: |
             Benutzen Sie dieses Feld, um eine Datei hochzuladen, um diese zum Download anzubieten oder innerhalb der Webseite zu benutzen. Klicken
             Sie den Button, um eine Datei von deinem Computer auszuwählen, oder Sie können, falls Sie eine aktuelle Chrome oder Firefox-Version
-            einsetzen, die Datei einfach per Drag'n'Drop von Ihrem Desktop oder einem anderen Ordner in Ihr Browserfenster verschieben.<br/>
+            einsetzen, die Datei einfach per Drag'n'Drop von Ihrem Desktop oder einem anderen Ordner in Ihr Browserfenster ziehen.<br/>
             Alternativ können Sie ein zuvor hochgeladenes Bild benutzen. Um eine zuvor hochgeladene Datei auszuwählen, schreiben Sie einfach
             (einen Teil) des Dateinamens in das Eingabefeld und es wird auto-vervollständigt.
         filelist: |
             Benutzen Sie dieses Feld, um mehrere Dateien mit eigenen Beschreibungen hochzuladen. Wie bei den einfachen "file" Feld, verstehen aktuelle
             Browser-Versionen, wenn Sie eine Datei auf das Eingabefeld ziehen. Vielleicht versuchen Sie es mal?
         filesmall: |
-            Benutzen Sie den Button, um eine Datei hochzuladen. Um eine zuvor hochgeladene Datei auszuwählen, können Sue (einen Teil) des Dateinamens
+            Benutzen Sie den Button, um eine Datei hochzuladen. Um eine zuvor hochgeladene Datei auszuwählen, können Sie (einen Teil) des Dateinamens
             in das Eingabefeld eintippen, und es wird auto-vervollständigt.
         imagelist: |
-            Benutzen Sie dieses Feld, um einen Satz Photos oder Bilder hochzuladen. Klicken Sie den Button, um eine Datei von deinem Computer
+            Benutzen Sie dieses Feld, um einen Satz Fotos oder Bilder hochzuladen. Klicken Sie den Button, um eine Datei von deinem Computer
             auszuwählen, oder Sie können, falls Sie eine aktuelle Chrome oder Firefox-Version einsetzen, die Datei einfach per Drag'n'Drop
-            von Ihrem Desktop oder einem anderen Ordner in Ihr Browserfenster verschieben.<br/>
+            von Ihrem Desktop oder einem anderen Ordner in Ihr Browserfenster ziehen.<br/>
             Alternativ können Sie ein zuvor hochgeladenes Bild benutzen. <br />
             Sie können die Reihenfolge der Bilder mittels Drag'n'Drop kontrollieren, und die Beschreibung der Bilder ändern.
         video: |
