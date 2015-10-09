@@ -50,6 +50,11 @@
                 </table>
             {% endif %}
 
+            {# Nothing found #}
+            {% if not context.files and not context.records %}
+                <p>{{ __("No results found for '%search%'. Please try another search.", {'%search%': context.query|escape}) }}</p>
+            {% endif %}
+
             {% set has_results = false %}
             {% if context.results %}
                 <table class="table dashboardlisting omnisearchlisting buic-listing">
