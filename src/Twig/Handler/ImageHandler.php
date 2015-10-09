@@ -202,6 +202,7 @@ class ImageHandler
                 $alt = $filename['alt'];
             } else {
                 $alt = $title;
+            }
 
             $output = sprintf(
                 '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s" alt="%s"></a>',
