@@ -51,7 +51,7 @@
 
     <tr class="heading">
         <th colspan="{% block listing_columns %}6{% endblock %}">
-            {% if internal.heading %}
+            {% if internal.heading|default() %}
                 {{ internal.heading }}
             {% else %}
                 {{ content.group.name|default(__('(no group)')) }}
