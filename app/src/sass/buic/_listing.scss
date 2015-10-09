@@ -175,9 +175,8 @@ table.buic-listing {
      * Misc.
      */
     th, td {
-        &.maximum {
+        &.fill-max {
             width: 100%;
-            background: lime;
         }
     }
 }
