@@ -283,7 +283,7 @@ class Omnisearch
         if ($this->showLandingpage) {
             $options[] = [
                 'keywords'    => ['Omnisearch'],
-                'label'       => sprintf('%s', Trans::__('Omnisearch')),
+                'label'       => Trans::__('Omnisearch'),
                 'description' => '',
                 'priority'    => self::OMNISEARCH_LANDINGPAGE,
                 'path'        => $this->generatePath('omnisearch-results', ['q' => $query]),
