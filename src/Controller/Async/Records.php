@@ -149,6 +149,8 @@ class Records extends AsyncBase
             foreach ($values as $field => $value) {
                 if (strtolower($field) === 'status') {
                     $modified = $this->transistionRecordStatus($contentTypeSlug, $entity, $value);
+                } elseif (strtolower($field) === 'ownerid') {
+                    $modified = $this->transistionRecordOwner($contentTypeSlug, $entity, $value);
                 } else {
                     $entity->$field = $value;
                     $modified = true;
@@ -181,6 +183,27 @@ class Records extends AsyncBase
             return false;
         }
         $entity->setStatus($newStatus);
+
+        return true;
+    }
+
+    /**
+     * Transition a record's owner if permitted.
+     *
+     * @param string  $contentTypeSlug
+     * @param Entity  $entity
+     * @param integer $ownerId
+     *
+     * @return boolean
+     */
+    protected function transistionRecordOwner($contentTypeSlug, $entity, $ownerId)
+    {
+        $recordId = $entity->getId();
+        $canChangeOwner = $this->isAllowed("contenttype:$contentTypeSlug:change-ownership:$recordId");
+        if (!$canChangeOwner) {
+            return false;
+        }
+        $entity->setOwnerid($ownerId);
 
         return true;
     }
