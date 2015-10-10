@@ -2,6 +2,7 @@
 
 namespace Bolt\Controller\Async;
 
+use Bolt\Helpers\Input;
 use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -152,7 +153,7 @@ class Records extends AsyncBase
                 } elseif (strtolower($field) === 'ownerid') {
                     $modified = $this->transistionRecordOwner($contentTypeSlug, $entity, $value);
                 } else {
-                    $entity->$field = $value;
+                    $entity->$field = Input::cleanPostedData($value);
                     $modified = true;
                 }
             }
