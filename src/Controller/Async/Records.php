@@ -148,7 +148,7 @@ class Records extends AsyncBase
 
             foreach ($values as $field => $value) {
                 if (strtolower($field) === 'status') {
-                    $modified = $this->transistionRecord($contentTypeSlug, $entity, $value);
+                    $modified = $this->transistionRecordStatus($contentTypeSlug, $entity, $value);
                 } else {
                     $entity->$field = $value;
                     $modified = true;
@@ -174,13 +174,13 @@ class Records extends AsyncBase
      *
      * @return boolean
      */
-    protected function transistionRecord($contentTypeSlug, $entity, $newStatus)
+    protected function transistionRecordStatus($contentTypeSlug, $entity, $newStatus)
     {
         $canTransition = $this->users()->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeSlug, $entity->getId());
         if (!$canTransition) {
             return false;
         }
-        $entity->setStatus();
+        $entity->setStatus($newStatus);
 
         return true;
     }
