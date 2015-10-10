@@ -127,21 +127,10 @@ class Records extends AsyncBase
      */
     protected function modifyRecord($contentTypeSlug, $recordId, $fieldData)
     {
-        // Map actions to requred permission
-        $actionPermissions = [
-            'publish' => 'publish',
-            'held'    => 'depublish',
-            'draft'   => 'depublish',
-        ];
         $modified = false;
         $repo = $this->getRepository($contentTypeSlug);
 
-        foreach ($fieldData as $action => $values) {
-            $canModify = $this->isAllowed("contenttype:$contentTypeSlug:{$actionPermissions[$action]}:$recordId");
-            if (!$canModify) {
-                continue;
-            }
-
+        foreach ($fieldData as $values) {
             $entity = $repo->find($recordId);
             if (!$entity) {
                 continue;
@@ -153,8 +142,7 @@ class Records extends AsyncBase
                 } elseif (strtolower($field) === 'ownerid') {
                     $modified = $this->transistionRecordOwner($contentTypeSlug, $entity, $value);
                 } else {
-                    $entity->$field = Input::cleanPostedData($value);
-                    $modified = true;
+                    $modified = $this->modifyRecordValue($entity, $field, $value);
                 }
             }
 
@@ -166,6 +154,28 @@ class Records extends AsyncBase
                 }
             }
         }
+    }
+
+    /**
+     * Modify a record's value if permitted.
+     *
+     * @param Entity $entity
+     * @param string $field
+     * @param mixed  $value
+     *
+     * @return boolean
+     */
+    protected function modifyRecordValue($entity, $field, $value)
+    {
+        $recordId = $entity->getId();
+        $contentTypeSlug = (string) $entity->getContenttype();
+        $canModify = $this->isAllowed("contenttype:$contentTypeSlug:edit:$recordId");
+        if (!$canModify) {
+            return false;
+        }
+        $entity->$field = Input::cleanPostedData($value);
+
+        return true;
     }
 
     /**
