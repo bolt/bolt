@@ -138,9 +138,9 @@ class Records extends AsyncBase
 
             foreach ($values as $field => $value) {
                 if (strtolower($field) === 'status') {
-                    $modified = $this->transistionRecordStatus($contentTypeSlug, $entity, $value);
+                    $modified = $this->transistionRecordStatus($entity, $value);
                 } elseif (strtolower($field) === 'ownerid') {
-                    $modified = $this->transistionRecordOwner($contentTypeSlug, $entity, $value);
+                    $modified = $this->transistionRecordOwner($entity, $value);
                 } else {
                     $modified = $this->modifyRecordValue($entity, $field, $value);
                 }
@@ -181,14 +181,14 @@ class Records extends AsyncBase
     /**
      * Transition a record's status if permitted.
      *
-     * @param string $contentTypeSlug
      * @param Entity $entity
      * @param string $newStatus
      *
      * @return boolean
      */
-    protected function transistionRecordStatus($contentTypeSlug, $entity, $newStatus)
+    protected function transistionRecordStatus($entity, $newStatus)
     {
+        $contentTypeSlug = (string) $entity->getContenttype();
         $canTransition = $this->users()->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeSlug, $entity->getId());
         if (!$canTransition) {
             return false;
@@ -201,15 +201,15 @@ class Records extends AsyncBase
     /**
      * Transition a record's owner if permitted.
      *
-     * @param string  $contentTypeSlug
      * @param Entity  $entity
      * @param integer $ownerId
      *
      * @return boolean
      */
-    protected function transistionRecordOwner($contentTypeSlug, $entity, $ownerId)
+    protected function transistionRecordOwner($entity, $ownerId)
     {
         $recordId = $entity->getId();
+        $contentTypeSlug = (string) $entity->getContenttype();
         $canChangeOwner = $this->isAllowed("contenttype:$contentTypeSlug:change-ownership:$recordId");
         if (!$canChangeOwner) {
             return false;
