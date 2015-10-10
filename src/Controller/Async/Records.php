@@ -85,16 +85,16 @@ class Records extends AsyncBase
      */
     protected function modifyContentType($contentTypeSlug, array $recordIds)
     {
-        foreach ($recordIds as $recordId => $actions) {
-            if ($actions === null) {
+        foreach ($recordIds as $recordId => $actionData) {
+            if ($actionData === null) {
                 continue;
             }
 
-            foreach ($actions as $action => $fieldData) {
+            foreach ($actionData as $action => $fieldData) {
                 if ($action === 'delete') {
-                    return $this->deleteRecord($contentTypeSlug, $recordId);
-                } else {
-                    return $this->modifyRecord($contentTypeSlug, $recordId, $fieldData);
+                    $this->deleteRecord($contentTypeSlug, $recordId);
+                } elseif ($action === 'modify') {
+                    $this->modifyRecord($contentTypeSlug, $recordId, $fieldData);
                 }
             }
         }
