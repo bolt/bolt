@@ -129,21 +129,17 @@ class Records extends AsyncBase
     {
         $modified = false;
         $repo = $this->getRepository($contentTypeSlug);
+        if (!$entity = $repo->find($recordId)) {
+            return;
+        }
 
-        foreach ($fieldData as $values) {
-            $entity = $repo->find($recordId);
-            if (!$entity) {
-                continue;
-            }
-
-            foreach ($values as $field => $value) {
-                if (strtolower($field) === 'status') {
-                    $modified = $this->transistionRecordStatus($entity, $value);
-                } elseif (strtolower($field) === 'ownerid') {
-                    $modified = $this->transistionRecordOwner($entity, $value);
-                } else {
-                    $modified = $this->modifyRecordValue($entity, $field, $value);
-                }
+        foreach ($fieldData as $field => $value) {
+            if (strtolower($field) === 'status') {
+                $modified = $this->transistionRecordStatus($entity, $value);
+            } elseif (strtolower($field) === 'ownerid') {
+                $modified = $this->transistionRecordOwner($entity, $value);
+            } else {
+                $modified = $this->modifyRecordValue($entity, $field, $value);
             }
 
             if ($modified) {
