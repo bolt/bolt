@@ -2,6 +2,7 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\Helpers\Input;
+use Bolt\Omnisearch;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\RequestException;
@@ -112,24 +113,14 @@ class General extends BackendBase
     {
         $query = $request->query->get('q', '');
         $records = [];
-        $files = [];
+        $others = [];
 
         if (strlen($query) >= 3) {
-            $pathSearch = $this->app['resources']->getUrl('bolt') . 'omnisearch';
-            $pathEdit = $this->app['resources']->getUrl('bolt') . 'file/edit/';
-
             foreach ($this->app['omnisearch']->query($query, true) as $result) {
                 if (isset($result['slug'])) {
-                    $records[$result['slug']][] = [
-                        'record' => $result['record'],
-                        'permissions' => $result['permissions'],
-                    ];
-                } elseif (substr($result['path'], 0, strlen($pathEdit)) === $pathEdit) {
-                    $result['file'] = substr($result['path'], strlen($pathEdit));
-                    $files[] = $result;
-                } elseif (substr($result['path'], 0, strlen($pathSearch)) != $pathSearch) {
-                    $result['file'] = basename($result['path']);
-                    $files[] = $result;
+                    $records[$result['slug']][] = $result;
+                } elseif ($result['priority'] !== Omnisearch::OMNISEARCH_LANDINGPAGE) {
+                    $others[] = $result;
                 }
             }
         }
@@ -137,7 +128,7 @@ class General extends BackendBase
         $context = [
             'query'   => $query,
             'records' => $records,
-            'files' => $files,
+            'others' => $others,
         ];
 
         return $this->render('@bolt/omnisearch/omnisearch.twig', $context);
