@@ -103,6 +103,11 @@ $sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 7);
 $sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 18);
 
 /**
+ * Fonts.
+ */
+$fonts-family-monospace: Menlo, Consolas, Monaco, "Courier New", monospace;
+
+/**
  * New media query approach.
  *
  * Breakpoints

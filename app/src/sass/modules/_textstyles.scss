@@ -47,7 +47,7 @@ em, i {
 }
 
 tt, code, .source-code {
-    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+    font-family: $fonts-family-monospace;
 }
 
 tt, code {
@@ -62,7 +62,7 @@ pre {
     background-color: #F2F2F2;
     color: #555;
     padding: 2px 4px;
-    font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+    font-family: $fonts-family-monospace;
 }
 
 small {
