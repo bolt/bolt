@@ -46,10 +46,12 @@
             {# List file results #}
             {% if context.others %}
                 <table class="table dashboardlisting buic-listing">
-                    <tbody class="striping_even omnisearch">
-                        <tr class="heading">
-                            <th>{{ __('Others') }}</th>
-                        </tr>
+                    <tbody class="{{ context.records ? 'striping_even' : 'striping_odd' }} omnisearch">
+                        {% if context.records %}
+                            <tr class="heading">
+                                <th>{{ __('Others') }}</th>
+                            </tr>
+                        {% endif %}
                         {% for item in context.others %}
                             <tr>
                                 <td class="fill-max">
