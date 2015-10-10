@@ -4,9 +4,11 @@ namespace Bolt\Controller\Async;
 
 use Bolt\Helpers\Input;
 use Bolt\Storage\Entity\Content;
+use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Async controller for record manipulation routes.
@@ -74,6 +76,7 @@ class Records extends AsyncBase
             }
         }
 
+        $response = new Response('Koala Detected!');
         return $response;
     }
 
@@ -90,59 +93,32 @@ class Records extends AsyncBase
                 continue;
             }
 
+            $repo = $this->getRepository($contentTypeSlug);
             foreach ($actionData as $action => $fieldData) {
-                if ($action === 'delete') {
-                    $this->deleteRecord($contentTypeSlug, $recordId);
-                } elseif ($action === 'modify') {
-                    $this->modifyRecord($contentTypeSlug, $recordId, $fieldData);
+                if (!$entity = $repo->find($recordId)) {
+                    continue;
                 }
+                $this->modifyContentTypeRecord($action, $repo, $entity, $fieldData);
             }
         }
     }
 
     /**
-     * Execute the deletion of a record.
+     * Perform modification action(s) on a ContentType record.
      *
-     * @param string $contentTypeSlug
-     * @param array  $recordIds
+     * @param string     $action
+     * @param Repository $repo
+     * @param Content    $entity
+     * @param array      $fieldData
      */
-    protected function deleteRecord($contentTypeSlug, $recordId)
+    protected function modifyContentTypeRecord($action, $repo, $entity, $fieldData)
     {
-        if (!$this->isAllowed("contenttype:$contentTypeSlug:delete:$recordId")) {
-            return;
-        }
+        if ($action === 'delete') {
+            $this->deleteRecord($repo, $entity);
+        } elseif ($action === 'modify') {
+            $this->modifyRecord($entity, $fieldData);
 
-        $repo = $this->getRepository($contentTypeSlug);
-        if ($entity = $repo->find($recordId)) {
-            $repo->delete($entity);
-        }
-    }
-
-    /**
-     * Modify a record's value(s).
-     *
-     * @param string  $contentTypeSlug
-     * @param integer $recordId
-     * @param array   $fieldData
-     */
-    protected function modifyRecord($contentTypeSlug, $recordId, $fieldData)
-    {
-        $modified = false;
-        $repo = $this->getRepository($contentTypeSlug);
-        if (!$entity = $repo->find($recordId)) {
-            return;
-        }
-
-        foreach ($fieldData as $field => $value) {
-            if (strtolower($field) === 'status') {
-                $modified = $this->transistionRecordStatus($entity, $value);
-            } elseif (strtolower($field) === 'ownerid') {
-                $modified = $this->transistionRecordOwner($entity, $value);
-            } else {
-                $modified = $this->modifyRecordValue($entity, $field, $value);
-            }
-
-            if ($modified) {
+            if ($entity->_modified === true) {
                 if ($repo->save($entity)) {
 // $this->flashes()->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", ['%title%' => $title, '%newStatus%' => $newStatus]));
                 } else {
@@ -153,13 +129,46 @@ class Records extends AsyncBase
     }
 
     /**
+     * Execute the deletion of a record.
+     *
+     * @param Repository $repo
+     * @param Content    $entity
+     */
+    protected function deleteRecord($repo, $entity)
+    {
+        $recordId = $entity->getId();
+        $contentTypeSlug = (string) $entity->getContenttype();
+        if (!$this->isAllowed("contenttype:$contentTypeSlug:delete:$recordId")) {
+            return;
+        }
+        $repo->delete($entity);
+    }
+
+    /**
+     * Modify a record's value(s).
+     *
+     * @param Content $entity
+     * @param array   $fieldData
+     */
+    protected function modifyRecord($entity, array $fieldData)
+    {
+        foreach ($fieldData as $field => $value) {
+            if (strtolower($field) === 'status') {
+                $this->transistionRecordStatus($entity, $value);
+            } elseif (strtolower($field) === 'ownerid') {
+                $this->transistionRecordOwner($entity, $value);
+            } else {
+                $this->modifyRecordValue($entity, $field, $value);
+            }
+        }
+    }
+
+    /**
      * Modify a record's value if permitted.
      *
-     * @param Entity $entity
-     * @param string $field
-     * @param mixed  $value
-     *
-     * @return boolean
+     * @param Content $entity
+     * @param string  $field
+     * @param mixed   $value
      */
     protected function modifyRecordValue($entity, $field, $value)
     {
@@ -167,40 +176,34 @@ class Records extends AsyncBase
         $contentTypeSlug = (string) $entity->getContenttype();
         $canModify = $this->isAllowed("contenttype:$contentTypeSlug:edit:$recordId");
         if (!$canModify) {
-            return false;
+            return;
         }
         $entity->$field = Input::cleanPostedData($value);
-
-        return true;
+        $entity->_modified = true;
     }
 
     /**
      * Transition a record's status if permitted.
      *
-     * @param Entity $entity
-     * @param string $newStatus
-     *
-     * @return boolean
+     * @param Content $entity
+     * @param string  $newStatus
      */
     protected function transistionRecordStatus($entity, $newStatus)
     {
         $contentTypeSlug = (string) $entity->getContenttype();
         $canTransition = $this->users()->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeSlug, $entity->getId());
         if (!$canTransition) {
-            return false;
+            return;
         }
         $entity->setStatus($newStatus);
-
-        return true;
+        $entity->_modified = true;
     }
 
     /**
      * Transition a record's owner if permitted.
      *
-     * @param Entity  $entity
+     * @param Content $entity
      * @param integer $ownerId
-     *
-     * @return boolean
      */
     protected function transistionRecordOwner($entity, $ownerId)
     {
@@ -208,10 +211,9 @@ class Records extends AsyncBase
         $contentTypeSlug = (string) $entity->getContenttype();
         $canChangeOwner = $this->isAllowed("contenttype:$contentTypeSlug:change-ownership:$recordId");
         if (!$canChangeOwner) {
-            return false;
+            return;
         }
         $entity->setOwnerid($ownerId);
-
-        return true;
+        $entity->_modified = true;
     }
 }
