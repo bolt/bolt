@@ -180,3 +180,16 @@ table.buic-listing {
         }
     }
 }
+
+/*
+ * Internal Usage, don't use!
+ */
+table.buic-listing {
+    /*
+     * Omnisearch.
+     */
+    tbody.omnisearch span {
+        font-weight: normal;
+        font-family: $fonts-family-monospace;
+    }
+}

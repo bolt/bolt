@@ -223,7 +223,7 @@
         font-size: 14px;
         line-height: 21px;
         color: #444;
-        font-family: Menlo, Consolas, Monaco, "Courier New", monospace;
+        font-family: $fonts-family-monospace;
     }
 
     /*** Input: Timepicker ***/
@@ -239,7 +239,7 @@
     .uk-htmleditor-content .CodeMirror {
         font-size: 14px;
         border: 0 !important;
-        font-family: Menlo, Consolas, Monaco, 'Courier New', monospace;
+        font-family: $fonts-family-monospace;
         margin: 0;
     }
 

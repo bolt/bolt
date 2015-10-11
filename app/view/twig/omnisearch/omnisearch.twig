@@ -44,21 +44,18 @@
             {% endfor %}
 
             {# List file results #}
-            {% if context.files %}
-                <table class="table dashboardlisting buic-listing omnisearchlisting">
-                    <tbody class="striping_odd">
-                        <tr class="heading">
-                            <th colspan="2">{{ __('Files') }}</th>
-                        </tr>
-                        {% for item in context.files %}
+            {% if context.others %}
+                <table class="table dashboardlisting buic-listing">
+                    <tbody class="{{ context.records ? 'striping_even' : 'striping_odd' }} omnisearch">
+                        {% if context.records %}
+                            <tr class="heading">
+                                <th>{{ __('Others') }}</th>
+                            </tr>
+                        {% endif %}
+                        {% for item in context.others %}
                             <tr>
                                 <td class="fill-max">
-                                    {{ item.file }}
-                                </td>
-                                <td>
-                                    <a class="btn btn-default btn-xs" href="{{ item.path }}">
-                                        <i class="fa fa-edit"></i> {{ __('Edit') }}
-                                    </a>
+                                    <a href="{{ item.path }}">{{ item.label|raw }}</a>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -67,7 +64,7 @@
             {% endif %}
 
             {# Nothing found #}
-            {% if not context.files and not context.records %}
+            {% if not context.records and not context.others %}
                 <p>{{ __("No results found for '%SEARCHTERM%'. Please try another search.", {'%SEARCHTERM%': context.query|escape}) }}</p>
             {% endif %}
         </div>
