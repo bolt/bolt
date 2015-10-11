@@ -286,7 +286,7 @@ class Extend implements ControllerProviderInterface, ServiceProviderInterface
         $package = $request->get('package');
         $versions = array('dev' => array(), 'stable' => array());
         $info = $app['extend.info']->info($package, $app['bolt_version']);
-        if (isset($info->version)) {
+        if (isset($info->version) && is_array($info->version)) {
             foreach ($info->version as $version) {
                 $versions[$version->stability][] = $version;
             }
