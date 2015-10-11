@@ -49,7 +49,7 @@
                         results.push({
                             id: item.path,
                             path: item.path,
-                            label: item.label,
+                            text: item.label,
                             priority: item.priority
                         });
                     });
@@ -58,7 +58,7 @@
                 }
             },
             templateResult: function (item) {
-                return item.label ? '<div>' + item.label + '</div><small>' + item.path + '</small>' : '';
+                return '<div>' + item.text + '</div>' + (item.path ? '<small>' + item.path + '</small>' : '');
             },
             templateSelection: function (item) {
                 window.location.href = item.path;
