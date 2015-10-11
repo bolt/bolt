@@ -6,11 +6,12 @@ namespace Bolt\Storage\Entity;
  */
 class FieldValue extends Entity
 {
-
+    protected $id;
     protected $value;
     protected $name;
     protected $grouping;
-    protected $type;
+    protected $fieldname;
+    protected $fieldtype;
     protected $contenttype;
     protected $content_id;
 
