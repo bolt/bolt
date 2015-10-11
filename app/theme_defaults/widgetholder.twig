@@ -1,9 +1,7 @@
 {% spaceless %}
-<section>
     <div class='widget' id='widget-{{ widget.key }}' data-key='{{ widget.key }}'
-    {% if widget.defer %} data-defer='true'{% endif %}
+    {%- if widget.defer %} data-defer='true'{% endif -%}
     >
         {{ html|default('<!-- placeholder for ' ~ widget.name ~ ' -->')|raw }}
     </div>
-</section>
 {% endspaceless %}
