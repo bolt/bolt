@@ -58,7 +58,7 @@
                 }
             },
             templateResult: function (item) {
-                return '<div>' + item.label + '</div><small>' + item.path + '</small>';
+                return item.label ? '<div>' + item.label + '</div><small>' + item.path + '</small>' : '';
             },
             templateSelection: function (item) {
                 window.location.href = item.path;
