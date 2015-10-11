@@ -67,6 +67,7 @@ class RepeaterType extends FieldTypeBase
             $split = explode('_', $fieldKey);
             $values[$split[0]][$split[1]][] = $split[2];
         }
+
         $collection = new RepeatingFieldCollection($this->em);
         $collection->setName($key);
 
@@ -133,11 +134,11 @@ class RepeaterType extends FieldTypeBase
 
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT(CONCAT_WS('_', f.name, f.grouping, f.id)) as $alias";
+                return "GROUP_CONCAT(DISTINCT CONCAT_WS('_', f.name, f.grouping, f.id)) as $alias";
             case 'sqlite':
-                return "GROUP_CONCAT(f.name||'_'||f.grouping||'_'||f.id) as $alias";
+                return "GROUP_CONCAT(DISTINCT f.name||'_'||f.grouping||'_'||f.id) as $alias";
             case 'postgresql':
-                return "string_agg(f.name||'_'||f.grouping||'_'||f.id) as $alias";
+                return "string_agg(DISTINCT f.name||'_'||f.grouping||'_'||f.id) as $alias";
         }
     }
 
@@ -177,44 +178,6 @@ class RepeaterType extends FieldTypeBase
         return $fields;
     }
 
-    protected function getQueryStatuses($entity)
-    {
-        $persisted = $this->getExistingFields($entity);
-
-        $key = $this->mapping['fieldname'];
-        $accessor = 'get'.ucfirst($key);
-
-        $index = [];
-
-        if (!$proposed instanceof RepeatingFields) {
-            $this->set($entity, $proposed);
-            $proposed = $entity->$accessor();
-        }
-
-        var_dump($proposed); exit;
-
-        foreach ($proposed as $group => $fields) {
-            foreach ($fields as $key=> $fieldValue) {
-                if(isset($persisted[$group][$key])) {
-                    $index['update'][$group][] = $key;
-                } else {
-                    $index['insert'][$group][] = $key;
-                }
-
-            }
-        }
-
-        foreach ($persisted as $group => $fields) {
-            foreach ($fields as $key=>$fieldValue) {
-                if (!isset($proposed[$group][$key])) {
-                    $index['delete'][$group][] = $key;
-                }
-            }
-
-        }
-
-        return $index;
-    }
 
 
     /**
@@ -233,7 +196,7 @@ class RepeaterType extends FieldTypeBase
             $typeCol = 'value_'.$type->getName();
 
             $fieldValue->$typeCol = $fieldValue->getValue();
-            $fieldValue->setFieldtype($type->getName());
+            $fieldValue->setFieldtype( $this->getFieldTypeName($fieldValue->getFieldname()) );
             $fieldValue->setContenttype((string)$entity->getContenttype());
 
             // This takes care of instances where an entity might be inserted, and thus not
@@ -271,12 +234,11 @@ class RepeaterType extends FieldTypeBase
     {
         foreach ($changes as $fieldValue) {
             $repo = $this->em->getRepository(get_class($fieldValue));
-            $field = $this->getFieldType($fieldValue->getName());
+            $field = $this->getFieldType($fieldValue->getFieldname());
             $type = $field->getStorageType();
             $typeCol = 'value_'.$type->getName();
             $fieldValue->$typeCol = $fieldValue->getValue();
 
-            var_dump($fieldValue); exit;
             // This takes care of instances where an entity might be inserted, and thus not
             // have an id. This registers a callback to set the id parameter when available.
             $queries->onResult(function ($query, $result, $id) use ($repo, $fieldValue) {
@@ -303,5 +265,19 @@ class RepeaterType extends FieldTypeBase
         $setting = $mapping['fieldtype'];
 
         return $this->em->getFieldManager()->get($setting, $mapping);
+    }
+
+    /**
+     * @param $field
+     * @return mixed
+     * @throws FieldConfigurationException
+     */
+    protected function getFieldTypeName($field)
+    {
+        if (!isset($this->mapping['data']['fields'][$field]['type'])) {
+            throw new FieldConfigurationException('Invalid repeating field configuration for '.$field);
+        }
+        $mapping = $this->mapping['data']['fields'][$field];
+        return $mapping['type'];
     }
 }
