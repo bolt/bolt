@@ -597,25 +597,10 @@ class Extensions
      * Insert a widget. And by 'insert' we actually mean 'add it to the queue,
      * to be processed later'.
      *
-     * @param        $type
-     * @param        $location
-     * @param        $callback
-     * @param        $extensionname
-     * @param string $additionalhtml
-     * @param bool   $defer
-     * @param int    $cacheduration
-     * @param string $extraparameters
+     * @param array $options
      */
     public function insertWidget($options)
     {
-
-        // Was: $type, $location, $callback, $extensionname, $additionalhtml = '', $defer = true, $cacheduration = 180, $extraparameters = ""
-
-        // dump($options);
-
-        // $authSession = $this->app['session']->get('authentication');
-        // $sessionkey = $authSession->getToken()->getToken();
-
         $options['key'] = substr(md5(json_encode($options)), 0, 8);
 
         $this->widgetqueue[] = $options;
@@ -669,6 +654,7 @@ class Extensions
      */
     public function renderWidget($key)
     {
+
         foreach ($this->widgetqueue as $widget) {
             if ($key == $widget['key']) {
                 $cachekey = 'widget_' . $widget['key'];

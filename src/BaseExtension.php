@@ -639,17 +639,7 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Add/Insert a Widget (for instance, on the dashboard).
      *
-     * @param string $type
-     * @param string $location
-     * @param mixed  $callback
-     * @param string $additionalhtml
-     * @param bool   $defer
-     * @param int    $cacheduration
-     * @param string $var1
-     * @param string $var2
-     * @param string $var3
-     *
-     * @internal param string $name
+     * @param array $options
      */
     public function addWidget($options)
     {
@@ -667,9 +657,6 @@ abstract class BaseExtension implements ExtensionInterface
         if (is_string($options['callback']) && method_exists($this, $options['callback'])) {
             $options['callback'] = [$this, $options['callback']];
         }
-
-        // dump($options);
-        // was: $type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = ""
 
         $this->app['extensions']->insertWidget($options);
     }
