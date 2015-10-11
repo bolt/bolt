@@ -49,8 +49,7 @@
                         results.push({
                             id: item.path,
                             path: item.path,
-                            label: item.label,
-                            priority: item.priority
+                            text: item.label
                         });
                     });
 
@@ -58,7 +57,10 @@
                 }
             },
             templateResult: function (item) {
-                return '<div>' + item.label + '</div><small>' + item.path + '</small>';
+                var path = item.path ? '<small>' + item.path + '</small>' : '',
+                    spinner = item.loading ? '<i class="fa fa-spinner fa-spin"></i> ' : '';
+
+                return '<div>' + spinner + item.text + '</div>' + path;
             },
             templateSelection: function (item) {
                 window.location.href = item.path;
