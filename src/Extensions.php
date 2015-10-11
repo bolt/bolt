@@ -620,7 +620,7 @@ class Extensions
                 if ($type == $widget['type'] && $position == $widget['position']) {
 
                     if (!$widget['defer']) {
-                        $widgethtml = $this->renderWidget($widget['key']);
+                        $widgethtml = $this->renderWidget($widget['key'], true);
                     } else {
                         $widgethtml = '';
                     }
@@ -652,11 +652,11 @@ class Extensions
      *
      * @return string HTML
      */
-    public function renderWidget($key)
+    public function renderWidget($key, $override = false)
     {
 
         foreach ($this->widgetqueue as $widget) {
-            if ($key == $widget['key']) {
+            if ($key == $widget['key'] && ($widget['defer'] || $override)) {
                 $cachekey = 'widget_' . $widget['key'];
 
                 if ($this->app['cache']->contains($cachekey)) {
@@ -679,7 +679,7 @@ class Extensions
             }
         }
 
-        return "Invalid key '$key'. No widget found.";
+        return 'Invalid key "' . $key . '". No widget found.';
     }
 
     /**
