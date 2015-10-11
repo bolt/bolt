@@ -4,7 +4,7 @@ namespace Bolt\AccessControl;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
-use Hautelook\Phpass\PasswordHash;
+use PasswordLib\PasswordLib;
 use Silex\Application;
 
 /**
@@ -116,9 +116,10 @@ class Password
         }
 
         // Generate shadow password and hash
-        $hasher = new PasswordHash($this->app['access_control.hash.strength'], true);
+        $crypt = new PasswordLib();
+        $cost = $this->app['access_control.hash.strength'];
         $shadowPassword = $this->app['randomgenerator']->generateString(12);
-        $shadowPasswordHash = $hasher->HashPassword($shadowPassword);
+        $shadowPasswordHash = $crypt->createPasswordHash($shadowPassword, '$2a$', ['cost' => $cost]);
 
         // Generate shadow token and hash
         $shadowToken = $this->app['randomgenerator']->generateString(32);
