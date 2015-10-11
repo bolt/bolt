@@ -49,8 +49,7 @@
                         results.push({
                             id: item.path,
                             path: item.path,
-                            text: item.label,
-                            priority: item.priority
+                            text: item.label
                         });
                     });
 
