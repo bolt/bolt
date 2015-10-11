@@ -58,7 +58,10 @@
                 }
             },
             templateResult: function (item) {
-                return '<div>' + item.text + '</div>' + (item.path ? '<small>' + item.path + '</small>' : '');
+                var path = item.path ? '<small>' + item.path + '</small>' : '',
+                    spinner = item.loading ? '<i class="fa fa-spinner fa-spin"></i> ' : '';
+
+                return '<div>' + spinner + item.text + '</div>' + path;
             },
             templateSelection: function (item) {
                 window.location.href = item.path;
