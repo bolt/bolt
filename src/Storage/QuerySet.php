@@ -47,11 +47,14 @@ class QuerySet extends \ArrayIterator
                     if ($query->getType() === 3) {
                         $this->lastInsertId = $query->getConnection()->lastInsertId();
                     }
+                    foreach ($this->resultCallbacks as $callback) {
+                        $callback($query, $result, $this->getParentId());
+                    }
                 } else {
+                    foreach ($this->resultCallbacks as $callback) {
+                        $callback($query, $result, $this->getParentId());
+                    }
                     $query->execute();
-                }
-                foreach ($this->resultCallbacks as $callback) {
-                    $callback($query, $result, $this->getParentId());
                 }
             } catch (\Exception $e) {
                 throw $e;
