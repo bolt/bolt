@@ -82,7 +82,9 @@ class ContentRepository extends Repository
     public function hydrateLegacyHandler(HydrationEvent $event)
     {
         $entity = $event->getArgument('entity');
-        $entity->setLegacyService($this->legacy);
+        if (get_class($entity) === 'Bolt\Storage\Entity\Content') {
+            $entity->setLegacyService($this->legacy);
+        }
     }
 
     /**
