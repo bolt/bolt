@@ -5,7 +5,7 @@ use Bolt\AccessControl\Token\Token;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
-use Hautelook\Phpass\PasswordHash;
+use PasswordLib\PasswordLib;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -86,8 +86,8 @@ class Login extends AccessChecker
             return false;
         }
 
-        $hasher = new PasswordHash($this->app['access_control.hash.strength'], true);
-        if (!$hasher->CheckPassword($password, $userEntity->getPassword())) {
+        $crypt = new PasswordLib();
+        if (!$crypt->verifyPasswordHash($password, $userEntity->getPassword())) {
             $this->loginFailed($userEntity);
 
             return false;

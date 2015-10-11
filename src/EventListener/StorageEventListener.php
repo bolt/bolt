@@ -6,7 +6,7 @@ use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
-use Hautelook\Phpass\PasswordHash;
+use PasswordLib\PasswordLib;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -23,8 +23,8 @@ class StorageEventListener implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param string        $hashStrength
      * @param EntityManager $em
+     * @param Config        $config
      */
     public function __construct(EntityManager $em, Config $config, $hashStrength)
     {
@@ -72,8 +72,6 @@ class StorageEventListener implements EventSubscriberInterface
     /**
      * Hash user passwords on save.
      *
-     * Hashstrength has a default of '10', don't allow less than '8'.
-     *
      * @param Entity\Users $usersEntity
      */
     protected function passwordHash(Entity\Users $usersEntity)
@@ -81,8 +79,8 @@ class StorageEventListener implements EventSubscriberInterface
         if ($usersEntity->getShadowSave()) {
             return;
         } elseif ($usersEntity->getPassword() && $usersEntity->getPassword() !== '**dontchange**') {
-            $hasher = new PasswordHash($this->hashStrength, true);
-            $usersEntity->setPassword($hasher->HashPassword($usersEntity->getPassword()));
+            $crypt = new PasswordLib();
+            $usersEntity->setPassword($crypt->createPasswordHash($usersEntity->getPassword(), '$2a$', ['cost' => $this->hashStrength]));
         } else {
             unset($usersEntity->password);
         }
