@@ -654,6 +654,12 @@ abstract class BaseExtension implements ExtensionInterface
     public function addWidget($options)
     {
 
+        if (is_string($options)) {
+            // If $options is a string, we're using an old-style widget. Log an error, and ignore.
+            $this->app['logger.system']->error('Ignored old style widget extension', ['event' => 'extensions']);
+            return;
+        }
+
         $options['name'] = $this->getName();
         $options['slug'] = $this->app['slugify']->slugify($this->getName());
 
