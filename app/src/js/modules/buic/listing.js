@@ -94,7 +94,10 @@
                             url: url,
                             type: 'POST',
                             data: {
-                                'path': window.location.pathname,
+                                'path': window.location.pathname + window.location.search + window.location.hash,
+                                'pathname': window.location.pathname,
+                                'search': window.location.search,
+                                'hash': window.location.hash,
                                 'bolt_csrf_token': $(table).data('bolt_csrf_token'),
                                 'modifications': modifications
                             },
