@@ -60,7 +60,7 @@
                 checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
                 selectedIds = [],
                 selectedRows = [],
-                data = {},
+                modifications = {},
                 notice;
 
             $(checkboxes).each(function () {
@@ -75,10 +75,10 @@
 
             if (selectedIds.length > 0) {
                 // Build POST data.
-                data[contenttype] = {};
+                modifications[contenttype] = {};
                 $(selectedIds).each(function () {
-                    data[contenttype][this] = {'delete': null};
-                    //data[contenttype][this] = {'modify': {'status': 'published'}};
+                    modifications[contenttype][this] = {'delete': null};
+                    //modifications[contenttype][this] = {'modify': {'status': 'published'}};
                 });
 
                 notice = selectedIds.length === 1 ? Bolt.data('recordlisting.delete_one')
@@ -87,13 +87,16 @@
                 bootbox.confirm(notice, function (confirmed) {
                     $('.alert').alert();
                     if (confirmed === true) {
-                        var url = Bolt.conf('paths.async') + 'content/modify',
-                            token = '?bolt_csrf_token=' + $(table).data('bolt_csrf_token');
+                        var url = Bolt.conf('paths.async') + 'content/modify';
 
                         // Delete request.
                         $.ajax({
                             url: url + token,
                             type: 'POST',
+                            data: {
+                                'bolt_csrf_token': $(table).data('bolt_csrf_token'),
+                                'modifications': modifications
+                            },
                             success: function (data) {
                                 console.log('Success');
                                 console.log(data);
