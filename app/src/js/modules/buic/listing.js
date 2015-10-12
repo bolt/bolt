@@ -91,7 +91,7 @@
 
                         // Delete request.
                         $.ajax({
-                            url: url + token,
+                            url: url,
                             type: 'POST',
                             data: {
                                 'bolt_csrf_token': $(table).data('bolt_csrf_token'),
