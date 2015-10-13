@@ -13,8 +13,10 @@ class Manager
 
     protected $defaults = [
         'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'video', 'hidden', 'html',
-        'textarea', 'datetime', 'date', 'select', 'templateselect', 'templatefields', 'markdown', 'checkbox', 'slug', 'repeater'
+        'textarea', 'datetime', 'date', 'select', 'templateselect', 'templatefields', 'markdown', 'checkbox', 'slug'
     ];
+
+    protected $dummyFields = ['repeater'];
 
     public function __construct()
     {
@@ -45,6 +47,6 @@ class Manager
 
     public function has($field)
     {
-        return isset($this->fields[$field]);
+        return isset($this->fields[$field]) || isset($this->dummyFields[$field]);
     }
 }
