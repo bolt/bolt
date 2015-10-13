@@ -99,6 +99,7 @@
                                 'search': window.location.search,
                                 'hash': window.location.hash,
                                 'bolt_csrf_token': $(table).data('bolt_csrf_token'),
+                                'contenttype': contenttype,
                                 'modifications': modifications
                             },
                             success: function (data) {
