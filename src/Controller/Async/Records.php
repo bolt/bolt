@@ -65,6 +65,7 @@ class Records extends AsyncBase
             $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
         }
 
+        $contentType = $request->get('contenttype');
         $actionData = $request->get('modifications');
         if ($actionData === null) {
             throw new \UnexpectedValueException('No content action data provided in the request.');
@@ -79,8 +80,25 @@ class Records extends AsyncBase
             }
         }
 
-        $response = new Response('Koala Detected!');
-        return $response;
+        $referer = Request::create($request->server->get('HTTP_REFERER'));
+        $order = $referer->query->get('order');
+        $page = $referer->query->get('page');
+        $filter = $referer->query->get('filter');
+        $taxonomy = null;
+        foreach (array_keys($this->getOption('taxonomy', [])) as $taxonomyKey) {
+            if ($referer->query->get('taxonomy-' . $taxonomyKey)) {
+                $taxonomy[$taxonomyKey] = $referer->query->get('taxonomy-' . $taxonomyKey);
+            }
+        }
+
+        $context = [
+            'contenttype'     => $this->getContentType($contentType),
+            'multiplecontent' => $this->app['storage.request.listing']->action($contentType, $order, $page, $taxonomy, $filter),
+            'filter'          => array_merge((array) $taxonomy, (array) $filter),
+            'permissions'     => $this->getContentTypeUserPermissions($contentType, $this->users()->getCurrentUser())
+        ];
+
+        return $this->render('@bolt/overview/overview.twig', $context);
     }
 
     /**
