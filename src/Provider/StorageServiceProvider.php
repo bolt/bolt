@@ -10,7 +10,7 @@ use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldManager;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
-use Bolt\Storage\RecordModifier;
+use Bolt\Storage\ContentRequest;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -153,11 +153,19 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['storage.record_modifier'] = $app->share(
+        $app['storage.request.edit'] = $app->share(
             function ($app) {
-                $cm = new RecordModifier($app);
+                $cr = new ContentRequest\Edit($app);
 
-                return $cm;
+                return $cr;
+            }
+        );
+
+        $app['storage.request.save'] = $app->share(
+            function ($app) {
+                $cr = new ContentRequest\Save($app);
+
+                return $cr;
             }
         );
 
