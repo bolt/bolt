@@ -24,6 +24,15 @@ class AccessCheckerTest extends BoltUnitTest
         $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
     }
 
+    public function testIsValidSessionNoCookie()
+    {
+        $accessControl = $this->getAccessControl();
+        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+
+        $response = $accessControl->isValidSession(null);
+        $this->assertFalse($response);
+    }
+
     /**
      * @return \Bolt\AccessControl\AccessChecker
      */
