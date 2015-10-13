@@ -47,6 +47,6 @@ class Manager
 
     public function has($field)
     {
-        return isset($this->fields[$field]) || isset($this->dummyFields[$field]);
+        return (isset($this->fields[$field]) || in_array($field, $this->dummyFields));
     }
 }
