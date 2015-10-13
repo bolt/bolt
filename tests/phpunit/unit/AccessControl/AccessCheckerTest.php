@@ -61,6 +61,32 @@ class AccessCheckerTest extends BoltUnitTest
     }
 
     /**
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage getAuthToken required a name and salt to be provided.
+     */
+    public function testIsValidSessionInvalidSalt()
+    {
+        $app = $this->getApp();
+
+        $userEntity = new Entity\Users();
+        $tokenEntity = new Entity\Authtoken();
+
+        $userEntity->setUsername('koala');
+        $tokenEntity->setSalt(null);
+
+        $token = new Token($userEntity, $tokenEntity);
+
+        $app['session']->start();
+        $app['session']->set('authentication', $token);
+
+        $accessControl = $this->getAccessControl();
+        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+
+        $response = $accessControl->isValidSession($token);
+        $this->assertFalse($response);
+    }
+
+    /**
      * @return \Bolt\AccessControl\AccessChecker
      */
     protected function getAccessControl()
