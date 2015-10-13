@@ -86,6 +86,38 @@ class AccessCheckerTest extends BoltUnitTest
         $this->assertFalse($response);
     }
 
+    public function testIsValidSessionGenerateToken()
+    {
+        $app = $this->getApp(false);
+
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['info']);
+        $logger->expects($this->atLeastOnce())
+            ->method('info')
+            ->with($this->equalTo('You have been logged out.'));
+        $app['logger.flash'] = $logger;
+
+        $app->boot();
+
+        $userEntity = new Entity\Users();
+        $tokenEntity = new Entity\Authtoken();
+
+        $userEntity->setUsername('koala');
+        $tokenEntity->setToken('gum-leaves');
+        $tokenEntity->setSalt('vinagre');
+        $tokenEntity->setUseragent('Bolt PHPUnit tests');
+
+        $token = new Token($userEntity, $tokenEntity);
+
+        $app['session']->start();
+        $app['session']->set('authentication', $token);
+
+        $accessControl = $this->getAccessControl();
+        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+
+        $response = $accessControl->isValidSession($token);
+        $this->assertFalse($response);
+    }
+
     /**
      * @return \Bolt\AccessControl\AccessChecker
      */
