@@ -61,8 +61,11 @@ class Records extends AsyncBase
      */
     public function modify(Request $request)
     {
-        $actionData = $request->get('modifications');
+        if (!$this->checkAntiCSRFToken($request->get('bolt_csrf_token'))) {
+            $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
+        }
 
+        $actionData = $request->get('modifications');
         if ($actionData === null) {
             throw new \UnexpectedValueException('No content action data provided in the request.');
         }
