@@ -66,7 +66,7 @@ class Records extends BackendBase
             $returnTo = $request->get('returnto');
             $editReferrer = $request->get('editreferrer');
 
-            return $this->recordModifier()->handleSaveRequest($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
+            return $this->recordSave()->handleSaveRequest($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
         }
 
         // Get the record
@@ -85,7 +85,7 @@ class Records extends BackendBase
 
         // We're doing a GET
         $duplicate = $request->query->get('duplicate', false);
-        $context = $this->recordModifier()->handleEditRequest($content, $contenttype, $duplicate);
+        $context = $this->recordEdit()->handleEditRequest($content, $contenttype, $duplicate);
 
         return $this->render('@bolt/editcontent/editcontent.twig', $context);
     }
@@ -275,10 +275,18 @@ class Records extends BackendBase
     }
 
     /**
-     * @return \Bolt\Storage\RecordModifier
+     * @return \Bolt\Storage\ContentRequest\Edit
      */
-    protected function recordModifier()
+    protected function recordEdit()
     {
-        return $this->app['storage.record_modifier'];
+        return $this->app['storage.request.edit'];
+    }
+
+    /**
+     * @return \Bolt\Storage\ContentRequest\Save
+     */
+    protected function recordSave()
+    {
+        return $this->app['storage.request.save'];
     }
 }
