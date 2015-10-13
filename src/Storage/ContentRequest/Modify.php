@@ -4,28 +4,15 @@ namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
-use Silex\Application;
 
 /**
- * Helper class for \Bolt\Controller\Async\Records route.
+ * Helper class for ContentType record (mass) field modifications and status
+ * transitions.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Modify
+class Modify extends BaseContentRequest
 {
-    /** @var Application $app */
-    private $app;
-
-    /**
-     * Constructor function.
-     *
-     * @param Application $app
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Modify an individual ContentType's records.
      *

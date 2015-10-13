@@ -7,35 +7,20 @@ use Bolt\Helpers\Input;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
-use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Helper class for \Bolt\Controller\Backend\Records routes.
+ * Helper class for ContentType record editor saves.
  *
- * Prior to v2.3 this functionality primarily existed in the monolithic
- * Bolt\Controllers\Backend class.
+ * Prior to v2.3 this functionality existed in \Bolt\Controllers\Backend::editcontent().
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Save
+class Save extends BaseContentRequest
 {
-    /** @var Application $app */
-    private $app;
-
-    /**
-     * Constructor function.
-     *
-     * @param Application $app
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Do the save for a POSTed record.
      *

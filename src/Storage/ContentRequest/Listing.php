@@ -2,28 +2,13 @@
 
 namespace Bolt\Storage\ContentRequest;
 
-use Silex\Application;
-
 /**
- * Helper class for \Bolt\Controller\Backend\Records routes.
+ * Helper class for ContentType overview listings.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Listing
+class Listing extends BaseContentRequest
 {
-    /** @var Application $app */
-    private $app;
-
-    /**
-     * Constructor function.
-     *
-     * @param Application $app
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Fetch a listing of ContentType records.
      *

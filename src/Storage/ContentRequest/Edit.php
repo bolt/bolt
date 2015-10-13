@@ -5,31 +5,16 @@ namespace Bolt\Storage\ContentRequest;
 use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
-use Silex\Application;
 
 /**
- * Helper class for \Bolt\Controller\Backend\Records routes.
+ * Helper class for ContentType record editor edits.
  *
- * Prior to v2.3 this functionality primarily existed in the monolithic
- * Bolt\Controllers\Backend class.
+ * Prior to v2.3 this functionality existed in \Bolt\Controllers\Backend::editcontent().
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Edit
+class Edit extends BaseContentRequest
 {
-    /** @var Application $app */
-    private $app;
-
-    /**
-     * Constructor function.
-     *
-     * @param Application $app
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
     /**
      * Do the edit form for a record.
      *
