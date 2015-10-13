@@ -18,6 +18,7 @@ class FieldLoadTest extends BoltUnitTest
         $this->resetDb();
         $app = $this->getApp();
         $app['schema']->repairTables();
+        $this->addDefaultUser($app);
         $this->addSomeContent();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
