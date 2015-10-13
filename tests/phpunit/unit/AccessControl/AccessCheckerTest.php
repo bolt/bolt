@@ -18,6 +18,12 @@ class AccessCheckerTest extends BoltUnitTest
         $this->resetDb();
     }
 
+    public function testLoadAccessControl()
+    {
+        $accessControl = $this->getAccessControl();
+        $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
+    }
+
     /**
      * @return \Bolt\AccessControl\AccessChecker
      */
