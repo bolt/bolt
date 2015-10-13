@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Controller\Backend;
 
+use Bolt\Storage\ContentRequest\Listing;
 use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
-use GuzzleHttp\Psr7\Uri;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -108,42 +108,20 @@ class Records extends BackendBase
             return $this->redirectToRoute('dashboard');
         }
 
-        // Order has to be set carefully. Either set it explicitly when the user
-        // sorts, or fall back to what's defined in the contenttype. Except for
-        // a ContentType that has a "grouping taxonomy", as that should override
-        // it. That exception state is handled by the query OrderHandler.
-        $contenttype = $this->getContentType($contenttypeslug);
-        $contentparameters = ['paging' => true, 'hydrate' => true];
-        $contentparameters['order'] = $request->query->get('order', $contenttype['sort']);
-        $contentparameters['page'] = $request->query->get('page');
-
-        $filter = [];
-        if ($request->query->get('filter')) {
-            $contentparameters['filter'] = $request->query->get('filter');
-            $filter[] = $request->query->get('filter');
-        }
-
-        // Set the amount of items to show per page.
-        if (!empty($contenttype['recordsperpage'])) {
-            $contentparameters['limit'] = $contenttype['recordsperpage'];
-        } else {
-            $contentparameters['limit'] = $this->getOption('general/recordsperpage');
-        }
-
-        // Perhaps also filter on taxonomies
-        foreach (array_keys($this->getOption('taxonomy', [])) as $taxonomykey) {
-            if ($request->query->get('taxonomy-' . $taxonomykey)) {
-                $contentparameters[$taxonomykey] = $request->query->get('taxonomy-' . $taxonomykey);
-                $filter[] = $request->query->get('taxonomy-' . $taxonomykey);
+        $order = $request->query->get('order');
+        $page = $request->query->get('page');
+        $filter = $request->query->get('filter');
+        $taxonomy = null;
+        foreach (array_keys($this->getOption('taxonomy', [])) as $taxonomyKey) {
+            if ($request->query->get('taxonomy-' . $taxonomyKey)) {
+                $taxonomy[$taxonomyKey] = $request->query->get('taxonomy-' . $taxonomyKey);
             }
         }
 
-        $multiplecontent = $this->getContent($contenttypeslug, $contentparameters);
-
         $context = [
-            'contenttype'     => $contenttype,
-            'multiplecontent' => $multiplecontent,
-            'filter'          => $filter,
+            'contenttype'     => $this->getContentType($contenttypeslug),
+            'multiplecontent' => $this->recordListing()->listing($contenttypeslug, $order, $page, $taxonomy, $filter),
+            'filter'          => array_merge((array) $taxonomy, (array) $filter),
             'permissions'     => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser())
         ];
 
@@ -280,6 +258,14 @@ class Records extends BackendBase
     protected function recordEdit()
     {
         return $this->app['storage.request.edit'];
+    }
+
+    /**
+     * @return \Bolt\Storage\ContentRequest\Listing
+     */
+    protected function recordListing()
+    {
+        return $this->app['storage.request.listing'];
     }
 
     /**
