@@ -76,6 +76,9 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
+        // This uses a class name as the field types can optionally be injected
+        // as services but the field manager only knows the class name, so we
+        // use this to look up if there ss a service regsitered
         $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = $app->protect(
             function ($mapping) use ($app) {
                 $field = new TemplateFieldsType(
