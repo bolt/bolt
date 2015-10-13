@@ -56,7 +56,7 @@ class FieldValue extends BaseTable
         return [
             ['column' => 'value_date', 'property' => 'type'],
             ['column' => 'value_datetime', 'property' => 'type'],
-            ['column' => 'value_json', 'property' => 'type']
+            ['column' => 'value_json_array', 'property' => 'type']
         ];
     }
 }
