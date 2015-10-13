@@ -172,6 +172,14 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['storage.request.modify'] = $app->share(
+            function ($app) {
+                $cr = new ContentRequest\Modify($app);
+
+                return $cr;
+            }
+        );
+
         $app['storage.request.save'] = $app->share(
             function ($app) {
                 $cr = new ContentRequest\Save($app);
