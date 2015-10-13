@@ -1089,6 +1089,9 @@ class Storage
     {
         $this->checkedfortimed[$type . '-' . $contenttypeSlug] = true;
         $tablename = $this->getContenttypeTablename($contenttypeSlug);
+        if ($this->tableExists($tablename) === false) {
+            return;
+        }
 
         try {
             // Check for record that need to be published/de-published
@@ -1099,10 +1102,10 @@ class Storage
 
             /** @var QueryBuilder $query */
             $query = $this->app['db']->createQueryBuilder()
-                        ->update($tablename)
-                        ->set('status', ':newstatus')
-                        ->set('datechanged', ':datechanged')
-                        ->setParameter('datechanged', date('Y-m-d H:i:s'))
+                ->update($tablename)
+                ->set('status', ':newstatus')
+                ->set('datechanged', ':datechanged')
+                ->setParameter('datechanged', date('Y-m-d H:i:s'))
             ;
 
             $this->timedWhere($query, $type);
