@@ -48,7 +48,7 @@ class Save
      *
      * @return Response
      */
-    public function handleSaveRequest(array $formValues, array $contenttype, $id, $new, $returnTo, $editReferrer)
+    public function action(array $formValues, array $contenttype, $id, $new, $returnTo, $editReferrer)
     {
         $contentTypeSlug = $contenttype['slug'];
         $repo = $this->app['storage']->getRepository($contentTypeSlug);

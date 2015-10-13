@@ -33,7 +33,7 @@ class Listing
      * @param array   $taxonomies
      * @param string  $filter
      */
-    public function listing($contentTypeSlug, $order = null, $page = null, array $taxonomies = null, $filter = null)
+    public function action($contentTypeSlug, $order = null, $page = null, array $taxonomies = null, $filter = null)
     {
         // Order has to be set carefully. Either set it explicitly when the user
         // sorts, or fall back to what's defined in the contenttype. Except for

@@ -39,7 +39,7 @@ class Edit
      *
      * @return array
      */
-    public function handleEditRequest(Content $content, array $contenttype, $duplicate)
+    public function action(Content $content, array $contenttype, $duplicate)
     {
         $contenttypeSlug = $contenttype['slug'];
         $new = $content->getId() === null ?: false;

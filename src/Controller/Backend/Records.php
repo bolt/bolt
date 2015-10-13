@@ -7,6 +7,8 @@ use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bolt\Storage\ContentRequest\Save;
+use Bolt\Storage\ContentRequest\Edit;
 
 /**
  * Backend controller for record manipulation routes.
@@ -66,7 +68,7 @@ class Records extends BackendBase
             $returnTo = $request->get('returnto');
             $editReferrer = $request->get('editreferrer');
 
-            return $this->recordSave()->handleSaveRequest($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
+            return $this->recordSave()->action($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
         }
 
         // Get the record
@@ -85,7 +87,7 @@ class Records extends BackendBase
 
         // We're doing a GET
         $duplicate = $request->query->get('duplicate', false);
-        $context = $this->recordEdit()->handleEditRequest($content, $contenttype, $duplicate);
+        $context = $this->recordEdit()->action($content, $contenttype, $duplicate);
 
         return $this->render('@bolt/editcontent/editcontent.twig', $context);
     }
@@ -120,7 +122,7 @@ class Records extends BackendBase
 
         $context = [
             'contenttype'     => $this->getContentType($contenttypeslug),
-            'multiplecontent' => $this->recordListing()->listing($contenttypeslug, $order, $page, $taxonomy, $filter),
+            'multiplecontent' => $this->recordListing()->action($contenttypeslug, $order, $page, $taxonomy, $filter),
             'filter'          => array_merge((array) $taxonomy, (array) $filter),
             'permissions'     => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser())
         ];
