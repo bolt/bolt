@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Storage;
+namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Exception\AccessControlException;
 use Bolt\Helpers\Input;
