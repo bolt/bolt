@@ -4,6 +4,11 @@ Contributing to Bolt
 If you are reading this, you must be considering opening an issue for help with
 a bug, to suggest a new feature or help out with a Pull Request. Great!
 
+For questions about working with Bolt or support issues, please post on the 
+[forum](https://discuss.bolt.cm) instead. If you post these kinds of topics there, 
+we can keep the _issues_ list organized, with actual issues that need to be 
+handled in the Bolt source code itself. 
+
 To streamline this process, we've made this small document, to help you report
 your issue or feature more efficiently. We did our best to keep it brief, so
 please read it carefully.
