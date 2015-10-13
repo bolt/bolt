@@ -198,9 +198,10 @@ class RecordsTest extends ControllerUnitTest
         ));
         $response = $this->controller()->overview($this->getRequest(), 'pages');
         $context = $response->getContext();
+
         $this->assertArrayHasKey('filter', $context['context']);
         $this->assertEquals('Lorem', $context['context']['filter'][0]);
-        $this->assertEquals('main', $context['context']['filter'][1]);
+        $this->assertEquals('main', $context['context']['filter']['chapters']);
     }
 
     public function testRelated()
