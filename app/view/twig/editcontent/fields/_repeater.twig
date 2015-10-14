@@ -9,6 +9,7 @@
 {% block fieldset_label_class 'col-xs-12' %}
 
 {% block fieldset_controls %}
+    {{ dump(field.fields) }}
     <script type="text/template">
         {% for rkey, rfield in field.fields %}
             {% include context.fields[rfield.type].template with {
@@ -18,4 +19,5 @@
             } %}
         {% endfor %}
     </script>
+    {% if not repeatfields.length %}
 {% endblock fieldset_controls %}
