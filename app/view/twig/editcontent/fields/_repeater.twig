@@ -1,6 +1,6 @@
 TEMPLATE FOR REPEATER
 {% set repeatfields = context.content.get('contentkey') %}
-
+{{ dump(repeatfields) }}
 {% for key, field in repeatfields %}
     {{ dump(key) }}
 
