@@ -47,7 +47,7 @@ class Modify extends BaseContentRequest
      * @param string     $action
      * @param array      $fieldData
      */
-    protected function modifyContentTypeRecord($repo, $entity, $action, array $fieldData)
+    protected function modifyContentTypeRecord(Repository $repo, Content $entity, $action, array $fieldData)
     {
         if ($action === 'delete') {
             $this->deleteRecord($repo, $entity);
@@ -56,9 +56,9 @@ class Modify extends BaseContentRequest
 
             if ($entity->_modified === true) {
                 if ($repo->save($entity)) {
-// $this->flashes()->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", ['%title%' => $title, '%newStatus%' => $newStatus]));
+// $this->app['logger.flash']->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", ['%title%' => $title, '%newStatus%' => $newStatus]));
                 } else {
-// $this->flashes()->info(Trans::__("Content '%title%' could not be modified.", ['%title%' => $title]));
+// $this->app['logger.flash']->info(Trans::__("Content '%title%' could not be modified.", ['%title%' => $title]));
                 }
             }
         }
@@ -70,7 +70,7 @@ class Modify extends BaseContentRequest
      * @param Repository $repo
      * @param Content    $entity
      */
-    protected function deleteRecord($repo, $entity)
+    protected function deleteRecord(Repository $repo, Content $entity)
     {
         $recordId = $entity->getId();
         $contentTypeName = (string) $entity->getContenttype();
@@ -86,7 +86,7 @@ class Modify extends BaseContentRequest
      * @param Content $entity
      * @param array   $fieldData
      */
-    protected function modifyRecord($entity, array $fieldData)
+    protected function modifyRecord(Content $entity, array $fieldData)
     {
         foreach ($fieldData as $field => $value) {
             if (strtolower($field) === 'status') {
@@ -106,7 +106,7 @@ class Modify extends BaseContentRequest
      * @param string  $field
      * @param mixed   $value
      */
-    protected function modifyRecordValue($entity, $field, $value)
+    protected function modifyRecordValue(Content $entity, $field, $value)
     {
         $recordId = $entity->getId();
         $contentTypeName = (string) $entity->getContenttype();
@@ -124,7 +124,7 @@ class Modify extends BaseContentRequest
      * @param Content $entity
      * @param string  $newStatus
      */
-    protected function transistionRecordStatus($entity, $newStatus)
+    protected function transistionRecordStatus(Content $entity, $newStatus)
     {
         $contentTypeName = (string) $entity->getContenttype();
         $canTransition = $this->app['users']->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeName, $entity->getId());
@@ -141,7 +141,7 @@ class Modify extends BaseContentRequest
      * @param Content $entity
      * @param integer $ownerId
      */
-    protected function transistionRecordOwner($entity, $ownerId)
+    protected function transistionRecordOwner(Content $entity, $ownerId)
     {
         $recordId = $entity->getId();
         $contentTypeName = (string) $entity->getContenttype();
