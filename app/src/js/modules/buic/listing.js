@@ -112,6 +112,7 @@
                 'publish': Bolt.data('recordlisting.action.publish'),
                 'depublish': Bolt.data('recordlisting.action.depublish')
             },
+            buttonText = $(button).html(),
             msg;
 
         $(checkboxes).each(function () {
@@ -150,8 +151,8 @@
                         label: 'Cancel',
                         className: 'btn-default'
                     },
-                    main: {
-                        label: 'Ok',
+                    ok: {
+                        label: buttonText,
                         className: 'btn-primary',
                         callback: function () {
                             var url = Bolt.conf('paths.async') + 'content/modify';
