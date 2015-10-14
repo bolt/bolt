@@ -92,7 +92,6 @@
             contenttype = $(table).data('contenttype'),
             checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
             selectedIds = [],
-            selectedRows = [],
             modifications = {},
             actions = {
                 'delete': {
@@ -121,7 +120,6 @@
 
             if (id) {
                 selectedIds.push(id);
-                selectedRows.push(row);
             }
         });
 
