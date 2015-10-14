@@ -2,11 +2,16 @@
 
 namespace Bolt\Storage\ContentRequest;
 
+use Bolt\Config;
 use Bolt\Exception\AccessControlException;
 use Bolt\Helpers\Input;
+use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity;
+use Bolt\Storage\EntityManager;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Users;
 use Carbon\Carbon;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,8 +24,52 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Save extends BaseContentRequest
+class Save
 {
+    /** @var EntityManager */
+    protected $em;
+    /** @var Config */
+    protected $config;
+    /** @var Users */
+    protected $users;
+    /** @var LoggerInterface */
+    protected $loggerChange;
+    /** @var LoggerInterface */
+    protected $loggerSystem;
+    /** @var FlashLoggerInterface */
+    protected $loggerFlash;
+    /** @var UrlGeneratorInterface */
+    protected $urlGenerator;
+
+    /**
+     * Constructor function.
+     *
+     * @param EntityManager         $em
+     * @param Config                $config
+     * @param Users                 $users
+     * @param LoggerInterface       $loggerChange
+     * @param LoggerInterface       $loggerSystem
+     * @param FlashLoggerInterface  $loggerFlash
+     * @param UrlGeneratorInterface $urlGenerator
+     */
+    public function __construct(
+        EntityManager $em,
+        Config $config,
+        Users $users,
+        LoggerInterface $loggerChange,
+        LoggerInterface $loggerSystem,
+        FlashLoggerInterface $loggerFlash,
+        UrlGeneratorInterface $urlGenerator
+        ) {
+        $this->em = $em;
+        $this->config = $config;
+        $this->users = $users;
+        $this->loggerChange = $loggerChange;
+        $this->loggerSystem = $loggerSystem;
+        $this->loggerFlash = $loggerFlash;
+        $this->urlGenerator = $urlGenerator;
+    }
+
     /**
      * Do the save for a POSTed record.
      *
@@ -36,7 +85,7 @@ class Save extends BaseContentRequest
     public function action(array $formValues, array $contenttype, $id, $new, $returnTo, $editReferrer)
     {
         $contentTypeSlug = $contenttype['slug'];
-        $repo = $this->app['storage']->getRepository($contentTypeSlug);
+        $repo = $this->em->getRepository($contentTypeSlug);
 
         // If we have an ID now, this is an existing record
         if ($id) {
@@ -54,7 +103,7 @@ class Save extends BaseContentRequest
             if ($returnTo === 'ajax') {
                 throw new AccessControlException("Don't try to spoof the id!");
             }
-            $this->app['logger.flash']->error("Don't try to spoof the id!");
+            $this->loggerFlash->error("Don't try to spoof the id!");
 
             return new RedirectResponse($this->generateUrl('dashboard'));
         }
@@ -82,7 +131,7 @@ class Save extends BaseContentRequest
      */
     private function setTransitionStatus(Entity\Entity $content, $contentTypeSlug, $id, $oldStatus)
     {
-        $canTransition = $this->app['users']->isContentStatusTransitionAllowed($oldStatus, $content->getStatus(), $contentTypeSlug, $id);
+        $canTransition = $this->users->isContentStatusTransitionAllowed($oldStatus, $content->getStatus(), $contentTypeSlug, $id);
         if (!$canTransition) {
             $content->setStatus($oldStatus);
         }
@@ -104,11 +153,11 @@ class Save extends BaseContentRequest
         $formValues = Input::cleanPostedData($formValues);
         unset($formValues['contenttype']);
 
-        $user = $this->app['users']->getCurrentUser();
+        $user = $this->users->getCurrentUser();
         if ($id = $content->getId()) {
             // Owner is set explicitly, is current user is allowed to do this?
             if (isset($formValues['ownerid']) && (integer) $formValues['ownerid'] !== $content->getOwnerid()) {
-                if (!$this->app['permissions']->isAllowed("contenttype:{$contentType['slug']}:change-ownership:$id", $user)) {
+                if (!$this->users->isAllowed("contenttype:{$contentType['slug']}:change-ownership:$id")) {
                     throw new AccessControlException('Changing ownership is not allowed.');
                 }
                 $content->setOwnerid($formValues['ownerid']);
@@ -153,7 +202,7 @@ class Save extends BaseContentRequest
 
         $entities = [];
         foreach ($formValues['relation'] as $contentType => $relations) {
-            $repo = $this->app['storage']->getRepository($contentType);
+            $repo = $this->em->getRepository($contentType);
             foreach ($relations as $id) {
                 if ($relation = $repo->find($id)) {
                     $entities[$contentType][] = $relation;
@@ -193,7 +242,7 @@ class Save extends BaseContentRequest
     private function saveContentRecord(Entity\Content $content, $oldContent, array $contentType, $new, $comment, $returnTo, $editReferrer)
     {
         // Save the record
-        $repo = $this->app['storage']->getRepository($contentType['slug']);
+        $repo = $this->em->getRepository($contentType['slug']);
         $repo->save($content);
         $id = $content->getId();
 
@@ -202,11 +251,11 @@ class Save extends BaseContentRequest
 
         // Log the change
         if ($new) {
-            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contentType['slug']]));
-            $this->app['logger.system']->info('Created: ' . $content->getTitle(), ['event' => 'content']);
+            $this->loggerFlash->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contentType['slug']]));
+            $this->loggerSystem->info('Created: ' . $content->getTitle(), ['event' => 'content']);
         } else {
-            $this->app['logger.flash']->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contentType['slug']]));
-            $this->app['logger.system']->info('Saved: ' . $content->getTitle(), ['event' => 'content']);
+            $this->loggerFlash->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contentType['slug']]));
+            $this->loggerSystem->info('Saved: ' . $content->getTitle(), ['event' => 'content']);
         }
 
         /*
@@ -303,7 +352,7 @@ class Save extends BaseContentRequest
 
         // Adjust decimal point as some locales use a comma and… JavaScript
         $lc = localeconv();
-        $fields = $this->app['config']->get('contenttypes/' . $content->getContenttype() . '/fields');
+        $fields = $this->config->get('contenttypes/' . $content->getContenttype() . '/fields');
         foreach ($fields as $key => $values) {
             if ($values['type'] === 'float' && $lc['decimal_point'] === ',') {
                 $val[$key] = str_replace('.', ',', $val[$key]);
@@ -311,7 +360,7 @@ class Save extends BaseContentRequest
         }
 
         // Unset flashbag for ajax
-        $this->app['logger.flash']->clear();
+        $this->loggerFlash->clear();
 
         return new JsonResponse($val);
     }
@@ -329,7 +378,7 @@ class Save extends BaseContentRequest
     {
         $type = $oldContent ? 'Update' : 'Insert';
 
-        $this->app['logger.change']->info(
+        $this->loggerChange->info(
             $type . ' record',
             [
                 'action'      => strtoupper($type),
@@ -354,7 +403,7 @@ class Save extends BaseContentRequest
     private function generateUrl($name, $params = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         /** @var UrlGeneratorInterface $generator */
-        $generator = $this->app['url_generator'];
+        $generator = $this->urlGenerator;
 
         return $generator->generate($name, $params, $referenceType);
     }

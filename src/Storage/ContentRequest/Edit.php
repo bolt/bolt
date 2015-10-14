@@ -2,9 +2,15 @@
 
 namespace Bolt\Storage\ContentRequest;
 
+use Bolt\Config;
+use Bolt\Filesystem\Manager;
+use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
+use Bolt\Storage\EntityManager;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Users;
 use Cocur\Slugify\Slugify;
+use Psr\Log\LoggerInterface;
 
 /**
  * Helper class for ContentType record editor edits.
@@ -13,8 +19,48 @@ use Cocur\Slugify\Slugify;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Edit extends BaseContentRequest
+class Edit
 {
+    /** @var EntityManager */
+    protected $em;
+    /** @var Config */
+    protected $config;
+    /** @var Users */
+    protected $users;
+    /** @var Manager */
+    protected $filesystem;
+
+    /** @var LoggerInterface */
+    protected $loggerSystem;
+    /** @var FlashLoggerInterface */
+    protected $loggerFlash;
+
+    /**
+     * Constructor function.
+     *
+     * @param EntityManager        $em
+     * @param Config               $config
+     * @param Users                $users
+     * @param Manager              $filesystem
+     * @param LoggerInterface      $loggerSystem
+     * @param FlashLoggerInterface $loggerFlash
+     */
+    public function __construct(
+        EntityManager $em,
+        Config $config,
+        Users $users,
+        Manager $filesystem,
+        LoggerInterface $loggerSystem,
+        FlashLoggerInterface $loggerFlash
+        ) {
+        $this->em = $em;
+        $this->config = $config;
+        $this->users = $users;
+        $this->filesystem = $filesystem;
+        $this->loggerSystem = $loggerSystem;
+        $this->loggerFlash = $loggerFlash;
+    }
+
     /**
      * Do the edit form for a record.
      *
@@ -33,7 +79,7 @@ class Edit extends BaseContentRequest
         $allowedStatuses = [];
 
         foreach ($allStatuses as $status) {
-            if ($this->app['users']->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeSlug, $content->getId())) {
+            if ($this->users->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeSlug, $content->getId())) {
                 $allowedStatuses[] = $status;
             }
         }
@@ -49,16 +95,16 @@ class Edit extends BaseContentRequest
             $content->setUsername('');
             $content->setOwnerid('');
 
-            $this->app['logger.flash']->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contenttypeSlug]));
+            $this->loggerFlash->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contenttypeSlug]));
         }
 
         // Set the users and the current owner of this content.
         if ($new || $duplicate) {
             // For brand-new and duplicated items, the creator becomes the owner.
-            $contentowner = $this->app['users']->getCurrentUser();
+            $contentowner = $this->users->getCurrentUser();
         } else {
             // For existing items, we'll just keep the current owner.
-            $contentowner = $this->app['users']->getUser($content->getOwnerid());
+            $contentowner = $this->users->getUser($content->getOwnerid());
         }
 
         // Test write access for uploadable fields.
@@ -69,10 +115,10 @@ class Edit extends BaseContentRequest
 
         // Build context for Twig.
         $contextCan = [
-            'upload'             => $this->app['users']->isAllowed('files:uploads'),
-            'publish'            => $this->app['users']->isAllowed('contenttype:' . $contenttypeSlug . ':publish:' . $content->getId()),
-            'depublish'          => $this->app['users']->isAllowed('contenttype:' . $contenttypeSlug . ':depublish:' . $content->getId()),
-            'change_ownership'   => $this->app['users']->isAllowed('contenttype:' . $contenttypeSlug . ':change-ownership:' . $content->getId()),
+            'upload'             => $this->users->isAllowed('files:uploads'),
+            'publish'            => $this->users->isAllowed('contenttype:' . $contenttypeSlug . ':publish:' . $content->getId()),
+            'depublish'          => $this->users->isAllowed('contenttype:' . $contenttypeSlug . ':depublish:' . $content->getId()),
+            'change_ownership'   => $this->users->isAllowed('contenttype:' . $contenttypeSlug . ':change-ownership:' . $content->getId()),
         ];
         $contextHas = [
             'incoming_relations' => is_array($content->relation),
@@ -90,7 +136,7 @@ class Edit extends BaseContentRequest
             'content'            => $content,
             'allowed_status'     => $allowedStatuses,
             'contentowner'       => $contentowner,
-            'fields'             => $this->app['config']->fields->fields(),
+            'fields'             => $this->config->fields->fields(),
             'fieldtemplates'     => $this->getTempateFieldTemplates($contenttype, $content),
             'fieldtypes'         => $this->getUsedFieldtypes($contenttype, $content, $contextHas),
             'groups'             => $this->createGroupTabs($contenttype, $contextHas),
@@ -119,7 +165,7 @@ class Edit extends BaseContentRequest
         }
 
         foreach ($contenttype['relations'] as $contentType => $relation) {
-            $repo = $this->app['storage']->getRepository($contentType);
+            $repo = $this->em->getRepository($contentType);
             $list[$contentType] = $repo->getSelectList($contentType, $relation['order']);
         }
 
@@ -135,7 +181,7 @@ class Edit extends BaseContentRequest
      */
     private function setCanUpload($fields)
     {
-        $filesystem = $this->app['filesystem']->getFilesystem();
+        $filesystem = $this->filesystem->getFilesystem();
 
         foreach ($fields as &$values) {
             if (isset($values['upload'])) {
@@ -159,7 +205,7 @@ class Edit extends BaseContentRequest
     private function getTempateFieldTemplates(array $contenttype, Content $content)
     {
         $templateFieldTemplates = [];
-        $templateFieldsConfig = $this->app['config']->get('theme/templatefields');
+        $templateFieldsConfig = $this->config->get('theme/templatefields');
 
         if ($templateFieldsConfig) {
             $templateFieldTemplates = array_keys($templateFieldsConfig);

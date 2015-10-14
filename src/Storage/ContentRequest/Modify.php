@@ -3,9 +3,13 @@
 namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Helpers\Input;
+use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
+use Bolt\Storage\EntityManager;
 use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Users;
+use Psr\Log\LoggerInterface;
 
 /**
  * Helper class for ContentType record (mass) field modifications and status
@@ -13,8 +17,33 @@ use Bolt\Translation\Translator as Trans;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Modify extends BaseContentRequest
+class Modify
 {
+    /** @var EntityManager */
+    protected $em;
+    /** @var Users */
+    protected $users;
+    /** @var LoggerInterface */
+    protected $loggerSystem;
+    /** @var FlashLoggerInterface */
+    protected $loggerFlash;
+
+    /**
+     * Constructor function.
+     *
+     * @param EntityManager        $em
+     * @param Users                $users
+     * @param LoggerInterface      $loggerSystem
+     * @param FlashLoggerInterface $loggerFlash
+     */
+    public function __construct(EntityManager $em, Users $users, LoggerInterface $loggerSystem, FlashLoggerInterface $loggerFlash)
+    {
+        $this->em = $em;
+        $this->users = $users;
+        $this->loggerSystem = $loggerSystem;
+        $this->loggerFlash = $loggerFlash;
+    }
+
     /**
      * Modify an individual ContentType's records.
      *
@@ -29,7 +58,7 @@ class Modify extends BaseContentRequest
                 continue;
             }
 
-            $repo = $this->app['storage']->getRepository($contentTypeName);
+            $repo = $this->em->getRepository($contentTypeName);
             foreach ($actionData as $action => $fieldData) {
                 if (!$entity = $repo->find($recordId)) {
                     continue;
@@ -74,8 +103,8 @@ class Modify extends BaseContentRequest
     {
         $recordId = $entity->getId();
         $contentTypeName = (string) $entity->getContenttype();
-        if (!$this->app['users']->isAllowed("contenttype:$contentTypeName:delete:$recordId")) {
-            $this->app['logger.flash']->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+        if (!$this->users->isAllowed("contenttype:$contentTypeName:delete:$recordId")) {
+            $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
             return;
         }
         return $repo->delete($entity);
@@ -111,9 +140,9 @@ class Modify extends BaseContentRequest
     {
         $recordId = $entity->getId();
         $contentTypeName = (string) $entity->getContenttype();
-        $canModify = $this->app['users']->isAllowed("contenttype:$contentTypeName:edit:$recordId");
+        $canModify = $this->users->isAllowed("contenttype:$contentTypeName:edit:$recordId");
         if (!$canModify) {
-            $this->app['logger.flash']->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+            $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
             return;
         }
         $entity->$field = Input::cleanPostedData($value);
@@ -129,9 +158,9 @@ class Modify extends BaseContentRequest
     protected function transistionRecordStatus(Content $entity, $newStatus)
     {
         $contentTypeName = (string) $entity->getContenttype();
-        $canTransition = $this->app['users']->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeName, $entity->getId());
+        $canTransition = $this->users->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeName, $entity->getId());
         if (!$canTransition) {
-            $this->app['logger.flash']->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+            $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
             return;
         }
         $entity->setStatus($newStatus);
@@ -148,9 +177,9 @@ class Modify extends BaseContentRequest
     {
         $recordId = $entity->getId();
         $contentTypeName = (string) $entity->getContenttype();
-        $canChangeOwner = $this->app['users']->isAllowed("contenttype:$contentTypeName:change-ownership:$recordId");
+        $canChangeOwner = $this->users->isAllowed("contenttype:$contentTypeName:change-ownership:$recordId");
         if (!$canChangeOwner) {
-            $this->app['logger.flash']->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+            $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
             return;
         }
         $entity->setOwnerid($ownerId);

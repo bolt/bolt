@@ -2,13 +2,33 @@
 
 namespace Bolt\Storage\ContentRequest;
 
+use Bolt\Config;
+use Bolt\Storage\EntityManager;
+
 /**
  * Helper class for ContentType overview listings.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Listing extends BaseContentRequest
+class Listing
 {
+    /** @var EntityManager */
+    protected $em;
+    /** @var Config */
+    protected $config;
+
+    /**
+     * Constructor function.
+     *
+     * @param EntityManager $em
+     * @param Config        $config
+     */
+    public function __construct(EntityManager $em, Config $config)
+    {
+        $this->em = $em;
+        $this->config = $config;
+    }
+
     /**
      * Fetch a listing of ContentType records.
      *
@@ -24,7 +44,7 @@ class Listing extends BaseContentRequest
         // sorts, or fall back to what's defined in the contenttype. Except for
         // a ContentType that has a "grouping taxonomy", as that should override
         // it. That exception state is handled by the query OrderHandler.
-        $contenttype = $this->app['storage']->getContentType($contentTypeSlug);
+        $contenttype = $this->em->getContentType($contentTypeSlug);
         $contentParameters = [
             'paging'  => true,
             'hydrate' => true,
@@ -37,7 +57,7 @@ class Listing extends BaseContentRequest
         if (!empty($contenttype['recordsperpage'])) {
             $contentParameters['limit'] = $contenttype['recordsperpage'];
         } else {
-            $contentParameters['limit'] = $this->app['config']->get('general/recordsperpage');
+            $contentParameters['limit'] = $this->config->get('general/recordsperpage');
         }
 
         // Filter on taxonomies
@@ -47,6 +67,6 @@ class Listing extends BaseContentRequest
             }
         }
 
-        return $this->app['storage']->getContent($contentTypeSlug, $contentParameters);
+        return $this->em->getContent($contentTypeSlug, $contentParameters);
     }
 }
