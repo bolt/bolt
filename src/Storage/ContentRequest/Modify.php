@@ -74,11 +74,11 @@ class Modify
      * @param Repository $repo
      * @param Content    $entity
      * @param string     $action
-     * @param array      $fieldData
+     * @param array|null $fieldData
      *
      * @return boolean
      */
-    protected function modifyContentTypeRecord(Repository $repo, Content $entity, $action, array $fieldData)
+    protected function modifyContentTypeRecord(Repository $repo, Content $entity, $action, $fieldData)
     {
         if ($action === 'delete') {
             return $this->deleteRecord($repo, $entity);
