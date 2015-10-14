@@ -46,20 +46,18 @@ class Modify extends BaseContentRequest
      * @param Content    $entity
      * @param string     $action
      * @param array      $fieldData
+     *
+     * @return boolean
      */
     protected function modifyContentTypeRecord(Repository $repo, Content $entity, $action, array $fieldData)
     {
         if ($action === 'delete') {
-            $this->deleteRecord($repo, $entity);
+            return $this->deleteRecord($repo, $entity);
         } elseif ($action === 'modify') {
             $this->modifyRecord($entity, $fieldData);
 
             if ($entity->_modified === true) {
-                if ($repo->save($entity)) {
-// $this->app['logger.flash']->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", ['%title%' => $title, '%newStatus%' => $newStatus]));
-                } else {
-// $this->app['logger.flash']->info(Trans::__("Content '%title%' could not be modified.", ['%title%' => $title]));
-                }
+                return $repo->save($entity);
             }
         }
     }
@@ -69,15 +67,18 @@ class Modify extends BaseContentRequest
      *
      * @param Repository $repo
      * @param Content    $entity
+     *
+     * @return boolean
      */
     protected function deleteRecord(Repository $repo, Content $entity)
     {
         $recordId = $entity->getId();
         $contentTypeName = (string) $entity->getContenttype();
         if (!$this->app['users']->isAllowed("contenttype:$contentTypeName:delete:$recordId")) {
+            $this->app['logger.flash']->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
             return;
         }
-        $repo->delete($entity);
+        return $repo->delete($entity);
     }
 
     /**
@@ -112,6 +113,7 @@ class Modify extends BaseContentRequest
         $contentTypeName = (string) $entity->getContenttype();
         $canModify = $this->app['users']->isAllowed("contenttype:$contentTypeName:edit:$recordId");
         if (!$canModify) {
+            $this->app['logger.flash']->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
             return;
         }
         $entity->$field = Input::cleanPostedData($value);
@@ -129,6 +131,7 @@ class Modify extends BaseContentRequest
         $contentTypeName = (string) $entity->getContenttype();
         $canTransition = $this->app['users']->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeName, $entity->getId());
         if (!$canTransition) {
+            $this->app['logger.flash']->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
             return;
         }
         $entity->setStatus($newStatus);
@@ -147,6 +150,7 @@ class Modify extends BaseContentRequest
         $contentTypeName = (string) $entity->getContenttype();
         $canChangeOwner = $this->app['users']->isAllowed("contenttype:$contentTypeName:change-ownership:$recordId");
         if (!$canChangeOwner) {
+            $this->app['logger.flash']->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
             return;
         }
         $entity->setOwnerid($ownerId);
