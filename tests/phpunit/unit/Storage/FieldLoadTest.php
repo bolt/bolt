@@ -51,9 +51,9 @@ class FieldLoadTest extends BoltUnitTest
         $record = $repo->find(1);
         $this->assertInstanceOf('Bolt\Storage\Field\Collection\RepeatingFieldCollection', $record->repeat);
         $this->assertEquals(2, count($record->repeat));
-        foreach($record->repeat as $collection) {
+        foreach ($record->repeat as $collection) {
             $this->assertInstanceOf('Bolt\Storage\Field\Collection\FieldCollection', $collection);
-            foreach($collection as $fieldValue) {
+            foreach ($collection as $fieldValue) {
                 $this->assertInstanceOf('Bolt\Storage\Entity\FieldValue', $fieldValue);
             }
         }
@@ -87,13 +87,11 @@ class FieldLoadTest extends BoltUnitTest
         $repo = $app['storage']->getRepository('showcases');
         $content = $repo->find(1);
         $repeat = [
-            ['repeattitle' => 'Test', 'repeatimage'=>['file'=>'example.jpg', 'title'=>'Test Image']],
-            ['repeattitle' => 'Test 2', 'repeatimage'=>['file'=>'example2.jpg', 'title'=>'Test Image 2']],
+            ['repeattitle' => 'Test', 'repeatimage' => ['file' => 'example.jpg', 'title' => 'Test Image']],
+            ['repeattitle' => 'Test 2', 'repeatimage' => ['file' => 'example2.jpg', 'title' => 'Test Image 2']],
         ];
         $content->setRepeat($repeat);
 
         $repo->save($content);
     }
-
-
 }
