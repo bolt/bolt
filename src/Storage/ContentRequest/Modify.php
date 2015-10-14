@@ -2,7 +2,9 @@
 
 namespace Bolt\Storage\ContentRequest;
 
+use Bolt\Helpers\Input;
 use Bolt\Storage\Entity\Content;
+use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 
 /**
