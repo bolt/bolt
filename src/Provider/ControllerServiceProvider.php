@@ -67,6 +67,9 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $app['controller.async.filesystem_manager'] = $app->share(function () {
             return new Controller\Async\FilesystemManager();
         });
+        $app['controller.async.records'] = $app->share(function () {
+            return new Controller\Async\Records();
+        });
         $app['controller.async.stack'] = $app->share(function () {
             return new Controller\Async\Stack();
         });
@@ -133,6 +136,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $asyncKeys = [
             'general',
             'filesystem_manager',
+            'records',
             'stack',
             'system_checks',
         ];

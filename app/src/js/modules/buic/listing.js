@@ -56,9 +56,11 @@
         $(buic).find('tr.selectiontoolbar button.records-delete').on('click', function () {
             var tbody = $(this).closest('tbody'),
                 table = $(this).closest('table'),
+                contenttype = $(table).data('contenttype'),
                 checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
                 selectedIds = [],
                 selectedRows = [],
+                modifications = {},
                 notice;
 
             $(checkboxes).each(function () {
@@ -72,26 +74,43 @@
             });
 
             if (selectedIds.length > 0) {
+                // Build POST data.
+                modifications[contenttype] = {};
+                $(selectedIds).each(function () {
+                    modifications[contenttype][this] = {'delete': null};
+                    //modifications[contenttype][this] = {'modify': {'status': 'published'}};
+                });
+
                 notice = selectedIds.length === 1 ? Bolt.data('recordlisting.delete_one')
                                                   : Bolt.data('recordlisting.delete_mult');
 
                 bootbox.confirm(notice, function (confirmed) {
                     $('.alert').alert();
                     if (confirmed === true) {
-                        var url = Bolt.conf('paths.bolt') + 'content/deletecontent/' +
-                                $(table).data('contenttype') + '/' + selectedIds.join(',') +
-                                '?bolt_csrf_token=' + $(table).data('bolt_csrf_token');
-
+                        var url = Bolt.conf('paths.async') + 'content/modify';
+alert('Anti CSRF token functionality still disabled in Bolt\Controller\Async\Records::modify');
                         // Delete request.
                         $.ajax({
                             url: url,
-                            type: 'get',
-                            success: function () {
-                                $(selectedRows).each(function () {
+                            type: 'POST',
+                            data: {
+                                'bolt_csrf_token': $(table).data('bolt_csrf_token'),
+                                'contenttype': contenttype,
+                                'modifications': modifications
+                            },
+                            success: function (data) {
+                                console.log('Success');
+                                console.log(data);
+                                /*$(selectedRows).each(function () {
                                     $(this).remove();
                                 });
-                                handleSelectionState(tbody);
-                            }
+                                handleSelectionState(tbody);*/
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(jqXHR.status + ' (' + errorThrown + '):');
+                                console.log(JSON.parse(jqXHR.responseText));
+                            }/*,
+                            dataType: 'json'*/
                         });
                     }
                 });

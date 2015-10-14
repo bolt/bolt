@@ -1,4 +1,5 @@
-{% macro record_list(contenttype, multiplecontent, permissions, extra_classes) %}
+{% macro record_list(contenttype, multiplecontent, permissions, extra_classes, async) %}
+    {% set async = async|default(false) %}
     {% set lastgroup = "----" %}
     {% set any_deletable = false %}
     {% set any_editable = false %}
@@ -7,10 +8,12 @@
         '@bolt/_sub/_listing.twig']
     %}
 
-    {{ data('recordlisting', {
-        'delete_one':   __('Are you sure you wish to delete this record? There is no undo.'),
-        'delete_mult':  __('Are you sure you wish to delete these records? There is no undo.')
-    })}}
+    {% if not async %}
+        {{ data('recordlisting', {
+            'delete_one':   __('Are you sure you wish to delete this record? There is no undo.'),
+            'delete_mult':  __('Are you sure you wish to delete these records? There is no undo.')
+        })}}
+    {% endif %}
 
     {% set selection_toolbar %}
         <button class="records-delete sdanger delete" type="button"><i class="fa fa-trash"></i> {{ __('Delete') }}</button>

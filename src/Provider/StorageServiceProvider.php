@@ -4,13 +4,13 @@ namespace Bolt\Provider;
 use Bolt\EventListener\StorageEventListener;
 use Bolt\Legacy\Storage;
 use Bolt\Storage\ContentLegacyService;
+use Bolt\Storage\ContentRequest;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\Type\TemplateFieldsType;
 use Bolt\Storage\FieldManager;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Bolt\Storage\NamingStrategy;
-use Bolt\Storage\RecordModifier;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -76,6 +76,9 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
+        // This uses a class name as the field types can optionally be injected
+        // as services but the field manager only knows the class name, so we
+        // use this to look up if there ss a service regsitered
         $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = $app->protect(
             function ($mapping) use ($app) {
                 $field = new TemplateFieldsType(
@@ -153,11 +156,55 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['storage.record_modifier'] = $app->share(
+        $app['storage.request.edit'] = $app->share(
             function ($app) {
-                $cm = new RecordModifier($app);
+                $cr = new ContentRequest\Edit(
+                    $app['storage'],
+                    $app['config'],
+                    $app['users'],
+                    $app['filesystem'],
+                    $app['logger.system'],
+                    $app['logger.flash']
+                );
 
-                return $cm;
+                return $cr;
+            }
+        );
+
+        $app['storage.request.listing'] = $app->share(
+            function ($app) {
+                $cr = new ContentRequest\Listing($app['storage'], $app['config']);
+
+                return $cr;
+            }
+        );
+
+        $app['storage.request.modify'] = $app->share(
+            function ($app) {
+                $cr = new ContentRequest\Modify(
+                    $app['storage'],
+                    $app['users'],
+                    $app['logger.system'],
+                    $app['logger.flash']
+                );
+
+                return $cr;
+            }
+        );
+
+        $app['storage.request.save'] = $app->share(
+            function ($app) {
+                $cr = new ContentRequest\Save(
+                    $app['storage'],
+                    $app['config'],
+                    $app['users'],
+                    $app['logger.change'],
+                    $app['logger.system'],
+                    $app['logger.flash'],
+                    $app['url_generator']
+                );
+
+                return $cr;
             }
         );
 

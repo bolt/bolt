@@ -1,12 +1,14 @@
 <?php
 namespace Bolt\Controller\Backend;
 
+use Bolt\Storage\ContentRequest\Listing;
 use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
-use GuzzleHttp\Psr7\Uri;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Bolt\Storage\ContentRequest\Save;
+use Bolt\Storage\ContentRequest\Edit;
 
 /**
  * Backend controller for record manipulation routes.
@@ -22,16 +24,10 @@ class Records extends BackendBase
     {
         $c->method('GET|POST');
 
-        $c->get('/content/deletecontent/{contenttypeslug}/{id}', 'delete')
-            ->bind('deletecontent');
-
         $c->match('/editcontent/{contenttypeslug}/{id}', 'edit')
             ->bind('editcontent')
             ->assert('id', '\d*')
             ->value('id', '');
-
-        $c->post('/content/{action}/{contenttypeslug}/{id}', 'modify')
-            ->bind('contentaction');
 
         $c->get('/overview/{contenttypeslug}', 'overview')
             ->bind('overview');
@@ -39,40 +35,6 @@ class Records extends BackendBase
         $c->get('/relatedto/{contenttypeslug}/{id}', 'related')
             ->bind('relatedto')
             ->assert('id', '\d*');
-    }
-
-    /**
-     * Delete a record.
-     *
-     * @param Request $request         The Symfony Request
-     * @param string  $contenttypeslug
-     * @param integer $id
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function delete(Request $request, $contenttypeslug, $id)
-    {
-        $ids = explode(',', $id);
-        $contenttype = $this->getContentType($contenttypeslug);
-
-        foreach ($ids as $id) {
-            $content = $this->getContent($contenttype['slug'], ['id' => $id, 'status' => '!undefined']);
-            $title = $content->getTitle();
-
-            if (!$this->isAllowed("contenttype:$contenttypeslug:delete:$id")) {
-                $this->flashes()->error(Trans::__('Permission denied', []));
-            } elseif ($this->checkAntiCSRFToken() && $this->storage()->deleteContent($contenttypeslug, $id)) {
-                $this->flashes()->info(Trans::__("Content '%title%' has been deleted.", ['%title%' => $title]));
-            } else {
-                $this->flashes()->info(Trans::__("Content '%title%' could not be deleted.", ['%title%' => $title]));
-            }
-        }
-
-        // Get the referer's query parameters
-        $queryParams = $this->getRefererQueryParameters($request);
-        $queryParams['contenttypeslug'] = $contenttypeslug;
-
-        return $this->redirectToRoute('overview', $queryParams);
     }
 
     /**
@@ -102,11 +64,16 @@ class Records extends BackendBase
 
         // Save the POSTed record
         if ($request->isMethod('POST')) {
+            $this->flashes()->error(sprintf('Anti CSRF token functionality still disabled in %s::%s', __CLASS__, __FUNCTION__));
+//             if ($this->users()->checkAntiCSRFToken()) {
+//                 $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
+//             }
+
             $formValues = $request->request->all();
             $returnTo = $request->get('returnto');
             $editReferrer = $request->get('editreferrer');
 
-            return $this->recordModifier()->handleSaveRequest($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
+            return $this->recordSave()->action($formValues, $contenttype, $id, $new, $returnTo, $editReferrer);
         }
 
         // Get the record
@@ -125,76 +92,9 @@ class Records extends BackendBase
 
         // We're doing a GET
         $duplicate = $request->query->get('duplicate', false);
-        $context = $this->recordModifier()->handleEditRequest($content, $contenttype, $duplicate);
+        $context = $this->recordEdit()->action($content, $contenttype, $duplicate);
 
         return $this->render('@bolt/editcontent/editcontent.twig', $context);
-    }
-
-    /**
-     * Perform an action on a Contenttype record.
-     *
-     * @param Request $request         The Symfony Request
-     * @param string  $contenttypeslug The content type slug
-     * @param integer $id              The content ID
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function modify(Request $request, $action, $contenttypeslug, $id)
-    {
-        if ($action === 'delete') {
-            return $this->delete($request, $contenttypeslug, $id);
-        }
-
-        // This shouldn't happen
-        if (!$this->getContentType($contenttypeslug)) {
-            $this->flashes()->error(Trans::__('Attempt to modify invalid Contenttype.'));
-
-            return $this->redirectToRoute('dashboard');
-        }
-
-        // Map actions to new statuses
-        $actionStatuses = [
-            'held'    => 'held',
-            'publish' => 'published',
-            'draft'   => 'draft',
-        ];
-        // Map actions to requred permission
-        $actionPermissions = [
-            'publish' => 'publish',
-            'held'    => 'depublish',
-            'draft'   => 'depublish',
-        ];
-        // Get the referer's query parameters
-        $queryParams = $this->getRefererQueryParameters($request);
-        $queryParams['contenttypeslug'] = $contenttypeslug;
-
-        if (!isset($actionStatuses[$action])) {
-            $this->flashes()->error(Trans::__('No such action for content.'));
-
-            return $this->redirectToRoute('overview', $queryParams);
-        }
-
-        $newStatus = $actionStatuses[$action];
-        $repo = $this->storage()->getRepository($contenttypeslug);
-        $record = $repo->find($id);
-        $title = $record->getTitle();
-        $canModify = $this->isAllowed("contenttype:$contenttypeslug:{$actionPermissions[$action]}:$id");
-        $canTransition = $this->users()->isContentStatusTransitionAllowed($record->getStatus(), $newStatus, $contenttypeslug, $id);
-
-        if (!$canModify || !$canTransition) {
-            $this->flashes()->error(Trans::__('You do not have the right privileges to %ACTION% that record.', ['%ACTION%' => $actionPermissions[$action]]));
-
-            return $this->redirectToRoute('overview', $queryParams);
-        }
-
-        $record->setStatus($newStatus);
-        if ($repo->save($record)) {
-            $this->flashes()->info(Trans::__("Content '%title%' has been changed to '%newStatus%'", ['%title%' => $title, '%newStatus%' => $newStatus]));
-        } else {
-            $this->flashes()->info(Trans::__("Content '%title%' could not be modified.", ['%title%' => $title]));
-        }
-
-        return $this->redirectToRoute('overview', $queryParams);
     }
 
     /**
@@ -215,42 +115,20 @@ class Records extends BackendBase
             return $this->redirectToRoute('dashboard');
         }
 
-        // Order has to be set carefully. Either set it explicitly when the user
-        // sorts, or fall back to what's defined in the contenttype. Except for
-        // a ContentType that has a "grouping taxonomy", as that should override
-        // it. That exception state is handled by the query OrderHandler.
-        $contenttype = $this->getContentType($contenttypeslug);
-        $contentparameters = ['paging' => true, 'hydrate' => true];
-        $contentparameters['order'] = $request->query->get('order', $contenttype['sort']);
-        $contentparameters['page'] = $request->query->get('page');
-
-        $filter = [];
-        if ($request->query->get('filter')) {
-            $contentparameters['filter'] = $request->query->get('filter');
-            $filter[] = $request->query->get('filter');
-        }
-
-        // Set the amount of items to show per page.
-        if (!empty($contenttype['recordsperpage'])) {
-            $contentparameters['limit'] = $contenttype['recordsperpage'];
-        } else {
-            $contentparameters['limit'] = $this->getOption('general/recordsperpage');
-        }
-
-        // Perhaps also filter on taxonomies
-        foreach (array_keys($this->getOption('taxonomy', [])) as $taxonomykey) {
-            if ($request->query->get('taxonomy-' . $taxonomykey)) {
-                $contentparameters[$taxonomykey] = $request->query->get('taxonomy-' . $taxonomykey);
-                $filter[] = $request->query->get('taxonomy-' . $taxonomykey);
+        $order = $request->query->get('order');
+        $page = $request->query->get('page');
+        $filter = $request->query->get('filter');
+        $taxonomy = null;
+        foreach (array_keys($this->getOption('taxonomy', [])) as $taxonomyKey) {
+            if ($request->query->get('taxonomy-' . $taxonomyKey)) {
+                $taxonomy[$taxonomyKey] = $request->query->get('taxonomy-' . $taxonomyKey);
             }
         }
 
-        $multiplecontent = $this->getContent($contenttypeslug, $contentparameters);
-
         $context = [
-            'contenttype'     => $contenttype,
-            'multiplecontent' => $multiplecontent,
-            'filter'          => $filter,
+            'contenttype'     => $this->getContentType($contenttypeslug),
+            'multiplecontent' => $this->recordListing()->action($contenttypeslug, $order, $page, $taxonomy, $filter),
+            'filter'          => array_merge((array) $taxonomy, (array) $filter),
             'permissions'     => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser())
         ];
 
@@ -382,10 +260,26 @@ class Records extends BackendBase
     }
 
     /**
-     * @return \Bolt\Storage\RecordModifier
+     * @return \Bolt\Storage\ContentRequest\Edit
      */
-    protected function recordModifier()
+    protected function recordEdit()
     {
-        return $this->app['storage.record_modifier'];
+        return $this->app['storage.request.edit'];
+    }
+
+    /**
+     * @return \Bolt\Storage\ContentRequest\Listing
+     */
+    protected function recordListing()
+    {
+        return $this->app['storage.request.listing'];
+    }
+
+    /**
+     * @return \Bolt\Storage\ContentRequest\Save
+     */
+    protected function recordSave()
+    {
+        return $this->app['storage.request.save'];
     }
 }
