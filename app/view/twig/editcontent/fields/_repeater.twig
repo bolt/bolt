@@ -13,8 +13,8 @@
     <script type="text/template">
         {% for rkey, rfield in field.fields %}
             {% include context.fields[rfield.type].template with {
-                'key': rfield.name,
-                'name': field.name ~ '[__index__][' ~ rfield.name ~ '][]',
+                'key': rkey,
+                'name': field.name ~ '[__index__][' ~ rkey ~ '][]',
                 'contentkey': rkey
             } %}
         {% endfor %}
@@ -22,8 +22,8 @@
     {% if not repeatfields.length %}
         {% for rkey, rfield in field.fields %}
             {% include context.fields[rfield.type].template with {
-            'key': rfield.name,
-            'name': field.name ~ '[0][' ~ rfield.name ~ ']',
+            'key': rkey,
+            'name': field.name ~ '[0][' ~ rkey ~ ']',
             'contentkey': rkey
             } %}
         {% endfor %}
