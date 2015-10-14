@@ -59,9 +59,9 @@ class Records extends AsyncBase
      */
     public function modify(Request $request)
     {
-        if (!$this->checkAntiCSRFToken($request->get('bolt_csrf_token'))) {
-            $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
-        }
+//         if (!$this->checkAntiCSRFToken($request->get('bolt_csrf_token'))) {
+//             $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
+//         }
 
         $contentType = $request->get('contenttype');
         $actionData = $request->get('modifications');
