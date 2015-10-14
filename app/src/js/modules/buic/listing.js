@@ -165,8 +165,25 @@
                                     'modifications': modifications
                                 },
                                 success: function (data) {
+                                    var table;
+
                                     $(container).replaceWith(data);
-                                    initEvents($('div.record-listing-container table.buic-listing'));
+
+                                    table = $('div.record-listing-container table.buic-listing');
+                                    initEvents(table);
+
+                                    // Restore selection state.
+                                    $(table).find('td input:checkbox[name="checkRow"]').each(function () {
+                                        var id = $(this).parents('tr').attr('id').substr(5);
+
+                                        if (id && selectedIds.indexOf(id) >= 0) {
+                                            this.checked = true;
+                                            rowSelection(this);
+                                        }
+                                    });
+                                    $(table).find('tbody').each(function () {
+                                        handleSelectionState(this);
+                                    });
                                 },
                                 error: function (jqXHR, textStatus, errorThrown) {
                                     console.log(jqXHR.status + ' (' + errorThrown + '):');
