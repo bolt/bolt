@@ -18,22 +18,23 @@ class Modify extends BaseContentRequest
     /**
      * Modify an individual ContentType's records.
      *
-     * @param string $contentTypeSlug
-     * @param array  $recordIds
+     * @param string $contentTypeName ContentType slug
+     * @param array  $changeRequest   Change array in the format of:
+     *                                [id => [action => [field => value]]]
      */
-    public function action($contentTypeSlug, array $recordIds)
+    public function action($contentTypeName, array $changeRequest)
     {
-        foreach ($recordIds as $recordId => $actionData) {
+        foreach ($changeRequest as $recordId => $actionData) {
             if ($actionData === null) {
                 continue;
             }
 
-            $repo = $this->app['storage']->getRepository($contentTypeSlug);
+            $repo = $this->app['storage']->getRepository($contentTypeName);
             foreach ($actionData as $action => $fieldData) {
                 if (!$entity = $repo->find($recordId)) {
                     continue;
                 }
-                $this->modifyContentTypeRecord($action, $repo, $entity, $fieldData);
+                $this->modifyContentTypeRecord($repo, $entity, $action, $fieldData);
             }
         }
     }
@@ -41,12 +42,12 @@ class Modify extends BaseContentRequest
     /**
      * Perform modification action(s) on a ContentType record.
      *
-     * @param string     $action
      * @param Repository $repo
      * @param Content    $entity
+     * @param string     $action
      * @param array      $fieldData
      */
-    protected function modifyContentTypeRecord($action, $repo, $entity, $fieldData)
+    protected function modifyContentTypeRecord($repo, $entity, $action, array $fieldData)
     {
         if ($action === 'delete') {
             $this->deleteRecord($repo, $entity);
@@ -72,8 +73,8 @@ class Modify extends BaseContentRequest
     protected function deleteRecord($repo, $entity)
     {
         $recordId = $entity->getId();
-        $contentTypeSlug = (string) $entity->getContenttype();
-        if (!$this->app['users']->isAllowed("contenttype:$contentTypeSlug:delete:$recordId")) {
+        $contentTypeName = (string) $entity->getContenttype();
+        if (!$this->app['users']->isAllowed("contenttype:$contentTypeName:delete:$recordId")) {
             return;
         }
         $repo->delete($entity);
@@ -108,8 +109,8 @@ class Modify extends BaseContentRequest
     protected function modifyRecordValue($entity, $field, $value)
     {
         $recordId = $entity->getId();
-        $contentTypeSlug = (string) $entity->getContenttype();
-        $canModify = $this->app['users']->isAllowed("contenttype:$contentTypeSlug:edit:$recordId");
+        $contentTypeName = (string) $entity->getContenttype();
+        $canModify = $this->app['users']->isAllowed("contenttype:$contentTypeName:edit:$recordId");
         if (!$canModify) {
             return;
         }
@@ -125,8 +126,8 @@ class Modify extends BaseContentRequest
      */
     protected function transistionRecordStatus($entity, $newStatus)
     {
-        $contentTypeSlug = (string) $entity->getContenttype();
-        $canTransition = $this->app['users']->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeSlug, $entity->getId());
+        $contentTypeName = (string) $entity->getContenttype();
+        $canTransition = $this->app['users']->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeName, $entity->getId());
         if (!$canTransition) {
             return;
         }
@@ -143,8 +144,8 @@ class Modify extends BaseContentRequest
     protected function transistionRecordOwner($entity, $ownerId)
     {
         $recordId = $entity->getId();
-        $contentTypeSlug = (string) $entity->getContenttype();
-        $canChangeOwner = $this->app['users']->isAllowed("contenttype:$contentTypeSlug:change-ownership:$recordId");
+        $contentTypeName = (string) $entity->getContenttype();
+        $canChangeOwner = $this->app['users']->isAllowed("contenttype:$contentTypeName:change-ownership:$recordId");
         if (!$canChangeOwner) {
             return;
         }
