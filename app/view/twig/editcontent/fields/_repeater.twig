@@ -1,8 +1,16 @@
 TEMPLATE FOR REPEATER
 {% set repeatfields = context.content.get('contentkey') %}
 {{ dump(field) }}
-{% for key, field in repeatfields %}
-    {{ dump(key) }}
 
-    {{ dump(field) }}
-{% endfor %}
+{% if repeatfields|length %}
+
+{% else %}
+
+    {% for key, field in field.fields %}
+        {% include context.fields[field.type].template with {
+            'key': key,
+            'name': key,
+            'contentkey': key
+        } %}
+    {% endfor %}
+{% endif %}
