@@ -80,6 +80,11 @@
         $(buic).find('tr.selectiontoolbar button.records-depublish').on('click', function () {
             modifyRecords(this, 'depublish');
         });
+
+        // Record draft action.
+        $(buic).find('tr.selectiontoolbar button.records-draft').on('click', function () {
+            modifyRecords(this, 'draft');
+        });
     }
 
     /**
@@ -105,12 +110,14 @@
             modification = {
                 'delete': {'delete': null},
                 'publish': {'modify': {'status': 'published'}},
-                'depublish': {'modify': {'status': 'held'}}
+                'depublish': {'modify': {'status': 'held'}},
+                'draft': {'modify': {'status': 'draft'}}
             },
             actionName = {
                 'delete': Bolt.data('recordlisting.action.delete'),
                 'publish': Bolt.data('recordlisting.action.publish'),
-                'depublish': Bolt.data('recordlisting.action.depublish')
+                'depublish': Bolt.data('recordlisting.action.depublish'),
+                'draft': Bolt.data('recordlisting.action.draft')
             },
             buttonText = $(button).html(),
             msg;
