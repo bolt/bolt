@@ -48,6 +48,4 @@ class FieldValue extends Entity
     {
         $this->name = $name;
     }
-
-
 }

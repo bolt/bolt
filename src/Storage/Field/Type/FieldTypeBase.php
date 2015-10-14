@@ -56,7 +56,6 @@ abstract class FieldTypeBase implements FieldTypeInterface
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
-
     }
 
     /**
@@ -64,7 +63,6 @@ abstract class FieldTypeBase implements FieldTypeInterface
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
-
     }
 
     /**

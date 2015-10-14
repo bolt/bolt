@@ -5,7 +5,6 @@ use Bolt\Exception\FieldConfigurationException;
 use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\QuerySet;
-use Bolt\Storage\ValuesCollection;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -16,12 +15,11 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class RepeaterType extends FieldTypeBase
 {
-
     /**
      * For repeating fields, the load method adds extra joins and selects to the query that
      * fetches the related records from the field and field value tables in the same query as the content fetch.
      *
-     * @param QueryBuilder $query
+     * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
@@ -63,7 +61,7 @@ class RepeaterType extends FieldTypeBase
         $key = $this->mapping['fieldname'];
         $vals = array_filter(explode(',', $data['fields']));
         $values = [];
-        foreach($vals as $fieldKey) {
+        foreach ($vals as $fieldKey) {
             $split = explode('_', $fieldKey);
             $values[$split[0]][$split[1]][] = $split[2];
         }
@@ -108,9 +106,7 @@ class RepeaterType extends FieldTypeBase
             $setter = 'set'.ucfirst($key);
             $entity->$setter($collection);
         }
-
     }
-
 
     /**
      * {@inheritdoc}
@@ -178,13 +174,11 @@ class RepeaterType extends FieldTypeBase
         return $fields;
     }
 
-
-
     /**
      * Query to insert new field values.
      *
      * @param QuerySet $queries
-     * @param array $changes
+     * @param array    $changes
      * @param $entity
      */
     protected function addToInsertQuery(QuerySet $queries, $changes, $entity)
@@ -196,7 +190,7 @@ class RepeaterType extends FieldTypeBase
             $typeCol = 'value_'.$type->getName();
 
             $fieldValue->$typeCol = $fieldValue->getValue();
-            $fieldValue->setFieldtype( $this->getFieldTypeName($fieldValue->getFieldname()) );
+            $fieldValue->setFieldtype($this->getFieldTypeName($fieldValue->getFieldname()));
             $fieldValue->setContenttype((string)$entity->getContenttype());
 
             // This takes care of instances where an entity might be inserted, and thus not
@@ -207,9 +201,7 @@ class RepeaterType extends FieldTypeBase
                     $repo->save($fieldValue);
                 }
             });
-
         }
-
     }
 
     /**
@@ -220,14 +212,13 @@ class RepeaterType extends FieldTypeBase
      */
     protected function addToDeleteQuery(QuerySet $queries, $changes)
     {
-
     }
 
     /**
      * Query to insert new field values.
      *
      * @param QuerySet $queries
-     * @param array $changes
+     * @param array    $changes
      * @param $entity
      */
     protected function addToUpdateQuery(QuerySet $queries, $changes, $entity)
@@ -246,15 +237,15 @@ class RepeaterType extends FieldTypeBase
                     $repo->save($fieldValue);
                 }
             });
-
         }
-
     }
 
     /**
      * @param $field
-     * @return mixed
+     *
      * @throws FieldConfigurationException
+     *
+     * @return mixed
      */
     protected function getFieldType($field)
     {
@@ -269,8 +260,10 @@ class RepeaterType extends FieldTypeBase
 
     /**
      * @param $field
-     * @return mixed
+     *
      * @throws FieldConfigurationException
+     *
+     * @return mixed
      */
     protected function getFieldTypeName($field)
     {

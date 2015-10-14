@@ -164,7 +164,6 @@ class Repository implements ObjectRepository
                 $qb->andWhere($this->getAlias() . ".$col = :$col");
                 $qb->setParameter(":$col", $val);
             }
-
         }
         if ($orderBy) {
             $qb->orderBy($orderBy[0], $orderBy[1]);

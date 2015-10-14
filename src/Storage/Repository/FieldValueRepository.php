@@ -12,5 +12,4 @@ use Bolt\Storage\Repository;
 
 class FieldValueRepository extends Repository
 {
-
 }

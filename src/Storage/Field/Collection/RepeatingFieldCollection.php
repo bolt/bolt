@@ -18,10 +18,11 @@ class RepeatingFieldCollection extends ArrayCollection
 
     /**
      * RepeatingFieldCollection constructor.
+     *
      * @param EntityManager $em
-     * @param array $elements
+     * @param array         $elements
      */
-    public function __construct(EntityManager $em , $elements = [])
+    public function __construct(EntityManager $em, $elements = [])
     {
         $this->em = $em;
         parent::__construct($elements);
@@ -29,6 +30,7 @@ class RepeatingFieldCollection extends ArrayCollection
 
     /**
      * @param FieldCollection $collection
+     *
      * @return bool
      */
     public function add($collection)
@@ -38,7 +40,7 @@ class RepeatingFieldCollection extends ArrayCollection
 
     /**
      * @param array $fields
-     * @param int $grouping
+     * @param int   $grouping
      */
     public function addFromArray(array $fields, $grouping = 0)
     {
@@ -58,7 +60,7 @@ class RepeatingFieldCollection extends ArrayCollection
 
     /**
      * @param array $ids
-     * @param int $grouping
+     * @param int   $grouping
      */
     public function addFromReferences(array $ids, $grouping = 0)
     {
@@ -108,6 +110,4 @@ class RepeatingFieldCollection extends ArrayCollection
     {
         $this->name = $name;
     }
-
-
 }

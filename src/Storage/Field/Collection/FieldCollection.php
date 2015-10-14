@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Field\Collection;
 
-use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\EntityManager;
 use Doctrine\Common\Collections\AbstractLazyCollection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  *  This class is used by lazily loaded field values. It stores a reference to an array of rows and
  *  fetches from the database on demand.
-
+ 
  *  @author Ross Riley <riley.ross@gmail.com>
  */
 class FieldCollection extends AbstractLazyCollection
@@ -21,7 +20,7 @@ class FieldCollection extends AbstractLazyCollection
     protected $toRemove = [];
 
     /**
-     * @param array $references
+     * @param array              $references
      * @param EntityManager|null $em
      */
     public function __construct(array $references = [], EntityManager $em = null)
@@ -72,6 +71,7 @@ class FieldCollection extends AbstractLazyCollection
 
     /**
      * @param mixed $element
+     *
      * @return bool
      */
     public function add($element)
@@ -90,7 +90,6 @@ class FieldCollection extends AbstractLazyCollection
             $repo = $this->em->getRepository('Bolt\Storage\Entity\FieldValue');
             $instances = $repo->findBy(['id' => $this->references]);
 
-
             foreach ((array)$instances as $val) {
                 $fieldtype = $val->getFieldtype();
                 $field = $this->em->getFieldManager()->getFieldFor($fieldtype);
@@ -104,5 +103,4 @@ class FieldCollection extends AbstractLazyCollection
         $this->collection = new ArrayCollection($objects);
         $this->em = null;
     }
-
 }

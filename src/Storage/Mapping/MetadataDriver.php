@@ -29,15 +29,15 @@ class MetadataDriver implements MappingDriver
 
     /** @var array */
     protected $defaultAliases = [
-        'bolt_authtoken'  => 'Bolt\Storage\Entity\Authtoken',
-        'bolt_cron'       => 'Bolt\Storage\Entity\Cron',
-        'bolt_field_value'=> 'Bolt\Storage\Entity\FieldValue',
-        'bolt_log'        => 'Bolt\Storage\Entity\Log',
-        'bolt_log_change' => 'Bolt\Storage\Entity\LogChange',
-        'bolt_log_system' => 'Bolt\Storage\Entity\LogSystem',
-        'bolt_relations'  => 'Bolt\Storage\Entity\Relations',
-        'bolt_taxonomy'   => 'Bolt\Storage\Entity\Taxonomy',
-        'bolt_users'      => 'Bolt\Storage\Entity\Users'
+        'bolt_authtoken'   => 'Bolt\Storage\Entity\Authtoken',
+        'bolt_cron'        => 'Bolt\Storage\Entity\Cron',
+        'bolt_field_value' => 'Bolt\Storage\Entity\FieldValue',
+        'bolt_log'         => 'Bolt\Storage\Entity\Log',
+        'bolt_log_change'  => 'Bolt\Storage\Entity\LogChange',
+        'bolt_log_system'  => 'Bolt\Storage\Entity\LogSystem',
+        'bolt_relations'   => 'Bolt\Storage\Entity\Relations',
+        'bolt_taxonomy'    => 'Bolt\Storage\Entity\Taxonomy',
+        'bolt_users'       => 'Bolt\Storage\Entity\Users'
     ];
 
     /** @var array */
@@ -197,19 +197,17 @@ class MetadataDriver implements MappingDriver
     public function setRepeaters($contentKey, $className, $table)
     {
         foreach ($this->contenttypes[$contentKey]['fields'] as $key => $data) {
-
             $mapping = [
-                'fieldname' => $key,
-                'type'      => 'null',
-                'fieldtype' => $this->typemap['repeater'],
+                'fieldname'        => $key,
+                'type'             => 'null',
+                'fieldtype'        => $this->typemap['repeater'],
                 'tables'           => [
                     'field'        => $this->schemaManager->getTableName('field'),
                     'field_value'  => $this->schemaManager->getTableName('field_value')
                 ]
             ];
 
-            if ($data['type']==='repeater') {
-
+            if ($data['type'] === 'repeater') {
                 foreach ($data['fields'] as $key => &$value) {
                     if (isset($this->typemap[$value['type']])) {
                         $value['fieldtype'] = $this->typemap[$value['type']];
@@ -317,7 +315,6 @@ class MetadataDriver implements MappingDriver
 
     public function setContentFields($contentKey, $className, $table)
     {
-
     }
 
     /**
@@ -363,8 +360,9 @@ class MetadataDriver implements MappingDriver
     /**
      * Get the field type for a given column.
      *
-     * @param string $name
+     * @param string                       $name
      * @param \Doctrine\DBAL\Schema\Column $column
+     *
      * @return string
      */
     protected function getFieldTypeFor($name, $column)

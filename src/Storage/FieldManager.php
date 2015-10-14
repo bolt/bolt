@@ -33,8 +33,10 @@ class FieldManager
 
     /**
      * Gets the field instance for the supplied class.
+     *
      * @param $class
      * @param $mapping
+     *
      * @return mixed
      */
     public function get($class, $mapping)
@@ -55,6 +57,7 @@ class FieldManager
      *
      * @param $type
      * @param array $mapping
+     *
      * @return bool|mixed
      */
     public function getFieldFor($type)
@@ -64,7 +67,7 @@ class FieldManager
         }
         $class = $this->typemap[$type];
 
-        return $this->get($class, ['type'=>$type]);
+        return $this->get($class, ['type' => $type]);
     }
 
     public function setHandler($class, callable $handler)
