@@ -94,17 +94,23 @@
             selectedIds = [],
             selectedRows = [],
             modifications = {},
-            modification = {
-                'delete': {'delete': null},
-                'publish': {'modify': {'status': 'published'}},
-                'depublish': {'modify': {'status': 'held'}},
-                'draft': {'modify': {'status': 'draft'}}
-            },
-            actionName = {
-                'delete': Bolt.data('recordlisting.action.delete'),
-                'publish': Bolt.data('recordlisting.action.publish'),
-                'depublish': Bolt.data('recordlisting.action.depublish'),
-                'draft': Bolt.data('recordlisting.action.draft')
+            actions = {
+                'delete': {
+                    'name': Bolt.data('recordlisting.action.delete'),
+                    'cmd': {'delete': null}
+                },
+                'publish': {
+                    'name': Bolt.data('recordlisting.action.publish'),
+                    'cmd': {'modify': {'status': 'published'}}
+                },
+                'depublish': {
+                    'name': Bolt.data('recordlisting.action.depublish'),
+                    'cmd': {'modify': {'status': 'held'}}
+                },
+                'draft': {
+                    'name': Bolt.data('recordlisting.action.draft'),
+                    'cmd': {'modify': {'status': 'draft'}}
+                }
             },
             buttonText = $(button).html(),
             msg;
@@ -123,7 +129,7 @@
             // Build POST data.
             modifications[contenttype] = {};
             $(selectedIds).each(function () {
-                modifications[contenttype][this] = modification[action];
+                modifications[contenttype][this] = actions[action].cmd;
             });
 
             // Build message:
@@ -140,7 +146,7 @@
 
             bootbox.dialog({
                 message: msg,
-                title: actionName[action],
+                title: actions[action].name,
                 buttons: {
                     cancel: {
                         label: Bolt.data('recordlisting.action.cancel'),
