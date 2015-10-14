@@ -145,7 +145,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $event->mount($prefix, $app['controller.backend.extend']);
 
         // Mount the Upload controller
-        $prefix = $app['controller.backend.extend.mount_prefix'];
+        $prefix = $app['controller.backend.upload.mount_prefix'];
         $event->mount($prefix, $app['controller.backend.upload']);
 
         // Mount the 'thumbnail' provider on /thumbs.

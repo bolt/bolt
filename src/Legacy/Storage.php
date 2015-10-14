@@ -1089,6 +1089,9 @@ class Storage
     {
         $this->checkedfortimed[$type . '-' . $contenttypeSlug] = true;
         $tablename = $this->getContenttypeTablename($contenttypeSlug);
+        if ($this->tableExists($tablename) === false) {
+            return;
+        }
 
         try {
             // Check for record that need to be published/de-published
@@ -1099,10 +1102,10 @@ class Storage
 
             /** @var QueryBuilder $query */
             $query = $this->app['db']->createQueryBuilder()
-                        ->update($tablename)
-                        ->set('status', ':newstatus')
-                        ->set('datechanged', ':datechanged')
-                        ->setParameter('datechanged', date('Y-m-d H:i:s'))
+                ->update($tablename)
+                ->set('status', ':newstatus')
+                ->set('datechanged', ':datechanged')
+                ->setParameter('datechanged', date('Y-m-d H:i:s'))
             ;
 
             $this->timedWhere($query, $type);
@@ -2824,26 +2827,11 @@ class Storage
             return true;
         }
 
-        // See if the table exists.
-        $platform = $this->app['db']->getDatabasePlatform()->getName();
-        $database = $this->app['db']->getDatabase();
-        if ($platform === 'sqlite') {
-            $query = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='$name';";
-        } elseif ($platform === 'postgresql') {
-            $query = "SELECT count(*) FROM information_schema.tables WHERE table_catalog = '$database' AND table_name = '$name';";
-        } else {
-            $query = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '$database' AND table_name = '$name';";
+        if ($this->app['db']->getSchemaManager()->tablesExist([$name]) === true) {
+            return $this->tables[$name] = true;
         }
 
-        $res = $this->app['db']->fetchColumn($query);
-
-        if (empty($res)) {
-            return false;
-        }
-
-        $this->tables[$name] = true;
-
-        return true;
+        return false;
     }
 
     /**

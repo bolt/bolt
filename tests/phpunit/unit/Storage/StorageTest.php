@@ -19,6 +19,7 @@ class StorageTest extends BoltUnitTest
     public function testSetup()
     {
         $this->resetDb();
+        $this->addSomeContent();
     }
 
     public function testGetContentObject()
@@ -285,6 +286,11 @@ class StorageTest extends BoltUnitTest
 class StorageMock extends Storage
 {
     public $queries = [];
+
+    protected function tableExists($name)
+    {
+        return true;
+    }
 
     protected function executeGetContentQueries($decoded)
     {
