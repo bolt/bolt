@@ -2,15 +2,27 @@ TEMPLATE FOR REPEATER
 {% set repeatfields = context.content.get('contentkey') %}
 {{ dump(field) }}
 
-{% if repeatfields|length %}
-
-{% else %}
-
+<script type="text/template">
     {% for key, field in field.fields %}
         {% include context.fields[field.type].template with {
-            'key': key,
-            'name': key,
-            'contentkey': key
+            'key': field.name,
+            'name': key~[field.name][],
+            'contentkey': field.name
         } %}
     {% endfor %}
+</script>
+
+{% block fieldset_type 'repeater' %}
+{% block fieldset_label_text  field.name %}
+{% block fieldset_label_info  field %}
+{% block fieldset_label_class 'col-xs-12' %}
+
+{% block fieldset_controls %}
+
+{% endblock fieldset_controls %}
+
+
+
+{% if repeatfields|length %}
+
 {% endif %}
