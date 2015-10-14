@@ -5,16 +5,16 @@
 
 {% block fieldset_type 'repeater' %}
 {% block fieldset_label_text  field.name %}
-{% block fieldset_label_info  field %}
+{% block fieldset_label_info  field.info|default('') %}
 {% block fieldset_label_class 'col-xs-12' %}
 
 {% block fieldset_controls %}
     <script type="text/template">
-        {% for key, field in field.fields %}
-            {% include context.fields[field.type].template with {
-            'key': field.name,
-            'name': key~'['~field.name~'][]',
-            'contentkey': field.name
+        {% for rkey, rfield in field.fields %}
+            {% include context.fields[rfield.type].template with {
+                'key': rfield.name,
+                'name': field.name ~ '[' ~ rfield.name ~ '][]',
+                'contentkey': rkey
             } %}
         {% endfor %}
     </script>
