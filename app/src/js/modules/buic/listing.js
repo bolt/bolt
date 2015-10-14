@@ -28,6 +28,20 @@
      * @param {Object} buic
      */
     listing.init = function (buic) {
+        initEvents(buic);
+    };
+
+    /**
+     * Initializes all events inside a record listing table.
+     *
+     * @private
+     * @static
+     * @function rowSelection
+     * @memberof Bolt.files
+     *
+     * @param {Object} buic - Listing table
+     */
+    function initEvents(buic) {
         // Select all rows in a listing section.
         $(buic).find('tr.header th.menu li.select-all a').on('click', function () {
             $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
@@ -115,7 +129,7 @@
                 });
             }
         });
-    };
+    }
 
     /**
      * Handle row selection.
