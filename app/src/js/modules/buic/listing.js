@@ -107,7 +107,12 @@
                 'publish': {'modify': {'status': 'published'}},
                 'depublish': {'modify': {'status': 'held'}}
             },
-            notice;
+            actionName = {
+                'delete': Bolt.data('recordlisting.action.delete'),
+                'publish': Bolt.data('recordlisting.action.publish'),
+                'depublish': Bolt.data('recordlisting.action.depublish')
+            },
+            msg;
 
         $(checkboxes).each(function () {
             var row = $(this).parents('tr'),
@@ -126,13 +131,19 @@
                 modifications[contenttype][this] = modification[action];
             });
 
-            notice = selectedIds.length === 1 ? Bolt.data('recordlisting.delete_one')
-                                              : Bolt.data('recordlisting.delete_mult');
+            // Build notice:
+            msg = '<b>' + actionName[action] + '</b><br>';
+            if (selectedIds.length === 1) {
+                msg = msg + Bolt.data('recordlisting.confirm.one');
+            } else {
+                msg = msg + Bolt.data('recordlisting.confirm.multi', {'%NUMBER%': '<b>' + selectedIds.length + '</b>'});
+            }
 
-            notice = '<b style="color:red;">Anti CSRF token functionality still disabled in ' +
-                    'Bolt\Controller\Async\Records::modify</b><br>' + notice;
+            // Remove when done:
+            msg = msg + '<hr><b style="color:red;">Anti CSRF token functionality still disabled<br>' +
+                'in Bolt\Controller\Async\Records::modify</b>';
 
-            bootbox.confirm(notice, function (confirmed) {
+            bootbox.confirm(msg, function (confirmed) {
                 $('.alert').alert();
                 if (confirmed === true) {
                     var url = Bolt.conf('paths.async') + 'content/modify';
