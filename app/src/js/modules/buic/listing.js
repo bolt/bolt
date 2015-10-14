@@ -148,7 +148,7 @@
                 title: actionName[action],
                 buttons: {
                     cancel: {
-                        label: 'Cancel',
+                        label: Bolt.data('recordlisting.action.cancel'),
                         className: 'btn-default'
                     },
                     ok: {
