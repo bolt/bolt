@@ -17,8 +17,8 @@ class FieldLoadTest extends BoltUnitTest
     {
         $this->resetDb();
         $app = $this->getApp();
-        $this->addNewUser($app, 'admin', 'Admin', 'admin');
         $app['schema']->repairTables();
+        $this->addDefaultUser($app);
         $this->addSomeContent();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
@@ -34,13 +34,29 @@ class FieldLoadTest extends BoltUnitTest
     public function testTaxonomyLoad()
     {
         $app = $this->getApp();
-        $app['schema']->repairTables();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
 
         $record = $repo->find(1);
         $this->assertTrue(is_array($record->taxonomy['categories']));
         $this->assertTrue(is_array($record->taxonomy['tags']));
+    }
+
+    public function testRepeaterLoad()
+    {
+        $app = $this->getApp();
+        $em = $app['storage'];
+        $this->addSomeFields();
+        $repo = $em->getRepository('showcases');
+        $record = $repo->find(1);
+        $this->assertInstanceOf('Bolt\Storage\Field\Collection\RepeatingFieldCollection', $record->repeat);
+        $this->assertEquals(2, count($record->repeat));
+        foreach($record->repeat as $collection) {
+            $this->assertInstanceOf('Bolt\Storage\Field\Collection\FieldCollection', $collection);
+            foreach($collection as $fieldValue) {
+                $this->assertInstanceOf('Bolt\Storage\Entity\FieldValue', $fieldValue);
+            }
+        }
     }
 
     protected function addSomeContent()
@@ -64,4 +80,20 @@ class FieldLoadTest extends BoltUnitTest
             }
         }
     }
+
+    protected function addSomeFields()
+    {
+        $app = $this->getApp();
+        $repo = $app['storage']->getRepository('showcases');
+        $content = $repo->find(1);
+        $repeat = [
+            ['repeattitle' => 'Test', 'repeatimage'=>['file'=>'example.jpg', 'title'=>'Test Image']],
+            ['repeattitle' => 'Test 2', 'repeatimage'=>['file'=>'example2.jpg', 'title'=>'Test Image 2']],
+        ];
+        $content->setRepeat($repeat);
+
+        $repo->save($content);
+    }
+
+
 }

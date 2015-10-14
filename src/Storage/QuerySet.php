@@ -7,11 +7,14 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * This class works keeps a set of queries that will eventually
  * be executed sequentially.
+
+ * @author Ross Riley <riley.ross@gmail.com>
  */
 class QuerySet extends \ArrayIterator
 {
     protected $resultCallbacks = [];
     protected $lastInsertId;
+    protected $parentId;
 
     /**
      * @param QueryBuilder $qb A QueryBuilder instance
@@ -44,9 +47,12 @@ class QuerySet extends \ArrayIterator
                     if ($query->getType() === 3) {
                         $this->lastInsertId = $query->getConnection()->lastInsertId();
                     }
+                    foreach ($this->resultCallbacks as $callback) {
+                        $callback($query, $result, $this->getParentId());
+                    }
                 } else {
                     foreach ($this->resultCallbacks as $callback) {
-                        $callback($query, $result, $this->lastInsertId);
+                        $callback($query, $result, $this->getParentId());
                     }
                     $query->execute();
                 }
@@ -78,4 +84,26 @@ class QuerySet extends \ArrayIterator
     {
         return $this->lastInsertId;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getParentId()
+    {
+        if (!$this->parentId && $this->lastInsertId) {
+            return $this->lastInsertId;
+        }
+
+        return $this->parentId;
+    }
+
+    /**
+     * @param mixed $parentId
+     */
+    public function setParentId($parentId)
+    {
+        $this->parentId = $parentId;
+    }
+
+
 }

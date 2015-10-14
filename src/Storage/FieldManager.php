@@ -9,15 +9,16 @@ class FieldManager
     /** @var array */
     protected $em;
     protected $handlers = [];
+    protected $typemap;
 
     /**
      * Constructor.
      *
-     * @param EntityManager $em
+     * @param array $typemap
      */
-    public function __construct(EntityManager $em = null)
+    public function __construct($typemap = [])
     {
-        $this->setEntityManager($em);
+        $this->typemap = $typemap;
     }
 
     /**
@@ -31,12 +32,10 @@ class FieldManager
     }
 
     /**
-     * Get a field type object.
-     *
-     * @param string|object $class
-     * @param mixed         $mapping
-     *
-     * @return object
+     * Gets the field instance for the supplied class.
+     * @param $class
+     * @param $mapping
+     * @return mixed
      */
     public function get($class, $mapping)
     {
@@ -52,11 +51,22 @@ class FieldManager
     }
 
     /**
-     * Set  the field's handler.
+     * Looks up a type from the typemap and returns a field class.
      *
-     * @param string   $class
-     * @param callable $handler
+     * @param $type
+     * @param array $mapping
+     * @return bool|mixed
      */
+    public function getFieldFor($type)
+    {
+        if (!isset($this->typemap[$type])) {
+            return false;
+        }
+        $class = $this->typemap[$type];
+
+        return $this->get($class, ['type'=>$type]);
+    }
+
     public function setHandler($class, callable $handler)
     {
         $this->handlers[$class] = $handler;

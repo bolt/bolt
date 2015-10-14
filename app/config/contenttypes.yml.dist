@@ -165,6 +165,17 @@ showcases:
             type: templateselect
             filter: '*.twig'
             group: meta
+        repeat:
+            type: repeater
+            limit: 3
+            fields:
+                repeattitle:
+                    type: text
+                repeatimage:
+                    type: image
+                    extensions: [ gif, jpg, png ]
+                repeatcontent:
+                    type: html
     relations:
         entries:
             multiple: false

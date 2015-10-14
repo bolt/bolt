@@ -16,6 +16,8 @@ class Manager
         'textarea', 'datetime', 'date', 'select', 'templateselect', 'templatefields', 'markdown', 'checkbox', 'slug'
     ];
 
+    protected $dummyFields = ['repeater'];
+
     public function __construct()
     {
         foreach ($this->defaults as $default) {
@@ -45,6 +47,6 @@ class Manager
 
     public function has($field)
     {
-        return isset($this->fields[$field]);
+        return (isset($this->fields[$field]) || in_array($field, $this->dummyFields));
     }
 }
