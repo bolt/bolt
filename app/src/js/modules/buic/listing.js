@@ -75,6 +75,11 @@
         $(buic).find('tr.selectiontoolbar button.records-publish').on('click', function () {
             modifyRecords(this, 'publish');
         });
+
+        // Record depublish action.
+        $(buic).find('tr.selectiontoolbar button.records-depublish').on('click', function () {
+            modifyRecords(this, 'depublish');
+        });
     }
 
     /**
@@ -119,6 +124,9 @@
                         break;
                     case 'publish':
                         modifications[contenttype][this] = {'modify': {'status': 'published'}};
+                        break;
+                    case 'depublish':
+                        modifications[contenttype][this] = {'modify': {'status': 'held'}};
                         break;
                 }
             });
