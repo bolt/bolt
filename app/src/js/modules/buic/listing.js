@@ -148,7 +148,7 @@
                         },
                         success: function (data) {
                             $(container).replaceWith(data);
-                            initEvents(table);
+                            initEvents($('div.record-listing-container table.buic-listing'));
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.log(jqXHR.status + ' (' + errorThrown + '):');
