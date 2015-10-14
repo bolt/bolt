@@ -96,6 +96,6 @@ class Records extends AsyncBase
             'permissions'     => $this->getContentTypeUserPermissions($contentType, $this->users()->getCurrentUser())
         ];
 
-        return $this->render('@bolt/async/record_list.twig', $context);
+        return $this->render('@bolt/async/record_list.twig', ['context' => $context]);
     }
 }
