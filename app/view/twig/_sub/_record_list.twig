@@ -20,10 +20,10 @@
     {% endif %}
 
     {% set selection_toolbar %}
-        <button class="records-delete danger delete" type="button"><i class="fa fa-trash"></i> {{ __('Delete') }}</button>
-        <button class="records-publish status-published" type="button"><i class="fa fa-circle"></i> {{ __('Publish') }}</button>
-        <button class="records-depublish status-held" type="button"><i class="fa fa-circle"></i> {{ __('Depublish') }}</button>
-        <button class="records-draft status-draft" type="button"><i class="fa fa-circle"></i> {{ __('Draft') }}</button>
+        <button type="button" data-stb-cmd="delete" class="danger delete"><i class="fa fa-trash"></i> {{ __('Delete') }}</button>
+        <button type="button" data-stb-cmd="publish" class="status-published"><i class="fa fa-circle"></i> {{ __('Publish') }}</button>
+        <button type="button" data-stb-cmd="depublish" class="status-held"><i class="fa fa-circle"></i> {{ __('Depublish') }}</button>
+        <button type="button" data-stb-cmd="draft" class="status-draft"><i class="fa fa-circle"></i> {{ __('Draft') }}</button>
     {% endset %}
 
     <div class="record-listing-container">

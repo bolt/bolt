@@ -66,24 +66,11 @@
             handleSelectionState(this);
         });
 
-        // Record delete action.
-        $(buic).find('tr.selectiontoolbar button.records-delete').on('click', function () {
-            modifyRecords(this, 'delete');
-        });
-
-        // Record publish action.
-        $(buic).find('tr.selectiontoolbar button.records-publish').on('click', function () {
-            modifyRecords(this, 'publish');
-        });
-
-        // Record depublish action.
-        $(buic).find('tr.selectiontoolbar button.records-depublish').on('click', function () {
-            modifyRecords(this, 'depublish');
-        });
-
-        // Record draft action.
-        $(buic).find('tr.selectiontoolbar button.records-draft').on('click', function () {
-            modifyRecords(this, 'draft');
+        // Record toolbar actions.
+        $(buic).find('tr.selectiontoolbar button[data-stb-cmd]').each(function () {
+            $(this).on('click', function () {
+                modifyRecords(this, $(this).data('stb-cmd'));
+            });
         });
     }
 
