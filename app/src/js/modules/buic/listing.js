@@ -67,9 +67,9 @@
         });
 
         // Record toolbar actions.
-        $(buic).find('tr.selectiontoolbar button[data-stb-cmd]').each(function () {
+        $(buic).find('tr.selectiontoolbar button[data-stb-cmd^="record:"]').each(function () {
             $(this).on('click', function () {
-                modifyRecords(this, $(this).data('stb-cmd'));
+                modifyRecords(this, $(this).data('stb-cmd').replace(/^record:/, ''));
             });
         });
     }
