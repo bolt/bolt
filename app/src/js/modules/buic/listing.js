@@ -68,68 +68,87 @@
 
         // Record delete action.
         $(buic).find('tr.selectiontoolbar button.records-delete').on('click', function () {
-            var container = $(this).closest('div.record-listing-container'),
-                tbody = $(this).closest('tbody'),
-                table = $(this).closest('table'),
-                contenttype = $(table).data('contenttype'),
-                checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
-                selectedIds = [],
-                selectedRows = [],
-                modifications = {},
-                notice;
+            modifyRecords(this, 'delete');
+        });
+    }
 
-            $(checkboxes).each(function () {
-                var row = $(this).parents('tr'),
-                    id = row.attr('id').substr(5);
+    /**
+     * Execute commands on triggered button.
+     *
+     * @private
+     * @static
+     * @function modifyRecords
+     * @memberof Bolt.files
+     *
+     * @param {object} button - Triggered list button.
+     * @param {string} action - Triggered action (Allowed: 'delete').
+     */
+    function modifyRecords(button, action) {
+        var container = $(button).closest('div.record-listing-container'),
+            table = $(button).closest('table'),
+            tbody = $(button).closest('tbody'),
+            contenttype = $(table).data('contenttype'),
+            checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
+            selectedIds = [],
+            selectedRows = [],
+            modifications = {},
+            notice;
 
-                if (id) {
-                    selectedIds.push(id);
-                    selectedRows.push(row);
-                }
-            });
+        $(checkboxes).each(function () {
+            var row = $(this).parents('tr'),
+                id = row.attr('id').substr(5);
 
-            if (selectedIds.length > 0) {
-                // Build POST data.
-                modifications[contenttype] = {};
-                $(selectedIds).each(function () {
-                    modifications[contenttype][this] = {'delete': null};
-                    //modifications[contenttype][this] = {'modify': {'status': 'published'}};
-                });
-
-                notice = selectedIds.length === 1 ? Bolt.data('recordlisting.delete_one')
-                                                  : Bolt.data('recordlisting.delete_mult');
-
-                notice = '<b style="color:red;">Anti CSRF token functionality still disabled in ' +
-                        'Bolt\Controller\Async\Records::modify</b><br>' + notice;
-
-                bootbox.confirm(notice, function (confirmed) {
-                    $('.alert').alert();
-                    if (confirmed === true) {
-                        var url = Bolt.conf('paths.async') + 'content/modify';
-
-                        // Delete request.
-                        $.ajax({
-                            url: url,
-                            type: 'POST',
-                            data: {
-                                'bolt_csrf_token': $(table).data('bolt_csrf_token'),
-                                'contenttype': contenttype,
-                                'modifications': modifications
-                            },
-                            success: function (data) {
-                                $(container).replaceWith(data);
-                                initEvents(table);
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log(jqXHR.status + ' (' + errorThrown + '):');
-                                console.log(JSON.parse(jqXHR.responseText));
-                            },
-                            dataType: 'html'
-                        });
-                    }
-                });
+            if (id) {
+                selectedIds.push(id);
+                selectedRows.push(row);
             }
         });
+
+        if (selectedIds.length > 0) {
+            // Build POST data.
+            modifications[contenttype] = {};
+            $(selectedIds).each(function () {
+                switch (action) {
+                    case 'delete':
+                        modifications[contenttype][this] = {'delete': null};
+                        break;
+                }
+                //modifications[contenttype][this] = {'modify': {'status': 'published'}};
+            });
+
+            notice = selectedIds.length === 1 ? Bolt.data('recordlisting.delete_one')
+                                              : Bolt.data('recordlisting.delete_mult');
+
+            notice = '<b style="color:red;">Anti CSRF token functionality still disabled in ' +
+                    'Bolt\Controller\Async\Records::modify</b><br>' + notice;
+
+            bootbox.confirm(notice, function (confirmed) {
+                $('.alert').alert();
+                if (confirmed === true) {
+                    var url = Bolt.conf('paths.async') + 'content/modify';
+
+                    // Delete request.
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: {
+                            'bolt_csrf_token': $(table).data('bolt_csrf_token'),
+                            'contenttype': contenttype,
+                            'modifications': modifications
+                        },
+                        success: function (data) {
+                            $(container).replaceWith(data);
+                            initEvents(table);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR.status + ' (' + errorThrown + '):');
+                            console.log(JSON.parse(jqXHR.responseText));
+                        },
+                        dataType: 'html'
+                    });
+                }
+            });
+        }
     }
 
     /**
