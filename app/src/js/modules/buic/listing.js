@@ -118,6 +118,7 @@
                             },
                             success: function (data) {
                                 $(container).replaceWith(data);
+                                initEvents(table);
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 console.log(jqXHR.status + ' (' + errorThrown + '):');
