@@ -70,6 +70,11 @@
         $(buic).find('tr.selectiontoolbar button.records-delete').on('click', function () {
             modifyRecords(this, 'delete');
         });
+
+        // Record publish action.
+        $(buic).find('tr.selectiontoolbar button.records-publish').on('click', function () {
+            modifyRecords(this, 'publish');
+        });
     }
 
     /**
@@ -112,8 +117,10 @@
                     case 'delete':
                         modifications[contenttype][this] = {'delete': null};
                         break;
+                    case 'publish':
+                        modifications[contenttype][this] = {'modify': {'status': 'published'}};
+                        break;
                 }
-                //modifications[contenttype][this] = {'modify': {'status': 'published'}};
             });
 
             notice = selectedIds.length === 1 ? Bolt.data('recordlisting.delete_one')
