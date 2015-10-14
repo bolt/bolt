@@ -36,8 +36,8 @@
      *
      * @private
      * @static
-     * @function rowSelection
-     * @memberof Bolt.files
+     * @function initEvents
+     * @memberof Bolt.buic.listing
      *
      * @param {Object} buic - Listing table
      */
@@ -78,7 +78,7 @@
      * @private
      * @static
      * @function modifyRecords
-     * @memberof Bolt.files
+     * @memberof Bolt.buic.listing
      *
      * @param {object} button - Triggered list button.
      * @param {string} action - Triggered action (Allowed: 'delete').
@@ -157,7 +157,7 @@
      * @private
      * @static
      * @function rowSelection
-     * @memberof Bolt.files
+     * @memberof Bolt.buic.listing
      *
      * @param {object} checkbox - Checkbox clicked.
      */
@@ -177,7 +177,7 @@
      * @private
      * @static
      * @function handleSelectionState
-     * @memberof Bolt.files
+     * @memberof Bolt.buic.listing
      *
      * @param {object} element - Element inside a tbody.
      */
