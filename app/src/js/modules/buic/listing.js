@@ -54,7 +54,8 @@
 
         // Record delete action.
         $(buic).find('tr.selectiontoolbar button.records-delete').on('click', function () {
-            var tbody = $(this).closest('tbody'),
+            var container = $(this).closest('div.record-listing-container'),
+                tbody = $(this).closest('tbody'),
                 table = $(this).closest('table'),
                 contenttype = $(table).data('contenttype'),
                 checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
@@ -102,12 +103,7 @@
                                 'modifications': modifications
                             },
                             success: function (data) {
-                                console.log('Success');
-                                console.log(data);
-                                /*$(selectedRows).each(function () {
-                                    $(this).remove();
-                                });
-                                handleSelectionState(tbody);*/
+                                $(container).replaceWith(data);
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 console.log(jqXHR.status + ' (' + errorThrown + '):');
