@@ -522,7 +522,7 @@ class Manager
             $addIndex = isset($values['index']) && $values['index'] == 'true';
             // Add the contenttype's specific fields
             $tableObj->addCustomFields($fieldName, $this->getContentTypeTableColumnType($values), $addIndex);
-        } elseif ($handler = $this->app['config']->getFields()->getField($values['type'])) {
+        } elseif ($handler = $this->app['config']->getFields()->getDatabaseField($values['type'])) {
             // Add template fields
             /** @var $handler \Bolt\Storage\Field\FieldInterface */
             $table->addColumn($fieldName, $handler->getStorageType(), $handler->getStorageOptions());

@@ -13,7 +13,7 @@ class Manager
 
     protected $defaults = [
         'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'video', 'hidden', 'html',
-        'textarea', 'datetime', 'date', 'select', 'templateselect', 'templatefields', 'markdown', 'checkbox', 'slug'
+        'textarea', 'datetime', 'date', 'select', 'templateselect', 'templatefields', 'markdown', 'checkbox', 'slug', 'repeater'
     ];
 
     protected $dummyFields = ['repeater'];
@@ -31,6 +31,11 @@ class Manager
         $this->fields[$field->getName()] = $field;
     }
 
+    public function addDummyField($field)
+    {
+        $this->dummyFields[] = $field;
+    }
+
     public function fields()
     {
         return $this->fields;
@@ -43,6 +48,15 @@ class Manager
         } else {
             return false;
         }
+    }
+
+    public function getDatabaseField($field)
+    {
+        if (in_array($field, $this->dummyFields)) {
+            return false;
+        }
+
+        return $this->getField($name);
     }
 
     public function has($field)
