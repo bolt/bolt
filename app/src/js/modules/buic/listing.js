@@ -102,6 +102,11 @@
             selectedIds = [],
             selectedRows = [],
             modifications = {},
+            modification = {
+                'delete': {'delete': null},
+                'publish': {'modify': {'status': 'published'}},
+                'depublish': {'modify': {'status': 'held'}}
+            },
             notice;
 
         $(checkboxes).each(function () {
@@ -118,17 +123,7 @@
             // Build POST data.
             modifications[contenttype] = {};
             $(selectedIds).each(function () {
-                switch (action) {
-                    case 'delete':
-                        modifications[contenttype][this] = {'delete': null};
-                        break;
-                    case 'publish':
-                        modifications[contenttype][this] = {'modify': {'status': 'published'}};
-                        break;
-                    case 'depublish':
-                        modifications[contenttype][this] = {'modify': {'status': 'held'}};
-                        break;
-                }
+                modifications[contenttype][this] = modification[action];
             });
 
             notice = selectedIds.length === 1 ? Bolt.data('recordlisting.delete_one')
