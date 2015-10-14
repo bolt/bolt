@@ -131,42 +131,51 @@
                 modifications[contenttype][this] = modification[action];
             });
 
-            // Build notice:
-            msg = '<b>' + actionName[action] + '</b><br>';
+            // Build message:
             if (selectedIds.length === 1) {
-                msg = msg + Bolt.data('recordlisting.confirm.one');
+                msg = Bolt.data('recordlisting.confirm.one');
             } else {
-                msg = msg + Bolt.data('recordlisting.confirm.multi', {'%NUMBER%': '<b>' + selectedIds.length + '</b>'});
+                msg = Bolt.data('recordlisting.confirm.multi', {'%NUMBER%': '<b>' + selectedIds.length + '</b>'});
             }
 
             // Remove when done:
-            msg = msg + '<hr><b style="color:red;">Anti CSRF token functionality still disabled<br>' +
+            msg = msg + '<hr><b style="color:red;">Anti CSRF token functionality still disabled ' +
                 'in Bolt\Controller\Async\Records::modify</b>';
 
-            bootbox.confirm(msg, function (confirmed) {
-                $('.alert').alert();
-                if (confirmed === true) {
-                    var url = Bolt.conf('paths.async') + 'content/modify';
+            bootbox.dialog({
+                message: msg,
+                title: actionName[action],
+                buttons: {
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-default'
+                    },
+                    main: {
+                        label: 'Ok',
+                        className: 'btn-primary',
+                        callback: function () {
+                            var url = Bolt.conf('paths.async') + 'content/modify';
 
-                    // Delete request.
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data: {
-                            'bolt_csrf_token': $(table).data('bolt_csrf_token'),
-                            'contenttype': contenttype,
-                            'modifications': modifications
-                        },
-                        success: function (data) {
-                            $(container).replaceWith(data);
-                            initEvents($('div.record-listing-container table.buic-listing'));
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR.status + ' (' + errorThrown + '):');
-                            console.log(JSON.parse(jqXHR.responseText));
-                        },
-                        dataType: 'html'
-                    });
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                data: {
+                                    'bolt_csrf_token': $(table).data('bolt_csrf_token'),
+                                    'contenttype': contenttype,
+                                    'modifications': modifications
+                                },
+                                success: function (data) {
+                                    $(container).replaceWith(data);
+                                    initEvents($('div.record-listing-container table.buic-listing'));
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR.status + ' (' + errorThrown + '):');
+                                    console.log(JSON.parse(jqXHR.responseText));
+                                },
+                                dataType: 'html'
+                            });
+                        }
+                    }
                 }
             });
         }
