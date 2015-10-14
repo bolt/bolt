@@ -36,12 +36,7 @@ class RepeaterType extends FieldTypeBase
         }
 
         $query->addSelect($this->getPlatformGroupConcat('fields', $query, $field))
-            ->leftJoin(
-                $alias,
-                $this->mapping['tables']['field_value'],
-                $field,
-                "$field.content_id = $alias.id AND $field.contenttype='$boltname' AND $field.name='$field'"
-            );
+            ->where("$field.content_id = $alias.id AND $field.contenttype='$boltname' AND $field.name='$field'");
     }
 
     public function persist(QuerySet $queries, $entity)
