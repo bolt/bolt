@@ -112,8 +112,8 @@
                             error: function (jqXHR, textStatus, errorThrown) {
                                 console.log(jqXHR.status + ' (' + errorThrown + '):');
                                 console.log(JSON.parse(jqXHR.responseText));
-                            }/*,
-                            dataType: 'json'*/
+                            },
+                            dataType: 'html'
                         });
                     }
                 });
