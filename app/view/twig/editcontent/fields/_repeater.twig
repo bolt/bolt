@@ -6,7 +6,7 @@ TEMPLATE FOR REPEATER
     {% for key, field in field.fields %}
         {% include context.fields[field.type].template with {
             'key': field.name,
-            'name': key~[field.name][],
+            'name': key~'['~field.name~'][]',
             'contentkey': field.name
         } %}
     {% endfor %}
