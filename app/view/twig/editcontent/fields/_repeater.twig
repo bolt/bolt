@@ -4,7 +4,7 @@
 
 
 {% block fieldset_type 'repeater' %}
-{% block fieldset_label_text  field.name %}
+{% block fieldset_label_text  name %}
 {% block fieldset_label_info  field.info|default('') %}
 {% block fieldset_label_class 'col-xs-12' %}
 
@@ -14,7 +14,7 @@
         {% for rkey, rfield in field.fields %}
             {% include context.fields[rfield.type].template with {
                 'key': rkey,
-                'name': field.name ~ '[__index__][' ~ rkey ~ '][]',
+                'name': name ~ '[__index__][' ~ rkey ~ '][]',
                 'contentkey': rkey
             } %}
         {% endfor %}
@@ -23,7 +23,7 @@
         {% for rkey, rfield in field.fields %}
             {% include context.fields[rfield.type].template with {
             'key': rkey,
-            'name': field.name ~ '[0][' ~ rkey ~ ']',
+            'name': name ~ '[0][' ~ rkey ~ ']',
             'contentkey': rkey
             } %}
         {% endfor %}
