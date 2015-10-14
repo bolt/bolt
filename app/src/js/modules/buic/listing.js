@@ -84,11 +84,14 @@
                 notice = selectedIds.length === 1 ? Bolt.data('recordlisting.delete_one')
                                                   : Bolt.data('recordlisting.delete_mult');
 
+                notice = '<b style="color:red;">Anti CSRF token functionality still disabled in ' +
+                        'Bolt\Controller\Async\Records::modify</b><br>' + notice;
+
                 bootbox.confirm(notice, function (confirmed) {
                     $('.alert').alert();
                     if (confirmed === true) {
                         var url = Bolt.conf('paths.async') + 'content/modify';
-alert('Anti CSRF token functionality still disabled in Bolt\Controller\Async\Records::modify');
+
                         // Delete request.
                         $.ajax({
                             url: url,
