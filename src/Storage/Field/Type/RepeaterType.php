@@ -35,12 +35,12 @@ class RepeaterType extends FieldTypeBase
             $alias = $from[0]['table'];
         }
 
-        $query->addSelect($this->getPlatformGroupConcat('fields', $query))
+        $query->addSelect($this->getPlatformGroupConcat('fields', $query, $field))
             ->leftJoin(
                 $alias,
                 $this->mapping['tables']['field_value'],
-                'f',
-                "f.content_id = $alias.id AND f.contenttype='$boltname' AND f.name='$field'"
+                $field,
+                "$field.content_id = $alias.id AND $field.contenttype='$boltname' AND $field.name='$field'"
             );
     }
 
@@ -124,17 +124,17 @@ class RepeaterType extends FieldTypeBase
      *
      * @return string
      */
-    protected function getPlatformGroupConcat($alias, QueryBuilder $query)
+    protected function getPlatformGroupConcat($alias, QueryBuilder $query, $tableField)
     {
         $platform = $query->getConnection()->getDatabasePlatform()->getName();
 
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT(DISTINCT CONCAT_WS('_', f.name, f.grouping, f.id)) as $alias";
+                return "GROUP_CONCAT(DISTINCT CONCAT_WS('_', $tableField.name, $tableField.grouping, $tableField.id)) as $alias";
             case 'sqlite':
-                return "GROUP_CONCAT(DISTINCT f.name||'_'||f.grouping||'_'||f.id) as $alias";
+                return "GROUP_CONCAT(DISTINCT $tableField.name||'_'||$tableField.grouping||'_'||$tableField.id) as $alias";
             case 'postgresql':
-                return "string_agg(DISTINCT f.name||'_'||f.grouping||'_'||f.id) as $alias";
+                return "string_agg(DISTINCT $tableField.name||'_'||$tableField.grouping||'_'||$tableField.id) as $alias";
         }
     }
 
