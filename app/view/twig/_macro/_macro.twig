@@ -65,6 +65,9 @@
  # Actionform.
  #}
 {% macro actionform(content, action, icon, text, confirmation_text) %}
+    {% if action == 'held' %}
+        {% set action = 'depublish' %}
+    {% endif %}
     <button type="button" data-listing-cmd="record:{{ action }}">
         <span class="pull-left"><i class="fa {{ icon }}"></i>{{ __(text) }}</span>
     </button>
