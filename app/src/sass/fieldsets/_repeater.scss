@@ -1,5 +1,9 @@
 #editcontent {
   fieldset[data-bolt-field="repeater"] {
-    
+    .repeater-wrapper {
+      .repeater-add {
+        float:right;
+      }
+    }
   }
 }
