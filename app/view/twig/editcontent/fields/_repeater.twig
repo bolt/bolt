@@ -20,34 +20,38 @@
         <div class="repeater-slot"></div>
 
             <script type="text/template" id="{{ name }}_template">
-                {% for rkey, rfield in field.fields %}
-                    {% set labelkey = rfield.label ?: rkey|ucfirst %}
-                    <div class="col-xs-12 repeater-group">
-                        {% include context.fields[rfield.type].template with {
-                            'key': rkey,
-                            'name': name ~ '['~index~'][' ~ rkey ~ '][]',
-                            'contentkey': rkey,
-                            'field': rfield,
-                            'labelkey': labelkey
-                        } %}
-                    </div>
-                {% endfor %}
+                <div class="repeater-group"></div>
+                    {% for rkey, rfield in field.fields %}
+                        {% set labelkey = rfield.label ?: rkey|ucfirst %}
+                        <div class="col-xs-12">
+                            {% include context.fields[rfield.type].template with {
+                                'key': rkey,
+                                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
+                                'contentkey': rkey,
+                                'field': rfield,
+                                'labelkey': labelkey
+                            } %}
+                        </div>
+                    {% endfor %}
+                </div>
             </script>
 
             {# In cases where we don't have any values set, the we show a single set of fields by default #}
             {% if not repeatfieldvals.length %}
-                {% for rkey, rfield in field.fields %}
-                    {% set labelkey = rfield.label ?: rkey|ucfirst %}
-                    <div class="col-xs-12 repeater-group">
-                        {% include context.fields[rfield.type].template with {
-                            'key': rkey,
-                            'name': name ~ '['~index~'][' ~ rkey ~ '][]',
-                            'contentkey': rkey,
-                            'field': rfield,
-                            'labelkey': labelkey
-                        } %}
-                    </div>
-                {% endfor %}
+                <div class="repeater-group"></div>
+                    {% for rkey, rfield in field.fields %}
+                        {% set labelkey = rfield.label ?: rkey|ucfirst %}
+                        <div class="col-xs-12">
+                            {% include context.fields[rfield.type].template with {
+                                'key': rkey,
+                                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
+                                'contentkey': rkey,
+                                'field': rfield,
+                                'labelkey': labelkey
+                            } %}
+                        </div>
+                    {% endfor %}
+                </div>
             {% else %}
                 {% for repeatfieldset in repeatfieldvals %}
 
