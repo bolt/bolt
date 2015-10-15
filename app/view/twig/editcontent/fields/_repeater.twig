@@ -21,8 +21,8 @@
 {% endmacro %}
 
 {% block fieldset_controls %}
-    <script type="text/template">
-        {{ _self.repeatfields(field, naem, context, '__index__') }}
+    <script type="text/template" id="{{ name }}_template">
+        {{ _self.repeatfields(field, name, context, '__index__') }}
     </script>
 
     {# In cases where we don't have any values set, the we show a single set of fields by default #}
