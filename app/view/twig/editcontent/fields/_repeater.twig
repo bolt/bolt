@@ -10,13 +10,12 @@
 
 {% macro repeatfields(field, context, index) %}
     {% for rkey, rfield in field.fields %}
-        {% set field = field|merge({'label': rfield.label ?: rkey|ucfirst })%}
+        {% set rfield = rfield|merge({'label': rfield.label ?: rkey|ucfirst })%}
         {% include context.fields[rfield.type].template with {
             'key': rkey,
             'name': name ~ '['~index~'][' ~ rkey ~ '][]',
             'contentkey': rkey,
-            'field': rfield,
-            'label': rfield.label ?: rkey|ucfirst
+            'field': rfield
         } %}
     {% endfor %}
 {% endmacro %}
