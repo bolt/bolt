@@ -68,9 +68,7 @@
     {% if action == 'held' %}
         {% set action = 'depublish' %}
     {% endif %}
-    <button type="button" data-listing-cmd="record:{{ action }}">
-        <span class="pull-left"><i class="fa {{ icon }}"></i>{{ __(text) }}</span>
-    </button>
+    <a href="#" data-listing-cmd="record:{{ action }}"><i class="fa {{ icon }}"></i> {{ __(text) }}</a>
 {% endmacro %}
 
 {##
