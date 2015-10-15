@@ -10,12 +10,13 @@
 
 {% macro repeatfields(field, name, context, index) %}
     {% for rkey, rfield in field.fields %}
-        {% set rfield = rfield|merge({'label': rfield.label ?: rkey|ucfirst })%}
+        {% set labelkey = rfield.label ?: rkey|ucfirst %}
         {% include context.fields[rfield.type].template with {
             'key': rkey,
             'name': name ~ '['~index~'][' ~ rkey ~ '][]',
             'contentkey': rkey,
-            'field': rfield
+            'field': rfield,
+            'labelkey': labelkey
         } %}
     {% endfor %}
 {% endmacro %}
@@ -27,6 +28,8 @@
 
     {# In cases where we don't have any values set, the we show a single set of fields by default #}
     {% if not repeatfields.length %}
-        {{ _self.repeatfields(field, name, context, '0') }}
+        <div class="repeater-fieldset">
+            {{ _self.repeatfields(field, name, context, '0') }}
+        </div>
     {% endif %}
 {% endblock fieldset_controls %}
