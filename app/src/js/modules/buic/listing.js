@@ -186,6 +186,8 @@
                                     table = $('div.record-listing-container table.buic-listing');
                                     initEvents(table);
 
+                                    /*
+                                     Commented out for now - it has to be decided if functionality is wanted
                                     // Restore selection state.
                                     $(table).find('td input:checkbox[name="checkRow"]').each(function () {
                                         var id = $(this).parents('tr').attr('id').substr(5);
@@ -198,6 +200,7 @@
                                     $(table).find('tbody').each(function () {
                                         handleSelectionState(this);
                                     });
+                                    */
                                 },
                                 error: function (jqXHR, textStatus, errorThrown) {
                                     console.log(jqXHR.status + ' (' + errorThrown + '):');
