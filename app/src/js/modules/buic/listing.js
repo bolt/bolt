@@ -154,7 +154,7 @@
                         label: buttonText,
                         className: 'btn-primary',
                         callback: function () {
-                            var url = Bolt.conf('paths.async') + 'content/modify';
+                            var url = Bolt.conf('paths.async') + 'content/modify' + window.location.search;
 
                             $.ajax({
                                 url: url,
