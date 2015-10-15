@@ -23,11 +23,11 @@
 
 {% block fieldset_controls %}
     <script type="text/template">
-        {{ repeatfields('__index__') }}
+        {{ _self.repeatfields('__index__') }}
     </script>
 
     # In cases where we don't have any values set, the we show a single set of fields by default
     {% if not repeatfields.length %}
-        {{ repeatfields('0') }}
+        {{ _self.repeatfields('0') }}
     {% endif %}
 {% endblock fieldset_controls %}
