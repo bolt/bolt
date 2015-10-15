@@ -16,10 +16,16 @@
     {% endfor %}
 {% endmacro %}
 
-<fieldset class="form-group" data-bolt-field="repeater">
-    <legend class="sr-only">{{ labelkey }}</legend>
-    <label class="main col-xs-12">{{ labelkey }}</label>
-</fieldset>
+{% extends '@bolt/_base/_fieldset.twig' %}
+
+{% block fieldset_type 'geolocation' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
+
+{% block fieldset_controls %}
+
 
 
     <script type="text/template" id="{{ name }}_template">
@@ -32,3 +38,5 @@
             {{ _self.repeatfields(field, name, context, '0') }}
         </div>
     {% endif %}
+
+{% endblock %}
