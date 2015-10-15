@@ -615,32 +615,34 @@ class Extensions
      */
     public function renderWidgetHolder($type, $position)
     {
-        if (is_array($this->widgetqueue)) {
-            foreach ($this->widgetqueue as $widget) {
-                if ($type == $widget['type'] && $position == $widget['position']) {
+        if (!is_array($this->widgetqueue)) {
+            return;
+        }
 
-                    if (!$widget['defer']) {
-                        $widgethtml = $this->renderWidget($widget['key'], true);
-                    } else {
-                        $widgethtml = '';
-                    }
+        foreach ($this->widgetqueue as $widget) {
+            if ($type === $widget['type'] && $position === $widget['position']) {
 
-                    $html = $this->app['render']->render('widgetholder.twig', [
-                        'widget' => $widget,
-                        'html' => $widgethtml
-                    ]);
-
-                    // If it's a widget in the frontend, _and_ we're using it defered,
-                    // insert a snippet of Javascript to fetch the actual widget's contents.
-                    if ($widget['type'] == 'frontend' && $widget['defer'] == true) {
-                        $javascript = $this->app['render']->render('widgetjavascript.twig', [
-                            'widget' => $widget
-                        ]);
-                        $this->app['asset.queue.snippet']->add(Target::AFTER_BODY_JS, (string) $javascript);
-                    }
-
-                    echo $html;
+                if (!$widget['defer']) {
+                    $widgethtml = $this->renderWidget($widget['key'], true);
+                } else {
+                    $widgethtml = '';
                 }
+
+                $html = $this->app['render']->render('widgetholder.twig', [
+                    'widget' => $widget,
+                    'html' => $widgethtml
+                ]);
+
+                // If it's a widget in the frontend, _and_ we're using it defered,
+                // insert a snippet of Javascript to fetch the actual widget's contents.
+                if ($widget['type'] === 'frontend' && $widget['defer'] === true) {
+                    $javascript = $this->app['render']->render('widgetjavascript.twig', [
+                        'widget' => $widget
+                    ]);
+                    $this->app['asset.queue.snippet']->add(Target::AFTER_BODY_JS, (string) $javascript);
+                }
+
+                echo $html;
             }
         }
     }
@@ -654,9 +656,8 @@ class Extensions
      */
     public function renderWidget($key, $override = false)
     {
-
         foreach ($this->widgetqueue as $widget) {
-            if ($key == $widget['key'] && ($widget['defer'] || $override)) {
+            if ($key === $widget['key'] && ($widget['defer'] || $override)) {
                 $cachekey = 'widget_' . $widget['key'];
 
                 if ($this->app['cache']->contains($cachekey)) {
@@ -679,7 +680,7 @@ class Extensions
             }
         }
 
-        return 'Invalid key "' . $key . '". No widget found.';
+        return sprintf("Invalid key '%s'. No widget found.", $key);
     }
 
     /**
