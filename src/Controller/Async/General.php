@@ -306,7 +306,7 @@ class General extends AsyncBase
      */
     public function widget($key)
     {
-        $html = $this->extensions()->renderWidget($key);
+        $html = $this->app['asset.queue.widget']->render($key);
 
         $response = new Response($html);
         $response->setSharedMaxAge(180)->setPublic();
