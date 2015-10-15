@@ -1,21 +1,6 @@
 {% set repeatfieldvals = context.content.get('contentkey') %}
 {% set labelkey = field.label ?: key|ucfirst %}
 
-
-
-{% macro repeatfields(field, name, context, index) %}
-    {% for rkey, rfield in field.fields %}
-        {% set labelkey = rfield.label ?: rkey|ucfirst %}
-            {% include context.fields[rfield.type].template with {
-                'key': rkey,
-                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
-                'contentkey': rkey,
-                'field': rfield,
-                'labelkey': labelkey
-            } %}
-    {% endfor %}
-{% endmacro %}
-
 {% extends '@bolt/_base/_fieldset.twig' %}
 
 {% block fieldset_type 'geolocation' %}
@@ -27,7 +12,16 @@
 {% block fieldset_controls %}
 
     <script type="text/template" id="{{ name }}_template">
-        {{ _self.repeatfields(field, name, context, '__index__') }}
+        {% for rkey, rfield in field.fields %}
+            {% set labelkey = rfield.label ?: rkey|ucfirst %}
+            {% include context.fields[rfield.type].template with {
+                'key': rkey,
+                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
+                'contentkey': rkey,
+                'field': rfield,
+                'labelkey': labelkey
+            } %}
+        {% endfor %}
     </script>
 
     {# In cases where we don't have any values set, the we show a single set of fields by default #}
@@ -35,12 +29,16 @@
         {% for rkey, rfield in field.fields %}
             {% set labelkey = rfield.label ?: rkey|ucfirst %}
             {% include context.fields[rfield.type].template with {
-            'key': rkey,
-            'name': name ~ '['~index~'][' ~ rkey ~ '][]',
-            'contentkey': rkey,
-            'field': rfield,
-            'labelkey': labelkey
+                'key': rkey,
+                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
+                'contentkey': rkey,
+                'field': rfield,
+                'labelkey': labelkey
             } %}
+        {% endfor %}
+    {% else %}
+        {% for repeatfieldset in repeatfieldvals %}
+            
         {% endfor %}
     {% endif %}
 
