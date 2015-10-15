@@ -1,12 +1,7 @@
-{% extends '@bolt/_base/_fieldset.twig' %}
-
 {% set repeatfieldvals = context.content.get('contentkey') %}
 {% set labelkey = field.label ?: key|ucfirst %}
 
-{% block fieldset_type 'repeater' %}
-{% block fieldset_label_text  labelkey %}
-{% block fieldset_label_info  field.info|default('') %}
-{% block fieldset_label_class 'col-xs-12' %}
+
 
 {% macro repeatfields(field, name, context, index) %}
     {% for rkey, rfield in field.fields %}
@@ -21,6 +16,10 @@
     {% endfor %}
 {% endmacro %}
 
+<div data-fieldtype="repeater">
+    <legend class="sr-only">labelkey</legend>
+    <label>labelkey</label>
+
     <script type="text/template" id="{{ name }}_template">
         {{ _self.repeatfields(field, name, context, '__index__') }}
     </script>
@@ -31,3 +30,4 @@
             {{ _self.repeatfields(field, name, context, '0') }}
         </div>
     {% endif %}
+</div>
