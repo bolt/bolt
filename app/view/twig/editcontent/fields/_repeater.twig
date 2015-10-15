@@ -23,7 +23,6 @@
     <label class="main col-xs-12">{{ labelkey }}</label>
 </fieldset>
 
-<div class="col-xs-12">
 
     <script type="text/template" id="{{ name }}_template">
         {{ _self.repeatfields(field, name, context, '__index__') }}
@@ -35,4 +34,3 @@
             {{ _self.repeatfields(field, name, context, '0') }}
         </div>
     {% endif %}
-</div>
