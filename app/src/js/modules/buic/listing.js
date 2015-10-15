@@ -72,6 +72,14 @@
                 modifyRecords(this, $(this).data('stb-cmd').replace(/^record:/, ''));
             });
         });
+
+        // Record row edit button actions.
+        $(buic).find('a[data-listing-cmd^="record:"]').each(function () {
+            var id = $(this).parents('tr').attr('id').substr(5);
+
+            $(this).on('click', function () {
+            });
+        });
     }
 
     /**
