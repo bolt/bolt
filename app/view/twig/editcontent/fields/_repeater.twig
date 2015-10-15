@@ -1,10 +1,10 @@
 {% extends '@bolt/_base/_fieldset.twig' %}
 
 {% set repeatfields = context.content.get('contentkey') %}
-
+{% set labelkey = field.label ?: key|ucfirst %}
 
 {% block fieldset_type 'repeater' %}
-{% block fieldset_label_text  field.label %}
+{% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  field.info|default('') %}
 {% block fieldset_label_class 'col-xs-12' %}
 
