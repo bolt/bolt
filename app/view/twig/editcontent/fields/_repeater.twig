@@ -16,7 +16,7 @@
                 'key': rkey,
                 'name': name ~ '[__index__][' ~ rkey ~ '][]',
                 'contentkey': rkey,
-                'field': rfield
+                'field': rfield,
                 'label': rfield.label ?: rkey|ucfirst
             } %}
         {% endfor %}
