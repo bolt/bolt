@@ -136,7 +136,7 @@
             } else {
                 msg = Bolt.data('recordlisting.confirm.multi', {'%NUMBER%': '<b>' + selectedIds.length + '</b>'});
             }
-            msg = msg + '<br><br><h5>' + Bolt.data('recordlisting.confirm.no-undo') + '</h5>';
+            msg = msg + '<br><br><b>' + Bolt.data('recordlisting.confirm.no-undo') + '</b>';
 
             // Remove when done:
             msg = msg + '<hr><b style="color:red;">Anti CSRF token functionality still disabled ' +
