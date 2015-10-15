@@ -15,16 +15,18 @@
             {% include context.fields[rfield.type].template with {
                 'key': rkey,
                 'name': name ~ '[__index__][' ~ rkey ~ '][]',
-                'contentkey': rkey
+                'contentkey': rkey,
+                'field': rfield
             } %}
         {% endfor %}
     </script>
     {% if not repeatfields.length %}
         {% for rkey, rfield in field.fields %}
             {% include context.fields[rfield.type].template with {
-            'key': rkey,
-            'name': name ~ '[0][' ~ rkey ~ ']',
-            'contentkey': rkey
+                'key': rkey,
+                'name': name ~ '[0][' ~ rkey ~ ']',
+                'contentkey': rkey,
+                'field': rfield
             } %}
         {% endfor %}
     {% endif %}
