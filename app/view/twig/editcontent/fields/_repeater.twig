@@ -17,17 +17,19 @@
 {% endmacro %}
 
 <div data-fieldtype="repeater">
-    <legend class="sr-only">labelkey</legend>
-    <label>labelkey</label>
+    <fieldset class="form-group">
+        <legend class="sr-only">{{ labelkey }}</legend>
+        <label>{{ labelkey }}</label>
 
-    <script type="text/template" id="{{ name }}_template">
-        {{ _self.repeatfields(field, name, context, '__index__') }}
-    </script>
+        <script type="text/template" id="{{ name }}_template">
+            {{ _self.repeatfields(field, name, context, '__index__') }}
+        </script>
 
-    {# In cases where we don't have any values set, the we show a single set of fields by default #}
-    {% if not repeatfields.length %}
-        <div class="repeater-fieldset">
-            {{ _self.repeatfields(field, name, context, '0') }}
-        </div>
-    {% endif %}
+        {# In cases where we don't have any values set, the we show a single set of fields by default #}
+        {% if not repeatfields.length %}
+            <div class="repeater-fieldset">
+                {{ _self.repeatfields(field, name, context, '0') }}
+            </div>
+        {% endif %}
+    </fieldset>
 </div>
