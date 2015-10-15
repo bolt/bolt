@@ -80,7 +80,7 @@ class Records extends AsyncBase
 
         $referer = Request::create($request->server->get('HTTP_REFERER'));
         $order = $referer->query->get('order');
-        $page = $referer->query->get("page_$contentType");
+        $page = $referer->query->get('page_' . $contentType);
         $filter = $referer->query->get('filter');
         $taxonomy = null;
         foreach (array_keys($this->getOption('taxonomy', [])) as $taxonomyKey) {

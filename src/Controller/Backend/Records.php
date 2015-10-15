@@ -116,7 +116,7 @@ class Records extends BackendBase
         }
 
         $order = $request->query->get('order');
-        $page = $request->query->get("page_$contenttypeslug");
+        $page = $request->query->get('page_' . $contenttypeslug);
         $filter = $request->query->get('filter');
         $taxonomy = null;
         foreach (array_keys($this->getOption('taxonomy', [])) as $taxonomyKey) {
