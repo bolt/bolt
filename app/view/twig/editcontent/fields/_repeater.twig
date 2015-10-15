@@ -15,7 +15,7 @@
         <div class="repeater-slot">
 
             <script type="text/template" id="{{ name }}_template">
-                <div class="repeater-group"></div>
+                <div class="repeater-group">
                     {% for rkey, rfield in field.fields %}
                         {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
                         <div class="col-xs-12">
@@ -33,7 +33,7 @@
 
             {# In cases where we don't have any values set, the we show a single set of fields by default #}
             {% if not repeatfieldvals.length %}
-                <div class="repeater-group"></div>
+                <div class="repeater-group">
                     {% for rkey, rfield in field.fields %}
                         {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
                         <div class="col-xs-12">
