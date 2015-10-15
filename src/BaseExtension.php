@@ -697,9 +697,6 @@ abstract class BaseExtension implements ExtensionInterface
      * Parse a widget, an pass on the generated HTML to the caller (Extensions).
      *
      * @param string $callback
-     * @param string $var1
-     * @param string $var2
-     * @param string $var3
      *
      * @return bool|string
      */
