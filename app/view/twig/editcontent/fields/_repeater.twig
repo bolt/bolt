@@ -8,7 +8,7 @@
 {% block fieldset_label_info  field.info|default('') %}
 {% block fieldset_label_class 'col-xs-12' %}
 
-{% macro repeatfields(index) %}
+{% macro repeatfields(context, index) %}
     {% for rkey, rfield in field.fields %}
         {% set field = field|merge({'label': rfield.label ?: rkey|ucfirst })%}
         {% include context.fields[rfield.type].template with {
@@ -26,8 +26,8 @@
         {{ _self.repeatfields('__index__') }}
     </script>
 
-    # In cases where we don't have any values set, the we show a single set of fields by default
+    {# In cases where we don't have any values set, the we show a single set of fields by default #}
     {% if not repeatfields.length %}
-        {{ _self.repeatfields('0') }}
+        {{ _self.repeatfields(context, '0') }}
     {% endif %}
 {% endblock fieldset_controls %}
