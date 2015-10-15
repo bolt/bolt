@@ -597,7 +597,20 @@ class Extensions
      * Insert a widget. And by 'insert' we actually mean 'add it to the queue,
      * to be processed later'.
      *
-     * @param array $options
+     * @param array $options Widget options
+     *
+     * Options array should contain the following elements:
+     *   - 'type'              (string)  Either 'frontend' or 'backend'
+     *   - 'position'          (string)  Target positional element
+     *   - 'callback'          (string)  Callback function name
+     *   - 'callbackarguments' (array)   Arguements to pass to callback
+     *   - 'content'           (string)  HTML content to inject
+     *   - 'class'             (string)  CSS class(es) to use
+     *   - 'prefix'            (string)  HTML to add before the widget
+     *   - 'postfix'           (string)  HTML to add after the widget
+     *   - 'defer'             (boolean) True means rendering of the widget is done in a seperate request
+     *   - 'priority'          (integer) Priotrity in the render queue
+     *   - 'cacheduration'     (integer) Number of seconds to cache the widget
      */
     public function insertWidget($options)
     {
@@ -610,8 +623,26 @@ class Extensions
      * Renders a div as a placeholder for a particular type of widget on the
      * given location.
      *
-     * @param string $type
-     * @param string $location For convenience, use the constant from Bolt\Extensions\Snippets\Location
+     * @param string $type     Either 'frontend' or 'backend'
+     * @param string $position Positional element to target
+     *
+     * Position can be
+     *   Frontend positions:
+     *     - maincolumn_top
+     *     - maincolumn_break
+     *     - maincolumn_bottom
+     *     - aside_top
+     *     - aside_middle
+     *     - aside_bottom
+     *     - footer
+     *   Backend positions:
+     *     - dashboard_aside_top
+     *     - dashboard_aside_middle
+     *     - dashboard_aside_bottom
+     *     - dashboard_maincolumn_top
+     *     - dashboard_maincolumn_break
+     *     - dashboard_maincolumn_bottom
+     *     - sidebar_bottom
      */
     public function renderWidgetHolder($type, $position)
     {
@@ -650,7 +681,8 @@ class Extensions
     /**
      * Renders the widget identified by the given key.
      *
-     * @param string $key Widget identifier
+     * @param string  $key      Widget identifier
+     * @param boolean $override
      *
      * @return string HTML
      */
