@@ -1,9 +1,14 @@
 #editcontent {
     div[data-fieldtype="repeater"] {
         .repeater-wrapper {
+            border-bottom: 1px solid #BBB;
+            padding-bottom: 20px;
+            margin-bottom: 15px;
+
             .repeater-add {
                 float:right;
             }
+
         }
     }
 }
