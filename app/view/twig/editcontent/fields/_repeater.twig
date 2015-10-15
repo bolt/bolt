@@ -6,6 +6,7 @@
 {% macro repeatfields(field, name, context, index) %}
     {% for rkey, rfield in field.fields %}
         {% set labelkey = rfield.label ?: rkey|ucfirst %}
+        <div data-fieldtype="{{ rfield.type }}">
             {% include context.fields[rfield.type].template with {
                 'key': rkey,
                 'name': name ~ '['~index~'][' ~ rkey ~ '][]',
@@ -13,6 +14,7 @@
                 'field': rfield,
                 'labelkey': labelkey
             } %}
+        </div>
     {% endfor %}
 {% endmacro %}
 
