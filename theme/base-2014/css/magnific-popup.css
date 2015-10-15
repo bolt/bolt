@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1042;
+  z-index: 100042;
   overflow: hidden;
   position: fixed;
   background: #0b0b0b;
@@ -16,7 +16,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1043;
+  z-index: 100043;
   position: fixed;
   outline: none !important;
   -webkit-backface-visibility: hidden; }
