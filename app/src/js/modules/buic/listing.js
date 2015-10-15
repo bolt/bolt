@@ -78,6 +78,7 @@
             var id = $(this).parents('tr').attr('id').substr(5);
 
             $(this).on('click', function () {
+                modifyRecords(this, $(this).data('listing-cmd').replace(/^record:/, ''), [id]);
             });
         });
     }
@@ -92,8 +93,9 @@
      *
      * @param {object} button - Triggered list button.
      * @param {string} action - Triggered action (Allowed: 'delete').
+     * @param {array} ids - Optional array of ids to perform the action on.
      */
-    function modifyRecords(button, action) {
+    function modifyRecords(button, action, ids) {
         var container = $(button).closest('div.record-listing-container'),
             table = $(button).closest('table'),
             tbody = $(button).closest('tbody'),
@@ -122,14 +124,18 @@
             buttonText = $(button).html(),
             msg;
 
-        $(checkboxes).each(function () {
-            var row = $(this).parents('tr'),
-                id = row.attr('id').substr(5);
+        if (ids) {
+            selectedIds = ids;
+        } else {
+            $(checkboxes).each(function () {
+                var row = $(this).parents('tr'),
+                    id = row.attr('id').substr(5);
 
-            if (id) {
-                selectedIds.push(id);
-            }
-        });
+                if (id) {
+                    selectedIds.push(id);
+                }
+            });
+        }
 
         if (selectedIds.length > 0) {
             // Build POST data.
