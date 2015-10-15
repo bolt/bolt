@@ -31,7 +31,7 @@
     </script>
 
     {# In cases where we don't have any values set, the we show a single set of fields by default #}
-    {% if not repeatfields.length %}
+    {% if not repeatfieldvals.length %}
         {{ _self.repeatfields(field, name, context, '0') }}
     {% endif %}
 
