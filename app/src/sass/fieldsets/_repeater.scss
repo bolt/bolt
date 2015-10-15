@@ -1,9 +1,9 @@
 #editcontent {
-  fieldset[data-bolt-field="repeater"] {
-    .repeater-wrapper {
-      .repeater-add {
-        float:right;
-      }
+    div[data-fieldtype="repeater"] {
+        .repeater-wrapper {
+            .repeater-add {
+                float:right;
+            }
+        }
     }
-  }
 }
