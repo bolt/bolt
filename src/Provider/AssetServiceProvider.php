@@ -66,11 +66,20 @@ class AssetServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['asset.queue.widget'] = $app->share(
+            function ($app) {
+                $queue = new Asset\Widget\Queue($app);
+
+                return $queue;
+            }
+        );
+
         $app['asset.queues'] = $app->share(
             function ($app) {
                 return [
                     $app['asset.queue.file'],
-                    $app['asset.queue.snippet']
+                    $app['asset.queue.snippet'],
+                    $app['asset.queue.widget']
                 ];
             }
         );
