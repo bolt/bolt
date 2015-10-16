@@ -2,6 +2,7 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\Storage\ContentRequest\Listing;
+use Bolt\Storage\ContentRequest\ListingOptions;
 use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -115,9 +116,6 @@ class Records extends BackendBase
             return $this->redirectToRoute('dashboard');
         }
 
-        $order = $request->query->get('order');
-        $page = $request->query->get('page_' . $contenttypeslug);
-        $filter = $request->query->get('filter');
         $taxonomy = null;
         foreach (array_keys($this->getOption('taxonomy', [])) as $taxonomyKey) {
             if ($request->query->get('taxonomy-' . $taxonomyKey)) {
@@ -125,10 +123,17 @@ class Records extends BackendBase
             }
         }
 
+        $options = (new ListingOptions())
+            ->setOrder($request->query->get('order'))
+            ->setPage($request->query->get('page_' . $contenttypeslug))
+            ->setFilter($request->query->get('filter'))
+            ->setTaxonomies($taxonomy)
+        ;
+
         $context = [
             'contenttype'     => $this->getContentType($contenttypeslug),
-            'multiplecontent' => $this->recordListing()->action($contenttypeslug, $order, $page, $taxonomy, $filter),
-            'filter'          => array_merge((array) $taxonomy, (array) $filter),
+            'multiplecontent' => $this->recordListing()->action($contenttypeslug, $options),
+            'filter'          => array_merge((array) $taxonomy, (array) $options->getFilter()),
             'permissions'     => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser())
         ];
 

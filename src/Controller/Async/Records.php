@@ -2,7 +2,7 @@
 
 namespace Bolt\Controller\Async;
 
-use Bolt\Storage\Entity\Content;
+use Bolt\Storage\ContentRequest\ListingOptions;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,9 +79,6 @@ class Records extends AsyncBase
         }
 
         $referer = Request::create($request->server->get('HTTP_REFERER'));
-        $order = $referer->query->get('order');
-        $page = $referer->query->get('page_' . $contentType);
-        $filter = $referer->query->get('filter');
         $taxonomy = null;
         foreach (array_keys($this->getOption('taxonomy', [])) as $taxonomyKey) {
             if ($referer->query->get('taxonomy-' . $taxonomyKey)) {
@@ -89,10 +86,17 @@ class Records extends AsyncBase
             }
         }
 
+        $options = (new ListingOptions())
+            ->setOrder($referer->query->get('order'))
+            ->setPage($referer->query->get('page_' . $contentType))
+            ->setFilter($referer->query->get('filter'))
+            ->setTaxonomies($taxonomy)
+        ;
+
         $context = [
             'contenttype'     => $this->getContentType($contentType),
-            'multiplecontent' => $this->app['storage.request.listing']->action($contentType, $order, $page, $taxonomy, $filter),
-            'filter'          => array_merge((array) $taxonomy, (array) $filter),
+            'multiplecontent' => $this->app['storage.request.listing']->action($contentType, $options),
+            'filter'          => array_merge((array) $taxonomy, (array) $options->getFilter()),
             'permissions'     => $this->getContentTypeUserPermissions($contentType, $this->users()->getCurrentUser())
         ];
 

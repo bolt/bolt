@@ -38,7 +38,7 @@ class Listing
      * @param array   $taxonomies
      * @param string  $filter
      */
-    public function action($contentTypeSlug, $order = null, $page = null, array $taxonomies = null, $filter = null)
+    public function action($contentTypeSlug, ListingOptions $options)
     {
         // Order has to be set carefully. Either set it explicitly when the user
         // sorts, or fall back to what's defined in the contenttype. Except for
@@ -48,9 +48,9 @@ class Listing
         $contentParameters = [
             'paging'  => true,
             'hydrate' => true,
-            'order'   => $order ?: $contenttype['sort'],
-            'page'    => $page,
-            'filter'  => $filter,
+            'order'   => $options->getOrder() ?: $contenttype['sort'],
+            'page'    => $options->getPage(),
+            'filter'  => $options->getFilter(),
         ];
 
         // Set the amount of items to show per page
@@ -61,8 +61,8 @@ class Listing
         }
 
         // Filter on taxonomies
-        if ($taxonomies !== null) {
-            foreach ($taxonomies as $taxonomy => $value) {
+        if ($options->getTaxonomies() !== null) {
+            foreach ($options->getTaxonomies() as $taxonomy => $value) {
                 $contentParameters[$taxonomy] = $value;
             }
         }
