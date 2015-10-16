@@ -1,5 +1,8 @@
 #editcontent {
     div[data-fieldtype="repeater"] {
+        >.prefix {
+            display:none;
+        }
         .repeater-wrapper {
             border-top: 1px solid #BBB;
             border-bottom: 1px solid #BBB;
