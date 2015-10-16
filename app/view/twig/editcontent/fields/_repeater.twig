@@ -24,7 +24,8 @@
                             'name': name ~ '['~index~'][' ~ rkey ~ '][]',
                             'contentkey': rkey,
                             'field': rfield,
-                            'labelkey': rlabelkey
+                            'labelkey': rlabelkey,
+                            'canupload': canupload
                         } %}
                     </div>
                 {% endfor %}
@@ -55,7 +56,8 @@
                                 'name': name ~ '['~index~'][' ~ rkey ~ '][]',
                                 'contentkey': rkey,
                                 'field': rfield,
-                                'labelkey': rlabelkey
+                                'labelkey': rlabelkey,
+                                'canupload': canupload
                             } %}
                         </div>
                     {% endfor %}
