@@ -1,64 +1,54 @@
 {% set repeatfieldvals = context.content.get('contentkey') %}
 {% set labelkey = field.label ?: key|ucfirst %}
 
-{% extends '@bolt/_base/_fieldset.twig' %}
+<div class="repeater-wrapper">
+    <legend class="sr-only">{{ labelkey }}</legend>
+    <label style="" class="main col-xs-12">{{ labelkey }}</label>
+    <div class="repeater-slot">
 
-{% block fieldset_type 'repeater' %}
-
-{% block fieldset_label_text  labelkey %}
-{% block fieldset_label_info  option.info %}
-{% block fieldset_label_class 'col-xs-12' %}
-
-{% block fieldset_controls %}
-    <div class="repeater-wrapper">
-
-        <div class="repeater-slot">
-
-            <script type="text/template" id="{{ name }}_template">
-                <div class="repeater-group">
-                    {% for rkey, rfield in field.fields %}
-                        {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
-                        <div class="col-xs-12">
-                            {% include context.fields[rfield.type].template with {
-                                'key': rkey,
-                                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
-                                'contentkey': rkey,
-                                'field': rfield,
-                                'labelkey': rlabelkey
-                            } %}
-                        </div>
-                    {% endfor %}
-                </div>
-            </script>
-
-            {# In cases where we don't have any values set, the we show a single set of fields by default #}
-            {% if not repeatfieldvals.length %}
-                <div class="repeater-group row">
-                    {% for rkey, rfield in field.fields %}
-                        {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
-                        <div class="col-xs-12">
-                            {% include context.fields[rfield.type].template with {
-                                'key': rkey,
-                                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
-                                'contentkey': rkey,
-                                'field': rfield,
-                                'labelkey': rlabelkey
-                            } %}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {% for repeatfieldset in repeatfieldvals %}
-
+        <script type="text/template" id="{{ name }}_template">
+            <div class="repeater-group">
+                {% for rkey, rfield in field.fields %}
+                    {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
+                    <div class="col-xs-12">
+                        {% include context.fields[rfield.type].template with {
+                            'key': rkey,
+                            'name': name ~ '['~index~'][' ~ rkey ~ '][]',
+                            'contentkey': rkey,
+                            'field': rfield,
+                            'labelkey': rlabelkey
+                        } %}
+                    </div>
                 {% endfor %}
-            {% endif %}
-        </div>
+            </div>
+        </script>
 
-        <div class="repeater-add">
-            <a class="btn btn-default" href="#">
-                <i class="fa fa-plus"></i> New {{ labelkey }}
-            </a>
-        </div>
+        {# In cases where we don't have any values set, the we show a single set of fields by default #}
+        {% if not repeatfieldvals.length %}
+            <div class="repeater-group row">
+                {% for rkey, rfield in field.fields %}
+                    {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
+                    <div class="col-xs-12">
+                        {% include context.fields[rfield.type].template with {
+                            'key': rkey,
+                            'name': name ~ '['~index~'][' ~ rkey ~ '][]',
+                            'contentkey': rkey,
+                            'field': rfield,
+                            'labelkey': rlabelkey
+                        } %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            {% for repeatfieldset in repeatfieldvals %}
+
+            {% endfor %}
+        {% endif %}
     </div>
 
-{% endblock %}
+    <div class="repeater-add">
+        <a class="btn btn-default" href="#">
+            <i class="fa fa-plus"></i> New {{ labelkey }}
+        </a>
+    </div>
+</div>
