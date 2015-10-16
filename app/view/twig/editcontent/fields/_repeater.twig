@@ -25,7 +25,15 @@
 
         {# In cases where we don't have any values set, the we show a single set of fields by default #}
         {% if not repeatfieldvals.length %}
-            <div class="repeater-group row">
+            <div class="repeater-group row panel">
+                <div class="panel-heading">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-silent-danger">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+
+                    </div>
+                </div>
                 {% for rkey, rfield in field.fields %}
                     {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
                     <div class="col-xs-12">
