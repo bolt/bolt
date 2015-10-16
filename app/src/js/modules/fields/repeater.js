@@ -32,8 +32,9 @@
         var template = $(fieldset).find("script[type='text/template']");
         var slot = $(fieldset).find('.repeater-slot');
 
-        addButton.on('click', function(){
+        addButton.on('click', function(e){
            slot.append(template.html());
+            e.preventDefault();
         });
     };
 
