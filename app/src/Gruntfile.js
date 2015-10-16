@@ -65,6 +65,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/fields/categories.js',
                 '<%= path.src.js %>/modules/fields/geolocation.js',
                 '<%= path.src.js %>/modules/fields/meta.js',
+                '<%= path.src.js %>/modules/fields/repeater.js',
                 '<%= path.src.js %>/modules/fields/relationship.js',
                 '<%= path.src.js %>/modules/fields/select.js',
                 '<%= path.src.js %>/modules/fields/slug.js',

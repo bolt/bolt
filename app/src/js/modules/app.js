@@ -224,6 +224,10 @@
                     bolt.fields.relationship.init(this);
                     break;
 
+                case 'repeater':
+                    bolt.fields.repeater.init(this);
+                    break;
+
                 case 'select':
                     bolt.fields.select.init(this, conf);
                     break;
