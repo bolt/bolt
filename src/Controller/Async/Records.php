@@ -71,7 +71,7 @@ class Records extends AsyncBase
 
         foreach ($actionData as $contentTypeSlug => $recordIds) {
             if (!$this->getContentType($contentTypeSlug)) {
-// sprintf('Attempt to modify invalid ContentType: %s', $contentTypeSlug);
+                // sprintf('Attempt to modify invalid ContentType: %s', $contentTypeSlug);
                 continue;
             } else {
                 $this->app['storage.request.modify']->action($contentTypeSlug, $recordIds);

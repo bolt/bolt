@@ -4,6 +4,7 @@ namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Entity\Content;
 
 /**
  * Helper class for ContentType overview listings.
@@ -67,6 +68,30 @@ class Listing
             }
         }
 
-        return $this->em->getContent($contentTypeSlug, $contentParameters);
+        return $this->getContent($contentTypeSlug, $contentParameters, $options);
+    }
+
+    /**
+     * Get the content records, and fallback a page if none found.
+     *
+     * @param string         $contentTypeSlug
+     * @param array          $contentParameters
+     * @param ListingOptions $options
+     *
+     * @return Content|false
+     */
+    protected function getContent($contentTypeSlug, array $contentParameters, ListingOptions $options)
+    {
+        $records = $this->em->getContent($contentTypeSlug, $contentParameters);
+
+        // UGLY HACK! Remove when cutting over to the new storage layer!
+        $records = empty($records) ? false : $records;
+
+        if ($records === false && $options->getPage() !== null) {
+            $contentParameters['page'] = $options->getPreviousPage();
+            $records = $this->em->getContent($contentTypeSlug, $contentParameters);
+        }
+
+        return $records;
     }
 }
