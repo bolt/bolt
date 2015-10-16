@@ -29,9 +29,11 @@
      */
     repeater.init = function (fieldset) {
         var addButton = $(fieldset).find('.repeater-add a');
+        var template = $(fieldset).find("script[type='text/template']");
+        var slot = $(fieldset).find('.repeater-slot');
 
         addButton.on('click', function(){
-           alert('add');
+           slot.append(template.html());
         });
     };
 
