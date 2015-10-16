@@ -1461,7 +1461,7 @@ class Storage
 
         // $decoded['contettypes'] gotten here
         // get page nr. from url if has
-        $metaParameters['page'] = $this->decodePageParameter(implode('_', $decoded['contenttypes']));
+        $metaParameters['page'] = $this->decodePageParameter(implode('_', $decoded['contenttypes']), $inParameters);
 
         $this->prepareDecodedQueryForUse($decoded, $metaParameters, $ctypeParameters);
 
@@ -1612,16 +1612,21 @@ class Storage
     /**
      * Decodes contextual page number from current request url if found.
      *
-     * @param string $context Pager id/name in url which value we find
+     * @param string $context      Pager id/name in url which value we find
+     * @param array  $inParameters
      *
      * @return mixed Page number in context
      */
-    protected function decodePageParameter($context = '')
+    protected function decodePageParameter($context = '', $inParameters = null)
     {
-        $param = Pager::makeParameterId($context);
-        /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
-        $query = $this->app['request']->query;
-        $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
+        if (isset($inParameters['page']) && $inParameters['page'] !== null) {
+            return $inParameters['page'];
+        } else {
+            $param = Pager::makeParameterId($context);
+            /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
+            $query = $this->app['request']->query;
+            $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
+        }
 
         return $page;
     }
