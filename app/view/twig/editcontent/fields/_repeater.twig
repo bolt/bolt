@@ -28,24 +28,26 @@
             <div class="repeater-group row panel panel-default">
                 <div class="panel-heading">
                     <div class="btn-group text-right">
-                        <button type="button" class="btn btn-silent-danger">
-                            <i class="fa fa-trash"></i> Delete
+                        <button type="button" class="btn btn-sm btn-silent-danger">
+                            <i class="fa fa-trash"></i> {{ __('Delete') }}
                         </button>
 
                     </div>
                 </div>
-                {% for rkey, rfield in field.fields %}
-                    {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
-                    <div class="col-xs-12">
-                        {% include context.fields[rfield.type].template with {
-                            'key': rkey,
-                            'name': name ~ '['~index~'][' ~ rkey ~ '][]',
-                            'contentkey': rkey,
-                            'field': rfield,
-                            'labelkey': rlabelkey
-                        } %}
-                    </div>
-                {% endfor %}
+                <div class="panel-body">
+                    {% for rkey, rfield in field.fields %}
+                        {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
+                        <div class="col-xs-12">
+                            {% include context.fields[rfield.type].template with {
+                                'key': rkey,
+                                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
+                                'contentkey': rkey,
+                                'field': rfield,
+                                'labelkey': rlabelkey
+                            } %}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         {% else %}
             {% for repeatfieldset in repeatfieldvals %}
