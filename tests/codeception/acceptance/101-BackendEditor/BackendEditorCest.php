@@ -158,13 +158,13 @@ class BackendEditorCest
 
         // Save the page and return to the overview
         $I->click('Save & return to overview');
-        $I->see('Actions for Pages');
+        $I->see('Actions for Pages', '.panel-heading');
 
         // Check the 'Publish page' context menu option isn't shown
-        $I->dontSee('Publish Page');
+        $I->dontSee('Publish Page', 'a');
 
         // Check the 'Duplicate page' context menu option is shown
-        $I->see('Duplicate Page');
+        $I->see('Duplicate Page', 'a');
     }
 
     /**
