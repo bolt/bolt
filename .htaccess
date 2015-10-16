@@ -39,7 +39,8 @@ Options -Indexes
 # =============================================
 # if you don't set your own mimetypes or you aren't using
 # HTML5 Boilerplate Server Configs https://github.com/h5bp/server-configs-apache
-# then you can uncomment (delete the hash/pound/octothorpe/number symbol) the section below:
+# then you can uncomment (delete the hash/pound/octothorpe/number symbol)
+# the section below:
 
 #<IfModule mod_mime.c>
 #  AddType application/font-woff2    woff2
