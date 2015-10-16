@@ -33,11 +33,8 @@ class Listing
     /**
      * Fetch a listing of ContentType records.
      *
-     * @param string  $contentTypeSlug
-     * @param string  $order
-     * @param integer $page
-     * @param array   $taxonomies
-     * @param string  $filter
+     * @param string         $contentTypeSlug
+     * @param ListingOptions $options
      */
     public function action($contentTypeSlug, ListingOptions $options)
     {

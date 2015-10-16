@@ -125,7 +125,7 @@ class SelectQuery implements QueryInterface
     /**
      * Returns all the filters attached to the query
      *
-     * @return array[Filter]
+     * @return Filter[]
      */
     public function getFilters()
     {
