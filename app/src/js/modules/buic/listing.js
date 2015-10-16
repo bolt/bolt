@@ -168,7 +168,7 @@
                         label: buttonText,
                         className: 'btn-primary',
                         callback: function () {
-                            var url = Bolt.conf('paths.async') + 'content/modify' + window.location.search;
+                            var url = Bolt.conf('paths.async') + 'content/action' + window.location.search;
 
                             $.ajax({
                                 url: url,
@@ -176,7 +176,7 @@
                                 data: {
                                     'bolt_csrf_token': $(table).data('bolt_csrf_token'),
                                     'contenttype': contenttype,
-                                    'modifications': modifications
+                                    'actions': modifications
                                 },
                                 success: function (data) {
                                     var table;

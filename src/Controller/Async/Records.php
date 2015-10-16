@@ -19,7 +19,7 @@ class Records extends AsyncBase
     {
         $c->method('POST');
 
-        $c->post('/content/{action}', 'modify')
+        $c->post('/content/{action}', 'action')
             ->bind('contentaction');
     }
 
@@ -57,14 +57,14 @@ class Records extends AsyncBase
      *
      * @return Response
      */
-    public function modify(Request $request)
+    public function action(Request $request)
     {
 //         if (!$this->checkAntiCSRFToken($request->get('bolt_csrf_token'))) {
 //             $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
 //         }
 
         $contentType = $request->get('contenttype');
-        $actionData = $request->get('modifications');
+        $actionData = $request->get('actions');
         if ($actionData === null) {
             throw new \UnexpectedValueException('No content action data provided in the request.');
         }
