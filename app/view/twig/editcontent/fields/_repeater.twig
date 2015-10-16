@@ -1,9 +1,9 @@
 {% set repeatfieldvals = context.content.get('contentkey') %}
 {% set labelkey = field.label ?: key|ucfirst %}
 
-<div class="repeater-wrapper" data-bolt-field="repeater">
+<fieldset class="repeater-wrapper" data-bolt-field="repeater">
     <legend class="sr-only">{{ labelkey }}</legend>
-    <label style="" class="main col-xs-12">{{ labelkey }}</label>
+    <label class="main col-xs-12">{{ labelkey }}</label>
     <div class="repeater-slot">
 
         <script type="text/template" id="{{ name }}_template">
@@ -51,4 +51,4 @@
             <i class="fa fa-plus"></i> New {{ labelkey }}
         </a>
     </div>
-</div>
+</fieldset>
