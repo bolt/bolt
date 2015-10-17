@@ -34,43 +34,6 @@ class Widget implements AssetInterface, \ArrayAccess
     /** @var integer */
     protected $cacheDuration;
 
-    /**
-     * Constructor.
-     *
-     * @param array $options
-     *
-     * Options array should contain the following elements:
-     *   - 'type'              (string)  Either 'frontend' or 'backend'
-     *   - 'location'          (string)  Target locational element
-     *   - 'callback'          (string)  Callback function name
-     *   - 'callbackarguments' (array)   Arguements to pass to callback
-     *   - 'content'           (string)  HTML content to inject
-     *   - 'class'             (string)  CSS class(es) to use
-     *   - 'prefix'            (string)  HTML to add before the widget
-     *   - 'postfix'           (string)  HTML to add after the widget
-     *   - 'defer'             (boolean) True means rendering of the widget is done in a seperate request
-     *   - 'priority'          (integer) Priotrity in the render queue
-     *   - 'cacheduration'     (integer) Number of seconds to cache the widget
-     */
-//public function __construct(array $options)
-    public function __construct()
-    {
-//         $options = array_merge($this->getDefaultOptions(), $options);
-//         $this->checkOptions($options);
-
-//         $this->type = $options['type'];
-//         $this->location = $options['location'];
-//         $this->callback = $options['callback'];
-//         $this->callbackArguments = $options['callbackarguments'];
-//         $this->content = $options['content'];
-//         $this->class = $options['class'];
-//         $this->prefix = $options['prefix'];
-//         $this->postfix = $options['postfix'];
-//         $this->defer = $options['defer'];
-//         $this->priority = $options['priority'];
-//         $this->cacheDuration = $options['cacheduration'];
-    }
-
     public function offsetExists($offset)
     {
         return property_exists($this, $offset);
@@ -100,6 +63,8 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * Set the widget type, either 'frontend' or 'backend'.
+     *
      * @param string $type
      *
      * @return Widget
@@ -120,6 +85,8 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * Target locational element.
+     *
      * @param string $location
      *
      * @return Widget
@@ -140,6 +107,8 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * Callback function name.
+     *
      * @param callable $callback
      *
      * @return Widget
@@ -160,6 +129,8 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * Arguments to pass to callback.
+     *
      * @param array $callbackArguments
      *
      * @return Widget
@@ -186,6 +157,8 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * Raw HTML content to inject.
+     *
      * @param string $content
      *
      * @return Widget
@@ -206,6 +179,8 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * CSS class(es) to use.
+     *
      * @param string $class
      *
      * @return Widget
@@ -226,6 +201,8 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * HTML to add before the widget.
+     *
      * @param string $prefix
      *
      * @return Widget
@@ -246,6 +223,8 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * HTML to add after the widget.
+     *
      * @param string $postfix
      *
      * @return Widget
@@ -266,6 +245,9 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * Setting to 'true' means rendering of the widget is done in a separate
+     * request.
+     *
      * @param boolean $defer
      *
      * @return Widget
@@ -286,6 +268,8 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * Priority in the render queue.
+     *
      * @param integer $priority
      *
      * @return Widget
@@ -306,6 +290,8 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * Number of seconds to cache the widget.
+     *
      * @param integer $cacheDuration
      *
      * @return Widget
@@ -342,46 +328,5 @@ class Widget implements AssetInterface, \ArrayAccess
         }
 
         return call_user_func_array($this->callback, $this->callbackArguments);
-    }
-
-    /**
-     * @param array $options
-     *
-     * @throws InvalidArgumentException
-     */
-    protected function checkOptions(array $options)
-    {
-        if ($options['type'] === null || !in_array($options['type'], ['frontend', 'backend'])) {
-            throw new \InvalidArgumentException("Invalid widget parameters, 'type' must be either 'frontend' or 'backend'.");
-        }
-        if ($options['location'] === null) {
-            throw new \InvalidArgumentException("Invalid widget parameters, 'location' required.");
-        }
-        if ($options['content'] === null && $options['callback'] === null) {
-            throw new \InvalidArgumentException("Invalid widget parameters, must specify either 'content' or 'callback'.");
-        }
-        if ($options['callbackarguments'] !== null && !is_array($options['callbackarguments'])) {
-            throw new \InvalidArgumentException("Invalid widget parameters, 'callbackarguments' must be of type array or null.");
-        }
-    }
-
-    /**
-     * @return array
-     */
-    protected function getDefaultOptions()
-    {
-        return [
-            'type'              => null,
-            'location'          => null,
-            'callback'          => null,
-            'callbackarguments' => null,
-            'content'           => null,
-            'class'             => null,
-            'prefix'            => null,
-            'postfix'           => null,
-            'defer'             => true,
-            'priority'          => 0,
-            'cacheduration'     => 3600
-        ];
     }
 }
