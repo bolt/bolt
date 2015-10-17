@@ -96,9 +96,7 @@ class AdminHandler
      */
     public function widget($type = '', $location = '')
     {
-        $this->app['extensions']->renderWidgetHolder($type, $location);
-
-        return null;
+        return $this->app['asset.queue.widget']->render($type, $location);
     }
 
     /**
