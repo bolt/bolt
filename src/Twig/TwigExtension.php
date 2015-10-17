@@ -83,7 +83,7 @@ class TwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
             new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated),
             new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
-            new \Twig_SimpleFunction('widget',             [$this, 'widget']),
+            new \Twig_SimpleFunction('widget',             [$this, 'widget'],      $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
