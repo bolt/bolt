@@ -36,7 +36,7 @@
             var newSet = $(template.html());
             slot.append(newSet);
             bolt.fields.init(newSet);
-            bolt.ckeditor.init();
+            bolt.ckeditor.initcke(CKEDITOR);
             e.preventDefault();
         });
 
@@ -45,7 +45,7 @@
             var duplicatedSet = $(setToDuplicate[0].outerHTML);
             setToDuplicate.after(duplicatedSet);
             bolt.fields.init(duplicatedSet);
-            bolt.ckeditor.init();
+            bolt.ckeditor.initcke(CKEDITOR);
             e.preventDefault();
         });
 
