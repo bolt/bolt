@@ -52,22 +52,23 @@ class Widget implements AssetInterface, \ArrayAccess
      *   - 'priority'          (integer) Priotrity in the render queue
      *   - 'cacheduration'     (integer) Number of seconds to cache the widget
      */
-    public function __construct(array $options)
+//public function __construct(array $options)
+    public function __construct()
     {
-        $options = array_merge($this->getDefaultOptions(), $options);
-        $this->checkOptions($options);
+//         $options = array_merge($this->getDefaultOptions(), $options);
+//         $this->checkOptions($options);
 
-        $this->type = $options['type'];
-        $this->location = $options['location'];
-        $this->callback = $options['callback'];
-        $this->callbackArguments = $options['callbackarguments'];
-        $this->content = $options['content'];
-        $this->class = $options['class'];
-        $this->prefix = $options['prefix'];
-        $this->postfix = $options['postfix'];
-        $this->defer = $options['defer'];
-        $this->priority = $options['priority'];
-        $this->cacheDuration = $options['cacheduration'];
+//         $this->type = $options['type'];
+//         $this->location = $options['location'];
+//         $this->callback = $options['callback'];
+//         $this->callbackArguments = $options['callbackarguments'];
+//         $this->content = $options['content'];
+//         $this->class = $options['class'];
+//         $this->prefix = $options['prefix'];
+//         $this->postfix = $options['postfix'];
+//         $this->defer = $options['defer'];
+//         $this->priority = $options['priority'];
+//         $this->cacheDuration = $options['cacheduration'];
     }
 
     public function offsetExists($offset)
@@ -171,10 +172,16 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * Get the content for the widget, callback has priority.
+     *
      * @return string|null
      */
     public function getContent()
     {
+        if (is_callable($this->callback)) {
+            return call_user_func_array($this->callback, (array) $this->callbackArguments);
+        }
+
         return $this->content;
     }
 
