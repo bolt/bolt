@@ -36,6 +36,16 @@
            slot.append(template.html());
             e.preventDefault();
         });
+
+        $(fieldset).on('click', 'duplicate-button', function(){
+            var setToDuplicate = $(this).closest('repeater-group');
+            setToDuplicate.after(setToDuplicate.html());
+        });
+
+        $(fieldset).on('click', 'delete-button', function(){
+            var setToDelete = $(this).closest('repeater-group');
+            setToDelete.remove();
+        });
     };
 
     // Apply mixin container
