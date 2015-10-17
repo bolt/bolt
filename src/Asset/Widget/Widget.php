@@ -311,7 +311,7 @@ class Widget implements AssetInterface, \ArrayAccess
      */
     public function __toString()
     {
-        return $this->toString();
+        return (string) $this->toString();
     }
 
     /**
