@@ -41,7 +41,7 @@
 
         $(fieldset).on('click', '.duplicate-button', function(){
             var setToDuplicate = $(this).closest('.repeater-group');
-            var duplicatedSet = $(setToDuplicate[0].outerHTML)
+            var duplicatedSet = $(setToDuplicate[0].outerHTML);
             setToDuplicate.after(duplicatedSet);
             Bolt.fields.init(duplicatedSet);
         });
