@@ -308,12 +308,7 @@ class Widget implements AssetInterface, \ArrayAccess
      */
     public function __toString()
     {
-        try {
-            return $this->toString();
-        } catch (\Exception $e) {
-            trigger_error($e->getMessage(), E_USER_NOTICE);
-            return '';
-        }
+        return $this->toString();
     }
 
     /**
@@ -323,10 +318,15 @@ class Widget implements AssetInterface, \ArrayAccess
      */
     protected function toString()
     {
-        if ($this->content !== null) {
-            return $this->content;
-        }
+        try {
+            if ($this->content !== null) {
+                return $this->content;
+            }
 
-        return call_user_func_array($this->callback, $this->callbackArguments);
+            return call_user_func_array($this->callback, $this->callbackArguments);
+        } catch (\Exception $e) {
+            trigger_error($e->getMessage(), E_USER_NOTICE);
+            return '';
+        }
     }
 }
