@@ -33,21 +33,22 @@
         var slot = $(fieldset).find('.repeater-slot');
 
         addButton.on('click', function(e){
-           slot.append(template.html());
+            var newSet = $(template.html());
+            slot.append(newSet);
+            Bolt.fields.init(newSet);
             e.preventDefault();
-            Bolt.app.run();
         });
 
         $(fieldset).on('click', '.duplicate-button', function(){
             var setToDuplicate = $(this).closest('.repeater-group');
-            setToDuplicate.after(setToDuplicate[0].outerHTML);
-            Bolt.app.run();
+            var duplicatedSet = $(setToDuplicate[0].outerHTML)
+            setToDuplicate.after(duplicatedSet);
+            Bolt.fields.init(duplicatedSet);
         });
 
         $(fieldset).on('click', '.delete-button', function(){
             var setToDelete = $(this).closest('.repeater-group');
             setToDelete.remove();
-            Bolt.app.run();
         });
     };
 
