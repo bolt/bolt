@@ -84,6 +84,19 @@ class WidgetTest extends BoltUnitTest
         $this->assertSame('Some test content', (string) $widget);
     }
 
+    public function testWidgetCastStringFromCallback()
+    {
+        $widget = new Widget();
+
+        $widget
+            ->setCallback([$this, 'widgetCallback'])
+            ->setCallbackArguments(['first' => 'Clippy', 'second' => 'Koala'])
+            ->setContent('Some test content')
+        ;
+
+        $this->assertSame('Clippy gives gum leaves to the Koala', (string) $widget);
+    }
+
     public function widgetCallback($second, $first)
     {
         return sprintf('%s gives gum leaves to the %s', $first, $second);
