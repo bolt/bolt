@@ -36,16 +36,17 @@
             var newSet = $(template.html());
             slot.append(newSet);
             bolt.fields.init(newSet);
-            bolt.ckeditor.initcke();
+            bolt.ckeditor.init();
             e.preventDefault();
         });
 
-        $(fieldset).on('click', '.duplicate-button', function(){
+        $(fieldset).on('click', '.duplicate-button', function(e){
             var setToDuplicate = $(this).closest('.repeater-group');
             var duplicatedSet = $(setToDuplicate[0].outerHTML);
             setToDuplicate.after(duplicatedSet);
             bolt.fields.init(duplicatedSet);
-            bolt.ckeditor.initcke();
+            bolt.ckeditor.init();
+            e.preventDefault();
         });
 
         $(fieldset).on('click', '.delete-button', function(){
