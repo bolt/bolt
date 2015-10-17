@@ -35,7 +35,8 @@
         addButton.on('click', function(e){
             var newSet = $(template.html());
             slot.append(newSet);
-            Bolt.fields.init(newSet);
+            bolt.fields.init(newSet);
+            bolt.ckeditor.initcke();
             e.preventDefault();
         });
 
@@ -43,7 +44,8 @@
             var setToDuplicate = $(this).closest('.repeater-group');
             var duplicatedSet = $(setToDuplicate[0].outerHTML);
             setToDuplicate.after(duplicatedSet);
-            Bolt.fields.init(duplicatedSet);
+            bolt.fields.init(duplicatedSet);
+            bolt.ckeditor.initcke();
         });
 
         $(fieldset).on('click', '.delete-button', function(){
