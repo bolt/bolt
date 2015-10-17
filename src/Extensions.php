@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Bolt;
 use Bolt\Asset\Target;
+use Bolt\Asset\Widget\Widget;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
@@ -679,40 +680,10 @@ class Extensions
     }
 
     /**
-     * Renders the widget identified by the given key.
-     *
-     * @param string  $key      Widget identifier
-     * @param boolean $override
-     *
-     * @return string HTML
+     * @deprecated since 2.3 and will removed in Bolt 3.
      */
-    public function renderWidget($key, $override = false)
+    public function renderWidget()
     {
-        foreach ($this->widgetqueue as $widget) {
-            if ($key === $widget['key'] && ($widget['defer'] || $override)) {
-                $cachekey = 'widget_' . $widget['key'];
-
-                if ($this->app['cache']->contains($cachekey)) {
-                    // Present in the cache .
-                    $html = $this->app['cache']->fetch($cachekey);
-                } elseif (is_string($widget['callback']) && method_exists($this->initialized[$widget['extension']], $widget['callback'])) {
-                    // Widget is defined in the extension itself.
-                    $html = $this->initialized[$widget['extension']]->parseWidget($widget['callback'], $widget['callbackarguments']);
-                    // $this->app['cache']->save($cachekey, $html, $widget['cacheduration']);
-                } elseif (is_callable($widget['callback'])) {
-                    // Widget is a callback in the 'global scope'
-                    $html = call_user_func($widget['callback'], $this->app, $widget['callbackarguments']);
-                    // $this->app['cache']->save($cachekey, $html, $widget['cacheduration']);
-                } else {
-                    // Insert the 'callback' as string.
-                    $html = $widget['callback'];
-                }
-
-                return $html;
-            }
-        }
-
-        return sprintf("Invalid key '%s'. No widget found.", $key);
     }
 
     /**
