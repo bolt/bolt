@@ -75,6 +75,15 @@ class WidgetTest extends BoltUnitTest
         $this->assertNull($widget['type']);
     }
 
+    public function testWidgetCastStringFromContent()
+    {
+        $widget = new Widget();
+
+        $widget->setContent('Some test content');
+
+        $this->assertSame('Some test content', (string) $widget);
+    }
+
     public function widgetCallback($second, $first)
     {
         return sprintf('%s gives gum leaves to the %s', $first, $second);
