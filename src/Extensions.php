@@ -21,8 +21,6 @@ class Extensions
     private $basefolder;
     /** @var ExtensionInterface[] List of enabled extensions. */
     private $enabled = [];
-    /** @var array Queue with widgets to insert. */
-    private $widgetqueue;
     /** @var array List of menu items to add in the backend. */
     private $menuoptions = [];
     /** @var integer Number of registered extensions that need to be able to send mail. */
