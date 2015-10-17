@@ -35,7 +35,7 @@ trait CallableTrait
      * Get an ordered list of arguments.
      *
      * @param callable $callback
-     * @param array $callbackArguments
+     * @param array    $callbackArguments
      *
      * @return array
      */

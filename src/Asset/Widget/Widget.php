@@ -3,7 +3,6 @@ namespace Bolt\Asset\Widget;
 
 use Bolt\Asset\AssetInterface;
 use Bolt\Asset\CallableTrait;
-use Bolt\Helpers\Arr;
 
 /**
  * Widget objects.

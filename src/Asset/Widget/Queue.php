@@ -2,9 +2,9 @@
 namespace Bolt\Asset\Widget;
 
 use Bolt\Asset\QueueInterface;
-use Silex\Application;
-use Bolt\Asset\Target;
 use Bolt\Asset\Snippet\Snippet;
+use Bolt\Asset\Target;
+use Silex\Application;
 
 /**
  * Widget queue processor.
