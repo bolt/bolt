@@ -595,29 +595,10 @@ class Extensions
     }
 
     /**
-     * Insert a widget. And by 'insert' we actually mean 'add it to the queue,
-     * to be processed later'.
-     *
-     * @param array $options Widget options
-     *
-     * Options array should contain the following elements:
-     *   - 'type'              (string)  Either 'frontend' or 'backend'
-     *   - 'position'          (string)  Target positional element
-     *   - 'callback'          (string)  Callback function name
-     *   - 'callbackarguments' (array)   Arguements to pass to callback
-     *   - 'content'           (string)  HTML content to inject
-     *   - 'class'             (string)  CSS class(es) to use
-     *   - 'prefix'            (string)  HTML to add before the widget
-     *   - 'postfix'           (string)  HTML to add after the widget
-     *   - 'defer'             (boolean) True means rendering of the widget is done in a seperate request
-     *   - 'priority'          (integer) Priotrity in the render queue
-     *   - 'cacheduration'     (integer) Number of seconds to cache the widget
+     * @deprecated since 2.3 and will removed in Bolt 3.
      */
-    public function insertWidget($options)
+    public function insertWidget()
     {
-        $options['key'] = substr(md5(json_encode($options)), 0, 8);
-
-        $this->widgetqueue[] = $options;
     }
 
     /**
