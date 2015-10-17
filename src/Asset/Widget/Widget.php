@@ -2,6 +2,7 @@
 namespace Bolt\Asset\Widget;
 
 use Bolt\Asset\AssetInterface;
+use Bolt\Asset\CallableTrait;
 use Bolt\Helpers\Arr;
 
 /**
@@ -12,6 +13,8 @@ use Bolt\Helpers\Arr;
  */
 class Widget implements AssetInterface, \ArrayAccess
 {
+    use CallableTrait;
+
     /** @var string */
     protected $type;
     /** @var string */
@@ -324,74 +327,12 @@ class Widget implements AssetInterface, \ArrayAccess
 
         if (is_callable($this->callback)) {
             try {
-                return $this->rendered = $this->getCallableReturnValue();
+                return $this->rendered = $this->getCallableReturnValue($this->callback, $this->callbackArguments);
             } catch (\Exception $e) {
                 trigger_error($e->getMessage(), E_USER_NOTICE);
             }
         }
 
         return $this->content ?: '';
-    }
-
-    /**
-     * Get the value from the widget's callable.
-     *
-     * Note: If the callback arguments are given ad a standard index array,
-     * we accept that as-is
-     */
-    protected function getCallableReturnValue()
-    {
-        if ($this->callbackArguments === null) {
-            return call_user_func($this->callback);
-        }
-
-        if (Arr::isIndexedArray($this->callbackArguments)) {
-            return call_user_func_array($this->callback, (array) $this->callbackArguments);
-        }
-
-        $orderedArgs = $this->getArguments();
-
-        return call_user_func_array($this->callback, $orderedArgs);
-    }
-
-    /**
-     * Get an ordered list of arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        $parameters = $this->getParameters();
-        $arguments = [];
-        foreach ($parameters as $param) {
-            if (array_key_exists($param->name, $this->callbackArguments)) {
-                $arguments[] = $this->callbackArguments[$param->name];
-            } elseif ($param->isDefaultValueAvailable()) {
-                $arguments[] = $param->getDefaultValue();
-            } else {
-                $arguments[$param->name] = null;
-            }
-        }
-
-        return $arguments;
-    }
-
-    /**
-     * Get the callback function's parameters.
-     *
-     * @return array
-     */
-    protected function getParameters()
-    {
-        if (is_array($this->callback)) {
-            $mirror = new \ReflectionMethod($this->callback[0], $this->callback[1]);
-        } elseif (is_object($this->callback) && !$this->callback instanceof \Closure) {
-            $mirror = new \ReflectionObject($this->callback);
-            $mirror = $mirror->getMethod('__invoke');
-        } else {
-            $mirror = new \ReflectionFunction($this->callback);
-        }
-
-        return $mirror->getParameters();
     }
 }
