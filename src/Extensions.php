@@ -621,62 +621,10 @@ class Extensions
     }
 
     /**
-     * Renders a div as a placeholder for a particular type of widget on the
-     * given location.
-     *
-     * @param string $type     Either 'frontend' or 'backend'
-     * @param string $position Positional element to target
-     *
-     * Position can be
-     *   Frontend positions:
-     *     - maincolumn_top
-     *     - maincolumn_break
-     *     - maincolumn_bottom
-     *     - aside_top
-     *     - aside_middle
-     *     - aside_bottom
-     *     - footer
-     *   Backend positions:
-     *     - dashboard_aside_top
-     *     - dashboard_aside_middle
-     *     - dashboard_aside_bottom
-     *     - dashboard_maincolumn_top
-     *     - dashboard_maincolumn_break
-     *     - dashboard_maincolumn_bottom
-     *     - sidebar_bottom
+     * @deprecated since 2.3 and will removed in Bolt 3.
      */
-    public function renderWidgetHolder($type, $position)
+    public function renderWidgetHolder()
     {
-        if (!is_array($this->widgetqueue)) {
-            return;
-        }
-
-        foreach ($this->widgetqueue as $widget) {
-            if ($type === $widget['type'] && $position === $widget['position']) {
-
-                if (!$widget['defer']) {
-                    $widgethtml = $this->renderWidget($widget['key'], true);
-                } else {
-                    $widgethtml = '';
-                }
-
-                $html = $this->app['render']->render('widgetholder.twig', [
-                    'widget' => $widget,
-                    'html' => $widgethtml
-                ]);
-
-                // If it's a widget in the frontend, _and_ we're using it defered,
-                // insert a snippet of Javascript to fetch the actual widget's contents.
-                if ($widget['type'] === 'frontend' && $widget['defer'] === true) {
-                    $javascript = $this->app['render']->render('widgetjavascript.twig', [
-                        'widget' => $widget
-                    ]);
-                    $this->app['asset.queue.snippet']->add(Target::AFTER_BODY_JS, (string) $javascript);
-                }
-
-                echo $html;
-            }
-        }
     }
 
     /**
