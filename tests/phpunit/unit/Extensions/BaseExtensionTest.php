@@ -489,14 +489,20 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
     {
         $app = $this->makeApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Extensions', ['insertWidget'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\Widget\Queue', ['add'], [$app]);
         $handler->expects($this->once())
-            ->method('insertWidget')
-            ->with($this->equalTo('testWidget'));
+            ->method('add')
+            ->with($this->isInstanceOf('\Bolt\Asset\Widget\Widget'))
+        ;
+        $widget = new \Bolt\Asset\Widget\Widget();
+        $widget
+            ->setType('frontend')
+            ->setLocation('aside_top')
+        ;
 
-        $app['extensions'] = $handler;
+        $app['asset.queue.widget'] = $handler;
 
-        $ext->addWidget('testWidget', 'widgetLocation', [$this, 'testAddWidget']);
+        $ext->addWidget($widget);
     }
 
     public function testRequireUserLevel()
