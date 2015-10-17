@@ -76,8 +76,36 @@ class Queue implements QueueInterface
         $html = null;
         foreach ($this->queue as $widget) {
             if ($widget->getType() === $type && $widget->getLocation() === $location) {
-                $html .= $widget->getContent();
+                $html .= $this->getHtml($widget);
             }
+        }
+
+        return $html;
+    }
+
+    /**
+     * Get the HTML content from the widget.
+     *
+     * @param Widget $widget
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    protected function getHtml(Widget $widget)
+    {
+        $e = null;
+        set_error_handler(function ($errno, $errstr) use (&$e) {
+            return $e = new \Exception($errstr, $errno);
+        });
+
+        // Get the HTML from object cast and rethrow an exception if present
+        $html = (string) $widget;
+
+        restore_error_handler();
+
+        if ($e) {
+            throw $e;
         }
 
         return $html;
