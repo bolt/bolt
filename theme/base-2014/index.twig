@@ -5,6 +5,8 @@
     <!-- Main Blog Content -->
     <div class="large-8 columns">
 
+        {{ widget('frontend', 'main_top') }}
+
         <article>
             {% if record is defined %}
 
@@ -49,6 +51,9 @@
 
         <hr>
 
+        {{ widget('frontend', 'main_break') }}
+
+
         <h4>{{ __('Latest entries') }}</h4>
 
         {# Here we use 'setcontent' to set the variable 'records' to "entries/latest/6",
@@ -78,6 +83,8 @@
         {% endfor %}
 
         {{ pager() }}
+
+        {{ widget('frontend', 'main_bottom') }}
 
 
     </div>
