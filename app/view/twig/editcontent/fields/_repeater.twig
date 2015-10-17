@@ -67,17 +67,4 @@
         </a>
     </div>
 
-    {# Postfix #}
-    {% if field.postfix is defined and field.postfix is not empty %}
-        <div class="postfix">
-            {{ field.postfix|markdown }}
-        </div>
-    {% endif %}
-
-    {# Divider #}
-    {% if field.separator is defined and field.separator == true %}
-        <hr>
-    {% endif %}
-
-
 </fieldset>
