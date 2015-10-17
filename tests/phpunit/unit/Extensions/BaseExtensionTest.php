@@ -538,26 +538,6 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $this->assertFalse($response);
     }
 
-    public function testParseWidget()
-    {
-        $app = $this->makeApp();
-        $ext = $this->getMock('Bolt\Tests\Extensions\Mock\ExtendedExtension', ['acallback'], [$app]);
-
-        $ext->expects($this->once())
-            ->method('acallback');
-
-        $ext->parseWidget('acallback');
-        $this->assertFalse($ext->parseWidget('nonexistingcallback'));
-    }
-
-    public function testParseWidgetFails()
-    {
-        $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-
-        $this->assertFalse($ext->parseWidget('fakecallback'));
-    }
-
     public function testAddNutCommand()
     {
         $app = $this->makeApp();
