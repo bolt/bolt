@@ -683,19 +683,10 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Parse a widget, an pass on the generated HTML to the caller (Extensions).
-     *
-     * @param string $callback
-     *
-     * @return bool|string
+     * @deprecated since 2.3 and will removed in Bolt 3.
      */
-    public function parseWidget($callback, $parameters)
+    public function parseWidget()
     {
-        if (method_exists($this, $callback)) {
-            return call_user_func([$this, $callback], $parameters);
-        } else {
-            return false;
-        }
     }
 
     /**
