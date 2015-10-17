@@ -43,6 +43,24 @@ class WidgetTest extends BoltUnitTest
         $this->assertSame('frontend', $widget->getType());
     }
 
+    public function testWidgetCasts()
+    {
+        $widget = new Widget();
+
+        $widget
+            ->setCacheDuration(true)
+            ->setDefer(1)
+            ->setPriority(null)
+        ;
+
+        $this->assertInternalType('integer', $widget->getCacheDuration());
+        $this->assertSame(1, $widget->getCacheDuration());
+        $this->assertTrue($widget->getDefer());
+        $this->assertInternalType('boolean', $widget->getDefer());
+        $this->assertSame(0, $widget->getPriority());
+        $this->assertInternalType('integer', $widget->getPriority());
+    }
+
     public function widgetCallback($second, $first)
     {
         return sprintf('%s gives gum leaves to the %s', $first, $second);
