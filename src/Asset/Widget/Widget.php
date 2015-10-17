@@ -2,7 +2,7 @@
 namespace Bolt\Asset\Widget;
 
 use Bolt\Asset\AssetInterface;
-use Bolt\Asset\CallableTrait;
+use Bolt\Asset\CallableInvokerTrait;
 
 /**
  * Widget objects.
@@ -12,7 +12,7 @@ use Bolt\Asset\CallableTrait;
  */
 class Widget implements AssetInterface, \ArrayAccess
 {
-    use CallableTrait;
+    use CallableInvokerTrait;
 
     /** @var string */
     protected $type;

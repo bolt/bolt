@@ -8,13 +8,15 @@ use Bolt\Helpers\Arr;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-trait CallableTrait
+trait CallableInvokerTrait
 {
     /**
      * Get the return value from the callable.
      *
-     * Note: If the callback arguments are given ad a standard index array,
-     * we accept that as-is
+     * Parameters can be can handled in three ways:
+     *   - null              - Nothing passed to the callback
+     *   - Indexed array     - Value of each element will be passed to function in order
+     *   - Associative array - Key names will attempt to match to the callable function variable names
      */
     protected function invokeCallable(callable $callback, $callbackArguments)
     {
