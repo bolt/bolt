@@ -32,6 +32,7 @@
         }
         // Init fieldsets
         $('[data-bolt-field]', context).each(function () {
+            console.log($(this));
             var type = $(this).data('bolt-field'),
                 conf = $(this).data('bolt-fconf');
 
