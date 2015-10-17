@@ -20,6 +20,7 @@
                 <div class="panel-body">
                     {% for rkey, rfield in field.fields %}
                         {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
+                        {% set rfield = rfield|merge({'canUpload': field.canUpload}) %}
                         <div class="col-xs-12">
                             {% include context.fields[rfield.type].template with {
                                 'key': rkey,
@@ -27,7 +28,6 @@
                                 'contentkey': rkey,
                                 'field': rfield,
                                 'labelkey': rlabelkey,
-                                'canupload': canupload
                             } %}
                         </div>
                     {% endfor %}
@@ -49,8 +49,7 @@
                                 'name': name ~ '['~index~'][' ~ rkey ~ '][]',
                                 'contentkey': rkey,
                                 'field': rfield,
-                                'labelkey': rlabelkey,
-                                'canupload': canupload
+                                'labelkey': rlabelkey
                             } %}
                         </div>
                     {% endfor %}
