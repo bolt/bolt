@@ -326,7 +326,7 @@ class Widget implements AssetInterface, \ArrayAccess
 
         if (is_callable($this->callback)) {
             try {
-                return $this->rendered = $this->getCallableReturnValue($this->callback, $this->callbackArguments);
+                return $this->rendered = $this->invokeCallable($this->callback, $this->callbackArguments);
             } catch (\Exception $e) {
                 trigger_error($e->getMessage(), E_USER_NOTICE);
             }

@@ -16,7 +16,7 @@ trait CallableTrait
      * Note: If the callback arguments are given ad a standard index array,
      * we accept that as-is
      */
-    protected function getCallableReturnValue(callable $callback, $callbackArguments)
+    protected function invokeCallable(callable $callback, $callbackArguments)
     {
         if ($callbackArguments === null) {
             return call_user_func($callback);
