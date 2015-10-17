@@ -4,6 +4,7 @@ namespace Bolt\Asset\Widget;
 use Bolt\Asset\QueueInterface;
 use Silex\Application;
 use Bolt\Asset\Target;
+use Bolt\Asset\Snippet\Snippet;
 
 /**
  * Widget queue processor.
@@ -82,10 +83,11 @@ class Queue implements QueueInterface
      */
     protected function addDeferredJavaScript(Widget $widget, $html)
     {
-        $javascript = $this->app['render']->render('widgetjavascript.twig', [
+        $javaScript = $this->app['render']->render('widgetjavascript.twig', [
             'widget' => $widget
         ]);
+        $snippet = new Snippet(Target::AFTER_BODY_JS, (string) $javaScript);
 
-        return $this->app['asset.injector']->inject((string) $javascript, Target::AFTER_BODY_JS, $html);
+        return $this->app['asset.injector']->inject($snippet, Target::AFTER_BODY_JS, $html);
     }
 }
