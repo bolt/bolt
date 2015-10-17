@@ -39,7 +39,7 @@ trait CallableTrait
      *
      * @return array
      */
-    protected function getArguments(callable $callback, array $callbackArguments)
+    private function getArguments(callable $callback, array $callbackArguments)
     {
         $parameters = $this->getParameters($callback);
         $arguments = [];
@@ -63,7 +63,7 @@ trait CallableTrait
      *
      * @return array
      */
-    protected function getParameters(callable $callback)
+    private function getParameters(callable $callback)
     {
         if (is_array($callback)) {
             $mirror = new \ReflectionMethod($callback[0], $callback[1]);
