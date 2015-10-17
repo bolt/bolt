@@ -39,7 +39,7 @@
 
         $(fieldset).on('click', '.duplicate-button', function(){
             var setToDuplicate = $(this).closest('.repeater-group');
-            setToDuplicate.after(setToDuplicate.html());
+            setToDuplicate.after(setToDuplicate[0].outerHTML);
         });
 
         $(fieldset).on('click', '.delete-button', function(){
