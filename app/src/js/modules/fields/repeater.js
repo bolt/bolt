@@ -35,16 +35,19 @@
         addButton.on('click', function(e){
            slot.append(template.html());
             e.preventDefault();
+            Bolt.app.run();
         });
 
         $(fieldset).on('click', '.duplicate-button', function(){
             var setToDuplicate = $(this).closest('.repeater-group');
             setToDuplicate.after(setToDuplicate[0].outerHTML);
+            Bolt.app.run();
         });
 
         $(fieldset).on('click', '.delete-button', function(){
             var setToDelete = $(this).closest('.repeater-group');
             setToDelete.remove();
+            Bolt.app.run();
         });
     };
 
