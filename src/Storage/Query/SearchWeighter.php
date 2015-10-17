@@ -80,7 +80,7 @@ class SearchWeighter
     /**
      * Helper method to fetch the fields for an individual contenttype.
      *
-     * @return [type] [description]
+     * @return array|false
      */
     protected function getContentFields()
     {
@@ -90,7 +90,7 @@ class SearchWeighter
     /**
      * This is a simple version of the Vector Space Model.
      *
-     *   @link https://en.wikipedia.org/wiki/Vector_space_model
+     * @link https://en.wikipedia.org/wiki/Vector_space_model
      *
      * The goal is to determine a relavance score for a corpus of values
      * based on both the existence of a word or words but also based on

@@ -158,6 +158,10 @@ table.buic-listing {
             &.danger {
                 @extend .btn-silent-danger;
             }
+
+            &.separator {
+                margin-right: 0.6em;
+            }
         }
     }
 

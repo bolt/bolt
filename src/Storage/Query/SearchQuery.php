@@ -45,7 +45,7 @@ class SearchQuery extends SelectQuery
      * Sets the overall parameters on the query. This may include others
      * than the search query itself which gets set to the 'filter' param.
      *
-     * @param [type] $params [description]
+     * @param array $params
      */
     public function setParameters($params)
     {

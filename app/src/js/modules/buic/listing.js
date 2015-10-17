@@ -28,6 +28,20 @@
      * @param {Object} buic
      */
     listing.init = function (buic) {
+        initEvents(buic);
+    };
+
+    /**
+     * Initializes all events inside a record listing table.
+     *
+     * @private
+     * @static
+     * @function initEvents
+     * @memberof Bolt.buic.listing
+     *
+     * @param {Object} buic - Listing table
+     */
+    function initEvents(buic) {
         // Select all rows in a listing section.
         $(buic).find('tr.header th.menu li.select-all a').on('click', function () {
             $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
@@ -52,71 +66,154 @@
             handleSelectionState(this);
         });
 
-        // Record delete action.
-        $(buic).find('tr.selectiontoolbar button.records-delete').on('click', function () {
-            var tbody = $(this).closest('tbody'),
-                table = $(this).closest('table'),
-                contenttype = $(table).data('contenttype'),
-                checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
-                selectedIds = [],
-                selectedRows = [],
-                modifications = {},
-                notice;
+        // Record toolbar actions.
+        $(buic).find('tr.selectiontoolbar button[data-stb-cmd^="record:"]').each(function () {
+            $(this).on('click', function () {
+                modifyRecords(this, $(this).data('stb-cmd').replace(/^record:/, ''));
+            });
+        });
 
+        // Record row edit button actions.
+        $(buic).find('a[data-listing-cmd^="record:"]').each(function () {
+            var id = $(this).parents('tr').attr('id').substr(5);
+
+            $(this).on('click', function () {
+                modifyRecords(this, $(this).data('listing-cmd').replace(/^record:/, ''), [id]);
+            });
+        });
+    }
+
+    /**
+     * Execute commands on triggered button.
+     *
+     * @private
+     * @static
+     * @function modifyRecords
+     * @memberof Bolt.buic.listing
+     *
+     * @param {object} button - Triggered list button.
+     * @param {string} action - Triggered action (Allowed: 'delete').
+     * @param {array} ids - Optional array of ids to perform the action on.
+     */
+    function modifyRecords(button, action, ids) {
+        var container = $(button).closest('div.record-listing-container'),
+            table = $(button).closest('table'),
+            tbody = $(button).closest('tbody'),
+            contenttype = $(table).data('contenttype'),
+            checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
+            selectedIds = [],
+            modifications = {},
+            actions = {
+                'delete': {
+                    'name': Bolt.data('recordlisting.action.delete'),
+                    'cmd': {'delete': null}
+                },
+                'publish': {
+                    'name': Bolt.data('recordlisting.action.publish'),
+                    'cmd': {'modify': {'status': 'published'}}
+                },
+                'depublish': {
+                    'name': Bolt.data('recordlisting.action.depublish'),
+                    'cmd': {'modify': {'status': 'held'}}
+                },
+                'draft': {
+                    'name': Bolt.data('recordlisting.action.draft'),
+                    'cmd': {'modify': {'status': 'draft'}}
+                }
+            },
+            buttonText = $(button).html(),
+            msg;
+
+        if (ids) {
+            selectedIds = ids;
+        } else {
             $(checkboxes).each(function () {
                 var row = $(this).parents('tr'),
                     id = row.attr('id').substr(5);
 
                 if (id) {
                     selectedIds.push(id);
-                    selectedRows.push(row);
                 }
             });
+        }
 
-            if (selectedIds.length > 0) {
-                // Build POST data.
-                modifications[contenttype] = {};
-                $(selectedIds).each(function () {
-                    modifications[contenttype][this] = {'delete': null};
-                    //modifications[contenttype][this] = {'modify': {'status': 'published'}};
-                });
+        if (selectedIds.length > 0) {
+            // Build POST data.
+            modifications[contenttype] = {};
+            $(selectedIds).each(function () {
+                modifications[contenttype][this] = actions[action].cmd;
+            });
 
-                notice = selectedIds.length === 1 ? Bolt.data('recordlisting.delete_one')
-                                                  : Bolt.data('recordlisting.delete_mult');
-
-                bootbox.confirm(notice, function (confirmed) {
-                    $('.alert').alert();
-                    if (confirmed === true) {
-                        var url = Bolt.conf('paths.async') + 'content/modify';
-alert('Anti CSRF token functionality still disabled in Bolt\Controller\Async\Records::modify');
-                        // Delete request.
-                        $.ajax({
-                            url: url,
-                            type: 'POST',
-                            data: {
-                                'bolt_csrf_token': $(table).data('bolt_csrf_token'),
-                                'contenttype': contenttype,
-                                'modifications': modifications
-                            },
-                            success: function (data) {
-                                console.log('Success');
-                                console.log(data);
-                                /*$(selectedRows).each(function () {
-                                    $(this).remove();
-                                });
-                                handleSelectionState(tbody);*/
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log(jqXHR.status + ' (' + errorThrown + '):');
-                                console.log(JSON.parse(jqXHR.responseText));
-                            }/*,
-                            dataType: 'json'*/
-                        });
-                    }
-                });
+            // Build message:
+            if (selectedIds.length === 1) {
+                msg = Bolt.data('recordlisting.confirm.one');
+            } else {
+                msg = Bolt.data('recordlisting.confirm.multi', {'%NUMBER%': '<b>' + selectedIds.length + '</b>'});
             }
-        });
-    };
+            msg = msg + '<br><br><b>' + Bolt.data('recordlisting.confirm.no-undo') + '</b>';
+
+            // Remove when done:
+            msg = msg + '<hr><b style="color:red;">Anti CSRF token functionality still disabled ' +
+                'in Bolt\Controller\Async\Records::modify</b>';
+
+            bootbox.dialog({
+                message: msg,
+                title: actions[action].name,
+                buttons: {
+                    cancel: {
+                        label: Bolt.data('recordlisting.action.cancel'),
+                        className: 'btn-default'
+                    },
+                    ok: {
+                        label: buttonText,
+                        className: 'btn-primary',
+                        callback: function () {
+                            var url = Bolt.conf('paths.async') + 'content/action' + window.location.search;
+
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                data: {
+                                    'bolt_csrf_token': $(table).data('bolt_csrf_token'),
+                                    'contenttype': contenttype,
+                                    'actions': modifications
+                                },
+                                success: function (data) {
+                                    var table;
+
+                                    $(container).replaceWith(data);
+
+                                    table = $('div.record-listing-container table.buic-listing');
+                                    initEvents(table);
+
+                                    /*
+                                     Commented out for now - it has to be decided if functionality is wanted
+                                    // Restore selection state.
+                                    $(table).find('td input:checkbox[name="checkRow"]').each(function () {
+                                        var id = $(this).parents('tr').attr('id').substr(5);
+
+                                        if (id && selectedIds.indexOf(id) >= 0) {
+                                            this.checked = true;
+                                            rowSelection(this);
+                                        }
+                                    });
+                                    $(table).find('tbody').each(function () {
+                                        handleSelectionState(this);
+                                    });
+                                    */
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR.status + ' (' + errorThrown + '):');
+                                    console.log(JSON.parse(jqXHR.responseText));
+                                },
+                                dataType: 'html'
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    }
 
     /**
      * Handle row selection.
@@ -124,7 +221,7 @@ alert('Anti CSRF token functionality still disabled in Bolt\Controller\Async\Rec
      * @private
      * @static
      * @function rowSelection
-     * @memberof Bolt.files
+     * @memberof Bolt.buic.listing
      *
      * @param {object} checkbox - Checkbox clicked.
      */
@@ -144,7 +241,7 @@ alert('Anti CSRF token functionality still disabled in Bolt\Controller\Async\Rec
      * @private
      * @static
      * @function handleSelectionState
-     * @memberof Bolt.files
+     * @memberof Bolt.buic.listing
      *
      * @param {object} element - Element inside a tbody.
      */

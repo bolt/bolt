@@ -65,21 +65,10 @@
  # Actionform.
  #}
 {% macro actionform(content, action, icon, text, confirmation_text) %}
-    <form action="{{ path('contentaction', {'action': action, 'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" method="POST">
-        {% include '@bolt/_sub/_csrf_token.twig' %}
-        <button type="submit"
-            {% if confirmation_text %}
-                class="btn btn-link btn-block confirm" data-confirm="{{ confirmation_text }}"
-            {% else %}
-                class="btn btn-link btn-block"
-            {% endif %}
-        >
-            <span class="pull-left">
-                <i class="fa {{ icon }}"></i>
-                {{ __(text) }}
-            </span>
-        </button>
-    </form>
+    {% if action == 'held' %}
+        {% set action = 'depublish' %}
+    {% endif %}
+    <a href="#" data-listing-cmd="record:{{ action }}"><i class="fa {{ icon }}"></i> {{ __(text) }}</a>
 {% endmacro %}
 
 {##
