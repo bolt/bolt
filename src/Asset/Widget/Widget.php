@@ -99,11 +99,35 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * @param string $type
+     *
+     * @return Widget
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getLocation()
     {
         return $this->location;
+    }
+
+    /**
+     * @param string $location
+     *
+     * @return Widget
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
     }
 
     /**
@@ -115,11 +139,35 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * @param callable $callback
+     *
+     * @return Widget
+     */
+    public function setCallback(callable $callback)
+    {
+        $this->callback = $callback;
+
+        return $this;
+    }
+
+    /**
      * @return array|null
      */
     public function getCallbackArguments()
     {
         return $this->callbackArguments;
+    }
+
+    /**
+     * @param array $callbackArguments
+     *
+     * @return Widget
+     */
+    public function setCallbackArguments(array $callbackArguments)
+    {
+        $this->callbackArguments = $callbackArguments;
+
+        return $this;
     }
 
     /**
@@ -131,11 +179,35 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * @param string $content
+     *
+     * @return Widget
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getClass()
     {
         return $this->class;
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return Widget
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
     }
 
     /**
@@ -147,11 +219,35 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * @param string $prefix
+     *
+     * @return Widget
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getPostfix()
     {
         return $this->postfix;
+    }
+
+    /**
+     * @param string $postfix
+     *
+     * @return Widget
+     */
+    public function setPostfix($postfix)
+    {
+        $this->postfix = $postfix;
+
+        return $this;
     }
 
     /**
@@ -163,6 +259,18 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * @param boolean $defer
+     *
+     * @return Widget
+     */
+    public function setDefer($defer)
+    {
+        $this->defer = (boolean) $defer;
+
+        return $this;
+    }
+
+    /**
      * @return integer
      */
     public function getPriority()
@@ -171,11 +279,35 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
+     * @param integer $priority
+     *
+     * @return Widget
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = (integer) $priority;
+
+        return $this;
+    }
+
+    /**
      * @return integer
      */
     public function getCacheDuration()
     {
         return (integer) $this->cacheDuration;
+    }
+
+    /**
+     * @param integer $cacheDuration
+     *
+     * @return Widget
+     */
+    public function setCacheDuration($cacheDuration)
+    {
+        $this->cacheDuration = (integer) $cacheDuration;
+
+        return $this;
     }
 
     /**
