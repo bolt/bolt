@@ -64,6 +64,26 @@ class Queue implements QueueInterface
     }
 
     /**
+     * Render a location's widget.
+     *
+     * @param string $type
+     * @param string $location
+     *
+     * @return string|null
+     */
+    public function render($type, $location)
+    {
+        $html = null;
+        foreach ($this->queue as $widget) {
+            if ($widget->getType() === $type && $widget->getLocation() === $location) {
+                $html .= $widget->getContent();
+            }
+        }
+
+        return $html;
+    }
+
+    /**
      * Get the queued widgets.
      *
      * @return \Bolt\Asset\Widget\Widget[]
