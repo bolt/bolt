@@ -61,6 +61,20 @@ class WidgetTest extends BoltUnitTest
         $this->assertInternalType('integer', $widget->getPriority());
     }
 
+    public function testWidgetArrayAccess()
+    {
+        $widget = new Widget();
+
+        $this->assertTrue(isset($widget['type']));
+        $this->assertFalse(isset($widget['koala']));
+
+        $widget['type'] = 'koala';
+        $this->assertSame('koala', $widget['type']);
+
+        unset($widget['type']);
+        $this->assertNull($widget['type']);
+    }
+
     public function widgetCallback($second, $first)
     {
         return sprintf('%s gives gum leaves to the %s', $first, $second);
