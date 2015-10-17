@@ -179,7 +179,7 @@ class Widget implements AssetInterface, \ArrayAccess
     public function getContent()
     {
         if (is_callable($this->callback)) {
-            return call_user_func_array($this->callback, (array) $this->callbackArguments);
+            return call_user_func($this->callback, (array) $this->callbackArguments);
         }
 
         return $this->content;
