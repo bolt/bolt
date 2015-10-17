@@ -1,6 +1,7 @@
 <?php
 namespace Bolt;
 
+use Bolt\Asset\Widget\Widget;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
 use Bolt\Helpers\Arr;
@@ -637,28 +638,16 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Add/Insert a Widget (for instance, on the dashboard).
+     * Add a Widget to the render queue.
      *
-     * @param array $options
+     * @param Widget $widget
      */
-    public function addWidget($options)
+    public function addWidget($widget)
     {
-
-        if (is_string($options)) {
-            // If $options is a string, we're using an old-style widget. Log an error, and ignore.
-            $this->app['logger.system']->error('Ignored old style widget extension', ['event' => 'extensions']);
-            return;
+        if ($widget instanceof Widget) {
+            return $this->app['asset.queue.widget']->add($widget);
         }
-
-        $options['name'] = $this->getName();
-        $options['slug'] = $this->app['slugify']->slugify($this->getName());
-
-        // If we pass a callback as a simple string, we need to turn it into an array.
-        if (is_string($options['callback']) && method_exists($this, $options['callback'])) {
-            $options['callback'] = [$this, $options['callback']];
-        }
-
-        $this->app['extensions']->insertWidget($options);
+        $this->app['logger.system']->error(sprintf('%s tried inserting an invalid widget object. Ignoring.', $this->getName()), ['event' => 'extensions']);
     }
 
     /**
