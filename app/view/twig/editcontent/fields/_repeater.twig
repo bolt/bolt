@@ -16,7 +16,7 @@
 
         <script type="text/template" id="{{ name }}_template">
             <div class="repeater-group row panel panel-default">
-                {% include 'editcontent/fields/_repeater-header.twig' %}
+                {% include '@bolt/editcontent/fields/_repeater-header.twig' %}
                 {% for rkey, rfield in field.fields %}
                     {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
                     <div class="col-xs-12">
@@ -36,7 +36,7 @@
         {# In cases where we don't have any values set, the we show a single set of fields by default #}
         {% if not repeatfieldvals.length %}
             <div class="repeater-group row panel panel-default">
-                {% include 'editcontent/fields/_repeater-header.twig' %}
+                {% include '@bolt/editcontent/fields/_repeater-header.twig' %}
                 <div class="panel-body">
                     {% for rkey, rfield in field.fields %}
                         {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
