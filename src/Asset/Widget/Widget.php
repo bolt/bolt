@@ -34,6 +34,9 @@ class Widget implements AssetInterface, \ArrayAccess
     /** @var integer */
     protected $cacheDuration;
 
+    /** @var string */
+    private $rendered;
+
     public function offsetExists($offset)
     {
         return property_exists($this, $offset);
@@ -143,16 +146,12 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Get the content for the widget, callback has priority.
+     * Get the content for the widget.
      *
      * @return string|null
      */
     public function getContent()
     {
-        if (is_callable($this->callback)) {
-            return call_user_func($this->callback, (array) $this->callbackArguments);
-        }
-
         return $this->content;
     }
 
@@ -318,15 +317,18 @@ class Widget implements AssetInterface, \ArrayAccess
      */
     protected function toString()
     {
-        try {
-            if ($this->content !== null) {
-                return $this->content;
-            }
-
-            return call_user_func_array($this->callback, $this->callbackArguments);
-        } catch (\Exception $e) {
-            trigger_error($e->getMessage(), E_USER_NOTICE);
-            return '';
+        if ($this->rendered !== null) {
+            return $this->rendered;
         }
+
+        if (is_callable($this->callback)) {
+            try {
+                return $this->rendered = call_user_func_array($this->callback, (array) $this->callbackArguments);
+            } catch (\Exception $e) {
+                trigger_error($e->getMessage(), E_USER_NOTICE);
+            }
+        }
+
+        return $this->content ?: '';
     }
 }
