@@ -8,6 +8,9 @@ namespace Bolt\Asset\File;
  */
 class Stylesheet extends FileAssetBase
 {
+    /** @var string */
+    protected $type = 'stylesheet';
+
     /**
      * {@inheritdoc}
      */
