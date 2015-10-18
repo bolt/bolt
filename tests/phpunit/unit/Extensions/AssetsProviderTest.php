@@ -181,15 +181,28 @@ HTML;
     public function testBadExtensionSnippets()
     {
         $app = $this->getApp();
-        $app['logger.system'] = new Mock\Logger();
+        $logger = $this->getMock('\Monolog\Logger', ['critical'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+            ->method('critical')
+            ->will($this->returnCallback(function ($message) {
+                    \PHPUnit_Framework_Assert::assertSame(
+                        'Snippet loading failed for Bolt\Tests\Extensions\Mock\BadExtensionSnippets with callable a:2:{i:0;O:47:"Bolt\Tests\Extensions\Mock\BadExtensionSnippets":0:{}i:1;s:18:"badSnippetCallBack";}',
+                        $message);
+                }
+            ))
+        ;
+        $app['asset.queue.snippet'] = new \Bolt\Asset\Snippet\Queue(
+            $app['asset.injector'],
+            $app['cache'],
+            $app['config'],
+            $app['resources'],
+            $app['request_stack'],
+            $logger
+        );
         $app['extensions']->register(new Mock\BadExtensionSnippets($app));
+
         $html = $app['asset.queue.snippet']->process($this->template);
         $this->assertEquals($this->html($this->template), $this->html($html));
-
-        $this->assertEquals(
-            'Snippet loading failed for Bolt\Tests\Extensions\Mock\BadExtensionSnippets with callable a:2:{i:0;O:47:"Bolt\Tests\Extensions\Mock\BadExtensionSnippets":0:{}i:1;s:18:"badSnippetCallBack";}',
-            $app['logger.system']->lastLog()
-        );
     }
 
     public function testAddCss()
