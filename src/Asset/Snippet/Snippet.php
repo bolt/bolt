@@ -10,6 +10,8 @@ use Bolt\Asset\AssetInterface;
  */
 class Snippet implements AssetInterface
 {
+    /** @var integer */
+    protected $priority;
     /** @var string */
     protected $location;
     /** @var callable|string */
@@ -41,6 +43,14 @@ class Snippet implements AssetInterface
     public function __toString()
     {
         return $this->callback;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPriority()
+    {
+        return $this->priority;
     }
 
     /**
