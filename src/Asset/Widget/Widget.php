@@ -314,7 +314,7 @@ class Widget implements AssetInterface, \ArrayAccess
      */
     public function getCacheDuration()
     {
-        return (integer) $this->cacheDuration;
+        return $this->cacheDuration;
     }
 
     /**
@@ -326,7 +326,7 @@ class Widget implements AssetInterface, \ArrayAccess
      */
     public function setCacheDuration($cacheDuration)
     {
-        $this->cacheDuration = (integer) $cacheDuration;
+        $this->cacheDuration = $cacheDuration;
 
         return $this;
     }
