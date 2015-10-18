@@ -135,6 +135,11 @@ class Queue implements QueueInterface
      */
     protected function getHtml(Widget $widget)
     {
+        $key = 'widget_' . $widget->getKey();
+        if ($html = $this->app['cache']->fetch($key)) {
+            return $html;
+        }
+
         $e = null;
         set_error_handler(function ($errno, $errstr) use (&$e) {
             return $e = new \Exception($errstr, $errno);
@@ -148,6 +153,7 @@ class Queue implements QueueInterface
         if ($e) {
             throw $e;
         }
+        $this->app['cache']->save($key, $html, $widget->getCacheDuration());
 
         return $html;
     }
