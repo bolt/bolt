@@ -245,9 +245,16 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
 
     public function testAddSnippet()
     {
-        $app = $this->makeApp();
+        $app = $this->getApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\Snippet\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\Snippet\Queue', ['add'], [
+            $app['asset.injector'],
+            $app['cache'],
+            $app['config'],
+            $app['resources'],
+            $app['request_stack'],
+            $app['logger.system']
+        ]);
 
         $handler->expects($this->once())
             ->method('add');
@@ -324,7 +331,11 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [
+            $app['asset.injector'],
+            $app['cache'],
+            $app['asset.file.hash']
+        ]);
 
         $handler->expects($this->once())
             ->method('add')
@@ -345,7 +356,11 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [
+            $app['asset.injector'],
+            $app['cache'],
+            $app['asset.file.hash']
+        ]);
 
         $handler->expects($this->once())
             ->method('add')
@@ -389,7 +404,11 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [
+            $app['asset.injector'],
+            $app['cache'],
+            $app['asset.file.hash']
+        ]);
 
         $handler->expects($this->once())
             ->method('add')
@@ -410,7 +429,11 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $app = $this->makeApp();
         $app->initialize();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [
+            $app['asset.injector'],
+            $app['cache'],
+            $app['asset.file.hash']
+        ]);
 
         $handler->expects($this->once())
             ->method('add')
@@ -487,9 +510,13 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
 
     public function testAddWidget()
     {
-        $app = $this->makeApp();
+        $app = $this->getApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\Widget\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\Widget\Queue', ['add'], [
+            $app['asset.injector'],
+            $app['cache'],
+            $app['render']
+        ]);
         $handler->expects($this->once())
             ->method('add')
             ->with($this->isInstanceOf('\Bolt\Asset\Widget\Widget'))
