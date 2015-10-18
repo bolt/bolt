@@ -35,7 +35,7 @@ class WidgetTest extends BoltUnitTest
         $this->assertSame(['first' => 'clippy', 'second' => 'koala'], $widget->getCallbackArguments());
         $this->assertSame('bourgeoisie', $widget->getClass());
         $this->assertSame('Some test content', $widget->getContent());
-        $this->assertTrue($widget->getDefer());
+        $this->assertTrue($widget->isDeferred());
         $this->assertSame('somewhere', $widget->getLocation());
         $this->assertSame('after', $widget->getPostfix());
         $this->assertSame('before', $widget->getPrefix());
@@ -55,8 +55,8 @@ class WidgetTest extends BoltUnitTest
 
         $this->assertInternalType('integer', $widget->getCacheDuration());
         $this->assertSame(1, $widget->getCacheDuration());
-        $this->assertTrue($widget->getDefer());
-        $this->assertInternalType('boolean', $widget->getDefer());
+        $this->assertTrue($widget->isDeferred());
+        $this->assertInternalType('boolean', $widget->isDeferred());
         $this->assertSame(0, $widget->getPriority());
         $this->assertInternalType('integer', $widget->getPriority());
     }
