@@ -56,7 +56,7 @@ class Manager
             return false;
         }
 
-        return $this->getField($name);
+        return $this->getField($field);
     }
 
     public function has($field)
