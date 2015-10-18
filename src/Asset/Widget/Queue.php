@@ -88,11 +88,27 @@ class Queue implements QueueInterface
         $html = null;
         foreach ($this->queue as $widget) {
             if ($widget->getType() === $type && $widget->getLocation() === $location) {
-                $html .= $this->getHtml($widget);
+                $html .= $this->addWidgetHolder($widget);
             }
         }
 
         return $html;
+    }
+
+    /**
+     * Add a widget holder, empty if deferred.
+     *
+     * @param Widget $widget
+     * @param string $html
+     *
+     * @return \Twig_Markup
+     */
+    protected function addWidgetHolder(Widget $widget)
+    {
+        return $this->app['render']->render('widgetholder.twig', [
+            'widget' => $widget,
+            'html'   => $widget->isDeferred() ? '' : $this->getHtml($widget)
+        ]);
     }
 
     /**
