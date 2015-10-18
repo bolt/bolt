@@ -201,7 +201,10 @@ class Queue implements QueueInterface
         $javaScript = $this->render->render('widgetjavascript.twig', [
             'widget' => $widget
         ]);
-        $snippet = new Snippet(Target::AFTER_BODY_JS, (string) $javaScript);
+        $snippet = (new Snippet())
+            ->setLocation(Target::AFTER_BODY_JS)
+            ->setCallback((string) $javaScript)
+        ;
         $this->deferAdded = true;
 
         return $this->injector->inject($snippet, Target::AFTER_BODY_JS, $html);

@@ -16,26 +16,10 @@ class Snippet implements AssetInterface
     protected $location;
     /** @var callable|string */
     protected $callback;
-    /** @var string */
-    protected $extension;
     /** @var array */
-    protected $parameters;
-
-    /**
-     * Constructor.
-     *
-     * @param string          $location
-     * @param callable|string $callback
-     * @param string          $extension
-     * @param array|null      $parameters
-     */
-    public function __construct($location, $callback, $extension = 'core', array $parameters = [])
-    {
-        $this->location   = $location;
-        $this->callback   = $callback;
-        $this->extension  = $extension;
-        $this->parameters = $parameters;
-    }
+    protected $callbackArguments;
+    /** @var string */
+    protected $extension = 'core';
 
     /**
      * {@inheritdoc}
@@ -54,6 +38,20 @@ class Snippet implements AssetInterface
     }
 
     /**
+     * Set the priority.
+     *
+     * @param integer $priority
+     *
+     * @return Snippet
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
      * Get location.
      *
      * @return string
@@ -61,6 +59,20 @@ class Snippet implements AssetInterface
     public function getLocation()
     {
         return $this->location;
+    }
+
+    /**
+     * Set location.
+     *
+     * @param string $location
+     *
+     * @return Snippet
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
     }
 
     /**
@@ -74,6 +86,44 @@ class Snippet implements AssetInterface
     }
 
     /**
+     * Set callback or HTML string.
+     *
+     * @param callable|string $callback
+     *
+     * @return Snippet
+     */
+    public function setCallback($callback)
+    {
+        $this->callback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Get the callback arguments.
+     *
+     * @return array
+     */
+    public function getCallbackArguments()
+    {
+        return (array) $this->callbackArguments;
+    }
+
+    /**
+     * Set the callback arguments.
+     *
+     * @param array $callbackArguments
+     *
+     * @return Snippet
+     */
+    public function setCallbackArguments($callbackArguments)
+    {
+        $this->callbackArguments = $callbackArguments;
+
+        return $this;
+    }
+
+    /**
      * Get the extension name that this connects to.
      *
      * @return string
@@ -84,13 +134,17 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Get the callback parameters.
+     * Set the extension name that this connects to.
      *
-     * @return array
+     * @param string $extensionName
+     *
+     * @return Snippet
      */
-    public function getParameters()
+    public function setExtension($extensionName)
     {
-        return $this->parameters;
+        $this->extension = $extensionName;
+
+        return $this;
     }
 
     /**

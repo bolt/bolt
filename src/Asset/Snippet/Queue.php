@@ -72,12 +72,17 @@ class Queue implements QueueInterface
      * @param string          $location
      * @param callable|string $callback
      * @param string          $extensionName
-     * @param array|null      $parameters
+     * @param array|null      $callbackArguments
      */
-    public function add($location, $callback, $extensionName = 'core', array $parameters = [])
+    public function add($location, $callback, $extensionName = 'core', array $callbackArguments = [])
     {
-        $callback = $this->getCallableResult($extensionName, $callback, $parameters);
-        $this->queue[] = new Snippet($location, $callback, $extensionName, $parameters);
+        $callback = $this->getCallableResult($extensionName, $callback, $callbackArguments);
+        $this->queue[] = (new Snippet())
+            ->setLocation($location)
+            ->setCallback($callback)
+            ->setExtension($extensionName)
+            ->setCallbackArguments($callbackArguments)
+        ;
     }
 
     /**
@@ -155,7 +160,10 @@ class Queue implements QueueInterface
         $regex = '/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/';
         if ($zone === Zone::FRONTEND && !preg_match($regex, $html)) {
             $jqueryfile = $this->resources->getPath('app/view/js/jquery-2.1.4.min.js');
-            $asset = new Snippet(Target::BEFORE_JS, '<script src="' . $jqueryfile . '"></script>');
+            $asset = (new Snippet())
+                ->setLocation(Target::BEFORE_JS)
+                ->setCallback('<script src="' . $jqueryfile . '"></script>')
+            ;
             $html = $this->injector->inject($asset, $asset->getLocation(), $html);
         }
 
