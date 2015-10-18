@@ -20,6 +20,9 @@
 </div>
 {% endif %}
 
+{# Dashboard Widget #}
+{{ widget('backend', 'dashboard_aside_top') }}
+
 {# News #}
 {{ render(path('dashboardnews')) }}
 
@@ -27,12 +30,15 @@
 {{ panels.stack(7, true) }}
 
 {# Dashboard Widget #}
-{{ widget('dashboard', 'right_first') }}
+{{ widget('backend', 'dashboard_aside_middle') }}
 
 {# Latest Activity #}
 <div id="latestactivity">
     {{ render(path('latestactivity')) }}
 </div>
+
+{# Dashboard Widget #}
+{{ widget('backend', 'dashboard_aside_bottom') }}
 
 {# ? #}
 <div id="latesttemp" style="display:none; visibility: hidden;">
