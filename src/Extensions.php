@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Bolt;
 use Bolt\Asset\Target;
-use Bolt\Asset\Widget\Widget;
+use Bolt\Extensions\ExtensionAssetTrait;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
@@ -15,6 +15,10 @@ use Symfony\Component\Finder\Finder;
 
 class Extensions
 {
+    use ExtensionAssetTrait;
+
+    protected $isConcrete = true;
+
     /** @var \Silex\Application */
     private $app;
     /** @var string The extension base folder. */
@@ -540,56 +544,6 @@ class Extensions
 
         // return second to last as namespace name
         return (array_pop($classatoms));
-    }
-
-    /**
-     * Add a particular CSS file to the output. This will be inserted before the
-     * other css files.
-     *
-     * @param string $filename File name to add to href=""
-     * @param array  $options  'late'     - True to add to the end of the HTML <body>
-     *                         'priority' - Loading priority
-     *                         'attrib'   - A string containing either/or 'defer', and 'async'
-     */
-    public function addCss($filename, $options = [])
-    {
-        // Handle pre-2.2 function parameters, namely $late and $priority
-        if (!is_array($options)) {
-            $args = func_get_args();
-
-            $options = [
-                'late'     => isset($args[1]) ? isset($args[1]) : false,
-                'priority' => isset($args[2]) ? isset($args[2]) : 0,
-                'attrib'   => false
-            ];
-        }
-
-        $this->app['asset.queue.file']->add('stylesheet', $filename, $options);
-    }
-
-    /**
-     * Add a particular javascript file to the output. This will be inserted after
-     * the other javascript files.
-     *
-     * @param string $filename File name to add to src=""
-     * @param array  $options  'late'     - True to add to the end of the HTML <body>
-     *                         'priority' - Loading priority
-     *                         'attrib'   - A string containing either/or 'defer', and 'async'
-     */
-    public function addJavascript($filename, $options = [])
-    {
-        // Handle pre-2.2 function parameters, namely $late and $priority
-        if (!is_array($options)) {
-            $args = func_get_args();
-
-            $options = [
-                'late'     => isset($args[1]) ? isset($args[1]) : false,
-                'priority' => isset($args[2]) ? isset($args[2]) : 0,
-                'attrib'   => false
-            ];
-        }
-
-        $this->app['asset.queue.file']->add('javascript', $filename, $options);
     }
 
     /**
