@@ -241,7 +241,7 @@ class Widget implements AssetInterface, \ArrayAccess
     /**
      * @return boolean
      */
-    public function getDefer()
+    public function isDeferred()
     {
         return (boolean) $this->defer;
     }
