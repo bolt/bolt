@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Asset\File;
 
+use Bolt\Asset\AssetSortTrait;
 use Bolt\Asset\Injector;
 use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Target;
@@ -15,6 +16,8 @@ use Doctrine\Common\Cache\CacheProvider;
  */
 class Queue implements QueueInterface
 {
+    use AssetSortTrait;
+
     /** @var \Bolt\Asset\Injector */
     protected $injector;
     /** @var \Doctrine\Common\Cache\CacheProvider */
@@ -136,29 +139,5 @@ class Queue implements QueueInterface
         } else {
             return $this->injector->inject($asset, Target::AFTER_JS, $html);
         }
-    }
-
-    /**
-     * Do a Schwartzian Transform for stable sort
-     *
-     * @see http://en.wikipedia.org/wiki/Schwartzian_transform
-     *
-     * @param FileAssetBase[] $files
-     *
-     * @return FileAssetBase[]
-     */
-    private function sort(array $files)
-    {
-        array_walk($files, function (&$v, $k) {
-            $v = [$v->getPriority(), $k, $v];
-        });
-
-        sort($files);
-
-        array_walk($files, function (&$v) {
-            $v = $v[2];
-        });
-
-        return $files;
     }
 }
