@@ -48,13 +48,10 @@ class WidgetTest extends BoltUnitTest
         $widget = new Widget();
 
         $widget
-            ->setCacheDuration(true)
             ->setDefer(1)
             ->setPriority(null)
         ;
 
-        $this->assertInternalType('integer', $widget->getCacheDuration());
-        $this->assertSame(1, $widget->getCacheDuration());
         $this->assertTrue($widget->isDeferred());
         $this->assertInternalType('boolean', $widget->isDeferred());
         $this->assertSame(0, $widget->getPriority());
