@@ -581,7 +581,7 @@ class TwigExtension extends \Twig_Extension
      */
     public function widget($type = '', $location = '')
     {
-        return $this->handlers['admin']->widget($type, $location);
+        return $this->handlers['html']->widget($type, $location);
     }
 
     /**

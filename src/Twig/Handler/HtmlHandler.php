@@ -220,4 +220,17 @@ class HtmlHandler
     {
         return $this->app['safe_render']->render($snippet, $extravars)->getContent();
     }
+
+    /**
+     * Renders a particular widget type on the given location.
+     *
+     * @param string $type     Either 'frontend' or 'backend'
+     * @param string $location Location (e.g. 'dashboard_aside_top')
+     *
+     * @return \Twig_Markup|string
+     */
+    public function widget($type = '', $location = '')
+    {
+        return $this->app['asset.queue.widget']->render($type, $location);
+    }
 }
