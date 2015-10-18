@@ -1,0 +1,3 @@
+/**
+ * Empty test JavaScript file.
+ */
