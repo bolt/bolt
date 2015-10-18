@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Asset\Widget;
 
+use Bolt\Asset\AssetSortTrait;
 use Bolt\Asset\Injector;
 use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Snippet\Snippet;
@@ -16,6 +17,8 @@ use Doctrine\Common\Cache\CacheProvider;
  */
 class Queue implements QueueInterface
 {
+    use AssetSortTrait;
+
     /** @var Widget[] Queue with snippets of HTML to insert. */
     protected $queue = [];
     /** @var \Bolt\Asset\Injector */
@@ -91,7 +94,7 @@ class Queue implements QueueInterface
     public function process($html)
     {
         // Process the widgets in the queue.
-        foreach ($this->queue as $widget) {
+        foreach ($this->sort($this->queue) as $widget) {
             if ($widget->getType() === 'frontend' && $widget->isDeferred()) {
                 $html = $this->addDeferredJavaScript($widget, $html);
             }
@@ -134,7 +137,6 @@ class Queue implements QueueInterface
      * Add a widget holder, empty if deferred.
      *
      * @param Widget $widget
-     * @param string $html
      *
      * @return \Twig_Markup
      */
