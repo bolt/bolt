@@ -56,6 +56,18 @@ class Queue implements QueueInterface
     }
 
     /**
+     * Get a rendered (and potentially cached) widget from the queue.
+     *
+     * @param string $key
+     *
+     * @return \Twig_Markup|string
+     */
+    public function getRendered($key)
+    {
+        return $this->getHtml($this->queue[$key]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function clear()
