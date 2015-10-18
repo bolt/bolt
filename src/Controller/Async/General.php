@@ -50,9 +50,6 @@ class General extends AsyncBase
 
         $c->get('/tags/{taxonomytype}', 'tags')
             ->bind('tags');
-
-        $c->get('/widget/{key}', 'widget')
-            ->bind('widget');
     }
 
     /**
@@ -295,23 +292,6 @@ class General extends AsyncBase
         $results = $query->execute()->fetchAll();
 
         return $this->json($results);
-    }
-
-    /**
-     * Render a widget, and return the HTML, so it can be inserted in the page.
-     *
-     * @param string $key
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function widget($key)
-    {
-        $html = $this->app['asset.queue.widget']->getRendered($key);
-
-        $response = new Response($html);
-        $response->setSharedMaxAge(180)->setPublic();
-
-        return $response;
     }
 
     /**
