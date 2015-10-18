@@ -15,6 +15,8 @@ class Widget implements AssetInterface, \ArrayAccess
     use CallableInvokerTrait;
 
     /** @var string */
+    protected $key;
+    /** @var string */
     protected $type;
     /** @var string */
     protected $location;
@@ -58,6 +60,30 @@ class Widget implements AssetInterface, \ArrayAccess
     public function offsetUnset($offset)
     {
         $this->$offset = null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Set the widget (semi-) unique key.
+     *
+     * @internal
+     *
+     * @return Widget
+     */
+    public function setKey()
+    {
+        if ($this->key === null) {
+            $this->key = md5(json_encode(get_object_vars($this)));
+        }
+
+        return $this;
     }
 
     /**

@@ -39,7 +39,8 @@ class Queue implements QueueInterface
      */
     public function add(Widget $widget)
     {
-        $this->queue[] = $widget;
+        $widget->setKey();
+        $this->queue[$widget->getKey()] = $widget;
     }
 
     /**

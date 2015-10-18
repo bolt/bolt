@@ -1,7 +1,7 @@
 {% spaceless %}
-    <div class='widget' id='widget-{{ widget.key }}' data-key='{{ widget.key }}'
+    <div class='widget {{ widget.class }}' id='widget-{{ widget.key }}' data-key='{{ widget.key }}'
     {%- if widget.defer %} data-defer='true'{% endif -%}
     >
-        {{ html|default('<!-- placeholder for ' ~ widget.name ~ ' -->')|raw }}
+        {{ html|default('<!-- placeholder for ' ~ widget.key ~ ' -->')|raw }}
     </div>
 {% endspaceless %}
