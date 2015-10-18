@@ -66,6 +66,16 @@ class Queue implements QueueInterface
     }
 
     /**
+     * Get the queued widgets.
+     *
+     * @return \Bolt\Asset\Widget\Widget[]
+     */
+    public function getQueue()
+    {
+        return $this->queue;
+    }
+
+    /**
      * Render a location's widget.
      *
      * @param string $type
@@ -111,16 +121,6 @@ class Queue implements QueueInterface
         }
 
         return $html;
-    }
-
-    /**
-     * Get the queued widgets.
-     *
-     * @return \Bolt\Asset\Widget\Widget[]
-     */
-    public function getQueue()
-    {
-        return $this->queue;
     }
 
     /**
