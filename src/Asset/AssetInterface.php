@@ -21,4 +21,13 @@ interface AssetInterface
      * @return integer
      */
     public function getPriority();
+
+    /**
+     * Set the asset's priority.
+     *
+     * @param integer $priority
+     *
+     * @return AssetInterface
+     */
+    public function setPriority($priority);
 }
