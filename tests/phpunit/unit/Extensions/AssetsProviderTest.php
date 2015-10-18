@@ -4,6 +4,8 @@ namespace Bolt\Tests\Extensions;
 use Bolt\Asset\Target;
 use Bolt\Extensions;
 use Bolt\Storage\Entity;
+use Bolt\Asset\File\Stylesheet;
+use Bolt\Asset\File\JavaScript;
 
 /**
  * Class to test correct operation and locations of assets provider.
@@ -208,7 +210,8 @@ HTML;
     public function testAddCss()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('stylesheet', 'testfile.css');
+        $stylesheet = (new Stylesheet())->setFileName('testfile.css');
+        $app['asset.queue.file']->add($stylesheet);
         $assets = $app['asset.queue.file']->getQueue();
         $this->assertEquals(1, count($assets['stylesheet']));
     }
@@ -216,7 +219,8 @@ HTML;
     public function testAddJs()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('javascript', 'testfile.js');
+        $javaScript = (new JavaScript())->setFileName('testfile.js');
+        $app['asset.queue.file']->add($javaScript);
         $assets = $app['asset.queue.file']->getQueue();
         $this->assertEquals(1, count($assets['javascript']));
     }
@@ -238,7 +242,8 @@ HTML;
     public function testJsProcessAssets()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('javascript', 'testfile.js');
+        $javaScript = (new JavaScript())->setFileName('testfile.js');
+        $app['asset.queue.file']->add($javaScript);
         $html = $app['asset.queue.file']->process($this->template);
         $this->assertEquals($this->html($this->expectedJs), $this->html($html));
     }
@@ -246,7 +251,11 @@ HTML;
     public function testLateJs()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('javascript', 'testfile.js', ['late' => true]);
+        $javaScript = (new JavaScript())
+            ->setFileName('testfile.js')
+            ->setLate(true)
+        ;
+        $app['asset.queue.file']->add($javaScript);
         $html = $app['asset.queue.file']->process($this->template);
         $this->assertEquals($this->html($this->expectedLateJs),  $this->html($html));
     }
@@ -254,7 +263,8 @@ HTML;
     public function testCssProcessAssets()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('stylesheet', 'testfile.css');
+        $stylesheet = (new Stylesheet())->setFileName('testfile.css');
+        $app['asset.queue.file']->add($stylesheet);
         $html = $app['asset.queue.file']->process($this->template);
         $this->assertEquals($this->html($this->expectedCss), $this->html($html));
     }
@@ -262,7 +272,11 @@ HTML;
     public function testLateCss()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('stylesheet', 'testfile.css', ['late' => true]);
+        $stylesheet = (new Stylesheet())
+            ->setFileName('testfile.css')
+            ->setLate(true)
+        ;
+        $app['asset.queue.file']->add($stylesheet);
         $html = $app['asset.queue.file']->process($this->template);
         $this->assertEquals($this->html($this->expectedLateCss), $this->html($html));
     }
