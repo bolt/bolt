@@ -44,6 +44,18 @@ class Queue implements QueueInterface
     }
 
     /**
+     * Get a widget from the queue.
+     *
+     * @param string $key
+     *
+     * @return Widget
+     */
+    public function get($key)
+    {
+        return $this->queue[$key];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function clear()
