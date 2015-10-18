@@ -165,7 +165,9 @@ class Queue implements QueueInterface
         if ($e) {
             throw $e;
         }
-        $this->app['cache']->save($key, $html, $widget->getCacheDuration());
+        if ($widget->getCacheDuration() !== null) {
+            $this->app['cache']->save($key, $html, $widget->getCacheDuration());
+        }
 
         return $html;
     }
