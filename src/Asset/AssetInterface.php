@@ -14,4 +14,11 @@ interface AssetInterface
      * @return string
      */
     public function __toString();
+
+    /**
+     * Get the priority of the asset used for sorting.
+     *
+     * @return integer
+     */
+    public function getPriority();
 }
