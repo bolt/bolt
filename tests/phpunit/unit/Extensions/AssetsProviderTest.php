@@ -171,7 +171,7 @@ HTML;
     protected function getApp($boot = true)
     {
         $app = parent::getApp();
-        $app['asset.file.hash'] = $app->protect(function ($fileName) {
+        $app['asset.file.hash.factory'] = $app->protect(function ($fileName) {
             return md5($fileName);
         });
 

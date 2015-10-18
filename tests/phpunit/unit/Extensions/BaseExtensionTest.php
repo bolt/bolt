@@ -334,7 +334,7 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [
             $app['asset.injector'],
             $app['cache'],
-            $app['asset.file.hash']
+            $app['asset.file.hash.factory']
         ]);
 
         $handler->expects($this->once())
@@ -359,7 +359,7 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [
             $app['asset.injector'],
             $app['cache'],
-            $app['asset.file.hash']
+            $app['asset.file.hash.factory']
         ]);
 
         $handler->expects($this->once())
@@ -407,7 +407,7 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [
             $app['asset.injector'],
             $app['cache'],
-            $app['asset.file.hash']
+            $app['asset.file.hash.factory']
         ]);
 
         $handler->expects($this->once())
@@ -432,7 +432,7 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [
             $app['asset.injector'],
             $app['cache'],
-            $app['asset.file.hash']
+            $app['asset.file.hash.factory']
         ]);
 
         $handler->expects($this->once())
