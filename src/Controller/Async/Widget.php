@@ -25,7 +25,7 @@ class Widget extends AsyncBase
      * NOTE: Routes on this controller *MUST* check their own authentication
      * where it is applicable.
      */
-    public function before()
+    public function before(Request $request)
     {
     }
 
