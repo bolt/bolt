@@ -47,23 +47,22 @@ class Queue implements QueueInterface
     /**
      * Add a file asset to the queue.
      *
-     * @param string $type
-     * @param string $fileName
-     * @param array  $options
+     * @param FileAssetInterface $asset
      *
      * @throws \InvalidArgumentException
      */
-    public function add($type, $fileName, array $options = [])
+    public function add(FileAssetInterface $asset)
     {
         $fileHasher = $this->fileHasher;
-        $cacheHash = $fileHasher($fileName);
+        $cacheHash = $fileHasher($asset->getFileName());
+        $asset->setCacheHash($cacheHash);
 
-        if ($type === 'javascript') {
-            $this->javascript[$cacheHash] = new JavaScript($fileName, $cacheHash, $options);
-        } elseif ($type === 'stylesheet') {
-            $this->stylesheet[$cacheHash] = new Stylesheet($fileName, $cacheHash, $options);
+        if ($asset->getType() === 'javascript') {
+            $this->javascript[$cacheHash] = $asset;
+        } elseif ($asset->getType() === 'stylesheet') {
+            $this->stylesheet[$cacheHash] = $asset;
         } else {
-            throw new \InvalidArgumentException("Requested asset type of '$type' is not valid.");
+            throw new \InvalidArgumentException(sprintf('Requested asset type %s is not valid.', $asset->getType()));
         }
     }
 
