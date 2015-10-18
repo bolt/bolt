@@ -1,10 +1,12 @@
 <?php
 namespace Bolt\Asset\Widget;
 
+use Bolt\Asset\Injector;
 use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
-use Silex\Application;
+use Bolt\Render;
+use Doctrine\Common\Cache\CacheProvider;
 
 /**
  * Widget queue processor.
@@ -16,20 +18,28 @@ class Queue implements QueueInterface
 {
     /** @var Widget[] Queue with snippets of HTML to insert. */
     protected $queue = [];
+    /** @var \Bolt\Asset\Injector */
+    protected $injector;
+    /** @var \Doctrine\Common\Cache\CacheProvider */
+    protected $cache;
+    /** @var \Bolt\Render */
+    protected $render;
 
-    /** @var \Silex\Application */
-    private $app;
     /** @var boolean */
     private $deferAdded;
 
     /**
      * Constructor.
      *
-     * @param Application $app
+     * @param Injector      $injector
+     * @param CacheProvider $cache
+     * @param Render        $render
      */
-    public function __construct(Application $app)
+    public function __construct(Injector $injector, CacheProvider $cache, Render $render)
     {
-        $this->app = $app;
+        $this->injector = $injector;
+        $this->cache = $cache;
+        $this->render = $render;
     }
 
     /**
@@ -130,7 +140,7 @@ class Queue implements QueueInterface
      */
     protected function addWidgetHolder(Widget $widget)
     {
-        return $this->app['render']->render('widgetholder.twig', [
+        return $this->render->render('widgetholder.twig', [
             'widget' => $widget,
             'html'   => $widget->isDeferred() ? '' : $this->getHtml($widget)
         ]);
@@ -148,7 +158,7 @@ class Queue implements QueueInterface
     protected function getHtml(Widget $widget)
     {
         $key = 'widget_' . $widget->getKey();
-        if ($html = $this->app['cache']->fetch($key)) {
+        if ($html = $this->cache->fetch($key)) {
             return $html;
         }
 
@@ -166,7 +176,7 @@ class Queue implements QueueInterface
             throw $e;
         }
         if ($widget->getCacheDuration() !== null) {
-            $this->app['cache']->save($key, $html, $widget->getCacheDuration());
+            $this->cache->save($key, $html, $widget->getCacheDuration());
         }
 
         return $html;
@@ -186,12 +196,12 @@ class Queue implements QueueInterface
             return $html;
         }
 
-        $javaScript = $this->app['render']->render('widgetjavascript.twig', [
+        $javaScript = $this->render->render('widgetjavascript.twig', [
             'widget' => $widget
         ]);
         $snippet = new Snippet(Target::AFTER_BODY_JS, (string) $javaScript);
         $this->deferAdded = true;
 
-        return $this->app['asset.injector']->inject($snippet, Target::AFTER_BODY_JS, $html);
+        return $this->injector->inject($snippet, Target::AFTER_BODY_JS, $html);
     }
 }
