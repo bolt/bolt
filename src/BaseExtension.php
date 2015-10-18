@@ -2,6 +2,7 @@
 namespace Bolt;
 
 use Bolt\Asset\Widget\Widget;
+use Bolt\Extensions\ExtensionAssetTrait;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
 use Bolt\Helpers\Arr;
@@ -15,6 +16,8 @@ use Symfony\Component\Yaml;
 
 abstract class BaseExtension implements ExtensionInterface
 {
+    use ExtensionAssetTrait;
+
     public $config;
 
     protected $app;
@@ -504,80 +507,6 @@ abstract class BaseExtension implements ExtensionInterface
     public function clearAssets()
     {
         return $this->app['asset.queue.file']->clear();
-    }
-
-    /**
-     * Add a javascript file to the rendered HTML.
-     *
-     * @param string $filename File name to add to src=""
-     * @param array  $options  'late'     - True to add to the end of the HTML <body>
-     *                         'priority' - Loading priority
-     *                         'attrib'   - Either 'defer', or 'async'
-     */
-    public function addJavascript($filename, $options = [])
-    {
-        // Handle pre-2.2 function parameters, namely $late and $priority
-        if (!is_array($options)) {
-            $args = func_get_args();
-
-            $options = [
-                'late'     => isset($args[1]) ? isset($args[1]) : false,
-                'priority' => isset($args[2]) ? isset($args[2]) : 0,
-            ];
-
-            $message = 'addJavascript() called with deprecated function parameters by ' . $this->getName();
-            $this->app['logger.system']->error($message, ['event' => 'deprecated']);
-        }
-
-        // check if the file exists.
-        if (file_exists($this->basepath . '/' . $filename)) {
-            // file is located relative to the current extension.
-            $this->app['asset.queue.file']->add('javascript', $this->getBaseUrl() . $filename, $options);
-        } elseif (file_exists($this->app['resources']->getPath('themepath/' . $filename))) {
-            // file is located relative to the theme path.
-            $this->app['asset.queue.file']->add('javascript', $this->app['resources']->getUrl('theme') . $filename, $options);
-        } else {
-            // Nope, can't add the CSS.
-            $message = "Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
-            $this->app['logger.system']->error($message, ['event' => 'extensions']);
-        }
-    }
-
-    /**
-     * Add a CSS file to the rendered HTML.
-     *
-     * @param string $filename File name to add to href=""
-     * @param array  $options  'late'     - True to add to the end of the HTML <body>
-     *                         'priority' - Loading priority
-     *                         'attrib'   - A string containing either/or 'defer', and 'async'
-     */
-    public function addCSS($filename, $options = [])
-    {
-        // Handle pre-2.2 function parameters, namely $late and $priority
-        if (!is_array($options)) {
-            $args = func_get_args();
-
-            $options = [
-                'late'     => isset($args[1]) ? isset($args[1]) : false,
-                'priority' => isset($args[2]) ? isset($args[2]) : 0,
-            ];
-
-            $message = 'addCSS() called with deprecated function parameters by ' . $this->getName();
-            $this->app['logger.system']->error($message, ['event' => 'deprecated']);
-        }
-
-        // Check if the file exists.
-        if (file_exists($this->basepath . '/' . $filename)) {
-            // File is located relative to the current extension.
-            $this->app['asset.queue.file']->add('stylesheet', $this->getBaseUrl() . $filename, $options);
-        } elseif (file_exists($this->app['resources']->getPath('themepath/' . $filename))) {
-            // File is located relative to the theme path.
-            $this->app['asset.queue.file']->add('stylesheet', $this->app['resources']->getUrl('theme') . $filename, $options);
-        } else {
-            // Nope, can't add the CSS.
-            $message = "Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
-            $this->app['logger.system']->error($message, ['event' => 'extensions']);
-        }
     }
 
     /**
