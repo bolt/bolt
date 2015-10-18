@@ -1,10 +1,15 @@
 <?php
 namespace Bolt\Asset\Snippet;
 
+use Bolt\Asset\Injector;
 use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Target;
+use Bolt\Config;
+use Bolt\Configuration\ResourceManager;
 use Bolt\Controller\Zone;
-use Silex\Application;
+use Doctrine\Common\Cache\CacheProvider;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Snippet queue processor.
@@ -18,20 +23,46 @@ class Queue implements QueueInterface
     protected $addJquery;
     /** @var Snippet[] Queue with snippets of HTML to insert. */
     protected $queue = [];
+    /** @var \Bolt\Asset\Injector */
+    protected $injector;
+    /** @var \Doctrine\Common\Cache\CacheProvider */
+    protected $cache;
+    /** @var \Bolt\Config */
+    protected $config;
+    /** @var \Bolt\Configuration\ResourceManager */
+    protected $resources;
+    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    protected $requestStack;
+    /** @var \Psr\Log\LoggerInterface */
+    protected $loggerSystem;
 
-    /** @var \Silex\Application */
-    private $app;
     /** @var array */
     private $matchedComments;
 
     /**
      * Constructor.
      *
-     * @param Application $app
+     * @param Injector        $injector
+     * @param CacheProvider   $cache
+     * @param Config          $config
+     * @param ResourceManager $resources
+     * @param RequestStack    $requestStack
+     * @param LoggerInterface $loggerSystem
      */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
+    public function __construct(
+        Injector $injector,
+        CacheProvider $cache,
+        Config $config,
+        ResourceManager $resources,
+        RequestStack $requestStack,
+        LoggerInterface $loggerSystem
+    ) {
+        $this->injector = $injector;
+        $this->cache = $cache;
+        $this->config = $config;
+        $this->resources = $resources;
+        $this->requestStack = $requestStack;
+        $this->loggerSystem = $loggerSystem;
     }
 
     /**
@@ -69,7 +100,7 @@ class Queue implements QueueInterface
 
         // Process the snippets in the queue.
         foreach ($this->queue as $key => $asset) {
-            $html = $this->app['asset.injector']->inject($asset, $asset->getLocation(), $html);
+            $html = $this->injector->inject($asset, $asset->getLocation(), $html);
             unset($this->queue[$key]);
         }
 
@@ -111,23 +142,21 @@ class Queue implements QueueInterface
      */
     protected function addJquery($html)
     {
-        if (!$this->app['config']->get('general/add_jquery', false) &&
-            !$this->app['config']->get('theme/add_jquery', false)) {
+        if (!$this->config->get('general/add_jquery', false) &&
+            !$this->config->get('theme/add_jquery', false)) {
             return $html;
         }
 
         $zone = Zone::FRONTEND;
-        /** @var RequestStack $requestStack */
-        $requestStack = $this->app['request_stack'];
-        if ($request = $requestStack->getCurrentRequest()) {
+        if ($request = $this->requestStack->getCurrentRequest()) {
             $zone = Zone::get($request);
         }
 
         $regex = '/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/';
         if ($zone === Zone::FRONTEND && !preg_match($regex, $html)) {
-            $jqueryfile = $this->app['resources']->getPath('app/view/js/jquery-2.1.4.min.js');
+            $jqueryfile = $this->resources->getPath('app/view/js/jquery-2.1.4.min.js');
             $asset = new Snippet(Target::BEFORE_JS, '<script src="' . $jqueryfile . '"></script>');
-            $html = $this->app['asset.injector']->inject($asset, $asset->getLocation(), $html);
+            $html = $this->injector->inject($asset, $asset->getLocation(), $html);
         }
 
         return $html;
@@ -156,9 +185,9 @@ class Queue implements QueueInterface
         }
 
         try {
-            $this->app['logger.system']->critical(sprintf('Snippet loading failed for %s with callable %s', $extensionName, serialize($callback)), ['context' => 'extensions']);
+            $this->loggerSystem->critical(sprintf('Snippet loading failed for %s with callable %s', $extensionName, serialize($callback)), ['context' => 'extensions']);
         } catch (\Exception $e) {
-            $this->app['logger.system']->critical(sprintf('Snippet loading failed for %s with an unknown callback.', $extensionName), ['context' => 'extensions']);
+            $this->loggerSystem->critical(sprintf('Snippet loading failed for %s with an unknown callback.', $extensionName), ['context' => 'extensions']);
         }
 
         return '';

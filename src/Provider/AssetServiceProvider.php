@@ -60,7 +60,14 @@ class AssetServiceProvider implements ServiceProviderInterface
 
         $app['asset.queue.snippet'] = $app->share(
             function ($app) {
-                $queue = new Asset\Snippet\Queue($app);
+                $queue = new Asset\Snippet\Queue(
+                    $app['asset.injector'],
+                    $app['cache'],
+                    $app['config'],
+                    $app['resources'],
+                    $app['request_stack'],
+                    $app['logger.system']
+                );
 
                 return $queue;
             }
