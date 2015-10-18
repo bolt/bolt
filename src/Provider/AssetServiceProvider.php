@@ -32,7 +32,7 @@ class AssetServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['asset.file.hash'] = $app->protect(function ($fileName) use ($app) {
+        $app['asset.file.hash.factory'] = $app->protect(function ($fileName) use ($app) {
             $fullPath = $app['resources']->getPath('root') . '/' . $fileName;
 
             if (is_readable($fullPath)) {
@@ -55,7 +55,7 @@ class AssetServiceProvider implements ServiceProviderInterface
                 $queue = new Asset\File\Queue(
                     $app['asset.injector'],
                     $app['cache'],
-                    $app['asset.file.hash']
+                    $app['asset.file.hash.factory']
                 );
 
                 return $queue;

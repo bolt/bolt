@@ -40,9 +40,9 @@ class HtmlHandler
         $fullPath = $this->app['resources']->getPath('root') . '/' . $fileName;
 
         if (is_readable($fullPath)) {
-            return "$fileName?v=" . $this->app['asset.file.hash']($fullPath);
+            return "$fileName?v=" . $this->app['asset.file.hash.factory']($fullPath);
         } elseif (is_readable($fileName)) {
-            return "$fileName?v=" . $this->app['asset.file.hash']($fileName);
+            return "$fileName?v=" . $this->app['asset.file.hash.factory']($fileName);
         }
     }
 
