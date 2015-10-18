@@ -1,9 +1,11 @@
 <?php
 namespace Bolt\Asset\File;
 
+use Bolt\Asset\Injector;
 use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Target;
-use Silex\Application;
+use Closure;
+use Doctrine\Common\Cache\CacheProvider;
 
 /**
  * File asset queue processor.
@@ -13,8 +15,13 @@ use Silex\Application;
  */
 class Queue implements QueueInterface
 {
-    /** @var \Silex\Application */
-    private $app;
+    /** @var \Bolt\Asset\Injector */
+    protected $injector;
+    /** @var \Doctrine\Common\Cache\CacheProvider */
+    protected $cache;
+    /** @var \Closure */
+    protected $fileHasher;
+
     /** @var FileAssetBase[] */
     private $stylesheet = [];
     /** @var FileAssetBase[] */
@@ -23,11 +30,15 @@ class Queue implements QueueInterface
     /**
      * Constructor.
      *
-     * @param Application $app
+     * @param Injector      $injector
+     * @param CacheProvider $cache
+     * @param Closure       $fileHasher
      */
-    public function __construct(Application $app)
+    public function __construct(Injector $injector, CacheProvider $cache, Closure $fileHasher)
     {
-        $this->app = $app;
+        $this->injector = $injector;
+        $this->cache = $cache;
+        $this->fileHasher = $fileHasher;
     }
 
     /**
@@ -41,7 +52,8 @@ class Queue implements QueueInterface
      */
     public function add($type, $fileName, array $options = [])
     {
-        $cacheHash = $this->app['asset.file.hash']($fileName);
+        $fileHasher = $this->fileHasher;
+        $cacheHash = $fileHasher($fileName);
 
         if ($type === 'javascript') {
             $this->javascript[$cacheHash] = new JavaScript($fileName, $cacheHash, $options);
@@ -103,9 +115,9 @@ class Queue implements QueueInterface
     protected function processCssAssets(FileAssetBase $asset, $html)
     {
         if ($asset->isLate()) {
-            return $this->app['asset.injector']->inject($asset, Target::END_OF_BODY, $html);
+            return $this->injector->inject($asset, Target::END_OF_BODY, $html);
         } else {
-            return $this->app['asset.injector']->inject($asset, Target::BEFORE_CSS, $html);
+            return $this->injector->inject($asset, Target::BEFORE_CSS, $html);
         }
     }
 
@@ -120,9 +132,9 @@ class Queue implements QueueInterface
     protected function processJsAssets(FileAssetBase $asset, $html)
     {
         if ($asset->isLate()) {
-            return $this->app['asset.injector']->inject($asset, Target::END_OF_BODY, $html);
+            return $this->injector->inject($asset, Target::END_OF_BODY, $html);
         } else {
-            return $this->app['asset.injector']->inject($asset, Target::AFTER_JS, $html);
+            return $this->injector->inject($asset, Target::AFTER_JS, $html);
         }
     }
 

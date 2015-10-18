@@ -52,7 +52,11 @@ class AssetServiceProvider implements ServiceProviderInterface
 
         $app['asset.queue.file'] = $app->share(
             function ($app) {
-                $queue = new Asset\File\Queue($app);
+                $queue = new Asset\File\Queue(
+                    $app['asset.injector'],
+                    $app['cache'],
+                    $app['asset.file.hash']
+                );
 
                 return $queue;
             }
