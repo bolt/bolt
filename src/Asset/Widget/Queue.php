@@ -19,6 +19,8 @@ class Queue implements QueueInterface
 
     /** @var \Silex\Application */
     private $app;
+    /** @var boolean */
+    private $deferAdded;
 
     /**
      * Constructor.
@@ -55,7 +57,7 @@ class Queue implements QueueInterface
     {
         // Process the widgets in the queue.
         foreach ($this->queue as $widget) {
-            if ($widget->getType() === 'frontend' && $widget->getDefer()) {
+            if ($widget->getType() === 'frontend' && $widget->isDeferred()) {
                 $html = $this->addDeferredJavaScript($widget, $html);
             }
         }
@@ -131,10 +133,15 @@ class Queue implements QueueInterface
      */
     protected function addDeferredJavaScript(Widget $widget, $html)
     {
+        if ($this->deferAdded) {
+            return $html;
+        }
+
         $javaScript = $this->app['render']->render('widgetjavascript.twig', [
             'widget' => $widget
         ]);
         $snippet = new Snippet(Target::AFTER_BODY_JS, (string) $javaScript);
+        $this->deferAdded = true;
 
         return $this->app['asset.injector']->inject($snippet, Target::AFTER_BODY_JS, $html);
     }
