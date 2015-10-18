@@ -31,10 +31,10 @@ trait ExtensionAssetTrait
                 $options = $this->getCompatibleArgs(func_get_args());
             }
             $fileName = $this->getAssetPath($fileName);
-            $stylesheet = $this->setupAsset(new Stylesheet(), $fileName, $options);
+            $fileName = $this->setupAsset(new Stylesheet(), $fileName, $options);
         }
 
-        $this->app['asset.queue.file']->add($stylesheet);
+        $this->app['asset.queue.file']->add($fileName);
     }
 
     /**
@@ -55,9 +55,9 @@ trait ExtensionAssetTrait
                 $options = $this->getCompatibleArgs(func_get_args());
             }
             $fileName = $this->getAssetPath($fileName);
-            $javaScript = $this->setupAsset(new JavaScript(), $fileName, $options);
+            $fileName = $this->setupAsset(new JavaScript(), $fileName, $options);
         }
-        $this->app['asset.queue.file']->add($javaScript);
+        $this->app['asset.queue.file']->add($fileName);
     }
 
     /**
