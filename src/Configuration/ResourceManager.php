@@ -366,10 +366,15 @@ class ResourceManager
         $this->setRequest('hostname', $hostname);
         $current = $request->getBasePath() . $request->getPathInfo();
         $this->setUrl('current', $current);
-        $this->setUrl('canonicalurl', sprintf('%s%s', $this->getRequest('canonical'), $current));
         $this->setUrl('currenturl', sprintf('%s://%s%s', $protocol, $hostname, $current));
         $this->setUrl('hosturl', sprintf('%s://%s', $protocol, $hostname));
         $this->setUrl('rooturl', sprintf('%s%s/', $this->getRequest('canonical'), $rootUrl));
+
+        $url = sprintf('%s%s', $this->getRequest('canonical'), $current);
+        if ($this->isPagingRequest($request)) {
+            $url .= '?' . http_build_query($request->query->all());
+        }
+        $this->setUrl('canonicalurl', $url);
     }
 
     /**
@@ -532,5 +537,18 @@ class ResourceManager
         $relative = $filesystem->makePathRelative($topath, $frompath);
 
         return $relative;
+    }
+
+    /**
+     * Checks if current request has pager parameters
+     *
+     * @return bool
+     */
+    private function isPagingRequest(Request $request)
+    {
+        $matches = [];
+        $found = preg_match('/page_[A-Za-z0-9_]+=\d+/', $request->getRequestUri(), $matches);
+
+        return (bool) $found;
     }
 }
