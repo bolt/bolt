@@ -103,7 +103,7 @@ class Queue implements QueueInterface
         // $this->matchedComments array
         $html = preg_replace_callback('/<!--(.*)-->/Uis', [$this, 'pregCallback'], $html);
 
-        // Process the snippets in the queue.
+        /** @var Snippet $asset */
         foreach ($this->queue as $key => $asset) {
             $html = $this->injector->inject($asset, $asset->getLocation(), $html);
             unset($this->queue[$key]);

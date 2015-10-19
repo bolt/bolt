@@ -25,9 +25,9 @@ class Queue implements QueueInterface
     /** @var \Closure */
     protected $fileHasher;
 
-    /** @var FileAssetBase[] */
+    /** @var FileAssetInterface[] */
     private $stylesheet = [];
-    /** @var FileAssetBase[] */
+    /** @var FileAssetInterface[] */
     private $javascript = [];
 
     /**
@@ -73,11 +73,13 @@ class Queue implements QueueInterface
      */
     public function process($html)
     {
+        /** @var FileAssetInterface $asset */
         foreach ($this->sort($this->javascript) as $key => $asset) {
             $html = $this->processJsAssets($asset, $html);
             unset($this->javascript[$key]);
         }
 
+        /** @var FileAssetInterface $asset */
         foreach ($this->sort($this->stylesheet) as $key => $asset) {
             $html = $this->processCssAssets($asset, $html);
             unset($this->stylesheet[$key]);
@@ -109,12 +111,12 @@ class Queue implements QueueInterface
     /**
      * Process the CSS asset queue.
      *
-     * @param FileAssetBase $asset
-     * @param string        $html
+     * @param FileAssetInterface $asset
+     * @param string             $html
      *
      * @return string
      */
-    protected function processCssAssets(FileAssetBase $asset, $html)
+    protected function processCssAssets(FileAssetInterface $asset, $html)
     {
         if ($asset->isLate()) {
             return $this->injector->inject($asset, Target::END_OF_BODY, $html);
@@ -126,12 +128,12 @@ class Queue implements QueueInterface
     /**
      * Process the JavaScript asset queue.
      *
-     * @param FileAssetBase $asset
-     * @param string        $html
+     * @param FileAssetInterface $asset
+     * @param string             $html
      *
      * @return string
      */
-    protected function processJsAssets(FileAssetBase $asset, $html)
+    protected function processJsAssets(FileAssetInterface $asset, $html)
     {
         if ($asset->isLate()) {
             return $this->injector->inject($asset, Target::END_OF_BODY, $html);
