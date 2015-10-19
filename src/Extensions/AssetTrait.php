@@ -24,47 +24,28 @@ trait AssetTrait
      * Add a particular CSS file to the output. This will be inserted before the
      * other css files.
      *
-     * @param FileAssetInterface|string $fileName File name to add to href=""
-     * @param array                     $options  Options:
-     *                                            'late'     - True to add to the end of the HTML <body>
-     *                                            'priority' - Loading priority
-     *                                            'attrib'   - A string containing either/or 'defer', and 'async'
+     * @param FileAssetInterface|string $fileAsset Asset object, or file name
      */
-    public function addCss($fileName, $options = [])
+    public function addCss($fileAsset, $options = [])
     {
-        if (!$fileName instanceof FileAssetInterface) {
-            // Handle pre-2.2 function parameters, namely $late and $priority
-            if (!is_array($options)) {
-                $options = $this->getCompatibleArgs(func_get_args());
-            }
-            $fileName = $this->getAssetPath($fileName);
-            $fileName = $this->setupAsset(new Stylesheet(), $fileName, $options);
+        if (!$fileAsset instanceof FileAssetInterface) {
+            $fileAsset = $this->setupAsset(new Stylesheet(), $fileAsset, func_get_args());
         }
-
-        $this->getApp()['asset.queue.file']->add($fileName);
+        $this->getApp()['asset.queue.file']->add($fileAsset);
     }
 
     /**
      * Add a particular javascript file to the output. This will be inserted after
      * the other javascript files.
      *
-     * @param FileAssetInterface|string $fileName File name to add to src=""
-     * @param array                     $options  Options:
-     *                                            'late'     - True to add to the end of the HTML <body>
-     *                                            'priority' - Loading priority
-     *                                            'attrib'   - A string containing either/or 'defer', and 'async'
+     * @param FileAssetInterface|string $fileAsset File name
      */
-    public function addJavascript($fileName, $options = [])
+    public function addJavascript($fileAsset, $options = [])
     {
-        if (!$fileName instanceof FileAssetInterface) {
-            // Handle pre-2.2 function parameters, namely $late and $priority
-            if (!is_array($options)) {
-                $options = $this->getCompatibleArgs(func_get_args());
-            }
-            $fileName = $this->getAssetPath($fileName);
-            $fileName = $this->setupAsset(new JavaScript(), $fileName, $options);
+        if (!$fileAsset instanceof FileAssetInterface) {
+            $fileAsset = $this->setupAsset(new JavaScript(), $fileAsset, func_get_args());
         }
-        $this->getApp()['asset.queue.file']->add($fileName);
+        $this->getApp()['asset.queue.file']->add($fileAsset);
     }
 
     /**
@@ -102,14 +83,16 @@ trait AssetTrait
      */
     private function setupAsset(FileAssetInterface $asset, $fileName, array $options)
     {
+        $fileName = $this->getAssetPath($fileName);
         $options = array_merge(
             [
                 'late'     => false,
                 'priority' => 0,
                 'attrib'   => null,
             ],
-            $options
+            $this->getCompatibleArgs($options)
         );
+
         $asset
             ->setFileName($fileName)
             ->setLate($options['late'])
@@ -120,7 +103,19 @@ trait AssetTrait
     }
 
     /**
-     * Get options that are compatible with Bolt 2.2.x function signature.
+     * Get options that are compatible with Bolt 2.1 & 2.2 function signatures.
+     * < 2.2 ($filename, $late = false, $priority = 0)
+     * 2.2.x ($filename, $options = [])
+     *
+     * Where options were:
+     *   'late'     - True to add to the end of the HTML <body>
+     *   'priority' - Loading priority
+     *   'attrib'   - A string containing either/or 'defer', and 'async'
+     *
+     * Passed in $args array can be:
+     * - args[0] always the file name
+     * - args[1] either $late     or $options[]
+     * - args[2] either $priority or not set
      *
      * @param array $args
      *
@@ -128,10 +123,14 @@ trait AssetTrait
      */
     private function getCompatibleArgs(array $args)
     {
-        return [
-            'late'     => isset($args[1]) ? isset($args[1]) : false,
-            'priority' => isset($args[2]) ? isset($args[2]) : 0,
-            'attrib'   => false
-        ];
+        if (!is_array($args[1])) {
+            return [
+                'late'     => isset($args[1]) ? $args[1] : false,
+                'priority' => isset($args[2]) ? $args[2] : 0,
+                'attrib'   => false
+            ];
+        }
+
+        return $args[1];
     }
 }
