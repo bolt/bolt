@@ -4,7 +4,7 @@ namespace Bolt;
 
 use Bolt;
 use Bolt\Extensions\AssetTrait;
-use Bolt\Extensions\ExtensionsDeprecatedTrait;
+use Bolt\Extensions\DeprecatedFunctionsTrait;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
@@ -16,7 +16,7 @@ use Symfony\Component\Finder\Finder;
 class Extensions
 {
     use AssetTrait;
-    use ExtensionsDeprecatedTrait;
+    use DeprecatedFunctionsTrait;
 
     /** @var \Silex\Application */
     private $app;

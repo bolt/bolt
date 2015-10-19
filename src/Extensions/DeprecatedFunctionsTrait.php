@@ -12,7 +12,7 @@ use Bolt\Asset\Target;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-trait ExtensionsDeprecatedTrait
+trait DeprecatedFunctionsTrait
 {
     /**
      * Add jQuery to the output.
