@@ -1,5 +1,7 @@
 {% import '@bolt/_macro/_panels.twig' as panels %}
 
+{{ widget('backend', 'editcontent_aside_top') }}
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-cog fa-fw"></i> {{ __('contenttypes.generic.actions-one',{'%contenttype%': context.contenttype.slug}) }}
@@ -16,8 +18,12 @@
     </div>
 </div>
 
+{{ widget('backend', 'editcontent_aside_middle') }}
+
 {{ panels.changes(context.contenttype.slug, context.content.id|default(null)) }}
 
 {{ panels.lastmodified(context.contenttype.slug, context.content.id) }}
 
 {{ panels.stack(5) }}
+
+{{ widget('backend', 'editcontent_aside_bottom') }}

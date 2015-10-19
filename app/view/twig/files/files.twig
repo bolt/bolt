@@ -29,6 +29,8 @@
 
             {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
 
+            {{ widget('backend', 'files_below_header') }}
+
             {% if context.folders|length > 0 %}
                 {% include '@bolt/files/_folders.twig' %}
             {% endif %}
@@ -60,6 +62,8 @@
             {% else %}
                 <p><i class="fa fa-fw fa-exclamation-sign"></i> {{ __('Uploading to this folder is not allowed.') }}</p>
             {% endif %}
+
+            {{ widget('backend', 'files_bottom') }}
 
         </div>
     </div>
