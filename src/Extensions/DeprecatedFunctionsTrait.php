@@ -14,6 +14,9 @@ use Bolt\Asset\Target;
  */
 trait DeprecatedFunctionsTrait
 {
+    /** @return \Silex\Application */
+    abstract public function getApp();
+
     /**
      * Add jQuery to the output.
      *
@@ -21,7 +24,7 @@ trait DeprecatedFunctionsTrait
      */
     public function addJquery()
     {
-        $this->app['config']->set('general/add_jquery', true);
+        $this->getApp()['config']->set('general/add_jquery', true);
     }
 
     /**
@@ -31,7 +34,7 @@ trait DeprecatedFunctionsTrait
      */
     public function disableJquery()
     {
-        $this->app['config']->set('general/add_jquery', false);
+        $this->getApp()['config']->set('general/add_jquery', false);
     }
 
     /**
@@ -44,7 +47,7 @@ trait DeprecatedFunctionsTrait
      */
     public function getAssets()
     {
-        $files = $this->app['asset.queue.file']->getQueue();
+        $files = $this->getApp()['asset.queue.file']->getQueue();
         $assets = [
             'css' => [],
             'js'  => []
@@ -86,7 +89,7 @@ trait DeprecatedFunctionsTrait
      */
     public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = [])
     {
-        $this->app['asset.queue.snippet']->add($location, $callback, $extensionname, (array) $extraparameters);
+        $this->getApp()['asset.queue.snippet']->add($location, $callback, $extensionname, (array) $extraparameters);
     }
 
     /**
@@ -94,7 +97,7 @@ trait DeprecatedFunctionsTrait
      */
     public function clearSnippetQueue()
     {
-        $this->app['asset.queue.snippet']->clear();
+        $this->getApp()['asset.queue.snippet']->clear();
     }
 
     /**
@@ -102,7 +105,7 @@ trait DeprecatedFunctionsTrait
      */
     public function processSnippetQueue($html)
     {
-        return $this->app['asset.queue.snippet']->process($html);
+        return $this->getApp()['asset.queue.snippet']->process($html);
     }
 
     /**
@@ -110,7 +113,7 @@ trait DeprecatedFunctionsTrait
      */
     public function processAssets($html)
     {
-        return $this->app['asset.queue.file']->process($html);
+        return $this->getApp()['asset.queue.file']->process($html);
     }
 
     /**
@@ -118,7 +121,7 @@ trait DeprecatedFunctionsTrait
      */
     public function insertStartOfHead($tag, $html)
     {
-        return $this->app['asset.injector']->inject($tag, Target::START_OF_HEAD, $html);
+        return $this->getApp()['asset.injector']->inject($tag, Target::START_OF_HEAD, $html);
     }
 
     /**
@@ -126,7 +129,7 @@ trait DeprecatedFunctionsTrait
      */
     public function insertStartOfBody($tag, $html)
     {
-        return $this->app['asset.injector']->inject($tag, Target::START_OF_BODY, $html);
+        return $this->getApp()['asset.injector']->inject($tag, Target::START_OF_BODY, $html);
     }
 
     /**
@@ -134,7 +137,7 @@ trait DeprecatedFunctionsTrait
      */
     public function insertEndOfHead($tag, $html)
     {
-        return $this->app['asset.injector']->inject($tag, Target::END_OF_HEAD, $html);
+        return $this->getApp()['asset.injector']->inject($tag, Target::END_OF_HEAD, $html);
     }
 
     /**
@@ -142,7 +145,7 @@ trait DeprecatedFunctionsTrait
      */
     public function insertEndOfBody($tag, $html)
     {
-        return $this->app['asset.injector']->inject($tag, Target::END_OF_BODY, $html);
+        return $this->getApp()['asset.injector']->inject($tag, Target::END_OF_BODY, $html);
     }
 
     /**
@@ -150,7 +153,7 @@ trait DeprecatedFunctionsTrait
      */
     public function insertEndOfHtml($tag, $html)
     {
-        return $this->app['asset.injector']->inject($tag, Target::END_OF_HTML, $html);
+        return $this->getApp()['asset.injector']->inject($tag, Target::END_OF_HTML, $html);
     }
 
     /**
@@ -158,7 +161,7 @@ trait DeprecatedFunctionsTrait
      */
     public function insertAfterMeta($tag, $html)
     {
-        return $this->app['asset.injector']->inject($tag, Target::AFTER_META, $html);
+        return $this->getApp()['asset.injector']->inject($tag, Target::AFTER_META, $html);
     }
 
     /**
@@ -166,7 +169,7 @@ trait DeprecatedFunctionsTrait
      */
     public function insertAfterCss($tag, $html)
     {
-        return $this->app['asset.injector']->inject($tag, Target::AFTER_CSS, $html);
+        return $this->getApp()['asset.injector']->inject($tag, Target::AFTER_CSS, $html);
     }
 
     /**
@@ -174,7 +177,7 @@ trait DeprecatedFunctionsTrait
      */
     public function insertBeforeCss($tag, $html)
     {
-        return $this->app['asset.injector']->inject($tag, Target::BEFORE_CSS, $html);
+        return $this->getApp()['asset.injector']->inject($tag, Target::BEFORE_CSS, $html);
     }
 
     /**
@@ -182,7 +185,7 @@ trait DeprecatedFunctionsTrait
      */
     public function insertBeforeJS($tag, $html)
     {
-        return $this->app['asset.injector']->inject($tag, Target::BEFORE_JS, $html);
+        return $this->getApp()['asset.injector']->inject($tag, Target::BEFORE_JS, $html);
     }
 
     /**
@@ -190,6 +193,6 @@ trait DeprecatedFunctionsTrait
      */
     public function insertAfterJs($tag, $html, $insidehead = true)
     {
-        return $this->app['asset.injector']->inject($tag, Target::AFTER_JS, $html, $insidehead);
+        return $this->getApp()['asset.injector']->inject($tag, Target::AFTER_JS, $html, $insidehead);
     }
 }

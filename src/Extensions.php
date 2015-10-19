@@ -50,6 +50,14 @@ class Extensions
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    /**
      * Autoloads all registered extension files with an instance of the app.
      *
      * @return void

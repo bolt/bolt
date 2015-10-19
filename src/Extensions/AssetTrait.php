@@ -13,6 +13,9 @@ use Bolt\Asset\File\Stylesheet;
  */
 trait AssetTrait
 {
+    /** @return \Silex\Application */
+    abstract public function getApp();
+    /** @return string */
     abstract public function getBaseUrl();
     /** @return string */
     abstract public function getBasePath();
@@ -38,7 +41,7 @@ trait AssetTrait
             $fileName = $this->setupAsset(new Stylesheet(), $fileName, $options);
         }
 
-        $this->app['asset.queue.file']->add($fileName);
+        $this->getApp()['asset.queue.file']->add($fileName);
     }
 
     /**
@@ -61,7 +64,7 @@ trait AssetTrait
             $fileName = $this->getAssetPath($fileName);
             $fileName = $this->setupAsset(new JavaScript(), $fileName, $options);
         }
-        $this->app['asset.queue.file']->add($fileName);
+        $this->getApp()['asset.queue.file']->add($fileName);
     }
 
     /**
@@ -75,8 +78,8 @@ trait AssetTrait
     {
         if (file_exists($this->getBasePath() . '/' . $fileName)) {
             return $this->getBaseUrl() . $fileName;
-        } elseif (file_exists($this->app['resources']->getPath('themepath/' . $fileName))) {
-            return $this->app['resources']->getUrl('theme') . $fileName;
+        } elseif (file_exists($this->getApp()['resources']->getPath('themepath/' . $fileName))) {
+            return $this->getApp()['resources']->getUrl('theme') . $fileName;
         } elseif ($this instanceof \Bolt\Extensions) {
             return $fileName;
         } else {
@@ -84,9 +87,9 @@ trait AssetTrait
                 "Couldn't add file asset '%s': File does not exist in either %s or %s directories.",
                 $fileName,
                 $this->getBaseUrl(),
-                $this->app['resources']->getUrl('theme')
+                $this->getApp()['resources']->getUrl('theme')
             );
-            $this->app['logger.system']->error($message, ['event' => 'extensions']);
+            $this->getApp()['logger.system']->error($message, ['event' => 'extensions']);
         }
     }
 

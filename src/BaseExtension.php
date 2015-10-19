@@ -57,6 +57,14 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    /**
      * Set the 'basepath' and the 'namespace' for the extension. We can't use
      * __DIR__, because that would give us the base path for BaseExtension.php
      * (the file you're looking at), rather than the base path for the actual,
