@@ -1,8 +1,15 @@
-theme.widgetholder {
-    padding: 8px 0;
+.widgetholder {
+    border: 1px dashed #F00;
+    padding: 0 0 8px 0;
 }
 
 .widget {
+    border: 1px dashed #33F;
+
+    .panel {
+        margin-bottom: 12px;
+    }
+
 }
 
 .widget-inline {
