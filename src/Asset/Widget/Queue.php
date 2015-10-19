@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Asset\Widget;
 
 use Bolt\Asset\AssetSortTrait;
@@ -19,7 +20,7 @@ class Queue implements QueueInterface
 {
     use AssetSortTrait;
 
-    /** @var Widget[] Queue with snippets of HTML to insert. */
+    /** @var WidgetAssetInterface[] Queue with snippets of HTML to insert. */
     protected $queue = [];
     /** @var \Bolt\Asset\Injector */
     protected $injector;
@@ -48,9 +49,9 @@ class Queue implements QueueInterface
     /**
      * Add a wiget to the queue.
      *
-     * @param Widget $widget
+     * @param WidgetAssetInterface $widget
      */
-    public function add(Widget $widget)
+    public function add(WidgetAssetInterface $widget)
     {
         $widget->setKey();
         $this->queue[$widget->getKey()] = $widget;
@@ -61,7 +62,7 @@ class Queue implements QueueInterface
      *
      * @param string $key
      *
-     * @return Widget
+     * @return WidgetAssetInterface
      */
     public function get($key)
     {
@@ -106,7 +107,7 @@ class Queue implements QueueInterface
     /**
      * Get the queued widgets.
      *
-     * @return \Bolt\Asset\Widget\Widget[]
+     * @return WidgetAssetInterface[]
      */
     public function getQueue()
     {
@@ -136,11 +137,11 @@ class Queue implements QueueInterface
     /**
      * Add a widget holder, empty if deferred.
      *
-     * @param Widget $widget
+     * @param WidgetAssetInterface $widget
      *
      * @return \Twig_Markup
      */
-    protected function addWidgetHolder(Widget $widget)
+    protected function addWidgetHolder(WidgetAssetInterface $widget)
     {
         return $this->render->render('widgetholder.twig', [
             'widget' => $widget,
@@ -151,13 +152,13 @@ class Queue implements QueueInterface
     /**
      * Get the HTML content from the widget.
      *
-     * @param Widget $widget
+     * @param WidgetAssetInterface $widget
      *
      * @throws \Exception
      *
      * @return string
      */
-    protected function getHtml(Widget $widget)
+    protected function getHtml(WidgetAssetInterface $widget)
     {
         $key = 'widget_' . $widget->getKey();
         if ($html = $this->cache->fetch($key)) {
@@ -187,12 +188,12 @@ class Queue implements QueueInterface
     /**
      * Insert a snippet of Javascript to fetch the actual widget's contents.
      *
-     * @param Widget $widget
-     * @param string $html
+     * @param WidgetAssetInterface $widget
+     * @param string               $html
      *
      * @return string
      */
-    protected function addDeferredJavaScript(Widget $widget, $html)
+    protected function addDeferredJavaScript(WidgetAssetInterface $widget, $html)
     {
         if ($this->deferAdded) {
             return $html;

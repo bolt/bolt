@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Asset\Widget;
 
-use Bolt\Asset\AssetInterface;
 use Bolt\Asset\CallableInvokerTrait;
 
 /**
@@ -10,7 +9,7 @@ use Bolt\Asset\CallableInvokerTrait;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Bob den Otter <bob@twokings.nl>
  */
-class Widget implements AssetInterface, \ArrayAccess
+class Widget implements WidgetAssetInterface
 {
     use CallableInvokerTrait;
 
@@ -63,7 +62,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getKey()
     {
@@ -71,11 +70,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Set the widget (semi-) unique key.
-     *
-     * @internal
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setKey()
     {
@@ -87,7 +82,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getType()
     {
@@ -95,11 +90,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Set the widget type, either 'frontend' or 'backend'.
-     *
-     * @param string $type
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setType($type)
     {
@@ -109,7 +100,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getLocation()
     {
@@ -117,11 +108,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Target locational element.
-     *
-     * @param string $location
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setLocation($location)
     {
@@ -131,7 +118,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * callable|null
+     * {@inheritdoc}
      */
     public function getCallback()
     {
@@ -139,11 +126,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Callback function name.
-     *
-     * @param callable $callback
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setCallback(callable $callback)
     {
@@ -153,7 +136,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * @return array|null
+     * {@inheritdoc}
      */
     public function getCallbackArguments()
     {
@@ -161,11 +144,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Arguments to pass to callback.
-     *
-     * @param array $callbackArguments
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setCallbackArguments(array $callbackArguments)
     {
@@ -175,9 +154,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Get the content for the widget.
-     *
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getContent()
     {
@@ -185,11 +162,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Raw HTML content to inject.
-     *
-     * @param string $content
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setContent($content)
     {
@@ -199,7 +172,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getClass()
     {
@@ -207,11 +180,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * CSS class(es) to use.
-     *
-     * @param string $class
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setClass($class)
     {
@@ -221,7 +190,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getPrefix()
     {
@@ -229,11 +198,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * HTML to add before the widget.
-     *
-     * @param string $prefix
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setPrefix($prefix)
     {
@@ -243,7 +208,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * @return string|null
+     * {@inheritdoc}
      */
     public function getPostfix()
     {
@@ -251,11 +216,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * HTML to add after the widget.
-     *
-     * @param string $postfix
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setPostfix($postfix)
     {
@@ -265,7 +226,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isDeferred()
     {
@@ -273,12 +234,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Setting to 'true' means rendering of the widget is done in a separate
-     * request.
-     *
-     * @param boolean $defer
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setDefer($defer)
     {
@@ -288,7 +244,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * @return integer
+     * {@inheritdoc}
      */
     public function getPriority()
     {
@@ -296,11 +252,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Priority in the render queue.
-     *
-     * @param integer $priority
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setPriority($priority)
     {
@@ -310,7 +262,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * @return integer
+     * {@inheritdoc}
      */
     public function getCacheDuration()
     {
@@ -318,11 +270,7 @@ class Widget implements AssetInterface, \ArrayAccess
     }
 
     /**
-     * Number of seconds to cache the widget.
-     *
-     * @param integer $cacheDuration
-     *
-     * @return Widget
+     * {@inheritdoc}
      */
     public function setCacheDuration($cacheDuration)
     {
