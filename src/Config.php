@@ -161,8 +161,8 @@ class Config
      * For example:
      * $var = $config->get('general/wysiwyg/ck/contentsCss');
      *
-     * @param string       $path
-     * @param string|array $default
+     * @param string               $path
+     * @param string|array|boolean $default
      *
      * @return mixed
      */
