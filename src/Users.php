@@ -5,6 +5,7 @@ namespace Bolt;
 use Bolt\AccessControl\Permissions;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -219,7 +220,11 @@ class Users
      */
     public function getUsers()
     {
-        if (empty($this->users)) {
+        if (!empty($this->users)) {
+            return $this->users;
+        }
+
+        try {
             if (!$tempusers = $this->repository->findAll()) {
                 return [];
             }
@@ -230,6 +235,8 @@ class Users
                 $userEntity->setPassword('**dontchange**');
                 $this->users[$id] = $userEntity->toArray();
             }
+        } catch (TableNotFoundException $e) {
+            return [];
         }
 
         return $this->users;
@@ -265,10 +272,14 @@ class Users
         }
 
         // Fallback: See if we can get it by username or email address.
-        if ($userEntity = $this->repository->getUser($userId)) {
-            $userEntity->setPassword('**dontchange**');
+        try {
+            if ($userEntity = $this->repository->getUser($userId)) {
+                $userEntity->setPassword('**dontchange**');
 
-            return $userEntity->toArray();
+                return $userEntity->toArray();
+            }
+        } catch (TableNotFoundException $e) {
+            return false;
         }
 
         return false;
