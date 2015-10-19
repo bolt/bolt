@@ -2,12 +2,14 @@
 
 namespace Bolt\Asset\File;
 
+use Bolt\Asset\AssetInterface;
+
 /**
  * File asset interface.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-interface FileAssetInterface
+interface FileAssetInterface extends AssetInterface
 {
     /**
      * Get the asset's type.

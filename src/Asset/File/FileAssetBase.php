@@ -1,14 +1,12 @@
 <?php
 namespace Bolt\Asset\File;
 
-use Bolt\Asset\AssetInterface;
-
 /**
  * File asset base class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-abstract class FileAssetBase implements AssetInterface, FileAssetInterface
+abstract class FileAssetBase implements FileAssetInterface
 {
     /** @var string */
     protected $type;
