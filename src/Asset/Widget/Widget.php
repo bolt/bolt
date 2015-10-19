@@ -192,7 +192,7 @@ class Widget implements WidgetAssetInterface
             return $this;
         }
 
-        if (substr($class, 0, 6) != 'widget-') {
+        if (substr($class, 0, 7) != 'widget-') {
             $class = 'widget-' . $class;
         }
 
