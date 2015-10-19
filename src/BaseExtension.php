@@ -1,6 +1,8 @@
 <?php
 namespace Bolt;
 
+use Bolt\Asset\Widget\Widget;
+use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
 use Bolt\Helpers\Arr;
@@ -14,6 +16,8 @@ use Symfony\Component\Yaml;
 
 abstract class BaseExtension implements ExtensionInterface
 {
+    use AssetTrait;
+
     public $config;
 
     protected $app;
@@ -53,6 +57,14 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    /**
      * Set the 'basepath' and the 'namespace' for the extension. We can't use
      * __DIR__, because that would give us the base path for BaseExtension.php
      * (the file you're looking at), rather than the base path for the actual,
@@ -87,9 +99,9 @@ abstract class BaseExtension implements ExtensionInterface
      */
     public function getBaseUrl()
     {
-        $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
+        $relative = str_replace($this->app['resources']->getPath('extensions'), '', $this->basepath);
 
-        return $this->app['resources']->getUrl('extensions') . ltrim($relative, "/") . "/";
+        return $this->app['resources']->getUrl('extensions') . ltrim($relative, '/') . '/';
     }
 
     /**
@@ -506,80 +518,6 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Add a javascript file to the rendered HTML.
-     *
-     * @param string $filename File name to add to src=""
-     * @param array  $options  'late'     - True to add to the end of the HTML <body>
-     *                         'priority' - Loading priority
-     *                         'attrib'   - Either 'defer', or 'async'
-     */
-    public function addJavascript($filename, $options = [])
-    {
-        // Handle pre-2.2 function parameters, namely $late and $priority
-        if (!is_array($options)) {
-            $args = func_get_args();
-
-            $options = [
-                'late'     => isset($args[1]) ? isset($args[1]) : false,
-                'priority' => isset($args[2]) ? isset($args[2]) : 0,
-            ];
-
-            $message = 'addJavascript() called with deprecated function parameters by ' . $this->getName();
-            $this->app['logger.system']->error($message, ['event' => 'deprecated']);
-        }
-
-        // check if the file exists.
-        if (file_exists($this->basepath . '/' . $filename)) {
-            // file is located relative to the current extension.
-            $this->app['asset.queue.file']->add('javascript', $this->getBaseUrl() . $filename, $options);
-        } elseif (file_exists($this->app['resources']->getPath('themepath/' . $filename))) {
-            // file is located relative to the theme path.
-            $this->app['asset.queue.file']->add('javascript', $this->app['resources']->getUrl('theme') . $filename, $options);
-        } else {
-            // Nope, can't add the CSS.
-            $message = "Couldn't add Javascript '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
-            $this->app['logger.system']->error($message, ['event' => 'extensions']);
-        }
-    }
-
-    /**
-     * Add a CSS file to the rendered HTML.
-     *
-     * @param string $filename File name to add to href=""
-     * @param array  $options  'late'     - True to add to the end of the HTML <body>
-     *                         'priority' - Loading priority
-     *                         'attrib'   - A string containing either/or 'defer', and 'async'
-     */
-    public function addCSS($filename, $options = [])
-    {
-        // Handle pre-2.2 function parameters, namely $late and $priority
-        if (!is_array($options)) {
-            $args = func_get_args();
-
-            $options = [
-                'late'     => isset($args[1]) ? isset($args[1]) : false,
-                'priority' => isset($args[2]) ? isset($args[2]) : 0,
-            ];
-
-            $message = 'addCSS() called with deprecated function parameters by ' . $this->getName();
-            $this->app['logger.system']->error($message, ['event' => 'deprecated']);
-        }
-
-        // Check if the file exists.
-        if (file_exists($this->basepath . '/' . $filename)) {
-            // File is located relative to the current extension.
-            $this->app['asset.queue.file']->add('stylesheet', $this->getBaseUrl() . $filename, $options);
-        } elseif (file_exists($this->app['resources']->getPath('themepath/' . $filename))) {
-            // File is located relative to the theme path.
-            $this->app['asset.queue.file']->add('stylesheet', $this->app['resources']->getUrl('theme') . $filename, $options);
-        } else {
-            // Nope, can't add the CSS.
-            $message = "Couldn't add CSS '$filename': File does not exist in '" . $this->getBaseUrl() . "'.";
-            $this->app['logger.system']->error($message, ['event' => 'extensions']);
-        }
-    }
-
-    /**
      * Add a menu option to the 'settings' menu. Note that the item is only added if the current user
      * meets the required permission.
      *
@@ -637,23 +575,16 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Add/Insert a Widget (for instance, on the dashboard).
+     * Add a Widget to the render queue.
      *
-     * @param string $type
-     * @param string $location
-     * @param mixed  $callback
-     * @param string $additionalhtml
-     * @param bool   $defer
-     * @param int    $cacheduration
-     * @param string $var1
-     * @param string $var2
-     * @param string $var3
-     *
-     * @internal param string $name
+     * @param Widget $widget
      */
-    public function addWidget($type, $location, $callback, $additionalhtml = "", $defer = true, $cacheduration = 180, $var1 = "", $var2 = "", $var3 = "")
+    public function addWidget($widget)
     {
-        $this->app['extensions']->insertWidget($type, $location, $callback, $this->getName(), $additionalhtml, $defer, $cacheduration, $var1, $var2, $var3);
+        if ($widget instanceof Widget) {
+            return $this->app['asset.queue.widget']->add($widget);
+        }
+        $this->app['logger.system']->error(sprintf('%s tried inserting an invalid widget object. Ignoring.', $this->getName()), ['event' => 'extensions']);
     }
 
     /**
@@ -689,22 +620,10 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * Parse a widget, an pass on the generated HTML to the caller (Extensions).
-     *
-     * @param string $callback
-     * @param string $var1
-     * @param string $var2
-     * @param string $var3
-     *
-     * @return bool|string
+     * @deprecated since 2.3 and will removed in Bolt 3.
      */
-    public function parseWidget($callback, $var1 = '', $var2 = '', $var3 = '')
+    public function parseWidget()
     {
-        if (method_exists($this, $callback)) {
-            return call_user_func([$this, $callback], $var1, $var2, $var3);
-        } else {
-            return false;
-        }
     }
 
     /**

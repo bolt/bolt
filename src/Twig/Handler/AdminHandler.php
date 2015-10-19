@@ -87,21 +87,6 @@ class AdminHandler
     }
 
     /**
-     * Renders a particular widget type on the given location.
-     *
-     * @param string $type     Widget type (e.g. 'dashboard')
-     * @param string $location CSS location (e.g. 'right_first')
-     *
-     * @return null
-     */
-    public function widget($type = '', $location = '')
-    {
-        $this->app['extensions']->renderWidgetHolder($type, $location);
-
-        return null;
-    }
-
-    /**
      * Convert a Monolog log level to textual equivalent.
      *
      * @param integer $level

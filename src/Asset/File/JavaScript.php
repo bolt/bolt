@@ -8,6 +8,9 @@ namespace Bolt\Asset\File;
  */
 class JavaScript extends FileAssetBase
 {
+    /** @var string */
+    protected $type = 'javascript';
+
     /**
      * {@inheritdoc}
      */

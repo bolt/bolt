@@ -32,7 +32,7 @@ class AssetServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['asset.file.hash'] = $app->protect(function ($fileName) use ($app) {
+        $app['asset.file.hash.factory'] = $app->protect(function ($fileName) use ($app) {
             $fullPath = $app['resources']->getPath('root') . '/' . $fileName;
 
             if (is_readable($fullPath)) {
@@ -52,7 +52,11 @@ class AssetServiceProvider implements ServiceProviderInterface
 
         $app['asset.queue.file'] = $app->share(
             function ($app) {
-                $queue = new Asset\File\Queue($app);
+                $queue = new Asset\File\Queue(
+                    $app['asset.injector'],
+                    $app['cache'],
+                    $app['asset.file.hash.factory']
+                );
 
                 return $queue;
             }
@@ -60,7 +64,26 @@ class AssetServiceProvider implements ServiceProviderInterface
 
         $app['asset.queue.snippet'] = $app->share(
             function ($app) {
-                $queue = new Asset\Snippet\Queue($app);
+                $queue = new Asset\Snippet\Queue(
+                    $app['asset.injector'],
+                    $app['cache'],
+                    $app['config'],
+                    $app['resources'],
+                    $app['request_stack'],
+                    $app['logger.system']
+                );
+
+                return $queue;
+            }
+        );
+
+        $app['asset.queue.widget'] = $app->share(
+            function ($app) {
+                $queue = new Asset\Widget\Queue(
+                    $app['asset.injector'],
+                    $app['cache'],
+                    $app['render']
+                );
 
                 return $queue;
             }
@@ -70,7 +93,8 @@ class AssetServiceProvider implements ServiceProviderInterface
             function ($app) {
                 return [
                     $app['asset.queue.file'],
-                    $app['asset.queue.snippet']
+                    $app['asset.queue.snippet'],
+                    $app['asset.queue.widget']
                 ];
             }
         );

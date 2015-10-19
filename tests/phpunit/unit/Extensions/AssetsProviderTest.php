@@ -4,6 +4,8 @@ namespace Bolt\Tests\Extensions;
 use Bolt\Asset\Target;
 use Bolt\Extensions;
 use Bolt\Storage\Entity;
+use Bolt\Asset\File\Stylesheet;
+use Bolt\Asset\File\JavaScript;
 
 /**
  * Class to test correct operation and locations of assets provider.
@@ -171,7 +173,7 @@ HTML;
     protected function getApp($boot = true)
     {
         $app = parent::getApp();
-        $app['asset.file.hash'] = $app->protect(function ($fileName) {
+        $app['asset.file.hash.factory'] = $app->protect(function ($fileName) {
             return md5($fileName);
         });
 
@@ -181,21 +183,35 @@ HTML;
     public function testBadExtensionSnippets()
     {
         $app = $this->getApp();
-        $app['logger.system'] = new Mock\Logger();
+        $logger = $this->getMock('\Monolog\Logger', ['critical'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+            ->method('critical')
+            ->will($this->returnCallback(function ($message) {
+                    \PHPUnit_Framework_Assert::assertSame(
+                        'Snippet loading failed for Bolt\Tests\Extensions\Mock\BadExtensionSnippets with callable a:2:{i:0;O:47:"Bolt\Tests\Extensions\Mock\BadExtensionSnippets":0:{}i:1;s:18:"badSnippetCallBack";}',
+                        $message);
+                }
+            ))
+        ;
+        $app['asset.queue.snippet'] = new \Bolt\Asset\Snippet\Queue(
+            $app['asset.injector'],
+            $app['cache'],
+            $app['config'],
+            $app['resources'],
+            $app['request_stack'],
+            $logger
+        );
         $app['extensions']->register(new Mock\BadExtensionSnippets($app));
+
         $html = $app['asset.queue.snippet']->process($this->template);
         $this->assertEquals($this->html($this->template), $this->html($html));
-
-        $this->assertEquals(
-            'Snippet loading failed for Bolt\Tests\Extensions\Mock\BadExtensionSnippets with callable a:2:{i:0;O:47:"Bolt\Tests\Extensions\Mock\BadExtensionSnippets":0:{}i:1;s:18:"badSnippetCallBack";}',
-            $app['logger.system']->lastLog()
-        );
     }
 
     public function testAddCss()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('stylesheet', 'testfile.css');
+        $stylesheet = (new Stylesheet())->setFileName('testfile.css');
+        $app['asset.queue.file']->add($stylesheet);
         $assets = $app['asset.queue.file']->getQueue();
         $this->assertEquals(1, count($assets['stylesheet']));
     }
@@ -203,7 +219,8 @@ HTML;
     public function testAddJs()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('javascript', 'testfile.js');
+        $javaScript = (new JavaScript())->setFileName('testfile.js');
+        $app['asset.queue.file']->add($javaScript);
         $assets = $app['asset.queue.file']->getQueue();
         $this->assertEquals(1, count($assets['javascript']));
     }
@@ -225,7 +242,8 @@ HTML;
     public function testJsProcessAssets()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('javascript', 'testfile.js');
+        $javaScript = (new JavaScript())->setFileName('testfile.js');
+        $app['asset.queue.file']->add($javaScript);
         $html = $app['asset.queue.file']->process($this->template);
         $this->assertEquals($this->html($this->expectedJs), $this->html($html));
     }
@@ -233,7 +251,11 @@ HTML;
     public function testLateJs()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('javascript', 'testfile.js', ['late' => true]);
+        $javaScript = (new JavaScript())
+            ->setFileName('testfile.js')
+            ->setLate(true)
+        ;
+        $app['asset.queue.file']->add($javaScript);
         $html = $app['asset.queue.file']->process($this->template);
         $this->assertEquals($this->html($this->expectedLateJs),  $this->html($html));
     }
@@ -241,7 +263,8 @@ HTML;
     public function testCssProcessAssets()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('stylesheet', 'testfile.css');
+        $stylesheet = (new Stylesheet())->setFileName('testfile.css');
+        $app['asset.queue.file']->add($stylesheet);
         $html = $app['asset.queue.file']->process($this->template);
         $this->assertEquals($this->html($this->expectedCss), $this->html($html));
     }
@@ -249,7 +272,11 @@ HTML;
     public function testLateCss()
     {
         $app = $this->getApp();
-        $app['asset.queue.file']->add('stylesheet', 'testfile.css', ['late' => true]);
+        $stylesheet = (new Stylesheet())
+            ->setFileName('testfile.css')
+            ->setLate(true)
+        ;
+        $app['asset.queue.file']->add($stylesheet);
         $html = $app['asset.queue.file']->process($this->template);
         $this->assertEquals($this->html($this->expectedLateCss), $this->html($html));
     }
@@ -401,77 +428,9 @@ HTML;
             $this->assertEquals($template.$snip.PHP_EOL, $html);
         }
     }
-
-    public function testInsertWidget()
-    {
-        $app = $this->getApp();
-        $this->setSessionUser(new Entity\Users());
-        $app['extensions']->insertWidget('test', Target::START_OF_BODY, '', 'testext', '', false);
-        $this->expectOutputString("<section><div class='widget' id='widget-74854909' data-key='74854909'></div></section>");
-        $app['extensions']->renderWidgetHolder('test', Target::START_OF_BODY);
-    }
-
-    public function testWidgetCaches()
-    {
-        $app = $this->getApp();
-        $this->setSessionUser(new Entity\Users());
-        $app['cache'] = new Mock\Cache();
-        $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-        $this->assertFalse($app['cache']->fetch('72bde68d'));
-        $app['extensions']->insertWidget('test', Target::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
-
-        // Double call to ensure second one hits cache
-        $html = $app['extensions']->renderWidget('72bde68d');
-        $this->assertEquals($html, $app['cache']->fetch('widget_72bde68d'));
-    }
-
-    public function testInvalidWidget()
-    {
-        $app = $this->getApp();
-        $this->setSessionUser(new Entity\Users());
-        $app['extensions']->insertWidget('test', Target::START_OF_BODY, "", "testext", "", false);
-        $result = $app['extensions']->renderWidget('fakekey');
-        $this->assertEquals("Invalid key 'fakekey'. No widget found.", $result);
-    }
-
-    public function testWidgetWithCallback()
-    {
-        $app = $this->getApp();
-        $this->setSessionUser(new Entity\Users());
-        $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-
-        $app['extensions']->insertWidget('test', Target::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
-        $html = $app['extensions']->renderWidget('72bde68d');
-
-        $this->assertEquals('<meta name="test-snippet" />', $html);
-    }
-
-    public function testWidgetWithGlobalCallback()
-    {
-        $app = $this->getApp();
-        $this->setSessionUser(new Entity\Users());
-        $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-
-        $app['extensions']->insertWidget(
-            'testglobal',
-            Target::START_OF_BODY,
-            "\Bolt\Tests\Extensions\globalAssetsWidget",
-            "snippetcallback",
-            "",
-            false
-        );
-        $html = $app['extensions']->renderWidget('7d4cefca');
-
-        $this->assertEquals('<meta name="test-widget" />', $html);
-    }
 }
 
 function globalAssetsSnippet($string)
 {
     return nl2br($string);
-}
-
-function globalAssetsWidget()
-{
-    return '<meta name="test-widget" />';
 }

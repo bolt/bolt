@@ -7,6 +7,9 @@
 
         <article>
 
+        {{ widget('frontend', 'main_top') }}
+
+
             <h2>{{ record.title }}</h2>
 
             {% if record.image!="" %}
@@ -53,6 +56,8 @@
                     <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
                 {% endif %}
             </p>
+
+        {{ widget('frontend', 'main_bottom') }}
 
         </article>
 

@@ -3,6 +3,8 @@ namespace Bolt\Tests\Extensions;
 
 use Bolt\Provider\NutServiceProvider;
 use Symfony\Component\Console\Command\Command;
+use Bolt\BaseExtension;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class to test src/BaseExtension.
@@ -245,9 +247,16 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
 
     public function testAddSnippet()
     {
-        $app = $this->makeApp();
+        $app = $this->getApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\Snippet\Queue', ['add'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\Snippet\Queue', ['add'], [
+            $app['asset.injector'],
+            $app['cache'],
+            $app['config'],
+            $app['resources'],
+            $app['request_stack'],
+            $app['logger.system']
+        ]);
 
         $handler->expects($this->once())
             ->method('add');
@@ -323,47 +332,24 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
     {
         $app = $this->makeApp();
         $app->initialize();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
+        $ext = new ExtensionAssetMocker($app);
 
-        $handler->expects($this->once())
-            ->method('add')
-            ->with($this->matchesRegularExpression('/javascript/'), $this->matchesRegularExpression('/path1/'));
-
-        $app['asset.queue.file'] = $handler;
-
-        $this->php
-            ->expects($this->at(0))
-            ->method('file_exists')
-            ->will($this->returnValue(true));
-
-        $ext->addJavascript('path1');
+        $ext->addJavascript('test.js');
+        $assets = $app['asset.queue.file']->getQueue();
+        $this->assertEquals(1, count($assets['javascript']));
     }
 
     public function testAddJavascriptTheme()
     {
         $app = $this->makeApp();
         $app->initialize();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
+        $ext = new ExtensionAssetMocker($app);
+        $fs = new Filesystem();
+        $fs->copy(PHPUNIT_ROOT . '/resources/test.js', PHPUNIT_WEBROOT . '/theme/default/moved-test.js');
 
-        $handler->expects($this->once())
-            ->method('add')
-            ->with($this->matchesRegularExpression('/javascript/'), $this->matchesRegularExpression('/\/theme.*path2/'));
-
-        $this->php
-            ->expects($this->at(0))
-            ->method('file_exists')
-            ->will($this->returnValue(false));
-
-        $this->php
-            ->expects($this->at(1))
-            ->method('file_exists')
-            ->will($this->returnValue(true));
-
-        $app['asset.queue.file'] = $handler;
-
-        $ext->addJavascript('path2');
+        $ext->addJavascript('moved-test.js');
+        $assets = $app['asset.queue.file']->getQueue();
+        $this->assertEquals(1, count($assets['javascript']));
     }
 
     public function testAddCssFailure()
@@ -388,47 +374,24 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
     {
         $app = $this->makeApp();
         $app->initialize();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
+        $ext = new ExtensionAssetMocker($app);
 
-        $handler->expects($this->once())
-            ->method('add')
-            ->with($this->matchesRegularExpression('/stylesheet/'), $this->matchesRegularExpression('/path1/'));
-
-        $app['asset.queue.file'] = $handler;
-
-        $this->php
-            ->expects($this->at(0))
-            ->method('file_exists')
-            ->will($this->returnValue(true));
-
-        $ext->addCss('path1');
+        $ext->addCss('test.css');
+        $assets = $app['asset.queue.file']->getQueue();
+        $this->assertEquals(1, count($assets['stylesheet']));
     }
 
     public function testAddCssTheme()
     {
         $app = $this->makeApp();
         $app->initialize();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Asset\File\Queue', ['add'], [$app]);
+        $ext = new ExtensionAssetMocker($app);
+        $fs = new Filesystem();
+        $fs->copy(PHPUNIT_ROOT . '/resources/test.css', PHPUNIT_WEBROOT . '/theme/default/moved-test.css');
 
-        $handler->expects($this->once())
-            ->method('add')
-            ->with($this->matchesRegularExpression('/stylesheet/'), $this->matchesRegularExpression('/\/theme.*path2/'));
-
-        $this->php
-            ->expects($this->at(0))
-            ->method('file_exists')
-            ->will($this->returnValue(false));
-
-        $this->php
-            ->expects($this->at(1))
-            ->method('file_exists')
-            ->will($this->returnValue(true));
-
-        $app['asset.queue.file'] = $handler;
-
-        $ext->addCss('path2');
+        $ext->addCss('moved-test.css');
+        $assets = $app['asset.queue.file']->getQueue();
+        $this->assertEquals(1, count($assets['stylesheet']));
     }
 
     public function testAddMenuOption()
@@ -487,16 +450,26 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
 
     public function testAddWidget()
     {
-        $app = $this->makeApp();
+        $app = $this->getApp();
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Extensions', ['insertWidget'], [$app]);
+        $handler = $this->getMock('Bolt\Asset\Widget\Queue', ['add'], [
+            $app['asset.injector'],
+            $app['cache'],
+            $app['render']
+        ]);
         $handler->expects($this->once())
-            ->method('insertWidget')
-            ->with($this->equalTo('testWidget'));
+            ->method('add')
+            ->with($this->isInstanceOf('\Bolt\Asset\Widget\Widget'))
+        ;
+        $widget = new \Bolt\Asset\Widget\Widget();
+        $widget
+            ->setType('frontend')
+            ->setLocation('aside_top')
+        ;
 
-        $app['extensions'] = $handler;
+        $app['asset.queue.widget'] = $handler;
 
-        $ext->addWidget('testWidget', 'widgetLocation', [$this, 'testAddWidget']);
+        $ext->addWidget($widget);
     }
 
     public function testRequireUserLevel()
@@ -538,26 +511,6 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $this->assertFalse($response);
     }
 
-    public function testParseWidget()
-    {
-        $app = $this->makeApp();
-        $ext = $this->getMock('Bolt\Tests\Extensions\Mock\ExtendedExtension', ['acallback'], [$app]);
-
-        $ext->expects($this->once())
-            ->method('acallback');
-
-        $ext->parseWidget('acallback');
-        $this->assertFalse($ext->parseWidget('nonexistingcallback'));
-    }
-
-    public function testParseWidgetFails()
-    {
-        $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-
-        $this->assertFalse($ext->parseWidget('fakecallback'));
-    }
-
     public function testAddNutCommand()
     {
         $app = $this->makeApp();
@@ -567,5 +520,20 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $ext->addConsoleCommand(new Command('test_command'));
 
         $this->assertTrue($app['nut']->has('test_command'));
+    }
+}
+
+class ExtensionAssetMocker extends BaseExtension
+{
+    protected $basepath;
+
+    public function __construct(\Bolt\Application $app)
+    {
+        $this->app = $app;
+        $this->basepath = PHPUNIT_ROOT . '/resources';
+    }
+
+    public function initialize()
+    {
     }
 }

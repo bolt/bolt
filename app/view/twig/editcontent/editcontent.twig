@@ -66,6 +66,8 @@
 
             {% include '@bolt/_sub/_messages.twig' %}
 
+            {{ widget('backend', 'editontent_below_header') }}
+
             {# Only if we have grouping tabs. #}
             {% if context.has.tabs %}
                 <ul class="nav nav-tabs" id="filtertabs">
@@ -123,6 +125,8 @@
             </form>
 
             {% include '@bolt/editcontent/_includes-data.twig' %}
+
+            {{ widget('backend', 'editontent_bottom') }}
 
         </div>
 

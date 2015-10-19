@@ -3,7 +3,8 @@
 namespace Bolt;
 
 use Bolt;
-use Bolt\Asset\Target;
+use Bolt\Extensions\AssetTrait;
+use Bolt\Extensions\DeprecatedFunctionsTrait;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
@@ -14,14 +15,15 @@ use Symfony\Component\Finder\Finder;
 
 class Extensions
 {
+    use AssetTrait;
+    use DeprecatedFunctionsTrait;
+
     /** @var \Silex\Application */
     private $app;
     /** @var string The extension base folder. */
     private $basefolder;
     /** @var ExtensionInterface[] List of enabled extensions. */
     private $enabled = [];
-    /** @var array Queue with widgets to insert. */
-    private $widgetqueue;
     /** @var array List of menu items to add in the backend. */
     private $menuoptions = [];
     /** @var integer Number of registered extensions that need to be able to send mail. */
@@ -45,6 +47,14 @@ class Extensions
     {
         $this->app = $app;
         $this->basefolder = $app['resources']->getPath('extensions');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getApp()
+    {
+        return $this->app;
     }
 
     /**
@@ -481,52 +491,6 @@ class Extensions
     }
 
     /**
-     * Add jQuery to the output.
-     *
-     * @deprecated Since 2.3 will be removed in Bolt 3.0
-     */
-    public function addJquery()
-    {
-        $this->app['config']->set('general/add_jquery', true);
-    }
-
-    /**
-     * Don't add jQuery to the output.
-     *
-     * @deprecated Since 2.3 will be removed in Bolt 3.0
-     */
-    public function disableJquery()
-    {
-        $this->app['config']->set('general/add_jquery', false);
-    }
-
-    /**
-     * Legacy function that returns a list of all css and js assets that are
-     * added via extensions.
-     *
-     * @deprecated Use $app['asset.queue.file']->getQueue() and/or $app['asset.queue.snippet']->getQueue()
-     *
-     * @return array
-     */
-    public function getAssets()
-    {
-        $files = $this->app['asset.queue.file']->getQueue();
-        $assets = [
-            'css' => [],
-            'js'  => []
-        ];
-
-        foreach ($files['javascript'] as $file) {
-            $assets['js'][] = $file->getFileName();
-        }
-        foreach ($files['stylesheet'] as $file) {
-            $assets['css'][] = $file->getFileName();
-        }
-
-        return $assets;
-    }
-
-    /**
      * Get the namespcae from a FQCN.
      *
      * @param ExtensionInterface $extension
@@ -544,261 +508,27 @@ class Extensions
     }
 
     /**
-     * Add a particular CSS file to the output. This will be inserted before the
-     * other css files.
+     * Get the extension base URL.
      *
-     * @param string $filename File name to add to href=""
-     * @param array  $options  'late'     - True to add to the end of the HTML <body>
-     *                         'priority' - Loading priority
-     *                         'attrib'   - A string containing either/or 'defer', and 'async'
-     */
-    public function addCss($filename, $options = [])
-    {
-        // Handle pre-2.2 function parameters, namely $late and $priority
-        if (!is_array($options)) {
-            $args = func_get_args();
-
-            $options = [
-                'late'     => isset($args[1]) ? isset($args[1]) : false,
-                'priority' => isset($args[2]) ? isset($args[2]) : 0,
-                'attrib'   => false
-            ];
-        }
-
-        $this->app['asset.queue.file']->add('stylesheet', $filename, $options);
-    }
-
-    /**
-     * Add a particular javascript file to the output. This will be inserted after
-     * the other javascript files.
+     * @deprecated since 2.3 will be removed in 3.0
      *
-     * @param string $filename File name to add to src=""
-     * @param array  $options  'late'     - True to add to the end of the HTML <body>
-     *                         'priority' - Loading priority
-     *                         'attrib'   - A string containing either/or 'defer', and 'async'
+     * @return string
      */
-    public function addJavascript($filename, $options = [])
+    public function getBaseUrl()
     {
-        // Handle pre-2.2 function parameters, namely $late and $priority
-        if (!is_array($options)) {
-            $args = func_get_args();
-
-            $options = [
-                'late'     => isset($args[1]) ? isset($args[1]) : false,
-                'priority' => isset($args[2]) ? isset($args[2]) : 0,
-                'attrib'   => false
-            ];
-        }
-
-        $this->app['asset.queue.file']->add('javascript', $filename, $options);
+        return $this->app['resources']->getUrl('extensions');
     }
 
     /**
-     * Insert a widget. And by 'insert' we actually mean 'add it to the queue,
-     * to be processed later'.
+     * Get the extension base path.
      *
-     * @param        $type
-     * @param        $location
-     * @param        $callback
-     * @param        $extensionname
-     * @param string $additionalhtml
-     * @param bool   $defer
-     * @param int    $cacheduration
-     * @param string $extraparameters
-     */
-    public function insertWidget($type, $location, $callback, $extensionname, $additionalhtml = '', $defer = true, $cacheduration = 180, $extraparameters = "")
-    {
-        $authSession = $this->app['session']->get('authentication');
-        $sessionkey = $authSession->getToken()->getToken();
-
-        $key = substr(md5(sprintf("%s%s%s%s", $sessionkey, $type, $location, !is_array($callback) ? $callback : get_class($callback[0]) . $callback[1])), 0, 8);
-
-        $this->widgetqueue[] = [
-            'type'            => $type,
-            'location'        => $location,
-            'callback'        => $callback,
-            'additionalhtml'  => $additionalhtml,
-            'cacheduration'   => $cacheduration,
-            'extension'       => $extensionname,
-            'defer'           => $defer,
-            'extraparameters' => $extraparameters,
-            'key'             => $key
-        ];
-    }
-
-    /**
-     * Renders a div as a placeholder for a particular type of widget on the
-     * given location.
+     * @deprecated since 2.3 will be removed in 3.0
      *
-     * @param string $type
-     * @param string $location For convenience, use the constant from Bolt\Extensions\Snippets\Location
+     * @return string
      */
-    public function renderWidgetHolder($type, $location)
+    public function getBasePath()
     {
-        if (is_array($this->widgetqueue)) {
-            foreach ($this->widgetqueue as $widget) {
-                if ($type == $widget['type'] && $location == $widget['location']) {
-                    $html = sprintf(
-                        "<section><div class='widget' id='widget-%s' data-key='%s'%s>%s</div>%s</section>",
-                        $widget['key'],
-                        $widget['key'],
-                        !$widget['defer'] ? '' : " data-defer='true'",
-                        $widget['defer'] ? '' : $this->renderWidget($widget['key']),
-                        empty($widget['additionalhtml']) ? '' : "\n" . $widget['additionalhtml']
-                    );
-
-                    echo $html;
-                }
-            }
-        }
-    }
-
-    /**
-     * Renders the widget identified by the given key.
-     *
-     * @param string $key Widget identifier
-     *
-     * @return string HTML
-     */
-    public function renderWidget($key)
-    {
-        foreach ($this->widgetqueue as $widget) {
-            if ($key == $widget['key']) {
-                $cachekey = 'widget_' . $widget['key'];
-
-                if ($this->app['cache']->contains($cachekey)) {
-                    // Present in the cache .
-                    $html = $this->app['cache']->fetch($cachekey);
-                } elseif (is_string($widget['callback']) && method_exists($this->initialized[$widget['extension']], $widget['callback'])) {
-                    // Widget is defined in the extension itself.
-                    $html = $this->initialized[$widget['extension']]->parseWidget($widget['callback'], $widget['extraparameters']);
-                    $this->app['cache']->save($cachekey, $html, $widget['cacheduration']);
-                } elseif (is_callable($widget['callback'])) {
-                    // Widget is a callback in the 'global scope'
-                    $html = call_user_func($widget['callback'], $this->app, $widget['extraparameters']);
-                    $this->app['cache']->save($cachekey, $html, $widget['cacheduration']);
-                } else {
-                    // Insert the 'callback' as string.
-                    $html = $widget['callback'];
-                }
-
-                return $html;
-            }
-        }
-
-        return "Invalid key '$key'. No widget found.";
-    }
-
-    /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
-     */
-    public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = [])
-    {
-        $this->app['asset.queue.snippet']->add($location, $callback, $extensionname, (array) $extraparameters);
-    }
-
-    /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
-     */
-    public function clearSnippetQueue()
-    {
-        $this->app['asset.queue.snippet']->clear();
-    }
-
-    /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
-     */
-    public function processSnippetQueue($html)
-    {
-        return $this->app['asset.queue.snippet']->process($html);
-    }
-
-    /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
-     */
-    public function processAssets($html)
-    {
-        return $this->app['asset.queue.file']->process($html);
-    }
-
-    /**
-     * @deprecated since 2.3 will be removed in 3.0
-     */
-    public function insertStartOfHead($tag, $html)
-    {
-        return $this->app['asset.injector']->inject($tag, Target::START_OF_HEAD, $html);
-    }
-
-    /**
-     * @deprecated since 2.3 will be removed in 3.0
-     */
-    public function insertStartOfBody($tag, $html)
-    {
-        return $this->app['asset.injector']->inject($tag, Target::START_OF_BODY, $html);
-    }
-
-    /**
-     * @deprecated since 2.3 will be removed in 3.0
-     */
-    public function insertEndOfHead($tag, $html)
-    {
-        return $this->app['asset.injector']->inject($tag, Target::END_OF_HEAD, $html);
-    }
-
-    /**
-     * @deprecated since 2.3 will be removed in 3.0
-     */
-    public function insertEndOfBody($tag, $html)
-    {
-        return $this->app['asset.injector']->inject($tag, Target::END_OF_BODY, $html);
-    }
-
-    /**
-     * @deprecated since 2.3 will be removed in 3.0
-     */
-    public function insertEndOfHtml($tag, $html)
-    {
-        return $this->app['asset.injector']->inject($tag, Target::END_OF_HTML, $html);
-    }
-
-    /**
-     * @deprecated since 2.3 will be removed in 3.0
-     */
-    public function insertAfterMeta($tag, $html)
-    {
-        return $this->app['asset.injector']->inject($tag, Target::AFTER_META, $html);
-    }
-
-    /**
-     * @deprecated since 2.3 will be removed in 3.0
-     */
-    public function insertAfterCss($tag, $html)
-    {
-        return $this->app['asset.injector']->inject($tag, Target::AFTER_CSS, $html);
-    }
-
-    /**
-     * @deprecated since 2.3 will be removed in 3.0
-     */
-    public function insertBeforeCss($tag, $html)
-    {
-        return $this->app['asset.injector']->inject($tag, Target::BEFORE_CSS, $html);
-    }
-
-    /**
-     * @deprecated since 2.3 will be removed in 3.0
-     */
-    public function insertBeforeJS($tag, $html)
-    {
-        return $this->app['asset.injector']->inject($tag, Target::BEFORE_JS, $html);
-    }
-
-    /**
-     * @deprecated since 2.3 will be removed in 3.0
-     */
-    public function insertAfterJs($tag, $html, $insidehead = true)
-    {
-        return $this->app['asset.injector']->inject($tag, Target::AFTER_JS, $html, $insidehead);
+        return $this->app['resources']->getPath('extensions');
     }
 
     /**

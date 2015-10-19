@@ -20,6 +20,8 @@
                 {% include '@bolt/dashboard/_suggestloripsum.twig' %}
             {% endif %}
 
+            {{ widget('backend', 'dashboard_below_header') }}
+
             <div class="quicklinks">
                 {% if app.config.get('contenttypes')|length() > 3 %}
                     {% include '@bolt/dashboard/_quicklinks-dropdown.twig' %}
@@ -33,6 +35,8 @@
                     {% include '@bolt/dashboard/_recently_edited.twig' %}
                 {% endif %}
             {% endfor %}
+
+            {{ widget('backend', 'dashboard_bottom') }}
 
         </div>
 

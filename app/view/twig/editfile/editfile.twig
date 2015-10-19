@@ -30,8 +30,10 @@
 
     <div class="row">
         <div class="col-xs-12">
+
             {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
 
+            {{ widget('backend', 'editfile_below_header') }}
 
             <form method="post" class="form-inline" id="editfile" autocomplete="off">
                 {{ form_widget(context.form._token) }}
@@ -70,6 +72,9 @@
             </p>
 
             </form>
+
+            {{ widget('backend', 'editfile_bottom') }}
+
         </div>
     </div>
 

@@ -40,9 +40,9 @@ class HtmlHandler
         $fullPath = $this->app['resources']->getPath('root') . '/' . $fileName;
 
         if (is_readable($fullPath)) {
-            return "$fileName?v=" . $this->app['asset.file.hash']($fullPath);
+            return "$fileName?v=" . $this->app['asset.file.hash.factory']($fullPath);
         } elseif (is_readable($fileName)) {
-            return "$fileName?v=" . $this->app['asset.file.hash']($fileName);
+            return "$fileName?v=" . $this->app['asset.file.hash.factory']($fileName);
         }
     }
 
@@ -219,5 +219,18 @@ class HtmlHandler
     public function twig($snippet, $extravars = [])
     {
         return $this->app['safe_render']->render($snippet, $extravars)->getContent();
+    }
+
+    /**
+     * Renders a particular widget type on the given location.
+     *
+     * @param string $type     Either 'frontend' or 'backend'
+     * @param string $location Location (e.g. 'dashboard_aside_top')
+     *
+     * @return \Twig_Markup|string
+     */
+    public function widget($type = '', $location = '')
+    {
+        return $this->app['asset.queue.widget']->render($type, $location);
     }
 }

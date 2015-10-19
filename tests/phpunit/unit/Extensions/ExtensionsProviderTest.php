@@ -170,7 +170,7 @@ HTML;
     protected function getApp($boot = true)
     {
         $app = parent::getApp($boot);
-        $app['asset.file.hash'] = $app->protect(function ($fileName) {
+        $app['asset.file.hash.factory'] = $app->protect(function ($fileName) {
             return md5($fileName);
         });
 
@@ -209,15 +209,28 @@ HTML;
     public function testBadExtensionSnippets()
     {
         $app = $this->getApp();
-        $app['logger.system'] = new Mock\Logger();
+        $logger = $this->getMock('\Monolog\Logger', ['critical'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+            ->method('critical')
+            ->will($this->returnCallback(function ($message) {
+                    \PHPUnit_Framework_Assert::assertSame(
+                        'Snippet loading failed for Bolt\Tests\Extensions\Mock\BadExtensionSnippets with callable a:2:{i:0;O:47:"Bolt\Tests\Extensions\Mock\BadExtensionSnippets":0:{}i:1;s:18:"badSnippetCallBack";}',
+                        $message);
+                }
+            ))
+        ;
+        $app['asset.queue.snippet'] = new \Bolt\Asset\Snippet\Queue(
+            $app['asset.injector'],
+            $app['cache'],
+            $app['config'],
+            $app['resources'],
+            $app['request_stack'],
+            $logger
+        );
         $app['extensions']->register(new Mock\BadExtensionSnippets($app));
+
         $html = $app['asset.queue.snippet']->process($this->template);
         $this->assertEquals($this->html($this->template), $this->html($html));
-
-        $this->assertEquals(
-            'Snippet loading failed for Bolt\Tests\Extensions\Mock\BadExtensionSnippets with callable a:2:{i:0;O:47:"Bolt\Tests\Extensions\Mock\BadExtensionSnippets":0:{}i:1;s:18:"badSnippetCallBack";}',
-            $app['logger.system']->lastLog()
-        );
     }
 
     public function testAddCss()
@@ -476,67 +489,6 @@ HTML;
         $this->assertEquals(1, count($app['extensions']->getMenuOptions()));
     }
 
-    public function testInsertWidget()
-    {
-        $app = $this->getApp();
-        $this->setSessionUser(new Entity\Users());
-        $app['extensions']->insertWidget('test', SnippetLocation::START_OF_BODY, "", "testext", "", false);
-        $this->expectOutputString("<section><div class='widget' id='widget-74854909' data-key='74854909'></div></section>");
-        $app['extensions']->renderWidgetHolder('test', SnippetLocation::START_OF_BODY);
-    }
-
-    public function testWidgetCaches()
-    {
-        $app = $this->getApp();
-        $this->setSessionUser(new Entity\Users());
-        $app['cache'] = new Mock\Cache();
-        $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-        $this->assertFalse($app['cache']->fetch('72bde68d'));
-        $app['extensions']->insertWidget('test', SnippetLocation::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
-
-        // Double call to ensure second one hits cache
-        $html = $app['extensions']->renderWidget('72bde68d');
-        $this->assertEquals($html, $app['cache']->fetch('widget_72bde68d'));
-    }
-
-    public function testInvalidWidget()
-    {
-        $app = $this->getApp();
-        $this->setSessionUser(new Entity\Users());
-        $app['extensions']->insertWidget('test', SnippetLocation::START_OF_BODY, "", "testext", "", false);
-        $result = $app['extensions']->renderWidget('fakekey');
-        $this->assertEquals("Invalid key 'fakekey'. No widget found.", $result);
-    }
-
-    public function testWidgetWithCallback()
-    {
-        $app = $this->getApp();
-        $this->setSessionUser(new Entity\Users());
-        $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-
-        $app['extensions']->insertWidget('test', SnippetLocation::AFTER_JS, "snippetCallBack", "snippetcallback", "", false);
-        $html = $app['extensions']->renderWidget('72bde68d');
-        $this->assertEquals('<meta name="test-snippet" />', $html);
-    }
-
-    public function testWidgetWithGlobalCallback()
-    {
-        $app = $this->getApp();
-        $this->setSessionUser(new Entity\Users());
-        $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
-
-        $app['extensions']->insertWidget(
-            'testglobal',
-            SnippetLocation::START_OF_BODY,
-            "\Bolt\Tests\Extensions\globalWidget",
-            "snippetcallback",
-            "",
-            false
-        );
-        $html = $app['extensions']->renderWidget('cbc5cb6a');
-        $this->assertEquals('<meta name="test-widget" />', $html);
-    }
-
     public function testTwigExtensions()
     {
         $app = $this->getApp();
@@ -562,9 +514,4 @@ HTML;
 function globalSnippet($string)
 {
     return nl2br($string);
-}
-
-function globalWidget()
-{
-    return '<meta name="test-widget" />';
 }

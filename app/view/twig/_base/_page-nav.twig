@@ -55,11 +55,16 @@
                 </div>
             </div>
 
+            {{ widget('backend', 'below_header') }}
+
             {% block messages %}
                 {% include '@bolt/_sub/_messages.twig' with {'wrapper': true} %}
             {% endblock messages %}
 
             {% block page_main %}[PAGE_MAIN]{% endblock page_main %}
+
+            {{ widget('backend', 'footer') }}
+
         </div>
 
         {% block page_main_extra_content %}

@@ -26,13 +26,26 @@
 
             {% include '@bolt/_sub/_messages.twig' %}
 
+            {{ widget('backend', 'overview_below_header') }}
+
             {{ list(context.contenttype, context.multiplecontent, context.permissions, '') }}
+
+            {{ widget('backend', 'overview_bottom') }}
 
         </div>
 
         <aside class="col-md-4">
+
+            {{ widget('backend', 'overview_aside_top') }}
+
             {% include '@bolt/overview/_panel-actions_overview.twig' %}
+
+            {{ widget('backend', 'overview_aside_middle') }}
+
             {{ panels.lastmodified(context.contenttype.slug) }}
+
+            {{ widget('backend', 'overview_aside_bottom') }}
+
         </aside>
     </div>
 

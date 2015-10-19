@@ -76,6 +76,9 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
         $app['controller.async.system_checks'] = $app->share(function () {
             return new Controller\Async\SystemChecks();
         });
+        $app['controller.async.widget'] = $app->share(function () {
+            return new Controller\Async\Widget();
+        });
 
         $app['controller.frontend'] = $app->share(function () {
             return new Controller\Frontend();
@@ -139,6 +142,7 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
             'records',
             'stack',
             'system_checks',
+            'widget',
         ];
         foreach ($asyncKeys as $controller) {
             $event->mount($prefix, $app['controller.async.' . $controller]);
