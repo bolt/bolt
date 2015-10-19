@@ -25,7 +25,7 @@ class Widget implements WidgetAssetInterface
     protected $callbackArguments;
     /** @var string */
     protected $content;
-    /** @var string */
+    /** @var array */
     protected $class;
     /** @var string */
     protected $prefix;
@@ -184,7 +184,19 @@ class Widget implements WidgetAssetInterface
      */
     public function setClass($class)
     {
-        $this->class = $class;
+
+        if (is_array($class)) {
+            foreach ($class as $classitem) {
+                $this->setClass($classitem);
+            }
+            return $this;
+        }
+
+        if (substr($class, 0, 6) != 'widget-') {
+            $class = 'widget-' . $class;
+        }
+
+        $this->class[] = $class;
 
         return $this;
     }
