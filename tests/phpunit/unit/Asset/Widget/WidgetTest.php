@@ -33,7 +33,7 @@ class WidgetTest extends BoltUnitTest
         $this->assertSame(42, $widget->getCacheDuration());
         $this->assertSame([$this, 'widgetCallback'], $widget->getCallback());
         $this->assertSame(['first' => 'clippy', 'second' => 'koala'], $widget->getCallbackArguments());
-        $this->assertSame('bourgeoisie', $widget->getClass());
+        $this->assertSame('widget-bourgeoisie', $widget->getClass());
         $this->assertSame('Some test content', $widget->getContent());
         $this->assertTrue($widget->isDeferred());
         $this->assertSame('somewhere', $widget->getLocation());
