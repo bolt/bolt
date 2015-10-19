@@ -133,4 +133,93 @@ class ImageHandlerTest extends BoltUnitTest
         $this->assertFalse($result['portrait']);
         $this->assertFalse($result['square']);
     }
+
+    public function testPopupEmptyFileName()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->popup();
+        $this->assertSame('&nbsp;', $result);
+    }
+
+    public function testPopupFileNameOnly()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->popup('generic-logo.png');
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/100x100c/generic-logo.png" width="100" height="100" alt="Image: generic-logo.png"></a>', $result);
+    }
+
+    public function testPopupWidth()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->popup('generic-logo.png', 50);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/50x100c/generic-logo.png" width="50" height="100" alt="Image: generic-logo.png"></a>', $result);
+    }
+
+    public function testPopupHeight()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->popup('generic-logo.png', null, 50);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x50crop/generic-logo.png" width="" height="50" alt="Image: generic-logo.png"></a>', $result);
+    }
+
+    public function testPopupCrop()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->popup('generic-logo.png', null, null, 'f');
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120f/generic-logo.png" width="" height="" alt="Image: generic-logo.png"></a>', $result);
+        $result = $handler->popup('generic-logo.png', null, null, 'fit');
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120f/generic-logo.png" width="" height="" alt="Image: generic-logo.png"></a>', $result);
+
+        $result = $handler->popup('generic-logo.png', null, null, 'r');
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120r/generic-logo.png" width="" height="" alt="Image: generic-logo.png"></a>', $result);
+        $result = $handler->popup('generic-logo.png', null, null, 'resize');
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120r/generic-logo.png" width="" height="" alt="Image: generic-logo.png"></a>', $result);
+
+        $result = $handler->popup('generic-logo.png', null, null, 'b');
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120b/generic-logo.png" width="" height="" alt="Image: generic-logo.png"></a>', $result);
+        $result = $handler->popup('generic-logo.png', null, null, 'borders');
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120b/generic-logo.png" width="" height="" alt="Image: generic-logo.png"></a>', $result);
+
+        $result = $handler->popup('generic-logo.png', null, null, 'c');
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="" height="" alt="Image: generic-logo.png"></a>', $result);
+        $result = $handler->popup('generic-logo.png', null, null, 'crop');
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="" height="" alt="Image: generic-logo.png"></a>', $result);
+    }
+
+    public function testPopupFileNameArrayWithTitle()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->popup(['title' => 'Koala', 'filename' => 'generic-logo.png'], null, null, null, null);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120crop/generic-logo.png" width="" height="" alt="Koala"></a>', $result);
+    }
+
+    public function testPopupFileNameArrayWithoutTitle()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->popup(['filename' => 'generic-logo.png'], null, null, null, null);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="generic-logo.png"><img src="/thumbs/160x120crop/generic-logo.png" width="" height="" alt="generic-logo.png"></a>', $result);
+    }
+
+    public function testPopupFileNameArrayWithAlt()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->popup(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null, null);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120crop/generic-logo.png" width="" height="" alt="Gum Leaves"></a>', $result);
+    }
 }
