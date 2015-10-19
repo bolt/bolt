@@ -17,8 +17,6 @@ class Extensions
 {
     use ExtensionAssetTrait;
 
-    protected $isConcrete = true;
-
     /** @var \Silex\Application */
     private $app;
     /** @var string The extension base folder. */
@@ -677,6 +675,30 @@ class Extensions
     public function insertAfterJs($tag, $html, $insidehead = true)
     {
         return $this->app['asset.injector']->inject($tag, Target::AFTER_JS, $html, $insidehead);
+    }
+
+    /**
+     * Get the extension base URL.
+     *
+     * @deprecated since 2.3 will be removed in 3.0
+     *
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        return $this->app['resources']->getUrl('extensions');
+    }
+
+    /**
+     * Get the extension base path.
+     *
+     * @deprecated since 2.3 will be removed in 3.0
+     *
+     * @return string
+     */
+    public function getBasePath()
+    {
+        return $this->app['resources']->getPath('extensions');
     }
 
     /**

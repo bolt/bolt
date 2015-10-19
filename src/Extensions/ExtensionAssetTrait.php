@@ -13,6 +13,10 @@ use Bolt\Asset\File\Stylesheet;
  */
 trait ExtensionAssetTrait
 {
+    abstract public function getBaseUrl();
+    /** @return string */
+    abstract public function getBasePath();
+
     /**
      * Add a particular CSS file to the output. This will be inserted before the
      * other css files.
@@ -69,11 +73,11 @@ trait ExtensionAssetTrait
      */
     private function getAssetPath($fileName)
     {
-        if (file_exists($this->basepath . '/' . $fileName)) {
+        if (file_exists($this->getBasePath() . '/' . $fileName)) {
             return $this->getBaseUrl() . $fileName;
         } elseif (file_exists($this->app['resources']->getPath('themepath/' . $fileName))) {
             return $this->app['resources']->getUrl('theme') . $fileName;
-        } elseif ($this->isConcrete) {
+        } elseif ($this instanceof \Bolt\Extensions) {
             return $fileName;
         } else {
             $message = sprintf(

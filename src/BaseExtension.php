@@ -91,9 +91,9 @@ abstract class BaseExtension implements ExtensionInterface
      */
     public function getBaseUrl()
     {
-        $relative = str_replace($this->app['resources']->getPath('extensions'), "", $this->basepath);
+        $relative = str_replace($this->app['resources']->getPath('extensions'), '', $this->basepath);
 
-        return $this->app['resources']->getUrl('extensions') . ltrim($relative, "/") . "/";
+        return $this->app['resources']->getUrl('extensions') . ltrim($relative, '/') . '/';
     }
 
     /**
