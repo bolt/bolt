@@ -125,10 +125,19 @@ class Queue implements QueueInterface
     public function render($type, $location)
     {
         $html = null;
+
         foreach ($this->queue as $widget) {
             if ($widget->getType() === $type && $widget->getLocation() === $location) {
                 $html .= $this->addWidgetHolder($widget);
             }
+        }
+
+        if (!empty($html)) {
+            $html = sprintf(
+                "<div class='widgetholder widgetholder-%s'>%s</div>",
+                $location,
+                $html
+            );
         }
 
         return $html;
