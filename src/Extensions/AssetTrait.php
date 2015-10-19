@@ -11,7 +11,7 @@ use Bolt\Asset\File\Stylesheet;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-trait ExtensionAssetTrait
+trait AssetTrait
 {
     abstract public function getBaseUrl();
     /** @return string */

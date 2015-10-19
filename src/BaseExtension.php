@@ -2,7 +2,7 @@
 namespace Bolt;
 
 use Bolt\Asset\Widget\Widget;
-use Bolt\Extensions\ExtensionAssetTrait;
+use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
 use Bolt\Helpers\Arr;
@@ -16,7 +16,7 @@ use Symfony\Component\Yaml;
 
 abstract class BaseExtension implements ExtensionInterface
 {
-    use ExtensionAssetTrait;
+    use AssetTrait;
 
     public $config;
 
