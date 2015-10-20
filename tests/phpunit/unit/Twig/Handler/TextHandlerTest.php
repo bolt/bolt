@@ -25,4 +25,42 @@ class TextHandlerTest extends BoltUnitTest
         $result = $handler->jsonDecode(json_encode($array));
         $this->assertSame($array, $result);
     }
+
+    public function testLocaleDateTimeStringNoFormat()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $result = $handler->localeDateTime('2012-06-14 09:07:55');
+        $this->assertSame('June 14, 2012 09:07', $result);
+    }
+
+    public function testLocaleDateTimeStringWithFormat()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $result = $handler->localeDateTime('2012-06-14 09:07:55', '%Y-%m-%d %H:%M');
+        $this->assertSame('2012-06-14 09:07', $result);
+    }
+
+    public function testLocaleDateTimeObjectNoFormat()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $dateTime = new \DateTime('2012-06-14 09:07:55');
+        $result = $handler->localeDateTime($dateTime);
+        $this->assertSame('June 14, 2012 09:07', $result);
+    }
+
+    public function testLocaleDateTimeObjectWithFormat()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $dateTime = new \DateTime('2012-06-14 09:07:55');
+        $result = $handler->localeDateTime($dateTime, '%Y-%m-%d %H:%M');
+        $this->assertSame('2012-06-14 09:07', $result);
+    }
 }
