@@ -222,4 +222,93 @@ class ImageHandlerTest extends BoltUnitTest
         $result = $handler->popup(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null, null);
         $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120crop/generic-logo.png" width="" height="" alt="Gum Leaves"></a>', $result);
     }
+
+    public function testShowImageEmptyFileName()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->showImage();
+        $this->assertSame('&nbsp;', $result);
+    }
+
+    public function testShowImageFileNameOnly()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->showImage('generic-logo.png');
+        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="">', $result);
+    }
+
+    public function testShowImageWidth()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->showImage('generic-logo.png', 50);
+        $this->assertSame('<img src="/thumbs/50x28c/generic-logo.png" width="50" height="28" alt="">', $result);
+    }
+
+    public function testShowImageHeight()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->showImage('generic-logo.png', null, 50);
+        $this->assertSame('<img src="/thumbs/89x50c/generic-logo.png" width="89" height="50" alt="">', $result);
+    }
+
+    public function testShowImageCrop()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->showImage('generic-logo.png', null, null, 'f');
+        $this->assertSame('<img src="/thumbs/624x351f/generic-logo.png" width="624" height="351" alt="">', $result);
+        $result = $handler->showImage('generic-logo.png', null, null, 'fit');
+        $this->assertSame('<img src="/thumbs/624x351f/generic-logo.png" width="624" height="351" alt="">', $result);
+
+        $result = $handler->showImage('generic-logo.png', null, null, 'r');
+        $this->assertSame('<img src="/thumbs/624x351r/generic-logo.png" width="624" height="351" alt="">', $result);
+        $result = $handler->showImage('generic-logo.png', null, null, 'resize');
+        $this->assertSame('<img src="/thumbs/624x351r/generic-logo.png" width="624" height="351" alt="">', $result);
+
+        $result = $handler->showImage('generic-logo.png', null, null, 'b');
+        $this->assertSame('<img src="/thumbs/624x351b/generic-logo.png" width="624" height="351" alt="">', $result);
+        $result = $handler->showImage('generic-logo.png', null, null, 'borders');
+        $this->assertSame('<img src="/thumbs/624x351b/generic-logo.png" width="624" height="351" alt="">', $result);
+
+        $result = $handler->showImage('generic-logo.png', null, null, 'c');
+        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="">', $result);
+        $result = $handler->showImage('generic-logo.png', null, null, 'crop');
+        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="">', $result);
+    }
+
+    public function testShowImageFileNameArrayWithTitle()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->showImage(['title' => 'Koala', 'filename' => 'generic-logo.png'], null, null, null, null);
+        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="Koala">', $result);
+    }
+
+    public function testShowImageFileNameArrayWithoutTitle()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->showImage(['filename' => 'generic-logo.png'], null, null, null, null);
+        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="">', $result);
+    }
+
+    public function testShowImageFileNameArrayWithAlt()
+    {
+        $app = $this->getApp();
+        $handler = new ImageHandler($app);
+
+        $result = $handler->showImage(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null, null);
+        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="Gum Leaves">', $result);
+    }
 }
