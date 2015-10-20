@@ -117,4 +117,23 @@ class TextHandlerTest extends BoltUnitTest
         $result = $handler->safeString('Skämt åsido $@tan vilket uruselt tillvägagångsätt', true, '$');
         $this->assertSame('skaemt-aasido-$attan-vilket-uruselt-tillvaegagaangsaett', $result);
     }
+
+    public function testSlugString()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $result = $handler->slug('Köala & Clippy úp thé trèé');
+        $this->assertSame('koeala-clippy-up-the-tree', $result);
+    }
+
+    public function testSlugArray()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $slug = ['Köala & Clippy', 'úp thé trèé'];
+        $result = $handler->slug($slug);
+        $this->assertSame('koeala-clippy-up-the-tree', $result);
+    }
 }
