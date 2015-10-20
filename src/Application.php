@@ -636,7 +636,7 @@ class Application extends Silex\Application
 
         $end = $this['config']->getWhichEnd();
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
-            if (substr($this['config']->get('general/notfound'), -5) == '.twig') {
+            if (substr($this['config']->get('general/notfound'), -5) === '.twig') {
                 return $this['render']->render($this['config']->get('general/notfound'));
             } else {
                 $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
