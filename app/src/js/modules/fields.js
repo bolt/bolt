@@ -36,6 +36,7 @@
             var type = $(this).data('bolt-field'),
                 conf = $(this).data('bolt-fconf');
 
+            console.log(type);
             console.log(typeof bolt.fields[type] );
             switch (type) {
                 case 'categories':
