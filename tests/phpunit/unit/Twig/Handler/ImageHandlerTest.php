@@ -107,7 +107,19 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->imageInfo('koala.jpg', false);
-        $this->assertFalse($result);
+        $this->assertInstanceOf('Bolt\Helpers\Image\Image', $result);
+        $this->assertNull($result['filename']);
+        $this->assertNull($result['fullpath']);
+        $this->assertNull($result['url']);
+        $this->assertNull($result['width']);
+        $this->assertNull($result['height']);
+        $this->assertNull($result['type']);
+        $this->assertNull($result['mime']);
+        $this->assertNull($result['aspectratio']);
+        $this->assertNull($result['exif']);
+        $this->assertNull($result['landscape']);
+        $this->assertNull($result['portrait']);
+        $this->assertNull($result['square']);
     }
 
     public function testImageInfo()
