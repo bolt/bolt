@@ -90,4 +90,31 @@ class TextHandlerTest extends BoltUnitTest
         $result = $handler->pregReplace('One koala, two koalas, three koalas, four!', '#(ko)a(la|las)#', 'clippy', 2);
         $this->assertSame('One clippy, two clippys, three koalas, four!', $result);
     }
+
+    public function testSafeStringNotStrictNoExtra()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $result = $handler->safeString('Skämt åsido satan vilket uruselt tillvägagångsätt');
+        $this->assertSame('Skaemt aasido satan vilket uruselt tillvaegagaangsaett', $result);
+    }
+
+    public function testSafeStringWithStrictNoExtra()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $result = $handler->safeString('Skämt åsido satan vilket uruselt tillvägagångsätt', true);
+        $this->assertSame('skaemt-aasido-satan-vilket-uruselt-tillvaegagaangsaett', $result);
+    }
+
+    public function testSafeStringWithStrictWithExtra()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $result = $handler->safeString('Skämt åsido $@tan vilket uruselt tillvägagångsätt', true, '$');
+        $this->assertSame('skaemt-aasido-$attan-vilket-uruselt-tillvaegagaangsaett', $result);
+    }
 }
