@@ -32,71 +32,16 @@
         }
         // Init fieldsets
         $('[data-bolt-field]', context).each(function () {
-            console.log(context);
             var type = $(this).data('bolt-field'),
                 conf = $(this).data('bolt-fconf');
 
             console.log(type);
             console.log(typeof bolt.fields[type] );
-            switch (type) {
-                case 'categories':
-                    bolt.fields.categories.init(this);
-                    break;
-
-                case 'geolocation':
-                    bolt.fields.geolocation.init(this, conf);
-                    break;
-
-                case 'meta':
-                    bolt.fields.meta.init(this);
-                    break;
-
-                case 'relationship':
-                    bolt.fields.relationship.init(this);
-                    break;
-
-                case 'repeater':
-                    bolt.fields.repeater.init(this);
-                    break;
-
-                case 'select':
-                    bolt.fields.select.init(this, conf);
-                    break;
-
-                case 'slug':
-                    bolt.fields.slug.init(this, conf);
-                    break;
-
-                case 'tags':
-                    bolt.fields.tags.init(this, conf);
-                    break;
-
-                case 'templateselect':
-                    bolt.fields.templateselect.init(this, conf);
-                    break;
-
-                case 'checkbox':
-                case 'date':
-                case 'datetime':
-                case 'file':
-                case 'filelist':
-                case 'float':
-                case 'grouping':
-                case 'html':
-                case 'image':
-                case 'imagelist':
-                case 'integer':
-                case 'markdown':
-                case 'text':
-                case 'textarea':
-                case 'video':
-                    // Not implemented yet.
-                    break;
-
-                default:
-                    console.log('Unknown field type: ' + type);
+            if (typeof bolt.fields[type] !=='undefined') {
+               bolt.fields[type].init(this, conf);
+            } else {
+                // No custom fieldtype handler
             }
-
         });
     };
 
