@@ -53,4 +53,40 @@ class UserHandlerTest extends BoltUnitTest
         $this->assertArrayHasKey('password', $result);
         $this->assertArrayHasKey('email', $result);
     }
+
+    public function testGetUserIdInvalid()
+    {
+        $app = $this->getApp();
+        $handler = new UserHandler($app);
+
+        $result = $handler->getUserId(42);
+        $this->assertFalse($result);
+    }
+
+    public function testGetUserIdById()
+    {
+        $app = $this->getApp();
+        $handler = new UserHandler($app);
+
+        $result = $handler->getUserId(1);
+        $this->assertSame(1, $result);
+    }
+
+    public function testGetUserIdByUsername()
+    {
+        $app = $this->getApp();
+        $handler = new UserHandler($app);
+
+        $result = $handler->getUserId('admin');
+        $this->assertSame(1, $result);
+    }
+
+    public function testGetUserIdByEmail()
+    {
+        $app = $this->getApp();
+        $handler = new UserHandler($app);
+
+        $result = $handler->getUserId('admin@example.com');
+        $this->assertSame(1, $result);
+    }
 }
