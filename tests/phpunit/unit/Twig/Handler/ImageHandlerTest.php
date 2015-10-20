@@ -45,7 +45,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->image(['filename' => 'generic-logo.png'], 20);
-        $this->assertSame('/thumbs/20x120crop/generic-logo.png', $result);
+        $this->assertSame('/thumbs/20x120c/generic-logo.png', $result);
     }
 
     public function testImageFileNameHeightOnly()
@@ -54,7 +54,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->image(['filename' => 'generic-logo.png'], '', 20);
-        $this->assertSame('/thumbs/160x20crop/generic-logo.png', $result);
+        $this->assertSame('/thumbs/160x20c/generic-logo.png', $result);
     }
 
     public function testImageFileNameWidthHeight()
@@ -167,7 +167,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->popup('generic-logo.png', null, 50);
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x50crop/generic-logo.png" width="" height="50" alt="Image: generic-logo.png"></a>', $result);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x50c/generic-logo.png" width="" height="50" alt="Image: generic-logo.png"></a>', $result);
     }
 
     public function testPopupCrop()
@@ -202,7 +202,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->popup(['title' => 'Koala', 'filename' => 'generic-logo.png'], null, null, null, null);
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120crop/generic-logo.png" width="" height="" alt="Koala"></a>', $result);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120c/generic-logo.png" width="" height="" alt="Koala"></a>', $result);
     }
 
     public function testPopupFileNameArrayWithoutTitle()
@@ -211,7 +211,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->popup(['filename' => 'generic-logo.png'], null, null, null, null);
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="generic-logo.png"><img src="/thumbs/160x120crop/generic-logo.png" width="" height="" alt="generic-logo.png"></a>', $result);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="" height="" alt="generic-logo.png"></a>', $result);
     }
 
     public function testPopupFileNameArrayWithAlt()
@@ -220,7 +220,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->popup(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null, null);
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120crop/generic-logo.png" width="" height="" alt="Gum Leaves"></a>', $result);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120c/generic-logo.png" width="" height="" alt="Gum Leaves"></a>', $result);
     }
 
     public function testShowImageEmptyFileName()
