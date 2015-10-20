@@ -195,30 +195,6 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->assertNull($twig->ymllink('config.yml'));
     }
 
-    public function testImageInfo()
-    {
-        // Safe mode should return null
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, true);
-        $this->assertNull($twig->imageInfo('nofile'));
-
-        // Test on normal mode
-        $app = $this->getApp();
-        $app['resources']->setPath('files', PHPUNIT_ROOT . '/resources');
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $img = 'generic-logo.png';
-        $info = $twig->imageInfo($img);
-        $this->assertEquals(12, count($info));
-
-        // Test non readable image fails
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertFalse($twig->imageInfo('nothing'));
-    }
-
     public function testSlug()
     {
         $app = $this->getApp();
