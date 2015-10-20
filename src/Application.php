@@ -551,6 +551,13 @@ class Application extends Silex\Application
             $response->headers->set('Frame-Options', 'SAMEORIGIN');
         }
 
+        // Exit now if it's an AJAX call
+        if ($request->isXmlHttpRequest()) {
+            $this['stopwatch']->stop('bolt.app.after');
+
+            return;
+        }
+
         // true if we need to consider adding html snippets
         if (isset($this['htmlsnippets']) && ($this['htmlsnippets'] === true)) {
             // only add when content-type is text/html
