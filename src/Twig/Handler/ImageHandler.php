@@ -49,8 +49,8 @@ class ImageHandler
         }
 
         $image = sprintf(
-            '%sfiles/%s',
-            $this->app['resources']->getUrl('root'),
+            '%s%s',
+            $this->app['resources']->getUrl('files'),
             Lib::safeFilename($filename)
         );
 
@@ -197,7 +197,7 @@ class ImageHandler
                     }
                 }
             }
-            
+
             if (is_array($filename) && isset($filename['alt'])) {
                 $alt = $filename['alt'];
             } else {
