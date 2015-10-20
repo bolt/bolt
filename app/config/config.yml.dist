@@ -86,6 +86,7 @@ homepage_template: index.twig
 # Note 1: The record specified in this parameter must be set to 'published'
 # Note 2: If you are logged on, and debug is set to 'true', you will NOT see the
 #         404 page!
+# Note 3: This may also point to a template without a record, eg error404.twig
 notfound: page/not-found
 
 # The default template and amount of records to use for listing-pages on the

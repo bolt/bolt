@@ -636,13 +636,17 @@ class Application extends Silex\Application
 
         $end = $this['config']->getWhichEnd();
         if (($exception instanceof HttpException) && ($end == 'frontend')) {
-            $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
+            if (substr($this['config']->get('general/notfound'), -5) === '.twig') {
+                return $this['render']->render($this['config']->get('general/notfound'));
+            } else {
+                $content = $this['storage']->getContent($this['config']->get('general/notfound'), array('returnsingle' => true));
 
-            // Then, select which template to use, based on our 'cascading templates rules'
-            if ($content instanceof Content && !empty($content->id)) {
-                $template = $this['templatechooser']->record($content);
+                // Then, select which template to use, based on our 'cascading templates rules'
+                if ($content instanceof Content && !empty($content->id)) {
+                    $template = $this['templatechooser']->record($content);
 
-                return $this['render']->render($template, $content->getTemplateContext());
+                    return $this['render']->render($template, $content->getTemplateContext());
+                }
             }
 
             $message = "The page could not be found, and there is no 'notfound' set in 'config.yml'. Sorry about that.";
