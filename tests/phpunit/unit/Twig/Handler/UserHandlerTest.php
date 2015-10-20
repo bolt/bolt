@@ -138,4 +138,20 @@ class UserHandlerTest extends BoltUnitTest
         $result = $handler->isAllowed('koala', 'clippy');
         $this->assertTrue($result);
     }
+
+    public function testToken()
+    {
+        $app = $this->getApp();
+        $handler = new UserHandler($app);
+        $users = $this->getMock('Bolt\Users', ['getAntiCSRFToken'], [$app]);
+        $users
+            ->expects($this->atLeastOnce())
+            ->method('getAntiCSRFToken')
+            ->will($this->returnValue('koala'))
+        ;
+        $app['users'] = $users;
+
+        $result = $handler->token();
+        $this->assertSame('koala', $result);
+    }
 }
