@@ -165,57 +165,40 @@ class ImageHandler
      * Note: This function used to be called 'fancybox', but Fancybox was
      * deprecated in favour of the Magnific Popup library.
      *
-     * @param string  $filename Image filename
-     * @param integer $width    Image width
-     * @param integer $height   Image height
-     * @param string  $crop     Crop image string identifier
-     * @param string  $title    Display title for image
+     * @param string|array $fileName Image file name
+     * @param integer      $width    Image width
+     * @param integer      $height   Image height
+     * @param string       $crop     Crop image string identifier
+     * @param string       $title    Display title for image
      *
      * @return string HTML output
      */
-    public function popup($filename = null, $width = 100, $height = 100, $crop = null, $title = null)
+    public function popup($fileName = null, $width = 100, $height = 100, $crop = null, $title = null)
     {
-        if ($filename === null) {
+        if ($fileName === null) {
             return  '&nbsp;';
         }
 
         $thumbconf = $this->app['config']->get('general/thumbnails');
-
         $fullwidth = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
         $fullheight = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 800;
 
-        $thumbnail = $this->thumbnail($filename, $width, $height, $crop);
-        $large = $this->thumbnail($filename, $fullwidth, $fullheight, 'r');
+        $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
+        $largeThumb = $this->getThumbnail($fileName, $fullwidth, $fullheight, 'r');
 
-        if (empty($title)) {
-            // try to get title from filename array
-            if (is_array($filename) && isset($filename['title'])) {
-                $title = $filename['title'];
-            } else {
-                // fallback to filename from array
-                if (is_array($filename) && isset($filename['filename'])) {
-                    $title = $filename['filename'];
-                } else {
-                    // fallback to filename as provided (string)
-                    $title = sprintf('%s: %s', Trans::__('Image'), $filename);
-                }
-            }
-        }
-
-        if (is_array($filename) && isset($filename['alt'])) {
-            $alt = $filename['alt'];
-        } else {
-            $alt = $title;
-        }
+        // BC Nightmare… If we're passed a title, use it, if not we might have
+        // one in the $fileName array, else use the file name
+        $title = $title ?: $thumb->getTitle() ?: sprintf('%s: %s', Trans::__('Image'), $thumb->getFileName());
+        $altTitle = $thumb->getAltTitle() ?: $title;
 
         $output = sprintf(
             '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s" alt="%s"></a>',
-            $large,
+            $this->getThubnailUri($largeThumb),
             $title,
-            $thumbnail,
-            $width,
-            $height,
-            $alt
+            $this->getThubnailUri($thumb),
+            $thumb->getWidth(),
+            $thumb->getHeight(),
+            $altTitle
         );
 
         return $output;
