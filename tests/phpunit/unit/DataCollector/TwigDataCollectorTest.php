@@ -68,7 +68,7 @@ class TwigDataCollectorTest extends BoltUnitTest
             ->method('getFunctions')
             ->will($this->returnValue(array('func' => $func)));
 
-        $app['twig']->addExtension($ext);
+        @$app['twig']->addExtension($ext);
         $data->collect($request, $response);
     }
 }
