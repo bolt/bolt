@@ -35,8 +35,6 @@
             var type = $(this).data('bolt-field'),
                 conf = $(this).data('bolt-fconf');
 
-            console.log(type);
-            console.log(typeof bolt.fields[type] );
             if (typeof bolt.fields[type] !=='undefined') {
                bolt.fields[type].init(this, conf);
             } else {
