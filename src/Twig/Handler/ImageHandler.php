@@ -230,50 +230,39 @@ class ImageHandler
      * Example: {{ content.image|showimage(320, 240) }}
      * Example: {{ showimage(content.image, 320, 240) }}
      *
-     * @param string  $filename Image filename
+     * @param string  $fileName Image filename
      * @param integer $width    Image width
      * @param integer $height   Image height
      * @param string  $crop     Crop image string identifier
      *
      * @return string HTML output
      */
-    public function showImage($filename = null, $width = 0, $height = 0, $crop = null)
+    public function showImage($fileName = null, $width = null, $height = null, $crop = null)
     {
-        if ($filename === null) {
+        if ($fileName === null) {
             return  '&nbsp;';
         }
+        $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
-        $width = intval($width);
-        $height = intval($height);
+        if ($width === null || $height === null) {
+            $info = $this->imageInfo($thumb->getFileName(), false);
 
-        if (isset($filename['alt'])) {
-            $alt = $filename['alt'];
-        } elseif (isset($filename['title'])) {
-            $alt = $filename['title'];
-        } else {
-            $alt = '';
-        }
-
-        if ($width === 0 || $height === 0) {
-            if (is_array($filename)) {
-                $filename = isset($filename['filename']) ? $filename['filename'] : $filename['file'];
-            }
-
-            $info = $this->imageInfo($filename, false);
-
-            if ($width !== 0) {
-                $height = round($width / $info['aspectratio']);
-            } elseif ($height !== 0) {
-                $width = round($height * $info['aspectratio']);
+            if ($width !== null) {
+                $thumb->setHeight(round($width / $info['aspectratio']));
+            } elseif ($height !== null) {
+                $thumb->setWidth(round($height * $info['aspectratio']));
             } else {
-                $width = $info['width'];
-                $height = $info['height'];
+                $thumb->setWidth($info['width']);
+                $thumb->setHeight($info['height']);
             }
         }
 
-        $image = $this->thumbnail($filename, $width, $height, $crop);
-
-        return '<img src="' . $image . '" width="' . $width . '" height="' . $height . '" alt="'. $alt .'">';
+        return sprintf('<img src="%s" width="%s" height="%s" alt="%s">',
+            $this->getThubnailUri($thumb),
+            $thumb->getWidth(),
+            $thumb->getHeight(),
+            $thumb->getAltTitle()
+        );
     }
 
     /**
