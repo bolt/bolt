@@ -286,7 +286,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * @see \Bolt\Twig\Handler\ImageHandler::image()
      */
-    public function image($filename, $width = '', $height = '', $crop = '')
+    public function image($filename, $width = null, $height = null, $crop = null)
     {
         return $this->handlers['image']->image($filename, $width, $height, $crop);
     }
@@ -400,7 +400,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * @see \Bolt\Twig\Handler\ImageHandler::popup()
      */
-    public function popup($filename = '', $width = 100, $height = 100, $crop = '', $title = '')
+    public function popup($filename = null, $width = 100, $height = 100, $crop = null, $title = null)
     {
         return $this->handlers['image']->popup($filename, $width, $height, $crop, $title);
     }
@@ -480,7 +480,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * @see \Bolt\Twig\Handler\ImageHandler::showImage()
      */
-    public function showImage($filename = '', $width = 0, $height = 0, $crop = '')
+    public function showImage($filename = null, $width = 0, $height = 0, $crop = null)
     {
         return $this->handlers['image']->showImage($filename, $width, $height, $crop);
     }
@@ -536,7 +536,7 @@ class TwigExtension extends \Twig_Extension
     /**
      * @see \Bolt\Twig\Handler\ImageHandler::thumbnail()
      */
-    public function thumbnail($filename, $width = '', $height = '', $zoomcrop = 'crop')
+    public function thumbnail($filename, $width = null, $height = null, $zoomcrop = 'crop')
     {
         return $this->handlers['image']->thumbnail($filename, $width, $height, $zoomcrop);
     }
