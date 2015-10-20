@@ -63,4 +63,31 @@ class TextHandlerTest extends BoltUnitTest
         $result = $handler->localeDateTime($dateTime, '%Y-%m-%d %H:%M');
         $this->assertSame('2012-06-14 09:07', $result);
     }
+
+    public function testPregReplaceNoReplacementNoLimit()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $result = $handler->pregReplace('One koala, two koalas, three koalas, four!', '#(ko)a(la|las)#');
+        $this->assertSame('One , two s, three s, four!', $result);
+    }
+
+    public function testPregReplaceWithReplacementNoLimit()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $result = $handler->pregReplace('One koala, two koalas, three koalas, four!', '#(ko)a(la|las)#', 'clippy');
+        $this->assertSame('One clippy, two clippys, three clippys, four!', $result);
+    }
+
+    public function testPregReplaceWithReplacementWithLimit()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $result = $handler->pregReplace('One koala, two koalas, three koalas, four!', '#(ko)a(la|las)#', 'clippy', 2);
+        $this->assertSame('One clippy, two clippys, three koalas, four!', $result);
+    }
 }
