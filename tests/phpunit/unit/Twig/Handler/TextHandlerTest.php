@@ -136,4 +136,23 @@ class TextHandlerTest extends BoltUnitTest
         $result = $handler->slug($slug);
         $this->assertSame('koeala-clippy-up-the-tree', $result);
     }
+
+    public function testTestJsonValid()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $array = ['koala', 'clippy'];
+        $result = $handler->testJson(json_encode($array));
+        $this->assertTrue($result);
+    }
+
+    public function testTestJsonInvalid()
+    {
+        $app = $this->getApp();
+        $handler = new TextHandler($app);
+
+        $result = $handler->testJson('koala');
+        $this->assertFalse($result);
+    }
 }
