@@ -174,48 +174,48 @@ class ImageHandler
      */
     public function popup($filename = null, $width = 100, $height = 100, $crop = null, $title = null)
     {
-        if (!empty($filename)) {
-            $thumbconf = $this->app['config']->get('general/thumbnails');
+        if ($filename === null) {
+            return  '&nbsp;';
+        }
 
-            $fullwidth = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
-            $fullheight = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 800;
+        $thumbconf = $this->app['config']->get('general/thumbnails');
 
-            $thumbnail = $this->thumbnail($filename, $width, $height, $crop);
-            $large = $this->thumbnail($filename, $fullwidth, $fullheight, 'r');
+        $fullwidth = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
+        $fullheight = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 800;
 
-            if (empty($title)) {
-                // try to get title from filename array
-                if (is_array($filename) && isset($filename['title'])) {
-                    $title = $filename['title'];
+        $thumbnail = $this->thumbnail($filename, $width, $height, $crop);
+        $large = $this->thumbnail($filename, $fullwidth, $fullheight, 'r');
+
+        if (empty($title)) {
+            // try to get title from filename array
+            if (is_array($filename) && isset($filename['title'])) {
+                $title = $filename['title'];
+            } else {
+                // fallback to filename from array
+                if (is_array($filename) && isset($filename['filename'])) {
+                    $title = $filename['filename'];
                 } else {
-                    // fallback to filename from array
-                    if (is_array($filename) && isset($filename['filename'])) {
-                        $title = $filename['filename'];
-                    } else {
-                        // fallback to filename as provided (string)
-                        $title = sprintf('%s: %s', Trans::__('Image'), $filename);
-                    }
+                    // fallback to filename as provided (string)
+                    $title = sprintf('%s: %s', Trans::__('Image'), $filename);
                 }
             }
-
-            if (is_array($filename) && isset($filename['alt'])) {
-                $alt = $filename['alt'];
-            } else {
-                $alt = $title;
-            }
-
-            $output = sprintf(
-                '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s" alt="%s"></a>',
-                $large,
-                $title,
-                $thumbnail,
-                $width,
-                $height,
-                $alt
-            );
-        } else {
-            $output = '&nbsp;';
         }
+
+        if (is_array($filename) && isset($filename['alt'])) {
+            $alt = $filename['alt'];
+        } else {
+            $alt = $title;
+        }
+
+        $output = sprintf(
+            '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s" alt="%s"></a>',
+            $large,
+            $title,
+            $thumbnail,
+            $width,
+            $height,
+            $alt
+        );
 
         return $output;
     }
@@ -238,41 +238,41 @@ class ImageHandler
      */
     public function showImage($filename = null, $width = 0, $height = 0, $crop = null)
     {
-        if (empty($filename)) {
-            return '&nbsp;';
-        } else {
-            $width = intval($width);
-            $height = intval($height);
-
-            if (isset($filename['alt'])) {
-                $alt = $filename['alt'];
-            } elseif (isset($filename['title'])) {
-                $alt = $filename['title'];
-            } else {
-                $alt = '';
-            }
-
-            if ($width === 0 || $height === 0) {
-                if (is_array($filename)) {
-                    $filename = isset($filename['filename']) ? $filename['filename'] : $filename['file'];
-                }
-
-                $info = $this->imageInfo($filename, false);
-
-                if ($width !== 0) {
-                    $height = round($width / $info['aspectratio']);
-                } elseif ($height !== 0) {
-                    $width = round($height * $info['aspectratio']);
-                } else {
-                    $width = $info['width'];
-                    $height = $info['height'];
-                }
-            }
-
-            $image = $this->thumbnail($filename, $width, $height, $crop);
-
-            return '<img src="' . $image . '" width="' . $width . '" height="' . $height . '" alt="'. $alt .'">';
+        if ($filename === null) {
+            return  '&nbsp;';
         }
+
+        $width = intval($width);
+        $height = intval($height);
+
+        if (isset($filename['alt'])) {
+            $alt = $filename['alt'];
+        } elseif (isset($filename['title'])) {
+            $alt = $filename['title'];
+        } else {
+            $alt = '';
+        }
+
+        if ($width === 0 || $height === 0) {
+            if (is_array($filename)) {
+                $filename = isset($filename['filename']) ? $filename['filename'] : $filename['file'];
+            }
+
+            $info = $this->imageInfo($filename, false);
+
+            if ($width !== 0) {
+                $height = round($width / $info['aspectratio']);
+            } elseif ($height !== 0) {
+                $width = round($height * $info['aspectratio']);
+            } else {
+                $width = $info['width'];
+                $height = $info['height'];
+            }
+        }
+
+        $image = $this->thumbnail($filename, $width, $height, $crop);
+
+        return '<img src="' . $image . '" width="' . $width . '" height="' . $height . '" alt="'. $alt .'">';
     }
 
     /**
