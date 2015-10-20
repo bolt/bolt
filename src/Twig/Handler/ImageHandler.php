@@ -288,16 +288,9 @@ class ImageHandler
      *
      * @return string Relative URL of the thumbnail
      */
-    public function thumbnail($fileName, $width = null, $height = null, $zoomcrop = 'crop')
+    public function thumbnail($fileName, $width = null, $height = null, $zoomcrop = null)
     {
-        $thumb = new Thumbnail($this->app['config']->get('general/thumbnails'));
-        $thumb
-            ->setFileName($fileName)
-            ->setWidth($width)
-            ->setHeight($height)
-            ->setScale($zoomcrop)
-        ;
-
+        $thumb = $this->getThumbnail($fileName, $width, $height, $zoomcrop);
         $thumbStr = sprintf('%sx%s%s/%s',
             $thumb->getWidth(),
             $thumb->getHeight(),
@@ -308,5 +301,28 @@ class ImageHandler
         $path = $this->app['url_generator']->generate('thumb', ['thumb' => $thumbStr]);
 
         return $path;
+    }
+
+    /**
+     * Get a thumbnail object.
+     *
+     * @param string|array $fileName
+     * @param integer      $width
+     * @param integer      $height
+     * @param string       $scale
+     *
+     * @return Thumbnail
+     */
+    private function getThumbnail($fileName, $width = null, $height = null, $scale = null)
+    {
+        $thumb = new Thumbnail($this->app['config']->get('general/thumbnails'));
+        $thumb
+            ->setFileName($fileName)
+            ->setWidth($width)
+            ->setHeight($height)
+            ->setScale($scale)
+        ;
+
+        return $thumb;
     }
 }
