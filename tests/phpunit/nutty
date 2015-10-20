@@ -18,6 +18,7 @@ if (!is_readable(PHPUNIT_WEBROOT . '/app/cache')) {
     return;
 }
 
-$app = (new Nutty())->getApp();
+$nutty = new Nutty();
+$app = $nutty->getApp();
 $application = $app['nut'];
 $application->run();
