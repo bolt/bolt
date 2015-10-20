@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig\Handler;
 
+use Bolt\Helpers\Image\Thumbnail;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use PHPExif\Exif;
@@ -278,60 +279,33 @@ class ImageHandler
     /**
      * Helper function to make a path to an image thumbnail.
      *
-     * @param string     $filename Target filename
+     * @param string     $fileName Target filename
      * @param string|int $width    Target width
      * @param string|int $height   Target height
      * @param string     $zoomcrop Zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
      *                             Set width or height parameter to '0' for proportional scaling
      *                             Setting them to '' uses default values.
      *
-     * @return string Thumbnail path
+     * @return string Relative URL of the thumbnail
      */
-    public function thumbnail($filename, $width = null, $height = null, $zoomcrop = 'crop')
+    public function thumbnail($fileName, $width = null, $height = null, $zoomcrop = 'crop')
     {
-        if (!is_numeric($width)) {
-            $thumbconf = $this->app['config']->get('general/thumbnails');
-            $width = empty($thumbconf['default_thumbnail'][0]) ? 100 : $thumbconf['default_thumbnail'][0];
-        }
+        $thumb = new Thumbnail($this->app['config']->get('general/thumbnails'));
+        $thumb
+            ->setFileName($fileName)
+            ->setWidth($width)
+            ->setHeight($height)
+            ->setScale($zoomcrop)
+        ;
 
-        if (!is_numeric($height)) {
-            $thumbconf = $this->app['config']->get('general/thumbnails');
-            $height = empty($thumbconf['default_thumbnail'][1]) ? 100 : $thumbconf['default_thumbnail'][1];
-        }
-
-        switch ($zoomcrop) {
-            case 'fit':
-            case 'f':
-                $scale = 'f';
-                break;
-
-            case 'resize':
-            case 'r':
-                $scale = 'r';
-                break;
-
-            case 'borders':
-            case 'b':
-                $scale = 'b';
-                break;
-
-            case 'crop':
-            case 'c':
-                $scale = 'c';
-                break;
-
-            default:
-                $scale = !empty($thumbconf['cropping']) ? $thumbconf['cropping'] : 'c';
-        }
-
-        // After v1.5.1 we store image data as an array
-        if (is_array($filename)) {
-            $filename = isset($filename['filename']) ? $filename['filename'] : $filename['file'];
-        }
-
-        $path = $this->app['url_generator']->generate(
-            'thumb', ['thumb' => round($width) . 'x' . round($height) . $scale . '/' . $filename]
+        $thumbStr = sprintf('%sx%s%s/%s',
+            $thumb->getWidth(),
+            $thumb->getHeight(),
+            $thumb->getScale(),
+            $thumb->getFileName()
         );
+
+        $path = $this->app['url_generator']->generate('thumb', ['thumb' => $thumbStr]);
 
         return $path;
     }
