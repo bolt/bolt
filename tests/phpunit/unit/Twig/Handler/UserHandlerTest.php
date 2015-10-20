@@ -89,4 +89,53 @@ class UserHandlerTest extends BoltUnitTest
         $result = $handler->getUserId('admin@example.com');
         $this->assertSame(1, $result);
     }
+
+    public function testIsAllowedObject()
+    {
+        $app = $this->getApp();
+        $handler = new UserHandler($app);
+        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
+        $users
+            ->expects($this->atLeastOnce())
+            ->method('isAllowed')
+            ->will($this->returnValue(true))
+        ;
+        $app['users'] = $users;
+
+        $content = new \Bolt\Legacy\Content($app, []);
+        $result = $handler->isAllowed('koala', $content);
+        $this->assertTrue($result);
+    }
+
+    public function testIsAllowedArray()
+    {
+        $app = $this->getApp();
+        $handler = new UserHandler($app);
+        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
+        $users
+            ->expects($this->atLeastOnce())
+            ->method('isAllowed')
+            ->will($this->returnValue(true))
+        ;
+        $app['users'] = $users;
+
+        $result = $handler->isAllowed('koala', []);
+        $this->assertTrue($result);
+    }
+
+    public function testIsAllowedString()
+    {
+        $app = $this->getApp();
+        $handler = new UserHandler($app);
+        $users = $this->getMock('Bolt\Users', ['isAllowed'], [$app]);
+        $users
+            ->expects($this->atLeastOnce())
+            ->method('isAllowed')
+            ->will($this->returnValue(true))
+        ;
+        $app['users'] = $users;
+
+        $result = $handler->isAllowed('koala', 'clippy');
+        $this->assertTrue($result);
+    }
 }
