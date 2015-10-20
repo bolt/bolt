@@ -2,11 +2,10 @@
 
 namespace Bolt\Twig\Handler;
 
+use Bolt\Helpers\Image\Image;
 use Bolt\Helpers\Image\Thumbnail;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use PHPExif\Exif;
-use PHPExif\Reader\Reader as ExifReader;
 use Silex;
 
 /**
@@ -75,84 +74,11 @@ class ImageHandler
             return null;
         }
 
-        $fullpath = sprintf('%s/%s', $this->app['resources']->getPath('filespath'), $filename);
-
-        if (!is_readable($fullpath) || !is_file($fullpath)) {
-            return false;
-        }
-
-        $types = [
-            0 => 'unknown',
-            1 => 'gif',
-            2 => 'jpeg',
-            3 => 'png',
-            4 => 'swf',
-            5 => 'psd',
-            6 => 'bmp'
-        ];
-
-        // Get the dimensions of the image
-        $imagesize = getimagesize($fullpath);
-
-        // Get the aspectratio
-        if ($imagesize[1] > 0) {
-            $ar = $imagesize[0] / $imagesize[1];
-        } else {
-            $ar = 0;
-        }
-
-        $info = [
-            'width'       => $imagesize[0],
-            'height'      => $imagesize[1],
-            'type'        => $types[$imagesize[2]],
-            'mime'        => $imagesize['mime'],
-            'aspectratio' => $ar,
-            'filename'    => $filename,
-            'fullpath'    => realpath($fullpath),
-            'url'         => str_replace('//', '/', $this->app['resources']->getUrl('files') . $filename)
-        ];
-
-        /** @var $reader \PHPExif\Reader\Reader */
-        $reader = ExifReader::factory(ExifReader::TYPE_NATIVE);
-
-        try {
-            // Get the EXIF data of the image
-            $exif = $reader->read($fullpath);
-        } catch (\RuntimeException $e) {
-            // No EXIF data… create an empty object.
-            $exif = new Exif();
-        }
-
-        // GPS coordinates
-        $gps = $exif->getGPS();
-        $gps = explode(',', $gps);
-
-        // If the picture is turned by exif, ouput the turned aspectratio
-        if (in_array($exif->getOrientation(), [6, 7, 8])) {
-            $exifturned = $imagesize[1] / $imagesize[0];
-        } else {
-            $exifturned = $ar;
-        }
-
-        // Output the relevant EXIF info
-        $info['exif'] = [
-            'latitude'    => isset($gps[0]) ? $gps[0] : false,
-            'longitude'   => isset($gps[1]) ? $gps[1] : false,
-            'datetime'    => $exif->getCreationDate(),
-            'orientation' => $exif->getOrientation(),
-            'aspectratio' => $exifturned ? : false
-        ];
-
-        // Landscape if aspectratio > 5:4
-        $info['landscape'] = ($ar >= 1.25) ? true : false;
-
-        // Portrait if aspectratio < 4:5
-        $info['portrait'] = ($ar <= 0.8) ? true : false;
-
-        // Square-ish, if neither portrait or landscape
-        $info['square'] = !$info['landscape'] && !$info['portrait'];
-
-        return $info;
+        return new Image(
+            $filename,
+            $this->app['resources']->getPath('filespath'),
+            $this->app['resources']->getUrl('files')
+        );
     }
 
     /**
