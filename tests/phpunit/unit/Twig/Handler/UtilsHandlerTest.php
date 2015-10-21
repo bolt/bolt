@@ -188,4 +188,31 @@ class UtilsHandlerTest extends BoltUnitTest
 
         $handler->printFirebug(['koala and clippy'], ['Danger Detected!'], false);
     }
+
+    public function testRedirectSafe()
+    {
+        $app = $this->getApp();
+        $handler = new UtilsHandler($app);
+
+        $result = $handler->redirect('/clippy/koala', true);
+        $this->assertNull($result);
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @requires extension xdebug
+     */
+    public function testRedirectNoSafe()
+    {
+        if (phpversion('xdebug') === false) {
+            $this->markTestSkipped('No xdebug support enabled.');
+        }
+
+        $app = $this->getApp();
+        $handler = new UtilsHandler($app);
+
+        $this->expectOutputRegex("/Redirecting to/i");
+        $handler->redirect('/clippy/koala', false);
+        $this->assertContains('location: /clippy/koala', xdebug_get_headers());
+    }
 }
