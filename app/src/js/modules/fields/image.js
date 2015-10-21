@@ -5,9 +5,8 @@
  * @namespace Bolt.fields.image
  *
  * @param {Object} bolt - The Bolt module.
- * @param {Object} $ - jQuery.
  */
-(function (bolt, $) {
+(function (bolt) {
     'use strict';
 
     /**
@@ -29,7 +28,6 @@
      * @param fconf
      */
     image.init = function (fieldset, fconf) {
-        console.log('Binding Image Field', $);
         bolt.uploads.bind(fieldset, fconf);
     };
 
