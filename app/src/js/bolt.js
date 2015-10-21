@@ -26,7 +26,10 @@
  *
  * @mixes Bolt.fields
  * @mixes Bolt.fields.categories
+ * @mixes Bolt.fields.file
+ * @mixes Bolt.fields.filelist
  * @mixes Bolt.fields.image
+ * @mixes Bolt.fields.imagelist
  * @mixes Bolt.fields.geolocation
  * @mixes Bolt.fields.meta
  * @mixes Bolt.fields.relationship
