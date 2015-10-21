@@ -412,4 +412,81 @@ GRINGALET;
         $result = $handler->trim($this->original, 87);
         $this->assertSame($this->excerpt, $result);
     }
+
+    public function testListTemplatesSafe()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+
+        $result = $handler->listTemplates('*.twig', true);
+        $this->assertNull($result);
+    }
+
+    public function testListTemplatesAll()
+    {
+        $app = $this->getApp();
+        $app['config']->set('theme/templateselect', null);
+        $handler = new RecordHandler($app);
+
+        $result = $handler->listTemplates(null, false);
+        $this->assertArrayHasKey('entry.twig', $result);
+        $this->assertArrayHasKey('extrafields.twig', $result);
+        $this->assertArrayHasKey('index.twig', $result);
+        $this->assertArrayHasKey('listing.twig', $result);
+        $this->assertArrayHasKey('record.twig', $result);
+    }
+
+    public function testListTemplatesAllTwig()
+    {
+        $app = $this->getApp();
+        $app['config']->set('theme/templateselect', null);
+        $handler = new RecordHandler($app);
+
+        $result = $handler->listTemplates('*.twig', false);
+        $this->assertArrayHasKey('entry.twig', $result);
+        $this->assertArrayHasKey('extrafields.twig', $result);
+        $this->assertArrayHasKey('index.twig', $result);
+        $this->assertArrayHasKey('listing.twig', $result);
+        $this->assertArrayHasKey('record.twig', $result);
+    }
+
+    public function testListTemplatesLimitedTwig()
+    {
+        $app = $this->getApp();
+        $app['config']->set('theme/templateselect', null);
+        $handler = new RecordHandler($app);
+
+        $result = $handler->listTemplates('e*.twig', false);
+        $this->assertArrayHasKey('entry.twig', $result);
+        $this->assertArrayHasKey('extrafields.twig', $result);
+        $this->assertArrayNotHasKey('index.twig', $result);
+        $this->assertArrayNotHasKey('listing.twig', $result);
+        $this->assertArrayNotHasKey('record.twig', $result);
+    }
+
+    public function testListTemplatesTemplateSelect()
+    {
+        $app = $this->getApp();
+        $app['config']->set('theme/templateselect/templates', [
+            'koala' => [
+                'name' => 'koala.twig',
+                'filename' => 'koala.twig',
+            ],
+            'clippy' => [
+                'name' => 'clippy.twig',
+                'filename' => 'clippy.twig',
+            ]
+        ]);
+        $handler = new RecordHandler($app);
+
+        $result = $handler->listTemplates('*.twig', false);
+        $this->assertArrayHasKey('koala.twig', $result);
+        $this->assertArrayHasKey('clippy.twig', $result);
+
+        $this->assertArrayNotHasKey('entry.twig', $result);
+        $this->assertArrayNotHasKey('extrafields.twig', $result);
+        $this->assertArrayNotHasKey('index.twig', $result);
+        $this->assertArrayNotHasKey('listing.twig', $result);
+        $this->assertArrayNotHasKey('record.twig', $result);
+    }
 }
