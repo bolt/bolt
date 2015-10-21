@@ -15,7 +15,7 @@
  * @mixes Bolt.omnisearch
  * @mixes Bolt.secmenu
  * @mixes Bolt.stack
- * @mixes Bolt.upload
+ * @mixes Bolt.uploads
  * @mixes Bolt.video
  *
  * @mixes Bolt.buic
