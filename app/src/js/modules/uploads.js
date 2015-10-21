@@ -38,12 +38,11 @@
      * @param element
      */
     uploads.bind = function (element) {
-        console.log(element);
         $('input[data-upload]', element).each(function () {
             var data = $(this).data('upload'),
                 accept = $(this).attr('accept').replace(/\./g, ''),
                 autocomplete_conf;
-
+            console.log(data);
             switch (data.type) {
                 case 'Image':
                 case 'File':
