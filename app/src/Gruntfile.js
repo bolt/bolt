@@ -53,6 +53,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/stack.js',
                 '<%= path.src.js %>/modules/secmenu.js',
                 '<%= path.src.js %>/modules/omnisearch.js',
+                '<%= path.src.js %>/modules/uploads.js',
                 '<%= path.src.js %>/modules/video.js',
                 // BUIC
                 '<%= path.src.js %>/modules/buic.js',
