@@ -39,9 +39,10 @@
      */
     uploads.bind = function (element) {
         $('input[data-upload]', element).each(function () {
-            var data = $(this).data('upload'),
-                accept = $(this).attr('accept').replace(/\./g, ''),
-                autocomplete_conf;
+            var data = $(this).data('upload');
+            var accept = $(this).attr('accept');
+            accept = accept ? accept.replace(/\./g, '') : '';
+            var autocomplete_conf;
             console.log(accept);
             switch (data.type) {
                 case 'Image':
