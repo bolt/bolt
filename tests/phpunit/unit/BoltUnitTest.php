@@ -79,6 +79,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function setAppPaths($config)
     {
+        $config->setPath('app', PHPUNIT_WEBROOT . '/app');
         $config->setPath('config', PHPUNIT_WEBROOT . '/app/config');
         $config->setPath('cache', PHPUNIT_WEBROOT . '/app/cache');
         $config->setPath('web', PHPUNIT_WEBROOT . '/');
