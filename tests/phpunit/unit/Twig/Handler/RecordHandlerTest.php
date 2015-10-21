@@ -543,4 +543,69 @@ GRINGALET;
         $this->assertRegExp('#<li ><a href="1">1</a></li>#', (string) $result);
         $this->assertRegExp('#<li ><a href="2">2</a></li>#', (string) $result);
     }
+
+    public function testSelectFieldEmptyContentStartEmpty()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+
+        $result = $handler->selectField([], 'koala', true);
+        $this->assertSame([], $result);
+    }
+
+    public function testSelectFieldEmptyContentStartFull()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+
+        $result = $handler->selectField([], 'koala', false);
+        $this->assertSame([''], $result);
+    }
+
+    public function testSelectFieldContentFieldString()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+        $record1 = $app['storage']->getEmptyContent('pages');
+        $record2 = $app['storage']->getEmptyContent('pages');
+
+        $record1->setValues(['title' => 'Bruce', 'slug' => 'clippy', 'status' => 'published']);
+        $record2->setValues(['title' => 'Johno', 'slug' => 'koala', 'status' => 'published']);
+
+        $result = $handler->selectField([$record1, $record2], 'title', true, 'slug');
+        $this->assertSame('Bruce', $result['clippy']);
+        $this->assertSame('Johno', $result['koala']);
+    }
+
+    public function testSelectFieldContentFieldArray()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+        $record1 = $app['storage']->getEmptyContent('pages');
+        $record2 = $app['storage']->getEmptyContent('pages');
+
+        $record1->setValues(['title' => 'Bruce', 'slug' => 'clippy', 'status' => 'published']);
+        $record2->setValues(['title' => 'Johno', 'slug' => 'koala', 'status' => 'published']);
+
+        $result = $handler->selectField([$record1, $record2], ['title'], true, 'slug');
+        $this->assertSame('Bruce', $result['clippy'][0]);
+        $this->assertSame('Johno', $result['koala'][0]);
+    }
+
+    public function testSelectFieldContentFieldArrayDerpy()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+        $record1 = $app['storage']->getEmptyContent('pages');
+        $record2 = $app['storage']->getEmptyContent('pages');
+
+        $record1->setValues(['title' => 'Bruce', 'slug' => 'clippy', 'status' => 'published']);
+        $record2->setValues(['title' => 'Johno', 'slug' => 'koala', 'status' => 'published']);
+
+        $result = $handler->selectField([$record1, $record2], ['title', 'derp'], true, 'slug');
+        $this->assertSame('Bruce', $result['clippy'][0]);
+        $this->assertNull($result['clippy'][1]);
+        $this->assertSame('Johno', $result['koala'][0]);
+        $this->assertNull($result['koala'][1]);
+    }
 }
