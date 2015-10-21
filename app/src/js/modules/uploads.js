@@ -38,6 +38,7 @@
      * @param element
      */
     uploads.bind = function (element) {
+        console.log(element);
         $('input[data-upload]', element).each(function () {
             var data = $(this).data('upload'),
                 accept = $(this).attr('accept').replace(/\./g, ''),
