@@ -489,4 +489,58 @@ GRINGALET;
         $this->assertArrayNotHasKey('listing.twig', $result);
         $this->assertArrayNotHasKey('record.twig', $result);
     }
+
+    public function testPagerEmptyPager()
+    {
+        $app = $this->getApp();
+        $storage = $this->getMock('\Bolt\Legacy\Storage', ['isEmptyPager'], [$app]);
+        $storage
+            ->expects($this->atLeastOnce())
+            ->method('isEmptyPager')
+            ->will($this->returnValue(true))
+        ;
+        $app['storage'] = $storage;
+
+        $handler = new RecordHandler($app);
+        $env = $app['twig'];
+        $pagerName = 'Clippy';
+        $surr = 4;
+        $template = '_sub_pager.twig';
+        $class = '';
+
+        $result = $handler->pager($env, $pagerName, $surr, $template, $class);
+        $this->assertSame('', $result);
+    }
+
+    public function testPager()
+    {
+        $app = $this->getApp();
+        $storage = $this->getMock('\Bolt\Legacy\Storage', ['isEmptyPager', 'getPager'], [$app]);
+        $storage
+            ->expects($this->atLeastOnce())
+            ->method('isEmptyPager')
+            ->will($this->returnValue(false))
+        ;
+        $storage
+            ->expects($this->atLeastOnce())
+            ->method('getPager')
+            ->will($this->returnValue([
+                'Clippy' => ['totalpages' => 42]
+            ]))
+        ;
+        $app['storage'] = $storage;
+
+        $handler = new RecordHandler($app);
+        $env = $app['twig'];
+        $pagerName = 'Clippy';
+        $surr = 2;
+        $template = 'backend';
+        $class = '';
+
+        $result = $handler->pager($env, $pagerName, $surr, $template, $class);
+        $this->assertInstanceOf('\Twig_Markup', $result);
+
+        $this->assertRegExp('#<li ><a href="1">1</a></li>#', (string) $result);
+        $this->assertRegExp('#<li ><a href="2">2</a></li>#', (string) $result);
+    }
 }
