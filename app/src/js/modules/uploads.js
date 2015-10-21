@@ -42,7 +42,7 @@
             var data = $(this).data('upload'),
                 accept = $(this).attr('accept').replace(/\./g, ''),
                 autocomplete_conf;
-            console.log(data);
+            console.log(accept);
             switch (data.type) {
                 case 'Image':
                 case 'File':
