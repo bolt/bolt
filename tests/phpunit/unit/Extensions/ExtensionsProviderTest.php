@@ -349,6 +349,7 @@ HTML;
 
     public function testSnippet()
     {
+        $this->tearDown();
         $app = $this->getApp();
 
         // Test snippet inserts at top of <head>
