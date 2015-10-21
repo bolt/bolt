@@ -172,7 +172,7 @@ class RecordHandler
      *
      * @return array Sorted and possibly filtered templates
      */
-    public function listTemplates($filter = '', $safe)
+    public function listTemplates($filter = null, $safe = false)
     {
         // No need to list templates in safe mode.
         if ($safe) {
@@ -180,39 +180,36 @@ class RecordHandler
         }
 
         // Get the active themeconfig
-        $appConfig = $this->app['config']->getConfig();
-        $themeConfig = $appConfig['theme'];
+        $themeConfig = $this->app['config']->get('theme/templateselect/templates', false);
         $files = [];
 
         // Check: Are the templates for template chooser defined?
-        if (!empty($themeConfig['templateselect'])) {
-            foreach ($themeConfig['templateselect']['templates'] as $templateFile) {
+        if ($themeConfig) {
+            foreach ($themeConfig as $templateFile) {
                 if (!empty($templateFile['name']) && !empty($templateFile['filename'])) {
                     $files[$templateFile['filename']] = $templateFile['name'];
                 }
             }
-        } else {
-            if ($filter) {
-                $name = Glob::toRegex($filter, false, false);
-            } else {
-                $name = '/^[a-zA-Z0-9]\V+\.twig$/';
-            }
 
-            $finder = new Finder();
-            $finder->files()
-                ->in($this->app['resources']->getPath('templatespath'))
-                ->notname('/^_/')
-                ->notPath('node_modules')
-                ->notPath('bower_components')
-                ->notPath('.sass-cache')
-                ->depth('<2')
-                ->path($name)
-                ->sortByName();
+            return $files;
+        }
 
-            foreach ($finder as $file) {
-                $name = $file->getRelativePathname();
-                $files[$name] = $name;
-            }
+        $name = $filter ? Glob::toRegex($filter, false, false) : '/^[a-zA-Z0-9]\V+\.twig$/';
+        $finder = new Finder();
+        $finder->files()
+            ->in($this->app['resources']->getPath('templatespath'))
+            ->notname('/^_/')
+            ->notPath('node_modules')
+            ->notPath('bower_components')
+            ->notPath('.sass-cache')
+            ->depth('<2')
+            ->path($name)
+            ->sortByName()
+        ;
+
+        foreach ($finder as $file) {
+            $name = $file->getRelativePathname();
+            $files[$name] = $name;
         }
 
         return $files;
