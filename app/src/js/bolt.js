@@ -15,6 +15,7 @@
  * @mixes Bolt.omnisearch
  * @mixes Bolt.secmenu
  * @mixes Bolt.stack
+ * @mixes Bolt.upload
  * @mixes Bolt.video
  *
  * @mixes Bolt.buic
@@ -25,6 +26,7 @@
  *
  * @mixes Bolt.fields
  * @mixes Bolt.fields.categories
+ * @mixes Bolt.fields.image
  * @mixes Bolt.fields.geolocation
  * @mixes Bolt.fields.meta
  * @mixes Bolt.fields.relationship
