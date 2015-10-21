@@ -255,38 +255,31 @@ class RecordHandler
     /**
      * Return a selected field from a contentset.
      *
-     * @param array   $content    A Bolt record array
-     * @param mixed   $fieldname  Name of field (string), or array of names of fields, to return from each record
-     * @param boolean $startempty Whether or not the array should start with an empty element
-     * @param string  $keyname    Name of the key in the arrat
+     * @param array        $content    A Bolt record array
+     * @param array|string $fieldName  Name of a field, or array of field names to return from each record
+     * @param boolean      $startempty Whether or not the array should start with an empty element
+     * @param string       $keyName    Name of the key in the array
      *
      * @return array
      */
-    public function selectField($content, $fieldname, $startempty = false, $keyname = 'id')
+    public function selectField($content, $fieldName, $startempty = false, $keyName = 'id')
     {
-        if ($startempty) {
-            $retval = [];
-        } else {
-            $retval = [''];
+        $retval = $startempty ? [] : [''];
+
+        if (empty($content)) {
+            return $retval;
         }
 
-        if (!empty($content)) {
-            foreach ($content as $c) {
-                if (is_array($fieldname)) {
-                    $row = [];
-                    foreach ($fieldname as $fn) {
-                        if (isset($c->values[$fn])) {
-                            $row[] = $c->values[$fn];
-                        } else {
-                            $row[] = null;
-                        }
-                    }
-                    $retval[$c->values[$keyname]] = $row;
-                } else {
-                    if (isset($c->values[$fieldname])) {
-                        $retval[$c->values[$keyname]] = $c->values[$fieldname];
-                    }
+        foreach ($content as $c) {
+            $element = $c->values[$keyName];
+            if (is_array($fieldName)) {
+                $row = [];
+                foreach ($fieldName as $fn) {
+                    $row[] = isset($c->values[$fn]) ? $c->values[$fn] : null;
                 }
+                $retval[$element] = $row;
+            } elseif (isset($c->values[$fieldName])) {
+                $retval[$element] = $c->values[$fieldName];
             }
         }
 
