@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Twig;
 
+use Bolt\Asset\Snippet\Snippet;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\RecordHandler;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,19 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RecordHandlerTest extends BoltUnitTest
 {
+    protected $original = <<<GRINGALET
+But Gawain chose the lower road, and passed
+Along the desolate shore. The die was cast.
+The western skies, as the red sun sank low,
+Cast purple shades across the drifted snow,
+And Gawain knew that the dread hour was come
+For the fulfillment of his martyrdom.
+GRINGALET;
+    protected $excerpt = <<<GRINGALET
+But Gawain chose the lower road, and passed
+Along the desolate shore. The die was cast…
+GRINGALET;
+
     /**
      * Empty route and content.
      */
@@ -324,5 +338,69 @@ class RecordHandlerTest extends BoltUnitTest
 
         $result = $handler->current($content);
         $this->assertFalse($result);
+    }
+
+    public function testExcerptContentClassObject()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+
+        $content = $app['storage']->getEmptyContent('pages');
+        $content->setValue('body', $this->original);
+
+        $result = $handler->excerpt($content, 87);
+        $this->assertSame($this->excerpt, (string) $result);
+    }
+
+    public function testExcerptNonContentClassObject()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+
+        $content = (new Snippet())->setCallback($this->original);
+
+        $result = $handler->excerpt($content, 87);
+        $this->assertSame($this->excerpt, (string) $result);
+    }
+
+    public function testExcerptArray()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+
+        $content = [
+            'id'          => 42,
+            'slug'        => 'clippy-inc',
+            'datecreated' => null,
+            'datechanged' => null,
+            'username'    => 'clippy',
+            'ownerid'     => null,
+            'title'       => 'Attack of the Drop Bear',
+            'contenttype' => 'koala',
+            'status'      => 'published',
+            'taxonomy'    => null,
+            'body'        => $this->original,
+        ];
+
+        $result = $handler->excerpt($content, 87);
+        $this->assertSame($this->excerpt, (string) $result);
+    }
+
+    public function testExcerptString()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+
+        $result = $handler->excerpt($this->original, 87);
+        $this->assertSame($this->excerpt, $result);
+    }
+
+    public function testExcerptNull()
+    {
+        $app = $this->getApp();
+        $handler = new RecordHandler($app);
+
+        $result = $handler->excerpt(null);
+        $this->assertSame('', $result);
     }
 }
