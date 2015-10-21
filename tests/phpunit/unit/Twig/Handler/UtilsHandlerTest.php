@@ -117,4 +117,75 @@ class UtilsHandlerTest extends BoltUnitTest
         $this->assertCount(1, $result);
         $this->assertInstanceOf('Bolt\Tests\Twig\UtilsHandlerTest', $result);
     }
+
+    public function testPrintFirebugSafeDebugOn()
+    {
+        $app = $this->getApp();
+        $app['debug'] = true;
+        $handler = new UtilsHandler($app);
+
+        $result = $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!', true);
+        $this->assertNull($result);
+    }
+
+    public function testPrintFirebugNoSafeDebugOff()
+    {
+        $app = $this->getApp();
+        $app['debug'] = false;
+        $handler = new UtilsHandler($app);
+
+        $result = $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!', true);
+        $this->assertNull($result);
+    }
+
+    public function testPrintFirebugNoSafeDebugOnArrayString()
+    {
+        $this->stubVarDumper();
+
+        $app = $this->getApp();
+        $app['debug'] = true;
+
+        $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+        ->method('info');
+        $app['logger.firebug'] = $logger;
+
+        $handler = new UtilsHandler($app);
+
+        $handler->printFirebug(['koala', 'clippy'], 'Danger Detected!', false);
+    }
+
+    public function testPrintFirebugNoSafeDebugOnStringArray()
+    {
+        $this->stubVarDumper();
+
+        $app = $this->getApp();
+        $app['debug'] = true;
+
+        $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
+        $logger->expects($this->atLeastOnce())
+            ->method('info');
+        $app['logger.firebug'] = $logger;
+
+        $handler = new UtilsHandler($app);
+
+        $handler->printFirebug('Danger Detected!', ['koala', 'clippy'], false);
+    }
+
+    public function testPrintFirebugNoSafeDebugOnArrayArray()
+    {
+        $this->stubVarDumper();
+
+        $app = $this->getApp();
+        $app['debug'] = true;
+
+        $logger = $this->getMock('\Monolog\Logger', ['info'], ['testlogger']);
+        $logger->expects($this->never())
+            ->method('info');
+        $app['logger.firebug'] = $logger;
+
+        $handler = new UtilsHandler($app);
+
+        $handler->printFirebug(['koala and clippy'], ['Danger Detected!'], false);
+    }
 }
