@@ -87,19 +87,14 @@ class UtilsHandler
      */
     public function printFirebug($var, $msg, $safe)
     {
-        if ($safe) {
+        if ($safe || !$this->app['debug']) {
             return null;
         }
-        if ($this->app['debug']) {
-            if (is_array($var)) {
-                $this->app['logger.firebug']->info($msg, $var);
-            } elseif (is_string($var)) {
-                $this->app['logger.firebug']->info($var);
-            } else {
-                $this->app['logger.firebug']->info($msg, (array) $var);
-            }
-        } else {
-            return null;
+
+        if (is_string($msg)) {
+            $this->app['logger.firebug']->info($msg, (array) $var);
+        } elseif (is_string($var)) {
+            $this->app['logger.firebug']->info($var, (array) $msg);
         }
     }
 
