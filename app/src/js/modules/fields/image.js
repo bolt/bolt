@@ -23,7 +23,7 @@
      *
      * @static
      * @function init
-     * @memberof Bolt.fields.meta
+     * @memberof Bolt.fields.image
      *
      * @param {Object} fieldset
      * @param fconf
