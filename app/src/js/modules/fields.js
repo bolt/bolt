@@ -34,7 +34,7 @@
         $('[data-bolt-field]', context).each(function () {
             var type = $(this).data('bolt-field'),
                 conf = $(this).data('bolt-fconf');
-            console.log(type);
+
             if (typeof bolt.fields[type] !=='undefined') {
                bolt.fields[type].init(this, conf);
             } else {

@@ -29,8 +29,8 @@
      * @param fconf
      */
     image.init = function (fieldset, fconf) {
-        console.log('Binding Image Field');
-        bolt.uploads.bind(fieldset);
+        console.log('Binding Image Field', $);
+        bolt.uploads.bind(fieldset, fconf);
     };
 
     // Apply mixin container
