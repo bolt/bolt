@@ -5,6 +5,7 @@ namespace Bolt\Tests\Twig;
 use Bolt\Twig\Handler\UtilsHandler;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test Bolt\Twig\Handler\UtilsHandler
@@ -214,5 +215,52 @@ class UtilsHandlerTest extends BoltUnitTest
         $this->expectOutputRegex("/Redirecting to/i");
         $handler->redirect('/clippy/koala', false);
         $this->assertContains('location: /clippy/koala', xdebug_get_headers());
+    }
+
+    public function testRequestSafe()
+    {
+        $app = $this->getApp();
+        $request = Request::createFromGlobals();
+        $app['request'] = $request;
+        $handler = new UtilsHandler($app);
+
+        $result = $handler->request('route', 'GET', true, true);
+        $this->assertNull($result);
+    }
+
+    public function testRequestGet()
+    {
+        $app = $this->getApp();
+        $request = Request::createFromGlobals();
+        $request->query->set('koala', 'gum leaves');
+        $app['request'] = $request;
+        $handler = new UtilsHandler($app);
+
+        $result = $handler->request('koala', 'GET', true, false);
+        $this->assertSame('gum leaves', $result);
+    }
+
+    public function testRequestPost()
+    {
+        $app = $this->getApp();
+        $request = Request::createFromGlobals();
+        $request->request->set('koala', 'gum leaves');
+        $app['request'] = $request;
+        $handler = new UtilsHandler($app);
+
+        $result = $handler->request('koala', 'POST', true, false);
+        $this->assertSame('gum leaves', $result);
+    }
+
+    public function testRequestPatch()
+    {
+        $app = $this->getApp();
+        $request = Request::createFromGlobals();
+        $request->attributes->set('koala', 'gum leaves');
+        $app['request'] = $request;
+        $handler = new UtilsHandler($app);
+
+        $result = $handler->request('koala', 'PATCH', true, false);
+        $this->assertSame('gum leaves', $result);
     }
 }
