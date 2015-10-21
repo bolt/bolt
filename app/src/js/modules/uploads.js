@@ -43,7 +43,6 @@
             var accept = $(this).attr('accept');
             accept = accept ? accept.replace(/\./g, '') : '';
             var autocomplete_conf;
-            console.log(accept);
             switch (data.type) {
                 case 'Image':
                 case 'File':
