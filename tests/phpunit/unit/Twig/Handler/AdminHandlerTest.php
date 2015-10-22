@@ -4,6 +4,7 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\AdminHandler;
+use Silex\Translator;
 
 /**
  * Class to test Bolt\Twig\Handler\AdminHandler
@@ -198,5 +199,58 @@ class AdminHandlerTest extends BoltUnitTest
 
         $result = $handler->logLevel(42);
         $this->assertSame(42, $result);
+    }
+
+    public function testTransNoArgs()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->trans([], 0);
+        $this->assertNull($result);
+    }
+
+    public function testTransArgsOne()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->trans(['general.about'], 1);
+        $this->assertSame('About', $result);
+    }
+
+    public function testTransArgsTwo()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->trans(['contenttypes.generic.delete', ['%contenttype%' => 'Page']], 2);
+        $this->assertSame('Delete Page', $result);
+    }
+
+    public function testTransArgsThree()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->trans(['contenttypes.pages.group.content', [], 'contenttypes'], 3);
+        $this->assertSame('Content', $result);
+    }
+
+    public function testTransArgsFour()
+    {
+        $app = $this->getApp();
+        $trans = $this->getMock('Silex\Translator', ['trans'], [$app, $app['translator.message_selector']]);
+        $trans
+            ->expects($this->atLeastOnce())
+            ->method('trans')
+            ->will($this->returnValue('Page löschen'))
+        ;
+        $app['translator'] = $trans;
+
+        $handler = new AdminHandler($app);
+
+        $result = $handler->trans(['contenttypes.generic.delete', ['%contenttype%' => 'page'], 'messages', 'de_DE'], 4);
+        $this->assertSame('Page löschen', $result);
     }
 }
