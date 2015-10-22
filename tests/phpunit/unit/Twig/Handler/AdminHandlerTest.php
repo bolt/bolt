@@ -262,4 +262,22 @@ class AdminHandlerTest extends BoltUnitTest
         $result = $handler->randomQuote();
         $this->assertRegExp('#<cite>#', $result);
     }
+
+    public function testYmllinkSafe()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->ymllink(' config.yml', true);
+        $this->assertNull($result);
+    }
+
+    public function testYmllink()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->ymllink(' config.yml', false);
+        $this->assertSame(' <a href="/bolt/file/edit/config/config.yml">config.yml</a>', $result);
+    }
 }
