@@ -151,4 +151,52 @@ class AdminHandlerTest extends BoltUnitTest
         $result = $handler->stackItems();
         $this->assertSame(['koala.jpg', 'clippy.png'], $result);
     }
+
+    public function testLogLevelString()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->logLevel('debug');
+        $this->assertSame('debug', $result);
+    }
+
+    public function testLogLevelNumeric()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->logLevel(\Monolog\Logger::ALERT);
+        $this->assertSame('Alert', $result);
+
+        $result = $handler->logLevel(\Monolog\Logger::CRITICAL);
+        $this->assertSame('Critical', $result);
+
+        $result = $handler->logLevel(\Monolog\Logger::DEBUG);
+        $this->assertSame('Debug', $result);
+
+        $result = $handler->logLevel(\Monolog\Logger::EMERGENCY);
+        $this->assertSame('Emergency', $result);
+
+        $result = $handler->logLevel(\Monolog\Logger::ERROR);
+        $this->assertSame('Error', $result);
+
+        $result = $handler->logLevel(\Monolog\Logger::INFO);
+        $this->assertSame('Info', $result);
+
+        $result = $handler->logLevel(\Monolog\Logger::NOTICE);
+        $this->assertSame('Notice', $result);
+
+        $result = $handler->logLevel(\Monolog\Logger::WARNING);
+        $this->assertSame('Warning', $result);
+    }
+
+    public function testLogLevelInvalid()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->logLevel(42);
+        $this->assertSame(42, $result);
+    }
 }
