@@ -31,4 +31,18 @@ class AdminHandlerTest extends BoltUnitTest
         $this->assertArrayHasKey('bear', $app['jsdata']['drop']);
         $this->assertSame('Johno', $app['jsdata']['drop']['bear']);
     }
+
+    public function testIsChangelogEnabled()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $app['config']->set('general/changelog/enabled', false);
+        $result = $handler->isChangelogEnabled();
+        $this->assertFalse($result);
+
+        $app['config']->set('general/changelog/enabled', true);
+        $result = $handler->isChangelogEnabled();
+        $this->assertTrue($result);
+    }
 }
