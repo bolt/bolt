@@ -7,6 +7,7 @@ use Bolt\Legacy\Content;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation
@@ -38,7 +39,10 @@ class RecordHandler
      */
     public function current($content)
     {
-        $routeParams = $this->app['request']->get('_route_params');
+        /** @var Request $request */
+        $request = $this->app['request'];
+        $requestUri = $request->getPathInfo();
+        $routeParams = $request->get('_route_params');
 
         // If passed a string, and it is in the route.
         if (is_string($content) && in_array($content, $routeParams)) {
@@ -53,11 +57,8 @@ class RecordHandler
             $linkToCheck = (string) $content;
         }
 
-        $uriFromRequest = explode('?', $this->app['request']->getRequestUri());
-        $requestedUri   = reset($uriFromRequest);
-
         // check against Request Uri
-        if ($requestedUri == $linkToCheck) {
+        if ($requestUri == $linkToCheck) {
             return true;
         }
 
