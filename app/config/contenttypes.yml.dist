@@ -161,12 +161,9 @@ showcases:
             postfix: "Select an entry"
             autocomplete: true
             sort: title
-        template:
-            type: templateselect
-            filter: '*.twig'
-            group: meta
         repeater:
             type: repeater
+            group: repeater
             limit: 3
             prefix: "<p>This allows you to create multiple sets of fields. Use the add button at the bottom to create a new empty set.</p>"
             fields:
@@ -177,6 +174,10 @@ showcases:
                     extensions: [ gif, jpg, png ]
                 repeatcontent:
                     type: html
+        template:
+            type: templateselect
+            filter: '*.twig'
+            group: template
     relations:
         entries:
             multiple: false
