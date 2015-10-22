@@ -45,4 +45,92 @@ class AdminHandlerTest extends BoltUnitTest
         $result = $handler->isChangelogEnabled();
         $this->assertTrue($result);
     }
+
+    public function testStackedIsOnStack()
+    {
+        $app = $this->getApp();
+        $stack = $this->getMock('Bolt\Stack', ['isOnStack', 'isStackable'], [$app]);
+        $stack
+            ->expects($this->atLeastOnce())
+            ->method('isOnStack')
+            ->will($this->returnValue(true))
+        ;
+        $stack
+            ->expects($this->any())
+            ->method('isStackable')
+            ->will($this->returnValue(false))
+        ;
+        $app['stack'] = $stack;
+
+        $handler = new AdminHandler($app);
+
+        $result = $handler->stacked('koala.jpg');
+        $this->assertTrue($result);
+    }
+
+    public function testStackedIsOnStackable()
+    {
+        $app = $this->getApp();
+        $stack = $this->getMock('Bolt\Stack', ['isOnStack', 'isStackable'], [$app]);
+        $stack
+            ->expects($this->atLeastOnce())
+            ->method('isOnStack')
+            ->will($this->returnValue(false))
+        ;
+        $stack
+            ->expects($this->atLeastOnce())
+            ->method('isStackable')
+            ->will($this->returnValue(false))
+        ;
+        $app['stack'] = $stack;
+
+        $handler = new AdminHandler($app);
+
+        $result = $handler->stacked('koala.jpg');
+        $this->assertTrue($result);
+    }
+
+    public function testStackedNotIsOnStack()
+    {
+        $app = $this->getApp();
+        $stack = $this->getMock('Bolt\Stack', ['isOnStack', 'isStackable'], [$app]);
+        $stack
+            ->expects($this->atLeastOnce())
+            ->method('isOnStack')
+            ->will($this->returnValue(false))
+        ;
+        $stack
+            ->expects($this->any())
+            ->method('isStackable')
+            ->will($this->returnValue(true))
+        ;
+        $app['stack'] = $stack;
+
+        $handler = new AdminHandler($app);
+
+        $result = $handler->stacked('koala.jpg');
+        $this->assertFalse($result);
+    }
+
+    public function testStackedNotAnything()
+    {
+        $app = $this->getApp();
+        $stack = $this->getMock('Bolt\Stack', ['isOnStack', 'isStackable'], [$app]);
+        $stack
+            ->expects($this->atLeastOnce())
+            ->method('isOnStack')
+            ->will($this->returnValue(false))
+        ;
+        $stack
+            ->expects($this->atLeastOnce())
+            ->method('isStackable')
+            ->will($this->returnValue(false))
+        ;
+        $app['stack'] = $stack;
+
+        $handler = new AdminHandler($app);
+
+        $result = $handler->stacked('koala.jpg');
+        $this->assertTrue($result);
+    }
 }
