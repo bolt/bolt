@@ -7,6 +7,7 @@ use Bolt\Legacy\Content;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation
@@ -38,14 +39,13 @@ class RecordHandler
      */
     public function current($content)
     {
-        $routeParams = $this->app['request']->get('_route_params');
+        /** @var Request $request */
+        $request = $this->app['request'];
+        $requestUri = $request->getPathInfo();
+        $routeParams = $request->get('_route_params');
 
         // If passed a string, and it is in the route.
         if (is_string($content) && in_array($content, $routeParams)) {
-            return true;
-        }
-        // special case for "home"
-        if (empty($content) && empty($routeParams)) {
             return true;
         }
 
@@ -57,19 +57,8 @@ class RecordHandler
             $linkToCheck = (string) $content;
         }
 
-        $uriFromRequest = explode('?', $this->app['request']->getRequestUri());
-        $requestedUri    = reset($uriFromRequest);
-
-        $entrancePageUrl = $this->app['config']->get('general/homepage');
-        $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/') ? '/' . $entrancePageUrl : $entrancePageUrl;
-
         // check against Request Uri
-        if ($requestedUri == $linkToCheck) {
-            return true;
-        }
-
-        // check against entrance page url from general configuration
-        if ('/' == $requestedUri && $linkToCheck == $entrancePageUrl) {
+        if ($requestUri === $linkToCheck) {
             return true;
         }
 
@@ -79,20 +68,19 @@ class RecordHandler
         }
 
         // check against simple content.link
-        if ('/' . $routeParams['contenttypeslug'] . '/' . $routeParams['slug'] == $linkToCheck) {
+        if ('/' . $routeParams['contenttypeslug'] . '/' . $routeParams['slug'] === $linkToCheck) {
             return true;
         }
 
-        // if the current requested page is for the same slug or singularslug.
-        if (isset($content['contenttype']) &&
-            ($routeParams['contenttypeslug'] == $content['contenttype']['slug'] ||
-                $routeParams['contenttypeslug'] == $content['contenttype']['singular_slug'])
-        ) {
+        if (!isset($content['contenttype'])) {
+            return false;
+        }
 
-            // .. and the slugs should match.
-            if ($routeParams['slug'] == $content['slug']) {
-                return true;
-            }
+        // if the current requested page is for the same slug or singularslug.
+        $ct = $content['contenttype'];
+        if ($routeParams['contenttypeslug'] === $ct['slug'] || $routeParams['contenttypeslug'] === $ct['singular_slug']) {
+            // …and the slugs should match.
+            return $routeParams['slug'] === $content['slug'];
         }
 
         return false;
@@ -172,7 +160,7 @@ class RecordHandler
      *
      * @return array Sorted and possibly filtered templates
      */
-    public function listTemplates($filter = '', $safe)
+    public function listTemplates($filter = null, $safe = false)
     {
         // No need to list templates in safe mode.
         if ($safe) {
@@ -180,39 +168,36 @@ class RecordHandler
         }
 
         // Get the active themeconfig
-        $appConfig = $this->app['config']->getConfig();
-        $themeConfig = $appConfig['theme'];
+        $themeConfig = $this->app['config']->get('theme/templateselect/templates', false);
         $files = [];
 
         // Check: Are the templates for template chooser defined?
-        if (!empty($themeConfig['templateselect'])) {
-            foreach ($themeConfig['templateselect']['templates'] as $templateFile) {
+        if ($themeConfig) {
+            foreach ($themeConfig as $templateFile) {
                 if (!empty($templateFile['name']) && !empty($templateFile['filename'])) {
                     $files[$templateFile['filename']] = $templateFile['name'];
                 }
             }
-        } else {
-            if ($filter) {
-                $name = Glob::toRegex($filter, false, false);
-            } else {
-                $name = '/^[a-zA-Z0-9]\V+\.twig$/';
-            }
 
-            $finder = new Finder();
-            $finder->files()
-                ->in($this->app['resources']->getPath('templatespath'))
-                ->notname('/^_/')
-                ->notPath('node_modules')
-                ->notPath('bower_components')
-                ->notPath('.sass-cache')
-                ->depth('<2')
-                ->path($name)
-                ->sortByName();
+            return $files;
+        }
 
-            foreach ($finder as $file) {
-                $name = $file->getRelativePathname();
-                $files[$name] = $name;
-            }
+        $name = $filter ? Glob::toRegex($filter, false, false) : '/^[a-zA-Z0-9]\V+\.twig$/';
+        $finder = new Finder();
+        $finder->files()
+            ->in($this->app['resources']->getPath('templatespath'))
+            ->notname('/^_/')
+            ->notPath('node_modules')
+            ->notPath('bower_components')
+            ->notPath('.sass-cache')
+            ->depth('<2')
+            ->path($name)
+            ->sortByName()
+        ;
+
+        foreach ($finder as $file) {
+            $name = $file->getRelativePathname();
+            $files[$name] = $name;
         }
 
         return $files;
@@ -247,7 +232,7 @@ class RecordHandler
         ];
 
         /* Little hack to avoid doubling this function and having context without breaking frontend */
-        if ($template == 'backend') {
+        if ($template === 'backend') {
             $context = ['context' => $context];
             $template = '@bolt/components/pager.twig';
         }
@@ -258,38 +243,31 @@ class RecordHandler
     /**
      * Return a selected field from a contentset.
      *
-     * @param array   $content    A Bolt record array
-     * @param mixed   $fieldname  Name of field (string), or array of names of fields, to return from each record
-     * @param boolean $startempty Whether or not the array should start with an empty element
-     * @param string  $keyname    Name of the key in the arrat
+     * @param array        $content    A Bolt record array
+     * @param array|string $fieldName  Name of a field, or array of field names to return from each record
+     * @param boolean      $startempty Whether or not the array should start with an empty element
+     * @param string       $keyName    Name of the key in the array
      *
      * @return array
      */
-    public function selectField($content, $fieldname, $startempty = false, $keyname = 'id')
+    public function selectField($content, $fieldName, $startempty = false, $keyName = 'id')
     {
-        if ($startempty) {
-            $retval = [];
-        } else {
-            $retval = [''];
+        $retval = $startempty ? [] : [''];
+
+        if (empty($content)) {
+            return $retval;
         }
 
-        if (!empty($content)) {
-            foreach ($content as $c) {
-                if (is_array($fieldname)) {
-                    $row = [];
-                    foreach ($fieldname as $fn) {
-                        if (isset($c->values[$fn])) {
-                            $row[] = $c->values[$fn];
-                        } else {
-                            $row[] = null;
-                        }
-                    }
-                    $retval[$c->values[$keyname]] = $row;
-                } else {
-                    if (isset($c->values[$fieldname])) {
-                        $retval[$c->values[$keyname]] = $c->values[$fieldname];
-                    }
+        foreach ($content as $c) {
+            $element = $c->values[$keyName];
+            if (is_array($fieldName)) {
+                $row = [];
+                foreach ($fieldName as $fn) {
+                    $row[] = isset($c->values[$fn]) ? $c->values[$fn] : null;
                 }
+                $retval[$element] = $row;
+            } elseif (isset($c->values[$fieldName])) {
+                $retval[$element] = $c->values[$fieldName];
             }
         }
 

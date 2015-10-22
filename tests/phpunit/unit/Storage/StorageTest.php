@@ -22,6 +22,12 @@ class StorageTest extends BoltUnitTest
         $this->addSomeContent();
     }
 
+    /**
+     * We copy the 'Pages' ContentType into a 'Fakes' configuration and test
+     * against this, as PHPUnit keeps the mock in the $this->mockObjects private
+     * property array and any further calls to the 'Pages' repo will (currently)
+     * fail as the Application object is torn down at the end of the test/class.
+     */
     public function testGetContentObject()
     {
         $app = $this->getApp();
@@ -29,11 +35,20 @@ class StorageTest extends BoltUnitTest
         $content = $storage->getContentObject('pages');
         $this->assertInstanceOf('Bolt\Legacy\Content', $content);
 
-        $fields = $app['config']->get('contenttypes/pages/fields');
+        // Fake it until we make it… to the end of the test suite.
+        $contentType = $app['config']->get('contenttypes/pages');
+        $contentType['name'] = 'Fakes';
+        $contentType['singular_name'] = 'Fake';
+        $contentType['slug'] = 'fakes';
+        $contentType['singular_slug'] = 'fake';
+        $contentType['tablename'] = 'fakes';
+        $app['config']->set('contenttypes/fakes', $contentType);
 
-        $mock = $this->getMock('Bolt\Legacy\Content', null, [$app], 'Pages');
-        $content = $storage->getContentObject(['class' => 'Pages', 'fields' => $fields]);
-        $this->assertInstanceOf('Pages', $content);
+        $fields = $app['config']->get('contenttypes/fakes/fields');
+
+        $mock = $this->getMock('Bolt\Legacy\Content', [], [$app], 'Fakes');
+        $content = $storage->getContentObject(['class' => 'Fakes', 'fields' => $fields]);
+        $this->assertInstanceOf('Fakes', $content);
         $this->assertInstanceOf('Bolt\Legacy\Content', $content);
 
         // Test that a class not instanceof Bolt\Legacy\Content fails
