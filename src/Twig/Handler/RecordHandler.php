@@ -44,10 +44,6 @@ class RecordHandler
         if (is_string($content) && in_array($content, $routeParams)) {
             return true;
         }
-        // special case for "home"
-        if (empty($content) && empty($routeParams)) {
-            return true;
-        }
 
         if (is_array($content) && isset($content['link'])) {
             $linkToCheck = $content['link'];
@@ -58,18 +54,10 @@ class RecordHandler
         }
 
         $uriFromRequest = explode('?', $this->app['request']->getRequestUri());
-        $requestedUri    = reset($uriFromRequest);
-
-        $entrancePageUrl = $this->app['config']->get('general/homepage');
-        $entrancePageUrl = (substr($entrancePageUrl, 0, 1) !== '/') ? '/' . $entrancePageUrl : $entrancePageUrl;
+        $requestedUri   = reset($uriFromRequest);
 
         // check against Request Uri
         if ($requestedUri == $linkToCheck) {
-            return true;
-        }
-
-        // check against entrance page url from general configuration
-        if ('/' == $requestedUri && $linkToCheck == $entrancePageUrl) {
             return true;
         }
 

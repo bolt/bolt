@@ -30,7 +30,7 @@ GRINGALET;
     /**
      * Empty route and content.
      */
-    public function testCurrentHomeEmptyParameter()
+    public function testCurrentEmptyParameter()
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
@@ -41,13 +41,12 @@ GRINGALET;
 
         $result = $handler->current(null);
 
-        $this->assertTrue($result);
+        $this->assertFalse($result);
     }
 
     public function testCurrentHomeConfigured()
     {
         $app = $this->getApp();
-        $app['config']->set('general/homepage', '/clippy-inc');
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/clippy-inc');
@@ -67,6 +66,7 @@ GRINGALET;
     public function testCurrentHomeMenu()
     {
         $app = $this->getApp();
+        $app['config']->set('general/homepage', '/');
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/');
