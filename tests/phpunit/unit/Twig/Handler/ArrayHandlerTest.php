@@ -12,6 +12,14 @@ use Bolt\Twig\Handler\ArrayHandler;
  */
 class ArrayHandlerTest extends BoltUnitTest
 {
+    public function setUp()
+    {
+        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Twig\Handler')
+            ->mockFunction('shuffle')
+            ->getMock()
+        ;
+    }
+
     public function testOrderEmpty()
     {
         $app = $this->getApp();
@@ -109,5 +117,30 @@ class ArrayHandlerTest extends BoltUnitTest
 
         $result = $handler->order($srcArr, 'name');
         $this->assertRegExp('#{"[0-2]":{"name":"Bruce","type":"clippy"},"[0-2]":{"name":"Johno","type":"(batman|koala)"},"[0-2]":{"name":"Johno","type":"(koala|batman)"}}#', json_encode($result));
+    }
+
+    public function testShuffleString()
+    {
+        $app = $this->getApp();
+        $handler = new ArrayHandler($app);
+
+        $result = $handler->shuffle('shuffleboard');
+        $this->assertSame('shuffleboard', $result);
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testShuffleArray()
+    {
+        $app = $this->getApp();
+
+        $this->php
+            ->expects($this->once())
+            ->method('shuffle')
+        ;
+
+        $handler = new ArrayHandler($app);
+        $handler->shuffle(['shuffle', 'board']);
     }
 }
