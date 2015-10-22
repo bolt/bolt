@@ -132,9 +132,9 @@ class Queue implements QueueInterface
             }
         }
 
-        if (!empty($html)) {
+        if ($html !== null) {
             $html = sprintf(
-                "<div class='widgetholder widgetholder-%s'>%s</div>",
+                '<div class="widgetholder widgetholder-%s">%s</div>',
                 $location,
                 $html
             );
