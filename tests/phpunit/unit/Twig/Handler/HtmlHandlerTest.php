@@ -165,4 +165,28 @@ class HtmlHandlerTest extends BoltUnitTest
         $result = $handler->isMobileClient();
         $this->assertFalse($result);
     }
+
+    public function testMarkdown()
+    {
+        $app = $this->getApp();
+        $handler = new HtmlHandler($app);
+
+$markdown = <<<MARKDOWN
+# Episode IV
+## A New Hope
+It is a period of refactor war.
+* BPFL
+MARKDOWN;
+
+$html = <<< HTML
+<h1>Episode IV</h1>
+<h2>A New Hope</h2>
+<p>It is a period of refactor war.</p>
+<ul>
+<li>BPFL</li>
+</ul>
+HTML;
+        $result = $handler->markdown($markdown);
+        $this->assertSame($html, $result);
+    }
 }
