@@ -212,4 +212,13 @@ HTML;
         $result = $handler->menu($app['twig'], 'main', '_sub_menu.twig', ['kitten' => 'fluffy'], false);
         $this->assertRegExp('#<li class="index-1 first">#', $result);
     }
+
+    public function testShy()
+    {
+        $app = $this->getApp();
+        $handler = new HtmlHandler($app);
+
+        $result = $handler->shy('SomePeopleSayTheyAreShyOtherPeopleSayTheyAreNotWhatDoYouSay');
+        $this->assertSame('SomePeople&shy;SayTheyAre&shy;ShyOtherPe&shy;opleSayThe&shy;yAreNotWha&shy;tDoYouSay', $result);
+    }
 }
