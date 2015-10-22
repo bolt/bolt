@@ -164,7 +164,7 @@ showcases:
         template:
             type: templateselect
             filter: '*.twig'
-            group: meta
+            group: template
         repeater:
             type: repeater
             limit: 3
