@@ -2,9 +2,10 @@
 
 namespace Bolt\Tests\Twig;
 
+use Bolt\Asset\Widget\Widget;
+use Bolt\Legacy\Content;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\HtmlHandler;
-use Bolt\Legacy\Content;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -229,5 +230,22 @@ HTML;
 
         $result = $handler->twig("{{ 'koala'|capitalize }}");
         $this->assertSame('Koala', $result);
+    }
+
+    public function testWidget()
+    {
+        $app = $this->getApp();
+        $handler = new HtmlHandler($app);
+        $widget = (new Widget())
+            ->setType('frontend')
+            ->setLocation('gum-tree')
+            ->setContent('<blink>Drop Bear Warning!</blink>')
+        ;
+
+        $app['asset.queue.widget']->add($widget);
+
+        $result = $handler->widget('frontend', 'gum-tree');
+        $this->assertRegExp('#<div class="widgetholder widgetholder-gum-tree">#', $result);
+        $this->assertRegExp('#<blink>Drop Bear Warning!</blink>#', $result);
     }
 }
