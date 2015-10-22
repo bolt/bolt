@@ -297,4 +297,40 @@ class AdminHandlerTest extends BoltUnitTest
         $result = $handler->hattr($attributes);
         $this->assertSame(' class="info-pop fa fa-info-circle" data-content="[&quot;gum&quot;,&quot;leaf&quot;]" data-title="clippy" checked name="koala" id="koala"', $result);
     }
+
+    public function testHclassStringNotRaw()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->hclass('first second', false);
+        $this->assertSame(' class="first second"', $result);
+    }
+
+    public function testHclassStringRaw()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->hclass('first second', true);
+        $this->assertSame('first second', $result);
+    }
+
+    public function testHclassArrayNotRaw()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->hclass(['first', 'second'], false);
+        $this->assertSame(' class="first second"', $result);
+    }
+
+    public function testHclassArrayRaw()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->hclass(['first', 'second'], true);
+        $this->assertSame('first second', $result);
+    }
 }
