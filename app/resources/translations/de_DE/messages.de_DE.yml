@@ -470,6 +470,7 @@ contenttypes:
             meta: "Meta"
             relations: "Beziehungen"
             taxonomy: "Taxonomie"
+            template: "Template"
             ungrouped: "Nicht gruppiert"
         invalid-field: "Kann %field% in %contenttype% nicht setzen. Kein gültiges Feld."
         last-modified: "Zuletzt bearbeitete %contenttypes%"

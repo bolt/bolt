@@ -297,7 +297,7 @@ class Edit
         }
 
         if ($has['templatefields'] || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
-            $addGroup('template', Trans::__('Template'));
+            $addGroup('template', Trans::__('contenttypes.generic.group.template'));
             $groups['template']['fields'][] = '*template';
         }
 
