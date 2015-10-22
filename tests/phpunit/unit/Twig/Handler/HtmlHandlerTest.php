@@ -5,6 +5,7 @@ namespace Bolt\Tests\Twig;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\HtmlHandler;
 use Bolt\Legacy\Content;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to test Bolt\Twig\Handler\HtmlHandler
@@ -188,5 +189,27 @@ $html = <<< HTML
 HTML;
         $result = $handler->markdown($markdown);
         $this->assertSame($html, $result);
+    }
+
+    public function testMenuSafe()
+    {
+        $app = $this->getApp();
+        $handler = new HtmlHandler($app);
+
+        $result = $handler->menu($app['twig'], 'main', '_sub_menu.twig', ['kitten' => 'fluffy'], true);
+        $this->assertNull($result);
+    }
+
+    public function testMenuMain()
+    {
+        $app = $this->getApp();
+        $request = Request::createFromGlobals();
+        $app['request'] = $request;
+        $app['request_stack']->push($request);
+
+        $handler = new HtmlHandler($app);
+
+        $result = $handler->menu($app['twig'], 'main', '_sub_menu.twig', ['kitten' => 'fluffy'], false);
+        $this->assertRegExp('#<li class="index-1 first">#', $result);
     }
 }
