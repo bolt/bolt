@@ -221,4 +221,13 @@ HTML;
         $result = $handler->shy('SomePeopleSayTheyAreShyOtherPeopleSayTheyAreNotWhatDoYouSay');
         $this->assertSame('SomePeople&shy;SayTheyAre&shy;ShyOtherPe&shy;opleSayThe&shy;yAreNotWha&shy;tDoYouSay', $result);
     }
+
+    public function testTwig()
+    {
+        $app = $this->getApp();
+        $handler = new HtmlHandler($app);
+
+        $result = $handler->twig("{{ 'koala'|capitalize }}");
+        $this->assertSame('Koala', $result);
+    }
 }
