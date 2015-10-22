@@ -133,4 +133,22 @@ class AdminHandlerTest extends BoltUnitTest
         $result = $handler->stacked('koala.jpg');
         $this->assertTrue($result);
     }
+
+    public function testStackItems()
+    {
+        $app = $this->getApp();
+
+        $stack = $this->getMock('Bolt\Stack', ['listitems'], [$app]);
+        $stack
+            ->expects($this->atLeastOnce())
+            ->method('listitems')
+            ->will($this->returnValue(['koala.jpg', 'clippy.png']))
+        ;
+        $app['stack'] = $stack;
+
+        $handler = new AdminHandler($app);
+
+        $result = $handler->stackItems();
+        $this->assertSame(['koala.jpg', 'clippy.png'], $result);
+    }
 }
