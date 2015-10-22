@@ -51,4 +51,13 @@ class HtmlHandlerTest extends BoltUnitTest
         $result = $handler->cacheHash('/where/is/wally/when/you/need/him');
         $this->assertNull($result);
     }
+
+    public function testDecorateTT()
+    {
+        $app = $this->getApp();
+        $handler = new HtmlHandler($app);
+
+        $result = $handler->decorateTT('Lorem `ipsum` dolor.');
+        $this->assertSame('Lorem <tt>ipsum</tt> dolor.', $result);
+    }
 }
