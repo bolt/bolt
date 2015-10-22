@@ -72,16 +72,15 @@ class RecordHandler
             return true;
         }
 
-        // if the current requested page is for the same slug or singularslug.
-        if (isset($content['contenttype']) &&
-            ($routeParams['contenttypeslug'] === $content['contenttype']['slug'] ||
-                $routeParams['contenttypeslug'] === $content['contenttype']['singular_slug'])
-        ) {
+        if (!isset($content['contenttype'])) {
+            return false;
+        }
 
-            // .. and the slugs should match.
-            if ($routeParams['slug'] === $content['slug']) {
-                return true;
-            }
+        // if the current requested page is for the same slug or singularslug.
+        $ct = $content['contenttype'];
+        if ($routeParams['contenttypeslug'] === $ct['slug'] || $routeParams['contenttypeslug'] === $ct['singular_slug']) {
+            // …and the slugs should match.
+            return $routeParams['slug'] === $content['slug'];
         }
 
         return false;
