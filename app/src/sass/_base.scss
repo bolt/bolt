@@ -97,11 +97,11 @@ $sidebarbackground: #33363E;
 $sidebartextcolour: #DDD;
 $sidebartextcolourcollapsed: #AAA;
 
-$sidebarlink: #BBB;
+$sidebarlink: #CCC;
 $sidebarlinkhover: #FFF;
 $sidebarlinkactive: #FFF;
-$sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 7);
-$sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 18);
+$sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 12);
+$sidebarbackgroundhover: lighten(desaturate($boltblue, 30), 6);
 
 /**
  * Fonts.
@@ -122,7 +122,7 @@ $nav-primary-min-height: 50px;
 $nav-secondary-small-width: 280px;
 $nav-secondary-large-width: 180px;
 
-$nav-secondary-top-padding: 16px;
+$nav-secondary-top-padding: 17px;
 $nav-secondary-h-padding: 8px;
 $nav-secondary-v-padding: 9px;
 $nav-secondary-divider-margin: 14px;

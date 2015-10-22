@@ -25,7 +25,6 @@
     background: $sidebarbackground;
     color: $sidebartextcolour;
     font-size: 120%;
-    //overflow-y: auto;
 
     ul.submenu {
         @include hide();
@@ -174,7 +173,7 @@
         }
     }
 
-    &.active {
+    &.active > a {
         color: $sidebarlinkactive;
         background: $sidebarbackgroundactive;
         i.icon {

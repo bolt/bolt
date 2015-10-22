@@ -90,7 +90,7 @@
 
 // Override page-header
 .page-header {
-    padding-bottom: 14px;
+    padding-bottom: 16px;
     margin: 6px 0 20px;
 }
 
@@ -119,6 +119,7 @@
     background-color: $boltblue;
     background-repeat: repeat-x;
     border-bottom: 0;
+    box-shadow: 0 -5px 0 rgba(0, 0, 0, 0.15) inset;
 
     div.navbar-collapse {
         float: right;
