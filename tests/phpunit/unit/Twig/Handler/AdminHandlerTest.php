@@ -280,4 +280,21 @@ class AdminHandlerTest extends BoltUnitTest
         $result = $handler->ymllink(' config.yml', false);
         $this->assertSame(' <a href="/bolt/file/edit/config/config.yml">config.yml</a>', $result);
     }
+
+    public function testHattr()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $attributes = [
+            'class'        => 'info-pop fa fa-info-circle',
+            'data-content' => ['gum', 'leaf'],
+            'data-title'   => 'clippy',
+            'checked'      => true,
+            'name+id'      => 'koala',
+        ];
+
+        $result = $handler->hattr($attributes);
+        $this->assertSame(' class="info-pop fa fa-info-circle" data-content="[&quot;gum&quot;,&quot;leaf&quot;]" data-title="clippy" checked name="koala" id="koala"', $result);
+    }
 }
