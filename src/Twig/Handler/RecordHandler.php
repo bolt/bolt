@@ -58,7 +58,7 @@ class RecordHandler
         }
 
         // check against Request Uri
-        if ($requestUri == $linkToCheck) {
+        if ($requestUri === $linkToCheck) {
             return true;
         }
 
@@ -68,18 +68,18 @@ class RecordHandler
         }
 
         // check against simple content.link
-        if ('/' . $routeParams['contenttypeslug'] . '/' . $routeParams['slug'] == $linkToCheck) {
+        if ('/' . $routeParams['contenttypeslug'] . '/' . $routeParams['slug'] === $linkToCheck) {
             return true;
         }
 
         // if the current requested page is for the same slug or singularslug.
         if (isset($content['contenttype']) &&
-            ($routeParams['contenttypeslug'] == $content['contenttype']['slug'] ||
-                $routeParams['contenttypeslug'] == $content['contenttype']['singular_slug'])
+            ($routeParams['contenttypeslug'] === $content['contenttype']['slug'] ||
+                $routeParams['contenttypeslug'] === $content['contenttype']['singular_slug'])
         ) {
 
             // .. and the slugs should match.
-            if ($routeParams['slug'] == $content['slug']) {
+            if ($routeParams['slug'] === $content['slug']) {
                 return true;
             }
         }
@@ -233,7 +233,7 @@ class RecordHandler
         ];
 
         /* Little hack to avoid doubling this function and having context without breaking frontend */
-        if ($template == 'backend') {
+        if ($template === 'backend') {
             $context = ['context' => $context];
             $template = '@bolt/components/pager.twig';
         }
