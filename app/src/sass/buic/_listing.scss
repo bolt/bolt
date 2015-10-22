@@ -6,10 +6,10 @@ table.buic-listing {
      * Striping.
      */
     tbody {
-        $background-normal:          #fff;
-        $background-normal-stripe:   #f9f9f9;
-        $background-selected:        mix(#fff, #7b9db8, 90%);
-        $background-selected-stripe: mix(#fff, #7b9db8, 80%);
+        $background-normal:          $basebgcolour;
+        $background-normal-stripe:   darken($basebgcolour, 4);
+        $background-selected:        mix($background-normal, #7b9db8, 90%);
+        $background-selected-stripe: mix($background-normal-stripe, #7b9db8, 80%);
 
         // No striping.
         tr {
@@ -45,7 +45,7 @@ table.buic-listing {
     tr.heading {
         th {
             padding: 1em 0.2em 0.1em 0.2em;
-            background: #fff !important;
+            background: $basebgcolour !important;
 
             font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: $font-size-h3;
