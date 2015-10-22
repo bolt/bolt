@@ -253,4 +253,13 @@ class AdminHandlerTest extends BoltUnitTest
         $result = $handler->trans(['contenttypes.generic.delete', ['%contenttype%' => 'page'], 'messages', 'de_DE'], 4);
         $this->assertSame('Page löschen', $result);
     }
+
+    public function testRandomQuote()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $result = $handler->randomQuote();
+        $this->assertRegExp('#<cite>#', $result);
+    }
 }
