@@ -21,7 +21,7 @@
     height: 100%;
     left: -$nav-secondary-small-width;
     transition: left 0.1s, width 0.1s;
-    box-shadow: -5px 0 0 rgba(0, 0, 0, 0.2) inset;
+    box-shadow: -5px 0 0 rgba(0, 0, 0, 0.15) inset;
     background: $sidebarbackground;
     color: $sidebartextcolour;
     font-size: 120%;
@@ -157,6 +157,9 @@
     a:focus {
         color: $sidebarlinkhover;
         background: $sidebarbackgroundhover;
+        i.icon {
+            background: $sidebarlinkhover;
+        }
     }
 
     & > em {
@@ -167,13 +170,16 @@
         i.icon {
             background: none;
             color: lighten($sidebarbackgroundactive, 40);
-            top:15px;
+            top: 17px;
         }
     }
 
     &.active {
-        background-color: $sidebarbackgroundactive;
-        color: #fff;
+        color: $sidebarlinkactive;
+        background: $sidebarbackgroundactive;
+        i.icon {
+            background: $sidebarlinkactive;
+        }
     }
 
     &.divider {
@@ -226,9 +232,9 @@
         border-radius: 3px;
         font-size: ($nav-secondary-icon-size - 8px);
         color: #333;
-        position:absolute;
-        left:10px;
-        top:9px;
+        position: absolute;
+        left: 12px;
+        top: 10px;
 
         &:before {
             font-weight: normal;

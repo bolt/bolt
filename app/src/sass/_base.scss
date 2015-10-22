@@ -14,7 +14,7 @@ $boltblue: #204460;
 $boltbluedarker: darken($boltblue, 5);
 $boltbluelighter: lighten($boltblue, 5);
 
-$basebgcolour: #FDFDF9;
+$basebgcolour: #FBFBF7;
 $bodytextcolour: #333;
 
 $lightgrey: #ccc;
@@ -93,12 +93,13 @@ $nav-tabs-bg: desaturate(lighten($boltblue, 50%), 30);
 /**
  * Colors in _base.scss.
  */
-$sidebarbackground: #181818;
+$sidebarbackground: #33363E;
 $sidebartextcolour: #DDD;
 $sidebartextcolourcollapsed: #AAA;
 
-$sidebarlink: #EEE;
+$sidebarlink: #BBB;
 $sidebarlinkhover: #FFF;
+$sidebarlinkactive: #FFF;
 $sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 7);
 $sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 18);
 
@@ -123,12 +124,12 @@ $nav-secondary-large-width: 180px;
 
 $nav-secondary-top-padding: 16px;
 $nav-secondary-h-padding: 8px;
-$nav-secondary-v-padding: 8px;
+$nav-secondary-v-padding: 9px;
 $nav-secondary-divider-margin: 14px;
 $nav-secondary-divider-padding: 6px;
 $nav-secondary-icon-size: 24px;
 $nav-secondary-icon-margin: 8px;
-$nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin + 4px);
+$nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin + 8px);
 $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 1);
 
 /**
