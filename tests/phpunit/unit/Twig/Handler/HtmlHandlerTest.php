@@ -84,4 +84,14 @@ class HtmlHandlerTest extends BoltUnitTest
         $result = $handler->editable('<blink>Drop Bear Warning!</blink>', $content, 'paddock', false);
         $this->assertSame('<div class="Bolt-editable" data-id="42" data-contenttype="" data-field="paddock"><blink>Drop Bear Warning!</blink></div>', $result);
     }
+
+    public function testHtmlLang()
+    {
+        $app = $this->getApp();
+        $app['locale'] = 'en_Aussie_Mate';
+        $handler = new HtmlHandler($app);
+
+        $result = $handler->htmlLang();
+        $this->assertSame('en-Aussie-Mate', $result);
+    }
 }
