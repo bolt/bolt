@@ -11,7 +11,7 @@ use Bolt\Legacy\Content;
  * @author Ross Riley <riley.ross@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class BoltTwigHelpersTest extends BoltUnitTest
+class TwigExtensionTest extends BoltUnitTest
 {
     public function testTwigInterface()
     {
