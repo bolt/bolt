@@ -93,7 +93,7 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-8">
-        <div class="form-group">
+        <div class="form-group form-group-first">
             <div class="col-sm-12">
                 <label>{{ __('field.video.label.url') }}</label>
                 <input{{ macro.attr(attributes.url) }}>
@@ -107,7 +107,7 @@
                 <input{{ macro.attr(attributes.width) }}> ×
                 <label for="{{ 'video-' ~ key ~ '-height' }}" class="sr-only">{{ __('field.video.height') }}</label>
                 <input{{ macro.attr(attributes.height) }}>
-                <label>{{ __('field.video.pixel') }}</label>
+                <label class='label-pixels'>{{ __('field.video.pixel') }}</label>
             </div>
         </div>
 
