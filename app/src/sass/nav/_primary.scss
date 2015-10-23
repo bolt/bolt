@@ -2,7 +2,7 @@
     .navbar-form {
         border: 0;
         box-shadow: none !important;
-        font-size: 120%;
+        font-size: 100%;
         margin-right: 8px;
         padding: 0 15px 8px 6px;
     }
@@ -83,6 +83,7 @@
 .navbar-static-top .nav > li {
     & > a {
         color: $sidebarlink;
+        font-weight: normal;
     }
     &:hover > a,
     :focus {
