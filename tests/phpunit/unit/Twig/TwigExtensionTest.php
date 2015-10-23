@@ -5,7 +5,6 @@ use Bolt\Legacy\Content;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
-use Bolt\Twig\SetcontentTokenParser;
 
 /**
  * Class to test src/Library.
@@ -87,6 +86,26 @@ class TwigExtensionTest extends BoltUnitTest
         $this->assertArrayHasKey('users', $result);
         $this->assertNull($result['user']);
         $this->assertNull($result['users']);
+    }
+
+    public function testGetTokenParsers()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
+
+        $result = $twig->getTokenParsers();
+        $this->assertInstanceOf('Bolt\Twig\SetcontentTokenParser', $result[0]);
+    }
+
+    public function testGetTokenParsersSafe()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $result = $twig->getTokenParsers();
+        $this->assertSame([], $result);
     }
 
     /*
