@@ -36,7 +36,7 @@
     },
 
     formatted: {
-        class:      'matched',
+        class:      'form-control matched',
         name:        name ~ '[formatted_address]',
         placeholder: '—',
         readonly:    true,
@@ -55,7 +55,7 @@
     {% from '@bolt/_macro/_macro.twig' import attr %}
 
     <div class="col-sm-8">
-        <div class="form-group">
+        <div class="form-group form-group-first">
             <div class="col-sm-12">
                 <label>{{ __('field.geolocation.label.address-lookup') }}</label>
                 <input{{ attr(attributes.address) }} value="{{ geolocation.address|default('') }}">
