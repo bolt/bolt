@@ -124,15 +124,16 @@ fieldset.checkbox {
     border: 0;
 
     @include respond-to(medium-screens) {
-        border-bottom: 1px solid #BBB;
+        border-bottom: 1px solid darken($filtertabs, 10);;
     }
 
     a {
-        color: #666;
-        background-color: desaturate(lighten($boltblue, 60%), 30);
-        border: 1px solid #BBB;
+        color: $filtertab-color;
+        background-color: $filtertabs; // desaturate(lighten($boltblue, 60%), 30);
+        border: 1px solid darken($filtertabs, 10);
         cursor: pointer;
         padding: 5px 12px;
+        font-weight: normal;
 
         &:hover {
             color: #444;
@@ -142,15 +143,15 @@ fieldset.checkbox {
     }
 
     li {
-        margin-left: -3px;
+        margin-right: 2px;
 
         &.active {
-            margin-top: -5px;
 
             a {
-                background-color: #F8F8F8;
-                color: #333;
-                padding: 7px 12px 8px 12px;
+                background-color: $basebgcolour;
+                border: 1px solid darken($filtertabs, 20);
+                border-bottom: 1px solid $basebgcolour;
+                color: $filtertab-active-color;
             }
         }
     }

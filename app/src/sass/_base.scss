@@ -87,6 +87,11 @@ $nav-tabs-active-link-hover-border-color: $nav-tabs-border-color;
 $nav-tabs-bg: desaturate(lighten($boltblue, 50%), 30);
 
 
+// The color of the tabs, in the 'edit content' screen.
+$filtertabs: desaturate(mix($basebgcolour, $btn-tertiary-bg, 70), 20);
+$filtertab-color: darken($filtertabs, 40);
+$filtertab-active-color: #555;
+
 /**
  * Colors in _base.scss.
  */
