@@ -232,16 +232,18 @@ class FilesystemManager extends AsyncBase
         $results = [];
 
         foreach ($this->storage()->getContentTypes() as $contenttype) {
-            if(!$this->app['config']->get("contenttypes/{$contenttype}/viewless")){
-                $records = $this->getContent($contenttype, ['published' => true, 'hydrate' => false]);
+            if($this->app['config']->get("contenttypes/{$contenttype}/viewless")){
+                // Skip viewless ContentTypes
+                continue;
+            }
+            $records = $this->getContent($contenttype, ['published' => true, 'hydrate' => false]);
 
-                foreach ($records as $record) {
-                    $results[$contenttype][] = [
-                        'title' => $record->getTitle(),
-                        'id' => $record->id,
-                        'link' => $record->link()
-                    ];
-                }
+            foreach ($records as $record) {
+                $results[$contenttype][] = [
+                    'title' => $record->getTitle(),
+                    'id' => $record->id,
+                    'link' => $record->link()
+                ];
             }
         }
 
