@@ -1,9 +1,11 @@
 <?php
 namespace Bolt\Tests\Twig;
 
+use Bolt\Legacy\Content;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\TwigExtension;
-use Bolt\Legacy\Content;
+use Symfony\Component\HttpFoundation\Request;
+use Bolt\Twig\SetcontentTokenParser;
 
 /**
  * Class to test src/Library.
@@ -22,6 +24,69 @@ class TwigExtensionTest extends BoltUnitTest
         $this->assertGreaterThan(0, $twig->getFilters());
         $this->assertGreaterThan(0, $twig->getTests());
         $this->assertEquals('Bolt', $twig->getName());
+    }
+
+    public function testGetGlobals()
+    {
+        $app = $this->getApp();
+        $request = Request::createFromGlobals();
+        $app['request'] = $request;
+        $app['request_stack']->push($request);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
+
+        $response = $twig->getGlobals();
+        $this->assertArrayHasKey('bolt_name', $response);
+        $this->assertArrayHasKey('bolt_version', $response);
+        $this->assertArrayHasKey('frontend', $response);
+        $this->assertArrayHasKey('backend', $response);
+        $this->assertArrayHasKey('async', $response);
+        $this->assertArrayHasKey('paths', $response);
+        $this->assertArrayHasKey('theme', $response);
+        $this->assertArrayHasKey('user', $response);
+        $this->assertArrayHasKey('users', $response);
+        $this->assertArrayHasKey('config', $response);
+        $this->assertNotNull($response['config']);
+        $this->assertNotNull($response['users']);
+    }
+
+    public function testGetGlobalsSafe()
+    {
+        $app = $this->getApp();
+        $request = Request::createFromGlobals();
+        $app['request'] = $request;
+        $app['request_stack']->push($request);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $result = $twig->getGlobals();
+        $this->assertArrayHasKey('config', $result);
+        $this->assertNull($result['config']);
+        $this->assertNull($result['users']);
+    }
+
+    public function testGetGlobalsExceptionalExceptionIsExceptional()
+    {
+        $app = $this->getApp();
+
+        $users = $this->getMock('Bolt\Users', ['getCurrentUser'], [$app]);
+        $users
+            ->expects($this->atLeastOnce())
+            ->method('getCurrentUser')
+            ->will($this->throwException(new \Exception));
+        ;
+        $app['users'] = $users;
+        $request = Request::createFromGlobals();
+        $app['request'] = $request;
+        $app['request_stack']->push($request);
+        $handlers = $this->getTwigHandlers($app);
+        $twig = new TwigExtension($app, $handlers, false);
+
+        $result = $twig->getGlobals();
+        $this->assertArrayHasKey('user', $result);
+        $this->assertArrayHasKey('users', $result);
+        $this->assertNull($result['user']);
+        $this->assertNull($result['users']);
     }
 
     /*
