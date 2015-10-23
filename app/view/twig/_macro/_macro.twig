@@ -186,13 +186,13 @@
 
         {# Button: Upload #}
         {% if canUpload %}
-            <span class="btn btn-secondary fileinput-button">
+            <span class="btn btn-secondary btn-sm fileinput-button">
             	<i class="fa fa-upload"></i>
             	<span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
             	<input{{ attr(attr_upload) }}>
         	</span>
         {% else %}
-            <button type="button" class="btn" disabled="disabled">
+            <button type="button" class="btn btn-sm" disabled="disabled">
                 {{ __('Upload not allowed') }}
                 {# creating a dummy stub, instead of the uploader. Needed (currently) to attach events to #}
                 {% set attr_upload = attr_upload|merge({'type' : 'hidden'}) %}
@@ -201,7 +201,7 @@
         {% endif %}
 
         {# Button: Select from Server #}
-        <button type="button" class="btn btn-tertiary" data-target="#selectModal-{{ key }}" data-remote="{{ href }}" data-toggle="modal">
+        <button type="button" class="btn btn-tertiary btn-sm" data-target="#selectModal-{{ key }}" data-remote="{{ href }}" data-toggle="modal">
             <i class="fa fa-download"></i>
             {{ __('field.general.select-from-server') }}
         </button>
@@ -209,9 +209,9 @@
         {# Button: Select from Stack #}
         {% if not app.config.get('general/backend/stack/disable', false) and items %}
             <div class="btn-group">
-                <button type="button" class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-tertiary btn-sm dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-paperclip"></i>
-                    {{ __('field.general.select-from-stack') }}
+                    {{ __('field.general.stack') }}
                     <span class="caret"></span>
                 </button>
 

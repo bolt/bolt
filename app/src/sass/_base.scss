@@ -17,9 +17,9 @@ $boltbluelighter: lighten($boltblue, 5);
 $basebgcolour: #FDFDFA;
 $bodytextcolour: #333;
 
-$lightgrey: #ccc;
+$lightgrey: #CCC;
 // The color of <hr> lines.
-$hr-border: #ccc;
+$hr-border: #CCC;
 
 $linkmain: lighten(saturate($boltblue, 50), 4);
 $linkvisited: $linkmain;
@@ -31,29 +31,29 @@ $padding-base-horizontal: 8px;
 
 // Primary button.
 $btn-primary-color: #FFF;
-$btn-primary-bg: #FB4D08; //#DC6A23;
-$btn-primary-border: darken($btn-primary-bg, 6%);
+$btn-primary-bg: #36934d; // #FB4D08;
+$btn-primary-border: darken($btn-primary-bg, 5%);
 
 // Secondary button.
-$btn-secondary-bg: desaturate(lighten($btn-primary-bg, 7%), 20);
-$btn-secondary-border: darken($btn-secondary-bg, 6%);
+$btn-secondary-bg: #4a8A6e;
+$btn-secondary-border: darken($btn-secondary-bg, 4%);
 
 // Tertiary button.
-$btn-tertiary-bg: desaturate(lighten($boltblue, 35%), 20);
-$btn-tertiary-border: darken($btn-tertiary-bg, 6%);
+$btn-tertiary-bg: #538ebe;
+$btn-tertiary-border: darken($btn-tertiary-bg, 4%);
 
 // Default button.
 $btn-default-color: #666;
 $btn-default-bg: #E0E0E0;
-$btn-default-border: darken($btn-default-bg, 5);
+$btn-default-border: darken($btn-default-bg, 4%);
 
 $btn-danger-color: #FFF;
-$btn-danger-bg: #CC3333;
-$btn-danger-border: darken($btn-danger-bg, 5);
+$btn-danger-bg: #992020;
+$btn-danger-border: darken($btn-danger-bg, 4%);
 
 $btn-silent-danger-color: #555;
 $btn-silent-danger-bg: #F8F8F8;
-$btn-silent-danger-border: darken($btn-danger-bg, 5);
+$btn-silent-danger-border: darken($btn-danger-bg, 4%);
 
 // Special BOLT button.
 $btn-bolt-color: #FFF;
