@@ -1,25 +1,18 @@
 <?php
 namespace Bolt\Tests\Twig;
 
-use Bolt\Storage;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\TwigExtension;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\VarDumper\VarDumper;
+use Bolt\Legacy\Content;
 
 /**
  * Class to test src/Library.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class BoltTwigHelpersTest extends BoltUnitTest
 {
-    protected function tearDown()
-    {
-        parent::tearDown();
-        VarDumper::setHandler(null);
-    }
-
     public function testTwigInterface()
     {
         $app = $this->getApp();
@@ -31,323 +24,527 @@ class BoltTwigHelpersTest extends BoltUnitTest
         $this->assertEquals('Bolt', $twig->getName());
     }
 
-    public function testFileExists()
+    /*
+     * Handlers below
+     */
+
+    public function testAddData()
     {
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertTrue($twig->fileExists(__FILE__));
-
-        // Test safe returns false
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'addData');
         $twig = new TwigExtension($app, $handlers, true);
-        $this->assertFalse($twig->fileExists(__FILE__));
+
+        $twig->addData(null, null);
     }
 
-    public function testPrintDump()
+    public function testCacheHash()
     {
-        $this->stubVarDumper();
-        $list = range(1, 10);
-
-        // First safe test
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
+        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'cacheHash');
         $twig = new TwigExtension($app, $handlers, true);
-        $this->assertNull($twig->printDump($list));
 
-        // Now test with debug off
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $app['debug'] = false;
-        $this->assertNull($twig->printDump($list));
-
-        // Now test with debug enabled
-        $app = $this->getApp();
-        $app['debug'] = true;
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals($list, $twig->printDump($list));
+        $twig->cacheHash(null);
     }
 
-    public function testPrintBacktrace()
+    public function testCurrent()
     {
-        $this->stubVarDumper();
-
-        // First test with debug off
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $app['debug'] = false;
-        $this->assertNull($twig->printBacktrace());
-
-        // Safe mode test
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
+        $handlers['record'] = $this->getMockHandler('RecordHandler', 'current');
         $twig = new TwigExtension($app, $handlers, true);
-        $this->assertNull($twig->printBacktrace());
 
-        // Debug mode
-        $app = $this->getApp();
-        $app['debug'] = true;
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertNotEmpty($twig->printBacktrace());
-    }
-
-    public function testHtmlLang()
-    {
-        // Default Locale
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals('en-GB', $twig->htmlLang());
-
-        // Custom Locale de_DE
-        $app = $this->getApp();
-        $app['locale'] = 'de_DE';
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals('de-DE', $twig->htmlLang());
-    }
-
-//     public function testLocaleDateTime()
-//     {
-//         // Default Locale
-//         $app = $this->getApp();
-//         $handlers = $this->getTwigHandlers($app);
-//         $twig = new TwigExtension($app, $handlers, false);
-//         $this->assertEquals('January  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
-
-//         // Locale Switch
-//         $app = $this->getApp();
-//         $handlers = $this->getTwigHandlers($app);
-//         $twig = new TwigExtension($app, $handlers, false);
-//         setlocale(LC_ALL, 'fr_FR.UTF8');
-//         $this->assertEquals('janvier  1, 2014 00:00', $twig->localeDateTime('1 Jan 2014'));
-
-//     }
-
-    public function testExcerpt()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $storage = new Storage($app);
-        $content = $storage->getEmptyContent('showcases');
-        $content->setValue('body', $this->getDummyText());
-        $content->setValue('title', 'A Test Title');
-
-        // First check on the raw string excerpt length 200 and ellipsis added
-        $excerpt1 = $twig->excerpt($this->getDummyText());
-        $this->assertEquals(200, mb_strlen($excerpt1, "UTF-8"));
-        $this->assertEquals('…', mb_substr($excerpt1, -1, 1, 'UTF-8'));
-
-        // If passed an object excerpt will try to call an excerpt() method on it
-        $mock = $this->getMock('Bolt\Legacy\Content', ['excerpt'], [$app]);
-        $mock->expects($this->any())
-            ->method('excerpt')
-            ->will($this->returnValue('called'));
-        $excerpt2 = $twig->excerpt($mock);
-        $this->assertEquals('called', $excerpt2);
-
-        // If the object doesn't implement method, it should return false
-        // Note: Current behaviour is that an ArrayObject will be treated as an array:
-        // values are 'glued' together, and excerpt is created from that. If we change
-        // that behaviour, the test below should be uncommented again.
-//         $obj = new \ArrayObject(['info' => 'A test title', 'body' => $this->getDummyText()]);
-//         $this->assertFalse($twig->excerpt($obj));
-
-        // Check that array works.
-        $sample = ['info' => 'A test title', 'body' => $this->getDummyText()];
-        $excerpt4 = $twig->excerpt($sample);
-        $this->assertRegExp('/' . $sample['info'] . '/', $excerpt4);
-
-        // Check that non text returns empty
-        $excerpt5 = $twig->excerpt(1);
-        $this->assertEmpty($excerpt5);
-    }
-
-    public function testTrim()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $excerpt = $twig->trim($this->getDummyText());
-        $this->assertEquals(200, mb_strlen($excerpt, 'UTF-8'));
-    }
-
-    public function testYmlLink()
-    {
-        $app = $this->getApp();
-        $this->expectOutputRegex('#Redirecting to /bolt/#');
-        $app->run();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $link = $twig->ymllink(' config.yml');
-        $this->assertRegExp('#<a href="/bolt/file/edit/#', $link);
-
-        // Test nothing happens in safe mode
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, true);
-        $this->assertNull($twig->ymllink('config.yml'));
-    }
-
-    public function testSlug()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals('<h1>My <strong>big</strong> title</h1>', $twig->markdown("# My **big** title"));
-    }
-
-    public function testMarkdown()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals('a-title-made-of-words', $twig->slug("A Title Made of Words"));
-    }
-
-    public function testTwig()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $snippet = 'Hello {{item}}';
-        $this->assertEquals('Hello World', $twig->twig($snippet, ['item' => 'World']));
+        $twig->current(null);
     }
 
     public function testDecorateTT()
     {
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertEquals('run: <tt>cat</tt>', $twig->decorateTT('run: `cat`'));
+        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'decorateTT');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->decorateTT(null);
     }
 
-    public function testOrder()
+    public function testEditable()
     {
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $input = [
-            ['title' => 'Gamma', 'id' => 10, 'date' => '2014-01-19'],
-            ['title' => 'Alpha', 'id' => 10, 'date' => '2014-02-20'],
-            ['title' => 'Beta',  'id' => 8,  'date' => '2014-01-10'],
-            ['title' => 'Delta', 'id' => 6,  'date' => '2014-01-19']
-        ];
-        $result = array_values($twig->order($input, 'id'));
-        $this->assertEquals('Delta', $result[0]['title']);
-        $this->assertEquals('Beta', $result[1]['title']);
-        $this->assertRegExp('/Alpha|Gamma/', $result[2]['title']);
+        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'editable');
+        $twig = new TwigExtension($app, $handlers, true);
 
-        // Test sort on secondary keys
-        $result = array_values($twig->order($input, 'id', 'date'));
-        $this->assertEquals('Gamma', $result[2]['title']);
+        $twig->editable(null, new Content($app), null, null);
     }
 
-    public function testCurrent()
+    public function testExcerpt()
     {
-        // Setup the db so we have a predictable content url to test
         $app = $this->getApp();
-        $this->addDefaultUser($app);
-        $storage = new Storage($app);
-        $content = $storage->getEmptyContent('showcases');
-        $content->setValues(['title' => 'New Showcase', 'slug' => 'new-showcase', 'status' => 'published']);
-        $storage->saveContent($content);
-
-        $phpunit = $this;
         $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $storage = new Storage($app);
+        $handlers['record'] = $this->getMockHandler('RecordHandler', 'excerpt');
+        $twig = new TwigExtension($app, $handlers, true);
 
-        // Get the content object and create a routed request
-        $request = Request::create('/showcase/new-showcase');
-        $app->before(
-            function ($request, $app) use ($phpunit, $twig, $storage) {
-                $fetched = $storage->getContent('showcases/1');
-                $phpunit->assertTrue($twig->current($fetched));
-            }
-        );
-        $app->handle($request);
-
-        // Test works on custom homepage
-        $app['config']->set('general/homepage', 'showcase/new-showcase');
-        $request = Request::create('/');
-        $app->before(
-            function ($request, $app) use ($phpunit, $twig, $storage) {
-                $fetched = $storage->getContent('showcases/1');
-                $phpunit->assertTrue($twig->current($fetched));
-            }
-        );
-        $app->handle($request);
-
-        // Delete the content so we're back to a clean database
-        $storage->deleteContent('showcases', 1);
+        $twig->excerpt(null, null);
     }
 
-    public function testToken()
+    public function testFileExists()
     {
         $app = $this->getApp();
-        $app['request'] = Request::create('/');
         $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $this->assertNotEmpty($twig->token());
+        $handlers['utils'] = $this->getMockHandler('UtilsHandler', 'fileExists');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->fileExists(null, null);
+    }
+
+    public function testGetUser()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['user'] = $this->getMockHandler('UserHandler', 'getUser');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->getUser(null);
+    }
+
+    public function testGetUserId()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['user'] = $this->getMockHandler('UserHandler', 'getUserId');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->getUserId(null);
+    }
+
+    public function testHattr()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'hattr');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->hattr(null);
+    }
+
+    public function testHclass()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'hclass');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->hclass(null);
+    }
+
+    public function testHtmlLang()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'htmlLang');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->htmlLang();
+    }
+
+    public function testImage()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['image'] = $this->getMockHandler('ImageHandler', 'image');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->image(null, null, null, null);
+    }
+
+    public function testImageInfo()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['image'] = $this->getMockHandler('ImageHandler', 'imageInfo');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->imageInfo(null, null);
+    }
+
+    public function testIsAllowed()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['user'] = $this->getMockHandler('UserHandler', 'isAllowed');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->isAllowed(null, null);
+    }
+
+    public function testIsChangelogEnabled()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'isChangelogEnabled');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->isChangelogEnabled();
+    }
+
+    public function testIsMobileClient()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'isMobileClient');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->isMobileClient(null);
+    }
+
+    public function testJsonDecode()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['text'] = $this->getMockHandler('TextHandler', 'jsonDecode');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->jsonDecode(null);
+    }
+
+    public function testListContent()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['record'] = $this->getMockHandler('RecordHandler', 'listContent');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->listContent(null, null, null);
     }
 
     public function testListTemplates()
     {
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        $templates = $twig->listTemplates();
-        $this->assertNotEmpty($templates);
+        $handlers['record'] = $this->getMockHandler('RecordHandler', 'listTemplates');
+        $twig = new TwigExtension($app, $handlers, true);
 
-        $filtered = $twig->listTemplates('index*');
-        $this->assertGreaterThan(0, count($filtered));
+        $twig->listTemplates(null, null);
+    }
 
-        // Test safe mode does nothing
+    public function testLocaleDateTime()
+    {
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
+        $handlers['text'] = $this->getMockHandler('TextHandler', 'localeDateTime');
         $twig = new TwigExtension($app, $handlers, true);
-        $this->assertNull($twig->listTemplates());
+
+        $twig->localeDateTime(null, null);
+    }
+
+    public function testLogLevel()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'logLevel');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->logLevel(null);
+    }
+
+    public function testMarkdown()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'markdown');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->markdown(null);
+    }
+
+    public function testMenu()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'menu');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->menu($app['twig'], null, null, null, null);
+    }
+
+    public function testOrder()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['array'] = $this->getMockHandler('ArrayHandler', 'order');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->order(null, null, null);
     }
 
     public function testPager()
     {
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
-        $twig = new TwigExtension($app, $handlers, false);
-        // Test incomplete
-        //$pager = $twig->pager($app['twig']);
+        $handlers['record'] = $this->getMockHandler('RecordHandler', 'pager');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->pager($app['twig'], null, null, null, null);
     }
 
-    protected function getDummyText($length = 1000)
+    public function testPopup()
     {
-        $words = ['this', 'is', 'a', 'test', 'long', 'string', 'of', 'words', 'and', 'means', 'almost', 'nothing'];
-        $longwords = range(1, $length);
-        array_walk(
-            $longwords,
-            function (&$w) use ($words) {
-                $w = $words[array_rand($words)];
-            }
-        );
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['image'] = $this->getMockHandler('ImageHandler', 'popup');
+        $twig = new TwigExtension($app, $handlers, true);
 
-        return implode(' ', $longwords);
+        $twig->popup(null, null, null, null, null);
+    }
+
+    public function testPregReplace()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['text'] = $this->getMockHandler('TextHandler', 'pregReplace');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->pregReplace(null, null, null, null);
+    }
+
+    public function testPrintBacktrace()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['utils'] = $this->getMockHandler('UtilsHandler', 'printBacktrace');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->printBacktrace(null, null);
+    }
+
+    public function testPrintDump()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['utils'] = $this->getMockHandler('UtilsHandler', 'printDump');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->printDump(null, null);
+    }
+
+    public function testPrintFirebug()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['utils'] = $this->getMockHandler('UtilsHandler', 'printFirebug');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->printFirebug(null, null, null);
+    }
+
+    public function testRandomQuote()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'randomQuote');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->randomQuote();
+    }
+
+    public function testRedirect()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['utils'] = $this->getMockHandler('UtilsHandler', 'redirect');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->redirect(null, null);
+    }
+
+    public function testRequest()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['utils'] = $this->getMockHandler('UtilsHandler', 'request');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->request(null, null, null, null);
+    }
+
+    public function testSafeString()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['text'] = $this->getMockHandler('TextHandler', 'safeString');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->safeString(null, null, null);
+    }
+
+    public function testSelectField()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['record'] = $this->getMockHandler('RecordHandler', 'selectField');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->selectField(null, null, null, null);
+    }
+
+    public function testShowImage()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['image'] = $this->getMockHandler('ImageHandler', 'showImage');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->showImage(null, null, null, null);
+    }
+
+    public function testShuffle()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['array'] = $this->getMockHandler('ArrayHandler', 'shuffle');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->shuffle(null);
+    }
+
+    public function testShy()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'shy');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->shy(null);
+    }
+
+    public function testSlug()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['text'] = $this->getMockHandler('TextHandler', 'slug');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->slug(null);
+    }
+
+    public function testStacked()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'stacked');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->stacked(null);
+    }
+
+    public function testStackItems()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'stackItems');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->stackItems(null);
+    }
+
+    public function testTestJson()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['text'] = $this->getMockHandler('TextHandler', 'testJson');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->testJson(null);
+    }
+
+    public function testThumbnail()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['image'] = $this->getMockHandler('ImageHandler', 'thumbnail');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->thumbnail(null, null, null, null);
+    }
+
+    public function testToken()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['user'] = $this->getMockHandler('UserHandler', 'token');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->token();
+    }
+
+    public function testTrans()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'trans');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->trans(null, null);
+    }
+
+    public function testTrim()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['record'] = $this->getMockHandler('RecordHandler', 'excerpt');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->trim(null, null);
+    }
+
+    public function testTwig()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'twig');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->twig(null, null);
+    }
+
+    public function testWidget()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'widget');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->widget(null, null);
+    }
+
+    public function testYmllink()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'ymllink');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->ymllink(null, null);
     }
 
     /**
-     * Override Symfony's default handler to get the output
+     * @param string $name
+     * @param string $method
+     *
+     * @return \PHPUnit_Framework_MockObject_Builder_InvocationMocker
      */
-    protected function stubVarDumper()
+    protected function getMockHandler($name, $method)
     {
-        VarDumper::setHandler(
-            function ($var) {
-                return $var;
-            }
-        );
+        $app = $this->getApp();
+        $name = 'Bolt\\Twig\\Handler\\' . $name;
+        $handler = $this->getMock($name, [$method], [$app]);
+        $handler
+            ->expects($this->once())
+            ->method($method)
+            ->willReturn(true)
+        ;
+
+        return $handler;
     }
 }
