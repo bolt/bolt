@@ -107,13 +107,13 @@
                 <input{{ macro.attr(attributes.width) }}> ×
                 <label for="{{ 'video-' ~ key ~ '-height' }}" class="sr-only">{{ __('field.video.height') }}</label>
                 <input{{ macro.attr(attributes.height) }}>
-                {{ __('field.video.pixel') }}
+                <label>{{ __('field.video.pixel') }}</label>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-sm-9">
-                <span><b>{{ __('field.video.matched-video') }}</b></span>
+                <label>{{ __('field.video.matched-video') }}</label>
                 <p id="video-{{ key }}-text">{{ videotitle|raw }}</p>
             </div>
 
