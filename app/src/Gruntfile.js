@@ -79,7 +79,6 @@ module.exports = function(grunt) {
                 // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',
                 '<%= path.src.js %>/activity.js',
-                '<%= path.src.js %>/bind-fileupload.js',
                 '<%= path.src.js %>/make-uri-slug.js',
                 '<%= path.src.js %>/video-embed.js',
                 '<%= path.src.js %>/upload-files.js',
