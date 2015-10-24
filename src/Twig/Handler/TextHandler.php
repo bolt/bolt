@@ -53,9 +53,8 @@ class TextHandler
 
         // Check for Windows to find and replace the %e modifier correctly
         // @see: http://php.net/strftime
-        if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
-            $format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
-        }
+        $os = strtoupper(substr(PHP_OS, 0, 3));
+        $format = $os !== 'WIN' ? $format : preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
 
         // According to http://php.net/manual/en/function.setlocale.php manual
         // if the second parameter is "0", the locale setting is not affected,

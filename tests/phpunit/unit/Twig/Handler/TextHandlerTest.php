@@ -12,6 +12,14 @@ use Bolt\Twig\Handler\TextHandler;
  */
 class TextHandlerTest extends BoltUnitTest
 {
+    public function setUp()
+    {
+        $this->php = \PHPUnit_Extension_FunctionMocker::start($this, 'Bolt\Twig\Handler')
+            ->mockFunction('setlocale')
+            ->getMock()
+        ;
+    }
+
     public function testJsonDecode()
     {
         $app = $this->getApp();
@@ -42,6 +50,26 @@ class TextHandlerTest extends BoltUnitTest
 
         $result = $handler->localeDateTime('2012-06-14 09:07:55', '%Y-%m-%d %H:%M');
         $this->assertSame('2012-06-14 09:07', $result);
+    }
+
+    public function testLocaleDateTimeCdo()
+    {
+        $app = $this->getApp();
+        $this->php
+            ->expects($this->once())
+            ->method('setlocale')
+            ->will($this->returnValue(false))
+        ;
+        $logger = $this->getMock('Monolog\Logger', ['error'], ['dropbear']);
+        $logger
+            ->expects($this->once())
+            ->method('error')
+        ;
+        $app['logger.system'] = $logger;
+        $handler = new TextHandler($app);
+
+        $result = $handler->localeDateTime('2012-06-14 09:07:55', '%B %e, %Y %H:%M');
+        $this->assertSame('2012-06-14 09:07:55', $result);
     }
 
     public function testLocaleDateTimeObjectNoFormat()
