@@ -88,6 +88,7 @@
 .page-header {
     padding-bottom: 16px;
     margin: 6px 0 20px;
+    border-bottom: 0;
 }
 
 // Enhance center-block
@@ -311,17 +312,17 @@ ul.dropdown-menu li a.nolink {
     &>li {
 
         &>a {
-            color: $linkmain;
+            color: darken($btn-tertiary-bg, 5);
         }
 
         &>span {
-            color: #666;
+            color: #888;
         }
     }
 
     .active a {
-        background-color: $linkmain;
-        border-color: $linkmain;
+        background-color: $btn-tertiary-bg;
+        border-color: $btn-tertiary-bg;
     }
 
 }

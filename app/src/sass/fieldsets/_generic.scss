@@ -8,7 +8,7 @@ div[data-fieldtype] {
 // The last container, just before save buttons.
 div[data-fieldtype]:last-child,
 div[data-fieldtype="meta"] {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid $light-border;
     padding-bottom: 20px;
     margin-bottom: 15px;
 }

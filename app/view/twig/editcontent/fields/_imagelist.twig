@@ -66,10 +66,12 @@
 
             <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
 
-            <span class="btn btn-default btn-sm remove-selected-button">
-                <i class="fa fa-trash"></i>
-                <span>{{ __('Remove selected') }}</span>
-            </span>
+            <div class="button-wrap fileselectbuttongroup">
+                <span class="btn btn-default btn-sm remove-selected-button">
+                    <i class="fa fa-trash"></i>
+                    <span>{{ __('Remove selected') }}</span>
+                </span>
+            </div>
         </div>
 
         <p class="uploading-list"></p>
