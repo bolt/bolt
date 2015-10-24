@@ -2,6 +2,7 @@
 
 namespace Bolt\Controllers;
 
+use Bolt\Content;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Permissions;
@@ -756,7 +757,7 @@ class Backend implements ControllerProviderInterface
                 $oldStatus = $content['status'];
             } else {
                 $content = $app['storage']->getContentObject($contenttypeslug);
-                $oldStatus = '';
+                $oldStatus = 'draft';
             }
 
             // Add non successfull control values to request values
@@ -790,7 +791,6 @@ class Backend implements ControllerProviderInterface
             // To check whether the status is allowed, we act as if a status
             // *transition* were requested.
             $content->setFromPost($requestAll, $contenttype);
-            $newStatus = $content['status'];
 
             // Don't try to spoof the $id.
             if (!empty($content['id']) && $id != $content['id']) {
@@ -799,101 +799,102 @@ class Backend implements ControllerProviderInterface
                 return Lib::redirect('dashboard');
             }
 
-            // Save the record, and return to the overview screen, or to the record (if we clicked 'save and continue')
-            $statusOK = $app['users']->isContentStatusTransitionAllowed($oldStatus, $newStatus, $contenttype['slug'], $id);
-            if ($statusOK) {
-                // Get the associate record change comment
-                $comment = $request->request->get('changelog-comment');
+            /*
+             * From here we save the record, and return to the overview screen,
+             * or to the record (if we clicked 'save and continue')
+             */
 
-                // Save the record
-                $id = $app['storage']->saveContent($content, $comment);
+            // Fallback to the old status if transition is not permitted
+            $this->setTransitionStatus($app, $content, $contenttype['slug'], $id, $oldStatus);
 
-                // Log the change
-                if ($new) {
-                    $app['session']->getFlashBag()->add('success', Trans::__('contenttypes.generic.saved-new', array('%contenttype%' => $contenttypeslug)));
-                    $app['logger.system']->info('Created: ' . $content->getTitle(), array('event' => 'content'));
-                } else {
-                    $app['session']->getFlashBag()->add('success', Trans::__('contenttypes.generic.saved-changes', array('%contenttype%' => $contenttype['slug'])));
-                    $app['logger.system']->info('Saved: ' . $content->getTitle(), array('event' => 'content'));
-                }
+            // Get the associate record change comment
+            $comment = $request->request->get('changelog-comment');
 
-                /*
-                 * We now only get a returnto parameter if we are saving a new
-                 * record and staying on the same page, i.e. "Save {contenttype}"
-                 */
-                if ($app['request']->get('returnto')) {
-                    $returnto = $app['request']->get('returnto');
+            // Save the record
+            $id = $app['storage']->saveContent($content, $comment);
 
-                    if ($returnto === 'new') {
-                        return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $app['request']->get('returnto'));
-                    } elseif ($returnto == 'saveandnew') {
-                        return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $app['request']->get('returnto'));
-                    } elseif ($returnto === 'ajax') {
-                        /*
-                         * Flush any buffers from saveContent() dispatcher hooks
-                         * and make sure our JSON output is clean.
-                         *
-                         * Currently occurs due to a 404 exception being generated
-                         * in \Bolt\Storage::saveContent() dispatchers:
-                         *     $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
-                         *     $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
-                         */
-                        if (ob_get_length()) {
-                            ob_end_clean();
-                        }
-
-                        // Get our record after POST_SAVE hooks are dealt with and return the JSON
-                        $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true, 'status' => '!undefined'));
-
-                        $val = array();
-
-                        foreach ($content->values as $key => $value) {
-                            // Some values are returned as \Twig_Markup and JSON can't deal with that
-                            if (is_array($value)) {
-                                foreach ($value as $subkey => $subvalue) {
-                                    if (gettype($subvalue) == 'object' && get_class($subvalue) == 'Twig_Markup') {
-                                        $val[$key][$subkey] = $subvalue->__toString();
-                                    }
-                                }
-                            } else {
-                                $val[$key] = $value;
-                            }
-                        }
-
-                        if (isset($val['datechanged'])) {
-                            $val['datechanged'] = date_format(new \DateTime($val['datechanged']), 'c');
-                        }
-
-                        $lc = localeconv();
-                        foreach ($contenttype['fields'] as $key => $values) {
-                            switch ($values['type']) {
-                                case 'float':
-                                    // Adjust decimal point dependent on locale
-                                    if ($lc['decimal_point'] === ',') {
-                                        $val[$key] = str_replace('.', ',', $val[$key]);
-                                    }
-                                    break;
-                            }
-                        }
-
-                        // unset flashbag for ajax
-                        $app['session']->getFlashBag()->clear('success');
-
-                        return new JsonResponse($val);
-                    }
-                }
-
-                // No returnto, so we go back to the 'overview' for this contenttype.
-                // check if a pager was set in the referrer - if yes go back there
-                $editreferrer = $app['request']->get('editreferrer');
-                if ($editreferrer) {
-                    Lib::simpleredirect($editreferrer, true);
-                } else {
-                    return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
-                }
+            // Log the change
+            if ($new) {
+                $app['session']->getFlashBag()->add('success', Trans::__('contenttypes.generic.saved-new', array('%contenttype%' => $contenttypeslug)));
+                $app['logger.system']->info('Created: ' . $content->getTitle(), array('event' => 'content'));
             } else {
-                $app['session']->getFlashBag()->add('error', Trans::__('contenttypes.generic.error-saving', array('%contenttype%' => $contenttype['slug'])));
-                $app['logger.system']->error('Save error: ' . $content->getTitle(), array('event' => 'content'));
+                $app['session']->getFlashBag()->add('success', Trans::__('contenttypes.generic.saved-changes', array('%contenttype%' => $contenttype['slug'])));
+                $app['logger.system']->info('Saved: ' . $content->getTitle(), array('event' => 'content'));
+            }
+
+            /*
+             * We now only get a returnto parameter if we are saving a new
+             * record and staying on the same page, i.e. "Save {contenttype}"
+             */
+            if ($app['request']->get('returnto')) {
+                $returnto = $app['request']->get('returnto');
+
+                if ($returnto === 'new') {
+                    return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => $id), '#' . $app['request']->get('returnto'));
+                } elseif ($returnto == 'saveandnew') {
+                    return Lib::redirect('editcontent', array('contenttypeslug' => $contenttype['slug'], 'id' => 0), '#' . $app['request']->get('returnto'));
+                } elseif ($returnto === 'ajax') {
+                    /*
+                     * Flush any buffers from saveContent() dispatcher hooks
+                     * and make sure our JSON output is clean.
+                     *
+                     * Currently occurs due to a 404 exception being generated
+                     * in \Bolt\Storage::saveContent() dispatchers:
+                     *     $this->app['dispatcher']->dispatch(StorageEvents::PRE_SAVE, $event);
+                     *     $this->app['dispatcher']->dispatch(StorageEvents::POST_SAVE, $event);
+                     */
+                    if (ob_get_length()) {
+                        ob_end_clean();
+                    }
+
+                    // Get our record after POST_SAVE hooks are dealt with and return the JSON
+                    $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true, 'status' => '!undefined'));
+
+                    $val = array();
+
+                    foreach ($content->values as $key => $value) {
+                        // Some values are returned as \Twig_Markup and JSON can't deal with that
+                        if (is_array($value)) {
+                            foreach ($value as $subkey => $subvalue) {
+                                if (gettype($subvalue) == 'object' && get_class($subvalue) == 'Twig_Markup') {
+                                    $val[$key][$subkey] = $subvalue->__toString();
+                                }
+                            }
+                        } else {
+                            $val[$key] = $value;
+                        }
+                    }
+
+                    if (isset($val['datechanged'])) {
+                        $val['datechanged'] = date_format(new \DateTime($val['datechanged']), 'c');
+                    }
+
+                    $lc = localeconv();
+                    foreach ($contenttype['fields'] as $key => $values) {
+                        switch ($values['type']) {
+                            case 'float':
+                                // Adjust decimal point dependent on locale
+                                if ($lc['decimal_point'] === ',') {
+                                    $val[$key] = str_replace('.', ',', $val[$key]);
+                                }
+                                break;
+                        }
+                    }
+
+                    // unset flashbag for ajax
+                    $app['session']->getFlashBag()->clear('success');
+
+                    return new JsonResponse($val);
+                }
+            }
+
+            // No returnto, so we go back to the 'overview' for this contenttype.
+            // check if a pager was set in the referrer - if yes go back there
+            $editreferrer = $app['request']->get('editreferrer');
+            if ($editreferrer) {
+                Lib::simpleredirect($editreferrer, true);
+            } else {
+                return Lib::redirect('overview', array('contenttypeslug' => $contenttype['slug']));
             }
         }
 
@@ -1064,6 +1065,26 @@ class Backend implements ControllerProviderInterface
         );
 
         return $app['render']->render('editcontent/editcontent.twig', array('context' => $context));
+    }
+
+    /**
+     * Check whether the status is allowed.
+     *
+     * We act as if a status *transition* were requested and fallback to the old
+     * status otherwise.
+     *
+     * @param Application $app
+     * @param Content     $content
+     * @param string      $contentTypeSlug
+     * @param integer     $id
+     * @param string      $oldStatus
+     */
+    private function setTransitionStatus(Application $app, Content $content, $contentTypeSlug, $id, $oldStatus)
+    {
+        $canTransition = $app['users']->isContentStatusTransitionAllowed($oldStatus, $content['status'], $contentTypeSlug, $id);
+        if (!$canTransition) {
+            $content->setValue('status', $oldStatus);
+        }
     }
 
     /**
