@@ -28,7 +28,7 @@
      * @param fconf
      */
     file.init = function (fieldset, fconf) {
-        bolt.uploads.bind(fieldset, fconf);
+        bolt.uploads.bindField(fieldset, fconf);
     };
 
     // Apply mixin container
