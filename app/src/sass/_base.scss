@@ -31,15 +31,15 @@ $padding-base-horizontal: 8px;
 
 // Primary button.
 $btn-primary-color: #FFF;
-$btn-primary-bg: #107a30; // Or perhaps a nice dark blue: #1d4268;
+$btn-primary-bg: #5d9f11; // Or perhaps a nice dark blue: #1d4268;
 $btn-primary-border: darken($btn-primary-bg, 5%);
 
 // Secondary button.
-$btn-secondary-bg: #4a8A6e;
+$btn-secondary-bg: #206bbb;
 $btn-secondary-border: darken($btn-secondary-bg, 4%);
 
 // Tertiary button.
-$btn-tertiary-bg: #538ebe;
+$btn-tertiary-bg: desaturate(lighten(#42627B, 20), 12);
 $btn-tertiary-border: darken($btn-tertiary-bg, 4%);
 
 // Default button.
@@ -88,7 +88,7 @@ $nav-tabs-bg: desaturate(lighten($boltblue, 50%), 30);
 
 
 // The color of the tabs, in the 'edit content' screen.
-$filtertabs: desaturate(mix($basebgcolour, $btn-tertiary-bg, 70), 20);
+$filtertabs: mix($basebgcolour, $btn-tertiary-bg, 70);
 $filtertab-color: darken($filtertabs, 40);
 $filtertab-active-color: #555;
 
