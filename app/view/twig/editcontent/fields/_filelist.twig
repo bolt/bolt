@@ -55,10 +55,12 @@
         <div class="clearfix">
             {{ macro.upload_buttons('file', key, attributes.fileupload, option.upload, can_upload) }}
 
-            <button type="button" class="btn btn-default remove-selected-button">
-                <i class="fa fa-trash"></i>
-                <span>{{ __('Remove selected') }}</span>
-            </button>
+            <div class="button-wrap fileselectbuttongroup">
+                <button type="button" class="btn btn-default btn-sm remove-selected-button">
+                    <i class="fa fa-trash"></i>
+                    <span>{{ __('Remove selected') }}</span>
+                </button>
+            </div>
         </div>
 
         {# Progress info #}

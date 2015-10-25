@@ -456,6 +456,7 @@ field:
         allowed-filetypes: "Allowed file types are:"
         select-from-server: "Select from server"
         select-from-stack: "Select from stack"
+        stack: "Stack"
     geolocation:
         label:
             address-lookup: "Address lookup"

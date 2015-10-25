@@ -1,14 +1,14 @@
 /*** Fieldset container ***/
 
 div[data-fieldtype] {
-    border-bottom: 1px dashed #eee;
+    border-bottom: 1px solid transparent; // Transparent line, to keep spacing intact.
     margin-bottom: 10px;
 }
 
 // The last container, just before save buttons.
 div[data-fieldtype]:last-child,
 div[data-fieldtype="meta"] {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid $light-border;
     padding-bottom: 20px;
     margin-bottom: 15px;
 }
@@ -21,15 +21,17 @@ fieldset[data-bolt-field] {
     /*** Label ***/
 
     label, .control-label {
-        font-weight: bold;
+        font-weight: normal;
         font-size: 13px;
-        color: lighten(black, 30%);
+        color: #777;
     }
 
     // Main label.
     label.main {
-        color: desaturate(lighten($boltblue, 35%), 20);
-        font-size: 15px;
+        color: #333;
+        font-weight: normal;
+        font-size: 16px;
+        margin-bottom: 6px;
     }
 
     /*** Info popup ***/

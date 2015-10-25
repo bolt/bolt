@@ -112,16 +112,16 @@
             <th class="hidden-xs">{{ sortable_link('id', __('Id'))}}</th>
 
             {# COLUMN: Content #}
-            <th style="width:80%">{{ sortable_link(content.TitleColumnName()|first, __('Title') ~ '/' ~ __('Excerpt')) }}</th>
+            <th style="width:80%">{{ sortable_link(content.TitleColumnName()|first, __('Title') ~ ' / ' ~ __('Excerpt')) }}</th>
 
             {# COLUMN: Thumbnail #}
-            <th>&nbsp;</th>
+            <th class="listthumb"></th>
 
             {# COLUMN: Meta #}
             <th class="username hidden-xs">{{ sortable_link('datecreated', __('Meta'))}}</th>
 
             {# COLUMN: Action #}
-            <th>{{ __('Actions') }}</th>
+            <th class="hidden-xs">{{ __('Actions') }}</th>
         {% endblock %}
     </tr>
 {% endif %}
@@ -207,7 +207,7 @@
     {### BLOCK: ACTIONS ###}
     {% block listing_actions %}
         {# COLUMN: Action #}
-        <td class="actions">
+        <td class="actions hidden-xs">
             <div class="btn-group">
                 {% if modifiable %}
                     <a class="btn btn-default btn-xs" href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}">

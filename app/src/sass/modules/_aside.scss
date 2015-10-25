@@ -28,6 +28,8 @@ aside {
 
     .panel {
         border-radius: 0;
+        margin-left: 12px;
+        border-color: $panel-default-border;
     }
 
     .panel-body > ul {
@@ -51,7 +53,7 @@ aside {
     }
 
     .btn-group {
-        margin-bottom: 14px;
+        margin: 0 6px 12px 0;
     }
 
     .dropdown-menu .btn-link {
@@ -68,4 +70,12 @@ aside {
     code {
         letter-spacing: -0.5px;
     }
+}
+
+@media (max-width: 640px) {
+
+    aside .panel {
+        margin-left: 0;
+    }
+
 }

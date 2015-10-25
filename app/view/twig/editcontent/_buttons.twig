@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group hidden-xs">
     <div class="col-xs-12">
 
         {# Save Contentype #}
@@ -28,7 +28,7 @@
         {# Live Edit #}
         {% if context.contenttype.liveeditor is not defined or context.contenttype.liveeditor %}
             <div class="btn-group">
-                <button type="button" class="btn btn-tertiary" id="live-editor-button">
+                <button type="button" class="btn btn-secondary" id="live-editor-button">
                     <i class="fa fa-pencil"></i> {{ __('Live Edit') }}
                 </button>
             </div>

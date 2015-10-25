@@ -65,7 +65,7 @@
 
         {# Infotext #}
         {% if not ismobileclient() %}
-            <div class="infotext hidden-xs">{{ app.translator.trans('info.upload.filesmall', {}, 'infos') }}</div>
+            <div class="hidden-xs"><label>{{ app.translator.trans('info.upload.filesmall', {}, 'infos') }}</label></div>
         {% endif %}
     </div>
 {% endblock fieldset_controls %}

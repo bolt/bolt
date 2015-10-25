@@ -14,12 +14,13 @@ $boltblue: #204460;
 $boltbluedarker: darken($boltblue, 5);
 $boltbluelighter: lighten($boltblue, 5);
 
-$basebgcolour: #FDFDF9;
+$basebgcolour: #FDFDFA;
 $bodytextcolour: #333;
 
-$lightgrey: #ccc;
+$lightgrey: #CCC;
+$light-border: #E8E8E8;
 // The color of <hr> lines.
-$hr-border: #ccc;
+$hr-border: #CCC;
 
 $linkmain: lighten(saturate($boltblue, 50), 4);
 $linkvisited: $linkmain;
@@ -31,29 +32,29 @@ $padding-base-horizontal: 8px;
 
 // Primary button.
 $btn-primary-color: #FFF;
-$btn-primary-bg: #FB4D08; //#DC6A23;
-$btn-primary-border: darken($btn-primary-bg, 6%);
+$btn-primary-bg: #5d9f11; // Or perhaps a nice dark blue: #1d4268;
+$btn-primary-border: darken($btn-primary-bg, 4%);
 
 // Secondary button.
-$btn-secondary-bg: desaturate(lighten($btn-primary-bg, 7%), 20);
-$btn-secondary-border: darken($btn-secondary-bg, 6%);
+$btn-secondary-bg: #2A78CB;
+$btn-secondary-border: darken($btn-secondary-bg, 4%);
 
 // Tertiary button.
-$btn-tertiary-bg: desaturate(lighten($boltblue, 35%), 20);
-$btn-tertiary-border: darken($btn-tertiary-bg, 6%);
+$btn-tertiary-bg: desaturate(lighten(#42627B, 20), 12);
+$btn-tertiary-border: darken($btn-tertiary-bg, 4%);
 
 // Default button.
 $btn-default-color: #666;
 $btn-default-bg: #E0E0E0;
-$btn-default-border: darken($btn-default-bg, 5);
+$btn-default-border: darken($btn-default-bg, 4%);
 
 $btn-danger-color: #FFF;
-$btn-danger-bg: #CC3333;
-$btn-danger-border: darken($btn-danger-bg, 5);
+$btn-danger-bg: #AA1010;
+$btn-danger-border: darken($btn-danger-bg, 4%);
 
 $btn-silent-danger-color: #555;
 $btn-silent-danger-bg: #F8F8F8;
-$btn-silent-danger-border: darken($btn-danger-bg, 5);
+$btn-silent-danger-border: darken($btn-danger-bg, 4%);
 
 // Special BOLT button.
 $btn-bolt-color: #FFF;
@@ -67,15 +68,12 @@ $dropdown-link-hover-bg: #DDD;
 
 // Sidebar panel headings.
 $panel-default-heading-bg: #DDD;
-$panel-default-border: #E2E2E2;
+$panel-default-border: $light-border;
 $panel-border-radius: 0;
 
 // Table border color: mostly used for the contenttype 'overviews'
 $table-border-color: #CCC;
 $table-bg-accent: #F6F6F9;
-
-// Width of the gutter in the grid. Bit wider than default, because whitespace is free.
-$grid-gutter-width: 40px;
 
 // Pagination.
 $pagination-color: lighten(desaturate($boltblue, 35), 6);
@@ -90,17 +88,23 @@ $nav-tabs-active-link-hover-border-color: $nav-tabs-border-color;
 $nav-tabs-bg: desaturate(lighten($boltblue, 50%), 30);
 
 
+// The color of the tabs, in the 'edit content' screen.
+$filtertabs: mix($basebgcolour, $btn-tertiary-bg, 70);
+$filtertab-color: darken($filtertabs, 40);
+$filtertab-active-color: #555;
+
 /**
  * Colors in _base.scss.
  */
-$sidebarbackground: #181818;
+$sidebarbackground: #33363E;
 $sidebartextcolour: #DDD;
 $sidebartextcolourcollapsed: #AAA;
 
-$sidebarlink: #EEE;
+$sidebarlink: #CCC;
 $sidebarlinkhover: #FFF;
-$sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 7);
-$sidebarbackgroundhover: lighten(desaturate($boltblue, 20), 18);
+$sidebarlinkactive: #FFF;
+$sidebarbackgroundactive: lighten(desaturate($boltblue, 20), 12);
+$sidebarbackgroundhover: lighten(desaturate($boltblue, 30), 6);
 
 /**
  * Fonts.
@@ -121,14 +125,14 @@ $nav-primary-min-height: 50px;
 $nav-secondary-small-width: 280px;
 $nav-secondary-large-width: 180px;
 
-$nav-secondary-top-padding: 16px;
+$nav-secondary-top-padding: 17px;
 $nav-secondary-h-padding: 8px;
-$nav-secondary-v-padding: 8px;
+$nav-secondary-v-padding: 9px;
 $nav-secondary-divider-margin: 14px;
 $nav-secondary-divider-padding: 6px;
 $nav-secondary-icon-size: 24px;
 $nav-secondary-icon-margin: 8px;
-$nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin + 4px);
+$nav-secondary-indent: ($nav-secondary-icon-size + $nav-secondary-icon-margin + 8px);
 $nav-secondary-collapsed-width: ($nav-secondary-h-padding + $nav-secondary-indent + 1);
 
 /**

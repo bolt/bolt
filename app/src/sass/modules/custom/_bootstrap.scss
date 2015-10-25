@@ -17,17 +17,13 @@
 .btn-sm {
   font-size: 13px;
   line-height: 16px;
-  padding: 4px 7px;
+  padding: 4px 9px;
 }
 
 .btn-group > a.btn-sm,
 .btn-group > a.btn-xs {
     font-weight: normal;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.btn-group + .btn-group {
-    margin-left: 4px;
 }
 
 // Primary button for Bolt:
@@ -90,8 +86,14 @@
 
 // Override page-header
 .page-header {
-    padding-bottom: 14px;
+    padding-bottom: 16px;
     margin: 6px 0 20px;
+    border-bottom: 0;
+
+    @media (max-width: 640px) {
+        padding-bottom: 0;
+    }
+
 }
 
 // Enhance center-block
@@ -116,10 +118,10 @@
 
 .navbar-bolt {
     background: transparent;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .2) 100%);
     background-color: $boltblue;
     background-repeat: repeat-x;
-    // box-shadow: 0 4px 0px rgba(0, 0, 0, .2);
+    border-bottom: 0;
+    box-shadow: 0 -5px 0 rgba(0, 0, 0, 0.15) inset;
 
     div.navbar-collapse {
         float: right;
@@ -137,13 +139,16 @@
 .navbar .navbar-brand {
     display: inline-block;
     top: 0px;
-    left: 20px;
     color: #FFF;
     font-size: 28px;
     line-height: 28px;
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
-    padding: 10px 8px 8px 10px;
+    padding: 8px 8px 8px 2px;
+
+    @media (max-width: 640px) {
+       padding: 10px 8px 8px 6px;
+   }
 }
 
 .navbar .navbar-brand img {
@@ -157,7 +162,7 @@
     color: #ccc !important;
     font-size: 22px;
     line-height: 30px;
-    margin-top: 10px;
+    margin-top: 8px;
     padding: 1px 5px 0 5px;
     float: left;
     font-weight: normal;
@@ -245,7 +250,7 @@
 
 .navbar-toggle {
     float: left;
-    margin: 11px 0 0 15px;
+    margin: 11px 0 0 -8px;
     padding: 5px 8px 4px 5px;
     background-color: desaturate(lighten($boltblue, 45), 35);
     border: 0px solid #FFF !important;
@@ -316,17 +321,17 @@ ul.dropdown-menu li a.nolink {
     &>li {
 
         &>a {
-            color: $linkmain;
+            color: darken($btn-tertiary-bg, 5);
         }
 
         &>span {
-            color: #666;
+            color: #888;
         }
     }
 
     .active a {
-        background-color: $linkmain;
-        border-color: $linkmain;
+        background-color: $btn-tertiary-bg;
+        border-color: $btn-tertiary-bg;
     }
 
 }
