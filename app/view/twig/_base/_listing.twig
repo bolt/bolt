@@ -118,7 +118,7 @@
             <th class="listthumb"></th>
 
             {# COLUMN: Meta #}
-            <th class="username hidden-xs">{{ sortable_link('datecreated', __('Meta'))}}</th>
+            <th class="username hidden-sm hidden-xs">{{ sortable_link('datecreated', __('Meta'))}}</th>
 
             {# COLUMN: Action #}
             <th class="hidden-xs">{{ __('Actions') }}</th>
@@ -185,7 +185,7 @@
     {% if prop.extended %}
         {% block listing_meta %}
             {# COLUMN: Meta #}
-            <td class="username hidden-xs">
+            <td class="username hidden-sm hidden-xs">
                 <i class="fa fa-user fa-fw"></i>
                 {% if content.user.displayname is defined %}
                     {{ content.user.displayname|trimtext(15) }}
