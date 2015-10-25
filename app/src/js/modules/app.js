@@ -103,7 +103,6 @@
         init.deferredWidgets();
         init.passwordInput();
         init.sortables();
-        init.uploads();
         init.focusStatusSelect();
         init.depublishTracking();
 
