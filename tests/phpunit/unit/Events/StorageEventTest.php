@@ -33,4 +33,19 @@ class StorageEventTest extends BoltUnitTest
         $this->assertEquals(5, $event->getId());
         $this->assertEquals('pages', $event->getContentType());
     }
+
+    public function testIsCreate()
+    {
+        $app = $this->getApp();
+        $content = new Content($app, 'pages');
+        $content->setValue('id', 5);
+
+        $event = new StorageEvent($content);
+
+        $event->setArgument('create', true);
+        $this->assertTrue($event->isCreate());
+
+        $event->setArgument('create', false);
+        $this->assertFalse($event->isCreate());
+    }
 }
