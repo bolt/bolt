@@ -12,10 +12,10 @@
         "tests"
     ],
     "dependencies": {
-        "jquery": "1.11.2"
+        "jquery": "1.11.3"
     },
     "devDependencies": {
-        "backbone": "~1.2.1",
+        "backbone": "~1.2.3",
         "bootbox.js": "https://github.com/makeusabrew/bootbox.git#4.4.0",
         "jquery.cookie": "https://github.com/carhartl/jquery-cookie.git#1.4.1",
         "jquery.formatDateTime": "https://github.com/agschwender/jquery.formatDateTime.git#1.1.6",
