@@ -11,22 +11,25 @@ use Symfony\Component\Console\Output\BufferedOutput;
  * Class to test src/Events/CronEvent.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class CronEventTest extends BoltUnitTest
 {
     public function testCronCalls()
     {
-        /*
         $app = $this->getApp();
 
-        $app['cache'] = $this->getMock('Bolt\Cache');
-        $app['logger.manager'] = $this->getMock('Bolt\Logger\Manager', ['trim'], [$app]);
+        $app['cache'] = $this->getMock('Bolt\Cache', [], [$app['resources']->getPath('cache'), $app]);
+        $app['cache']
+            ->expects($this->exactly(1))
+            ->method('clearCache');
 
-        $app['cache']->expects($this->exactly(1))
-                  ->method('clearCache');
-
-        $app['logger.manager']->expects($this->exactly(2))
-                  ->method('trim');
+        $changeRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogChange');
+        $systemRepository = $app['storage']->getRepository('Bolt\Storage\Entity\LogSystem');
+        $app['logger.manager'] = $this->getMock('Bolt\Logger\Manager', ['trim'], [$app, $changeRepository, $systemRepository]);
+        $app['logger.manager']
+            ->expects($this->exactly(2))
+            ->method('trim');
 
         $output = new BufferedOutput();
 
@@ -42,6 +45,5 @@ class CronEventTest extends BoltUnitTest
         $out = $listeningEvent->output->fetch();
         $this->assertRegExp('/Clearing cache/', $out);
         $this->assertRegExp('/Trimming logs/', $out);
-*/
     }
 }
