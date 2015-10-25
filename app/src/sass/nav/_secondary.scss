@@ -45,6 +45,10 @@
             color: $sidebarlink;
             font-weight: normal;
 
+            @media (max-width: 640px) {
+                padding: ($nav-secondary-v-padding - 2px) $nav-secondary-h-padding ($nav-secondary-v-padding - 2px) ($nav-secondary-h-padding + $nav-secondary-indent);
+            }
+
             i {
                 width: $nav-secondary-icon-size;
                 margin-right: $nav-secondary-icon-margin;
@@ -127,7 +131,8 @@
         display: block;
         //text-indent: -$nav-secondary-indent;
         font-weight: normal;
-        max-height: 4.8em;
+        max-height: 3.6em;
+        overflow: hidden;
         cursor: pointer;
     }
     &.nav-secondary-dashboard {
@@ -190,6 +195,7 @@
 
         form {
             margin: 0;
+            padding-top: 0;
             border: none;
             box-shadow: none;
         }

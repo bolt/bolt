@@ -35,6 +35,12 @@ label {
     .form-group {
         margin-top: 24px;
         margin-bottom: 10px;
+
+        @media (max-width: 640px) {
+            margin-top: 16px;
+            margin-bottom: 4px;
+        }
+
     }
 
     .form-group-first {
@@ -122,10 +128,7 @@ fieldset.checkbox {
 #filtertabs {
     margin-bottom: 16px;
     border: 0;
-
-    @include respond-to(medium-screens) {
-        border-bottom: 1px solid darken($filtertabs, 10);;
-    }
+    border-bottom: 1px solid darken($filtertabs, 10);;
 
     a {
         color: $filtertab-color;
@@ -139,6 +142,10 @@ fieldset.checkbox {
             color: #444;
             background-color: #FFF !important;
             border-bottom: 0;
+        }
+
+        @media (max-width: 767px) {
+            padding: 4px 6px;
         }
     }
 

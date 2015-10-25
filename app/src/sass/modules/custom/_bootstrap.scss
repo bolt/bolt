@@ -89,6 +89,11 @@
     padding-bottom: 16px;
     margin: 6px 0 20px;
     border-bottom: 0;
+
+    @media (max-width: 640px) {
+        padding-bottom: 0;
+    }
+
 }
 
 // Enhance center-block
@@ -140,6 +145,10 @@
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 8px 8px 8px 2px;
+
+    @media (max-width: 640px) {
+       padding: 10px 8px 8px 6px;
+   }
 }
 
 .navbar .navbar-brand img {
@@ -241,7 +250,7 @@
 
 .navbar-toggle {
     float: left;
-    margin: 11px 0 0 15px;
+    margin: 11px 0 0 -8px;
     padding: 5px 8px 4px 5px;
     background-color: desaturate(lighten($boltblue, 45), 35);
     border: 0px solid #FFF !important;
