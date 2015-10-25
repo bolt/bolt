@@ -568,7 +568,7 @@ class Config
             $fields['slug']['uses'] = (array) $fields['slug']['uses'];
         }
 
-        return [$fields, $hasGroups ? array_keys($groups) : false];
+        return [$fields, $hasGroups ? array_keys($groups) : []];
     }
 
     /**

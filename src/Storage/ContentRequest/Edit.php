@@ -109,8 +109,9 @@ class Edit
 
         // Test write access for uploadable fields.
         $contenttype['fields'] = $this->setCanUpload($contenttype['fields']);
-        if ($templatefields = $content->getTemplatefields()) {
-            $this->setCanUpload($templatefields->getContenttype());
+        $templateFields = $content->getTemplatefields();
+        if ($templateFields && $templateFieldsData = $templateFields->getContenttype()->getFields()) {
+            $this->setCanUpload($templateFields->getContenttype());
         }
 
         // Build context for Twig.
@@ -125,7 +126,7 @@ class Edit
             'relations'          => isset($contenttype['relations']),
             'tabs'               => $contenttype['groups'] !== false,
             'taxonomy'           => isset($contenttype['taxonomy']),
-            'templatefields'     => $templatefields ? true : false,
+            'templatefields'     => empty($templateFieldsData) ? false : true,
         ];
         $contextValues = [
             'datepublish'        => $this->getPublishingDate($content->getDatepublish(), true),
