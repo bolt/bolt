@@ -172,6 +172,11 @@ class Frontend
 
         // First, get the preview from Post.
         $content = $app['storage']->getContentObject($contenttypeslug);
+
+        if (!empty($request->get('id'))) {
+            $content = $app['storage']->getContent($contenttype['slug'], array('id' => $request->get('id'), 'returnsingle' => true));
+        }
+
         $content->setFromPost($request->request->all(), $contenttype);
 
         $liveEditor = $request->get('_live-editor-preview');
