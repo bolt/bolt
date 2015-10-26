@@ -88,13 +88,10 @@
             .on('fileuploaddone', function (evt, data) {
                 fileuploadDone(key, data);
             })
-            .on('fileuploadadd', uploads.checkFileSize)
             .on('fileuploadprogress', function (evt, data) {
-                var progress = Math.round(100 * data.loaded / data.total);
-
-                $('#progress-' + key).show().addClass('progress-striped active');
-                $('#progress-' + key + ' div.progress-bar').css('width', progress + '%');
-            });
+                fileuploadProgress(key, data);
+            })
+            .on('fileuploadadd', uploads.checkFileSize);
     };
 
     /**
@@ -150,7 +147,7 @@
      * @function fileuploadDone
      * @memberof Bolt.uploads
      *
-     * @param {Object} key - Key.
+     * @param {string} key - Key.
      * @param {Object} data - Data.
      */
     function fileuploadDone(key, data) {
@@ -178,6 +175,23 @@
             $('#progress-' + key + ' div.bar').css('width', '100%');
             $('#progress-' + key).removeClass('progress-striped active');
         });
+    }
+
+    /**
+     * Callback for upload progress events.
+     *
+     * @private
+     * @function fileuploadProgress
+     * @memberof Bolt.uploads
+     *
+     * @param {string} key - Key.
+     * @param {Object} data - Data.
+     */
+    function fileuploadProgress(key, data) {
+        var progress = Math.round(100 * data.loaded / data.total);
+
+        $('#progress-' + key).show().addClass('progress-striped active');
+        $('#progress-' + key + ' div.progress-bar').css('width', progress + '%');
     }
 
     // Apply mixin container
