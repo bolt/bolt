@@ -34,7 +34,7 @@
             autocompleteConf;
 
         accept = accept ? accept.replace(/\./g, '') : '';
-        uploads.bindUpload(conf.key);
+        uploads.bindUpload(conf.key, preview.length > 0);
 
         autocompleteConf = {
             source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
@@ -44,15 +44,7 @@
         // If there's an preview image then the type is 'image'.
         if (preview.length > 0) {
             autocompleteConf.close = function () {
-                var path = $('#field-' + conf.key).val(),
-                    url;
-
-                if (path) {
-                    url = bolt.conf('paths.root') +'thumbs/' + conf.width + 'x' + conf.height + 'c/' + encodeURI(path);
-                } else {
-                    url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
-                }
-                $(preview).src = url;
+                bolt.fields.image.updatePreview(conf.key, $('#field-' + conf.key).val());
             };
         }
         $('#field-' + conf.key).autocomplete(autocompleteConf);
@@ -91,8 +83,9 @@
      * @function bindUpload
      * @memberof Bolt.uploads
      * @param key
+     * @param isImage
      */
-    uploads.bindUpload = function (key) {
+    uploads.bindUpload = function (key, isImage) {
         // Since jQuery File Upload's 'paramName' option seems to be ignored,
         // it requires the name of the upload input to be "images[]". Which clashes
         // with the non-fancy fallback, so we hackishly set it here. :-/
@@ -107,11 +100,11 @@
 
                         if (file.error === undefined) {
                             filename = decodeURI(file.url).replace('files/', '');
-                            $('#field-' + key).val(filename);
-                            $('#thumbnail-' + key).html(
-                                '<img src="' + bolt.conf('paths.root') + 'thumbs/200x150c/' + encodeURI(filename) +
-                                '" width="200" height="150">'
-                            );
+
+                            if (isImage) {
+                                bolt.fields.image.updatePreview(key, filename);
+                            }
+
                             window.setTimeout(
                                 function () {
                                     $('#progress-' + key).fadeOut('slow');
