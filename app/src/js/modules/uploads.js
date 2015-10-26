@@ -88,7 +88,7 @@
             .on('fileuploadprogress', function (evt, data) {
                 fileuploadProgress(key, data);
             })
-            .on('fileuploadadd', uploads.checkFileSize);
+            .on('fileuploadadd', checkFileSize);
     };
 
     /**
@@ -115,7 +115,7 @@
                     list.add(filename, filename);
                 });
             })
-            .on('fileuploadadd', uploads.checkFileSize)
+            .on('fileuploadadd', checkFileSize)
             .on('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + key).attr('accept'),
                     pattern,
@@ -162,13 +162,13 @@
     /**
      * Check if one or more files to upload are larger than allowed.
      *
-     * @static
+     * @private
      * @function checkFileSize
      * @memberof Bolt.uploads
      * @param event
      * @param data
      */
-    uploads.checkFileSize = function (event, data) {
+    function checkFileSize(event, data) {
         // The jQuery upload doesn't expose an API to cover an entire upload set. So we keep "bad" files
         // in the data.originalFiles, which is the same between multiple files in one upload set.
         var badFiles = [];
@@ -201,7 +201,7 @@
         if (badFiles.length === 0) {
             data.submit();
         }
-    };
+    }
 
     /**
      * Callback for successful upload requests.
