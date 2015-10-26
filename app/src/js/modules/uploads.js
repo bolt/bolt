@@ -25,17 +25,17 @@
      * @function bindField
      * @memberof Bolt.uploads
      * @param element
+     * @param conf
      */
-    uploads.bindField = function (element) {
+    uploads.bindField = function (element, conf) {
         var type = $(element).data('bolt-field'),
             input = $(element).find('input[accept]'),
-            data = $(input).data('upload'),
             accept = $(input).attr('accept'),
             autocompleteConf;
 
         accept = accept ? accept.replace(/\./g, '') : '';
 
-        uploads.bindUpload(data.key);
+        uploads.bindUpload(conf.key);
 
         autocompleteConf = {
             source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
@@ -43,21 +43,21 @@
         };
         if (type === 'image') {
             autocompleteConf.close = function () {
-                var path = $('#field-' + data.key).val(),
+                var path = $('#field-' + conf.key).val(),
                     url;
 
                 if (path) {
-                    url = bolt.conf('paths.root') +'thumbs/' + data.width + 'x' + data.height + 'c/' +
+                    url = bolt.conf('paths.root') +'thumbs/' + conf.width + 'x' + conf.height + 'c/' +
                         encodeURI(path);
                 } else {
                     url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
                 }
-                $('#thumbnail-' + data.key).html(
-                    '<img src="'+ url + '" width="' + data.width + '" height="' + data.height + '">'
+                $('#thumbnail-' + conf.key).html(
+                    '<img src="'+ url + '" width="' + conf.width + '" height="' + conf.height + '">'
                 );
             };
         }
-        $('#field-' + data.key).autocomplete(autocompleteConf);
+        $('#field-' + conf.key).autocomplete(autocompleteConf);
     };
 
     /**
