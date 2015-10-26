@@ -24,8 +24,8 @@
      * @static
      * @function bindField
      * @memberof Bolt.uploads
-     * @param element
-     * @param conf
+     * @param {Object} element
+     * @param {Object} conf
      */
     uploads.bindField = function (element, conf) {
         uploads.bindUpload(conf.key);
@@ -74,7 +74,7 @@
      * @static
      * @function bindUpload
      * @memberof Bolt.uploads
-     * @param key
+     * @param {string} key
      */
     uploads.bindUpload = function (key) {
         $('#fileupload-' + key)
@@ -165,8 +165,8 @@
      * @private
      * @function checkFileSize
      * @memberof Bolt.uploads
-     * @param event
-     * @param data
+     * @param {Object} event
+     * @param {Object} data
      */
     function checkFileSize(event, data) {
         // The jQuery upload doesn't expose an API to cover an entire upload set. So we keep "bad" files
