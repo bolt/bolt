@@ -106,9 +106,9 @@
                             bolt.stack.addToStack(filename);
 
                         } else {
-                            message = "Oops! There was an error uploading the file. Make sure the file is not " +
+                            message = 'Oops! There was an error uploading the file. Make sure the file is not ' +
                                 "corrupt, and that the 'files/'-folder is writable." +
-                                "\n\n(error was: " + file.error + ")";
+                                "\n\n(error was: " + file.error + ')';
 
                             alert(message);
                             window.setTimeout(
@@ -118,7 +118,7 @@
                                 50
                             );
                         }
-                        $('#progress-' + key + ' div.bar').css('width', "100%");
+                        $('#progress-' + key + ' div.bar').css('width', '100%');
                         $('#progress-' + key).removeClass('progress-striped active');
                     });
                 },
@@ -128,7 +128,7 @@
                 var progress = Math.round(100 * data.loaded / data.total);
 
                 $('#progress-' + key).show().addClass('progress-striped active');
-                $('#progress-' + key + ' div.progress-bar').css('width', progress + "%");
+                $('#progress-' + key + ' div.progress-bar').css('width', progress + '%');
             });
     };
 
