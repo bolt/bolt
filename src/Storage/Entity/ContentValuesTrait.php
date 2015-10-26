@@ -468,7 +468,9 @@ trait ContentValuesTrait
         if (!empty($values['relation']) && is_array($values['relation'])) {
             foreach($values['relation'] as $key => $value) {
                 $this->clearRelation($key);
-                $this->setRelation($key, $value);
+                foreach($values as $value) {
+                    $this->setRelation($key, $value);
+                }
             }
             unset($values['relation']);
         } else {
