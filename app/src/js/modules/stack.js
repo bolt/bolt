@@ -27,7 +27,7 @@
      * @memberof Bolt.stack
      */
     stack.init = function () {
-        bindFileUpload('stack');
+        bolt.uploads.bindUpload('stack');
 
         // In the modal dialog, to navigate folders.
         $('#selectImageModal-stack').on('click', '.folder', function (e) {

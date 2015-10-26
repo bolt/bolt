@@ -53,6 +53,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/stack.js',
                 '<%= path.src.js %>/modules/secmenu.js',
                 '<%= path.src.js %>/modules/omnisearch.js',
+                '<%= path.src.js %>/modules/uploads.js',
                 '<%= path.src.js %>/modules/video.js',
                 // BUIC
                 '<%= path.src.js %>/modules/buic.js',
@@ -63,7 +64,11 @@ module.exports = function(grunt) {
                 // Fields
                 '<%= path.src.js %>/modules/fields.js',
                 '<%= path.src.js %>/modules/fields/categories.js',
+                '<%= path.src.js %>/modules/fields/file.js',
+                '<%= path.src.js %>/modules/fields/filelist.js',
                 '<%= path.src.js %>/modules/fields/geolocation.js',
+                '<%= path.src.js %>/modules/fields/image.js',
+                '<%= path.src.js %>/modules/fields/imagelist.js',
                 '<%= path.src.js %>/modules/fields/meta.js',
                 '<%= path.src.js %>/modules/fields/repeater.js',
                 '<%= path.src.js %>/modules/fields/relationship.js',
@@ -74,7 +79,6 @@ module.exports = function(grunt) {
                 // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',
                 '<%= path.src.js %>/activity.js',
-                '<%= path.src.js %>/bind-fileupload.js',
                 '<%= path.src.js %>/make-uri-slug.js',
                 '<%= path.src.js %>/video-embed.js',
                 '<%= path.src.js %>/upload-files.js',
