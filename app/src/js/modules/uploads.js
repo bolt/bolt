@@ -30,6 +30,7 @@
     uploads.bindField = function (element, conf) {
         var type = $(element).data('bolt-field'),
             input = $(element).find('input[accept]'),
+            preview = $('#thumbnail-' + conf.key + ' img'),
             accept = $(input).attr('accept'),
             autocompleteConf;
 
@@ -41,6 +42,7 @@
             source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
             minLength: 2
         };
+
         if (type === 'image') {
             autocompleteConf.close = function () {
                 var path = $('#field-' + conf.key).val(),
@@ -51,9 +53,7 @@
                 } else {
                     url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
                 }
-                $('#thumbnail-' + conf.key).html(
-                    '<img src="'+ url + '" width="' + conf.width + '" height="' + conf.height + '">'
-                );
+                $(preview).src = url;
             };
         }
         $('#field-' + conf.key).autocomplete(autocompleteConf);
