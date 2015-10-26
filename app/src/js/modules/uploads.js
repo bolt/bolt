@@ -27,6 +27,8 @@
      * @param element
      */
     uploads.bindField = function (element) {
+        var type = $(element).data('bolt-field');
+
         $('input[data-upload]', element).each(function () {
             var data = $(this).data('upload'),
                 accept = $(this).attr('accept'),
@@ -34,16 +36,16 @@
 
             accept = accept ? accept.replace(/\./g, '') : '';
 
-            switch (data.type) {
-                case 'Image':
-                case 'File':
+            switch (type) {
+                case 'image':
+                case 'file':
                     uploads.bindUpload(data.key);
 
                     autocompleteConf = {
                         source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
                         minLength: 2
                     };
-                    if (data.type === 'Image') {
+                    if (type === 'image') {
                         autocompleteConf.close = function () {
                             var path = $('#field-' + data.key).val(),
                                 url;
@@ -62,12 +64,12 @@
                     $('#field-' + data.key).autocomplete(autocompleteConf);
                     break;
 
-                case 'ImageList':
-                    bolt.imagelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
+                case 'imagelist':
+                    bolt.imagelist[data.key] = new FilelistHolder({id: data.key, type: type});
                     break;
 
-                case 'FileList':
-                    bolt.filelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
+                case 'filelist':
+                    bolt.filelist[data.key] = new FilelistHolder({id: data.key, type: type});
                     break;
             }
         });

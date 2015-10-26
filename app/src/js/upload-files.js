@@ -43,7 +43,7 @@ var FilelistHolder = Backbone.View.extend({
         this.list = new Filelist();
         this.uploading = new Filelist();
         this.type = options.type;
-        if (options.type === 'ImageList') {
+        if (options.type === 'imagelist') {
             this.idPrefix = '#imagelist-';
             this.datWrongtype = 'field.imagelist.message.wrongtype';
             this.datRemove = 'field.imagelist.message.remove';
@@ -97,7 +97,7 @@ var FilelistHolder = Backbone.View.extend({
                 },
                 element = $(Bolt.data(tmplItem, replace));
 
-            if (listtype === 'ImageList') {
+            if (listtype === 'imagelist') {
                 element.find('.thumbnail-link').magnificPopup({type: 'image'});
             }
             list.append(element);
@@ -315,7 +315,7 @@ var FilelistHolder = Backbone.View.extend({
             $this.doneSort();
         });
 
-        if (this.type === 'ImageList') {
+        if (this.type === 'imagelist') {
             // In the modal dialog, to navigate folders.
             $('#selectImageModal-' + contentkey).on('click', '.folder', function (e) {
                 e.preventDefault();
