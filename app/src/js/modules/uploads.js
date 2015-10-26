@@ -83,36 +83,36 @@
         $('#fileupload-' + key)
             .fileupload({
                 dataType: 'json',
-                dropZone: $('#dropzone-' + key),
-                done: function (e, data) {
-                    $.each(data.result, function (index, file) {
-                        if (file.error) {
-                            bootbox.alert(
-                                '<p>There was an error uploading the file. Make sure the file is not corrupt, ' +
-                                'and that the upload-folder is writable.</p>' +
-                                '<p>Error message:<br><i>' + file.error + '<i></p>'
-                            );
-                        } else {
-                            $('#field-' + key).val(file.name).trigger('change');
-
-                            // Add the uploaded file to our stack.
-                            bolt.stack.addToStack(file.name);
-                        }
-
-                        // Progress bar
-                        window.setTimeout(
-                            function () {
-                                $('#progress-' + key).fadeOut('slow');
-                            },
-                            file.error ? 50 : 1500
-                        );
-                        $('#progress-' + key + ' div.bar').css('width', '100%');
-                        $('#progress-' + key).removeClass('progress-striped active');
-                    });
-                },
-                add: uploads.checkFileSize
+                dropZone: $('#dropzone-' + key)
             })
-            .bind('fileuploadprogress', function (e, data) {
+            .on('fileuploaddone', function (evt, data) {
+                $.each(data.result, function (idx, file) {
+                    if (file.error) {
+                        bootbox.alert(
+                            '<p>There was an error uploading the file. Make sure the file is not corrupt, ' +
+                            'and that the upload-folder is writable.</p>' +
+                            '<p>Error message:<br><i>' + file.error + '<i></p>'
+                        );
+                    } else {
+                        $('#field-' + key).val(file.name).trigger('change');
+
+                        // Add the uploaded file to our stack.
+                        bolt.stack.addToStack(file.name);
+                    }
+
+                    // Progress bar
+                    window.setTimeout(
+                        function () {
+                            $('#progress-' + key).fadeOut('slow');
+                        },
+                        file.error ? 50 : 1500
+                    );
+                    $('#progress-' + key + ' div.bar').css('width', '100%');
+                    $('#progress-' + key).removeClass('progress-striped active');
+                });
+            })
+            .on('fileuploadadd', uploads.checkFileSize)
+            .on('fileuploadprogress', function (evt, data) {
                 var progress = Math.round(100 * data.loaded / data.total);
 
                 $('#progress-' + key).show().addClass('progress-striped active');
