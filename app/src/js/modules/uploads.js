@@ -29,12 +29,11 @@
      */
     uploads.bindField = function (element, conf) {
         var input = $(element).find('input[accept]'),
-            preview = $('#thumbnail-' + conf.key + ' img'),
+            preview = $(element).find('img'),
             accept = $(input).attr('accept'),
             autocompleteConf;
 
         accept = accept ? accept.replace(/\./g, '') : '';
-
         uploads.bindUpload(conf.key);
 
         autocompleteConf = {
