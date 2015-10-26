@@ -79,7 +79,6 @@
     uploads.bindUpload = function (key) {
         $('#fileupload-' + key)
             .fileupload({
-                dataType: 'json',
                 dropZone: $('#dropzone-' + key)
             })
             .on('fileuploaddone', function (evt, data) {
