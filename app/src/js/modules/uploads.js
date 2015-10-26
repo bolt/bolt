@@ -128,12 +128,10 @@
                             return false;
                         }
 
-                        var uploadingFile = new FileModel({
+                        file.uploading = new FileModel({
                             filename: file.name
                         });
-                        file.uploading = uploadingFile;
-
-                        list.uploading.add(uploadingFile);
+                        list.uploading.add(file.uploading);
                     });
                 }
 
