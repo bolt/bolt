@@ -26,7 +26,7 @@ trait AssetTrait
      *
      * @param FileAssetInterface|string $fileAsset Asset object, or file name
      */
-    public function addCss($fileAsset, $options = [])
+    public function addCss($fileAsset)
     {
         if (!$fileAsset instanceof FileAssetInterface) {
             $fileAsset = $this->setupAsset(new Stylesheet(), $fileAsset, func_get_args());
@@ -40,7 +40,7 @@ trait AssetTrait
      *
      * @param FileAssetInterface|string $fileAsset File name
      */
-    public function addJavascript($fileAsset, $options = [])
+    public function addJavascript($fileAsset)
     {
         if (!$fileAsset instanceof FileAssetInterface) {
             $fileAsset = $this->setupAsset(new JavaScript(), $fileAsset, func_get_args());
