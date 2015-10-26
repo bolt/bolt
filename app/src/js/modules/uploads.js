@@ -36,34 +36,29 @@
 
             accept = accept ? accept.replace(/\./g, '') : '';
 
-            switch (type) {
-                case 'image':
-                case 'file':
-                    uploads.bindUpload(data.key);
+            uploads.bindUpload(data.key);
 
-                    autocompleteConf = {
-                        source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
-                        minLength: 2
-                    };
-                    if (type === 'image') {
-                        autocompleteConf.close = function () {
-                            var path = $('#field-' + data.key).val(),
-                                url;
+            autocompleteConf = {
+                source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
+                minLength: 2
+            };
+            if (type === 'image') {
+                autocompleteConf.close = function () {
+                    var path = $('#field-' + data.key).val(),
+                        url;
 
-                            if (path) {
-                                url = bolt.conf('paths.root') +'thumbs/' + data.width + 'x' + data.height + 'c/' +
-                                    encodeURI(path);
-                            } else {
-                                url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
-                            }
-                            $('#thumbnail-' + data.key).html(
-                                '<img src="'+ url + '" width="' + data.width + '" height="' + data.height + '">'
-                            );
-                        };
+                    if (path) {
+                        url = bolt.conf('paths.root') +'thumbs/' + data.width + 'x' + data.height + 'c/' +
+                            encodeURI(path);
+                    } else {
+                        url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
                     }
-                    $('#field-' + data.key).autocomplete(autocompleteConf);
-                    break;
+                    $('#thumbnail-' + data.key).html(
+                        '<img src="'+ url + '" width="' + data.width + '" height="' + data.height + '">'
+                    );
+                };
             }
+            $('#field-' + data.key).autocomplete(autocompleteConf);
         });
     };
 
