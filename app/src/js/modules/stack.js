@@ -147,9 +147,8 @@
         }
 
         // If the field has a thumbnail, set it.
-        if ($('#thumbnail-' + key).is('*')) {
-            var src = bolt.conf('paths.bolt') + '../thumbs/200x150c/' + encodeURI(path);
-            $('#thumbnail-' + key).html('<img src="' + src + '" width="200" height="150">');
+        if ($('#field-' + key).closest('fieldset').data('bolt-field') === 'image') {
+            bolt.fields.image.updatePreview(key, path);
         }
 
         // Close the modal dialog, if this image/file was selected through one.
