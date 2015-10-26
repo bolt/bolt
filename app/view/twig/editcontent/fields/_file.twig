@@ -37,6 +37,11 @@
 
 {% extends '@bolt/_base/_fieldset.twig' %}
 
+{% set fieldset_conf = {
+    key: key,
+    url: url('upload', {'handler': option.upload}),
+}%}
+
 {% block fieldset_type 'file' %}
 
 {% block fieldset_label_text  labelkey %}
