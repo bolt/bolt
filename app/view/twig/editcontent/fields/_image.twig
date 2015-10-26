@@ -95,6 +95,13 @@
 
 {% extends '@bolt/_base/_fieldset.twig' %}
 
+{% set fieldset_conf = {
+    height: preview_h,
+    key: key,
+    url: url('upload', {'handler': option.upload}),
+    width: preview_w,
+}%}
+
 {% block fieldset_type 'image' %}
 
 {% block fieldset_label_text  labelkey %}
