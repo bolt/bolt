@@ -22,6 +22,16 @@ abstract class FileAssetBase implements FileAssetInterface
     protected $cacheHash;
 
     /**
+     * Constructor.
+     *
+     * @param string $fileName
+     */
+    public function __construct($fileName = null)
+    {
+        $this->fileName = $fileName;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getType()
