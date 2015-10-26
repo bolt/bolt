@@ -110,9 +110,7 @@
             })
             .on('fileuploaddone', function (evt, data) {
                 $.each(data.result, function (index, file) {
-                    var filename = decodeURI(file.url).replace('files/', '');
-
-                    list.add(filename, filename);
+                    list.add(file.name, file.name);
                 });
             })
             .on('fileuploadadd', checkFileSize)
