@@ -39,10 +39,12 @@
      */
     uploads.bindField = function (element) {
         $('input[data-upload]', element).each(function () {
-            var data = $(this).data('upload');
-            var accept = $(this).attr('accept');
+            var data = $(this).data('upload'),
+                accept = $(this).attr('accept'),
+                autocomplete_conf;
+
             accept = accept ? accept.replace(/\./g, '') : '';
-            var autocomplete_conf;
+
             switch (data.type) {
                 case 'Image':
                 case 'File':
@@ -120,7 +122,12 @@
                                 "\n\n(error was: " + file.error + ")";
 
                             alert(message);
-                            window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 50);
+                            window.setTimeout(
+                                function () {
+                                    $('#progress-' + key).fadeOut('slow');
+                                },
+                                50
+                            );
                         }
                         $('#progress-' + key + ' div.bar').css('width', "100%");
                         $('#progress-' + key).removeClass('progress-striped active');
@@ -135,7 +142,6 @@
                 $('#progress-' + key + ' div.progress-bar').css('width', progress + "%");
             });
     };
-
 
     /**
      * This function works at a lower level than the bindField function, it sets up the handlers for the upload
@@ -182,9 +188,6 @@
             data.submit();
         }
     };
-
-
-
 
     // Apply mixin container
     bolt.uploads = uploads;
