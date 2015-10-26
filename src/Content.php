@@ -485,8 +485,11 @@ class Content implements \ArrayAccess
 
         // Get the relations from the POST-ed values.
         if (!empty($values['relation']) && is_array($values['relation'])) {
-            foreach($values['relation'] as $key => $value) {
-                $this->setRelation($key, $value);
+            foreach($values['relation'] as $key => $values) {
+                $this->clearRelation($key);
+                foreach($values as $value) {
+                    $this->setRelation($key, $value);
+                }
             }
             unset($values['relation']);
         } else {
@@ -764,6 +767,20 @@ class Content implements \ArrayAccess
         sort($ids);
 
         $this->relation[$contenttype] = array_unique($ids);
+    }
+
+    /**
+     * Clears a relation.
+     *
+     * @param string|array $contenttype
+     *
+     * @return void
+     */
+    public function clearRelation($contenttype)
+    {
+        if (!empty($this->relation[$contenttype])) {
+            unset($this->relation[$contenttype]);
+        }
     }
 
     /**
