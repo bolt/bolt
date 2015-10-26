@@ -183,16 +183,16 @@
         });
 
         if (data.originalFiles.bad.length > 0) {
-            var filename1 = data.files[data.files.length - 1].name;
-            var filename2 = data.originalFiles[data.originalFiles.length - 1].name;
+            var filename1 = data.files[data.files.length - 1].name,
+                filename2 = data.originalFiles[data.originalFiles.length - 1].name;
 
             if (filename1 === filename2) {
                 // We're at the end of this upload cycle
-                var message = 'One or more of the files that you selected was larger than the max size of ' +
-                    bolt.conf('uploadConfig.maxSizeNice') + ":\n\n" +
-                    data.originalFiles.bad.join("\n");
-
-                alert(message);
+                bootbox.alert(
+                    '<p>One or more of the files that you selected was larger than the max size of ' +
+                    bolt.conf('uploadConfig.maxSizeNice') + ':</p>' +
+                    '<p>' + data.originalFiles.bad.join('<br>') + '</p>'
+                );
             }
         }
 
