@@ -88,7 +88,19 @@
                     $.each(data.result, function (index, file) {
                         var filename;
 
-                        if (file.error === undefined) {
+                        if (file.error) {
+                            bootbox.alert(
+                                '<p>There was an error uploading the file. Make sure the file is not corrupt, ' +
+                                'and that the upload-folder is writable.</p>' +
+                                '<p>Error message:<br><i>' + file.error + '<i></p>'
+                            );
+                            window.setTimeout(
+                                function () {
+                                    $('#progress-' + key).fadeOut('slow');
+                                },
+                                50
+                            );
+                        } else {
                             filename = decodeURI(file.url).replace('files/', '');
                             $('#field-' + key).val(filename).trigger('change');
 
@@ -101,19 +113,6 @@
 
                             // Add the uploaded file to our stack.
                             bolt.stack.addToStack(filename);
-
-                        } else {
-                            bootbox.alert(
-                                '<p>There was an error uploading the file. Make sure the file is not corrupt, ' +
-                                'and that the upload-folder is writable.</p>' +
-                                '<p>Error message:<br><i>' + file.error + '<i></p>'
-                            );
-                            window.setTimeout(
-                                function () {
-                                    $('#progress-' + key).fadeOut('slow');
-                                },
-                                50
-                            );
                         }
                         $('#progress-' + key + ' div.bar').css('width', '100%');
                         $('#progress-' + key).removeClass('progress-striped active');
