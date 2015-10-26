@@ -77,9 +77,6 @@
      * @param key
      */
     uploads.bindUpload = function (key) {
-        // Since jQuery File Upload's 'paramName' option seems to be ignored,
-        // it requires the name of the upload input to be "images[]". Which clashes
-        // with the non-fancy fallback, so we hackishly set it here. :-/
         $('#fileupload-' + key)
             .fileupload({
                 dataType: 'json',
