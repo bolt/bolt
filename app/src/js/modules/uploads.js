@@ -145,14 +145,14 @@
             .on('fileuploadprogress', function (evt, data) {
                 var progress = data.loaded / data.total;
 
-                _.each(data.files, function (file) {
+                $.each(data.files, function (file) {
                     file.uploading.progress = progress;
                     var progressBar = file.uploading.element.find('.progress-bar');
                     progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
                 });
             })
             .on('fileuploadalways', function (evt, data) {
-                _.each(data.files, function (file) {
+                $.each(data.files, function (file) {
                     list.uploading.remove(file.uploading);
                 });
                 list.render();
@@ -177,7 +177,7 @@
             data.originalFiles.bad = [];
         }
 
-        _.each(data.files, function (file) {
+        $.each(data.files, function (file) {
             if ((file.size || 0) > bolt.conf('uploadConfig.maxSize') && bolt.conf('uploadConfig.maxSize') > 0) {
                 badFiles.push(file.name);
                 data.originalFiles.bad.push(file.name);
