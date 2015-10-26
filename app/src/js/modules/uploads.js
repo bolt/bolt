@@ -28,13 +28,11 @@
      * @param conf
      */
     uploads.bindField = function (element, conf) {
-        var accept = $(element).find('input[accept]').attr('accept');
-
-        accept = accept ? accept.replace(/\./g, '') : '';
-
         uploads.bindUpload(conf.key);
 
         // Setup autocomplete popup.
+        var accept = ($(element).find('input[accept]').prop('accept') || '').replace(/\./g, '');
+
         $('#field-' + conf.key).autocomplete({
             source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
             minLength: 2,
