@@ -88,7 +88,7 @@ trait AssetTrait
             [
                 'late'     => false,
                 'priority' => 0,
-                'attrib'   => null,
+                'attrib'   => [],
             ],
             $this->getCompatibleArgs($options)
         );
@@ -110,7 +110,7 @@ trait AssetTrait
      * Where options were:
      *   'late'     - True to add to the end of the HTML <body>
      *   'priority' - Loading priority
-     *   'attrib'   - A string containing either/or 'defer', and 'async'
+     *   'attrib'   - A string containing either/both 'defer', and 'async'
      *
      * Passed in $args array can be:
      * - args[0] always the file name
@@ -127,10 +127,15 @@ trait AssetTrait
             return [
                 'late'     => isset($args[1]) ? $args[1] : false,
                 'priority' => isset($args[2]) ? $args[2] : 0,
-                'attrib'   => false
+                'attrib'   => []
             ];
         }
 
-        return $args[1];
+        $options = $args[1];
+        if (isset($options['attrib'])) {
+            $options['attrib'] = explode(' ', $options['attrib']);
+        }
+
+        return $options;
     }
 }

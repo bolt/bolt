@@ -18,6 +18,6 @@ class JavaScript extends FileAssetBase
     {
         $hash = $this->cacheHash ? '?v=' . $this->cacheHash : $this->cacheHash;
 
-        return sprintf('<script src="%s%s" %s></script>', $this->fileName, $hash, $this->attributes);
+        return sprintf('<script src="%s%s" %s></script>', $this->fileName, $hash, $this->getAttributes());
     }
 }

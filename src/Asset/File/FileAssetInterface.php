@@ -53,18 +53,29 @@ interface FileAssetInterface extends AssetInterface
     /**
      * Get the asset's attributes.
      *
-     * @return string
+     * @param boolean $raw
+     *
+     * @return string|array
      */
-    public function getAttributes();
+    public function getAttributes($raw = false);
 
     /**
      * Set the asset's attributes.
      *
-     * @param string $attributes
+     * @param array $attributes
      *
      * @return FileAssetInterface
      */
-    public function setAttributes($attributes);
+    public function setAttributes(array $attributes);
+
+    /**
+     * Add and attributes for the asset.
+     *
+     * @param string $attribute
+     *
+     * @return FileAssetInterface
+     */
+    public function addAttribute($attribute);
 
     /**
      * Get the cache hash string.
