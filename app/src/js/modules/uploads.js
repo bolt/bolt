@@ -94,26 +94,21 @@
                                 'and that the upload-folder is writable.</p>' +
                                 '<p>Error message:<br><i>' + file.error + '<i></p>'
                             );
-                            window.setTimeout(
-                                function () {
-                                    $('#progress-' + key).fadeOut('slow');
-                                },
-                                50
-                            );
                         } else {
                             filename = decodeURI(file.url).replace('files/', '');
                             $('#field-' + key).val(filename).trigger('change');
 
-                            window.setTimeout(
-                                function () {
-                                    $('#progress-' + key).fadeOut('slow');
-                                },
-                                1500
-                            );
-
                             // Add the uploaded file to our stack.
                             bolt.stack.addToStack(filename);
                         }
+                        
+                        // Progress bar
+                        window.setTimeout(
+                            function () {
+                                $('#progress-' + key).fadeOut('slow');
+                            },
+                            file.error ? 50 : 1500
+                        );
                         $('#progress-' + key + ' div.bar').css('width', '100%');
                         $('#progress-' + key).removeClass('progress-striped active');
                     });
