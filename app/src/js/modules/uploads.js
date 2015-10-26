@@ -109,7 +109,7 @@
                 pasteZone: null
             })
             .on('fileuploaddone', function (evt, data) {
-                $.each(data.result, function (index, file) {
+                $.each(data.result, function (idx, file) {
                     list.add(file.name, file.name);
                 });
             })
@@ -121,7 +121,7 @@
 
                 if (typeof fileTypes !== 'undefined') {
                     pattern = new RegExp('\\.(' + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ')$', 'i');
-                    $.each(data.files , function (index, file) {
+                    $.each(data.files , function (idx, file) {
                         if (!pattern.test(file.name)) {
                             alert(bolt.data(list.datWrongtype, {'%TYPELIST%': ldata.typelist}));
                             e.preventDefault();
@@ -143,14 +143,14 @@
             .on('fileuploadprogress', function (evt, data) {
                 var progress = data.loaded / data.total;
 
-                $.each(data.files, function (file) {
+                $.each(data.files, function (idx, file) {
                     file.uploading.progress = progress;
                     var progressBar = file.uploading.element.find('.progress-bar');
                     progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
                 });
             })
             .on('fileuploadalways', function (evt, data) {
-                $.each(data.files, function (file) {
+                $.each(data.files, function (idx, file) {
                     list.uploading.remove(file.uploading);
                 });
                 list.render();
@@ -175,7 +175,7 @@
             data.originalFiles.bad = [];
         }
 
-        $.each(data.files, function (file) {
+        $.each(data.files, function (idx, file) {
             if ((file.size || 0) > bolt.conf('uploadConfig.maxSize') && bolt.conf('uploadConfig.maxSize') > 0) {
                 badFiles.push(file.name);
                 data.originalFiles.bad.push(file.name);
