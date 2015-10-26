@@ -86,30 +86,7 @@
                 dropZone: $('#dropzone-' + key)
             })
             .on('fileuploaddone', function (evt, data) {
-                $.each(data.result, function (idx, file) {
-                    if (file.error) {
-                        bootbox.alert(
-                            '<p>There was an error uploading the file. Make sure the file is not corrupt, ' +
-                            'and that the upload-folder is writable.</p>' +
-                            '<p>Error message:<br><i>' + file.error + '<i></p>'
-                        );
-                    } else {
-                        $('#field-' + key).val(file.name).trigger('change');
-
-                        // Add the uploaded file to our stack.
-                        bolt.stack.addToStack(file.name);
-                    }
-
-                    // Progress bar
-                    window.setTimeout(
-                        function () {
-                            $('#progress-' + key).fadeOut('slow');
-                        },
-                        file.error ? 50 : 1500
-                    );
-                    $('#progress-' + key + ' div.bar').css('width', '100%');
-                    $('#progress-' + key).removeClass('progress-striped active');
-                });
+                fileuploadDone(key, data);
             })
             .on('fileuploadadd', uploads.checkFileSize)
             .on('fileuploadprogress', function (evt, data) {
@@ -165,6 +142,43 @@
             data.submit();
         }
     };
+
+    /**
+     * Callback for successful upload requests.
+     *
+     * @private
+     * @function fileuploadDone
+     * @memberof Bolt.uploads
+     *
+     * @param {Object} key - Key.
+     * @param {Object} data - Data.
+     */
+    function fileuploadDone(key, data) {
+        $.each(data.result, function (idx, file) {
+            if (file.error) {
+                bootbox.alert(
+                    '<p>There was an error uploading the file. Make sure the file is not corrupt, ' +
+                    'and that the upload-folder is writable.</p>' +
+                    '<p>Error message:<br><i>' + file.error + '<i></p>'
+                );
+            } else {
+                $('#field-' + key).val(file.name).trigger('change');
+
+                // Add the uploaded file to our stack.
+                bolt.stack.addToStack(file.name);
+            }
+
+            // Progress bar
+            window.setTimeout(
+                function () {
+                    $('#progress-' + key).fadeOut('slow');
+                },
+                file.error ? 50 : 1500
+            );
+            $('#progress-' + key + ' div.bar').css('width', '100%');
+            $('#progress-' + key).removeClass('progress-striped active');
+        });
+    }
 
     // Apply mixin container
     bolt.uploads = uploads;
