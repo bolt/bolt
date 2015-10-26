@@ -86,8 +86,6 @@
                 dropZone: $('#dropzone-' + key),
                 done: function (e, data) {
                     $.each(data.result, function (index, file) {
-                        var filename;
-
                         if (file.error) {
                             bootbox.alert(
                                 '<p>There was an error uploading the file. Make sure the file is not corrupt, ' +
@@ -95,13 +93,12 @@
                                 '<p>Error message:<br><i>' + file.error + '<i></p>'
                             );
                         } else {
-                            filename = decodeURI(file.url).replace('files/', '');
-                            $('#field-' + key).val(filename).trigger('change');
+                            $('#field-' + key).val(file.name).trigger('change');
 
                             // Add the uploaded file to our stack.
-                            bolt.stack.addToStack(filename);
+                            bolt.stack.addToStack(file.name);
                         }
-                        
+
                         // Progress bar
                         window.setTimeout(
                             function () {
