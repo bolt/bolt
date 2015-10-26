@@ -31,6 +31,7 @@ trait AssetTrait
         if (!$fileAsset instanceof FileAssetInterface) {
             $fileAsset = $this->setupAsset(new Stylesheet(), $fileAsset, func_get_args());
         }
+        $fileAsset->setFileName($this->getAssetPath($fileAsset->getFileName()));
         $this->getApp()['asset.queue.file']->add($fileAsset);
     }
 
@@ -45,6 +46,7 @@ trait AssetTrait
         if (!$fileAsset instanceof FileAssetInterface) {
             $fileAsset = $this->setupAsset(new JavaScript(), $fileAsset, func_get_args());
         }
+        $fileAsset->setFileName($this->getAssetPath($fileAsset->getFileName()));
         $this->getApp()['asset.queue.file']->add($fileAsset);
     }
 
@@ -63,15 +65,17 @@ trait AssetTrait
             return $this->getApp()['resources']->getUrl('theme') . $fileName;
         } elseif ($this instanceof \Bolt\Extensions) {
             return $fileName;
-        } else {
-            $message = sprintf(
-                "Couldn't add file asset '%s': File does not exist in either %s or %s directories.",
-                $fileName,
-                $this->getBaseUrl(),
-                $this->getApp()['resources']->getUrl('theme')
-            );
-            $this->getApp()['logger.system']->error($message, ['event' => 'extensions']);
         }
+
+        $message = sprintf(
+            "Couldn't add file asset '%s': File does not exist in either %s or %s directories.",
+            $fileName,
+            $this->getBaseUrl(),
+            $this->getApp()['resources']->getUrl('theme')
+        );
+        $this->getApp()['logger.system']->error($message, ['event' => 'extensions']);
+
+        return $fileName;
     }
 
     /**
@@ -83,7 +87,6 @@ trait AssetTrait
      */
     private function setupAsset(FileAssetInterface $asset, $fileName, array $options)
     {
-        $fileName = $this->getAssetPath($fileName);
         $options = array_merge(
             [
                 'late'     => false,
