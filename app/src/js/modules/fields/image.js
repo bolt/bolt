@@ -29,31 +29,23 @@
      */
     image.init = function (fieldset, fconf) {
         bolt.uploads.bindField(fieldset, fconf);
-    };
 
-    /**
-     * Updates the preview image.
-     *
-     * @static
-     * @function updatePreview
-     * @memberof Bolt.fields.image
-     *
-     * @param {string} key
-     * @param {string} path
-     */
-    image.updatePreview = function (key, path) {
-        var preview = $('#field-' + key).closest('fieldset').find('img'),
-            width = preview.attr('width'),
-            height = preview.attr('height'),
-            url;
+        // Update the preview image on change.
+        $('#field-' + fconf.key).on('change', function () {
+            var preview = $(fieldset).find('img'),
+                width = preview.attr('width'),
+                height = preview.attr('height'),
+                path = $('#field-' + fconf.key).val(),
+                url;
 
-        if (path) {
-            url = bolt.conf('paths.root') +'thumbs/' + width + 'x' + height + 'c/' + encodeURI(path);
-        } else {
-            url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
-        }
+            if (path) {
+                url = bolt.conf('paths.root') +'thumbs/' + width + 'x' + height + 'c/' + encodeURI(path);
+            } else {
+                url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
+            }
 
-        $(preview).attr('src', url);
+            $(preview).attr('src', url);
+        });
     };
 
     // Apply mixin container

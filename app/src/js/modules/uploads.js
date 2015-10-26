@@ -34,7 +34,8 @@
             autocompleteConf;
 
         accept = accept ? accept.replace(/\./g, '') : '';
-        uploads.bindUpload(conf.key, preview.length > 0);
+
+        uploads.bindUpload(conf.key);
 
         autocompleteConf = {
             source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
@@ -44,7 +45,7 @@
         // If there's an preview image then the type is 'image'.
         if (preview.length > 0) {
             autocompleteConf.close = function () {
-                bolt.fields.image.updatePreview(conf.key, $('#field-' + conf.key).val());
+                $('#field-' + conf.key).trigger('change');
             };
         }
         $('#field-' + conf.key).autocomplete(autocompleteConf);
@@ -83,9 +84,8 @@
      * @function bindUpload
      * @memberof Bolt.uploads
      * @param key
-     * @param isImage
      */
-    uploads.bindUpload = function (key, isImage) {
+    uploads.bindUpload = function (key) {
         // Since jQuery File Upload's 'paramName' option seems to be ignored,
         // it requires the name of the upload input to be "images[]". Which clashes
         // with the non-fancy fallback, so we hackishly set it here. :-/
@@ -100,10 +100,8 @@
 
                         if (file.error === undefined) {
                             filename = decodeURI(file.url).replace('files/', '');
-
-                            if (isImage) {
-                                bolt.fields.image.updatePreview(key, filename);
-                            }
+                            $('#field-' + key).val(filename).trigger('change');
+                            //$('#field-' + key).closest('fieldset').trigger('bolt:update-preview');
 
                             window.setTimeout(
                                 function () {

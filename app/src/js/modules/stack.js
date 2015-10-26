@@ -133,7 +133,7 @@
     stack.selectFromPulldown = function (key, path) {
         // For "normal" file and image fields.
         if ($('#field-' + key).is('*')) {
-            $('#field-' + key).val(path);
+            $('#field-' + key).val(path).trigger('change');
         }
 
         // For Imagelist fields. Check if bolt.imagelist[key] is an object.
@@ -144,11 +144,6 @@
         // For Filelist fields. Check if filelist[key] is an object.
         if (typeof bolt.filelist === 'object' && typeof bolt.filelist[key] === 'object') {
             bolt.filelist[key].add(path, path);
-        }
-
-        // If the field has a thumbnail, set it.
-        if ($('#field-' + key).closest('fieldset').data('bolt-field') === 'image') {
-            bolt.fields.image.updatePreview(key, path);
         }
 
         // Close the modal dialog, if this image/file was selected through one.
