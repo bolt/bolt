@@ -63,12 +63,20 @@
                     }
                     $('#field-' + data.key).autocomplete(autocompleteConf);
                     break;
-
-                case 'filelist':
-                    bolt.filelist[data.key] = new FilelistHolder({id: data.key, type: type});
-                    break;
             }
         });
+    };
+
+    /**
+     * Setup upload capability of file lists.
+     *
+     * @static
+     * @function bindFileList
+     * @memberof Bolt.uploads
+     * @param {string} key
+     */
+    uploads.bindFileList = function (key) {
+        bolt.filelist[key] = new FilelistHolder({id: key, type: 'filelist'});
     };
 
     /**
