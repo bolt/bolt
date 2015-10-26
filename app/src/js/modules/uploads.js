@@ -28,27 +28,20 @@
      * @param conf
      */
     uploads.bindField = function (element, conf) {
-        var input = $(element).find('input[accept]'),
-            preview = $(element).find('img'),
-            accept = $(input).attr('accept'),
-            autocompleteConf;
+        var accept = $(element).find('input[accept]').attr('accept');
 
         accept = accept ? accept.replace(/\./g, '') : '';
 
         uploads.bindUpload(conf.key);
 
-        autocompleteConf = {
+        // Setup autocomplete popup.
+        $('#field-' + conf.key).autocomplete({
             source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
-            minLength: 2
-        };
-
-        // If there's an preview image then the type is 'image'.
-        if (preview.length > 0) {
-            autocompleteConf.close = function () {
+            minLength: 2,
+            close: function () {
                 $('#field-' + conf.key).trigger('change');
-            };
-        }
-        $('#field-' + conf.key).autocomplete(autocompleteConf);
+            }
+        });
     };
 
     /**
