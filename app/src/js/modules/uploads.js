@@ -108,15 +108,15 @@
                 dropZone: $(list.idPrefix + list.id),
                 pasteZone: null
             })
-            .bind('fileuploaddone', function (evt, data) {
+            .on('fileuploaddone', function (evt, data) {
                 $.each(data.result, function (index, file) {
                     var filename = decodeURI(file.url).replace('files/', '');
 
                     list.add(filename, filename);
                 });
             })
-            .bind('fileuploadadd', uploads.checkFileSize)
-            .bind('fileuploadsubmit', function (e, data) {
+            .on('fileuploadadd', uploads.checkFileSize)
+            .on('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + key).attr('accept'),
                     pattern,
                     ldata = $(list.idPrefix + key + ' div.list').data('list');
@@ -142,7 +142,7 @@
 
                 list.render();
             })
-            .bind('fileuploadprogress', function (evt, data) {
+            .on('fileuploadprogress', function (evt, data) {
                 var progress = data.loaded / data.total;
 
                 _.each(data.files, function (file) {
@@ -151,7 +151,7 @@
                     progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
                 });
             })
-            .bind('fileuploadalways', function (evt, data) {
+            .on('fileuploadalways', function (evt, data) {
                 _.each(data.files, function (file) {
                     list.uploading.remove(file.uploading);
                 });
