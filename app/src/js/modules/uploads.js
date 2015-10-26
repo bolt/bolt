@@ -28,13 +28,11 @@
      * @param conf
      */
     uploads.bindField = function (element, conf) {
-        var accept = $(element).find('input[accept]').attr('accept');
-
-        accept = accept ? accept.replace(/\./g, '') : '';
-
         uploads.bindUpload(conf.key);
 
         // Setup autocomplete popup.
+        var accept = ($(element).find('input[accept]').prop('accept') || '').replace(/\./g, '');
+
         $('#field-' + conf.key).autocomplete({
             source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
             minLength: 2,
@@ -88,13 +86,11 @@
                 dropZone: $('#dropzone-' + key),
                 done: function (e, data) {
                     $.each(data.result, function (index, file) {
-                        var filename,
-                            message;
+                        var filename;
 
                         if (file.error === undefined) {
                             filename = decodeURI(file.url).replace('files/', '');
                             $('#field-' + key).val(filename).trigger('change');
-                            //$('#field-' + key).closest('fieldset').trigger('bolt:update-preview');
 
                             window.setTimeout(
                                 function () {
@@ -107,11 +103,10 @@
                             bolt.stack.addToStack(filename);
 
                         } else {
-                            message = 'Oops! There was an error uploading the file. Make sure the file is not ' +
-                                "corrupt, and that the 'files/'-folder is writable." +
-                                "\n\n(error was: " + file.error + ')';
-
-                            alert(message);
+                            alert(
+                                'Oops! There was an error uploading the file. Make sure the file is not corrupt, ' +
+                                "and that the 'files/'-folder is writable.\n\n(error was: " + file.error + ')'
+                            );
                             window.setTimeout(
                                 function () {
                                     $('#progress-' + key).fadeOut('slow');
