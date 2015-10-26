@@ -13,12 +13,12 @@ use Bolt\Asset\File\Stylesheet;
  */
 trait AssetTrait
 {
-    /** @return \Silex\Application */
-    abstract public function getApp();
     /** @return string */
     abstract public function getBaseUrl();
     /** @return string */
     abstract public function getBasePath();
+    /** @return \Silex\Application */
+    abstract protected function getApp();
 
     /**
      * Add a particular CSS file to the output. This will be inserted before the
