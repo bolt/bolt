@@ -92,9 +92,7 @@
     };
 
     /**
-     * This function works at a lower level than the bindField function, it sets up the handlers for the upload
-     * button along with drag and drop functionality. To do this it uses the `key` parameter which needs to
-     * be a unique ID.
+     * Check if one or more files to upload are larger than allowed.
      *
      * @static
      * @function checkFileSize
