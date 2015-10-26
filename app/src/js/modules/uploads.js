@@ -30,7 +30,7 @@
         $('input[data-upload]', element).each(function () {
             var data = $(this).data('upload'),
                 accept = $(this).attr('accept'),
-                autocomplete_conf;
+                autocompleteConf;
 
             accept = accept ? accept.replace(/\./g, '') : '';
 
@@ -39,12 +39,12 @@
                 case 'File':
                     uploads.bindUpload(data.key);
 
-                    autocomplete_conf = {
+                    autocompleteConf = {
                         source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
                         minLength: 2
                     };
                     if (data.type === 'Image') {
-                        autocomplete_conf.close = function () {
+                        autocompleteConf.close = function () {
                             var path = $('#field-' + data.key).val(),
                                 url;
 
@@ -59,7 +59,7 @@
                             );
                         };
                     }
-                    $('#field-' + data.key).autocomplete(autocomplete_conf);
+                    $('#field-' + data.key).autocomplete(autocompleteConf);
                     break;
 
                 case 'ImageList':
