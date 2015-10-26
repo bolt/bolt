@@ -465,9 +465,11 @@ trait ContentValuesTrait
         }
 
         // Get the relations from the POST-ed values.
-        // @todo use $this->setRelation() for this
-        if (!empty($values['relation'])) {
-            $this->relation = $values['relation'];
+        if (!empty($values['relation']) && is_array($values['relation'])) {
+            foreach($values['relation'] as $key => $value) {
+                $this->clearRelation($key);
+                $this->setRelation($key, $value);
+            }
             unset($values['relation']);
         } else {
             $this->relation = [];
