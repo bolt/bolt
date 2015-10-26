@@ -92,6 +92,74 @@
     };
 
     /**
+     * Sets up the handlers for the upload list along with drag and drop functionality.
+     *
+     * @static
+     * @function bindUploadList
+     * @memberof Bolt.uploads
+     * @param {FilelistHolder} list
+     * @param {string} key
+     * @param {FileModel} FileModel
+     */
+    uploads.bindUploadList = function (list, key, FileModel) {
+        $('#fileupload-' + key)
+            .fileupload({
+                dataType: 'json',
+                dropZone: $(list.idPrefix + list.id),
+                pasteZone: null,
+                done: function (evt, data) {
+                    $.each(data.result, function (index, file) {
+                        var filename = decodeURI(file.url).replace('files/', '');
+
+                        list.add(filename, filename);
+                    });
+                },
+                add: uploads.checkFileSize
+            })
+            .bind('fileuploadsubmit', function (e, data) {
+                var fileTypes = $('#fileupload-' + key).attr('accept'),
+                    pattern,
+                    ldata = $(list.idPrefix + key + ' div.list').data('list');
+
+                if (typeof fileTypes !== 'undefined') {
+                    pattern = new RegExp('\\.(' + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ')$', 'i');
+                    $.each(data.files , function (index, file) {
+                        if (!pattern.test(file.name)) {
+                            alert(bolt.data(list.datWrongtype, {'%TYPELIST%': ldata.typelist}));
+                            e.preventDefault();
+
+                            return false;
+                        }
+
+                        var uploadingFile = new FileModel({
+                            filename: file.name
+                        });
+                        file.uploading = uploadingFile;
+
+                        list.uploading.add(uploadingFile);
+                    });
+                }
+
+                list.render();
+            })
+            .bind('fileuploadprogress', function (evt, data) {
+                var progress = data.loaded / data.total;
+
+                _.each(data.files, function (file) {
+                    file.uploading.progress = progress;
+                    var progressBar = file.uploading.element.find('.progress-bar');
+                    progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
+                });
+            })
+            .bind('fileuploadalways', function (evt, data) {
+                _.each(data.files, function (file) {
+                    list.uploading.remove(file.uploading);
+                });
+                list.render();
+            });
+    };
+
+    /**
      * Check if one or more files to upload are larger than allowed.
      *
      * @static
