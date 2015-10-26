@@ -106,16 +106,16 @@
             .fileupload({
                 dataType: 'json',
                 dropZone: $(list.idPrefix + list.id),
-                pasteZone: null,
-                done: function (evt, data) {
-                    $.each(data.result, function (index, file) {
-                        var filename = decodeURI(file.url).replace('files/', '');
-
-                        list.add(filename, filename);
-                    });
-                },
-                add: uploads.checkFileSize
+                pasteZone: null
             })
+            .bind('fileuploaddone', function (evt, data) {
+                $.each(data.result, function (index, file) {
+                    var filename = decodeURI(file.url).replace('files/', '');
+
+                    list.add(filename, filename);
+                });
+            })
+            .bind('fileuploadadd', uploads.checkFileSize)
             .bind('fileuploadsubmit', function (e, data) {
                 var fileTypes = $('#fileupload-' + key).attr('accept'),
                     pattern,
