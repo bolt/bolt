@@ -47,8 +47,7 @@
                     url;
 
                 if (path) {
-                    url = bolt.conf('paths.root') +'thumbs/' + conf.width + 'x' + conf.height + 'c/' +
-                        encodeURI(path);
+                    url = bolt.conf('paths.root') +'thumbs/' + conf.width + 'x' + conf.height + 'c/' + encodeURI(path);
                 } else {
                     url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
                 }
