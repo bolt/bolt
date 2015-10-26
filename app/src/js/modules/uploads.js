@@ -115,15 +115,14 @@
             })
             .on('fileuploadadd', checkFileSize)
             .on('fileuploadsubmit', function (e, data) {
-                var fileTypes = $('#fileupload-' + key).attr('accept'),
-                    pattern,
-                    ldata = $(list.idPrefix + key + ' div.list').data('list');
+                var accept = $('#fileupload-' + key).attr('accept'),
+                    extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
+                    pattern = new RegExp('\\.(' + extensions.join('|') + ')$', 'i');
 
-                if (typeof fileTypes !== 'undefined') {
-                    pattern = new RegExp('\\.(' + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ')$', 'i');
+                if (extensions.length > 0) {
                     $.each(data.files , function (idx, file) {
                         if (!pattern.test(file.name)) {
-                            alert(bolt.data(list.datWrongtype, {'%TYPELIST%': ldata.typelist}));
+                            alert(bolt.data(list.datWrongtype, {'%TYPELIST%': '.' + extensions.join(', .')}));
                             e.preventDefault();
 
                             return false;
