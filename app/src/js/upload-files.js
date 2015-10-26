@@ -208,60 +208,7 @@ var FilelistHolder = Backbone.View.extend({
             distance: 5
         });
 
-        $('#fileupload-' + contentkey)
-            .fileupload({
-                dataType: 'json',
-                dropZone: $holder,
-                pasteZone: null,
-                done: function (e, data) {
-                    $.each(data.result, function (index, file) {
-                        var filename = decodeURI(file.url).replace("files/", "");
-                        $this.add(filename, filename);
-                    });
-                },
-                add: Bolt.uploads.checkFileSize
-            })
-            .bind('fileuploadsubmit', function (e, data) {
-                var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
-                    pattern,
-                    ldata = $($this.idPrefix + contentkey + ' div.list').data('list');
-
-                if (typeof fileTypes !== 'undefined') {
-                    pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
-                    $.each(data.files , function (index, file) {
-                        if (!pattern.test(file.name)) {
-                            alert(Bolt.data($this.datWrongtype, {'%TYPELIST%': ldata.typelist}));
-                            e.preventDefault();
-
-                            return false;
-                        }
-
-                        var uploadingFile = new FileModel({
-                            filename: file.name
-                        });
-                        file.uploading = uploadingFile;
-
-                        $this.uploading.add(uploadingFile);
-                    });
-                }
-
-                $this.render();
-            })
-            .bind('fileuploadprogress', function (e, data) {
-                var progress = data.loaded / data.total;
-
-                _.each(data.files, function (file) {
-                    file.uploading.progress = progress;
-                    var progressBar = file.uploading.element.find('.progress-bar');
-                    progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
-                });
-            })
-            .bind('fileuploadalways', function (e, data) {
-                _.each(data.files, function (file) {
-                    $this.uploading.remove(file.uploading);
-                });
-                $this.render();
-            });
+        Bolt.uploads.bindUploadList(this, contentkey, FileModel);
 
         var lastClick = null;
         $holder.find('div.list').on('click', '.list-item', function (e) {
