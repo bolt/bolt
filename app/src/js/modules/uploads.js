@@ -19,17 +19,6 @@
     var uploads = {};
 
     /**
-     * Initializes the mixin.
-     *
-     * @static
-     * @function init
-     * @memberof Bolt.uploads
-     */
-    uploads.init = function () {
-
-    };
-
-    /**
      * This function handles the setup of any field that requires upload capability.
      *
      * @static
