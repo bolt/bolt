@@ -28,8 +28,7 @@
      * @param conf
      */
     uploads.bindField = function (element, conf) {
-        var type = $(element).data('bolt-field'),
-            input = $(element).find('input[accept]'),
+        var input = $(element).find('input[accept]'),
             preview = $('#thumbnail-' + conf.key + ' img'),
             accept = $(input).attr('accept'),
             autocompleteConf;
@@ -43,7 +42,8 @@
             minLength: 2
         };
 
-        if (type === 'image') {
+        // If there's an preview image then the type is 'image'.
+        if (preview.length > 0) {
             autocompleteConf.close = function () {
                 var path = $('#field-' + conf.key).val(),
                     url;
