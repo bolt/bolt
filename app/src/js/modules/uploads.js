@@ -103,9 +103,10 @@
                             bolt.stack.addToStack(filename);
 
                         } else {
-                            alert(
-                                'Oops! There was an error uploading the file. Make sure the file is not corrupt, ' +
-                                "and that the 'files/'-folder is writable.\n\n(error was: " + file.error + ')'
+                            bootbox.alert(
+                                '<p>There was an error uploading the file. Make sure the file is not corrupt, ' +
+                                'and that the upload-folder is writable.</p>' +
+                                '<p>Error message:<br><i>' + file.error + '<i></p>'
                             );
                             window.setTimeout(
                                 function () {
