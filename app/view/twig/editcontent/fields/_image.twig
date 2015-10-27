@@ -125,7 +125,7 @@
             <div class="col-xs-4">
                 <div class="right-on-large">{# to make the preview align right on wide screens #}
                     <label>{{ __('Preview') }}</label>
-                    <div class="content-preview imageholder" style="max-width:{{ preview_w }}px;max-height:{{ preview_h }}px">
+                    <div class="content-preview imageholder">
                         {% if context.content.get(contentkey) != '' %}
                             {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
                         {% else %}
