@@ -18,9 +18,9 @@ class RelationType extends FieldTypeBase
     use RelationTypeTrait;
 
     /**
-     * Relation fields can allow filters on the relations fetched. For now this is limited
-     * to the id field because of the possible complexity of fetching and filtering
-     * all the related data.
+     * Relation fields can allow filters on the relations fetched. For now this
+     * is limited to the id field because of the possible complexity of fetching
+     * and filtering all the related data.
      *
      * For example the following queries:
      *     'pages', {'relationkey'=>'1'}
@@ -54,11 +54,12 @@ class RelationType extends FieldTypeBase
     }
 
     /**
-     * For relations, the load method adds an extra ->addSelect() and ->leftJoin() to the query that
-     * fetches the related records from the join table in the same query as the content fetch.
+     * For relations, the load method adds an extra ->addSelect()->leftJoin()
+     * to the query that fetches the related records from the join table in the
+     * same query as the content fetch.
      *
-     * IDs are returned comma-separated which the ->hydrate() method can then turn into pointers
-     * to the related entities.
+     * IDs are returned comma-separated which the ->hydrate() method can then
+     * turn into pointers to the related entities.
      *
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
