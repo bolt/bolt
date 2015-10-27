@@ -165,8 +165,8 @@
             maxFileSize: maxSize > 0 ? maxSize : undefined,
             acceptFileTypes: accept ? pattern : undefined,
             messages: {
-                maxFileSize: '>B',
-                acceptFileTypes: 'File type not allowed'
+                maxFileSize: '>:' + maxSize,
+                acceptFileTypes: 'T:.' + extensions.join(', .')
                 //maxNumberOfFiles: 'Maximum number of files exceeded',
                 //minFileSize: 'File is too small'
             }
@@ -183,29 +183,36 @@
      * @param {Object} data
      */
     function fileuploadProcessFail(event, data) {
-        var currentFile = data.files[data.index];
+        var currentFile = data.files[data.index],
+                type = currentFile.error.substr(0, 1),
+                context = currentFile.error.substr(2),
+                alert;
 
-        if (currentFile.error === '>B') {
-            bootbox.alert(
-                '<p>File is too large:</p>' +
-                '<table>' +
-                    '<tr><th>Name:<th><td>' + currentFile.name + '</td></tr>' +
-                    '<tr><th>Size:<th><td>' + currentFile.size + ' B</td></tr>' +
-                    '<tr><th>Maximum size:<th><td>' + bolt.conf('uploadConfig.maxSizeNice') + '</td></tr>' +
-                '</table>'
-            );
-        } else if (currentFile.error === 'File type not allowed') {
-            bootbox.alert(
-                '<p>File type not allowed:</p>' +
-                '<table>' +
-                    '<tr><th>Name:<th><td>' + currentFile.name + '</td></tr>' +
-                    '<tr><th>Type:<th><td>' + currentFile.type + '</td></tr>' +
-                    '<tr><th>Allowed types:<th><td>' + '</td></tr>' +
-                '</table>'
-            );
-        } else if (currentFile.error) {
-            console.log(currentFile.error);
+        switch (type) {
+            case '>':
+                alert =
+                    '<p>File is too large:</p>' +
+                    '<table>' +
+                        '<tr><th>Name:<th><td>' + currentFile.name + '</td></tr>' +
+                        '<tr><th>Size:<th><td>' + currentFile.size + ' B</td></tr>' +
+                        '<tr><th>Maximum size:<th><td>' + context + '</td></tr>' +
+                    '</table>';
+                break;
+
+            case 'T':
+                alert =
+                    '<p>File type not allowed:</p>' +
+                    '<table>' +
+                        '<tr><th>Name:<th><td>' + currentFile.name + '</td></tr>' +
+                        '<tr><th>Type:<th><td>' + currentFile.type + '</td></tr>' +
+                        '<tr><th>Allowed types:<th><td>' + context + '</td></tr>' +
+                    '</table>';
+                break;
+
+            default:
+                alert = '<p>' + currentFile.error + '</p>';
         }
+        bootbox.alert(alert);
     }
 
     /**
