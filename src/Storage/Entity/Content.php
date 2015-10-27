@@ -43,6 +43,7 @@ class Content extends Entity
     protected $status;
     protected $relation;
     protected $taxonomy;
+    protected $templatefields;
 
     /** @var array @deprecated Since v2.3 will be removed in v3.0 */
     protected $group;
