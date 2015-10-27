@@ -208,7 +208,7 @@ var FilelistHolder = Backbone.View.extend({
             distance: 5
         });
 
-        Bolt.uploads.bindUploadList(this, contentkey, FileModel);
+        Bolt.uploads.bindUploadList(this, contentkey);
 
         var lastClick = null;
         $holder.find('div.list').on('click', '.list-item', function (e) {
@@ -284,5 +284,18 @@ var FilelistHolder = Backbone.View.extend({
         $.each(result, function (idx, file) {
             that.add(file.name, file.name);
         });
+    },
+
+    uploadSubmit: function (files) {
+        var that = this;
+
+        $.each(files, function (idx, file) {
+            file.uploading = new FileModel({
+                filename: file.name
+            });
+            that.uploading.add(file.uploading);
+        });
+
+       this.render();
     }
 });

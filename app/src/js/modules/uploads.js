@@ -100,9 +100,8 @@
      * @memberof Bolt.uploads
      * @param {FilelistHolder} list
      * @param {string} key
-     * @param {FileModel} FileModel
      */
-    uploads.bindUploadList = function (list, key, FileModel) {
+    uploads.bindUploadList = function (list, key) {
         $('#fileupload-' + key)
             .fileupload(
                 uploadOptions(key, list.idPrefix + list.id)
@@ -113,15 +112,8 @@
             .on('fileuploadprocessfail', function (evt, data) {
                 fileuploadProcessFail(key, data);
             })
-            .on('fileuploadsubmit', function (e, data) {
-                $.each(data.files , function (idx, file) {
-                    file.uploading = new FileModel({
-                        filename: file.name
-                    });
-                    list.uploading.add(file.uploading);
-                });
-
-                list.render();
+            .on('fileuploadsubmit', function (evt, data) {
+                list.uploadSubmit(data.files);
             })
             .on('fileuploadprogress', function (evt, data) {
                 var progress = data.loaded / data.total;
