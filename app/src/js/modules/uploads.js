@@ -187,28 +187,21 @@
     function fileuploadProcessFail(event, data) {
         var currentFile = data.files[data.index],
                 type = currentFile.error.substr(0, 1),
-                context = currentFile.error.substr(2),
-                alert;
+                alert,
+                context = {
+                    '%FILENAME%': currentFile.name,
+                    '%FILESIZE%': currentFile.size,
+                    '%FILETYPE%': currentFile.type,
+                    '%ALLOWED%': currentFile.error.substr(2)
+                };
 
         switch (type) {
             case '>':
-                alert =
-                    '<p>File is too large:</p>' +
-                    '<table>' +
-                        '<tr><th>Name:<th><td>' + currentFile.name + '</td></tr>' +
-                        '<tr><th>Size:<th><td>' + currentFile.size + ' B</td></tr>' +
-                        '<tr><th>Maximum size:<th><td>' + context + '</td></tr>' +
-                    '</table>';
+                alert = bolt.data('field.uploads.template.large-file', context);
                 break;
 
             case 'T':
-                alert =
-                    '<p>File type not allowed:</p>' +
-                    '<table>' +
-                        '<tr><th>Name:<th><td>' + currentFile.name + '</td></tr>' +
-                        '<tr><th>Type:<th><td>' + currentFile.type + '</td></tr>' +
-                        '<tr><th>Allowed types:<th><td>' + context + '</td></tr>' +
-                    '</table>';
+                alert = bolt.data('field.uploads.template.wrong-type', context);
                 break;
 
             default:
@@ -230,11 +223,7 @@
     function fileuploadDone(key, data) {
         $.each(data.result, function (idx, file) {
             if (file.error) {
-                bootbox.alert(
-                    '<p>There was an error uploading the file. Make sure the file is not corrupt, ' +
-                    'and that the upload-folder is writable.</p>' +
-                    '<p>Error message:<br><i>' + file.error + '<i></p>'
-                );
+                bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
             } else {
                 $('#field-' + key).val(file.name).trigger('change');
 

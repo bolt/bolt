@@ -33,6 +33,10 @@
 
 {{ data('field.imagelist.template.progress', template_progress|trim|preg_replace('/>\\s+</', '><')) }}
 
+{### Templates: Upload errors ###}
+
+{% include '@bolt/editcontent/fielddata/_uploads.twig' %}
+
 {### Messages ###}
 
 {{ data('field.imagelist.message.remove',      __('Are you sure you want to remove this image?')) }}
