@@ -78,11 +78,16 @@
      * @param {string} label - The label.
      */
     function remove(progress, label) {
+        // Loops through all bars and remove all with the same label.
         $(progress).children().each(function () {
             if ($(this).data('label') === label) {
                 $(this).remove();
             }
         });
+        // Hide the container when last bar was removed.
+        if ($(progress).children().length === 0) {
+            $(progress).addClass('hide');
+        }
     }
 
     /**
