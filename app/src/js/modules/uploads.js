@@ -78,17 +78,18 @@
      */
     uploads.bindUpload = function (key) {
         $('#fileupload-' + key)
-            .fileupload({
-                dataType: 'json',
-                dropZone: $('#dropzone-' + key)
-            })
+            .fileupload(
+                uploadOptions('#dropzone-' + key)
+            )
             .on('fileuploaddone', function (evt, data) {
                 fileuploadDone(key, data);
             })
             .on('fileuploadprogress', function (evt, data) {
                 fileuploadProgress(key, data);
             })
-            .on('fileuploadadd', checkFileSize);
+            .on('fileuploadprocessfail', function (evt, data) {
+                fileuploadProcessFail(key, data);
+            });
     };
 
     /**
@@ -103,17 +104,17 @@
      */
     uploads.bindUploadList = function (list, key, FileModel) {
         $('#fileupload-' + key)
-            .fileupload({
-                dataType: 'json',
-                dropZone: $(list.idPrefix + list.id),
-                pasteZone: null
-            })
+            .fileupload(
+                uploadOptions(list.idPrefix + list.id)
+            )
             .on('fileuploaddone', function (evt, data) {
                 $.each(data.result, function (idx, file) {
                     list.add(file.name, file.name);
                 });
             })
-            .on('fileuploadadd', checkFileSize)
+            .on('fileuploadprocessfail', function (evt, data) {
+                fileuploadProcessFail(key, data);
+            })
             .on('fileuploadsubmit', function (e, data) {
                 var accept = $('#fileupload-' + key).attr('accept'),
                     extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
@@ -155,46 +156,57 @@
     };
 
     /**
-     * Check if one or more files to upload are larger than allowed.
+     * Returns an upload option object.
      *
      * @private
-     * @function checkFileSize
+     * @function uploadOptions
+     * @memberof Bolt.uploads
+     * @param {string} dropzone
+     * @returns {Object}
+     */
+    function uploadOptions(dropzone) {
+        var maxSize = bolt.conf('uploadConfig.maxSize');
+
+        return {
+            dataType: 'json',
+            dropZone: $(dropzone),
+            pasteZone: null,
+            maxFileSize: maxSize > 0 ? maxSize : undefined,
+            messages: {
+                maxFileSize: '>B'
+                //maxNumberOfFiles: 'Maximum number of files exceeded',
+                //acceptFileTypes: 'File type not allowed'
+                //minFileSize: 'File is too small'
+            }
+        };
+    }
+
+    /**
+     * Upload processing failed.
+     *
+     * @private
+     * @function fileuploadProcessFail
      * @memberof Bolt.uploads
      * @param {Object} event
      * @param {Object} data
      */
-    function checkFileSize(event, data) {
-        // The jQuery upload doesn't expose an API to cover an entire upload set. So we keep "bad" files
-        // in the data.originalFiles, which is the same between multiple files in one upload set.
-        var badFiles = [];
+    function fileuploadProcessFail(event, data) {
+        var currentFile = data.files[data.index];
 
-        if (typeof data.originalFiles.bad === 'undefined') {
-            data.originalFiles.bad = [];
-        }
+        console.log('fileuploadprocessfail: '+data.index+' : ' + currentFile.name+' (' + currentFile.size);
+        console.log(data);
 
-        $.each(data.files, function (idx, file) {
-            if ((file.size || 0) > bolt.conf('uploadConfig.maxSize') && bolt.conf('uploadConfig.maxSize') > 0) {
-                badFiles.push(file.name);
-                data.originalFiles.bad.push(file.name);
-            }
-        });
-
-        if (data.originalFiles.bad.length > 0) {
-            var filename1 = data.files[data.files.length - 1].name,
-                filename2 = data.originalFiles[data.originalFiles.length - 1].name;
-
-            if (filename1 === filename2) {
-                // We're at the end of this upload cycle
-                bootbox.alert(
-                    '<p>One or more of the files that you selected was larger than the max size of ' +
-                    bolt.conf('uploadConfig.maxSizeNice') + ':</p>' +
-                    '<p>' + data.originalFiles.bad.join('<br>') + '</p>'
-                );
-            }
-        }
-
-        if (badFiles.length === 0) {
-            data.submit();
+        if (currentFile.error === '>B') {
+            bootbox.alert(
+                '<p>File is too large:</p>' +
+                '<table>' +
+                    '<tr><th>Name:<th><td>' + currentFile.name + '</td></tr>' +
+                    '<tr><th>Size:<th><td>' + currentFile.size + ' B</td></tr>' +
+                    '<tr><th>Maximum size:<th><td>' + bolt.conf('uploadConfig.maxSizeNice') + '</td></tr>' +
+                '</table>'
+            );
+        } else if (currentFile.error) {
+            console.log(currentFile.error);
         }
     }
 
