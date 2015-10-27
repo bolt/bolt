@@ -33,6 +33,8 @@ class Content extends Entity
 
     protected $contenttype;
     protected $_legacy;
+    protected $_relationInbound;
+    protected $_relationOutbound;
     protected $id;
     protected $slug;
     protected $datecreated;
