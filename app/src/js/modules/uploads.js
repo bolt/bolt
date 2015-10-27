@@ -163,12 +163,14 @@
             dropZone: $(dropzone),
             pasteZone: null,
             maxFileSize: maxSize > 0 ? maxSize : undefined,
+            minFileSize: undefined,
             acceptFileTypes: accept ? pattern : undefined,
+            maxNumberOfFiles: undefined,
             messages: {
                 maxFileSize: '>:' + maxSize,
-                acceptFileTypes: 'T:.' + extensions.join(', .')
-                //maxNumberOfFiles: 'Maximum number of files exceeded',
-                //minFileSize: 'File is too small'
+                minFileSize: '<',
+                acceptFileTypes: 'T:.' + extensions.join(', .'),
+                maxNumberOfFiles: '#'
             }
         };
     }
