@@ -22,6 +22,7 @@
  * @mixes Bolt.buic.checkbox
  * @mixes Bolt.buic.listing
  * @mixes Bolt.buic.moment
+ * @mixes Bolt.buic.progress
  * @mixes Bolt.buic.select
  *
  * @mixes Bolt.fields
