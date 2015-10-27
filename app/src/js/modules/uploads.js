@@ -125,10 +125,7 @@
                 });
             })
             .on('fileuploadalways', function (evt, data) {
-                $.each(data.files, function (idx, file) {
-                    list.uploading.remove(file.uploading);
-                });
-                list.render();
+                list.uploadAlways(data.files);
             });
     };
 
