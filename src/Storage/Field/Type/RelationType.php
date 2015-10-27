@@ -95,7 +95,7 @@ class RelationType extends FieldTypeBase
         foreach ($relations as $id) {
             $values[$field][] = new EntityProxy($field, $id, $this->em);
         }
-        $entity->setRelation($values);
+        $entity->setRelationOutbound($values);
     }
 
     /**
