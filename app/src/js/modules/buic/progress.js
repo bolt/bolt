@@ -28,9 +28,13 @@
      * @param {Object} buic
      */
     progress.init = function (buic) {
-        //Adds a new progress bar to the progress bar container.
+        // Adds a new progress bar to the progress bar container.
         $(buic).on('buic:progress-add', function (event, label, value) {
             add(buic, label || '', value || 0);
+        });
+        // Remove progress bar from progress bar container.
+        $(buic).on('buic:progress-remove', function (event, label) {
+            remove(buic, label || '');
         });
     };
 
@@ -61,6 +65,24 @@
         $(progress)
             .append(bar)
             .removeClass('hide');
+    }
+
+    /**
+     * Remove progress bar from progress bar container.
+     *
+     * @private
+     * @function remove
+     * @memberof Bolt.buic.progress
+     *
+     * @param {Object} progress - The progress bar container to add to.
+     * @param {string} label - The label.
+     */
+    function remove(progress, label) {
+        $(progress).children().each(function () {
+            if ($(this).data('label') === label) {
+                $(this).remove();
+            }
+        });
     }
 
     /**
