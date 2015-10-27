@@ -27,10 +27,6 @@
     {% set list_json = '' %}
 {% endif %}
 
-{% set listdata = {
-    'typelist':         option.extensions ? '.' ~ option.extensions|join(', .') : '–',
-} %}
-
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '@bolt/_base/_fieldset.twig' %}
@@ -48,7 +44,7 @@
 {% block fieldset_controls %}
     <div class="col-xs-12 filelistholder dropzone" id="imagelist-{{ key }}">
         {# Imagelist #}
-        <div class="list" data-list="{{ listdata|json_encode }}"></div>
+        <div class="list"></div>
 
         {% set can_upload = context.can.upload and option.can_upload %}
 
