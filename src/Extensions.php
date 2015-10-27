@@ -548,7 +548,7 @@ class Extensions
 
             $options = array(
                 'late'     => isset($args[1]) ? isset($args[1]) : false,
-                'priority' => isset($args[2]) ? isset($args[2]) : 0,
+                'priority' => isset($args[2]) ? $args[2] : 0,
                 'attrib'   => false
             );
         }
@@ -578,7 +578,7 @@ class Extensions
 
             $options = array(
                 'late'     => isset($args[1]) ? isset($args[1]) : false,
-                'priority' => isset($args[2]) ? isset($args[2]) : 0,
+                'priority' => isset($args[2]) ? $args[2] : 0,
                 'attrib'   => false
             );
         }
