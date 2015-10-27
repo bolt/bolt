@@ -276,6 +276,13 @@ var FilelistHolder = Backbone.View.extend({
                 $this.add(filename, filename);
             });
         }
-    }
+    },
 
+    uploadDone: function (result) {
+        var that = this;
+
+        $.each(result, function (idx, file) {
+            that.add(file.name, file.name);
+        });
+    }
 });
