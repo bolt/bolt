@@ -108,9 +108,7 @@
                 uploadOptions(key, list.idPrefix + list.id)
             )
             .on('fileuploaddone', function (evt, data) {
-                $.each(data.result, function (idx, file) {
-                    list.add(file.name, file.name);
-                });
+                list.uploadDone(data.result);
             })
             .on('fileuploadprocessfail', function (evt, data) {
                 fileuploadProcessFail(key, data);
