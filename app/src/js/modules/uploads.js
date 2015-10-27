@@ -94,6 +94,11 @@
                     $(progress).trigger('buic:progress-add', [file.name]);
                 });
             })
+            .on('fileuploadalways', function (evt, data) {
+                $.each(data.files, function (idx, file) {
+                    $(progress).trigger('buic:progress-remove', [file.name]);
+                });
+            })
             .on('fileuploadprogress', function (evt, data) {
                 fileuploadProgress(key, data);
             });
@@ -139,6 +144,9 @@
             })
             .on('fileuploadalways', function (evt, data) {
                 list.uploadAlways(data.files);
+                $.each(data.files, function (idx, file) {
+                    $(progress).trigger('buic:progress-remove', [file.name]);
+                });
             });
     };
 
