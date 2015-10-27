@@ -31,19 +31,6 @@
     'typelist':         option.extensions ? '.' ~ option.extensions|join(', .') : '–',
 } %}
 
-{#=== BLOCKS =========================================================================================================#}
-
-{% import _self as block %}
-
-{# Modal "select from server" #}
-{% macro serverselect(key) %}
-    <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content"></div>
-        </div>
-    </div>
-{% endmacro %}
-
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '@bolt/_base/_fieldset.twig' %}
@@ -83,7 +70,11 @@
         </div>
 
         {# Modal "Select from server" #}
-        {{ block.serverselect(key) }}
+        <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content"></div>
+            </div>
+        </div>
 
     </div>
 {% endblock fieldset_controls %}
