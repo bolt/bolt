@@ -48,14 +48,19 @@
     function add(progress, label, value) {
         var bar = $(bolt.data('buic.progress.bar'));
 
+        // Set the label.
         $(bar)
             .attr('data-label', label)
             .find('.progress-bar')
             .text(label);
 
+        // Set the value.
         setValue(bar, value);
 
-        $(progress).append(bar);
+        // Add new bar and show container.
+        $(progress)
+            .append(bar)
+            .removeClass('hide');
     }
 
     /**
