@@ -173,8 +173,10 @@ class Frontend
         // First, get the preview from Post.
         $content = $app['storage']->getContentObject($contenttypeslug);
 
-        if (!empty($request->get('id'))) {
-            $content = $app['storage']->getContent($contenttype['slug'], array('id' => $request->get('id'), 'returnsingle' => true));
+        // Fetch the current record, so we can show 'incoming relations' in the preview.
+        $id = $request->get('id');
+        if (!empty($id)) {
+            $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
         }
 
         $content->setFromPost($request->request->all(), $contenttype);
