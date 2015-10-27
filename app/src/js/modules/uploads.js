@@ -79,7 +79,7 @@
     uploads.bindUpload = function (key) {
         $('#fileupload-' + key)
             .fileupload(
-                uploadOptions('#dropzone-' + key)
+                uploadOptions(key, '#dropzone-' + key)
             )
             .on('fileuploaddone', function (evt, data) {
                 fileuploadDone(key, data);
@@ -105,7 +105,7 @@
     uploads.bindUploadList = function (list, key, FileModel) {
         $('#fileupload-' + key)
             .fileupload(
-                uploadOptions(list.idPrefix + list.id)
+                uploadOptions(key, list.idPrefix + list.id)
             )
             .on('fileuploaddone', function (evt, data) {
                 $.each(data.result, function (idx, file) {
@@ -116,25 +116,12 @@
                 fileuploadProcessFail(key, data);
             })
             .on('fileuploadsubmit', function (e, data) {
-                var accept = $('#fileupload-' + key).attr('accept'),
-                    extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
-                    pattern = new RegExp('\\.(' + extensions.join('|') + ')$', 'i');
-
-                if (extensions.length > 0) {
-                    $.each(data.files , function (idx, file) {
-                        if (!pattern.test(file.name)) {
-                            alert(bolt.data(list.datWrongtype, {'%TYPELIST%': '.' + extensions.join(', .')}));
-                            e.preventDefault();
-
-                            return false;
-                        }
-
-                        file.uploading = new FileModel({
-                            filename: file.name
-                        });
-                        list.uploading.add(file.uploading);
+                $.each(data.files , function (idx, file) {
+                    file.uploading = new FileModel({
+                        filename: file.name
                     });
-                }
+                    list.uploading.add(file.uploading);
+                });
 
                 list.render();
             })
@@ -161,21 +148,26 @@
      * @private
      * @function uploadOptions
      * @memberof Bolt.uploads
+     * @param {string} key
      * @param {string} dropzone
      * @returns {Object}
      */
-    function uploadOptions(dropzone) {
-        var maxSize = bolt.conf('uploadConfig.maxSize');
+    function uploadOptions(key, dropzone) {
+        var maxSize = bolt.conf('uploadConfig.maxSize'),
+            accept = $('#fileupload-' + key).attr('accept'),
+            extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
+            pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i');
 
         return {
             dataType: 'json',
             dropZone: $(dropzone),
             pasteZone: null,
             maxFileSize: maxSize > 0 ? maxSize : undefined,
+            acceptFileTypes: accept ? pattern : undefined,
             messages: {
-                maxFileSize: '>B'
+                maxFileSize: '>B',
+                acceptFileTypes: 'File type not allowed'
                 //maxNumberOfFiles: 'Maximum number of files exceeded',
-                //acceptFileTypes: 'File type not allowed'
                 //minFileSize: 'File is too small'
             }
         };
@@ -193,9 +185,6 @@
     function fileuploadProcessFail(event, data) {
         var currentFile = data.files[data.index];
 
-        console.log('fileuploadprocessfail: '+data.index+' : ' + currentFile.name+' (' + currentFile.size);
-        console.log(data);
-
         if (currentFile.error === '>B') {
             bootbox.alert(
                 '<p>File is too large:</p>' +
@@ -203,6 +192,15 @@
                     '<tr><th>Name:<th><td>' + currentFile.name + '</td></tr>' +
                     '<tr><th>Size:<th><td>' + currentFile.size + ' B</td></tr>' +
                     '<tr><th>Maximum size:<th><td>' + bolt.conf('uploadConfig.maxSizeNice') + '</td></tr>' +
+                '</table>'
+            );
+        } else if (currentFile.error === 'File type not allowed') {
+            bootbox.alert(
+                '<p>File type not allowed:</p>' +
+                '<table>' +
+                    '<tr><th>Name:<th><td>' + currentFile.name + '</td></tr>' +
+                    '<tr><th>Type:<th><td>' + currentFile.type + '</td></tr>' +
+                    '<tr><th>Allowed types:<th><td>' + '</td></tr>' +
                 '</table>'
             );
         } else if (currentFile.error) {
