@@ -77,6 +77,8 @@
      * @param {string} key
      */
     uploads.bindUpload = function (key) {
+        var progress = $('#fileupload-' + key).closest('fieldset').find('.buic-progress');
+
         $('#fileupload-' + key)
             .fileupload(
                 uploadOptions(key, '#dropzone-' + key)
@@ -86,6 +88,11 @@
             })
             .on('fileuploadprocessfail', function (evt, data) {
                 fileuploadProcessFail(key, data);
+            })
+            .on('fileuploadsubmit', function (evt, data) {
+                $.each(data.files, function (idx, file) {
+                    $(progress).trigger('buic:progress-add', [file.name]);
+                });
             })
             .on('fileuploadprogress', function (evt, data) {
                 fileuploadProgress(key, data);
@@ -102,6 +109,8 @@
      * @param {string} key
      */
     uploads.bindUploadList = function (list, key) {
+        var progress = $('#fileupload-' + key).closest('fieldset').find('.buic-progress');
+
         $('#fileupload-' + key)
             .fileupload(
                 uploadOptions(key, list.idPrefix + list.id)
@@ -123,6 +132,10 @@
             })
             .on('fileuploadsubmit', function (evt, data) {
                 list.uploadSubmit(data.files);
+
+                $.each(data.files, function (idx, file) {
+                    $(progress).trigger('buic:progress-add', [file.name]);
+                });
             })
             .on('fileuploadalways', function (evt, data) {
                 list.uploadAlways(data.files);
