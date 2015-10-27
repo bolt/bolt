@@ -181,7 +181,8 @@ class MetadataDriver implements MappingDriver
 
         // This loop checks the contenttypes definition for any non-db fields and adds them.
         if ($contentKey) {
-            $this->setRelations($contentKey, $className, $table);
+            $this->setRelations($contentKey, $className, $table, 'outbound');
+            $this->setRelations($contentKey, $className, $table, 'inbound');
             $this->setTaxonomies($contentKey, $className, $table);
             $this->setTemplatefields($contentKey, $className, $table);
             $this->setRepeaters($contentKey, $className, $table);
@@ -232,8 +233,9 @@ class MetadataDriver implements MappingDriver
      * @param string $contentKey
      * @param string $className
      * @param Table  $table
+     * @param string $direction
      */
-    public function setRelations($contentKey, $className, $table)
+    public function setRelations($contentKey, $className, $table, $direction)
     {
         if (!isset($this->contenttypes[$contentKey]['relations'])) {
             return;
@@ -248,7 +250,7 @@ class MetadataDriver implements MappingDriver
             $mapping = [
                 'fieldname' => $relationKey,
                 'type'      => 'null',
-                'fieldtype' => $this->typemap['relation'],
+                'fieldtype' => $this->typemap['relation_' . $direction],
                 'entity'    => $this->resolveClassName($relationKey),
                 'target'    => $this->schemaManager->getTableName('relations'),
             ];
