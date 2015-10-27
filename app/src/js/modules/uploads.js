@@ -84,11 +84,11 @@
             .on('fileuploaddone', function (evt, data) {
                 fileuploadDone(key, data);
             })
-            .on('fileuploadprogress', function (evt, data) {
-                fileuploadProgress(key, data);
-            })
             .on('fileuploadprocessfail', function (evt, data) {
                 fileuploadProcessFail(key, data);
+            })
+            .on('fileuploadprogress', function (evt, data) {
+                fileuploadProgress(key, data);
             });
     };
 
@@ -112,9 +112,6 @@
             .on('fileuploadprocessfail', function (evt, data) {
                 fileuploadProcessFail(key, data);
             })
-            .on('fileuploadsubmit', function (evt, data) {
-                list.uploadSubmit(data.files);
-            })
             .on('fileuploadprogress', function (evt, data) {
                 var progress = data.loaded / data.total;
 
@@ -123,6 +120,9 @@
                     var progressBar = file.uploading.element.find('.progress-bar');
                     progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
                 });
+            })
+            .on('fileuploadsubmit', function (evt, data) {
+                list.uploadSubmit(data.files);
             })
             .on('fileuploadalways', function (evt, data) {
                 list.uploadAlways(data.files);
