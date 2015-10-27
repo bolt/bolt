@@ -79,9 +79,18 @@ class RelationType extends FieldTypeBase
             $alias = $from[0]['table'];
         }
 
+        $expr = $query->expr()->andX(
+            $query->expr()->eq("$alias.id", "$field.from_id"),
+            $query->expr()->eq("$field.from_contenttype", ':from'),
+            $query->expr()->eq("$field.to_contenttype", ':to')
+        );
+
         $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
-            ->leftJoin($alias, $target, $field, "$alias.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
-            ->addGroupBy("$alias.id");
+            ->leftJoin($alias, $target, $field, $expr)
+            ->addGroupBy("$alias.id")
+            ->setParameter('from', $boltname)
+            ->setParameter('to', $field)
+        ;
     }
 
     /**
