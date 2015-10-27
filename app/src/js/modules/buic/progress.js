@@ -110,6 +110,8 @@
      * @param {integer} value - An integer between 0 and 100.
      */
     function setValue(bar, value) {
+        value = Math.min(100, Math.max(0, parseInt(value)));
+
         $(bar).find('.progress-bar')
             .attr('aria-valuenow', value)
             .css('width', value + '%');
