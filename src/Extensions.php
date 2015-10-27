@@ -52,7 +52,7 @@ class Extensions
     /**
      * {@inheritdoc}
      */
-    public function getApp()
+    protected function getApp()
     {
         return $this->app;
     }

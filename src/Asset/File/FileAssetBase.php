@@ -16,10 +16,20 @@ abstract class FileAssetBase implements FileAssetInterface
     protected $late;
     /** @var integer */
     protected $priority;
-    /** @var string */
+    /** @var array */
     protected $attributes;
     /** @var string */
     protected $cacheHash;
+
+    /**
+     * Constructor.
+     *
+     * @param string $fileName
+     */
+    public function __construct($fileName = null)
+    {
+        $this->fileName = $fileName;
+    }
 
     /**
      * {@inheritdoc}
@@ -86,17 +96,31 @@ abstract class FileAssetBase implements FileAssetInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributes()
+    public function getAttributes($raw = false)
     {
-        return $this->attributes;
+        if ($raw) {
+            return $this->attributes;
+        }
+
+        return implode(' ', (array) $this->attributes);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setAttributes($attributes)
+    public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addAttribute($attribute)
+    {
+        $this->attributes[] = $attribute;
 
         return $this;
     }

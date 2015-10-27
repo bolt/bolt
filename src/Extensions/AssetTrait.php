@@ -13,12 +13,12 @@ use Bolt\Asset\File\Stylesheet;
  */
 trait AssetTrait
 {
-    /** @return \Silex\Application */
-    abstract public function getApp();
     /** @return string */
     abstract public function getBaseUrl();
     /** @return string */
     abstract public function getBasePath();
+    /** @return \Silex\Application */
+    abstract protected function getApp();
 
     /**
      * Add a particular CSS file to the output. This will be inserted before the
@@ -26,11 +26,12 @@ trait AssetTrait
      *
      * @param FileAssetInterface|string $fileAsset Asset object, or file name
      */
-    public function addCss($fileAsset, $options = [])
+    public function addCss($fileAsset)
     {
         if (!$fileAsset instanceof FileAssetInterface) {
             $fileAsset = $this->setupAsset(new Stylesheet(), $fileAsset, func_get_args());
         }
+        $fileAsset->setFileName($this->getAssetPath($fileAsset->getFileName()));
         $this->getApp()['asset.queue.file']->add($fileAsset);
     }
 
@@ -40,11 +41,12 @@ trait AssetTrait
      *
      * @param FileAssetInterface|string $fileAsset File name
      */
-    public function addJavascript($fileAsset, $options = [])
+    public function addJavascript($fileAsset)
     {
         if (!$fileAsset instanceof FileAssetInterface) {
             $fileAsset = $this->setupAsset(new JavaScript(), $fileAsset, func_get_args());
         }
+        $fileAsset->setFileName($this->getAssetPath($fileAsset->getFileName()));
         $this->getApp()['asset.queue.file']->add($fileAsset);
     }
 
@@ -63,15 +65,17 @@ trait AssetTrait
             return $this->getApp()['resources']->getUrl('theme') . $fileName;
         } elseif ($this instanceof \Bolt\Extensions) {
             return $fileName;
-        } else {
-            $message = sprintf(
-                "Couldn't add file asset '%s': File does not exist in either %s or %s directories.",
-                $fileName,
-                $this->getBaseUrl(),
-                $this->getApp()['resources']->getUrl('theme')
-            );
-            $this->getApp()['logger.system']->error($message, ['event' => 'extensions']);
         }
+
+        $message = sprintf(
+            "Couldn't add file asset '%s': File does not exist in either %s or %s directories.",
+            $fileName,
+            $this->getBaseUrl(),
+            $this->getApp()['resources']->getUrl('theme')
+        );
+        $this->getApp()['logger.system']->error($message, ['event' => 'extensions']);
+
+        return $fileName;
     }
 
     /**
@@ -83,12 +87,11 @@ trait AssetTrait
      */
     private function setupAsset(FileAssetInterface $asset, $fileName, array $options)
     {
-        $fileName = $this->getAssetPath($fileName);
         $options = array_merge(
             [
                 'late'     => false,
                 'priority' => 0,
-                'attrib'   => null,
+                'attrib'   => [],
             ],
             $this->getCompatibleArgs($options)
         );
@@ -110,7 +113,7 @@ trait AssetTrait
      * Where options were:
      *   'late'     - True to add to the end of the HTML <body>
      *   'priority' - Loading priority
-     *   'attrib'   - A string containing either/or 'defer', and 'async'
+     *   'attrib'   - A string containing either/both 'defer', and 'async'
      *
      * Passed in $args array can be:
      * - args[0] always the file name
@@ -127,10 +130,15 @@ trait AssetTrait
             return [
                 'late'     => isset($args[1]) ? $args[1] : false,
                 'priority' => isset($args[2]) ? $args[2] : 0,
-                'attrib'   => false
+                'attrib'   => []
             ];
         }
 
-        return $args[1];
+        $options = $args[1];
+        if (isset($options['attrib'])) {
+            $options['attrib'] = explode(' ', $options['attrib']);
+        }
+
+        return $options;
     }
 }

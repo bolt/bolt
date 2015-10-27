@@ -59,7 +59,7 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getApp()
+    protected function getApp()
     {
         return $this->app;
     }

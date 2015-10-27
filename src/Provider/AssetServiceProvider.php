@@ -39,6 +39,8 @@ class AssetServiceProvider implements ServiceProviderInterface
                 return substr(md5($app['asset.salt'] . $fullPath . (string) filemtime($fullPath)), 0, 10);
             } elseif (is_readable($fileName)) {
                 return substr(md5($app['asset.salt'] . $fileName . (string) filemtime($fileName)), 0, 10);
+            } else {
+                return substr(md5($app['asset.salt'] . $fileName . mt_rand()), 0, 10);
             }
         });
 
