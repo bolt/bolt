@@ -54,6 +54,9 @@
         {# Filelist #}
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
+        {# Progress info #}
+        <div class="clearfix hide uploading-list"></div>
+
         {# Buttons #}
         <div class="clearfix">
             {{ macro.upload_buttons('file', key, attributes.fileupload, option.upload, can_upload) }}
@@ -65,9 +68,6 @@
                 </button>
             </div>
         </div>
-
-        {# Progress info #}
-        <div class="uploading-list hide"></div>
 
         {# Data #}
         <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>

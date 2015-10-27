@@ -60,10 +60,15 @@
 
 {% block fieldset_controls %}
     <div class="col-xs-12 filelistholder dropzone" id="imagelist-{{ key }}">
-
+        {# Imagelist #}
         <div class="list" data-list="{{ listdata|json_encode }}"></div>
 
         {% set can_upload = context.can.upload and option.can_upload %}
+
+        {# Progress info #}
+        <div class="clearfix hide uploading-list"></div>
+
+        {# Buttons #}
         <div class="clearfix">
             {{ macro.upload_buttons('image', key, attributes.fileupload, option.upload, can_upload) }}
 
@@ -77,8 +82,7 @@
             </div>
         </div>
 
-        <p class="uploading-list"></p>
-
+        {# Modal "Select from server" #}
         {{ block.serverselect(key) }}
 
     </div>
