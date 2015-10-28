@@ -3,8 +3,8 @@
 namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
-use Bolt\Storage\EntityManager;
 use Bolt\Storage\Entity\Content;
+use Bolt\Storage\EntityManager;
 
 /**
  * Helper class for ContentType overview listings.

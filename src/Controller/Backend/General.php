@@ -128,7 +128,7 @@ class General extends BackendBase
         $context = [
             'query'   => $query,
             'records' => $records,
-            'others' => $others,
+            'others'  => $others,
         ];
 
         return $this->render('@bolt/omnisearch/omnisearch.twig', $context);

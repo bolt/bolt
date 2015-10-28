@@ -184,7 +184,6 @@ class Widget implements WidgetAssetInterface
      */
     public function setClass($class)
     {
-
         if (is_array($class)) {
             foreach ($class as $classitem) {
                 $this->setClass($classitem);

@@ -309,7 +309,6 @@ class TwigExtension extends \Twig_Extension
 
     /**
      * @deprecated Since 2.3, will be removed in 3.0. Just use config instead.
-     *
      * @see \Bolt\Twig\Handler\AdminHandler::isChangelogEnabled()
      */
     public function isChangelogEnabled()
