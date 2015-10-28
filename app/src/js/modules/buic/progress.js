@@ -32,10 +32,12 @@
         $(buic).on('buic:progress-add', function (event, label, value) {
             add(buic, label || '', value || 0);
         });
+
         // Remove progress bar from progress bar container.
         $(buic).on('buic:progress-remove', function (event, label) {
             remove(buic, label || '');
         });
+
         // Set value.
         $(buic).on('buic:progress-set', function (event, label, value) {
             $(buic).children().each(function () {
@@ -43,7 +45,6 @@
                     setValue(this, value || 0);
                 }
             });
-
         });
     };
 
