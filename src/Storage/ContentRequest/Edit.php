@@ -29,7 +29,6 @@ class Edit
     protected $users;
     /** @var Manager */
     protected $filesystem;
-
     /** @var LoggerInterface */
     protected $loggerSystem;
     /** @var FlashLoggerInterface */
@@ -65,21 +64,21 @@ class Edit
      * Do the edit form for a record.
      *
      * @param Content $content     A content record
-     * @param array   $contenttype The contenttype data
+     * @param array   $contentType The contenttype data
      * @param boolean $duplicate   If TRUE create a duplicate record
      *
      * @return array
      */
-    public function action(Content $content, array $contenttype, $duplicate)
+    public function action(Content $content, array $contentType, $duplicate)
     {
-        $contenttypeSlug = $contenttype['slug'];
+        $contentTypeSlug = $contentType['slug'];
         $new = $content->getId() === null ?: false;
         $oldStatus = $content->getStatus();
         $allStatuses = ['published', 'held', 'draft', 'timed'];
         $allowedStatuses = [];
 
         foreach ($allStatuses as $status) {
-            if ($this->users->isContentStatusTransitionAllowed($oldStatus, $status, $contenttypeSlug, $content->getId())) {
+            if ($this->users->isContentStatusTransitionAllowed($oldStatus, $status, $contentTypeSlug, $content->getId())) {
                 $allowedStatuses[] = $status;
             }
         }
@@ -95,7 +94,7 @@ class Edit
             $content->setUsername('');
             $content->setOwnerid('');
 
-            $this->loggerFlash->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contenttypeSlug]));
+            $this->loggerFlash->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contentTypeSlug]));
         }
 
         // Set the users and the current owner of this content.
@@ -108,7 +107,7 @@ class Edit
         }
 
         // Test write access for uploadable fields.
-        $contenttype['fields'] = $this->setCanUpload($contenttype['fields']);
+        $contentType['fields'] = $this->setCanUpload($contentType['fields']);
         $templateFields = $content->getTemplatefields();
         if ($templateFields && $templateFieldsData = $templateFields->getContenttype()->getFields()) {
             $this->setCanUpload($templateFields->getContenttype());
@@ -117,15 +116,15 @@ class Edit
         // Build context for Twig.
         $contextCan = [
             'upload'             => $this->users->isAllowed('files:uploads'),
-            'publish'            => $this->users->isAllowed('contenttype:' . $contenttypeSlug . ':publish:' . $content->getId()),
-            'depublish'          => $this->users->isAllowed('contenttype:' . $contenttypeSlug . ':depublish:' . $content->getId()),
-            'change_ownership'   => $this->users->isAllowed('contenttype:' . $contenttypeSlug . ':change-ownership:' . $content->getId()),
+            'publish'            => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':publish:' . $content->getId()),
+            'depublish'          => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':depublish:' . $content->getId()),
+            'change_ownership'   => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':change-ownership:' . $content->getId()),
         ];
         $contextHas = [
             'incoming_relations' => is_array($content->relation),
-            'relations'          => isset($contenttype['relations']),
-            'tabs'               => $contenttype['groups'] !== false,
-            'taxonomy'           => isset($contenttype['taxonomy']),
+            'relations'          => isset($contentType['relations']),
+            'tabs'               => $contentType['groups'] !== false,
+            'taxonomy'           => isset($contentType['taxonomy']),
             'templatefields'     => empty($templateFieldsData) ? false : true,
         ];
         $contextValues = [
@@ -133,18 +132,18 @@ class Edit
             'datedepublish'      => $this->getPublishingDate($content->getDatedepublish()),
         ];
         $context = [
-            'contenttype'        => $contenttype,
+            'contenttype'        => $contentType,
             'content'            => $content,
             'allowed_status'     => $allowedStatuses,
             'contentowner'       => $contentowner,
             'fields'             => $this->config->fields->fields(),
-            'fieldtemplates'     => $this->getTempateFieldTemplates($contenttype, $content),
-            'fieldtypes'         => $this->getUsedFieldtypes($contenttype, $content, $contextHas),
-            'groups'             => $this->createGroupTabs($contenttype, $contextHas),
+            'fieldtemplates'     => $this->getTempateFieldTemplates($contentType, $content),
+            'fieldtypes'         => $this->getUsedFieldtypes($contentType, $content, $contextHas),
+            'groups'             => $this->createGroupTabs($contentType, $contextHas),
             'can'                => $contextCan,
             'has'                => $contextHas,
             'values'             => $contextValues,
-            'relations_list'     => $this->getRelationsList($contenttype),
+            'relations_list'     => $this->getRelationsList($contentType),
         ];
 
         return $context;
@@ -154,20 +153,22 @@ class Edit
      * Convert POST relationship values to an array of Entity objects keyed by
      * ContentType.
      *
-     * @param array $contenttype
+     * @param array $contentType
      *
      * @return array
      */
-    private function getRelationsList(array $contenttype)
+    private function getRelationsList(array $contentType)
     {
         $list = [];
-        if (!isset($contenttype['relations']) || !is_array($contenttype['relations'])) {
+        if (!isset($contentType['relations']) || !is_array($contentType['relations'])) {
             return $list;
         }
 
-        foreach ($contenttype['relations'] as $contentType => $relation) {
-            $repo = $this->em->getRepository($contentType);
-            $list[$contentType] = $repo->getSelectList($contentType, $relation['order']);
+        foreach ($contentType['relations'] as $relationName => $relationValues) {
+            $repo = $this->em->getRepository($relationName);
+            $relationConfig = $this->config->get('contenttypes/'.$relationName, []);
+
+            $list[$relationName] = $repo->getSelectList($relationConfig, $relationValues['order']);
         }
 
         return $list;
@@ -198,12 +199,12 @@ class Edit
     /**
      * Determine which templates will result in templatefields.
      *
-     * @param array   $contenttype
+     * @param array   $contentType
      * @param Content $content
      *
      * @return array
      */
-    private function getTempateFieldTemplates(array $contenttype, Content $content)
+    private function getTempateFieldTemplates(array $contentType, Content $content)
     {
         $templateFieldTemplates = [];
         $templateFieldsConfig = $this->config->get('theme/templatefields');
@@ -212,7 +213,7 @@ class Edit
             $templateFieldTemplates = array_keys($templateFieldsConfig);
             // Special case for default template
             $toRepair = [];
-            foreach ($contenttype['fields'] as $name => $field) {
+            foreach ($contentType['fields'] as $name => $field) {
                 if ($field['type'] === 'templateselect' && !empty($content->values[$name])) {
                     $toRepair[$name] = $content->values[$name];
                     $content->setValue($name, '');
@@ -252,12 +253,12 @@ class Edit
     /**
      * Generate tab groups.
      *
-     * @param array $contenttype
+     * @param array $contentType
      * @param array $has
      *
      * @return array
      */
-    private function createGroupTabs(array $contenttype, array $has)
+    private function createGroupTabs(array $contentType, array $has)
     {
         $groups = [];
         $groupIds = [];
@@ -277,12 +278,12 @@ class Edit
             $groupIds[$id] = 1;
         };
 
-        foreach ($contenttype['groups'] ? $contenttype['groups'] : ['ungrouped'] as $group) {
+        foreach ($contentType['groups'] ? $contentType['groups'] : ['ungrouped'] as $group) {
             if ($group === 'ungrouped') {
                 $addGroup($group, Trans::__('contenttypes.generic.group.ungrouped'));
             } elseif ($group !== 'meta' && $group !== 'relations' && $group !== 'taxonomy') {
                 $default = ['DEFAULT' => ucfirst($group)];
-                $key = ['contenttypes', $contenttype['slug'], 'group', $group];
+                $key = ['contenttypes', $contentType['slug'], 'group', $group];
                 $addGroup($group, Trans::__($key, $default));
             }
         }
@@ -292,12 +293,12 @@ class Edit
             $groups['relations']['fields'][] = '*relations';
         }
 
-        if ($has['taxonomy'] || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
+        if ($has['taxonomy'] || (is_array($contentType['groups']) && in_array('taxonomy', $contentType['groups']))) {
             $addGroup('taxonomy', Trans::__('contenttypes.generic.group.taxonomy'));
             $groups['taxonomy']['fields'][] = '*taxonomy';
         }
 
-        if ($has['templatefields'] || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
+        if ($has['templatefields'] || (is_array($contentType['groups']) && in_array('template', $contentType['groups']))) {
             $addGroup('template', Trans::__('contenttypes.generic.group.template'));
             $groups['template']['fields'][] = '*template';
         }
@@ -306,8 +307,8 @@ class Edit
         $groups['meta']['fields'][] = '*meta';
 
         // References fields in tab group data.
-        foreach ($contenttype['fields'] as $fieldname => $field) {
-            $groups[$field['group']]['fields'][] = $fieldname;
+        foreach ($contentType['fields'] as $fieldName => $field) {
+            $groups[$field['group']]['fields'][] = $fieldName;
         }
 
         return $groups;
@@ -316,13 +317,13 @@ class Edit
     /**
      * Create a list of fields types used in regular, template and virtual fields.
      *
-     * @param array   $contenttype
+     * @param array   $contentType
      * @param Content $content
      * @param array   $has
      *
      * @return array
      */
-    private function getUsedFieldtypes(array $contenttype, Content $content, array $has)
+    private function getUsedFieldtypes(array $contentType, Content $content, array $has)
     {
         $fieldtypes = [
             'meta' => true
@@ -333,8 +334,8 @@ class Edit
         } else {
             $templateFields = [];
         }
-        
-        foreach ([$contenttype['fields'], $templateFields] as $fields) {
+
+        foreach ([$contentType['fields'], $templateFields] as $fields) {
             foreach ($fields as $field) {
                 $fieldtypes[$field['type']] = true;
             }
@@ -344,11 +345,11 @@ class Edit
             $fieldtypes['relationship'] = true;
         }
 
-        if ($has['taxonomy'] || (is_array($contenttype['groups']) && in_array('taxonomy', $contenttype['groups']))) {
+        if ($has['taxonomy'] || (is_array($contentType['groups']) && in_array('taxonomy', $contentType['groups']))) {
             $fieldtypes['taxonomy'] = true;
         }
 
-        if ($has['templatefields'] || (is_array($contenttype['groups']) && in_array('template', $contenttype['groups']))) {
+        if ($has['templatefields'] || (is_array($contentType['groups']) && in_array('template', $contentType['groups']))) {
             $fieldtypes['template'] = true;
         }
 

@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Entity;
 
 use Bolt\Storage\ContentLegacyService;
+use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Carbon\Carbon;
 
 /**
@@ -28,6 +29,8 @@ use Carbon\Carbon;
  */
 class Content extends Entity
 {
+    use ContentTypeTitleTrait;
+
     protected $contenttype;
     protected $_legacy;
     protected $id;
@@ -54,6 +57,10 @@ class Content extends Entity
      */
     public function get($key)
     {
+        if ($key === 'title') {
+            return $this->getTitle();
+        }
+
         return $this->$key;
     }
 
@@ -66,6 +73,25 @@ class Content extends Entity
     public function set($key, $value)
     {
         $this->$key = $value;
+    }
+
+    /**
+     * Getter for a record's 'title' field.
+     *
+     * If there is no field called 'title' then we just return the first text
+     * type field.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        if (isset($this->_fields['title'])) {
+            return $this->_fields['title'];
+        }
+
+        $fieldName = $this->getTitleColumnName($this->contenttype);
+
+        return $this->$fieldName;
     }
 
     /**

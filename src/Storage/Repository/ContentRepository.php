@@ -5,6 +5,7 @@ namespace Bolt\Storage\Repository;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Storage\ContentLegacyService;
+use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Bolt\Storage\Repository;
 
 /**
@@ -12,18 +13,20 @@ use Bolt\Storage\Repository;
  */
 class ContentRepository extends Repository
 {
+    use ContentTypeTitleTrait;
+
     /** @var ContentLegacyService */
     protected $legacy;
 
     /**
      * Fetches details on records for select lists.
      *
-     * @param string $contentType
+     * @param array  $contentType
      * @param string $order
      *
-     * @return \Bolt\Storage\Entity\Cron
+     * @return array|false
      */
-    public function getSelectList($contentType, $order)
+    public function getSelectList(array $contentType, $order)
     {
         $query = $this->querySelectList($contentType, $order);
 
@@ -33,12 +36,12 @@ class ContentRepository extends Repository
     /**
      * Build the query for a record select list.
      *
-     * @param string $contentType
+     * @param array  $contentType
      * @param string $order
      *
      * @return QueryBuilder
      */
-    public function querySelectList($contentType, $order)
+    public function querySelectList(array $contentType, $order)
     {
         if (strpos($order, '-') === 0) {
             $direction = 'ASC';
@@ -47,8 +50,8 @@ class ContentRepository extends Repository
             $direction = 'DESC';
         }
 
-        $qb = $this->createQueryBuilder($contentType);
-        $qb->select('id, ' . $this->getTitleColumnName() . ' as title')
+        $qb = $this->createQueryBuilder($contentType['tablename']);
+        $qb->select('id, ' . $this->getTitleColumnName($contentType) . ' as title')
             ->orderBy($order, $direction)
         ;
 
@@ -84,33 +87,6 @@ class ContentRepository extends Repository
         $entity = $event->getArgument('entity');
         if (get_class($entity) === 'Bolt\Storage\Entity\Content') {
             $entity->setLegacyService($this->legacy);
-        }
-    }
-
-    /**
-     * Get the likely column name of the title.
-     *
-     * @return array
-     */
-    protected function getTitleColumnName()
-    {
-        $names = [
-            'title', 'name', 'caption', 'subject', // EN
-            'titel', 'naam', 'onderwerp',          // NL
-            'nom', 'sujet',                        // FR
-            'nombre', 'sujeto'                     // ES
-        ];
-
-        $columns = $this->getEntityManager()
-            ->getConnection()
-            ->getSchemaManager()
-            ->listTableColumns($this->getTableName())
-        ;
-
-        foreach ($names as $name) {
-            if (isset($columns[$name])) {
-                return $name;
-            }
         }
     }
 }
