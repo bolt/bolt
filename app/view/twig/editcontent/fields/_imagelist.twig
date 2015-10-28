@@ -46,12 +46,11 @@
         {# Imagelist #}
         <div class="list"></div>
 
-        {% set can_upload = context.can.upload and option.can_upload %}
-
         {# Progress info #}
-        <div class="clearfix hide uploading-list"></div>
+        <div class="buic-progress hide"></div>
 
         {# Buttons #}
+        {% set can_upload = context.can.upload and option.can_upload %}
         <div class="clearfix">
             {{ macro.upload_buttons('image', key, attributes.fileupload, option.upload, can_upload) }}
 

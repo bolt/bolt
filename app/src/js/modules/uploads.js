@@ -129,12 +129,6 @@
                 fileuploadProcessFail(key, data);
             })
             .on('fileuploadprogress', function (evt, data) {
-                $.each(data.files, function (idx, file) {
-                    file.uploading.progress = data.loaded / data.total;
-                    var progressBar = file.uploading.element.find('.progress-bar');
-                    progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
-                });
-
                 $.each(data.files, function () {
                     $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
                 });
