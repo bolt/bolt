@@ -32,6 +32,24 @@
         //jshint unused:vars
     };
 
+    /**
+     * Initializes a cloned text field.
+     *
+     * @static
+     * @function initClone
+     * @memberof Bolt.fields.text
+     *
+     * @param {Object} fieldset
+     * @param {FieldConf} fconf
+     */
+    text.initClone = function (fieldset, fconf) {
+        //jshint unused:vars
+        var uid = bolt.app.uid();
+
+        $(fieldset).find('input').attr('id', uid);
+        $(fieldset).find('label').attr('for', uid);
+    };
+
     // Apply mixin container
     bolt.fields.text = text;
 
