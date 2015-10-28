@@ -103,7 +103,7 @@
                 fileuploadProgress(key, data);
 
                 $.each(data.files, function (idx, file) {
-                    $(progress).trigger('buic:progress-set', [file.name, Math.round(data.loaded / data.total * 100)]);
+                    $(progress).trigger('buic:progress-set', [file.name, data.loaded / data.total]);
                 });
             });
     };
@@ -138,7 +138,7 @@
                 });
 
                 $.each(data.files, function (idx, file) {
-                    $(progress).trigger('buic:progress-set', [file.name, Math.round(data.loaded / data.total * 100)]);
+                    $(progress).trigger('buic:progress-set', [file.name, data.loaded / data.total]);
                 });
             })
             .on('fileuploadsubmit', function (evt, data) {
