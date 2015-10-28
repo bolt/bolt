@@ -142,7 +142,7 @@
             acceptFileTypes: accept ? pattern : undefined,
             maxNumberOfFiles: undefined,
             messages: {
-                maxFileSize: '>:' + maxSize,
+                maxFileSize: '>:' + humanBytes(maxSize),
                 minFileSize: '<',
                 acceptFileTypes: 'T:.' + extensions.join(', .'),
                 maxNumberOfFiles: '#'
@@ -165,7 +165,7 @@
                 alert,
                 context = {
                     '%FILENAME%': currentFile.name,
-                    '%FILESIZE%': currentFile.size,
+                    '%FILESIZE%': humanBytes(currentFile.size),
                     '%FILETYPE%': currentFile.type,
                     '%ALLOWED%': currentFile.error.substr(2)
                 };
@@ -183,6 +183,35 @@
                 alert = '<p>' + currentFile.error + '</p>';
         }
         bootbox.alert(alert);
+    }
+
+    /**
+     * Human readable formatted bytes.
+     *
+     * @private
+     * @function humanBytes
+     * @memberof Bolt.uploads
+     *
+     * @param {integer} val - Value to format.
+     */
+    function humanBytes(val) {
+        var units = ' kMGTPEZY',
+            u = -1;
+
+        while (++u < 8 && Math.abs(val) >= 1000) {
+            val /= 1000;
+        }
+
+        if (!!(typeof Intl === 'object' && Intl && typeof Intl.NumberFormat === 'function')) {
+            val = val.toLocaleString(
+                bolt.conf('locale.long').replace(/_/g, '-'),
+                {maximumSignificantDigits: 3}
+            );
+        } else {
+            val = val.toFixed(2);
+        }
+
+        return val + ' ' + units[u].trim() + 'B';
     }
 
     /**
