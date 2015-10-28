@@ -55,9 +55,7 @@
         {{ macro.upload_buttons('file', key, attributes.upload, option.upload, can_upload) }}
 
         {# Progressbar #}
-        <div class="progress file-progress progress-striped active" id="progress-{{ key }}">
-            <div class="progress-bar"></div>
-        </div>
+        <div class="buic-progress hide"></div>
 
         {# Modal "select from server" #}
         <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

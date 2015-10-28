@@ -75,12 +75,6 @@
     {% endif %}
 {% endmacro %}
 
-{% macro progress(key) %}
-    <div class="progress file-progress progress-striped active" id="progress-{{ key }}">
-        <div class="progress-bar" style="width: 0%;"></div>
-    </div>
-{% endmacro %}
-
 {# Modal "select from server" #}
 {% macro serverselect(key) %}
     <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -110,20 +104,27 @@
     <div class="col-xs-12 dropzone" id="dropzone-{{ key }}">
         <div class="row">
             <div class="col-xs-8">
+                {# Path #}
                 <div class="form-group form-group-first">
                     <div class="col-sm-12">
                         {{ block.imagepath(labelkey, option, image, attributes.inp) }}
                     </div>
                 </div>
+
+                {# Attributes #}
                 {{ block.attributes(key, option, image) }}
+
+                {# Progressbar #}
+                <div class="buic-progress hide"></div>
+
+                {# Uploadbuttons #}
                 {% set can_upload = context.can.upload and option.can_upload %}
                 {{ macro.upload_buttons('image', key, attributes.upload, option.upload, can_upload) }}
-                {{ block.progress(key) }}
                 {{ block.serverselect(key, __('Cancel')) }}
             </div>
 
             <div class="col-xs-4">
-                <div class="right-on-large">{# to make the preview align right on wide screens #}
+                <div class="right-on-large">
                     <label>{{ __('Preview') }}</label>
                     <div class="content-preview imageholder">
                         {% if context.content.get(contentkey) != '' %}
