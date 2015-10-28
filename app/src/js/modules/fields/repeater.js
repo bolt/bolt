@@ -28,11 +28,9 @@
      * @param {Object} fieldset
      */
     repeater.init = function (fieldset) {
-        var addButton = $(fieldset).find('.repeater-add a'),
-            slot = $(fieldset).find('.repeater-slot');
-
-        addButton.on('click', function (evt){
+        $(fieldset).on('click', '.repeater-add a', function (evt){
             var template = $(fieldset).find('script[type="text/template"]').html(),
+                slot = $(fieldset).find('.repeater-slot'),
                 newSet = clone($(template));
 
             slot.append(newSet);
