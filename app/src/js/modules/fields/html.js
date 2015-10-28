@@ -28,7 +28,9 @@
      * @param fconf
      */
     html.init = function (fieldset, fconf) {
-
+        $(fieldset).find('.ckeditor').each(function(){
+            bolt.ckeditor.add(this);
+        })
     };
 
     // Apply mixin container
