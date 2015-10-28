@@ -73,7 +73,8 @@
         // Add new bar and show container.
         $(progress)
             .append(bar)
-            .removeClass('hide');
+            .show();
+        $(bar).show(300);
     }
 
     /**
@@ -88,14 +89,16 @@
      */
     function remove(progress, label) {
         // Loops through all bars and remove all with the same label.
-        $(progress).children().each(function () {
-            if ($(this).data('label') === label) {
-                $(this).remove();
+        $(progress).children().each(function (n, bar) {
+            if ($(bar).data('label') === label) {
+                $(bar).hide(300, function () {
+                    $(bar).remove();
+                });
             }
         });
         // Hide the container when last bar was removed.
         if ($(progress).children().length === 0) {
-            $(progress).addClass('hide');
+            $(progress).hide();
         }
     }
 
