@@ -20,22 +20,10 @@
 
 {{ data('field.imagelist.template.item', template_item|trim|preg_replace('/>\\s+</', '><')) }}
 
-{### Template: Progress ###}
-
-{% set template_progress %}
-    <div class="uploading-list-element">
-        {{ __('Uploading') }} %FNAME%
-        <div class="progress files-progress progress-striped active">
-            <div class="progress-bar"></div>
-        </div>
-    </div>
-{% endset %}
-
-{{ data('field.imagelist.template.progress', template_progress|trim|preg_replace('/>\\s+</', '><')) }}
-
-{### Templates: Upload errors ###}
+{### Templates: Upload errors + buic.progress  ###}
 
 {% include '@bolt/editcontent/fielddata/_uploads.twig' %}
+{% include '@bolt/editcontent/fielddata/_buic-progress.twig' %}
 
 {### Messages ###}
 
