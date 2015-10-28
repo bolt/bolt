@@ -101,6 +101,10 @@
             })
             .on('fileuploadprogress', function (evt, data) {
                 fileuploadProgress(key, data);
+
+                $.each(data.files, function (idx, file) {
+                    $(progress).trigger('buic:progress-set', [file.name, Math.round(data.loaded / data.total * 100)]);
+                });
             });
     };
 
@@ -127,12 +131,14 @@
                 fileuploadProcessFail(key, data);
             })
             .on('fileuploadprogress', function (evt, data) {
-                var progress = data.loaded / data.total;
-
                 $.each(data.files, function (idx, file) {
-                    file.uploading.progress = progress;
+                    file.uploading.progress = data.loaded / data.total;
                     var progressBar = file.uploading.element.find('.progress-bar');
                     progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
+                });
+
+                $.each(data.files, function (idx, file) {
+                    $(progress).trigger('buic:progress-set', [file.name, Math.round(data.loaded / data.total * 100)]);
                 });
             })
             .on('fileuploadsubmit', function (evt, data) {
