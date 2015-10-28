@@ -18,12 +18,12 @@ class ContentRepository extends Repository
     /**
      * Fetches details on records for select lists.
      *
-     * @param string $contentType
+     * @param array  $contentType
      * @param string $order
      *
-     * @return \Bolt\Storage\Entity\Cron
+     * @return array|false
      */
-    public function getSelectList($contentType, $order)
+    public function getSelectList(array $contentType, $order)
     {
         $query = $this->querySelectList($contentType, $order);
 
@@ -33,12 +33,12 @@ class ContentRepository extends Repository
     /**
      * Build the query for a record select list.
      *
-     * @param string $contentType
+     * @param array  $contentType
      * @param string $order
      *
      * @return QueryBuilder
      */
-    public function querySelectList($contentType, $order)
+    public function querySelectList(array $contentType, $order)
     {
         if (strpos($order, '-') === 0) {
             $direction = 'ASC';
@@ -47,8 +47,8 @@ class ContentRepository extends Repository
             $direction = 'DESC';
         }
 
-        $qb = $this->createQueryBuilder($contentType);
-        $qb->select('id, ' . $this->getTitleColumnName() . ' as title')
+        $qb = $this->createQueryBuilder($contentType['tablename']);
+        $qb->select('id, ' . $this->getTitleColumnName($contentType['fields']) . ' as title')
             ->orderBy($order, $direction)
         ;
 
@@ -90,9 +90,13 @@ class ContentRepository extends Repository
     /**
      * Get the likely column name of the title.
      *
+     * @deprecated Find something less fugly for v3
+     *
+     * @param array $contentTypeFields
+     *
      * @return array
      */
-    protected function getTitleColumnName()
+    protected function getTitleColumnName(array $contentTypeFields)
     {
         $names = [
             'title', 'name', 'caption', 'subject', // EN
@@ -101,14 +105,14 @@ class ContentRepository extends Repository
             'nombre', 'sujeto'                     // ES
         ];
 
-        $columns = $this->getEntityManager()
-            ->getConnection()
-            ->getSchemaManager()
-            ->listTableColumns($this->getTableName())
-        ;
+        foreach ($contentTypeFields as $name => $values) {
+            if (in_array($name, $names)) {
+                return $name;
+            }
+        }
 
-        foreach ($names as $name) {
-            if (isset($columns[$name])) {
+        foreach ($contentTypeFields as $name => $values) {
+            if ($values['type'] === 'text') {
                 return $name;
             }
         }
