@@ -5,6 +5,7 @@ namespace Bolt\Storage\Repository;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Storage\ContentLegacyService;
+use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Bolt\Storage\Repository;
 
 /**
@@ -12,6 +13,8 @@ use Bolt\Storage\Repository;
  */
 class ContentRepository extends Repository
 {
+    use ContentTypeTitleTrait;
+
     /** @var ContentLegacyService */
     protected $legacy;
 
@@ -48,7 +51,7 @@ class ContentRepository extends Repository
         }
 
         $qb = $this->createQueryBuilder($contentType['tablename']);
-        $qb->select('id, ' . $this->getTitleColumnName($contentType['fields']) . ' as title')
+        $qb->select('id, ' . $this->getTitleColumnName($contentType) . ' as title')
             ->orderBy($order, $direction)
         ;
 
@@ -84,37 +87,6 @@ class ContentRepository extends Repository
         $entity = $event->getArgument('entity');
         if (get_class($entity) === 'Bolt\Storage\Entity\Content') {
             $entity->setLegacyService($this->legacy);
-        }
-    }
-
-    /**
-     * Get the likely column name of the title.
-     *
-     * @deprecated Find something less fugly for v3
-     *
-     * @param array $contentTypeFields
-     *
-     * @return array
-     */
-    protected function getTitleColumnName(array $contentTypeFields)
-    {
-        $names = [
-            'title', 'name', 'caption', 'subject', // EN
-            'titel', 'naam', 'onderwerp',          // NL
-            'nom', 'sujet',                        // FR
-            'nombre', 'sujeto'                     // ES
-        ];
-
-        foreach ($contentTypeFields as $name => $values) {
-            if (in_array($name, $names)) {
-                return $name;
-            }
-        }
-
-        foreach ($contentTypeFields as $name => $values) {
-            if ($values['type'] === 'text') {
-                return $name;
-            }
         }
     }
 }

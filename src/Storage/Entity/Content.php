@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Entity;
 
 use Bolt\Storage\ContentLegacyService;
+use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Carbon\Carbon;
 
 /**
@@ -28,6 +29,8 @@ use Carbon\Carbon;
  */
 class Content extends Entity
 {
+    use ContentTypeTitleTrait;
+
     protected $contenttype;
     protected $_legacy;
     protected $id;
@@ -86,12 +89,9 @@ class Content extends Entity
             return $this->_fields['title'];
         }
 
-        $fields = $this->contenttype->getFields() ?: [];
-        foreach ($fields as $fieldName => $fieldData) {
-            if ($fieldData['type'] === 'text') {
-                return $this->_fields[$fieldName];
-            }
-        }
+        $fieldName = $this->getTitleColumnName($this->contenttype);
+
+        return $this->$fieldName;
     }
 
     /**
