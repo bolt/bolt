@@ -34,7 +34,6 @@
                 newSet = clone($(template));
 
             slot.append(newSet);
-            bolt.fields.init(newSet);
             bolt.buic.init(newSet);
         });
 
@@ -43,7 +42,6 @@
                 duplicatedSet = clone(setToDuplicate);
 
             setToDuplicate.after(duplicatedSet);
-            bolt.fields.init(duplicatedSet);
             bolt.buic.init(duplicatedSet);
         });
 
