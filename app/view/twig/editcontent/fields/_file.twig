@@ -51,11 +51,11 @@
         {# Path #}
         <input{{ macro.attr(attributes.filepath) }}>
 
-        {# Uploadbuttons #}
-        {{ macro.upload_buttons('file', key, attributes.upload, option.upload, can_upload) }}
-
         {# Progressbar #}
         <div class="buic-progress hide"></div>
+
+        {# Uploadbuttons #}
+        {{ macro.upload_buttons('file', key, attributes.upload, option.upload, can_upload) }}
 
         {# Modal "select from server" #}
         <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
