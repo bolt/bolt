@@ -21,6 +21,14 @@
     var app = {};
 
     /**
+     * Next unique ID to serve by the ID generator.
+     *
+     * @private
+     * @type {integer}
+     */
+    var nextUid = 123;
+
+    /**
      * Loading state of Google Maps API.
      *
      * Values: undefined: initial state; false: pending; true: loaded.
@@ -70,6 +78,16 @@
         legacyInit();
         bolt.buic.init();
         bolt.fields.init();
+    };
+
+    /**
+     * Returns an unique ID.
+     *
+     * @function unid
+     * @memberof Bolt.app
+     */
+    app.uid = function () {
+        return 'bolt-uid-' + nextUid++;
     };
 
     /*
