@@ -32,10 +32,12 @@
         $(buic).on('buic:progress-add', function (event, label, value) {
             add(buic, label || '', value || 0);
         });
+
         // Remove progress bar from progress bar container.
         $(buic).on('buic:progress-remove', function (event, label) {
             remove(buic, label || '');
         });
+
         // Set value.
         $(buic).on('buic:progress-set', function (event, label, value) {
             $(buic).children().each(function () {
@@ -43,7 +45,6 @@
                     setValue(this, value || 0);
                 }
             });
-
         });
     };
 
@@ -73,7 +74,8 @@
         // Add new bar and show container.
         $(progress)
             .append(bar)
-            .removeClass('hide');
+            .show();
+        $(bar).show(300);
     }
 
     /**
@@ -88,14 +90,16 @@
      */
     function remove(progress, label) {
         // Loops through all bars and remove all with the same label.
-        $(progress).children().each(function () {
-            if ($(this).data('label') === label) {
-                $(this).remove();
+        $(progress).children().each(function (n, bar) {
+            if ($(bar).data('label') === label) {
+                $(bar).hide(300, function () {
+                    $(bar).remove();
+                });
             }
         });
         // Hide the container when last bar was removed.
         if ($(progress).children().length === 0) {
-            $(progress).addClass('hide');
+            $(progress).hide();
         }
     }
 

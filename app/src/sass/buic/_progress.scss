@@ -10,9 +10,11 @@
     @include clearfix;
 
     position: relative;
+    display: none;
     margin-top: 12px;
 
     .progress {
+        display: none;
         margin: $vdiv 0 0 $indent;
 
         &:first-child {
