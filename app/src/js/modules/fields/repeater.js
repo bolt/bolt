@@ -67,6 +67,17 @@
     function clone(template) {
         var cloned = $(template).clone();
 
+        $('[data-bolt-field]', cloned).each(function () {
+            var type = $(this).data('bolt-field'),
+                conf = $(this).data('bolt-fconf');
+
+            // Implemented fields:
+            // text
+            if (typeof bolt.fields[type] !== 'undefined' && typeof bolt.fields[type].initClone === 'function') {
+                bolt.fields[type].initClone(this, conf);
+            }
+        });
+
         return cloned;
     }
 
