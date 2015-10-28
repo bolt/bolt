@@ -4,7 +4,7 @@
  */
 module.exports = {
     ignore: [
-		/^The “tt” element is obsolete./,
+        /^The “tt” element is obsolete./,
         /^An “img” element must have an “alt”/
     ]
 };
