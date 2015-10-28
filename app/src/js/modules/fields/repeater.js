@@ -33,7 +33,7 @@
             slot = $(fieldset).find('.repeater-slot');
 
         addButton.on('click', function (evt){
-            var newSet = $(template.html());
+            var newSet = $(template).clone();
 
             slot.append(newSet);
             bolt.fields.init(newSet);
@@ -43,7 +43,7 @@
 
         $(fieldset).on('click', '.duplicate-button', function (evt){
             var setToDuplicate = $(this).closest('.repeater-group'),
-                duplicatedSet = $(setToDuplicate[0].outerHTML);
+                duplicatedSet = $(setToDuplicate[0]).clone();
 
             setToDuplicate.after(duplicatedSet);
             bolt.fields.init(duplicatedSet);
