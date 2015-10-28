@@ -39,7 +39,7 @@ class Upload extends BackendBase
         if ($handler = $request->get('handler')) {
             // Use custom handlers
             if (is_array($handler)) {
-                return $this->processCutomUploadHandler($request, $handler);
+                return $this->processCustomUploadHandler($request, $handler);
             } else {
                 list($namespace, $prefix) = $this->parser($handler);
                 $this->app['upload.namespace'] = $namespace;
@@ -178,7 +178,7 @@ class Upload extends BackendBase
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    private function processCutomUploadHandler(Request $request, array $handler)
+    private function processCustomUploadHandler(Request $request, array $handler)
     {
         list($namespace, $prefix) = $this->parser($handler[0]);
         $this->app['upload.namespace'] = $namespace;
