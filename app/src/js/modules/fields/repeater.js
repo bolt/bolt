@@ -28,7 +28,7 @@
      * @param {Object} fieldset
      */
     repeater.init = function (fieldset) {
-        $(fieldset).on('click', '.repeater-add a', function (evt){
+        $(fieldset).on('click', '.add-button', function () {
             var template = $(fieldset).find('script[type="text/template"]').html(),
                 slot = $(fieldset).find('.repeater-slot'),
                 newSet = clone($(template));
@@ -36,20 +36,18 @@
             slot.append(newSet);
             bolt.fields.init(newSet);
             bolt.buic.init(newSet);
-            e.preventDefault();
         });
 
-        $(fieldset).on('click', '.duplicate-button', function (evt){
+        $(fieldset).on('click', '.duplicate-button', function () {
             var setToDuplicate = $(this).closest('.repeater-group'),
                 duplicatedSet = clone(setToDuplicate);
 
             setToDuplicate.after(duplicatedSet);
             bolt.fields.init(duplicatedSet);
             bolt.buic.init(duplicatedSet);
-            e.preventDefault();
         });
 
-        $(fieldset).on('click', '.delete-button', function(){
+        $(fieldset).on('click', '.delete-button', function () {
             var setToDelete = $(this).closest('.repeater-group');
 
             setToDelete.remove();
