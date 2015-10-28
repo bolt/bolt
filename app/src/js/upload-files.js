@@ -186,7 +186,7 @@ var FilelistHolder = Backbone.View.extend({
             distance: 5
         });
 
-        Bolt.uploads.bindUploadList(this, contentkey);
+        Bolt.uploads.bindUpload(contentkey, this);
 
         var lastClick = null;
         $holder.find('div.list').on('click', '.list-item', function (e) {

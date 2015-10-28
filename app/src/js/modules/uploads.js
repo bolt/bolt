@@ -75,75 +75,44 @@
      * @function bindUpload
      * @memberof Bolt.uploads
      * @param {string} key
-     */
-    uploads.bindUpload = function (key) {
-        var progress = $('#fileupload-' + key).closest('fieldset').find('.buic-progress');
-
-        $('#fileupload-' + key)
-            .fileupload(
-                uploadOptions(key, '#dropzone-' + key)
-            )
-            .on('fileuploaddone', function (evt, data) {
-                fileuploadDone(key, data);
-            })
-            .on('fileuploadprocessfail', function (evt, data) {
-                fileuploadProcessFail(key, data);
-            })
-            .on('fileuploadsubmit', function (evt, data) {
-                $.each(data.files, function () {
-                    $(progress).trigger('buic:progress-add', [this.name]);
-                });
-            })
-            .on('fileuploadalways', function (evt, data) {
-                $.each(data.files, function () {
-                    $(progress).trigger('buic:progress-remove', [this.name]);
-                });
-            })
-            .on('fileuploadprogress', function (evt, data) {
-                $.each(data.files, function () {
-                    $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
-                });
-            });
-    };
-
-    /**
-     * Sets up the handlers for the upload list along with drag and drop functionality.
-     *
-     * @static
-     * @function bindUploadList
-     * @memberof Bolt.uploads
      * @param {FilelistHolder} list
-     * @param {string} key
      */
-    uploads.bindUploadList = function (list, key) {
+    uploads.bindUpload = function (key, list) {
         var progress = $('#fileupload-' + key).closest('fieldset').find('.buic-progress');
 
         $('#fileupload-' + key)
             .fileupload(
-                uploadOptions(key, list.idPrefix + list.id)
+                uploadOptions(key, list ? list.idPrefix + list.id : '#dropzone-' + key)
             )
             .on('fileuploaddone', function (evt, data) {
-                list.uploadDone(data.result);
+                if (list) {
+                    list.uploadDone(data.result);
+                } else {
+                    fileuploadDone(key, data);
+                }
             })
             .on('fileuploadprocessfail', function (evt, data) {
                 fileuploadProcessFail(key, data);
             })
-            .on('fileuploadprogress', function (evt, data) {
-                $.each(data.files, function () {
-                    $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
-                });
-            })
             .on('fileuploadsubmit', function (evt, data) {
-                list.uploadSubmit(data.files);
-
+                if (list) {
+                    list.uploadSubmit(data.files);
+                }
                 $.each(data.files, function () {
                     $(progress).trigger('buic:progress-add', [this.name]);
                 });
             })
             .on('fileuploadalways', function (evt, data) {
-                list.uploadAlways(data.files);
+                if (list) {
+                    list.uploadAlways(data.files);
+                }
                 $.each(data.files, function () {
                     $(progress).trigger('buic:progress-remove', [this.name]);
+                });
+            })
+            .on('fileuploadprogress', function (evt, data) {
+                $.each(data.files, function () {
+                    $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
                 });
             });
     };
