@@ -27,10 +27,10 @@
      * @param {Object} fieldset
      * @param fconf
      */
-    html.init = function (fieldset, fconf) {
+    html.init = function (fieldset) {
         $(fieldset).find('.ckeditor').each(function(){
             bolt.ckeditor.add(this);
-        })
+        });
     };
 
     // Apply mixin container
