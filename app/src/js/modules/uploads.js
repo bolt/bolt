@@ -90,20 +90,20 @@
                 fileuploadProcessFail(key, data);
             })
             .on('fileuploadsubmit', function (evt, data) {
-                $.each(data.files, function (idx, file) {
-                    $(progress).trigger('buic:progress-add', [file.name]);
+                $.each(data.files, function () {
+                    $(progress).trigger('buic:progress-add', [this.name]);
                 });
             })
             .on('fileuploadalways', function (evt, data) {
-                $.each(data.files, function (idx, file) {
-                    $(progress).trigger('buic:progress-remove', [file.name]);
+                $.each(data.files, function () {
+                    $(progress).trigger('buic:progress-remove', [this.name]);
                 });
             })
             .on('fileuploadprogress', function (evt, data) {
                 fileuploadProgress(key, data);
 
-                $.each(data.files, function (idx, file) {
-                    $(progress).trigger('buic:progress-set', [file.name, data.loaded / data.total]);
+                $.each(data.files, function () {
+                    $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
                 });
             });
     };
@@ -137,21 +137,21 @@
                     progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
                 });
 
-                $.each(data.files, function (idx, file) {
-                    $(progress).trigger('buic:progress-set', [file.name, data.loaded / data.total]);
+                $.each(data.files, function () {
+                    $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
                 });
             })
             .on('fileuploadsubmit', function (evt, data) {
                 list.uploadSubmit(data.files);
 
-                $.each(data.files, function (idx, file) {
-                    $(progress).trigger('buic:progress-add', [file.name]);
+                $.each(data.files, function () {
+                    $(progress).trigger('buic:progress-add', [this.name]);
                 });
             })
             .on('fileuploadalways', function (evt, data) {
                 list.uploadAlways(data.files);
-                $.each(data.files, function (idx, file) {
-                    $(progress).trigger('buic:progress-remove', [file.name]);
+                $.each(data.files, function () {
+                    $(progress).trigger('buic:progress-remove', [this.name]);
                 });
             });
     };
