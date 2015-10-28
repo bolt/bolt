@@ -18,19 +18,6 @@
 
 {{ data('field.filelist.template.item', template_item|trim|preg_replace('/>\\s+</', '><')) }}
 
-{### Template: Progress ###}
-
-{% set template_progress %}
-    <div class="uploading-list-element">
-        {{ __('Uploading') }} %FNAME%
-        <div class="progress files-progress progress-striped active">
-            <div class="progress-bar"></div>
-        </div>
-    </div>
-{% endset %}
-
-{{ data('field.filelist.template.progress', template_progress|trim|preg_replace('/>\\s+</', '><')) }}
-
 {### Messages ###}
 
 {{ data('field.filelist.message.remove', __('Are you sure you want to remove this file?')) }}

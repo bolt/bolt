@@ -19,67 +19,51 @@
     var uploads = {};
 
     /**
-     * Initializes the mixin.
-     *
-     * @static
-     * @function init
-     * @memberof Bolt.uploads
-     */
-    uploads.init = function () {
-
-    };
-
-    /**
      * This function handles the setup of any field that requires upload capability.
      *
      * @static
      * @function bindField
      * @memberof Bolt.uploads
-     * @param element
+     * @param {Object} element
+     * @param {Object} conf
      */
-    uploads.bindField = function (element) {
-        $('input[data-upload]', element).each(function () {
-            var data = $(this).data('upload');
-            var accept = $(this).attr('accept');
-            accept = accept ? accept.replace(/\./g, '') : '';
-            var autocomplete_conf;
-            switch (data.type) {
-                case 'Image':
-                case 'File':
-                    uploads.bindUpload(data.key);
+    uploads.bindField = function (element, conf) {
+        uploads.bindUpload(conf.key);
 
-                    autocomplete_conf = {
-                        source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
-                        minLength: 2
-                    };
-                    if (data.type === 'Image') {
-                        autocomplete_conf.close = function () {
-                            var path = $('#field-' + data.key).val(),
-                                url;
+        // Setup autocomplete popup.
+        var accept = ($(element).find('input[accept]').prop('accept') || '').replace(/\./g, '');
 
-                            if (path) {
-                                url = bolt.conf('paths.root') +'thumbs/' + data.width + 'x' + data.height + 'c/' +
-                                    encodeURI(path);
-                            } else {
-                                url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
-                            }
-                            $('#thumbnail-' + data.key).html(
-                                '<img src="'+ url + '" width="' + data.width + '" height="' + data.height + '">'
-                            );
-                        };
-                    }
-                    $('#field-' + data.key).autocomplete(autocomplete_conf);
-                    break;
-
-                case 'ImageList':
-                    bolt.imagelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
-                    break;
-
-                case 'FileList':
-                    bolt.filelist[data.key] = new FilelistHolder({id: data.key, type: data.type});
-                    break;
+        $('#field-' + conf.key).autocomplete({
+            source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
+            minLength: 2,
+            close: function () {
+                $('#field-' + conf.key).trigger('change');
             }
         });
+    };
+
+    /**
+     * Setup upload capability of file lists.
+     *
+     * @static
+     * @function bindFileList
+     * @memberof Bolt.uploads
+     * @param {string} key
+     */
+    uploads.bindFileList = function (key) {
+        bolt.filelist[key] = new FilelistHolder({id: key, type: 'filelist'});
+    };
+
+    /**
+     * Setup upload capability of image lists.
+     *
+     * @static
+     * @function bindImageList
+     * @memberof Bolt.uploads
+     * @param {string} key
+     */
+    uploads.bindImageList = function (key) {
+        bolt.imagelist[key] = new FilelistHolder({id: key, type: 'imagelist'});
     };
 
     /**
@@ -90,101 +74,168 @@
      * @static
      * @function bindUpload
      * @memberof Bolt.uploads
-     * @param key
+     * @param {string} key
+     * @param {FilelistHolder} list
      */
-    uploads.bindUpload = function (key) {
-        // Since jQuery File Upload's 'paramName' option seems to be ignored,
-        // it requires the name of the upload input to be "images[]". Which clashes
-        // with the non-fancy fallback, so we hackishly set it here. :-/
+    uploads.bindUpload = function (key, list) {
+        var progress = $('#fileupload-' + key).closest('fieldset').find('.buic-progress');
+
         $('#fileupload-' + key)
-            .fileupload({
-                dataType: 'json',
-                dropZone: $('#dropzone-' + key),
-                done: function (e, data) {
-                    $.each(data.result, function (index, file) {
-                        var filename, message;
-
-                        if (file.error === undefined) {
-                            filename = decodeURI(file.url).replace('files/', '');
-                            $('#field-' + key).val(filename);
-                            $('#thumbnail-' + key).html('<img src="' + bolt.conf('paths.root') + 'thumbs/200x150c/' +
-                                encodeURI(filename) + '" width="200" height="150">');
-                            window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 1500);
-
-                            // Add the uploaded file to our stack.
-                            bolt.stack.addToStack(filename);
-
-                        } else {
-                            message = "Oops! There was an error uploading the file. Make sure the file is not " +
-                                "corrupt, and that the 'files/'-folder is writable." +
-                                "\n\n(error was: " + file.error + ")";
-
-                            alert(message);
-                            window.setTimeout(function () { $('#progress-' + key).fadeOut('slow'); }, 50);
-                        }
-                        $('#progress-' + key + ' div.bar').css('width', "100%");
-                        $('#progress-' + key).removeClass('progress-striped active');
-                    });
-                },
-                add: uploads.checkFileSize
+            .fileupload(
+                uploadOptions(key, list ? list.idPrefix + list.id : '#dropzone-' + key)
+            )
+            .on('fileuploaddone', function (evt, data) {
+                if (list) {
+                    list.uploadDone(data.result);
+                } else {
+                    fileuploadDone(key, data);
+                }
             })
-            .bind('fileuploadprogress', function (e, data) {
-                var progress = Math.round(100 * data.loaded / data.total);
-
-                $('#progress-' + key).show().addClass('progress-striped active');
-                $('#progress-' + key + ' div.progress-bar').css('width', progress + "%");
+            .on('fileuploadprocessfail', function (evt, data) {
+                fileuploadProcessFail(key, data);
+            })
+            .on('fileuploadsubmit', function (evt, data) {
+                if (list) {
+                    list.uploadSubmit(data.files);
+                }
+                $.each(data.files, function () {
+                    $(progress).trigger('buic:progress-add', [this.name]);
+                });
+            })
+            .on('fileuploadalways', function (evt, data) {
+                if (list) {
+                    list.uploadAlways(data.files);
+                }
+                $.each(data.files, function () {
+                    $(progress).trigger('buic:progress-remove', [this.name]);
+                });
+            })
+            .on('fileuploadprogress', function (evt, data) {
+                $.each(data.files, function () {
+                    $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
+                });
             });
     };
 
+    /**
+     * Returns an upload option object.
+     *
+     * @private
+     * @function uploadOptions
+     * @memberof Bolt.uploads
+     * @param {string} key
+     * @param {string} dropzone
+     * @returns {Object}
+     */
+    function uploadOptions(key, dropzone) {
+        var maxSize = bolt.conf('uploadConfig.maxSize'),
+            accept = $('#fileupload-' + key).attr('accept'),
+            extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
+            pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i');
+
+        return {
+            dataType: 'json',
+            dropZone: $(dropzone),
+            pasteZone: null,
+            maxFileSize: maxSize > 0 ? maxSize : undefined,
+            minFileSize: undefined,
+            acceptFileTypes: accept ? pattern : undefined,
+            maxNumberOfFiles: undefined,
+            messages: {
+                maxFileSize: '>:' + humanBytes(maxSize),
+                minFileSize: '<',
+                acceptFileTypes: 'T:.' + extensions.join(', .'),
+                maxNumberOfFiles: '#'
+            }
+        };
+    }
 
     /**
-     * This function works at a lower level than the bindField function, it sets up the handlers for the upload
-     * button along with drag and drop functionality. To do this it uses the `key` parameter which needs to
-     * be a unique ID.
+     * Upload processing failed.
      *
-     * @static
-     * @function checkFileSize
+     * @private
+     * @function fileuploadProcessFail
      * @memberof Bolt.uploads
-     * @param event
-     * @param data
+     * @param {Object} event
+     * @param {Object} data
      */
-    uploads.checkFileSize = function (event, data) {
-        // The jQuery upload doesn't expose an API to cover an entire upload set. So we keep "bad" files
-        // in the data.originalFiles, which is the same between multiple files in one upload set.
-        var badFiles = [];
+    function fileuploadProcessFail(event, data) {
+        var currentFile = data.files[data.index],
+                type = currentFile.error.substr(0, 1),
+                alert,
+                context = {
+                    '%FILENAME%': currentFile.name,
+                    '%FILESIZE%': humanBytes(currentFile.size),
+                    '%FILETYPE%': currentFile.type,
+                    '%ALLOWED%': currentFile.error.substr(2)
+                };
 
-        if (typeof data.originalFiles.bad === 'undefined') {
-            data.originalFiles.bad = [];
+        switch (type) {
+            case '>':
+                alert = bolt.data('field.uploads.template.large-file', context);
+                break;
+
+            case 'T':
+                alert = bolt.data('field.uploads.template.wrong-type', context);
+                break;
+
+            default:
+                alert = '<p>' + currentFile.error + '</p>';
+        }
+        bootbox.alert(alert);
+    }
+
+    /**
+     * Human readable formatted bytes.
+     *
+     * @private
+     * @function humanBytes
+     * @memberof Bolt.uploads
+     *
+     * @param {integer} val - Value to format.
+     */
+    function humanBytes(val) {
+        var units = ' kMGTPEZY',
+            u = -1;
+
+        while (++u < 8 && Math.abs(val) >= 1000) {
+            val /= 1000;
         }
 
-        _.each(data.files, function (file) {
-            if ((file.size || 0) > bolt.conf('uploadConfig.maxSize') && bolt.conf('uploadConfig.maxSize') > 0) {
-                badFiles.push(file.name);
-                data.originalFiles.bad.push(file.name);
+        if (!!(typeof Intl === 'object' && Intl && typeof Intl.NumberFormat === 'function')) {
+            val = val.toLocaleString(
+                bolt.conf('locale.long').replace(/_/g, '-'),
+                {maximumSignificantDigits: 3}
+            );
+        } else {
+            val = val.toFixed(2);
+        }
+
+        return val + ' ' + units[u].trim() + 'B';
+    }
+
+    /**
+     * Callback for successful upload requests.
+     *
+     * @private
+     * @function fileuploadDone
+     * @memberof Bolt.uploads
+     *
+     * @param {string} key - Key.
+     * @param {Object} data - Data.
+     */
+    function fileuploadDone(key, data) {
+        $.each(data.result, function (idx, file) {
+            if (file.error) {
+                bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
+            } else {
+                $('#field-' + key).val(file.name).trigger('change');
+
+                // Add the uploaded file to our stack.
+                bolt.stack.addToStack(file.name);
             }
         });
-
-        if (data.originalFiles.bad.length > 0) {
-            var filename1 = data.files[data.files.length - 1].name;
-            var filename2 = data.originalFiles[data.originalFiles.length - 1].name;
-
-            if (filename1 === filename2) {
-                // We're at the end of this upload cycle
-                var message = 'One or more of the files that you selected was larger than the max size of ' +
-                    bolt.conf('uploadConfig.maxSizeNice') + ":\n\n" +
-                    data.originalFiles.bad.join("\n");
-
-                alert(message);
-            }
-        }
-
-        if (badFiles.length === 0) {
-            data.submit();
-        }
-    };
-
-
-
+    }
 
     // Apply mixin container
     bolt.uploads = uploads;

@@ -188,6 +188,9 @@
         $('.buic-moment').each(function () {
             bolt.buic.moment.init(this);
         });
+        $('.buic-progress').each(function () {
+            bolt.buic.progress.init(this);
+        });
         $('.buic-select').each(function () {
             bolt.buic.select.init(this);
         });

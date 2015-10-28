@@ -20,6 +20,8 @@ module.exports = {
             src: [
                 '<%= path.src.lib %>/bootstrap-file-input/bootstrap-file-input.js',
                 '<%= path.src.bower %>/blueimp-file-upload/js/jquery.fileupload.js',
+                '<%= path.src.bower %>/blueimp-file-upload/js/jquery.fileupload-process.js',
+                '<%= path.src.bower %>/blueimp-file-upload/js/jquery.fileupload-validate.js',
                 '<%= path.src.bower %>/blueimp-file-upload/js/jquery.iframe-transport.js',
                 '<%= path.src.lib %>/jquery-hotkeys/jquery-hotkeys.js',
                 '<%= path.tmp %>/modernizr-custom.js',

@@ -43,14 +43,13 @@ var FilelistHolder = Backbone.View.extend({
         this.list = new Filelist();
         this.uploading = new Filelist();
         this.type = options.type;
-        if (options.type === 'ImageList') {
+        if (options.type === 'imagelist') {
             this.idPrefix = '#imagelist-';
             this.datWrongtype = 'field.imagelist.message.wrongtype';
             this.datRemove = 'field.imagelist.message.remove';
             this.datRemoveMulti = 'field.imagelist.message.removeMulti';
             this.tmplEmpty = 'field.imagelist.template.empty';
             this.tmplItem = 'field.imagelist.template.item';
-            this.tmplProgress = 'field.imagelist.template.progress';
         } else {
             this.idPrefix = '#filelist-';
             this.datWrongtype = 'field.filelist.message.wrongtype';
@@ -58,7 +57,6 @@ var FilelistHolder = Backbone.View.extend({
             this.datRemoveMulti = 'field.filelist.message.removeMulti';
             this.tmplEmpty = 'field.filelist.template.empty';
             this.tmplItem = 'field.filelist.template.item';
-            this.tmplProgress = 'field.filelist.template.progress';
         }
 
         var prelist = $('#' + this.id).val();
@@ -83,9 +81,7 @@ var FilelistHolder = Backbone.View.extend({
 
         var list = $(this.idPrefix + this.id + ' .list'),
             listtype = this.type,
-            tmplItem = this.tmplItem,
-            tmplProgress = this.tmplProgress,
-            progress = $(this.idPrefix + this.id + ' .uploading-list');
+            tmplItem = this.tmplItem;
 
         list.html('');
         _.each(this.list.models, function (file) {
@@ -97,28 +93,10 @@ var FilelistHolder = Backbone.View.extend({
                 },
                 element = $(Bolt.data(tmplItem, replace));
 
-            if (listtype === 'ImageList') {
+            if (listtype === 'imagelist') {
                 element.find('.thumbnail-link').magnificPopup({type: 'image'});
             }
             list.append(element);
-        });
-
-        progress.html('');
-        if (_.isEmpty(this.uploading.models)) {
-            progress.addClass('hide');
-        } else {
-            progress.removeClass('hide');
-        }
-        _.each(this.uploading.models, function (file) {
-            var replace = {
-                    '%FNAME%':    file.get('filename')
-                },
-                element = $(Bolt.data(tmplProgress, replace)),
-                progressBar = element.find('.progress-bar');
-
-            progressBar.css('width', Math.round((file.progress || 0) * 100) + '%');
-            file.element = element;
-            progress.append(element);
         });
 
         if (this.list.models.length === 0) {
@@ -208,60 +186,7 @@ var FilelistHolder = Backbone.View.extend({
             distance: 5
         });
 
-        $('#fileupload-' + contentkey)
-            .fileupload({
-                dataType: 'json',
-                dropZone: $holder,
-                pasteZone: null,
-                done: function (e, data) {
-                    $.each(data.result, function (index, file) {
-                        var filename = decodeURI(file.url).replace("files/", "");
-                        $this.add(filename, filename);
-                    });
-                },
-                add: Bolt.uploads.checkFileSize
-            })
-            .bind('fileuploadsubmit', function (e, data) {
-                var fileTypes = $('#fileupload-' + contentkey).attr('accept'),
-                    pattern,
-                    ldata = $($this.idPrefix + contentkey + ' div.list').data('list');
-
-                if (typeof fileTypes !== 'undefined') {
-                    pattern = new RegExp("\\.(" + fileTypes.replace(/,/g, '|').replace(/\./g, '') + ")$", "i");
-                    $.each(data.files , function (index, file) {
-                        if (!pattern.test(file.name)) {
-                            alert(Bolt.data($this.datWrongtype, {'%TYPELIST%': ldata.typelist}));
-                            e.preventDefault();
-
-                            return false;
-                        }
-
-                        var uploadingFile = new FileModel({
-                            filename: file.name
-                        });
-                        file.uploading = uploadingFile;
-
-                        $this.uploading.add(uploadingFile);
-                    });
-                }
-
-                $this.render();
-            })
-            .bind('fileuploadprogress', function (e, data) {
-                var progress = data.loaded / data.total;
-
-                _.each(data.files, function (file) {
-                    file.uploading.progress = progress;
-                    var progressBar = file.uploading.element.find('.progress-bar');
-                    progressBar.css('width', Math.round(file.uploading.progress * 100) + '%');
-                });
-            })
-            .bind('fileuploadalways', function (e, data) {
-                _.each(data.files, function (file) {
-                    $this.uploading.remove(file.uploading);
-                });
-                $this.render();
-            });
+        Bolt.uploads.bindUpload(contentkey, this);
 
         var lastClick = null;
         $holder.find('div.list').on('click', '.list-item', function (e) {
@@ -315,7 +240,7 @@ var FilelistHolder = Backbone.View.extend({
             $this.doneSort();
         });
 
-        if (this.type === 'ImageList') {
+        if (this.type === 'imagelist') {
             // In the modal dialog, to navigate folders.
             $('#selectImageModal-' + contentkey).on('click', '.folder', function (e) {
                 e.preventDefault();
@@ -329,6 +254,36 @@ var FilelistHolder = Backbone.View.extend({
                 $this.add(filename, filename);
             });
         }
-    }
+    },
 
+    uploadDone: function (result) {
+        var that = this;
+
+        $.each(result, function (idx, file) {
+            that.add(file.name, file.name);
+        });
+    },
+
+    uploadSubmit: function (files) {
+        var that = this;
+
+        $.each(files, function (idx, file) {
+            file.uploading = new FileModel({
+                filename: file.name
+            });
+            that.uploading.add(file.uploading);
+        });
+
+       this.render();
+    },
+
+    uploadAlways: function (files) {
+        var that = this;
+
+        $.each(files, function (idx, file) {
+            that.uploading.remove(file.uploading);
+        });
+
+        this.render();
+    }
 });
