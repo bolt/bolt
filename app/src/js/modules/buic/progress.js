@@ -56,7 +56,7 @@
      *
      * @param {Object} progress - The progress bar container to add to.
      * @param {string} label - The label.
-     * @param {integer} value - An integer between 0 and 100.
+     * @param {float} value - A float between 0 and 1.
      */
     function add(progress, label, value) {
         var bar = $(bolt.data('buic.progress.bar'));
@@ -107,10 +107,11 @@
      * @memberof Bolt.buic.progress
      *
      * @param {Object} bar - The progress bar to set.
-     * @param {integer} value - An integer between 0 and 100.
+     * @param {float} value - A float between 0 and 1.
      */
     function setValue(bar, value) {
-        value = Math.min(100, Math.max(0, parseInt(value)));
+        value = parseFloat(value);
+        value = isNaN(value) ? 0 : Math.min(100, Math.max(0, Math.round(value * 100)));
 
         $(bar).find('.progress-bar')
             .attr('aria-valuenow', value)
