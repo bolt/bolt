@@ -126,7 +126,7 @@ trait AssetTrait
      */
     private function getCompatibleArgs(array $args)
     {
-        if (!is_array($args[1])) {
+        if (empty($args[1]) || !is_array($args[1])) {
             return [
                 'late'     => isset($args[1]) ? $args[1] : false,
                 'priority' => isset($args[2]) ? $args[2] : 0,
