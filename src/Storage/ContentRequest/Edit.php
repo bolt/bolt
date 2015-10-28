@@ -328,7 +328,9 @@ class Edit
             'meta' => true
         ];
 
-        foreach ([$contenttype['fields'], $content->getTemplatefields() ?: []] as $fields) {
+        $templateFields = $content->getTemplatefields()->getContenttype()->getFields() ?: [];
+
+        foreach ([$contenttype['fields'], $templateFields] as $fields) {
             foreach ($fields as $field) {
                 $fieldtypes[$field['type']] = true;
             }
