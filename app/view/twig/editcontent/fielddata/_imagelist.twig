@@ -20,11 +20,6 @@
 
 {{ data('field.imagelist.template.item', template_item|trim|preg_replace('/>\\s+</', '><')) }}
 
-{### Templates: Upload errors + buic.progress  ###}
-
-{% include '@bolt/editcontent/fielddata/_uploads.twig' %}
-{% include '@bolt/editcontent/fielddata/_buic-progress.twig' %}
-
 {### Messages ###}
 
 {{ data('field.imagelist.message.remove',      __('Are you sure you want to remove this image?')) }}
