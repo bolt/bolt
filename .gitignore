@@ -34,7 +34,7 @@ npm-debug.log
 .sass-cache
 app/src/tmp/
 app/src/docs/
-app/src/grunt-local/
+app/src/grunt-local/*.js
 
 # Sourcemaps
 app/view/maps/
