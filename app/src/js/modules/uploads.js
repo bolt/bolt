@@ -100,8 +100,6 @@
                 });
             })
             .on('fileuploadprogress', function (evt, data) {
-                fileuploadProgress(key, data);
-
                 $.each(data.files, function () {
                     $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
                 });
@@ -244,34 +242,7 @@
                 // Add the uploaded file to our stack.
                 bolt.stack.addToStack(file.name);
             }
-
-            // Progress bar
-            window.setTimeout(
-                function () {
-                    $('#progress-' + key).fadeOut('slow');
-                },
-                file.error ? 50 : 1500
-            );
-            $('#progress-' + key + ' div.bar').css('width', '100%');
-            $('#progress-' + key).removeClass('progress-striped active');
         });
-    }
-
-    /**
-     * Callback for upload progress events.
-     *
-     * @private
-     * @function fileuploadProgress
-     * @memberof Bolt.uploads
-     *
-     * @param {string} key - Key.
-     * @param {Object} data - Data.
-     */
-    function fileuploadProgress(key, data) {
-        var progress = Math.round(100 * data.loaded / data.total);
-
-        $('#progress-' + key).show().addClass('progress-striped active');
-        $('#progress-' + key + ' div.progress-bar').css('width', progress + '%');
     }
 
     // Apply mixin container
