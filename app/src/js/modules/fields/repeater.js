@@ -29,11 +29,11 @@
      */
     repeater.init = function (fieldset) {
         var addButton = $(fieldset).find('.repeater-add a'),
-            template = $(fieldset).find('script[type="text/template"]'),
             slot = $(fieldset).find('.repeater-slot');
 
         addButton.on('click', function (evt){
-            var newSet = $(template).clone();
+            var template = $(fieldset).find('script[type="text/template"]').html(),
+                newSet = clone($(template));
 
             slot.append(newSet);
             bolt.fields.init(newSet);
@@ -43,7 +43,7 @@
 
         $(fieldset).on('click', '.duplicate-button', function (evt){
             var setToDuplicate = $(this).closest('.repeater-group'),
-                duplicatedSet = $(setToDuplicate[0]).clone();
+                duplicatedSet = clone(setToDuplicate);
 
             setToDuplicate.after(duplicatedSet);
             bolt.fields.init(duplicatedSet);
@@ -57,6 +57,22 @@
             setToDelete.remove();
         });
     };
+
+    /**
+     * Clones a template or a repeater and initializes it.
+     *
+     * @private
+     * @function clone
+     * @memberof Bolt.fields.repeater
+     *
+     * @param {Object} template
+     * @return {Object}
+     */
+    function clone(template) {
+        var cloned = $(template).clone();
+
+        return cloned;
+    }
 
     // Apply mixin container
     bolt.fields.repeater = repeater;
