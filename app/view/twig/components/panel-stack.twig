@@ -43,10 +43,10 @@
         {% endif %}
 
         <div class="btn-group">
-            <a href="{{ paths.async }}browse/files?key=stack" class="btn btn-tertiary" data-toggle="modal" data-target="#selectModal-stack">
+            <button type="button" data-modal-source="{{ paths.async }}browse/files?key=stack" class="btn btn-tertiary" data-toggle="modal" data-target="#modal-server-select">
                 <i class="fa fa-download"></i>
                 {{ __('Select') }}
-            </a>
+            </button>
         </div>
     </div>
 
@@ -58,13 +58,6 @@
         <div class="stackitem other info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
             <strong>HTML</strong>
             <small>index.html</small>
-        </div>
-    </div>
-
-    {# Modal "select from server" #}
-    <div class="modal fade" id="selectModal-stack" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content"></div>
         </div>
     </div>
 

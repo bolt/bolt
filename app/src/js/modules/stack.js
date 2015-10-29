@@ -41,10 +41,22 @@
             elements = elements.add($($(this).data('target')));
         });
 
+        // Load file browser modal.
         $(elements).on(
-            'loaded.bs.modal',
-            function () {
-                bolt.actions.init();
+            'show.bs.modal',
+            function (event) {
+                var modal = $(this),
+                    button = $(event.relatedTarget),
+                    remote = button.data('modal-source');
+
+                modal
+                    .find('.modal-content')
+                    .load(remote, function (responseText, textStatus) {
+                        if (textStatus === 'success' || textStatus === 'notmodified') {
+                            bolt.actions.init();
+                            modal.show();
+                        }
+                    });
             }
         );
 
@@ -147,9 +159,7 @@
         }
 
         // Close the modal dialog, if this image/file was selected through one.
-        if ($('#selectModal-' + key).is('*')) {
-            $('#selectModal-' + key).modal('hide');
-        }
+        $('#modal-server-select').modal('hide');
 
         // If we need to place it on the stack as well, do so.
         if (key === 'stack') {
@@ -167,11 +177,11 @@
      * @function changeFolder
      * @memberof Bolt.stack
      *
-     * @param {string} key - Id of the file selector
      * @param {string} folderUrl - The URL command string to change the folder
      */
-    stack.changeFolder = function (key, folderUrl) {
-        $('#selectModal-' + key + ' .modal-content').load(folderUrl, function() {
+    stack.changeFolder = function (folderUrl) {
+        $('#modal-server-select .modal-content').load(folderUrl, function () {
+            console.log('stack.changeFolder: '+folderUrl);
             bolt.actions.init();
         });
     };

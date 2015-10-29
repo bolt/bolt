@@ -57,13 +57,6 @@
         {# Uploadbuttons #}
         {{ macro.upload_buttons('file', key, attributes.upload, option.upload, can_upload) }}
 
-        {# Modal "select from server" #}
-        <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content"></div>
-            </div>
-        </div>
-
         {# Infotext #}
         {% if not ismobileclient() %}
             <div class="hidden-xs"><label>{{ app.translator.trans('info.upload.filesmall', {}, 'infos') }}</label></div>
