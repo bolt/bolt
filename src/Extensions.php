@@ -935,7 +935,7 @@ class Extensions
     public function insertEndOfHead($tag, $html)
     {
         // first, attempt to insert it before the </head> tag, matching indentation.
-        if (preg_match("~^([ \t]*)</head~mi", $html, $matches)) {
+        if (preg_match("~([ \t]*)</head~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
@@ -961,7 +961,7 @@ class Extensions
     public function insertEndOfBody($tag, $html)
     {
         // first, attempt to insert it before the </body> tag, matching indentation.
-        if (preg_match("~^([ \t]*)</body~mi", $html, $matches)) {
+        if (preg_match("~([ \t]*)</body~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
@@ -987,7 +987,7 @@ class Extensions
     public function insertEndOfHtml($tag, $html)
     {
         // first, attempt to insert it before the </body> tag, matching indentation.
-        if (preg_match("~^([ \t]*)</html~mi", $html, $matches)) {
+        if (preg_match("~([ \t]*)</html~mi", $html, $matches)) {
 
             // Try to insert it just before </head>
             $replacement = sprintf("%s\t%s\n%s", $matches[1], $tag, $matches[0]);
