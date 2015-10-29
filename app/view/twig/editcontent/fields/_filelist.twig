@@ -13,7 +13,6 @@
 {% set attributes = {
     fileupload: {
         accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
-        data_upload:  {type: 'FileList', key: key}|json_encode(),
         data_url:     url('upload', {'handler': option.upload}),
         id:           'fileupload-' ~ key,
         multiple:     true,
@@ -30,15 +29,13 @@
 
 {% set can_upload = context.can.upload and option.can_upload %}
 
-{#=== BLOCKS =========================================================================================================#}
-
-{% set listdata = {
-    'typelist':         option.extensions ? '.' ~ option.extensions|join(', .') : '–',
-} %}
-
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '@bolt/_base/_fieldset.twig' %}
+
+{% set fieldset_conf = {
+    key: key,
+}%}
 
 {% block fieldset_type 'filelist' %}
 
@@ -49,7 +46,10 @@
 {% block fieldset_controls %}
     <div class="col-xs-12 filelistholder dropzone" id="filelist-{{ key }}">
         {# Filelist #}
-        <div class="list" data-list="{{ listdata|json_encode }}"></div>
+        <div class="list"></div>
+
+        {# Progress info #}
+        <div class="buic-progress"></div>
 
         {# Buttons #}
         <div class="clearfix">
@@ -62,9 +62,6 @@
                 </button>
             </div>
         </div>
-
-        {# Progress info #}
-        <div class="uploading-list hide"></div>
 
         {# Data #}
         <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>

@@ -13,7 +13,6 @@
 {% set attributes = {
     fileupload: {
         accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
-        data_upload:  {type: 'ImageList', key: key}|json_encode(),
         data_url:     url('upload', {'handler': option.upload}),
         id:           'fileupload-' ~ key,
         multiple:     true,
@@ -28,26 +27,13 @@
     {% set list_json = '' %}
 {% endif %}
 
-{% set listdata = {
-    'typelist':         option.extensions ? '.' ~ option.extensions|join(', .') : '–',
-} %}
-
-{#=== BLOCKS =========================================================================================================#}
-
-{% import _self as block %}
-
-{# Modal "select from server" #}
-{% macro serverselect(key) %}
-    <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content"></div>
-        </div>
-    </div>
-{% endmacro %}
-
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '@bolt/_base/_fieldset.twig' %}
+
+{% set fieldset_conf = {
+    key: key,
+}%}
 
 {% block fieldset_type 'imagelist' %}
 
@@ -57,9 +43,13 @@
 
 {% block fieldset_controls %}
     <div class="col-xs-12 filelistholder dropzone" id="imagelist-{{ key }}">
+        {# Imagelist #}
+        <div class="list"></div>
 
-        <div class="list" data-list="{{ listdata|json_encode }}"></div>
+        {# Progress info #}
+        <div class="buic-progress"></div>
 
+        {# Buttons #}
         {% set can_upload = context.can.upload and option.can_upload %}
         <div class="clearfix">
             {{ macro.upload_buttons('image', key, attributes.fileupload, option.upload, can_upload) }}
@@ -74,9 +64,12 @@
             </div>
         </div>
 
-        <p class="uploading-list"></p>
-
-        {{ block.serverselect(key) }}
+        {# Modal "Select from server" #}
+        <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content"></div>
+            </div>
+        </div>
 
     </div>
 {% endblock fieldset_controls %}
