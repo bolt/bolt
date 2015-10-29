@@ -35,14 +35,8 @@
             $('#selectImageModal-stack .modal-content').load($(this).attr('href'));
         });
 
-        // Set data actions for async file modals.
-        var elements = $([]);
-        $('[data-toggle="modal"]').each(function () {
-            elements = elements.add($($(this).data('target')));
-        });
-
-        // Load file browser modal.
-        $(elements).on(
+        // Initialze file browser modal.
+        $('#modal-server-select').on(
             'show.bs.modal',
             function (event) {
                 var modal = $(this),
