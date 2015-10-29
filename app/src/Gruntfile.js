@@ -68,6 +68,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/fields/file.js',
                 '<%= path.src.js %>/modules/fields/filelist.js',
                 '<%= path.src.js %>/modules/fields/geolocation.js',
+                '<%= path.src.js %>/modules/fields/html.js',
                 '<%= path.src.js %>/modules/fields/image.js',
                 '<%= path.src.js %>/modules/fields/imagelist.js',
                 '<%= path.src.js %>/modules/fields/meta.js',

@@ -53,6 +53,19 @@
     };
 
     /**
+     * Initialise a new ckeditor element.
+     *
+     * @private
+     *
+     * @static
+     * @function add
+     * @memberof Bolt.ckeditor
+     */
+    ckeditor.add = function (element) {
+        cke.replace(element);
+    };
+
+    /**
      * Initialise CKEditor instances
      *
      * @public
