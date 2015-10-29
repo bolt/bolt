@@ -29,17 +29,19 @@
 
     <div class="stack-buttons">
         {% if context.canUpload %}
-        <div class="btn-group">
-            <span class="btn btn-tertiary fileinput-button">
-                <i class="fa fa-upload"></i>
-                <span>{{ __('Upload') }}</span>
-                <input id="fileupload-stack"
-                       type="file"
-                       name="files[]"
-                       data-url="{{ url('upload', {namespace: context.namespace}) }}"
-                       accept=".{{ context.filetypes|join(',.') }}">
-            </span>
-        </div>
+            <div class="btn-group">
+                <span class="btn btn-tertiary fileinput-button">
+                    <i class="fa fa-upload"></i>
+                    <span>{{ __('Upload') }}</span>
+                    <input id="fileupload-stack"
+                           type="file"
+                           name="files[]"
+                           data-url="{{ url('upload', {namespace: context.namespace}) }}"
+                           accept=".{{ context.filetypes|join(',.') }}">
+                </span>
+            </div>
+
+            <div class="buic-progress"></div>
         {% endif %}
 
         <div class="btn-group">
