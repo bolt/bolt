@@ -26,7 +26,7 @@ class Snippet implements AssetInterface
      */
     public function __toString()
     {
-        return $this->callback;
+        return (string) $this->callback;
     }
 
     /**
