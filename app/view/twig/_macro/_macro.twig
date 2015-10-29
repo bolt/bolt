@@ -219,7 +219,7 @@
                     {% for item in items %}
                         {% set info = item.filesize ~ (item.imagesize|default() ? ', ' ~ item.imagesize ~ ' px' : '') %}
                         <li>
-                            <a href="#" data-action="Bolt.stack.selectFromPulldown('{{ key }}', '{{ item.filepath }}');">
+                            <a href="#" data-action="Bolt.stack.select('{{ key }}', '{{ item.filepath }}');">
                                 {{ item.basename }} <small>({{ info }})</small>
                             </a>
                         </li>

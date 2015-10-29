@@ -55,7 +55,7 @@
                                     <i class="fa fa-fw fa-file-image-o"></i>
 
                                     {% if file.readable %}
-                                        <a href="#" data-action="Bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class="file">
+                                        <a href="#" data-action="Bolt.stack.select('{{ context.key }}', '{{ file.relativepath }}');" class="file">
                                             <b>{{ file.filename|excerpt(80)|shy }}</b>
                                         </a>
                                     {% else %}
@@ -83,7 +83,7 @@
                                     <i class="fa fa-fw fa-file-image-o"></i>
 
                                     {% if file.readable %}
-                                        <a href="#" data-action="Bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class="file">
+                                        <a href="#" data-action="Bolt.stack.select('{{ context.key }}', '{{ file.relativepath }}');" class="file">
                                             <b>{{ file.filename|excerpt(80)|shy }}</b>
                                         </a>
                                     {% else %}

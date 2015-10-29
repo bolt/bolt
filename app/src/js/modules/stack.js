@@ -121,13 +121,13 @@
      * Select file in modal file selector dialog.
      *
      * @static
-     * @function selectFromPulldown
+     * @function select
      * @memberof Bolt.stack
      *
      * @param {string} key - Id of the file selector
      * @param {string} path - Path to the selected file
      */
-    stack.selectFromPulldown = function (key, path) {
+    stack.select = function (key, path) {
         // For "normal" file and image fields.
         if ($('#field-' + key).is('*')) {
             $('#field-' + key).val(path).trigger('change');
