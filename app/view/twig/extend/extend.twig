@@ -59,7 +59,7 @@
                 <div class="install-container">
                         <div class="auto-search hide-block"></div>
                         <input type="text" name="check-package" placeholder="Extension name eg: bolt/widget">
-                        <a class="btn btn-tertiary check-package" data-request="check-package" data-toggle="modal" data-target="#installModal">
+                        <a class="btn btn-primary check-package" data-request="check-package" data-toggle="modal" data-target="#installModal">
                             <i class="icon-gears"></i> {{ __('page.extend.button.browse-versions') }}
                         </a>
 
@@ -137,26 +137,37 @@
                 <div class="panel-body">
                         <p><strong>{{ __('page.extend.message.check-for-updates') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-tertiary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="update-check">
+                            <a class="btn btn-secondary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="update-check">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-check') }}
                             </a>
                         </div>
                         <p>{{ __('page.extend.message.shows-updates') }}</p>
                         <hr>
-                        <p><strong>{{ __('page.extend.message.install-all-updates') }}</strong></p>
+                        <p><strong>{{ __('page.extend.message.maintenance') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-primary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="update-run">
+                            <a class="btn btn-default{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="update-run">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-all') }}
                             </a>
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li>
+                                    <a class="btn btn-default{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="install-run">
+                                        <i class="fa fa-download fa-fw"></i> {{ __('page.extend.button.install-all') }}
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
-                        <p>{{ __('page.extend.message.installs-updates') }}</p>
-                        <hr>
-                        <div class="btn-group">
-                            <a class="btn btn-primary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="install-run">
-                                <i class="fa fa-download fa-fw"></i> {{ __('page.extend.button.install-all') }}
-                            </a>
-                        </div>
-                        <p>{{ __('page.extend.message.installs-all-listed-packages') }}</p>
+                        <p>
+                            <strong>{{ __('page.extend.button.update-all') }}:</strong>
+                            {{ __('page.extend.message.installs-updates') }}
+                        </p>
+                        <p>
+                            <strong>{{ __('page.extend.button.install-all') }}:</strong>
+                            {{ __('page.extend.message.installs-all-listed-packages') }}
+                        </p>
                 </div>
             </div>
         </aside>
