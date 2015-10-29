@@ -16,9 +16,12 @@
 {% set preview_h = 150 %}
 
 {# Convert from old stored image format that is used until re-saved #}
-{% set image = (context.content.get(contentkey) is iterable) ? context.content.get(contentkey) : {'file': context.content.get(contentkey)} %}
+{% set image = (context.content.get(contentkey) is iterable)
+           ? context.content.get(contentkey)
+           : {'file': context.content.get(contentkey)}
+%}
 
-{% set attributes = {
+{% set hattr = {
     inp: {
         class:        option.class ~ ' imageinput wide',
         id:           'field-' ~ key,
@@ -34,55 +37,46 @@
         id:           'fileupload-' ~ key,
         name:         'files[]',
         type:         'file',
-    }
+    },
+
+    preview: {
+        alt:          'Preview',
+        height:       preview_h,
+        src:          context.content.get(contentkey) != ''
+                          ? image.file|thumbnail(preview_w, preview_h, 'c')
+                          : app.paths.app ~ 'view/img/default_empty_4x3.png',
+        width:        preview_w,
+    },
 } %}
 
+{% set attribute_fields = [] %}
+{% for attrib in option.attrib|default([]) %}
+    {% set aid = attrib|lower|replace({'alt text': 'alt'}) %}
 
-{#=== BLOCKS =========================================================================================================#}
+    {% if aid in ['title', 'alt'] %}
+        {% if aid == 'title' %}
+            {% set atitle = __('Title') %}
+        {% elseif aid == 'alt' %}
+            {% set atitle = __('Alt') %}
+        {% endif %}
 
-{% import _self as block %}
+        {% set uid = key ~ '-' ~ aid %}
 
-{% macro imagepath(labelkey, option, image, attr_inp) %}
-    {% import '@bolt/_macro/_macro.twig' as macro %}
-    <label>{{ __('Path to image file') }}</label>
-    <input{{ macro.attr(attr_inp) }}>
-{% endmacro %}
-
-{% macro attributes(key, option, image) %}
-    {% if option.attrib %}
-        {% for attrib in option.attrib %}
-            {% if attrib|lower == 'title' %}
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label for="{{ key }}-title">{{ __('Title') }}</label>
-                    </div>
-                    <div class="col-sm-10">
-                        <input type="text" name="{{ key }}[title]" id="{{ key }}-title" value="{{ image.title|default('') }}" class="form-control">
-                    </div>
-                </div>
-            {% endif %}
-            {% if attrib|lower in ['alt text', 'alt'] %}
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label for="{{ key }}-alt">{{ __('Alt') }}</label>
-                    </div>
-                    <div class="col-sm-10">
-                        <input type="text" name="{{ key }}[alt]" id="{{ key }}-alt" value="{{ image.alt|default('') }}" class="form-control">
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
+        {% set attribute_fields = attribute_fields|merge([{
+            title: atitle,
+            label: {
+                for:    uid
+            },
+            input: {
+                class:  'form-control',
+                id:     uid,
+                name:   key ~ '[' ~ aid ~ ']',
+                type:   'text',
+                value:  image[aid]|default(''),
+            }
+        }]) %}
     {% endif %}
-{% endmacro %}
-
-{# Modal "select from server" #}
-{% macro serverselect(key) %}
-    <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content"></div>
-        </div>
-    </div>
-{% endmacro %}
+{% endfor %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -107,32 +101,42 @@
                 {# Path #}
                 <div class="form-group form-group-first">
                     <div class="col-sm-12">
-                        {{ block.imagepath(labelkey, option, image, attributes.inp) }}
+                        <label>{{ __('Path to image file') }}</label><input{{ hattr(hattr.inp) }}>
                     </div>
                 </div>
 
-                {# Attributes #}
-                {{ block.attributes(key, option, image) }}
+                {# Attribute fields #}
+                {% for afield in attribute_fields %}
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label{{ hattr(afield.label) }}>{{ afield.title }}</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input{{ hattr(afield.input) }}>
+                        </div>
+                    </div>
+                {% endfor %}
 
                 {# Progressbar #}
                 <div class="buic-progress"></div>
 
                 {# Uploadbuttons #}
-                {% set can_upload = context.can.upload and option.can_upload %}
-                {{ macro.upload_buttons('image', key, attributes.upload, option.upload, can_upload) }}
-                {{ block.serverselect(key, __('Cancel')) }}
+                {{ macro.upload_buttons('image', key, hattr.upload, option.upload, context.can.upload and option.can_upload) }}
+
+                {# Modal "select from server" #}
+                <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content"></div>
+                    </div>
+                </div>
             </div>
 
+            {# Preview #}
             <div class="col-xs-4">
                 <div class="right-on-large">
                     <label>{{ __('Preview') }}</label>
                     <div class="content-preview imageholder">
-                        {% if context.content.get(contentkey) != '' %}
-                            {% set preview_path = image.file|thumbnail(preview_w, preview_h, 'c') %}
-                        {% else %}
-                            {% set preview_path = app.paths.app ~ 'view/img/default_empty_4x3.png' %}
-                        {% endif %}
-                        <img src="{{ preview_path }}" width="{{ preview_w }}" height="{{ preview_h }}" alt="Preview">
+                        <img{{ hattr(hattr.preview) }}>
                     </div>
                 </div>
             </div>
