@@ -84,8 +84,8 @@
 
             // Implemented fields:
             // text, image
-            if (typeof bolt.fields[type] !== 'undefined' && typeof bolt.fields[type].initClone === 'function') {
-                bolt.fields[type].initClone(this, conf);
+            if (typeof bolt.fields[type] !== 'undefined' && typeof bolt.fields[type].init === 'function') {
+                bolt.fields[type].init(this, conf);
             }
         });
 
