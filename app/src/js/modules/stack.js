@@ -38,8 +38,8 @@
                     remote = button.data('modal-source');
 
                 modal
-                    .find('.modal-content')
-                    .load(remote, function (responseText, textStatus) {
+                    .find('.modal-dialog')
+                    .load(remote + ' .modal-content', function (responseText, textStatus) {
                         if (textStatus === 'success' || textStatus === 'notmodified') {
                             bolt.actions.init();
                             modal.show();
@@ -168,8 +168,7 @@
      * @param {string} folderUrl - The URL command string to change the folder
      */
     stack.changeFolder = function (folderUrl) {
-        $('#modal-server-select .modal-content').load(folderUrl, function () {
-            console.log('stack.changeFolder: '+folderUrl);
+        $('#modal-server-select .modal-dialog').load(folderUrl + ' .modal-content', function () {
             bolt.actions.init();
         });
     };
