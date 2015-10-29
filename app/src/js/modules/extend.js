@@ -284,7 +284,7 @@
                         authors.push(conf.author.subst({'%AUTHOR%': ext.authors[i].name}));
                     }
                 }
-                authors = authors.length ? conf.authors.subst({'%AUTHORS%': authors.join(' ')}) : '';
+                authors = authors.length ? conf.authors.subst({'%AUTHORS%': authors.join(', ')}) : '';
 
                 // Keywords list.
                 if (ext.keywords && ext.keywords.length > 0) {

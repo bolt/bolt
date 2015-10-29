@@ -669,7 +669,7 @@ page:
             copying: "Thema-bestanden kopiëren …"
             discover-by-visiting: "Ontdek nieuwe extensies"
             install-all: "Bezig met de installatie van alle packages …"
-            install-all-updates: "Installeer alle updates"
+            maintenance: "Onderhoud"
             installing: "Package installatie aan het voorbereiden …"
             installing-selected-package: "Geselecteerde packages worden geïnstalleerd. (Dit kan tot 60 seconden duren)"
             installs-all-listed-packages: "Dit zorgt ervoor dat alle opgesomde pakketten worden geïnstalleerd. Gebruik dit als je een nieuwe server in gebruik hebt genomen of als je handmatig een nieuwe extensie hebt geïnstalleerd."

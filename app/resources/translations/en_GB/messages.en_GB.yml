@@ -385,7 +385,7 @@ page.extend.message.checkung-for-updates: "Checking for available updates (this 
 page.extend.message.compatible-unstable-versions: "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems."
 page.extend.message.discover-by-visiting: "You can discover new extensions by visiting"
 page.extend.message.ext-dir-missing: "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
-page.extend.message.install-all-updates: "Install all updates"
+page.extend.message.maintenance: "Maintenance"
 page.extend.message.installing-selected-package: "Installing selected package version (this may take up to 60 seconds)."
 page.extend.message.installs-all-listed-packages: "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
 page.extend.message.installs-updates: "This will install all available updates."
