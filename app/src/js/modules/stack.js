@@ -158,19 +158,6 @@
     /**
      * Changes folder in modal file selector dialog.
      *
-     * @static
-     * @function changeFolder
-     * @memberof Bolt.stack
-     *
-     * @param {string} folderUrl - The URL command string to change the folder
-     */
-    stack.changeFolder = function (folderUrl) {
-        browserLoad(folderUrl, true);
-    };
-
-    /**
-     * Changes folder in modal file selector dialog.
-     *
      * @private
      * @function changeFolder
      * @memberof Bolt.stack
@@ -187,7 +174,13 @@
 
         $('#modal-server-select .modal-dialog').load(history[key] + ' .modal-content', function (response, status) {
             if (status === 'success' || status === 'notmodified') {
-                bolt.actions.init();
+                // Init change folder.
+                $('#modal-server-select [data-fbrowser-chdir]').on('click', function (e) {
+                    var path = $(this).data('fbrowser-chdir');
+
+                    e.preventDefault();
+                    browserLoad(path, true);
+                });
                 // Init file select.
                 $('#modal-server-select [data-fbrowser-select]').on('click', function (e) {
                     var key = $(this).closest('[data-fbrowser-key]').data('fbrowser-key'),
