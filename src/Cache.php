@@ -53,11 +53,6 @@ class Cache extends FilesystemCache
 
         try {
             parent::__construct($cacheDir, $this->extension);
-
-            // If the Bolt version has changed, flush our cache
-            if (!$this->checkCacheVersion()) {
-                $this->clearCache();
-            }
         } catch (\Exception $e) {
             $app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
             throw $e;
@@ -168,30 +163,6 @@ class Cache extends FilesystemCache
         $dir->close();
 
         $this->updateCacheVersion();
-    }
-
-    /**
-     * Check if the cache version matches Bolt's current version
-     *
-     * @return boolean TRUE  - versions match
-     *                 FALSE - versions don't match
-     */
-    private function checkCacheVersion()
-    {
-        $file = $this->getDirectory() . '/.version';
-
-        if (!file_exists($file)) {
-            return false;
-        }
-
-        $version = md5($this->app['bolt_version'].$this->app['bolt_name']);
-        $cached  = file_get_contents($file);
-
-        if ($version === $cached) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
