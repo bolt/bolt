@@ -159,7 +159,7 @@
      * Changes folder in modal file selector dialog.
      *
      * @private
-     * @function changeFolder
+     * @function browserLoad
      * @memberof Bolt.stack
      *
      * @param {string} url - The URL to load into the file browser window.
@@ -174,22 +174,23 @@
 
         $('#modal-server-select .modal-dialog').load(history[key] + ' .modal-content', function (response, status) {
             if (status === 'success' || status === 'notmodified') {
-                // Init change folder.
-                $('#modal-server-select [data-fbrowser-chdir]').on('click', function (e) {
-                    var path = $(this).data('fbrowser-chdir');
-
-                    e.preventDefault();
-                    browserLoad(path, true);
-                });
-                // Init file select.
-                $('#modal-server-select [data-fbrowser-select]').on('click', function (e) {
-                    var key = $(this).closest('[data-fbrowser-key]').data('fbrowser-key'),
-                        path = $(this).data('fbrowser-select');
-
-                    e.preventDefault();
-                    stack.select(key, path);
-                });
-                $('#modal-server-select').show();
+                $('#modal-server-select')
+                    // Init change folder action.
+                    .find('[data-fbrowser-chdir]').on('click', function (evt) {
+                        evt.preventDefault();
+                        browserLoad($(this).data('fbrowser-chdir'), true);
+                    })
+                    .end()
+                    // Init file select action.
+                    .find('[data-fbrowser-select]').on('click', function (evt) {
+                        evt.preventDefault();
+                        stack.select(
+                            $(this).closest('[data-fbrowser-key]').data('fbrowser-key'),
+                            $(this).data('fbrowser-select')
+                        );
+                    })
+                    // Show dialog.
+                    .show();
             }
         });
     }
