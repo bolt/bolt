@@ -45,7 +45,7 @@
             var duplicatedSet = $(setToDuplicate[0].outerHTML);
             setToDuplicate.after(duplicatedSet);
             bolt.fields.init(duplicatedSet);
-            bolt.buic.init(newSet);
+            bolt.buic.init(duplicatedSet);
             e.preventDefault();
         });
 
