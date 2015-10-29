@@ -18,6 +18,13 @@
      */
     var stack = {};
 
+    /**
+     * Remember last opened url by key.
+     *
+     * @private
+     * @type {Object}
+     */
+    var history = {};
 
     /**
      * Initializes the mixin.
@@ -158,7 +165,7 @@
      * @param {string} folderUrl - The URL command string to change the folder
      */
     stack.changeFolder = function (folderUrl) {
-        browserLoad(folderUrl);
+        browserLoad(folderUrl, true);
     };
 
     /**
@@ -169,10 +176,17 @@
      * @memberof Bolt.stack
      *
      * @param {string} url - The URL to load into the file browser window.
+     * @param {boolean} change - Reload on "change folder".
      */
-    function browserLoad(url) {
-        $('#modal-server-select .modal-dialog').load(url + ' .modal-content', function (responseText, textStatus) {
-            if (textStatus === 'success' || textStatus === 'notmodified') {
+    function browserLoad(url, change) {
+        var key = url.match(/\?key=(.+?)$/)[1];
+
+        if (change || !history[key]) {
+            history[key] = url;
+        }
+
+        $('#modal-server-select .modal-dialog').load(history[key] + ' .modal-content', function (response, status) {
+            if (status === 'success' || status === 'notmodified') {
                 bolt.actions.init();
                 $('#modal-server-select').show();
             }
