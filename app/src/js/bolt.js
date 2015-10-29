@@ -39,7 +39,6 @@
  * @mixes Bolt.fields.slug
  * @mixes Bolt.fields.tags
  * @mixes Bolt.fields.templateselect
- * @mixes Bolt.fields.text
  * @mixes Bolt.fields.video
  */
 var Bolt = {};

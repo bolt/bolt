@@ -77,7 +77,6 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/fields/slug.js',
                 '<%= path.src.js %>/modules/fields/tags.js',
                 '<%= path.src.js %>/modules/fields/templateselect.js',
-                '<%= path.src.js %>/modules/fields/text.js',
                 '<%= path.src.js %>/modules/fields/video.js',
                 // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',
