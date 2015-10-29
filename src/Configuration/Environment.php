@@ -60,13 +60,22 @@ class Environment
 
     /**
      * Perform a synchronisation of files in specific app/view/ subdirectories.
+     *
+     * @return array|null
      */
     public function syncView()
     {
         $views = ['css', 'fonts', 'img', 'js'];
+        $response = null;
         foreach ($views as $dir) {
-            $this->syncViewDirectory($dir);
+            try {
+                $this->syncViewDirectory($dir);
+            } catch (IOException $e) {
+                $response[] = $e->getMessage();
+            }
         }
+
+        return $response;
     }
 
     /**
@@ -86,12 +95,7 @@ class Environment
             return;
         }
 
-        try {
-            $this->filesystem->mirror($source, $target, null, ['override' => true, 'delete' => true]);
-        } catch (IOException $e) {
-            // Apparently not.
-            trigger_error($e->getMessage(), E_USER_WARNING);
-        }
+        $this->filesystem->mirror($source, $target, null, ['override' => true, 'delete' => true]);
     }
 
     /**
