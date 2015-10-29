@@ -33,21 +33,11 @@
         $('#modal-server-select').on(
             'show.bs.modal',
             function (event) {
-                var modal = $(this),
-                    button = $(event.relatedTarget),
-                    remote = button.data('modal-source');
+                var url = $(event.relatedTarget).data('modal-source');
 
-                modal
-                    .find('.modal-dialog')
-                    .load(remote + ' .modal-content', function (responseText, textStatus) {
-                        if (textStatus === 'success' || textStatus === 'notmodified') {
-                            bolt.actions.init();
-                            modal.show();
-                        }
-                    });
+                browserLoad(url);
             }
         );
-
     };
 
     /**
@@ -168,10 +158,26 @@
      * @param {string} folderUrl - The URL command string to change the folder
      */
     stack.changeFolder = function (folderUrl) {
-        $('#modal-server-select .modal-dialog').load(folderUrl + ' .modal-content', function () {
-            bolt.actions.init();
-        });
+        browserLoad(folderUrl);
     };
+
+    /**
+     * Changes folder in modal file selector dialog.
+     *
+     * @private
+     * @function changeFolder
+     * @memberof Bolt.stack
+     *
+     * @param {string} url - The URL to load into the file browser window.
+     */
+    function browserLoad(url) {
+        $('#modal-server-select .modal-dialog').load(url + ' .modal-content', function (responseText, textStatus) {
+            if (textStatus === 'success' || textStatus === 'notmodified') {
+                bolt.actions.init();
+                $('#modal-server-select').show();
+            }
+        });
+    }
 
     // Apply mixin container
     bolt.stack = stack;
