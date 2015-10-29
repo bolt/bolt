@@ -104,6 +104,9 @@ class Application extends Silex\Application
         // Initialize the rest of the Providers.
         $this->initProviders();
 
+        // Do a version check
+        $this['config.environment']->checkVersion();
+
         // Calling for BC. Controllers are mounted in ControllerServiceProvider now.
         $this->initMountpoints();
 
