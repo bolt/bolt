@@ -21,8 +21,8 @@ class ConfigServiceProvider implements ServiceProviderInterface
 
         $app['config.environment'] = $app->share(
             function ($app) {
-                $srcRoot = realpath($app['resources']->getPath('root'));
-                $webRoot = realpath($app['resources']->getPath('web'));
+                $srcRoot = $app['resources']->getPath('root');
+                $webRoot = $app['resources']->getPath('web');
 
                 $environment = new Environment(
                     $srcRoot,
