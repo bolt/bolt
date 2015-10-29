@@ -22,30 +22,32 @@
 %}
 
 {% set hattr = {
-    inp: {
-        class:        option.class ~ ' imageinput wide',
-        id:           'field-' ~ key,
-        name:         name ~ '[file]',
-        placeholder:  __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
-        type:         'text',
-        value:        image.file|default(''),
+    path: {
+        'class':        option.class ~ ' imageinput wide',
+        'id':           'field-' ~ key,
+        'name':         name ~ '[file]',
+        'placeholder':  __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',
+        'type':         'text',
+        'value':        image.file|default(''),
+    },
+
+    path_label: {
+        'for':          'field-' ~ key,
     },
 
     upload: {
-        accept:       option.extensions ? '.' ~ option.extensions|join(',.') : '',
-        data_url:     url('upload', {'handler': option.upload}),
-        id:           'fileupload-' ~ key,
-        name:         'files[]',
-        type:         'file',
+        'accept':       option.extensions ? '.' ~ option.extensions|join(',.') : '',
+        'data-url':     url('upload', {'handler': option.upload}),
+        'id':           'fileupload-' ~ key,
+        'name':         'files[]',
+        'type':         'file',
     },
 
     preview: {
-        alt:          'Preview',
-        height:       preview_h,
-        src:          context.content.get(contentkey) != ''
-                          ? image.file|thumbnail(preview_w, preview_h, 'c')
-                          : app.paths.app ~ 'view/img/default_empty_4x3.png',
-        width:        preview_w,
+        'alt':          'Preview',
+        'height':       preview_h,
+        'src':          context.content.get(contentkey) != '' ? image.file|thumbnail(preview_w, preview_h, 'c') : app.paths.app ~ 'view/img/default_empty_4x3.png',
+        'width':        preview_w,
     },
 } %}
 
@@ -101,7 +103,7 @@
                 {# Path #}
                 <div class="form-group form-group-first">
                     <div class="col-sm-12">
-                        <label>{{ __('Path to image file') }}</label><input{{ hattr(hattr.inp) }}>
+                        <label{{ hattr(hattr.path_label) }}>{{ __('Path to image file') }}</label><input{{ hattr(hattr.path) }}>
                     </div>
                 </div>
 
