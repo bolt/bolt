@@ -68,7 +68,7 @@
         bolt.datetime.init();
 
         legacyInit();
-        initBuic();
+        bolt.buic.init();
         bolt.fields.init();
     };
 
@@ -171,30 +171,6 @@
         $.datepicker.setDefaults($.datepicker.regional[localeLong]);
     }
 
-    /**
-     * Initializes BUICs.
-     *
-     * @private
-     * @function initBuic
-     * @memberof Bolt.app
-     */
-    function initBuic() {
-        $('.buic-checkbox').each(function () {
-            bolt.buic.checkbox.init(this);
-        });
-        $('.buic-listing').each(function () {
-            bolt.buic.listing.init(this);
-        });
-        $('.buic-moment').each(function () {
-            bolt.buic.moment.init(this);
-        });
-        $('.buic-progress').each(function () {
-            bolt.buic.progress.init(this);
-        });
-        $('.buic-select').each(function () {
-            bolt.buic.select.init(this);
-        });
-    }
 
     // Apply mixin container
     bolt.app = app;
