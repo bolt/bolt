@@ -38,8 +38,8 @@ class Environment
     public function __construct($srcRoot, $webRoot, Cache $cache, $boltName, $boltVersion)
     {
         $this->filesystem = new Filesystem();
-        $this->srcRoot = $srcRoot;
-        $this->webRoot = $webRoot;
+        $this->srcRoot = rtrim($srcRoot, '/');
+        $this->webRoot = rtrim($webRoot, '/');
         $this->cache = $cache;
         $this->boltName = $boltName;
         $this->boltVersion = $boltVersion;
