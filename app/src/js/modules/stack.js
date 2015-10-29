@@ -188,6 +188,14 @@
         $('#modal-server-select .modal-dialog').load(history[key] + ' .modal-content', function (response, status) {
             if (status === 'success' || status === 'notmodified') {
                 bolt.actions.init();
+                // Init file select.
+                $('#modal-server-select [data-fbrowser-select]').on('click', function (e) {
+                    var key = $(this).closest('[data-fbrowser-key]').data('fbrowser-key'),
+                        path = $(this).data('fbrowser-select');
+
+                    e.preventDefault();
+                    stack.select(key, path);
+                });
                 $('#modal-server-select').show();
             }
         });
