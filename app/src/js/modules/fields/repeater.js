@@ -66,8 +66,21 @@
         var cloned = $(template).clone();
 
         $('[data-bolt-field]', cloned).each(function () {
-            var type = $(this).data('bolt-field'),
-                conf = $(this).data('bolt-fconf');
+            var field = $(this),
+                type = $(field).data('bolt-field'),
+                conf = $(field).data('bolt-fconf');
+
+            // Replace all id's and correspondending for-attributes.
+            $(field).find('[id]').each(function () {
+                var id = $(this).attr('id'),
+                    nid = bolt.app.uid();
+
+                $(this).attr('id', nid);
+
+                $(field).find('[for="' + id + '"]').each(function () {
+                    $(this).attr('for', nid);
+                });
+            });
 
             // Implemented fields:
             // text, image
