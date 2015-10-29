@@ -70,7 +70,7 @@
                 conf = $(this).data('bolt-fconf');
 
             // Implemented fields:
-            // text
+            // text, image
             if (typeof bolt.fields[type] !== 'undefined' && typeof bolt.fields[type].initClone === 'function') {
                 bolt.fields[type].initClone(this, conf);
             }

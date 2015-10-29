@@ -48,6 +48,20 @@
         });
     };
 
+    /**
+     * Initializes a cloned image field.
+     *
+     * @static
+     * @function initClone
+     * @memberof Bolt.fields.image
+     *
+     * @param {Object} fieldset
+     * @param {FieldConf} fconf
+     */
+    image.initClone = function (fieldset, fconf) {
+        //jshint unused:vars
+    };
+
     // Apply mixin container
     bolt.fields.image = image;
 
