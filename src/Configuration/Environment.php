@@ -3,7 +3,6 @@
 namespace Bolt\Configuration;
 
 use Bolt\Cache;
-use Silex\Application;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -30,16 +29,20 @@ class Environment
     /**
      * Constructor.
      *
-     * @param ResourceManager $resourceManager
+     * @param string $srcRoot
+     * @param string $webRoot
+     * @param Cache  $cache
+     * @param string $boltName
+     * @param string $boltVersion
      */
-    public function __construct(Application $app)
+    public function __construct($srcRoot, $webRoot, Cache $cache, $boltName, $boltVersion)
     {
         $this->filesystem = new Filesystem();
-        $this->srcRoot = realpath($app['resources']->getPath('root'));
-        $this->webRoot = realpath($app['resources']->getPath('web'));
-        $this->cache = $app['cache'];
-        $this->boltName = $app['bolt_name'];
-        $this->boltVersion = $app['bolt_version'];
+        $this->srcRoot = $srcRoot;
+        $this->webRoot = $webRoot;
+        $this->cache = $cache;
+        $this->boltName = $boltName;
+        $this->boltVersion = $boltVersion;
     }
 
     /**
