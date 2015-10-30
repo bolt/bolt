@@ -26,7 +26,7 @@
      * @private
      * @type {integer}
      */
-    var nextBuid = 10000;
+    var buid = 10000;
 
     /**
      * Loading state of Google Maps API.
@@ -62,6 +62,8 @@
         bolt.conf.init();
         bolt.data.init();
 
+        buid = bolt.conf('buid').match(/(\d+)$/)[1];
+
         initGlobal();
         initHandler();
 
@@ -87,7 +89,7 @@
      * @memberof Bolt.app
      */
     app.buid = function () {
-        return 'buid-' + nextBuid++;
+        return 'buid-' + buid++;
     };
 
     /*
