@@ -21,12 +21,12 @@
     var app = {};
 
     /**
-     * Next unique ID to serve by the ID generator.
+     * Next unique Bolt ID to serve by the ID generator.
      *
      * @private
      * @type {integer}
      */
-    var nextUid = 123;
+    var nextBuid = 10000;
 
     /**
      * Loading state of Google Maps API.
@@ -81,13 +81,13 @@
     };
 
     /**
-     * Returns an unique ID.
+     * Returns an unique Bolt ID.
      *
-     * @function unid
+     * @function buid
      * @memberof Bolt.app
      */
-    app.uid = function () {
-        return 'bolt-uid-' + nextUid++;
+    app.buid = function () {
+        return 'buid-' + nextBuid++;
     };
 
     /*

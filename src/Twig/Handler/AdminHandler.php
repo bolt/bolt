@@ -15,6 +15,9 @@ class AdminHandler
     /** @var \Silex\Application */
     private $app;
 
+    /** @var integer Holds the last used Bolt unique ID. */
+    private $buid = 0;
+
     /**
      * @param \Silex\Application $app
      */
@@ -275,5 +278,15 @@ class AdminHandler
         } else {
             return $classes ? ' class="' . htmlspecialchars($classes) . '"' : '';
         }
+    }
+
+    /**
+     * Returns a unique ID.
+     *
+     * @return string UID
+     */
+    public function buid()
+    {
+        return 'buid-' . ++$this->buid;
     }
 }
