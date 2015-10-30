@@ -165,6 +165,8 @@ class Application extends Silex\Application
             $this['db']->connect();
         // A ConnectionException or DriverException could be thrown, we'll catch DBALException to be safe.
         } catch (DBALException $e) {
+            $this['logger.system']->debug($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+
             // Trap double exceptions caused by throwing a new LowlevelException
             set_exception_handler(['\Bolt\Exception\LowlevelException', 'nullHandler']);
 
@@ -182,7 +184,7 @@ class Application extends Silex\Application
                      "&nbsp;&nbsp;&nbsp;&nbsp;* Database name is correct\n" .
                      "&nbsp;&nbsp;&nbsp;&nbsp;* User name has access to the named database\n" .
                      "&nbsp;&nbsp;&nbsp;&nbsp;* Password is correct\n";
-            throw new LowlevelException($error);
+            throw new LowlevelException($error, $e->getCode(), $e);
         }
 
         // Resume normal error handling
