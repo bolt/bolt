@@ -85,7 +85,11 @@ HTML;
         // expose the information to hosts on the whitelist.
 
         // Determine if we're on the command line. If so, don't output HTML.
-        if (php_sapi_name() == 'cli') {
+        if (php_sapi_name() === 'cli') {
+            if ($previous instanceof \Exception) {
+                $output .= "\n\nException message:\n" . $previous->getMessage() . "\n\n";
+            }
+
             $output = self::cleanHTML($output);
         }
 
@@ -209,6 +213,7 @@ HTML;
         $output = preg_replace('/<style>.*<\/style>/smi', "", $output);
         $output = strip_tags($output);
         $output = preg_replace('/(\n+)(\s+)/smi', "\n", $output);
+        $output = preg_replace('/&nbsp;/smi', " ", $output);
 
         return $output;
     }

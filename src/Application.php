@@ -184,7 +184,7 @@ class Application extends Silex\Application
                      "&nbsp;&nbsp;&nbsp;&nbsp;* Database name is correct\n" .
                      "&nbsp;&nbsp;&nbsp;&nbsp;* User name has access to the named database\n" .
                      "&nbsp;&nbsp;&nbsp;&nbsp;* Password is correct\n";
-            throw new LowlevelException($error);
+            throw new LowlevelException($error, $e->getCode(), $e);
         }
 
         // Resume normal error handling
