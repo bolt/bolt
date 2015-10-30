@@ -34,7 +34,6 @@
                 newSet = clone($(template));
 
             slot.append(newSet);
-            bolt.buic.init(newSet);
         });
 
         $(fieldset).on('click', '.duplicate-button', function () {
@@ -42,7 +41,6 @@
                 duplicatedSet = clone(setToDuplicate);
 
             setToDuplicate.after(duplicatedSet);
-            bolt.buic.init(duplicatedSet);
         });
 
         $(fieldset).on('click', '.delete-button', function () {
@@ -89,6 +87,7 @@
                 bolt.fields[type].init(this, conf);
             }
         });
+        bolt.buic.init(cloned);
 
         return cloned;
     }
