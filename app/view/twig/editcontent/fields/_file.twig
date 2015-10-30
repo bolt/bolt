@@ -13,7 +13,7 @@
 
 {% set attributes = {
     filepath: {
-        class:        option.class ~ ' imageinput',
+        class:        option.class ~ ' path',
         id:           'field-' ~ key,
         name:         name,
         placeholder:  __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',

@@ -23,7 +23,7 @@
 
 {% set hattr = {
     path: {
-        'class':        option.class ~ ' imageinput wide',
+        'class':        option.class ~ ' wide path',
         'id':           'field-' ~ key,
         'name':         name ~ '[file]',
         'placeholder':  __('field.general.allowed-filetypes') ~ ' ' ~ option.extensions|join(', ') ~ ' …',

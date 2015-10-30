@@ -24,20 +24,21 @@
      * @static
      * @function bindField
      * @memberof Bolt.uploads
-     * @param {Object} element
+     * @param {Object} fieldset
      * @param {Object} conf
      */
-    uploads.bindField = function (element, conf) {
-        uploads.bindUpload(conf.key);
+    uploads.bindField = function (fieldset, conf) {
+        uploads.bindUpload(fieldset.id);
 
         // Setup autocomplete popup.
-        var accept = ($(element).find('input[accept]').prop('accept') || '').replace(/\./g, '');
+        var accept = ($(fieldset).find('input[accept]').prop('accept') || '').replace(/\./g, ''),
+            input = $(fieldset).find('input.path');
 
-        $('#field-' + conf.key).autocomplete({
+        input.autocomplete({
             source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
             minLength: 2,
             close: function () {
-                $('#field-' + conf.key).trigger('change');
+                $(input).trigger('change');
             }
         });
     };
@@ -48,10 +49,12 @@
      * @static
      * @function bindFileList
      * @memberof Bolt.uploads
+     * @param {Object} fieldset
      * @param {string} key
      */
-    uploads.bindFileList = function (key) {
-        bolt.filelist[key] = new FilelistHolder({id: key, type: 'filelist'});
+    uploads.bindFileList = function (fieldset, key) {
+        bolt.filelist[fieldset.id] = new FilelistHolder({id: key, type: 'filelist'});
+        uploads.bindUpload(fieldset.id, bolt.filelist[fieldset.id]);
     };
 
     /**
@@ -60,10 +63,12 @@
      * @static
      * @function bindImageList
      * @memberof Bolt.uploads
+     * @param {Object} fieldset
      * @param {string} key
      */
-    uploads.bindImageList = function (key) {
-        bolt.imagelist[key] = new FilelistHolder({id: key, type: 'imagelist'});
+    uploads.bindImageList = function (fieldset, key) {
+        bolt.imagelist[fieldset.id] = new FilelistHolder({fid: fieldset.id, id: key, type: 'imagelist'});
+        uploads.bindUpload(fieldset.id, bolt.imagelist[fieldset.id]);
     };
 
     /**
@@ -74,25 +79,29 @@
      * @static
      * @function bindUpload
      * @memberof Bolt.uploads
-     * @param {string} key
+     * @param {string} fieldId
      * @param {FilelistHolder} list
      */
-    uploads.bindUpload = function (key, list) {
-        var progress = $('#fileupload-' + key).closest('fieldset').find('.buic-progress');
+    uploads.bindUpload = function (fieldId, list) {
+        var fieldset = $('#' + fieldId),
+            progress = $(fieldset).find('.buic-progress'),
+            dropzone = $(fieldset).find('.dropzone'),
+            fileinput = $(fieldset).find('input[type=file]'),
+            pathinput = $(fieldset).find('input.path');
 
-        $('#fileupload-' + key)
+        fileinput
             .fileupload(
-                uploadOptions(key, list ? list.idPrefix + list.id : '#dropzone-' + key)
+                uploadOptions(fileinput, dropzone)
             )
             .on('fileuploaddone', function (evt, data) {
                 if (list) {
                     list.uploadDone(data.result);
                 } else {
-                    fileuploadDone(key, data);
+                    fileuploadDone(pathinput, data);
                 }
             })
             .on('fileuploadprocessfail', function (evt, data) {
-                fileuploadProcessFail(key, data);
+                fileuploadProcessFail(evt, data);
             })
             .on('fileuploadsubmit', function (evt, data) {
                 if (list) {
@@ -123,13 +132,13 @@
      * @private
      * @function uploadOptions
      * @memberof Bolt.uploads
-     * @param {string} key
-     * @param {string} dropzone
+     * @param {Object} fileinput
+     * @param {Object} dropzone
      * @returns {Object}
      */
-    function uploadOptions(key, dropzone) {
+    function uploadOptions(fileinput, dropzone) {
         var maxSize = bolt.conf('uploadConfig.maxSize'),
-            accept = $('#fileupload-' + key).attr('accept'),
+            accept = $(fileinput).attr('accept'),
             extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
             pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i');
 
@@ -221,15 +230,15 @@
      * @function fileuploadDone
      * @memberof Bolt.uploads
      *
-     * @param {string} key - Key.
+     * @param {Object} pathinput - Path input (single upload only).
      * @param {Object} data - Data.
      */
-    function fileuploadDone(key, data) {
+    function fileuploadDone(pathinput, data) {
         $.each(data.result, function (idx, file) {
             if (file.error) {
                 bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
             } else {
-                $('#field-' + key).val(file.name).trigger('change');
+                pathinput.val(file.name).trigger('change');
 
                 // Add the uploaded file to our stack.
                 bolt.stack.addToStack(file.name);

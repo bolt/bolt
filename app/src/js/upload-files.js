@@ -148,7 +148,6 @@ var FilelistHolder = Backbone.View.extend({
 
     bindEvents: function () {
         var $this = this,
-            contentkey = this.id,
             $holder = $(this.idPrefix + this.id);
 
         $holder.find("div.list").sortable({
@@ -185,8 +184,6 @@ var FilelistHolder = Backbone.View.extend({
             delay: 100,
             distance: 5
         });
-
-        Bolt.uploads.bindUpload(contentkey, this);
 
         var lastClick = null;
         $holder.find('div.list').on('click', '.list-item', function (e) {

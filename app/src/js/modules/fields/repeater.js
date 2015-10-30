@@ -71,16 +71,18 @@
                 conf = $(field).data('bolt-fconf');
 
             // Replace all id's and correspondending for-attributes.
-            $(field).find('[id]').each(function () {
-                var id = $(this).attr('id'),
-                    nid = bolt.app.uid();
+            $(field)
+                .attr('id', bolt.app.buid())
+                .find('[id]').each(function () {
+                    var id = $(this).attr('id'),
+                        nid = bolt.app.buid();
 
-                $(this).attr('id', nid);
+                    $(this).attr('id', nid);
 
-                $(field).find('[for="' + id + '"]').each(function () {
-                    $(this).attr('for', nid);
+                    $(field).find('[for="' + id + '"]').each(function () {
+                        $(this).attr('for', nid);
+                    });
                 });
-            });
 
             // Implemented fields:
             if (typeof bolt.fields[type] !== 'undefined' && typeof bolt.fields[type].init === 'function') {
