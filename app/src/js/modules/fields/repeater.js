@@ -36,6 +36,7 @@
             var newSet = $(template.html());
             slot.append(newSet);
             bolt.fields.init(newSet);
+            bolt.buic.init(newSet);
             e.preventDefault();
         });
 
@@ -44,6 +45,7 @@
             var duplicatedSet = $(setToDuplicate[0].outerHTML);
             setToDuplicate.after(duplicatedSet);
             bolt.fields.init(duplicatedSet);
+            bolt.buic.init(duplicatedSet);
             e.preventDefault();
         });
 
