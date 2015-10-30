@@ -165,6 +165,8 @@ class Application extends Silex\Application
             $this['db']->connect();
         // A ConnectionException or DriverException could be thrown, we'll catch DBALException to be safe.
         } catch (DBALException $e) {
+            $this['logger.system']->debug($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+
             // Trap double exceptions caused by throwing a new LowlevelException
             set_exception_handler(['\Bolt\Exception\LowlevelException', 'nullHandler']);
 
