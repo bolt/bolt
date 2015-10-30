@@ -138,6 +138,8 @@ class ResourceManager
             $path = $path->resolveAgainst($this->paths['root']);
         }
 
+        $path = $path->normalize();
+
         $this->paths[$name] = $path;
         if (strpos($name, 'path') === false) {
             $this->paths[$name . 'path'] = $path;

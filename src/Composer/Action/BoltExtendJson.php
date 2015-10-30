@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Composer\Action;
 
 use Bolt\Translation\Translator as Trans;
@@ -91,7 +92,7 @@ final class BoltExtendJson extends BaseAction
     {
         $extensionsPath = $this->app['resources']->getPath('extensions');
         $webPath = $this->app['resources']->getPath('web');
-        $pathToWeb = $this->app['resources']->findRelativePath(realpath($extensionsPath), realpath($webPath));
+        $pathToWeb = $this->app['resources']->findRelativePath($extensionsPath, $webPath);
 
         // Enforce standard settings
         $json['repositories']['packagist'] = false;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt;
 
 use Bolt\Controller\Zone;
@@ -993,7 +994,7 @@ class Config
 
         // We add these later, because the order is important: By having theme/ourtheme first,
         // files in that folder will take precedence. For instance when overriding the menu template.
-        $twigpath[] = realpath($this->app['resources']->getPath('app/theme_defaults'));
+        $twigpath[] = $this->app['resources']->getPath('app/theme_defaults');
 
         return $twigpath;
     }

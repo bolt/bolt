@@ -24,9 +24,9 @@ if (!defined('PHPUNIT_ROOT')) {
     define('PHPUNIT_ROOT', realpath(TEST_ROOT . '/tests/phpunit/unit'));
 }
 
-// PHPUnit's temporary web root
+// PHPUnit's temporary web root… It doesn't exist yet, so we can't realpath()
 if (!defined('PHPUNIT_WEBROOT')) {
-    define('PHPUNIT_WEBROOT', PHPUNIT_ROOT . '/../web-root');
+    define('PHPUNIT_WEBROOT', dirname(PHPUNIT_ROOT) . '/web-root');
 }
 
 if (!defined('BOLT_AUTOLOAD')) {
