@@ -47,7 +47,7 @@
 {% block fieldset_label_class 'col-xs-12' %}
 
 {% block fieldset_controls %}
-    <div class="col-xs-12 filelistholder dropzone" id="filelist-{{ key }}">
+    <div class="col-xs-12 filelistholder dropzone">
         {# Filelist #}
         <div class="list"></div>
 
@@ -67,6 +67,6 @@
         </div>
 
         {# Data #}
-        <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
+        <textarea name="{{ name }}" class="hide">{{ list_json }}</textarea>
     </div>
 {% endblock fieldset_controls %}

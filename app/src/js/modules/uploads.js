@@ -52,7 +52,7 @@
      * @param {string} key
      */
     uploads.bindFileList = function (fieldset, key) {
-        bolt.filelist[fieldset.id] = new FilelistHolder({id: key, type: 'filelist'});
+        bolt.filelist[fieldset.id] = new FilelistHolder({fieldset: fieldset, type: 'filelist'});
         uploads.bindUpload(fieldset.id, bolt.filelist[fieldset.id]);
     };
 
@@ -66,7 +66,7 @@
      * @param {string} key
      */
     uploads.bindImageList = function (fieldset, key) {
-        bolt.imagelist[fieldset.id] = new FilelistHolder({fid: fieldset.id, id: key, type: 'imagelist'});
+        bolt.imagelist[fieldset.id] = new FilelistHolder({fieldset: fieldset, type: 'imagelist'});
         uploads.bindUpload(fieldset.id, bolt.imagelist[fieldset.id]);
     };
 

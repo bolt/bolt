@@ -43,15 +43,17 @@ var FilelistHolder = Backbone.View.extend({
         this.list = new Filelist();
         this.uploading = new Filelist();
         this.type = options.type;
+        //
+        this.fieldset = $(options.fieldset);
+        this.data = $('textarea', options.fieldset);
+
         if (options.type === 'imagelist') {
-            this.idPrefix = '#imagelist-';
             this.datWrongtype = 'field.imagelist.message.wrongtype';
             this.datRemove = 'field.imagelist.message.remove';
             this.datRemoveMulti = 'field.imagelist.message.removeMulti';
             this.tmplEmpty = 'field.imagelist.template.empty';
             this.tmplItem = 'field.imagelist.template.item';
         } else {
-            this.idPrefix = '#filelist-';
             this.datWrongtype = 'field.filelist.message.wrongtype';
             this.datRemove = 'field.filelist.message.remove';
             this.datRemoveMulti = 'field.filelist.message.removeMulti';
@@ -59,19 +61,18 @@ var FilelistHolder = Backbone.View.extend({
             this.tmplItem = 'field.filelist.template.item';
         }
 
-        var prelist = $('#' + this.id).val();
-        if (prelist !== "") {
-            prelist = $.parseJSON($('#' + this.id).val());
-            _.each(prelist, function (item) {
-                this.list.add(
-                    new FileModel({
-                        filename: item.filename,
-                        title: item.title,
-                        id: this.list.length
-                    })
-                );
-            }, this);
-        }
+        var list = this.list;
+
+        $.each($.parseJSON(this.data.val() || '[]'), function (idx, item) {
+            list.add(
+                new FileModel({
+                    filename: item.filename,
+                    title: item.title,
+                    id: list.length
+                })
+            );
+        });
+
         this.render();
         this.bindEvents();
     },
@@ -79,7 +80,7 @@ var FilelistHolder = Backbone.View.extend({
     render: function () {
         this.list.sort();
 
-        var list = $(this.idPrefix + this.id + ' .list'),
+        var list = $('.list', this.fieldset),
             listtype = this.type,
             tmplItem = this.tmplItem;
 
@@ -131,13 +132,13 @@ var FilelistHolder = Backbone.View.extend({
     },
 
     serialize: function () {
-        var ser = JSON.stringify(this.list);
-        $('#' + this.id).val(ser);
+        this.data.val(JSON.stringify(this.list));
     },
 
     doneSort: function () {
-        var list = this.list; // jQuery's .each overwrites 'this' scope, set it here.
-        $(this.idPrefix + this.id + ' .list div').each(function (index) {
+        var list = this.list;
+
+        $('.list div', this.fieldset).each(function (index) {
             var id = $(this).data('id'),
                 title = $(this).find('input').val();
 
@@ -148,9 +149,10 @@ var FilelistHolder = Backbone.View.extend({
 
     bindEvents: function () {
         var $this = this,
-            $holder = $(this.idPrefix + this.id);
+            thislist = this,
+            fieldset = this.fieldset;
 
-        $holder.find("div.list").sortable({
+        fieldset.find('div.list').sortable({
             helper: function (e, item) {
                 if (!item.hasClass('selected')) {
                     item.toggleClass('selected');
@@ -159,34 +161,29 @@ var FilelistHolder = Backbone.View.extend({
                 return $('<div></div>');
             },
             start: function (e, ui) {
-                var elements = $holder.find('.selected').not('.ui-sortable-placeholder');
-
-
-                var len = elements.length;
-
-                var currentOuterHeight = ui.placeholder.outerHeight(true),
+                var elements = fieldset.find('.selected').not('.ui-sortable-placeholder'),
+                    len = elements.length,
+                    currentOuterHeight = ui.placeholder.outerHeight(true),
                     currentInnerHeight = ui.placeholder.height(),
                     margin = parseInt(ui.placeholder.css('margin-top')) + parseInt(ui.placeholder.css('margin-bottom'));
 
                 elements.css('display', 'none');
-
                 ui.placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
-
                 ui.item.data('items', elements);
             },
             beforeStop: function (e, ui) {
                 ui.item.before(ui.item.data('items'));
             },
             stop: function () {
-                $holder.find('.ui-state-active').css('display', '');
-                $this.doneSort();
+                fieldset.find('.ui-state-active').css('display', '');
+                thislist.doneSort();
             },
             delay: 100,
             distance: 5
         });
 
         var lastClick = null;
-        $holder.find('div.list').on('click', '.list-item', function (e) {
+        fieldset.find('div.list').on('click', '.list-item', function (e) {
             if ($(e.target).hasClass('list-item')) {
                 if (e.shiftKey) {
                     if (lastClick) {
@@ -204,7 +201,7 @@ var FilelistHolder = Backbone.View.extend({
                 } else if (e.ctrlKey || e.metaKey) {
                     $(this).toggleClass('selected');
                 } else {
-                    $holder.find('.list-item').not($(this)).removeClass('selected');
+                    fieldset.find('.list-item').not($(this)).removeClass('selected');
                     $(this).toggleClass('selected');
                 }
 
@@ -216,25 +213,25 @@ var FilelistHolder = Backbone.View.extend({
             }
         });
 
-        $holder.find('.remove-selected-button').on('click', function () {
-            if (confirm(Bolt.data($this.datRemoveMulti))) {
-                $holder.find('.selected').each(function () {
-                    $this.remove($(this).data('id'), true);
+        fieldset.find('.remove-selected-button').on('click', function () {
+            if (confirm(Bolt.data(thislist.datRemoveMulti))) {
+                fieldset.find('.selected').each(function () {
+                    thislist.remove($(this).data('id'), true);
                 });
-                $this.render();
+                thislist.render();
             }
         });
 
-        $holder.find('div.list').on('click', '.remove-button', function (e) {
+        fieldset.find('div.list').on('click', '.remove-button', function (e) {
             e.preventDefault();
 
-            if (confirm(Bolt.data($this.datRemove))) {
-                $this.remove($(this).parent().data('id'));
+            if (confirm(Bolt.data(thislist.datRemove))) {
+                thislist.remove($(this).parent().data('id'));
             }
         });
 
-        $holder.find("div.list").on('blur', 'input', function () {
-            $this.doneSort();
+        fieldset.find("div.list").on('blur', 'input', function () {
+            thislist.doneSort();
         });
     },
 

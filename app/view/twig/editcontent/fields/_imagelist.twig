@@ -45,7 +45,7 @@
 {% block fieldset_label_class 'col-xs-12' %}
 
 {% block fieldset_controls %}
-    <div class="col-xs-12 filelistholder dropzone" id="imagelist-{{ key }}">
+    <div class="col-xs-12 filelistholder dropzone">
         {# Imagelist #}
         <div class="list"></div>
 
@@ -57,7 +57,7 @@
         <div class="clearfix">
             {{ macro.upload_buttons('image', fieldset_uid, attributes.fileupload, option.upload, can_upload) }}
 
-            <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
+            <textarea name="{{ name }}" class="hide">{{ list_json }}</textarea>
 
             <div class="button-wrap fileselectbuttongroup">
                 <span class="btn btn-default btn-sm remove-selected-button">
