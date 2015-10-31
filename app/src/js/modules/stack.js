@@ -41,6 +41,7 @@
             'show.bs.modal',
             function (event) {
                 var url = $(event.relatedTarget).data('modal-source');
+                url = url + '?key=xxx';
 
                 browserLoad(url);
             }
@@ -185,7 +186,7 @@
                     .find('[data-fbrowser-select]').on('click', function (evt) {
                         evt.preventDefault();
                         stack.select(
-                            $(this).closest('[data-fbrowser-key]').data('fbrowser-key'),
+                            $(this).closest('[data-fbrowser-fieldid]').data('fbrowser-fieldid'),
                             $(this).data('fbrowser-select')
                         );
                     })

@@ -172,15 +172,15 @@
  # Renders a upload button combo [Upload] [Select from Server] [Select from Stack]
  #
  # @param string type Either 'image' or 'other,document'
- # @param string key Id of the input element
+ # @param string fieldid Id of the input element
  # @param string attr_upload Attributes for the file upload button
  # @param string uploadpath Relative upload path
  #}
-{% macro upload_buttons(type, key, attr_upload, uploadpath, canUpload) %}
+{% macro upload_buttons(type, fieldid, attr_upload, uploadpath, canUpload) %}
     {% from _self import attr %}
 
     {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
-    {% set href = paths.async ~ 'browse/files' ~ (uploadpath ? '/' ~ uploadpath : '' ) ~ '?key=' ~ key %}
+    {% set href = paths.async ~ 'browse/files' ~ (uploadpath ? '/' ~ uploadpath : '' ) ~ '?fieldid=' ~ fieldid %}
 
     <div class="button-wrap fileselectbuttongroup">
 
@@ -215,11 +215,11 @@
                     <span class="caret"></span>
                 </button>
 
-                <ul class="dropdown-menu" id="stack-{{ key }}">
+                <ul class="dropdown-menu">
                     {% for item in items %}
                         {% set info = item.filesize ~ (item.imagesize|default() ? ', ' ~ item.imagesize ~ ' px' : '') %}
                         <li>
-                            <a href="#" data-action="Bolt.stack.select('{{ key }}', '{{ item.filepath }}');">
+                            <a href="#" data-action="Bolt.stack.select('{{ fieldid }}', '{{ item.filepath }}');">
                                 {{ item.basename }} <small>({{ info }})</small>
                             </a>
                         </li>
