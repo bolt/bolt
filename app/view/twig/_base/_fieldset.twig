@@ -6,7 +6,7 @@
     'class':            'form-group',
     'data-bolt-field':  block('fieldset_type'),
     'data-bolt-fconf':  fieldset_conf|default() is iterable ? fieldset_conf|json_encode : null,
-    'id':               buid(),
+    'id':               block('fieldset_uid')|default(buid()),
 } %}
 
 {% set attributes_label = {
