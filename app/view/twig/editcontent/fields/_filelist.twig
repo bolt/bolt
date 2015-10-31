@@ -33,11 +33,14 @@
 
 {% extends '@bolt/_base/_fieldset.twig' %}
 
+{% set fieldset_uid = buid() }%}
+
 {% set fieldset_conf = {
     key: key,
 }%}
 
 {% block fieldset_type 'filelist' %}
+{% block fieldset_uid fieldset_uid %}
 
 {% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  option.info %}
@@ -53,7 +56,7 @@
 
         {# Buttons #}
         <div class="clearfix">
-            {{ macro.upload_buttons('file', key, attributes.fileupload, option.upload, can_upload) }}
+            {{ macro.upload_buttons('file', fieldset_uid, attributes.fileupload, option.upload, can_upload) }}
 
             <div class="button-wrap fileselectbuttongroup">
                 <button type="button" class="btn btn-default btn-sm remove-selected-button">

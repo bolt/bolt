@@ -36,11 +36,14 @@
 
 {% extends '@bolt/_base/_fieldset.twig' %}
 
+{% set fieldset_uid = buid() }%}
+
 {% set fieldset_conf = {
     key: key,
 }%}
 
 {% block fieldset_type 'file' %}
+{% block fieldset_uid fieldset_uid %}
 
 {% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  option.info %}
@@ -55,7 +58,7 @@
         <div class="buic-progress"></div>
 
         {# Uploadbuttons #}
-        {{ macro.upload_buttons('file', key, attributes.upload, option.upload, can_upload) }}
+        {{ macro.upload_buttons('file', fieldset_uid, attributes.upload, option.upload, can_upload) }}
 
         {# Infotext #}
         {% if not ismobileclient() %}
