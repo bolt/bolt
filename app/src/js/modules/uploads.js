@@ -25,9 +25,8 @@
      * @function bindField
      * @memberof Bolt.uploads
      * @param {Object} fieldset
-     * @param {Object} conf
      */
-    uploads.bindField = function (fieldset, conf) {
+    uploads.bindField = function (fieldset) {
         uploads.bindUpload(fieldset.id);
 
         // Setup autocomplete popup.

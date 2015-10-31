@@ -28,7 +28,8 @@
      * @param fconf
      */
     image.init = function (fieldset, fconf) {
-        bolt.uploads.bindField(fieldset, fconf);
+        //jshint unused:vars
+        bolt.uploads.bindField(fieldset);
 
         // Update the preview image on change.
         $(fieldset).find('input.path').on('change', function () {
