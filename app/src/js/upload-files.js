@@ -8,9 +8,7 @@ var FileModel = Backbone.Model.extend({
         id: null,
         filename: null,
         title: "Untitled",
-        order: 1,
-        progress: 0,
-        element: null
+        order: 1
     },
 
     initialize: function () {
@@ -48,13 +46,11 @@ var FilelistHolder = Backbone.View.extend({
         this.data = $('textarea', options.fieldset);
 
         if (options.type === 'imagelist') {
-            this.datWrongtype = 'field.imagelist.message.wrongtype';
             this.datRemove = 'field.imagelist.message.remove';
             this.datRemoveMulti = 'field.imagelist.message.removeMulti';
             this.tmplEmpty = 'field.imagelist.template.empty';
             this.tmplItem = 'field.imagelist.template.item';
         } else {
-            this.datWrongtype = 'field.filelist.message.wrongtype';
             this.datRemove = 'field.filelist.message.remove';
             this.datRemoveMulti = 'field.filelist.message.removeMulti';
             this.tmplEmpty = 'field.filelist.template.empty';
@@ -148,8 +144,7 @@ var FilelistHolder = Backbone.View.extend({
     },
 
     bindEvents: function () {
-        var $this = this,
-            thislist = this,
+        var thislist = this,
             fieldset = this.fieldset;
 
         fieldset.find('div.list').sortable({

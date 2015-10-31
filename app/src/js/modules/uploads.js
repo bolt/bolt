@@ -49,9 +49,8 @@
      * @function bindFileList
      * @memberof Bolt.uploads
      * @param {Object} fieldset
-     * @param {string} key
      */
-    uploads.bindFileList = function (fieldset, key) {
+    uploads.bindFileList = function (fieldset) {
         bolt.filelist[fieldset.id] = new FilelistHolder({fieldset: fieldset, type: 'filelist'});
         uploads.bindUpload(fieldset.id, bolt.filelist[fieldset.id]);
     };
@@ -63,9 +62,8 @@
      * @function bindImageList
      * @memberof Bolt.uploads
      * @param {Object} fieldset
-     * @param {string} key
      */
-    uploads.bindImageList = function (fieldset, key) {
+    uploads.bindImageList = function (fieldset) {
         bolt.imagelist[fieldset.id] = new FilelistHolder({fieldset: fieldset, type: 'imagelist'});
         uploads.bindUpload(fieldset.id, bolt.imagelist[fieldset.id]);
     };

@@ -25,10 +25,9 @@
      * @memberof Bolt.fields.image
      *
      * @param {Object} fieldset
-     * @param fconf
      */
-    imagelist.init = function (fieldset, fconf) {
-        bolt.uploads.bindImageList(fieldset, fconf.key);
+    imagelist.init = function (fieldset) {
+        bolt.uploads.bindImageList(fieldset);
     };
 
     // Apply mixin container
