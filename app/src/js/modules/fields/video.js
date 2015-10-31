@@ -1,9 +1,9 @@
 /**
- * Make the 'video embed' filetype work.
+ * Make the 'video embed' field work.
  *
  *
  * @mixin
- * @namespace Bolt.video
+ * @namespace Bolt.fields.video
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
@@ -21,7 +21,7 @@
      *
      * @static
      * @function bind
-     * @memberof Bolt.video
+     * @memberof Bolt.fields.video
      *
      * @param {string} key - Id of the video element.
      */
@@ -125,6 +125,6 @@
     };
 
     // Apply mixin container
-    bolt.video = video;
+    bolt.fields.video = video;
 
 })(Bolt || {}, jQuery);

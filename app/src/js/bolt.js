@@ -16,7 +16,6 @@
  * @mixes Bolt.secmenu
  * @mixes Bolt.stack
  * @mixes Bolt.uploads
- * @mixes Bolt.video
  *
  * @mixes Bolt.buic
  * @mixes Bolt.buic.checkbox
@@ -40,5 +39,6 @@
  * @mixes Bolt.fields.slug
  * @mixes Bolt.fields.tags
  * @mixes Bolt.fields.templateselect
+ * @mixes Bolt.fields.video
  */
 var Bolt = {};
