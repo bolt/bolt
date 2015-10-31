@@ -101,17 +101,11 @@
                 fileuploadProcessFail(evt, data);
             })
             .on('fileuploadsubmit', function (evt, data) {
-                if (list) {
-                    list.uploadSubmit(data.files);
-                }
                 $.each(data.files, function () {
                     $(progress).trigger('buic:progress-add', [this.name]);
                 });
             })
             .on('fileuploadalways', function (evt, data) {
-                if (list) {
-                    list.uploadAlways(data.files);
-                }
                 $.each(data.files, function () {
                     $(progress).trigger('buic:progress-remove', [this.name]);
                 });

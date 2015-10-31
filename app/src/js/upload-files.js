@@ -39,7 +39,7 @@ var FilelistHolder = Backbone.View.extend({
 
     initialize: function (options) {
         this.list = new Filelist();
-        this.uploading = new Filelist();
+        this.files = new Filelist();
         this.type = options.type;
         //
         this.fieldset = $(options.fieldset);
@@ -115,6 +115,7 @@ var FilelistHolder = Backbone.View.extend({
 
     remove: function (id, dontRender) {
         var done = false;
+
         _.each(this.list.models, function (item) {
             if (!done && item.get('id') === id) {
                 this.list.remove(item);
@@ -235,27 +236,6 @@ var FilelistHolder = Backbone.View.extend({
 
         $.each(result, function (idx, file) {
             that.add(file.name, file.name);
-        });
-    },
-
-    uploadSubmit: function (files) {
-        var that = this;
-
-        $.each(files, function (idx, file) {
-            file.uploading = new FileModel({
-                filename: file.name
-            });
-            that.uploading.add(file.uploading);
-        });
-
-       this.render();
-    },
-
-    uploadAlways: function (files) {
-        var that = this;
-
-        $.each(files, function (idx, file) {
-            that.uploading.remove(file.uploading);
         });
 
         this.render();
