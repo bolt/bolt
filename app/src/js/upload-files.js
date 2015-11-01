@@ -1,45 +1,10 @@
 /**
- * Model, Collection and View for Filelist.
+ * View for Filelist.
  */
-
-var FileModel = Backbone.Model.extend({
-
-    defaults: {
-        id: null,
-        filename: null,
-        title: "Untitled",
-        order: 1
-    },
-
-    initialize: function () {
-    }
-
-});
-
-var Filelist = Backbone.Collection.extend({
-
-    model: FileModel,
-
-    comparator: function (upload) {
-        return upload.get('order');
-    },
-
-    setOrder: function (id, order, title) {
-        _.each(this.models, function (item) {
-            if (item.get('id') === id) {
-                item.set('order', order);
-                item.set('title', title);
-            }
-        });
-    }
-
-});
 
 var FilelistHolder = Backbone.View.extend({
 
     initialize: function (options) {
-        this.list = new Filelist();
-        this.files = new Filelist();
         this.type = options.type;
         //
         this.fieldset = $(options.fieldset);
@@ -57,91 +22,55 @@ var FilelistHolder = Backbone.View.extend({
             this.tmplItem = 'field.filelist.template.item';
         }
 
-        var list = this.list;
+        var that = this,
+            preset = $.parseJSON(this.data.val() || '[]');
 
-        $.each($.parseJSON(this.data.val() || '[]'), function (idx, item) {
-            list.add(
-                new FileModel({
-                    filename: item.filename,
-                    title: item.title,
-                    id: list.length
-                })
-            );
-        });
+        if (preset.length) {
+            $.each(preset, function (idx, item) {
+                that.add(item.filename, item.title);
+            });
+        } else {
+            $('.list', this.fieldset).append(Bolt.data(this.tmplEmpty));
+        }
 
-        this.render();
         this.bindEvents();
     },
 
-    render: function () {
-        this.list.sort();
+    add: function (filename, title) {
+        // Remove empty list message, if there.
+        $('.list>p', this.fieldset).remove();
 
-        var list = $('.list', this.fieldset),
-            listtype = this.type,
-            tmplItem = this.tmplItem;
+        var replace = {
+                '%VAL%':   _.escape(title),
+                '%PATH%':  Bolt.conf('paths.bolt'),
+                '%FNAME%': filename
+            },
+            element = $(Bolt.data(this.tmplItem, replace));
 
-        list.html('');
-        _.each(this.list.models, function (file) {
-            var replace = {
-                    '%ID%':    file.get('id'),
-                    '%VAL%':   _.escape(file.get('title')),
-                    '%PATH%':  Bolt.conf('paths.bolt'),
-                    '%FNAME%': file.get('filename')
-                },
-                element = $(Bolt.data(tmplItem, replace));
+        $('.list', this.fieldset).append(element);
 
-            if (listtype === 'imagelist') {
-                element.find('.thumbnail-link').magnificPopup({type: 'image'});
-            }
-            list.append(element);
-        });
-
-        if (this.list.models.length === 0) {
-            list.append(Bolt.data(this.tmplEmpty));
-        }
         this.serialize();
     },
 
-    add: function (filename, title) {
-        this.list.add(
-            new FileModel({
-                filename: filename,
-                title: title,
-                id: this.list.length
-            })
-        );
-        this.render();
-    },
-
-    remove: function (id, dontRender) {
-        var done = false;
-
-        _.each(this.list.models, function (item) {
-            if (!done && item.get('id') === id) {
-                this.list.remove(item);
-                done = true;
-            }
-        }, this);
-
-        if (!dontRender) {
-            this.render();
-        }
-    },
-
     serialize: function () {
-        this.data.val(JSON.stringify(this.list));
-    },
+        var data = [];
 
-    doneSort: function () {
-        var list = this.list;
+        $('.list .list-item', this.fieldset).each(function () {
+            var input = $(this).find('input'),
+                title = input.val(),
+                filename = $(this).find('input').data('filename');
 
-        $('.list div', this.fieldset).each(function (index) {
-            var id = $(this).data('id'),
-                title = $(this).find('input').val();
-
-            list.setOrder(id, index, title);
+            data.push({
+                filename: filename,
+                title: title
+            });
         });
-        this.render();
+        this.data.val(JSON.stringify(data));
+
+        // Display empty list message.
+        if (data.length === 0) {
+            $('.list', this.fieldset).html(Bolt.data(this.tmplEmpty));
+        }
     },
 
     bindEvents: function () {
@@ -172,7 +101,7 @@ var FilelistHolder = Backbone.View.extend({
             },
             stop: function () {
                 fieldset.find('.ui-state-active').css('display', '');
-                thislist.doneSort();
+                thislist.serialize();
             },
             delay: 100,
             distance: 5
@@ -211,23 +140,22 @@ var FilelistHolder = Backbone.View.extend({
 
         fieldset.find('.remove-selected-button').on('click', function () {
             if (confirm(Bolt.data(thislist.datRemoveMulti))) {
-                fieldset.find('.selected').each(function () {
-                    thislist.remove($(this).data('id'), true);
-                });
-                thislist.render();
+                fieldset.find('.selected').closest('.list-item').remove();
+                thislist.serialize();
             }
         });
 
-        fieldset.find('div.list').on('click', '.remove-button', function (e) {
-            e.preventDefault();
+        fieldset.find('div.list').on('click', '.remove-button', function (evt) {
+            evt.preventDefault();
 
             if (confirm(Bolt.data(thislist.datRemove))) {
-                thislist.remove($(this).parent().data('id'));
+                $(this).closest('.list-item').remove();
+                thislist.serialize();
             }
         });
 
-        fieldset.find("div.list").on('blur', 'input', function () {
-            thislist.doneSort();
+        fieldset.find('div.list').on('change', 'input', function () {
+            thislist.serialize();
         });
     },
 
