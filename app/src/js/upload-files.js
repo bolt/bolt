@@ -120,7 +120,7 @@ var FilelistHolder = Backbone.View.extend({
                     }
 
                     lastClick = evt.shiftKey || evt.ctrlKey || evt.metaKey || $(this).hasClass('selected') ?
-                        null : $(this);
+                        $(this) : null;
                 }
             })
             .on('click', '.remove-button', function (evt) {
