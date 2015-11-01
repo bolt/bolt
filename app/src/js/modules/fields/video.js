@@ -114,7 +114,7 @@
             $(fieldset).find('[data-video="height"]').val('');
             $(fieldset).find('[data-video="ratio"]').val('');
             $(fieldset).find('[data-video="text"]').html('');
-            $('#myModal').find('.modal-body').html('');
+            $(fieldset).find('[data-video="modal"]').find('.modal-body').html('');
             $(fieldset).find('[data-video="authorname"]').val('');
             $(fieldset).find('[data-video="authorurl"]').val('');
             $(fieldset).find('[data-video="title"]').val('');
@@ -130,7 +130,7 @@
                 $(fieldset).find('[data-video="height"]').val(data.height);
                 $(fieldset).find('[data-video="ratio"]').val(data.width / data.height);
                 $(fieldset).find('[data-video="text"]').html('"<b>' + data.title + '</b>" by ' + data.author_name);
-                $('#myModal').find('.modal-body').html(data.html);
+                $(fieldset).find('[data-video="modal"]').find('.modal-body').html(data.html);
                 $(fieldset).find('[data-video="authorname"]').val(data.author_name);
                 $(fieldset).find('[data-video="authorurl"]').val(data.author_url);
                 $(fieldset).find('[data-video="title"]').val(data.title);
