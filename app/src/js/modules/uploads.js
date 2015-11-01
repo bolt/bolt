@@ -193,7 +193,6 @@
         var progress = $(fieldset).find('.buic-progress'),
             dropzone = $(fieldset).find('.dropzone'),
             fileinput = $(fieldset).find('input[type=file]'),
-            pathinput = $(fieldset).find('input.path'),
             //
             maxSize = bolt.conf('uploadConfig.maxSize'),
             accept = $(fileinput).attr('accept'),
@@ -216,19 +215,13 @@
                     maxNumberOfFiles: '#'
                 }
             })
-            .on('fileuploaddone', function (evt, data) {
-                if (isList) {
-                    $.each(data.result, function (idx, file) {
-                        uploads.addToList(fieldset, file.name, file.name);
-                    });
-                } else {
-                    fileuploadDone(pathinput, data);
-                }
-            })
             .on('fileuploadprocessfail', onProcessFail)
             .on('fileuploadsubmit', onUploadSubmit)
             .on('fileuploadprogress', onUploadProgress)
-            .on('fileuploadalways', onUploadAlways);
+            .on('fileuploadalways', onUploadAlways)
+            .on('fileuploaddone', function (event, data) {
+                onUploadDone(event, data, fieldset);
+            });
     }
 
     /**
@@ -300,7 +293,7 @@
      * After successful or failed upload.
      *
      * @private
-     * @function onUploadSubmit
+     * @function onUploadAlways
      * @memberof Bolt.uploads
      * @param {Object} event
      * @param {Object} data
@@ -308,6 +301,35 @@
     function onUploadAlways(event, data) {
         $.each(data.files, function () {
             $(progress).trigger('buic:progress-remove', [this.name]);
+        });
+    }
+
+    /**
+     * Files successfully uploaded.
+     *
+     * @private
+     * @function onUploadDone
+     * @memberof Bolt.uploads
+     * @param {Object} event
+     * @param {Object} data
+     * @param {Object} fieldset
+     */
+    function onUploadDone(event, data, fieldset) {
+        var pathinput = $(fieldset).find('input.path');
+
+        $.each(data.result, function (idx, file) {
+            if (pathinput.length > 0) {
+                if (file.error) {
+                    bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
+                } else {
+                    pathinput.val(file.name).trigger('change');
+
+                    // Add the uploaded file to our stack.
+                    bolt.stack.addToStack(file.name);
+                }
+            } else {
+                uploads.addToList(fieldset, file.name, file.name);
+            }
         });
     }
 
@@ -338,29 +360,6 @@
         }
 
         return val + ' ' + units[u].trim() + 'B';
-    }
-
-    /**
-     * Callback for successful upload requests.
-     *
-     * @private
-     * @function fileuploadDone
-     * @memberof Bolt.uploads
-     *
-     * @param {Object} pathinput - Path input (single upload only).
-     * @param {Object} data - Data.
-     */
-    function fileuploadDone(pathinput, data) {
-        $.each(data.result, function (idx, file) {
-            if (file.error) {
-                bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
-            } else {
-                pathinput.val(file.name).trigger('change');
-
-                // Add the uploaded file to our stack.
-                bolt.stack.addToStack(file.name);
-            }
-        });
     }
 
     /**
