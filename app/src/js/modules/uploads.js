@@ -27,7 +27,7 @@
      * @param {Object} fieldset
      */
     uploads.bindField = function (fieldset) {
-        uploads.bindUpload(fieldset.id);
+        uploads.bindUpload(fieldset.id, false);
 
         // Setup autocomplete popup.
         var accept = ($(fieldset).find('input[accept]').prop('accept') || '').replace(/\./g, ''),
@@ -43,6 +43,110 @@
     };
 
     /**
+     * This function handles the setup of any list fields that requires upload capability.
+     *
+     * @static
+     * @function bindListField
+     * @memberof Bolt.uploads
+     * @param {Object} fieldset
+     * @param {string} type
+     */
+    uploads.bindListField = function (fieldset, type) {
+        // Bind events.
+        var fieldset = $(fieldset),
+            listField = $('div.list', fieldset),
+            dataField = $('textarea', fieldset),
+            lastClick = null,
+            isFile = type === 'filelist',
+            message = {
+                removeSingle: isFile ? 'field.filelist.message.remove' : 'field.imagelist.message.remove',
+                removeMulti: isFile ? 'field.filelist.message.removeMulti' : 'field.imagelist.message.removeMulti'
+            },
+            template = {
+                empty: isFile ? 'field.filelist.template.empty' : 'field.imagelist.template.empty',
+                item: isFile ? 'field.filelist.template.item' : 'field.imagelist.template.item'
+            };
+
+        listField
+            .sortable({
+                helper: function (evt, item) {
+                    if (!item.hasClass('selected')) {
+                        item.toggleClass('selected');
+                    }
+
+                    return $('<div></div>');
+                },
+                start: function (evt, ui) {
+                    var elements = fieldset.find('.selected').not('.ui-sortable-placeholder'),
+                        len = elements.length,
+                        currentOuterHeight = ui.placeholder.outerHeight(true),
+                        currentInnerHeight = ui.placeholder.height(),
+                        margin = parseInt(ui.placeholder.css('margin-top')) +
+                            parseInt(ui.placeholder.css('margin-bottom'));
+
+                    elements.hide();
+                    ui.placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
+                    ui.item.data('items', elements);
+                },
+                beforeStop: function (evt, ui) {
+                    ui.item.before(ui.item.data('items'));
+                },
+                stop: function () {
+                    fieldset.find('.selected').show();
+                    serializeList(fieldset);
+                },
+                delay: 100,
+                distance: 5
+            })
+            .on('click', '.list-item', function (evt) {
+                if ($(evt.target).hasClass('list-item')) {
+                    if (evt.shiftKey) {
+                        if (lastClick) {
+                            var currentIndex = $(this).index(),
+                                lastIndex = lastClick.index();
+
+                            if (lastIndex > currentIndex) {
+                                $(this).nextUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                            } else if (lastIndex < currentIndex) {
+                                $(this).prevUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                            } else {
+                                $(this).toggleClass('selected');
+                            }
+                        }
+                    } else if (evt.ctrlKey || evt.metaKey) {
+                        $(this).toggleClass('selected');
+                    } else {
+                        fieldset.find('.list-item').not($(this)).removeClass('selected');
+                        $(this).toggleClass('selected');
+                    }
+
+                    lastClick = evt.shiftKey || evt.ctrlKey || evt.metaKey || $(this).hasClass('selected') ?
+                        $(this) : null;
+                }
+            })
+            .on('click', '.remove-button', function (evt) {
+                evt.preventDefault();
+
+                if (confirm(Bolt.data(message.removeSingle))) {
+                    $(this).closest('.list-item').remove();
+                    serializeList(fieldset);
+                }
+            })
+            .on('change', 'input', function () {
+                serializeList(fieldset);
+            });
+
+        fieldset.find('.remove-selected-button').on('click', function () {
+            if (confirm(Bolt.data(message.removeMulti))) {
+                fieldset.find('.selected').closest('.list-item').remove();
+                serializeList(fieldset);
+            }
+        });
+
+        uploads.bindUpload(fieldset.id, true);
+    };
+
+    /**
      * Setup upload capability of file lists.
      *
      * @static
@@ -51,8 +155,7 @@
      * @param {Object} fieldset
      */
     uploads.bindFileList = function (fieldset) {
-        bolt.filelist[fieldset.id] = new FilelistHolder({fieldset: fieldset, type: 'filelist'});
-        uploads.bindUpload(fieldset.id, bolt.filelist[fieldset.id]);
+        uploads.bindListField(fieldset, 'filelist');
     };
 
     /**
@@ -64,8 +167,7 @@
      * @param {Object} fieldset
      */
     uploads.bindImageList = function (fieldset) {
-        bolt.imagelist[fieldset.id] = new FilelistHolder({fieldset: fieldset, type: 'imagelist'});
-        uploads.bindUpload(fieldset.id, bolt.imagelist[fieldset.id]);
+        uploads.bindListField(fieldset, 'imagelist');
     };
 
     /**
@@ -77,9 +179,9 @@
      * @function bindUpload
      * @memberof Bolt.uploads
      * @param {string} fieldId
-     * @param {FilelistHolder} list
+     * @param {boolean} isList
      */
-    uploads.bindUpload = function (fieldId, list) {
+    uploads.bindUpload = function (fieldId, isList) {
         var fieldset = $('#' + fieldId),
             progress = $(fieldset).find('.buic-progress'),
             dropzone = $(fieldset).find('.dropzone'),
@@ -111,9 +213,9 @@
                 uploadOptions
             )
             .on('fileuploaddone', function (evt, data) {
-                if (list) {
+                if (isList) {
                     $.each(data.result, function (idx, file) {
-                        list.addToList(file.name, file.name);
+                        addToList(fieldset, file.name, file.name);
                     });
                 } else {
                     fileuploadDone(pathinput, data);
@@ -137,6 +239,37 @@
                     $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
                 });
             });
+    };
+
+    /**
+     * Adds a file to an upload list.
+     *
+     * @static
+     * @function addToList
+     * @memberof Bolt.uploads
+     * @param {Object} fieldset
+     * @param {string} filename
+     * @param {string} title
+     */
+    uploads.addToList = function (fieldset, filename, title) {
+        var listField = $('div.list', fieldset);
+
+        // Remove empty list message, if there.
+        $('>p', listField).remove();
+
+        // Append to list.
+        listField.append(
+            $(Bolt.data(
+                Bolt.data(template.item),
+                {
+                    '%TITLE_A%':    title,
+                    '%FILENAME_E%': $('<div>').text(filename).html(), // Escaped
+                    '%FILENAME_A%': filename
+                }
+            ))
+        );
+
+        serializeList(fieldset);
     };
 
     /**
@@ -224,6 +357,34 @@
                 bolt.stack.addToStack(file.name);
             }
         });
+    }
+
+    /**
+     * Serialize list data on change.
+     *
+     * @private
+     * @function serializeList
+     * @memberof Bolt.uploads
+     *
+     * @param {Object} fieldset
+     */
+    function serializeList(fieldset) {
+        var listField = $('div.list', fieldset),
+            dataField = $('textarea', fieldset),
+            data = [];
+
+        $('.list-item', listField).each(function () {
+            data.push({
+                filename: $(this).find('input.filename').val(),
+                title: $(this).find('input.title').val()
+            });
+        });
+        dataField.val(JSON.stringify(data));
+
+        // Display empty list message.
+        if (data.length === 0) {
+            listField.html(Bolt.data(template.empty));
+        }
     }
 
     // Apply mixin container
