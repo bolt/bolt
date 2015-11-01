@@ -1,25 +1,3 @@
-{### Template: Empty list ###}
-
-{% set template_empty %}
-    <p>{{ __('No images in the list, yet.') }}</p>
-{% endset %}
-
-{{ data('field.imagelist.template.empty', template_empty|trim) }}
-
-{### Template: Listitem ###}
-
-{% set template_item %}
-    <div data-id="%ID%" class="list-item ui-state-default">
-        <a class="thumbnail-link" href="%PATH%../files/%FNAME%">
-            <img src="%PATH%../thumbs/60x40/%FNAME%" width="60" height="40">
-        </a>
-        <input type="text" value="%VAL%" data-filename="%FNAME%">
-        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
-    </div>
-{% endset %}
-
-{{ data('field.imagelist.template.item', template_item|trim|preg_replace('/>\\s+</', '><')) }}
-
 {### Messages ###}
 
 {{ data('field.imagelist.message.remove',      __('Are you sure you want to remove this image?')) }}
