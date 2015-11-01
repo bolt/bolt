@@ -72,7 +72,7 @@
                     // Init file select action.
                     .find('[data-fbrowser-select]').on('click', function (evt) {
                         evt.preventDefault();
-                        bolt.stack.select(
+                        select(
                             $(this).closest('[data-fbrowser-fieldid]').data('fbrowser-fieldid'),
                             $(this).data('fbrowser-select')
                         );
@@ -81,6 +81,38 @@
                     .show();
             }
         });
+    }
+
+    /**
+     * Select file in modal file selector dialog.
+     *
+     * @private
+     * @function select
+     * @memberof Bolt.filebrowser
+     *
+     * @param {string} fieldid - Id of the fieldset
+     * @param {string} path - Path to the selected file
+     */
+    function select(fieldid, path) {
+        var container = $('#' + fieldid);
+
+        switch (container.data('bolt-field')) {
+            case 'file':
+            case 'image':
+                $('input.path', container).val(path).trigger('change');
+                break;
+            case 'filelist':
+                bolt.uploads.addToList(container, path, path);
+                break;
+            case 'imagelist':
+                bolt.uploads.addToList(container, path, path);
+                break;
+            default:
+                bolt.stack.addToStack(path);
+        }
+
+        // Close the modal dialog.
+        $('#modal-server-select').modal('hide');
     }
 
     // Apply mixin container

@@ -123,14 +123,9 @@
             case 'imagelist':
                 bolt.uploads.addToList(container, path, path);
                 break;
-            default:
-                bolt.stack.addToStack(path);
         }
 
-        // Close the modal dialog, if this image/file was selected through one.
-        $('#modal-server-select').modal('hide');
-
-        // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
+        // Close the dropdown menu.
         $('.in, .open').removeClass('in open');
     };
 
