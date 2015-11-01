@@ -27,6 +27,7 @@
      * @param fconf
      */
     video.init = function (fieldset, fconf) {
+        console.log(fieldset);
         bolt.fields.video.bind(fieldset);
     };
 
