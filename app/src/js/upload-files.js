@@ -33,9 +33,10 @@ var FilelistHolder = Backbone.View.extend({
             $(Bolt.data(
                 this.tmplItem,
                 {
-                    '%VAL%':   $('<div>').text(title).html(), // Escaped
-                    '%PATH%':  Bolt.conf('paths.bolt'),
-                    '%FNAME%': filename
+                    '%TITLE_H%':    $('<div>').text(title).html(), // Escaped
+                    '%TITLE_A%':    title,
+                    '%PATH_A%':     Bolt.conf('paths.bolt'),
+                    '%FILENAME_A%': filename
                 }
             ))
         );
@@ -47,13 +48,9 @@ var FilelistHolder = Backbone.View.extend({
         var data = [];
 
         $('.list-item', this.list).each(function () {
-            var input = $(this).find('input'),
-                title = input.val(),
-                filename = $(this).find('input').data('filename');
-
             data.push({
-                filename: filename,
-                title: title
+                filename: $(this).find('input.filename').val(),
+                title: $(this).find('input.title').val()
             });
         });
         this.data.val(JSON.stringify(data));

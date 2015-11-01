@@ -42,9 +42,10 @@
 
 {% set template_item %}
     <div class="list-item ui-state-default">
-        <input type="text" value="%VAL%" data-filename="%FNAME%">
+        <input type="text" class="title" value="%TITLE_A%">
+        <input type="hidden" class="filename" value="%FILENAME_A%">
         <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
-        <span>%FNAME%</span>
+        <span>%FILENAME_E%</span>
     </div>
 {% endset %}
 {% set template_item = template_item|trim|preg_replace('/>\\s+</', '><') %}
@@ -75,8 +76,9 @@
         <div class="list">
             {% for file in list %}
                 {{ template_item|replace({
-                    '%VAL%':   file.title|e('html_attr'),
-                    '%FNAME%': file.filename|e('html_attr')
+                    '%TITLE_A%':    file.title|e('html_attr'),
+                    '%FILENAME_A%': file.filename|e('html_attr'),
+                    '%FILENAME_E%': file.filename|e('html')
                 })|raw }}
             {% else %}
                 {{ template_empty|raw }}

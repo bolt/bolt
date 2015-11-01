@@ -41,10 +41,11 @@
 
 {% set template_item %}
     <div class="list-item ui-state-default">
-        <a class="thumbnail-link" href="%PATH%../files/%FNAME%">
-            <img src="%PATH%../thumbs/60x40/%FNAME%" width="60" height="40">
+        <a class="thumbnail-link" href="{{ app.paths.bolt }}../files/%FILENAME_A%">
+            <img src="{{ app.paths.bolt }}../thumbs/60x40/%FILENAME_A%" width="60" height="40">
         </a>
-        <input type="text" value="%VAL%" data-filename="%FNAME%">
+        <input type="text" class="title" value="%TITLE_A%">
+        <input type="hidden" class="filename" value="%FILENAME_A%">
         <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
     </div>
 {% endset %}
@@ -76,9 +77,8 @@
         <div class="list">
             {% for image in list %}
                 {{ template_item|replace({
-                    '%VAL%':   image.title|e('html_attr'),
-                    '%FNAME%': image.filename|e('html_attr'),
-                    '%PATH%':  app.paths.bolt|e('html_attr'),
+                    '%TITLE_A%':    image.title|e('html_attr'),
+                    '%FILENAME_A%': image.filename|e('html_attr')
                 })|raw }}
             {% else %}
                 {{ template_empty|raw }}
