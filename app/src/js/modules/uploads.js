@@ -84,11 +84,31 @@
             progress = $(fieldset).find('.buic-progress'),
             dropzone = $(fieldset).find('.dropzone'),
             fileinput = $(fieldset).find('input[type=file]'),
-            pathinput = $(fieldset).find('input.path');
+            pathinput = $(fieldset).find('input.path'),
+            //
+            maxSize = bolt.conf('uploadConfig.maxSize'),
+            accept = $(fileinput).attr('accept'),
+            extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
+            pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i'),
+            uploadOptions = {
+                dataType: 'json',
+                dropZone: $(dropzone),
+                pasteZone: null,
+                maxFileSize: maxSize > 0 ? maxSize : undefined,
+                minFileSize: undefined,
+                acceptFileTypes: accept ? pattern : undefined,
+                maxNumberOfFiles: undefined,
+                messages: {
+                    maxFileSize: '>:' + humanBytes(maxSize),
+                    minFileSize: '<',
+                    acceptFileTypes: 'T:.' + extensions.join(', .'),
+                    maxNumberOfFiles: '#'
+                }
+            };
 
         fileinput
             .fileupload(
-                uploadOptions(fileinput, dropzone)
+                uploadOptions
             )
             .on('fileuploaddone', function (evt, data) {
                 if (list) {
@@ -116,39 +136,6 @@
                 });
             });
     };
-
-    /**
-     * Returns an upload option object.
-     *
-     * @private
-     * @function uploadOptions
-     * @memberof Bolt.uploads
-     * @param {Object} fileinput
-     * @param {Object} dropzone
-     * @returns {Object}
-     */
-    function uploadOptions(fileinput, dropzone) {
-        var maxSize = bolt.conf('uploadConfig.maxSize'),
-            accept = $(fileinput).attr('accept'),
-            extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
-            pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i');
-
-        return {
-            dataType: 'json',
-            dropZone: $(dropzone),
-            pasteZone: null,
-            maxFileSize: maxSize > 0 ? maxSize : undefined,
-            minFileSize: undefined,
-            acceptFileTypes: accept ? pattern : undefined,
-            maxNumberOfFiles: undefined,
-            messages: {
-                maxFileSize: '>:' + humanBytes(maxSize),
-                minFileSize: '<',
-                acceptFileTypes: 'T:.' + extensions.join(', .'),
-                maxNumberOfFiles: '#'
-            }
-        };
-    }
 
     /**
      * Upload processing failed.
