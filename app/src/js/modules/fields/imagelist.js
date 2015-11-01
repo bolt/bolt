@@ -27,7 +27,13 @@
      * @param {Object} fieldset
      */
     imagelist.init = function (fieldset) {
-        bolt.uploads.bindImageList(fieldset);
+        bolt.uploads.bindList(
+            fieldset,
+            {
+                removeSingle: bolt.data('field.imagelist.message.remove'),
+                removeMulti: bolt.data('field.imagelist.message.removeMulti')
+            }
+        );
     };
 
     // Apply mixin container

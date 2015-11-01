@@ -46,18 +46,13 @@
      * This function handles the setup of any list fields that requires upload capability.
      *
      * @static
-     * @function bindListField
+     * @function bindList
      * @memberof Bolt.uploads
      * @param {Object} fieldset
-     * @param {string} type
+     * @param {Object} messages
      */
-    uploads.bindListField = function (fieldset, type) {
-        var lastClick = null,
-            isFile = type === 'filelist',
-            message = {
-                removeSingle: isFile ? 'field.filelist.message.remove' : 'field.imagelist.message.remove',
-                removeMulti: isFile ? 'field.filelist.message.removeMulti' : 'field.imagelist.message.removeMulti'
-            };
+    uploads.bindList = function (fieldset, isFile) {
+        var lastClick = null;
 
         $('div.list', fieldset)
             .sortable({
@@ -119,7 +114,7 @@
             .on('click', '.remove-button', function (evt) {
                 evt.preventDefault();
 
-                if (confirm(Bolt.data(message.removeSingle))) {
+                if (confirm(messages.removeSingle)) {
                     $(this).closest('.list-item').remove();
                     serializeList(fieldset);
                 }
@@ -129,37 +124,13 @@
             });
 
         $(fieldset).find('.remove-selected-button').on('click', function () {
-            if (confirm(Bolt.data(message.removeMulti))) {
+            if (confirm(messages.removeMulti)) {
                 fieldset.find('.selected').closest('.list-item').remove();
                 serializeList(fieldset);
             }
         });
 
         uploads.bindUpload(fieldset.id, true);
-    };
-
-    /**
-     * Setup upload capability of file lists.
-     *
-     * @static
-     * @function bindFileList
-     * @memberof Bolt.uploads
-     * @param {Object} fieldset
-     */
-    uploads.bindFileList = function (fieldset) {
-        uploads.bindListField(fieldset, 'filelist');
-    };
-
-    /**
-     * Setup upload capability of image lists.
-     *
-     * @static
-     * @function bindImageList
-     * @memberof Bolt.uploads
-     * @param {Object} fieldset
-     */
-    uploads.bindImageList = function (fieldset) {
-        uploads.bindListField(fieldset, 'imagelist');
     };
 
     /**
