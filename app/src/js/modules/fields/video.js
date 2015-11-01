@@ -17,6 +17,23 @@
     var video = {};
 
     /**
+     * Initialise video field.
+     *
+     * @static
+     * @function init
+     * @memberof Bolt.fields.video
+     *
+     * @param {Object} fieldset
+     * @param fconf
+     */
+    video.init = function (fieldset, fconf) {
+        $(fieldset).find('[data-bind]').each(function () {
+            var data = $(this).data('bind');
+            bolt.fields.video.bind(data.key);
+        });
+    };
+
+    /**
      * bind
      *
      * @static
