@@ -21,17 +21,6 @@ var FilelistHolder = Backbone.View.extend({
             this.tmplItem = 'field.filelist.template.item';
         }
 
-        var that = this,
-            preset = $.parseJSON(this.data.val() || '[]');
-
-        if (preset.length) {
-            $.each(preset, function (idx, item) {
-                that.add(item.filename, item.title);
-            });
-        } else {
-            this.list.append(Bolt.data(this.tmplEmpty));
-        }
-
         this.bindEvents();
     },
 
