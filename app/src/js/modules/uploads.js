@@ -27,7 +27,7 @@
      * @param {Object} fieldset
      */
     uploads.bindField = function (fieldset) {
-        bindUpload(fieldset.id, false);
+        bindUpload(fieldset, false);
 
         // Setup autocomplete popup.
         var accept = ($(fieldset).find('input[accept]').prop('accept') || '').replace(/\./g, ''),
@@ -130,7 +130,7 @@
             }
         });
 
-        bindUpload(fieldset.id, true);
+        bindUpload(fieldset, true);
     };
 
     /**
@@ -142,7 +142,7 @@
      * @param {Object} container
      */
     uploads.bindStack = function (container) {
-        bindUpload(container.attr('id'));
+        bindUpload(container);
     };
 
     /**
@@ -157,7 +157,7 @@
      */
     uploads.addToList = function (fieldset, filename, title) {
         var listField = $('div.list', fieldset),
-            type = fieldset.data('bolt-field'),
+            type = $(fieldset).data('bolt-field'),
             templateItem = type === 'filelist' ? 'field.filelist.template.item' : 'field.imagelist.template.item';
 
         // Remove empty list message, if there.
@@ -186,12 +186,11 @@
      * @private
      * @function bindUpload
      * @memberof Bolt.uploads
-     * @param {string} fieldId
+     * @param {Object} fieldset
      * @param {boolean} isList
      */
-    function bindUpload(fieldId, isList) {
-        var fieldset = $('#' + fieldId),
-            progress = $(fieldset).find('.buic-progress'),
+    function bindUpload(fieldset, isList) {
+        var progress = $(fieldset).find('.buic-progress'),
             dropzone = $(fieldset).find('.dropzone'),
             fileinput = $(fieldset).find('input[type=file]'),
             pathinput = $(fieldset).find('input.path'),
