@@ -12,7 +12,7 @@
     'use strict';
 
     /*
-     * Bolt.video mixin container.
+     * Bolt.fields.video mixin container.
      */
     var video = {};
 
@@ -42,7 +42,7 @@
      *
      * @param {string} key - Id of the video element.
      */
-    video.bind = function (key) {
+    video.bind = function (element) {
         //
         $('#video-' + key).bind(
             'propertychange input',
