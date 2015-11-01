@@ -27,10 +27,7 @@
      * @param fconf
      */
     video.init = function (fieldset, fconf) {
-        $(fieldset).find('[data-bind]').each(function () {
-            var data = $(this).data('bind');
-            bolt.fields.video.bind(data.key);
-        });
+        bolt.fields.video.bind(fieldset);
     };
 
     /**
@@ -42,38 +39,38 @@
      *
      * @param {string} key - Id of the video element.
      */
-    video.bind = function (element) {
-        //
-        $('#video-' + key).bind(
+    video.bind = function (fieldset) {
+
+        $(fieldset).find('[data-video="main"]').bind(
             'propertychange input',
             function () {
                 clearTimeout(timeout);
                 timeout = setTimeout(
                     function () {
-                        update(key);
+                        update(fieldset);
                     },
                     400
                 );
             }
         );
 
-        $('#video-' + key + '-width').bind(
+        $(fieldset).find('[data-video="width"]').bind(
             'propertychange input',
             function () {
-                if ($('#video-' + key + '-ratio').val() > 0) {
-                    $('#video-' + key + '-height').val(
-                        Math.round($('#video-' + key + '-width').val() / $('#video-' + key + '-ratio').val())
+                if ($(fieldset).find('[data-video="ratio"]').val() > 0) {
+                    $(fieldset).find('[data-video="height"]').val(
+                        Math.round($(fieldset).find('[data-video="width"]').val() / $(fieldset).find('[data-video="ratio"]').val())
                     );
                 }
             }
         );
 
-        $('#video-' + key + '-height').bind(
+        $(fieldset).find('[data-video="height"]').bind(
             'propertychange input',
             function () {
-                if ($('#video-' + key + '-ratio').val() > 0) {
-                    $('#video-' + key + '-width').val(
-                        Math.round($('#video-' + key + '-height').val() * $('#video-' + key + '-ratio').val())
+                if ($(fieldset).find('[data-video="ratio"]').val() > 0) {
+                    $(fieldset).find('[data-video="width"]').val(
+                        Math.round($(fieldset).find('[data-video="height"]').val() * $(fieldset).find('[data-video="ratio"]').val())
                     );
                 }
             }
@@ -98,48 +95,48 @@
      *
      * @param {string} key - Id of the video element.
      */
-    var update = function (key) {
+    var update = function (fieldset) {
         // Embed endpoint https://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
-        // @TODO: Make less dependant on key.
         var endpoint = 'https://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=',
-            val = $('#video-' + key).val(),
+            val = $(fieldset).find('[data-video="main"]').val(),
             url = endpoint + encodeURI(val);
 
         // If val is emptied, clear the video fields.
         if (val.length < 2) {
-            $('#video-' + key + '-html').val('');
-            $('#video-' + key + '-width').val('');
-            $('#video-' + key + '-height').val('');
-            $('#video-' + key + '-ratio').val('');
-            $('#video-' + key + '-text').html('');
+            $(fieldset).find('[data-video="html"]').val('');
+            $(fieldset).find('[data-video="width"]').val('');
+            $(fieldset).find('[data-video="height"]').val('');
+            $(fieldset).find('[data-video="ratio"]').val('');
+            $(fieldset).find('[data-video="text"]').html('');
             $('#myModal').find('.modal-body').html('');
-            $('#video-' + key + '-author_name').val('');
-            $('#video-' + key + '-author_url').val('');
-            $('#video-' + key + '-title').val('');
-            $('#thumbnail-' + key).html('');
-            $('#video-' + key + '-thumbnail').val('');
+            $(fieldset).find('[data-video="authorname"]').val('');
+            $(fieldset).find('[data-video="authorurl"]').val('');
+            $(fieldset).find('[data-video="title"]').val('');
+            $(fieldset).find('[data-video="thumbcontainer"]').html('');
+            $(fieldset).find('[data-video="thumbnail"]').val('');
             return;
         }
 
         $.getJSON(url, function (data) {
             if (data.html) {
-                $('#video-' + key + '-html').val(data.html);
-                $('#video-' + key + '-width').val(data.width);
-                $('#video-' + key + '-height').val(data.height);
-                $('#video-' + key + '-ratio').val(data.width / data.height);
-                $('#video-' + key + '-text').html('"<b>' + data.title + '</b>" by ' + data.author_name);
+                $(fieldset).find('[data-video="html"]').val(data.html);
+                $(fieldset).find('[data-video="width"]').val(data.width);
+                $(fieldset).find('[data-video="height"]').val(data.height);
+                $(fieldset).find('[data-video="ratio"]').val(data.width / data.height);
+                $(fieldset).find('[data-video="text"]').html('"<b>' + data.title + '</b>" by ' + data.author_name);
                 $('#myModal').find('.modal-body').html(data.html);
-                $('#video-' + key + '-author_name').val(data.author_name);
-                $('#video-' + key + '-author_url').val(data.author_url);
-                $('#video-' + key + '-title').val(data.title);
+                $(fieldset).find('[data-video="authorname"]').val(data.author_name);
+                $(fieldset).find('[data-video="authorurl"]').val(data.author_url);
+                $(fieldset).find('[data-video="title"]').val(data.title);
             }
 
             if (data.thumbnail_url) {
-                $('#thumbnail-' + key).html('<img src="' + data.thumbnail_url + '" width="200" height="150">');
-                $('#video-' + key + '-thumbnail').val(data.thumbnail_url);
+                $(fieldset).find('[data-video="thumbcontainer"]').html('<img src="' + data.thumbnail_url + '" width="200" height="150">');
+                $(fieldset).find('[data-video="thumnail"]').val(data.thumbnail_url);
             }
         });
     };
+
 
     // Apply mixin container
     bolt.fields.video = video;
