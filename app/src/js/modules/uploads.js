@@ -51,7 +51,7 @@
      * @param {Object} fieldset
      * @param {Object} messages
      */
-    uploads.bindList = function (fieldset, isFile) {
+    uploads.bindList = function (fieldset, messages) {
         var lastClick = null;
 
         $('div.list', fieldset)
