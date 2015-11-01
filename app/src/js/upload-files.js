@@ -7,7 +7,8 @@ var FilelistHolder = Backbone.View.extend({
     initialize: function (options) {
         this.type = options.type;
         //
-        this.fieldset = $(options.fieldset);
+        this.fieldset = $(options.fieldset),
+        this.list = $('div.list', options.fieldset);
         this.data = $('textarea', options.fieldset);
 
         if (options.type === 'imagelist') {
@@ -30,7 +31,7 @@ var FilelistHolder = Backbone.View.extend({
                 that.add(item.filename, item.title);
             });
         } else {
-            $('.list', this.fieldset).append(Bolt.data(this.tmplEmpty));
+            this.list.append(Bolt.data(this.tmplEmpty));
         }
 
         this.bindEvents();
@@ -38,7 +39,7 @@ var FilelistHolder = Backbone.View.extend({
 
     add: function (filename, title) {
         // Remove empty list message, if there.
-        $('.list>p', this.fieldset).remove();
+        $('>p', this.list).remove();
 
         var replace = {
                 '%VAL%':   _.escape(title),
@@ -47,7 +48,7 @@ var FilelistHolder = Backbone.View.extend({
             },
             element = $(Bolt.data(this.tmplItem, replace));
 
-        $('.list', this.fieldset).append(element);
+        this.list.append(element);
 
         this.serialize();
     },
@@ -55,7 +56,7 @@ var FilelistHolder = Backbone.View.extend({
     serialize: function () {
         var data = [];
 
-        $('.list .list-item', this.fieldset).each(function () {
+        $('.list-item', $(Bolt.data(this.tmplItem, replace))).each(function () {
             var input = $(this).find('input'),
                 title = input.val(),
                 filename = $(this).find('input').data('filename');
@@ -69,7 +70,7 @@ var FilelistHolder = Backbone.View.extend({
 
         // Display empty list message.
         if (data.length === 0) {
-            $('.list', this.fieldset).html(Bolt.data(this.tmplEmpty));
+            this.list.html(Bolt.data(this.tmplEmpty));
         }
     },
 
@@ -77,7 +78,7 @@ var FilelistHolder = Backbone.View.extend({
         var thislist = this,
             fieldset = this.fieldset;
 
-        fieldset.find('div.list').sortable({
+        this.list.sortable({
             helper: function (e, item) {
                 if (!item.hasClass('selected')) {
                     item.toggleClass('selected');
@@ -108,7 +109,7 @@ var FilelistHolder = Backbone.View.extend({
         });
 
         var lastClick = null;
-        fieldset.find('div.list').on('click', '.list-item', function (e) {
+        this.list.on('click', '.list-item', function (e) {
             if ($(e.target).hasClass('list-item')) {
                 if (e.shiftKey) {
                     if (lastClick) {
@@ -145,7 +146,7 @@ var FilelistHolder = Backbone.View.extend({
             }
         });
 
-        fieldset.find('div.list').on('click', '.remove-button', function (evt) {
+        this.list.on('click', '.remove-button', function (evt) {
             evt.preventDefault();
 
             if (confirm(Bolt.data(thislist.datRemove))) {
@@ -154,7 +155,7 @@ var FilelistHolder = Backbone.View.extend({
             }
         });
 
-        fieldset.find('div.list').on('change', 'input', function () {
+        this.list.on('change', 'input', function () {
             thislist.serialize();
         });
     },
