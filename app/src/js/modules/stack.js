@@ -19,14 +19,6 @@
     var stack = {};
 
     /**
-     * Remember last opened url by key.
-     *
-     * @private
-     * @type {Object}
-     */
-    var history = {};
-
-    /**
      * Initializes the mixin.
      *
      * @static
@@ -35,14 +27,6 @@
      */
     stack.init = function () {
         bolt.uploads.bindStack($('fieldset.stack'));
-
-        // Initialze file browser modal.
-        $('#modal-server-select').on(
-            'show.bs.modal',
-            function (event) {
-                browserLoad($(event.relatedTarget).data('modal-source'));
-            }
-        );
     };
 
     /**
@@ -149,46 +133,6 @@
         // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
         $('.in, .open').removeClass('in open');
     };
-
-    /**
-     * Changes folder in modal file selector dialog.
-     *
-     * @private
-     * @function browserLoad
-     * @memberof Bolt.stack
-     *
-     * @param {string} url - The URL to load into the file browser window.
-     * @param {boolean} change - Reload on "change folder".
-     */
-    function browserLoad(url, change) {
-        var fieldId = url.match(/\?fieldid=(.+?)$/)[1];
-
-        if (change || !history[fieldId]) {
-            history[fieldId] = url;
-        }
-
-        $('#modal-server-select .modal-dialog').load(history[fieldId] + ' .modal-content', function (response, status) {
-            if (status === 'success' || status === 'notmodified') {
-                $('#modal-server-select')
-                    // Init change folder action.
-                    .find('[data-fbrowser-chdir]').on('click', function (evt) {
-                        evt.preventDefault();
-                        browserLoad($(this).data('fbrowser-chdir'), true);
-                    })
-                    .end()
-                    // Init file select action.
-                    .find('[data-fbrowser-select]').on('click', function (evt) {
-                        evt.preventDefault();
-                        stack.select(
-                            $(this).closest('[data-fbrowser-fieldid]').data('fbrowser-fieldid'),
-                            $(this).data('fbrowser-select')
-                        );
-                    })
-                    // Show dialog.
-                    .show();
-            }
-        });
-    }
 
     // Apply mixin container
     bolt.stack = stack;
