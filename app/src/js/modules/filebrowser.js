@@ -37,8 +37,10 @@
         // Initialze file browser modal.
         $('#modal-server-select').on(
             'show.bs.modal',
-            function (event) {
-                browse($(event.relatedTarget).data('modal-source'));
+            function (evt) {
+                var button = $(evt.relatedTarget);
+
+                browse(button.closest('fieldset'), button.data('modal-source'), false);
             }
         );
     };
@@ -50,11 +52,12 @@
      * @function browse
      * @memberof Bolt.filebrowser
      *
+     * @param {fieldset} fieldset
      * @param {string} url - The URL to load into the file browser window.
      * @param {boolean} change - Reload on "change folder".
      */
-    function browse(url, change) {
-        var fieldId = url.match(/\?fieldid=(.+?)$/)[1];
+    function browse(fieldset, url, change) {
+        var fieldId = $(fieldset).attr('id');
 
         if (change || !history[fieldId]) {
             history[fieldId] = url;
@@ -66,16 +69,13 @@
                     // Init change folder action.
                     .find('[data-fbrowser-chdir]').on('click', function (evt) {
                         evt.preventDefault();
-                        browse($(this).data('fbrowser-chdir'), true);
+                        browse(fieldset, $(this).data('fbrowser-chdir'), true);
                     })
                     .end()
                     // Init file select action.
                     .find('[data-fbrowser-select]').on('click', function (evt) {
                         evt.preventDefault();
-                        select(
-                            $(this).closest('[data-fbrowser-fieldid]').data('fbrowser-fieldid'),
-                            $(this).data('fbrowser-select')
-                        );
+                        select(fieldset, $(this).data('fbrowser-select'));
                     })
                     // Show dialog.
                     .show();
@@ -93,19 +93,17 @@
      * @param {string} fieldid - Id of the fieldset
      * @param {string} path - Path to the selected file
      */
-    function select(fieldid, path) {
-        var container = $('#' + fieldid);
-
-        switch (container.data('bolt-field')) {
+    function select(fieldset, path) {
+        switch (fieldset.data('bolt-field')) {
             case 'file':
             case 'image':
-                $('input.path', container).val(path).trigger('change');
+                $('input.path', fieldset).val(path).trigger('change');
                 break;
             case 'filelist':
-                bolt.uploads.addToList(container, path, path);
+                bolt.uploads.addToList(fieldset, path, path);
                 break;
             case 'imagelist':
-                bolt.uploads.addToList(container, path, path);
+                bolt.uploads.addToList(fieldset, path, path);
                 break;
             default:
                 bolt.stack.addToStack(path);

@@ -7,17 +7,17 @@
 
     <body>
         <div class="modal-content">
-            <div class="modal-body" data-fbrowser-fieldid="{{ context.fieldid }}">
+            <div class="modal-body">
 
                 {% if context.pathsegments|length > 0 %}
                     <p>
                         {{ __('Path:') }}
-                        <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'key': context.key}) }) }}>
+                        <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace}) }) }}>
                             {{ context.namespace|excerpt(40)|shy -}}
                         </a> /
                         {% for path, segment in context.pathsegments %}
                         {% if not loop.first %} / {% endif %}
-                        <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': path, 'key': context.key}) }) }}>
+                        <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': path}) }) }}>
                             {{ segment|default('…')|excerpt(40)|shy }}
                         </a> /
                         {% endfor %}
@@ -33,7 +33,7 @@
                         {% for folder in context.folders %}
                             <tr style="height: 30px;">
                                 <td> <i class="fa fa-fw fa-folder-open-o"></i>
-                                    <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath, 'key': context.key}) }) }}>
+                                    <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath}) }) }}>
                                         <b>{{ folder.foldername|excerpt(40)|shy }}/</b>
                                     </a>
                                 </td>
