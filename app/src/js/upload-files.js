@@ -7,7 +7,7 @@ var FilelistHolder = Backbone.View.extend({
     initialize: function (options) {
         this.type = options.type;
         //
-        this.fieldset = $(options.fieldset),
+        this.fieldset = $(options.fieldset);
         this.list = $('div.list', options.fieldset);
         this.data = $('textarea', options.fieldset);
 
@@ -41,14 +41,17 @@ var FilelistHolder = Backbone.View.extend({
         // Remove empty list message, if there.
         $('>p', this.list).remove();
 
-        var replace = {
-                '%VAL%':   _.escape(title),
-                '%PATH%':  Bolt.conf('paths.bolt'),
-                '%FNAME%': filename
-            },
-            element = $(Bolt.data(this.tmplItem, replace));
-
-        this.list.append(element);
+        // Append to list.
+        this.list.append(
+            $(Bolt.data(
+                this.tmplItem,
+                {
+                    '%VAL%':   _.escape(title),
+                    '%PATH%':  Bolt.conf('paths.bolt'),
+                    '%FNAME%': filename
+                }
+            ))
+        );
 
         this.serialize();
     },
@@ -93,7 +96,8 @@ var FilelistHolder = Backbone.View.extend({
                         len = elements.length,
                         currentOuterHeight = ui.placeholder.outerHeight(true),
                         currentInnerHeight = ui.placeholder.height(),
-                        margin = parseInt(ui.placeholder.css('margin-top')) + parseInt(ui.placeholder.css('margin-bottom'));
+                        margin = parseInt(ui.placeholder.css('margin-top')) +
+                            parseInt(ui.placeholder.css('margin-bottom'));
 
                     elements.css('display', 'none');
                     ui.placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
