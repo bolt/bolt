@@ -37,7 +37,6 @@
         var stackId = $('div.stack-buttons').attr('id');
 
         bolt.uploads.bindUpload(stackId);
-console.log('stack.init: '+stackId);
 
         // Initialze file browser modal.
         $('#modal-server-select').on(
@@ -129,8 +128,7 @@ console.log('stack.init: '+stackId);
      * @param {string} path - Path to the selected file
      */
     stack.select = function (fieldid, path) {
-        var container = $('#' + fieldid),
-            type = container.data('bolt-field');
+        var container = $('#' + fieldid);
 
         switch (container.data('bolt-field')) {
             case 'file':
@@ -170,9 +168,6 @@ console.log('stack.init: '+stackId);
         if (change || !history[fieldId]) {
             history[fieldId] = url;
         }
-console.log('browserLoad:url: '+url);
-console.log('browserLoad:fieldId: '+fieldId);
-console.log('browserLoad:history[fieldId]: '+history[fieldId]);
 
         $('#modal-server-select .modal-dialog').load(history[fieldId] + ' .modal-content', function (response, status) {
             if (status === 'success' || status === 'notmodified') {

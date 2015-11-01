@@ -52,22 +52,14 @@
      * @param {string} type
      */
     uploads.bindListField = function (fieldset, type) {
-        // Bind events.
-        var fieldset = $(fieldset),
-            listField = $('div.list', fieldset),
-            dataField = $('textarea', fieldset),
-            lastClick = null,
+        var lastClick = null,
             isFile = type === 'filelist',
             message = {
                 removeSingle: isFile ? 'field.filelist.message.remove' : 'field.imagelist.message.remove',
                 removeMulti: isFile ? 'field.filelist.message.removeMulti' : 'field.imagelist.message.removeMulti'
-            },
-            template = {
-                empty: isFile ? 'field.filelist.template.empty' : 'field.imagelist.template.empty',
-                item: isFile ? 'field.filelist.template.item' : 'field.imagelist.template.item'
             };
 
-        listField
+        $('div.list', fieldset)
             .sortable({
                 helper: function (evt, item) {
                     if (!item.hasClass('selected')) {
@@ -136,7 +128,7 @@
                 serializeList(fieldset);
             });
 
-        fieldset.find('.remove-selected-button').on('click', function () {
+        $(fieldset).find('.remove-selected-button').on('click', function () {
             if (confirm(Bolt.data(message.removeMulti))) {
                 fieldset.find('.selected').closest('.list-item').remove();
                 serializeList(fieldset);
@@ -215,7 +207,7 @@
             .on('fileuploaddone', function (evt, data) {
                 if (isList) {
                     $.each(data.result, function (idx, file) {
-                        addToList(fieldset, file.name, file.name);
+                        uploads.addToList(fieldset, file.name, file.name);
                     });
                 } else {
                     fileuploadDone(pathinput, data);
@@ -252,7 +244,9 @@
      * @param {string} title
      */
     uploads.addToList = function (fieldset, filename, title) {
-        var listField = $('div.list', fieldset);
+        var listField = $('div.list', fieldset),
+            type = fieldset.data('bolt-field'),
+            templateItem = type === 'filelist' ? 'field.filelist.template.item' : 'field.imagelist.template.item';
 
         // Remove empty list message, if there.
         $('>p', listField).remove();
@@ -260,7 +254,7 @@
         // Append to list.
         listField.append(
             $(Bolt.data(
-                Bolt.data(template.item),
+                templateItem,
                 {
                     '%TITLE_A%':    title,
                     '%FILENAME_E%': $('<div>').text(filename).html(), // Escaped
@@ -371,6 +365,8 @@
     function serializeList(fieldset) {
         var listField = $('div.list', fieldset),
             dataField = $('textarea', fieldset),
+            isFile = $(fieldset).data('bolt-field') === 'filelist',
+            templateEmpty = isFile ? 'field.filelist.template.empty' : 'field.imagelist.template.empty',
             data = [];
 
         $('.list-item', listField).each(function () {
@@ -383,7 +379,7 @@
 
         // Display empty list message.
         if (data.length === 0) {
-            listField.html(Bolt.data(template.empty));
+            listField.html(Bolt.data(templateEmpty));
         }
     }
 
