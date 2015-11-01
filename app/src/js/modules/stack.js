@@ -34,16 +34,16 @@
      * @memberof Bolt.stack
      */
     stack.init = function () {
-        bolt.uploads.bindUpload($('div.stack-buttons').attr('id'), 'stack');
+        var stackId = $('div.stack-buttons').attr('id');
+
+        bolt.uploads.bindUpload(stackId);
+console.log('stack.init: '+stackId);
 
         // Initialze file browser modal.
         $('#modal-server-select').on(
             'show.bs.modal',
             function (event) {
-                var url = $(event.relatedTarget).data('modal-source');
-                url = url + '?key=xxx';
-
-                browserLoad(url);
+                browserLoad($(event.relatedTarget).data('modal-source'));
             }
         );
     };
@@ -125,32 +125,30 @@
      * @function select
      * @memberof Bolt.stack
      *
-     * @param {string} key - Id of the file selector
+     * @param {string} fieldid - Id of the fieldset
      * @param {string} path - Path to the selected file
      */
-    stack.select = function (key, path) {
-        // For "normal" file and image fields.
-        if ($('#field-' + key).is('*')) {
-            $('#field-' + key).val(path).trigger('change');
-        }
+    stack.select = function (fieldid, path) {
+        var container = $('#' + fieldid),
+            type = container.data('bolt-field');
 
-        // For Imagelist fields. Check if bolt.imagelist[key] is an object.
-        if (typeof bolt.imagelist === 'object' && typeof bolt.imagelist[key] === 'object') {
-            bolt.imagelist[key].add(path, path);
-        }
-
-        // For Filelist fields. Check if filelist[key] is an object.
-        if (typeof bolt.filelist === 'object' && typeof bolt.filelist[key] === 'object') {
-            bolt.filelist[key].add(path, path);
+        switch (container.data('bolt-field')) {
+            case 'file':
+            case 'image':
+                $('input.path', container).val(path).trigger('change');
+                break;
+            case 'filelist':
+                bolt.filelist[fieldid].add(path, path);
+                break;
+            case 'imagelist':
+                bolt.imagelist[fieldid].add(path, path);
+                break;
+            default:
+                bolt.stack.addToStack(path);
         }
 
         // Close the modal dialog, if this image/file was selected through one.
         $('#modal-server-select').modal('hide');
-
-        // If we need to place it on the stack as well, do so.
-        if (key === 'stack') {
-            bolt.stack.addToStack(path);
-        }
 
         // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
         $('.in, .open').removeClass('in open');
@@ -167,13 +165,16 @@
      * @param {boolean} change - Reload on "change folder".
      */
     function browserLoad(url, change) {
-        var key = url.match(/\?key=(.+?)$/)[1];
+        var fieldId = url.match(/\?fieldid=(.+?)$/)[1];
 
-        if (change || !history[key]) {
-            history[key] = url;
+        if (change || !history[fieldId]) {
+            history[fieldId] = url;
         }
+console.log('browserLoad:url: '+url);
+console.log('browserLoad:fieldId: '+fieldId);
+console.log('browserLoad:history[fieldId]: '+history[fieldId]);
 
-        $('#modal-server-select .modal-dialog').load(history[key] + ' .modal-content', function (response, status) {
+        $('#modal-server-select .modal-dialog').load(history[fieldId] + ' .modal-content', function (response, status) {
             if (status === 'success' || status === 'notmodified') {
                 $('#modal-server-select')
                     // Init change folder action.
