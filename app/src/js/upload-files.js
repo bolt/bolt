@@ -59,7 +59,7 @@ var FilelistHolder = Backbone.View.extend({
     serialize: function () {
         var data = [];
 
-        $('.list-item', $(Bolt.data(this.tmplItem, replace))).each(function () {
+        $('.list-item', this.list).each(function () {
             var input = $(this).find('input'),
                 title = input.val(),
                 filename = $(this).find('input').data('filename');
