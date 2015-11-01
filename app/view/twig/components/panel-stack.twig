@@ -29,6 +29,10 @@
             {% endfor %}
         </div>
 
+        {% if context.canUpload %}
+            <div class="buic-progress"></div>
+        {% endif %}
+        
         <div class="stackbuttons">
             {% if context.canUpload %}
                 <div class="btn-group">
@@ -42,8 +46,6 @@
                                accept=".{{ context.filetypes|join(',.') }}">
                     </span>
                 </div>
-
-                <div class="buic-progress"></div>
             {% endif %}
 
             <div class="btn-group">
