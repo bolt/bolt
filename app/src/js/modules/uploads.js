@@ -189,20 +189,19 @@
      * @param {Object} fieldset
      * @param {boolean} isList
      */
-    function bindUpload(fieldset, isList) {
-        var progress = $(fieldset).find('.buic-progress'),
-            dropzone = $(fieldset).find('.dropzone'),
-            fileinput = $(fieldset).find('input[type=file]'),
+    function bindUpload(fieldset) {
+        var fileInput = $(fieldset).find('input[type=file]'),
+            dropZone = $(fieldset).find('.dropzone'),
             //
             maxSize = bolt.conf('uploadConfig.maxSize'),
-            accept = $(fileinput).attr('accept'),
+            accept = $(fileInput).attr('accept'),
             extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
             pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i');
 
-        fileinput
+        fileInput
             .fileupload({
                 dataType: 'json',
-                dropZone: $(dropzone),
+                dropZone: dropZone,
                 pasteZone: null,
                 maxFileSize: maxSize > 0 ? maxSize : undefined,
                 minFileSize: undefined,
@@ -219,9 +218,7 @@
             .on('fileuploadsubmit', onUploadSubmit)
             .on('fileuploadprogress', onUploadProgress)
             .on('fileuploadalways', onUploadAlways)
-            .on('fileuploaddone', function (event, data) {
-                onUploadDone(event, data, fieldset);
-            });
+            .on('fileuploaddone', onUploadDone);
     }
 
     /**
@@ -269,6 +266,8 @@
      * @param {Object} data
      */
     function onUploadSubmit(event, data) {
+        var progress = $(event.target).closest('fieldset').find('.buic-progress');
+
         $.each(data.files, function () {
             $(progress).trigger('buic:progress-add', [this.name]);
         });
@@ -284,6 +283,8 @@
      * @param {Object} data
      */
     function onUploadProgress(event, data) {
+        var progress = $(event.target).closest('fieldset').find('.buic-progress');
+
         $.each(data.files, function () {
             $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
         });
@@ -299,6 +300,8 @@
      * @param {Object} data
      */
     function onUploadAlways(event, data) {
+        var progress = $(event.target).closest('fieldset').find('.buic-progress');
+
         $.each(data.files, function () {
             $(progress).trigger('buic:progress-remove', [this.name]);
         });
@@ -312,10 +315,10 @@
      * @memberof Bolt.uploads
      * @param {Object} event
      * @param {Object} data
-     * @param {Object} fieldset
      */
-    function onUploadDone(event, data, fieldset) {
-        var pathinput = $(fieldset).find('input.path');
+    function onUploadDone(event, data) {
+        var fieldset = $(event.target).closest('fieldset'),
+            pathinput = $(fieldset).find('input.path');
 
         $.each(data.result, function (idx, file) {
             if (pathinput.length > 0) {
