@@ -82,7 +82,7 @@ var FilelistHolder = Backbone.View.extend({
                         margin = parseInt(ui.placeholder.css('margin-top')) +
                             parseInt(ui.placeholder.css('margin-bottom'));
 
-                    elements.css('display', 'none');
+                    elements.hide();
                     ui.placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
                     ui.item.data('items', elements);
                 },
@@ -90,7 +90,7 @@ var FilelistHolder = Backbone.View.extend({
                     ui.item.before(ui.item.data('items'));
                 },
                 stop: function () {
-                    fieldset.find('.ui-state-active').css('display', '');
+                    fieldset.find('.selected').show();
                     thislist.serialize();
                 },
                 delay: 100,
