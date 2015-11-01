@@ -22,12 +22,32 @@
 } %}
 
 {% if context.content.get(key) is defined %}
-    {% set list_json = context.content.get(contentkey)|json_encode() %}
+    {% set list = context.content.get(contentkey) %}
 {% else %}
-    {% set list_json = '' %}
+    {% set list = [] %}
 {% endif %}
 
 {% set can_upload = context.can.upload and option.can_upload %}
+
+{#=== TEMPLATES ======================================================================================================#}
+
+{### Template: Empty list ###}
+
+{% set template_empty %}
+    <p>{{ __('No files in the list, yet.') }}</p>
+{% endset %}
+{% set template_empty = template_empty|trim %}
+
+{### Template: Listitem ###}
+
+{% set template_item %}
+    <div class="list-item ui-state-default">
+        <input type="text" value="%VAL%" data-filename="%FNAME%">
+        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
+        <span>%FNAME%</span>
+    </div>
+{% endset %}
+{% set template_item = template_item|trim|preg_replace('/>\\s+</', '><') %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -47,9 +67,21 @@
 {% block fieldset_label_class 'col-xs-12' %}
 
 {% block fieldset_controls %}
+    {{ data('field.filelist.template.empty', template_empty) }}
+    {{ data('field.filelist.template.item', template_item) }}
+
     <div class="col-xs-12 filelistholder dropzone">
         {# Filelist #}
-        <div class="list"></div>
+        <div class="list">
+            {% for file in list %}
+                {{ template_item|replace({
+                    '%VAL%':   file.title|e('html_attr'),
+                    '%FNAME%': file.filename|e('html_attr')
+                })|raw }}
+            {% else %}
+                {{ template_empty|raw }}
+            {% endfor %}
+        </div>
 
         {# Progress info #}
         <div class="buic-progress"></div>
@@ -67,6 +99,6 @@
         </div>
 
         {# Data #}
-        <textarea name="{{ name }}" class="hide">{{ list_json }}</textarea>
+        <textarea name="{{ name }}" class="hide">{{ list|json_encode() }}</textarea>
     </div>
 {% endblock fieldset_controls %}
