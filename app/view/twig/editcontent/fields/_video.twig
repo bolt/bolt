@@ -6,7 +6,7 @@
 } %}
 
 {#=== INIT ===========================================================================================================#}
-
+{% set randid = random() %}
 {% set video = context.content.get(contentkey) %}
 
 {% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18) ~ '</b>" by ' ~ video.authorname|trimtext(18) %}
@@ -128,7 +128,7 @@
 
             <div class="hidden-xs col-sm-3">
                 <span class="pull-right">
-                    <a href="#myModal" role="button" class="btn btn-default" data-toggle="modal">
+                    <a href="#modal-{{ randid }}" role="button" class="btn btn-default" data-toggle="modal">
                     <i class="fa fa-youtube-play"></i>
                     {{ __('field.video.button.preview') }}</a>
                 </span>
@@ -157,7 +157,7 @@
     </div>
 
     {# Modal video preview #}
-    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal" id="modal-{{ randid }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
