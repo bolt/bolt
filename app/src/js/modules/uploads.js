@@ -226,11 +226,7 @@
                 }
             })
             .on('fileuploadprocessfail', onProcessFail)
-            .on('fileuploadsubmit', function (evt, data) {
-                $.each(data.files, function () {
-                    $(progress).trigger('buic:progress-add', [this.name]);
-                });
-            })
+            .on('fileuploadsubmit', onUploadSubmit)
             .on('fileuploadalways', function (evt, data) {
                 $.each(data.files, function () {
                     $(progress).trigger('buic:progress-remove', [this.name]);
@@ -276,6 +272,21 @@
                 alert = '<p>' + currentFile.error + '</p>';
         }
         bootbox.alert(alert);
+    }
+
+    /**
+     * Upload starts.
+     *
+     * @private
+     * @function onUploadSubmit
+     * @memberof Bolt.uploads
+     * @param {Object} event
+     * @param {Object} data
+     */
+    function onUploadSubmit(event, data) {
+        $.each(data.files, function () {
+            $(progress).trigger('buic:progress-add', [this.name]);
+        });
     }
 
     /**
