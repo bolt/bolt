@@ -14,156 +14,156 @@ class ExtensionsProviderTest extends AbstractExtensionsUnitTest
 {
     public $template = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<link rel="stylesheet" href="existing.css" media="screen">
-</head>
-<body>
-<script src="existing.js"></script>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+    </head>
+    <body>
+        <script src="existing.js"></script>
+    </body>
 </html>
 HTML;
 
     public $expectedCss = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<link rel="stylesheet" href="testfile.css?v=5e544598b8d78644071a6f25fd8bba82" media="screen">
-<link rel="stylesheet" href="existing.css" media="screen">
-</head>
-<body>
-<script src="existing.js"></script>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="testfile.css?v=5e544598b8d78644071a6f25fd8bba82" media="screen">
+        <link rel="stylesheet" href="existing.css" media="screen">
+    </head>
+    <body>
+        <script src="existing.js"></script>
+    </body>
 </html>
 HTML;
 
     public $expectedLateCss = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<link rel="stylesheet" href="existing.css" media="screen">
-</head>
-<body>
-<script src="existing.js"></script>
-<link rel="stylesheet" href="testfile.css?v=5e544598b8d78644071a6f25fd8bba82" media="screen">
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+    </head>
+    <body>
+        <script src="existing.js"></script>
+        <link rel="stylesheet" href="testfile.css?v=5e544598b8d78644071a6f25fd8bba82" media="screen">
+    </body>
 </html>
 HTML;
 
     public $expectedJs = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<link rel="stylesheet" href="existing.css" media="screen">
-</head>
-<body>
-<script src="existing.js"></script>
-<script src="testfile.js?v=289fc946f38fee1a3e947eca1d6208b6"></script>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+    </head>
+    <body>
+        <script src="existing.js"></script>
+        <script src="testfile.js?v=289fc946f38fee1a3e947eca1d6208b6"></script>
+    </body>
 </html>
 HTML;
 
     public $expectedLateJs = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<link rel="stylesheet" href="existing.css" media="screen">
-</head>
-<body>
-<script src="existing.js"></script>
-<script src="testfile.js?v=289fc946f38fee1a3e947eca1d6208b6"></script>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+    </head>
+    <body>
+        <script src="existing.js"></script>
+        <script src="testfile.js?v=289fc946f38fee1a3e947eca1d6208b6"></script>
+    </body>
 </html>
 HTML;
 
     public $expectedStartOfHead = <<<HTML
 <html>
-<head>
-<meta name="test-snippet" />
-<meta charset="utf-8" />
-<link rel="stylesheet" href="existing.css" media="screen">
-</head>
-<body>
-<script src="existing.js"></script>
-</body>
+    <head>
+        <meta name="test-snippet" />
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+    </head>
+    <body>
+        <script src="existing.js"></script>
+    </body>
 </html>
 HTML;
 
     public $expectedEndOfHead = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<link rel="stylesheet" href="existing.css" media="screen">
-<meta name="test-snippet" />
-</head>
-<body>
-<script src="existing.js"></script>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+        <meta name="test-snippet" />
+    </head>
+    <body>
+        <script src="existing.js"></script>
+    </body>
 </html>
 HTML;
 
     public $expectedStartOfBody = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<link rel="stylesheet" href="existing.css" media="screen">
-</head>
-<body>
-<p class="test-snippet"></p>
-<script src="existing.js"></script>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+    </head>
+    <body>
+        <p class="test-snippet"></p>
+        <script src="existing.js"></script>
+    </body>
 </html>
 HTML;
 
     public $expectedEndOfHtml = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<link rel="stylesheet" href="existing.css" media="screen">
-</head>
-<body>
-<script src="existing.js"></script>
-</body>
-<p class="test-snippet"></p>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+    </head>
+    <body>
+        <script src="existing.js"></script>
+    </body>
+    <p class="test-snippet"></p>
 </html>
 HTML;
 
     public $expectedBeforeCss = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<meta name="test-snippet" />
-<link rel="stylesheet" href="existing.css" media="screen">
-</head>
-<body>
-<script src="existing.js"></script>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="test-snippet" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+    </head>
+    <body>
+        <script src="existing.js"></script>
+    </body>
 </html>
 HTML;
 
     public $expectedAfterCss = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<link rel="stylesheet" href="existing.css" media="screen">
-<meta name="test-snippet" />
-</head>
-<body>
-<script src="existing.js"></script>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+        <meta name="test-snippet" />
+    </head>
+    <body>
+        <script src="existing.js"></script>
+    </body>
 </html>
 HTML;
 
     public $expectedAfterMeta = <<<HTML
 <html>
-<head>
-<meta charset="utf-8" />
-<meta name="test-snippet" />
-<link rel="stylesheet" href="existing.css" media="screen">
-</head>
-<body>
-<script src="existing.js"></script>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="test-snippet" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+    </head>
+    <body>
+        <script src="existing.js"></script>
+    </body>
 </html>
 HTML;
 
@@ -264,13 +264,30 @@ HTML;
         $this->assertEquals($this->html($this->expectedJs), $this->html($html));
     }
 
+    public function testJsProcessAssetsMin()
+    {
+        $app = $this->getApp();
+        $app['extensions']->addJavascript('testfile.js');
+        $html = $app['extensions']->processAssets($this->minify($this->template));
+        $this->assertEquals($this->minify($this->expectedJs), $this->minify($html));
+    }
+
     public function testLateJs()
     {
         $app = $this->getApp();
         $app['extensions']->addJavascript('testfile.js', true);
         $html = $app['extensions']->processAssets($this->template);
-        $this->assertEquals($this->html($this->expectedLateJs),  $this->html($html));
+        $this->assertEquals($this->html($this->expectedLateJs), $this->html($html));
     }
+
+    public function testLateJsMin()
+    {
+        $app = $this->getApp();
+        $app['extensions']->addJavascript('testfile.js', true);
+        $html = $app['extensions']->processAssets($this->minify($this->template));
+        $this->assertEquals($this->minify($this->expectedLateJs), $this->minify($html));
+    }
+
 
     public function testCssProcessAssets()
     {
@@ -278,6 +295,14 @@ HTML;
         $app['extensions']->addCss('testfile.css');
         $html = $app['extensions']->processAssets($this->template);
         $this->assertEquals($this->html($this->expectedCss), $this->html($html));
+    }
+
+    public function testCssProcessAssetsMin()
+    {
+        $app = $this->getApp();
+        $app['extensions']->addCss('testfile.css');
+        $html = $app['extensions']->processAssets($this->minify($this->template));
+        $this->assertEquals($this->minify($this->expectedCss), $this->minify($html));
     }
 
     public function testLateCss()
@@ -288,7 +313,15 @@ HTML;
         $this->assertEquals($this->html($this->expectedLateCss), $this->html($html));
     }
 
-    // This method normalises the html so that differeing whitespace doesn't effect the strings.
+    public function testLateCssMin()
+    {
+        $app = $this->getApp();
+        $app['extensions']->addCss('testfile.css', true);
+        $html = $app['extensions']->processAssets($this->minify($this->template));
+        $this->assertEquals($this->minify($this->expectedLateCss), $this->minify($html));
+    }
+
+    // This method normalises the html so that differing whitespace doesn't effect the strings.
     protected function html($string)
     {
         $doc = new \DOMDocument();
@@ -301,8 +334,29 @@ HTML;
         }
         $doc->preserveWhiteSpace = false;
         $html = $doc->saveHTML();
-        $html = str_replace("\t", "", $html);
-        $html = str_replace("\n", "", $html);
+
+        // Trim trailing and leading whitespace
+        $html = implode("\n", array_map('trim', explode("\n", $html)));
+
+        return $html;
+    }
+
+    // This method does a simple minification of the HTML, as it removes whitespace between tags.
+    protected function minify($html)
+    {
+        $search = array(
+            '/\>[^\S]+/s', // strip whitespaces after tags, except space
+            '/[^\S]+\</s', // strip whitespaces before tags, except space
+            '/(\s)+/s'     // shorten multiple whitespace sequences
+        );
+
+        $replace = array(
+            '>',
+            '<',
+            '\\1'
+        );
+
+        $html = preg_replace($search, $replace, $this->html($html));
 
         return $html;
     }
