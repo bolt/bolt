@@ -32,7 +32,6 @@
         "bootbox": true,
         "confirm": true,
         "google": true,
-        "FilelistHolder": true,
         "jQuery": true,
         "moment": true,
         "rootpath": true,
@@ -40,7 +39,6 @@
     },
     "exported": {
         "Bolt": true,
-        "FilelistHolder": true,
         "init": true
     },
     "-W065": true

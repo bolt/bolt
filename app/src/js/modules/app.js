@@ -108,12 +108,6 @@
      * @deprecated To be removed!
      */
     function legacyInit() {
-        // Get passed in data from Twig function data()
-
-        // Initialize objects
-        bolt.imagelist = [];
-        bolt.filelist = [];
-
         // Initialisation
         init.confirmationDialogs();
         init.magnificPopup();
