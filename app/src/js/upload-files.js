@@ -5,8 +5,6 @@
 var FilelistHolder = Backbone.View.extend({
 
     initialize: function (options) {
-        this.type = options.type;
-        //
         this.fieldset = $(options.fieldset);
         this.list = $('div.list', options.fieldset);
         this.data = $('textarea', options.fieldset);
@@ -46,7 +44,7 @@ var FilelistHolder = Backbone.View.extend({
             $(Bolt.data(
                 this.tmplItem,
                 {
-                    '%VAL%':   _.escape(title),
+                    '%VAL%':   $('<div>').text(title).html(), // Escaped
                     '%PATH%':  Bolt.conf('paths.bolt'),
                     '%FNAME%': filename
                 }
@@ -113,9 +111,9 @@ var FilelistHolder = Backbone.View.extend({
                 delay: 100,
                 distance: 5
             })
-            .on('click', '.list-item', function (e) {
-                if ($(e.target).hasClass('list-item')) {
-                    if (e.shiftKey) {
+            .on('click', '.list-item', function (evt) {
+                if ($(evt.target).hasClass('list-item')) {
+                    if (evt.shiftKey) {
                         if (lastClick) {
                             var currentIndex = $(this).index(),
                                 lastIndex = lastClick.index();
@@ -128,18 +126,15 @@ var FilelistHolder = Backbone.View.extend({
                                 $(this).toggleClass('selected');
                             }
                         }
-                    } else if (e.ctrlKey || e.metaKey) {
+                    } else if (evt.ctrlKey || evt.metaKey) {
                         $(this).toggleClass('selected');
                     } else {
                         fieldset.find('.list-item').not($(this)).removeClass('selected');
                         $(this).toggleClass('selected');
                     }
 
-                    if (!e.shiftKey && !e.ctrlKey && !e.metaKey && !$(this).hasClass('selected')) {
-                        lastClick = null;
-                    } else {
-                        lastClick = $(this);
-                    }
+                    lastClick = !evt.shiftKey && !evt.ctrlKey && !evt.metaKey && !$(this).hasClass('selected') ?
+                        null : $(this);
                 }
             })
             .on('click', '.remove-button', function (evt) {
@@ -168,7 +163,5 @@ var FilelistHolder = Backbone.View.extend({
         $.each(result, function (idx, file) {
             that.add(file.name, file.name);
         });
-
-        this.render();
     }
 });
