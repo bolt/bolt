@@ -34,9 +34,7 @@
      * @memberof Bolt.stack
      */
     stack.init = function () {
-        var stackId = $('div.stack-buttons').attr('id');
-
-        bolt.uploads.bindUpload(stackId);
+        bolt.uploads.bindStack($('div.stack-buttons'));
 
         // Initialze file browser modal.
         $('#modal-server-select').on(

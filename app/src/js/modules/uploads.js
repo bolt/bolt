@@ -134,6 +134,18 @@
     };
 
     /**
+     * Bind upload capability to the stack.
+     *
+     * @static
+     * @function bindStack
+     * @memberof Bolt.uploads
+     * @param {Object} container
+     */
+    uploads.bindStack = function (container) {
+        bolt.uploads.bindUpload(container.attr('id'));
+    };
+
+    /**
      * This function works at a lower level than the bindField function, it sets up the handlers for the upload
      * button along with drag and drop functionality. To do this it uses the `key` parameter which needs to
      * be a unique ID.
