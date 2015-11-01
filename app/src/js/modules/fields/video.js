@@ -26,8 +26,7 @@
      * @param {Object} fieldset
      * @param fconf
      */
-    video.init = function (fieldset, fconf) {
-        console.log(fieldset);
+    video.init = function (fieldset) {
         bolt.fields.video.bind(fieldset);
     };
 
@@ -60,7 +59,10 @@
             function () {
                 if ($(fieldset).find('[data-video="ratio"]').val() > 0) {
                     $(fieldset).find('[data-video="height"]').val(
-                        Math.round($(fieldset).find('[data-video="width"]').val() / $(fieldset).find('[data-video="ratio"]').val())
+                        Math.round(
+                            $(fieldset).find('[data-video="width"]').val() /
+                            $(fieldset).find('[data-video="ratio"]').val()
+                        )
                     );
                 }
             }
@@ -71,7 +73,10 @@
             function () {
                 if ($(fieldset).find('[data-video="ratio"]').val() > 0) {
                     $(fieldset).find('[data-video="width"]').val(
-                        Math.round($(fieldset).find('[data-video="height"]').val() * $(fieldset).find('[data-video="ratio"]').val())
+                        Math.round(
+                            $(fieldset).find('[data-video="height"]').val() *
+                            $(fieldset).find('[data-video="ratio"]').val()
+                        )
                     );
                 }
             }
@@ -132,7 +137,9 @@
             }
 
             if (data.thumbnail_url) {
-                $(fieldset).find('[data-video="thumbcontainer"]').html('<img src="' + data.thumbnail_url + '" width="200" height="150">');
+                $(fieldset).find('[data-video="thumbcontainer"]').html(
+                    '<img src="' + data.thumbnail_url + '" width="200" height="150">'
+                );
                 $(fieldset).find('[data-video="thumnail"]').val(data.thumbnail_url);
             }
         });
