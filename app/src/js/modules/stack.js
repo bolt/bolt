@@ -138,10 +138,10 @@ console.log('stack.init: '+stackId);
                 $('input.path', container).val(path).trigger('change');
                 break;
             case 'filelist':
-                bolt.filelist[fieldid].add(path, path);
+                bolt.filelist[fieldid].addToList(path, path);
                 break;
             case 'imagelist':
-                bolt.imagelist[fieldid].add(path, path);
+                bolt.imagelist[fieldid].addToList(path, path);
                 break;
             default:
                 bolt.stack.addToStack(path);

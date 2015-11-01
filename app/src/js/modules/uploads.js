@@ -112,7 +112,9 @@
             )
             .on('fileuploaddone', function (evt, data) {
                 if (list) {
-                    list.uploadDone(data.result);
+                    $.each(data.result, function (idx, file) {
+                        list.addToList(file.name, file.name);
+                    });
                 } else {
                     fileuploadDone(pathinput, data);
                 }

@@ -5,76 +5,33 @@
 var FilelistHolder = Backbone.View.extend({
 
     initialize: function (options) {
-        this.fieldset = $(options.fieldset);
         this.list = $('div.list', options.fieldset);
         this.data = $('textarea', options.fieldset);
 
-        if (options.type === 'imagelist') {
-            this.datRemove = 'field.imagelist.message.remove';
-            this.datRemoveMulti = 'field.imagelist.message.removeMulti';
-            this.tmplEmpty = 'field.imagelist.template.empty';
-            this.tmplItem = 'field.imagelist.template.item';
-        } else {
-            this.datRemove = 'field.filelist.message.remove';
-            this.datRemoveMulti = 'field.filelist.message.removeMulti';
-            this.tmplEmpty = 'field.filelist.template.empty';
-            this.tmplItem = 'field.filelist.template.item';
-        }
-
-        this.bindEvents();
-    },
-
-    add: function (filename, title) {
-        // Remove empty list message, if there.
-        $('>p', this.list).remove();
-
-        // Append to list.
-        this.list.append(
-            $(Bolt.data(
-                this.tmplItem,
-                {
-                    '%TITLE_A%':    title,
-                    '%FILENAME_E%': $('<div>').text(filename).html(), // Escaped
-                    '%FILENAME_A%': filename
-                }
-            ))
-        );
-
-        this.serialize();
-    },
-
-    serialize: function () {
-        var data = [];
-
-        $('.list-item', this.list).each(function () {
-            data.push({
-                filename: $(this).find('input.filename').val(),
-                title: $(this).find('input.title').val()
-            });
-        });
-        this.data.val(JSON.stringify(data));
-
-        // Display empty list message.
-        if (data.length === 0) {
-            this.list.html(Bolt.data(this.tmplEmpty));
-        }
-    },
-
-    bindEvents: function () {
+        // Bind events.
         var thislist = this,
-            fieldset = this.fieldset,
-            lastClick = null;
+            fieldset = $(options.fieldset),
+            lastClick = null,
+            isFile = options.type === 'filelist',
+            message = {
+                removeSingle: isFile ? 'field.filelist.message.remove' : 'field.imagelist.message.remove',
+                removeMulti: isFile ? 'field.filelist.message.removeMulti' : 'field.imagelist.message.removeMulti'
+            },
+            template = {
+                empty: isFile ? 'field.filelist.template.empty' : 'field.imagelist.template.empty',
+                item: isFile ? 'field.filelist.template.item' : 'field.imagelist.template.item'
+            };
 
         this.list
             .sortable({
-                helper: function (e, item) {
+                helper: function (evt, item) {
                     if (!item.hasClass('selected')) {
                         item.toggleClass('selected');
                     }
 
                     return $('<div></div>');
                 },
-                start: function (e, ui) {
+                start: function (evt, ui) {
                     var elements = fieldset.find('.selected').not('.ui-sortable-placeholder'),
                         len = elements.length,
                         currentOuterHeight = ui.placeholder.outerHeight(true),
@@ -86,12 +43,12 @@ var FilelistHolder = Backbone.View.extend({
                     ui.placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
                     ui.item.data('items', elements);
                 },
-                beforeStop: function (e, ui) {
+                beforeStop: function (evt, ui) {
                     ui.item.before(ui.item.data('items'));
                 },
                 stop: function () {
                     fieldset.find('.selected').show();
-                    thislist.serialize();
+                    thislist.serializeList();
                 },
                 delay: 100,
                 distance: 5
@@ -125,28 +82,60 @@ var FilelistHolder = Backbone.View.extend({
             .on('click', '.remove-button', function (evt) {
                 evt.preventDefault();
 
-                if (confirm(Bolt.data(thislist.datRemove))) {
+                if (confirm(Bolt.data(message.removeSingle))) {
                     $(this).closest('.list-item').remove();
-                    thislist.serialize();
+                    thislist.serializeList();
                 }
             })
             .on('change', 'input', function () {
-                thislist.serialize();
+                thislist.serializeList();
             });
 
         fieldset.find('.remove-selected-button').on('click', function () {
-            if (confirm(Bolt.data(thislist.datRemoveMulti))) {
+            if (confirm(Bolt.data(message.removeMulti))) {
                 fieldset.find('.selected').closest('.list-item').remove();
-                thislist.serialize();
+                thislist.serializeList();
             }
         });
     },
 
-    uploadDone: function (result) {
-        var that = this;
+    addToList: function (filename, title) {
+        var listField = this.list;
 
-        $.each(result, function (idx, file) {
-            that.add(file.name, file.name);
+        // Remove empty list message, if there.
+        $('>p', listField).remove();
+
+        // Append to list.
+        listField.append(
+            $(Bolt.data(
+                Bolt.data(template.item),
+                {
+                    '%TITLE_A%':    title,
+                    '%FILENAME_E%': $('<div>').text(filename).html(), // Escaped
+                    '%FILENAME_A%': filename
+                }
+            ))
+        );
+
+        this.serializeList();
+    },
+
+    serializeList: function () {
+        var listField = this.list,
+            dataField = this.data,
+            data = [];
+
+        $('.list-item', listField).each(function () {
+            data.push({
+                filename: $(this).find('input.filename').val(),
+                title: $(this).find('input.title').val()
+            });
         });
-    }
+        dataField.val(JSON.stringify(data));
+
+        // Display empty list message.
+        if (data.length === 0) {
+            listField.html(Bolt.data(template.empty));
+        }
+    },
 });
