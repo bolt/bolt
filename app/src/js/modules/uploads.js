@@ -27,7 +27,7 @@
      * @param {Object} fieldset
      */
     uploads.bindField = function (fieldset) {
-        uploads.bindUpload(fieldset.id, false);
+        bindUpload(fieldset.id, false);
 
         // Setup autocomplete popup.
         var accept = ($(fieldset).find('input[accept]').prop('accept') || '').replace(/\./g, ''),
@@ -130,7 +130,7 @@
             }
         });
 
-        uploads.bindUpload(fieldset.id, true);
+        bindUpload(fieldset.id, true);
     };
 
     /**
@@ -142,7 +142,40 @@
      * @param {Object} container
      */
     uploads.bindStack = function (container) {
-        bolt.uploads.bindUpload(container.attr('id'));
+        bindUpload(container.attr('id'));
+    };
+
+    /**
+     * Adds a file to an upload list.
+     *
+     * @static
+     * @function addToList
+     * @memberof Bolt.uploads
+     * @param {Object} fieldset
+     * @param {string} filename
+     * @param {string} title
+     */
+    uploads.addToList = function (fieldset, filename, title) {
+        var listField = $('div.list', fieldset),
+            type = fieldset.data('bolt-field'),
+            templateItem = type === 'filelist' ? 'field.filelist.template.item' : 'field.imagelist.template.item';
+
+        // Remove empty list message, if there.
+        $('>p', listField).remove();
+
+        // Append to list.
+        listField.append(
+            $(Bolt.data(
+                templateItem,
+                {
+                    '%TITLE_A%':    title,
+                    '%FILENAME_E%': $('<div>').text(filename).html(), // Escaped
+                    '%FILENAME_A%': filename
+                }
+            ))
+        );
+
+        serializeList(fieldset);
     };
 
     /**
@@ -150,13 +183,13 @@
      * button along with drag and drop functionality. To do this it uses the `key` parameter which needs to
      * be a unique ID.
      *
-     * @static
+     * @private
      * @function bindUpload
      * @memberof Bolt.uploads
      * @param {string} fieldId
      * @param {boolean} isList
      */
-    uploads.bindUpload = function (fieldId, isList) {
+    function bindUpload(fieldId, isList) {
         var fieldset = $('#' + fieldId),
             progress = $(fieldset).find('.buic-progress'),
             dropzone = $(fieldset).find('.dropzone'),
@@ -214,40 +247,7 @@
                     $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
                 });
             });
-    };
-
-    /**
-     * Adds a file to an upload list.
-     *
-     * @static
-     * @function addToList
-     * @memberof Bolt.uploads
-     * @param {Object} fieldset
-     * @param {string} filename
-     * @param {string} title
-     */
-    uploads.addToList = function (fieldset, filename, title) {
-        var listField = $('div.list', fieldset),
-            type = fieldset.data('bolt-field'),
-            templateItem = type === 'filelist' ? 'field.filelist.template.item' : 'field.imagelist.template.item';
-
-        // Remove empty list message, if there.
-        $('>p', listField).remove();
-
-        // Append to list.
-        listField.append(
-            $(Bolt.data(
-                templateItem,
-                {
-                    '%TITLE_A%':    title,
-                    '%FILENAME_E%': $('<div>').text(filename).html(), // Escaped
-                    '%FILENAME_A%': filename
-                }
-            ))
-        );
-
-        serializeList(fieldset);
-    };
+    }
 
     /**
      * Upload processing failed.
