@@ -198,8 +198,10 @@
             maxSize = bolt.conf('uploadConfig.maxSize'),
             accept = $(fileinput).attr('accept'),
             extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
-            pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i'),
-            uploadOptions = {
+            pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i');
+
+        fileinput
+            .fileupload({
                 dataType: 'json',
                 dropZone: $(dropzone),
                 pasteZone: null,
@@ -213,12 +215,7 @@
                     acceptFileTypes: 'T:.' + extensions.join(', .'),
                     maxNumberOfFiles: '#'
                 }
-            };
-
-        fileinput
-            .fileupload(
-                uploadOptions
-            )
+            })
             .on('fileuploaddone', function (evt, data) {
                 if (isList) {
                     $.each(data.result, function (idx, file) {
@@ -228,9 +225,7 @@
                     fileuploadDone(pathinput, data);
                 }
             })
-            .on('fileuploadprocessfail', function (evt, data) {
-                fileuploadProcessFail(evt, data);
-            })
+            .on('fileuploadprocessfail', onProcessFail)
             .on('fileuploadsubmit', function (evt, data) {
                 $.each(data.files, function () {
                     $(progress).trigger('buic:progress-add', [this.name]);
@@ -252,12 +247,12 @@
      * Upload processing failed.
      *
      * @private
-     * @function fileuploadProcessFail
+     * @function onProcessFail
      * @memberof Bolt.uploads
      * @param {Object} event
      * @param {Object} data
      */
-    function fileuploadProcessFail(event, data) {
+    function onProcessFail(event, data) {
         var currentFile = data.files[data.index],
                 type = currentFile.error.substr(0, 1),
                 alert,
