@@ -39,6 +39,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/init.js',
                 // Bolt module
                 '<%= path.src.js %>/bolt.js',
+                //
                 '<%= path.src.js %>/modules/actions.js',
                 '<%= path.src.js %>/modules/activity.js',
                 '<%= path.src.js %>/modules/app.js',
@@ -48,11 +49,12 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/datetime.js',
                 '<%= path.src.js %>/modules/editcontent.js',
                 '<%= path.src.js %>/modules/extend.js',
+                '<%= path.src.js %>/modules/filebrowser.js',
                 '<%= path.src.js %>/modules/files.js',
                 '<%= path.src.js %>/modules/liveeditor.js',
-                '<%= path.src.js %>/modules/stack.js',
-                '<%= path.src.js %>/modules/secmenu.js',
                 '<%= path.src.js %>/modules/omnisearch.js',
+                '<%= path.src.js %>/modules/secmenu.js',
+                '<%= path.src.js %>/modules/stack.js',
                 '<%= path.src.js %>/modules/uploads.js',
                 // BUIC
                 '<%= path.src.js %>/modules/buic.js',
