@@ -33,9 +33,8 @@ var FilelistHolder = Backbone.View.extend({
             $(Bolt.data(
                 this.tmplItem,
                 {
-                    '%TITLE_H%':    $('<div>').text(title).html(), // Escaped
                     '%TITLE_A%':    title,
-                    '%PATH_A%':     Bolt.conf('paths.bolt'),
+                    '%FILENAME_E%': $('<div>').text(filename).html(), // Escaped
                     '%FILENAME_A%': filename
                 }
             ))
