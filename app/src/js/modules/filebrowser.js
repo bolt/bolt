@@ -19,14 +19,6 @@
     var filebrowser = {};
 
     /**
-     * Remember last opened url by key.
-     *
-     * @private
-     * @type {Object}
-     */
-    var history = {};
-
-    /**
      * Initializes the mixin.
      *
      * @static
@@ -40,7 +32,7 @@
             function (evt) {
                 var button = $(evt.relatedTarget);
 
-                browse(button.closest('fieldset'), button.data('modal-source'), false);
+                browse(button, button.data('modal-source'));
             }
         );
     };
@@ -52,35 +44,29 @@
      * @function browse
      * @memberof Bolt.filebrowser
      *
-     * @param {fieldset} fieldset
-     * @param {string} url - The URL to load into the file browser window.
-     * @param {boolean} change - Reload on "change folder".
+     * @param {Object} button
      */
-    function browse(fieldset, url, change) {
-        var fieldId = $(fieldset).attr('id');
-
-        if (change || !history[fieldId]) {
-            history[fieldId] = url;
-        }
-
-        $('#modal-server-select .modal-dialog').load(history[fieldId] + ' .modal-content', function (response, status) {
-            if (status === 'success' || status === 'notmodified') {
-                $('#modal-server-select')
-                    // Init change folder action.
-                    .find('[data-fbrowser-chdir]').on('click', function (evt) {
-                        evt.preventDefault();
-                        browse(fieldset, $(this).data('fbrowser-chdir'), true);
-                    })
-                    .end()
-                    // Init file select action.
-                    .find('[data-fbrowser-select]').on('click', function (evt) {
-                        evt.preventDefault();
-                        select(fieldset, $(this).data('fbrowser-select'));
-                    })
-                    // Show dialog.
-                    .show();
-            }
-        });
+    function browse(button) {
+        $('#modal-server-select .modal-dialog')
+            .load(button.data('modal-source') + ' .modal-content', function (response, status) {
+                if (status === 'success' || status === 'notmodified') {
+                    $('#modal-server-select')
+                        // Init change folder action.
+                        .find('[data-fbrowser-chdir]').on('click', function (evt) {
+                            evt.preventDefault();
+                            button.data('modal-source', $(this).data('fbrowser-chdir'));
+                            browse(button);
+                        })
+                        .end()
+                        // Init file select action.
+                        .find('[data-fbrowser-select]').on('click', function (evt) {
+                            evt.preventDefault();
+                            select(button.closest('fieldset'), $(this).data('fbrowser-select'));
+                        })
+                        // Show dialog.
+                        .show();
+                }
+            });
     }
 
     /**
@@ -90,7 +76,7 @@
      * @function select
      * @memberof Bolt.filebrowser
      *
-     * @param {string} fieldid - Id of the fieldset
+     * @param {Object} fieldset - Fieldset
      * @param {string} path - Path to the selected file
      */
     function select(fieldset, path) {
