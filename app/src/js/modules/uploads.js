@@ -354,17 +354,17 @@
             pathinput = $(fieldset).find('input.path');
 
         $.each(data.result, function (idx, file) {
-            if (pathinput.length > 0) {
-                if (file.error) {
-                    bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
-                } else {
+            if (file.error) {
+                bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
+            } else {
+                if (pathinput.length > 0) {
                     pathinput.val(file.name).trigger('change');
 
                     // Add the uploaded file to our stack.
                     bolt.stack.addToStack(file.name);
+                } else {
+                    uploads.addToList(fieldset, file.name);
                 }
-            } else {
-                uploads.addToList(fieldset, file.name);
             }
         });
     }
