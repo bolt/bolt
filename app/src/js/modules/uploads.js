@@ -350,20 +350,24 @@
      * @param {Object} data
      */
     function onUploadDone(event, data) {
-        var fieldset = $(event.target).closest('fieldset'),
-            pathinput = $(fieldset).find('input.path');
+        var fieldset = $(event.target).closest('fieldset');
 
         $.each(data.result, function (idx, file) {
             if (file.error) {
                 bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
             } else {
-                if (pathinput.length > 0) {
-                    pathinput.val(file.name).trigger('change');
-
-                    // Add the uploaded file to our stack.
+                switch ($(fieldset).data('bolt-field')) {
+                    case 'file':
+                    case 'image':
+                        $(fieldset).find('input.path').val(file.name).trigger('change');
+                        bolt.stack.addToStack(file.name);
+                        break;
+                    case 'filelist':
+                    case 'imagelist':
+                        uploads.addToList(fieldset, file.name);
+                        break;
+                    default:
                     bolt.stack.addToStack(file.name);
-                } else {
-                    uploads.addToList(fieldset, file.name);
                 }
             }
         });
