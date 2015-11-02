@@ -54,14 +54,11 @@
 
 {% extends '@bolt/_base/_fieldset.twig' %}
 
-{% set fieldset_uid = buid() %}
-
 {% set fieldset_conf = {
     key: key,
 }%}
 
 {% block fieldset_type 'imagelist' %}
-{% block fieldset_uid fieldset_uid %}
 
 {% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  option.info %}
@@ -90,7 +87,7 @@
         {# Buttons #}
         {% set can_upload = context.can.upload and option.can_upload %}
         <div class="clearfix">
-            {{ macro.upload_buttons('image', fieldset_uid, attributes.fileupload, option.upload, can_upload) }}
+            {{ macro.upload_buttons('image', attributes.fileupload, option.upload, can_upload) }}
 
             <textarea name="{{ name }}" class="hide">{{ list|json_encode() }}</textarea>
 

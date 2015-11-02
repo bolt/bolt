@@ -172,15 +172,14 @@
  # Renders a upload button combo [Upload] [Select from Server] [Select from Stack]
  #
  # @param string type Either 'image' or 'other,document'
- # @param string fieldid Id of the input element
  # @param string attr_upload Attributes for the file upload button
  # @param string uploadpath Relative upload path
  #}
-{% macro upload_buttons(type, fieldid, attr_upload, uploadpath, canUpload) %}
+{% macro upload_buttons(type, attr_upload, uploadpath, canUpload) %}
     {% from _self import attr %}
 
     {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
-    {% set href = paths.async ~ 'browse/files' ~ (uploadpath ? '/' ~ uploadpath : '' ) ~ '?fieldid=' ~ fieldid %}
+    {% set href = paths.async ~ 'browse/files' ~ (uploadpath ? '/' ~ uploadpath : '' ) %}
 
     <div class="button-wrap fileselectbuttongroup">
 
