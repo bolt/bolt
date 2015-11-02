@@ -65,7 +65,7 @@
                     return $('<div></div>');
                 },
                 start: function (evt, ui) {
-                    var elements = fieldset.find('.selected').not('.ui-sortable-placeholder'),
+                    var elements = $(fieldset).find('.selected').not('.ui-sortable-placeholder'),
                         len = elements.length,
                         currentOuterHeight = ui.placeholder.outerHeight(true),
                         currentInnerHeight = ui.placeholder.height(),
@@ -80,7 +80,7 @@
                     ui.item.before(ui.item.data('items'));
                 },
                 stop: function () {
-                    fieldset.find('.selected').show();
+                    $(fieldset).find('.selected').show();
                     serializeList(fieldset);
                 },
                 delay: 100,
@@ -104,7 +104,7 @@
                     } else if (evt.ctrlKey || evt.metaKey) {
                         $(this).toggleClass('selected');
                     } else {
-                        fieldset.find('.list-item').not($(this)).removeClass('selected');
+                        $(fieldset).find('.list-item').not($(this)).removeClass('selected');
                         $(this).toggleClass('selected');
                     }
 
@@ -126,7 +126,7 @@
 
         $(fieldset).find('.remove-selected-button').on('click', function () {
             if (confirm(messages.removeMulti)) {
-                fieldset.find('.selected').closest('.list-item').remove();
+                $(fieldset).find('.selected').closest('.list-item').remove();
                 serializeList(fieldset);
             }
         });
