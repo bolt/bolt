@@ -86,10 +86,10 @@
                 $('input.path', fieldset).val(path).trigger('change');
                 break;
             case 'filelist':
-                bolt.uploads.addToList(fieldset, path, path);
+                bolt.uploads.addToList(fieldset, path);
                 break;
             case 'imagelist':
-                bolt.uploads.addToList(fieldset, path, path);
+                bolt.uploads.addToList(fieldset, path);
                 break;
             default:
                 bolt.stack.addToStack(path);

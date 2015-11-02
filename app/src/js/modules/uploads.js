@@ -155,7 +155,7 @@
      * @memberof Bolt.uploads
      * @param {Object} fieldset
      * @param {string} filename
-     * @param {string} title
+     * @param {string=} title (Optional)
      */
     uploads.addToList = function (fieldset, filename, title) {
         var listField = $('div.list', fieldset),
@@ -170,7 +170,7 @@
             $(Bolt.data(
                 templateItem,
                 {
-                    '%TITLE_A%':    title,
+                    '%TITLE_A%':    title || filename,
                     '%FILENAME_E%': $('<div>').text(filename).html(), // Escaped
                     '%FILENAME_A%': filename
                 }
@@ -243,10 +243,10 @@
                     $('input.path', fieldset).val(path).trigger('change');
                     break;
                 case 'filelist':
-                    uploads.addToList(fieldset, path, path);
+                    uploads.addToList(fieldset, path);
                     break;
                 case 'imagelist':
-                    uploads.addToList(fieldset, path, path);
+                    uploads.addToList(fieldset, path);
                     break;
             }
 
@@ -364,7 +364,7 @@
                     bolt.stack.addToStack(file.name);
                 }
             } else {
-                uploads.addToList(fieldset, file.name, file.name);
+                uploads.addToList(fieldset, file.name);
             }
         });
     }
