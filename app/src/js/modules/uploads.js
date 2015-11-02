@@ -234,6 +234,9 @@
         $('ul.select-from-stack a', fieldset).on('click', function () {
             var path = $(this).data('path');
 
+            // Close the dropdown.
+            $(this).closest('.btn-group').find('button.dropdown-toggle').dropdown('toggle');
+
             switch ($(fieldset).data('bolt-field')) {
                 case 'file':
                 case 'image':
