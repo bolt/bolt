@@ -215,13 +215,11 @@
                     <span class="caret"></span>
                 </button>
 
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu select-from-stack">
                     {% for item in items %}
                         {% set info = item.filesize ~ (item.imagesize|default() ? ', ' ~ item.imagesize ~ ' px' : '') %}
                         <li>
-                            <a href="#" data-action="Bolt.stack.select('{{ fieldid }}', '{{ item.filepath }}');">
-                                {{ item.basename }} <small>({{ info }})</small>
-                            </a>
+                            <a href="#" data-path="{{ item.filepath }}">{{ item.basename }} <small>({{ info }})</small></a>
                         </li>
                     {% endfor %}
                 </ul>

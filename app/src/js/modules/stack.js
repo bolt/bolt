@@ -99,36 +99,6 @@
         });
     };
 
-    /**
-     * Select file in modal file selector dialog.
-     *
-     * @static
-     * @function select
-     * @memberof Bolt.stack
-     *
-     * @param {string} fieldid - Id of the fieldset
-     * @param {string} path - Path to the selected file
-     */
-    stack.select = function (fieldid, path) {
-        var container = $('#' + fieldid);
-
-        switch (container.data('bolt-field')) {
-            case 'file':
-            case 'image':
-                $('input.path', container).val(path).trigger('change');
-                break;
-            case 'filelist':
-                bolt.uploads.addToList(container, path, path);
-                break;
-            case 'imagelist':
-                bolt.uploads.addToList(container, path, path);
-                break;
-        }
-
-        // Close the dropdown menu.
-        $('.in, .open').removeClass('in open');
-    };
-
     // Apply mixin container
     bolt.stack = stack;
 

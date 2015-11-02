@@ -28,6 +28,7 @@
      */
     uploads.bindField = function (fieldset) {
         bindUpload(fieldset, false);
+        bindSelectFromStack(fieldset);
 
         // Setup autocomplete popup.
         var accept = ($(fieldset).find('input[accept]').prop('accept') || '').replace(/\./g, ''),
@@ -131,6 +132,7 @@
         });
 
         bindUpload(fieldset, true);
+        bindSelectFromStack(fieldset);
     };
 
     /**
@@ -187,7 +189,6 @@
      * @function bindUpload
      * @memberof Bolt.uploads
      * @param {Object} fieldset
-     * @param {boolean} isList
      */
     function bindUpload(fieldset) {
         var fileInput = $(fieldset).find('input[type=file]'),
@@ -219,6 +220,35 @@
             .on('fileuploadprogress', onUploadProgress)
             .on('fileuploadalways', onUploadAlways)
             .on('fileuploaddone', onUploadDone);
+    }
+
+    /**
+     * Binds event to select from stack button.
+     *
+     * @private
+     * @function bindUpload
+     * @memberof Bolt.uploads
+     * @param {Object} fieldset
+     */
+    function bindSelectFromStack(fieldset) {
+        $('ul.select-from-stack a', fieldset).on('click', function () {
+            var path = $(this).data('path');
+
+            switch ($(fieldset).data('bolt-field')) {
+                case 'file':
+                case 'image':
+                    $('input.path', fieldset).val(path).trigger('change');
+                    break;
+                case 'filelist':
+                    uploads.addToList(fieldset, path, path);
+                    break;
+                case 'imagelist':
+                    uploads.addToList(fieldset, path, path);
+                    break;
+            }
+
+            return false;
+        });
     }
 
     /**
