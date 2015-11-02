@@ -6,7 +6,7 @@
 } %}
 
 {#=== INIT ===========================================================================================================#}
-
+{% set randid = random() %}
 {% set video = context.content.get(contentkey) %}
 
 {% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18) ~ '</b>" by ' ~ video.authorname|trimtext(18) %}
@@ -20,64 +20,73 @@
         placeholder:  __('field.video.placeholder.url') ~ ' …',
         type:         'url',
         value:        video.url|default(''),
+        data_video:   'main',
     },
 
     width: {
-        class:  'form-control',
-        id:     'video-' ~ key ~ '-width',
-        name:   name ~ '[width]',
-        type:   'number',
-        value:  video.width|default(''),
+        class:      'form-control',
+        id:         'video-' ~ key ~ '-width',
+        name:       name ~ '[width]',
+        type:       'number',
+        value:      video.width|default(''),
+        data_video: 'width',
     },
 
     height: {
-        class:  'form-control',
-        id:     'video-' ~ key ~ '-height',
-        name:   name ~ '[height]',
-        type:   'number',
-        value:  video.height|default(''),
+        class:      'form-control',
+        id:         'video-' ~ key ~ '-height',
+        name:       name ~ '[height]',
+        type:       'number',
+        value:      video.height|default(''),
+        data_video: 'height',
     },
 
     hid_ratio: {
-        id:        'video-' ~ key ~ '-ratio',
-        name:      name ~ '[ratio]',
-        type:      'hidden',
-        value:     video.ratio|default(''),
+        id:         'video-' ~ key ~ '-ratio',
+        name:       name ~ '[ratio]',
+        type:       'hidden',
+        value:      video.ratio|default(''),
+        data_video: 'ratio',
     },
 
     hid_title: {
-        id:        'video-' ~ key ~ '-title',
-        name:      name ~ '[title]',
-        type:      'hidden',
-        value:     video.title|default(''),
+        id:         'video-' ~ key ~ '-title',
+        name:       name ~ '[title]',
+        type:       'hidden',
+        value:      video.title|default(''),
+        data_video: 'title',
     },
 
     hid_authorname: {
-        id:        'video-' ~ key ~ '-author_name',
-        name:      name ~ '[authorname]',
-        type:      'hidden',
-        value:     video.authorname|default(''),
+        id:         'video-' ~ key ~ '-author_name',
+        name:       name ~ '[authorname]',
+        type:       'hidden',
+        value:      video.authorname|default(''),
+        data_video: 'authorname',
     },
 
     hid_authorurl: {
-        id:        'video-' ~ key ~ '-author_url',
-        name:      name ~ '[authorurl]',
-        type:      'hidden',
-        value:     video.authorurl|default(''),
+        id:         'video-' ~ key ~ '-author_url',
+        name:       name ~ '[authorurl]',
+        type:       'hidden',
+        value:      video.authorurl|default(''),
+        data_video: 'authorurl',
     },
 
     hid_html: {
-        id:        'video-' ~ key ~ '-html',
-        name:      name ~ '[html]',
-        type:      'hidden',
-        value:     (video.html is defined ? video.html|replace({'"': '\''}) : ''),
+        id:         'video-' ~ key ~ '-html',
+        name:       name ~ '[html]',
+        type:       'hidden',
+        value:      (video.html is defined ? video.html|replace({'"': '\''}) : ''),
+        data_video: 'html',
     },
 
     hid_thumbnail: {
-        id:        'video-' ~ key ~ '-thumbnail',
-        name:      name ~ '[thumbnail]',
-        type:      'hidden',
-        value:     video.thumbnail|default(''),
+        id:         'video-' ~ key ~ '-thumbnail',
+        name:       name ~ '[thumbnail]',
+        type:       'hidden',
+        value:      video.thumbnail|default(''),
+        data_video: 'thumbnail',
     }
 } %}
 
@@ -119,7 +128,7 @@
 
             <div class="hidden-xs col-sm-3">
                 <span class="pull-right">
-                    <a href="#myModal" role="button" class="btn btn-default" data-toggle="modal">
+                    <a href="#modal-{{ randid }}" role="button" class="btn btn-default" data-toggle="modal">
                     <i class="fa fa-youtube-play"></i>
                     {{ __('field.video.button.preview') }}</a>
                 </span>
@@ -137,9 +146,9 @@
     <div class="col-sm-4">
         <div class="right-on-large">{# to make the preview align right on wide screens #}
             <label>{{ __('field.video.label.preview') }}</label>
-            <div class="imageholder" id="thumbnail-{{ key }}">
+            <div class="imageholder" id="thumbnail-{{ key }}" data-video="thumbcontainer">
                 {% if video.thumbnail|default('') %}
-                    <img src="{{ video.thumbnail }}" width="200" height="150">
+                    <img data-video="thumbimage" src="{{ video.thumbnail }}" width="200" height="150">
                 {% else %}
                     <img src="{{ app.paths.app }}view/img/default_empty_4x3.png" width="200" height="150">
                 {% endif %}
@@ -148,7 +157,7 @@
     </div>
 
     {# Modal video preview #}
-    <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal" id="modal-{{ randid }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-video="modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body">

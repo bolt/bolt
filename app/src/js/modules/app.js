@@ -117,8 +117,6 @@
                 case 'filebrowser': init.bindFileBrowser(); break;
                 case 'ckfileselect': init.bindCkFileSelect(); break;
                 case 'prefill': init.bindPrefill(); break;
-                case 'video': bolt.video.bind(data.key); break;
-                default: console.log('Binding ' + data.bind + ' failed!');
             }
         });
     }
