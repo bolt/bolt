@@ -48,7 +48,7 @@ class RepeaterType extends FieldTypeBase
     {
         $this->normalize($entity);
         $key = $this->mapping['fieldname'];
-        $accessor = 'get'.ucfirst($key);
+        $accessor = 'get' . ucfirst($key);
 
         $collection = $entity->$accessor();
 
@@ -87,7 +87,7 @@ class RepeaterType extends FieldTypeBase
     public function normalize($entity)
     {
         $key = $this->mapping['fieldname'];
-        $accessor = 'get'.ucfirst($key);
+        $accessor = 'get' . ucfirst($key);
 
         $outerCollection = $entity->$accessor();
         $newVal = [];
@@ -103,7 +103,7 @@ class RepeaterType extends FieldTypeBase
                 }
             }
 
-            $setter = 'set'.ucfirst($key);
+            $setter = 'set' . ucfirst($key);
             $entity->$setter($collection);
         }
     }
@@ -187,7 +187,7 @@ class RepeaterType extends FieldTypeBase
             $repo = $this->em->getRepository(get_class($fieldValue));
             $field = $this->getFieldType($fieldValue->getFieldname());
             $type = $field->getStorageType();
-            $typeCol = 'value_'.$type->getName();
+            $typeCol = 'value_' . $type->getName();
 
             $fieldValue->$typeCol = $fieldValue->getValue();
             $fieldValue->setFieldtype($this->getFieldTypeName($fieldValue->getFieldname()));
@@ -229,7 +229,7 @@ class RepeaterType extends FieldTypeBase
             $repo = $this->em->getRepository(get_class($fieldValue));
             $field = $this->getFieldType($fieldValue->getFieldname());
             $type = $field->getStorageType();
-            $typeCol = 'value_'.$type->getName();
+            $typeCol = 'value_' . $type->getName();
             $fieldValue->$typeCol = $fieldValue->getValue();
 
             // This takes care of instances where an entity might be inserted, and thus not
@@ -254,7 +254,7 @@ class RepeaterType extends FieldTypeBase
     protected function getFieldType($field)
     {
         if (!isset($this->mapping['data']['fields'][$field]['fieldtype'])) {
-            throw new FieldConfigurationException('Invalid repeating field configuration for '.$field);
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
         $mapping = $this->mapping['data']['fields'][$field];
         $setting = $mapping['fieldtype'];
@@ -272,7 +272,7 @@ class RepeaterType extends FieldTypeBase
     protected function getFieldTypeName($field)
     {
         if (!isset($this->mapping['data']['fields'][$field]['type'])) {
-            throw new FieldConfigurationException('Invalid repeating field configuration for '.$field);
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
         $mapping = $this->mapping['data']['fields'][$field];
 

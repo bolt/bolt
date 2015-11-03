@@ -1126,7 +1126,7 @@ class Storage
 
         try {
             foreach ($recordIds as $recordId) {
-                $content = $this->getContent("$contenttypeSlug/".$recordId['id'], ['hydrate' => false, 'returnsingle' => true]);
+                $content = $this->getContent($contenttypeSlug . '/' . $recordId['id'], ['hydrate' => false, 'returnsingle' => true]);
 
                 $event = new StorageEvent($content, ['contenttype' => $contenttypeSlug, 'create' => false]);
                 $this->app['dispatcher']->dispatch("timed.$type", $event);

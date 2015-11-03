@@ -42,7 +42,7 @@ class RelationType extends FieldTypeBase
             if ($filter->getKey() == $field) {
 
                 // This gets the method name, one of andX() / orX() depending on type of expression
-                $method = strtolower($filter->getExpressionObject()->getType()).'X';
+                $method = strtolower($filter->getExpressionObject()->getType()) . 'X';
 
                 $newExpr = $query->getQueryBuilder()->expr()->$method();
                 foreach ($filter->getParameters() as $k => $v) {

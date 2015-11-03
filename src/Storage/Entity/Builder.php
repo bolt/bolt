@@ -178,7 +178,7 @@ class Builder
 
         foreach ((array) $fields as $key => $mapping) {
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
-            $getter = 'get'.ucfirst($key);
+            $getter = 'get' . ucfirst($key);
             $value = $entity->$getter();
             if ($value) {
                 call_user_func_array([$fieldType, 'set'], [$entity, $value]);

@@ -170,7 +170,7 @@ class Cache extends FilesystemCache
      */
     private function updateCacheVersion()
     {
-        $version = md5($this->app['bolt_version'].$this->app['bolt_name']);
+        $version = md5($this->app['bolt_version'] . $this->app['bolt_name']);
         file_put_contents($this->getDirectory() . '/.version', $version);
     }
 }

@@ -72,7 +72,7 @@ class Repository implements ObjectRepository
         if (empty($alias)) {
             $select = '*';
         } else {
-            $select = $alias.'.*';
+            $select = $alias . '.*';
         }
 
         return $this->em->createQueryBuilder()
@@ -86,7 +86,7 @@ class Repository implements ObjectRepository
     public function find($id)
     {
         $qb = $this->getLoadQuery();
-        $result = $qb->where($this->getAlias().'.id = :id')
+        $result = $qb->where($this->getAlias() . '.id = :id')
             ->setParameter('id', $id)
             ->execute()
             ->fetch();

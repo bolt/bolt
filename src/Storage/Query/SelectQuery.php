@@ -101,7 +101,7 @@ class SelectQuery implements QueryInterface
     {
         return array_intersect_key(
             $this->getWhereParameters(),
-            array_flip(preg_grep('/^'.$fieldname.'_/', array_keys($this->getWhereParameters())))
+            array_flip(preg_grep('/^' . $fieldname . '_/', array_keys($this->getWhereParameters())))
         );
     }
 

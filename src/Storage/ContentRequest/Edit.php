@@ -166,7 +166,7 @@ class Edit
 
         foreach ($contentType['relations'] as $relationName => $relationValues) {
             $repo = $this->em->getRepository($relationName);
-            $relationConfig = $this->config->get('contenttypes/'.$relationName, []);
+            $relationConfig = $this->config->get('contenttypes/' . $relationName, []);
 
             $list[$relationName] = $repo->getSelectList($relationConfig, $relationValues['order']);
         }

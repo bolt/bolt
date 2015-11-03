@@ -83,7 +83,7 @@ class YamlUpdater
     public function change($key, $value, $makebackup = true)
     {
         $pattern = str_replace("/", ":.*", $key);
-        preg_match_all('/^'.$pattern.'(:\s*)/mis', $this->file->read(), $matches,  PREG_OFFSET_CAPTURE);
+        preg_match_all('/^' . $pattern . '(:\s*)/mis', $this->file->read(), $matches,  PREG_OFFSET_CAPTURE);
 
         if (count($matches[0]) > 0 && count($matches[1])) {
             $index = $matches[1][0][1] + strlen($matches[1][0][0]);
@@ -92,7 +92,7 @@ class YamlUpdater
         }
 
         $line = substr_count($this->file->read(), "\n", 0, $index);
-        $this->yaml[$line] = preg_replace('/^(.*):(.*)/', "$1: ".$this->prepareValue($value), $this->yaml[$line]);
+        $this->yaml[$line] = preg_replace('/^(.*):(.*)/', "$1: " . $this->prepareValue($value), $this->yaml[$line]);
 
         return $this->save($makebackup);
     }

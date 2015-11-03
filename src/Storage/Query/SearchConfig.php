@@ -88,7 +88,7 @@ class SearchConfig
     protected function parseTaxonomies($contenttype, $taxonomies)
     {
         foreach ((array) $taxonomies as $taxonomy) {
-            $taxonomyConfig = $this->config->get('taxonomy/'.$taxonomy);
+            $taxonomyConfig = $this->config->get('taxonomy/' . $taxonomy);
             if (isset($taxonomyConfig['searchweight'])) {
                 $weight = $taxonomyConfig['searchweight'];
             } elseif (isset($taxonomyConfig['behaves_like']) && $taxonomyConfig['behaves_like'] === 'tags') {
@@ -123,7 +123,7 @@ class SearchConfig
      */
     protected function getSearchableColumns($type)
     {
-        $fields = $this->config->get('contenttypes/'.$type.'/fields');
+        $fields = $this->config->get('contenttypes/' . $type . '/fields');
 
         foreach ($fields as $field => $options) {
             if (in_array($options['type'], ['text', 'textarea', 'html', 'markdown']) || $options['searchable'] == true) {
@@ -150,7 +150,7 @@ class SearchConfig
      */
     protected function isInvisible($contenttype)
     {
-        $info = $this->config->get('contenttypes/'.$contenttype);
+        $info = $this->config->get('contenttypes/' . $contenttype);
         if ($info) {
             if (array_key_exists('viewless', $info) && $info['viewless'] == true) {
                 return true;

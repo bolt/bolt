@@ -28,7 +28,7 @@ class NamingStrategy implements NamingStrategyInterface
         $className = $this->getRelativeClass($className);
         $className = ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $className)), '_');
 
-        return $this->prefix.$className;
+        return $this->prefix . $className;
     }
 
     /**

@@ -221,7 +221,7 @@ class AdminHandler
         $return = '';
 
         $add = function ($name, $value = null) use (&$return) {
-            $return .= ' ' .$name . ($value === null ? '' : '="' . htmlspecialchars($value) . '"');
+            $return .= ' ' . $name . ($value === null ? '' : '="' . htmlspecialchars($value) . '"');
         };
 
         foreach ($attributes as $name => $value) {

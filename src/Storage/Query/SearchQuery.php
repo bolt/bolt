@@ -73,11 +73,11 @@ class SearchQuery extends SelectQuery
         if (strpos($this->search, '+')) {
             $words = preg_split('/[\s\+]+/', $this->search);
 
-            return '%'.implode('% && %', $words).'%';
+            return '%' . implode('% && %', $words) . '%';
         } else {
             $words = explode(' ', $this->search);
 
-            return '%'.implode('% || %', $words).'%';
+            return '%' . implode('% || %', $words) . '%';
         }
     }
 
