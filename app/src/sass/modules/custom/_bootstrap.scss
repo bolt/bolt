@@ -8,10 +8,14 @@
     border-radius: 3px;
 }
 
-.btn-group > .btn-xs {
-    font-size: 12px;
-    line-height: 16px;
-    padding: 3px 7px;
+.btn-group {
+    margin-right: 6px;
+
+    > .btn-xs {
+        font-size: 12px;
+        line-height: 16px;
+        padding: 3px 7px;
+    }
 }
 
 .btn-sm {
