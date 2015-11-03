@@ -221,8 +221,8 @@ class Queue implements QueueInterface
         );
         $snippet = (new Snippet())
             ->setLocation(Target::AFTER_BODY_JS)
-            ->setCallback((string) $javaScript)
-        ;
+            ->setCallback((string) $javaScript);
+
         $this->deferAdded = true;
 
         return $this->injector->inject($snippet, Target::AFTER_BODY_JS, $html);

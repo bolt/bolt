@@ -117,8 +117,7 @@ class Extensions
                ->in($this->basefolder . '/local')
                ->followLinks()
                ->name('init.php')
-               ->depth('== 2')
-        ;
+               ->depth('== 2');
 
         foreach ($finder as $file) {
             /** @var \Symfony\Component\Finder\SplFileInfo $file */
@@ -165,8 +164,7 @@ class Extensions
             ->in($this->basefolder . '/local')
             ->followLinks()
             ->name('composer.json')
-            ->depth('== 2')
-        ;
+            ->depth('== 2');
 
         if ($finder->count() > 0) {
             $this->setLocalExtensionPsr4($finder);

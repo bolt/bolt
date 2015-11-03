@@ -127,8 +127,7 @@ class Records extends BackendBase
             ->setOrder($request->query->get('order'))
             ->setPage($request->query->get('page_' . $contenttypeslug))
             ->setFilter($request->query->get('filter'))
-            ->setTaxonomies($taxonomy)
-        ;
+            ->setTaxonomies($taxonomy);
 
         $context = [
             'contenttype'     => $this->getContentType($contenttypeslug),

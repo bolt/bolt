@@ -210,8 +210,7 @@ class ImageHandler
             ->setFileName($fileName)
             ->setWidth($width)
             ->setHeight($height)
-            ->setScale($scale)
-        ;
+            ->setScale($scale);
 
         return $thumb;
     }

@@ -166,8 +166,7 @@ trait ContentRouteTrait
     {
         return (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug'])
             || (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug'])
-            || (isset($route['recordslug'])  && $route['recordslug']  === $this->getReference())
-        ;
+            || (isset($route['recordslug'])  && $route['recordslug']  === $this->getReference());
     }
 
     /**

@@ -80,8 +80,7 @@ class Application extends Silex\Application
     {
         $this
             ->register(new Provider\TokenServiceProvider())
-            ->register(new Provider\SessionServiceProvider())
-        ;
+            ->register(new Provider\SessionServiceProvider());
     }
 
     public function initialize()
@@ -270,8 +269,7 @@ class Application extends Silex\Application
             ->register(new Provider\EventListenerServiceProvider())
             ->register(new Provider\AssetServiceProvider())
             ->register(new Provider\FormServiceProvider())
-            ->register(new Provider\MailerServiceProvider())
-        ;
+            ->register(new Provider\MailerServiceProvider());
 
         $this['paths'] = $this['resources']->getPaths();
 

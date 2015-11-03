@@ -543,8 +543,7 @@ class Users extends BackendBase
                     'disabled' => true,
                     'label'    => Trans::__('page.edit-users.label.last-ip'),
                 ]
-            )
-        ;
+            );
 
         return $form;
     }
@@ -704,8 +703,8 @@ class Users extends BackendBase
                 ->setReplyTo($from)
                 ->setTo([$email   => $displayName])
                 ->setBody(strip_tags($mailhtml))
-                ->addPart($mailhtml, 'text/html')
-            ;
+                ->addPart($mailhtml, 'text/html');
+
             $failedRecipients = [];
 
             $this->app['mailer']->send($message, $failedRecipients);

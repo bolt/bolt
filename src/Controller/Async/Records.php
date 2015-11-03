@@ -90,8 +90,7 @@ class Records extends AsyncBase
             ->setOrder($referer->query->get('order'))
             ->setPage($referer->query->get('page_' . $contentType))
             ->setFilter($referer->query->get('filter'))
-            ->setTaxonomies($taxonomy)
-        ;
+            ->setTaxonomies($taxonomy);
 
         $context = [
             'contenttype'     => $this->getContentType($contentType),
