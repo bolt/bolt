@@ -21,11 +21,13 @@ class FormServiceProvider implements ServiceProviderInterface
             $app->register(new SilexFormServiceProvider());
         }
 
-        $app['form.csrf_provider'] = $app->share(function ($app) {
-            $storage = new SessionTokenStorage($app['sessions']['csrf']);
+        $app['form.csrf_provider'] = $app->share(
+            function ($app) {
+                $storage = new SessionTokenStorage($app['sessions']['csrf']);
 
-            return new CsrfTokenManager(null, $storage);
-        });
+                return new CsrfTokenManager(null, $storage);
+            }
+        );
     }
 
     public function boot(Application $app)

@@ -34,13 +34,17 @@ class SessionServiceProvider implements ServiceProviderInterface
         $this->registerOptions($app);
         $this->registerHandlers($app);
 
-        $app['session.storage.generator'] = $app->share(function () use ($app) {
-            return new RandomGenerator($app['randomgenerator']);
-        });
+        $app['session.storage.generator'] = $app->share(
+            function () use ($app) {
+                return new RandomGenerator($app['randomgenerator']);
+            }
+        );
 
-        $app['session.storage.serializer'] = $app->share(function () {
-            return new NativeSerializer();
-        });
+        $app['session.storage.serializer'] = $app->share(
+            function () {
+                return new NativeSerializer();
+            }
+        );
 
         $app['session.bag.attribute'] = function () {
             return new AttributeBag();
@@ -100,74 +104,94 @@ class SessionServiceProvider implements ServiceProviderInterface
 
     protected function registerSessions(Application $app)
     {
-        $app['sessions'] = $app->share(function () use ($app) {
-            $app['sessions.options.initializer']();
+        $app['sessions'] = $app->share(
+            function () use ($app) {
+                $app['sessions.options.initializer']();
 
-            $sessions = new \Pimple();
-            foreach ($app['sessions.options'] as $name => $options) {
-                $sessions[$name] = $app->share(function () use ($options, $app) {
-                    return $app['session.factory']($options);
-                });
+                $sessions = new \Pimple();
+                foreach ($app['sessions.options'] as $name => $options) {
+                    $sessions[$name] = $app->share(
+                        function () use ($options, $app) {
+                            return $app['session.factory']($options);
+                        }
+                    );
+                }
+
+                return $sessions;
             }
+        );
 
-            return $sessions;
-        });
+        $app['session.factory'] = $app->protect(
+            function ($options) use ($app) {
+                return new Session(
+                    $app['session.storage.factory']($options),
+                    $app['session.bag.attribute'],
+                    $app['session.bag.flash']
+                );
+            }
+        );
 
-        $app['session.factory'] = $app->protect(function ($options) use ($app) {
-            return new Session(
-                $app['session.storage.factory']($options),
-                $app['session.bag.attribute'],
-                $app['session.bag.flash']
-            );
-        });
+        $app['session.storage.factory'] = $app->protect(
+            function ($options) use ($app) {
+                return new SessionStorage(
+                    $options,
+                    $app['session.storage.handler.factory']($options['save_handler'], $options),
+                    $app['session.storage.generator'],
+                    $app['session.storage.serializer']
+                );
+            }
+        );
 
-        $app['session.storage.factory'] = $app->protect(function ($options) use ($app) {
-            return new SessionStorage(
-                $options,
-                $app['session.storage.handler.factory']($options['save_handler'], $options),
-                $app['session.storage.generator'],
-                $app['session.storage.serializer']
-            );
-        });
+        $app['session'] = $app->share(
+            function ($app) {
+                // Sessions needs to be called first so sessions.default is initialized
+                $sessions = $app['sessions'];
 
-        $app['session'] = $app->share(function ($app) {
-            // Sessions needs to be called first so sessions.default is initialized
-            $sessions = $app['sessions'];
-
-            return $sessions[$app['sessions.default']];
-        });
+                return $sessions[$app['sessions.default']];
+            }
+        );
     }
 
     protected function registerListeners(Application $app)
     {
-        $app['sessions.listener'] = $app->share(function () use ($app) {
-            $app['sessions.options.initializer']();
+        $app['sessions.listener'] = $app->share(
+            function () use ($app) {
+                $app['sessions.options.initializer']();
 
-            $listeners = new \Pimple();
-            foreach ($app['sessions']->keys() as $name) {
-                $setToRequest = $name === $app['sessions.default'];
-                $listeners[$name] = $app->share(function () use ($app, $name, $setToRequest) {
-                    $session = $app['sessions'][$name];
-                    $options = $app['sessions.options'][$name];
-                    
-                    return $app['session.listener.factory']($session, $options, $setToRequest);
-                });
+                $listeners = new \Pimple();
+                foreach ($app['sessions']->keys() as $name) {
+                    $setToRequest = $name === $app['sessions.default'];
+                    $listeners[$name] = $app->share(
+                        function () use ($app, $name, $setToRequest) {
+                            $session = $app['sessions'][$name];
+                            $options = $app['sessions.options'][$name];
+
+                            return $app['session.listener.factory']($session, $options, $setToRequest);
+                        }
+                    );
+                }
+
+                return $listeners;
             }
+        );
 
-            return $listeners;
-        });
+        $app['session.listener.factory'] = $app->protect(
+            function ($session, $options, $setToRequest = false) use ($app) {
+                return new SessionListener($session, $options, $setToRequest);
+            }
+        );
 
-        $app['session.listener.factory'] = $app->protect(function ($session, $options, $setToRequest = false) use ($app) {
-            return new SessionListener($session, $options, $setToRequest);
-        });
+        $app['session.listener'] = $app->share(
+            function ($app) {
+                return $app['session.listeners'][$app['sessions.default']];
+            }
+        );
 
-        $app['session.listener'] = $app->share(function ($app) {
-            return $app['session.listeners'][$app['sessions.default']];
-        });
-
-        $app['session.cookie_path_restriction_listener.factory'] = $app->protect(function ($options) {
-            return new CookiePathRestrictionListener($options);
-        });
+        $app['session.cookie_path_restriction_listener.factory'] = $app->protect(
+            function ($options) {
+                return new CookiePathRestrictionListener($options);
+            }
+        );
     }
 
     protected function registerOptions(Application $app)
@@ -175,90 +199,96 @@ class SessionServiceProvider implements ServiceProviderInterface
         $app['session.default_options'] = [];
         $app['session.options.import_from_ini'] = true;
 
-        $app['sessions.options.initializer'] = $app->protect(function () use ($app) {
-            static $initialized = false;
+        $app['sessions.options.initializer'] = $app->protect(
+            function () use ($app) {
+                static $initialized = false;
 
-            if ($initialized) {
-                return;
-            }
-            $initialized = true;
-
-            /*
-             * Ok this does several things.
-             * 1) Merges options together for each session. Precedence is as follows:
-             *    - Options from individual session
-             *    - Options from "session.default_options"
-             *    - Options from ini (if enabled with "session.options.import_from_ini")
-             *    - Options hardcoded below
-             * 2) Converts "session.options" shortcut to sessions.options['default']
-             * 3) Sets "sessions.default" value to first session key in "sessions.options"
-             * 4) Converts options for each session to an OptionsBag instance
-             */
-            $actualDefaults = [
-                'save_handler'    => 'files',
-                'save_path'       => '/tmp',
-                'name'            => 'PHPSESSID',
-                //'auto_start' => false,
-                //'serialize_handler' => null,
-                'gc_probability'  => 1,
-                'gc_divisor'      => 1000,
-                'gc_maxlifetime'  => 1440,
-                //'referer_check' => '',
-                //'use_strict_mode' => false,
-                'cookie_lifetime' => 0,
-                'cookie_path'     => '/',
-                'cookie_domain'   => null,
-                'cookie_secure'   => false,
-                'cookie_httponly' => false,
-                // TODO Do started native sessions force "nocache" header in response?
-                // We don't have a way to force that, should we?
-                //'cache_limiter' => 'nocache',
-                //'cache_expire'  => 180,
-            ];
-
-            if (isset($app['session.options.import_from_ini']) && $app['session.options.import_from_ini']) {
-                foreach ($actualDefaults as $key => $value) {
-                    $actualDefaults[$key] = ini_get('session.' . $key);
+                if ($initialized) {
+                    return;
                 }
-            }
-            $app['session.default_options'] = array_replace($actualDefaults, $app['session.default_options']);
+                $initialized = true;
 
-            // Maintain BC for "session.storage.options"
-            if (isset($app['session.storage.options'])) {
-                $app['session.default_options'] = array_replace($app['session.default_options'], $app['session.storage.options']);
-            }
-
-            if (!isset($app['sessions.options'])) {
-                $app['sessions.options'] = [
-                    'default' => isset($app['session.options']) ? $app['session.options'] : [],
+                /*
+                 * Ok this does several things.
+                 * 1) Merges options together for each session. Precedence is as follows:
+                 *    - Options from individual session
+                 *    - Options from "session.default_options"
+                 *    - Options from ini (if enabled with "session.options.import_from_ini")
+                 *    - Options hardcoded below
+                 * 2) Converts "session.options" shortcut to sessions.options['default']
+                 * 3) Sets "sessions.default" value to first session key in "sessions.options"
+                 * 4) Converts options for each session to an OptionsBag instance
+                 */
+                $actualDefaults = [
+                    'save_handler'    => 'files',
+                    'save_path'       => '/tmp',
+                    'name'            => 'PHPSESSID',
+                    //'auto_start' => false,
+                    //'serialize_handler' => null,
+                    'gc_probability'  => 1,
+                    'gc_divisor'      => 1000,
+                    'gc_maxlifetime'  => 1440,
+                    //'referer_check' => '',
+                    //'use_strict_mode' => false,
+                    'cookie_lifetime' => 0,
+                    'cookie_path'     => '/',
+                    'cookie_domain'   => null,
+                    'cookie_secure'   => false,
+                    'cookie_httponly' => false,
+                    // TODO Do started native sessions force "nocache" header in response?
+                    // We don't have a way to force that, should we?
+                    //'cache_limiter' => 'nocache',
+                    //'cache_expire'  => 180,
                 ];
-            }
 
-            $options = [];
-            foreach ($app['sessions.options'] as $name => $opts) {
-                if (!isset($app['sessions.default'])) {
-                    $app['sessions.default'] = $name;
+                if (isset($app['session.options.import_from_ini']) && $app['session.options.import_from_ini']) {
+                    foreach ($actualDefaults as $key => $value) {
+                        $actualDefaults[$key] = ini_get('session.' . $key);
+                    }
                 }
-                $opts = array_replace($app['session.default_options'], (array) $opts);
-                $options[$name] = new OptionsBag($opts);
+                $app['session.default_options'] = array_replace($actualDefaults, $app['session.default_options']);
+
+                // Maintain BC for "session.storage.options"
+                if (isset($app['session.storage.options'])) {
+                    $app['session.default_options'] = array_replace($app['session.default_options'], $app['session.storage.options']);
+                }
+
+                if (!isset($app['sessions.options'])) {
+                    $app['sessions.options'] = [
+                        'default' => isset($app['session.options']) ? $app['session.options'] : [],
+                    ];
+                }
+
+                $options = [];
+                foreach ($app['sessions.options'] as $name => $opts) {
+                    if (!isset($app['sessions.default'])) {
+                        $app['sessions.default'] = $name;
+                    }
+                    $opts = array_replace($app['session.default_options'], (array) $opts);
+                    $options[$name] = new OptionsBag($opts);
+                }
+                $app['sessions.options'] = $options;
             }
-            $app['sessions.options'] = $options;
-        });
+        );
     }
 
     protected function registerHandlers(Application $app)
     {
-        $app['session.storage.handler.factory'] = $app->protect(function ($handler, $options) use ($app) {
-            $key = 'session.storage.handler.factory.' . $handler;
-            if (isset($app[$key])) {
-                return $app[$key]($options);
+        $app['session.storage.handler.factory'] = $app->protect(
+            function ($handler, $options) use ($app) {
+                $key = 'session.storage.handler.factory.' . $handler;
+                if (isset($app[$key])) {
+                    return $app[$key]($options);
+                }
+                throw new \RuntimeException("Unsupported handler type '$handler' specified");
             }
-            throw new \RuntimeException("Unsupported handler type '$handler' specified");
-        });
+        );
 
-        $app['session.storage.handler.factory.files'] = $app->protect(function ($options) use ($app) {
-            return new FileHandler($options['save_path'], $app['logger.system']);
-        });
+        $app['session.storage.handler.factory.files'] = $app->protect(
+            function ($options) use ($app) {
+                return new FileHandler($options['save_path'], $app['logger.system']);
+            }
+        );
 
         $this->registerMemcacheHandler($app);
         $this->registerRedisHandler($app);
@@ -266,21 +296,23 @@ class SessionServiceProvider implements ServiceProviderInterface
 
     protected function registerMemcacheHandler(Application $app)
     {
-        $app['session.storage.handler.factory.backing_memcache'] = $app->protect(function ($connections) {
-            $memcache = new \Memcache();
+        $app['session.storage.handler.factory.backing_memcache'] = $app->protect(
+            function ($connections) {
+                $memcache = new \Memcache();
 
-            foreach ($connections as $conn) {
-                $memcache->addServer(
-                    $conn['host'] ?: 'localhost',
-                    $conn['port'] ?: 11211,
-                    $conn['persistent'] ?: false,
-                    $conn['weight'] ?: 0,
-                    $conn['timeout'] ?: 1
-                );
+                foreach ($connections as $conn) {
+                    $memcache->addServer(
+                        $conn['host'] ?: 'localhost',
+                        $conn['port'] ?: 11211,
+                        $conn['persistent'] ?: false,
+                        $conn['weight'] ?: 0,
+                        $conn['timeout'] ?: 1
+                    );
+                }
+
+                return $memcache;
             }
-
-            return $memcache;
-        });
+        );
 
         $app['session.storage.handler.factory.memcache'] = $app->protect(
             function ($options, $key = 'memcache') use ($app) {
@@ -303,52 +335,58 @@ class SessionServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['session.storage.handler.factory.memcached'] = $app->protect(function ($options) use ($app) {
-            return $app['session.storage.handler.factory.memcache']($options, 'memcached');
-        });
+        $app['session.storage.handler.factory.memcached'] = $app->protect(
+            function ($options) use ($app) {
+                return $app['session.storage.handler.factory.memcache']($options, 'memcached');
+            }
+        );
     }
 
     protected function registerRedisHandler(Application $app)
     {
-        $app['session.storage.handler.factory.backing_redis'] = $app->protect(function ($connections) {
-            if (class_exists('Redis')) {
-                $redis = new \Redis();
-                foreach ($connections as $conn) {
-                    $params = [$conn['path'] ?: $conn['host'], $conn['port'], $conn['timeout'] ?: 0];
-                    call_user_func_array([$redis, $conn['persistant'] ? 'pconnect' : 'connect'], $params);
-                    if (!empty($conn['password'])) {
-                        $redis->auth($conn['password']);
+        $app['session.storage.handler.factory.backing_redis'] = $app->protect(
+            function ($connections) {
+                if (class_exists('Redis')) {
+                    $redis = new \Redis();
+                    foreach ($connections as $conn) {
+                        $params = [$conn['path'] ?: $conn['host'], $conn['port'], $conn['timeout'] ?: 0];
+                        call_user_func_array([$redis, $conn['persistant'] ? 'pconnect' : 'connect'], $params);
+                        if (!empty($conn['password'])) {
+                            $redis->auth($conn['password']);
+                        }
+                        if ($conn['database'] > 0) {
+                            $redis->select($conn['database']);
+                        }
+                        if (!empty($conn['prefix'])) {
+                            $redis->setOption(\Redis::OPT_PREFIX, $conn['prefix']);
+                        }
                     }
-                    if ($conn['database'] > 0) {
-                        $redis->select($conn['database']);
+                } elseif (class_exists('Predis\Client')) {
+                    $params = [];
+                    $options = [];
+                    foreach ($connections as $conn) {
+                        $params[] = $conn;
+                        if (!empty($conn['prefix'])) {
+                            $options['prefix'] = $conn['prefix'];
+                        }
                     }
-                    if (!empty($conn['prefix'])) {
-                        $redis->setOption(\Redis::OPT_PREFIX, $conn['prefix']);
-                    }
+                    $redis = new \Predis\Client($params, $options);
+                } else {
+                    throw new \RuntimeException('Neither Redis nor Predis\Client exist');
                 }
-            } elseif (class_exists('Predis\Client')) {
-                $params = [];
-                $options = [];
-                foreach ($connections as $conn) {
-                    $params[] = $conn;
-                    if (!empty($conn['prefix'])) {
-                        $options['prefix'] = $conn['prefix'];
-                    }
-                }
-                $redis = new \Predis\Client($params, $options);
-            } else {
-                throw new \RuntimeException('Neither Redis nor Predis\Client exist');
+
+                return $redis;
             }
+        );
 
-            return $redis;
-        });
+        $app['session.storage.handler.factory.redis'] = $app->protect(
+            function ($options) use ($app) {
+                $connections = $this->parseConnections($options, 'localhost', 6379);
+                $redis = $app['session.storage.handler.factory.backing_redis']($connections);
 
-        $app['session.storage.handler.factory.redis'] = $app->protect(function ($options) use ($app) {
-            $connections = $this->parseConnections($options, 'localhost', 6379);
-            $redis = $app['session.storage.handler.factory.backing_redis']($connections);
-
-            return new RedisHandler($redis, $options['gc_maxlifetime']);
-        });
+                return new RedisHandler($redis, $options['gc_maxlifetime']);
+            }
+        );
     }
 
     protected function parseConnections($options, $defaultHost, $defaultPort)

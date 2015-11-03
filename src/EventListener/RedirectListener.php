@@ -97,10 +97,13 @@ class RedirectListener implements EventSubscriberInterface
         $route = $request->attributes->get('_route');
 
         if ($response->getTargetUrl() === $this->urlGenerator->generate('login') && $route !== 'logout') {
-            $this->session->set('retreat', [
-                'route'  => $route,
-                'params' => $request->attributes->get('_route_params'),
-            ]);
+            $this->session->set(
+                'retreat',
+                [
+                    'route'  => $route,
+                    'params' => $request->attributes->get('_route_params'),
+                ]
+            );
         } else {
             $this->session->remove('retreat');
         }

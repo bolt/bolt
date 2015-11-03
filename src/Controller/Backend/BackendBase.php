@@ -66,8 +66,13 @@ abstract class BackendBase extends Base
         // If we had to reload the config earlier on because we detected a
         // version change, display a notice.
         if ($app['config']->notify_update) {
-            $notice = Trans::__("Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.",
-                ['%VERSION%' => $app->getVersion(), '%URI%' => $app['resources']->getUrl('bolt') . 'dbcheck']);
+            $notice = Trans::__(
+                "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.",
+                [
+                    '%VERSION%' => $app->getVersion(),
+                    '%URI%' => $app['resources']->getUrl('bolt') . 'dbcheck',
+                ]
+            );
             $app['logger.system']->notice(strip_tags($notice), ['event' => 'config']);
             $app['logger.flash']->info($notice);
         }
@@ -122,15 +127,17 @@ abstract class BackendBase extends Base
     protected function setAuthenticationCookie(Response $response, $token)
     {
         $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
-        $response->headers->setCookie(new Cookie(
-            $this->app['token.authentication.name'],
-            $token,
-            time() + $this->getOption('general/cookies_lifetime'),
-            $this->resources()->getUrl('root'),
-            $this->getOption('general/cookies_domain'),
-            $this->getOption('general/enforce_ssl'),
-            true
-        ));
+        $response->headers->setCookie(
+            new Cookie(
+                $this->app['token.authentication.name'],
+                $token,
+                time() + $this->getOption('general/cookies_lifetime'),
+                $this->resources()->getUrl('root'),
+                $this->getOption('general/cookies_domain'),
+                $this->getOption('general/enforce_ssl'),
+                true
+            )
+        );
 
         return $response;
     }

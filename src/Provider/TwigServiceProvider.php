@@ -22,20 +22,24 @@ class TwigServiceProvider implements ServiceProviderInterface
         }
 
         // Handlers
-        $app['twig.handlers'] = $app->share(function (Application $app) {
-            return new \Pimple([
-                // @codingStandardsIgnoreStart
-                'admin'  => $app->share(function () use ($app) { return new AdminHandler($app); }),
-                'array'  => $app->share(function () use ($app) { return new ArrayHandler($app); }),
-                'html'   => $app->share(function () use ($app) { return new HtmlHandler($app); }),
-                'image'  => $app->share(function () use ($app) { return new ImageHandler($app); }),
-                'record' => $app->share(function () use ($app) { return new RecordHandler($app); }),
-                'text'   => $app->share(function () use ($app) { return new TextHandler($app); }),
-                'user'   => $app->share(function () use ($app) { return new UserHandler($app); }),
-                'utils'  => $app->share(function () use ($app) { return new UtilsHandler($app); }),
-                // @codingStandardsIgnoreEnd
-            ]);
-        });
+        $app['twig.handlers'] = $app->share(
+            function (Application $app) {
+                return new \Pimple(
+                    [
+                        // @codingStandardsIgnoreStart
+                        'admin'  => $app->share(function () use ($app) { return new AdminHandler($app); }),
+                        'array'  => $app->share(function () use ($app) { return new ArrayHandler($app); }),
+                        'html'   => $app->share(function () use ($app) { return new HtmlHandler($app); }),
+                        'image'  => $app->share(function () use ($app) { return new ImageHandler($app); }),
+                        'record' => $app->share(function () use ($app) { return new RecordHandler($app); }),
+                        'text'   => $app->share(function () use ($app) { return new TextHandler($app); }),
+                        'user'   => $app->share(function () use ($app) { return new UserHandler($app); }),
+                        'utils'  => $app->share(function () use ($app) { return new UtilsHandler($app); }),
+                        // @codingStandardsIgnoreEnd
+                    ]
+                );
+            }
+        );
 
         // Add the Bolt Twig Extension.
         $app['twig'] = $app->share(

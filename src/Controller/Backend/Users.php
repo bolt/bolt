@@ -665,11 +665,15 @@ class Users extends BackendBase
     private function notifyUserSave(Request $request, $displayName, $email, $firstuser)
     {
         if (!$firstuser) {
-            $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $displayName]),
-                ['event' => 'security']);
+            $this->app['logger.system']->info(
+                Trans::__('page.edit-users.log.user-updated', ['%user%' => $displayName]),
+                ['event' => 'security']
+            );
         } else {
-            $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-added', ['%user%' => $displayName]),
-                ['event' => 'security']);
+            $this->app['logger.system']->info(
+                Trans::__('page.edit-users.log.user-added', ['%user%' => $displayName]),
+                ['event' => 'security']
+            );
             $this->notifyUserSetupEmail($request, $displayName, $email);
         }
     }

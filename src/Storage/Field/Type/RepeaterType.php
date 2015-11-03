@@ -195,12 +195,14 @@ class RepeaterType extends FieldTypeBase
 
             // This takes care of instances where an entity might be inserted, and thus not
             // have an id. This registers a callback to set the id parameter when available.
-            $queries->onResult(function ($query, $result, $id) use ($repo, $fieldValue) {
-                if ($result === 1 && $id) {
-                    $fieldValue->setContent_id($id);
-                    $repo->save($fieldValue);
+            $queries->onResult(
+                function ($query, $result, $id) use ($repo, $fieldValue) {
+                    if ($result === 1 && $id) {
+                        $fieldValue->setContent_id($id);
+                        $repo->save($fieldValue);
+                    }
                 }
-            });
+            );
         }
     }
 
@@ -232,11 +234,13 @@ class RepeaterType extends FieldTypeBase
 
             // This takes care of instances where an entity might be inserted, and thus not
             // have an id. This registers a callback to set the id parameter when available.
-            $queries->onResult(function ($query, $result, $id) use ($repo, $fieldValue) {
-                if ($result === 1) {
-                    $repo->save($fieldValue);
+            $queries->onResult(
+                function ($query, $result, $id) use ($repo, $fieldValue) {
+                    if ($result === 1) {
+                        $repo->save($fieldValue);
+                    }
                 }
-            });
+            );
         }
     }
 
@@ -271,7 +275,7 @@ class RepeaterType extends FieldTypeBase
             throw new FieldConfigurationException('Invalid repeating field configuration for '.$field);
         }
         $mapping = $this->mapping['data']['fields'][$field];
-        
+
         return $mapping['type'];
     }
 }

@@ -296,9 +296,12 @@ class Application extends Silex\Application
     {
         if (!$this->booted) {
             // Forward call to mount event if we can (which handles prioritization).
-            $this->on(ControllerEvents::MOUNT, function (MountEvent $event) use ($prefix, $controllers) {
-                $event->mount($prefix, $controllers);
-            });
+            $this->on(
+                ControllerEvents::MOUNT,
+                function (MountEvent $event) use ($prefix, $controllers) {
+                    $event->mount($prefix, $controllers);
+                }
+            );
         } else {
             // Already missed mounting event just append it to bottom of controller list
             parent::mount($prefix, $controllers);

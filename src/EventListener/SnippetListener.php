@@ -96,9 +96,12 @@ class SnippetListener implements EventSubscriberInterface
     {
         $args = func_get_args();
         array_shift($args);
-        $args = array_map(function ($str) {
-            return htmlspecialchars($str, ENT_QUOTES);
-        }, $args);
+        $args = array_map(
+            function ($str) {
+                return htmlspecialchars($str, ENT_QUOTES);
+            },
+            $args
+        );
         array_unshift($args, $str);
 
         return call_user_func_array('sprintf', $args);

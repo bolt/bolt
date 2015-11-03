@@ -72,25 +72,31 @@ trait TaxonomyTypeTrait
             $item = (string) $item;
             $ins = $this->em->createQueryBuilder()
                 ->insert($this->mapping['target'])
-                ->values([
-                    'content_id'   => ':content_id',
-                    'contenttype'  => ':contenttype',
-                    'taxonomytype' => ':taxonomytype',
-                    'slug'         => ':slug',
-                    'name'         => ':name',
-                ])->setParameters([
-                    'content_id'   => $entity->id,
-                    'contenttype'  => $entity->getContenttype(),
-                    'taxonomytype' => $this->mapping['fieldname'],
-                    'slug'         => Slugify::create()->slugify($item),
-                    'name'         => isset($this->mapping['data']['options'][$item]) ? $this->mapping['data']['options'][$item] : $item,
-                ]);
+                ->values(
+                    [
+                        'content_id'   => ':content_id',
+                        'contenttype'  => ':contenttype',
+                        'taxonomytype' => ':taxonomytype',
+                        'slug'         => ':slug',
+                        'name'         => ':name',
+                    ]
+                )->setParameters(
+                    [
+                        'content_id'   => $entity->id,
+                        'contenttype'  => $entity->getContenttype(),
+                        'taxonomytype' => $this->mapping['fieldname'],
+                        'slug'         => Slugify::create()->slugify($item),
+                        'name'         => isset($this->mapping['data']['options'][$item]) ? $this->mapping['data']['options'][$item] : $item,
+                    ]
+                );
 
-            $queries->onResult(function ($query, $result, $id) use ($ins) {
-                if ($query === $ins && $result === 1 && $id) {
-                    $query->setParameter('content_id', $id);
+            $queries->onResult(
+                function ($query, $result, $id) use ($ins) {
+                    if ($query === $ins && $result === 1 && $id) {
+                        $query->setParameter('content_id', $id);
+                    }
                 }
-            });
+            );
 
             $queries->append($ins);
         }

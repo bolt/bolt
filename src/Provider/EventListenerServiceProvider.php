@@ -10,30 +10,36 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['listener.general'] = $app->share(function ($app) {
-            return new Listener\GeneralListener($app);
-        });
+        $app['listener.general'] = $app->share(
+            function ($app) {
+                return new Listener\GeneralListener($app);
+            }
+        );
 
-        $app['listener.exception'] = $app->share(function ($app) {
-            $rootPath = $app['resources']->getPath('root');
+        $app['listener.exception'] = $app->share(
+            function ($app) {
+                $rootPath = $app['resources']->getPath('root');
 
-            return new Listener\ExceptionListener(
-                $rootPath,
-                $app['render'],
-                $app['logger.system'],
-                $app['session'],
-                $app['config']->get('general/debug', false)
-            );
-        });
+                return new Listener\ExceptionListener(
+                    $rootPath,
+                    $app['render'],
+                    $app['logger.system'],
+                    $app['session'],
+                    $app['config']->get('general/debug', false)
+                );
+            }
+        );
 
-        $app['listener.not_found'] = $app->share(function ($app) {
-            return new Listener\NotFoundListener(
-                $app['config']->get('general/notfound'),
-                $app['storage.legacy'],
-                $app['templatechooser'],
-                $app['render']
-            );
-        });
+        $app['listener.not_found'] = $app->share(
+            function ($app) {
+                return new Listener\NotFoundListener(
+                    $app['config']->get('general/notfound'),
+                    $app['storage.legacy'],
+                    $app['templatechooser'],
+                    $app['render']
+                );
+            }
+        );
 
         /*
          * Creating the actual url generator flushes all controllers.
@@ -41,33 +47,41 @@ class EventListenerServiceProvider implements ServiceProviderInterface
          * RedirectListener doesn't use the url generator until kernel.response
          * (way after controllers have been added).
          */
-        $app['listener.redirect'] = $app->share(function ($app) {
-            return new Listener\RedirectListener(
-                $app['session'],
-                $app['url_generator.lazy'],
-                $app['users'],
-                $app['access_control']
-            );
-        });
+        $app['listener.redirect'] = $app->share(
+            function ($app) {
+                return new Listener\RedirectListener(
+                    $app['session'],
+                    $app['url_generator.lazy'],
+                    $app['users'],
+                    $app['access_control']
+                );
+            }
+        );
 
-        $app['listener.session'] = $app->share(function ($app) {
-            $debug = $app['debug'] && $app['config']->get('general/debug_show_loggedoff', false);
+        $app['listener.session'] = $app->share(
+            function ($app) {
+                $debug = $app['debug'] && $app['config']->get('general/debug_show_loggedoff', false);
 
-            return new Listener\SessionListener($app['logger.flash'], $debug);
-        });
+                return new Listener\SessionListener($app['logger.flash'], $debug);
+            }
+        );
 
-        $app['listener.snippet'] = $app->share(function ($app) {
-            return new Listener\SnippetListener(
-                $app['asset.queue.snippet'],
-                $app['config'],
-                $app['resources'],
-                $app['render']
-            );
-        });
+        $app['listener.snippet'] = $app->share(
+            function ($app) {
+                return new Listener\SnippetListener(
+                    $app['asset.queue.snippet'],
+                    $app['config'],
+                    $app['resources'],
+                    $app['render']
+                );
+            }
+        );
 
-        $app['listener.zone_guesser'] = $app->share(function ($app) {
-            return new Listener\ZoneGuesser($app);
-        });
+        $app['listener.zone_guesser'] = $app->share(
+            function ($app) {
+                return new Listener\ZoneGuesser($app);
+            }
+        );
     }
 
     public function boot(Application $app)

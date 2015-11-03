@@ -392,7 +392,8 @@ class Extensions
 
                             return $twig;
                         }
-                ));
+                    )
+                );
             }
         } catch (\Exception $e) {
             $this->logInitFailure('Initialisation failed', $name, $e, Logger::ERROR);
@@ -422,7 +423,8 @@ class Extensions
 
                             return $twig;
                         }
-                ));
+                    )
+                );
             }
         } catch (\Exception $e) {
             $this->logInitFailure('Initialisation failed', $name, $e, Logger::ERROR);
@@ -457,7 +459,8 @@ class Extensions
 
                         return $twig;
                     }
-            ));
+                )
+            );
 
             if (!is_callable([$extension, 'isSafe']) || !$extension->isSafe()) {
                 continue;
@@ -470,7 +473,8 @@ class Extensions
 
                         return $twig;
                     }
-            ));
+                )
+            );
         }
     }
 

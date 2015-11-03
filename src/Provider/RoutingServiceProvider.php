@@ -39,23 +39,35 @@ class RoutingServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['route_factory'] = $app->extend('route_factory', function (Route $route, $app) {
-            if ($app['config']->get('general/enforce_ssl')) {
-                $route->requireHttps();
+        $app['route_factory'] = $app->extend(
+            'route_factory',
+            function (Route $route, $app) {
+                if ($app['config']->get('general/enforce_ssl')) {
+                    $route->requireHttps();
+                }
+
+                return $route;
             }
+        );
 
-            return $route;
-        });
+        $app['url_generator'] = $app->share(
+            $app->extend(
+                'url_generator',
+                function ($urlGenerator) {
+                    return new UrlGeneratorFragmentWrapper($urlGenerator);
+                }
+            )
+        );
 
-        $app['url_generator'] = $app->share($app->extend('url_generator', function ($urlGenerator) {
-            return new UrlGeneratorFragmentWrapper($urlGenerator);
-        }));
-
-        $app['url_generator.lazy'] = $app->share(function ($app) {
-            return new LazyUrlGenerator(function () use ($app) {
-                return $app['url_generator'];
-            });
-        });
+        $app['url_generator.lazy'] = $app->share(
+            function ($app) {
+                return new LazyUrlGenerator(
+                    function () use ($app) {
+                        return $app['url_generator'];
+                    }
+                );
+            }
+        );
     }
 
     public function boot(Application $app)

@@ -75,10 +75,12 @@ class TranslationServiceProvider implements ServiceProviderInterface
     public static function addResources(Application $app, $locale)
     {
         // Directories to look for translation file(s)
-        $transDirs = array_unique([
-            $app['resources']->getPath("app/resources/translations/{$locale}"),
-            $app['resources']->getPath("root/app/resources/translations/{$locale}"),
-        ]);
+        $transDirs = array_unique(
+            [
+                $app['resources']->getPath("app/resources/translations/{$locale}"),
+                $app['resources']->getPath("root/app/resources/translations/{$locale}"),
+            ]
+        );
 
         $needsSecondPass = true;
 
