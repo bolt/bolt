@@ -159,7 +159,7 @@ class Builder
         $fields = $this->getFields();
 
         // set fields
-        foreach ((array)$fields as $key => $mapping) {
+        foreach ((array) $fields as $key => $mapping) {
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
             call_user_func_array([$fieldType, 'hydrate'], [$data, $entity]);
         }

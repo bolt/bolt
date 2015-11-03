@@ -90,7 +90,7 @@ class FieldCollection extends AbstractLazyCollection
             $repo = $this->em->getRepository('Bolt\Storage\Entity\FieldValue');
             $instances = $repo->findBy(['id' => $this->references]);
 
-            foreach ((array)$instances as $val) {
+            foreach ((array) $instances as $val) {
                 $fieldtype = $val->getFieldtype();
                 $field = $this->em->getFieldManager()->getFieldFor($fieldtype);
                 $type = $field->getStorageType();

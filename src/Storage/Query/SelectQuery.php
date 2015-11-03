@@ -188,7 +188,7 @@ class SelectQuery implements QueryInterface
      */
     public function setSingleFetchMode($value)
     {
-        $this->singleFetchMode = (bool)$value;
+        $this->singleFetchMode = (bool) $value;
     }
 
     /**

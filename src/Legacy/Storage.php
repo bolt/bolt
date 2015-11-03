@@ -540,7 +540,7 @@ class Storage
                     $fieldvalues[$key] = trim($fieldvalues[$key]);
                 } elseif (is_bool($fieldvalues[$key])) {
                     // Convert literal booleans to 0/1 to ensure cross-db consistency
-                    $fieldvalues[$key] = (int)$fieldvalues[$key];
+                    $fieldvalues[$key] = (int) $fieldvalues[$key];
                 }
             } else {
                 // unset columns we don't need to store.

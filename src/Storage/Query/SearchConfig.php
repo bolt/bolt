@@ -87,7 +87,7 @@ class SearchConfig
      */
     protected function parseTaxonomies($contenttype, $taxonomies)
     {
-        foreach ((array)$taxonomies as $taxonomy) {
+        foreach ((array) $taxonomies as $taxonomy) {
             $taxonomyConfig = $this->config->get('taxonomy/'.$taxonomy);
             if (isset($taxonomyConfig['searchweight'])) {
                 $weight = $taxonomyConfig['searchweight'];
@@ -128,8 +128,8 @@ class SearchConfig
         foreach ($fields as $field => $options) {
             if (in_array($options['type'], ['text', 'textarea', 'html', 'markdown']) || $options['searchable'] == true) {
                 if (isset($options['searchweight'])) {
-                    $weight = (int)$options['searchweight'];
-                } elseif (isset($fields['slug']['uses']) && in_array($field, (array)$fields['slug']['uses'])) {
+                    $weight = (int) $options['searchweight'];
+                } elseif (isset($fields['slug']['uses']) && in_array($field, (array) $fields['slug']['uses'])) {
                     $weight = 100;
                 } else {
                     $weight = 50;

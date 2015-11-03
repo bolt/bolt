@@ -191,7 +191,7 @@ class RepeaterType extends FieldTypeBase
 
             $fieldValue->$typeCol = $fieldValue->getValue();
             $fieldValue->setFieldtype($this->getFieldTypeName($fieldValue->getFieldname()));
-            $fieldValue->setContenttype((string)$entity->getContenttype());
+            $fieldValue->setContenttype((string) $entity->getContenttype());
 
             // This takes care of instances where an entity might be inserted, and thus not
             // have an id. This registers a callback to set the id parameter when available.

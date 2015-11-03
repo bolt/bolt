@@ -99,7 +99,7 @@ class TemplateFieldsType extends FieldTypeBase
 
         if (isset($this->mapping['config'][$template])) {
             $mappings = $this->em->getMapper()->loadMetadataForFields($this->mapping['config'][$template]['fields']);
-            $metadata->setFieldMappings((array)$mappings);
+            $metadata->setFieldMappings((array) $mappings);
         }
 
         return $metadata;
