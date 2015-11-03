@@ -333,6 +333,7 @@ class General extends BackendBase
             $msg = Trans::__("The file '%s' is not writable. You will have to use your own editor to make modifications to this file.", ['%s' => $tr['shortPath']]);
             $this->flashes()->error($msg);
             $tr['writeallowed'] = false;
+
             return false;
         }
 

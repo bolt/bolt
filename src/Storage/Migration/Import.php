@@ -95,6 +95,7 @@ class Import extends AbstractMigration
             // Test that we've at the least of an array
             if (!is_array($data)) {
                 $this->setError(true)->setErrorMessage("File '$filename' has malformed Contenttype import data! Skipping file.");
+
                 return false;
             }
 

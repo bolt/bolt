@@ -271,6 +271,7 @@ class RepeaterType extends FieldTypeBase
             throw new FieldConfigurationException('Invalid repeating field configuration for '.$field);
         }
         $mapping = $this->mapping['data']['fields'][$field];
+        
         return $mapping['type'];
     }
 }

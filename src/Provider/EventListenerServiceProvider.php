@@ -16,6 +16,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $app['listener.exception'] = $app->share(function ($app) {
             $rootPath = $app['resources']->getPath('root');
+
             return new Listener\ExceptionListener(
                 $rootPath,
                 $app['render'],
@@ -51,6 +52,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 
         $app['listener.session'] = $app->share(function ($app) {
             $debug = $app['debug'] && $app['config']->get('general/debug_show_loggedoff', false);
+
             return new Listener\SessionListener($app['logger.flash'], $debug);
         });
 

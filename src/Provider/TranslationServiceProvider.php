@@ -146,6 +146,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
             $locales[] = $locale . '.utf8';
             $locales[] = $locale;
         }
+
         return $locales;
     }
 }

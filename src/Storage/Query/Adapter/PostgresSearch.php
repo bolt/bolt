@@ -56,6 +56,7 @@ class PostgresSearch
 
         $this->qb->where("bsearch.document @@ to_tsquery('".$words."')");
         $this->qb->orderBy('score', 'DESC');
+
         return $this->qb;
     }
 
@@ -74,6 +75,7 @@ class PostgresSearch
             case ($score < 25):
                 return 'D';
         }
+
         return 'A';
     }
 }

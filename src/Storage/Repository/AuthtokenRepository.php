@@ -53,6 +53,7 @@ class AuthtokenRepository extends Repository
     public function getToken($token, $ip, $useragent = null)
     {
         $query = $this->getTokenQuery($token, $ip, $useragent);
+
         return $this->findOneWith($query);
     }
 
@@ -83,6 +84,7 @@ class AuthtokenRepository extends Repository
     public function deleteTokens($username)
     {
         $query = $this->deleteTokensQuery($username);
+
         return $query->execute();
     }
 

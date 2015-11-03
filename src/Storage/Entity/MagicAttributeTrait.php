@@ -30,6 +30,7 @@ trait MagicAttributeTrait
         if ($this->has($key)) {
             return true;
         }
+
         return false;
     }
 
@@ -58,6 +59,7 @@ trait MagicAttributeTrait
 
         if (strncasecmp($method, 'serialize', 9) == 0) {
             $method = 'get'.substr($method, 9);
+
             return $this->$method();
         }
 

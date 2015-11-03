@@ -197,6 +197,7 @@ class SelectQuery implements QueryInterface
     public function __toString()
     {
         $query = $this->build();
+
         return $query->getSQL();
     }
 

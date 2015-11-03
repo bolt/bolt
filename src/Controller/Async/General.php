@@ -60,6 +60,7 @@ class General extends AsyncBase
     public function async()
     {
         $confirm = ['OK'];
+
         return $this->json($confirm);
     }
 

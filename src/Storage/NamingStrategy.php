@@ -41,6 +41,7 @@ class NamingStrategy implements NamingStrategyInterface
     public function classToAlias($className)
     {
         $className = $this->getRelativeClass($className);
+
         return ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $className)), '_');
     }
 

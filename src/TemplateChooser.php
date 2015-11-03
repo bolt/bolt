@@ -48,6 +48,7 @@ class TemplateChooser
         if (empty($template)) {
             if (is_array($content)) {
                 $first = current($content);
+
                 return $this->listing($first->contenttype);
             } else {
                 return $this->record($content);

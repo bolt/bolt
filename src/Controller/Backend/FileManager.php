@@ -360,6 +360,7 @@ class FileManager extends BackendBase
                     ['%s' => $file->getPath()]
                 )
             );
+
             return false;
         } else {
             return true;

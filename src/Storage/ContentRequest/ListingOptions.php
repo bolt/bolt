@@ -26,6 +26,7 @@ class ListingOptions
     public function setOrder($order)
     {
         $this->order = $order;
+
         return $this;
     }
 
@@ -47,6 +48,7 @@ class ListingOptions
     public function setPage($page)
     {
         $this->page = $page;
+
         return $this;
     }
 
@@ -80,6 +82,7 @@ class ListingOptions
     public function setTaxonomies($taxonomies)
     {
         $this->taxonomies = $taxonomies;
+
         return $this;
     }
 
@@ -101,6 +104,7 @@ class ListingOptions
     public function setFilter($filter)
     {
         $this->filter = $filter;
+
         return $this;
     }
 

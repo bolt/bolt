@@ -36,6 +36,7 @@ class Frontend
     public function homepage(Application $app)
     {
         $response = $this->frontend($app)->homepage();
+
         return $this->render($app, $response->getTemplateName(), 'homepage');
     }
 
@@ -52,6 +53,7 @@ class Frontend
     {
         $response = $this->frontend($app)->record($app['request'], $contenttypeslug, $slug);
         $globals = $response->getGlobalContext();
+
         return $this->render($app, $response->getTemplateName(), $globals['record']->getTitle());
     }
 
@@ -67,6 +69,7 @@ class Frontend
     public function preview(Request $request, Application $app, $contenttypeslug)
     {
         $response = $this->frontend($app)->preview($request, $contenttypeslug);
+
         return $this->render($app, $response->getTemplateName(), $contenttypeslug);
     }
 
@@ -81,6 +84,7 @@ class Frontend
     public function listing(Application $app, $contenttypeslug)
     {
         $response = $this->frontend($app)->listing($app['request'], $contenttypeslug);
+
         return $this->render($app, $response->getTemplateName(), $contenttypeslug);
     }
 
@@ -96,6 +100,7 @@ class Frontend
     public function taxonomy(Application $app, $taxonomytype, $slug)
     {
         $response = $this->frontend($app)->taxonomy($app['request'], $taxonomytype, $slug);
+
         return $this->render($app, $response->getTemplateName(), $taxonomytype);
     }
 
@@ -110,6 +115,7 @@ class Frontend
     public function search(Request $request, Application $app)
     {
         $response = $this->frontend($app)->search($request);
+
         return $this->render($app, $response->getTemplateName(), 'search');
     }
 
@@ -124,6 +130,7 @@ class Frontend
     public function template(Application $app, $template)
     {
         $response = $this->frontend($app)->template($template);
+
         return $this->render($app, $response->getTemplateName(), $template);
     }
 

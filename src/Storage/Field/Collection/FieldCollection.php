@@ -77,6 +77,7 @@ class FieldCollection extends AbstractLazyCollection
     public function add($element)
     {
         $element->setGrouping($this->grouping);
+
         return parent::add($element);
     }
 

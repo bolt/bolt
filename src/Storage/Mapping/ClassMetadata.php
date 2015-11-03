@@ -59,6 +59,7 @@ class ClassMetadata implements ClassMetadataInterface
         if ($this->tableName) {
             return $this->tableName;
         }
+
         return $this->namingStrategy->classToTableName($this->name);
     }
 
@@ -116,6 +117,7 @@ class ClassMetadata implements ClassMetadataInterface
         if (! isset($this->fieldMappings[$fieldName])) {
             return false;
         }
+
         return $this->fieldMappings[$fieldName];
     }
 

@@ -122,6 +122,7 @@ class MenuBuilder
             $param = array_merge($param, $url->getQuery()->toArray());
             $param['#'] = $url->getFragment();
         }
+
         return $this->app['url_generator']->generate($item['route'], $param);
     }
 

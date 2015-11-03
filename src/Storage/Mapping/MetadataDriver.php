@@ -335,6 +335,7 @@ class MetadataDriver implements MappingDriver
             $metadata->setIdentifier($data['identifier']);
             $metadata->setFieldMappings($data['fields']);
             $metadata->setBoltName($data['boltname']);
+
             return $metadata;
         } else {
             throw new \Exception("Attempted to load mapping data for unmapped class $className");

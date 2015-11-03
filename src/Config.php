@@ -1070,6 +1070,7 @@ class Config
             if (!isset($this->data['version']) || ($this->data['version'] != $this->app['bolt_long_version'])) {
                 // The logger and the flashbags aren't available yet, so we set a flag to notify the user later.
                 $this->notify_update = true;
+
                 return false;
             }
 
@@ -1177,6 +1178,7 @@ class Config
     {
         $zone = $this->determineZone();
         $this->app['end'] = $zone; // This is also deprecated
+
         return $zone;
     }
 
@@ -1195,6 +1197,7 @@ class Config
 
         /** @var \Bolt\EventListener\ZoneGuesser $guesser */
         $guesser = $this->app['listener.zone_guesser'];
+
         return $guesser->setZone($request);
     }
 }

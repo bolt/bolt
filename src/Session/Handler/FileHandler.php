@@ -109,6 +109,7 @@ class FileHandler implements \SessionHandlerInterface
             $this->fs->dumpFile($this->getSessionFileName($sessionId), $data);
         } catch (IOException $e) {
             $this->logger->error('Unable to write session file to ' . $this->savePath);
+
             return false;
         }
 
@@ -132,6 +133,7 @@ class FileHandler implements \SessionHandlerInterface
             return true;
         } catch (IOException $e) {
             $this->logger->error('Unable to remove session file ' . $this->getSessionFileName($sessionId));
+
             return false;
         }
     }

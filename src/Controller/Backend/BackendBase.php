@@ -34,6 +34,7 @@ abstract class BackendBase extends Base
         if (!isset($variables['context'])) {
             $variables = ['context' => $variables];
         }
+
         return parent::render($template, $variables, $globals);
     }
 

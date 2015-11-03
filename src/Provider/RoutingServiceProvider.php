@@ -43,6 +43,7 @@ class RoutingServiceProvider implements ServiceProviderInterface
             if ($app['config']->get('general/enforce_ssl')) {
                 $route->requireHttps();
             }
+
             return $route;
         });
 

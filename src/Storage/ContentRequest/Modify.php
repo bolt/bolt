@@ -105,8 +105,10 @@ class Modify
         $contentTypeName = (string) $entity->getContenttype();
         if (!$this->users->isAllowed("contenttype:$contentTypeName:delete:$recordId")) {
             $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+
             return;
         }
+
         return $repo->delete($entity);
     }
 
@@ -143,6 +145,7 @@ class Modify
         $canModify = $this->users->isAllowed("contenttype:$contentTypeName:edit:$recordId");
         if (!$canModify) {
             $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+
             return;
         }
         $entity->$field = Input::cleanPostedData($value);
@@ -161,6 +164,7 @@ class Modify
         $canTransition = $this->users->isContentStatusTransitionAllowed($entity->getStatus(), $newStatus, $contentTypeName, $entity->getId());
         if (!$canTransition) {
             $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+
             return;
         }
         $entity->setStatus($newStatus);
@@ -180,6 +184,7 @@ class Modify
         $canChangeOwner = $this->users->isAllowed("contenttype:$contentTypeName:change-ownership:$recordId");
         if (!$canChangeOwner) {
             $this->loggerFlash->error(Trans::__("Content '%title%' could not be modified.", ['%title%' => $entity->getTitle()]));
+
             return;
         }
         $entity->setOwnerid($ownerId);

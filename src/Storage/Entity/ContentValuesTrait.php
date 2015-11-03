@@ -540,6 +540,7 @@ trait ContentValuesTrait
             if (!is_array($this->contenttype['title_format'])) {
                 $this->contenttype['title_format'] = [$this->contenttype['title_format']];
             }
+
             return $this->contenttype['title_format'];
         }
 

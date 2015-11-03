@@ -25,6 +25,7 @@ class ControllerCollection extends \Silex\ControllerCollection implements Defaul
         if ($this->defaultControllerClass && is_string($to) && method_exists($this->defaultControllerClass, $to)) {
             $to = [$this->defaultControllerClass, $to];
         }
+
         return parent::match($pattern, $to);
     }
 
@@ -36,6 +37,7 @@ class ControllerCollection extends \Silex\ControllerCollection implements Defaul
                 $route->setPath(rtrim($route->getPath(), '/'));
             }
         }
+
         return $routes;
     }
 }

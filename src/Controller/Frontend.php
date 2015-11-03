@@ -63,6 +63,7 @@ class Frontend extends ConfigurableBase
                 $template = $this->templateChooser()->maintenance();
                 $response = $this->render($template);
                 $response->setStatusCode(Response::HTTP_SERVICE_UNAVAILABLE);
+
                 return $response;
             }
         }
@@ -124,6 +125,7 @@ class Frontend extends ConfigurableBase
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
             $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+
             return null;
         }
 
@@ -145,6 +147,7 @@ class Frontend extends ConfigurableBase
         // No content, no page!
         if (!$content) {
             $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+
             return null;
         }
 
@@ -241,6 +244,7 @@ class Frontend extends ConfigurableBase
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
             $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
+
             return null;
         }
 

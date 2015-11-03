@@ -91,6 +91,7 @@ class ZoneGuesser implements EventSubscriberInterface
     protected function isPathApplicable(Request $request, $zone)
     {
         $prefix = $this->app["controller.$zone.mount_prefix"];
+
         return $this->startsWith($request->getPathInfo(), $prefix);
     }
 

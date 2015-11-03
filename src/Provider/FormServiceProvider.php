@@ -23,6 +23,7 @@ class FormServiceProvider implements ServiceProviderInterface
 
         $app['form.csrf_provider'] = $app->share(function ($app) {
             $storage = new SessionTokenStorage($app['sessions']['csrf']);
+
             return new CsrfTokenManager(null, $storage);
         });
     }
