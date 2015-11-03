@@ -102,7 +102,7 @@ class ImageHandler
     public function popup($fileName = null, $width = 100, $height = 100, $crop = null, $title = null)
     {
         if ($fileName === null) {
-            return  '&nbsp;';
+            return '&nbsp;';
         }
 
         $thumbconf = $this->app['config']->get('general/thumbnails');
@@ -149,7 +149,7 @@ class ImageHandler
     public function showImage($fileName = null, $width = null, $height = null, $crop = null)
     {
         if ($fileName === null) {
-            return  '&nbsp;';
+            return '&nbsp;';
         }
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
