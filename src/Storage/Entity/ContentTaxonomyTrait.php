@@ -105,7 +105,7 @@ trait ContentTaxonomyTrait
                     'taxonomytype' => $taxonomyType,
                     'slug'         => $slug,
                 ]
-                );
+            );
         } catch (RouteNotFoundException $e) {
             // Fallback to unique key (yes, also a broken link)
             $link = $taxonomyType . '/' . $slug;

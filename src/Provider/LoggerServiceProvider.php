@@ -91,12 +91,12 @@ class LoggerServiceProvider implements ServiceProviderInterface
         );
 
         $app->register(
-                new MonologServiceProvider(),
-                [
-                    'monolog.name'    => 'bolt',
-                    'monolog.level'   => constant('Monolog\Logger::' . strtoupper($app['config']->get('general/debuglog/level'))),
-                    'monolog.logfile' => $app['resources']->getPath('cache') . '/' . $app['config']->get('general/debuglog/filename'),
-                ]
+            new MonologServiceProvider(),
+            [
+                'monolog.name'    => 'bolt',
+                'monolog.level'   => constant('Monolog\Logger::' . strtoupper($app['config']->get('general/debuglog/level'))),
+                'monolog.logfile' => $app['resources']->getPath('cache') . '/' . $app['config']->get('general/debuglog/filename'),
+            ]
         );
 
         // If we're not debugging, just send to /dev/null

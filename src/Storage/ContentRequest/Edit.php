@@ -51,7 +51,7 @@ class Edit
         Manager $filesystem,
         LoggerInterface $loggerSystem,
         FlashLoggerInterface $loggerFlash
-        ) {
+    ) {
         $this->em = $em;
         $this->config = $config;
         $this->users = $users;

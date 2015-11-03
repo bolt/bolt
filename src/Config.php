@@ -790,7 +790,8 @@ class Config
                 // Make sure the 'type' is in the list of allowed types
                 if (!isset($field['type']) || !$this->fields->has($field['type'])) {
                     $error = Trans::__(
-                        'contenttypes.generic.no-proper-type', [
+                        'contenttypes.generic.no-proper-type',
+                        [
                             '%contenttype%' => $key,
                             '%field%'       => $fieldname,
                             '%type%'        => $field['type'],

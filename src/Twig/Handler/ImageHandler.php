@@ -166,7 +166,8 @@ class ImageHandler
             }
         }
 
-        return sprintf('<img src="%s" width="%s" height="%s" alt="%s">',
+        return sprintf(
+            '<img src="%s" width="%s" height="%s" alt="%s">',
             $this->getThubnailUri($thumb),
             $thumb->getWidth(),
             $thumb->getHeight(),
@@ -224,7 +225,8 @@ class ImageHandler
      */
     private function getThubnailUri(Thumbnail $thumb)
     {
-        $thumbStr = sprintf('%sx%s%s/%s',
+        $thumbStr = sprintf(
+            '%sx%s%s/%s',
             $thumb->getWidth(),
             $thumb->getHeight(),
             $thumb->getScale(),

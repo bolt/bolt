@@ -60,7 +60,7 @@ class Save
         LoggerInterface $loggerSystem,
         FlashLoggerInterface $loggerFlash,
         UrlGeneratorInterface $urlGenerator
-        ) {
+    ) {
         $this->em = $em;
         $this->config = $config;
         $this->users = $users;
