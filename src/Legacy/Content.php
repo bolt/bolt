@@ -150,7 +150,6 @@ class Content implements \ArrayAccess
 
             switch ($fieldtype) {
                 case 'markdown':
-
                     $value = $this->preParse($this->values[$name], $allowtwig);
 
                     // Parse the field as Markdown, return HTML
@@ -177,7 +176,6 @@ class Content implements \ArrayAccess
                 case 'html':
                 case 'text':
                 case 'textarea':
-
                     $value = $this->preParse($this->values[$name], $allowtwig);
                     $value = new \Twig_Markup($value, 'UTF-8');
 

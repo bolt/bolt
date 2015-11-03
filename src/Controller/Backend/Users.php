@@ -251,7 +251,6 @@ class Users extends BackendBase
                 break;
 
             case 'delete':
-
                 if ($this->checkAntiCSRFToken() && $this->users()->deleteUser($id)) {
                     $this->app['logger.system']->info("Deleted user '{$user->getDisplayname()}'.", ['event' => 'security']);
                     $this->flashes()->info(Trans::__("User '%s' is deleted.", ['%s' => $user->getDisplayname()]));
