@@ -174,8 +174,8 @@ class SearchWeighter
             $word = mb_strtolower($word);
             if (isset($corpus['dictionary'][$word])) {
                 $entry = $corpus['dictionary'][$word];
-                foreach ($entry['postings'] as $field => $posting) {
 
+                foreach ($entry['postings'] as $field => $posting) {
                     //get term frequency–inverse document frequency
                     $score = $posting['frequency'] * log($count + 1 / $entry['frequency'] + 1, 2);
 

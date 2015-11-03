@@ -134,7 +134,6 @@ trait ContentValuesTrait
         if (is_array($contenttype)) {
             foreach ($contenttype['fields'] as $field => $property) {
                 switch ($property['type']) {
-
                     // Set the slug, while we're at it
                     case 'slug':
                         if (!empty($property['uses']) && empty($this->values[$field])) {

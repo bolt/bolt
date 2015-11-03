@@ -255,7 +255,6 @@ class Manager
 
             // Create the users table.
             if (!isset($currentTables[$tableName])) {
-
                 /** @var $platform AbstractPlatform */
                 $platform = $this->app['db']->getDatabasePlatform();
                 $queries = $platform->getCreateTableSQL($table, AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS);

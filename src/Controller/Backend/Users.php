@@ -230,7 +230,6 @@ class Users extends BackendBase
         }
 
         switch ($action) {
-
             case 'disable':
                 if ($this->users()->setEnabled($id, false)) {
                     $this->app['logger.system']->info("Disabled user '{$user->getDisplayname()}'.", ['event' => 'security']);
