@@ -1555,9 +1555,8 @@ class Storage
                         $where[] = $this->parseWhereParameter($rkey, $value, $fieldtype);
                     }
 
-                    // for all the  parameters that are taxonomies
+                    // for all the parameters that are taxonomies
                     if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug']))) {
-
                         // check if we're trying to use "!" as a way of 'not'. If so, we need to do a 'NOT IN', instead
                         // of 'IN'. And, the parameter in the subselect needs to be without "!" as a consequence.
                         if (strpos($value, "!") !== false) {
@@ -2455,7 +2454,6 @@ class Storage
         }
 
         foreach ($contenttype['taxonomy'] as $taxonomytype) {
-
             // Set 'newvalues to 'empty array' if not defined
             if (!empty($taxonomy[$taxonomytype])) {
                 $newslugs = $taxonomy[$taxonomytype];
@@ -2484,7 +2482,6 @@ class Storage
 
             // Add the ones not yet present.
             foreach ($newslugs as $slug) {
-
                 // If it's like 'desktop#10', split it into value and sortorder.
                 list($slug, $sortorder) = explode('#', $slug . "#");
 
@@ -2509,7 +2506,6 @@ class Storage
 
                 // Make sure the slug is also set correctly
                 if (!isset($configTaxonomies[$taxonomytype]['options'][$slug])) {
-
                     // Assume we passed a value, instead of a slug. Turn it back into a proper slug
                     if (isset($configTaxonomies[$taxonomytype]['options']) &&
                         is_array($configTaxonomies[$taxonomytype]['options']) &&
@@ -2552,7 +2548,6 @@ class Storage
 
             // Delete the ones that have been removed.
             foreach ($currentvalues as $id => $slug) {
-
                 // Make it look like 'desktop#10'
                 $valuewithorder = $slug . "#" . $currentsortorder;
                 $slugkey = '/' . $configTaxonomies[$taxonomytype]['slug'] . '/' . $slug;

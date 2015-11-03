@@ -86,7 +86,6 @@ class Config
             // if we have to reload the config, we will also want to make sure the DB integrity is checked.
             $this->app['schema']->invalidate();
         } else {
-
             // In this case the cache is loaded, but because the path of the theme
             // folder is defined in the config file itself, we still need to check
             // retrospectively if we need to invalidate it.

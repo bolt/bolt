@@ -36,7 +36,6 @@ class TaxonomyType extends FieldTypeBase
 
         foreach ($query->getFilters() as $filter) {
             if ($filter->getKey() == $field) {
-
                 // This gets the method name, one of andX() / orX() depending on type of expression
                 $method = strtolower($filter->getExpressionObject()->getType()) . 'X';
 
