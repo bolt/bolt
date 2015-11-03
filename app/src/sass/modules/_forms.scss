@@ -34,27 +34,24 @@ label {
 
     .form-group {
         margin-top: 24px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
 
         @media (max-width: 640px) {
             margin-top: 16px;
             margin-bottom: 4px;
         }
 
+        .form-group:first-of-type {
+            margin-top: 0px;
+        }
+
     }
 
-    .form-group-first {
-        margin-top: 0;
-    }
 }
 
 .button-wrap {
     margin: 8px 0 4px;
     position: relative;
-
-    .btn {
-        margin: 0 4px 2px 0;
-    }
 }
 
 input[type="checkbox"] {
