@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  *  This class is used by lazily loaded field values. It stores a reference to an array of rows and
  *  fetches from the database on demand.
- 
+
  *  @author Ross Riley <riley.ross@gmail.com>
  */
 class FieldCollection extends AbstractLazyCollection
