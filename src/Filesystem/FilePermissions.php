@@ -41,7 +41,7 @@ class FilePermissions
         $this->blocked = [
             '#.php$#',
             '#\.htaccess#',
-            '#\.htpasswd#'
+            '#\.htpasswd#',
         ];
     }
 

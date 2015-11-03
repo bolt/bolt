@@ -167,7 +167,7 @@ class Password
                 'shadowpassword' => $shadowpassword,
                 'shadowtoken'    => $shadowtoken,
                 'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours')),
-                'shadowlink'     => $shadowlink
+                'shadowlink'     => $shadowlink,
             ]
         );
 

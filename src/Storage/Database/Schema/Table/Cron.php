@@ -42,7 +42,7 @@ class Cron extends BaseTable
     public function ignoredChanges()
     {
         return [
-            ['column' => 'lastrun', 'property' => 'type']
+            ['column' => 'lastrun', 'property' => 'type'],
         ];
     }
 }

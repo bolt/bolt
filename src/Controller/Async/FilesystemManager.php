@@ -95,10 +95,11 @@ class FilesystemManager extends AsyncBase
             'files'        => $files,
             'folders'      => $folders,
             'pathsegments' => $pathsegments,
-            'key'          => $key
+            'key'          => $key,
         ];
 
-        return $this->render('@bolt/files_async/files_async.twig',
+        return $this->render(
+            '@bolt/files_async/files_async.twig',
             ['context' => $context],
             ['title', Trans::__('Files in %s', ['%s' => $path])]
         );
@@ -242,7 +243,7 @@ class FilesystemManager extends AsyncBase
                 $results[$contenttype][] = [
                     'title' => $record->getTitle(),
                     'id'    => $record->id,
-                    'link'  => $record->link()
+                    'link'  => $record->link(),
                 ];
             }
         }

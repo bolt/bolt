@@ -553,7 +553,7 @@ class Extensions
             $this->menuoptions[$path] = [
                 'label' => $label,
                 'path'  => $path,
-                'icon'  => $icon
+                'icon'  => $icon,
             ];
         }
     }
@@ -596,7 +596,7 @@ class Extensions
     {
         $context = [
             'event'     => 'extensions',
-            'exception' => $e
+            'exception' => $e,
         ];
 
         $this->app['logger.system']->addRecord($level, sprintf("%s for %s: %s", $msg, $extensionName, $e->getMessage()), $context);

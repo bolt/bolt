@@ -386,7 +386,7 @@ class Save
                 'id'          => $contentId,
                 'new'         => $newContent ? $newContent->toArray() : null,
                 'old'         => $oldContent ? $oldContent->toArray() : null,
-                'comment'     => $comment
+                'comment'     => $comment,
             ]
         );
     }

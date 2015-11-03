@@ -77,12 +77,12 @@ class General extends AsyncBase
             'contentid' => $contentid,
             'limit'     => 4,
             'order'     => 'date',
-            'direction' => 'DESC'
+            'direction' => 'DESC',
         ];
 
         $context = [
             'contenttype' => $contenttype,
-            'entries'     => $this->storage()->getRepository('Bolt\Storage\Entity\LogChange')->getChangeLogByContentType($contenttype, $options)
+            'entries'     => $this->storage()->getRepository('Bolt\Storage\Entity\LogChange')->getChangeLogByContentType($contenttype, $options),
         ];
 
         return $this->render('@bolt/components/panel-change-record.twig', ['context' => $context]);
@@ -105,7 +105,7 @@ class General extends AsyncBase
             'alert'       => empty($news['alert']) ? null : $news['alert'],
             'information' => empty($news['information']) ? null : $news['information'],
             'error'       => empty($news['error']) ? null : $news['error'],
-            'disable'     => $this->getOption('general/backend/news/disable')
+            'disable'     => $this->getOption('general/backend/news/disable'),
         ];
 
         $response = $this->render('@bolt/components/panel-news.twig', ['context' => $context]);
@@ -150,10 +150,15 @@ class General extends AsyncBase
         $change = $this->app['logger.manager']->getActivity('change', $page, 8);
         $system = $this->app['logger.manager']->getActivity('system', $page, 8, ['context' => ['authentication', 'security']]);
 
-        $response = $this->render('@bolt/components/panel-activity.twig', ['context' => [
-            'change' => $change,
-            'system' => $system,
-        ]]);
+        $response = $this->render(
+            '@bolt/components/panel-activity.twig',
+            [
+                'context' => [
+                    'change' => $change,
+                    'system' => $system,
+                ],
+            ]
+        );
         $response->setPublic()->setSharedMaxAge(3600);
 
         return $response;
@@ -219,7 +224,7 @@ class General extends AsyncBase
             ->orderBy('count', 'DESC')
             ->setMaxResults($request->query->getInt('limit', 20))
             ->setParameters([
-                ':taxonomytype' => $taxonomytype
+                ':taxonomytype' => $taxonomytype,
             ]);
 
         $results = $query->execute()->fetchAll();
@@ -286,7 +291,7 @@ class General extends AsyncBase
             ->where('taxonomytype = :taxonomytype')
             ->orderBy('name', 'ASC')
             ->setParameters([
-                ':taxonomytype' => $taxonomytype
+                ':taxonomytype' => $taxonomytype,
             ]);
 
         $results = $query->execute()->fetchAll();
@@ -390,13 +395,13 @@ class General extends AsyncBase
                 'CURLOPT_PROXY'        => $this->getOption('general/httpProxy/host'),
                 'CURLOPT_PROXYTYPE'    => 'CURLPROXY_HTTP',
                 'CURLOPT_PROXYUSERPWD' => $this->getOption('general/httpProxy/user') . ':' .
-                $this->getOption('general/httpProxy/password')
+                $this->getOption('general/httpProxy/password'),
             ];
         }
 
         return [
             'url'     => $url,
-            'options' => !empty($proxies) ? array_merge($options, $proxies) : $options
+            'options' => !empty($proxies) ? array_merge($options, $proxies) : $options,
         ];
     }
 
@@ -455,7 +460,7 @@ class General extends AsyncBase
 
         $context = [
             'latest'      => $latest,
-            'contenttype' => $contenttype
+            'contenttype' => $contenttype,
         ];
 
         $response = $this->render('@bolt/components/panel-lastmodified.twig', ['context' => $context]);

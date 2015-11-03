@@ -142,7 +142,7 @@ class HtmlHandler
             [
                 'output-format'   => 'html',
                 'allowed-tags'    => $allowed_tags,
-                'allowed-attribs' => $allowed_attributes
+                'allowed-attribs' => $allowed_attributes,
             ]
         );
         $output = $maid->clean($output);
@@ -172,7 +172,7 @@ class HtmlHandler
 
         $twigvars = [
             'name' => $menu->getName(),
-            'menu' => $menu->getItems()
+            'menu' => $menu->getItems(),
         ];
 
         // If $params is not empty, merge it with twigvars.

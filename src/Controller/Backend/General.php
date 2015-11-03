@@ -197,7 +197,7 @@ class General extends BackendBase
     {
         $tr = [
             'domain' => $domain,
-            'locale' => $tr_locale
+            'locale' => $tr_locale,
         ];
 
         // Get the translation data
@@ -208,10 +208,13 @@ class General extends BackendBase
             ->add(
                 'contents',
                 'textarea',
-                ['constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\Length(['min' => 10])
-            ]])
+                [
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                        new Assert\Length(['min' => 10]),
+                    ],
+                ]
+            )
             ->getForm();
 
         $form->handleRequest($request);
@@ -254,11 +257,14 @@ class General extends BackendBase
         // Get the 'latest' from each of the content types.
         foreach ($this->getOption('contenttypes') as $key => $contenttype) {
             if ($this->isAllowed('contenttype:' . $key) && $contenttype['show_on_dashboard'] === true && $user !== null) {
-                $latest[$key] = $this->getContent($key, [
-                    'limit'   => $limit,
-                    'order'   => '-datechanged',
-                    'hydrate' => false
-                ]);
+                $latest[$key] = $this->getContent(
+                    $key,
+                    [
+                        'limit'   => $limit,
+                        'order'   => '-datechanged',
+                        'hydrate' => false,
+                    ]
+                );
                 $permissions[$key] = $this->getContentTypeUserPermissions($contenttype, $user);
 
                 if (!empty($latest[$key])) {

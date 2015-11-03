@@ -204,15 +204,19 @@ abstract class BaseExtension implements ExtensionInterface
         if (!is_array($this->extensionConfig)) {
             $composerjson = $this->getComposerJSON();
             if (is_array($composerjson)) {
-                $this->extensionConfig = [strtolower($composerjson['name']) => [
-                    'name' => $this->getName(),
-                    'json' => $composerjson
-                ]];
+                $this->extensionConfig = [
+                    strtolower($composerjson['name']) => [
+                        'name' => $this->getName(),
+                        'json' => $composerjson,
+                    ],
+                ];
             } else {
-                $this->extensionConfig = [$this->getName() => [
-                    'name' => $this->getName(),
-                    'json' => []
-                ]];
+                $this->extensionConfig = [
+                    $this->getName() => [
+                        'name' => $this->getName(),
+                        'json' => [],
+                    ],
+                ];
             }
         }
 

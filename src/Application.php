@@ -139,7 +139,7 @@ class Application extends Silex\Application
         $this->register(
             new Silex\Provider\DoctrineServiceProvider(),
             [
-                'db.options' => $this['config']->get('general/database')
+                'db.options' => $this['config']->get('general/database'),
             ]
         );
         $this->register(new Storage\Database\InitListener());

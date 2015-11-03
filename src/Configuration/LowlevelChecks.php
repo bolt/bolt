@@ -13,7 +13,7 @@ class LowlevelChecks
         'magicQuotes',
         'safeMode',
         'cache',
-        'apache'
+        'apache',
     ];
 
     public $configChecks = [
@@ -22,7 +22,7 @@ class LowlevelChecks
         'contenttypes',
         'taxonomy',
         'routing',
-        'permissions'
+        'permissions',
     ];
 
     public $magicQuotes;

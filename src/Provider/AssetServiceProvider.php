@@ -96,7 +96,7 @@ class AssetServiceProvider implements ServiceProviderInterface
                 return [
                     $app['asset.queue.file'],
                     $app['asset.queue.snippet'],
-                    $app['asset.queue.widget']
+                    $app['asset.queue.widget'],
                 ];
             }
         );

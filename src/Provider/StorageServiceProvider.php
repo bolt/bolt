@@ -131,7 +131,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'templateselect'                   => 'Bolt\Storage\Field\Type\TemplateSelectType',
             'text'                             => 'Bolt\Storage\Field\Type\TextType',
             'textarea'                         => 'Bolt\Storage\Field\Type\TextAreaType',
-            'video'                            => 'Bolt\Storage\Field\Type\VideoType'
+            'video'                            => 'Bolt\Storage\Field\Type\VideoType',
         ];
 
         $app['storage.repositories'] = [

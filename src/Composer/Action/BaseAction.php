@@ -182,7 +182,7 @@ abstract class BaseAction
             'version'       => $package->getVersion(),
             'prettyversion' => $package->getPrettyVersion(),
             'package'       => $package,
-            'requirever'    => $versionSelector->findRecommendedRequireVersion($package)
+            'requirever'    => $versionSelector->findRecommendedRequireVersion($package),
         ];
     }
 

@@ -92,7 +92,7 @@ class Image implements \ArrayAccess
             3 => 'png',
             4 => 'swf',
             5 => 'psd',
-            6 => 'bmp'
+            6 => 'bmp',
         ];
 
         // Get the dimensions of the image
@@ -145,7 +145,7 @@ class Image implements \ArrayAccess
             'longitude'   => isset($gps[1]) ? $gps[1] : false,
             'datetime'    => $exif->getCreationDate(),
             'orientation' => $exif->getOrientation(),
-            'aspectratio' => $exifturned ?: false
+            'aspectratio' => $exifturned ?: false,
         ];
     }
 

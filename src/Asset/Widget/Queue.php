@@ -154,7 +154,7 @@ class Queue implements QueueInterface
     {
         return $this->render->render('widgetholder.twig', [
             'widget' => $widget,
-            'html'   => $widget->isDeferred() ? '' : $this->getHtml($widget)
+            'html'   => $widget->isDeferred() ? '' : $this->getHtml($widget),
         ]);
     }
 
@@ -209,7 +209,7 @@ class Queue implements QueueInterface
         }
 
         $javaScript = $this->render->render('widgetjavascript.twig', [
-            'widget' => $widget
+            'widget' => $widget,
         ]);
         $snippet = (new Snippet())
             ->setLocation(Target::AFTER_BODY_JS)

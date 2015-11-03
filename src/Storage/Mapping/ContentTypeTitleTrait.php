@@ -22,11 +22,16 @@ trait ContentTypeTitleTrait
     {
         $fields = $contentType['fields'];
         $names = [
-            'title', 'name', 'caption', 'subject',   // EN
-            'titel', 'naam', 'onderwerp',            // NL
-            'nom', 'sujet',                          // FR
-            'nombre', 'sujeto',                      // ES
-            'titulo', 'nome', 'subtitulo', 'assunto' // PT
+            // EN
+            'title', 'name', 'caption', 'subject',
+            // NL
+            'titel', 'naam', 'onderwerp',
+            // FR
+            'nom', 'sujet',
+            // ES
+            'nombre', 'sujeto',
+            // PT
+            'titulo', 'nome', 'subtitulo', 'assunto',
         ];
 
         foreach ($fields as $name => $values) {

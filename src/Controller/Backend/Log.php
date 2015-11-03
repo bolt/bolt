@@ -65,7 +65,7 @@ class Log extends BackendBase
         $options = [
             'contenttype' => $request->query->get('contenttype'),
             'contentid'   => $request->query->get('contentid'),
-            'ownerid'     => $request->query->get('ownerid')
+            'ownerid'     => $request->query->get('ownerid'),
         ];
         $activity = $this->manager()->getActivity('change', $page, 16, $options);
 
@@ -97,7 +97,7 @@ class Log extends BackendBase
             'contenttype' => ['slug' => $contenttype],
             'entry'       => $entry,
             'next_entry'  => $next,
-            'prev_entry'  => $prev
+            'prev_entry'  => $prev,
         ];
 
         return $this->render('@bolt/changelog/changelog_record_single.twig', $context);
@@ -141,7 +141,7 @@ class Log extends BackendBase
             'content'     => $data['content'],
             'title'       => $data['title'],
             'currentpage' => $pagination['page'],
-            'pagecount'   => $pagination['limit'] ? ceil($data['count'] / $pagination['limit']) : null
+            'pagecount'   => $pagination['limit'] ? ceil($data['count'] / $pagination['limit']) : null,
         ];
 
         return $this->render('@bolt/changelog/changelog_record_all.twig', $context);
@@ -175,7 +175,7 @@ class Log extends BackendBase
         $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
         $options = [
             'level'   => $request->query->get('level'),
-            'context' => $request->query->get('context')
+            'context' => $request->query->get('context'),
         ];
 
         $activity = $this->manager()->getActivity('system', $page, 16, $options);
@@ -243,7 +243,7 @@ class Log extends BackendBase
         // Some options that are the same for all three cases
         $options = [
             'order'     => 'date',
-            'direction' => 'DESC'
+            'direction' => 'DESC',
         ];
 
         if ($pagination['limit']) {

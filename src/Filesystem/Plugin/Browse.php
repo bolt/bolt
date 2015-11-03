@@ -65,7 +65,7 @@ class Browse implements PluginInterface
                     'filesize'     => Lib::formatFilesize($entry['size']),
                     'modified'     => date("Y/m/d H:i:s", $entry['timestamp']),
                     'permissions'  => 'public',
-                    'url'          => $url
+                    'url'          => $url,
                 ];
 
                 /* **** Extra checks for files that can be resolved via PHP urlopen functions **** */
@@ -94,7 +94,7 @@ class Browse implements PluginInterface
                     'foldername' => $entry['basename'],
                     'newpath'    => $entry['path'],
                     'modified'   => date("Y/m/d H:i:s", $entry['timestamp']),
-                    'writable'   => true
+                    'writable'   => true,
                 ];
 
                 $fullfilename = $this->filesystem->getAdapter()->applyPathPrefix($entry['path']);

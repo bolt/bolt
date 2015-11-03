@@ -68,7 +68,7 @@ trait ContentRouteTrait
                     [
                         'contenttypeslug' => $this->contenttype['singular_slug'],
                         'id'              => $this->id,
-                        'slug'            => $slug
+                        'slug'            => $slug,
                     ]
                 )
             )

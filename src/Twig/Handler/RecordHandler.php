@@ -115,7 +115,7 @@ class RecordHandler
                 'title',
                 'contenttype',
                 'status',
-                'taxonomy'
+                'taxonomy',
             ];
 
             foreach ($stripKeys as $key) {

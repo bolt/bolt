@@ -95,7 +95,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
                 [
                     'monolog.name'    => 'bolt',
                     'monolog.level'   => constant('Monolog\Logger::' . strtoupper($app['config']->get('general/debuglog/level'))),
-                    'monolog.logfile' => $app['resources']->getPath('cache') . '/' . $app['config']->get('general/debuglog/filename')
+                    'monolog.logfile' => $app['resources']->getPath('cache') . '/' . $app['config']->get('general/debuglog/filename'),
                 ]
         );
 

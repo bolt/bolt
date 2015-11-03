@@ -9,33 +9,35 @@ namespace Bolt\Configuration\Check;
 class PhpExtensions extends BaseCheck implements ConfigurationCheckInterface
 {
     /** @var array */
-    protected $options = ['extensions' => [
-        'curl',
-        'date',
-        'dom',
-        'exif',
-        'gd',
-        'gettext',
-        'gmp',
-        'hash',
-        'iconv',
-        'intl',
-        'json',
-        'libxml',
-        'mbstring',
-        'openssl',
-        'pcre',
-        'PDO',
-        'posix',
-        'readline',
-        'Reflection',
-        'session',
-        'soap',
-        'SPL',
-        'tokenizer',
-        'xml',
-        'xsl',
-    ]];
+    protected $options = [
+        'extensions' => [
+            'curl',
+            'date',
+            'dom',
+            'exif',
+            'gd',
+            'gettext',
+            'gmp',
+            'hash',
+            'iconv',
+            'intl',
+            'json',
+            'libxml',
+            'mbstring',
+            'openssl',
+            'pcre',
+            'PDO',
+            'posix',
+            'readline',
+            'Reflection',
+            'session',
+            'soap',
+            'SPL',
+            'tokenizer',
+            'xml',
+            'xsl',
+        ],
+    ];
 
     /**
      * {@inheritdoc}

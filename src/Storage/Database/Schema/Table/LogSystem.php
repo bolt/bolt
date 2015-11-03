@@ -53,7 +53,7 @@ class LogSystem extends BaseTable
     {
         return [
             ['column' => 'date', 'property' => 'type'],
-            ['column' => 'source', 'property' => 'type']
+            ['column' => 'source', 'property' => 'type'],
         ];
     }
 }

@@ -248,7 +248,8 @@ class Storage
             'rock', 'romance', 'rpg', 'satire', 'science', 'sciencefiction', 'scifi', 'security', 'self-help',
             'series', 'software', 'space', 'spirituality', 'sports', 'story', 'suspense', 'technology', 'teen',
             'television', 'terrorism', 'thriller', 'travel', 'tv', 'uk', 'urban', 'us', 'usa', 'vampire', 'video',
-            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies'];
+            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies',
+        ];
 
         shuffle($tags);
 
@@ -275,7 +276,7 @@ class Storage
                 'id'          => $contentid,
                 'new'         => $content,
                 'old'         => null,
-                'comment'     => $comment
+                'comment'     => $comment,
             ]
         );
     }
@@ -301,7 +302,7 @@ class Storage
                 'id'          => $contentid,
                 'new'         => $newContent,
                 'old'         => $oldContent,
-                'comment'     => $comment
+                'comment'     => $comment,
             ]
         );
     }
@@ -325,7 +326,7 @@ class Storage
                 'id'          => $contentid,
                 'new'         => null,
                 'old'         => $content,
-                'comment'     => $comment
+                'comment'     => $comment,
             ]
         );
     }
@@ -582,7 +583,7 @@ class Storage
             'The field %field% has been changed to "%newValue%"',
             [
                 '%field%'    => $field,
-                '%newValue%' => $value
+                '%newValue%' => $value,
             ]
         );
 
@@ -625,7 +626,7 @@ class Storage
             'valid' => count($words) > 0,
             'in_q'  => $q,
             'use_q' => implode(' ', $words),
-            'words' => $words
+            'words' => $words,
         ];
     }
 
@@ -833,7 +834,7 @@ class Storage
         return [
             'query'         => $query,
             'no_of_results' => $noOfResults,
-            'results'       => $pageResults
+            'results'       => $pageResults,
         ];
     }
 
@@ -956,7 +957,7 @@ class Storage
             'totalpages'   => ceil($rowcount['count'] / $limit),
             'current'      => $page,
             'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to'   => ($page - 1) * $limit + count($content)
+            'showing_to'   => ($page - 1) * $limit + count($content),
         ];
 
         return $content;
@@ -1041,7 +1042,7 @@ class Storage
             'totalpages'   => ceil($rowcount['count'] / $limit),
             'current'      => $page,
             'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to'   => ($page - 1) * $limit + count($taxorows)
+            'showing_to'   => ($page - 1) * $limit + count($taxorows),
         ];
 
         $this->app['storage']->setPager($taxonomytype['singular_slug'] . '_' . $slug, $pager);
@@ -1485,7 +1486,7 @@ class Storage
                 'from'        => sprintf('FROM %s', $tablename),
                 'where'       => '',
                 'order'       => '',
-                'params'      => []
+                'params'      => [],
             ];
 
             if ($contenttype === false) {
@@ -1696,7 +1697,7 @@ class Storage
 
         return [
             $results['results'],
-            $results['no_of_results']
+            $results['no_of_results'],
         ];
     }
 
@@ -1884,7 +1885,7 @@ class Storage
                 'totalpages'   => ceil($totalResults / $decoded['parameters']['limit']),
                 'current'      => $decoded['parameters']['page'],
                 'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
-                'showing_to'   => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
+                'showing_to'   => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results),
             ];
             $this->setPager($pagerName, $pager);
             $this->app['twig']->addGlobal('pager', $this->getPager());
@@ -2532,7 +2533,7 @@ class Storage
                         'taxonomytype' => $taxonomytype,
                         'slug'         => $slug,
                         'name'         => $name,
-                        'sortorder'    => (int) $sortorder
+                        'sortorder'    => (int) $sortorder,
                     ];
 
                     $this->app['db']->insert($tablename, $row);
@@ -2709,7 +2710,7 @@ class Storage
                             'from_contenttype' => $contenttype['slug'],
                             'from_id'          => $contentId,
                             'to_contenttype'   => $toContenttype,
-                            'to_id'            => $value
+                            'to_id'            => $value,
                         ];
                         $this->app['db']->insert($tablename, $row);
                     }

@@ -218,7 +218,7 @@ abstract class AbstractMigration
         $this->files[$hash] = [
             'file'    => $fileObj,
             'type'    => $this->getType($fileObj->getExtension()),
-            'handler' => null
+            'handler' => null,
         ];
 
         return $this;

@@ -34,7 +34,17 @@ class Config
 
     /** @var array */
     protected $reservedFieldNames = [
-        'id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'ownerid', 'username', 'status', 'link', 'templatefields'
+        'datechanged',
+        'datecreated',
+        'datedepublish',
+        'datepublish',
+        'id',
+        'link',
+        'ownerid',
+        'slug',
+        'status',
+        'templatefields',
+        'username',
     ];
 
     /** @var integer */
@@ -237,7 +247,7 @@ class Config
         // Make sure old settings for 'contentsCss' are still picked up correctly
         if (isset($general['wysiwyg']['ck']['contentsCss'])) {
             $general['wysiwyg']['ck']['contentsCss'] = [
-                1 => $general['wysiwyg']['ck']['contentsCss']
+                1 => $general['wysiwyg']['ck']['contentsCss'],
             ];
         }
 
@@ -375,7 +385,7 @@ class Config
             foreach ($themeConfig['templatefields'] as $template => $templateFields) {
                 $fieldsContenttype = [
                     'fields'        => $templateFields,
-                    'singular_name' => 'Template Fields ' . $template
+                    'singular_name' => 'Template Fields ' . $template,
                 ];
 
                 $templateContentTypes[$template] = $this->parseContentType($template, $fieldsContenttype, $generalConfig);
@@ -784,7 +794,7 @@ class Config
                         'contenttypes.generic.no-proper-type', [
                             '%contenttype%' => $key,
                             '%field%'       => $fieldname,
-                            '%type%'        => $field['type']
+                            '%type%'        => $field['type'],
                         ]
                     );
                     $this->app['logger.flash']->error($error);
@@ -879,15 +889,15 @@ class Config
             'recordsperpage'              => 10,
             'recordsperdashboardwidget'   => 5,
             'systemlog'                   => [
-                'enabled' => true
+                'enabled' => true,
             ],
             'changelog'                   => [
-                'enabled' => false
+                'enabled' => false,
             ],
             'debuglog'                    => [
                 'enabled'  => false,
                 'level'    => 'DEBUG',
-                'filename' => 'bolt-debug.log'
+                'filename' => 'bolt-debug.log',
             ],
             'debug'                       => false,
             'debug_show_loggedoff'        => false,
@@ -906,7 +916,7 @@ class Config
                 'config'    => true,
                 'rendering' => false,
                 'templates' => false,
-                'request'   => false
+                'request'   => false,
             ],
             'wysiwyg'                     => [
                 'images'      => false,
@@ -930,11 +940,11 @@ class Config
                         $this->app['resources']->getUrl('app') . 'view/css/ckeditor.css',
                     ],
                     'filebrowserWindowWidth'  => 640,
-                    'filebrowserWindowHeight' => 480
+                    'filebrowserWindowHeight' => 480,
                 ],
                 'filebrowser' => [
                     'browseUrl'      => $this->app['resources']->getUrl('async') . 'recordbrowser/',
-                    'imageBrowseUrl' => $this->app['resources']->getUrl('bolt') . 'files/files'
+                    'imageBrowseUrl' => $this->app['resources']->getUrl('bolt') . 'files/files',
                 ],
             ],
             'liveeditor'                  => true,
@@ -951,19 +961,19 @@ class Config
                 'quality'           => 75,
                 'cropping'          => 'crop',
                 'notfound_image'    => 'view/img/default_notfound.png',
-                'error_image'       => 'view/img/default_error.png'
+                'error_image'       => 'view/img/default_error.png',
             ],
             'accept_file_types'           => explode(',', 'twig,html,js,css,scss,gif,jpg,jpeg,png,ico,zip,tgz,txt,md,doc,docx,pdf,epub,xls,xlsx,csv,ppt,pptx,mp3,ogg,wav,m4a,mp4,m4v,ogv,wmv,avi,webm,svg'),
             'hash_strength'               => 10,
             'branding'                    => [
                 'name'        => 'Bolt',
                 'path'        => '/bolt',
-                'provided_by' => []
+                'provided_by' => [],
             ],
             'maintenance_mode'            => false,
             'headers'                     => [
-                'x_frame_options'     => true
-            ]
+                'x_frame_options'     => true,
+            ],
         ];
     }
 
@@ -1011,7 +1021,7 @@ class Config
             'general/wysiwyg/ck/contentsCss',
             [
                 $app . 'view/css/ckeditor-contents.css',
-                $app . 'view/css/ckeditor.css'
+                $app . 'view/css/ckeditor.css',
             ]
         );
         $this->set('general/wysiwyg/filebrowser/browseUrl', $this->app['resources']->getUrl('async') . 'recordbrowser/');

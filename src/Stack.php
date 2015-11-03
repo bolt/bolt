@@ -199,7 +199,7 @@ class Stack
                 'readable'    => is_readable($fullpath),
                 'filesize'    => Lib::formatFilesize(filesize($fullpath)),
                 'modified'    => date('Y/m/d H:i:s', filemtime($fullpath)),
-                'permissions' => util::full_permissions($fullpath)
+                'permissions' => util::full_permissions($fullpath),
             ];
 
             $thisitem['info'] = sprintf(

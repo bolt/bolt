@@ -326,7 +326,7 @@ class Edit
     private function getUsedFieldtypes(array $contentType, Content $content, array $has)
     {
         $fieldtypes = [
-            'meta' => true
+            'meta' => true,
         ];
 
         if ($content->getTemplatefields()) {

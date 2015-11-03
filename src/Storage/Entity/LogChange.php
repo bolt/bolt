@@ -68,12 +68,12 @@ class LogChange extends Entity
                 'label'  => empty($fields[$key]['label']) ? $key : $fields[$key]['label'],
                 'before' => [
                     'raw'    => $value[0],
-                    'render' => $value[0]
+                    'render' => $value[0],
                 ],
                 'after'  => [
                     'raw'    => $value[1],
-                    'render' => $value[1]
-                ]
+                    'render' => $value[1],
+                ],
             ];
 
             if (isset($hash[$fields[$key]['type']])) {
@@ -139,7 +139,7 @@ class LogChange extends Entity
                     'latitude'          => $before['latitude'],
                     'longitude'         => $before['longitude'],
                     'formatted_address' => $before['formatted_address'],
-                ]
+                ],
             ],
             'after'  => [
                 'render' => [
@@ -147,8 +147,8 @@ class LogChange extends Entity
                     'latitude'          => $after['latitude'],
                     'longitude'         => $after['longitude'],
                     'formatted_address' => $after['formatted_address'],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -178,8 +178,8 @@ class LogChange extends Entity
                 'render' => [
                     'file'  => $after['file'],
                     'title' => $after['title'],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -233,7 +233,7 @@ class LogChange extends Entity
                     'height'    => $before['height'],
                     'html'      => $before['html'],
                     'thumbnail' => $before['thumbnail'],
-                ]
+                ],
             ],
             'after'  => [
                 'render' => [
@@ -243,7 +243,7 @@ class LogChange extends Entity
                     'height'    => $after['height'],
                     'html'      => $after['html'],
                     'thumbnail' => $after['thumbnail'],
-                ]
+                ],
             ],
         ];
     }

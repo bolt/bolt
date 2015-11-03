@@ -67,7 +67,7 @@ HTML;
             $this->config->getPath('database'),
             $this->config->getPath('cache'),
             $this->config->getPath('extensions'),
-            $this->config->getPath('web') . '/extensions'
+            $this->config->getPath('web') . '/extensions',
         ];
         foreach ($checks as $check) {
             if (is_readable($check) && is_writable($check)) {

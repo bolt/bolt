@@ -343,7 +343,7 @@ trait ContentValuesTrait
             'video',
             'select',
             'templateselect',
-            'checkbox'
+            'checkbox',
         ];
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {

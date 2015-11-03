@@ -17,7 +17,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
                 new Silex\Provider\TranslationServiceProvider(),
                 [
                     'translator.cache_dir' => $app['resources']->getPath('cache/trans'),
-                    'locale_fallbacks'     => ['en_GB', 'en']
+                    'locale_fallbacks'     => ['en_GB', 'en'],
                 ]
             );
         }

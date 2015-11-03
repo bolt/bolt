@@ -12,11 +12,13 @@ use Symfony\Component\Filesystem\Filesystem;
 class DirectoryAccess extends BaseCheck implements ConfigurationCheckInterface
 {
     /** @var array */
-    protected $options = ['directories' => [
-        'cache',
-        'config',
-        'extensions',
-    ]];
+    protected $options = [
+        'directories' => [
+            'cache',
+            'config',
+            'extensions',
+        ],
+    ];
 
     /**
      * {@inheritdoc}

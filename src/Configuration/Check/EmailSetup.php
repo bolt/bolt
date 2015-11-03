@@ -12,7 +12,7 @@ class EmailSetup extends BaseCheck implements ConfigurationCheckInterface
     protected $options = [
         'type' => 'test',
         'host' => 'localhost',
-        'ip'   => '127.0.0.1'
+        'ip'   => '127.0.0.1',
     ];
 
     /**
@@ -88,7 +88,7 @@ class EmailSetup extends BaseCheck implements ConfigurationCheckInterface
             [
                 'sitename' => $this->app['config']->get('general/sitename'),
                 'user'     => $this->options['user']['displayname'],
-                'ip'       => $this->options['ip']
+                'ip'       => $this->options['ip'],
             ]
         )->getContent();
     }

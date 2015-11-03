@@ -75,7 +75,7 @@ class SystemHandler extends AbstractProcessingHandler
                     'line'     => $e->getLine(),
                     'class'    => isset($trace['class']) ? $trace['class'] : '',
                     'function' => isset($trace['function']) ? $trace['function'] : '',
-                    'message'  => $e->getMessage()
+                    'message'  => $e->getMessage(),
                 ]
             );
         } elseif ($this->app['debug']) {
@@ -85,7 +85,7 @@ class SystemHandler extends AbstractProcessingHandler
             $source = json_encode(
                 [
                     'file'     => str_replace($this->app['resources']->getPath('root'), '', $backtrace['file']),
-                    'line'     => $backtrace['line']
+                    'line'     => $backtrace['line'],
                 ]
             );
         } else {
@@ -115,7 +115,7 @@ class SystemHandler extends AbstractProcessingHandler
                 'route'      => $requestRoute,
                 'ip'         => $requestIp,
                 'context'    => isset($record['context']['event']) ? $record['context']['event'] : '',
-                'source'     => $source
+                'source'     => $source,
             ]
         );
     }

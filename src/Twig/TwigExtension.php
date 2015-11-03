@@ -131,7 +131,7 @@ class TwigExtension extends \Twig_Extension
     public function getTests()
     {
         return [
-            new \Twig_SimpleTest('json', [$this, 'testJson'])
+            new \Twig_SimpleTest('json', [$this, 'testJson']),
         ];
     }
 

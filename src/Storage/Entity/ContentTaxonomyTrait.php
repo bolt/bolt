@@ -42,7 +42,7 @@ trait ContentTaxonomyTrait
     {
         $this->group = [
             'slug' => $group,
-            'name' => $name
+            'name' => $name,
         ];
 
         $hasSortOrder = $this->app['config']->get('taxonomy/' . $taxonomytype . '/has_sortorder');

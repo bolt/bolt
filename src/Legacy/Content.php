@@ -114,7 +114,7 @@ class Content implements \ArrayAccess
             'datedepublish',
             'ownerid',
             'status',
-            'templatefields'
+            'templatefields',
         ];
     }
 
@@ -167,7 +167,7 @@ class Content implements \ArrayAccess
                         [
                             'output-format'   => 'html',
                             'allowed-tags'    => $allowed_tags,
-                            'allowed-attribs' => $allowed_attributes
+                            'allowed-attribs' => $allowed_attributes,
                         ]
                     );
                     $value = $maid->clean($value);
@@ -242,7 +242,7 @@ class Content implements \ArrayAccess
     {
         return [
             'record'                            => $this,
-            $this->contenttype['singular_slug'] => $this // Make sure we can also access it as {{ page.title }} for pages, etc.
+            $this->contenttype['singular_slug'] => $this, // Make sure we can also access it as {{ page.title }} for pages, etc.
         ];
     }
 
@@ -288,7 +288,7 @@ class Content implements \ArrayAccess
             'limit'        => 1,
             'order'        => $field . $order,
             'returnsingle' => true,
-            'hydrate'      => true
+            'hydrate'      => true,
         ];
 
         $pager = [];
@@ -319,7 +319,7 @@ class Content implements \ArrayAccess
             'limit'        => 1,
             'order'        => $field . $order,
             'returnsingle' => true,
-            'hydrate'      => true
+            'hydrate'      => true,
         ];
 
         $pager = [];

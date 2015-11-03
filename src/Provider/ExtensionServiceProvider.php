@@ -35,7 +35,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
         $app['extend.repo'] = $app['extend.site'] . 'list.json';
         $app['extend.urls'] = [
             'list' => 'list.json',
-            'info' => 'info.json'
+            'info' => 'info.json',
         ];
 
         $app['extend.online'] = false;

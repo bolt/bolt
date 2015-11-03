@@ -31,7 +31,7 @@ class Cache extends FilesystemCache
      */
     private $disallowedCharacterPatterns = [
         '/\-/', // replaced to disambiguate original `-` and `-` derived from replacements
-        '/[^a-zA-Z0-9\-_\[\]]/' // also excludes non-ascii chars (not supported, depending on FS)
+        '/[^a-zA-Z0-9\-_\[\]]/', // also excludes non-ascii chars (not supported, depending on FS),
     ];
 
     /**
@@ -99,7 +99,7 @@ class Cache extends FilesystemCache
             'failed'         => [],
             'successfolders' => 0,
             'failedfolders'  => 0,
-            'log'            => ''
+            'log'            => '',
         ];
 
         // Clear Doctrine's folder.

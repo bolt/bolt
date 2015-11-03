@@ -53,7 +53,7 @@ class LogChange extends BaseTable
     {
         return [
             ['column' => 'date', 'property' => 'type'],
-            ['column' => 'diff', 'property' => 'type']
+            ['column' => 'diff', 'property' => 'type'],
         ];
     }
 }

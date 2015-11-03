@@ -97,7 +97,7 @@ class Records extends AsyncBase
             'contenttype'     => $this->getContentType($contentType),
             'multiplecontent' => $this->app['storage.request.listing']->action($contentType, $options),
             'filter'          => array_merge((array) $taxonomy, (array) $options->getFilter()),
-            'permissions'     => $this->getContentTypeUserPermissions($contentType, $this->users()->getCurrentUser())
+            'permissions'     => $this->getContentTypeUserPermissions($contentType, $this->users()->getCurrentUser()),
         ];
 
         return $this->render('@bolt/async/record_list.twig', ['context' => $context]);
