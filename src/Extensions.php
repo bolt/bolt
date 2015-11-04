@@ -378,21 +378,6 @@ class Extensions
     {
         try {
             $extension->initialize();
-
-            // Add an object of this extension to the global Twig scope.
-            $namespace = $this->getNamespace($extension);
-            if (!empty($namespace)) {
-                $this->app['twig'] = $this->app->share(
-                    $this->app->extend(
-                        'twig',
-                        function (\Twig_Environment $twig) use ($namespace, $extension) {
-                            $twig->addGlobal($namespace, $extension);
-
-                            return $twig;
-                        }
-                    )
-                );
-            }
         } catch (\Exception $e) {
             $this->logInitFailure('Initialisation failed', $name, $e, Logger::ERROR);
 
