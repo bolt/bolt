@@ -25,10 +25,15 @@
      * @memberof Bolt.fields.filelist
      *
      * @param {Object} fieldset
-     * @param fconf
      */
-    filelist.init = function (fieldset, fconf) {
-        bolt.uploads.bindFileList(fconf.key);
+    filelist.init = function (fieldset) {
+        bolt.uploads.bindList(
+            fieldset,
+            {
+                removeSingle: bolt.data('field.filelist.message.remove'),
+                removeMulti: bolt.data('field.filelist.message.removeMulti')
+            }
+        );
     };
 
     // Apply mixin container

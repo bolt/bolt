@@ -18,7 +18,6 @@
      */
     var stack = {};
 
-
     /**
      * Initializes the mixin.
      *
@@ -27,27 +26,7 @@
      * @memberof Bolt.stack
      */
     stack.init = function () {
-        bolt.uploads.bindUpload('stack');
-
-        // In the modal dialog, to navigate folders.
-        $('#selectImageModal-stack').on('click', '.folder', function (e) {
-            e.preventDefault();
-            $('#selectImageModal-stack .modal-content').load($(this).attr('href'));
-        });
-
-        // Set data actions for async file modals.
-        var elements = $([]);
-        $('[data-toggle="modal"]').each(function () {
-            elements = elements.add($($(this).data('target')));
-        });
-
-        $(elements).on(
-            'loaded.bs.modal',
-            function () {
-                bolt.actions.init();
-            }
-        );
-
+        bolt.uploads.bindStack($('fieldset.stack'));
     };
 
     /**
@@ -117,62 +96,6 @@
             error: function () {
                 console.log('Failed to add file to stack');
             }
-        });
-    };
-
-    /**
-     * Select file in modal file selector dialog.
-     *
-     * @static
-     * @function selectFromPulldown
-     * @memberof Bolt.stack
-     *
-     * @param {string} key - Id of the file selector
-     * @param {string} path - Path to the selected file
-     */
-    stack.selectFromPulldown = function (key, path) {
-        // For "normal" file and image fields.
-        if ($('#field-' + key).is('*')) {
-            $('#field-' + key).val(path).trigger('change');
-        }
-
-        // For Imagelist fields. Check if bolt.imagelist[key] is an object.
-        if (typeof bolt.imagelist === 'object' && typeof bolt.imagelist[key] === 'object') {
-            bolt.imagelist[key].add(path, path);
-        }
-
-        // For Filelist fields. Check if filelist[key] is an object.
-        if (typeof bolt.filelist === 'object' && typeof bolt.filelist[key] === 'object') {
-            bolt.filelist[key].add(path, path);
-        }
-
-        // Close the modal dialog, if this image/file was selected through one.
-        if ($('#selectModal-' + key).is('*')) {
-            $('#selectModal-' + key).modal('hide');
-        }
-
-        // If we need to place it on the stack as well, do so.
-        if (key === 'stack') {
-            bolt.stack.addToStack(path);
-        }
-
-        // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
-        $('.in, .open').removeClass('in open');
-    };
-
-    /**
-     * Changes folder in modal file selector dialog.
-     *
-     * @static
-     * @function changeFolder
-     * @memberof Bolt.stack
-     *
-     * @param {string} key - Id of the file selector
-     * @param {string} folderUrl - The URL command string to change the folder
-     */
-    stack.changeFolder = function (key, folderUrl) {
-        $('#selectModal-' + key + ' .modal-content').load(folderUrl, function() {
-            bolt.actions.init();
         });
     };
 

@@ -28,14 +28,15 @@
      * @param fconf
      */
     image.init = function (fieldset, fconf) {
-        bolt.uploads.bindField(fieldset, fconf);
+        //jshint unused:vars
+        bolt.uploads.bindField(fieldset);
 
         // Update the preview image on change.
-        $('#field-' + fconf.key).on('change', function () {
+        $(fieldset).find('input.path').on('change', function () {
             var preview = $(fieldset).find('img'),
                 width = preview.attr('width'),
                 height = preview.attr('height'),
-                path = $('#field-' + fconf.key).val(),
+                path = $(this).val(),
                 url;
 
             if (path) {

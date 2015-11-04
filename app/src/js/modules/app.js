@@ -21,6 +21,14 @@
     var app = {};
 
     /**
+     * Next unique Bolt ID to serve by the ID generator.
+     *
+     * @private
+     * @type {integer}
+     */
+    var buid = 10000;
+
+    /**
      * Loading state of Google Maps API.
      *
      * Values: undefined: initial state; false: pending; true: loaded.
@@ -54,12 +62,15 @@
         bolt.conf.init();
         bolt.data.init();
 
+        buid = bolt.conf('buid').match(/(\d+)$/)[1];
+
         initGlobal();
         initHandler();
 
         bolt.actions.init();
         bolt.secmenu.init();
         bolt.stack.init();
+        bolt.filebrowser.init();
         bolt.omnisearch.init();
         bolt.extend.init();
 
@@ -70,6 +81,16 @@
         legacyInit();
         bolt.buic.init();
         bolt.fields.init();
+    };
+
+    /**
+     * Returns an unique Bolt ID.
+     *
+     * @function buid
+     * @memberof Bolt.app
+     */
+    app.buid = function () {
+        return 'buid-' + buid++;
     };
 
     /*
@@ -88,12 +109,6 @@
      * @deprecated To be removed!
      */
     function legacyInit() {
-        // Get passed in data from Twig function data()
-
-        // Initialize objects
-        bolt.imagelist = [];
-        bolt.filelist = [];
-
         // Initialisation
         init.confirmationDialogs();
         init.magnificPopup();

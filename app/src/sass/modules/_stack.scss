@@ -1,97 +1,99 @@
 /**
  * Stacked files
  */
-#protostack {
-    display: none;
-}
-
-#stackholder {
-    height: 120px;
-    padding: 12px 0 12px 2px;
-    /* overflow: hidden; */
-}
-
-.stack-buttons {
-    margin-top:16px;
-    .btn-group {
-        display: inline-block;
-        margin: 0;
+fieldset.stack {
+    #protostack {
+        display: none;
     }
-}
 
-.stackitem {
-    border: 6px solid #fff;
-    background-color: #DDD;
-    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-    width: 100px;
-    height: 100px;
-    position: relative;
-    float: left;
-    left: 0;
-    margin-right: -80px;
-    overflow: hidden;
-}
+    #stackholder {
+        height: 120px;
+        padding: 12px 0 12px 2px;
+        overflow: hidden;
+    }
 
-.stackitem-wide {
-    margin-right: -35px
-}
+    .stackbuttons {
+        margin-top:16px;
+        .btn-group {
+            display: inline-block;
+            margin: 0;
+        }
+    }
 
-.stackitem strong {
-    display: block;
-    text-align: center;
-    font-size: 16px;
-    margin: 10px auto;
-}
+    .stackitem {
+        border: 6px solid #fff;
+        background-color: #DDD;
+        box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+        width: 100px;
+        height: 100px;
+        position: relative;
+        float: left;
+        left: 0;
+        margin-right: -80px;
+        overflow: hidden;
+    }
 
-.stackitem small {
-    display: block;
-    text-align: center;
-    font-size: 12px;
-    line-height: 15px;
-    margin: 0 5px;
-    word-break: break-all;
-}
+    .stackitem-wide {
+        margin-right: -35px
+    }
 
-.stackitem:hover {
-    z-index: 120 !important;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
-}
+    .stackitem strong {
+        display: block;
+        text-align: center;
+        font-size: 16px;
+        margin: 10px auto;
+    }
 
-.stackitem.item-1 {
-    z-index: 110;
-}
+    .stackitem small {
+        display: block;
+        text-align: center;
+        font-size: 12px;
+        line-height: 15px;
+        margin: 0 5px;
+        word-break: break-all;
+    }
 
-.stackitem.item-2 {
-    z-index: 109;
-    transform: rotate(4deg);
-    margin-top: 8px;
-}
+    .stackitem:hover {
+        z-index: 120 !important;
+        box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+    }
 
-.stackitem.item-3 {
-    z-index: 108;
-    transform: rotate(-3deg);
-    margin-top: -8px;
-}
+    .stackitem.item-1 {
+        z-index: 110;
+    }
 
-.stackitem.item-4 {
-    z-index: 107;
-    transform: rotate(9deg);
-    margin-top: 3px;
-}
+    .stackitem.item-2 {
+        z-index: 109;
+        transform: rotate(4deg);
+        margin-top: 8px;
+    }
 
-.stackitem.item-5 {
-    z-index: 106;
-    margin-top: -6px;
-}
+    .stackitem.item-3 {
+        z-index: 108;
+        transform: rotate(-3deg);
+        margin-top: -8px;
+    }
 
-.stackitem.item-6 {
-    z-index: 105;
-    transform: rotate(3deg);
-    margin-top: 5px;
-}
+    .stackitem.item-4 {
+        z-index: 107;
+        transform: rotate(9deg);
+        margin-top: 3px;
+    }
 
-.stackitem.item-7 {
-    z-index: 104;
-    transform: rotate(-5deg);
-    margin-top: -3px;
+    .stackitem.item-5 {
+        z-index: 106;
+        margin-top: -6px;
+    }
+
+    .stackitem.item-6 {
+        z-index: 105;
+        transform: rotate(3deg);
+        margin-top: 5px;
+    }
+
+    .stackitem.item-7 {
+        z-index: 104;
+        transform: rotate(-5deg);
+        margin-top: -3px;
+    }
 }

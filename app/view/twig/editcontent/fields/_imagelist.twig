@@ -22,18 +22,37 @@
 } %}
 
 {% if context.content.get(contentkey) is defined %}
-    {% set list_json = context.content.get(contentkey)|json_encode() %}
+    {% set list = context.content.get(contentkey) %}
 {% else %}
-    {% set list_json = '' %}
+    {% set list = [] %}
 {% endif %}
+
+{#=== TEMPLATES ======================================================================================================#}
+
+{### Template: Empty list ###}
+
+{% set template_empty %}
+    <p>{{ __('No images in the list, yet.') }}</p>
+{% endset %}
+{% set template_empty = template_empty|trim %}
+
+{### Template: Listitem ###}
+
+{% set template_item %}
+    <div class="list-item ui-state-default">
+        <a class="thumbnail-link" href="{{ app.paths.bolt }}../files/%FILENAME_A%">
+            <img src="{{ app.paths.bolt }}../thumbs/60x40/%FILENAME_A%" width="60" height="40">
+        </a>
+        <input type="text" class="title" value="%TITLE_A%">
+        <input type="hidden" class="filename" value="%FILENAME_A%">
+        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
+    </div>
+{% endset %}
+{% set template_item = template_item|trim|preg_replace('/>\\s+</', '><') %}
 
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '@bolt/_base/_fieldset.twig' %}
-
-{% set fieldset_conf = {
-    key: key,
-}%}
 
 {% block fieldset_type 'imagelist' %}
 
@@ -42,9 +61,21 @@
 {% block fieldset_label_class 'col-xs-12' %}
 
 {% block fieldset_controls %}
-    <div class="col-xs-12 filelistholder dropzone" id="imagelist-{{ key }}">
+    {{ data('field.imagelist.template.empty', template_empty) }}
+    {{ data('field.imagelist.template.item', template_item) }}
+
+    <div class="col-xs-12 filelistholder dropzone">
         {# Imagelist #}
-        <div class="list"></div>
+        <div class="list">
+            {% for image in list %}
+                {{ template_item|replace({
+                    '%TITLE_A%':    image.title|e('html_attr'),
+                    '%FILENAME_A%': image.filename|e('html_attr')
+                })|raw }}
+            {% else %}
+                {{ template_empty|raw }}
+            {% endfor %}
+        </div>
 
         {# Progress info #}
         <div class="buic-progress"></div>
@@ -52,9 +83,9 @@
         {# Buttons #}
         {% set can_upload = context.can.upload and option.can_upload %}
         <div class="clearfix">
-            {{ macro.upload_buttons('image', key, attributes.fileupload, option.upload, can_upload) }}
+            {{ macro.upload_buttons('image', attributes.fileupload, option.upload, can_upload) }}
 
-            <textarea name="{{ name }}" id="{{ key }}" class="hide">{{ list_json }}</textarea>
+            <textarea name="{{ name }}" class="hide">{{ list|json_encode() }}</textarea>
 
             <div class="button-wrap fileselectbuttongroup">
                 <span class="btn btn-default btn-sm remove-selected-button">
@@ -63,13 +94,5 @@
                 </span>
             </div>
         </div>
-
-        {# Modal "Select from server" #}
-        <div class="modal fade" id="selectModal-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content"></div>
-            </div>
-        </div>
-
     </div>
 {% endblock fieldset_controls %}

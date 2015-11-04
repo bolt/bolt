@@ -67,10 +67,6 @@ class FilesystemManager extends AsyncBase
 
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
-        // $key is linked to the fieldname of the original field, so we can
-        // Set the selected value in the proper field
-        $key = $request->query->get('key');
-
         // Get the pathsegments, so we can show the path.
         $pathsegments = [];
         $cumulative = '';
@@ -94,8 +90,7 @@ class FilesystemManager extends AsyncBase
             'namespace'    => $namespace,
             'files'        => $files,
             'folders'      => $folders,
-            'pathsegments' => $pathsegments,
-            'key'          => $key
+            'pathsegments' => $pathsegments
         ];
 
         return $this->render('@bolt/files_async/files_async.twig',

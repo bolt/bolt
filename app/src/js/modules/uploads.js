@@ -24,46 +24,160 @@
      * @static
      * @function bindField
      * @memberof Bolt.uploads
-     * @param {Object} element
-     * @param {Object} conf
+     * @param {Object} fieldset
      */
-    uploads.bindField = function (element, conf) {
-        uploads.bindUpload(conf.key);
+    uploads.bindField = function (fieldset) {
+        bindUpload(fieldset, false);
+        bindSelectFromStack(fieldset);
 
         // Setup autocomplete popup.
-        var accept = ($(element).find('input[accept]').prop('accept') || '').replace(/\./g, '');
+        var accept = ($(fieldset).find('input[accept]').prop('accept') || '').replace(/\./g, ''),
+            input = $(fieldset).find('input.path');
 
-        $('#field-' + conf.key).autocomplete({
+        input.autocomplete({
             source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
             minLength: 2,
             close: function () {
-                $('#field-' + conf.key).trigger('change');
+                $(input).trigger('change');
             }
         });
     };
 
     /**
-     * Setup upload capability of file lists.
+     * This function handles the setup of any list fields that requires upload capability.
      *
      * @static
-     * @function bindFileList
+     * @function bindList
      * @memberof Bolt.uploads
-     * @param {string} key
+     * @param {Object} fieldset
+     * @param {Object} messages
      */
-    uploads.bindFileList = function (key) {
-        bolt.filelist[key] = new FilelistHolder({id: key, type: 'filelist'});
+    uploads.bindList = function (fieldset, messages) {
+        var lastClick = null;
+
+        $('div.list', fieldset)
+            .sortable({
+                helper: function (evt, item) {
+                    if (!item.hasClass('selected')) {
+                        item.toggleClass('selected');
+                    }
+
+                    return $('<div></div>');
+                },
+                start: function (evt, ui) {
+                    var elements = $(fieldset).find('.selected').not('.ui-sortable-placeholder'),
+                        len = elements.length,
+                        currentOuterHeight = ui.placeholder.outerHeight(true),
+                        currentInnerHeight = ui.placeholder.height(),
+                        margin = parseInt(ui.placeholder.css('margin-top')) +
+                            parseInt(ui.placeholder.css('margin-bottom'));
+
+                    elements.hide();
+                    ui.placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
+                    ui.item.data('items', elements);
+                },
+                beforeStop: function (evt, ui) {
+                    ui.item.before(ui.item.data('items'));
+                },
+                stop: function () {
+                    $(fieldset).find('.selected').show();
+                    serializeList(fieldset);
+                },
+                delay: 100,
+                distance: 5
+            })
+            .on('click', '.list-item', function (evt) {
+                if ($(evt.target).hasClass('list-item')) {
+                    if (evt.shiftKey) {
+                        if (lastClick) {
+                            var currentIndex = $(this).index(),
+                                lastIndex = lastClick.index();
+
+                            if (lastIndex > currentIndex) {
+                                $(this).nextUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                            } else if (lastIndex < currentIndex) {
+                                $(this).prevUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                            } else {
+                                $(this).toggleClass('selected');
+                            }
+                        }
+                    } else if (evt.ctrlKey || evt.metaKey) {
+                        $(this).toggleClass('selected');
+                    } else {
+                        $(fieldset).find('.list-item').not($(this)).removeClass('selected');
+                        $(this).toggleClass('selected');
+                    }
+
+                    lastClick = evt.shiftKey || evt.ctrlKey || evt.metaKey || $(this).hasClass('selected') ?
+                        $(this) : null;
+                }
+            })
+            .on('click', '.remove-button', function (evt) {
+                evt.preventDefault();
+
+                if (confirm(messages.removeSingle)) {
+                    $(this).closest('.list-item').remove();
+                    serializeList(fieldset);
+                }
+            })
+            .on('change', 'input', function () {
+                serializeList(fieldset);
+            });
+
+        $(fieldset).find('.remove-selected-button').on('click', function () {
+            if (confirm(messages.removeMulti)) {
+                $(fieldset).find('.selected').closest('.list-item').remove();
+                serializeList(fieldset);
+            }
+        });
+
+        bindUpload(fieldset, true);
+        bindSelectFromStack(fieldset);
     };
 
     /**
-     * Setup upload capability of image lists.
+     * Bind upload capability to the stack.
      *
      * @static
-     * @function bindImageList
+     * @function bindStack
      * @memberof Bolt.uploads
-     * @param {string} key
+     * @param {Object} container
      */
-    uploads.bindImageList = function (key) {
-        bolt.imagelist[key] = new FilelistHolder({id: key, type: 'imagelist'});
+    uploads.bindStack = function (container) {
+        bindUpload(container);
+    };
+
+    /**
+     * Adds a file to an upload list.
+     *
+     * @static
+     * @function addToList
+     * @memberof Bolt.uploads
+     * @param {Object} fieldset
+     * @param {string} filename
+     * @param {string=} title (Optional)
+     */
+    uploads.addToList = function (fieldset, filename, title) {
+        var listField = $('div.list', fieldset),
+            type = $(fieldset).data('bolt-field'),
+            templateItem = type === 'filelist' ? 'field.filelist.template.item' : 'field.imagelist.template.item';
+
+        // Remove empty list message, if there.
+        $('>p', listField).remove();
+
+        // Append to list.
+        listField.append(
+            $(Bolt.data(
+                templateItem,
+                {
+                    '%TITLE_A%':    title || filename,
+                    '%FILENAME_E%': $('<div>').text(filename).html(), // Escaped
+                    '%FILENAME_A%': filename
+                }
+            ))
+        );
+
+        serializeList(fieldset);
     };
 
     /**
@@ -71,95 +185,85 @@
      * button along with drag and drop functionality. To do this it uses the `key` parameter which needs to
      * be a unique ID.
      *
-     * @static
+     * @private
      * @function bindUpload
      * @memberof Bolt.uploads
-     * @param {string} key
-     * @param {FilelistHolder} list
+     * @param {Object} fieldset
      */
-    uploads.bindUpload = function (key, list) {
-        var progress = $('#fileupload-' + key).closest('fieldset').find('.buic-progress');
-
-        $('#fileupload-' + key)
-            .fileupload(
-                uploadOptions(key, list ? list.idPrefix + list.id : '#dropzone-' + key)
-            )
-            .on('fileuploaddone', function (evt, data) {
-                if (list) {
-                    list.uploadDone(data.result);
-                } else {
-                    fileuploadDone(key, data);
-                }
-            })
-            .on('fileuploadprocessfail', function (evt, data) {
-                fileuploadProcessFail(key, data);
-            })
-            .on('fileuploadsubmit', function (evt, data) {
-                if (list) {
-                    list.uploadSubmit(data.files);
-                }
-                $.each(data.files, function () {
-                    $(progress).trigger('buic:progress-add', [this.name]);
-                });
-            })
-            .on('fileuploadalways', function (evt, data) {
-                if (list) {
-                    list.uploadAlways(data.files);
-                }
-                $.each(data.files, function () {
-                    $(progress).trigger('buic:progress-remove', [this.name]);
-                });
-            })
-            .on('fileuploadprogress', function (evt, data) {
-                $.each(data.files, function () {
-                    $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
-                });
-            });
-    };
-
-    /**
-     * Returns an upload option object.
-     *
-     * @private
-     * @function uploadOptions
-     * @memberof Bolt.uploads
-     * @param {string} key
-     * @param {string} dropzone
-     * @returns {Object}
-     */
-    function uploadOptions(key, dropzone) {
-        var maxSize = bolt.conf('uploadConfig.maxSize'),
-            accept = $('#fileupload-' + key).attr('accept'),
+    function bindUpload(fieldset) {
+        var fileInput = $(fieldset).find('input[type=file]'),
+            dropZone = $(fieldset).find('.dropzone'),
+            //
+            maxSize = bolt.conf('uploadConfig.maxSize'),
+            accept = $(fileInput).attr('accept'),
             extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
             pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i');
 
-        return {
-            dataType: 'json',
-            dropZone: $(dropzone),
-            pasteZone: null,
-            maxFileSize: maxSize > 0 ? maxSize : undefined,
-            minFileSize: undefined,
-            acceptFileTypes: accept ? pattern : undefined,
-            maxNumberOfFiles: undefined,
-            messages: {
-                maxFileSize: '>:' + humanBytes(maxSize),
-                minFileSize: '<',
-                acceptFileTypes: 'T:.' + extensions.join(', .'),
-                maxNumberOfFiles: '#'
+        fileInput
+            .fileupload({
+                dataType: 'json',
+                dropZone: dropZone,
+                pasteZone: null,
+                maxFileSize: maxSize > 0 ? maxSize : undefined,
+                minFileSize: undefined,
+                acceptFileTypes: accept ? pattern : undefined,
+                maxNumberOfFiles: undefined,
+                messages: {
+                    maxFileSize: '>:' + humanBytes(maxSize),
+                    minFileSize: '<',
+                    acceptFileTypes: 'T:.' + extensions.join(', .'),
+                    maxNumberOfFiles: '#'
+                }
+            })
+            .on('fileuploadprocessfail', onProcessFail)
+            .on('fileuploadsubmit', onUploadSubmit)
+            .on('fileuploadprogress', onUploadProgress)
+            .on('fileuploadalways', onUploadAlways)
+            .on('fileuploaddone', onUploadDone);
+    }
+
+    /**
+     * Binds event to select from stack button.
+     *
+     * @private
+     * @function bindUpload
+     * @memberof Bolt.uploads
+     * @param {Object} fieldset
+     */
+    function bindSelectFromStack(fieldset) {
+        $('ul.select-from-stack a', fieldset).on('click', function () {
+            var path = $(this).data('path');
+
+            // Close the dropdown.
+            $(this).closest('.btn-group').find('button.dropdown-toggle').dropdown('toggle');
+
+            switch ($(fieldset).data('bolt-field')) {
+                case 'file':
+                case 'image':
+                    $('input.path', fieldset).val(path).trigger('change');
+                    break;
+                case 'filelist':
+                    uploads.addToList(fieldset, path);
+                    break;
+                case 'imagelist':
+                    uploads.addToList(fieldset, path);
+                    break;
             }
-        };
+
+            return false;
+        });
     }
 
     /**
      * Upload processing failed.
      *
      * @private
-     * @function fileuploadProcessFail
+     * @function onProcessFail
      * @memberof Bolt.uploads
      * @param {Object} event
      * @param {Object} data
      */
-    function fileuploadProcessFail(event, data) {
+    function onProcessFail(event, data) {
         var currentFile = data.files[data.index],
                 type = currentFile.error.substr(0, 1),
                 alert,
@@ -183,6 +287,90 @@
                 alert = '<p>' + currentFile.error + '</p>';
         }
         bootbox.alert(alert);
+    }
+
+    /**
+     * Upload starts.
+     *
+     * @private
+     * @function onUploadSubmit
+     * @memberof Bolt.uploads
+     * @param {Object} event
+     * @param {Object} data
+     */
+    function onUploadSubmit(event, data) {
+        var progress = $(event.target).closest('fieldset').find('.buic-progress');
+
+        $.each(data.files, function () {
+            $(progress).trigger('buic:progress-add', [this.name]);
+        });
+    }
+
+    /**
+     * Signal upload progress.
+     *
+     * @private
+     * @function onUploadProgress
+     * @memberof Bolt.uploads
+     * @param {Object} event
+     * @param {Object} data
+     */
+    function onUploadProgress(event, data) {
+        var progress = $(event.target).closest('fieldset').find('.buic-progress');
+
+        $.each(data.files, function () {
+            $(progress).trigger('buic:progress-set', [this.name, data.loaded / data.total]);
+        });
+    }
+
+    /**
+     * After successful or failed upload.
+     *
+     * @private
+     * @function onUploadAlways
+     * @memberof Bolt.uploads
+     * @param {Object} event
+     * @param {Object} data
+     */
+    function onUploadAlways(event, data) {
+        var progress = $(event.target).closest('fieldset').find('.buic-progress');
+
+        $.each(data.files, function () {
+            $(progress).trigger('buic:progress-remove', [this.name]);
+        });
+    }
+
+    /**
+     * Files successfully uploaded.
+     *
+     * @private
+     * @function onUploadDone
+     * @memberof Bolt.uploads
+     * @param {Object} event
+     * @param {Object} data
+     */
+    function onUploadDone(event, data) {
+        var fieldset = $(event.target).closest('fieldset');
+
+        $.each(data.result, function (idx, file) {
+            if (file.error) {
+                bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
+            } else {
+                switch ($(fieldset).data('bolt-field')) {
+                    case 'file':
+                    case 'image':
+                        $(fieldset).find('input.path').val(file.name).trigger('change');
+                        bolt.stack.addToStack(file.name);
+                        break;
+                    case 'filelist':
+                    case 'imagelist':
+                        uploads.addToList(fieldset, file.name);
+                        break;
+                    default:
+                    bolt.stack.addToStack(file.name);
+                }
+            }
+        });
     }
 
     /**
@@ -215,26 +403,33 @@
     }
 
     /**
-     * Callback for successful upload requests.
+     * Serialize list data on change.
      *
      * @private
-     * @function fileuploadDone
+     * @function serializeList
      * @memberof Bolt.uploads
      *
-     * @param {string} key - Key.
-     * @param {Object} data - Data.
+     * @param {Object} fieldset
      */
-    function fileuploadDone(key, data) {
-        $.each(data.result, function (idx, file) {
-            if (file.error) {
-                bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
-            } else {
-                $('#field-' + key).val(file.name).trigger('change');
+    function serializeList(fieldset) {
+        var listField = $('div.list', fieldset),
+            dataField = $('textarea', fieldset),
+            isFile = $(fieldset).data('bolt-field') === 'filelist',
+            templateEmpty = isFile ? 'field.filelist.template.empty' : 'field.imagelist.template.empty',
+            data = [];
 
-                // Add the uploaded file to our stack.
-                bolt.stack.addToStack(file.name);
-            }
+        $('.list-item', listField).each(function () {
+            data.push({
+                filename: $(this).find('input.filename').val(),
+                title: $(this).find('input.title').val()
+            });
         });
+        dataField.val(JSON.stringify(data));
+
+        // Display empty list message.
+        if (data.length === 0) {
+            listField.html(Bolt.data(templateEmpty));
+        }
     }
 
     // Apply mixin container

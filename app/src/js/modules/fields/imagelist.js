@@ -25,10 +25,15 @@
      * @memberof Bolt.fields.image
      *
      * @param {Object} fieldset
-     * @param fconf
      */
-    imagelist.init = function (fieldset, fconf) {
-        bolt.uploads.bindImageList(fconf.key);
+    imagelist.init = function (fieldset) {
+        bolt.uploads.bindList(
+            fieldset,
+            {
+                removeSingle: bolt.data('field.imagelist.message.remove'),
+                removeMulti: bolt.data('field.imagelist.message.removeMulti')
+            }
+        );
     };
 
     // Apply mixin container
