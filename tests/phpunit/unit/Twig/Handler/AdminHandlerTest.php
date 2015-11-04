@@ -13,6 +13,16 @@ use Silex\Translator;
  */
 class AdminHandlerTest extends BoltUnitTest
 {
+    public function testBuic()
+    {
+        $app = $this->getApp();
+        $handler = new AdminHandler($app);
+
+        $this->assertSame('buid-1', $handler->buid());
+        $this->assertSame('buid-2', $handler->buid());
+        $this->assertSame('buid-3', $handler->buid());
+    }
+
     public function testAddDataEmpty()
     {
         $app = $this->getApp();
