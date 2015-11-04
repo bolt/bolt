@@ -111,7 +111,7 @@ class FileManager extends BackendBase
             'namespace'      => $namespace,
             'write_allowed'  => $writeallowed,
             'filegroup'      => $this->getFileGroup($filesystem, $file),
-            'datechanged'    => date_format(new \DateTime('@' . $file->getTimestamp()), 'c')
+            'datechanged'    => date_format(new \DateTime('@' . $file->getTimestamp()), 'c'),
         ];
 
         return $this->render('@bolt/editfile/editfile.twig', $context);
@@ -176,7 +176,8 @@ class FileManager extends BackendBase
                         'multiple' => true,
                         'attr'     => [
                             'data-filename-placement' => 'inside',
-                            'title'                   => Trans::__('Select file …')]
+                            'title'                   => Trans::__('Select file …'),
+                        ],
                     ]
                 )
                 ->getForm();
@@ -259,7 +260,7 @@ class FileManager extends BackendBase
         } else {
             $result = [
                 'ok'  => false,
-                'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", ['%s' => $file->getPath()])
+                'msg' => Trans::__("File '%s' could not be saved, because the form wasn't valid.", ['%s' => $file->getPath()]),
             ];
         }
 
@@ -289,7 +290,7 @@ class FileManager extends BackendBase
         foreach ($files as $fileToProcess) {
             $fileToProcess = [
                 'name'     => $fileToProcess->getClientOriginalName(),
-                'tmp_name' => $fileToProcess->getPathName()
+                'tmp_name' => $fileToProcess->getPathName(),
             ];
 
             $originalFilename = $fileToProcess['name'];
@@ -359,6 +360,7 @@ class FileManager extends BackendBase
                     ['%s' => $file->getPath()]
                 )
             );
+
             return false;
         } else {
             return true;

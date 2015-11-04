@@ -20,15 +20,21 @@ trait AssetSortTrait
      */
     protected function sort(array $assets)
     {
-        array_walk($assets, function (&$v, $k) {
-            $v = [$v->getPriority(), $k, $v];
-        });
+        array_walk(
+            $assets,
+            function (&$v, $k) {
+                $v = [$v->getPriority(), $k, $v];
+            }
+        );
 
         sort($assets);
 
-        array_walk($assets, function (&$v) {
-            $v = $v[2];
-        });
+        array_walk(
+            $assets,
+            function (&$v) {
+                $v = $v[2];
+            }
+        );
 
         return $assets;
     }

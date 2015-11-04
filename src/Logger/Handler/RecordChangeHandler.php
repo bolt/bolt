@@ -122,7 +122,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
                     'contentid'     => $context['id'],
                     'mutation_type' => $context['action'],
                     'diff'          => $str,
-                    'comment'       => $context['comment']
+                    'comment'       => $context['comment'],
                 ]
             );
         } catch (\Exception $e) {

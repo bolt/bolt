@@ -58,7 +58,7 @@ class QueryParameterParser
      */
     public function setAlias($alias)
     {
-        $this->alias = $alias.'.';
+        $this->alias = $alias . '.';
     }
 
     /**
@@ -124,10 +124,10 @@ class QueryParameterParser
 
             while (($key = array_shift($keys)) && ($val = array_shift($values))) {
                 $val = $this->parseValue($val);
-                $placeholder = $key.'_'.$count;
+                $placeholder = $key . '_' . $count;
                 $filterParams[$placeholder] = $val['value'];
                 $exprMethod = $val['operator'];
-                $parts[] = $this->expr->$exprMethod($this->alias.$key, ":$placeholder");
+                $parts[] = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
                 $count++;
             }
 
@@ -174,10 +174,10 @@ class QueryParameterParser
 
             while ($val = array_shift($values)) {
                 $val = $this->parseValue($val);
-                $placeholder = $key.'_'.$count;
+                $placeholder = $key . '_' . $count;
                 $filterParams[$placeholder] = $val['value'];
                 $exprMethod = $val['operator'];
-                $parts[] = $this->expr->$exprMethod($this->alias.$key, ":$placeholder");
+                $parts[] = $this->expr->$exprMethod($this->alias . $key, ':' . $placeholder);
                 $count++;
             }
 
@@ -202,12 +202,12 @@ class QueryParameterParser
     public function defaultFilterHandler($key, $value, $expr)
     {
         $val = $this->parseValue($value);
-        $placeholder = $key.'_1';
+        $placeholder = $key . '_1';
         $exprMethod = $val['operator'];
 
         $filter = new Filter();
         $filter->setKey($key);
-        $filter->setExpression($expr->andX($expr->$exprMethod($this->alias.$key, ":$placeholder")));
+        $filter->setExpression($expr->andX($expr->$exprMethod($this->alias . $key, ':' . $placeholder)));
         $filter->setParameters([$placeholder => $val['value']]);
 
         return $filter;

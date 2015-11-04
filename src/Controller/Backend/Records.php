@@ -127,14 +127,13 @@ class Records extends BackendBase
             ->setOrder($request->query->get('order'))
             ->setPage($request->query->get('page_' . $contenttypeslug))
             ->setFilter($request->query->get('filter'))
-            ->setTaxonomies($taxonomy)
-        ;
+            ->setTaxonomies($taxonomy);
 
         $context = [
             'contenttype'     => $this->getContentType($contenttypeslug),
             'multiplecontent' => $this->recordListing()->action($contenttypeslug, $options),
             'filter'          => array_merge((array) $taxonomy, (array) $options->getFilter()),
-            'permissions'     => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser())
+            'permissions'     => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser()),
         ];
 
         return $this->render('@bolt/overview/overview.twig', $context);
@@ -198,7 +197,7 @@ class Records extends BackendBase
             'relations'        => $relations,
             'show_contenttype' => $showContenttype,
             'related_content'  => is_null($relations) ? null : $content->related($showContenttype['slug']),
-            'permissions'      => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser())
+            'permissions'      => $this->getContentTypeUserPermissions($contenttypeslug, $this->users()->getCurrentUser()),
         ];
 
         return $this->render('@bolt/relatedto/relatedto.twig', $context);

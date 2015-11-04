@@ -159,7 +159,7 @@ class Builder
         $fields = $this->getFields();
 
         // set fields
-        foreach ((array)$fields as $key => $mapping) {
+        foreach ((array) $fields as $key => $mapping) {
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
             call_user_func_array([$fieldType, 'hydrate'], [$data, $entity]);
         }
@@ -178,7 +178,7 @@ class Builder
 
         foreach ((array) $fields as $key => $mapping) {
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
-            $getter = 'get'.ucFirst($key);
+            $getter = 'get' . ucfirst($key);
             $value = $entity->$getter();
             if ($value) {
                 call_user_func_array([$fieldType, 'set'], [$entity, $value]);

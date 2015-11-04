@@ -45,7 +45,7 @@ trait ContentRelationTrait
         // Backwards compatibility: If '$options' is a string, assume we passed an id
         if (!is_array($options)) {
             $options = [
-                'id' => $options
+                'id' => $options,
             ];
         }
 

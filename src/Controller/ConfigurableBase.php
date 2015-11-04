@@ -21,6 +21,7 @@ abstract class ConfigurableBase extends Base
     public function connect(Application $app)
     {
         $this->callbackResolver = $app['callback_resolver'];
+
         return parent::connect($app);
     }
 
@@ -109,11 +110,13 @@ abstract class ConfigurableBase extends Base
     protected function resolveBefore($before)
     {
         $getBefore = $this->resolveMiddleware($before);
+
         return function (Request $request, Application $app) use ($getBefore) {
             $callback = $getBefore($request);
             if (!is_callable($callback)) {
                 return null;
             }
+
             return call_user_func($callback, $request, $app);
         };
     }
@@ -129,11 +132,13 @@ abstract class ConfigurableBase extends Base
     protected function resolveAfter($after)
     {
         $getAfter = $this->resolveMiddleware($after);
+
         return function (Request $request, Response $response, Application $app) use ($getAfter) {
             $callback = $getAfter($request);
             if (!is_callable($callback)) {
                 return null;
             }
+
             return call_user_func($callback, $request, $response, $app);
         };
     }
@@ -149,6 +154,7 @@ abstract class ConfigurableBase extends Base
     protected function resolveMiddleware($callback)
     {
         $callbackResolver = $this->callbackResolver;
+
         return function (Request $request) use ($callback, $callbackResolver) {
             if (!substr($callback, 0, 2) === '::') {
                 return $callbackResolver->resolveCallback($callback);
@@ -164,6 +170,7 @@ abstract class ConfigurableBase extends Base
             }
             $callback = [$cls, substr($callback, 2)];
             $callback = $callbackResolver->resolveCallback($callback);
+
             return $callback;
         };
     }

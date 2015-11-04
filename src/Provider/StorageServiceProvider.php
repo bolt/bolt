@@ -131,7 +131,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'templateselect'                   => 'Bolt\Storage\Field\Type\TemplateSelectType',
             'text'                             => 'Bolt\Storage\Field\Type\TextType',
             'textarea'                         => 'Bolt\Storage\Field\Type\TextAreaType',
-            'video'                            => 'Bolt\Storage\Field\Type\VideoType'
+            'video'                            => 'Bolt\Storage\Field\Type\VideoType',
         ];
 
         $app['storage.repositories'] = [
@@ -152,6 +152,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['storage.typemap'],
                     $app['storage.namingstrategy']
                 );
+
                 return $meta;
             }
         );
@@ -208,13 +209,15 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['storage.listener'] = $app->share(function () use ($app) {
-            return new StorageEventListener(
-                $app['storage'],
-                $app['config'],
-                $app['access_control.hash.strength']
-            );
-        });
+        $app['storage.listener'] = $app->share(
+            function () use ($app) {
+                return new StorageEventListener(
+                    $app['storage'],
+                    $app['config'],
+                    $app['access_control.hash.strength']
+                );
+            }
+        );
 
         $app['storage.namingstrategy'] = $app->share(
             function ($app) {

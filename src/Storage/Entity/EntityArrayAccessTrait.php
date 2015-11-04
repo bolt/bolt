@@ -18,7 +18,7 @@ trait EntityArrayAccessTrait
      */
     public function offsetSet($offset, $value)
     {
-        $accessor = 'set'.ucfirst($offset);
+        $accessor = 'set' . ucfirst($offset);
         $this->$accessor($value);
     }
 
@@ -29,7 +29,7 @@ trait EntityArrayAccessTrait
      */
     public function offsetExists($offset)
     {
-        $accessor = 'get'.ucfirst($offset);
+        $accessor = 'get' . ucfirst($offset);
         $result = $this->$accessor();
 
         return !empty($result);
@@ -42,7 +42,7 @@ trait EntityArrayAccessTrait
      */
     public function offsetUnset($offset)
     {
-        $accessor = 'set'.ucfirst($offset);
+        $accessor = 'set' . ucfirst($offset);
         $this->$accessor(null);
     }
 
@@ -53,7 +53,7 @@ trait EntityArrayAccessTrait
      */
     public function offsetGet($offset)
     {
-        $accessor = 'get'.ucfirst($offset);
+        $accessor = 'get' . ucfirst($offset);
 
         return $this->$accessor();
     }

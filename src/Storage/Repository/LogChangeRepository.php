@@ -201,7 +201,7 @@ class LogChangeRepository extends BaseLogRepository
             ->setParameters([
                 ':logid'       => $id,
                 ':contentid'   => $contentid,
-                ':contenttype' => $contenttype
+                ':contenttype' => $contenttype,
             ]);
 
         // Set ORDER BY
@@ -267,7 +267,7 @@ class LogChangeRepository extends BaseLogRepository
             ->setParameters([
                 ':contenttype' => $contenttype,
                 ':contentid'   => isset($options['contentid']) ? $options['contentid'] : null,
-                ':logid'       => isset($options['id']) ? $options['id'] : null
+                ':logid'       => isset($options['id']) ? $options['id'] : null,
             ]);
     }
 }

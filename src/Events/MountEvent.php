@@ -72,8 +72,7 @@ class MountEvent extends Event
                     sprintf(
                         'The method "%s::connect" must return a "ControllerCollection" instance. Got: "%s"',
                         get_class($collection),
-                        is_object($connectedControllers) ?
-                            get_class($connectedControllers) : gettype($connectedControllers)
+                        is_object($connectedControllers) ? get_class($connectedControllers) : gettype($connectedControllers)
                     )
                 );
             }

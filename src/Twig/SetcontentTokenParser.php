@@ -21,7 +21,6 @@ class SetcontentTokenParser extends \Twig_TokenParser
         $counter = 0;
 
         do {
-
             // where parameter
             if ($this->parser->getStream()->test(\Twig_Token::NAME_TYPE, 'where')) {
                 $this->parser->getStream()->next();

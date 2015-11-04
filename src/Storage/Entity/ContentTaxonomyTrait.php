@@ -42,7 +42,7 @@ trait ContentTaxonomyTrait
     {
         $this->group = [
             'slug' => $group,
-            'name' => $name
+            'name' => $name,
         ];
 
         $hasSortOrder = $this->app['config']->get('taxonomy/' . $taxonomytype . '/has_sortorder');
@@ -105,7 +105,7 @@ trait ContentTaxonomyTrait
                     'taxonomytype' => $taxonomyType,
                     'slug'         => $slug,
                 ]
-                );
+            );
         } catch (RouteNotFoundException $e) {
             // Fallback to unique key (yes, also a broken link)
             $link = $taxonomyType . '/' . $slug;

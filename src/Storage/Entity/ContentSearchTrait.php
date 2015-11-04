@@ -61,7 +61,6 @@ trait ContentSearchTrait
 
         // Go over all taxonomies, and calculate the overall weight.
         foreach ($contenttypeTaxonomies[$ct] as $key => $taxonomy) {
-
             // skip empty taxonomies.
             if (empty($this->taxonomy[$key])) {
                 continue;

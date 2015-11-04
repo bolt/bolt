@@ -42,7 +42,7 @@ class BoltDataCollector extends DataCollector
             'aboutlink'   => sprintf('<a href="%s">%s</a>', $this->app['url_generator']->generate('about'), 'About'),
             'branding'    => null,
             'editlink'    => null,
-            'edittitle'   => null
+            'edittitle'   => null,
         ];
 
         if ($this->app['config']->get('general/branding/provided_by/0')) {

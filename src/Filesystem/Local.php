@@ -12,7 +12,7 @@ class Local extends LocalBase
     protected static $permissions = [
         'public'    => 0755,
         'readonly'  => 0744,
-        'private'   => 0700
+        'private'   => 0700,
     ];
 
     public function __construct($root)

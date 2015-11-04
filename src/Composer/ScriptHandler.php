@@ -109,7 +109,7 @@ class ScriptHandler
             [
                 'bolt-web-dir'  => 'web',
                 'bolt-app-dir'  => 'app',
-                'bolt-dir-mode' => 0777
+                'bolt-dir-mode' => 0777,
             ],
             $event->getComposer()->getPackage()->getExtra()
         );

@@ -167,7 +167,7 @@ class Password
                 'shadowpassword' => $shadowpassword,
                 'shadowtoken'    => $shadowtoken,
                 'shadowvalidity' => date('Y-m-d H:i:s', strtotime('+2 hours')),
-                'shadowlink'     => $shadowlink
+                'shadowlink'     => $shadowlink,
             ]
         );
 
@@ -183,8 +183,8 @@ class Password
             ->setReplyTo($from)
             ->setTo([$userEntity['email'] => $userEntity['displayname']])
             ->setBody(strip_tags($mailhtml))
-            ->addPart($mailhtml, 'text/html')
-        ;
+            ->addPart($mailhtml, 'text/html');
+
         $failed = true;
         $failedRecipients = [];
 

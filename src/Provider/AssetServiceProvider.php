@@ -14,9 +14,11 @@ class AssetServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['asset.salt.factory'] = $app->protect(function () use ($app) {
-            return $app['randomgenerator']->generateString(10);
-        });
+        $app['asset.salt.factory'] = $app->protect(
+            function () use ($app) {
+                return $app['randomgenerator']->generateString(10);
+            }
+        );
 
         $app['asset.salt'] = $app->share(
             function ($app) {
@@ -32,17 +34,19 @@ class AssetServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['asset.file.hash.factory'] = $app->protect(function ($fileName) use ($app) {
-            $fullPath = $app['resources']->getPath('root') . '/' . $fileName;
+        $app['asset.file.hash.factory'] = $app->protect(
+            function ($fileName) use ($app) {
+                $fullPath = $app['resources']->getPath('root') . '/' . $fileName;
 
-            if (is_readable($fullPath)) {
-                return substr(md5($app['asset.salt'] . $fullPath . (string) filemtime($fullPath)), 0, 10);
-            } elseif (is_readable($fileName)) {
-                return substr(md5($app['asset.salt'] . $fileName . (string) filemtime($fileName)), 0, 10);
-            } else {
-                return substr(md5($app['asset.salt'] . $fileName . mt_rand()), 0, 10);
+                if (is_readable($fullPath)) {
+                    return substr(md5($app['asset.salt'] . $fullPath . (string) filemtime($fullPath)), 0, 10);
+                } elseif (is_readable($fileName)) {
+                    return substr(md5($app['asset.salt'] . $fileName . (string) filemtime($fileName)), 0, 10);
+                } else {
+                    return substr(md5($app['asset.salt'] . $fileName . mt_rand()), 0, 10);
+                }
             }
-        });
+        );
 
         $app['asset.injector'] = $app->share(
             function () {
@@ -96,7 +100,7 @@ class AssetServiceProvider implements ServiceProviderInterface
                 return [
                     $app['asset.queue.file'],
                     $app['asset.queue.snippet'],
-                    $app['asset.queue.widget']
+                    $app['asset.queue.widget'],
                 ];
             }
         );

@@ -248,7 +248,8 @@ class Storage
             'rock', 'romance', 'rpg', 'satire', 'science', 'sciencefiction', 'scifi', 'security', 'self-help',
             'series', 'software', 'space', 'spirituality', 'sports', 'story', 'suspense', 'technology', 'teen',
             'television', 'terrorism', 'thriller', 'travel', 'tv', 'uk', 'urban', 'us', 'usa', 'vampire', 'video',
-            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies'];
+            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies',
+        ];
 
         shuffle($tags);
 
@@ -275,7 +276,7 @@ class Storage
                 'id'          => $contentid,
                 'new'         => $content,
                 'old'         => null,
-                'comment'     => $comment
+                'comment'     => $comment,
             ]
         );
     }
@@ -301,7 +302,7 @@ class Storage
                 'id'          => $contentid,
                 'new'         => $newContent,
                 'old'         => $oldContent,
-                'comment'     => $comment
+                'comment'     => $comment,
             ]
         );
     }
@@ -325,7 +326,7 @@ class Storage
                 'id'          => $contentid,
                 'new'         => null,
                 'old'         => $content,
-                'comment'     => $comment
+                'comment'     => $comment,
             ]
         );
     }
@@ -540,7 +541,7 @@ class Storage
                     $fieldvalues[$key] = trim($fieldvalues[$key]);
                 } elseif (is_bool($fieldvalues[$key])) {
                     // Convert literal booleans to 0/1 to ensure cross-db consistency
-                    $fieldvalues[$key] = (int)$fieldvalues[$key];
+                    $fieldvalues[$key] = (int) $fieldvalues[$key];
                 }
             } else {
                 // unset columns we don't need to store.
@@ -582,7 +583,7 @@ class Storage
             'The field %field% has been changed to "%newValue%"',
             [
                 '%field%'    => $field,
-                '%newValue%' => $value
+                '%newValue%' => $value,
             ]
         );
 
@@ -625,7 +626,7 @@ class Storage
             'valid' => count($words) > 0,
             'in_q'  => $q,
             'use_q' => implode(' ', $words),
-            'words' => $words
+            'words' => $words,
         ];
     }
 
@@ -833,7 +834,7 @@ class Storage
         return [
             'query'         => $query,
             'no_of_results' => $noOfResults,
-            'results'       => $pageResults
+            'results'       => $pageResults,
         ];
     }
 
@@ -956,7 +957,7 @@ class Storage
             'totalpages'   => ceil($rowcount['count'] / $limit),
             'current'      => $page,
             'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to'   => ($page - 1) * $limit + count($content)
+            'showing_to'   => ($page - 1) * $limit + count($content),
         ];
 
         return $content;
@@ -1041,7 +1042,7 @@ class Storage
             'totalpages'   => ceil($rowcount['count'] / $limit),
             'current'      => $page,
             'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to'   => ($page - 1) * $limit + count($taxorows)
+            'showing_to'   => ($page - 1) * $limit + count($taxorows),
         ];
 
         $this->app['storage']->setPager($taxonomytype['singular_slug'] . '_' . $slug, $pager);
@@ -1105,8 +1106,7 @@ class Storage
                 ->update($tablename)
                 ->set('status', ':newstatus')
                 ->set('datechanged', ':datechanged')
-                ->setParameter('datechanged', date('Y-m-d H:i:s'))
-            ;
+                ->setParameter('datechanged', date('Y-m-d H:i:s'));
 
             $this->timedWhere($query, $type);
 
@@ -1125,7 +1125,7 @@ class Storage
 
         try {
             foreach ($recordIds as $recordId) {
-                $content = $this->getContent("$contenttypeSlug/".$recordId['id'], ['hydrate' => false, 'returnsingle' => true]);
+                $content = $this->getContent($contenttypeSlug . '/' . $recordId['id'], ['hydrate' => false, 'returnsingle' => true]);
 
                 $event = new StorageEvent($content, ['contenttype' => $contenttypeSlug, 'create' => false]);
                 $this->app['dispatcher']->dispatch("timed.$type", $event);
@@ -1153,8 +1153,7 @@ class Storage
             ->from($tablename)
             ->set('status', ':newstatus')
             ->set('datechanged', ':datechanged')
-            ->setParameter('datechanged', date('Y-m-d H:i:s'))
-        ;
+            ->setParameter('datechanged', date('Y-m-d H:i:s'));
 
         $this->timedWhere($query, $type);
 
@@ -1175,8 +1174,7 @@ class Storage
                 ->andWhere('datepublish < :currenttime')
                 ->setParameter('oldstatus', 'timed')
                 ->setParameter('newstatus', 'published')
-                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
-            ;
+                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME);
         } else {
             $query
                 ->where('status = :oldstatus')
@@ -1186,8 +1184,7 @@ class Storage
                 ->setParameter('oldstatus', 'published')
                 ->setParameter('newstatus', 'held')
                 ->setParameter('zeroday', '1900-01-01 00:00:01')
-                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
-            ;
+                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME);
         }
     }
 
@@ -1485,7 +1482,7 @@ class Storage
                 'from'        => sprintf('FROM %s', $tablename),
                 'where'       => '',
                 'order'       => '',
-                'params'      => []
+                'params'      => [],
             ];
 
             if ($contenttype === false) {
@@ -1558,9 +1555,8 @@ class Storage
                         $where[] = $this->parseWhereParameter($rkey, $value, $fieldtype);
                     }
 
-                    // for all the  parameters that are taxonomies
+                    // for all the parameters that are taxonomies
                     if (array_key_exists($key, $this->getContentTypeTaxonomy($contenttype['slug']))) {
-
                         // check if we're trying to use "!" as a way of 'not'. If so, we need to do a 'NOT IN', instead
                         // of 'IN'. And, the parameter in the subselect needs to be without "!" as a consequence.
                         if (strpos($value, "!") !== false) {
@@ -1696,7 +1692,7 @@ class Storage
 
         return [
             $results['results'],
-            $results['no_of_results']
+            $results['no_of_results'],
         ];
     }
 
@@ -1884,7 +1880,7 @@ class Storage
                 'totalpages'   => ceil($totalResults / $decoded['parameters']['limit']),
                 'current'      => $decoded['parameters']['page'],
                 'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
-                'showing_to'   => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results)
+                'showing_to'   => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results),
             ];
             $this->setPager($pagerName, $pager);
             $this->app['twig']->addGlobal('pager', $this->getPager());
@@ -2458,7 +2454,6 @@ class Storage
         }
 
         foreach ($contenttype['taxonomy'] as $taxonomytype) {
-
             // Set 'newvalues to 'empty array' if not defined
             if (!empty($taxonomy[$taxonomytype])) {
                 $newslugs = $taxonomy[$taxonomytype];
@@ -2487,7 +2482,6 @@ class Storage
 
             // Add the ones not yet present.
             foreach ($newslugs as $slug) {
-
                 // If it's like 'desktop#10', split it into value and sortorder.
                 list($slug, $sortorder) = explode('#', $slug . "#");
 
@@ -2512,7 +2506,6 @@ class Storage
 
                 // Make sure the slug is also set correctly
                 if (!isset($configTaxonomies[$taxonomytype]['options'][$slug])) {
-
                     // Assume we passed a value, instead of a slug. Turn it back into a proper slug
                     if (isset($configTaxonomies[$taxonomytype]['options']) &&
                         is_array($configTaxonomies[$taxonomytype]['options']) &&
@@ -2532,7 +2525,7 @@ class Storage
                         'taxonomytype' => $taxonomytype,
                         'slug'         => $slug,
                         'name'         => $name,
-                        'sortorder'    => (int) $sortorder
+                        'sortorder'    => (int) $sortorder,
                     ];
 
                     $this->app['db']->insert($tablename, $row);
@@ -2555,7 +2548,6 @@ class Storage
 
             // Delete the ones that have been removed.
             foreach ($currentvalues as $id => $slug) {
-
                 // Make it look like 'desktop#10'
                 $valuewithorder = $slug . "#" . $currentsortorder;
                 $slugkey = '/' . $configTaxonomies[$taxonomytype]['slug'] . '/' . $slug;
@@ -2709,7 +2701,7 @@ class Storage
                             'from_contenttype' => $contenttype['slug'],
                             'from_id'          => $contentId,
                             'to_contenttype'   => $toContenttype,
-                            'to_id'            => $value
+                            'to_id'            => $value,
                         ];
                         $this->app['db']->insert($tablename, $row);
                     }

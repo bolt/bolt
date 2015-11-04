@@ -144,7 +144,7 @@ class Extend extends BackendBase
         $response = $this->manager()->requirePackage(
             [
                 'name'    => $package,
-                'version' => $version
+                'version' => $version,
             ]
         );
 
@@ -310,7 +310,7 @@ class Extend extends BackendBase
             'writeable'      => $this->app['extend.writeable'],
             'online'         => $this->app['extend.online'],
             'extensionsPath' => $extensionsPath,
-            'site'           => $this->app['extend.site']
+            'site'           => $this->app['extend.site'],
         ];
     }
 

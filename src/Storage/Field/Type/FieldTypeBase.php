@@ -72,7 +72,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
     {
         $key = $this->mapping['fieldname'];
         $qb = &$queries[0];
-        $valueMethod = 'serialize'.ucfirst($key);
+        $valueMethod = 'serialize' . ucfirst($key);
         $value = $entity->$valueMethod();
 
         $type = $this->getStorageType();
@@ -82,8 +82,8 @@ abstract class FieldTypeBase implements FieldTypeInterface
         } else {
             $value = $this->mapping['default'];
         }
-        $qb->setValue($key, ':'.$key);
-        $qb->set($key, ':'.$key);
+        $qb->setValue($key, ':' . $key);
+        $qb->set($key, ':' . $key);
         $qb->setParameter($key, $value);
     }
 

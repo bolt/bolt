@@ -295,7 +295,7 @@ class TranslationFile
             'TodoReal' => [' untranslated messages', []],
             'TodoKey'  => [' untranslated keyword based messages', []],
             'DoneReal' => [' translations', []],
-            'DoneKey'  => [' keyword based translations', []]
+            'DoneKey'  => [' keyword based translations', []],
         ];
         foreach ($newTranslations as $key => $translation) {
             $set = ['trans' => $translation];

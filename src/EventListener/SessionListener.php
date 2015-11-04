@@ -91,7 +91,7 @@ class SessionListener implements EventSubscriberInterface
                 ['onEvent', 1000],
                 // For Session started in kernel.response events
                 ['onEvent', -1000], // Before StreamedResponseListener (Same as SaveSessionListener)
-            ]
+            ],
         ];
     }
 }

@@ -134,7 +134,6 @@ trait ContentValuesTrait
         if (is_array($contenttype)) {
             foreach ($contenttype['fields'] as $field => $property) {
                 switch ($property['type']) {
-
                     // Set the slug, while we're at it
                     case 'slug':
                         if (!empty($property['uses']) && empty($this->values[$field])) {
@@ -343,7 +342,7 @@ trait ContentValuesTrait
             'video',
             'select',
             'templateselect',
-            'checkbox'
+            'checkbox',
         ];
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
@@ -540,6 +539,7 @@ trait ContentValuesTrait
             if (!is_array($this->contenttype['title_format'])) {
                 $this->contenttype['title_format'] = [$this->contenttype['title_format']];
             }
+
             return $this->contenttype['title_format'];
         }
 

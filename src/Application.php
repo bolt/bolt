@@ -80,8 +80,7 @@ class Application extends Silex\Application
     {
         $this
             ->register(new Provider\TokenServiceProvider())
-            ->register(new Provider\SessionServiceProvider())
-        ;
+            ->register(new Provider\SessionServiceProvider());
     }
 
     public function initialize()
@@ -139,7 +138,7 @@ class Application extends Silex\Application
         $this->register(
             new Silex\Provider\DoctrineServiceProvider(),
             [
-                'db.options' => $this['config']->get('general/database')
+                'db.options' => $this['config']->get('general/database'),
             ]
         );
         $this->register(new Storage\Database\InitListener());
@@ -270,8 +269,7 @@ class Application extends Silex\Application
             ->register(new Provider\EventListenerServiceProvider())
             ->register(new Provider\AssetServiceProvider())
             ->register(new Provider\FormServiceProvider())
-            ->register(new Provider\MailerServiceProvider())
-        ;
+            ->register(new Provider\MailerServiceProvider());
 
         $this['paths'] = $this['resources']->getPaths();
 
@@ -296,9 +294,12 @@ class Application extends Silex\Application
     {
         if (!$this->booted) {
             // Forward call to mount event if we can (which handles prioritization).
-            $this->on(ControllerEvents::MOUNT, function (MountEvent $event) use ($prefix, $controllers) {
-                $event->mount($prefix, $controllers);
-            });
+            $this->on(
+                ControllerEvents::MOUNT,
+                function (MountEvent $event) use ($prefix, $controllers) {
+                    $event->mount($prefix, $controllers);
+                }
+            );
         } else {
             // Already missed mounting event just append it to bottom of controller list
             parent::mount($prefix, $controllers);

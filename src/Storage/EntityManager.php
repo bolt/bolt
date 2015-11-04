@@ -219,6 +219,7 @@ class EntityManager
 
         if (array_key_exists($className, $this->repositories)) {
             $repoClass = $this->repositories[$className];
+
             return new $repoClass($this, $classMetadata);
         }
 
@@ -228,6 +229,7 @@ class EntityManager
             if (array_key_exists($full, $this->repositories)) {
                 $classMetadata = $this->getMapper()->loadMetadataForClass($full);
                 $repoClass = $this->repositories[$full];
+
                 return new $repoClass($this, $classMetadata);
             }
         }

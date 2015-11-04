@@ -68,6 +68,7 @@ class FlashLogger implements FlashLoggerInterface, FlashBagAttachableInterface
         if ($this->flashBag) {
             return $this->flashBag->has($type);
         }
+
         return array_key_exists($type, $this->flashes) && $this->flashes[$type];
     }
 
@@ -98,6 +99,7 @@ class FlashLogger implements FlashLoggerInterface, FlashBagAttachableInterface
     {
         if ($this->flashBag) {
             $this->flashBag->clear();
+
             return;
         }
         $this->flashes = [];
@@ -113,6 +115,7 @@ class FlashLogger implements FlashLoggerInterface, FlashBagAttachableInterface
     {
         if ($this->flashBag) {
             $this->flashBag->add($type, $message);
+
             return;
         }
         $this->flashes[$type][] = $message;

@@ -102,7 +102,7 @@ class ImageHandler
     public function popup($fileName = null, $width = 100, $height = 100, $crop = null, $title = null)
     {
         if ($fileName === null) {
-            return  '&nbsp;';
+            return '&nbsp;';
         }
 
         $thumbconf = $this->app['config']->get('general/thumbnails');
@@ -149,7 +149,7 @@ class ImageHandler
     public function showImage($fileName = null, $width = null, $height = null, $crop = null)
     {
         if ($fileName === null) {
-            return  '&nbsp;';
+            return '&nbsp;';
         }
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
@@ -166,7 +166,8 @@ class ImageHandler
             }
         }
 
-        return sprintf('<img src="%s" width="%s" height="%s" alt="%s">',
+        return sprintf(
+            '<img src="%s" width="%s" height="%s" alt="%s">',
             $this->getThubnailUri($thumb),
             $thumb->getWidth(),
             $thumb->getHeight(),
@@ -210,8 +211,7 @@ class ImageHandler
             ->setFileName($fileName)
             ->setWidth($width)
             ->setHeight($height)
-            ->setScale($scale)
-        ;
+            ->setScale($scale);
 
         return $thumb;
     }
@@ -225,7 +225,8 @@ class ImageHandler
      */
     private function getThubnailUri(Thumbnail $thumb)
     {
-        $thumbStr = sprintf('%sx%s%s/%s',
+        $thumbStr = sprintf(
+            '%sx%s%s/%s',
             $thumb->getWidth(),
             $thumb->getHeight(),
             $thumb->getScale(),

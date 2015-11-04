@@ -90,14 +90,13 @@ class Records extends AsyncBase
             ->setOrder($referer->query->get('order'))
             ->setPage($referer->query->get('page_' . $contentType))
             ->setFilter($referer->query->get('filter'))
-            ->setTaxonomies($taxonomy)
-        ;
+            ->setTaxonomies($taxonomy);
 
         $context = [
             'contenttype'     => $this->getContentType($contentType),
             'multiplecontent' => $this->app['storage.request.listing']->action($contentType, $options),
             'filter'          => array_merge((array) $taxonomy, (array) $options->getFilter()),
-            'permissions'     => $this->getContentTypeUserPermissions($contentType, $this->users()->getCurrentUser())
+            'permissions'     => $this->getContentTypeUserPermissions($contentType, $this->users()->getCurrentUser()),
         ];
 
         return $this->render('@bolt/async/record_list.twig', ['context' => $context]);

@@ -37,7 +37,7 @@ class MetadataDriver implements MappingDriver
         'bolt_log_system'  => 'Bolt\Storage\Entity\LogSystem',
         'bolt_relations'   => 'Bolt\Storage\Entity\Relations',
         'bolt_taxonomy'    => 'Bolt\Storage\Entity\Taxonomy',
-        'bolt_users'       => 'Bolt\Storage\Entity\Users'
+        'bolt_users'       => 'Bolt\Storage\Entity\Users',
     ];
 
     /** @var array */
@@ -169,7 +169,7 @@ class MetadataDriver implements MappingDriver
                 'scale'            => $column->getScale(),
                 'default'          => $column->getDefault(),
                 'columnDefinition' => $column->getColumnDefinition(),
-                'autoincrement'    => $column->getAutoincrement()
+                'autoincrement'    => $column->getAutoincrement(),
             ];
 
             $this->metadata[$className]['fields'][$colName] = $mapping;
@@ -203,8 +203,8 @@ class MetadataDriver implements MappingDriver
                 'fieldtype'        => $this->typemap['repeater'],
                 'tables'           => [
                     'field'        => $this->schemaManager->getTableName('field'),
-                    'field_value'  => $this->schemaManager->getTableName('field_value')
-                ]
+                    'field_value'  => $this->schemaManager->getTableName('field_value'),
+                ],
             ];
 
             if ($data['type'] === 'repeater') {
@@ -335,6 +335,7 @@ class MetadataDriver implements MappingDriver
             $metadata->setIdentifier($data['identifier']);
             $metadata->setFieldMappings($data['fields']);
             $metadata->setBoltName($data['boltname']);
+
             return $metadata;
         } else {
             throw new \Exception("Attempted to load mapping data for unmapped class $className");

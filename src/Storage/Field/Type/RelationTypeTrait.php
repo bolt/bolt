@@ -52,13 +52,13 @@ trait RelationTypeTrait
                     'from_id'          => ':from_id',
                     'from_contenttype' => ':from_contenttype',
                     'to_contenttype'   => ':to_contenttype',
-                    'to_id'            => ':to_id'
+                    'to_id'            => ':to_id',
                 ])
                 ->setParameters([
                     'from_id'          => $entity->id,
                     'from_contenttype' => $entity->getContenttype(),
                     'to_contenttype'   => $this->mapping['fieldname'],
-                    'to_id'            => $item
+                    'to_id'            => $item,
                 ]);
 
             $queries->append($ins);
@@ -85,7 +85,7 @@ trait RelationTypeTrait
                     'from_id'          => $entity->id,
                     'from_contenttype' => $entity->getContenttype(),
                     'to_contenttype'   => $this->mapping['fieldname'],
-                    'to_id'            => $item
+                    'to_id'            => $item,
                 ]);
 
             $queries->append($del);

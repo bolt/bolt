@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  *  This class is used by lazily loaded field values. It stores a reference to an array of rows and
  *  fetches from the database on demand.
- 
+
  *  @author Ross Riley <riley.ross@gmail.com>
  */
 class FieldCollection extends AbstractLazyCollection
@@ -77,6 +77,7 @@ class FieldCollection extends AbstractLazyCollection
     public function add($element)
     {
         $element->setGrouping($this->grouping);
+
         return parent::add($element);
     }
 
@@ -90,11 +91,11 @@ class FieldCollection extends AbstractLazyCollection
             $repo = $this->em->getRepository('Bolt\Storage\Entity\FieldValue');
             $instances = $repo->findBy(['id' => $this->references]);
 
-            foreach ((array)$instances as $val) {
+            foreach ((array) $instances as $val) {
                 $fieldtype = $val->getFieldtype();
                 $field = $this->em->getFieldManager()->getFieldFor($fieldtype);
                 $type = $field->getStorageType();
-                $typeCol = 'value_'.$type->getName();
+                $typeCol = 'value_' . $type->getName();
                 $val->setValue($val->$typeCol);
                 $objects[$val->getName()] = $val;
             }

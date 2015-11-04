@@ -20,10 +20,17 @@ class UserResetPassword extends BaseCommand
         $this
             ->setName('user:reset-password')
             ->setDescription('Reset a user password.')
-            ->addArgument('username', InputArgument::REQUIRED,
-                'The username (loginname or e-mail address) you wish to reset the password for.')
-            ->addOption('no-interaction', 'n', InputOption::VALUE_NONE,
-                'Do not ask for confirmation');
+            ->addArgument(
+                'username',
+                InputArgument::REQUIRED,
+                'The username (loginname or e-mail address) you wish to reset the password for.'
+            )
+            ->addOption(
+                'no-interaction',
+                'n',
+                InputOption::VALUE_NONE,
+                'Do not ask for confirmation'
+            );
     }
 
     /**

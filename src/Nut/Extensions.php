@@ -29,6 +29,7 @@ class Extensions extends BaseCommand
             foreach ($this->app['extend.manager']->getMessages() as $message) {
                 $output->writeln(sprintf('<error>%s</error>', $message));
             }
+
             return;
         }
 

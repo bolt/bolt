@@ -35,13 +35,13 @@ class CronRunner extends BaseCommand
             $event = $input->getOption('run');
             $param = [
                 'run'   => true,
-                'event' => $event
+                'event' => $event,
             ];
         } else {
             $event = false;
             $param = [
                 'run'   => false,
-                'event' => ''
+                'event' => '',
             ];
         }
 

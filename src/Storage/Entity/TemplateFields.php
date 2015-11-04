@@ -15,7 +15,8 @@ class TemplateFields extends Entity
      */
     public function get($key)
     {
-        $accessor = 'get'.ucfirst($key);
+        $accessor = 'get' . ucfirst($key);
+
         return $this->$accessor();
     }
 }

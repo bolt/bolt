@@ -218,7 +218,7 @@ abstract class AbstractMigration
         $this->files[$hash] = [
             'file'    => $fileObj,
             'type'    => $this->getType($fileObj->getExtension()),
-            'handler' => null
+            'handler' => null,
         ];
 
         return $this;
@@ -236,7 +236,7 @@ abstract class AbstractMigration
         if ($type === 'yml' || $type === 'yaml') {
             return 'yaml';
         } elseif ($type === 'json') {
-            return'json';
+            return 'json';
         }
     }
 

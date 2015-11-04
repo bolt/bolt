@@ -48,7 +48,7 @@ class RepeaterType extends FieldTypeBase
     {
         $this->normalize($entity);
         $key = $this->mapping['fieldname'];
-        $accessor = 'get'.ucfirst($key);
+        $accessor = 'get' . ucfirst($key);
 
         $collection = $entity->$accessor();
 
@@ -87,7 +87,7 @@ class RepeaterType extends FieldTypeBase
     public function normalize($entity)
     {
         $key = $this->mapping['fieldname'];
-        $accessor = 'get'.ucfirst($key);
+        $accessor = 'get' . ucfirst($key);
 
         $outerCollection = $entity->$accessor();
         $newVal = [];
@@ -103,7 +103,7 @@ class RepeaterType extends FieldTypeBase
                 }
             }
 
-            $setter = 'set'.ucfirst($key);
+            $setter = 'set' . ucfirst($key);
             $entity->$setter($collection);
         }
     }
@@ -187,20 +187,22 @@ class RepeaterType extends FieldTypeBase
             $repo = $this->em->getRepository(get_class($fieldValue));
             $field = $this->getFieldType($fieldValue->getFieldname());
             $type = $field->getStorageType();
-            $typeCol = 'value_'.$type->getName();
+            $typeCol = 'value_' . $type->getName();
 
             $fieldValue->$typeCol = $fieldValue->getValue();
             $fieldValue->setFieldtype($this->getFieldTypeName($fieldValue->getFieldname()));
-            $fieldValue->setContenttype((string)$entity->getContenttype());
+            $fieldValue->setContenttype((string) $entity->getContenttype());
 
             // This takes care of instances where an entity might be inserted, and thus not
             // have an id. This registers a callback to set the id parameter when available.
-            $queries->onResult(function ($query, $result, $id) use ($repo, $fieldValue) {
-                if ($result === 1 && $id) {
-                    $fieldValue->setContent_id($id);
-                    $repo->save($fieldValue);
+            $queries->onResult(
+                function ($query, $result, $id) use ($repo, $fieldValue) {
+                    if ($result === 1 && $id) {
+                        $fieldValue->setContent_id($id);
+                        $repo->save($fieldValue);
+                    }
                 }
-            });
+            );
         }
     }
 
@@ -227,16 +229,18 @@ class RepeaterType extends FieldTypeBase
             $repo = $this->em->getRepository(get_class($fieldValue));
             $field = $this->getFieldType($fieldValue->getFieldname());
             $type = $field->getStorageType();
-            $typeCol = 'value_'.$type->getName();
+            $typeCol = 'value_' . $type->getName();
             $fieldValue->$typeCol = $fieldValue->getValue();
 
             // This takes care of instances where an entity might be inserted, and thus not
             // have an id. This registers a callback to set the id parameter when available.
-            $queries->onResult(function ($query, $result, $id) use ($repo, $fieldValue) {
-                if ($result === 1) {
-                    $repo->save($fieldValue);
+            $queries->onResult(
+                function ($query, $result, $id) use ($repo, $fieldValue) {
+                    if ($result === 1) {
+                        $repo->save($fieldValue);
+                    }
                 }
-            });
+            );
         }
     }
 
@@ -250,7 +254,7 @@ class RepeaterType extends FieldTypeBase
     protected function getFieldType($field)
     {
         if (!isset($this->mapping['data']['fields'][$field]['fieldtype'])) {
-            throw new FieldConfigurationException('Invalid repeating field configuration for '.$field);
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
         $mapping = $this->mapping['data']['fields'][$field];
         $setting = $mapping['fieldtype'];
@@ -268,9 +272,10 @@ class RepeaterType extends FieldTypeBase
     protected function getFieldTypeName($field)
     {
         if (!isset($this->mapping['data']['fields'][$field]['type'])) {
-            throw new FieldConfigurationException('Invalid repeating field configuration for '.$field);
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
         }
         $mapping = $this->mapping['data']['fields'][$field];
+
         return $mapping['type'];
     }
 }

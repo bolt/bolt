@@ -60,7 +60,7 @@ class Save
         LoggerInterface $loggerSystem,
         FlashLoggerInterface $loggerFlash,
         UrlGeneratorInterface $urlGenerator
-        ) {
+    ) {
         $this->em = $em;
         $this->config = $config;
         $this->users = $users;
@@ -264,16 +264,26 @@ class Save
          */
         if ($returnTo) {
             if ($returnTo === 'new') {
-                return new RedirectResponse($this->generateUrl('editcontent', [
-                    'contenttypeslug' => $contentType['slug'],
-                    'id'              => $id,
-                    '#'               => $returnTo,
-                ]));
+                return new RedirectResponse(
+                    $this->generateUrl(
+                        'editcontent',
+                        [
+                            'contenttypeslug' => $contentType['slug'],
+                            'id'              => $id,
+                            '#'               => $returnTo,
+                        ]
+                    )
+                );
             } elseif ($returnTo === 'saveandnew') {
-                return new RedirectResponse($this->generateUrl('editcontent', [
-                    'contenttypeslug' => $contentType['slug'],
-                    '#'               => $returnTo,
-                ]));
+                return new RedirectResponse(
+                    $this->generateUrl(
+                        'editcontent',
+                        [
+                            'contenttypeslug' => $contentType['slug'],
+                            '#'               => $returnTo,
+                        ]
+                    )
+                );
             } elseif ($returnTo === 'ajax') {
                 return $this->createJsonUpdate($content, true);
             } elseif ($returnTo === 'test') {
@@ -386,7 +396,7 @@ class Save
                 'id'          => $contentId,
                 'new'         => $newContent ? $newContent->toArray() : null,
                 'old'         => $oldContent ? $oldContent->toArray() : null,
-                'comment'     => $comment
+                'comment'     => $comment,
             ]
         );
     }

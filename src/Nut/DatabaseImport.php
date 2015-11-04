@@ -46,8 +46,7 @@ class DatabaseImport extends BaseCommand
             ->setMigrationFiles($files)
             ->checkMigrationFilesValid(true)
             ->checkMigrationFilesExist('import')
-            ->importMigrationFiles()
-        ;
+            ->importMigrationFiles();
 
         if ($import->getError()) {
             foreach ($import->getErrorMessages() as $error) {

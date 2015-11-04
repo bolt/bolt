@@ -236,6 +236,7 @@ HTML;
                     header("location: $path?rebuild-done");
                 } elseif (strpos($_SERVER['QUERY_STRING'], 'rebuild-done') !== false) {
                     chdir($cwd);
+
                     return;
                 }
             }

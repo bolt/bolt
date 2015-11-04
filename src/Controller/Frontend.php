@@ -63,6 +63,7 @@ class Frontend extends ConfigurableBase
                 $template = $this->templateChooser()->maintenance();
                 $response = $this->render($template);
                 $response->setStatusCode(Response::HTTP_SERVICE_UNAVAILABLE);
+
                 return $response;
             }
         }
@@ -124,6 +125,7 @@ class Frontend extends ConfigurableBase
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
             $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+
             return null;
         }
 
@@ -145,6 +147,7 @@ class Frontend extends ConfigurableBase
         // No content, no page!
         if (!$content) {
             $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug/$slug not found.");
+
             return null;
         }
 
@@ -169,7 +172,7 @@ class Frontend extends ConfigurableBase
         // So that they're also available in menu's and templates rendered by extensions.
         $globals = [
             'record'                      => $content,
-            $contenttype['singular_slug'] => $content
+            $contenttype['singular_slug'] => $content,
         ];
 
         return $this->render($template, [], $globals);
@@ -207,7 +210,7 @@ class Frontend extends ConfigurableBase
         // So that they're also available in menu's and templates rendered by extensions.
         $globals = [
             'record'                      => $content,
-            $contenttype['singular_slug'] => $content
+            $contenttype['singular_slug'] => $content,
         ];
         $response = $this->render($template, [], $globals);
 
@@ -241,6 +244,7 @@ class Frontend extends ConfigurableBase
         // If the contenttype is 'viewless', don't show the record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
             $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
+
             return null;
         }
 
@@ -263,7 +267,7 @@ class Frontend extends ConfigurableBase
             $hassortorder = false;
             if (!empty($contenttype['taxonomy'])) {
                 foreach ($contenttype['taxonomy'] as $contenttypetaxonomy) {
-                    if ($taxonomies[ $contenttypetaxonomy ]['has_sortorder']) {
+                    if ($taxonomies[$contenttypetaxonomy]['has_sortorder']) {
                         // We have a taxonomy with a sortorder, so we must keep $order = false, in order
                         // to let `getContent()` handle it. We skip the fallback that's a few lines below.
                         $hassortorder = true;
@@ -284,7 +288,7 @@ class Frontend extends ConfigurableBase
         $globals = [
             'records'            => $content,
             $contenttype['slug'] => $content,
-            'contenttype'        => $contenttype['name']
+            'contenttype'        => $contenttype['name'],
         ];
 
         return $this->render($template, [], $globals);
@@ -345,7 +349,7 @@ class Frontend extends ConfigurableBase
             'records'      => $content,
             'slug'         => $name,
             'taxonomy'     => $this->getOption('taxonomy/' . $taxonomyslug),
-            'taxonomytype' => $taxonomyslug
+            'taxonomytype' => $taxonomyslug,
         ];
 
         return $this->render($template, [], $globals);
@@ -421,7 +425,7 @@ class Frontend extends ConfigurableBase
                     $contenttype = $this->getContentType($contenttypeslug);
                     if (is_array($contenttype)) {
                         $filters[$contenttypeslug] = [
-                            $field => $value
+                            $field => $value,
                         ];
                     }
                 }
@@ -440,7 +444,7 @@ class Frontend extends ConfigurableBase
             'current'      => $page,
             'showing_from' => $offset + 1,
             'showing_to'   => $offset + count($result['results']),
-            'link'         => $this->generateUrl('search', ['q' => $q]) . '&page_search='
+            'link'         => $this->generateUrl('search', ['q' => $q]) . '&page_search=',
         ];
 
         $this->storage()->setPager($context, $pager);
@@ -448,7 +452,7 @@ class Frontend extends ConfigurableBase
         $globals = [
             'records'      => $result['results'],
             $context       => $result['query']['use_q'],
-            'searchresult' => $result
+            'searchresult' => $result,
         ];
 
         $template = $this->templateChooser()->search();

@@ -33,7 +33,7 @@ class PackageEventListener
             $destParts = [getcwd(), $pathToPublic, 'extensions', 'vendor', $installedPackage->getName(), $extra['bolt-assets']];
             $dest = realpath(join(DIRECTORY_SEPARATOR, $destParts));
             if ($type === 'bolt-extension' && isset($extra['bolt-assets'])) {
-                $sourceParts = [getcwd(), 'vendor', $installedPackage->getName(),$extra['bolt-assets']];
+                $sourceParts = [getcwd(), 'vendor', $installedPackage->getName(), $extra['bolt-assets']];
                 $source = join(DIRECTORY_SEPARATOR, $sourceParts);
                 self::mirror($source, $dest);
             }

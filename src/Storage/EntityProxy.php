@@ -34,18 +34,21 @@ class EntityProxy
     public function __call($method, $args)
     {
         $this->load();
+
         return call_user_func_array(array($this->proxy, $method), $args);
     }
 
     public function __get($attribute)
     {
         $this->load();
+
         return $this->proxy->$attribute;
     }
 
     public function __set($attribute, $value)
     {
         $this->load();
+
         return $this->proxy->$attribute = $value;
     }
 }

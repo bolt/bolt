@@ -339,7 +339,7 @@ class Omnisearch
                     'path'        => $this->generatePath('fileedit', ['namespace' => 'theme', 'file' => $dirPrefix . $relativePathname]),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_FILE + $priority,
-                    'keywords'    => ['Edit file', $filename, $query]
+                    'keywords'    => ['Edit file', $filename, $query],
                 ]
             );
         }

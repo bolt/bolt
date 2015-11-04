@@ -52,8 +52,7 @@ class ContentRepository extends Repository
 
         $qb = $this->createQueryBuilder($contentType['tablename']);
         $qb->select('id, ' . $this->getTitleColumnName($contentType) . ' as title')
-            ->orderBy($order, $direction)
-        ;
+            ->orderBy($order, $direction);
 
         return $qb;
     }

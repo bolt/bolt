@@ -255,7 +255,6 @@ class Manager
 
             // Create the users table.
             if (!isset($currentTables[$tableName])) {
-
                 /** @var $platform AbstractPlatform */
                 $platform = $this->app['db']->getDatabasePlatform();
                 $queries = $platform->getCreateTableSQL($table, AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS);
@@ -349,10 +348,10 @@ class Manager
         $schema = new Schema();
 
         $tables = array_merge(
-             $this->getBoltTablesSchema($schema),
-             $this->getContentTypeTablesSchema($schema),
-             $this->getExtensionTablesSchema($schema)
-         );
+            $this->getBoltTablesSchema($schema),
+            $this->getContentTypeTablesSchema($schema),
+            $this->getExtensionTablesSchema($schema)
+        );
 
         foreach ($tables as $index => $table) {
             if (strpos($table->getName(), $this->getTablenamePrefix()) === false) {
@@ -472,9 +471,11 @@ class Manager
     {
         if (!isset($this->app['schema.tables'][$contenttype])) {
             $platform = $this->app['db']->getDatabasePlatform();
-            $this->app['schema.tables'][$contenttype] = $this->app->share(function () use ($platform) {
-                return new ContentType($platform);
-            });
+            $this->app['schema.tables'][$contenttype] = $this->app->share(
+                function () use ($platform) {
+                    return new ContentType($platform);
+                }
+            );
         }
 
         return $this->app['schema.tables'][$contenttype];

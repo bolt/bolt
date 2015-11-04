@@ -61,7 +61,7 @@ class TemplateFieldsType extends FieldTypeBase
     {
         $key = $this->mapping['fieldname'];
         $qb = &$queries[0];
-        $valueMethod = 'serialize'.ucfirst($key);
+        $valueMethod = 'serialize' . ucfirst($key);
         $value = $entity->$valueMethod();
 
         $type = $this->getStorageType();
@@ -74,8 +74,8 @@ class TemplateFieldsType extends FieldTypeBase
             $value = isset($this->mapping['default']) ? $this->mapping['default'] : null;
         }
 
-        $qb->setValue($key, ":".$key);
-        $qb->set($key, ":".$key);
+        $qb->setValue($key, ':' . $key);
+        $qb->set($key, ':' . $key);
         $qb->setParameter($key, $value);
     }
 
@@ -99,7 +99,7 @@ class TemplateFieldsType extends FieldTypeBase
 
         if (isset($this->mapping['config'][$template])) {
             $mappings = $this->em->getMapper()->loadMetadataForFields($this->mapping['config'][$template]['fields']);
-            $metadata->setFieldMappings((array)$mappings);
+            $metadata->setFieldMappings((array) $mappings);
         }
 
         return $metadata;

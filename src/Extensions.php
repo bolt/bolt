@@ -117,8 +117,7 @@ class Extensions
                ->in($this->basefolder . '/local')
                ->followLinks()
                ->name('init.php')
-               ->depth('== 2')
-        ;
+               ->depth('== 2');
 
         foreach ($finder as $file) {
             /** @var \Symfony\Component\Finder\SplFileInfo $file */
@@ -165,8 +164,7 @@ class Extensions
             ->in($this->basefolder . '/local')
             ->followLinks()
             ->name('composer.json')
-            ->depth('== 2')
-        ;
+            ->depth('== 2');
 
         if ($finder->count() > 0) {
             $this->setLocalExtensionPsr4($finder);
@@ -392,7 +390,8 @@ class Extensions
 
                             return $twig;
                         }
-                ));
+                    )
+                );
             }
         } catch (\Exception $e) {
             $this->logInitFailure('Initialisation failed', $name, $e, Logger::ERROR);
@@ -422,7 +421,8 @@ class Extensions
 
                             return $twig;
                         }
-                ));
+                    )
+                );
             }
         } catch (\Exception $e) {
             $this->logInitFailure('Initialisation failed', $name, $e, Logger::ERROR);
@@ -457,7 +457,8 @@ class Extensions
 
                         return $twig;
                     }
-            ));
+                )
+            );
 
             if (!is_callable([$extension, 'isSafe']) || !$extension->isSafe()) {
                 continue;
@@ -470,7 +471,8 @@ class Extensions
 
                         return $twig;
                     }
-            ));
+                )
+            );
         }
     }
 
@@ -553,7 +555,7 @@ class Extensions
             $this->menuoptions[$path] = [
                 'label' => $label,
                 'path'  => $path,
-                'icon'  => $icon
+                'icon'  => $icon,
             ];
         }
     }
@@ -596,7 +598,7 @@ class Extensions
     {
         $context = [
             'event'     => 'extensions',
-            'exception' => $e
+            'exception' => $e,
         ];
 
         $this->app['logger.system']->addRecord($level, sprintf("%s for %s: %s", $msg, $extensionName, $e->getMessage()), $context);

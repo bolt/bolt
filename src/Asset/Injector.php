@@ -318,6 +318,6 @@ class Injector
      */
     private function tagSoup(AssetInterface $asset, $rawHtml)
     {
-        return $rawHtml. (string) $asset . "\n";
+        return $rawHtml . (string) $asset . "\n";
     }
 }

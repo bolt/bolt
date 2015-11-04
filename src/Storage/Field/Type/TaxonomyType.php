@@ -36,9 +36,8 @@ class TaxonomyType extends FieldTypeBase
 
         foreach ($query->getFilters() as $filter) {
             if ($filter->getKey() == $field) {
-
                 // This gets the method name, one of andX() / orX() depending on type of expression
-                $method = strtolower($filter->getExpressionObject()->getType()).'X';
+                $method = strtolower($filter->getExpressionObject()->getType()) . 'X';
 
                 $newExpr = $query->getQueryBuilder()->expr()->$method();
                 foreach ($filter->getParameters() as $k => $v) {
@@ -82,7 +81,7 @@ class TaxonomyType extends FieldTypeBase
         }
 
         $query
-            ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field.'_slugs', $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field . '_slugs', $query))
             ->addSelect($this->getPlatformGroupConcat("$field.name", $order, $field, $query))
             ->leftJoin($alias, $target, $field, "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("$alias.id");
@@ -106,7 +105,7 @@ class TaxonomyType extends FieldTypeBase
             if (empty($taxValueSlug)) {
                 continue;
             }
-            
+
             $keyName = $taxName . '/' . $taxValueSlug;
             $taxValueProxy[$keyName] = new TaxonomyValue($taxName, $taxValueName, $taxData);
 
@@ -127,10 +126,10 @@ class TaxonomyType extends FieldTypeBase
         $values[$taxName] = !empty($taxValueProxy) ? $taxValueProxy : null;
 
         foreach ($values as $tname => $tval) {
-            $setter = 'set'.ucfirst($tname);
+            $setter = 'set' . ucfirst($tname);
             $entity->$setter($tval);
         }
-        
+
         $entity->setTaxonomy($values);
         $entity->setGroup($group);
         $entity->setSortorder($sortorder);

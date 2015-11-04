@@ -101,7 +101,7 @@ class SelectQuery implements QueryInterface
     {
         return array_intersect_key(
             $this->getWhereParameters(),
-            array_flip(preg_grep('/^'.$fieldname.'_/', array_keys($this->getWhereParameters())))
+            array_flip(preg_grep('/^' . $fieldname . '_/', array_keys($this->getWhereParameters())))
         );
     }
 
@@ -188,7 +188,7 @@ class SelectQuery implements QueryInterface
      */
     public function setSingleFetchMode($value)
     {
-        $this->singleFetchMode = (bool)$value;
+        $this->singleFetchMode = (bool) $value;
     }
 
     /**
@@ -197,6 +197,7 @@ class SelectQuery implements QueryInterface
     public function __toString()
     {
         $query = $this->build();
+
         return $query->getSQL();
     }
 

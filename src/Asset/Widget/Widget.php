@@ -188,6 +188,7 @@ class Widget implements WidgetAssetInterface
             foreach ($class as $classitem) {
                 $this->setClass($classitem);
             }
+
             return $this;
         }
 

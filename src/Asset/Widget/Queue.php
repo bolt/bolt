@@ -152,10 +152,13 @@ class Queue implements QueueInterface
      */
     protected function addWidgetHolder(WidgetAssetInterface $widget)
     {
-        return $this->render->render('widgetholder.twig', [
-            'widget' => $widget,
-            'html'   => $widget->isDeferred() ? '' : $this->getHtml($widget)
-        ]);
+        return $this->render->render(
+            'widgetholder.twig',
+            [
+                'widget' => $widget,
+                'html'   => $widget->isDeferred() ? '' : $this->getHtml($widget),
+            ]
+        );
     }
 
     /**
@@ -175,9 +178,11 @@ class Queue implements QueueInterface
         }
 
         $e = null;
-        set_error_handler(function ($errno, $errstr) use (&$e) {
-            return $e = new \Exception($errstr, $errno);
-        });
+        set_error_handler(
+            function ($errno, $errstr) use (&$e) {
+                return $e = new \Exception($errstr, $errno);
+            }
+        );
 
         // Get the HTML from object cast and rethrow an exception if present
         $html = (string) $widget;
@@ -208,13 +213,16 @@ class Queue implements QueueInterface
             return $html;
         }
 
-        $javaScript = $this->render->render('widgetjavascript.twig', [
-            'widget' => $widget
-        ]);
+        $javaScript = $this->render->render(
+            'widgetjavascript.twig',
+            [
+                'widget' => $widget,
+            ]
+        );
         $snippet = (new Snippet())
             ->setLocation(Target::AFTER_BODY_JS)
-            ->setCallback((string) $javaScript)
-        ;
+            ->setCallback((string) $javaScript);
+
         $this->deferAdded = true;
 
         return $this->injector->inject($snippet, Target::AFTER_BODY_JS, $html);

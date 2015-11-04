@@ -95,6 +95,7 @@ class Import extends AbstractMigration
             // Test that we've at the least of an array
             if (!is_array($data)) {
                 $this->setError(true)->setErrorMessage("File '$filename' has malformed Contenttype import data! Skipping file.");
+
                 return false;
             }
 
@@ -181,7 +182,7 @@ class Import extends AbstractMigration
             'slug'        => $slug,
             'datecreated' => date('Y-m-d H:i:s'),
             'datepublish' => $status == 'published' ? date('Y-m-d H:i:s') : null,
-            'ownerid'     => 1
+            'ownerid'     => 1,
         ];
 
         $values = Arr::mergeRecursiveDistinct($values, $meta);

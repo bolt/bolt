@@ -181,7 +181,8 @@ class CheckResponse
             $hint = sprintf(
                 'The following fields in the `%s` table are not defined in your configuration. You can safely delete them manually if they are no longer needed: ',
                 $tableName,
-                join('`, `', array_keys($diff->removedColumns)));
+                join('`, `', array_keys($diff->removedColumns))
+            );
             $this->addHint($hint);
         }
     }
@@ -290,11 +291,15 @@ class CheckResponse
     private function getAddedForeignKeys($tableName, TableDiff $diff)
     {
         foreach ($diff->addedForeignKeys as $index) {
-            $this->addMessage($tableName, sprintf('missing foreign key on `%s` related to `%s.%s`',
-                implode(', ', $index->getUnquotedLocalColumns()),
-                $index->getForeignTableName(),
-                implode(', ' . $index->getForeignTableName() . '.', $index->getUnquotedForeignColumns())
-            ));
+            $this->addMessage(
+                $tableName,
+                sprintf(
+                    'missing foreign key on `%s` related to `%s.%s`',
+                    implode(', ', $index->getUnquotedLocalColumns()),
+                    $index->getForeignTableName(),
+                    implode(', ' . $index->getForeignTableName() . '.', $index->getUnquotedForeignColumns())
+                )
+            );
         }
     }
 
@@ -307,11 +312,15 @@ class CheckResponse
     private function getChangedForeignKeys($tableName, TableDiff $diff)
     {
         foreach ($diff->changedForeignKeys as $index) {
-            $this->addMessage($tableName, sprintf('changed foreign key on `%s`, it is now related to `%s.%s`',
-                implode(', ', $index->getUnquotedLocalColumns()),
-                $index->getForeignTableName(),
-                implode(', ' . $index->getForeignTableName() . '.', $index->getUnquotedForeignColumns())
-            ));
+            $this->addMessage(
+                $tableName,
+                sprintf(
+                    'changed foreign key on `%s`, it is now related to `%s.%s`',
+                    implode(', ', $index->getUnquotedLocalColumns()),
+                    $index->getForeignTableName(),
+                    implode(', ' . $index->getForeignTableName() . '.', $index->getUnquotedForeignColumns())
+                )
+            );
         }
     }
 

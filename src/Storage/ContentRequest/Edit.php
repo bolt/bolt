@@ -51,7 +51,7 @@ class Edit
         Manager $filesystem,
         LoggerInterface $loggerSystem,
         FlashLoggerInterface $loggerFlash
-        ) {
+    ) {
         $this->em = $em;
         $this->config = $config;
         $this->users = $users;
@@ -166,7 +166,7 @@ class Edit
 
         foreach ($contentType['relations'] as $relationName => $relationValues) {
             $repo = $this->em->getRepository($relationName);
-            $relationConfig = $this->config->get('contenttypes/'.$relationName, []);
+            $relationConfig = $this->config->get('contenttypes/' . $relationName, []);
 
             $list[$relationName] = $repo->getSelectList($relationConfig, $relationValues['order']);
         }
@@ -326,7 +326,7 @@ class Edit
     private function getUsedFieldtypes(array $contentType, Content $content, array $has)
     {
         $fieldtypes = [
-            'meta' => true
+            'meta' => true,
         ];
 
         if ($content->getTemplatefields()) {

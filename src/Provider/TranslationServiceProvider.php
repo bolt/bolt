@@ -17,7 +17,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
                 new Silex\Provider\TranslationServiceProvider(),
                 [
                     'translator.cache_dir' => $app['resources']->getPath('cache/trans'),
-                    'locale_fallbacks'     => ['en_GB', 'en']
+                    'locale_fallbacks'     => ['en_GB', 'en'],
                 ]
             );
         }
@@ -75,10 +75,12 @@ class TranslationServiceProvider implements ServiceProviderInterface
     public static function addResources(Application $app, $locale)
     {
         // Directories to look for translation file(s)
-        $transDirs = array_unique([
-            $app['resources']->getPath("app/resources/translations/{$locale}"),
-            $app['resources']->getPath("root/app/resources/translations/{$locale}"),
-        ]);
+        $transDirs = array_unique(
+            [
+                $app['resources']->getPath("app/resources/translations/{$locale}"),
+                $app['resources']->getPath("root/app/resources/translations/{$locale}"),
+            ]
+        );
 
         $needsSecondPass = true;
 
@@ -146,6 +148,7 @@ class TranslationServiceProvider implements ServiceProviderInterface
             $locales[] = $locale . '.utf8';
             $locales[] = $locale;
         }
+
         return $locales;
     }
 }

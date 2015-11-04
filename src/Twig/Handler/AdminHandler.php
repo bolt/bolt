@@ -168,7 +168,7 @@ class AdminHandler
             "A little simplification would be the first step toward rational living, I think.#Eleanor Roosevelt",
             "Making the simple complicated is commonplace; making the complicated simple, awesomely simple, that's creativity.#Charles Mingus",
             "Keep it simple, stupid.#Kelly Johnson",
-            "There's a big difference between making a simple product and making a product simple.#Des Traynor"
+            "There's a big difference between making a simple product and making a product simple.#Des Traynor",
         ];
 
         $randomquote = explode('#', $quotes[array_rand($quotes, 1)]);
@@ -224,7 +224,7 @@ class AdminHandler
         $return = '';
 
         $add = function ($name, $value = null) use (&$return) {
-            $return .= ' ' .$name . ($value === null ? '' : '="' . htmlspecialchars($value) . '"');
+            $return .= ' ' . $name . ($value === null ? '' : '="' . htmlspecialchars($value) . '"');
         };
 
         foreach ($attributes as $name => $value) {

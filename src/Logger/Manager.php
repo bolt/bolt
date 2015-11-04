@@ -104,7 +104,7 @@ class Manager
             'totalpages'   => ceil($rowcount / $amount),
             'current'      => $page,
             'showing_from' => ($page - 1) * $amount + 1,
-            'showing_to'   => ($page - 1) * $amount + count($rows)
+            'showing_to'   => ($page - 1) * $amount + count($rows),
         ];
 
         $this->app['storage']->setPager('activity', $pager);

@@ -35,8 +35,7 @@ class SystemChecks extends AsyncBase
 
         $results = $this->getCheck('DirectoryAccess')
             ->setOptions($options)
-            ->runCheck()
-        ;
+            ->runCheck();
 
         return $this->json($results);
     }
@@ -58,8 +57,7 @@ class SystemChecks extends AsyncBase
 
         $results = $this->getCheck('EmailSetup')
             ->setOptions($options)
-            ->runCheck()
-        ;
+            ->runCheck();
 
         return $this->json($results);
     }
@@ -77,8 +75,7 @@ class SystemChecks extends AsyncBase
 
         $results = $this->getCheck('PhpExtensions')
             ->setOptions($options)
-            ->runCheck()
-        ;
+            ->runCheck();
 
         return $this->json($results);
     }

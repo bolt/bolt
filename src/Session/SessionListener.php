@@ -84,6 +84,7 @@ class SessionListener implements EventSubscriberInterface
         if ($lifetime !== 0) {
             $lifetime += time();
         }
+
         return new Cookie(
             $this->session->getName(),
             $this->session->getId(),

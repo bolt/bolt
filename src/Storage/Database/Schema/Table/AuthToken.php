@@ -48,7 +48,7 @@ class AuthToken extends BaseTable
     {
         return [
             ['column' => 'lastseen', 'property' => 'type'],
-            ['column' => 'validity', 'property' => 'type']
+            ['column' => 'validity', 'property' => 'type'],
         ];
     }
 }

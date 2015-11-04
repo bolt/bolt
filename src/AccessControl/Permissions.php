@@ -86,7 +86,7 @@ class Permissions
         $roles[self::ROLE_ROOT] = [
             'label'       => 'Root',
             'description' => Trans::__('Built-in superuser role, automatically grants all permissions'),
-            'builtin'     => true
+            'builtin'     => true,
         ];
 
         return $roles;

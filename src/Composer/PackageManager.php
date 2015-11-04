@@ -233,7 +233,7 @@ class PackageManager
         $packages = [
             'installed' => [],
             'pending'   => [],
-            'local'     => []
+            'local'     => [],
         ];
 
         // Installed Composer packages
@@ -251,7 +251,7 @@ class PackageManager
                         'type'     => 'unknown',
                         'descrip'  => Trans::__('Not yet installed.'),
                         'authors'  => [],
-                        'keywords' => []
+                        'keywords' => [],
                     ];
                 }
             }
@@ -275,11 +275,11 @@ class PackageManager
                     'authors'  => $json['authors'],
                     'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',
                     'readme'   => '', // TODO: make local readme links
-                    'config'   => $this->linkConfig($json['name'])
+                    'config'   => $this->linkConfig($json['name']),
                 ];
             } else {
                 $packages['local'][] = [
-                    'title'    => $ext->getName()
+                    'title'    => $ext->getName(),
                 ];
             }
         }
@@ -312,7 +312,7 @@ class PackageManager
                 'descrip'  => $package->getDescription(),
                 'keywords' => $package->getKeywords(),
                 'readme'   => $this->linkReadMe($name),
-                'config'   => $this->linkConfig($name)
+                'config'   => $this->linkConfig($name),
             ];
         }
 
@@ -388,7 +388,7 @@ class PackageManager
                 'bolt_ver'  => $this->app['bolt_version'],
                 'bolt_name' => $this->app['bolt_name'],
                 'php'       => phpversion(),
-                'www'       => $www
+                'www'       => $www,
             ];
         } else {
             $query = [];

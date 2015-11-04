@@ -24,6 +24,7 @@ class NativeSerializer implements SerializerInterface
         if ($session === false) {
             throw new \RuntimeException('Unserialization failure');
         }
+
         return $session;
     }
 }

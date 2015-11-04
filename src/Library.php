@@ -276,7 +276,6 @@ class Library
         // open the file and lock it.
         if ($fp = fopen($filename, 'a')) {
             if (flock($fp, LOCK_EX | LOCK_NB)) {
-
                 // Truncate the file (since we opened it for 'appending')
                 ftruncate($fp, 0);
 

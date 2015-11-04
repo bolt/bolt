@@ -65,7 +65,7 @@ class Users extends BackendBase
         $context = [
             'currentuser' => $currentuser,
             'users'       => $users,
-            'sessions'    => $sessions
+            'sessions'    => $sessions,
         ];
 
         return $this->render('@bolt/users/users.twig', $context);
@@ -230,7 +230,6 @@ class Users extends BackendBase
         }
 
         switch ($action) {
-
             case 'disable':
                 if ($this->users()->setEnabled($id, false)) {
                     $this->app['logger.system']->info("Disabled user '{$user->getDisplayname()}'.", ['event' => 'security']);
@@ -251,7 +250,6 @@ class Users extends BackendBase
                 break;
 
             case 'delete':
-
                 if ($this->checkAntiCSRFToken() && $this->users()->deleteUser($id)) {
                     $this->app['logger.system']->info("Deleted user '{$user->getDisplayname()}'.", ['event' => 'security']);
                     $this->flashes()->info(Trans::__("User '%s' is deleted.", ['%s' => $user->getDisplayname()]));
@@ -398,8 +396,8 @@ class Users extends BackendBase
                     'constraints' => [new Assert\NotBlank(), new Assert\Length(['min' => 2, 'max' => 32])],
                     'label'       => Trans::__('page.edit-users.label.username'),
                     'attr'        => [
-                        'placeholder' => Trans::__('page.edit-users.placeholder.username')
-                    ]
+                        'placeholder' => Trans::__('page.edit-users.placeholder.username'),
+                    ],
                 ]
             );
         }
@@ -414,8 +412,8 @@ class Users extends BackendBase
                     'required' => false,
                     'label'    => Trans::__('page.edit-users.label.password'),
                     'attr'     => [
-                        'placeholder' => Trans::__('page.edit-users.placeholder.password')
-                    ]
+                        'placeholder' => Trans::__('page.edit-users.placeholder.password'),
+                    ],
                 ]
             )
             ->add(
@@ -425,8 +423,8 @@ class Users extends BackendBase
                     'required' => false,
                     'label'    => Trans::__('page.edit-users.label.password-confirm'),
                     'attr'     => [
-                        'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm')
-                    ]
+                        'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm'),
+                    ],
                 ]
             )
             ->add(
@@ -435,7 +433,7 @@ class Users extends BackendBase
                 [
                     'constraints' => new Assert\Email(),
                     'label'       => Trans::__('page.edit-users.label.email'),
-                    'attr'        => ['placeholder' => Trans::__('page.edit-users.placeholder.email')]
+                    'attr'        => ['placeholder' => Trans::__('page.edit-users.placeholder.email')],
                 ]
             )
             ->add(
@@ -444,7 +442,7 @@ class Users extends BackendBase
                 [
                     'constraints' => [new Assert\NotBlank(), new Assert\Length(['min' => 2, 'max' => 32])],
                     'label'       => Trans::__('page.edit-users.label.display-name'),
-                    'attr'        => ['placeholder' => Trans::__('page.edit-users.placeholder.displayname')]
+                    'attr'        => ['placeholder' => Trans::__('page.edit-users.placeholder.displayname')],
                 ]
             );
 
@@ -491,7 +489,7 @@ class Users extends BackendBase
     {
         $enabledoptions = [
             1 => Trans::__('page.edit-users.activated.yes'),
-            0 => Trans::__('page.edit-users.activated.no')
+            0 => Trans::__('page.edit-users.activated.no'),
         ];
 
         $roles = array_map(
@@ -524,7 +522,7 @@ class Users extends BackendBase
                     'choices'  => $roles,
                     'expanded' => true,
                     'multiple' => true,
-                    'label'    => Trans::__('page.edit-users.label.assigned-roles')
+                    'label'    => Trans::__('page.edit-users.label.assigned-roles'),
                 ]
             )
             ->add(
@@ -534,7 +532,7 @@ class Users extends BackendBase
                     'widget'   => 'single_text',
                     'format'   => 'yyyy-MM-dd HH:mm:ss',
                     'disabled' => true,
-                    'label'    => Trans::__('page.edit-users.label.last-seen')
+                    'label'    => Trans::__('page.edit-users.label.last-seen'),
                 ]
             )
             ->add(
@@ -542,10 +540,9 @@ class Users extends BackendBase
                 'text',
                 [
                     'disabled' => true,
-                    'label'    => Trans::__('page.edit-users.label.last-ip')
+                    'label'    => Trans::__('page.edit-users.label.last-ip'),
                 ]
-            )
-        ;
+            );
 
         return $form;
     }
@@ -665,11 +662,15 @@ class Users extends BackendBase
     private function notifyUserSave(Request $request, $displayName, $email, $firstuser)
     {
         if (!$firstuser) {
-            $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $displayName]),
-                ['event' => 'security']);
+            $this->app['logger.system']->info(
+                Trans::__('page.edit-users.log.user-updated', ['%user%' => $displayName]),
+                ['event' => 'security']
+            );
         } else {
-            $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-added', ['%user%' => $displayName]),
-                ['event' => 'security']);
+            $this->app['logger.system']->info(
+                Trans::__('page.edit-users.log.user-added', ['%user%' => $displayName]),
+                ['event' => 'security']
+            );
             $this->notifyUserSetupEmail($request, $displayName, $email);
         }
     }
@@ -701,8 +702,8 @@ class Users extends BackendBase
                 ->setReplyTo($from)
                 ->setTo([$email   => $displayName])
                 ->setBody(strip_tags($mailhtml))
-                ->addPart($mailhtml, 'text/html')
-            ;
+                ->addPart($mailhtml, 'text/html');
+
             $failedRecipients = [];
 
             $this->app['mailer']->send($message, $failedRecipients);

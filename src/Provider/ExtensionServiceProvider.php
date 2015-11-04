@@ -35,7 +35,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
         $app['extend.repo'] = $app['extend.site'] . 'list.json';
         $app['extend.urls'] = [
             'list' => 'list.json',
-            'info' => 'info.json'
+            'info' => 'info.json',
         ];
 
         $app['extend.online'] = false;
@@ -67,21 +67,25 @@ class ExtensionServiceProvider implements ServiceProviderInterface
         );
 
         // Actions
-        $app['extend.action'] = $app->share(function (Application $app) {
-            return new \Pimple([
-                // @codingStandardsIgnoreStart
-                'autoload' => $app->share(function () use ($app) { return new Action\DumpAutoload($app); }),
-                'check'    => $app->share(function () use ($app) { return new Action\CheckPackage($app); }),
-                'install'  => $app->share(function () use ($app) { return new Action\InstallPackage($app); }),
-                'json'     => $app->share(function () use ($app) { return new Action\BoltExtendJson($app); }),
-                'remove'   => $app->share(function () use ($app) { return new Action\RemovePackage($app); }),
-                'require'  => $app->share(function () use ($app) { return new Action\RequirePackage($app); }),
-                'search'   => $app->share(function () use ($app) { return new Action\SearchPackage($app); }),
-                'show'     => $app->share(function () use ($app) { return new Action\ShowPackage($app); }),
-                'update'   => $app->share(function () use ($app) { return new Action\UpdatePackage($app); }),
-                // @codingStandardsIgnoreEnd
-            ]);
-        });
+        $app['extend.action'] = $app->share(
+            function (Application $app) {
+                return new \Pimple(
+                    [
+                        // @codingStandardsIgnoreStart
+                        'autoload' => $app->share(function () use ($app) { return new Action\DumpAutoload($app); }),
+                        'check'    => $app->share(function () use ($app) { return new Action\CheckPackage($app); }),
+                        'install'  => $app->share(function () use ($app) { return new Action\InstallPackage($app); }),
+                        'json'     => $app->share(function () use ($app) { return new Action\BoltExtendJson($app); }),
+                        'remove'   => $app->share(function () use ($app) { return new Action\RemovePackage($app); }),
+                        'require'  => $app->share(function () use ($app) { return new Action\RequirePackage($app); }),
+                        'search'   => $app->share(function () use ($app) { return new Action\SearchPackage($app); }),
+                        'show'     => $app->share(function () use ($app) { return new Action\ShowPackage($app); }),
+                        'update'   => $app->share(function () use ($app) { return new Action\UpdatePackage($app); }),
+                        // @codingStandardsIgnoreEnd
+                    ]
+                );
+            }
+        );
 
         $app['extend.action.options'] = $app->share(
             function ($app) {

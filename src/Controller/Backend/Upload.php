@@ -104,7 +104,7 @@ class Upload extends BackendBase
                 foreach ($result as $resultFile) {
                     $successfulFiles[] = [
                         'url'  => $namespace . '/' . $resultFile->name,
-                        'name' => $resultFile->name
+                        'name' => $resultFile->name,
                     ];
                 }
             }
@@ -125,7 +125,7 @@ class Upload extends BackendBase
                 $errorFiles[] = [
                     'url'   => $namespace . '/' . $resultFile->original_name,
                     'name'  => $resultFile->original_name,
-                    'error' => (string) $errors[0]
+                    'error' => (string) $errors[0],
                 ];
             }
 
@@ -158,7 +158,7 @@ class Upload extends BackendBase
             if ($file instanceof UploadedFile) {
                 $filesToProcess[] = [
                     'name'     => $file->getClientOriginalName(),
-                    'tmp_name' => $file->getPathName()
+                    'tmp_name' => $file->getPathName(),
                 ];
             } else {
                 $filesToProcess[] = $file;

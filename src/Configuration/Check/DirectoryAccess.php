@@ -12,11 +12,13 @@ use Symfony\Component\Filesystem\Filesystem;
 class DirectoryAccess extends BaseCheck implements ConfigurationCheckInterface
 {
     /** @var array */
-    protected $options = ['directories' => [
-        'cache',
-        'config',
-        'extensions',
-    ]];
+    protected $options = [
+        'directories' => [
+            'cache',
+            'config',
+            'extensions',
+        ],
+    ];
 
     /**
      * {@inheritdoc}
@@ -39,7 +41,7 @@ class DirectoryAccess extends BaseCheck implements ConfigurationCheckInterface
             $directory = $this->app['resources']->getPath($directory);
 
             try {
-                $tmpfile = $directory .'/.check';
+                $tmpfile = $directory . '/.check';
 
                 if ($fs->exists($directory) && $fs->touch($tmpfile) === null && $fs->remove($tmpfile) === null) {
                     $this->createResult()->pass()->setMessage("Directory $directory is writable.");

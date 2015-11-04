@@ -122,6 +122,7 @@ class MenuBuilder
             $param = array_merge($param, $url->getQuery()->toArray());
             $param['#'] = $url->getFragment();
         }
+
         return $this->app['url_generator']->generate($item['route'], $param);
     }
 
@@ -163,7 +164,6 @@ class MenuBuilder
         try {
             // See if we have a 'content/id' or 'content/slug' path
             if (preg_match('#^([a-z0-9_-]+)/([a-z0-9_-]+)$#i', $path)) {
-
                 // Determine if the provided path first matches any routes
                 // that we have, this will catch any valid configured
                 // contenttype slug and record combination, or throw a

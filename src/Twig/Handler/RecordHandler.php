@@ -115,7 +115,7 @@ class RecordHandler
                 'title',
                 'contenttype',
                 'status',
-                'taxonomy'
+                'taxonomy',
             ];
 
             foreach ($stripKeys as $key) {
@@ -192,8 +192,7 @@ class RecordHandler
             ->notPath('.sass-cache')
             ->depth('<2')
             ->path($name)
-            ->sortByName()
-        ;
+            ->sortByName();
 
         foreach ($finder as $file) {
             $name = $file->getRelativePathname();

@@ -13,7 +13,7 @@ trait MagicAttributeTrait
 
     public function __get($key)
     {
-        $method = 'get'.ucfirst($key);
+        $method = 'get' . ucfirst($key);
         if (in_array($key, $this->getFields())) {
             return $this->$method();
         }
@@ -21,7 +21,7 @@ trait MagicAttributeTrait
 
     public function __set($key, $value)
     {
-        $method = 'set'.ucfirst($key);
+        $method = 'set' . ucfirst($key);
         $this->$method($value);
     }
 
@@ -30,6 +30,7 @@ trait MagicAttributeTrait
         if ($this->has($key)) {
             return true;
         }
+
         return false;
     }
 
@@ -57,7 +58,8 @@ trait MagicAttributeTrait
         }
 
         if (strncasecmp($method, 'serialize', 9) == 0) {
-            $method = 'get'.substr($method, 9);
+            $method = 'get' . substr($method, 9);
+
             return $this->$method();
         }
 
