@@ -122,6 +122,16 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->addData(null, null);
     }
 
+    public function testBuid()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['admin'] = $this->getMockHandler('AdminHandler', 'buid');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->buid();
+    }
+
     public function testCacheHash()
     {
         $app = $this->getApp();
