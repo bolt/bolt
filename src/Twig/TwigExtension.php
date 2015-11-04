@@ -197,11 +197,11 @@ class TwigExtension extends \Twig_Extension
     }
 
     /**
-     * @see \Bolt\Twig\Handler\AdminHandler::hclass()
+     * @see \Bolt\Twig\Handler\AdminHandler::buid()
      */
-    public function buid($classes)
+    public function buid()
     {
-        return $this->handlers['admin']->buid($classes);
+        return $this->handlers['admin']->buid();
     }
 
     /**
