@@ -42,7 +42,7 @@ class StorageEventListener implements EventSubscriberInterface
     {
         /** @var Entity\Entity $entityRecord */
         $entityRecord = $event->getContent();
-        
+
         if ($entityRecord instanceof Entity\Users) {
             $this->passwordHash($entityRecord);
             $this->enableUser($entityRecord);
