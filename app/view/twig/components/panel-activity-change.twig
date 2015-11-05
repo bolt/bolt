@@ -41,6 +41,9 @@
         {% endfor %}
     </ul>
 
-    <p><a href="{{ path('changelog') }}" class="btn btn-default btn-block">{{ __('panel.latest-activity.button.more') }} »</a></p>
+    <p><a href="{{ path('changelog') }}" class="btn btn-default">
+        <i class="fa fa-fw fa-archive"></i>
+        {{ __('panel.latest-activity.button.more') }}
+    </a></p>
 
 {% endblock panel_body %}
