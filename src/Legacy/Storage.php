@@ -978,7 +978,7 @@ class Storage
      *
      * @return array
      */
-    public function getContentByTaxonomy($taxonomyslug, $name, $parameters = "")
+    public function getContentByTaxonomy($taxonomyslug, $name, $parameters = [])
     {
         $tablename = $this->getTablename('taxonomy');
 
