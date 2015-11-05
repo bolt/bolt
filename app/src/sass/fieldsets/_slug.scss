@@ -34,6 +34,9 @@
         }
 
         .locked {
+
+            height: 32px;
+
             li.lock {
                 display: none;
             }
@@ -57,10 +60,8 @@
 
         .input-group-btn {
             button {
-                height: 100%;
-                padding-top: 0;
-                padding-bottom: 0;
-                padding: 0 $padding-base-vertical;
+                height: 32px;
+                padding: 6px $padding-base-vertical;
             }
         }
 
