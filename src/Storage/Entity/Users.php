@@ -43,7 +43,7 @@ class Users extends Entity
     protected $lastip;
     protected $displayname;
     protected $stack = [];
-    protected $enabled = 1;
+    protected $enabled;
     protected $shadowpassword = '';
     protected $shadowtoken = '';
     protected $shadowvalidity;

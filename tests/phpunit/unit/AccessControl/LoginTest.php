@@ -54,8 +54,6 @@ class LoginTest extends BoltUnitTest
 
     public function testLoginDisabledUsername()
     {
-        $this->markTestSkipped('See issue #4237 Unable to disable users');
-
         $app = $this->getApp();
         $this->addDefaultUser($app);
 
