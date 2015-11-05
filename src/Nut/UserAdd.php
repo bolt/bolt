@@ -2,6 +2,7 @@
 
 namespace Bolt\Nut;
 
+use Bolt\Storage\Entity;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,26 +38,28 @@ class UserAdd extends BaseCommand
         $displayname = $input->getArgument('displayname');
         $role = $input->getArgument('role');
 
-        $this->app['users']->getUsers();
-        $user = $this->app['users']->getEmptyUser();
-        $user['roles'] = [$role];
-        $user['username'] = $username;
-        $user['password'] = $password;
-        $user['displayname'] = $displayname;
-        $user['email'] = $email;
+        $data = [
+            'username'    => $username,
+            'password'    => $password,
+            'email'       => $email,
+            'displayname' => $displayname,
+            'roles'       => [$role],
+        ];
+
+        $user = new Entity\Users($data);
 
         $valid = true;
-        if (! $this->app['users']->checkAvailability('username', $user['username'])) {
+        if (! $this->app['users']->checkAvailability('username', $user->getUsername())) {
             $valid = false;
-            $output->writeln("<error>Error creating user: username {$user['username']} already exists</error>");
+            $output->writeln("<error>Error creating user: username {$user->getUsername()} already exists</error>");
         }
-        if (! $this->app['users']->checkAvailability('email', $user['email'])) {
+        if (! $this->app['users']->checkAvailability('email', $user->getEmail())) {
             $valid = false;
-            $output->writeln("<error>Error creating user: email {$user['email']} exists</error>");
+            $output->writeln("<error>Error creating user: email {$user->getEmail()} exists</error>");
         }
-        if (! $this->app['users']->checkAvailability('displayname', $user['displayname'])) {
+        if (! $this->app['users']->checkAvailability('displayname', $user->getDisplayname())) {
             $valid = false;
-            $output->writeln("<error>Error creating user: display name {$user['displayname']} already exists</error>");
+            $output->writeln("<error>Error creating user: display name {$user->getDisplayname()} already exists</error>");
         }
 
         if ($valid) {
