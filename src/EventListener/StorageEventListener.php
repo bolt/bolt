@@ -97,7 +97,7 @@ class StorageEventListener implements EventSubscriberInterface
     {
         if ($usersEntity->getShadowSave()) {
             return;
-        } elseif (null === $usersEntity->getId()) {
+        } elseif ($usersEntity->getId() === null) {
             $usersEntity->setEnabled(true);
         }
     }
