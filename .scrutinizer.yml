@@ -12,7 +12,7 @@ tools:
             level: all
     php_sim:
         enabled: true
-        min_mass: 30             # Defaults to 16
+        min_mass: 50             # Defaults to 16
     php_code_sniffer:
         enabled: true
         config:
