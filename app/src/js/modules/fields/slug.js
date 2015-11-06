@@ -6,8 +6,9 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
+ * @param {Object} Clipboard.
  */
-(function (bolt, $) {
+(function (bolt, $, Clipboard) {
     'use strict';
 
     /**
@@ -253,4 +254,4 @@
     // Apply mixin container
     bolt.fields.slug = slug;
 
-})(Bolt || {}, jQuery);
+})(Bolt || {}, jQuery, Clipboard);
