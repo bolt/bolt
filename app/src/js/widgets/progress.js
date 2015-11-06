@@ -21,10 +21,25 @@
  * @class
  * @memberOf jQuery.widget
  * @param {object} $ - Global jQuery object
- * @param {object} bolt - Global Bolt object
  */
-(function ($, bolt) {
+(function ($) {
     'use strict';
+
+    /**
+     * Template of the progress bar
+     *
+     * @memberOf jQuery.widget.bolt.progress
+     * @static
+     * @type string
+     */
+    var barTemplate =
+        '<div class="progress">' +
+            '<div class="progress-bar progress-bar-striped active"' +
+                ' role="progressbar"' +
+                ' aria-valuemin="0"' +
+                ' aria-valuemax="100">' +
+            '</div>' +
+        '</div>';
 
     /**
      * Bolt progress bars.
@@ -74,8 +89,6 @@
          * @param {string} [label] - The label. If not given the id is used as Label.
          */
         add: function (id, value, label) {
-            var barTemplate = bolt.data('buic.progress.bar');
-
             if (!this.bars[id]) {
                 // Create the new bar from the template.
                 this.bars[id] = $(barTemplate);
@@ -134,4 +147,4 @@
             this._set(id, value);
         }
     });
-})(jQuery, Bolt);
+})(jQuery);
