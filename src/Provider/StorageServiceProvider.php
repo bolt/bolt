@@ -202,7 +202,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['logger.change'],
                     $app['logger.system'],
                     $app['logger.flash'],
-                    $app['url_generator']
+                    $app['url_generator.lazy']
                 );
 
                 return $cr;
@@ -214,6 +214,9 @@ class StorageServiceProvider implements ServiceProviderInterface
                 return new StorageEventListener(
                     $app['storage'],
                     $app['config'],
+                    $app['schema'],
+                    $app['url_generator.lazy'],
+                    $app['logger.flash'],
                     $app['access_control.hash.strength']
                 );
             }
