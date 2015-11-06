@@ -95,6 +95,16 @@
                 // Show the new bar.
                 this.bars[id].show(300);
             }
+        },
+
+        /**
+         * Sets the progress bar value.
+         *
+         * @param {string} id - The progress bar id
+         * @param {float} value - A value between 0 and 1.0
+         */
+        set: function (id, value) {
+            this._set(id, value);
         }
     });
 })(jQuery, Bolt);
