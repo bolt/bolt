@@ -484,7 +484,7 @@ class Users
         // Make sure the DB is updated. Note, that at this point we currently don't have
         // the permissions to do so, but if we don't, update the DB, we can never add the
         // role 'root' to the current user.
-        $this->app['schema']->repairTables();
+        $this->app['schema']->update();
 
         // Show a helpful message to the user.
         $this->app['logger.flash']->info(Trans::__("There should always be at least one 'root' user. You have just been promoted. Congratulations!"));
