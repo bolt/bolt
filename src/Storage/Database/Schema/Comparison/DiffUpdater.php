@@ -162,4 +162,23 @@ class DiffUpdater
 
         return false;
     }
+
+    /**
+     * After post-processing a diff, check if we have anything left and respond
+     * as Comparator::diffTable() would.
+     *
+     * @param TableDiff $diff
+     *
+     * @return TableDiff|false
+     */
+    private function updateDiffTable(TableDiff $diff)
+    {
+        foreach (array_keys($this->paramMap) as $param) {
+            if (!empty($diff->{$param})) {
+                return $diff;
+            }
+        }
+
+        return false;
+    }
 }
