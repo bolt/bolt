@@ -21,8 +21,9 @@
  * @class
  * @memberOf jQuery.widget
  * @param {object} $ - Global jQuery object
+ * @param {object} bolt - Global Bolt object
  */
-(function ($) {
+(function ($, bolt) {
     /**
      * progress - Bolt progress bars
      *
@@ -36,8 +37,50 @@
         /**
          * Progress widget constructor
          */
-        _create: function() {
+        _create: function () {
             this.element.addClass('buic-progress');
+        },
+
+        /**
+         * Sets value of progress bar.
+         *
+         * @param {object} bar - The progress bar to set
+         * @param {float} value - A value between 0 and 1.0
+         */
+        _set: function(bar, value) {
+            value = parseFloat(value);
+            value = isNaN(value) ? 0 : Math.min(100, Math.max(0, Math.round(value * 100)));
+
+            $(bar).find('.progress-bar')
+                .attr('aria-valuenow', value)
+                .css('width', value + '%');
+        },
+
+        /**
+         * Adds a new progress bar to the progress widget.
+         *
+         * @param {string} label - The label
+         * @param {float} value - A value between 0 and 1.0
+         */
+        add: function (label, value) {
+            var newBar = $(bolt.data('buic.progress.bar'));
+
+            // Set the label.
+            $(newBar)
+                .attr('data-label', label)
+                .find('.progress-bar')
+                .text(label);
+
+            // Set the value.
+            this._set(newBar, value);
+
+            // Add new bar and show container.
+            this.element
+                .append(newBar)
+                .show();
+
+            // Show the new bar.
+            $(newBar).show(300);
         }
     });
-})(jQuery);
+})(jQuery, Bolt);
