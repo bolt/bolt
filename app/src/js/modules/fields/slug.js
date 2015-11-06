@@ -84,7 +84,11 @@
         });
 
         field.unlock.on('click', function () {
-            unlock(field, fconf.isEmpty);
+            unlock(field);
+        });
+
+        field.group.on('dblclick', function () {
+            unlock(field);
         });
 
         field.edit.on('click', function () {
@@ -137,12 +141,12 @@
      * @param {FieldData} field - Field data.
      * @param {boolean} wasEmpty - Slug is currently empty
      */
-    function unlock(field, wasEmpty) {
-        // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-        if (wasEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
-            field.group.removeClass('locked').addClass('unlocked');
-            startAutoGeneration(field);
-        }
+    function unlock(field) {
+        // "unlock" if it's currently empty.
+        // Note: We don't ask for confirmation anymore. Too many clicks.
+        field.group.removeClass('locked').addClass('unlocked');
+        startAutoGeneration(field);
+        return false;
     }
 
     /**
