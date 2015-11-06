@@ -128,4 +128,25 @@ abstract class BaseComparator
 
         return $queries;
     }
+
+    /**
+     * Get the table alteration SQL queries.
+     *
+     * @return string[]
+     */
+    public function getAlters()
+    {
+        $queries = [];
+        if ($this->tablesAlter === null) {
+            return $queries;
+        }
+
+        /** @var $tableDiff TableDiff */
+        foreach ($this->tablesAlter as $tableName => $tableDiff) {
+            $queries[$tableName] = $this->connection->getDatabasePlatform()
+                ->getAlterTableSQL($tableDiff);
+        }
+
+        return $queries;
+    }
 }
