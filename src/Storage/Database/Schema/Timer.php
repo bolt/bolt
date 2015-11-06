@@ -69,4 +69,21 @@ class Timer
             throw new StorageException($message);
         }
     }
+
+    /**
+     * Set our state as valid by writing the current date/time to the
+     * app/cache/dbcheck.ts file.
+     *
+     * We only want to do these checks once per hour, per session, since it's
+     * pretty time consuming… Unless specifically requested.
+     */
+    public function setCheckExpiry()
+    {
+        try {
+            $this->expired = false;
+            $this->filesystem->dumpFile($this->timestampFile, time());
+        } catch (IOException $e) {
+            // Something went wrong
+        }
+    }
 }
