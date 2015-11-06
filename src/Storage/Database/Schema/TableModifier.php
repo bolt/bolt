@@ -48,4 +48,17 @@ class TableModifier
             $this->createTable($tableName, $tableCreate, $response);
         }
     }
+
+    /**
+     * Process a group of tables alter queries.
+     *
+     * @param array       $tableAlters
+     * @param SchemaCheck $response
+     */
+    public function alterTables(array $tableAlters, SchemaCheck $response)
+    {
+        foreach ($tableAlters as $tableName => $tableAlter) {
+            $this->alterTable($tableName, $tableAlter, $response);
+        }
+    }
 }
