@@ -50,4 +50,23 @@ class Timer
 
         return $this->expired = $ts->isPast();
     }
+
+    /**
+     * Invalidate our database check by removing the timestamp file from cache.
+     *
+     * @throws \RuntimeException
+     */
+    public function setCheckRequired()
+    {
+        try {
+            $this->expired = true;
+            $this->filesystem->remove($this->timestampFile);
+        } catch (IOException $e) {
+            $message = sprintf(
+                "The file '%s' exists, but couldn't be removed. Please remove this file manually, and try again.",
+                $this->timestampFile
+            );
+            throw new StorageException($message);
+        }
+    }
 }
