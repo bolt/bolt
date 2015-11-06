@@ -61,4 +61,20 @@ class TableModifier
             $this->alterTable($tableName, $tableAlter, $response);
         }
     }
+
+    /**
+     * Process a single table create query.
+     *
+     * @param string      $tableName
+     * @param array       $tableCreate
+     * @param SchemaCheck $response
+     */
+    protected function createTable($tableName, array $tableCreate, SchemaCheck $response)
+    {
+        foreach ($tableCreate as $query) {
+            if ($this->runQuery($tableName, $query)) {
+                $response->addTitle($tableName, sprintf('Created table `%s`.', $tableName));
+            }
+        }
+    }
 }
