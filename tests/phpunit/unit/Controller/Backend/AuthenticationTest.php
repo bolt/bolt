@@ -92,10 +92,10 @@ class AuthenticationTest extends ControllerUnitTest
     {
         $app = $this->getApp();
         $loginMock = $this->getLoginMock($app);
-        $loginMock->expects($this->any())
+        $loginMock->expects($this->once())
             ->method('login')
             ->will($this->returnValue(true));
-        $this->setService('authentication.login', $loginMock);
+        $this->setService('access_control.login', $loginMock);
 
         $this->setSessionUser(new Entity\Users(['username' => 'test', 'roles' => []]));
 

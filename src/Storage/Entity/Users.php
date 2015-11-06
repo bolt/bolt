@@ -19,6 +19,7 @@ use Bolt\AccessControl\Permissions;
  * @method string    getShadowvalidity()
  * @method integer   getFailedlogins()
  * @method \DateTime getThrottleduntil()
+ * @method boolean   getShadowSave()
  * @method setId($id)
  * @method setUsername($username)
  * @method setPassword($password)
@@ -43,7 +44,7 @@ class Users extends Entity
     protected $lastip;
     protected $displayname;
     protected $stack = [];
-    protected $enabled = 1;
+    protected $enabled;
     protected $shadowpassword = '';
     protected $shadowtoken = '';
     protected $shadowvalidity;
