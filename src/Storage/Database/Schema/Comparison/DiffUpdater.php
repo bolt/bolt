@@ -85,4 +85,22 @@ class DiffUpdater
             }
         }
     }
+
+    /**
+     * Do checks for columns.
+     *
+     * @param Column $column
+     * @param array  $alterData
+     *
+     * @return boolean
+     */
+    protected function checkColumn(Column $column, array $alterData)
+    {
+        // Not needed to be implemented yet
+        if ($alterData['propertyName'] !== $column->getName()) {
+            return false;
+        }
+
+        return false;
+    }
 }
