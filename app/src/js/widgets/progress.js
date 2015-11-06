@@ -34,9 +34,10 @@
      */
     $.widget('bolt.progress', /** @lends jQuery.widget.bolt.progress */ {
         /**
-         * Progressbars widget constructor
+         * Progress widget constructor
          */
         _create: function() {
+            this.element.addClass('buic-progress');
         }
     });
 })(jQuery);
