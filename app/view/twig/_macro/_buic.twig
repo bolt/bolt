@@ -6,6 +6,7 @@
  #    disabled   false      Input is disabled.
  #    id         name       Id of the checkbox.
  #    name       required   Name of the checkbox.
+ #    label      ''         A label printed right of the checkbox.
  #    required   false      Input is required.
  #
  # @param array opt Options defining the component
@@ -14,22 +15,26 @@
     {% spaceless %}
         {% from '@bolt/_macro/_macro.twig' import attr %}
 
+
+        {% set id = opt.label|default('') and not opt.id|default('') ? buid() : opt.id|default('') %}
+
         {% set attributes = {
             'checked':   opt.checked|default(false),
             'class':     'form-control',
             'disabled':  opt.disabled|default(false),
-            'id':        opt.id|default(opt['name+id']|default('')),
-            'name':      opt.name|default(opt['name+id']|default('')),
+            'id':        id,
+            'name':      opt.name|default(''),
             'required':  opt.required|default(false),
             'type':      'checkbox',
             'value':     '1',
         } %}
 
         <div{{ hclass(['buic-checkbox', opt.class|default()]) }}>
-            <label>
-                <input{{ attr(attributes) }}>
-                <button type="button"></button>
-            </label>
+            <input{{ attr(attributes) }}>
+            <button type="button"></button>
+            {% if opt.label|default('') %}
+                <label for="{{ id }}">{{ opt.label }}</label>
+            {% endif %}
         </div>
     {% endspaceless %}
 {% endmacro %}

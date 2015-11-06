@@ -3,13 +3,17 @@
  */
 .buic-checkbox {
     margin-top: 6px;
+    //background: red;
+    vertical-align: top;
 
     label {
-        font-size: 15px;
-        width: 1px;
-        overflow: visible;
-        padding-left: 2px;
+        display: inline-block;
+        margin-left: 6px;
         white-space: nowrap;
+        vertical-align: top;
+        line-height: 21px;
+        color: red;
+        cursor: pointer;
     }
 
     input {
