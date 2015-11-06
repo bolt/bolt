@@ -2,6 +2,7 @@
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\DatabaseRepair;
+use Bolt\Storage\Database\Schema\Table;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -12,7 +13,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class DatabaseRepairTest extends BoltUnitTest
 {
-    public function testRun()
+    public function testRunNormal()
     {
         $app = $this->getApp();
         $command = new DatabaseRepair($app);
@@ -20,16 +21,31 @@ class DatabaseRepairTest extends BoltUnitTest
 
         $tester->execute([]);
         $result = $tester->getDisplay();
-        $this->assertEquals("Your database is already up to date.", trim($result));
+        $this->assertEquals('Your database is already up to date.', trim($result));
+    }
 
-        // Now introduce some changes
+    public function testRunChanged()
+    {
+        $app = $this->getApp();
+
+        $app = $this->getApp();
         $app['config']->set('contenttypes/newcontent', [
             'tablename' => 'newcontent',
             'fields'    => ['title' => ['type' => 'text']]
         ]);
+        /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
+        $platform = $app['db']->getDatabasePlatform();
+        $app['schema.content_tables']['newcontent'] = $app->share(
+            function () use ($platform) {
+                return new Table\ContentType($platform);
+            }
+        );
+
+        $command = new DatabaseRepair($app);
+        $tester = new CommandTester($command);
 
         $tester->execute([]);
         $result = $tester->getDisplay();
-        $this->assertRegExp("/Created table `bolt_newcontent`/", $result);
+        $this->assertRegExp('/Created table `bolt_newcontent`/', $result);
     }
 }
