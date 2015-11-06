@@ -36,6 +36,7 @@
      * @property {Object} lock - Lock button.
      * @property {Object} unlock - Unlock button.
      * @property {Object} edit - Edit button.
+     * @property {Object} copy - Copy button.
      * @property {string} key - The field key
      * @property {Array} uses - Fields used to automatically generate a slug.
      * @property {string} slug - Content slug.
@@ -68,6 +69,7 @@
                 lock: $(fieldset).find('li.lock a'),
                 unlock: $(fieldset).find('li.unlock a'),
                 edit: $(fieldset).find('li.edit a'),
+                copy: $(fieldset).find('li.copy a'),
                 key: fconf.key,
                 uses: fconf.uses,
                 slug: fconf.slug,
@@ -89,6 +91,17 @@
         if (fconf.isEmpty) {
             field.unlock.trigger('click');
         }
+
+        var clipboard = new Clipboard(field.copy);
+
+        clipboard.on('success', function(e) {
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+
+            e.clearSelection();
+        });
+
     };
 
     /**
