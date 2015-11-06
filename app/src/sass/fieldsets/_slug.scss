@@ -72,6 +72,7 @@
             width: 100%;
             height: 32px;
             text-indent: -$icon-width - $icon-right-margin;
+            padding-top: 5px;
             padding-left: $icon-width + $padding-base-vertical + $icon-right-margin;
             white-space: normal;
             word-break: break-all;
