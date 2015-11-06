@@ -31,22 +31,31 @@
 
 {% block fieldset_type 'slug' %}
 
-{% block fieldset_label_text  option.viewless ? __('Unique Alias') : __('field.slug.permalink') %}
-{% block fieldset_label_class 'col-sm-3' %}
+{% block fieldset_label_text option.viewless ? __('Unique Alias') : __('field.slug.permalink') %}
+{% block fieldset_label_class 'col-sm-12' %}
 
 {% block fieldset_controls %}
-    <div class="col-sm-9">
+    <div class="col-sm-12">
         <div class="input-group locked">
-            <span class="input-group-addon">/{{ context.content.contenttype }}/<em>{{ context.content.get(contentkey) }}</em></span>
+            <span class="input-group-addon"><span class="prefix">/{{ context.content.contenttype }}/</span><em>{{ context.content.get(contentkey) }}</em></span>
             <input{{ macro.attr(attributes.slug) }}>
             <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="lock"><a href="#"><i class="fa fa-fw fa-lock"></i> {{ __('field.slug.button.lock') }}</a></li>
-                    <li class="unlock"><a href="#"><i class="fa fa-fw fa-unlock-alt"></i> {{ __('field.slug.button.unlock') }}</a></li>
-                    <li class="edit"><a href="#"><i class="fa fa-fw fa-pencil"></i> {{ __('field.slug.button.edit') }}</a></li>
+                    <li class="copy" data-clipboard-text="/{{ context.content.contenttype }}/{{ context.content.get(contentkey) }}">
+                        <a href="#"><i class="fa fa-fw fa-copy"></i> {{ __('field.slug.button.copy') }}</a>
+                    </li>
+                    <li class="lock">
+                        <a href="#"><i class="fa fa-fw fa-lock"></i> {{ __('field.slug.button.lock') }}</a>
+                    </li>
+                    <li class="unlock">
+                        <a href="#"><i class="fa fa-fw fa-unlock-alt"></i> {{ __('field.slug.button.unlock') }}</a>
+                    </li>
+                    <li class="edit">
+                        <a href="#"><i class="fa fa-fw fa-pencil"></i> {{ __('field.slug.button.edit') }}</a>
+                    </li>
                 </ul>
             </div>
         </div>

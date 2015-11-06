@@ -474,6 +474,7 @@ field:
             preview: "Preview"
     slug:
         button:
+            copy: "Copy"
             edit: "Edit"
             lock: "Lock"
             unlock: "Unlock"

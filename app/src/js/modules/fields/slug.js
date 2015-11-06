@@ -6,8 +6,9 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
+ * @param {Object} Clipboard.
  */
-(function (bolt, $) {
+(function (bolt, $, Clipboard) {
     'use strict';
 
     /**
@@ -32,10 +33,12 @@
      *
      * @property {Object} group - Group container.
      * @property {Object} show - Slug display.
+     * @property {Object} prefix - URL prefix (like `/contenttype/` ).
      * @property {Object} data - Data field.
      * @property {Object} lock - Lock button.
      * @property {Object} unlock - Unlock button.
      * @property {Object} edit - Edit button.
+     * @property {Object} copy - Copy button.
      * @property {string} key - The field key
      * @property {Array} uses - Fields used to automatically generate a slug.
      * @property {string} slug - Content slug.
@@ -64,10 +67,12 @@
         var field = {
                 group: $(fieldset).find('.input-group'),
                 show: $(fieldset).find('em'),
+                prefix: $(fieldset).find('span.prefix'),
                 data: $(fieldset).find('input'),
                 lock: $(fieldset).find('li.lock a'),
                 unlock: $(fieldset).find('li.unlock a'),
                 edit: $(fieldset).find('li.edit a'),
+                copy: $(fieldset).find('li.copy'),
                 key: fconf.key,
                 uses: fconf.uses,
                 slug: fconf.slug,
@@ -79,7 +84,11 @@
         });
 
         field.unlock.on('click', function () {
-            unlock(field, fconf.isEmpty);
+            unlock(field, true);
+        });
+
+        field.group.on('dblclick', function () {
+            unlock(field, false);
         });
 
         field.edit.on('click', function () {
@@ -89,6 +98,14 @@
         if (fconf.isEmpty) {
             field.unlock.trigger('click');
         }
+
+        var clipboard = new Clipboard('.copy');
+
+        clipboard.on('success', function(e) {
+            console.info('Copied:', e.text);
+            e.clearSelection();
+        });
+
     };
 
     /**
@@ -124,12 +141,13 @@
      * @param {FieldData} field - Field data.
      * @param {boolean} wasEmpty - Slug is currently empty
      */
-    function unlock(field, wasEmpty) {
-        // "unlock" if it's currently empty, _or_ we've confirmed that we want to do so.
-        if (wasEmpty || confirm(bolt.data('field.slug.message.unlock'))) {
+    function unlock(field, needsconfirmation) {
+        // Only ask for confirmation anymore when using the button. Not on doubleclick.
+        if (!needsconfirmation || confirm(bolt.data('field.slug.message.unlock'))) {
             field.group.removeClass('locked').addClass('unlocked');
             startAutoGeneration(field);
         }
+        return false;
     }
 
     /**
@@ -175,6 +193,7 @@
             success: function (uri) {
                 field.data.val(uri);
                 field.show.html(uri);
+                field.copy.attr('data-clipboard-text', field.prefix.text() + uri);
             },
             error: function () {
                 console.log('failed to get an URI');
@@ -240,4 +259,4 @@
     // Apply mixin container
     bolt.fields.slug = slug;
 
-})(Bolt || {}, jQuery);
+})(Bolt || {}, jQuery, Clipboard);
