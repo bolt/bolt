@@ -84,9 +84,6 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
         // Schemas (empty) of the extension tables
         $app['schema.extension_tables'] = $app->share(
             function (Application $app) {
-                /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
-                $platform = $app['db']->getDatabasePlatform();
-
                 return new \Pimple([]);
             }
         );
