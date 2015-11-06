@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage\Database\Schema\Table;
 
+use Bolt\Exception\StorageException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
@@ -19,6 +20,8 @@ abstract class BaseTable
     protected $table;
     /** @var string */
     protected $tableName;
+    /** @var string */
+    protected $aliasName;
 
     /**
      * Constructor.
@@ -31,16 +34,35 @@ abstract class BaseTable
     }
 
     /**
+     * Get the table object.
+     *
+     * @throws StorageException
+     *
+     * @return \Doctrine\DBAL\Schema\Table
+     */
+    public function getTable()
+    {
+        if ($this->table === null) {
+            throw new StorageException('Table not built.');
+        }
+
+        return $this->table;
+    }
+
+    /**
      * Get the table's schema object.
      *
      * @param Schema $schema
      * @param string $tableName
+     * @param string $aliasName
      *
      * @return \Doctrine\DBAL\Schema\Table
      */
-    public function buildTable(Schema $schema, $tableName)
+    public function buildTable(Schema $schema, $tableName, $aliasName)
     {
         $this->table = $schema->createTable($tableName);
+        $this->table->addOption('alias', $aliasName);
+        $this->aliasName = $aliasName;
         $this->tableName = $this->table->getName();
         $this->addColumns();
         $this->addIndexes();
@@ -66,20 +88,19 @@ abstract class BaseTable
     }
 
     /**
-     * A function to return the columns and keys that should be ignored, as DBAL
-     * can't seem to do it properly.
+     * Get the table's alias (short) name.
      *
-     * Returned array format:
-     * [
-     *     ['column' => '', 'property' => ''],
-     *     ['column' => '', 'property' => '']
-     * ]
+     * @throws \RuntimeException
      *
-     * @return array|boolean
+     * @return string
      */
-    public function ignoredChanges()
+    public function getTableAlias()
     {
-        return false;
+        if ($this->aliasName === null) {
+            throw new \RuntimeException('Table ' . __CLASS__ . ' has not been built yet.');
+        }
+
+        return $this->aliasName;
     }
 
     /**
