@@ -21,11 +21,13 @@ class StorageEventListener implements EventSubscriberInterface
     protected $em;
     /** @var \Bolt\Config */
     protected $config;
-    /** @var \Bolt\Storage\Database\Schema\Manager*/
+    /** @var \Bolt\Storage\Database\Schema\Manager */
     protected $schemaManager;
+    /** @var UrlGeneratorInterface */
+    protected $urlGenerator;
     /** @var \Bolt\Logger\FlashLoggerInterface */
     protected $loggerFlash;
-    /** @var string */
+    /** @var integer */
     protected $hashStrength;
 
     /**
