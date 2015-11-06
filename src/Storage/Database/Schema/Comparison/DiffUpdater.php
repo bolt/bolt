@@ -144,4 +144,22 @@ class DiffUpdater
 
         return false;
     }
+
+    /**
+     * Do checks for foreignKey constraints.
+     *
+     * @param ForeignKeyConstraint $foreignKeyConstraint
+     * @param array                $alterData
+     *
+     * @return boolean
+     */
+    protected function checkForeignKeyConstraint(ForeignKeyConstraint $foreignKeyConstraint, array $alterData)
+    {
+        // Not needed to be implemented yet
+        if ($alterData['propertyName'] !== $foreignKeyConstraint->getName()) {
+            return false;
+        }
+
+        return false;
+    }
 }
