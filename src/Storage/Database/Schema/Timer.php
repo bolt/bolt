@@ -29,4 +29,25 @@ class Timer
         $this->timestampFile = $cachePath . '/dbcheck.ts';
         $this->filesystem = new Filesystem();
     }
+
+    /**
+     * Check if we have determined that we need to do a database check.
+     *
+     * @return boolean
+     */
+    public function isCheckRequired()
+    {
+        if ($this->expired !== null) {
+            return $this->expired;
+        }
+
+        if ($this->filesystem->exists($this->timestampFile)) {
+            $expiryTimestamp = (integer) file_get_contents($this->timestampFile);
+        } else {
+            $expiryTimestamp = 0;
+        }
+        $ts = Carbon::createFromTimeStamp($expiryTimestamp + self::CHECK_INTERVAL);
+
+        return $this->expired = $ts->isPast();
+    }
 }
