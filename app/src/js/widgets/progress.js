@@ -25,25 +25,27 @@
  */
 (function ($, bolt) {
     /**
-     * progress - Bolt progress bars
+     * Bolt progress bars.
      *
      * @class progress
      * @memberOf jQuery.widget.bolt
-     * @param {object} [options] - Options
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      */
     $.widget('bolt.progress', /** @lends jQuery.widget.bolt.progress */ {
         /**
-         * Progress widget constructor
+         * The constructor of the progress widget.
+         *
+         * @private
          */
         _create: function () {
             this.element.addClass('buic-progress');
         },
 
         /**
-         * Sets value of progress bar.
+         * Set the value of progress bar.
          *
+         * @private
          * @param {object} bar - The progress bar to set
          * @param {float} value - A value between 0 and 1.0
          */
