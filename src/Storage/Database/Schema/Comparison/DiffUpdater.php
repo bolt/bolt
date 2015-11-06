@@ -65,4 +65,24 @@ class DiffUpdater
 
         return $this->updateDiffTable($tableDiff);
     }
+
+    /**
+     * Check individual diff properties.
+     *
+     * @param TableDiff $tableDiff
+     * @param array     $schemaUpdateType
+     * @param string    $alterKey
+     * @param array     $alterData
+     */
+    protected function checkChangedProperties(TableDiff $tableDiff, array $schemaUpdateType, $alterKey, array $alterData)
+    {
+        foreach ($schemaUpdateType as $columnName => $changeObject) {
+            // Function name we need to call
+            $func = $this->paramMap[$alterKey];
+            $needsUnset = call_user_func_array([$this, $func], [$changeObject, $alterData]);
+            if ($needsUnset) {
+                unset($tableDiff->{$alterKey}[$columnName]);
+            }
+        }
+    }
 }
