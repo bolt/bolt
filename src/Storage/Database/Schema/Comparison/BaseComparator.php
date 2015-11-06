@@ -108,4 +108,24 @@ abstract class BaseComparator
         }
         return $this->response = new SchemaCheck();
     }
+
+    /**
+     * Get the table creation SQL queries.
+     *
+     * @return string[]
+     */
+    public function getCreates()
+    {
+        if ($this->tablesCreate === null) {
+            return [];
+        }
+
+        $queries = [];
+        foreach ($this->tablesCreate as $tableName => $table) {
+            $queries[$tableName] = $this->connection->getDatabasePlatform()
+                ->getCreateTableSQL($table, AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS);
+        }
+
+        return $queries;
+    }
 }
