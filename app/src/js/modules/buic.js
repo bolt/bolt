@@ -31,9 +31,6 @@
             context = $(document.documentElement);
         }
 
-        $('.buic-checkbox', context).each(function () {
-            bolt.buic.checkbox.init(this);
-        });
         $('.buic-listing', context).each(function () {
             bolt.buic.listing.init(this);
         });
@@ -44,6 +41,7 @@
             bolt.buic.select.init(this);
         });
         // Widgets
+        $('.buic-checkbox', context).checkbox();
         $('.buic-progress', context).progress();
     };
 
