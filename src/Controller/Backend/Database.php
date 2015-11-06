@@ -36,12 +36,13 @@ class Database extends BackendBase
      */
     public function check()
     {
-        $response = $this->schemaManager()->checkTablesIntegrity(true);
+        /** @var $response \Bolt\Storage\Database\Schema\SchemaCheck */
+        $check = $this->app['schema']->check();
 
         $context = [
             'modifications_made'     => null,
-            'modifications_required' => $response->getResponseStrings(),
-            'modifications_hints'    => $response->getHints(),
+            'modifications_required' => $check->getResponseStrings(),
+            'modifications_hints'    => $check->getHints(),
         ];
 
         return $this->render('@bolt/dbcheck/dbcheck.twig', $context);
@@ -56,26 +57,10 @@ class Database extends BackendBase
      */
     public function update(Request $request)
     {
-        $output = $this->schemaManager()->repairTables()->getResponseStrings();
+        $output = $this->schemaManager()->update();
+        $this->session()->set('dbupdate_result', $output->getResponseStrings());
 
-        // If 'return=edit' is passed, we should return to the edit screen.
-        // We do redirect twice, yes, but that's because the newly saved
-        // contenttype.yml needs to be re-read.
-        $return = $request->get('return');
-        if ($return === 'edit') {
-            if (empty($output)) {
-                $content = Trans::__('Your database is already up to date.');
-            } else {
-                $content = Trans::__('Your database is now up to date.');
-            }
-            $this->flashes()->success($content);
-
-            return $this->redirectToRoute('fileedit', ['namespace' => 'config', 'file' => 'contenttypes.yml']);
-        } else {
-            $this->session()->set('dbupdate_result', $output);
-
-            return $this->redirectToRoute('dbupdate_result');
-        }
+        return $this->redirectToRoute('dbupdate_result');
     }
 
     /**
