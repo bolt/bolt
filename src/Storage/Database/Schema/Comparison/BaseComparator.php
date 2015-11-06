@@ -56,4 +56,19 @@ abstract class BaseComparator
         $this->schemaTables = $schemaTables;
         $this->systemLog = $systemLog;
     }
+
+    /**
+     * Are database updates required.
+     *
+     * @return boolean
+     */
+    public function hasPending()
+    {
+        if ($this->pending !== null) {
+            return $this->pending;
+        }
+        $this->compare();
+
+        return $this->pending;
+    }
 }
