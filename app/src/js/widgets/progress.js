@@ -24,6 +24,8 @@
  * @param {object} bolt - Global Bolt object
  */
 (function ($, bolt) {
+    'use strict';
+
     /**
      * Bolt progress bars.
      *
