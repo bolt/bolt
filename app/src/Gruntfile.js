@@ -80,6 +80,8 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/fields/tags.js',
                 '<%= path.src.js %>/modules/fields/templateselect.js',
                 '<%= path.src.js %>/modules/fields/video.js',
+                // Bolt widgets
+                '<%= path.src.js %>/widgets/*.js',
                 // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',
                 '<%= path.src.js %>/activity.js',
