@@ -149,4 +149,12 @@ abstract class BaseComparator
 
         return $queries;
     }
+
+    /**
+     * Remove table/column diffs that for verious reasons aren't supported on a
+     * platform.
+     *
+     * @param TableDiff $diff
+     */
+    abstract protected function removeIgnoredChanges(TableDiff $diff);
 }
