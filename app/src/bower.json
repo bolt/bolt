@@ -19,6 +19,7 @@
         "blueimp-file-upload": "9.11.2",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.5",
+        "clipboard": "~1.5.3",
         "font-awesome": "~4.4.0",
         "jquery-ui": "~1.11.4",
         "jquery.cookie": "~1.4.1",

@@ -100,7 +100,8 @@ module.exports = function (grunt, option) {
                 '<%= path.tmp %>/bootstrap.min.js',                             //  24 kb
                 '<%= path.src.bower %>/select2/dist/js/select2.min.js',         //  62 kb
                 '<%= path.tmp %>/moment.min.js',                                //  35 kb
-                '<%= path.tmp %>/modernizr-custom.min.js'                       //   5 kb
+                '<%= path.tmp %>/modernizr-custom.min.js',                      //   5 kb
+                '<%= path.src.bower %>/clipboard/dist/clipboard.min.js'         //   8 kb
             ],
             dest: '<%= path.dest.js %>/lib.js'
         },
