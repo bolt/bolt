@@ -42,4 +42,27 @@ class DiffUpdater
     {
         $this->ignoredChanges = $ignoredChanges;
     }
+
+    /**
+     * Platform specific adjustments to table/column diffs.
+     *
+     * @param TableDiff $tableDiff
+     *
+     * @return TableDiff|false
+     */
+    public function adjustDiff(TableDiff $tableDiff)
+    {
+        foreach ($this->ignoredChanges as $alterKey => $alterData) {
+            // Array from something like 'changedColumns', 'changedIndexes',
+            // or 'changedForeignKeys'
+            $schemaUpdateType = $tableDiff->$alterKey;
+
+            if (empty($schemaUpdateType)) {
+                continue;
+            }
+            $this->checkChangedProperties($tableDiff, $schemaUpdateType, $alterKey, $alterData);
+        }
+
+        return $this->updateDiffTable($tableDiff);
+    }
 }
