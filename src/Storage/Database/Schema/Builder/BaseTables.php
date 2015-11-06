@@ -36,8 +36,8 @@ class BaseTables extends BaseBuilder
      */
     public function hasUserTable()
     {
-        $tables = $this->getInstalledTables();
-        if (isset($tables[$this->getTablename('users')])) {
+        $tables = $this->manager->getInstalledTables();
+        if (isset($tables[$this->manager->getTablename('users')])) {
             return true;
         }
 
