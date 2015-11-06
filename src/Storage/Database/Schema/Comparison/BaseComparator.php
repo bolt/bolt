@@ -185,4 +185,19 @@ abstract class BaseComparator
             $this->checkTable($fromTable, $toTable);
         }
     }
+
+    /**
+     * Check that a single table's columns and indices are valid.
+     *
+     * @param Table $fromTable
+     * @param Table $toTable
+     */
+    protected function checkTable(Table $fromTable, Table $toTable)
+    {
+        $tableName = $fromTable->getName();
+        $diff = (new Comparator())->diffTable($fromTable, $toTable);
+        if ($diff !== false) {
+            $this->diffs[$tableName] = $diff;
+        }
+    }
 }
