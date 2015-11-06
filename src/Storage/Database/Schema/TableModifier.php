@@ -35,4 +35,17 @@ class TableModifier
         $this->loggerSystem = $loggerSystem;
         $this->loggerFlash = $loggerFlash;
     }
+
+    /**
+     * Process a group of tables create queries.
+     *
+     * @param array       $tableCreates
+     * @param SchemaCheck $response
+     */
+    public function createTables(array $tableCreates, SchemaCheck $response)
+    {
+        foreach ($tableCreates as $tableName => $tableCreate) {
+            $this->createTable($tableName, $tableCreate, $response);
+        }
+    }
 }
