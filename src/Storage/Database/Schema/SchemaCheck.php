@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Database\Schema;
 
 use Doctrine\DBAL\Schema\TableDiff;
@@ -8,7 +9,7 @@ use Doctrine\DBAL\Schema\TableDiff;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class CheckResponse
+class SchemaCheck
 {
     /** @var array */
     private $pending = [];
@@ -20,13 +21,6 @@ class CheckResponse
     private $hints = [];
     /** @var array */
     private $diffs = [];
-    /** @var boolean */
-    private $hinting;
-
-    public function __construct($hinting = false)
-    {
-        $this->hinting = $hinting;
-    }
 
     /**
      * Add a diff detail.
@@ -113,8 +107,9 @@ class CheckResponse
             if (!empty($this->messages[$tableName])) {
                 $message .= implode(', ', $this->messages[$tableName]);
             }
-            $response[] = $message;
+            $response[$tableName] = $message;
         }
+        ksort($response);
 
         return $response;
     }
@@ -177,9 +172,9 @@ class CheckResponse
         $this->getRemovedIndexes($tableName, $diff);
         $this->getRemovedForeignKeys($tableName, $diff);
 
-        if ($this->hinting && count($diff->removedColumns) > 0) {
+        if (count($diff->removedColumns) > 0) {
             $hint = sprintf(
-                'The following fields in the `%s` table are not defined in your configuration. You can safely delete them manually if they are no longer needed: ',
+                'The following fields in the `%s` table are not defined in your configuration. You can safely delete them manually if they are no longer needed: `%s`',
                 $tableName,
                 join('`, `', array_keys($diff->removedColumns))
             );
