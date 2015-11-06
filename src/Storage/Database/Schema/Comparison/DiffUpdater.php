@@ -126,4 +126,22 @@ class DiffUpdater
         }
         return false;
     }
+
+    /**
+     * Do checks for indexes.
+     *
+     * @param Index $index
+     * @param array $alterData
+     *
+     * @return boolean
+     */
+    protected function checkIndex(Index $index, array $alterData)
+    {
+        // Not needed to be implemented yet
+        if ($alterData['propertyName'] !== $index->getName()) {
+            return false;
+        }
+
+        return false;
+    }
 }
