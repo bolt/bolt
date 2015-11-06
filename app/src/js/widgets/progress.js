@@ -98,6 +98,31 @@
         },
 
         /**
+         * Removes the progress bar with the id from the progress bar container.
+         *
+         * @param {string} id - The progress bar id
+         */
+        remove: function (id) {
+            if (this.bars[id]) {
+                var self = this,
+                    bar = this.bars[id];
+
+                // Remove the bar from the internal list.
+                delete this.bars[id];
+
+                // Remove the bar from the progress container.
+                bar.hide(300, function () {
+                    bar.remove();
+
+                    // Hide the container when last bar was removed.
+                    if (Object.keys(self.bars).length === 0) {
+                        self.element.hide();
+                    }
+                });
+            }
+        },
+
+        /**
          * Sets the progress bar value.
          *
          * @param {string} id - The progress bar id
