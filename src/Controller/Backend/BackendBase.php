@@ -173,7 +173,7 @@ abstract class BackendBase extends Base
     private function checkFirstUser(Application $app, $route)
     {
         // Check the database users table exists
-        $tableExists = $app['schema']->checkUserTableIntegrity();
+        $tableExists = $app['schema']->hasUserTable();
 
         // Test if we have a valid users in our table
         $userCount = 0;
@@ -191,7 +191,7 @@ abstract class BackendBase extends Base
         // If there are no users in the users table, or the table doesn't exist.
         // Repair the DB, and let's add a new user.
         if (!$tableExists || $userCount === 0) {
-            $app['schema']->repairTables();
+            $app['schema']->update();
             $app['logger.flash']->info(Trans::__('There are no users in the database. Please create the first user.'));
 
             return $this->redirectToRoute('userfirst');
