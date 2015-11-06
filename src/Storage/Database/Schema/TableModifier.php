@@ -77,4 +77,20 @@ class TableModifier
             }
         }
     }
+
+    /**
+     * Process a single table alter queries.
+     *
+     * @param string      $tableName
+     * @param array       $tableAlter
+     * @param SchemaCheck $response
+     */
+    protected function alterTable($tableName, array $tableAlter, SchemaCheck $response)
+    {
+        foreach ($tableAlter as $query) {
+            if ($this->runQuery($tableName, $query)) {
+                $response->addTitle($tableName, sprintf('Updated `%s` table to match current schema.', $tableName));
+            }
+        }
+    }
 }
