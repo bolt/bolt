@@ -25,7 +25,8 @@ class DatabaseCheck extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $response = $this->app['schema']->checkTablesIntegrity();
+        /** @var $response \Bolt\Storage\Database\Schema\SchemaCheck */
+        $response = $this->app['schema']->check();
 
         if (!$response->hasResponses()) {
             $output->writeln('<info>The database is OK.</info>');
