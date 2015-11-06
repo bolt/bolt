@@ -95,4 +95,17 @@ abstract class BaseComparator
 
         return $this->getResponse();
     }
+
+    /**
+     * Get the schema check response object.
+     *
+     * @return \Bolt\Storage\Database\Schema\SchemaCheck
+     */
+    public function getResponse()
+    {
+        if ($this->response !== null) {
+            return $this->response;
+        }
+        return $this->response = new SchemaCheck();
+    }
 }
