@@ -28,19 +28,4 @@ class BaseTables extends BaseBuilder
 
         return $tables;
     }
-
-    /**
-     * Check if just the users table is present.
-     *
-     * @return boolean
-     */
-    public function hasUserTable()
-    {
-        $tables = $this->manager->getInstalledTables();
-        if (isset($tables[$this->manager->getTablename('users')])) {
-            return true;
-        }
-
-        return false;
-    }
 }
