@@ -142,8 +142,7 @@
      * @param {boolean} wasEmpty - Slug is currently empty
      */
     function unlock(field, needsconfirmation) {
-        // "unlock" if it's currently empty.
-        // Note: We don't ask for confirmation anymore. Too many clicks.
+        // Only ask for confirmation anymore when using the button. Not on doubleclick.
         if (!needsconfirmation || confirm(bolt.data('field.slug.message.unlock'))) {
             field.group.removeClass('locked').addClass('unlocked');
             startAutoGeneration(field);
