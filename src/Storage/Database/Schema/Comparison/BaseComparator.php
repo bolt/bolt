@@ -217,4 +217,21 @@ abstract class BaseComparator
             }
         }
     }
+
+    /**
+     * Add required changes to the response object.
+     *
+     * NOTE: This must be run after adjustDiffs() so that the user response
+     * doesn't contain ignored changes.
+     */
+    protected function addAlterResponses()
+    {
+        foreach ($this->diffs as $tableName => $tableDiff) {
+            $this->pending = true;
+            $this->tablesAlter[$tableName] = $tableDiff;
+            $this->getResponse()->addTitle($tableName, sprintf('Table `%s` is not the correct schema:', $tableName));
+            $this->getResponse()->checkDiff($tableName, $tableDiff);
+            $this->systemLog->debug('Database update required', $this->connection->getDatabasePlatform()->getAlterTableSQL($tableDiff));
+        }
+    }
 }
