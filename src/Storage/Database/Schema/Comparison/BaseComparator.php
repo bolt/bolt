@@ -157,4 +157,32 @@ abstract class BaseComparator
      * @param TableDiff $diff
      */
     abstract protected function removeIgnoredChanges(TableDiff $diff);
+
+    /**
+     * Run the checks on the tables to see if they firstly exist, then if they
+     * require update.
+     */
+    protected function checkTables()
+    {
+        $fromTables = $this->manager->getInstalledTables();
+        $toTables = $this->manager->getSchemaTables();
+
+        /** @var $fromTable Table */
+        foreach ($toTables as $toTableAlias => $toTable) {
+            $tableName = $toTable->getName();
+
+            if (!isset($fromTables[$toTableAlias])) {
+                // Table doesn't exist. Mark it for pending creation.
+                $this->pending = true;
+                $this->tablesCreate[$tableName] = $toTable;
+                $this->getResponse()->addTitle($tableName, sprintf('Table `%s` is not present.', $tableName));
+                $this->systemLog->debug('Database table missing: ' . $tableName);
+                continue;
+            }
+
+            // Table exists. Check for required updates.
+            $fromTable = $fromTables[$toTableAlias];
+            $this->checkTable($fromTable, $toTable);
+        }
+    }
 }
