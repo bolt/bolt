@@ -200,4 +200,21 @@ abstract class BaseComparator
             $this->diffs[$tableName] = $diff;
         }
     }
+
+    /**
+     * Platform specific adjustments to table/column diffs.
+     */
+    protected function adjustDiffs()
+    {
+        $diffUpdater = new DiffUpdater($this->ignoredChanges);
+
+        /** @var $diff TableDiff */
+        foreach ($this->diffs as $tableName => $tableDiff) {
+            $this->diffs[$tableName] = $diffUpdater->adjustDiff($tableDiff);
+            if ($this->diffs[$tableName] === false) {
+                unset($this->diffs[$tableName]);
+                continue;
+            }
+        }
+    }
 }
