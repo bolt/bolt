@@ -50,18 +50,4 @@ class Users extends BaseTable
     {
         $this->table->setPrimaryKey(['id']);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function ignoredChanges()
-    {
-        return [
-            ['column' => 'lastseen', 'property' => 'type'],
-            ['column' => 'roles', 'property' => 'type'],
-            ['column' => 'shadowvalidity', 'property' => 'type'],
-            ['column' => 'stack', 'property' => 'type'],
-            ['column' => 'throttleduntil', 'property' => 'type'],
-        ];
-    }
 }
