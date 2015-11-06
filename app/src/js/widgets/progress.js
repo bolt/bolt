@@ -39,6 +39,9 @@
          * @private
          */
         _create: function () {
+            // Private properties
+            this.bars = {};
+
             this.element.addClass('buic-progress');
         },
 
@@ -46,43 +49,52 @@
          * Set the value of progress bar.
          *
          * @private
-         * @param {object} bar - The progress bar to set
+         * @param {integer} id - The id of the progress bar to set
          * @param {float} value - A value between 0 and 1.0
          */
-        _set: function(bar, value) {
+        _set: function(id, value) {
             value = parseFloat(value);
             value = isNaN(value) ? 0 : Math.min(100, Math.max(0, Math.round(value * 100)));
 
-            $(bar).find('.progress-bar')
-                .attr('aria-valuenow', value)
-                .css('width', value + '%');
+            if (this.bars[id]) {
+                this.bars[id]
+                    .find('.progress-bar')
+                    .attr('aria-valuenow', value)
+                    .css('width', value + '%');
+            }
         },
 
         /**
-         * Adds a new progress bar to the progress widget.
+         * Adds a new progress bar to the progress widget, if one with the id doesn't already exists.
          *
-         * @param {string} label - The label
+         * @param {string} id - The progress bar id
          * @param {float} value - A value between 0 and 1.0
+         * @param {string} [label] - The label. If not given the id is used as Label.
          */
-        add: function (label, value) {
-            var newBar = $(bolt.data('buic.progress.bar'));
+        add: function (id, value, label) {
+            var barTemplate = bolt.data('buic.progress.bar');
 
-            // Set the label.
-            $(newBar)
-                .attr('data-label', label)
-                .find('.progress-bar')
-                .text(label);
+            if (!this.bars[id]) {
+                // Create the new bar from the template.
+                this.bars[id] = $(barTemplate);
 
-            // Set the value.
-            this._set(newBar, value);
+                // Set its label.
+                this.bars[id]
+                    .attr('data-label', label || id)
+                    .find('.progress-bar')
+                    .text(label || id);
 
-            // Add new bar and show container.
-            this.element
-                .append(newBar)
-                .show();
+                // Set the value of the bar.
+                this._set(id, value);
 
-            // Show the new bar.
-            $(newBar).show(300);
+                // Add the new bar to the container and show the container.
+                this.element
+                    .append(this.bars[id])
+                    .show();
+
+                // Show the new bar.
+                this.bars[id].show(300);
+            }
         }
     });
 })(jQuery, Bolt);
