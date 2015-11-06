@@ -102,7 +102,9 @@ class ContentType extends BaseTable
      */
     public function addCustomFields($fieldName, $type, $addIndex)
     {
-        $this->{$this->typeMap[$type]}($fieldName);
+        if (!$this->table->hasColumn($fieldName)) {
+            $this->{$this->typeMap[$type]}($fieldName);
+        }
 
         if ($addIndex) {
             $this->table->addIndex([$fieldName]);
