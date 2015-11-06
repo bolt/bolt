@@ -71,4 +71,28 @@ abstract class BaseComparator
 
         return $this->pending;
     }
+
+    /**
+     * Run the update checks and flag if we need an update.
+     *
+     * @param boolean $force
+     *
+     * @return SchemaCheck
+     */
+    public function compare($force = false)
+    {
+        if ($this->response !== null && $force === false) {
+            return $this->getResponse();
+        }
+
+        $this->checkTables();
+
+        // If we have diffs, check if they need to be modified
+        if ($this->diffs !== null) {
+            $this->adjustDiffs();
+            $this->addAlterResponses();
+        }
+
+        return $this->getResponse();
+    }
 }
