@@ -57,9 +57,9 @@ class LoginTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addDefaultUser($app);
 
-        $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
+        $logger = $this->getMock('\Monolog\Logger', ['alert'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
-            ->method('error')
+            ->method('alert')
             ->with($this->equalTo("Attempt to login with disabled account by 'admin'"));
         $app['logger.system'] = $logger;
 
