@@ -40,12 +40,11 @@
         $('.buic-moment', context).each(function () {
             bolt.buic.moment.init(this);
         });
-        $('.buic-progress', context).each(function () {
-            bolt.buic.progress.init(this);
-        });
         $('.buic-select', context).each(function () {
             bolt.buic.select.init(this);
         });
+        // Widgets
+        $('.buic-progress', context).progress();
     };
 
 
