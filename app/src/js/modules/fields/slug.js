@@ -33,6 +33,7 @@
      *
      * @property {Object} group - Group container.
      * @property {Object} show - Slug display.
+     * @property {Object} prefix - URL prefix (like `/contenttype/` ).
      * @property {Object} data - Data field.
      * @property {Object} lock - Lock button.
      * @property {Object} unlock - Unlock button.
@@ -66,11 +67,12 @@
         var field = {
                 group: $(fieldset).find('.input-group'),
                 show: $(fieldset).find('em'),
+                prefix: $(fieldset).find('span.prefix'),
                 data: $(fieldset).find('input'),
                 lock: $(fieldset).find('li.lock a'),
                 unlock: $(fieldset).find('li.unlock a'),
                 edit: $(fieldset).find('li.edit a'),
-                copy: $(fieldset).find('li.copy a'),
+                copy: $(fieldset).find('li.copy'),
                 key: fconf.key,
                 uses: fconf.uses,
                 slug: fconf.slug,
@@ -93,13 +95,10 @@
             field.unlock.trigger('click');
         }
 
-        var clipboard = new Clipboard(field.copy);
+        var clipboard = new Clipboard('.copy');
 
         clipboard.on('success', function(e) {
-            console.info('Action:', e.action);
-            console.info('Text:', e.text);
-            console.info('Trigger:', e.trigger);
-
+            console.info('Copied:', e.text);
             e.clearSelection();
         });
 
@@ -189,6 +188,7 @@
             success: function (uri) {
                 field.data.val(uri);
                 field.show.html(uri);
+                field.copy.attr('data-clipboard-text', field.prefix.text() + uri);
             },
             error: function () {
                 console.log('failed to get an URI');
