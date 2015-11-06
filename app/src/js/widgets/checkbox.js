@@ -40,7 +40,12 @@
          * @private
          */
         _create: function () {
-            this.element.addClass('buic-checkbox');
+            var button = this.element.find('button'),
+                state = this.element.find('input');
+
+            button.on('click', function () {
+                state.prop('checked', !state.prop('checked'));
+            });
         }
     });
 })(jQuery);
