@@ -103,4 +103,27 @@ class DiffUpdater
 
         return false;
     }
+
+    /**
+     * Do checks for column diffs.
+     *
+     * @param ColumnDiff $columnDiff
+     * @param array      $alterData
+     *
+     * @return boolean
+     */
+    protected function checkColumnDiff(ColumnDiff $columnDiff, array $alterData)
+    {
+        if (count($columnDiff->changedProperties) !== 1 && !$columnDiff->hasChanged($alterData['propertyName'])) {
+            return false;
+        }
+
+        foreach ($alterData['ignoredChanges'] as $keys) {
+            if ($keys['before'] === $columnDiff->fromColumn->getType()->getName() &&
+                $keys['after'] === $columnDiff->column->getType()->getName()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
