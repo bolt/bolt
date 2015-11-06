@@ -93,4 +93,25 @@ class TableModifier
             }
         }
     }
+
+    /**
+     * Run the create/alter query.
+     *
+     * @param string $tableName
+     * @param string $query
+     *
+     * @return \Doctrine\DBAL\Driver\Statement|null
+     */
+    protected function runQuery($tableName, $query)
+    {
+        try {
+            return $this->connection->query($query);
+        } catch (DBALException $e) {
+            $this->loggerSystem->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+            $this->loggerFlash->error(
+                Trans::__('An error occured while updating `%TABLE%`. The error is %ERROR%',
+                ['%TABLE%' => $tableName, '%ERROR%' => $e->getMessage()]
+            ));
+        }
+    }
 }
