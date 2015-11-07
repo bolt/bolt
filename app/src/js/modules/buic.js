@@ -31,18 +31,15 @@
             context = $(document.documentElement);
         }
 
-        $('.buic-listing', context).each(function () {
-            bolt.buic.listing.init(this);
-        });
         $('.buic-moment', context).each(function () {
             bolt.buic.moment.init(this);
         });
         // Widgets
         $('.buic-checkbox', context).checkbox();
+        $('.buic-listing', context).listing();
         $('.buic-progress', context).progress();
         $('.buic-select', context).select();
     };
-
 
     // Add placeholder for buic.
     bolt.buic = buic;
