@@ -13,9 +13,6 @@
  #}
 {% macro checkbox(opt) %}
     {% spaceless %}
-        {% from '@bolt/_macro/_macro.twig' import attr %}
-
-
         {% set id = opt.label|default('') and not opt.id|default('') ? buid() : opt.id|default('') %}
 
         {% set attributes = {
@@ -30,7 +27,7 @@
         } %}
 
         <div{{ hclass(['buic-checkbox', opt.class|default()]) }}>
-            <input{{ attr(attributes) }}>
+            <input{{ hattr(attributes) }}>
             <button type="button"></button>
             {% if opt.label|default('') %}
                 <label for="{{ id }}">{{ opt.label }}</label>
