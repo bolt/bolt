@@ -37,12 +37,10 @@
         $('.buic-moment', context).each(function () {
             bolt.buic.moment.init(this);
         });
-        $('.buic-select', context).each(function () {
-            bolt.buic.select.init(this);
-        });
         // Widgets
         $('.buic-checkbox', context).checkbox();
         $('.buic-progress', context).progress();
+        $('.buic-select', context).select();
     };
 
 
