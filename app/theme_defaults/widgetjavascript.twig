@@ -2,8 +2,9 @@
 <script>
 /*<![CDATA[*/
 
-    $(function() {
-        $('div.widget').each(function () {
+if (window.jQuery) {
+    jQuery(function() {
+        jQuery('div.widget').each(function () {
             if (typeof $(this).data('defer') === 'undefined') {
                 return;
             }
@@ -22,6 +23,9 @@
             });
         });
     });
+} else {
+    console.log('Deferred widgets only work when jQuery is present. Sorry.');
+}
 
 /*]]>*/
 </script>
