@@ -59,15 +59,12 @@
             this.buttonNone
                 .prop('title', this.buttonNone.text().trim())
                 .on('click', function () {
-                    self.select.val(null).trigger('change');
+                    self.none();
                     this.blur();
                 });
 
             // Enable/disable buttons.
             this._updateButtons();
-            this.select.on('change', function () {
-                //self._updateButtons();
-            });
         },
 
         /**
@@ -89,11 +86,15 @@
          * Selects all options.
          */
         all: function () {
-            this.select
-                .find('option')
-                .prop('selected', true)
-                .trigger('change');
+            this.select.find('option').prop('selected', true);
+            this._updateButtons();
+        },
 
+        /**
+         * Unselects all options.
+         */
+        none: function () {
+            this.select.val(null);
             this._updateButtons();
         }
     });
