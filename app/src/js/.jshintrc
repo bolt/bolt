@@ -36,7 +36,8 @@
         "jQuery": true,
         "moment": true,
         "rootpath": true,
-        "site": true
+        "site": true,
+        "UI": true
     },
     "exported": {
         "Bolt": true,
