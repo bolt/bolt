@@ -65,6 +65,9 @@
 
             // Enable/disable buttons.
             this._updateButtons();
+            this.select.on('change', function () {
+                self._updateButtons();
+            });
         },
 
         /**
@@ -86,16 +89,19 @@
          * Selects all options.
          */
         all: function () {
-            this.select.find('option').prop('selected', true);
-            this._updateButtons();
+            this.select
+                .find('option')
+                .prop('selected', true)
+                .trigger('change');
         },
 
         /**
          * Unselects all options.
          */
         none: function () {
-            this.select.val(null);
-            this._updateButtons();
+            this.select
+                .val(null)
+                .trigger('change');
         }
     });
 })(jQuery);
