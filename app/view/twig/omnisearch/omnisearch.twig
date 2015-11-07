@@ -28,41 +28,45 @@
                     '@bolt/custom/listing/' ~ contenttype ~ '.twig',
                     '@bolt/_sub/_listing.twig']
                 %}
-                <table class="table dashboardlisting buic-listing">
-                    {% for item in results %}
-                        {% set listing_vars = {
-                            'compact':       true,
-                            'content':       item.record,
-                            'excerptlength': 280,
-                            'permissions':   item.permissions,
-                            'thumbsize':     54,
-                            'internal': {
-                                'heading': loop.first ? heading : '',
-                            }
-                        } %}
-                        {% include includes with listing_vars %}
-                    {% endfor %}
-                </table>
+                <div class="buic-listing">
+                    <table class="table dashboardlisting listing">
+                        {% for item in results %}
+                            {% set listing_vars = {
+                                'compact':       true,
+                                'content':       item.record,
+                                'excerptlength': 280,
+                                'permissions':   item.permissions,
+                                'thumbsize':     54,
+                                'internal': {
+                                    'heading': loop.first ? heading : '',
+                                }
+                            } %}
+                            {% include includes with listing_vars %}
+                        {% endfor %}
+                    </table>
+                </div>
             {% endfor %}
 
             {# List file results #}
             {% if context.others %}
-                <table class="table dashboardlisting buic-listing">
-                    <tbody class="{{ context.records ? 'striping_even' : 'striping_odd' }} omnisearch">
-                        {% if context.records %}
-                            <tr class="heading">
-                                <th>{{ __('Others') }}</th>
-                            </tr>
-                        {% endif %}
-                        {% for item in context.others %}
-                            <tr>
-                                <td class="fill-max">
-                                    <a href="{{ item.path }}">{{ item.label|raw }}</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div class="buic-listing">
+                    <table class="table dashboardlisting listing">
+                        <tbody class="{{ context.records ? 'striping_even' : 'striping_odd' }} omnisearch">
+                            {% if context.records %}
+                                <tr class="heading">
+                                    <th>{{ __('Others') }}</th>
+                                </tr>
+                            {% endif %}
+                            {% for item in context.others %}
+                                <tr>
+                                    <td class="fill-max">
+                                        <a href="{{ item.path }}">{{ item.label|raw }}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             {% endif %}
 
             {# Nothing found #}

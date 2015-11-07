@@ -26,8 +26,10 @@
         <button type="button" data-stb-cmd="record:draft"><i class="fa fa-circle status-draft"></i> {{ __('Draft') }}</button>
     {% endset %}
 
-    <div class="record-listing-container">
-        <table class="{{ extra_classes }} dashboardlisting buic-listing" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
+    {% if not async %}
+        <div class="buic-listing" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
+    {% endif %}
+        <table class="{{ extra_classes }} dashboardlisting listing">
             {% for content in multiplecontent %}
                 {% set editable = permissions.edit %}
                 {% if editable %}
@@ -62,6 +64,8 @@
 
         {% from '@bolt/_macro/_pager.twig' import pager %}
         {{ pager(contenttype.slug) }}
-    </div>
+    {% if not async %}
+        </div>
+    {% endif %}
 
 {% endmacro %}

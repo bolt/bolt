@@ -41,20 +41,25 @@
          * @private
          */
         _create: function () {
-            this._initEvents(this.element);
+            this.csrfToken  = this.element.data('bolt_csrf_token');
+            this.contentType = this.element.data('contenttype');
+            this.table = undefined;
+
+            this._initTable();
         },
 
         /**
          * Initialize events of a listing table.
          *
          * @private
-         * @param {Object} listing - Listing table
          */
-        _initEvents: function (listing) {
+        _initTable: function () {
             var self = this;
 
+            this.table = this.element.find('table.listing');
+
             // Select all rows in a listing section.
-            $(listing).find('tr.header th.menu li.select-all a').on('click', function () {
+            this.table.find('tr.header th.menu li.select-all a').on('click', function () {
                 $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
                     this.checked = true;
                     self._rowSelection(this);
@@ -63,7 +68,7 @@
             });
 
             // Unselect all rows in a listing section.
-            $(listing).find('tr.header th.menu li.select-none a').on('click', function () {
+            this.table.find('tr.header th.menu li.select-none a').on('click', function () {
                 $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
                     this.checked = false;
                     self._rowSelection(this);
@@ -72,20 +77,20 @@
             });
 
             // On check/unchecking a row selector.
-            $(listing).find('td input:checkbox[name="checkRow"]').on('click', function () {
+            this.table.find('td input:checkbox[name="checkRow"]').on('click', function () {
                 self._rowSelection(this);
                 self._handleSelectionState(this);
             });
 
             // Record toolbar actions.
-            $(listing).find('tr.selectiontoolbar button[data-stb-cmd^="record:"]').each(function () {
+            this.table.find('tr.selectiontoolbar button[data-stb-cmd^="record:"]').each(function () {
                 $(this).on('click', function () {
                     self._modifyRecords(this, $(this).data('stb-cmd').replace(/^record:/, ''));
                 });
             });
 
             // Record row edit button actions.
-            $(listing).find('a[data-listing-cmd^="record:"]').each(function () {
+            this.table.find('a[data-listing-cmd^="record:"]').each(function () {
                 var id = $(this).parents('tr').attr('id').substr(5);
 
                 $(this).on('click', function () {
@@ -129,12 +134,8 @@
          * @param {array} ids - Optional array of ids to perform the action on.
          */
         _modifyRecords: function (button, action, ids) {
-            var self = this;
-
-            var container = $(button).closest('div.record-listing-container'),
-                table = $(button).closest('table'),
+            var self = this,
                 tbody = $(button).closest('tbody'),
-                contenttype = $(table).data('contenttype'),
                 checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
                 selectedIds = [],
                 modifications = {},
@@ -174,9 +175,9 @@
 
             if (selectedIds.length > 0) {
                 // Build POST data.
-                modifications[contenttype] = {};
+                modifications[self.contentType] = {};
                 $(selectedIds).each(function () {
-                    modifications[contenttype][this] = actions[action].cmd;
+                    modifications[self.contentType][this] = actions[action].cmd;
                 });
 
                 // Build message:
@@ -209,17 +210,13 @@
                                     url: url,
                                     type: 'POST',
                                     data: {
-                                        'bolt_csrf_token': $(table).data('bolt_csrf_token'),
-                                        'contenttype': contenttype,
+                                        'bolt_csrf_token': self.csrfToken,
+                                        'contenttype': self.contentType,
                                         'actions': modifications
                                     },
                                     success: function (data) {
-                                        var table;
-
-                                        $(container).replaceWith(data);
-
-                                        table = $('div.record-listing-container table.buic-listing');
-                                        self._initEvents(table);
+                                        self.element.html(data);
+                                        self._initTable();
 
                                         /*
                                          Commented out for now - it has to be decided if functionality is wanted
