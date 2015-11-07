@@ -58,7 +58,6 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/uploads.js',
                 // BUIC
                 '<%= path.src.js %>/modules/buic.js',
-                '<%= path.src.js %>/modules/buic/listing.js',
                 '<%= path.src.js %>/modules/buic/moment.js',
                 // Fields
                 '<%= path.src.js %>/modules/fields.js',
