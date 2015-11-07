@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage\Mapping;
 
+use Bolt\Exception\StorageException;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Mapping\ClassMetadata as BoltClassMetadata;
 use Bolt\Storage\NamingStrategy;
@@ -83,7 +84,7 @@ class MetadataDriver implements MappingDriver
     public function initialize()
     {
         $this->initializeShortAliases();
-        foreach ($this->schemaManager->getTablesSchema() as $table) {
+        foreach ($this->schemaManager->getSchemaTables() as $table) {
             $this->loadMetadataForTable($table);
         }
         $this->initialized = true;
@@ -94,9 +95,9 @@ class MetadataDriver implements MappingDriver
      */
     public function initializeShortAliases()
     {
-        foreach ($this->schemaManager->getTablesSchema() as $table) {
+        foreach ($this->schemaManager->getSchemaTables() as $table) {
             if ($tableName = $table->getName()) {
-                $this->aliases[$this->schemaManager->getKeyForTable($table->getName())] = $tableName;
+                $this->aliases[$table->getOption('alias')] = $tableName;
             }
         }
     }
@@ -151,8 +152,7 @@ class MetadataDriver implements MappingDriver
             $this->unmapped[] = $tblName;
         }
 
-        $contentKey = $this->schemaManager->getKeyForTable($tblName);
-
+        $contentKey = $table->getOption('alias');
         $this->metadata[$className] = [];
         $this->metadata[$className]['identifier'] = $table->getPrimaryKey();
         $this->metadata[$className]['table'] = $table->getName();
@@ -161,7 +161,7 @@ class MetadataDriver implements MappingDriver
             $mapping = [
                 'fieldname'        => $colName,
                 'type'             => $column->getType()->getName(),
-                'fieldtype'        => $this->getFieldTypeFor($table->getName(), $column),
+                'fieldtype'        => $this->getFieldTypeFor($table->getOption('alias'), $column),
                 'length'           => $column->getLength(),
                 'nullable'         => $column->getNotnull(),
                 'platformOptions'  => $column->getPlatformOptions(),
@@ -196,6 +196,10 @@ class MetadataDriver implements MappingDriver
 
     public function setRepeaters($contentKey, $className, $table)
     {
+        if (!isset($this->contenttypes[$contentKey])) {
+            return;
+        }
+
         foreach ($this->contenttypes[$contentKey]['fields'] as $key => $data) {
             $mapping = [
                 'fieldname'        => $key,
@@ -338,7 +342,7 @@ class MetadataDriver implements MappingDriver
 
             return $metadata;
         } else {
-            throw new \Exception("Attempted to load mapping data for unmapped class $className");
+            throw new StorageException("Attempted to load mapping data for unmapped class $className");
         }
     }
 
@@ -368,14 +372,13 @@ class MetadataDriver implements MappingDriver
      */
     protected function getFieldTypeFor($name, $column)
     {
-        $contentKey = $this->schemaManager->getKeyForTable($name);
-        if ($contentKey && isset($this->contenttypes[$contentKey]['fields'][$column->getName()])) {
-            $type = $this->contenttypes[$contentKey]['fields'][$column->getName()]['type'];
+        if (isset($this->contenttypes[$name]['fields'][$column->getName()])) {
+            $type = $this->contenttypes[$name]['fields'][$column->getName()]['type'];
         } elseif ($column->getType()) {
             $type = get_class($column->getType());
         }
 
-        if ($type === 'select' && isset($this->contenttypes[$contentKey]['fields'][$column->getName()]['multiple']) && $this->contenttypes[$contentKey]['fields'][$column->getName()]['multiple'] === true) {
+        if ($type === 'select' && isset($this->contenttypes[$name]['fields'][$column->getName()]['multiple']) && $this->contenttypes[$name]['fields'][$column->getName()]['multiple'] === true) {
             $type = 'selectmultiple';
         }
 

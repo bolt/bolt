@@ -82,22 +82,6 @@ class ContentType extends BaseTable
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function ignoredChanges()
-    {
-        $ignoredChanges = [
-            ['column' => 'datecreated', 'property' => 'type'],
-            ['column' => 'datechanged', 'property' => 'type'],
-            ['column' => 'datepublish', 'property' => 'type'],
-            ['column' => 'datedepublish', 'property' => 'type'],
-            ['column' => 'templatefields', 'property' => 'type'],
-        ];
-
-        return array_merge($this->ignoredChanges, $ignoredChanges);
-    }
-
-    /**
      * Check if the field type is valid.
      *
      * @param string $type
@@ -118,14 +102,12 @@ class ContentType extends BaseTable
      */
     public function addCustomFields($fieldName, $type, $addIndex)
     {
-        $this->{$this->typeMap[$type]}($fieldName);
+        if (!$this->table->hasColumn($fieldName)) {
+            $this->{$this->typeMap[$type]}($fieldName);
+        }
 
         if ($addIndex) {
             $this->table->addIndex([$fieldName]);
-        }
-
-        if ($this->typeMap[$type] === 'columnDate' || $this->typeMap[$type] === 'columnDateTime' || $this->typeMap[$type] === 'columnJson') {
-            $this->ignoredChanges[] = ['column' => $fieldName, 'property' => 'type'];
         }
     }
 

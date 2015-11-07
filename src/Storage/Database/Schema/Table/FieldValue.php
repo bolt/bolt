@@ -47,16 +47,4 @@ class FieldValue extends BaseTable
     {
         $this->table->setPrimaryKey(['id']);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function ignoredChanges()
-    {
-        return [
-            ['column' => 'value_date', 'property' => 'type'],
-            ['column' => 'value_datetime', 'property' => 'type'],
-            ['column' => 'value_json_array', 'property' => 'type'],
-        ];
-    }
 }

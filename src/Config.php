@@ -54,7 +54,7 @@ class Config
      * Use {@see Config::getFields} instead.
      * Will be made protected in Bolt 3.0.
      *
-     * @var Storage\Field\Manager
+     * @var \Bolt\Storage\Field\Manager
      */
     public $fields;
 
@@ -83,8 +83,9 @@ class Config
             $this->parseTemplatefields();
             $this->saveCache();
 
-            // if we have to reload the config, we will also want to make sure the DB integrity is checked.
-            $this->app['schema']->invalidate();
+            // If we have to reload the config, we will also want to make sure
+            // the DB integrity is checked.
+            $this->app['schema.timer']->setCheckRequired();
         } else {
             // In this case the cache is loaded, but because the path of the theme
             // folder is defined in the config file itself, we still need to check
@@ -741,8 +742,6 @@ class Config
     {
         $slugs = [];
 
-        $wrongctype = false;
-
         foreach ($this->data['contenttypes'] as $key => $ct) {
             /**
              * Make sure any field that has a 'uses' parameter actually points to a field that exists.
@@ -798,7 +797,7 @@ class Config
                         ]
                     );
                     $this->app['logger.flash']->error($error);
-                    $wrongctype = true && $this->app['users']->getCurrentUsername();
+                    unset($ct['fields'][$fieldname]);
                 }
             }
 
@@ -813,19 +812,6 @@ class Config
             if ($ct['singular_slug'] != $ct['slug']) {
                 $slugs[$ct['singular_slug']]++;
             }
-        }
-
-        // Check DB-tables integrity
-        if (!$wrongctype && $this->app['schema']->needsCheck() &&
-           ($this->app['schema']->needsUpdate()) &&
-            $this->app['users']->getCurrentUsername()) {
-            $msg = Trans::__(
-                "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.",
-                ['%link%' => $this->app['url_generator']->generate('dbcheck')]
-            );
-            $this->app['logger.flash']->error($msg);
-
-            return;
         }
 
         // Sanity checks for taxonomy.yml
@@ -861,7 +847,7 @@ class Config
     /**
      * A getter to access the fields manager.
      *
-     * @return Storage\Field\Manager
+     * @return \Bolt\Storage\Field\Manager
      **/
     public function getFields()
     {

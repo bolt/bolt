@@ -1,14 +1,16 @@
 <?php
+
 namespace Bolt\Storage\Database\Schema;
 
 use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 
 /**
  * A response class for a single table's check.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class CheckResponse
+class SchemaCheck
 {
     /** @var array */
     private $pending = [];
@@ -20,13 +22,6 @@ class CheckResponse
     private $hints = [];
     /** @var array */
     private $diffs = [];
-    /** @var boolean */
-    private $hinting;
-
-    public function __construct($hinting = false)
-    {
-        $this->hinting = $hinting;
-    }
 
     /**
      * Add a diff detail.
@@ -113,8 +108,9 @@ class CheckResponse
             if (!empty($this->messages[$tableName])) {
                 $message .= implode(', ', $this->messages[$tableName]);
             }
-            $response[] = $message;
+            $response[$tableName] = $message;
         }
+        ksort($response);
 
         return $response;
     }
@@ -177,9 +173,9 @@ class CheckResponse
         $this->getRemovedIndexes($tableName, $diff);
         $this->getRemovedForeignKeys($tableName, $diff);
 
-        if ($this->hinting && count($diff->removedColumns) > 0) {
+        if (count($diff->removedColumns) > 0) {
             $hint = sprintf(
-                'The following fields in the `%s` table are not defined in your configuration. You can safely delete them manually if they are no longer needed: ',
+                'The following fields in the `%s` table are not defined in your configuration. You can safely delete them manually if they are no longer needed: `%s`',
                 $tableName,
                 join('`, `', array_keys($diff->removedColumns))
             );
@@ -290,16 +286,8 @@ class CheckResponse
      */
     private function getAddedForeignKeys($tableName, TableDiff $diff)
     {
-        foreach ($diff->addedForeignKeys as $index) {
-            $this->addMessage(
-                $tableName,
-                sprintf(
-                    'missing foreign key on `%s` related to `%s.%s`',
-                    implode(', ', $index->getUnquotedLocalColumns()),
-                    $index->getForeignTableName(),
-                    implode(', ' . $index->getForeignTableName() . '.', $index->getUnquotedForeignColumns())
-                )
-            );
+        foreach ($diff->addedForeignKeys as $foreignKey) {
+            $this->addForeignKeysMessage($tableName, $foreignKey, 'missing foreign key on `%s` related to `%s.%s`');
         }
     }
 
@@ -311,17 +299,29 @@ class CheckResponse
      */
     private function getChangedForeignKeys($tableName, TableDiff $diff)
     {
-        foreach ($diff->changedForeignKeys as $index) {
-            $this->addMessage(
-                $tableName,
-                sprintf(
-                    'changed foreign key on `%s`, it is now related to `%s.%s`',
-                    implode(', ', $index->getUnquotedLocalColumns()),
-                    $index->getForeignTableName(),
-                    implode(', ' . $index->getForeignTableName() . '.', $index->getUnquotedForeignColumns())
-                )
-            );
+        foreach ($diff->changedForeignKeys as $foreignKey) {
+            $this->addForeignKeysMessage($tableName, $foreignKey, 'changed foreign key on `%s`, it is now related to `%s.%s`');
         }
+    }
+
+    /**
+     * Add a message for a foreign key change.
+     *
+     * @param string               $tableName
+     * @param ForeignKeyConstraint $index
+     * @param string               $format
+     */
+    private function addForeignKeysMessage($tableName, ForeignKeyConstraint $foreignKey, $format)
+    {
+        $this->addMessage(
+            $tableName,
+            sprintf(
+                $format,
+                implode(', ', $foreignKey->getUnquotedLocalColumns()),
+                $foreignKey->getForeignTableName(),
+                implode(', ' . $foreignKey->getForeignTableName() . '.', $foreignKey->getUnquotedForeignColumns())
+            )
+        );
     }
 
     /**

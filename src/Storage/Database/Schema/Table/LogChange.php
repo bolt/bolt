@@ -45,15 +45,4 @@ class LogChange extends BaseTable
     {
         $this->table->setPrimaryKey(['id']);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function ignoredChanges()
-    {
-        return [
-            ['column' => 'date', 'property' => 'type'],
-            ['column' => 'diff', 'property' => 'type'],
-        ];
-    }
 }

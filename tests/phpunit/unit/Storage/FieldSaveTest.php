@@ -16,7 +16,7 @@ class FieldSaveTest extends BoltUnitTest
     public function testRelationsSave()
     {
         $app = $this->getApp();
-        $app['schema']->repairTables();
+        $app['schema']->update();
         $this->addSomeContent();
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
