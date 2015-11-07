@@ -40,38 +40,49 @@
          * @private
          */
         _create: function () {
-            var select = this.element.find('select'),
-                buttonAll = this.element.find('.select-all'),
-                buttonNone = this.element.find('.select-none'),
-                setButtonState;
+            var self = this;
+
+            // Private properties
+            this.select = this.element.find('select');
+            this.buttonAll = this.element.find('.select-all');
+            this.buttonNone = this.element.find('.select-none');
 
             // Initialize the select-all button.
-            buttonAll.prop('title', buttonAll.text().trim());
-            buttonAll.on('click', function () {
-                select.find('option').prop('selected', true).trigger('change');
-                this.blur();
-            });
+            this.buttonAll
+                .prop('title', this.buttonAll.text().trim())
+                .on('click', function () {
+                    self.select.find('option').prop('selected', true).trigger('change');
+                    this.blur();
+                });
 
             // Initialize the select-none button.
-            buttonNone.prop('title', buttonNone.text().trim());
-            buttonNone.on('click', function () {
-                select.val(null).trigger('change');
-                this.blur();
-            });
+            this.buttonNone
+                .prop('title', this.buttonNone.text().trim())
+                .on('click', function () {
+                    self.select.val(null).trigger('change');
+                    this.blur();
+                });
 
             // Enable/disable buttons.
-            setButtonState = function () {
-                var options = select.find('option'),
-                    count = options.length,
-                    selected = options.filter(':selected').length,
-                    empty = select.prop('multiple') ? selected === 0 : select.val() === '';
+            this._updateButtons();
+            this.select.on('change', function () {
+                self._updateButtons();
+            });
+        },
 
-                buttonAll.prop('disabled', selected === count);
-                buttonNone.prop('disabled', empty);
-            };
+        /**
+         * Enable/disable buttons based on selection state.
+         *
+         * @private
+         */
+        _updateButtons: function () {
+            var options = this.select.find('option'),
+                count = options.length,
+                selected = options.filter(':selected').length,
+                empty = this.select.prop('multiple') ? selected === 0 : this.select.val() === '';
 
-            setButtonState();
-            select.on('change', setButtonState);
+            this.buttonAll.prop('disabled', selected === count);
+            this.buttonNone.prop('disabled', empty);
         }
     });
 })(jQuery);
