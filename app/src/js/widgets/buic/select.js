@@ -51,7 +51,7 @@
             this.buttonAll
                 .prop('title', this.buttonAll.text().trim())
                 .on('click', function () {
-                    self.select.find('option').prop('selected', true).trigger('change');
+                    self.all();
                     this.blur();
                 });
 
@@ -66,7 +66,7 @@
             // Enable/disable buttons.
             this._updateButtons();
             this.select.on('change', function () {
-                self._updateButtons();
+                //self._updateButtons();
             });
         },
 
@@ -83,6 +83,18 @@
 
             this.buttonAll.prop('disabled', selected === count);
             this.buttonNone.prop('disabled', empty);
+        },
+
+        /**
+         * Selects all options.
+         */
+        all: function () {
+            this.select
+                .find('option')
+                .prop('selected', true)
+                .trigger('change');
+
+            this._updateButtons();
         }
     });
 })(jQuery);
