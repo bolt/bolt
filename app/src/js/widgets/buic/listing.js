@@ -45,16 +45,16 @@
         },
 
         /**
-         * The constructor of the listing widget.
+         * Initialize events of a listing table.
          *
          * @private
-         * @param {Object} buic - Listing table
+         * @param {Object} listing - Listing table
          */
-        _initEvents: function (buic) {
+        _initEvents: function (listing) {
             var self = this;
 
             // Select all rows in a listing section.
-            $(buic).find('tr.header th.menu li.select-all a').on('click', function () {
+            $(listing).find('tr.header th.menu li.select-all a').on('click', function () {
                 $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
                     this.checked = true;
                     self._rowSelection(this);
@@ -63,7 +63,7 @@
             });
 
             // Unselect all rows in a listing section.
-            $(buic).find('tr.header th.menu li.select-none a').on('click', function () {
+            $(listing).find('tr.header th.menu li.select-none a').on('click', function () {
                 $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
                     this.checked = false;
                     self._rowSelection(this);
@@ -72,20 +72,20 @@
             });
 
             // On check/unchecking a row selector.
-            $(buic).find('td input:checkbox[name="checkRow"]').on('click', function () {
+            $(listing).find('td input:checkbox[name="checkRow"]').on('click', function () {
                 self._rowSelection(this);
                 self._handleSelectionState(this);
             });
 
             // Record toolbar actions.
-            $(buic).find('tr.selectiontoolbar button[data-stb-cmd^="record:"]').each(function () {
+            $(listing).find('tr.selectiontoolbar button[data-stb-cmd^="record:"]').each(function () {
                 $(this).on('click', function () {
                     self._modifyRecords(this, $(this).data('stb-cmd').replace(/^record:/, ''));
                 });
             });
 
             // Record row edit button actions.
-            $(buic).find('a[data-listing-cmd^="record:"]').each(function () {
+            $(listing).find('a[data-listing-cmd^="record:"]').each(function () {
                 var id = $(this).parents('tr').attr('id').substr(5);
 
                 $(this).on('click', function () {
