@@ -37,7 +37,7 @@
         "moment": true,
         "rootpath": true,
         "site": true,
-        "UI": true
+        "UIkit": true
     },
     "exported": {
         "Bolt": true,

@@ -44,4 +44,4 @@
     // Apply mixin container
     bolt.fields.markdown = markdown;
 
-})(Bolt || {}, UI);
+})(Bolt || {}, UIkit);
