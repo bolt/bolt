@@ -44,34 +44,31 @@
 
             // Private properties
             this.listing = this.element.closest(':bolt-listing');
+            this.toolbar = this.element.find('tr.selectiontoolbar');
+            this.toolbarCount = this.toolbar.find('div.count');
+            this.menu = this.element.find('tr.header th.menu');
+            this.menuOnlyOnSelection = this.menu.find('li:not(.select-all)');
+            this.menuSelectionCount = this.menu.find('li.dropdown-header');
+            this.menuSelectionCountTemplate = this.menuSelectionCount.text();
             this.selectedIds = [];
 
-            // Select all rows in a listing section.
-            this.element.find('tr.header th.menu li.select-all a').on('click', function () {
-                $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
-                    this.checked = true;
-                    self._toogleSelection(this);
-                });
-                self._handleSelectionState(this);
-            });
+            // Select all/none rows from menu.
+            this.menu.find('li.select-all, li.select-none').on('click', function () {
+                var set = $(this).hasClass('select-all');
 
-            // Unselect all rows in a listing section.
-            this.element.find('tr.header th.menu li.select-none a').on('click', function () {
-                $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
-                    this.checked = false;
-                    self._toogleSelection(this);
+                self.element.find('td input:checkbox[name="checkRow"]').each(function () {
+                    this.checked = set;
+                    self._update(this);
                 });
-                self._handleSelectionState(this);
             });
 
             // On check/unchecking a row selector.
             this.element.find('td input:checkbox[name="checkRow"]').on('click', function () {
-                self._toogleSelection(this);
-                self._handleSelectionState(this);
+                self._update(this);
             });
 
             // Record toolbar actions.
-            this.element.find('tr.selectiontoolbar button[data-stb-cmd^="record:"]').each(function () {
+            this.toolbar.find('button[data-stb-cmd^="record:"]').each(function () {
                 $(this).on('click', function () {
                     if (self.selectedIds.length > 0) {
                         self.listing.listing(
@@ -100,42 +97,15 @@
         },
 
         /**
-         * Hide/Show selection toolbar.
-         *
-         * @private
-         * @param {object} element - Element inside a tbody.
-         */
-        _handleSelectionState: function (element) {
-            var tbody = $(element).closest('tbody'),
-                menu = tbody.find('tr.header th.menu'),
-                menuSel = menu.find('li.dropdown-header'),
-                toolbar = tbody.find('tr.selectiontoolbar'),
-                count = this.selectedIds.length,
-                menuitems = menu.find('li.on-selection');
-
-            // Show/hide toolbar & menu entries.
-            if (count) {
-                toolbar.removeClass('hidden');
-                menuitems.removeClass('hidden');
-            } else {
-                toolbar.addClass('hidden');
-                menuitems.addClass('hidden');
-            }
-            // Update selection count display.
-            toolbar.find('div.count').text(count);
-            // Update menu.
-            menuSel.text(menuSel.text().replace(/\([#0-9]+\)/, '(' + count + ')'));
-        },
-
-        /**
-         * Toogle if a row is selected.
+         * Update row, toolbar and menu on checkbox status change.
          *
          * @private
          * @param {object} checkbox - Checkbox clicked.
          */
-        _toogleSelection: function (checkbox) {
+        _update: function (checkbox) {
             var row = $(checkbox).closest('tr'),
-                id = row.attr('id').substr(5);
+                id = row.attr('id').substr(5),
+                count;
 
             if (checkbox.checked) {
                 this.selectedIds.push(id);
@@ -144,6 +114,20 @@
                 this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
                 row.removeClass('row-selected');
             }
+            count = this.selectedIds.length;
+
+            // Show/hide toolbar & menu entries.
+            if (count) {
+                this.toolbar.removeClass('hidden');
+                this.menuOnlyOnSelection.removeClass('hidden');
+            } else {
+                this.toolbar.addClass('hidden');
+                this.menuOnlyOnSelection.addClass('hidden');
+            }
+            // Update selection count display.
+            this.toolbarCount.text(count);
+            // Update menuselection count display.
+            this.menuSelectionCount.text(this.menuSelectionCountTemplate.replace('(#)', '(' + count + ')'));
         }
     });
 })(jQuery);
