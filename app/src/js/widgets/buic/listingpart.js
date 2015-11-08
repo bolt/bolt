@@ -42,13 +42,15 @@
         _create: function () {
             var self = this;
 
+            // Private properties
             this.listing = this.element.closest(':bolt-listing');
+            this.selectedIds = [];
 
             // Select all rows in a listing section.
             this.element.find('tr.header th.menu li.select-all a').on('click', function () {
                 $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
                     this.checked = true;
-                    self._rowSelection(this);
+                    self._toogleSelection(this);
                 });
                 self._handleSelectionState(this);
             });
@@ -57,28 +59,26 @@
             this.element.find('tr.header th.menu li.select-none a').on('click', function () {
                 $(this).closest('tbody').find('td input:checkbox[name="checkRow"]').each(function () {
                     this.checked = false;
-                    self._rowSelection(this);
+                    self._toogleSelection(this);
                 });
                 self._handleSelectionState(this);
             });
 
             // On check/unchecking a row selector.
             this.element.find('td input:checkbox[name="checkRow"]').on('click', function () {
-                self._rowSelection(this);
+                self._toogleSelection(this);
                 self._handleSelectionState(this);
             });
 
             // Record toolbar actions.
             this.element.find('tr.selectiontoolbar button[data-stb-cmd^="record:"]').each(function () {
                 $(this).on('click', function () {
-                    var selectedIds = self._selected();
-
-                    if (selectedIds.length > 0) {
+                    if (self.selectedIds.length > 0) {
                         self.listing.listing(
                             'modifyRecords',
                             this,
                             $(this).data('stb-cmd').replace(/^record:/, ''),
-                            selectedIds
+                            self.selectedIds
                         );
                     }
                 });
@@ -102,6 +102,7 @@
         /**
          * Hide/Show selection toolbar.
          *
+         * @private
          * @param {object} element - Element inside a tbody.
          */
         _handleSelectionState: function (element) {
@@ -109,7 +110,7 @@
                 menu = tbody.find('tr.header th.menu'),
                 menuSel = menu.find('li.dropdown-header'),
                 toolbar = tbody.find('tr.selectiontoolbar'),
-                count = tbody.find('td input:checkbox[name="checkRow"]:checked').length,
+                count = this.selectedIds.length,
                 menuitems = menu.find('li.on-selection');
 
             // Show/hide toolbar & menu entries.
@@ -127,37 +128,22 @@
         },
 
         /**
-         * Handle row selection.
+         * Toogle if a row is selected.
          *
+         * @private
          * @param {object} checkbox - Checkbox clicked.
          */
-        _rowSelection: function (checkbox) {
-            var row = $(checkbox).closest('tr');
+        _toogleSelection: function (checkbox) {
+            var row = $(checkbox).closest('tr'),
+                id = row.attr('id').substr(5);
 
             if (checkbox.checked) {
+                this.selectedIds.push(id);
                 row.addClass('row-selected');
             } else {
+                this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
                 row.removeClass('row-selected');
             }
-        },
-
-        /**
-         * Returns all selected ids.
-         *
-         * @returns {Array}
-         */
-        _selected: function () {
-            var selectedIds = [];
-
-            this.element.find('td input:checkbox[name="checkRow"]:checked').each(function () {
-                var id = $(this).parents('tr').attr('id').substr(5);
-
-                if (id) {
-                    selectedIds.push(id);
-                }
-            });
-
-            return selectedIds;
         }
     });
 })(jQuery);
