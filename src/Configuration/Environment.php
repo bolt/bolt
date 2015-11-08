@@ -72,6 +72,8 @@ class Environment
                 $this->syncViewDirectory($dir);
             } catch (IOException $e) {
                 $response[] = $e->getMessage();
+            } catch (\UnexpectedValueException $e) {
+                $response[] = $e->getMessage();
             }
         }
 
