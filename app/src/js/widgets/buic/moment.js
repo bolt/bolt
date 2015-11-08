@@ -31,7 +31,7 @@
      *
      * @memberOf jQuery.widget.bolt.moment
      * @static
-     * @type string
+     * @type integer
      */
     var intervalId = 0;
 
@@ -40,7 +40,7 @@
      *
      * @memberOf jQuery.widget.bolt.moment
      * @static
-     * @type string
+     * @type object
      */
     var updateList = $.Callbacks();
 
@@ -72,7 +72,7 @@
         _create: function () {
             var self = this;
 
-            // Set up a interval timer used by all moement widgets, if not already done.
+            // Set up a interval timer used by all moment widgets, if not already done.
             if (!intervalId) {
                 intervalId = setInterval(updateList.fire, this.options.interval);
             }
@@ -99,7 +99,7 @@
         /**
          * Sets new datetime.
          *
-         * @param {string} [datetime] Datetime to set.
+         * @param {string} [datetime] Datetime to set
          */
         set: function (datetime) {
             if (datetime) {
