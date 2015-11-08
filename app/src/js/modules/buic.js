@@ -31,12 +31,10 @@
             context = $(document.documentElement);
         }
 
-        $('.buic-moment', context).each(function () {
-            bolt.buic.moment.init(this);
-        });
         // Widgets
         $('.buic-checkbox', context).checkbox();
         $('.buic-listing', context).listing();
+        $('.buic-moment', context).moment();
         $('.buic-progress', context).progress();
         $('.buic-select', context).select();
     };
