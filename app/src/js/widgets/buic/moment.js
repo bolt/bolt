@@ -49,15 +49,15 @@
      *
      * @class moment
      * @memberOf jQuery.widget.bolt
-     * @param {object} [options] Options to overide.
+     * @param {object} [options] - Options to overide.
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      */
     $.widget('bolt.moment', /** @lends jQuery.widget.bolt.moment */ {
         /**
          * Default options, can be overridden by passing in an object to the constructor with these properties
-         * @property {integer} interval Initial update interval, shared by all instances
-         * @property {string} titleFormat Format string for moment title display
+         * @property {integer} interval - Initial update interval, shared by all instances
+         * @property {string} titleFormat - Format string for moment title display
          */
         options: {
             interval: 15 * 1000,
@@ -115,7 +115,7 @@
         /**
          * Sets new datetime.
          *
-         * @param {string} [datetime] Datetime to set
+         * @param {string} [datetime] - Datetime to set
          */
         set: function (datetime) {
             if (datetime) {
