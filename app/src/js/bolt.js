@@ -6,6 +6,7 @@
  * @mixes Bolt.actions
  * @mixes Bolt.activity
  * @mixes Bolt.app
+ * @mixes Bolt.buic
  * @mixes Bolt.ckeditor
  * @mixes Bolt.conf
  * @mixes Bolt.data
@@ -17,13 +18,6 @@
  * @mixes Bolt.secmenu
  * @mixes Bolt.stack
  * @mixes Bolt.uploads
- *
- * @mixes Bolt.buic
- * @mixes Bolt.buic.checkbox
- * @mixes Bolt.buic.listing
- * @mixes Bolt.buic.moment
- * @mixes Bolt.buic.progress
- * @mixes Bolt.buic.select
  *
  * @mixes Bolt.fields
  * @mixes Bolt.fields.categories
