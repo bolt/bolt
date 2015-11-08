@@ -13,7 +13,7 @@ module.exports = {
             '<%= path.src.js %>/bolt.js',
             '<%= path.src.js %>/modules/*.js',
             '<%= path.src.js %>/modules/fields/*.js',
-            '<%= path.src.js %>/widgets/*.js',
+            '<%= path.src.js %>/widgets/**/*.js'
         ],
         dest: '<%= path.doc.js %>',
         options: {
