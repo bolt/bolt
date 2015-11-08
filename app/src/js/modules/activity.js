@@ -36,6 +36,7 @@
                 interval
             );
         }
+        bolt.activity.update();
     };
 
     /**
@@ -49,12 +50,9 @@
         $.get(
             bolt.conf('paths.async') + 'latestactivity',
             function (data) {
-                var newActivity = $(data).find('.buic-moment').each(
-                        function () {
-                            bolt.buic.moment.init(this);
-                        }
-                    ).end();
+                var newActivity = $(data);
 
+                newActivity.find('.buic-moment').moment();
                 $('#latestactivity').empty().append(newActivity);
             }
         );
