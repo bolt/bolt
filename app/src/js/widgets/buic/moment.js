@@ -49,10 +49,21 @@
      *
      * @class moment
      * @memberOf jQuery.widget.bolt
+     * @param {object} [options] Options to overide.
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      */
     $.widget('bolt.moment', /** @lends jQuery.widget.bolt.moment */ {
+        /**
+         * Default options, can be overridden by passing in an object to the constructor with these properties
+         * @property {integer} interval Initial update interval, shared by all instances
+         * @property {string} titleFormat Format string for moment title display
+         */
+        options: {
+            interval: 15 * 1000,
+            titleFormat: 'YYYY-MM-DD HH:mm:ss ZZ'
+        },
+
         /**
          * The constructor of the moment widget.
          *
@@ -63,7 +74,7 @@
 
             // Set up a interval timer used by all moement widgets, if not already done.
             if (!intervalId) {
-                intervalId = setInterval(updateList.fire, 15 * 1000);
+                intervalId = setInterval(updateList.fire, this.options.interval);
             }
 
             // Set up the displayed value.
@@ -96,7 +107,7 @@
             } else {
                 datetime = this.element.attr('datetime');
             }
-            this.element.attr('title', momentjs(datetime).format('YYYY-MM-DD HH:mm:ss ZZ'));
+            this.element.attr('title', momentjs(datetime).format(this.options.titleFormat));
 
             this._update();
         }
