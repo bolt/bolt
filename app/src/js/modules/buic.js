@@ -25,8 +25,7 @@
      * @memberof Bolt.buic
      * @param context
      */
-    buic.init = function(context) {
-
+    buic.init = function (context) {
         if (typeof context === 'undefined') {
             context = $(document.documentElement);
         }
