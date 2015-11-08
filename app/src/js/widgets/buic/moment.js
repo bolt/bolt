@@ -88,6 +88,22 @@
         },
 
         /**
+         * Cleaning up.
+         *
+         * @private
+         */
+        _destroy: function () {
+            // Remove the update function from the update list.
+            updateList.remove(this.fnUpdate);
+
+            // Remove the interval timer if that was the last moment.
+            if (!updateList.has()) {
+                clearInterval(intervalId);
+                intervalId = 0;
+            }
+        },
+
+        /**
          * Updates the displayed datetime as relative from now.
          *
          * @private
