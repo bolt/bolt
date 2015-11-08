@@ -68,32 +68,36 @@
             });
 
             // Record toolbar actions.
-            this.toolbar.find('button[data-stb-cmd^="record:"]').each(function () {
-                $(this).on('click', function () {
-                    if (self.selectedIds.length > 0) {
-                        self.listing.listing(
-                            'modifyRecords',
-                            this,
-                            $(this).data('stb-cmd').replace(/^record:/, ''),
-                            self.selectedIds
-                        );
-                    }
-                });
+            this.toolbar.find('button[data-stb-cmd^="record:"]').on('click', function () {
+                self._modifyRecords(
+                    $(this).data('stb-cmd'),
+                    self.selectedIds,
+                    $(this).html()
+                );
             });
 
             // Record row edit button actions.
-            this.element.find('a[data-listing-cmd^="record:"]').each(function () {
-                var id = $(this).parents('tr').attr('id').substr(5);
-
-                $(this).on('click', function () {
-                    self.listing.listing(
-                        'modifyRecords',
-                        this,
-                        $(this).data('listing-cmd').replace(/^record:/, ''),
-                        [id]
-                    );
-                });
+            this.element.find('a[data-listing-cmd^="record:"]').on('click', function () {
+                self._modifyRecords(
+                    $(this).data('listing-cmd'),
+                    [$(this).parents('tr').attr('id').substr(5)],
+                    $(this).html()
+                );
             });
+        },
+
+        /**
+         * Tells the listing to modify selected records.
+         *
+         * @private
+         * @param {string} action - Command to execute.
+         * @param {array} ids - Checkbox clicked.
+         * @param {string} buttonText - Button text to be displayed on ok button.
+         */
+        _modifyRecords: function (action, ids, buttonText) {
+            if (ids.length > 0) {
+                this.listing.listing('modifyRecords', action.replace(/^record:/, ''), ids, buttonText);
+            }
         },
 
         /**

@@ -50,11 +50,11 @@
         /**
          * Execute commands on triggered button.
          *
-         * @param {object} button - Triggered list button.
          * @param {string} action - Triggered action (Allowed: 'delete').
          * @param {array} ids - Array of ids to perform the action on.
+         * @param {string} buttonText - Button text to be displayed on ok button.
          */
-        modifyRecords: function (button, action, ids) {
+        modifyRecords: function (action, ids, buttonText) {
             var self = this,
                 modifications = {},
                 actions = {
@@ -75,7 +75,6 @@
                         'cmd': {'modify': {'status': 'draft'}}
                     }
                 },
-                buttonText = $(button).html(),
                 msg;
 
             // Build POST data.
