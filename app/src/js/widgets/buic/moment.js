@@ -21,8 +21,9 @@
  * @class
  * @memberOf jQuery.widget
  * @param {object} $ - Global jQuery object
+ * @param {Object} momentjs - moment.js object
  */
-(function ($) {
+(function ($, momentjs) {
     'use strict';
 
     /**
@@ -58,10 +59,21 @@
          * @private
          */
         _create: function () {
+            var self = this;
+
+            // Set up a interval timer used by all moement widgets, if not already done.
             if (!intervalId) {
                 intervalId = setInterval(updateList.fire, 15 * 1000);
             }
-            updateList.add(this._update);
+
+            // Set up the displayed value.
+            this.set();
+
+            // Add the update function to the callback stack.
+            this.fnUpdate = function () {
+                self._update();
+            };
+            updateList.add(this.fnUpdate);
         },
 
         /**
@@ -70,6 +82,23 @@
          * @private
          */
         _update: function () {
+            this.element.html(momentjs(this.element.attr('datetime')).fromNow());
+        },
+
+        /**
+         * Sets new datetime.
+         *
+         * @param {string} [datetime] Datetime to set.
+         */
+        set: function (datetime) {
+            if (datetime) {
+                this.element.attr('datetime', momentjs(datetime).format());
+            } else {
+                datetime = this.element.attr('datetime');
+            }
+            this.element.attr('title', momentjs(datetime).format('YYYY-MM-DD HH:mm:ss ZZ'));
+
+            this._update();
         }
     });
-})(jQuery);
+})(jQuery, moment);
