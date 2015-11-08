@@ -71,7 +71,16 @@
             // Record toolbar actions.
             this.element.find('tr.selectiontoolbar button[data-stb-cmd^="record:"]').each(function () {
                 $(this).on('click', function () {
-                    self.listing.listing('modifyRecords', this, $(this).data('stb-cmd').replace(/^record:/, ''));
+                    var selectedIds = self._selected();
+
+                    if (selectedIds.length > 0) {
+                        self.listing.listing(
+                            'modifyRecords',
+                            this,
+                            $(this).data('stb-cmd').replace(/^record:/, ''),
+                            selectedIds
+                        );
+                    }
                 });
             });
 
@@ -80,8 +89,12 @@
                 var id = $(this).parents('tr').attr('id').substr(5);
 
                 $(this).on('click', function () {
-                    self.listing.listing('modifyRecords', this, $(this).data('listing-cmd').replace(/^record:/, ''),
-                    [id]);
+                    self.listing.listing(
+                        'modifyRecords',
+                        this,
+                        $(this).data('listing-cmd').replace(/^record:/, ''),
+                        [id]
+                    );
                 });
             });
         },
@@ -126,6 +139,25 @@
             } else {
                 row.removeClass('row-selected');
             }
+        },
+
+        /**
+         * Returns all selected ids.
+         *
+         * @returns {Array}
+         */
+        _selected: function () {
+            var selectedIds = [];
+
+            this.element.find('td input:checkbox[name="checkRow"]:checked').each(function () {
+                var id = $(this).parents('tr').attr('id').substr(5);
+
+                if (id) {
+                    selectedIds.push(id);
+                }
+            });
+
+            return selectedIds;
         }
     });
 })(jQuery);

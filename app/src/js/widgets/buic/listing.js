@@ -52,13 +52,10 @@
          *
          * @param {object} button - Triggered list button.
          * @param {string} action - Triggered action (Allowed: 'delete').
-         * @param {array} ids - Optional array of ids to perform the action on.
+         * @param {array} ids - Array of ids to perform the action on.
          */
         modifyRecords: function (button, action, ids) {
             var self = this,
-                tbody = $(button).closest('tbody'),
-                checkboxes = tbody.find('td input:checkbox[name="checkRow"]:checked'),
-                selectedIds = [],
                 modifications = {},
                 actions = {
                     'delete': {
@@ -81,91 +78,76 @@
                 buttonText = $(button).html(),
                 msg;
 
-            if (ids) {
-                selectedIds = ids;
+            // Build POST data.
+            modifications[self.contentType] = {};
+            $(ids).each(function () {
+                modifications[self.contentType][this] = actions[action].cmd;
+            });
+
+            // Build message:
+            if (ids.length === 1) {
+                msg = bolt.data('recordlisting.confirm.one');
             } else {
-                $(checkboxes).each(function () {
-                    var row = $(this).parents('tr'),
-                        id = row.attr('id').substr(5);
-
-                    if (id) {
-                        selectedIds.push(id);
-                    }
-                });
+                msg = bolt.data('recordlisting.confirm.multi', {'%NUMBER%': '<b>' + ids.length + '</b>'});
             }
+            msg = msg + '<br><br><b>' + bolt.data('recordlisting.confirm.no-undo') + '</b>';
 
-            if (selectedIds.length > 0) {
-                // Build POST data.
-                modifications[self.contentType] = {};
-                $(selectedIds).each(function () {
-                    modifications[self.contentType][this] = actions[action].cmd;
-                });
+            // Remove when done:
+            msg = msg + '<hr><b style="color:red;">Anti CSRF token functionality still disabled ' +
+                'in Bolt\Controller\Async\Records::modify</b>';
 
-                // Build message:
-                if (selectedIds.length === 1) {
-                    msg = bolt.data('recordlisting.confirm.one');
-                } else {
-                    msg = bolt.data('recordlisting.confirm.multi', {'%NUMBER%': '<b>' + selectedIds.length + '</b>'});
-                }
-                msg = msg + '<br><br><b>' + bolt.data('recordlisting.confirm.no-undo') + '</b>';
+            bootbox.dialog({
+                message: msg,
+                title: actions[action].name,
+                buttons: {
+                    cancel: {
+                        label: bolt.data('recordlisting.action.cancel'),
+                        className: 'btn-default'
+                    },
+                    ok: {
+                        label: buttonText,
+                        className: 'btn-primary',
+                        callback: function () {
+                            var url = bolt.conf('paths.async') + 'content/action' + window.location.search;
 
-                // Remove when done:
-                msg = msg + '<hr><b style="color:red;">Anti CSRF token functionality still disabled ' +
-                    'in Bolt\Controller\Async\Records::modify</b>';
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                data: {
+                                    'bolt_csrf_token': self.csrfToken,
+                                    'contenttype': self.contentType,
+                                    'actions': modifications
+                                },
+                                success: function (data) {
+                                    self.element.html(data);
+                                    self.element.find('table.listing tbody').listingpart();
 
-                bootbox.dialog({
-                    message: msg,
-                    title: actions[action].name,
-                    buttons: {
-                        cancel: {
-                            label: bolt.data('recordlisting.action.cancel'),
-                            className: 'btn-default'
-                        },
-                        ok: {
-                            label: buttonText,
-                            className: 'btn-primary',
-                            callback: function () {
-                                var url = bolt.conf('paths.async') + 'content/action' + window.location.search;
+                                    /*
+                                     Commented out for now - it has to be decided if functionality is wanted
+                                    // Restore selection state.
+                                    $(table).find('td input:checkbox[name="checkRow"]').each(function () {
+                                        var id = $(this).parents('tr').attr('id').substr(5);
 
-                                $.ajax({
-                                    url: url,
-                                    type: 'POST',
-                                    data: {
-                                        'bolt_csrf_token': self.csrfToken,
-                                        'contenttype': self.contentType,
-                                        'actions': modifications
-                                    },
-                                    success: function (data) {
-                                        self.element.html(data);
-                                        self.element.find('table.listing tbody').listingpart();
-
-                                        /*
-                                         Commented out for now - it has to be decided if functionality is wanted
-                                        // Restore selection state.
-                                        $(table).find('td input:checkbox[name="checkRow"]').each(function () {
-                                            var id = $(this).parents('tr').attr('id').substr(5);
-
-                                            if (id && selectedIds.indexOf(id) >= 0) {
-                                                this.checked = true;
-                                                self._rowSelection(this);
-                                            }
-                                        });
-                                        $(table).find('tbody').each(function () {
-                                            self._handleSelectionState(this);
-                                        });
-                                        */
-                                    },
-                                    error: function (jqXHR, textStatus, errorThrown) {
-                                        console.log(jqXHR.status + ' (' + errorThrown + '):');
-                                        console.log(JSON.parse(jqXHR.responseText));
-                                    },
-                                    dataType: 'html'
-                                });
-                            }
+                                        if (id && ids.indexOf(id) >= 0) {
+                                            this.checked = true;
+                                            self._rowSelection(this);
+                                        }
+                                    });
+                                    $(table).find('tbody').each(function () {
+                                        self._handleSelectionState(this);
+                                    });
+                                    */
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR.status + ' (' + errorThrown + '):');
+                                    console.log(JSON.parse(jqXHR.responseText));
+                                },
+                                dataType: 'html'
+                            });
                         }
                     }
-                });
-            }
+                }
+            });
         }
     });
 })(jQuery, Bolt);
