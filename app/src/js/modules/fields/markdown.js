@@ -6,6 +6,7 @@
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery.
+ * @param {Object} uiKit - UIkit.
  */
 (function (bolt, uiKit) {
     'use strict';
@@ -26,7 +27,6 @@
      * @memberof Bolt.fields.markdown
      *
      * @param {Object} fieldset
-     * @param {FieldConf} fconf
      */
     markdown.init = function (fieldset) {
         uiKit.$('textarea[data-uk-htmleditor]', fieldset).each(function() {
