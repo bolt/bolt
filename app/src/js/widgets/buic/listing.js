@@ -1,5 +1,5 @@
 /**
- * See (http://jquery.com/)
+ * BUIC listing widget.
  *
  * @param {object} $ - Global jQuery object
  * @param {object} bolt - Global Bolt object
@@ -8,12 +8,13 @@
     'use strict';
 
     /**
-     * Bolt listing.
+     * BUIC listing widget.
+     *
+     * @license http://opensource.org/licenses/mit-license.php MIT License
+     * @author rarila
      *
      * @class listing
      * @memberOf jQuery.widget.bolt
-     * @license http://opensource.org/licenses/mit-license.php MIT License
-     * @author rarila
      */
     $.widget('bolt.listing', /** @lends jQuery.widget.bolt.listing */ {
         /**

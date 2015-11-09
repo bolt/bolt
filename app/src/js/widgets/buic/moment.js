@@ -1,5 +1,5 @@
 /**
- * See (http://jquery.com/)
+ * BUIC moment widget.
  *
  * @param {object} $ - Global jQuery object
  * @param {Object} momentjs - moment.js object
@@ -26,13 +26,14 @@
     var updateList = $.Callbacks();
 
     /**
-     * Bolt moment.
+     * BUIC moment widget.
+     *
+     * @license http://opensource.org/licenses/mit-license.php MIT License
+     * @author rarila
      *
      * @class moment
      * @memberOf jQuery.widget.bolt
      * @param {object} [options] - Options to overide.
-     * @license http://opensource.org/licenses/mit-license.php MIT License
-     * @author rarila
      */
     $.widget('bolt.moment', /** @lends jQuery.widget.bolt.moment */ {
         /**

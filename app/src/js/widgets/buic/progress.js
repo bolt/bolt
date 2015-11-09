@@ -1,5 +1,5 @@
 /**
- * See (http://jquery.com/)
+ * BUIC progress widget.
  *
  * @param {object} $ - Global jQuery object
  */
@@ -23,12 +23,13 @@
         '</div>';
 
     /**
-     * Bolt progress bars.
+     * BUIC progress widget.
+     *
+     * @license http://opensource.org/licenses/mit-license.php MIT License
+     * @author rarila
      *
      * @class progress
      * @memberOf jQuery.widget.bolt
-     * @license http://opensource.org/licenses/mit-license.php MIT License
-     * @author rarila
      */
     $.widget('bolt.progress', /** @lends jQuery.widget.bolt.progress */ {
         /**

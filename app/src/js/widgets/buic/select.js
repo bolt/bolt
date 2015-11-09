@@ -1,5 +1,5 @@
 /**
- * See (http://jquery.com/)
+ * BUIC select widget.
  *
  * @param {object} $ - Global jQuery object
  */
@@ -7,12 +7,13 @@
     'use strict';
 
     /**
-     * Bolt select.
+     * BUIC select widget.
+     *
+     * @license http://opensource.org/licenses/mit-license.php MIT License
+     * @author rarila
      *
      * @class select
      * @memberOf jQuery.widget.bolt
-     * @license http://opensource.org/licenses/mit-license.php MIT License
-     * @author rarila
      */
     $.widget('bolt.select', /** @lends jQuery.widget.bolt.select */ {
         /**

@@ -1,5 +1,5 @@
 /**
- * See (http://jquery.com/)
+ * BUIC checkbox widget.
  *
  * @param {object} $ - Global jQuery object
  */
@@ -7,12 +7,13 @@
     'use strict';
 
     /**
-     * Bolt checkbox.
+     * BUIC checkbox widget.
+     *
+     * @license http://opensource.org/licenses/mit-license.php MIT License
+     * @author rarila
      *
      * @class checkbox
      * @memberOf jQuery.widget.bolt
-     * @license http://opensource.org/licenses/mit-license.php MIT License
-     * @author rarila
      */
     $.widget('bolt.checkbox', /** @lends jQuery.widget.bolt.checkbox */ {
         /**

@@ -1,5 +1,7 @@
 /**
- * See (http://jquery.com/)
+ * BUIC listingpart widget.
+ *
+ * tbody inside a listing widget.
  *
  * @param {object} $ - Global jQuery object
  */
@@ -7,12 +9,13 @@
     'use strict';
 
     /**
-     * Bolt listingpart - tbody inside a listing.
+     * BUIC listingpart widget.
+     *
+     * @license http://opensource.org/licenses/mit-license.php MIT License
+     * @author rarila
      *
      * @class listingpart
      * @memberOf jQuery.widget.bolt
-     * @license http://opensource.org/licenses/mit-license.php MIT License
-     * @author rarila
      */
     $.widget('bolt.listingpart', /** @lends jQuery.widget.bolt.listingpart */ {
         /**
