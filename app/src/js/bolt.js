@@ -27,6 +27,7 @@
  * @mixes Bolt.fields.imagelist
  * @mixes Bolt.fields.geolocation
  * @mixes Bolt.fields.html
+ * @mixes Bolt.fields.markdown
  * @mixes Bolt.fields.meta
  * @mixes Bolt.fields.relationship
  * @mixes Bolt.fields.repeater
