@@ -241,7 +241,7 @@ class Save
             }
         }
 
-        $content->setTaxonomy($formValues['taxonomy']);
+        $content->setTaxonomy($taxonomies);
     }
 
     /**
