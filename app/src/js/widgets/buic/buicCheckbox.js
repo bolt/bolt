@@ -12,10 +12,10 @@
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      *
-     * @class checkbox
+     * @class buicCheckbox
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.checkbox', /** @lends jQuery.widget.bolt.checkbox */ {
+    $.widget('bolt.buicCheckbox', /** @lends jQuery.widget.bolt.buicCheckbox */ {
         /**
          * The constructor of the checkbox widget.
          *

@@ -31,7 +31,7 @@
         }
 
         // Widgets
-        $('.buic-checkbox', context).checkbox();
+        $('.buic-checkbox', context).buicCheckbox();
         $('.buic-listing', context).buicListing();
         $('.buic-moment', context).buicMoment();
         $('.buic-progress', context).buicProgress();
