@@ -91,18 +91,6 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['Bolt\Storage\Field\Type\TaxonomyType'] = $app->protect(
-            function ($mapping) use ($app) {
-                $field = new TaxonomyType(
-                    $mapping,
-                    $app['storage'],
-                    $app['config']
-                );
-
-                return $field;
-            }
-        );
-
         $app['storage.entity_builder'] = $app->share(
             function ($app) {
                 $builder = new Builder($app['storage.metadata'], $app['storage.field_manager']);
