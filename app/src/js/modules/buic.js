@@ -35,7 +35,7 @@
         $('.buic-listing', context).listing();
         $('.buic-moment', context).moment();
         $('.buic-progress', context).progress();
-        $('.buic-select', context).select();
+        $('.buic-select', context).buicSelect();
     };
 
     // Add placeholder for buic.

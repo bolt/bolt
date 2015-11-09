@@ -12,10 +12,10 @@
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      *
-     * @class select
+     * @class buicSelect
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.select', /** @lends jQuery.widget.bolt.select */ {
+    $.widget('bolt.buicSelect', /** @lends jQuery.widget.bolt.buicSelect */ {
         /**
          * The constructor of the select widget.
          *
