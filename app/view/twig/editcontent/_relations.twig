@@ -16,22 +16,24 @@
 {% for reltype, ids in context.content.relation %}
     {% if context.contenttype.relations[reltype] is not defined %}
         <p>{{ __('This record is related to:') }}</p>
-        <table class="table dashboardlisting buic-listing">
-            {% for id in ids %}
-                {% setcontent record = reltype ~ '/' ~ id %}
-                {% if record %}
-                    {% set editable = isallowed('edit', record) %}
-                    {% set listing_vars = {
-                        'compact':       true,
-                        'content':       record,
-                        'excerptlength': 280,
-                        'permissions':   {},
-                        'thumbsize':     54,
-                    } %}
-                    {% include ['@bolt/_sub/_listing.twig'] with listing_vars %}
-                {% endif %}
-            {% endfor %}
-        </table>
+        <div class="buic-listing">
+            <table class="table dashboardlisting listing">
+                {% for id in ids %}
+                    {% setcontent record = reltype ~ '/' ~ id %}
+                    {% if record %}
+                        {% set editable = isallowed('edit', record) %}
+                        {% set listing_vars = {
+                            'compact':       true,
+                            'content':       record,
+                            'excerptlength': 280,
+                            'permissions':   {},
+                            'thumbsize':     54,
+                        } %}
+                        {% include ['@bolt/_sub/_listing.twig'] with listing_vars %}
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
     {% endif %}
 {% endfor %}
 

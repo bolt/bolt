@@ -25,29 +25,18 @@
      * @memberof Bolt.buic
      * @param context
      */
-    buic.init = function(context) {
-
+    buic.init = function (context) {
         if (typeof context === 'undefined') {
             context = $(document.documentElement);
         }
 
-        $('.buic-checkbox', context).each(function () {
-            bolt.buic.checkbox.init(this);
-        });
-        $('.buic-listing', context).each(function () {
-            bolt.buic.listing.init(this);
-        });
-        $('.buic-moment', context).each(function () {
-            bolt.buic.moment.init(this);
-        });
-        $('.buic-progress', context).each(function () {
-            bolt.buic.progress.init(this);
-        });
-        $('.buic-select', context).each(function () {
-            bolt.buic.select.init(this);
-        });
+        // Widgets
+        $('.buic-checkbox', context).checkbox();
+        $('.buic-listing', context).listing();
+        $('.buic-moment', context).moment();
+        $('.buic-progress', context).progress();
+        $('.buic-select', context).select();
     };
-
 
     // Add placeholder for buic.
     bolt.buic = buic;

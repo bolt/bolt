@@ -265,9 +265,14 @@
                 // Let the controller know we're calling AJAX and expecting to be returned JSON.
                 $.post('?returnto=ajax', $('#editcontent').serialize())
                     .done(function (data) {
-                        $('p.lastsaved').html(savedon);
-                        $('p.lastsaved').find('strong').text(moment(data.datechanged).format('MMM D, HH:mm'));
-                        bolt.buic.moment.set($('p.lastsaved').find('time'), data.datechanged);
+                        $('p.lastsaved')
+                            .html(savedon)
+                            .find('strong')
+                            .text(moment(data.datechanged).format('MMM D, HH:mm'))
+                            .end()
+                            .find('.buic-moment')
+                            .moment()
+                            .moment('set', data.datechanged);
 
                         $('a#lastsavedstatus strong').html(
                             '<i class="fa fa-circle status-' + $('#statusselect option:selected').val() + '"></i> ' +

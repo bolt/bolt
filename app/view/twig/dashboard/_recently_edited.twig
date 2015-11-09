@@ -7,15 +7,17 @@
         <h3>{{ __('contenttypes.generic.recently-edited', {'%contenttypes%': contenttype}) }}</h3>
 </div>
 
-<table class="table dashboardlisting buic-listing">
-    {% for content in multiplecontent %}
-        {% set listing_vars = {
-            'compact':       true,
-            'content':       content,
-            'excerptlength': 280,
-            'permissions':   context.permissions[contenttype],
-            'thumbsize':     54,
-        } %}
-        {% include ['@bolt/custom/listing/' ~ content.contenttype.slug ~ '.twig', '@bolt/_sub/_listing.twig'] with listing_vars %}
-    {% endfor %}
-</table>
+<div class="buic-listing">
+    <table class="table dashboardlisting listing">
+        {% for content in multiplecontent %}
+            {% set listing_vars = {
+                'compact':       true,
+                'content':       content,
+                'excerptlength': 280,
+                'permissions':   context.permissions[contenttype],
+                'thumbsize':     54,
+            } %}
+            {% include ['@bolt/custom/listing/' ~ content.contenttype.slug ~ '.twig', '@bolt/_sub/_listing.twig'] with listing_vars %}
+        {% endfor %}
+    </table>
+</div>

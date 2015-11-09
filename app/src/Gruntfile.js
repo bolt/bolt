@@ -58,11 +58,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/uploads.js',
                 // BUIC
                 '<%= path.src.js %>/modules/buic.js',
-                '<%= path.src.js %>/modules/buic/checkbox.js',
-                '<%= path.src.js %>/modules/buic/listing.js',
                 '<%= path.src.js %>/modules/buic/moment.js',
-                '<%= path.src.js %>/modules/buic/progress.js',
-                '<%= path.src.js %>/modules/buic/select.js',
                 // Fields
                 '<%= path.src.js %>/modules/fields.js',
                 '<%= path.src.js %>/modules/fields/categories.js',
@@ -80,6 +76,8 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/fields/tags.js',
                 '<%= path.src.js %>/modules/fields/templateselect.js',
                 '<%= path.src.js %>/modules/fields/video.js',
+                // Bolt widgets
+                '<%= path.src.js %>/widgets/**/*.js',
                 // Old stuff
                 '<%= path.src.js %>/fnc-helpers.js',
                 '<%= path.src.js %>/activity.js',
