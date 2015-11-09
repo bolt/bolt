@@ -271,8 +271,8 @@
                             .text(moment(data.datechanged).format('MMM D, HH:mm'))
                             .end()
                             .find('.buic-moment')
-                            .moment()
-                            .moment('set', data.datechanged);
+                            .buicMoment()
+                            .buicMoment('set', data.datechanged);
 
                         $('a#lastsavedstatus strong').html(
                             '<i class="fa fa-circle status-' + $('#statusselect option:selected').val() + '"></i> ' +

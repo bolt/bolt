@@ -10,7 +10,7 @@
     /**
      * Resource id returned by setInterval().
      *
-     * @memberOf jQuery.widget.bolt.moment
+     * @memberOf jQuery.widget.bolt.buicMoment
      * @static
      * @type integer
      */
@@ -19,7 +19,7 @@
     /**
      * List of update callbacks.
      *
-     * @memberOf jQuery.widget.bolt.moment
+     * @memberOf jQuery.widget.bolt.buicMoment
      * @static
      * @type object
      */
@@ -31,11 +31,11 @@
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      *
-     * @class moment
+     * @class buicMoment
      * @memberOf jQuery.widget.bolt
      * @param {object} [options] - Options to overide.
      */
-    $.widget('bolt.moment', /** @lends jQuery.widget.bolt.moment */ {
+    $.widget('bolt.buicMoment', /** @lends jQuery.widget.bolt.buicMoment */ {
         /**
          * Default options, can be overridden by passing in an object to the constructor with these properties
          * @property {integer} interval - Initial update interval, shared by all instances

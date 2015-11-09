@@ -33,8 +33,8 @@
         // Widgets
         $('.buic-checkbox', context).checkbox();
         $('.buic-listing', context).listing();
-        $('.buic-moment', context).moment();
-        $('.buic-progress', context).progress();
+        $('.buic-moment', context).buicMoment();
+        $('.buic-progress', context).buicProgress();
         $('.buic-select', context).buicSelect();
     };
 
