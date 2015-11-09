@@ -223,6 +223,24 @@ class Save
         if (!isset($formValues['taxonomy'])) {
             return;
         }
+
+        $taxonomies = [];
+
+        foreach ($formValues['taxonomy'] as $field => $values) {
+            foreach ($values as $val) {
+                $order = isset($formValues['taxonomy-order'][$field]) ? $formValues['taxonomy-order'][$field] : 0;
+                $entity = new Entity\Taxonomy([
+                    'name' => $tax,
+                    'contentId' => $content->getId(),
+                    'contenttype' => (string)$content->getContenttype(),
+                    'taxonomytype' => $field,
+                    'slug' => $val,
+                    'sortorder' => $order
+                ]);
+                $taxonomies[$field][] = $entity;
+            }
+        }
+
         $content->setTaxonomy($formValues['taxonomy']);
     }
 
