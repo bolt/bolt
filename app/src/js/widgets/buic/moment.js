@@ -1,8 +1,6 @@
 /**
  * See (http://jquery.com/)
- * @name bolt
- * @class
- * @memberOf jQuery.widget
+ *
  * @param {object} $ - Global jQuery object
  * @param {Object} momentjs - moment.js object
  */
