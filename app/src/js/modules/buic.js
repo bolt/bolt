@@ -32,7 +32,7 @@
 
         // Widgets
         $('.buic-checkbox', context).checkbox();
-        $('.buic-listing', context).listing();
+        $('.buic-listing', context).buicListing();
         $('.buic-moment', context).buicMoment();
         $('.buic-progress', context).buicProgress();
         $('.buic-select', context).buicSelect();

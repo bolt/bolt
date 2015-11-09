@@ -13,10 +13,10 @@
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      *
-     * @class buicListingPart
+     * @class buicListing
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.buicListingPart', /** @lends jQuery.widget.bolt.listing */ {
+    $.widget('bolt.buicListing', /** @lends jQuery.widget.bolt.buicListing */ {
         /**
          * The constructor of the listing widget.
          *

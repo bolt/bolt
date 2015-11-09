@@ -80,7 +80,7 @@
          */
         _modifyRecords: function (action, ids, buttonText) {
             if (ids.length > 0) {
-                this.listing.listing('modifyRecords', action.replace(/^record:/, ''), ids, buttonText);
+                this.listing.buicListing('modifyRecords', action.replace(/^record:/, ''), ids, buttonText);
             }
         },
 
