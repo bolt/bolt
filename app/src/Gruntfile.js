@@ -43,6 +43,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/actions.js',
                 '<%= path.src.js %>/modules/activity.js',
                 '<%= path.src.js %>/modules/app.js',
+                '<%= path.src.js %>/modules/buic.js',
                 '<%= path.src.js %>/modules/ckeditor.js',
                 '<%= path.src.js %>/modules/conf.js',
                 '<%= path.src.js %>/modules/data.js',
@@ -56,9 +57,6 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/secmenu.js',
                 '<%= path.src.js %>/modules/stack.js',
                 '<%= path.src.js %>/modules/uploads.js',
-                // BUIC
-                '<%= path.src.js %>/modules/buic.js',
-                '<%= path.src.js %>/modules/buic/moment.js',
                 // Fields
                 '<%= path.src.js %>/modules/fields.js',
                 '<%= path.src.js %>/modules/fields/categories.js',
@@ -80,13 +78,6 @@ module.exports = function(grunt) {
                 // Bolt widgets
                 '<%= path.src.js %>/widgets/**/*.js',
                 // Old stuff
-                '<%= path.src.js %>/fnc-helpers.js',
-                '<%= path.src.js %>/activity.js',
-                '<%= path.src.js %>/make-uri-slug.js',
-                '<%= path.src.js %>/video-embed.js',
-                '<%= path.src.js %>/upload-files.js',
-                '<%= path.src.js %>/obj-moments.js',
-                '<%= path.src.js %>/obj-datetime.js',
                 '<%= path.src.js %>/obj-validation.js'
             ]
         },
