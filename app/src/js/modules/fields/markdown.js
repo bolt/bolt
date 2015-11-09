@@ -8,7 +8,7 @@
  * @param {Object} $ - jQuery.
  * @param {Object} uiKit - UIkit.
  */
-(function (bolt, uiKit) {
+(function (bolt, $, uiKit) {
     'use strict';
 
     /**
