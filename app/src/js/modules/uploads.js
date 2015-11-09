@@ -302,7 +302,7 @@
         var progress = $(event.target).closest('fieldset').find(':bolt-buicProgress');
 
         $.each(data.files, function () {
-            progress.progress('add', this.name);
+            progress.buicProgress('add', this.name);
         });
     }
 
@@ -319,7 +319,7 @@
         var progress = $(event.target).closest('fieldset').find(':bolt-buicProgress');
 
         $.each(data.files, function () {
-            progress.progress('set', this.name, data.loaded / data.total);
+            progress.buicProgress('set', this.name, data.loaded / data.total);
         });
     }
 
@@ -336,7 +336,7 @@
         var progress = $(event.target).closest('fieldset').find(':bolt-buicProgress');
 
         $.each(data.files, function () {
-            progress.progress('remove', this.name);
+            progress.buicProgress('remove', this.name);
         });
     }
 
