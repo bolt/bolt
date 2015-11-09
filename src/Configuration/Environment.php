@@ -18,9 +18,11 @@ class Environment
     /** @var Filesystem */
     protected $filesystem;
     /** @var string */
-    protected $srcRoot;
+    protected $rootPath;
     /** @var string */
-    protected $webRoot;
+    protected $appPath;
+    /** @var string */
+    protected $viewPath;
     /** @var string */
     protected $boltName;
     /** @var string */
@@ -29,17 +31,17 @@ class Environment
     /**
      * Constructor.
      *
-     * @param string $srcRoot
-     * @param string $webRoot
+     * @param string $appPath
+     * @param string $viewPath
      * @param Cache  $cache
      * @param string $boltName
      * @param string $boltVersion
      */
-    public function __construct($srcRoot, $webRoot, Cache $cache, $boltName, $boltVersion)
+    public function __construct($appPath, $viewPath, Cache $cache, $boltName, $boltVersion)
     {
         $this->filesystem = new Filesystem();
-        $this->srcRoot = rtrim($srcRoot, '/');
-        $this->webRoot = rtrim($webRoot, '/');
+        $this->appPath = rtrim($appPath, '/');
+        $this->viewPath = rtrim($viewPath, '/');
         $this->cache = $cache;
         $this->boltName = $boltName;
         $this->boltVersion = $boltVersion;
@@ -72,6 +74,8 @@ class Environment
                 $this->syncViewDirectory($dir);
             } catch (IOException $e) {
                 $response[] = $e->getMessage();
+            } catch (\UnexpectedValueException $e) {
+                $response[] = $e->getMessage();
             }
         }
 
@@ -85,16 +89,14 @@ class Environment
      */
     protected function syncViewDirectory($dir)
     {
-        if ($this->srcRoot === $this->webRoot) {
+        if ($this->viewPath === $this->appPath . '/view') {
             return;
         }
 
-        $source = $this->srcRoot . '/app/view/' . $dir;
-        $target = $this->webRoot . '/app/view/' . $dir;
-        if ($this->filesystem->exists($target)) {
-            return;
-        }
+        $source = $this->appPath . '/view/' . $dir;
+        $target = $this->viewPath . '/' . $dir;
 
+        // Mirror source and destination, overwrite existing file and clean up removed files
         $this->filesystem->mirror($source, $target, null, ['override' => true, 'delete' => true]);
     }
 

@@ -11,7 +11,7 @@ class BootstrapGenerator
 {
     public $templateStart = <<<'EOD'
 <?php
-require_once "%s";
+require_once '%s';
 $configuration = new Bolt\Configuration\Composer(%s);
 
 EOD;
@@ -19,7 +19,7 @@ EOD;
     public $templateEnd = <<<'EOD'
 $configuration->getVerifier()->disableApacheChecks();
 $configuration->verify();
-$app = new Bolt\Application(['resources'=>$configuration]);
+$app = new Bolt\Application(['resources' => $configuration]);
 $app->initialize();
 $app->run();
 
@@ -40,10 +40,14 @@ EOD;
      **/
     public $webname;
 
-    public function __construct($webroot = false, $webname = 'public')
+    /** @var string */
+    public $boltWeb;
+
+    public function __construct($webroot = false, $webname = 'public', $boltWeb = 'bolt-public')
     {
         $this->webroot = $webroot;
         $this->webname = $webname;
+        $this->boltWeb = $boltWeb;
     }
 
     /**
@@ -80,6 +84,9 @@ EOD;
             $template .= $this->getPathCode('web', $this->webname);
             $template .= $this->getPathCode('files', $this->webname . '/files');
             $template .= $this->getPathCode('themebase', $this->webname . '/theme');
+            $template .= $this->getPathCode('view', $this->webname . '/' . $this->boltWeb . '/view');
+        } else {
+            $template .= $this->getPathCode('view', $this->boltWeb . '/view');
         }
 
         $template .= $this->templateEnd;

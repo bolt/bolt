@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Configuration;
 
 use Composer\Autoload\ClassLoader;
@@ -6,8 +7,10 @@ use Eloquent\Pathogen\FileSystem\Factory\PlatformFileSystemPathFactory;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Left as a blank extension of ResourceManager for now, this semantically represents a default configuration
- * for a Bolt application.
+ * Left as a blank extension of ResourceManager for now, this semantically
+ * represents a default configuration for a Bolt application.
+ *
+ * @author Ross Riley <riley.ross@gmail.com>
  */
 class Standard extends ResourceManager
 {
