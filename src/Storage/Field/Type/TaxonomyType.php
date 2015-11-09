@@ -119,23 +119,6 @@ class TaxonomyType extends FieldTypeBase
     }
 
     /**
-     * The set method takes a raw php value and performs the conversion to the entity value.
-     * Normally this is as simple as $entity->$key = $value although more complicated transforms
-     * can happen should a field type choose to override this method.
-     *
-     * Note too that this will also be the default method called for an entity builder which is
-     * designed to receive raw data to initialise an entity.
-     *
-     * @param object $entity
-     * @param mixed  $value
-     */
-    public function set($entity, $value)
-    {
-        $key = $this->mapping['fieldname'];
-        $entity->$key = $value;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function persist(QuerySet $queries, $entity)
