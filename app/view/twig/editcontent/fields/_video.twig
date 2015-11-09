@@ -148,9 +148,9 @@
             <label>{{ __('field.video.label.preview') }}</label>
             <div class="imageholder" id="thumbnail-{{ key }}" data-video="thumbcontainer">
                 {% if video.thumbnail|default('') %}
-                    <img data-video="thumbimage" src="{{ video.thumbnail }}" width="200" height="150">
+                    <img data-video="thumbimage" src="{{ video.thumbnail }}" width="200" height="150" alt="{{ __('field.video.label.preview') }}">
                 {% else %}
-                    <img src="{{ app.paths.app }}view/img/default_empty_4x3.png" width="200" height="150">
+                    <img src="{{ app.paths.app }}view/img/default_empty_4x3.png" width="200" height="150" alt="{{ __('No preview image') }}">
                 {% endif %}
             </div>
         </div>
