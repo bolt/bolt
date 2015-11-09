@@ -17,7 +17,7 @@
      * @class listingpart
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.listingpart', /** @lends jQuery.widget.bolt.listingpart */ {
+    $.widget('bolt.buicListingPart', /** @lends jQuery.widget.bolt.buicListingPart */ {
         /**
          * The constructor of the listingpart widget.
          *
@@ -27,7 +27,7 @@
             var self = this;
 
             // Private properties
-            this.listing = this.element.closest(':bolt-listing');
+            this.listing = this.element.closest(':bolt-buicListing');
             this.toolbar = this.element.find('tr.selectiontoolbar');
             this.toolbarCount = this.toolbar.find('div.count');
             this.menu = this.element.find('tr.header th.menu');

@@ -13,10 +13,10 @@
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      *
-     * @class listing
+     * @class buicListingPart
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.listing', /** @lends jQuery.widget.bolt.listing */ {
+    $.widget('bolt.buicListingPart', /** @lends jQuery.widget.bolt.listing */ {
         /**
          * The constructor of the listing widget.
          *
@@ -26,7 +26,7 @@
             this.csrfToken  = this.element.data('bolt_csrf_token');
             this.contentType = this.element.data('contenttype');
 
-            this.element.find('table.listing tbody').listingpart();
+            this.element.find('table.listing tbody').buicListingPart();
         },
 
         /**
@@ -101,7 +101,7 @@
                                 },
                                 success: function (data) {
                                     self.element.html(data);
-                                    self.element.find('table.listing tbody').listingpart();
+                                    self.element.find('table.listing tbody').buicListingPart();
 
                                     /*
                                      Commented out for now - it has to be decided if functionality is wanted
