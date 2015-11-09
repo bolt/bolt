@@ -94,6 +94,7 @@ class ResourceManager
         $this->setPath('src', dirname(__DIR__));
         $this->setPath('database', 'app/database');
         $this->setPath('themebase', 'theme');
+        $this->setPath('view', 'app/view');
     }
 
     /**
