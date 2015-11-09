@@ -1,25 +1,6 @@
 /**
- * See (http://jquery.com/).
- * @name jQuery
- * @class
- * See the jQuery Library  (http://jquery.com/) for full details. This just
- * documents the function and classes that are added to jQuery by this plug-in.
- */
-
-/**
- * See (http://jquery.com/)
- * @name widget
- * @class
- * See the jQuery Library  (http://jquery.com/) for full details. This just
- * documents the function and classes that are added to jQuery by this plug-in.
- * @memberOf jQuery
- */
-
-/**
- * See (http://jquery.com/)
- * @name bolt
- * @class
- * @memberOf jQuery.widget
+ * BUIC moment widget.
+ *
  * @param {object} $ - Global jQuery object
  * @param {Object} momentjs - moment.js object
  */
@@ -29,7 +10,7 @@
     /**
      * Resource id returned by setInterval().
      *
-     * @memberOf jQuery.widget.bolt.moment
+     * @memberOf jQuery.widget.bolt.buicMoment
      * @static
      * @type integer
      */
@@ -38,22 +19,23 @@
     /**
      * List of update callbacks.
      *
-     * @memberOf jQuery.widget.bolt.moment
+     * @memberOf jQuery.widget.bolt.buicMoment
      * @static
      * @type object
      */
     var updateList = $.Callbacks();
 
     /**
-     * Bolt moment.
+     * BUIC moment widget.
      *
-     * @class moment
-     * @memberOf jQuery.widget.bolt
-     * @param {object} [options] - Options to overide.
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
+     *
+     * @class buicMoment
+     * @memberOf jQuery.widget.bolt
+     * @param {object} [options] - Options to overide.
      */
-    $.widget('bolt.moment', /** @lends jQuery.widget.bolt.moment */ {
+    $.widget('bolt.buicMoment', /** @lends jQuery.widget.bolt.buicMoment */ {
         /**
          * Default options, can be overridden by passing in an object to the constructor with these properties
          * @property {integer} interval - Initial update interval, shared by all instances

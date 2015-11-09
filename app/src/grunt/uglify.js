@@ -161,8 +161,10 @@ module.exports = {
             sourceMap: '<%= sourcemap.js %>',
             sourceMapName: '<%= path.sourcemaps %>/bolt.js.map'
         },
-        files: {
-            '<%= path.dest.js %>/bolt.js': '<%= files.boltJs %>'
-        }
+        files: [{
+            nonull: true,
+            dest: '<%= path.dest.js %>/bolt.js',
+            src: '<%= files.boltJs %>'
+        }]
     }
 };

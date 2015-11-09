@@ -31,11 +31,11 @@
         }
 
         // Widgets
-        $('.buic-checkbox', context).checkbox();
-        $('.buic-listing', context).listing();
-        $('.buic-moment', context).moment();
-        $('.buic-progress', context).progress();
-        $('.buic-select', context).select();
+        $('.buic-checkbox', context).buicCheckbox();
+        $('.buic-listing', context).buicListing();
+        $('.buic-moment', context).buicMoment();
+        $('.buic-progress', context).buicProgress();
+        $('.buic-select', context).buicSelect();
     };
 
     // Add placeholder for buic.

@@ -1,25 +1,6 @@
 /**
- * See (http://jquery.com/).
- * @name jQuery
- * @class
- * See the jQuery Library  (http://jquery.com/) for full details. This just
- * documents the function and classes that are added to jQuery by this plug-in.
- */
-
-/**
- * See (http://jquery.com/)
- * @name widget
- * @class
- * See the jQuery Library  (http://jquery.com/) for full details. This just
- * documents the function and classes that are added to jQuery by this plug-in.
- * @memberOf jQuery
- */
-
-/**
- * See (http://jquery.com/)
- * @name bolt
- * @class
- * @memberOf jQuery.widget
+ * BUIC listing widget.
+ *
  * @param {object} $ - Global jQuery object
  * @param {object} bolt - Global Bolt object
  */
@@ -27,14 +8,15 @@
     'use strict';
 
     /**
-     * Bolt listing.
+     * BUIC listing widget.
      *
-     * @class listing
-     * @memberOf jQuery.widget.bolt
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
+     *
+     * @class buicListing
+     * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.listing', /** @lends jQuery.widget.bolt.listing */ {
+    $.widget('bolt.buicListing', /** @lends jQuery.widget.bolt.buicListing */ {
         /**
          * The constructor of the listing widget.
          *
@@ -44,7 +26,7 @@
             this.csrfToken  = this.element.data('bolt_csrf_token');
             this.contentType = this.element.data('contenttype');
 
-            this.element.find('table.listing tbody').listingpart();
+            this.element.find('table.listing tbody').buicListingPart();
         },
 
         /**
@@ -119,7 +101,7 @@
                                 },
                                 success: function (data) {
                                     self.element.html(data);
-                                    self.element.find('table.listing tbody').listingpart();
+                                    self.element.find('table.listing tbody').buicListingPart();
 
                                     /*
                                      Commented out for now - it has to be decided if functionality is wanted

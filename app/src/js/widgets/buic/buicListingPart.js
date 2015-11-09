@@ -1,39 +1,23 @@
 /**
- * See (http://jquery.com/).
- * @name jQuery
- * @class
- * See the jQuery Library  (http://jquery.com/) for full details. This just
- * documents the function and classes that are added to jQuery by this plug-in.
- */
-
-/**
- * See (http://jquery.com/)
- * @name widget
- * @class
- * See the jQuery Library  (http://jquery.com/) for full details. This just
- * documents the function and classes that are added to jQuery by this plug-in.
- * @memberOf jQuery
- */
-
-/**
- * See (http://jquery.com/)
- * @name bolt
- * @class
- * @memberOf jQuery.widget
+ * BUIC listingpart widget.
+ *
+ * tbody inside a listing widget.
+ *
  * @param {object} $ - Global jQuery object
  */
 (function ($) {
     'use strict';
 
     /**
-     * Bolt listingpart - tbody inside a listing.
+     * BUIC listingpart widget.
      *
-     * @class listingpart
-     * @memberOf jQuery.widget.bolt
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
+     *
+     * @class buicListingPart
+     * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.listingpart', /** @lends jQuery.widget.bolt.listingpart */ {
+    $.widget('bolt.buicListingPart', /** @lends jQuery.widget.bolt.buicListingPart */ {
         /**
          * The constructor of the listingpart widget.
          *
@@ -43,7 +27,7 @@
             var self = this;
 
             // Private properties
-            this.listing = this.element.closest(':bolt-listing');
+            this.listing = this.element.closest(':bolt-buicListing');
             this.toolbar = this.element.find('tr.selectiontoolbar');
             this.toolbarCount = this.toolbar.find('div.count');
             this.menu = this.element.find('tr.header th.menu');
@@ -96,7 +80,7 @@
          */
         _modifyRecords: function (action, ids, buttonText) {
             if (ids.length > 0) {
-                this.listing.listing('modifyRecords', action.replace(/^record:/, ''), ids, buttonText);
+                this.listing.buicListing('modifyRecords', action.replace(/^record:/, ''), ids, buttonText);
             }
         },
 

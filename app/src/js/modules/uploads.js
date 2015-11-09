@@ -299,10 +299,10 @@
      * @param {Object} data
      */
     function onUploadSubmit(event, data) {
-        var progress = $(event.target).closest('fieldset').find(':bolt-progress');
+        var progress = $(event.target).closest('fieldset').find(':bolt-buicProgress');
 
         $.each(data.files, function () {
-            progress.progress('add', this.name);
+            progress.buicProgress('add', this.name);
         });
     }
 
@@ -316,10 +316,10 @@
      * @param {Object} data
      */
     function onUploadProgress(event, data) {
-        var progress = $(event.target).closest('fieldset').find(':bolt-progress');
+        var progress = $(event.target).closest('fieldset').find(':bolt-buicProgress');
 
         $.each(data.files, function () {
-            progress.progress('set', this.name, data.loaded / data.total);
+            progress.buicProgress('set', this.name, data.loaded / data.total);
         });
     }
 
@@ -333,10 +333,10 @@
      * @param {Object} data
      */
     function onUploadAlways(event, data) {
-        var progress = $(event.target).closest('fieldset').find(':bolt-progress');
+        var progress = $(event.target).closest('fieldset').find(':bolt-buicProgress');
 
         $.each(data.files, function () {
-            progress.progress('remove', this.name);
+            progress.buicProgress('remove', this.name);
         });
     }
 

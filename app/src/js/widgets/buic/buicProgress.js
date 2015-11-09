@@ -1,25 +1,6 @@
 /**
- * See (http://jquery.com/).
- * @name jQuery
- * @class
- * See the jQuery Library  (http://jquery.com/) for full details. This just
- * documents the function and classes that are added to jQuery by this plug-in.
- */
-
-/**
- * See (http://jquery.com/)
- * @name widget
- * @class
- * See the jQuery Library  (http://jquery.com/) for full details. This just
- * documents the function and classes that are added to jQuery by this plug-in.
- * @memberOf jQuery
- */
-
-/**
- * See (http://jquery.com/)
- * @name bolt
- * @class
- * @memberOf jQuery.widget
+ * BUIC progress widget.
+ *
  * @param {object} $ - Global jQuery object
  */
 (function ($) {
@@ -28,7 +9,7 @@
     /**
      * Template of the progress bar
      *
-     * @memberOf jQuery.widget.bolt.progress
+     * @memberOf jQuery.widget.bolt.buicProgress
      * @static
      * @type string
      */
@@ -42,14 +23,15 @@
         '</div>';
 
     /**
-     * Bolt progress bars.
+     * BUIC progress widget.
      *
-     * @class progress
-     * @memberOf jQuery.widget.bolt
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
+     *
+     * @class buicProgress
+     * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.progress', /** @lends jQuery.widget.bolt.progress */ {
+    $.widget('bolt.buicProgress', /** @lends jQuery.widget.bolt.buicProgress */ {
         /**
          * The constructor of the progress widget.
          *

@@ -9,6 +9,7 @@ module.exports = {
         options: {
             jshintrc: true
         },
+        nonull: true,
         src: '<%= files.boltJs %>'
     },
 

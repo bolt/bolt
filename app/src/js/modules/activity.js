@@ -50,7 +50,7 @@
             function (data) {
                 var newActivity = $(data);
 
-                newActivity.find('.buic-moment').moment();
+                newActivity.find('.buic-moment').buicMoment();
                 $('#latestactivity').empty().append(newActivity);
             }
         );
