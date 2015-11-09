@@ -9,7 +9,7 @@
     /**
      * Template of the progress bar
      *
-     * @memberOf jQuery.widget.bolt.progress
+     * @memberOf jQuery.widget.bolt.buicProgress
      * @static
      * @type string
      */
@@ -28,10 +28,10 @@
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      *
-     * @class progress
+     * @class buicProgress
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.progress', /** @lends jQuery.widget.bolt.progress */ {
+    $.widget('bolt.buicProgress', /** @lends jQuery.widget.bolt.buicProgress */ {
         /**
          * The constructor of the progress widget.
          *
