@@ -377,7 +377,12 @@ class Config
      */
     protected function parseTheme($themePath, array $generalConfig)
     {
-        $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
+        $themeConfig = $this->parseConfigYaml('theme.yml', $themePath);
+
+        /** @deprecated Since 2.3 and will be removed in Bolt v3.0 (config.yml was the old filename) */
+        if (empty($themeConfig)) {
+            $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
+        }
 
         if ((isset($themeConfig['templatefields'])) && (is_array($themeConfig['templatefields']))) {
             $templateContentTypes = [];
@@ -1094,7 +1099,13 @@ class Config
     {
         // Check the timestamp for the theme's config.yml
         $paths = $this->app['resources']->getPaths();
-        $themeConfigFile = $paths['themepath'] . '/config.yml';
+        $themeConfigFile = $paths['themepath'] . '/theme.yml';
+
+        /** @deprecated Since 2.3 and will be removed in Bolt v3.0 (config.yml was the old filename) */
+        if (!file_exists($themeConfigFile)) {
+            $themeConfigFile = $paths['themepath'] . '/config.yml';
+        }
+
         // Note: we need to check if it exists, _and_ it's too old. Not _or_, hence the '0'
         $configTimestamp = file_exists($themeConfigFile) ? filemtime($themeConfigFile) : 0;
 
