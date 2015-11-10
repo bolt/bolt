@@ -32,44 +32,40 @@ class UserAdd extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $username = $input->getArgument('username');
-        $password = $input->getArgument('password');
-        $email = $input->getArgument('email');
-        $displayname = $input->getArgument('displayname');
-        $role = $input->getArgument('role');
+        /** @var \Bolt\Storage\Repository\UsersRepository $repo */
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        $user = new Entity\Users([
+            'username'    => $input->getArgument('username'),
+            'password'    => $input->getArgument('password'),
+            'email'       => $input->getArgument('email'),
+            'displayname' => $input->getArgument('displayname'),
+            'roles'       => (array) $input->getArgument('role'),
+        ]);
 
-        $data = [
-            'username'    => $username,
-            'password'    => $password,
-            'email'       => $email,
-            'displayname' => $displayname,
-            'roles'       => [$role],
-        ];
-
-        $user = new Entity\Users($data);
-
+        $message = [];
         $valid = true;
-        if (! $this->app['users']->checkAvailability('username', $user->getUsername())) {
+        if ($repo->getUser($user->getEmail())) {
             $valid = false;
-            $output->writeln("<error>Error creating user: username {$user->getUsername()} already exists</error>");
+            $message[] = ("<error>    * Email address '{$user->getEmail()}' already exists</error>");
         }
-        if (! $this->app['users']->checkAvailability('email', $user->getEmail())) {
+        if ($repo->getUser($user->getUsername())) {
             $valid = false;
-            $output->writeln("<error>Error creating user: email {$user->getEmail()} exists</error>");
+            $message[] = ("<error>    * User name '{$user->getUsername()}' already exists</error>");
         }
-        if (! $this->app['users']->checkAvailability('displayname', $user->getDisplayname())) {
-            $valid = false;
-            $output->writeln("<error>Error creating user: display name {$user->getDisplayname()} already exists</error>");
+        if ($valid === false) {
+            $message[] = ("<error>Error creating user:</error>");
+            $output->write(array_reverse($message), true);
+            return;
         }
 
-        if ($valid) {
-            $res = $this->app['users']->saveUser($user);
-            if ($res) {
-                $this->auditLog(__CLASS__, "User created: {$user['username']}");
-                $output->writeln("<info>Successfully created user: {$user['username']}</info>");
-            } else {
-                $output->writeln("<error>Error creating user: {$user['username']}</error>");
-            }
+        try {
+            // Boot all service providers manually as, we're not handling a request
+            $this->app->boot();
+            $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($user);
+            $this->auditLog(__CLASS__, "User created: {$user->getUsername()}");
+            $output->writeln("<info>Successfully created user: {$user->getUsername()}</info>");
+        } catch (\Exception $e) {
+            $output->writeln("<error>Error creating user: {$user->getUsername()}</error>");
         }
     }
 }

@@ -3,6 +3,7 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserAdd;
 use Bolt\Tests\BoltUnitTest;
+use PasswordLib\PasswordLib;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -14,8 +15,8 @@ class UserAddTest extends BoltUnitTest
 {
     public function testRun()
     {
+        $this->resetDb();
         $app = $this->getApp();
-        $app['users'] = $this->getUserMock($app);
         $command = new UserAdd($app);
         $tester = new CommandTester($command);
 
@@ -24,18 +25,24 @@ class UserAddTest extends BoltUnitTest
                 'username'    => 'test',
                 'displayname' => 'Test',
                 'email'       => 'test@example.com',
-                'password'    => 'test',
+                'password'    => 'testPass',
                 'role'        => 'admin'
             ]
         );
         $result = $tester->getDisplay();
         $this->assertEquals('Successfully created user: test', trim($result));
+
+        // Test that the saved value matches the hash
+        $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        $userEntity = $repo->getUser('test');
+        $crypt = new PasswordLib();
+        $auth = $crypt->verifyPasswordHash('testPass', $userEntity->getPassword());
+        $this->assertTrue($auth);
     }
 
     public function testAvailability()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMock($app, false);
         $command = new UserAdd($app);
         $tester = new CommandTester($command);
 
@@ -49,46 +56,27 @@ class UserAddTest extends BoltUnitTest
             ]
         );
         $result = $tester->getDisplay();
-        $this->assertRegExp("/username test already exists/", trim($result));
-        $this->assertRegExp("/email test@example\.com exists/", trim($result));
-        $this->assertRegExp("/display name Test already exists/", trim($result));
+        $this->assertRegExp('#Error creating user:#', trim($result));
+        $this->assertRegExp("#    \* User name 'test' already exists#", trim($result));
+        $this->assertRegExp("#    \* Email address 'test@example.com' already exists#", trim($result));
     }
 
     public function testFailure()
     {
         $app = $this->getApp();
-        $app['users'] = $this->getUserMock($app, true, false);
         $command = new UserAdd($app);
         $tester = new CommandTester($command);
 
         $tester->execute(
             [
-                'username'    => 'test',
-                'displayname' => 'Test',
-                'email'       => 'test@example.com',
-                'password'    => 'test',
-                'role'        => 'admin'
+                'username'    => 'koala',
+                'displayname' => '',
+                'email'       => '',
+                'password'    => '',
+                'role'        => ''
             ]
         );
         $result = $tester->getDisplay();
-        $this->assertEquals("Error creating user: test", trim($result));
-    }
-
-    protected function getUserMock($app, $availability = true, $save = true)
-    {
-        $users = $this->getMock('Bolt\Users', ['getUsers', 'checkAvailability', 'saveUser'], [$app]);
-        $users->expects($this->any())
-            ->method('getUsers')
-            ->will($this->returnValue([]));
-
-        $users->expects($this->any())
-            ->method('checkAvailability')
-            ->will($this->returnValue($availability));
-
-        $users->expects($this->any())
-            ->method('saveUser')
-            ->will($this->returnValue($save));
-
-        return $users;
+        $this->assertEquals("Error creating user: koala", trim($result));
     }
 }
