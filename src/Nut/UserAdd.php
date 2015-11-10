@@ -49,20 +49,22 @@ class UserAdd extends BaseCommand
         $user = new Entity\Users($data);
 
         $valid = true;
-        if (! $this->app['users']->checkAvailability('username', $user->getUsername())) {
+        if (!$this->app['users']->checkAvailability('username', $user->getUsername())) {
             $valid = false;
             $output->writeln("<error>Error creating user: username {$user->getUsername()} already exists</error>");
         }
-        if (! $this->app['users']->checkAvailability('email', $user->getEmail())) {
+        if (!$this->app['users']->checkAvailability('email', $user->getEmail())) {
             $valid = false;
             $output->writeln("<error>Error creating user: email {$user->getEmail()} exists</error>");
         }
-        if (! $this->app['users']->checkAvailability('displayname', $user->getDisplayname())) {
+        if (!$this->app['users']->checkAvailability('displayname', $user->getDisplayname())) {
             $valid = false;
             $output->writeln("<error>Error creating user: display name {$user->getDisplayname()} already exists</error>");
         }
 
         if ($valid) {
+            // Boot all service providers manually as, we're not handling a request
+            $this->app->boot();
             $res = $this->app['users']->saveUser($user);
             if ($res) {
                 $this->auditLog(__CLASS__, "User created: {$user['username']}");

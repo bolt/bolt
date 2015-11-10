@@ -23,7 +23,7 @@ class UserResetPassword extends BaseCommand
             ->addArgument(
                 'username',
                 InputArgument::REQUIRED,
-                'The username (loginname or e-mail address) you wish to reset the password for.'
+                'The username (login name or e-mail address) you wish to reset the password for.'
             )
             ->addOption(
                 'no-interaction',
@@ -43,12 +43,14 @@ class UserResetPassword extends BaseCommand
         /** @var \Symfony\Component\Console\Helper\DialogHelper $dialog */
         $dialog = $this->getHelperSet()->get('dialog');
         $confirm = $input->getOption('no-interaction');
-        $question = "<question>Are you sure you want to reset the password for \"{$username}\"?</question>";
+        $question = "<question>Are you sure you want to reset the password for '$username'?</question> ";
 
         if (!$confirm && !$dialog->askConfirmation($output, $question, false)) {
             return false;
         }
 
+        // Boot all service providers manually as, we're not handling a request
+        $this->app->boot();
         $password = $this->app['access_control.password']->setRandomPassword($username);
 
         if ($password !== false) {
