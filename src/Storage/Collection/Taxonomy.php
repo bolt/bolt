@@ -21,7 +21,6 @@ class Taxonomy extends ArrayCollection
      */
     public function __construct(MetadataDriver $metadata)
     {
-        $this->congig = $metadata->getTaxonomyConfig();
-
+        $this->config = $metadata->getTaxonomyConfig();
     }
 }
