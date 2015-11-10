@@ -34,7 +34,6 @@
                 interval
             );
         }
-        bolt.activity.update();
     };
 
     /**
