@@ -32,6 +32,8 @@ class Taxonomy extends ArrayCollection
                 $order = isset($formValues['taxonomy-order'][$field]) ? $formValues['taxonomy-order'][$field] : 0;
                 if (isset($this->config[$field]['options'][$val])) {
                     $name = $this->config[$field]['options'][$val];
+                } else {
+                    $name = null;
                 }
                 $taxentity = new Entity\Taxonomy( [
                     'name' => $name,

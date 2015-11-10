@@ -28,7 +28,8 @@ class TaxonomyType extends FieldTypeBase
      * expression to filter the join side rather than on the main side.
      *
      * @param QueryInterface $query
-     * @param ClassMetadata  $metadata
+     * @param ClassMetadata $metadata
+     * @return void
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
@@ -56,8 +57,9 @@ class TaxonomyType extends FieldTypeBase
      * It does this via an additional ->addSelect() and ->leftJoin() call on the QueryBuilder
      * which includes then includes the taxonomies in the same query as the content fetch.
      *
-     * @param QueryBuilder  $query
+     * @param QueryBuilder $query
      * @param ClassMetadata $metadata
+     * @return void
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
