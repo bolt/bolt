@@ -160,11 +160,9 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['storage.taxonomy_collection'] = $app->protect(
-            function ($app) {
-                return new Collection\Taxonomy($app['storage.metadata']);
-            }
-        );
+        $app['storage.taxonomy_collection'] = function ($app) {
+            return new Collection\Taxonomy($app['storage.metadata']);
+        };
 
         $app['storage.collection_manager'] = $app->share(
             function ($app) {
