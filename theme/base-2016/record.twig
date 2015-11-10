@@ -3,7 +3,7 @@
 {# Make sure we have an image to use as background: #}
 {% set image = record.image ?: random(theme.images) %}
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
-<div class="flex container margin wide-padding popUppers">
+<div class="flex container margin padding popUppers">
         <article class="eight s-twelve">
             <h1 data-bolt-field="title">{{ record.title }}</h1>
             {% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'title', 'subtitle', 'ownerid', 'templatefields', 'image'] %}

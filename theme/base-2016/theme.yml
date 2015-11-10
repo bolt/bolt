@@ -45,9 +45,20 @@ templatefields:
             label: Section 2
         image:
             type: image
+    geolocationexample.twig:
+        markdown:
+            type: markdown
+            label: A markdown field
+        geolocation:
+            type: geolocation
+            label: A geolocation field
+        image:
+            type: image
 
 # There can be defined the templates for the template chooser
 templateselect:
     templates:
          - name: 'Template with extra fields'
            filename: 'extrafields.twig'
+         - name: 'Another template with extra fields'
+           filename: 'geolocationexample.twig'

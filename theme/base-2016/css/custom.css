@@ -1,19 +1,79 @@
 body {
-    font-weight: 400;
-    color: #333;
+    font-size: 1.125rem;
+    line-height: 1.5625rem;
     font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    color: #444;
+    background: #FDFDFA;
 }
 
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
-    margin-top: 0;
-    margin-bottom: 2rem;
-    font-weight: 700;
+h4 {
     font-family: "Montserrat", HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+header {
+    background: #FDFDFA;
+}
+
+h1 {
+    font-size: 2.6875rem;
+    line-height: 3.125rem;
+    margin-top: 0;
+    margin-bottom: 1.5625rem;
+}
+
+* + h1 {
+    margin-top: 3.125rem;
+}
+
+h2 {
+    font-size: 2rem;
+    line-height: 3.125rem;
+    margin-top: 0;
+    margin-bottom: 1.5625rem;
+}
+
+* + h2 {
+    margin-top: 2.6875rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    line-height: 1.5625rem;
+    margin-top: 0;
+    margin-bottom: 1.5625rem;
+}
+
+h4 {
+    font-size: 1.125rem;
+    line-height: 1.5625rem;
+    margin-top: 0;
+    margin-bottom: 1.5625rem;
+}
+
+* + h3,
+* + h4 {
+    margin-top: 1.5625rem;
+}
+
+@media(max-width:800px) {
+    h1 {
+        font-size: 2.1875rem;
+        line-height: 3.125rem;
+    }
+    h2 {
+        font-size: 1.4375rem;
+        line-height: 1.5625rem;
+    }
+    h3 {
+        font-size: 1.3875rem;
+        line-height: 2.125rem;
+    }
+    h4 {
+        font-size: 1.125rem;
+    }
 }
 
 .container {
@@ -32,13 +92,6 @@ samp {
 img {
     max-width: 100%;
     height: auto;
-}
-/* Fix IE11 stretch behavior */
-
-header,
-header>div,
-header>ul {
-    min-height: 10vh;
 }
 
 header {
@@ -75,7 +128,6 @@ header a {
 footer {
     background: #333;
     color: #fff;
-    min-height: 10vh;
 }
 
 footer p {
@@ -104,14 +156,6 @@ footer ul {
 .popUppers >:nth-child(3) {
     background-color: #fff;
     margin-top: -15vh;
-}
-
-@media (min-width: 1100px) {
-    /* Fix IE11 stretch behavior */
-    
-    footer>* {
-        min-height: 10vh;
-    }
 }
 
 @media (max-width: 800px) {

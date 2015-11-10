@@ -2,7 +2,7 @@
 {% block body %}
 {# Make sure we have an image to use as background: #}
 {% set image = record.image ?: random(theme.images) %}
-<div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
+<div class="headerimage" style="background-image:url(http://maps.googleapis.com/maps/api/staticmap?center={{ record.templatefields.geolocation.latitude }},{{ record.templatefields.geolocation.longitude }}&amp;zoom=14&amp;size=1920x1080&amp;sensor=false&amp;markers={{ record.templatefields.geolocation.latitude }},{{ record.templatefields.geolocation.longitude }})"></div>
 <div class="flex container margin padding popUppers">
         <article class="eight s-twelve">
             <h1 data-bolt-field="title">{{ record.title }}</h1>
@@ -38,11 +38,7 @@
                     </p>
                 {%  endif %}
             {% endfor %}
-            
-            {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
-            {{ dump(record) }}
-            #}
-            
+            {{ print(record) }}
             {% include '_recordfooter.twig' with {'record': record} %}
             <p class="meta">
                 {% set previous = record.previous('id') %}
@@ -66,6 +62,6 @@
                 </p>
             {% endif %}
         </article>
-    {% include '_aside.twig' %}
+        {% include '_aside.twig' %}
     </div>
 {% endblock %}

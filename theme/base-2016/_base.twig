@@ -26,12 +26,12 @@
         </header>
         {% block body %}
         {% endblock %}
-        <footer class="flex margin padding">
-            <div class="six m-twelve logo align center left m-align m-center m-space-between">
+        <footer class="flex margin">
+            <div class="six align center left m-align m-center">
                 <p>{{ __("This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.",{'%url%':'http://bolt.cm'}) }}
                 </p>
             </div>
-            <ul class="six m-twelve align center space-between">
+            <ul class="six m-twelve align center space-around">
                 {{ menu('main', '_menu_footer.twig') }}
             </ul>
         </footer>

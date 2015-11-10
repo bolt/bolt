@@ -2,7 +2,7 @@
 {% block body %}
 {% set image = random(theme.images) %}
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
-<div class="flex container margin wide-padding popUppers">
+<div class="flex container margin padding popUppers">
     <section class="eight s-twelve">
         {% if taxonomytype is defined %}
             <h1>
