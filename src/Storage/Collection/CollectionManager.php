@@ -35,8 +35,8 @@ class CollectionManager
 
     public function create($class)
     {
-        if (is_callable($this->collections[$class])) {
-            return call_user_func($this->collections[$class]);
+        if (isset($this->collections[$class])) {
+            return $this->collections[$class];
         }
     }
 }
