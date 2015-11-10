@@ -3,6 +3,7 @@ namespace Bolt\EventListener;
 
 use Bolt\Config;
 use Bolt\Storage\Database\Schema\Manager;
+use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Logger\FlashLoggerInterface;
@@ -14,6 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Bolt\AccessControl\Permissions;
 
 class StorageEventListener implements EventSubscriberInterface
 {
@@ -62,6 +64,26 @@ class StorageEventListener implements EventSubscriberInterface
         if ($entityRecord instanceof Entity\Users) {
             $this->passwordHash($entityRecord);
             $this->enableUser($entityRecord);
+        }
+    }
+
+    /**
+     * Post hydration storage event.
+     *
+     * @param HydrationEvent $event
+     */
+    public function onPostHydrate(HydrationEvent $event)
+    {
+        $entity = $event->getSubject();
+        if (!$entity instanceof Entity\Users) {
+            return;
+        }
+
+        // Ensure Permissions::ROLE_EVERYONE always exists
+        $roles = $entity->roles;
+        if (!in_array(Permissions::ROLE_EVERYONE, $roles)) {
+            $roles[] = Permissions::ROLE_EVERYONE;
+            $entity->setRoles($roles);
         }
     }
 
@@ -140,8 +162,9 @@ class StorageEventListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST   => ['onKernelRequest', 31],
-            StorageEvents::PRE_SAVE => 'onPreSave',
+            KernelEvents::REQUEST       => ['onKernelRequest', 31],
+            StorageEvents::PRE_SAVE     => 'onPreSave',
+            StorageEvents::POST_HYDRATE => 'onPostHydrate',
         ];
     }
 }
