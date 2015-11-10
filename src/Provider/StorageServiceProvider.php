@@ -166,18 +166,11 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['storage.collections'] = [
-            'Bolt\Storage\Entity\Taxonomy' => $app->share(function ($app) {
-                return $app['storage.taxonomy_collection'];
-            }),
-        ];
-
         $app['storage.collection_manager'] = $app->share(
             function ($app) {
                 $manager = new Collection\CollectionManager($app['storage.collections']);
-                foreach ($app['storage.collections'] as $key=>$handler) {
-                    $manager->setHandler($key, $handler);
-                }
+                $manager->setHandler('Bolt\Storage\Entity\Taxonomy', $app['storage.taxonomy_collection']);
+
                 return $manager;
             }
         );
