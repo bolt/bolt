@@ -2,7 +2,7 @@
 
 namespace Bolt\Storage\Collection;
 
-use Bolt\Storage\EntityManager;
+use Bolt\Storage\Mapping\MetadataDriver;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -17,9 +17,9 @@ class Taxonomy extends ArrayCollection
 
     /**
      * Taxonomy constructor.
-     * @param array $metadata
+     * @param MetadataDriver $metadata
      */
-    public function __construct($metadata)
+    public function __construct(MetadataDriver $metadata)
     {
         $this->$metadata = $metadata;
 
