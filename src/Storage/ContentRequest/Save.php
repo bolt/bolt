@@ -225,23 +225,11 @@ class Save
         }
 
         $taxonomies = [];
+        $taxonomies = $this->em->getCollectionManager()->create('Bolt\Storage\Entity\Taxonomy');
+        $taxonomies->setFromPost($formValues);
+        dump($taxonomies);
 
-        foreach ($formValues['taxonomy'] as $field => $values) {
-            foreach ($values as $val) {
-                $order = isset($formValues['taxonomy-order'][$field]) ? $formValues['taxonomy-order'][$field] : 0;
-                $entity = $this->em->create('Bolt\Storage\Entity\Taxonomy', [
-                    'name' => $tax,
-                    'contentId' => $content->getId(),
-                    'contenttype' => (string)$content->getContenttype(),
-                    'taxonomytype' => $field,
-                    'slug' => $val,
-                    'sortorder' => $order
-                ]);
-                $taxonomies[$field][] = $entity;
-            }
-        }
-
-        $content->setTaxonomy($taxonomies);
+        $content->setTaxonomy($formValues['taxonomy']);
     }
 
     /**
