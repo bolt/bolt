@@ -73,26 +73,12 @@ class Users extends Entity
     }
 
     /**
-     * Getter for roles to ensure Permissions::ROLE_EVERYONE always exists.
-     *
-     * @return array
-     */
-    public function getRoles()
-    {
-        if (!in_array(Permissions::ROLE_EVERYONE, $this->roles)) {
-            $this->roles[] = Permissions::ROLE_EVERYONE;
-        }
-
-        return $this->roles;
-    }
-
-    /**
      * Setter for roles to ensure the array is always unique.
      *
      * @param array $roles
      */
     public function setRoles(array $roles)
     {
-        $this->roles = array_unique($roles);
+        $this->roles = array_values(array_unique($roles));
     }
 }
