@@ -29,7 +29,7 @@
      * @param {Object} fieldset
      */
     markdown.init = function (fieldset) {
-        uiKit.$('textarea[data-uk-htmleditor]', fieldset).each(function() {
+        uiKit.$('textarea[data-uk-htmleditor]', fieldset).each(function () {
             var editor = uiKit.$(this);
 
             if (!editor.data('htmleditor')) {
