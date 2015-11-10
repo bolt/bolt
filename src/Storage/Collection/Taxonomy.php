@@ -25,7 +25,7 @@ class Taxonomy extends ArrayCollection
         $this->config = $metadata->getTaxonomyConfig();
     }
 
-    public function setFromPost($formValues)
+    public function setFromPost($formValues, $entity)
     {
         foreach ($formValues['taxonomy'] as $field => $values) {
             foreach ($values as $val) {
@@ -33,15 +33,15 @@ class Taxonomy extends ArrayCollection
                 if (isset($this->config[$tax]['options'][$val])) {
                     $name = $this->config[$tax]['options'][$val];
                 }
-                $entity = new Entity\Taxonomy( [
+                $taxentity = new Entity\Taxonomy( [
                     'name' => $name,
-                    'contentId' => $content->getId(),
-                    'contenttype' => (string)$content->getContenttype(),
+                    'contentId' => $entity->getId(),
+                    'contenttype' => (string)$entity->getContenttype(),
                     'taxonomytype' => $field,
                     'slug' => $val,
                     'sortorder' => $order
                 ]);
-                $this->add($entity);
+                $this->add($taxentity);
             }
         }
     }
