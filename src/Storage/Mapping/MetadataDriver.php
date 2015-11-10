@@ -452,4 +452,13 @@ class MetadataDriver implements MappingDriver
     {
         return false;
     }
+
+    /**
+     * @return array
+     */
+    public function getTaxonomyConfig()
+    {
+        return $this->taxonomies;
+    }
+
 }

@@ -41,6 +41,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $storage->setLegacyStorage($app['storage.legacy']);
                 $storage->setEntityBuilder($app['storage.entity_builder']);
                 $storage->setFieldManager($app['storage.field_manager']);
+                $storage->setCollectionManager($app['storage.collection_manager']);
 
                 foreach ($app['storage.repositories'] as $entity => $repo) {
                     $storage->setRepository($entity, $repo);
@@ -142,6 +143,18 @@ class StorageServiceProvider implements ServiceProviderInterface
             'Bolt\Storage\Entity\LogSystem'  => 'Bolt\Storage\Repository\LogSystemRepository',
             'Bolt\Storage\Entity\Users'      => 'Bolt\Storage\Repository\UsersRepository',
         ];
+
+        $app['storage.collections'] = [
+            'Bolt\Storage\Entity\Taxonomy' => 'Bolt\Storage\Collection\Taxonomy'
+        ];
+
+        $app['storage.collection_manager'] = $app->share(
+            function ($app) {
+                $manager = new CollectionManager($app['storage.collections']);
+
+                return $manager;
+            }
+        );
 
         $app['storage.metadata'] = $app->share(
             function ($app) {

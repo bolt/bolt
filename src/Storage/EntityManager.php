@@ -2,6 +2,7 @@
 namespace Bolt\Storage;
 
 use Bolt\Legacy\Storage;
+use Bolt\Storage\Collection\CollectionManager;
 use Bolt\Storage\Entity\Builder;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
@@ -37,6 +38,8 @@ class EntityManager
     protected $builder;
     /** @var FieldManager */
     protected $fieldManager;
+    /** @var CollectionManager */
+    protected $collectionManager;
     /** @var array */
     protected $repositories = [];
     /** @var array */
@@ -146,6 +149,25 @@ class EntityManager
     public function setFieldManager(FieldManager $fieldManager)
     {
         $this->fieldManager = $fieldManager;
+    }
+
+    /**
+     * @return CollectionManager
+     */
+    public function getCollectionManager()
+    {
+        $manager = $this->collectionManager;
+        $manager->setEntityManager($this);
+
+        return $manager;
+    }
+
+    /**
+     * @param CollectionManager $collectionManager
+     */
+    public function setCollectionManager(CollectionManager $collectionManager)
+    {
+        $this->collectionManager = $collectionManager;
     }
 
     /**
