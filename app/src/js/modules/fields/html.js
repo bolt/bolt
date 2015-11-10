@@ -26,7 +26,6 @@
      * @memberof Bolt.fields.html
      *
      * @param {Object} fieldset
-     * @param fconf
      */
     html.init = function (fieldset) {
         $(fieldset).find('.ckeditor').each(function(){
