@@ -80,7 +80,7 @@ class StorageEventListener implements EventSubscriberInterface
         }
 
         // Ensure Permissions::ROLE_EVERYONE always exists
-        $roles = $entity->roles;
+        $roles = $entity->getRoles();
         if (!in_array(Permissions::ROLE_EVERYONE, $roles)) {
             $roles[] = Permissions::ROLE_EVERYONE;
             $entity->setRoles($roles);
