@@ -144,10 +144,13 @@ class TaxonomyType extends FieldTypeBase
     {
         $field = $this->mapping['fieldname'];
         $taxonomy = $entity->getTaxonomy();
-        $taxonomy[$field] = isset($taxonomy[$field]) ? $this->filterArray($taxonomy[$field]) : [];
 
         // Fetch existing taxonomies
         $result = $this->getExistingTaxonomies($entity) ?: [];
+        $collection = $this->em->getCollectionManager()->create('Bolt\Storage\Entity\Taxonomy');
+        $collection->setFromDatabaseValues($result);
+        $collection->merge($taxonomy);
+
         if ($this->mapping['data']['behaves_like'] === 'tags') {
             // We transform to [key => value] as 'tags' entry doesn't contain a slug
             $existing = array_map(
