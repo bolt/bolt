@@ -175,7 +175,9 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.collection_manager'] = $app->share(
             function ($app) {
                 $manager = new Collection\CollectionManager($app['storage.collections']);
-
+                foreach ($app['storage.collections'] as $key=>$handler) {
+                    $manager->setHandler($key, $handler);
+                }
                 return $manager;
             }
         );

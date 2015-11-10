@@ -11,12 +11,16 @@ use Bolt\Storage\EntityManager;
  */
 class CollectionManager
 {
-    public $classMaps;
+    public $collections;
     public $em;
 
-    public function __construct($collections)
+    /**
+     * @param $entity
+     * @param $handler
+     */
+    public function setHandler($entity, $handler)
     {
-        $this->collections = $collections;
+        $this->collections[$entity] = $handler;
     }
 
     /**
