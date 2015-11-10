@@ -69,6 +69,9 @@ class Taxonomy extends ArrayCollection
         foreach ($collection as $k => $entity) {
             $master = $this->getExisting($entity);
             $master->setSortorder() == $entity->getSortorder();
+            if (!$this->contains($master)) {
+                $this->add($master);
+            }
         }
 
     }
