@@ -5,8 +5,9 @@
  * @namespace Bolt.fields.html
  *
  * @param {Object} bolt - The Bolt module.
+ * @param {Object} $ - jQuery.
  */
-(function (bolt) {
+(function (bolt, $) {
     'use strict';
 
     /**
