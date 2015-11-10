@@ -5,8 +5,9 @@
  * @namespace Bolt.fields.html
  *
  * @param {Object} bolt - The Bolt module.
+ * @param {Object} $ - jQuery.
  */
-(function (bolt) {
+(function (bolt, $) {
     'use strict';
 
     /**
@@ -25,7 +26,6 @@
      * @memberof Bolt.fields.html
      *
      * @param {Object} fieldset
-     * @param fconf
      */
     html.init = function (fieldset) {
         $(fieldset).find('.ckeditor').each(function(){
