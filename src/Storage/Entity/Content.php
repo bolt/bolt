@@ -3,6 +3,7 @@ namespace Bolt\Storage\Entity;
 
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\Mapping\ContentTypeTitleTrait;
+use Bolt\Storage\EntityProxy;
 use Carbon\Carbon;
 
 /**
@@ -33,6 +34,9 @@ class Content extends Entity
 
     protected $contenttype;
     protected $_legacy;
+    protected $_relationInbound;
+    protected $_relationOutbound;
+    protected $_taxonomy;
     protected $id;
     protected $slug;
     protected $datecreated;
@@ -41,8 +45,8 @@ class Content extends Entity
     protected $datedepublish = null;
     protected $ownerid;
     protected $status;
-    protected $relation;
     protected $taxonomy;
+    protected $templatefields;
 
     /** @var array @deprecated Since v2.3 will be removed in v3.0 */
     protected $group;
@@ -170,6 +174,65 @@ class Content extends Entity
     public function setContenttype($value)
     {
         $this->contenttype = $value;
+    }
+
+    /**
+     * A catch all for relations that handles BC requests by default.
+     *
+     * @param boolean $outboundOnly
+     *
+     * @return EntityProxy[]
+     */
+    public function getRelation($outboundOnly = false)
+    {
+        if ($outboundOnly) {
+            return (array) $this->_relationOutbound;
+        }
+
+        return array_merge(
+            (array) $this->_relationOutbound,
+            (array) $this->_relationInbound
+        );
+    }
+
+    /**
+     * Get the outbound relationships.
+     *
+     * @return EntityProxy[]
+     */
+    public function getRelationOutbound()
+    {
+        return $this->_relationOutbound;
+    }
+
+    /**
+     * Set the outbound relationships.
+     *
+     * @param EntityProxy[] $values
+     */
+    public function setRelationOutbound($values)
+    {
+        $this->_relationOutbound = $values;
+    }
+
+    /**
+     * Get the inbound relationships.
+     *
+     * @return EntityProxy[]
+     */
+    public function getRelationInbound()
+    {
+        return $this->_relationInbound;
+    }
+
+    /**
+     * Set the inbound relationships.
+     *
+     * @param EntityProxy[] $values
+     */
+    public function setRelationInbound($values)
+    {
+        $this->_relationInbound = $values;
     }
 
     public function getTemplatefields()
