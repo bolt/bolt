@@ -78,30 +78,28 @@
         </div>
     </div>
 
-    {% if not ismobileclient() %}
-        {% if context.filetype in ['twig', 'html', 'htm'] %}
-            {% set codemirror = ['xml', 'javascript', 'css', 'htmlmixed'] %}
-        {% elseif context.filetype == "php" %}
-            {% set codemirror = ['matchbrackets', 'javascript', 'css', 'htmlmixed', 'clike', 'php'] %}
-        {% elseif context.filetype == "yml" %}
-            {% set codemirror = ['yaml'] %}
-        {% elseif context.filetype == "md" %}
-            {% set codemirror = ['markdown'] %}
-        {% elseif context.filetype in ['css', 'less'] %}
-            {% set codemirror = 'css' %}
-        {% elseif context.filetype == "js" %}
-            {% set codemirror = ['javascript'] %}
-        {% else %}
-            {% set codemirror = [] %}
-        {% endif %}
-
-        {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
-        <link rel="stylesheet" property="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
-        <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
-        <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
-        {% for file in codemirror %}
-            <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/plugins/{{ file }}.min.js"></script>
-        {% endfor %}
+    {% if context.filetype in ['twig', 'html', 'htm'] %}
+        {% set codemirror = ['xml', 'javascript', 'css', 'htmlmixed'] %}
+    {% elseif context.filetype == "php" %}
+        {% set codemirror = ['matchbrackets', 'javascript', 'css', 'htmlmixed', 'clike', 'php'] %}
+    {% elseif context.filetype == "yml" %}
+        {% set codemirror = ['yaml'] %}
+    {% elseif context.filetype == "md" %}
+        {% set codemirror = ['markdown'] %}
+    {% elseif context.filetype in ['css', 'less'] %}
+        {% set codemirror = 'css' %}
+    {% elseif context.filetype == "js" %}
+        {% set codemirror = ['javascript'] %}
+    {% else %}
+        {% set codemirror = [] %}
     {% endif %}
+
+    {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
+    <link rel="stylesheet" property="stylesheet" href="{{ paths.app }}view/js/ckeditor/plugins/codemirror/css/codemirror.min.css">
+    <script src="{{ paths.app }}view/js/ckeditor/ckeditor.js"></script>
+    <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/js/codemirror.min.js"></script>
+    {% for file in codemirror %}
+        <script src="{{ paths.app }}view/js/ckeditor/plugins/codemirror/plugins/{{ file }}.min.js"></script>
+    {% endfor %}
 
 {% endblock page_main %}
