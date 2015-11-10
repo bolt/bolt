@@ -145,15 +145,15 @@ class StorageServiceProvider implements ServiceProviderInterface
             'Bolt\Storage\Entity\Users'      => 'Bolt\Storage\Repository\UsersRepository',
         ];
 
-        $app['storage.collections'] = [
-            'Bolt\Storage\Entity\Taxonomy' => $app['storage.taxonomy_collection']
-        ];
-
         $app['storage.taxonomy_collection'] = $app->share(
             function ($app) {
                 return new Collection\Taxonomy($app['storage.metadata']);
             }
         );
+
+        $app['storage.collections'] = [
+            'Bolt\Storage\Entity\Taxonomy' => $app['storage.taxonomy_collection']
+        ];
 
         $app['storage.collection_manager'] = $app->share(
             function ($app) {
