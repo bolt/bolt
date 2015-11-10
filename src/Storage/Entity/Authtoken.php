@@ -31,4 +31,14 @@ class Authtoken extends Entity
     protected $ip;
     protected $useragent;
     protected $validity;
+
+    /**
+     * Setter for the user agent string.
+     *
+     * @param string $useragent
+     */
+    public function setUseragent($useragent)
+    {
+        $this->useragent = substr($useragent, 0, 128);
+    }
 }
