@@ -42,4 +42,4 @@
     // Apply mixin container
     bolt.fields.markdown = markdown;
 
-})(Bolt || {}, typeof UIkit !== 'undefined' ? UIkit : undefined);
+})(Bolt || {}, jQuery, typeof UIkit !== 'undefined' ? UIkit : undefined);
