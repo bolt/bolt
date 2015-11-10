@@ -13,17 +13,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Taxonomy extends ArrayCollection
 {
 
-    protected $em;
-    protected $config;
+    protected $metadata;
 
     /**
      * Taxonomy constructor.
+     * @param array $metadata
      */
-    public function __construct($elements, EntityManager $em, $config = [])
+    public function __construct($metadata)
     {
-        $this->em = $em;
-        $this->config = $config;
-        parent::__construct($elements);
+        $this->$metadata = $metadata;
 
     }
 }

@@ -28,4 +28,11 @@ class CollectionManager
     {
         $this->em = $em;
     }
+
+    public function create($class)
+    {
+        if (is_callable($this->classMaps[$class])) {
+            return call_user_func($this->classMaps[$class]);
+        }
+    }
 }

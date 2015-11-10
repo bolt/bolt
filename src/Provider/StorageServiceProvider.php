@@ -3,6 +3,7 @@ namespace Bolt\Provider;
 
 use Bolt\EventListener\StorageEventListener;
 use Bolt\Legacy\Storage;
+use Bolt\Storage\Collection;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\ContentRequest;
 use Bolt\Storage\Entity\Builder;
@@ -145,12 +146,18 @@ class StorageServiceProvider implements ServiceProviderInterface
         ];
 
         $app['storage.collections'] = [
-            'Bolt\Storage\Entity\Taxonomy' => 'Bolt\Storage\Collection\Taxonomy'
+            'Bolt\Storage\Entity\Taxonomy' => $app['storage.taxonomy_collection']
         ];
+
+        $app['storage.taxonomy_collection'] = $app->share(
+            function ($app) {
+                return new Collection\Taxonomy($app['storage.metadata']);
+            }
+        );
 
         $app['storage.collection_manager'] = $app->share(
             function ($app) {
-                $manager = new CollectionManager($app['storage.collections']);
+                $manager = new Collection\CollectionManager($app['storage.collections']);
 
                 return $manager;
             }
