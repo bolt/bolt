@@ -14,9 +14,9 @@ class CollectionManager
     public $classMaps;
     public $em;
 
-    public function __construct(array $classMaps)
+    public function __construct($collections)
     {
-        $this->$classMaps = $classMaps;
+        $this->collections = $collections;
     }
 
     /**
@@ -31,8 +31,8 @@ class CollectionManager
 
     public function create($class)
     {
-        if (is_callable($this->classMaps[$class])) {
-            return call_user_func($this->classMaps[$class]);
+        if (is_callable($this->collections[$class])) {
+            return call_user_func($this->collections[$class]);
         }
     }
 }
