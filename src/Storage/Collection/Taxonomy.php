@@ -21,7 +21,7 @@ class Taxonomy extends ArrayCollection
      */
     public function __construct(MetadataDriver $metadata)
     {
-        $this->$metadata = $metadata;
+        $this->metadata = $metadata;
 
     }
 }
