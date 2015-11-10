@@ -30,8 +30,8 @@ class Taxonomy extends ArrayCollection
         foreach ($formValues['taxonomy'] as $field => $values) {
             foreach ($values as $val) {
                 $order = isset($formValues['taxonomy-order'][$field]) ? $formValues['taxonomy-order'][$field] : 0;
-                if (isset($this->config[$tax]['options'][$val])) {
-                    $name = $this->config[$tax]['options'][$val];
+                if (isset($this->config[$field]['options'][$val])) {
+                    $name = $this->config[$field]['options'][$val];
                 }
                 $taxentity = new Entity\Taxonomy( [
                     'name' => $name,
