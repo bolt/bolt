@@ -27,6 +27,7 @@
      */
     activity.init = function () {
         if ($('#latestactivity').is('*')) {
+            bolt.activity.update();
             setTimeout(
                 function () {
                     bolt.activity.update();
