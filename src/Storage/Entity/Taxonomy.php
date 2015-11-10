@@ -21,8 +21,4 @@ class Taxonomy extends Entity
         $this->_config = $config;
     }
 
-    public function setSlug($value)
-    {
-
-    }
 }
