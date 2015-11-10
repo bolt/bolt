@@ -11,6 +11,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * Class to test src/Nut/LogClear.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class LogClearTest extends BoltUnitTest
 {
@@ -18,37 +19,17 @@ class LogClearTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $command = new LogClear($app);
-        $dialog = new DialogHelper();
-        $dialog->setInputStream($this->getInputStream("Yes\n"));
-        $command->setHelperSet(new HelperSet([$dialog]));
         $tester = new CommandTester($command);
+
+        $helper = $this->getMock('\Symfony\Component\Console\Helper\QuestionHelper', ['ask']);
+        $helper->expects($this->once())
+            ->method('ask')
+            ->will($this->returnValue(true));
+        $set = new HelperSet(['question' => $helper]);
+        $command->setHelperSet($set);
 
         $tester->execute([]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/System & change logs cleared/', $result);
-    }
-
-    // public function testCancel()
-    // {
-    //     $app = $this->getApp();
-    //     // Test abort
-    //     $command = new LogClear($app);
-    //     $command->setHelperSet(new Helperset([new DialogHelper]));
-    //     $dialog = $command->getHelper('dialog');
-    //     $dialog->setInputStream($this->getInputStream("Test\n"));
-    //     $tester = new CommandTester($command);
-
-    //     $tester->execute([]);
-    //     $result = $tester->getDisplay();
-    //     $this->assertNotRegexp('/Activity logs cleared/', $result);
-    // }
-
-    protected function getInputStream($input)
-    {
-        $stream = fopen('php://memory', 'r+', false);
-        fputs($stream, $input);
-        rewind($stream);
-
-        return $stream;
     }
 }
