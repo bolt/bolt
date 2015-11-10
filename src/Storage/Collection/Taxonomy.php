@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Taxonomy extends ArrayCollection
 {
 
-    protected $metadata;
+    protected $config;
 
     /**
      * Taxonomy constructor.
@@ -21,7 +21,7 @@ class Taxonomy extends ArrayCollection
      */
     public function __construct(MetadataDriver $metadata)
     {
-        $this->metadata = $metadata;
+        $this->congig = $metadata->getTaxonomyConfig();
 
     }
 }
