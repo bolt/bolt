@@ -146,39 +146,21 @@ class TaxonomyType extends FieldTypeBase
         $taxonomy = $entity->getTaxonomy();
 
         // Fetch existing taxonomies
-        $result = $this->getExistingTaxonomies($entity) ?: [];
+        $existing = $this->getExistingTaxonomies($entity) ?: [];
         $collection = $this->em->getCollectionManager()->create('Bolt\Storage\Entity\Taxonomy');
-        $collection->setFromDatabaseValues($result);
+        $collection->setFromDatabaseValues($existing);
         $collection->merge($taxonomy, true);
+        $toDelete = $existing->getDeleted($collection);
 
-        if ($this->mapping['data']['behaves_like'] === 'tags') {
-            // We transform to [key => value] as 'tags' entry doesn't contain a slug
-            $existing = array_map(
-                function (&$k, $v) {
-                    if ($v) {
-                        $k = $v['slug'];
-                        $v = $v['name'];
-                    }
-
-                    return $v;
-                },
-                array_keys($result),
-                $result
-            );
-        } else {
-            $existing = array_map(
-                function ($v) {
-                    return $v ? $v['slug'] : [];
-                },
-                $result
-            );
+        $repo = $this->em->getRepository('Bolt\Storage\Entity\Taxonomy');
+        foreach ($collection as $entity) {
+            $repo->save($entity);
         }
 
-        $toInsert = array_diff($taxonomy[$field], $existing);
-        $toDelete = array_diff($existing, $taxonomy[$field]);
+        foreach ($toDelete as  $entity) {
+            $repo->delete($entity);
+        }
 
-        $this->appendInsertQueries($queries, $entity, $toInsert);
-        $this->appendDeleteQueries($queries, $entity, $toDelete);
     }
 
     /**

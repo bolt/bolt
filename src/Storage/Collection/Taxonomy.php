@@ -134,4 +134,23 @@ class Taxonomy extends ArrayCollection
         }
     }
 
+    public function getDeleted(Taxonomy $incoming)
+    {
+        $deleted = new ArrayCollection();
+        foreach ($this as $existing) {
+            if (!$incoming->contains($existing)) {
+                $deleted->add($existing);
+            }
+        }
+
+        return $deleted;
+    }
+
+    public function getField($fieldname)
+    {
+        return $this->filter(function($el) use($fieldname) {
+            return $el->getTaxonomytype() == $fieldname;
+        });
+    }
+
 }
