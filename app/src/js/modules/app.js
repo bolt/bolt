@@ -74,7 +74,6 @@
         bolt.omnisearch.init();
         bolt.extend.init();
 
-        bolt.activity.init();
         bolt.ckeditor.init();
         bolt.datetime.init();
 
