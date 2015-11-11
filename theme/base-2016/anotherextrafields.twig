@@ -72,9 +72,9 @@
         </article>
         <article class="four m-twelve">
             {{ widget('frontend', 'aside_top') }}
-            <h2 data-bolt-field="templatefields[section_1]">{{ record.templatefields.section_1 }}</h2>
             {{ popup(record.templatefields.image, 440, 0) }}
-            <div data-bolt-field="templatefields[section_2]">{{ record.templatefields.section_2 }}</div>
+            <div>{{ record.templatefields.markdown }}</div>
+            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ record.templatefields.geolocation.latitude }},{{ record.templatefields.geolocation.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;markers={{ record.templatefields.geolocation.latitude }},{{ record.templatefields.geolocation.longitude }}">
             {{ widget('frontend', 'aside_bottom') }}
          </article>
     </div>

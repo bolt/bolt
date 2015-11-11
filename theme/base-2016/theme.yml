@@ -45,7 +45,7 @@ templatefields:
             label: Section 2
         image:
             type: image
-    geolocationexample.twig:
+    anotherextrafields.twig:
         markdown:
             type: markdown
             label: A markdown field
@@ -61,5 +61,5 @@ templateselect:
          - name: 'Template with extra fields'
            filename: 'extrafields.twig'
          - name: 'Another template with extra fields'
-           filename: 'geolocationexample.twig'
+           filename: 'anotherextrafields.twig'
         
