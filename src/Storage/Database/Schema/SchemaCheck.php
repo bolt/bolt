@@ -2,8 +2,8 @@
 
 namespace Bolt\Storage\Database\Schema;
 
-use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+use Doctrine\DBAL\Schema\TableDiff;
 
 /**
  * A response class for a single table's check.

@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Storage\Entity;
 
-use Bolt\AccessControl\Permissions;
-
 /**
  * Entity for User.
  *

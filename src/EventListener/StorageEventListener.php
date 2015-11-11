@@ -1,12 +1,13 @@
 <?php
 namespace Bolt\EventListener;
 
+use Bolt\AccessControl\Permissions;
 use Bolt\Config;
-use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Logger\FlashLoggerInterface;
+use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Bolt\Translation\Translator as Trans;
@@ -15,7 +16,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Bolt\AccessControl\Permissions;
 
 class StorageEventListener implements EventSubscriberInterface
 {
