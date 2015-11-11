@@ -8,7 +8,7 @@ class Taxonomy extends Entity
 {
     protected $_config = [];
     protected $id;
-    protected $contentId;
+    protected $content_id;
     protected $contenttype;
     protected $taxonomytype;
     protected $slug;
