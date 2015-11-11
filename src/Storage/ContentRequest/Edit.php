@@ -176,6 +176,7 @@ class Edit
 
     /**
      * Test write access for uploadable fields.
+     * Autocreates the desired directory if it does not exist.
      *
      * @param array $fields
      *
@@ -187,7 +188,7 @@ class Edit
 
         foreach ($fields as &$values) {
             if (isset($values['upload'])) {
-                $values['canUpload'] = $filesystem->has($values['upload']) && $filesystem->getVisibility($values['upload']);
+                $values['canUpload'] = ($filesystem->has($values['upload']) || $filesystem->createDir($values['upload'])) && $filesystem->getVisibility($values['upload']);
             } else {
                 $values['canUpload'] = true;
             }
