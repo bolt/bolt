@@ -92,17 +92,9 @@ class Taxonomy extends ArrayCollection
 
     public function getExisting($entity)
     {
-        foreach ($this as $k => $existing) {
-            if (
-                $existing->getContent_id() == $entity->getContent_id() &&
-                $existing->getTaxonomytype() == $entity->getTaxonomytype() &&
-                $existing->getSlug() == $entity->getSlug()
-            ) {
-                return $existing;
-            }
-        }
-
-        return $entity;
+        return $this->filter(function($el){
+            return $el->getId();
+        });
     }
 
 }
