@@ -43,7 +43,6 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/actions.js',
                 '<%= path.src.js %>/modules/activity.js',
                 '<%= path.src.js %>/modules/app.js',
-                '<%= path.src.js %>/modules/buic.js',
                 '<%= path.src.js %>/modules/ckeditor.js',
                 '<%= path.src.js %>/modules/conf.js',
                 '<%= path.src.js %>/modules/data.js',

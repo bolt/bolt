@@ -6,7 +6,6 @@
  * @mixes Bolt.actions
  * @mixes Bolt.activity
  * @mixes Bolt.app
- * @mixes Bolt.buic
  * @mixes Bolt.ckeditor
  * @mixes Bolt.conf
  * @mixes Bolt.data
