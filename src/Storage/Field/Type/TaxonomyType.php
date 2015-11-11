@@ -149,7 +149,7 @@ class TaxonomyType extends FieldTypeBase
         $result = $this->getExistingTaxonomies($entity) ?: [];
         $collection = $this->em->getCollectionManager()->create('Bolt\Storage\Entity\Taxonomy');
         $collection->setFromDatabaseValues($result);
-        $collection->merge($taxonomy);
+        $collection->merge($taxonomy, true);
 
         if ($this->mapping['data']['behaves_like'] === 'tags') {
             // We transform to [key => value] as 'tags' entry doesn't contain a slug
