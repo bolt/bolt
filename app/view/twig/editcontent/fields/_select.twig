@@ -5,7 +5,8 @@
     label:     field.label|default(''),
     multiple:  (field.multiple is defined and field.multiple),
     values:    field.values|default([]),
-    info:      field.info|default('')
+    info:      field.info|default(''),
+    required:  field.required|default(false)
 } %}
 
 {#=== INIT ===========================================================================================================#}
@@ -42,6 +43,7 @@
     class:     option.class,
     id:        key,
     multiple:  option.multiple,
+    required:  option.required,
     name:      (option.multiple) ? name ~ '[]' : name,
 } %}
 
