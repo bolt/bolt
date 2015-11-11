@@ -32,7 +32,9 @@
 
         // Widgets initialisations
         $('[data-widget]', context).each(function () {
-            $(this)[$(this).data('widget')]();
+            $(this)[$(this).data('widget')]()
+                .removeAttr('data-widget')
+                .removeData('widget');
         });
     };
 
