@@ -577,6 +577,14 @@ class Config
             $groups[$currentGroup] = 1;
 
             $fields[$key] = $field;
+
+            // Repeating fields checks
+            if ($field['type'] === 'repeater') {
+                $fields[$key] = $this->parseFieldRepeaters($fields, $key);
+                if ($fields[$key] === null) {
+                    unset($fields[$key]);
+                }
+            }
         }
 
         // Make sure the 'uses' of the slug is an array.
@@ -585,6 +593,32 @@ class Config
         }
 
         return [$fields, $hasGroups ? array_keys($groups) : []];
+    }
+
+    /**
+     * Basic validation of repeater fields.
+     *
+     * @param array  $fields
+     * @param string $key
+     *
+     * @return array
+     */
+    private function parseFieldRepeaters(array $fields, $key)
+    {
+        $blacklist = ['repeater', 'slug', 'templatefield'];
+        $repeater = $fields[$key];
+
+        if (!isset($repeater['fields']) || !is_array($repeater['fields'])) {
+            return;
+        }
+
+        foreach ($repeater['fields'] as $repeaterKey => $repeaterField) {
+            if (!isset($repeaterField['type']) || in_array($repeaterField['type'], $blacklist)) {
+                unset($repeater['fields'][$repeaterKey]);
+            }
+        }
+
+        return $repeater;
     }
 
     /**
