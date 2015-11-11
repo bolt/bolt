@@ -64,7 +64,7 @@
 
                 {% set is_array = (value is iterable and (value | length) > 1) %}
                 {% set attr_opt = {
-                    value:     (id == 0) ? '' : id,
+                    value:     (id == 0 and option.required) ? '' : id,
                     selected:  id in selection or (not onlyids and (is_array ? value[0] : value) in selection),
                 } %}
 
