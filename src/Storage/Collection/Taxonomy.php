@@ -66,16 +66,21 @@ class Taxonomy extends ArrayCollection
      * Any records not in the incoming set are deleted from the collection.
      *
      * @param Taxonomy $collection
+     * @param bool $delete
      */
-    public function merge(Taxonomy $collection)
+    public function merge(Taxonomy $collection, $delete = false)
     {
         // First give priority to already existing entities
         foreach ($collection as $k => $entity) {
-            $master = $this->getExisting($entity);
+            $master = $this->getOriginal($entity);
             $master->setSortorder($entity->getSortorder());
             if (!$this->contains($master)) {
                 $this->add($master);
             }
+        }
+
+        if ($delete) {
+            $this->removeDeleted($collection);
         }
 
     }
@@ -90,11 +95,43 @@ class Taxonomy extends ArrayCollection
         });
     }
 
-    public function getExisting($entity)
+    public function getExisting()
     {
         return $this->filter(function($el){
             return $el->getId();
         });
+    }
+
+    /**
+     * This loops over the existing collection to see if the properties in the incoming
+     * are already available on a saved record. To do this it checks the three key properties
+     * content_id, taxonomytype and slug, if there's a match it returns the original, otherwise
+     * it returns the new and adds the new one to the collection.
+     * @param $entity
+     * @return mixed|null
+     */
+    public function getOriginal($entity)
+    {
+        foreach ($this as $k => $existing) {
+            if (
+                $existing->getContent_id() == $entity->getContent_id() &&
+                $existing->getTaxonomytype() == $entity->getTaxonomytype() &&
+                $existing->getSlug() == $entity->getSlug()
+            ) {
+                return $existing;
+            }
+        }
+
+        return $entity;
+    }
+
+    public function removeDeleted(Taxonomy $incoming)
+    {
+        foreach ($this as $existing) {
+            if (!$incoming->contains($existing)) {
+                $this->removeElement($existing);
+            }
+        }
     }
 
 }
