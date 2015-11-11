@@ -309,7 +309,7 @@ class RecordHandler
         if ($startempty) {
             $retval = array();
         } else {
-            $retval = array('');
+            $retval = array('' => '');
         }
         foreach ($content as $c) {
             if (is_array($fieldname)) {
