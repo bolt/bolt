@@ -1,6 +1,7 @@
 <!-- Sidebar -->
 
 <aside class="four s-twelve">
+    {{ widget('frontend', 'aside_top') }}
     {% for ct in app.config.get('contenttypes') if not ct.viewless|default(false) %}
         {% setcontent records = ct.slug ~ "/latest/5" %}
         <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct.slug}) }}</h2>
@@ -13,4 +14,5 @@
         </ul>
         <p><a href="{{ paths.root }}{{ct.slug}}">{{ __('contenttypes.generic.overview',{'%contenttypes%': ct.slug}) }} &raquo;</a></p>
     {% endfor %}
+    {{ widget('frontend', 'aside_bottom') }}
 </aside>

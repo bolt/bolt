@@ -62,3 +62,4 @@ templateselect:
            filename: 'extrafields.twig'
          - name: 'Another template with extra fields'
            filename: 'geolocationexample.twig'
+        

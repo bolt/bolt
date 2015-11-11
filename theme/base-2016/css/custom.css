@@ -59,6 +59,9 @@ h4 {
 }
 
 @media(max-width:800px) {
+    .padding>*{
+            padding: 1em 3%;
+    }
     h1 {
         font-size: 2.1875rem;
         line-height: 3.125rem;
