@@ -16,7 +16,7 @@
 {% for reltype, ids in context.content.relation %}
     {% if context.contenttype.relations[reltype] is not defined %}
         <p>{{ __('This record is related to:') }}</p>
-        <div class="buic-listing">
+        <div class="buic-listing" data-widget="buicListing">
             <table class="table dashboardlisting listing">
                 {% for id in ids %}
                     {% setcontent record = reltype ~ '/' ~ id %}

@@ -30,12 +30,10 @@
             context = $(document.documentElement);
         }
 
-        // Widgets
-        $('.buic-checkbox', context).buicCheckbox();
-        $('.buic-listing', context).buicListing();
-        $('.buic-moment', context).buicMoment();
-        $('.buic-progress', context).buicProgress();
-        $('.buic-select', context).buicSelect();
+        // Widgets initialisations
+        $('[data-widget]', context).each(function () {
+            $(this)[$(this).data('widget')]();
+        });
     };
 
     // Add placeholder for buic.
