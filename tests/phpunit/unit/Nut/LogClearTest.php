@@ -3,7 +3,6 @@ namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\LogClear;
 use Bolt\Tests\BoltUnitTest;
-use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Tester\CommandTester;
 

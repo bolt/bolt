@@ -26,7 +26,7 @@ class TextHandlerTest extends BoltUnitTest
         $handler = new TextHandler($app);
 
         $array = [
-            'koala' => 'gum leaves',
+            'koala'     => 'gum leaves',
             'extension' => 'Clippy',
         ];
 

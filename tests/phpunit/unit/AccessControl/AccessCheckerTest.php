@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Tests;
 
-use Bolt\AccessControl\AccessChecker;
 use Bolt\AccessControl\Token\Token;
 use Bolt\Storage\Entity;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +31,6 @@ class AccessCheckerTest extends BoltUnitTest
         $response = $accessControl->isValidSession(null);
         $this->assertFalse($response);
     }
-
 
     /**
      * @expectedException        \InvalidArgumentException

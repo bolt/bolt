@@ -2,8 +2,8 @@
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\UserResetPassword;
-use Bolt\Tests\BoltUnitTest;
 use Bolt\Storage\Entity;
+use Bolt\Tests\BoltUnitTest;
 use PasswordLib\PasswordLib;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Tester\CommandTester;

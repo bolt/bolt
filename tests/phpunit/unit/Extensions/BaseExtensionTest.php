@@ -1,9 +1,9 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
+use Bolt\BaseExtension;
 use Bolt\Provider\NutServiceProvider;
 use Symfony\Component\Console\Command\Command;
-use Bolt\BaseExtension;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**

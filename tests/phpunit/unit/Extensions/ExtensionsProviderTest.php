@@ -288,7 +288,6 @@ HTML;
         $this->assertEquals($this->minify($this->expectedLateJs), $this->minify($html));
     }
 
-
     public function testCssProcessAssets()
     {
         $app = $this->getApp();

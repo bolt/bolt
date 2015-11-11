@@ -2,10 +2,10 @@
 
 namespace Bolt\Tests\Twig;
 
-use Bolt\Twig\Handler\UtilsHandler;
 use Bolt\Tests\BoltUnitTest;
-use Symfony\Component\VarDumper\VarDumper;
+use Bolt\Twig\Handler\UtilsHandler;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Class to test Bolt\Twig\Handler\UtilsHandler

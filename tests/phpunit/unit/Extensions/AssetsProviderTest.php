@@ -1,11 +1,10 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
+use Bolt\Asset\File\JavaScript;
+use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Target;
 use Bolt\Extensions;
-use Bolt\Storage\Entity;
-use Bolt\Asset\File\Stylesheet;
-use Bolt\Asset\File\JavaScript;
 
 /**
  * Class to test correct operation and locations of assets provider.

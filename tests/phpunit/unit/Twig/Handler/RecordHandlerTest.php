@@ -469,11 +469,11 @@ GRINGALET;
         $app = $this->getApp();
         $app['config']->set('theme/templateselect/templates', [
             'koala' => [
-                'name' => 'koala.twig',
+                'name'     => 'koala.twig',
                 'filename' => 'koala.twig',
             ],
             'clippy' => [
-                'name' => 'clippy.twig',
+                'name'     => 'clippy.twig',
                 'filename' => 'clippy.twig',
             ]
         ]);

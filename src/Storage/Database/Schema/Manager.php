@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Database\Schema;
 
-use Bolt\Exception\StorageException;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Silex\Application;

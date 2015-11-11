@@ -19,7 +19,7 @@ class ControllerEventsTest extends BoltUnitTest
     public function testSingletonConstructor()
     {
         $reflection = new \ReflectionClass('Bolt\Events\ControllerEvents');
-        $method = $reflection->getMethod ('__construct');
+        $method = $reflection->getMethod('__construct');
 
         $this->assertTrue($method->isConstructor());
         $this->assertTrue($method->isPrivate());

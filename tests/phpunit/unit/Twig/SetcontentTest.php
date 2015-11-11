@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Tests\Twig;
 
-use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Twig\SetcontentTokenParser;
 use Twig_Compiler;
 use Twig_Environment;
 use Twig_ExpressionParser;

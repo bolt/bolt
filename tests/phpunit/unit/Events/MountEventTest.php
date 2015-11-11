@@ -83,4 +83,6 @@ class ControllerMock implements ControllerProviderInterface
     }
 }
 
-class ClippyKoala {}
+class ClippyKoala
+{
+}
