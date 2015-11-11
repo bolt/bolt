@@ -26,16 +26,18 @@
             </h1>
         {% endif %}
         {% for record in records %}
-                <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
-                {# display something introduction-like.. #}
-                {% if record.introduction %}
-                    {{ record.introduction }}
-                {% elseif record.teaser %}
-                    {{ record.teaser }}
-                {% else %}
-                    <p>{{ record.excerpt(300) }}</p>
-                {% endif %}
-                {% include '_recordfooter.twig' with {'record': record} %}
+            {% set image = record.image ?: random(theme.images) %}
+            <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
+            {# display something introduction-like.. #}
+            {{ popup(image, 440, 0) }}
+            {% if record.introduction %}
+                {{ record.introduction }}
+            {% elseif record.teaser %}
+                {{ record.teaser }}
+            {% else %}
+                <p>{{ record.excerpt(300) }}</p>
+            {% endif %}
+            {% include '_recordfooter.twig' with {'record': record} %}
             {% if not loop.last %}<hr>{% endif %}
         {% else %}
             <article>

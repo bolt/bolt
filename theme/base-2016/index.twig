@@ -20,7 +20,7 @@
         </article>
     {% endif %}
     {% for ct in theme.frontpage_contenttypes %}
-        {% setcontent records = ct ~ "/latest/3" %}
+        {% setcontent records = ct ~ "/latest/2" %}
             {% if records %}
                 <div class="three s-twelve">
                     {% for record in records %}
@@ -30,6 +30,7 @@
                             <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct}) }}</h2>
                         {% endif %}
                         <h3><a href="{{record.link}}">{{ record.title }}</a></h3>
+                        {{ showimage(image, 440, 0) }}
                         <p>{{record.body|excerpt(250)}}</p>
                         {% if loop.last %}
                             <p><a href="{{ paths.root }}{{ct}}">{{ __('contenttypes.generic.overview',{'%contenttypes%': ct}) }} &raquo;</a></p>

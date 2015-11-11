@@ -10,7 +10,7 @@ h1,
 h2,
 h3,
 h4 {
-    font-family: "Montserrat", HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Montserrat", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 header {
@@ -59,8 +59,8 @@ h4 {
 }
 
 @media(max-width:800px) {
-    .padding>*{
-            padding: 1em 3%;
+    .padding>* {
+        padding: 1em 3%;
     }
     h1 {
         font-size: 2.1875rem;
@@ -139,6 +139,19 @@ footer p {
 
 footer ul {
     list-style: none;
+}
+
+.magnific img {
+    float: left;
+    max-width: 50%;
+    margin: 0 1em 1em 0;
+}
+
+.recordfooter::before {
+    content: "";
+    display: table;
+    width: 100%;
+    clear: both;
 }
 
 .imageholder {

@@ -5,7 +5,6 @@ $(document).ready(function () {
         gallery: {
             enabled: true
         },
-        disableOn: 400,
         closeBtnInside: true,
         enableEscapeKey: true,
         mainClass: 'mfp-with-zoom',
