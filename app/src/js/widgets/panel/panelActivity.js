@@ -2,8 +2,9 @@
  * Activity panel widget.
  *
  * @param {object} $ - Global jQuery object
+ * @param {Object} bolt - The Bolt module.
  */
-(function ($) {
+(function ($, bolt) {
     'use strict';
 
     /**
@@ -14,6 +15,15 @@
      * @type integer
      */
     var intervalId = 0;
+
+    /**
+     * Update interval.
+     *
+     * @memberOf jQuery.widget.bolt.panelActivity
+     * @static
+     * @type integer
+     */
+    var interval = 3 * 1000; // 30 seconds
 
     /**
      * List of update callbacks.
@@ -38,26 +48,29 @@
         /**
          * Default options.
          *
-         * @private
-         * @property {integer} _interval - Update interval, shared by all instances
+         * @property {string} url - URL to get the latest activity from
          */
-        _interval: 0,
+        options: {
+            url: ''
+        },
 
         /**
-         * The constructor of the moment widget.
+         * The constructor of the activity panel  widget.
          *
          * @private
          */
         _create: function () {
             var self = this;
 
-            // Set up a interval timer used by all moment widgets, if not already done.
-            if (!intervalId) {
-                intervalId = setInterval(updateList.fire, this._interval);
+            // We can set the default only here as because of call to bolt.conf().
+            if (!this.options.url) {
+                this.options.url = bolt.conf('paths.async') + 'latestactivity';
             }
 
-            // Set up the displayed value.
-            this.set();
+            // Set up a interval timer used by all activity panel widgets, if not already done.
+            if (!intervalId) {
+                intervalId = setInterval(updateList.fire, interval);
+            }
 
             // Add the update function to the callback stack.
             this.fnUpdate = function () {
@@ -88,6 +101,17 @@
          * @private
          */
         _update: function () {
+            var self = this;
+
+            $.get(
+               this.options.url,
+               function (data) {
+                   var newActivity = $(data);
+
+                   bolt.app.initWidgets(newActivity);
+                   self.element.html(newActivity);
+               }
+            );
         }
     });
-})(jQuery, moment);
+})(jQuery, Bolt);
