@@ -68,7 +68,7 @@ class Taxonomy extends ArrayCollection
         // First give priority to already existing entities
         foreach ($collection as $k => $entity) {
             $master = $this->getExisting($entity);
-            $master->setSortorder() == $entity->getSortorder();
+            $master->setSortorder() = $entity->getSortorder();
             if (!$this->contains($master)) {
                 $this->add($master);
             }
