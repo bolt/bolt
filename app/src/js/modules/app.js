@@ -79,7 +79,7 @@
         bolt.datetime.init();
 
         legacyInit();
-        bolt.buic.init();
+        bolt.app.initWidgets();
         bolt.fields.init();
     };
 
@@ -91,6 +91,26 @@
      */
     app.buid = function () {
         return 'buid-' + buid++;
+    };
+
+    /**
+     * Initializes all bolt widgets in the given context or global.
+     *
+     * @function initWidgets
+     * @memberof Bolt.app
+     * @param {Object} context -
+     */
+    app.initWidgets = function (context) {
+        if (typeof context === 'undefined') {
+            context = $(document.documentElement);
+        }
+
+        // Widgets initialisations
+        $('[data-widget]', context).each(function () {
+            $(this)[$(this).data('widget')]()
+                .removeAttr('data-widget')
+                .removeData('widget');
+        });
     };
 
     /*

@@ -87,7 +87,7 @@
                 bolt.fields[type].init(this, conf);
             }
         });
-        bolt.buic.init(cloned);
+        bolt.app.initWidgets(cloned);
 
         return cloned;
     }
