@@ -198,7 +198,7 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $app['config']->set('general/mailoptions', ['transport' => 'smtp', 'spool' => true,'host' => 'localhost', 'port' => '25']);
+        $app['config']->set('general/mailoptions', ['transport' => 'smtp', 'spool' => true, 'host' => 'localhost', 'port' => '25']);
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
         $logger->expects($this->never())
@@ -222,7 +222,7 @@ class PasswordTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $app['config']->set('general/mailoptions', ['transport' => 'smtp', 'spool' => true,'host' => 'localhost', 'port' => '25']);
+        $app['config']->set('general/mailoptions', ['transport' => 'smtp', 'spool' => true, 'host' => 'localhost', 'port' => '25']);
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
         $logger->expects($this->atLeastOnce())

@@ -173,14 +173,14 @@ class HtmlHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new HtmlHandler($app);
 
-$markdown = <<<MARKDOWN
+        $markdown = <<<MARKDOWN
 # Episode IV
 ## A New Hope
 It is a period of refactor war.
 * BPFL
 MARKDOWN;
 
-$html = <<< HTML
+        $html = <<< HTML
 <h1>Episode IV</h1>
 <h2>A New Hope</h2>
 <p>It is a period of refactor war.</p>
