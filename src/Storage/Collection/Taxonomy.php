@@ -14,15 +14,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Taxonomy extends ArrayCollection
 {
 
-    protected $config;
+    public $config;
 
     /**
      * Taxonomy constructor.
+     * @param array $elements
      * @param MetadataDriver $metadata
      */
-    public function __construct(MetadataDriver $metadata)
+    public function __construct(array $elements = [], MetadataDriver $metadata = null)
     {
-        $this->config = $metadata->getTaxonomyConfig();
+        parent::__construct($elements);
+        if ($metadata) {
+            $this->config = $metadata->getTaxonomyConfig();
+        }
     }
 
     public function setFromPost($formValues, $entity)
