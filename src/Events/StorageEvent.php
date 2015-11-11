@@ -76,7 +76,7 @@ class StorageEvent extends GenericEvent
     public function getContentType()
     {
         $contentType = $this->getSubject()->contenttype;
-        if ($contentType!== null && isset($contentType['slug'])) {
+        if ($contentType !== null && isset($contentType['slug'])) {
             return $contentType['slug'];
         }
     }
