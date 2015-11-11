@@ -37,7 +37,7 @@ class Taxonomy extends ArrayCollection
                 }
                 $taxentity = new Entity\Taxonomy( [
                     'name' => $name,
-                    'contentId' => $entity->getId(),
+                    'content_id' => $entity->getId(),
                     'contenttype' => (string)$entity->getContenttype(),
                     'taxonomytype' => $field,
                     'slug' => $val,
