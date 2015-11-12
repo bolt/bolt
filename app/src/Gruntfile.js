@@ -58,12 +58,8 @@ module.exports = function(grunt) {
                 // Fields
                 '<%= path.src.js %>/modules/fields.js',
                 '<%= path.src.js %>/modules/fields/categories.js',
-                '<%= path.src.js %>/modules/fields/file.js',
-                '<%= path.src.js %>/modules/fields/filelist.js',
                 '<%= path.src.js %>/modules/fields/geolocation.js',
                 '<%= path.src.js %>/modules/fields/html.js',
-                '<%= path.src.js %>/modules/fields/image.js',
-                '<%= path.src.js %>/modules/fields/imagelist.js',
                 '<%= path.src.js %>/modules/fields/markdown.js',
                 '<%= path.src.js %>/modules/fields/repeater.js',
                 '<%= path.src.js %>/modules/fields/relationship.js',
