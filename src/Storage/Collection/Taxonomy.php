@@ -26,7 +26,7 @@ class Taxonomy extends ArrayCollection
      */
     public function __construct(array $elements = [], MetadataDriver $metadata = null)
     {
-        parent::__construct($elements);
+        $this->elements = $elements;
         if ($metadata) {
             $this->config = $metadata->getTaxonomyConfig();
         }
