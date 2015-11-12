@@ -100,7 +100,6 @@
         } %}
 
         {% set attributes = {
-            'data-widget':  'buicSelect',
             'disabled':     conf.disabled,
             'id':           conf.id,
             'multiple':     conf.multiple,
@@ -108,7 +107,7 @@
             'required':     conf.required,
         } %}
 
-        <div{{ hclass(['buic-select', conf.class]) }}>
+        <div{{ hclass(['buic-select', conf.class]) }} data-widget="buicSelect">
             <div>
                 <div>
                     <select{{ hattr(attributes) }}>
