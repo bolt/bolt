@@ -4,6 +4,7 @@ namespace Bolt\Storage\Collection;
 
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\MetadataDriver;
+use Closure;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -13,6 +14,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Taxonomy extends ArrayCollection
 {
+
+    private $elements;
 
     public $config;
 
@@ -151,6 +154,17 @@ class Taxonomy extends ArrayCollection
         return $this->filter(function($el) use($fieldname) {
             return $el->getTaxonomytype() == $fieldname;
         });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function filter(Closure $p)
+    {
+        $filtered = new static(array_filter($this->elements, $p));
+        $filtered->config = $this->config;
+
+        return $filtered;
     }
 
 }
