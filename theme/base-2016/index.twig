@@ -10,27 +10,32 @@
     {% set image = theme.frontpage_image %}
 {% endif %}
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
-<div class="flex container margin wide-padding popUppers">
+<div class="flex container margin padding popUppers">
     {% if record %}
         <article class="six s-twelve">
+            {{ widget('frontend', 'main_top') }}
                 <h1>{{record.title}}</h1>
                 {{record.body}}
+            {{ widget('frontend', 'main_bottom') }}
         </article>
     {% endif %}
     {% for ct in theme.frontpage_contenttypes %}
-        {% setcontent records = ct ~ "/latest/3" %}
+        {% setcontent records = ct ~ "/latest/2" %}
             {% if records %}
                 <div class="three s-twelve">
                     {% for record in records %}
                         {% set image = record.image ?: random(theme.images) %}
-                    {% if loop.first %}
-                    <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct}) }}</h2>
-                    {% endif %}
-                    <h3><a href="{{record.link}}">{{ record.title }}</a></h3>
-                    <p>{{record.body|excerpt(250)}}</p>
-                    {% if loop.last %}
-                    <p><a href="{{ paths.root }}{{ct}}">{{ __('contenttypes.generic.overview',{'%contenttypes%': ct}) }} &raquo;</a></p>
-                    {% endif %}
+                        {% if loop.first %}
+                            {{ widget('frontend', 'aside_top') }}
+                            <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct}) }}</h2>
+                        {% endif %}
+                        <h3><a href="{{record.link}}">{{ record.title }}</a></h3>
+                        {{ showimage(image, 440, 0) }}
+                        <p>{{record.body|excerpt(250)}}</p>
+                        {% if loop.last %}
+                            <p><a href="{{ paths.root }}{{ct}}">{{ __('contenttypes.generic.overview',{'%contenttypes%': ct}) }} &raquo;</a></p>
+                            {{ widget('frontend', 'aside_bottom') }}
+                        {% endif %}
                     {% endfor %}
                 </div>
             {% endif %}

@@ -2,8 +2,9 @@
 {% block body %}
 {% set image = random(theme.images) %}
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
-<div class="flex container margin wide-padding popUppers">
+<div class="flex container margin padding popUppers">
     <section class="eight s-twelve">
+        {{ widget('frontend', 'main_top') }}
         {% if taxonomytype is defined %}
             <h1>
                 {{ __('Overview for') }}
@@ -25,16 +26,18 @@
             </h1>
         {% endif %}
         {% for record in records %}
-                <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
-                {# display something introduction-like.. #}
-                {% if record.introduction %}
-                    {{ record.introduction }}
-                {% elseif record.teaser %}
-                    {{ record.teaser }}
-                {% else %}
-                    <p>{{ record.excerpt(300) }}</p>
-                {% endif %}
-                {% include '_recordfooter.twig' with {'record': record} %}
+            {% set image = record.image ?: random(theme.images) %}
+            <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
+            {# display something introduction-like.. #}
+            {{ popup(image, 440, 0) }}
+            {% if record.introduction %}
+                {{ record.introduction }}
+            {% elseif record.teaser %}
+                {{ record.teaser }}
+            {% else %}
+                <p>{{ record.excerpt(300) }}</p>
+            {% endif %}
+            {% include '_recordfooter.twig' with {'record': record} %}
             {% if not loop.last %}<hr>{% endif %}
         {% else %}
             <article>
@@ -55,6 +58,7 @@
             </article>
         {% endfor %}
         {{ pager() }}
+        {{ widget('frontend', 'main_bottom') }}
     </section>
     {% include '_aside.twig' %}
     </div>
