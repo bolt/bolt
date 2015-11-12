@@ -143,13 +143,14 @@ class TaxonomyType extends FieldTypeBase
     public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
-        $taxonomy = $entity->getTaxonomy();
+        $taxonomy = $entity->getTaxonomy()->getField($field);
 
         // Fetch existing taxonomies
-        $existing = $this->getExistingTaxonomies($entity) ?: [];
-        $collection = $this->em->getCollectionManager()->create('Bolt\Storage\Entity\Taxonomy');
-        $collection->setFromDatabaseValues($existing);
-        $collection = $collection->getField($field);
+        $existingDB = $this->getExistingTaxonomies($entity) ?: [];
+        $collection = $this->em->getCollectionManager()
+            ->create('Bolt\Storage\Entity\Taxonomy')
+            ->setFromDatabaseValues($existingDB);
+
         $toDelete = $collection->getDeleted($taxonomy);
         $collection->merge($taxonomy, true);
 
