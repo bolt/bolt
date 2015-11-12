@@ -4,7 +4,6 @@
  * @namespace Bolt
  *
  * @mixes Bolt.actions
- * @mixes Bolt.activity
  * @mixes Bolt.app
  * @mixes Bolt.ckeditor
  * @mixes Bolt.conf
