@@ -1,29 +1,11 @@
 /**
  * BUIC moment widget.
  *
- * @param {object} $ - Global jQuery object
- * @param {Object} momentjs - moment.js object
+ * @param {Object} $ - Global jQuery object
+ * @param {Object} momentjs - Global moment.js object
  */
 (function ($, momentjs) {
     'use strict';
-
-    /**
-     * Resource id returned by setInterval().
-     *
-     * @memberOf jQuery.widget.bolt.buicMoment
-     * @static
-     * @type integer
-     */
-    var intervalId = 0;
-
-    /**
-     * List of update callbacks.
-     *
-     * @memberOf jQuery.widget.bolt.buicMoment
-     * @static
-     * @type object
-     */
-    var updateList = $.Callbacks();
 
     /**
      * BUIC moment widget.
@@ -33,16 +15,17 @@
      *
      * @class buicMoment
      * @memberOf jQuery.widget.bolt
-     * @param {object} [options] - Options to overide.
+     * @param {Object} [options] - Options to overide
      */
-    $.widget('bolt.buicMoment', /** @lends jQuery.widget.bolt.buicMoment */ {
+    $.widget('bolt.buicMoment', $.bolt.baseInterval, /** @lends jQuery.widget.bolt.buicMoment */ {
         /**
-         * Default options, can be overridden by passing in an object to the constructor with these properties
-         * @property {integer} interval - Initial update interval, shared by all instances
+         * Default options.
+         *
+         * @property {integer} delay - Initial update delay, shared by all instances
          * @property {string} titleFormat - Format string for moment title display
          */
         options: {
-            interval: 15 * 1000,
+            delay: 15 * 1000,
             titleFormat: 'YYYY-MM-DD HH:mm:ss ZZ'
         },
 
@@ -52,37 +35,10 @@
          * @private
          */
         _create: function () {
-            var self = this;
-
-            // Set up a interval timer used by all moment widgets, if not already done.
-            if (!intervalId) {
-                intervalId = setInterval(updateList.fire, this.options.interval);
-            }
-
             // Set up the displayed value.
             this.set();
 
-            // Add the update function to the callback stack.
-            this.fnUpdate = function () {
-                self._update();
-            };
-            updateList.add(this.fnUpdate);
-        },
-
-        /**
-         * Cleaning up.
-         *
-         * @private
-         */
-        _destroy: function () {
-            // Remove the update function from the update list.
-            updateList.remove(this.fnUpdate);
-
-            // Remove the interval timer if that was the last moment.
-            if (!updateList.has()) {
-                clearInterval(intervalId);
-                intervalId = 0;
-            }
+            this._super();
         },
 
         /**
@@ -95,9 +51,9 @@
         },
 
         /**
-         * Sets new datetime.
+         * Sets new date-time and display it.
          *
-         * @param {string} [datetime] - Datetime to set
+         * @param {string} [datetime] - A valid date-time as defined in RFC 3339 to set
          */
         set: function (datetime) {
             if (datetime) {
