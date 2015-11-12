@@ -77,9 +77,7 @@ class Taxonomy extends ArrayCollection
         foreach ($collection as $entity) {
             $master = $this->getOriginal($entity);
             $master->setSortorder($entity->getSortorder());
-            if (!$this->contains($master)) {
-                $updated[] = $master;
-            }
+            $updated[] = $master;
         }
 
         $deleted = [];
