@@ -40,13 +40,13 @@ class Taxonomy extends ArrayCollection
                 } else {
                     $name = $val;
                 }
-                $taxentity = new Entity\Taxonomy( [
+                $taxentity = new Entity\Taxonomy([
                     'name' => $name,
                     'content_id' => $entity->getId(),
                     'contenttype' => (string)$entity->getContenttype(),
                     'taxonomytype' => $field,
                     'slug' => $val,
-                    'sortorder' => $order
+                    'sortorder' => $order,
                 ]);
                 $this->add($taxentity);
             }
@@ -97,18 +97,23 @@ class Taxonomy extends ArrayCollection
     }
 
     /*
-     * @return array
+     * Gets the elements that have not yet been persisted
+     * @return Taxonomy
      */
     public function getNew()
     {
-        return $this->filter(function($el){
-           return !$el->getId();
+        return $this->filter(function ($el) {
+            return !$el->getId();
         });
     }
 
+    /**
+     * Gets the elements that have already been persisted
+     * @return Taxonomy
+     */
     public function getExisting()
     {
-        return $this->filter(function($el){
+        return $this->filter(function ($el) {
             return $el->getId();
         });
     }
@@ -136,30 +141,15 @@ class Taxonomy extends ArrayCollection
         return $entity;
     }
 
-    public function removeElements(Taxonomy $incoming)
-    {
-        foreach ($this as $existing) {
-            if (!$incoming->contains($existing)) {
-                $this->removeElement($existing);
-            }
-        }
-    }
-
-    public function difference(Taxonomy $incoming)
-    {
-        $diff = new Taxonomy();
-        foreach ($this as $existing) {
-            if (!$incoming->contains($existing)) {
-                $diff->add($existing);
-            }
-        }
-
-        return $diff;
-    }
-
+    /**
+     * Gets a specific taxonomy name from the overall collection
+     *
+     * @param $fieldname
+     * @return Taxonomy
+     */
     public function getField($fieldname)
     {
-        return $this->filter(function($el) use($fieldname) {
+        return $this->filter(function ($el) use ($fieldname) {
             return $el->getTaxonomytype() == $fieldname;
         });
     }
