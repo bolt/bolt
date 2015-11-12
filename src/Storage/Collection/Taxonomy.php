@@ -132,7 +132,7 @@ class Taxonomy extends ArrayCollection
 
     public function difference(Taxonomy $incoming)
     {
-        $diff = new ArrayCollection();
+        $diff = new Taxonomy();
         foreach ($this as $existing) {
             if (!$incoming->contains($existing)) {
                 $diff->add($existing);
