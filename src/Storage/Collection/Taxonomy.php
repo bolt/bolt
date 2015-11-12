@@ -64,21 +64,38 @@ class Taxonomy extends ArrayCollection
      * Runs a check on an incoming collection to make sure that duplicates are filtered out. Precedence is given to
      * records that are already persisted, with any diff in incoming properties updated.
      *
-     * Any records not in the incoming set are deleted from the collection.
+     * Any records not in the incoming set are deleted from the collection and the deleted ones returned as an array.
      *
      * @param Taxonomy $collection
+     *
+     * @return array
      */
-    public function merge(Taxonomy $collection)
+    public function update(Taxonomy $collection)
     {
+        $updated = [];
         // First give priority to already existing entities
         foreach ($collection as $entity) {
             $master = $this->getOriginal($entity);
             $master->setSortorder($entity->getSortorder());
             if (!$this->contains($master)) {
-                $this->add($master);
+                $updated[] = $master;
             }
         }
 
+        $deleted = [];
+        foreach ($this as $old) {
+            if (!in_array($old, $updated)) {
+                $deleted[] = $old;
+            }
+        }
+
+        // Clear the collection so that we re-add only the updated elements
+        $this->clear();
+        foreach ($updated as $new) {
+            $this->add($new);
+        }
+
+        return $deleted;
     }
 
     /*
