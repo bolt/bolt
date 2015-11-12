@@ -27,8 +27,4 @@ abstract class Entity implements ArrayAccess, JsonSerializable
         return strval($this->getId());
     }
 
-    public function getName()
-    {
-        return get_class($this);
-    }
 }
