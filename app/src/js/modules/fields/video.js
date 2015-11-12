@@ -23,8 +23,7 @@
      * @function init
      * @memberof Bolt.fields.video
      *
-     * @param {Object} fieldset
-     * @param fconf
+     * @param {Object} fieldset - Containing fieldset
      */
     video.init = function (fieldset) {
         bolt.fields.video.bind(fieldset);
@@ -37,7 +36,7 @@
      * @function bind
      * @memberof Bolt.fields.video
      *
-     * @param {string} key - Id of the video element.
+     * @param {Object} fieldset - Containing fieldset
      */
     video.bind = function (fieldset) {
 
@@ -99,7 +98,7 @@
      * @function update
      * @memberof Bolt.video
      *
-     * @param {string} key - Id of the video element.
+     * @param {Object} fieldset - Containing fieldset
      */
     var update = function (fieldset) {
         // Embed endpoint https://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
