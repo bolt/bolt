@@ -67,21 +67,16 @@ class Taxonomy extends ArrayCollection
      * Any records not in the incoming set are deleted from the collection.
      *
      * @param Taxonomy $collection
-     * @param bool $delete
      */
-    public function merge(Taxonomy $collection, $delete = false)
+    public function merge(Taxonomy $collection)
     {
         // First give priority to already existing entities
-        foreach ($collection as $k => $entity) {
+        foreach ($collection as $entity) {
             $master = $this->getOriginal($entity);
             $master->setSortorder($entity->getSortorder());
             if (!$this->contains($master)) {
                 $this->add($master);
             }
-        }
-
-        if ($delete) {
-            $this->removeDeleted($collection);
         }
 
     }
@@ -126,7 +121,7 @@ class Taxonomy extends ArrayCollection
         return $entity;
     }
 
-    public function removeDeleted(Taxonomy $incoming)
+    public function removeElements(Taxonomy $incoming)
     {
         foreach ($this as $existing) {
             if (!$incoming->contains($existing)) {
@@ -135,16 +130,16 @@ class Taxonomy extends ArrayCollection
         }
     }
 
-    public function getDeleted(Taxonomy $incoming)
+    public function difference(Taxonomy $incoming)
     {
-        $deleted = new ArrayCollection();
+        $diff = new ArrayCollection();
         foreach ($this as $existing) {
             if (!$incoming->contains($existing)) {
-                $deleted->add($existing);
+                $diff->add($existing);
             }
         }
 
-        return $deleted;
+        return $diff;
     }
 
     public function getField($fieldname)
