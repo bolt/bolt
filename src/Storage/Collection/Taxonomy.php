@@ -38,7 +38,7 @@ class Taxonomy extends ArrayCollection
                 if (isset($this->config[$field]['options'][$val])) {
                     $name = $this->config[$field]['options'][$val];
                 } else {
-                    $name = null;
+                    $name = $val;
                 }
                 $taxentity = new Entity\Taxonomy( [
                     'name' => $name,
