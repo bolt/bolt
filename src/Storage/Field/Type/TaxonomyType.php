@@ -156,7 +156,7 @@ class TaxonomyType extends FieldTypeBase
             $repo->save($entity);
         }
 
-        foreach ($toDelete as  $entity) {
+        foreach ($toDelete as $entity) {
             $repo->delete($entity);
         }
 
