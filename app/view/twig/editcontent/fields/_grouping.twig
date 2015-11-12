@@ -42,13 +42,14 @@
         </div>
 
         {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
+            {% set sortval =  context.content.taxonomy[taxonomy.slug][taxonomy.slug ~ '/' ~ slug]['sortorder'] %}
             {% set attr_order = {
                 class:  'form-control',
                 id:     id_order,
                 name:   'taxonomy-order[' ~ taxonomy.slug ~ ']',
                 step:   '1',
                 type:   'number',
-                value:  context.content.sortorder|default(0),
+                value:  sortval|default(0),
             } %}
             <div class="form-group">
                 <label for="{{ id_order }}" class="control-label col-xs-3">{{ __('Order') }}</label>
