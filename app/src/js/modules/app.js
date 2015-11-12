@@ -104,9 +104,11 @@
             context = $(document.documentElement);
         }
 
-        // Widgets initialisations
+        // Initialze all uninitialized widgets.
         $('[data-widget]', context).each(function () {
-            $(this)[$(this).data('widget')]()
+            var element = $(this);
+
+            element[element.data('widget')](element.data('bolt-fconf') || {})
                 .removeAttr('data-widget')
                 .removeData('widget');
         });
