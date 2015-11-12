@@ -15,8 +15,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Taxonomy extends ArrayCollection
 {
 
-    private $elements;
-
     public $config;
 
     /**
@@ -26,7 +24,7 @@ class Taxonomy extends ArrayCollection
      */
     public function __construct(array $elements = [], MetadataDriver $metadata = null)
     {
-        $this->elements = $elements;
+        parent::__construct($elements);
         if ($metadata) {
             $this->config = $metadata->getTaxonomyConfig();
         }
@@ -161,7 +159,8 @@ class Taxonomy extends ArrayCollection
      */
     public function filter(Closure $p)
     {
-        $filtered = new static(array_filter($this->elements, $p));
+        $elements = $this->toArray();
+        $filtered = new static(array_filter($elements, $p));
         $filtered->config = $this->config;
 
         return $filtered;
