@@ -23,7 +23,7 @@
          * @private
          */
         _create: function () {
-            bolt.ckeditor.add(this.element.find('.ckeditor'));
+            bolt.ckeditor.add(this.element.find('.ckeditor')[0]);
         }
     });
 })(jQuery, Bolt);
