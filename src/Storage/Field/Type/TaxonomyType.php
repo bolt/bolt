@@ -71,7 +71,7 @@ class TaxonomyType extends FieldTypeBase
 
         if ($this->mapping['data']['has_sortorder']) {
             $order = "$field.sortorder";
-            $query->addSelect("$field.sortorder as " . '_' . $field . '_sortorder');
+            $query->addSelect($this->getPlatformGroupConcat("$field.sortorder", $order, "_" . $field . '_sortorder', $query))
         } else {
             $order = "$field.id";
         }
@@ -174,11 +174,11 @@ class TaxonomyType extends FieldTypeBase
 
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT(DISTINCT $column ORDER BY $order ASC) as $alias";
+                return "GROUP_CONCAT($column ORDER BY $order ASC) as $alias";
             case 'sqlite':
-                return "GROUP_CONCAT(DISTINCT $column) as $alias";
+                return "GROUP_CONCAT($column) as $alias";
             case 'postgresql':
-                return "string_agg(distinct $column, ',' ORDER BY $order) as $alias";
+                return "string_agg($column, ',' ORDER BY $order) as $alias";
         }
     }
 
