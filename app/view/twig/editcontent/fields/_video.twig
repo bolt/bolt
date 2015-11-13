@@ -6,7 +6,7 @@
 } %}
 
 {#=== INIT ===========================================================================================================#}
-{% set randid = random() %}
+
 {% set video = context.content.get(contentkey) %}
 
 {% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18) ~ '</b>" by ' ~ video.authorname|trimtext(18) %}
@@ -14,7 +14,7 @@
 {% set attributes = {
     url: {
         class:        'form-control url',
-        id:           'video-' ~ key,
+        id:           buid(),
         name:         name ~ '[url]',
         placeholder:  __('field.video.placeholder.url') ~ ' …',
         type:         'url',
@@ -23,7 +23,7 @@
 
     width: {
         class:      'form-control width',
-        id:         'video-' ~ key ~ '-width',
+        id:         buid(),
         name:       name ~ '[width]',
         type:       'number',
         value:      video.width|default('')
@@ -31,7 +31,7 @@
 
     height: {
         class:      'form-control height',
-        id:         'video-' ~ key ~ '-height',
+        id:         buid(),
         name:       name ~ '[height]',
         type:       'number',
         value:      video.height|default('')
@@ -39,7 +39,6 @@
 
     hid_ratio: {
         class:      'ratio',
-        id:         'video-' ~ key ~ '-ratio',
         name:       name ~ '[ratio]',
         type:       'hidden',
         value:      video.ratio|default('')
@@ -47,7 +46,6 @@
 
     hid_title: {
         class:      'title',
-        id:         'video-' ~ key ~ '-title',
         name:       name ~ '[title]',
         type:       'hidden',
         value:      video.title|default('')
@@ -55,7 +53,6 @@
 
     hid_authorname: {
         class:      'authorname',
-        id:         'video-' ~ key ~ '-author_name',
         name:       name ~ '[authorname]',
         type:       'hidden',
         value:      video.authorname|default(''),
@@ -63,7 +60,6 @@
 
     hid_authorurl: {
         class:      'authorurl',
-        id:         'video-' ~ key ~ '-author_url',
         name:       name ~ '[authorurl]',
         type:       'hidden',
         value:      video.authorurl|default(''),
@@ -71,7 +67,6 @@
 
     hid_html: {
 		class:      'html',
-        id:         'video-' ~ key ~ '-html',
         name:       name ~ '[html]',
         type:       'hidden',
         value:      (video.html is defined ? video.html|replace({'"': '\''}) : '')
@@ -79,12 +74,13 @@
 
     hid_thumbnail: {
 		class:      'thumbnailurl',
-        id:         'video-' ~ key ~ '-thumbnail',
         name:       name ~ '[thumbnail]',
         type:       'hidden',
         value:      video.thumbnail|default(''),
     }
 } %}
+
+{% set modal_id = buid() %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -101,7 +97,7 @@
     <div class="col-sm-8">
         <div class="form-group">
             <div class="col-sm-12">
-                <label>{{ __('field.video.label.url') }}</label>
+                <label for="{{ attributes.url.id }}">{{ __('field.video.label.url') }}</label>
                 <input{{ hattr(attributes.url) }}>
             </div>
         </div>
@@ -109,9 +105,9 @@
         <div class="form-group">
             <label class="control-label col-sm-2">{{ __('field.video.label.size') }}</label>
             <div class="col-sm-10 form-inline">
-                <label for="{{ 'video-' ~ key ~ '-width' }}" class="sr-only">{{ __('field.video.width') }}</label>
+                <label for="{{ attributes.width.id }}" class="sr-only">{{ __('field.video.width') }}</label>
                 <input{{ hattr(attributes.width) }}> ×
-                <label for="{{ 'video-' ~ key ~ '-height' }}" class="sr-only">{{ __('field.video.height') }}</label>
+                <label for="{{ attributes.height.id }}" class="sr-only">{{ __('field.video.height') }}</label>
                 <input{{ hattr(attributes.height) }}>
                 <label class="label-pixels">{{ __('field.video.pixel') }}</label>
             </div>
@@ -125,7 +121,7 @@
 
             <div class="hidden-xs col-sm-3">
                 <span class="pull-right">
-                    <a href="#modal-{{ randid }}" role="button" class="btn btn-default" data-toggle="modal">
+                    <a href="#{{ modal_id }}" role="button" class="btn btn-default" data-toggle="modal">
                     <i class="fa fa-youtube-play"></i>
                     {{ __('field.video.button.preview') }}</a>
                 </span>
@@ -143,7 +139,7 @@
     <div class="col-sm-4">
         <div class="right-on-large">
             <label>{{ __('field.video.label.preview') }}</label>
-            <div class="imageholder" id="thumbnail-{{ key }}">
+            <div class="imageholder">
                 {% if video.thumbnail|default('') %}
                     <img class="thumbimage" src="{{ video.thumbnail }}" width="200" height="150" alt="{{ __('field.video.label.preview') }}">
                 {% else %}
@@ -154,7 +150,7 @@
     </div>
 
     {# Modal video preview #}
-    <div class="modal" id="modal-{{ randid }}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal" id="{{ modal_id }}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
