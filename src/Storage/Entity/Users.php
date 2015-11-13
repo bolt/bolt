@@ -43,8 +43,8 @@ class Users extends Entity
     protected $displayname;
     protected $stack = [];
     protected $enabled;
-    protected $shadowpassword = '';
-    protected $shadowtoken = '';
+    protected $shadowpassword;
+    protected $shadowtoken;
     protected $shadowvalidity;
     protected $failedlogins = 0;
     protected $throttleduntil;
