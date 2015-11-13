@@ -41,7 +41,7 @@ class ContentRepository extends Repository
      *
      * @return QueryBuilder
      */
-    public function querySelectList(array $contentType, $order)
+    public function querySelectList(array $contentType, $order = null)
     {
         if (strpos($order, '-') === 0) {
             $direction = 'ASC';
@@ -51,8 +51,11 @@ class ContentRepository extends Repository
         }
 
         $qb = $this->createQueryBuilder($contentType['tablename']);
-        $qb->select('id, ' . $this->getTitleColumnName($contentType) . ' as title')
-            ->orderBy($order, $direction);
+        $qb->select('id, ' . $this->getTitleColumnName($contentType) . ' as title');
+
+        if ($order !== null) {
+            $qb->orderBy($order, $direction);
+        }
 
         return $qb;
     }
