@@ -113,6 +113,8 @@
                 path: '/'
             });
 
+            $('#bolt-footer').addClass('bolt-footer-hidden');
+
             return false;
         });
     }
@@ -132,6 +134,8 @@
             $.removeCookie('sidebar', {
                 path: '/'
             });
+
+            $('#bolt-footer').removeClass('bolt-footer-hidden');
 
             return false;
         });
