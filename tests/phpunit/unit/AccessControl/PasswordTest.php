@@ -34,9 +34,10 @@ class PasswordTest extends BoltUnitTest
         $newPass = $password->setRandomPassword('admin');
 
         $userEntity = $repo->getUser('admin');
+        $userAuth = $repo->getUserAuthData($userEntity->getId());
 
         $crypt = new PasswordLib();
-        $compare = $crypt->verifyPasswordHash($newPass, $userEntity->getPassword());
+        $compare = $crypt->verifyPasswordHash($newPass, $userAuth->getPassword());
 
         $this->assertTrue($compare);
         $this->assertEmpty($userEntity->getShadowpassword());
