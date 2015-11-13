@@ -6,11 +6,19 @@ namespace Bolt\Storage\Entity;
  */
 class Taxonomy extends Entity
 {
+    protected $_config = [];
     protected $id;
-    protected $contentId;
+    protected $content_id;
     protected $contenttype;
     protected $taxonomytype;
     protected $slug;
     protected $name;
     protected $sortorder;
+
+
+    public function setConfig(array $config)
+    {
+        $this->_config = $config;
+    }
+
 }

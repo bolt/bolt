@@ -3,6 +3,7 @@ namespace Bolt\Provider;
 
 use Bolt\EventListener\StorageEventListener;
 use Bolt\Legacy\Storage;
+use Bolt\Storage\Collection;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\ContentRequest;
 use Bolt\Storage\Entity\Builder;
@@ -41,6 +42,7 @@ class StorageServiceProvider implements ServiceProviderInterface
                 $storage->setLegacyStorage($app['storage.legacy']);
                 $storage->setEntityBuilder($app['storage.entity_builder']);
                 $storage->setFieldManager($app['storage.field_manager']);
+                $storage->setCollectionManager($app['storage.collection_manager']);
 
                 foreach ($app['storage.repositories'] as $entity => $repo) {
                     $storage->setRepository($entity, $repo);
@@ -78,7 +80,7 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         // This uses a class name as the field types can optionally be injected
         // as services but the field manager only knows the class name, so we
-        // use this to look up if there ss a service regsitered
+        // use this to look up if there ss a service registered
         $app['Bolt\Storage\Field\Type\TemplateFieldsType'] = $app->protect(
             function ($mapping) use ($app) {
                 $field = new TemplateFieldsType(
@@ -143,6 +145,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'Bolt\Storage\Entity\Users'      => 'Bolt\Storage\Repository\UsersRepository',
         ];
 
+
         $app['storage.metadata'] = $app->share(
             function ($app) {
                 $meta = new MetadataDriver(
@@ -154,6 +157,21 @@ class StorageServiceProvider implements ServiceProviderInterface
                 );
 
                 return $meta;
+            }
+        );
+
+        $app['storage.taxonomy_collection'] = $app->protect(
+            function () use ($app) {
+                return new Collection\Taxonomy([], $app['storage.metadata']);
+            }
+        );
+
+        $app['storage.collection_manager'] = $app->share(
+            function ($app) {
+                $manager = new Collection\CollectionManager();
+                $manager->setHandler('Bolt\Storage\Entity\Taxonomy', $app['storage.taxonomy_collection']);
+
+                return $manager;
             }
         );
 

@@ -159,4 +159,29 @@ abstract class FieldTypeBase implements FieldTypeInterface
 
         return json_last_error() === JSON_ERROR_NONE;
     }
+
+    protected function normalizeData($data, $field)
+    {
+        $normalized = [];
+
+        foreach ($data as $key => $value) {
+            if (strpos($key, '_') === 0) {
+                $path = explode('_', $key);
+                if (isset($path[1]) && isset($path[2]) && $path[1] == $field) {
+                    $normalized[$path[2]] = $value;
+                }
+            }
+        }
+
+        $compiled = [];
+
+        foreach ($normalized as $key => $value) {
+            foreach (explode(',', $value) as $i => $val) {
+                $compiled[$i][$key] = $val;
+            }
+        };
+        $compiled = array_unique($compiled, SORT_REGULAR);
+
+        return $compiled;
+    }
 }

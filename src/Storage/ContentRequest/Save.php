@@ -223,7 +223,10 @@ class Save
         if (!isset($formValues['taxonomy'])) {
             return;
         }
-        $content->setTaxonomy($formValues['taxonomy']);
+
+        $taxonomies = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
+        $taxonomies->setFromPost($formValues, $content);
+        $content->setTaxonomy($taxonomies);
     }
 
     /**

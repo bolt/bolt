@@ -2,8 +2,9 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Storage\Collection;
+use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
-use Bolt\Storage\Mapping\TaxonomyValue;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -16,7 +17,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class TaxonomyType extends FieldTypeBase
 {
-    use TaxonomyTypeTrait;
 
     /**
      * Taxonomy fields allows queries on the parameters passed in.
@@ -28,7 +28,8 @@ class TaxonomyType extends FieldTypeBase
      * expression to filter the join side rather than on the main side.
      *
      * @param QueryInterface $query
-     * @param ClassMetadata  $metadata
+     * @param ClassMetadata $metadata
+     * @return void
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
     {
@@ -37,9 +38,12 @@ class TaxonomyType extends FieldTypeBase
         foreach ($query->getFilters() as $filter) {
             if ($filter->getKey() == $field) {
                 // This gets the method name, one of andX() / orX() depending on type of expression
-                $method = strtolower($filter->getExpressionObject()->getType()) . 'X';
+                $method = strtolower($filter->getExpressionObject()
+                        ->getType()) . 'X';
 
-                $newExpr = $query->getQueryBuilder()->expr()->$method();
+                $newExpr = $query->getQueryBuilder()
+                    ->expr()
+                    ->$method();
                 foreach ($filter->getParameters() as $k => $v) {
                     $newExpr->add("$field.slug = :$k");
                 }
@@ -56,8 +60,9 @@ class TaxonomyType extends FieldTypeBase
      * It does this via an additional ->addSelect() and ->leftJoin() call on the QueryBuilder
      * which includes then includes the taxonomies in the same query as the content fetch.
      *
-     * @param QueryBuilder  $query
+     * @param QueryBuilder $query
      * @param ClassMetadata $metadata
+     * @return void
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -67,7 +72,8 @@ class TaxonomyType extends FieldTypeBase
 
         if ($this->mapping['data']['has_sortorder']) {
             $order = "$field.sortorder";
-            $query->addSelect("$field.sortorder as " . $field . '_sortorder');
+            $query->addSelect($this->getPlatformGroupConcat("$field.sortorder", $order, "_" . $field . '_sortorder',
+                $query));
         } else {
             $order = "$field.id";
         }
@@ -81,9 +87,13 @@ class TaxonomyType extends FieldTypeBase
         }
 
         $query
-            ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field . '_slugs', $query))
-            ->addSelect($this->getPlatformGroupConcat("$field.name", $order, $field, $query))
-            ->leftJoin($alias, $target, $field, "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
+            ->addSelect($this->getPlatformGroupConcat("$field.id", $order, "_" . $field . '_id', $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, '_' . $field . '_slug', $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.name", $order, '_' . $field . '_name', $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.taxonomytype", $order, '_' . $field . '_taxonomytype',
+                $query))
+            ->leftJoin($alias, $target, $field,
+                "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("$alias.id");
     }
 
@@ -92,47 +102,26 @@ class TaxonomyType extends FieldTypeBase
      */
     public function hydrate($data, $entity)
     {
-        $group = null;
-        $sortorder = null;
-        $taxValueProxy = [];
-        $values = $entity->getTaxonomy();
         $taxName = $this->mapping['fieldname'];
-        $taxData = $this->mapping['data'];
-        $taxData['sortorder'] = isset($data[$taxName . '_sortorder']) ? $data[$taxName . '_sortorder'] : 0;
-        $taxValues = $this->getTaxonomyValues($taxName, $data);
 
-        foreach ($taxValues as $taxValueSlug => $taxValueName) {
-            if (empty($taxValueSlug)) {
-                continue;
-            }
-
-            $keyName = $taxName . '/' . $taxValueSlug;
-            $taxValueProxy[$keyName] = new TaxonomyValue($taxName, $taxValueName, $taxData);
-
-            if ($taxData['has_sortorder']) {
-                // Previously we only cared about the last one… so yeah
-                $needle = isset($data[$taxName . '_slug']) ? $data[$taxName . '_slug'] : $data[$taxName];
-                $index = array_search($needle, array_keys($taxData['options']));
-                $sortorder = $taxData['sortorder'];
-                $group = [
-                    'slug'  => $taxValueSlug,
-                    'name'  => $taxValueName,
-                    'order' => $sortorder,
-                    'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
-                ];
-            }
+        $data = $this->normalizeData($data, $taxName);
+        if (!count($entity->getTaxonomy())) {
+            $entity->setTaxonomy($this->em->createCollection('Bolt\Storage\Entity\Taxonomy'));
         }
 
-        $values[$taxName] = !empty($taxValueProxy) ? $taxValueProxy : null;
-
-        foreach ($values as $tname => $tval) {
-            $setter = 'set' . ucfirst($tname);
-            $entity->$setter($tval);
+        $fieldTaxonomy = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
+        foreach ($data as $tax) {
+            $tax['content_id'] = $entity->getId();
+            $tax['contenttype'] = (string)$entity->getContenttype();
+            $taxEntity = new Entity\Taxonomy($tax);
+            $entity->getTaxonomy()
+                ->add($taxEntity);
+            $fieldTaxonomy->add($taxEntity);
         }
+        $this->set($entity, $fieldTaxonomy);
+        $entity->setGroup($this->getGroup($fieldTaxonomy));
+        $entity->setSortorder($this->getSortorder($fieldTaxonomy));
 
-        $entity->setTaxonomy($values);
-        $entity->setGroup($group);
-        $entity->setSortorder($sortorder);
     }
 
     /**
@@ -141,39 +130,31 @@ class TaxonomyType extends FieldTypeBase
     public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
-        $taxonomy = $entity->getTaxonomy();
-        $taxonomy[$field] = isset($taxonomy[$field]) ? $this->filterArray($taxonomy[$field]) : [];
+        $taxonomy = $entity->getTaxonomy()
+            ->getField($field);
 
         // Fetch existing taxonomies
-        $result = $this->getExistingTaxonomies($entity) ?: [];
-        if ($this->mapping['data']['behaves_like'] === 'tags') {
-            // We transform to [key => value] as 'tags' entry doesn't contain a slug
-            $existing = array_map(
-                function (&$k, $v) {
-                    if ($v) {
-                        $k = $v['slug'];
-                        $v = $v['name'];
-                    }
+        $existingDB = $this->getExistingTaxonomies($entity) ?: [];
+        $collection = $this->em->getCollectionManager()
+            ->create('Bolt\Storage\Entity\Taxonomy');
+        $collection->setFromDatabaseValues($existingDB);
+        $toDelete = $collection->update($taxonomy);
+        $repo = $this->em->getRepository('Bolt\Storage\Entity\Taxonomy');
 
-                    return $v;
-                },
-                array_keys($result),
-                $result
-            );
-        } else {
-            $existing = array_map(
-                function ($v) {
-                    return $v ? $v['slug'] : [];
-                },
-                $result
-            );
-        }
+        $queries->onResult(
+            function ($query, $result, $id) use ($repo, $collection, $toDelete) {
+                foreach ($collection as $entity) {
+                    $entity->content_id = $id;
+                    $repo->save($entity);
+                }
 
-        $toInsert = array_diff($taxonomy[$field], $existing);
-        $toDelete = array_diff($existing, $taxonomy[$field]);
+                foreach ($toDelete as $entity) {
+                    $repo->delete($entity);
+                }
+            }
+        );
 
-        $this->appendInsertQueries($queries, $entity, $toInsert);
-        $this->appendDeleteQueries($queries, $entity, $toDelete);
+
     }
 
     /**
@@ -187,24 +168,89 @@ class TaxonomyType extends FieldTypeBase
     /**
      * Get platform specific group_concat token for provided column.
      *
-     * @param string       $column
-     * @param string       $order
-     * @param string       $alias
+     * @param string $column
+     * @param string $order
+     * @param string $alias
      * @param QueryBuilder $query
      *
      * @return string
      */
     protected function getPlatformGroupConcat($column, $order, $alias, QueryBuilder $query)
     {
-        $platform = $query->getConnection()->getDatabasePlatform()->getName();
+        $platform = $query->getConnection()
+            ->getDatabasePlatform()
+            ->getName();
 
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT(DISTINCT $column ORDER BY $order ASC) as $alias";
+                return "GROUP_CONCAT($column ORDER BY $order ASC) as $alias";
             case 'sqlite':
-                return "GROUP_CONCAT(DISTINCT $column) as $alias";
+                return "GROUP_CONCAT($column) as $alias";
             case 'postgresql':
-                return "string_agg(distinct $column, ',' ORDER BY $order) as $alias";
+                return "string_agg($column, ',' ORDER BY $order) as $alias";
         }
     }
+
+    protected function getGroup(Collection\Taxonomy $taxonomy)
+    {
+        $group = null;
+        $taxData = $this->mapping['data'];
+        foreach ($taxonomy as $tax) {
+            if ($taxData['has_sortorder']) {
+                // Previously we only cared about the last one… so yeah
+                $needle = $tax->getSlug();
+                $index = array_search($needle, array_keys($taxData['options']));
+                $sortorder = $taxData['sortorder'];
+                $group = [
+                    'slug' => $tax->getSlug(),
+                    'name' => $tax->getName(),
+                    'order' => $sortorder,
+                    'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
+                ];
+            }
+        }
+
+        return $group;
+    }
+
+    protected function getSortorder(Collection\Taxonomy $taxonomy)
+    {
+        $taxData = $this->mapping['data'];
+        $sortorder = 0;
+        foreach ($taxonomy as $tax) {
+            if ($taxData['has_sortorder']) {
+                $sortorder = $tax->getSortorder();
+            }
+        }
+
+        return $sortorder;
+    }
+
+    /**
+     * Direct query to get existing taxonomy records.
+     *
+     * @param mixed $entity
+     *
+     * @return array
+     */
+    protected function getExistingTaxonomies($entity)
+    {
+        // Fetch existing taxonomies
+        $query = $this->em->createQueryBuilder()
+            ->select('*')
+            ->from($this->mapping['target'])
+            ->where('content_id = :content_id')
+            ->andWhere('contenttype = :contenttype')
+            ->andWhere('taxonomytype = :taxonomytype')
+            ->setParameters([
+                'content_id' => $entity->id,
+                'contenttype' => $entity->getContenttype(),
+                'taxonomytype' => $this->mapping['fieldname'],
+            ]);
+        $result = $query->execute()
+            ->fetchAll();
+
+        return $result ?: [];
+    }
+
 }
