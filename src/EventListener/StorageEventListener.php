@@ -138,11 +138,28 @@ class StorageEventListener implements EventSubscriberInterface
         if ($usersEntity->getShadowSave()) {
             return;
         } elseif ($usersEntity->getPassword() !== null) {
-            $crypt = new PasswordLib();
-            $usersEntity->setPassword($crypt->createPasswordHash($usersEntity->getPassword(), '$2y$', ['cost' => $this->hashStrength]));
-        } else {
-            unset($usersEntity->password);
+            $usersEntity->setPassword($this->getValidHash($usersEntity->getPassword()));
         }
+    }
+
+    /**
+     * Return a valid hash for a password, of if the password is already hashed
+     * just return as is.
+     *
+     * @param string $password
+     *
+     * @return string
+     */
+    private function getValidHash($password)
+    {
+        if (strlen($password) === 60 && strpos($password, '$2y$') === 0) {
+            return $password;
+        }
+        if (strlen($password) === 34 && strpos($password, '$P$') === 0) {
+            return $password;
+        }
+
+        return (new PasswordLib())->createPasswordHash($password, '$2y$', ['cost' => $this->hashStrength]);
     }
 
     /**
