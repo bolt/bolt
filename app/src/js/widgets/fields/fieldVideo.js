@@ -24,7 +24,43 @@
                 fieldset = this.element,
                 timeout = 0;
 
-            fieldset.find('[data-video="main"]').bind(
+            /**
+             * Refs to UI elements of this widget.
+             *
+             * @type {Object}
+             * @name _ui
+             * @memberOf jQuery.widget.bolt.fieldSlug.prototype
+             * @private
+             *
+             * @property {Object} main  -
+             * @property {Object} html   -
+             * @property {Object} width -
+             * @property {Object} height   -
+             * @property {Object} ratio   -
+             * @property {Object} text -
+             * @property {Object} modalBody   -
+             * @property {Object} authorName   -
+             * @property {Object} authorUrl   -
+             * @property {Object} title   -
+             * @property {Object} thumbContainer   -
+             * @property {Object} thumbnail   -
+             */
+            this._ui = {
+                main:           fieldset.find('[data-video="main"]'),
+                html:           fieldset.find('[data-video="html"]'),
+                width:          fieldset.find('[data-video="width"]'),
+                height:         fieldset.find('[data-video="height"]'),
+                ratio:          fieldset.find('[data-video="ratio"]'),
+                text:           fieldset.find('[data-video="text"]'),
+                modalBody:      fieldset.find('[data-video="modal"] .modal-body'),
+                authorName:     fieldset.find('[data-video="authorname"]'),
+                authorUrl:      fieldset.find('[data-video="authorurl"]'),
+                title:          fieldset.find('[data-video="title"]'),
+                thumbContainer: fieldset.find('[data-video="thumbcontainer"]'),
+                thumbnail:      fieldset.find('[data-video="thumbnail"]')
+            };
+
+            self._ui.main.bind(
                 'propertychange input',
                 function () {
                     clearTimeout(timeout);
@@ -37,28 +73,28 @@
                 }
             );
 
-            fieldset.find('[data-video="width"]').bind(
+            self._ui.width.bind(
                 'propertychange input',
                 function () {
-                    if (fieldset.find('[data-video="ratio"]').val() > 0) {
-                        fieldset.find('[data-video="height"]').val(
+                    if (self._ui.ratio.val() > 0) {
+                        self._ui.height.val(
                             Math.round(
-                                fieldset.find('[data-video="width"]').val() /
-                                fieldset.find('[data-video="ratio"]').val()
+                                self._ui.width.val() /
+                                self._ui.ratio.val()
                             )
                         );
                     }
                 }
             );
 
-            fieldset.find('[data-video="height"]').bind(
+            self._ui.height.bind(
                 'propertychange input',
                 function () {
-                    if (fieldset.find('[data-video="ratio"]').val() > 0) {
-                        fieldset.find('[data-video="width"]').val(
+                    if (self._ui.ratio.val() > 0) {
+                        self._ui.width.val(
                             Math.round(
-                                fieldset.find('[data-video="height"]').val() *
-                                fieldset.find('[data-video="ratio"]').val()
+                                self._ui.height.val() *
+                                self._ui.ratio.val()
                             )
                         );
                     }
@@ -72,46 +108,47 @@
          * @private
          */
         _update: function () {
-            var fieldset = this.element;
+            var self = this,
+                fieldset = self.element;
             // Embed endpoint https://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
             var endpoint = 'https://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=',
-                val = fieldset.find('[data-video="main"]').val(),
+                val = self._ui.main.val(),
                 url = endpoint + encodeURI(val);
 
             // If val is emptied, clear the video fields.
             if (val.length < 2) {
-                fieldset.find('[data-video="html"]').val('');
-                fieldset.find('[data-video="width"]').val('');
-                fieldset.find('[data-video="height"]').val('');
-                fieldset.find('[data-video="ratio"]').val('');
-                fieldset.find('[data-video="text"]').html('');
-                fieldset.find('[data-video="modal"]').find('.modal-body').html('');
-                fieldset.find('[data-video="authorname"]').val('');
-                fieldset.find('[data-video="authorurl"]').val('');
-                fieldset.find('[data-video="title"]').val('');
-                fieldset.find('[data-video="thumbcontainer"]').html('');
-                fieldset.find('[data-video="thumbnail"]').val('');
+                self._ui.html.val('');
+                self._ui.width.val('');
+                self._ui.height.val('');
+                self._ui.ratio.val('');
+                self._ui.text.html('');
+                self._ui.modalBody.html('');
+                self._ui.authorName.val('');
+                self._ui.authorUrl.val('');
+                self._ui.title.val('');
+                self._ui.thumbContainer.html('');
+                self._ui.thumbnail.val('');
                 return;
             }
 
             $.getJSON(url, function (data) {
                 if (data.html) {
-                    fieldset.find('[data-video="html"]').val(data.html);
-                    fieldset.find('[data-video="width"]').val(data.width);
-                    fieldset.find('[data-video="height"]').val(data.height);
-                    fieldset.find('[data-video="ratio"]').val(data.width / data.height);
-                    fieldset.find('[data-video="text"]').html('"<b>' + data.title + '</b>" by ' + data.author_name);
-                    fieldset.find('[data-video="modal"]').find('.modal-body').html(data.html);
-                    fieldset.find('[data-video="authorname"]').val(data.author_name);
-                    fieldset.find('[data-video="authorurl"]').val(data.author_url);
-                    fieldset.find('[data-video="title"]').val(data.title);
+                    self._ui.html.val(data.html);
+                    self._ui.width.val(data.width);
+                    self._ui.height.val(data.height);
+                    self._ui.ratio.val(data.width / data.height);
+                    self._ui.text.html('"<b>' + data.title + '</b>" by ' + data.author_name);
+                    self._ui.modalBody.html(data.html);
+                    self._ui.authorName.val(data.author_name);
+                    self._ui.authorUrl.val(data.author_url);
+                    self._ui.title.val(data.title);
                 }
 
                 if (data.thumbnail_url) {
-                    fieldset.find('[data-video="thumbcontainer"]').html(
+                    self._ui.thumbContainer.html(
                         '<img src="' + data.thumbnail_url + '" width="200" height="150">'
                     );
-                    fieldset.find('[data-video="thumnail"]').val(data.thumbnail_url);
+                    self._ui.thumbnail.val(data.thumbnail_url);
                 }
             });
         }
