@@ -32,7 +32,10 @@ class Taxonomy extends ArrayCollection
 
     public function setFromPost($formValues, $entity)
     {
-        foreach ($formValues['taxonomy'] as $field => $values) {
+        if (isset($formValues['taxonomy'])) {
+            $formValues = $formValues['taxonomy'];
+        }
+        foreach ($formValues as $field => $values) {
             foreach ($values as $val) {
                 $order = isset($formValues['taxonomy-order'][$field]) ? $formValues['taxonomy-order'][$field] : 0;
                 if (isset($this->config[$field]['options'][$val])) {
@@ -164,6 +167,16 @@ class Taxonomy extends ArrayCollection
         $filtered->config = $this->config;
 
         return $filtered;
+    }
+
+    /**
+     * Required by interface ArrayAccess.
+     *
+     * {@inheritDoc}
+     */
+    public function offsetGet($offset)
+    {
+        return $this->getField($offset);
     }
 
 }
