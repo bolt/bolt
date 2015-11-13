@@ -57,7 +57,6 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/uploads.js',
                 // Fields
                 '<%= path.src.js %>/modules/fields.js',
-                '<%= path.src.js %>/modules/fields/video.js',
                 // Bolt widgets
                 '<%= path.src.js %>/widgets/**/*.js',
                 // Old stuff
