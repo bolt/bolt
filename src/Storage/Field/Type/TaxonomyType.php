@@ -71,7 +71,7 @@ class TaxonomyType extends FieldTypeBase
 
         if ($this->mapping['data']['has_sortorder']) {
             $order = "$field.sortorder";
-            $query->addSelect($this->getPlatformGroupConcat("$field.sortorder", $order, "_" . $field . '_sortorder', $query))
+            $query->addSelect($this->getPlatformGroupConcat("$field.sortorder", $order, "_" . $field . '_sortorder', $query));
         } else {
             $order = "$field.id";
         }
@@ -192,8 +192,8 @@ class TaxonomyType extends FieldTypeBase
                 $index = array_search($needle, array_keys($taxData['options']));
                 $sortorder = $taxData['sortorder'];
                 $group = [
-                    'slug'  => $taxValueSlug,
-                    'name'  => $taxValueName,
+                    'slug'  => $tax->getSlug(),
+                    'name'  => $tax->getName(),
                     'order' => $sortorder,
                     'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
                 ];
