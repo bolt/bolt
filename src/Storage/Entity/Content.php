@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Storage\Entity;
 
-use Bolt\Storage\Collection\Taxonomy;
+use Bolt\Storage\Collection;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Carbon\Carbon;
@@ -180,14 +180,14 @@ class Content extends Entity
 
     public function getTaxonomy()
     {
-        if (!$this->taxonomy instanceof Taxonomy) {
-            $this->taxonomy = new Taxonomy();
+        if (!$this->taxonomy instanceof Collection\Taxonomy) {
+            $this->taxonomy = new Collection\Taxonomy();
         }
 
         return $this->taxonomy;
     }
 
-    public function setTaxonomy(Taxonomy $taxonomy)
+    public function setTaxonomy(Collection\Taxonomy $taxonomy)
     {
         $this->taxonomy = $taxonomy;
     }
