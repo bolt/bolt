@@ -33,9 +33,11 @@ class Taxonomy extends ArrayCollection
     public function setFromPost($formValues, $entity)
     {
         if (isset($formValues['taxonomy'])) {
-            $formValues = $formValues['taxonomy'];
+            $flatVals = $formValues['taxonomy'];
+        } else {
+            $flatVals = $formValues;
         }
-        foreach ($formValues as $field => $values) {
+        foreach ($flatVals as $field => $values) {
             foreach ($values as $val) {
                 $order = isset($formValues['taxonomy-order'][$field]) ? $formValues['taxonomy-order'][$field] : 0;
                 if (isset($this->config[$field]['options'][$val])) {
