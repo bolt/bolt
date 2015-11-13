@@ -79,6 +79,20 @@
              */
             this._timeout = 0;
 
+            /**
+             * Clipboard.
+             *
+             * @type {object}
+             * @name _clipboard
+             * @memberOf jQuery.widget.bolt.fieldSlug.prototype
+             * @private
+             */
+            this._clipboard = new Clipboard('.copy', {
+                text: function () {
+                    return self._ui.prefix.text() + self._ui.data.val();
+                }
+            });
+
             // Bind events.
 
             self._ui.lock.on('click', function () {
@@ -100,10 +114,6 @@
             if (self.options.isEmpty) {
                 self._ui.unlock.trigger('click');
             }
-
-            new Clipboard('.copy').on('success', function (evt) {
-                evt.clearSelection();
-            });
         },
 
         /**
@@ -170,7 +180,6 @@
                 .done(function (uri) {
                     self._ui.data.val(uri);
                     self._ui.show.html(uri);
-                    self._ui.copy.attr('data-clipboard-text', self._ui.prefix.text() + uri);
                 })
                 .fail(function () {
                     console.log('failed to get an URI');
