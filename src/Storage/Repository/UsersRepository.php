@@ -58,8 +58,11 @@ class UsersRepository extends Repository
     public function getUser($userId)
     {
         $query = $this->getUserQuery($userId);
+        if ($userEntity = $this->findOneWith($query)) {
+            $this->unsetSensitiveFields($userEntity);
+        }
 
-        return $this->findOneWith($query);
+        return $userEntity;
     }
 
     /**
@@ -147,5 +150,18 @@ class UsersRepository extends Repository
         }
 
         return $result;
+    }
+
+    /**
+     * Null sensitive data that doesn't need to be passed around.
+     *
+     * @param Entity\Users $userEntity
+     */
+    protected function unsetSensitiveFields(Entity\Users $userEntity)
+    {
+        $userEntity->setPassword(null);
+        $userEntity->setShadowpassword(null);
+        $userEntity->setShadowtoken(null);
+        $userEntity->setShadowvalidity(null);
     }
 }

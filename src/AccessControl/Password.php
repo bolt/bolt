@@ -46,8 +46,8 @@ class Password
             $password = $this->app['randomgenerator']->generateString(12);
 
             $userEntity->setPassword($password);
-            $userEntity->setShadowpassword('');
-            $userEntity->setShadowtoken('');
+            $userEntity->setShadowpassword(null);
+            $userEntity->setShadowtoken(null);
             $userEntity->setShadowvalidity(null);
 
             $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
