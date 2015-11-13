@@ -51,7 +51,7 @@
                 width:          fieldset.find('[data-video="width"]'),
                 height:         fieldset.find('[data-video="height"]'),
                 ratio:          fieldset.find('[data-video="ratio"]'),
-                text:           fieldset.find('[data-video="text"]'),
+                text:           fieldset.find('p.matched-video'),
                 modalBody:      fieldset.find('[data-video="modal"] .modal-body'),
                 authorName:     fieldset.find('[data-video="authorname"]'),
                 authorUrl:      fieldset.find('[data-video="authorurl"]'),
@@ -99,41 +99,39 @@
 
             // If val is emptied, clear the video fields.
             if (request.url.length < 2) {
-                self._ui.html.val('');
-                self._ui.width.val('');
-                self._ui.height.val('');
-                self._ui.ratio.val('');
-                self._ui.text.html('');
-                self._ui.modalBody.html('');
-                self._ui.authorName.val('');
-                self._ui.authorUrl.val('');
-                self._ui.title.val('');
-                self._ui.thumbContainer.html('');
-                self._ui.thumbnail.val('');
-                return;
+                self._set({});
+            } else {
+                $.getJSON(url, request)
+                    .done(function (data) {
+                        self._set(data);
+                    });
             }
+        },
 
-            $.getJSON(url, request)
-                .done(function (data) {
-                    if (data.html) {
-                        self._ui.html.val(data.html);
-                        self._ui.width.val(data.width);
-                        self._ui.height.val(data.height);
-                        self._ui.ratio.val(data.width / data.height);
-                        self._ui.text.html('"<b>' + data.title + '</b>" by ' + data.author_name);
-                        self._ui.modalBody.html(data.html);
-                        self._ui.authorName.val(data.author_name);
-                        self._ui.authorUrl.val(data.author_url);
-                        self._ui.title.val(data.title);
-                    }
-
-                    if (data.thumbnail_url) {
-                        self._ui.thumbContainer.html(
-                            '<img src="' + data.thumbnail_url + '" width="200" height="150">'
-                        );
-                        self._ui.thumbnail.val(data.thumbnail_url);
-                    }
-                });
+        /**
+         * Sets data fields, display fields, preview and thumbnail.
+         *
+         * @private
+         * @param {Object} data - Date sent from embed.ly
+         */
+        _set: function (data) {
+            this._ui.html.val(data.html || '');
+            this._ui.width.val(data.width || '');
+            this._ui.height.val(data.height || '');
+            this._ui.ratio.val(data.width && data.height ? data.width / data.height : '');
+            this._ui.text.html('"<b>' + (data.title || '—') + '</b>" by ' + (data.author_name || '—'));
+            this._ui.modalBody.html(data.html || '');
+            this._ui.authorName.val(data.author_name || '');
+            this._ui.authorUrl.val(data.author_url || '');
+            this._ui.title.val(data.title || '');
+            // Thumbnail
+            if (data.thumbnail_url) {
+                this._ui.thumbContainer.html('<img src="' + data.thumbnail_url + '" width="200" height="150">');
+                this._ui.thumbnail.val(data.thumbnail_url);
+            } else {
+                this._ui.thumbContainer.html('');
+                this._ui.thumbnail.val('');
+            }
         }
     });
 })(jQuery);
