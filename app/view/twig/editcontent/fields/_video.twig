@@ -10,6 +10,8 @@
 {% set preview_w = 200 %}
 {% set preview_h = 150 %}
 
+{% set modal_id = buid() %}
+
 {% set video = context.content.get(contentkey) %}
 
 {% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18) ~ '</b>" by ' ~ video.authorname|trimtext(18) %}
@@ -88,9 +90,14 @@
         src:       video.thumbnail|default(app.paths.app ~ 'view/img/default_empty_4x3.png'),
         width:     preview_w,
     },
-} %}
 
-{% set modal_id = buid() %}
+    play: {
+        class:     video.html|default() ? '' : 'hidden',
+        href:      '#' ~ modal_id,
+        role:     'button',
+        'data-toggle':  'modal',
+    },
+} %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -129,14 +136,6 @@
                 <p class="matched-video">{{ videotitle|raw }}</p>
             </div>
 
-            <div class="hidden-xs col-sm-3">
-                <span class="pull-right">
-                    <a href="#{{ modal_id }}" role="button" class="btn btn-default" data-toggle="modal">
-                    <i class="fa fa-youtube-play"></i>
-                    {{ __('field.video.button.preview') }}</a>
-                </span>
-            </div>
-
             <input{{ hattr(attributes.hid_ratio) }}>
             <input{{ hattr(attributes.hid_title) }}>
             <input{{ hattr(attributes.hid_authorname) }}>
@@ -151,6 +150,7 @@
             <label>{{ __('field.video.label.preview') }}</label>
 			<div class="imageholder">
 				<img{{ hattr(attributes.preview) }}>
+                <button{{ hattr(attributes.play) }}></button>
 			</div>
         </div>
     </div>
@@ -161,7 +161,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     {% if video.html is defined %}
-                        {{ video.html }}
+                        {{ video.html|raw }}
                     {% else %}
                         <p>{{ __('field.video.preview.no-url') }}</p>
                     {% endif %}

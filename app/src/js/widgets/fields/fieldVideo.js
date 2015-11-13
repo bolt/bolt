@@ -43,6 +43,7 @@
              * @property {Object} title          - Hidden field holding the video title
              * @property {Object} thumbnailUrl   - Hidden field holding the video thumbnail link
              * @property {Object} preview        - The thumbnail image
+             * @property {Object} play           - Play button
              * @property {Object} modalBody      - The container for the modal video preview
              * @property {Object} text           -
              */
@@ -57,6 +58,7 @@
                 title:          fieldset.find('input.title'),
                 thumbnailUrl:   fieldset.find('input.thumbnailurl'),
                 preview:        fieldset.find('img'),
+                play:           fieldset.find('button'),
                 modalBody:      fieldset.find('div.modal-body'),
                 text:           fieldset.find('p.matched-video')
             };
@@ -127,7 +129,13 @@
             this._ui.authorName.val(data.author_name || '');
             this._ui.authorUrl.val(data.author_url || '');
             this._ui.title.val(data.title || '');
+            this._ui.thumbnailUrl.val(data.thumbnail_url || '');
             this._ui.preview.attr('src', thumbnailUrl);
+            if (data.html) {
+                this._ui.play.removeClass('hidden');
+            } else {
+                this._ui.play.addClass('hidden');
+            }
         }
     });
 })(jQuery, Bolt);
