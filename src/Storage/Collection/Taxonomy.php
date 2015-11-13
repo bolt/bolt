@@ -196,7 +196,7 @@ class Taxonomy extends ArrayCollection
     {
         foreach ($this->getField($field) as $element) {
             if ($element->getSlug() == $slug) {
-                return $element->getSortorder();;
+                return $element->getSortorder();
             }
         }
     }
