@@ -50,8 +50,8 @@ class UsersRepository extends Repository
     /**
      * Get a user.
      *
-     * @param string|integer $userId Either the user's ID, username, or email
-     *                               address.
+     * @param string|integer $userId  Either the user's ID, username, or email
+     *                                address.
      *
      * @return Entity\Users|false
      */
@@ -83,6 +83,39 @@ class UsersRepository extends Repository
             $qb->where('username = :userId')->orWhere('email = :userId');
         }
         $qb->setParameter('userId', $userId);
+
+        return $qb;
+    }
+
+    /**
+     * Get a user's authentication data.
+     *
+     * @param string|integer $userId
+     *
+     * @return Entity\Users|false
+     */
+    public function getUserAuthData($userId)
+    {
+        $query = $this->getUserAuthDataQuery($userId);
+
+        return $this->findOneWith($query);
+    }
+
+    /**
+     * Get the user fetch query.
+     *
+     * @param string|integer $userId
+     *
+     * @return QueryBuilder
+     */
+    public function getUserAuthDataQuery($userId)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->select('id')
+            ->addSelect('password')
+            ->addSelect('shadowpassword')
+            ->where('id = :userId')
+            ->setParameter('userId', $userId);
 
         return $qb;
     }
