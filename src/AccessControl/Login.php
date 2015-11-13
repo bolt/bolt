@@ -87,11 +87,16 @@ class Login extends AccessChecker
         }
 
         $userAuth = $this->repositoryUsers->getUserAuthData($userEntity->getId());
+        if ($userAuth->getPassword() === null || $userAuth->getPassword() === '') {
+            $this->systemLogger->alert("Attempt to login to an account with empty password field '$userName'", ['event' => 'security']);
+            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+
+            return $this->loginFailed($userEntity);
+        }
+
         $check = (new PasswordLib())->verifyPasswordHash($password, $userAuth->getPassword());
         if (!$check) {
-            $this->loginFailed($userEntity);
-
-            return false;
+            return $this->loginFailed($userEntity);
         }
 
         return $this->loginFinish($userEntity);
@@ -182,6 +187,8 @@ class Login extends AccessChecker
      * Add error messages to logs and update the user.
      *
      * @param Entity\Users $userEntity
+     *
+     * @return false
      */
     protected function loginFailed(Entity\Users $userEntity)
     {
@@ -193,6 +200,8 @@ class Login extends AccessChecker
         $userEntity->setThrottleduntil($this->throttleUntil($userEntity->getFailedlogins() + 1));
         $userEntity->setPassword(null);
         $this->repositoryUsers->save($userEntity);
+
+        return false;
     }
 
     /**
