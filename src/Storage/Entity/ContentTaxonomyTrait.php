@@ -84,7 +84,7 @@ trait ContentTaxonomyTrait
         }
 
         // Only add a taxonomy, if the taxonomytype is actually set in the contenttype
-        if (!isset($this->contenttype['taxonomy']) || !in_array($taxonomyType, $this->contenttype['taxonomy'])) {
+        if (!isset($this->contenttype['taxonomy']) || !in_array($taxonomyType, $this->contenttype['taxonomy']) || empty($slug)) {
             return false;
         }
 

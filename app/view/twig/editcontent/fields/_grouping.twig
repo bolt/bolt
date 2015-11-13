@@ -40,7 +40,10 @@
         </div>
 
         {% if taxonomy.has_sortorder is defined and taxonomy.has_sortorder == true %}
-            {% set sortval =  context.content.taxonomy.getField(taxonomy.slug).first().getSortorder() %}
+            {% set grouping =  context.content.taxonomy.getField(taxonomy.slug).first() %}
+            {% if grouping and grouping.sortorder %}
+                {% set sortval =  grouping.sortorder %}
+            {% endif %}
             {% set attr_order = {
                 class:  'form-control',
                 id:     id_order,
