@@ -190,4 +190,13 @@ class Taxonomy extends ArrayCollection
         return false;
     }
 
+    public function getSortorder($field, $slug)
+    {
+        foreach ($this->getField($field) as $element) {
+            if ($element->getSlug() == $slug) {
+                return $element->getSortorder();;
+            }
+        }
+    }
+
 }
