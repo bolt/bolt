@@ -60,46 +60,27 @@
                 thumbnail:      fieldset.find('[data-video="thumbnail"]')
             };
 
-            self._ui.url.bind(
-                'propertychange input',
-                function () {
-                    clearTimeout(timeout);
-                    timeout = setTimeout(
-                        function () {
-                            self._update();
-                        },
-                        400
-                    );
-                }
-            );
+            self._ui.url.on('propertychange input', function () {
+                clearTimeout(timeout);
+                timeout = setTimeout(
+                    function () {
+                        self._update();
+                    },
+                    400
+                );
+            });
 
-            self._ui.width.bind(
-                'propertychange input',
-                function () {
-                    if (self._ui.ratio.val() > 0) {
-                        self._ui.height.val(
-                            Math.round(
-                                self._ui.width.val() /
-                                self._ui.ratio.val()
-                            )
-                        );
-                    }
+            self._ui.width.on('propertychange input', function () {
+                if (self._ui.ratio.val() > 0) {
+                    self._ui.height.val(Math.round(self._ui.width.val() / self._ui.ratio.val()));
                 }
-            );
+            });
 
-            self._ui.height.bind(
-                'propertychange input',
-                function () {
-                    if (self._ui.ratio.val() > 0) {
-                        self._ui.width.val(
-                            Math.round(
-                                self._ui.height.val() *
-                                self._ui.ratio.val()
-                            )
-                        );
-                    }
+            self._ui.height.on('propertychange input', function () {
+                if (self._ui.ratio.val() > 0) {
+                    self._ui.width.val(Math.round(self._ui.height.val() * self._ui.ratio.val()));
                 }
-            );
+            });
         },
 
         /**
