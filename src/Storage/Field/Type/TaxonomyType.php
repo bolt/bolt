@@ -130,15 +130,22 @@ class TaxonomyType extends FieldTypeBase
         $collection = $this->em->getCollectionManager()->create('Bolt\Storage\Entity\Taxonomy');
         $collection->setFromDatabaseValues($existingDB);
         $toDelete = $collection->update($taxonomy);
-
         $repo = $this->em->getRepository('Bolt\Storage\Entity\Taxonomy');
-        foreach ($collection as $entity) {
-            $repo->save($entity);
-        }
 
-        foreach ($toDelete as $entity) {
-            $repo->delete($entity);
-        }
+        $queries->onResult(
+            function ($query, $result, $id) use ($repo, $collection, $toDelete) {
+                foreach ($collection as $entity) {
+                    $entity->content_id = $id;
+                    $repo->save($entity);
+                }
+
+                foreach ($toDelete as $entity) {
+                    $repo->delete($entity);
+                }
+            }
+        );
+
+
 
     }
 
