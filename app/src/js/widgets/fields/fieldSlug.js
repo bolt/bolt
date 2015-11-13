@@ -117,6 +117,16 @@
         },
 
         /**
+         * Cleanup.
+         *
+         * @private
+         */
+        _destroy: function () {
+            clearTimeout(this._timeout);
+            this._clipboard.destroy();
+        },
+
+        /**
          * Locks the slug field.
          *
          * @private
