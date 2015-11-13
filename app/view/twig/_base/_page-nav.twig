@@ -30,12 +30,12 @@
     <div id="navpage-wrapper"{% if app.request.cookies.get('sidebar') %} class="nav-secondary-collapsed nav-secondary-collapsed-hoverable"{% endif %}>
         <nav id="navpage-primary" class="navbar navbar-static-top navbar-inverse navbar-bolt">
             <div class="container-fluid">
-                {% include '@bolt/nav/_primary.twig' %}
+                {% include '@bolt/_nav/_primary.twig' %}
             </div>
         </nav>
 
         <nav id="navpage-secondary" class="navbar-default navbar-static-side">
-            {% include '@bolt/nav/_secondary.twig' %}
+            {% include '@bolt/_nav/_secondary.twig' %}
         </nav>
 
         <div id="navpage-content" class="container-fluid">
@@ -78,18 +78,9 @@
 
         {% block page_main_extra_content %}
         {% endblock %}
+
     </div>
 
-    <footer id="bolt-footer" class="hidden-xs">
-        {% if app.config.get('general/branding/provided_by/0') %}
-            {{ __("Provided by:") }}
-            <a href="mailto:{{ app.config.get('general/branding/provided_by/0') }}">
-                {{ app.config.get('general/branding/provided_by/1') }}
-            </a> -
-        {% endif %}
-        <i class="fa fa-cog"></i> <b>Bolt {{ bolt_version }}</b>: {{ __('Sophisticated, lightweight & simple CMS') }} -
-        <i class="fa fa-heart"></i > <a href="{{ path('about') }}">{{ __('general.about') }}</a> &ndash;
-        <i class="fa fa-external-link-square"></i> <a href="http://bolt.cm" target="_blank">Bolt.cm</a>
-    </footer>
+    {% include '@bolt/_nav/_footer.twig' %}
 
 {% endblock page_plain %}

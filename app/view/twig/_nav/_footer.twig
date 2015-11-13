@@ -1,0 +1,20 @@
+{% if app.config.get('general/branding/provided_by/0') is not empty %}
+
+    <footer id="bolt-footer" class="hidden-xs {% if app.request.cookies.get('sidebar') %}bolt-footer-hidden{% endif %}">
+        {{ __("Provided by:") }}
+        <a href="mailto:{{ app.config.get('general/branding/provided_by/0') }}">
+            {{ app.config.get('general/branding/provided_by/1') }}
+        </a> &ndash;
+        <i class="fa fa-cog"></i> <b>Bolt {{ bolt_version }}</b>:
+        <i class="fa fa-heart"></i > <a href="{{ path('about') }}">{{ __('general.about') }}</a> &ndash;
+        <i class="fa fa-external-link-square"></i> <a href="http://bolt.cm" target="_blank">Bolt.cm</a>
+    </footer>
+
+{% else %}
+
+    <footer id="bolt-footer" class="hidden-xs bolt-footer-mini {% if app.request.cookies.get('sidebar') %}bolt-footer-hidden{% endif %}">
+        <i class="fa fa-cog"></i> <a href="http://bolt.cm" target="_blank">Bolt {{ bolt_version }}</a> &ndash;
+        <i class="fa fa-heart"></i > <a href="{{ path('about') }}">{{ __('general.about') }}</a>
+    </footer>
+
+{% endif %}
