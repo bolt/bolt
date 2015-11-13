@@ -47,15 +47,16 @@ class UserResetPasswordTest extends BoltUnitTest
         // Test that the saved value matches the hash
         $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
         $userEntity = $repo->getUser('koala');
+        $userAuth = $repo->getUserAuthData($userEntity->getId());
         $crypt = new PasswordLib();
 
         // Check the old password isn't valid
-        $auth = $crypt->verifyPasswordHash('GumL3@ve$', $userEntity->getPassword());
+        $auth = $crypt->verifyPasswordHash('GumL3@ve$', $userAuth->getPassword());
         $this->assertFalse($auth);
 
         // Check the new password is valid
         $bits = explode(' ', trim($result));
-        $auth = $crypt->verifyPasswordHash($bits[5], $userEntity->getPassword());
+        $auth = $crypt->verifyPasswordHash($bits[5], $userAuth->getPassword());
         $this->assertTrue($auth);
     }
 }
