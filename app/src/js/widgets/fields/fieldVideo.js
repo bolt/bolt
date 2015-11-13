@@ -32,7 +32,7 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              *
-             * @property {Object} main  -
+             * @property {Object} url  -
              * @property {Object} html   -
              * @property {Object} width -
              * @property {Object} height   -
@@ -46,7 +46,7 @@
              * @property {Object} thumbnail   -
              */
             this._ui = {
-                main:           fieldset.find('[data-video="main"]'),
+                url:            fieldset.find('[data-video="url"]'),
                 html:           fieldset.find('[data-video="html"]'),
                 width:          fieldset.find('[data-video="width"]'),
                 height:         fieldset.find('[data-video="height"]'),
@@ -60,7 +60,7 @@
                 thumbnail:      fieldset.find('[data-video="thumbnail"]')
             };
 
-            self._ui.main.bind(
+            self._ui.url.bind(
                 'propertychange input',
                 function () {
                     clearTimeout(timeout);
@@ -103,20 +103,21 @@
         },
 
         /**
-         * Gets video embedding info from http://api.embed.ly and then updates video fields
+         * Gets video embedding info from http://api.embed.ly and then updates video fields.
          *
          * @private
          */
         _update: function () {
             var self = this,
-                fieldset = self.element;
-            // Embed endpoint https://api.embed.ly/1/oembed?format=json&callback=:callbackurl=
-            var endpoint = 'https://api.embed.ly/1/oembed?format=json&key=51fa004148ad4d05b115940be9dd3c7e&url=',
-                val = self._ui.main.val(),
-                url = endpoint + encodeURI(val);
+                url = 'https://api.embed.ly/1/oembed',
+                request = {
+                    format: 'json',
+                    key:    '51fa004148ad4d05b115940be9dd3c7e',
+                    url:    self._ui.url.val()
+                };
 
             // If val is emptied, clear the video fields.
-            if (val.length < 2) {
+            if (request.url.length < 2) {
                 self._ui.html.val('');
                 self._ui.width.val('');
                 self._ui.height.val('');
@@ -131,26 +132,27 @@
                 return;
             }
 
-            $.getJSON(url, function (data) {
-                if (data.html) {
-                    self._ui.html.val(data.html);
-                    self._ui.width.val(data.width);
-                    self._ui.height.val(data.height);
-                    self._ui.ratio.val(data.width / data.height);
-                    self._ui.text.html('"<b>' + data.title + '</b>" by ' + data.author_name);
-                    self._ui.modalBody.html(data.html);
-                    self._ui.authorName.val(data.author_name);
-                    self._ui.authorUrl.val(data.author_url);
-                    self._ui.title.val(data.title);
-                }
+            $.getJSON(url, request)
+                .done(function (data) {
+                    if (data.html) {
+                        self._ui.html.val(data.html);
+                        self._ui.width.val(data.width);
+                        self._ui.height.val(data.height);
+                        self._ui.ratio.val(data.width / data.height);
+                        self._ui.text.html('"<b>' + data.title + '</b>" by ' + data.author_name);
+                        self._ui.modalBody.html(data.html);
+                        self._ui.authorName.val(data.author_name);
+                        self._ui.authorUrl.val(data.author_url);
+                        self._ui.title.val(data.title);
+                    }
 
-                if (data.thumbnail_url) {
-                    self._ui.thumbContainer.html(
-                        '<img src="' + data.thumbnail_url + '" width="200" height="150">'
-                    );
-                    self._ui.thumbnail.val(data.thumbnail_url);
-                }
-            });
+                    if (data.thumbnail_url) {
+                        self._ui.thumbContainer.html(
+                            '<img src="' + data.thumbnail_url + '" width="200" height="150">'
+                        );
+                        self._ui.thumbnail.val(data.thumbnail_url);
+                    }
+                });
         }
     });
 })(jQuery);
