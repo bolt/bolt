@@ -167,7 +167,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
         foreach ($data as $key => $value) {
             if (strpos($key, '_') === 0) {
                 $path = explode('_', $key);
-                if (isset($path[1]) && isset($path[2]) && $path[1] == $field ) {
+                if (isset($path[1]) && isset($path[2]) && $path[1] == $field) {
                     $normalized[$path[2]] = $value;
                 }
             }
