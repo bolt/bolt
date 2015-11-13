@@ -88,6 +88,23 @@ class UsersRepository extends Repository
     }
 
     /**
+     * Get all the system users.
+     *
+     * @return Entity\Users[]|false
+     */
+    public function getUsers()
+    {
+        $userEntities = $this->findAll();
+        if ($userEntities) {
+            foreach ($userEntities as $userEntity) {
+                $this->unsetSensitiveFields($userEntity);
+            }
+        }
+
+        return $userEntities;
+    }
+
+    /**
      * Check to see if there are users in the user table.
      *
      * @return integer

@@ -225,7 +225,7 @@ class Users
         }
 
         try {
-            if (!$tempusers = $this->repository->findAll()) {
+            if (!$tempusers = $this->repository->getUsers()) {
                 return [];
             }
 
