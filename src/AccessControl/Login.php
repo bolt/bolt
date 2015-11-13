@@ -86,8 +86,9 @@ class Login extends AccessChecker
             return false;
         }
 
-        $crypt = new PasswordLib();
-        if (!$crypt->verifyPasswordHash($password, $userEntity->getPassword())) {
+        $userAuth = $this->repositoryUsers->getUserAuthData($userEntity->getId());
+        $check = (new PasswordLib())->verifyPasswordHash($password, $userAuth->getPassword());
+        if (!$check) {
             $this->loginFailed($userEntity);
 
             return false;
