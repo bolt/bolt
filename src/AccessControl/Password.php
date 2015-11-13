@@ -74,11 +74,13 @@ class Password
         // Hash the remote caller's IP with the token
         $tokenHash = md5($token . '-' . str_replace('.', '-', $remoteIP));
 
-        if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUserShadowAuth($tokenHash)) {
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        if ($userEntity = $repo->getUserShadowAuth($tokenHash)) {
+            $userAuth = $repo->getUserAuthData($userEntity->getId());
             // Update entries
-            $userEntity->setPassword($userEntity->getShadowpassword());
-            $userEntity->setShadowpassword('');
-            $userEntity->setShadowtoken('');
+            $userEntity->setPassword($userAuth->getShadowpassword());
+            $userEntity->setShadowpassword(null);
+            $userEntity->setShadowtoken(null);
             $userEntity->setShadowvalidity(null);
             $userEntity->setShadowSave(true);
 
