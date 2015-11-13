@@ -45,7 +45,6 @@
              * @property {Object} preview        - The thumbnail image
              * @property {Object} play           - Play button
              * @property {Object} modalBody      - The container for the modal video preview
-             * @property {Object} text           -
              */
             this._ui = {
                 url:            fieldset.find('input.url'),
@@ -59,8 +58,7 @@
                 thumbnailUrl:   fieldset.find('input.thumbnailurl'),
                 preview:        fieldset.find('img'),
                 play:           fieldset.find('button'),
-                modalBody:      fieldset.find('div.modal-body'),
-                text:           fieldset.find('p.matched-video')
+                modalBody:      fieldset.find('div.modal-body')
             };
 
             self._ui.url.on('propertychange input', function () {
@@ -124,7 +122,6 @@
             this._ui.width.val(data.width || '');
             this._ui.height.val(data.height || '');
             this._ui.ratio.val(data.width && data.height ? data.width / data.height : '');
-            this._ui.text.html('"<b>' + (data.title || '—') + '</b>" by ' + (data.author_name || '—'));
             this._ui.modalBody.html(data.html || '');
             this._ui.authorName.val(data.author_name || '');
             this._ui.authorUrl.val(data.author_url || '');

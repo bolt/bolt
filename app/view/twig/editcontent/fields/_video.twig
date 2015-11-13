@@ -14,8 +14,6 @@
 
 {% set video = context.content.get(contentkey) %}
 
-{% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18) ~ '</b>" by ' ~ video.authorname|trimtext(18) %}
-
 {% set attributes = {
     url: {
         class:        'form-control url',
@@ -50,16 +48,20 @@
     },
 
     hid_title: {
-        class:      'title',
+        class:      'form-control title',
         name:       name ~ '[title]',
-        type:       'hidden',
+        readonly:   true,
+        title:      __('Title'),
+        type:       'text',
         value:      video.title|default('')
     },
 
     hid_authorname: {
-        class:      'authorname',
+        class:      'form-control authorname',
         name:       name ~ '[authorname]',
-        type:       'hidden',
+        readonly:   true,
+        title:      __('Author'),
+        type:       'text',
         value:      video.authorname|default(''),
     },
 
@@ -131,14 +133,13 @@
         </div>
 
         <div class="form-group">
-            <div class="col-sm-9">
+            <div class="col-sm-12">
                 <label>{{ __('field.video.matched-video') }}</label>
-                <p class="matched-video">{{ videotitle|raw }}</p>
+                <input{{ hattr(attributes.hid_title) }}>
+                <input{{ hattr(attributes.hid_authorname) }}>
             </div>
 
             <input{{ hattr(attributes.hid_ratio) }}>
-            <input{{ hattr(attributes.hid_title) }}>
-            <input{{ hattr(attributes.hid_authorname) }}>
             <input{{ hattr(attributes.hid_authorurl) }}>
             <input{{ hattr(attributes.hid_html) }}>
             <input{{ hattr(attributes.hid_thumbnail) }}>

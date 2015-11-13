@@ -18,6 +18,20 @@ fieldset[data-bolt-field="video"] {
         display: inline;
     }
 
+    .title, .authorname {
+        box-shadow: none;
+        font-size: 13px !important;
+        line-height: 13px !important;
+        cursor: text;
+        padding: 1px 6px;
+        height: auto;
+        text-overflow: ellipsis;
+    }
+
+    .authorname {
+        margin-top: 4px;
+    }
+
     .imageholder {
         position: relative;
 
@@ -27,6 +41,7 @@ fieldset[data-bolt-field="video"] {
             top: 0;
             left: 0;
             width: 100%;
+            max-width: 200px;
             height: 100%;
             background: none;
             border: none;
