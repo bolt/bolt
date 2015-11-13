@@ -5,7 +5,6 @@ namespace Bolt\Storage\Field\Type;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
-use Bolt\Storage\Mapping\TaxonomyValue;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -39,9 +38,12 @@ class TaxonomyType extends FieldTypeBase
         foreach ($query->getFilters() as $filter) {
             if ($filter->getKey() == $field) {
                 // This gets the method name, one of andX() / orX() depending on type of expression
-                $method = strtolower($filter->getExpressionObject()->getType()) . 'X';
+                $method = strtolower($filter->getExpressionObject()
+                        ->getType()) . 'X';
 
-                $newExpr = $query->getQueryBuilder()->expr()->$method();
+                $newExpr = $query->getQueryBuilder()
+                    ->expr()
+                    ->$method();
                 foreach ($filter->getParameters() as $k => $v) {
                     $newExpr->add("$field.slug = :$k");
                 }
@@ -70,7 +72,8 @@ class TaxonomyType extends FieldTypeBase
 
         if ($this->mapping['data']['has_sortorder']) {
             $order = "$field.sortorder";
-            $query->addSelect($this->getPlatformGroupConcat("$field.sortorder", $order, "_" . $field . '_sortorder', $query));
+            $query->addSelect($this->getPlatformGroupConcat("$field.sortorder", $order, "_" . $field . '_sortorder',
+                $query));
         } else {
             $order = "$field.id";
         }
@@ -87,8 +90,10 @@ class TaxonomyType extends FieldTypeBase
             ->addSelect($this->getPlatformGroupConcat("$field.id", $order, "_" . $field . '_id', $query))
             ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, '_' . $field . '_slug', $query))
             ->addSelect($this->getPlatformGroupConcat("$field.name", $order, '_' . $field . '_name', $query))
-            ->addSelect($this->getPlatformGroupConcat("$field.taxonomytype", $order, '_' . $field . '_taxonomytype', $query))
-            ->leftJoin($alias, $target, $field, "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
+            ->addSelect($this->getPlatformGroupConcat("$field.taxonomytype", $order, '_' . $field . '_taxonomytype',
+                $query))
+            ->leftJoin($alias, $target, $field,
+                "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("$alias.id");
     }
 
@@ -109,9 +114,10 @@ class TaxonomyType extends FieldTypeBase
         $fieldTaxonomy = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
         foreach ($data as $tax) {
             $tax['content_id'] = $entity->getId();
-            $tax['contenttype'] = (string) $entity->getContenttype();
+            $tax['contenttype'] = (string)$entity->getContenttype();
             $taxEntity = new Entity\Taxonomy($tax);
-            $entity->getTaxonomy()->add($taxEntity);
+            $entity->getTaxonomy()
+                ->add($taxEntity);
             $fieldTaxonomy->add($taxEntity);
         }
         $this->set($entity, $fieldTaxonomy);
@@ -126,11 +132,13 @@ class TaxonomyType extends FieldTypeBase
     public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
-        $taxonomy = $entity->getTaxonomy()->getField($field);
+        $taxonomy = $entity->getTaxonomy()
+            ->getField($field);
 
         // Fetch existing taxonomies
         $existingDB = $this->getExistingTaxonomies($entity) ?: [];
-        $collection = $this->em->getCollectionManager()->create('Bolt\Storage\Entity\Taxonomy');
+        $collection = $this->em->getCollectionManager()
+            ->create('Bolt\Storage\Entity\Taxonomy');
         $collection->setFromDatabaseValues($existingDB);
         $toDelete = $collection->update($taxonomy);
         $repo = $this->em->getRepository('Bolt\Storage\Entity\Taxonomy');
@@ -149,7 +157,6 @@ class TaxonomyType extends FieldTypeBase
         );
 
 
-
     }
 
     /**
@@ -163,16 +170,18 @@ class TaxonomyType extends FieldTypeBase
     /**
      * Get platform specific group_concat token for provided column.
      *
-     * @param string       $column
-     * @param string       $order
-     * @param string       $alias
+     * @param string $column
+     * @param string $order
+     * @param string $alias
      * @param QueryBuilder $query
      *
      * @return string
      */
     protected function getPlatformGroupConcat($column, $order, $alias, QueryBuilder $query)
     {
-        $platform = $query->getConnection()->getDatabasePlatform()->getName();
+        $platform = $query->getConnection()
+            ->getDatabasePlatform()
+            ->getName();
 
         switch ($platform) {
             case 'mysql':
@@ -194,8 +203,8 @@ class TaxonomyType extends FieldTypeBase
                 $index = array_search($needle, array_keys($taxData['options']));
                 $sortorder = $taxData['sortorder'];
                 $group = [
-                    'slug'  => $tax->getSlug(),
-                    'name'  => $tax->getName(),
+                    'slug' => $tax->getSlug(),
+                    'name' => $tax->getName(),
                     'order' => $sortorder,
                     'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
                 ];
@@ -235,11 +244,12 @@ class TaxonomyType extends FieldTypeBase
             ->andWhere('contenttype = :contenttype')
             ->andWhere('taxonomytype = :taxonomytype')
             ->setParameters([
-                'content_id'   => $entity->id,
-                'contenttype'  => $entity->getContenttype(),
+                'content_id' => $entity->id,
+                'contenttype' => $entity->getContenttype(),
                 'taxonomytype' => $this->mapping['fieldname'],
             ]);
-        $result = $query->execute()->fetchAll();
+        $result = $query->execute()
+            ->fetchAll();
 
         return $result ?: [];
     }
