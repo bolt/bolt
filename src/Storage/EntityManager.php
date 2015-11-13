@@ -171,6 +171,21 @@ class EntityManager
     }
 
     /**
+     * Shorthand access method to create collection. Consults aliases to allow short names.
+     * @param $className
+     * @return mixed
+     */
+    public function createCollection($className)
+    {
+        $className = (string) $className;
+        if (array_key_exists($className, $this->aliases)) {
+            $className = $this->aliases[$className];
+        }
+
+        return $this->getCollectionManager()->create($className);
+    }
+
+    /**
      * Finds an object by its identifier.
      *
      * This is just a convenient shortcut for getRepository($className)->find($id).
