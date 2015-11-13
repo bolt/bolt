@@ -102,8 +102,6 @@ class TaxonomyType extends FieldTypeBase
      */
     public function hydrate($data, $entity)
     {
-        $group = null;
-        $sortorder = null;
         $taxName = $this->mapping['fieldname'];
 
         $data = $this->normalizeData($data, $taxName);
