@@ -57,6 +57,7 @@
 // Bolt button for bolt:
 .btn-bolt {
     @include button-variant($btn-bolt-color, $btn-bolt-bg, $btn-bolt-border);
+    color: $btn-bolt-color !important;
 }
 
 // Danger, danger!

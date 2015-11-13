@@ -8,3 +8,20 @@ footer  {
     padding: 4px 10px;
     z-index: 1000;
 }
+
+.bolt-footer-mini  {
+    background: darken($sidebarbackground, 5);
+    color: darken($sidebartextcolour, 30);
+    border-top: 0;
+    width: $nav-secondary-large-width - 4px;
+    font-size: 90%;
+    text-align: center;
+
+    a {
+        color: darken($sidebarlink, 30) !important;
+    }
+}
+
+.bolt-footer-hidden {
+    display: none;
+}
