@@ -180,6 +180,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
                 $compiled[$i][$key] = $val;
             }
         };
+        $compiled = array_unique($compiled, SORT_REGULAR);
 
         return $compiled;
     }
