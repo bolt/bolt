@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Storage\Entity;
 
+use Bolt\Storage\Collection\Taxonomy;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Carbon\Carbon;
@@ -14,18 +15,13 @@ use Carbon\Carbon;
  * @method \DateTime getDatedepublish()
  * @method integer   getOwnerid()
  * @method string    getStatus()
- * @method string    getTitle()
- * @method array     getTemplatefields()
  * @method array     getRelation()
- * @method array     getTaxonomy()
  * @method setId(integer $id)
  * @method setSlug(string $slug)
  * @method setOwnerid(integer $ownerid)
  * @method setUsername(string $userName)
  * @method setStatus(string $status)
- * @method setTemplatefields(array $templatefields)
  * @method setRelation(array $relation)
- * @method setTaxonomy(array $taxonomy)
  */
 class Content extends Entity
 {
@@ -180,6 +176,26 @@ class Content extends Entity
     public function setTemplatefields($value)
     {
         $this->templatefields = $value;
+    }
+
+    public function getTaxonomy()
+    {
+        if (!$this->taxonomy instanceof Taxonomy) {
+            $this->taxonomy = new Taxonomy();
+        }
+
+        return $this->taxonomy;
+    }
+
+    public function setTaxonomy($taxonomy)
+    {
+        if (!$taxonomy instanceof Taxonomy) {
+            $collection = new Taxonomy();
+            $collection->setFromPost((array)$taxonomy, $this);
+            $this->taxonomy = $collection;
+        } else {
+            $this->taxonomy = $taxonomy;
+        }
     }
 
     public function setLegacyService(ContentLegacyService $service)
