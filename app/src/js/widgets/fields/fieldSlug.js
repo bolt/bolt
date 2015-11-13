@@ -145,11 +145,7 @@
             var newslug = prompt(bolt.data('field.slug.message.set'), this._ui.data.val());
 
             if (newslug) {
-                this._ui.group
-                    .removeClass('unlocked')
-                    .addClass('locked');
-
-                this._stopAutoGeneration();
+                this._lock();
                 this._getUri(newslug);
             }
         },
