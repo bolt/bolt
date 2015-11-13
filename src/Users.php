@@ -232,7 +232,7 @@ class Users
             /** @var \Bolt\Storage\Entity\Users $userEntity */
             foreach ($tempusers as $userEntity) {
                 $id = $userEntity->getId();
-                $userEntity->setPassword('**dontchange**');
+                $userEntity->setPassword(null);
                 $this->users[$id] = $userEntity->toArray();
             }
         } catch (TableNotFoundException $e) {
@@ -274,7 +274,7 @@ class Users
         // Fallback: See if we can get it by username or email address.
         try {
             if ($userEntity = $this->repository->getUser($userId)) {
-                $userEntity->setPassword('**dontchange**');
+                $userEntity->setPassword(null);
 
                 return $userEntity->toArray();
             }

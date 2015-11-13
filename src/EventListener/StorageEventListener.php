@@ -137,7 +137,7 @@ class StorageEventListener implements EventSubscriberInterface
     {
         if ($usersEntity->getShadowSave()) {
             return;
-        } elseif ($usersEntity->getPassword() && $usersEntity->getPassword() !== '**dontchange**') {
+        } elseif ($usersEntity->getPassword() !== null) {
             $crypt = new PasswordLib();
             $usersEntity->setPassword($crypt->createPasswordHash($usersEntity->getPassword(), '$2y$', ['cost' => $this->hashStrength]));
         } else {

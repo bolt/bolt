@@ -274,7 +274,7 @@ abstract class Base implements ControllerProviderInterface
 
         $repo = $this->storage()->getRepository('Bolt\Storage\Entity\Users');
         if (($userEntity = $repo->getUser($userId)) && !$raw) {
-            $userEntity->setPassword('**dontchange**');
+            $userEntity->setPassword(null);
         }
 
         return $userEntity;
