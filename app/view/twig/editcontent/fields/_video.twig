@@ -7,6 +7,9 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set preview_w = 200 %}
+{% set preview_h = 150 %}
+
 {% set video = context.content.get(contentkey) %}
 
 {% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18) ~ '</b>" by ' ~ video.authorname|trimtext(18) %}
@@ -77,7 +80,14 @@
         name:       name ~ '[thumbnail]',
         type:       'hidden',
         value:      video.thumbnail|default(''),
-    }
+    },
+
+    preview: {
+        alt:       __('field.video.label.preview'),
+        height:    preview_h,
+        src:       video.thumbnail|default(app.paths.app ~ 'view/img/default_empty_4x3.png'),
+        width:     preview_w,
+    },
 } %}
 
 {% set modal_id = buid() %}
@@ -139,13 +149,9 @@
     <div class="col-sm-4">
         <div class="right-on-large">
             <label>{{ __('field.video.label.preview') }}</label>
-            <div class="imageholder">
-                {% if video.thumbnail|default('') %}
-                    <img class="thumbimage" src="{{ video.thumbnail }}" width="200" height="150" alt="{{ __('field.video.label.preview') }}">
-                {% else %}
-                    <img src="{{ app.paths.app }}view/img/default_empty_4x3.png" width="200" height="150" alt="{{ __('No preview image') }}">
-                {% endif %}
-            </div>
+			<div class="imageholder">
+				<img{{ hattr(attributes.preview) }}>
+			</div>
         </div>
     </div>
 

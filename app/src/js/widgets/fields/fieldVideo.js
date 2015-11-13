@@ -1,7 +1,8 @@
 /**
  * @param {Object} $ - Global jQuery object
+ * @param {Object} bolt - The Bolt module
  */
-(function ($) {
+(function ($, bolt) {
     'use strict';
 
     /**
@@ -41,7 +42,7 @@
              * @property {Object} authorUrl      - Hidden field holding the author url
              * @property {Object} title          - Hidden field holding the video title
              * @property {Object} thumbnailUrl   - Hidden field holding the video thumbnail link
-             * @property {Object} thumbContainer - The thumbnail image container
+             * @property {Object} preview        - The thumbnail image
              * @property {Object} modalBody      - The container for the modal video preview
              * @property {Object} text           -
              */
@@ -54,8 +55,8 @@
                 authorName:     fieldset.find('input.authorname'),
                 authorUrl:      fieldset.find('input.authorurl'),
                 title:          fieldset.find('input.title'),
-                thumbnailUrl:   fieldset.find('img.thumbnailurl'),
-                thumbContainer: fieldset.find('div.imageholder'),
+                thumbnailUrl:   fieldset.find('input.thumbnailurl'),
+                preview:        fieldset.find('img'),
                 modalBody:      fieldset.find('div.modal-body'),
                 text:           fieldset.find('p.matched-video')
             };
@@ -115,6 +116,8 @@
          * @param {Object} data - Date sent from embed.ly
          */
         _set: function (data) {
+            var thumbnailUrl = data.thumbnail_url || bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
+
             this._ui.html.val(data.html || '');
             this._ui.width.val(data.width || '');
             this._ui.height.val(data.height || '');
@@ -124,14 +127,7 @@
             this._ui.authorName.val(data.author_name || '');
             this._ui.authorUrl.val(data.author_url || '');
             this._ui.title.val(data.title || '');
-            // Thumbnail
-            if (data.thumbnail_url) {
-                this._ui.thumbContainer.html('<img src="' + data.thumbnail_url + '" width="200" height="150">');
-                this._ui.thumbnailUrl.val(data.thumbnail_url);
-            } else {
-                this._ui.thumbContainer.html('');
-                this._ui.thumbnailUrl.val('');
-            }
+            this._ui.preview.attr('src', thumbnailUrl);
         }
     });
-})(jQuery);
+})(jQuery, Bolt);
