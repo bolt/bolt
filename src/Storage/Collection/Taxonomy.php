@@ -179,4 +179,15 @@ class Taxonomy extends ArrayCollection
         return $this->getField($offset);
     }
 
+    public function containsKeyValue($field, $value)
+    {
+        foreach ($this->getField($field) as $element) {
+            if ($element->getSlug() == $value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
