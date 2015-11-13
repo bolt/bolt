@@ -157,27 +157,24 @@
          * @param {string} text - New slug text
          */
         _getUri: function (text) {
-            var self = this;
-
-            $.ajax({
-                url: bolt.conf('paths.async') + 'makeuri',
-                type: 'GET',
-                data: {
+            var self = this,
+                data = {
                     title:           text,
                     contenttypeslug: self.options.slug,
                     id:              self.options.contentId,
                     slugfield:       self.options.key,
                     fulluri:         false
-                },
-                success: function (uri) {
+                };
+
+            $.get(bolt.conf('paths.async') + 'makeuri', data)
+                .done(function (uri) {
                     self._ui.data.val(uri);
                     self._ui.show.html(uri);
                     self._ui.copy.attr('data-clipboard-text', self._ui.prefix.text() + uri);
-                },
-                error: function () {
+                })
+                .fail(function () {
                     console.log('failed to get an URI');
-                }
-            });
+                });
         },
 
         /**
