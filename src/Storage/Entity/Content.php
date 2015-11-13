@@ -187,15 +187,9 @@ class Content extends Entity
         return $this->taxonomy;
     }
 
-    public function setTaxonomy($taxonomy)
+    public function setTaxonomy(Taxonomy $taxonomy)
     {
-        if (!$taxonomy instanceof Taxonomy) {
-            $collection = new Taxonomy();
-            $collection->setFromPost((array)$taxonomy, $this);
-            $this->taxonomy = $collection;
-        } else {
-            $this->taxonomy = $taxonomy;
-        }
+        $this->taxonomy = $taxonomy;
     }
 
     public function setLegacyService(ContentLegacyService $service)

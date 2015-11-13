@@ -103,6 +103,9 @@ class TaxonomyType extends FieldTypeBase
         $taxName = $this->mapping['fieldname'];
 
         $data = $this->normalizeData($data, $taxName);
+        if (!count($entity->getTaxonomy())) {
+            $entity->setTaxonomy($this->em->createCollection('Bolt\Storage\Entity\Taxonomy'));
+        }
 
         $fieldTaxonomy = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
         foreach ($data as $tax) {
