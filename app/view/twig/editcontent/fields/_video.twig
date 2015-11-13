@@ -102,7 +102,7 @@
         <div class="form-group">
             <div class="col-sm-12">
                 <label>{{ __('field.video.label.url') }}</label>
-                <input{{ macro.attr(attributes.url) }}>
+                <input{{ hattr(attributes.url) }}>
             </div>
         </div>
 
@@ -110,10 +110,10 @@
             <label class="control-label col-sm-2">{{ __('field.video.label.size') }}</label>
             <div class="col-sm-10 form-inline">
                 <label for="{{ 'video-' ~ key ~ '-width' }}" class="sr-only">{{ __('field.video.width') }}</label>
-                <input{{ macro.attr(attributes.width) }}> ×
+                <input{{ hattr(attributes.width) }}> ×
                 <label for="{{ 'video-' ~ key ~ '-height' }}" class="sr-only">{{ __('field.video.height') }}</label>
-                <input{{ macro.attr(attributes.height) }}>
-                <label class='label-pixels'>{{ __('field.video.pixel') }}</label>
+                <input{{ hattr(attributes.height) }}>
+                <label class="label-pixels">{{ __('field.video.pixel') }}</label>
             </div>
         </div>
 
@@ -131,12 +131,12 @@
                 </span>
             </div>
 
-            <input{{ macro.attr(attributes.hid_ratio) }}>
-            <input{{ macro.attr(attributes.hid_title) }}>
-            <input{{ macro.attr(attributes.hid_authorname) }}>
-            <input{{ macro.attr(attributes.hid_authorurl) }}>
-            <input{{ macro.attr(attributes.hid_html) }}>
-            <input{{ macro.attr(attributes.hid_thumbnail) }}>
+            <input{{ hattr(attributes.hid_ratio) }}>
+            <input{{ hattr(attributes.hid_title) }}>
+            <input{{ hattr(attributes.hid_authorname) }}>
+            <input{{ hattr(attributes.hid_authorurl) }}>
+            <input{{ hattr(attributes.hid_html) }}>
+            <input{{ hattr(attributes.hid_thumbnail) }}>
         </div>
     </div>
 
