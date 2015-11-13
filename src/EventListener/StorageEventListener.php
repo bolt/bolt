@@ -6,6 +6,7 @@ use Bolt\Config;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
+use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Entity;
@@ -157,6 +158,9 @@ class StorageEventListener implements EventSubscriberInterface
         }
         if (strlen($password) === 34 && strpos($password, '$P$') === 0) {
             return $password;
+        }
+        if (strlen($password) < 6) {
+            throw new AccessControlException('Attempted to set a password with length shorter than 6 characters!');
         }
 
         return (new PasswordLib())->createPasswordHash($password, '$2y$', ['cost' => $this->hashStrength]);
