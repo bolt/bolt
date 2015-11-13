@@ -193,6 +193,7 @@ class TaxonomyType extends FieldTypeBase
 
     protected function getGroup(Collection\Taxonomy $taxonomy)
     {
+        $group = null;
         $taxData = $this->mapping['data'];
         foreach ($taxonomy as $tax) {
             if ($taxData['has_sortorder']) {
