@@ -17,7 +17,7 @@
      * @memberOf jQuery.widget.bolt
      * @param {Object} [options] - Options to overide.
      */
-    $.widget('bolt.panelActivity', $.bolt.baseInterval, /** @lends jQuery.widget.bolt.panelActivity */ {
+    $.widget('bolt.panelActivity', $.bolt.baseInterval, /** @lends jQuery.widget.bolt.panelActivity.prototype */ {
         /**
          * Default options.
          *

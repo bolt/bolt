@@ -16,7 +16,7 @@
      * @class fieldImage
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.fieldImage', /** @lends jQuery.widget.bolt.fieldImage */ {
+    $.widget('bolt.fieldImage', /** @lends jQuery.widget.bolt.fieldImage.prototype */ {
         /**
          * The constructor of the image field widget.
          *

@@ -16,7 +16,7 @@
      * @class fieldFilelist
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.fieldFilelist', /** @lends jQuery.widget.bolt.fieldFilelist */ {
+    $.widget('bolt.fieldFilelist', /** @lends jQuery.widget.bolt.fieldFilelist.prototype */ {
         /**
          * The constructor of the filelist field widget.
          *

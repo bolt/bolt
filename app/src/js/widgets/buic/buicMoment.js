@@ -17,7 +17,7 @@
      * @memberOf jQuery.widget.bolt
      * @param {Object} [options] - Options to overide
      */
-    $.widget('bolt.buicMoment', $.bolt.baseInterval, /** @lends jQuery.widget.bolt.buicMoment */ {
+    $.widget('bolt.buicMoment', $.bolt.baseInterval, /** @lends jQuery.widget.bolt.buicMoment.prototype */ {
         /**
          * Default options.
          *

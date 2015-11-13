@@ -16,7 +16,7 @@
      * @class fieldImagelist
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.fieldImagelist', /** @lends jQuery.widget.bolt.fieldImagelist */ {
+    $.widget('bolt.fieldImagelist', /** @lends jQuery.widget.bolt.fieldImagelist.prototype */ {
         /**
          * The constructor of the imagelist field widget.
          *

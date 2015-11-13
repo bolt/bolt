@@ -16,7 +16,7 @@
      * @class fieldHtml
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.fieldHtml', /** @lends jQuery.widget.bolt.fieldHtml */ {
+    $.widget('bolt.fieldHtml', /** @lends jQuery.widget.bolt.fieldHtml.prototype */ {
         /**
          * The constructor of the html field widget.
          *

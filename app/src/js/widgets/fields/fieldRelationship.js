@@ -16,7 +16,7 @@
      * @class fieldRelationship
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.fieldRelationship', /** @lends jQuery.widget.bolt.fieldRelationship */ {
+    $.widget('bolt.fieldRelationship', /** @lends jQuery.widget.bolt.fieldRelationship.prototype */ {
         /**
          * The constructor of the relationship field widget.
          *

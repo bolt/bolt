@@ -31,7 +31,7 @@
      * @class buicProgress
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.buicProgress', /** @lends jQuery.widget.bolt.buicProgress */ {
+    $.widget('bolt.buicProgress', /** @lends jQuery.widget.bolt.buicProgress.prototype */ {
         /**
          * The constructor of the progress widget.
          *

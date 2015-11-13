@@ -16,7 +16,7 @@
      * @class buicListing
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.buicListing', /** @lends jQuery.widget.bolt.buicListing */ {
+    $.widget('bolt.buicListing', /** @lends jQuery.widget.bolt.buicListing.prototype */ {
         /**
          * The constructor of the listing widget.
          *

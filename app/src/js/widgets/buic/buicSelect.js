@@ -15,7 +15,7 @@
      * @class buicSelect
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.buicSelect', /** @lends jQuery.widget.bolt.buicSelect */ {
+    $.widget('bolt.buicSelect', /** @lends jQuery.widget.bolt.buicSelect.prototype */ {
         /**
          * The constructor of the select widget.
          *

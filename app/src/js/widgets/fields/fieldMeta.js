@@ -15,7 +15,7 @@
      * @class fieldMeta
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.fieldMeta', /** @lends jQuery.widget.bolt.fieldMeta */ {
+    $.widget('bolt.fieldMeta', /** @lends jQuery.widget.bolt.fieldMeta.prototype */ {
         /**
          * The constructor of the meta field widget.
          *

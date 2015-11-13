@@ -35,7 +35,7 @@
      * @memberOf jQuery.widget.bolt
      * @param {object} [options] - Options to overide.
      */
-    $.widget('bolt.baseInterval', /** @lends jQuery.widget.bolt.baseInterval */ {
+    $.widget('bolt.baseInterval', /** @lends jQuery.widget.bolt.baseInterval.prototype */ {
         /**
          * Default options.
          *

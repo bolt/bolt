@@ -15,7 +15,7 @@
      * @class buicCheckbox
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.buicCheckbox', /** @lends jQuery.widget.bolt.buicCheckbox */ {
+    $.widget('bolt.buicCheckbox', /** @lends jQuery.widget.bolt.buicCheckbox.prototype */ {
         /**
          * The constructor of the checkbox widget.
          *
