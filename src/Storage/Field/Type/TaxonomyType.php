@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Storage\Collection;
+use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\TaxonomyValue;
 use Bolt\Storage\Query\QueryInterface;
@@ -69,7 +71,7 @@ class TaxonomyType extends FieldTypeBase
 
         if ($this->mapping['data']['has_sortorder']) {
             $order = "$field.sortorder";
-            $query->addSelect("$field.sortorder as " . $field . '_sortorder');
+            $query->addSelect("$field.sortorder as " . '_' . $field . '_sortorder');
         } else {
             $order = "$field.id";
         }
@@ -83,8 +85,9 @@ class TaxonomyType extends FieldTypeBase
         }
 
         $query
-            ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, $field . '_slugs', $query))
-            ->addSelect($this->getPlatformGroupConcat("$field.name", $order, $field, $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.id", $order, "_" . $field . '_id', $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, '_' . $field . '_slug', $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.name", $order, '_' . $field . '_name', $query))
             ->leftJoin($alias, $target, $field, "$alias.id = $field.content_id AND $field.contenttype='$boltname' AND $field.taxonomytype='$field'")
             ->addGroupBy("$alias.id");
     }
@@ -96,45 +99,22 @@ class TaxonomyType extends FieldTypeBase
     {
         $group = null;
         $sortorder = null;
-        $taxValueProxy = [];
-        $values = $entity->getTaxonomy();
         $taxName = $this->mapping['fieldname'];
-        $taxData = $this->mapping['data'];
-        $taxData['sortorder'] = isset($data[$taxName . '_sortorder']) ? $data[$taxName . '_sortorder'] : 0;
-        $taxValues = $this->getTaxonomyValues($taxName, $data);
 
-        foreach ($taxValues as $taxValueSlug => $taxValueName) {
-            if (empty($taxValueSlug)) {
-                continue;
-            }
+        $data = $this->normalizeData($data, $taxName);
 
-            $keyName = $taxName . '/' . $taxValueSlug;
-            $taxValueProxy[$keyName] = new TaxonomyValue($taxName, $taxValueName, $taxData);
-
-            if ($taxData['has_sortorder']) {
-                // Previously we only cared about the last one… so yeah
-                $needle = isset($data[$taxName . '_slug']) ? $data[$taxName . '_slug'] : $data[$taxName];
-                $index = array_search($needle, array_keys($taxData['options']));
-                $sortorder = $taxData['sortorder'];
-                $group = [
-                    'slug'  => $taxValueSlug,
-                    'name'  => $taxValueName,
-                    'order' => $sortorder,
-                    'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
-                ];
-            }
+        $fieldTaxonomy = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
+        foreach ($data as $tax) {
+            $tax['content_id'] = $entity->getId();
+            $tax['contenttype'] = (string) $entity->getContenttype();
+            $taxEntity = new Entity\Taxonomy($tax);
+            $entity->getTaxonomy()->add($taxEntity);
+            $fieldTaxonomy->add($taxEntity);
         }
+        $this->set($entity, $fieldTaxonomy);
+        $entity->setGroup($this->getGroup($fieldTaxonomy));
+        $entity->setSortorder($this->getSortorder($fieldTaxonomy));
 
-        $values[$taxName] = !empty($taxValueProxy) ? $taxValueProxy : null;
-
-        foreach ($values as $tname => $tval) {
-            $setter = 'set' . ucfirst($tname);
-            $entity->$setter($tval);
-        }
-
-        $entity->setTaxonomy($values);
-        $entity->setGroup($group);
-        $entity->setSortorder($sortorder);
     }
 
     /**
@@ -192,5 +172,39 @@ class TaxonomyType extends FieldTypeBase
             case 'postgresql':
                 return "string_agg(distinct $column, ',' ORDER BY $order) as $alias";
         }
+    }
+
+    protected function getGroup(Collection\Taxonomy $taxonomy)
+    {
+        $taxData = $this->mapping['data'];
+        foreach ($taxonomy as $tax) {
+            if ($taxData['has_sortorder']) {
+                // Previously we only cared about the last one… so yeah
+                $needle = $tax->getSlug();
+                $index = array_search($needle, array_keys($taxData['options']));
+                $sortorder = $taxData['sortorder'];
+                $group = [
+                    'slug'  => $taxValueSlug,
+                    'name'  => $taxValueName,
+                    'order' => $sortorder,
+                    'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
+                ];
+            }
+        }
+
+        return $group;
+    }
+
+    protected function getSortorder(Collection\Taxonomy $taxonomy)
+    {
+        $taxData = $this->mapping['data'];
+        $sortorder = 0;
+        foreach ($taxonomy as $tax) {
+            if ($taxData['has_sortorder']) {
+                $sortorder = $tax->getSortorder();
+            }
+        }
+
+        return $sortorder;
     }
 }
