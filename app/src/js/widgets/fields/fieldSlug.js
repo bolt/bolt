@@ -202,14 +202,15 @@
          * @private
          */
         _startAutoGeneration: function () {
-            var self = this;
+            var self = this,
+                form = self.element.closest('form');
 
             $.each(self.options.uses, function (i, bindField) {
-                $('#' + bindField).on('propertychange.bolt input.bolt change.bolt', function () {
+                $('[name="' + bindField + '"]', form).on('propertychange.bolt input.bolt change.bolt', function () {
                     var usesValue = [];
 
                     $.each(self.options.uses, function (i, useField) {
-                        var field = $('#' + useField);
+                        var field = $('[name="' + useField + '"]', form);
 
                         if (field.is('select')) {
                             field.find('option:selected').each(function(i, option) {
@@ -239,10 +240,12 @@
          * @private
          */
         _stopAutoGeneration: function () {
+            var form = this.element.closest('form');
+
             clearTimeout(this._timeout);
 
             $.each(this.options.uses, function (i, name) {
-                $('#' + name).off('propertychange.bolt input.bolt change.bolt');
+                $('[name="' + name + '"]', form).off('propertychange.bolt input.bolt change.bolt');
             });
         }
     });
