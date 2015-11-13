@@ -87,7 +87,7 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              */
-            this._clipboard = new Clipboard('.copy', {
+            this._clipboard = new Clipboard(self._ui.copy.get(0), {
                 text: function () {
                     return self._ui.prefix.text() + self._ui.data.val();
                 }
