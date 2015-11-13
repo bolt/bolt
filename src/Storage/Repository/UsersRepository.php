@@ -192,8 +192,7 @@ class UsersRepository extends Repository
      */
     public function update($entity, $exclusions = [])
     {
-        $password = $entity->getPassword(); // PHP 5.4 compatibility
-        if (empty($password) || $entity->getPassword() === '**dontchange**') {
+        if ($entity->getPassword() === null) {
             $result = parent::update($entity, ['password']);
         } else {
             $result = parent::update($entity);
