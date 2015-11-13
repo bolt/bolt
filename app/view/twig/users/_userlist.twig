@@ -1,10 +1,9 @@
-<div class="table-responsive">
     <table class="table-striped dashboardlisting userlist">
         <thead>
             <tr>
                 <th>{{ __('Id') }}</th>
                 <th>{{ __('Username') }}</th>
-                <th>{{ __('Last seen') }}</th>
+                <th class="hidden-xs">{{ __('Last seen') }}</th>
                 <th>{{ __('Roles') }}</th>
                 <th>{{ __('Actions') }}</th>
             </tr>
@@ -26,7 +25,7 @@
                         {% if user.enabled == 0 %}</s>{% endif %}
                     </td>
 
-                    <td>
+                    <td class="hidden-xs">
                         {% if user.lastseen|date('Y') > "1901" %}
                             <time class="moment" datetime="{{ user.lastseen|date("c") }}" title="{{ user.lastseen }}">{{ user.lastseen }}</time>
                         {% else %}
@@ -51,4 +50,3 @@
     </tbody>
 
     </table>
-</div>
