@@ -18,7 +18,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class TaxonomyType extends FieldTypeBase
 {
-    use TaxonomyTypeTrait;
 
     /**
      * Taxonomy fields allows queries on the parameters passed in.
@@ -218,4 +217,31 @@ class TaxonomyType extends FieldTypeBase
 
         return $sortorder;
     }
+
+    /**
+     * Direct query to get existing taxonomy records.
+     *
+     * @param mixed $entity
+     *
+     * @return array
+     */
+    protected function getExistingTaxonomies($entity)
+    {
+        // Fetch existing taxonomies
+        $query = $this->em->createQueryBuilder()
+            ->select('*')
+            ->from($this->mapping['target'])
+            ->where('content_id = :content_id')
+            ->andWhere('contenttype = :contenttype')
+            ->andWhere('taxonomytype = :taxonomytype')
+            ->setParameters([
+                'content_id'   => $entity->id,
+                'contenttype'  => $entity->getContenttype(),
+                'taxonomytype' => $this->mapping['fieldname'],
+            ]);
+        $result = $query->execute()->fetchAll();
+
+        return $result ?: [];
+    }
+
 }
