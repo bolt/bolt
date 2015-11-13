@@ -70,7 +70,9 @@ class FieldLoadTest extends BoltUnitTest
         $record->setTaxonomy($tax);
         $repo->save($record);
         $recordSaved = $repo->find(3);
-        $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $record->taxonomy['chapters']);
+        $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $recordSaved->taxonomy['chapters']);
+        $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $recordSaved->getChapters());
+        $this->assertEquals(1, count($recordSaved->getChapters()));
 
     }
 
