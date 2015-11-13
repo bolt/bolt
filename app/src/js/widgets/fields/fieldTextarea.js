@@ -1,7 +1,5 @@
 /**
- * Textarea field widget.
- *
- * @param {object} $ - Global jQuery object
+ * @param {Object} $ - Global jQuery object
  */
 (function ($) {
     'use strict';

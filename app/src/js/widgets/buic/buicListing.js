@@ -1,8 +1,6 @@
 /**
- * BUIC listing widget.
- *
- * @param {object} $ - Global jQuery object
- * @param {object} bolt - Global Bolt object
+ * @param {Object} $    - Global jQuery object
+ * @param {Object} bolt - The Bolt module
  */
 (function ($, bolt) {
     'use strict';

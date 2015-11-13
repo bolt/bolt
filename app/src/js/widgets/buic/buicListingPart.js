@@ -1,15 +1,13 @@
 /**
- * BUIC listingpart widget.
- *
- * tbody inside a listing widget.
- *
- * @param {object} $ - Global jQuery object
+ * @param {Object} $ - Global jQuery object
  */
 (function ($) {
     'use strict';
 
     /**
      * BUIC listingpart widget.
+     *
+     * tbody inside a listing widget.
      *
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila

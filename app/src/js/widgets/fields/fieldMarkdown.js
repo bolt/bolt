@@ -1,8 +1,6 @@
 /**
- * Markdown field widget.
- *
- * @param {object} $ - Global jQuery object
- * @param {Object} uiKit - UIkit.
+ * @param {Object} $     - Global jQuery object
+ * @param {Object} uiKit - Global UIkit object
  */
 (function ($, uiKit) {
     'use strict';

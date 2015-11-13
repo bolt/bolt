@@ -1,7 +1,5 @@
 /**
- * BUIC moment widget.
- *
- * @param {Object} $ - Global jQuery object
+ * @param {Object} $        - Global jQuery object
  * @param {Object} momentjs - Global moment.js object
  */
 (function ($, momentjs) {

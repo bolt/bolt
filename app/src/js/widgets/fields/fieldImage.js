@@ -1,8 +1,6 @@
 /**
- * Image field widget.
- *
- * @param {Object} $ - Global jQuery object
- * @param {Object} bolt - The Bolt module.
+ * @param {Object} $    - Global jQuery object
+ * @param {Object} bolt - The Bolt module
  */
 (function ($, bolt) {
     'use strict';
