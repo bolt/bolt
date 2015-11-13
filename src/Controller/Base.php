@@ -258,11 +258,10 @@ abstract class Base implements ControllerProviderInterface
      * Return current user or user by ID.
      *
      * @param integer|string|null $userId
-     * @param boolean             $raw
      *
      * @return Entity\Users|null
      */
-    protected function getUser($userId = null, $raw = false)
+    protected function getUser($userId = null)
     {
         if ($userId === null) {
             if ($sessionAuth = $this->session()->get('authentication')) {
@@ -271,13 +270,9 @@ abstract class Base implements ControllerProviderInterface
 
             return;
         }
-
         $repo = $this->storage()->getRepository('Bolt\Storage\Entity\Users');
-        if (($userEntity = $repo->getUser($userId)) && !$raw) {
-            $userEntity->setPassword(null);
-        }
 
-        return $userEntity;
+        return $repo->getUser($userId);
     }
 
     /**

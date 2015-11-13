@@ -168,7 +168,6 @@ class Login extends AccessChecker
             return false;
         }
 
-        $userEntity->setPassword(null);
         $tokenEntity = $this->updateAuthToken($userEntity);
         $token = new Token($userEntity, $tokenEntity);
 
