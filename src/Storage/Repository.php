@@ -388,8 +388,8 @@ class Repository implements ObjectRepository
     /**
      * Updates an object into the database.
      *
-     * @param object  $entity     The entity to update.
-     * @param strin[] $exclusions Ignore updates to these fields
+     * @param object   $entity     The entity to update.
+     * @param string[] $exclusions Ignore updates to these fields
      *
      * @return bool
      */
