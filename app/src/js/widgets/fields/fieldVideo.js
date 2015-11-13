@@ -32,32 +32,32 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              *
-             * @property {Object} url  -
-             * @property {Object} html   -
-             * @property {Object} width -
-             * @property {Object} height   -
-             * @property {Object} ratio   -
-             * @property {Object} text -
-             * @property {Object} modalBody   -
-             * @property {Object} authorName   -
-             * @property {Object} authorUrl   -
-             * @property {Object} title   -
-             * @property {Object} thumbContainer   -
-             * @property {Object} thumbnail   -
+             * @property {Object} url            - Input field of video url
+             * @property {Object} width          - Input field of video width
+             * @property {Object} height         - Input field of video height
+             * @property {Object} html           - Hidden field holding the iframe to embed the video
+             * @property {Object} ratio          - Hidden field holding the video aspect ratio
+             * @property {Object} authorName     - Hidden field holding the author name
+             * @property {Object} authorUrl      - Hidden field holding the author url
+             * @property {Object} title          - Hidden field holding the video title
+             * @property {Object} thumbnailUrl   - Hidden field holding the video thumbnail link
+             * @property {Object} thumbContainer - The thumbnail image container
+             * @property {Object} modalBody      - The container for the modal video preview
+             * @property {Object} text           -
              */
             this._ui = {
-                url:            fieldset.find('[data-video="url"]'),
-                html:           fieldset.find('[data-video="html"]'),
-                width:          fieldset.find('[data-video="width"]'),
-                height:         fieldset.find('[data-video="height"]'),
-                ratio:          fieldset.find('[data-video="ratio"]'),
-                text:           fieldset.find('p.matched-video'),
-                modalBody:      fieldset.find('[data-video="modal"] .modal-body'),
-                authorName:     fieldset.find('[data-video="authorname"]'),
-                authorUrl:      fieldset.find('[data-video="authorurl"]'),
-                title:          fieldset.find('[data-video="title"]'),
-                thumbContainer: fieldset.find('[data-video="thumbcontainer"]'),
-                thumbnail:      fieldset.find('[data-video="thumbnail"]')
+                url:            fieldset.find('input.url'),
+                width:          fieldset.find('input.width'),
+                height:         fieldset.find('input.height'),
+                html:           fieldset.find('input.html'),
+                ratio:          fieldset.find('input.ratio'),
+                authorName:     fieldset.find('input.authorname'),
+                authorUrl:      fieldset.find('input.authorurl'),
+                title:          fieldset.find('input.title'),
+                thumbnailUrl:   fieldset.find('img.thumbnailurl'),
+                thumbContainer: fieldset.find('div.imageholder'),
+                modalBody:      fieldset.find('div.modal-body'),
+                text:           fieldset.find('p.matched-video')
             };
 
             self._ui.url.on('propertychange input', function () {
@@ -127,10 +127,10 @@
             // Thumbnail
             if (data.thumbnail_url) {
                 this._ui.thumbContainer.html('<img src="' + data.thumbnail_url + '" width="200" height="150">');
-                this._ui.thumbnail.val(data.thumbnail_url);
+                this._ui.thumbnailUrl.val(data.thumbnail_url);
             } else {
                 this._ui.thumbContainer.html('');
-                this._ui.thumbnail.val('');
+                this._ui.thumbnailUrl.val('');
             }
         }
     });
