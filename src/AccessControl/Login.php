@@ -190,7 +190,7 @@ class Login extends AccessChecker
         // Update the failed login attempts, and perhaps throttle the logins.
         $userEntity->setFailedlogins($userEntity->getFailedlogins() + 1);
         $userEntity->setThrottleduntil($this->throttleUntil($userEntity->getFailedlogins() + 1));
-        unset($userEntity->password);
+        $userEntity->setPassword(null);
         $this->repositoryUsers->save($userEntity);
     }
 
@@ -210,7 +210,7 @@ class Login extends AccessChecker
         $userEntity = $this->updateUserShadowLogin($userEntity);
 
         // Don't try to save the password on login
-        unset($userEntity->password);
+        $userEntity->setPassword(null);
         if ($this->repositoryUsers->save($userEntity)) {
             $this->flashLogger->success(Trans::__("You've been logged on successfully."));
 
