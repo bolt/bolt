@@ -54,7 +54,7 @@
                 url: bolt.conf('paths.root') + 'async/tags/' + slug,
                 dataType: 'json',
                 success: function (data) {
-                    var options = taxonomy.val();
+                    var options = taxonomy.val() || [];
 
                     $.each(data, function (idx, item) {
                         if (options.indexOf(item.name) < 0) {
