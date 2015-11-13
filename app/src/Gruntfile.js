@@ -58,7 +58,6 @@ module.exports = function(grunt) {
                 // Fields
                 '<%= path.src.js %>/modules/fields.js',
                 '<%= path.src.js %>/modules/fields/geolocation.js',
-                '<%= path.src.js %>/modules/fields/repeater.js',
                 '<%= path.src.js %>/modules/fields/video.js',
                 // Bolt widgets
                 '<%= path.src.js %>/widgets/**/*.js',
