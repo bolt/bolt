@@ -246,13 +246,19 @@ class YamlHelper extends \Codeception\Module
     {
         $filename = INSTALL_ROOT . '/app/config/routing.yml';
 
-        $routing = file_get_contents($filename) . "\n";
-        $routing .= "pagebinding:\n";
-        $routing .= "    path: /{slug}\n";
-        $routing .= "    defaults: { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'page' }\n";
-        $routing .= "    contenttype: pages\n";
+        $routing = [
+            'pagebinding:',
+            '    path: /{slug}',
+            '    defaults:',
+            '        _controller: controller.frontend:record',
+            '        contenttypeslug: page',
+            '    contenttype: pages',
+            '',
+            file_get_contents($filename),
+            '',
+        ];
 
-        return $routing;
+        return implode("\n", $routing);;
     }
 
     /**
