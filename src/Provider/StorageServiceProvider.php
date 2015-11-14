@@ -162,7 +162,7 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.relations_collection'] = $app->protect(
             function () use ($app) {
-                return new Collection\Relations([]);
+                return new Collection\Relations([], $app['storage']);
             }
         );
 
