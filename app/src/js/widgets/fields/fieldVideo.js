@@ -92,9 +92,13 @@
             });
 
             // Setup the preview modal.
-            modal.on('show.bs.modal', function () {
-                modalBody.html(self._ui.html.val());
-            });
+            modal
+                .on('show.bs.modal', function () {
+                    modalBody.html(self._ui.html.val());
+                })
+                .on('hidden.bs.modal', function () {
+                    modalBody.empty();
+                });
         },
 
         /**
