@@ -9,8 +9,6 @@
 
 {% set geolocation = context.content.get(contentkey) %}
 
-{#=== SLOT ===========================================================================================================#}
-
 {% set attributes = {
     address: {
         class:       'form-control address',
@@ -51,48 +49,9 @@
     }
 } %}
 
-{% macro slot(attributes, key, geolocation) %}
-    {% from '@bolt/_macro/_macro.twig' import attr %}
-
-    <div class="col-sm-8">
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label>{{ __('field.geolocation.label.address-lookup') }}</label>
-                <input{{ attr(attributes.address) }} value="{{ geolocation.address|default('') }}">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-6">
-                <label>{{ __('field.geolocation.label.latitude') }}</label>
-                <input{{ attr(attributes.latitude) }} value="{{ geolocation.latitude|default('') }}">
-            </div>
-            <div class="col-xs-6">
-                <label>{{ __('field.geolocation.label.longitude') }}</label>
-                <input {{ attr(attributes.longitude) }} value="{{ geolocation.longitude|default('') }}">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-12">
-                <label>{{ __('field.geolocation.matched-address') }}</label>
-                <input{{ attr(attributes.formatted) }} value="{{ geolocation.formatted_address|default('') }}">
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-4">
-        <label>{{ __('field.geolocation.label.marker-placement') }}</label>
-        <div class="mapholder"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
-        <div class="checkbox">
-            <label><input{{ attr(attributes.snap) }}>{{ __('field.geolocation.label.snap') }}</label>
-        </div>
-    </div>
-{% endmacro %}
-
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '@bolt/_base/_fieldset.twig' %}
-
-{% from _self import slot %}
 
 {# Default location is Two Kings, for now. #}
 {% set fieldset_conf = {
@@ -108,9 +67,42 @@
 {% block fieldset_label_class 'col-xs-12' %}
 
 {% block fieldset_controls %}
-    <div class="field-container col-xs-12">
-        <div class="field-slot row">
-            {{ slot(attributes, key, geolocation) }}
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label>{{ __('field.geolocation.label.address-lookup') }}</label>
+                        <input{{ hattr(attributes.address) }} value="{{ geolocation.address|default('') }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <label>{{ __('field.geolocation.label.latitude') }}</label>
+                        <input{{ hattr(attributes.latitude) }} value="{{ geolocation.latitude|default('') }}">
+                    </div>
+                    <div class="col-xs-6">
+                        <label>{{ __('field.geolocation.label.longitude') }}</label>
+                        <input {{ hattr(attributes.longitude) }} value="{{ geolocation.longitude|default('') }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label>{{ __('field.geolocation.matched-address') }}</label>
+                        <input{{ hattr(attributes.formatted) }} value="{{ geolocation.formatted_address|default('') }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <label>{{ __('field.geolocation.label.marker-placement') }}</label>
+                <div class="mapholder"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+                <div class="checkbox">
+                    <label><input{{ hattr(attributes.snap) }}>{{ __('field.geolocation.label.snap') }}</label>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock fieldset_controls %}
