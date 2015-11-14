@@ -58,22 +58,18 @@
         _clone: function (template) {
             var cloned = $(template).clone();
 
-            $('[data-bolt-field]', cloned).each(function () {
-                var field = $(this);
+            // Replace all id's and correspondending for-attributes.
+            cloned.find('[id]').each(function () {
+                var id = $(this).attr('id'),
+                    nid = bolt.app.buid();
 
-                // Replace all id's and correspondending for-attributes.
-                $(field)
-                    .find('[id]').each(function () {
-                        var id = $(this).attr('id'),
-                            nid = bolt.app.buid();
+                $(this).attr('id', nid);
 
-                        $(this).attr('id', nid);
-
-                        $(field).find('[for="' + id + '"]').each(function () {
-                            $(this).attr('for', nid);
-                        });
-                    });
+                cloned.find('[for="' + id + '"]').each(function () {
+                    $(this).attr('for', nid);
+                });
             });
+
             bolt.app.initWidgets(cloned);
 
             return cloned;
