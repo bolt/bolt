@@ -83,8 +83,13 @@ abstract class BackendBase extends Base
             return $response;
         }
 
+        // If we're resetting passwords, we have nothing more to check
+        if ($route === 'resetpassword' || $route === 'login' || $route === 'postLogin' || $route === 'logout') {
+            return null;
+        }
+
         // Confirm the user is enabled or bounce them
-        if (($sessionUser = $this->getUser()) && !$sessionUser->getEnabled() && $route !== 'userfirst' && $route !== 'login' && $route !== 'postLogin' && $route !== 'logout') {
+        if (($sessionUser = $this->getUser()) && !$sessionUser->getEnabled()) {
             $app['logger.flash']->error(Trans::__('Your account is disabled. Sorry about that.'));
 
             return $this->redirectToRoute('logout');
@@ -92,11 +97,6 @@ abstract class BackendBase extends Base
 
         // Check if there's at least one 'root' user, and otherwise promote the current user.
         $this->users()->checkForRoot();
-
-        // If we're resetting passwords, we have nothing more to check
-        if ($route === 'resetpassword' || $route === 'login' || $route === 'postLogin') {
-            return null;
-        }
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
