@@ -15,13 +15,11 @@ use Carbon\Carbon;
  * @method \DateTime getDatedepublish()
  * @method integer   getOwnerid()
  * @method string    getStatus()
- * @method array     getRelation()
  * @method setId(integer $id)
  * @method setSlug(string $slug)
  * @method setOwnerid(integer $ownerid)
  * @method setUsername(string $userName)
  * @method setStatus(string $status)
- * @method setRelation(array $relation)
  */
 class Content extends Entity
 {
@@ -167,6 +165,20 @@ class Content extends Entity
     public function setContenttype($value)
     {
         $this->contenttype = $value;
+    }
+
+    public function getRelation()
+    {
+        if (!$this->relation instanceof Collection\Relations) {
+            $this->relation = new Collection\Relations();
+        }
+
+        return $this->relation;
+    }
+
+    public function setRelation(Collection\Relations $rel)
+    {
+        $this->relation = $rel;
     }
 
     public function getTemplatefields()
