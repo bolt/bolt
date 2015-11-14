@@ -2,6 +2,7 @@
 namespace Bolt\AccessControl;
 
 use Bolt\AccessControl\Token\Token;
+use Bolt\Exception\AccessControlException;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
@@ -51,6 +52,8 @@ class Login extends AccessChecker
      * @param string  $userName
      * @param string  $password
      *
+     * @throws AccessControlException
+     *
      * @return boolean
      */
     public function login(Request $request, $userName = null, $password = null)
@@ -67,9 +70,8 @@ class Login extends AccessChecker
             return $this->loginCheckAuthtoken($authCookie);
         }
 
-        $this->flashLogger->error(Trans::__('Invalid login parameters.'));
-
-        return false;
+        $this->systemLogger->error('Login function called with empty username/password combination, or no authentication token.', ['event' => 'security']);
+        throw new AccessControlException('Invalid login parameters.');
     }
 
     /**
