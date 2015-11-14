@@ -13,28 +13,24 @@
 {% endif %}
 
 {# Output 'incoming' relations #}
-{% for reltype, ids in context.content.relation %}
-    {% if context.contenttype.relations[reltype] is not defined %}
-        <p>{{ __('This record is related to:') }}</p>
-        <div class="buic-listing" data-bolt-widget="buicListing">
-            <table class="table dashboardlisting listing">
-                {% for id in ids %}
-                    {% setcontent record = reltype ~ '/' ~ id %}
-                    {% if record %}
-                        {% set editable = isallowed('edit', record) %}
-                        {% set listing_vars = {
-                            'compact':       true,
-                            'content':       record,
-                            'excerptlength': 280,
-                            'permissions':   {},
-                            'thumbsize':     54,
-                        } %}
-                        {% include ['@bolt/_sub/_listing.twig'] with listing_vars %}
-                    {% endif %}
-                {% endfor %}
-            </table>
-        </div>
-    {% endif %}
+{% for incoming in context.content.relation.incoming(context.content) %}
+    <p>{{ __('This record is related to:') }}</p>
+    <div class="buic-listing" data-bolt-widget="buicListing">
+        <table class="table dashboardlisting listing">
+            {% setcontent record = incoming.from_contenttype ~ '/' ~ incoming.id %}
+            {% if record %}
+                {% set editable = isallowed('edit', record) %}
+                {% set listing_vars = {
+                    'compact':       true,
+                    'content':       record,
+                    'excerptlength': 280,
+                    'permissions':   {},
+                    'thumbsize':     54,
+                } %}
+                {% include ['@bolt/_sub/_listing.twig'] with listing_vars %}
+            {% endif %}
+        </table>
+    </div>
 {% endfor %}
 
 {% if context.has.tabs and 'relations' in context.contenttype.groups %}
