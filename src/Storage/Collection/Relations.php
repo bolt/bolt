@@ -136,6 +136,13 @@ class Relations extends ArrayCollection
         });
     }
 
+    public function incoming($entity)
+    {
+        return $this->filter(function ($el) use ($fieldname) {
+            return $el->getTo_contenttype() == (string)$entity->getContenttype();
+        });
+    }
+
     /**
      * Overrides the default to allow fetching a sub-selection.
      *
