@@ -80,7 +80,9 @@ class RelationType extends FieldTypeBase
             $alias = $from[0]['table'];
         }
 
-        $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
+        $query
+            ->addSelect($this->getPlatformGroupConcat("$field.id", '_' . $field . '_id', $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.to_id", '_' . $field . '_toid', $query))
             ->leftJoin($alias, $target, $field, "$alias.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
             ->addGroupBy("$alias.id");
     }
@@ -91,9 +93,7 @@ class RelationType extends FieldTypeBase
     public function hydrate($data, $entity)
     {
         $field = $this->mapping['fieldname'];
-
         $data = $this->normalizeData($data, $field);
-
         if (!count($entity->getRelation())) {
             $entity->setRelation($this->em->createCollection('Bolt\Storage\Entity\Relations'));
         }
@@ -101,10 +101,11 @@ class RelationType extends FieldTypeBase
         $fieldRels = $this->em->createCollection('Bolt\Storage\Entity\Relations');
         foreach ($data as $relData) {
             $rel = [];
+            $rel['id'] = $relData['id'];
             $rel['from_id'] = $entity->getId();
             $rel['from_contenttype'] = (string)$entity->getContenttype();
             $rel['to_contenttype'] = $field;
-            $rel['to_id'] = $relData['id'];
+            $rel['to_id'] = $relData['toid'];
             $relEntity = new Entity\Relations($rel);
             $entity->getRelation()->add($relEntity);
             $fieldRels->add($relEntity);
@@ -191,7 +192,6 @@ class RelationType extends FieldTypeBase
     protected function getPlatformGroupConcat($column, $alias, QueryBuilder $query)
     {
         $platform = $query->getConnection()->getDatabasePlatform()->getName();
-        $alias = "_" . $alias . "_id";
         switch ($platform) {
             case 'mysql':
                 return "GROUP_CONCAT($column) as $alias";
