@@ -37,7 +37,7 @@ class AccessChecker
     /** @var array */
     protected $cookieOptions;
     /** @var boolean */
-    protected $validsession;
+    protected $validSession;
     /** @var string */
     protected $remoteIP;
     /** @var string */
@@ -121,8 +121,8 @@ class AccessChecker
             throw new AccessControlException('Can not validate session with an empty token.');
         }
 
-        if ($this->validsession !== null) {
-            return $this->validsession;
+        if ($this->validSession !== null) {
+            return $this->validSession;
         }
 
         $check = false;
@@ -139,9 +139,9 @@ class AccessChecker
         }
 
         if ($check) {
-            return $this->validsession = true;
+            return $this->validSession = true;
         }
-        $this->validsession = false;
+        $this->validSession = false;
         $this->systemLogger->debug("Clearing sessions for expired or invalid token: $authCookie", ['event' => 'authentication']);
 
         return $this->revokeSession();
