@@ -42,7 +42,12 @@ class Authentication extends BackendBase
     {
         $user = $this->getUser();
         if ($user && $user->getEnabled() == 1) {
-            return $this->redirectToRoute('dashboard');
+            $response = $this->redirectToRoute('dashboard');
+
+            $token = $this->session()->get('authentication');
+            $this->setAuthenticationCookie($response, $token);
+
+            return $response;
         }
 
         if ($this->getOption('general/enforce_ssl') && !$request->isSecure()) {
