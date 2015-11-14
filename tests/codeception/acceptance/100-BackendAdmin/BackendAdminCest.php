@@ -582,7 +582,8 @@ class BackendAdminCest
         $I->see('Dashboard');
         $I->click('Logout');
 
-        $I->see('You have been logged out');
+        // Removed as we now unset the session cookie at logout
+        //$I->see('You have been logged out');
 
         $I->amOnPage('/bolt');
         $I->see('Please log on');
