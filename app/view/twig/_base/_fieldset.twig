@@ -2,11 +2,17 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% if fieldset_conf|default() is iterable %}
+    {% set data_widget = {_: block('fieldset_widget')}|merge(fieldset_conf)|json_encode %}
+    {{ dump(data_bolt_widget) }}
+{% else %}
+    {% set data_bolt_widget = block('fieldset_widget') %}
+{% endif %}
+
 {% set attributes_fieldset = {
     'class':            'form-group',
     'data-bolt-field':  block('fieldset_type'),
-    'data-widget':      block('fieldset_widget')|default(''),
-    'data-bolt-fconf':  fieldset_conf|default() is iterable ? fieldset_conf|json_encode : null
+    'data-widget':      data_bolt_widget,
 } %}
 
 {% set attributes_label = {

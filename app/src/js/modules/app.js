@@ -105,9 +105,19 @@
 
         // Initialze all uninitialized widgets.
         $('[data-widget]', context).each(function () {
-            var element = $(this);
+            var element = $(this),
+                conf = element.data('widget'),
+                type;
 
-            element[element.data('widget')](element.data('bolt-fconf') || {})
+            if (typeof conf === 'object') {
+                type = conf._;
+                delete conf._;
+            } else {
+                type = conf;
+                conf = {};
+            }
+
+            element[type](conf)
                 .removeAttr('data-widget')
                 .removeData('widget');
         });
