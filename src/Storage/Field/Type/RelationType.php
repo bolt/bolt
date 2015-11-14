@@ -80,6 +80,7 @@ class RelationType extends FieldTypeBase
             $alias = $from[0]['table'];
         }
 
+        // Standard relation fetch
         $query
             ->addSelect($this->getPlatformGroupConcat("$field.id", '_' . $field . '_id', $query))
             ->addSelect($this->getPlatformGroupConcat("$field.to_id", '_' . $field . '_toid', $query))

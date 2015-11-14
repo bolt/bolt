@@ -121,6 +121,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'html'                             => 'Bolt\Storage\Field\Type\HtmlType',
             'image'                            => 'Bolt\Storage\Field\Type\ImageType',
             'imagelist'                        => 'Bolt\Storage\Field\Type\ImageListType',
+            'incomingrelation'                 => 'Bolt\Storage\Field\Type\IncomingRelationType',
             'integer'                          => 'Bolt\Storage\Field\Type\IntegerType',
             'markdown'                         => 'Bolt\Storage\Field\Type\MarkdownType',
             'relation'                         => 'Bolt\Storage\Field\Type\RelationType',
