@@ -236,26 +236,26 @@
 
                 // Render installed packages.
                 if (data.installed.length) {
-                	html += renderPackage(data.installed, true);
-                	nadda = false;
+                    html += renderPackage(data.installed, true);
+                    nadda = false;
                 }
 
                 // Render pacakges pending install.
                 if (data.pending.length) {
-                	html += renderPackage(data.pending, true);
-                	nadda = false;
+                    html += renderPackage(data.pending, true);
+                    nadda = false;
                 }
 
                 // Render locally installed packages.
                 if (data.local.length) {
-                	html += renderPackage(data.local, false);
-                	nadda = false;
+                    html += renderPackage(data.local, false);
+                    nadda = false;
                 }
 
                 // Nothing is installed.
                 if (nadda) {
-                	 html = bolt.data('extend.packages.empty');
-                     activeConsole.hide();
+                    html = bolt.data('extend.packages.empty');
+                    activeConsole.hide();
                 }
 
                 target.find('.installed-list-items').append(html);

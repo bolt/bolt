@@ -9,7 +9,7 @@ module.exports = function (grunt) {
 
     grunt.verbose.writeln(sass.info);
 
-	grunt.registerMultiTask('sass', 'Compiles SCSS to CSS', function () {
+    grunt.registerMultiTask('sass', 'Compiles SCSS to CSS', function () {
         var done = this.async(),
             task = this,
             asyncCnt = 0;
@@ -60,5 +60,5 @@ module.exports = function (grunt) {
                 }
             });
         });
-	});
+    });
 };

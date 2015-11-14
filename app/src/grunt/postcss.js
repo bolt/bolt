@@ -63,5 +63,5 @@ module.exports = function (grunt, options) {
                 '<%= path.dest.css %>/lib.css'
             ]
         }
-	};
+    };
 };

@@ -73,14 +73,14 @@
     },
 
     hid_html: {
-		class:      'html',
+        class:      'html',
         name:       name ~ '[html]',
         type:       'hidden',
         value:      (video.html is defined ? video.html|replace({'"': '\''}) : '')
     },
 
     hid_thumbnail: {
-		class:      'thumbnailurl',
+        class:      'thumbnailurl',
         name:       name ~ '[thumbnail]',
         type:       'hidden',
         value:      video.thumbnail|default(''),
@@ -161,10 +161,10 @@
     <div class="col-sm-4">
         <div class="right-on-large">
             <label>{{ __('field.video.label.preview') }}</label>
-			<div class="imageholder">
-				<img{{ hattr(attributes.preview) }}>
+            <div class="imageholder">
+                <img{{ hattr(attributes.preview) }}>
                 <button{{ hattr(attributes.play) }}></button>
-			</div>
+            </div>
         </div>
     </div>
 
