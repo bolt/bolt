@@ -8,8 +8,8 @@
 
 {# Currently selected relationship values #}
 {% set relselect = [] %}
-{% for item in context.content.relation[relcontenttype]|default([]) %}
-    {% set relselect =  relselect|merge([item.reference]) %}
+{% for item in context.content.relation.getField(relcontenttype)|default([]) %}
+    {% set relselect =  relselect|merge([item.to_id]) %}
 {% endfor %}
 
 {# Build the select options array #}
