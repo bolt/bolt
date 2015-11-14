@@ -1,0 +1,21 @@
+/*** Fieldset container ***/
+
+div[data-bolt-fieldset] {
+    border-bottom: 1px solid transparent; // Transparent line, to keep spacing intact.
+    margin-bottom: 10px;
+}
+
+// The last container, just before save buttons.
+div[data-bolt-fieldset]:last-child,
+div[data-bolt-fieldset="meta"] {
+    border-bottom: 1px solid $light-border;
+    padding-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+// Repeater group.
+div[data-bolt-fieldset="repeater"] {
+    >.prefix {
+        display:none;
+    }
+}
