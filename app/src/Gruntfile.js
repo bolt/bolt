@@ -55,8 +55,6 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/secmenu.js',
                 '<%= path.src.js %>/modules/stack.js',
                 '<%= path.src.js %>/modules/uploads.js',
-                // Fields
-                '<%= path.src.js %>/modules/fields.js',
                 // Bolt widgets
                 '<%= path.src.js %>/widgets/**/*.js',
                 // Old stuff

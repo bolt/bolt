@@ -79,7 +79,6 @@
 
         legacyInit();
         bolt.app.initWidgets();
-        bolt.fields.init();
     };
 
     /**
