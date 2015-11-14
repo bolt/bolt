@@ -242,8 +242,8 @@ class Login extends AccessChecker
     protected function updateUserShadowLogin(Entity\Users $userEntity)
     {
         if (Carbon::now() > $userEntity->getShadowvalidity()) {
-            $userEntity->setShadowpassword('');
-            $userEntity->setShadowtoken('');
+            $userEntity->setShadowpassword(null);
+            $userEntity->setShadowtoken(null);
             $userEntity->setShadowvalidity(null);
         }
 
