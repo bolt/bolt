@@ -138,7 +138,7 @@ class Relations extends ArrayCollection
 
     public function incoming($entity)
     {
-        return $this->filter(function ($el) use ($fieldname) {
+        return $this->filter(function ($el) use ($entity) {
             return $el->getTo_contenttype() == (string)$entity->getContenttype();
         });
     }
