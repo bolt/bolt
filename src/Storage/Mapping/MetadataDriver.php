@@ -265,6 +265,9 @@ class MetadataDriver implements MappingDriver
      */
     public function setIncomingRelations($className, $table)
     {
+        if (!isset($this->contenttypes[$contentKey]['relations'])) {
+            return;
+        }
         $mapping = [
             'fieldname' => 'incomingrelation',
             'type'      => 'null',
