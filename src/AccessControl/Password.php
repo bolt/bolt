@@ -86,6 +86,7 @@ class Password
 
             $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
+            $this->app['logger.flash']->clear();
             $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
 
             return true;
@@ -112,6 +113,7 @@ class Password
 
         if (!$userEntity) {
             // For safety, this is the message we display, regardless of whether user exists.
+            $this->app['logger.flash']->clear();
             $this->app['logger.flash']->info(Trans::__("A password reset link has been sent to '%user%'.", ['%user%' => $username]));
 
             return false;
