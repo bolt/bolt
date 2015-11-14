@@ -13,6 +13,13 @@ div[data-fieldtype="meta"] {
     margin-bottom: 15px;
 }
 
+// Repeater group.
+div[data-fieldtype="repeater"] {
+    >.prefix {
+        display:none;
+    }
+}
+
 /*** Styles for all Fieldsets ***/
 
 fieldset[class*=' bolt-field-'], fieldset[class^='bolt-field-'] {

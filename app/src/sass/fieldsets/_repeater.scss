@@ -1,28 +1,23 @@
-#editcontent {
-    div[data-fieldtype="repeater"] {
-        >.prefix {
-            display:none;
-        }
-        .repeater-wrapper {
-            border-top: 1px solid #BBB;
-            border-bottom: 1px solid #BBB;
-            padding-bottom: 20px;
-            margin-bottom: 15px;
+/*** Fieldset: Repeater ***/
 
-            >label.main {
-                margin-top: 10px;
-                float: none;
-                padding-left: 0px;
-            }
-            .repeater-add {
-                float:right;
-            }
+fieldset.bolt-field-repeater {
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    padding-bottom: 20px;
+    margin-bottom: 15px;
 
-            .repeater-group {
-                border:1px solid #DDD;
-                margin:15px;
-            }
+    >label.main {
+        margin-top: 10px;
+        float: none;
+        padding-left: 0px;
+    }
 
-        }
+    .repeater-add {
+        float: right;
+    }
+
+    .repeater-group {
+        border: 1px solid #ddd;
+        margin: 15px;
     }
 }
