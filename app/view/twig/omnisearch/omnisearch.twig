@@ -28,7 +28,7 @@
                     '@bolt/custom/listing/' ~ contenttype ~ '.twig',
                     '@bolt/_sub/_listing.twig']
                 %}
-                <div class="buic-listing" data-widget="buicListing">
+                <div class="buic-listing" data-bolt-widget="buicListing">
                     <table class="table dashboardlisting listing">
                         {% for item in results %}
                             {% set listing_vars = {
@@ -49,7 +49,7 @@
 
             {# List file results #}
             {% if context.others %}
-                <div class="buic-listing" data-widget="buicListing">
+                <div class="buic-listing" data-bolt-widget="buicListing">
                     <table class="table dashboardlisting listing">
                         <tbody class="{{ context.records ? 'striping_even' : 'striping_odd' }} omnisearch">
                             {% if context.records %}

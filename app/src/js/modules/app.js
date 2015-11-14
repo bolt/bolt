@@ -104,9 +104,9 @@
         }
 
         // Initialze all uninitialized widgets.
-        $('[data-widget]', context).each(function () {
+        $('[data-bolt-widget]', context).each(function () {
             var element = $(this),
-                conf = element.data('widget'),
+                conf = element.data('bolt-widget'),
                 type;
 
             if (typeof conf === 'object') {
@@ -118,8 +118,8 @@
             }
 
             element[type](conf)
-                .removeAttr('data-widget')
-                .removeData('widget');
+                .removeAttr('data-bolt-widget')
+                .removeData('bolt-widget');
         });
     };
 

@@ -16,15 +16,15 @@
         {% set id = opt.label|default('') and not opt.id|default('') ? buid() : opt.id|default('') %}
 
         {% set attributes = {
-            'checked':      opt.checked|default(false),
-            'class':        'form-control',
-            'data-widget':  'buicCheckbox',
-            'disabled':     opt.disabled|default(false),
-            'id':           id,
-            'name':         opt.name|default(''),
-            'required':     opt.required|default(false),
-            'type':         'checkbox',
-            'value':        '1',
+            'checked':           opt.checked|default(false),
+            'class':             'form-control',
+            'data-bolt-widget':  'buicCheckbox',
+            'disabled':          opt.disabled|default(false),
+            'id':                id,
+            'name':              opt.name|default(''),
+            'required':          opt.required|default(false),
+            'type':              'checkbox',
+            'value':             '1',
         } %}
 
         <div{{ hclass(['buic-checkbox', opt.class|default()]) }}>
@@ -60,7 +60,7 @@
  #}
 {% macro moment(datetime) -%}
     {%- set dt = datetime|date('Y-m-d\\TH:i:sP') -%}
-    <time class="buic-moment" data-widget="buicMoment" datetime="{{ dt }}">{{ dt }}</time>
+    <time class="buic-moment" data-bolt-widget="buicMoment" datetime="{{ dt }}">{{ dt }}</time>
 {%- endmacro %}
 
 {##
@@ -107,7 +107,7 @@
             'required':     conf.required,
         } %}
 
-        <div{{ hclass(['buic-select', conf.class]) }} data-widget="buicSelect">
+        <div{{ hclass(['buic-select', conf.class]) }} data-bolt-widget="buicSelect">
             <div>
                 <div>
                     <select{{ hattr(attributes) }}>
