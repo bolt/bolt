@@ -2,7 +2,10 @@
 
 namespace Bolt\Storage\Collection;
 
+use Bolt\Exception\StorageException;
 use Bolt\Storage\Entity;
+use Bolt\Storage\EntityManager;
+use Bolt\Storage\EntityProxy;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Closure;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,6 +17,24 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Relations extends ArrayCollection
 {
+
+    protected $em;
+
+    /**
+     * Relations constructor.
+     * @param array $elements
+     * @param EntityManager $em
+     */
+    public function __construct(array $elements = [], EntityManager $em = null)
+    {
+        parent::__construct($elements);
+        $this->em = $em;
+    }
+
+    public function setEntityManager(EntityManager $em)
+    {
+        $this->em = $em;
+    }
 
 
     public function setFromPost($formValues, $entity)
@@ -122,7 +143,16 @@ class Relations extends ArrayCollection
      */
     public function offsetGet($offset)
     {
-        return $this->getField($offset);
+        if ($this->em === null) {
+            throw new StorageException('Unable to load collection values. Ensure that EntityManager is set on '.__CLASS__);
+        }
+        $collection = new LazyCollection();
+        $proxies = $this->getField($offset);
+        foreach ($proxies as $proxy) {
+            $collection->add(new EntityProxy($proxy->to_contenttype, $proxy->to_id, $this->em));
+        }
+
+        return $collection;
     }
 
 
