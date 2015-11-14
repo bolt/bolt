@@ -44,6 +44,8 @@
              * @property {Object} thumbnailUrl   - Hidden field holding the video thumbnail link
              * @property {Object} preview        - The thumbnail image
              * @property {Object} play           - Play button
+             * @property {Object} refresh        - Refresh button
+             * @property {Object} spinner        - Spinner
              * @property {Object} modalBody      - The container for the modal video preview
              */
             this._ui = {
@@ -57,7 +59,9 @@
                 title:          fieldset.find('input.title'),
                 thumbnailUrl:   fieldset.find('input.thumbnailurl'),
                 preview:        fieldset.find('img'),
-                play:           fieldset.find('button'),
+                play:           fieldset.find('.imageholder button'),
+                refresh:        fieldset.find('button.refresh'),
+                spinner:        fieldset.find('button.refresh i'),
                 modalBody:      fieldset.find('div.modal-body')
             };
 
@@ -67,7 +71,7 @@
                     function () {
                         self._update();
                     },
-                    400
+                    1000
                 );
             });
 
@@ -81,6 +85,10 @@
                 if (self._ui.ratio.val() > 0) {
                     self._ui.width.val(Math.round(self._ui.height.val() * self._ui.ratio.val()));
                 }
+            });
+
+            self._ui.refresh.on('click', function () {
+                self._update();
             });
         },
 
@@ -102,9 +110,18 @@
             if (request.url.length < 2) {
                 self._set({});
             } else {
+                this._ui.refresh.prop('disabled', true);
+                self._ui.spinner.addClass('fa-spin');
+
                 $.getJSON(url, request)
                     .done(function (data) {
                         self._set(data);
+                    })
+                    .fail(function () {
+                        self._set({});
+                    })
+                    .always(function () {
+                        self._ui.spinner.removeClass('fa-spin');
                     });
             }
         },
@@ -133,6 +150,7 @@
             } else {
                 this._ui.play.addClass('hidden');
             }
+            this._ui.refresh.prop('disabled', this._ui.url.val().length <= 2 || this._ui.html.val().length > 0);
         }
     });
 })(jQuery, Bolt);
