@@ -96,11 +96,18 @@ class Authentication extends BackendBase
             $this->app['logger.system']->info('Logged out: ' . $displayname, ['event' => 'authentication']);
         }
 
+        // Clear the session
         $this->accessControl()->revokeSession();
+        $this->session()->invalidate(-1);
 
+        // Clear cookie data
         $response = $this->redirectToRoute('login');
-        $response->headers->clearCookie($this->app['token.authentication.name']);
-        $response->headers->clearCookie($this->app['token.session.name']);
+        $response->headers->clearCookie(
+            $this->app['token.authentication.name'],
+            $this->resources()->getUrl('root'),
+            $this->getOption('general/cookies_domain'),
+            $this->getOption('general/enforce_ssl')
+        );
 
         return $response;
     }

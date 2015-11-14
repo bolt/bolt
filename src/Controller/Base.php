@@ -264,7 +264,7 @@ abstract class Base implements ControllerProviderInterface
     protected function getUser($userId = null)
     {
         if ($userId === null) {
-            if ($sessionAuth = $this->session()->get('authentication')) {
+            if ($this->session()->isStarted() && $sessionAuth = $this->session()->get('authentication')) {
                 return $sessionAuth->getUser();
             }
 
