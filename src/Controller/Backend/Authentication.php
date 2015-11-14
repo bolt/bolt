@@ -113,10 +113,10 @@ class Authentication extends BackendBase
     }
 
     /**
-     * Reset the password. This controller is normally only reached when the user
+     * Reset the password. This route is normally only reached when the user
      * clicks a "password reset" link in the email.
      *
-     * @param Request $request The Symfony Request
+     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -124,7 +124,7 @@ class Authentication extends BackendBase
     {
         $this->password()->resetPasswordConfirm($request->get('token'), $request->getClientIp());
 
-        return $this->redirectToRoute('login');
+        return $this->redirectToRoute('login', ['action' => 'login']);
     }
 
     /**
