@@ -96,6 +96,7 @@
     play: {
         class:     video.html|default() ? '' : 'hidden',
         href:      '#' ~ modal_id,
+        type:      'button',
         role:     'button',
         'data-toggle':  'modal',
     },
@@ -172,11 +173,6 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
-                    {% if video.html is defined %}
-                        {{ video.html|raw }}
-                    {% else %}
-                        <p>{{ __('field.video.preview.no-url') }}</p>
-                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-tertiary" data-dismiss="modal" aria-hidden="true">{{ __('field.video.preview.button.close') }}</button>

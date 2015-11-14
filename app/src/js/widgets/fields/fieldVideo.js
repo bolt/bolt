@@ -23,7 +23,9 @@
         _create: function () {
             var self = this,
                 fieldset = this.element,
-                timeout = 0;
+                timeout = 0,
+                modal = fieldset.find('div.modal'),
+                modalBody = fieldset.find('div.modal-body');
 
             /**
              * Refs to UI elements of this widget.
@@ -46,7 +48,6 @@
              * @property {Object} play           - Play button
              * @property {Object} refresh        - Refresh button
              * @property {Object} spinner        - Spinner
-             * @property {Object} modalBody      - The container for the modal video preview
              */
             this._ui = {
                 url:            fieldset.find('input.url'),
@@ -61,8 +62,7 @@
                 preview:        fieldset.find('img'),
                 play:           fieldset.find('.imageholder button'),
                 refresh:        fieldset.find('button.refresh'),
-                spinner:        fieldset.find('button.refresh i'),
-                modalBody:      fieldset.find('div.modal-body')
+                spinner:        fieldset.find('button.refresh i')
             };
 
             self._ui.url.on('propertychange input', function () {
@@ -89,6 +89,11 @@
 
             self._ui.refresh.on('click', function () {
                 self._update();
+            });
+
+            // Setup the preview modal.
+            modal.on('show.bs.modal', function () {
+                modalBody.html(self._ui.html.val());
             });
         },
 
@@ -139,7 +144,6 @@
             this._ui.width.val(data.width || '');
             this._ui.height.val(data.height || '');
             this._ui.ratio.val(data.width && data.height ? data.width / data.height : '');
-            this._ui.modalBody.html(data.html || '');
             this._ui.authorName.val(data.author_name || '');
             this._ui.authorUrl.val(data.author_url || '');
             this._ui.title.val(data.title || '');
