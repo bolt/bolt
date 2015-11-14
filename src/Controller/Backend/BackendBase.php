@@ -94,17 +94,19 @@ abstract class BackendBase extends Base
         $this->users()->checkForRoot();
 
         // If we're resetting passwords, we have nothing more to check
-        if ($route === 'resetpassword') {
+        if ($route === 'resetpassword' || $route === 'login' || $route === 'postLogin') {
             return null;
         }
 
         // Most of the 'check if user is allowed' happens here: match the current route to the 'allowed' settings.
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
-        if (!$this->accessControl()->isValidSession($authCookie) && !$this->isAllowed($route)) {
+        if ($authCookie === null || !$this->accessControl()->isValidSession($authCookie)) {
             $app['logger.flash']->info(Trans::__('Please log on.'));
 
             return $this->redirectToRoute('login');
-        } elseif (!$this->isAllowed($roleRoute)) {
+        }
+
+        if (!$this->isAllowed($roleRoute)) {
             $app['logger.flash']->error(Trans::__('You do not have the right privileges to view that page.'));
 
             return $this->redirectToRoute('dashboard');
