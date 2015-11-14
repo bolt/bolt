@@ -15,9 +15,7 @@ div[data-fieldtype="meta"] {
 
 /*** Styles for all Fieldsets ***/
 
-fieldset[data-bolt-field] {
-    //margin-bottom: 20px;
-
+fieldset[class*=' bolt-field-'], fieldset[class^='bolt-field-'] {
     /*** Label ***/
 
     label, .control-label {

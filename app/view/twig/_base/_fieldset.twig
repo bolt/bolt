@@ -2,15 +2,16 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set widget_name = block('fieldset_widget') %}
+
 {% if fieldset_conf|default() is iterable %}
-    {% set data_widget = {_: block('fieldset_widget')}|merge(fieldset_conf)|json_encode %}
-    {{ dump(data_bolt_widget) }}
+    {% set data_widget = {_: widget_name}|merge(fieldset_conf)|json_encode %}
 {% else %}
-    {% set data_bolt_widget = block('fieldset_widget') %}
+    {% set data_bolt_widget = widget_name %}
 {% endif %}
 
 {% set attributes_fieldset = {
-    'class':             'form-group',
+    'class':             'form-group bolt-field-' ~ widget_name|slice(5)|lower(),
     'data-bolt-field':   block('fieldset_type'),
     'data-bolt-widget':  data_bolt_widget,
 } %}

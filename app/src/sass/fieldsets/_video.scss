@@ -1,6 +1,6 @@
 /*** Fieldset: Video ***/
 
-fieldset[data-bolt-field="video"] {
+fieldset.bolt-field-video {
 
     input[type=number] {
         width: 30% !important;      // Reset from _editcontent.scss

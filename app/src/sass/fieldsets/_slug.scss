@@ -1,82 +1,80 @@
 /*** Fieldset: Slug ***/
 
-#editcontent {
-    fieldset[data-bolt-field="slug"] {
-        $icon-right-margin: 6px;
-        $icon-width: 20px;
+fieldset.bolt-field-slug {
+    $icon-right-margin: 6px;
+    $icon-width: 20px;
 
-        .input-group-addon {
-            background: #fff;
-            text-align: left;
-            font-family: $fonts-family-monospace;
-            color: #aaa;
-            font-size: 13px;
+    .input-group-addon {
+        background: #fff;
+        text-align: left;
+        font-family: $fonts-family-monospace;
+        color: #aaa;
+        font-size: 13px;
 
-            em {
-                color: black;
-                font-style: normal;
-                font-weight: normal;
-                line-height: 22px;
-            }
+        em {
+            color: black;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 22px;
+        }
+    }
+
+    span.input-group-addon:before {
+        display: inline-block;
+        margin-right: $icon-right-margin;
+        width: $icon-width;
+        padding: 2px 0;
+        text-align: center;
+        line-height: 1;
+        font-family: "FontAwesome";
+        background: #f0f0f0;
+        border-radius: 3px;
+        text-indent: 0;
+    }
+
+    .locked {
+
+        height: 32px;
+
+        li.lock {
+            display: none;
         }
 
         span.input-group-addon:before {
-            display: inline-block;
-            margin-right: $icon-right-margin;
-            width: $icon-width;
-            padding: 2px 0;
-            text-align: center;
-            line-height: 1;
-            font-family: "FontAwesome";
-            background: #f0f0f0;
-            border-radius: 3px;
-            text-indent: 0;
+            content: "\f023";
+            color: #a00;
+        }
+    }
+
+    .unlocked {
+        li.unlock {
+            display: none;
         }
 
-        .locked {
+        span.input-group-addon:before {
+            content: "\f13e";
+            color: #080;
+        }
+    }
 
+    .input-group-btn {
+        button {
             height: 32px;
-
-            li.lock {
-                display: none;
-            }
-
-            span.input-group-addon:before {
-                content: "\f023";
-                color: #a00;
-            }
+            padding: 6px $padding-base-vertical;
         }
+    }
 
-        .unlocked {
-            li.unlock {
-                display: none;
-            }
-
-            span.input-group-addon:before {
-                content: "\f13e";
-                color: #080;
-            }
-        }
-
-        .input-group-btn {
-            button {
-                height: 32px;
-                padding: 6px $padding-base-vertical;
-            }
-        }
-
-        span.input-group-addon {
-            display: inline-block;
-            overflow: hidden;
-            margin: 1px 0;
-            width: 100%;
-            height: 32px;
-            text-indent: -$icon-width - $icon-right-margin;
-            padding-top: 5px;
-            padding-left: $icon-width + $padding-base-vertical + $icon-right-margin;
-            white-space: normal;
-            word-break: break-all;
-            cursor: default;
-        }
+    span.input-group-addon {
+        display: inline-block;
+        overflow: hidden;
+        margin: 1px 0;
+        width: 100%;
+        height: 32px;
+        text-indent: -$icon-width - $icon-right-margin;
+        padding-top: 5px;
+        padding-left: $icon-width + $padding-base-vertical + $icon-right-margin;
+        white-space: normal;
+        word-break: break-all;
+        cursor: default;
     }
 }
