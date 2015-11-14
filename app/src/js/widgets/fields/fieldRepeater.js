@@ -63,7 +63,6 @@
 
                 // Replace all id's and correspondending for-attributes.
                 $(field)
-                    .attr('id', bolt.app.buid())
                     .find('[id]').each(function () {
                         var id = $(this).attr('id'),
                             nid = bolt.app.buid();
