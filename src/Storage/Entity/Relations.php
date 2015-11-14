@@ -7,8 +7,10 @@ namespace Bolt\Storage\Entity;
 class Relations extends Entity
 {
     protected $id;
-    protected $fromContenttype;
-    protected $fromId;
-    protected $toContenttype;
-    protected $toId;
+    protected $from_contenttype;
+    protected $from_id;
+    protected $to_contenttype;
+    protected $to_id;
+
+
 }
