@@ -8,7 +8,7 @@
 {% if templatefields.fields is not empty %}
     {% for templatekey, templatefield in templatefields.fields %}
 
-            <div data-fieldtype="{{ templatefield.type }}">
+            <div data-bolt-fieldset="{{ templatefield.type }}">
                 {# Prefix #}
                 {% if templatefield.prefix is defined and templatefield.prefix is not empty %}
                     <div class="prefix">

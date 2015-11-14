@@ -2,7 +2,7 @@
 
 {% set field = context.contenttype.fields[key] %}
 
-<div data-fieldtype="{{ field.type }}">
+<div data-bolt-fieldset="{{ field.type }}">
     {# Prefix #}
     {% if field.prefix is defined and field.prefix is not empty %}
         <div class="prefix">

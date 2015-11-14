@@ -12,7 +12,7 @@
     {% if config.get('taxonomy')[taxonomyslug] is defined %}
         {% set taxonomy = config.get('taxonomy')[taxonomyslug] %}
 
-        <div data-fieldtype="{{ taxonomy.behaves_like }}">
+        <div data-bolt-fieldset="{{ taxonomy.behaves_like }}">
             {# Prefix #}
             {% if taxonomy.prefix is defined and taxonomy.prefix is not empty %}
                 <div class="prefix">
