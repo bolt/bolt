@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\AccessControl;
 
+use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Repository\AuthtokenRepository;
 use Bolt\Storage\Repository\UsersRepository;
@@ -116,6 +117,10 @@ class AccessChecker
      */
     public function isValidSession($authCookie)
     {
+        if ($authCookie === null) {
+            throw new AccessControlException('Can not validate session with an empty token.');
+        }
+
         if ($this->validsession !== null) {
             return $this->validsession;
         }
@@ -129,7 +134,7 @@ class AccessChecker
         }
 
         if (!$check) {
-            // Eithter the session keys don't match, or the session is too old
+            // Either the session keys don't match, or the session is too old
             $check = $this->checkSessionDatabase($authCookie);
         }
 
