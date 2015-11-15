@@ -53,15 +53,23 @@ class DatabaseDataCollector extends DataCollector
 
     private function trim(array $queries)
     {
+        // Skip "PRAGMA .." and other similarly queries, that only cause noise in the overview of used queries.
+        $cruftarray = [
+            'SHOW FULL TABLES WHERE Table_type',
+            'PRAGMA ',
+            'SELECT DISTINCT k.CONSTRAINT_NAME',
+            'SELECT TABLE_NAME AS Table',
+            'SELECT COLUMN_NAME AS Field',
+            'INNER JOIN information_schema',
+            'FROM information_schema'
+        ];
+
         $return = [];
         foreach ($queries as $query) {
-            // Skip "PRAGMA .." and similar queries by SQLITE.
-            if ((strpos($query['sql'], "PRAGMA ") === 0)
-                || (strpos($query['sql'], "SELECT DISTINCT k.CONSTRAINT_NAME") === 0)
-                || (strpos($query['sql'], "SELECT TABLE_NAME AS Table") === 0)
-                || (strpos($query['sql'], "SELECT COLUMN_NAME AS Field") === 0)
-            ) {
-                continue;
+            foreach ($cruftarray as $cruft) {
+                if (strpos($query['sql'], $cruft) !== false) {
+                    continue(2);
+                }
             }
             $return[] = $query;
         }
