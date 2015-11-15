@@ -10,6 +10,9 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class UsersRepository extends Repository
 {
+
+    private $userEntities = array();
+    
     /**
      * Delete a user.
      *
@@ -59,7 +62,7 @@ class UsersRepository extends Repository
     {
         // Check if we've already retrieved this user.
         if (isset($this->userEntities[$userId])) {
-            // return $this->userEntities[$userId];
+            return $this->userEntities[$userId];
         }
 
         $query = $this->getUserQuery($userId);
