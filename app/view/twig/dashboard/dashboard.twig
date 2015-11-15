@@ -22,7 +22,7 @@
                 {% include '@bolt/dashboard/_suggestloripsum.twig' %}
             {% endif %}
 
-            {{ widget('backend', 'dashboard_below_header') }}
+            {{ widgets('dashboard_below_header', 'backend') }}
 
             <div class="quicklinks">
                 {% if app.config.get('contenttypes')|length() > 3 %}
@@ -38,7 +38,7 @@
                 {% endif %}
             {% endfor %}
 
-            {{ widget('backend', 'dashboard_bottom') }}
+            {{ widgets('dashboard_bottom', 'backend') }}
 
         </div>
 

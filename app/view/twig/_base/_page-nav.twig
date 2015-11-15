@@ -64,7 +64,7 @@
                 </div>
             </div>
 
-            {{ widget('backend', 'below_header') }}
+            {{ widgets('below_header', 'backend') }}
 
             {% block messages %}
                 {% include '@bolt/_sub/_messages.twig' with {'wrapper': true} %}
@@ -72,7 +72,7 @@
 
             {% block page_main %}[PAGE_MAIN]{% endblock page_main %}
 
-            {{ widget('backend', 'footer') }}
+            {{ widgets('footer', 'backend') }}
 
         </div>
 

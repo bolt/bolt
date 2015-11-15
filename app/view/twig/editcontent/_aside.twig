@@ -1,6 +1,6 @@
 {% import '@bolt/_macro/_panels.twig' as panels %}
 
-{{ widget('backend', 'editcontent_aside_top') }}
+{{ widgets('editcontent_aside_top', 'backend') }}
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -18,7 +18,7 @@
     </div>
 </div>
 
-{{ widget('backend', 'editcontent_aside_middle') }}
+{{ widgets('editcontent_aside_middle', 'backend') }}
 
 {{ panels.changes(context.contenttype.slug, context.content.id|default(null)) }}
 
@@ -26,4 +26,4 @@
 
 {{ panels.stack(5) }}
 
-{{ widget('backend', 'editcontent_aside_bottom') }}
+{{ widgets('editcontent_aside_bottom', 'backend') }}

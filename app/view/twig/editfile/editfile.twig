@@ -33,7 +33,7 @@
 
             {{ files_path(context.pathsegments, context.namespace, {'path': '', 'namespace': context.namespace}) }}
 
-            {{ widget('backend', 'editfile_below_header') }}
+            {{ widgets('editfile_below_header', 'backend') }}
 
             <form method="post" class="form-inline" id="editfile" autocomplete="off">
                 {{ form_widget(context.form._token) }}
@@ -73,7 +73,7 @@
 
             </form>
 
-            {{ widget('backend', 'editfile_bottom') }}
+            {{ widgets('editfile_bottom', 'backend') }}
 
         </div>
     </div>
