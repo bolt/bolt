@@ -1,5 +1,14 @@
 <div class="repeater-group row panel panel-default">
-    {% include '@bolt/editcontent/fields/_repeater-header.twig' %}
+    <div class="panel-heading text-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-default duplicate-button">
+                <i class="fa fa-copy"></i> {{ __('Duplicate Set') }}
+            </button>
+            <button type="button" class="btn btn-sm btn-silent-danger delete-button">
+                <i class="fa fa-trash"></i> {{ __('Delete Set') }}
+            </button>
+        </div>
+    </div>
 
     <div class="panel-body">
         {% for rkey, rfield in field.fields %}
