@@ -24,6 +24,21 @@
             var self = this;
 
             /**
+             * Refs to UI elements of this widget.
+             *
+             * @type {Object}
+             * @name _ui
+             * @memberOf jQuery.widget.bolt.fieldRepeater.prototype
+             * @private
+             *
+             * @property {Object} edit   - Edit button.
+             * @property {Object} copy   - Copy button.
+             */
+            this._ui = {
+                slot: self.element.find('.repeater-slot')
+            };
+
+            /**
              * The repeater template.
              *
              * @type {Object}
@@ -34,10 +49,9 @@
             this._template = $(self.element.find('script[type="text/template"]').html());
 
             self.element.on('click', '.add-button', function () {
-                var slot = self.element.find('.repeater-slot'),
-                    newSet = self._clone(this._template);
+                var newSet = self._clone(self._template);
 
-                slot.append(newSet);
+                self._ui.slot.append(newSet);
             });
 
             self.element.on('click', '.duplicate-button', function () {
