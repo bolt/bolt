@@ -59,10 +59,7 @@
             this._count = self._ui.slot.find('div.repeater-group').length;
 
             self.element.on('click', '.add-button', function () {
-                var newSet = self._clone(self._template);
-
-                self._ui.slot.append(newSet);
-                self._count++;
+                self._append();
             });
 
             self.element.on('click', '.duplicate-button', function () {
@@ -81,9 +78,22 @@
 
             // Add initial group if there is none.
             if (self._count === 0) {
-                self._ui.slot.append(self._clone(self._template));
-                self._count++;
+                self._append();
             }
+        },
+
+        /**
+         * Appends a new empty group.
+         *
+         * @private
+         * @function clone
+         * @memberof Bolt.fields.repeater
+         */
+        _append: function () {
+            var newSet = this._clone(this._template);
+
+            this._ui.slot.append(newSet);
+            this._count++;
         },
 
         /**
