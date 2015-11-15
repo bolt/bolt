@@ -84,7 +84,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
             new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated),
             new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
-            new \Twig_SimpleFunction('widget',             [$this, 'widget'],      $safe),
+            new \Twig_SimpleFunction('widgets',            [$this, 'widgets'],     $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -585,11 +585,11 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * @see \Bolt\Twig\Handler\AdminHandler::widget()
+     * @see \Bolt\Twig\Handler\HtmlHandler::widget()
      */
-    public function widget($type = '', $location = '')
+    public function widgets($type = '', $location = '')
     {
-        return $this->handlers['html']->widget($type, $location);
+        return $this->handlers['html']->widgets($type, $location);
     }
 
     /**

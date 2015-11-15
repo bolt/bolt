@@ -5,7 +5,7 @@
     <!-- Main Blog Content -->
     <div class="large-8 columns" role="content">
 
-        {{ widget('frontend', 'main_top') }}
+        {{ widgets('frontend', 'main_top') }}
 
         {# This template is used for 'listings': Generic pages that list a number of
            records from a certain contenttype. These records are available as an array
@@ -97,7 +97,7 @@
         {# If there are more records than will fit on one page, the pager is shown. #}
         {{ pager() }}
 
-        {{ widget('frontend', 'main_bottom') }}
+        {{ widgets('frontend', 'main_bottom') }}
 
 
     </div>

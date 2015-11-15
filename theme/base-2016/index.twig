@@ -13,10 +13,10 @@
 <div class="flex container margin padding popUppers">
     {% if record %}
         <article class="six s-twelve">
-            {{ widget('frontend', 'main_top') }}
+            {{ widgets('frontend', 'main_top') }}
                 <h1>{{record.title}}</h1>
                 {{record.body}}
-            {{ widget('frontend', 'main_bottom') }}
+            {{ widgets('frontend', 'main_bottom') }}
         </article>
     {% endif %}
     {% for ct in theme.frontpage_contenttypes %}
@@ -26,7 +26,7 @@
                     {% for record in records %}
                         {% set image = record.image ?: random(theme.images) %}
                         {% if loop.first %}
-                            {{ widget('frontend', 'aside_top') }}
+                            {{ widgets('frontend', 'aside_top') }}
                             <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct}) }}</h2>
                         {% endif %}
                         <h3><a href="{{record.link}}">{{ record.title }}</a></h3>
@@ -34,7 +34,7 @@
                         <p>{{record.body|excerpt(250)}}</p>
                         {% if loop.last %}
                             <p><a href="{{ paths.root }}{{ct}}">{{ __('contenttypes.generic.overview',{'%contenttypes%': ct}) }} &raquo;</a></p>
-                            {{ widget('frontend', 'aside_bottom') }}
+                            {{ widgets('frontend', 'aside_bottom') }}
                         {% endif %}
                     {% endfor %}
                 </div>

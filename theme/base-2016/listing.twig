@@ -4,7 +4,7 @@
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
 <div class="flex container margin padding popUppers">
     <section class="eight s-twelve">
-        {{ widget('frontend', 'main_top') }}
+        {{ widgets('frontend', 'main_top') }}
         {% if taxonomytype is defined %}
             <h1>
                 {{ __('Overview for') }}
@@ -58,7 +58,7 @@
             </article>
         {% endfor %}
         {{ pager() }}
-        {{ widget('frontend', 'main_bottom') }}
+        {{ widgets('frontend', 'main_bottom') }}
     </section>
     {% include '_aside.twig' %}
     </div>

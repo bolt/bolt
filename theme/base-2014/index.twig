@@ -5,7 +5,11 @@
     <!-- Main Blog Content -->
     <div class="large-8 columns">
 
-        {{ widget('frontend', 'main_top') }}
+{#         {{ dump(getwidgets()) }}
+ #}
+        {{ widgets('frontend', 'main_top') }}
+
+
 
         <article>
             {% if record is defined %}
@@ -51,7 +55,7 @@
 
         <hr>
 
-        {{ widget('frontend', 'main_break') }}
+        {{ widgets('frontend', 'main_break') }}
 
 
         <h4>{{ __('Latest entries') }}</h4>
@@ -84,7 +88,7 @@
 
         {{ pager() }}
 
-        {{ widget('frontend', 'main_bottom') }}
+        {{ widgets('frontend', 'main_bottom') }}
 
 
     </div>

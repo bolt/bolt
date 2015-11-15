@@ -229,7 +229,7 @@ class HtmlHandler
      *
      * @return \Twig_Markup|string
      */
-    public function widget($type = '', $location = '')
+    public function widgets($type = '', $location = '')
     {
         return $this->app['asset.queue.widget']->render($type, $location);
     }
