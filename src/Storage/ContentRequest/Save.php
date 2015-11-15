@@ -202,7 +202,7 @@ class Save
 
         $related = $this->em->createCollection('Bolt\Storage\Entity\Relations');
         $related->setFromPost($formValues, $content);
-        $content->setTaxonomy($related);
+        $content->setRelation($related);
     }
 
     /**
