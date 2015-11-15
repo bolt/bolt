@@ -93,7 +93,13 @@ class Manager
      */
     public function isUpdateRequired()
     {
-        return $this->getSchemaComparator()->hasPending();
+        $pending = $this->getSchemaComparator()->hasPending();
+
+        if (!$pending) {
+            $this->getSchemaTimer()->setCheckExpiry();
+        }
+
+        return $pending;
     }
 
     /**
