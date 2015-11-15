@@ -585,11 +585,11 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * @see \Bolt\Twig\Handler\HtmlHandler::widget()
+     * @see \Bolt\Twig\Handler\WidgetHandler::widget()
      */
     public function widgets($type = '', $location = '')
     {
-        return $this->handlers['html']->widgets($type, $location);
+        return $this->handlers['widgets']->widgets($type, $location);
     }
 
     /**
