@@ -27,6 +27,16 @@ class WidgetsHandler
     }
 
     /**
+     * Gets a list of the registered widgets.
+     *
+     * @return array
+     */
+    public function getwidgets()
+    {
+        return $this->app['asset.queue.widget']->getQueue();
+    }
+
+    /**
      * Renders a particular widget type on the given location.
      *
      * @param string $type     Either 'frontend' or 'backend'

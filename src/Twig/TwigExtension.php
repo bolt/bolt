@@ -85,6 +85,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated),
             new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFunction('widgets',            [$this, 'widgets'],     $safe),
+            new \Twig_SimpleFunction('getwidgets',         [$this, 'getWidgets'],  $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -266,6 +267,14 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function getUserId($who)
     {
         return $this->handlers['user']->getUserId($who);
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\WidgetHandler::getWidgets()
+     */
+    public function getWidgets($type = '', $location = '')
+    {
+        return $this->handlers['widgets']->getWidgets($type, $location);
     }
 
     /**
@@ -585,7 +594,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * @see \Bolt\Twig\Handler\WidgetHandler::widget()
+     * @see \Bolt\Twig\Handler\WidgetHandler::widgets()
      */
     public function widgets($type = '', $location = '')
     {
