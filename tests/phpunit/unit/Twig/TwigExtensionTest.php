@@ -605,10 +605,10 @@ class TwigExtensionTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
-        $handlers['widget'] = $this->getMockHandler('WidgetHandler', 'widget');
+        $handlers['widget'] = $this->getMockHandler('WidgetHandler', 'widgets');
         $twig = new TwigExtension($app, $handlers, true);
 
-        $twig->widget(null, null);
+        $twig->widgets(null, null);
     }
 
     public function testYmllink()
