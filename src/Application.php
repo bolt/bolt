@@ -292,7 +292,7 @@ class Application extends Silex\Application
             $this->extend(
                 'twig.loader.filesystem',
                 function (\Twig_Loader_Filesystem $filesystem, Application $app) {
-                    $refProfilerClass = new \ReflectionClass('Symfony\Bundle\WebProfilerBundle\DependencyInjection\WebProfilerExtension');
+                    $refProfilerClass = new \ReflectionClass('Symfony\Bundle\WebProfilerBundle\Twig\WebProfilerExtension');
                     $webProfilerPath = dirname(dirname($refProfilerClass->getFileName()));
                     $filesystem->addPath(
                         $webProfilerPath . '/Resources/views',
