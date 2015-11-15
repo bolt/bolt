@@ -70,7 +70,7 @@ class Relations extends ArrayCollection
      *
      * Any records not in the incoming set are deleted from the collection and the deleted ones returned as an array.
      *
-     * @param Relations|Taxonomy $collection
+     * @param Relations $collection
      * @return array
      */
     public function update(Relations $collection)
@@ -102,8 +102,8 @@ class Relations extends ArrayCollection
 
     /**
      * This loops over the existing collection to see if the properties in the incoming
-     * are already available on a saved record. To do this it checks the three key properties
-     * content_id, taxonomytype and slug, if there's a match it returns the original, otherwise
+     * are already available on a saved record. To do this it checks the four key properties
+     * if there's a match it returns the original, otherwise
      * it returns the new and adds the new one to the collection.
      * @param $entity
      * @return mixed|null
@@ -112,9 +112,10 @@ class Relations extends ArrayCollection
     {
         foreach ($this as $k => $existing) {
             if (
-                $existing->getContent_id() == $entity->getContent_id() &&
-                $existing->getTaxonomytype() == $entity->getTaxonomytype() &&
-                $existing->getSlug() == $entity->getSlug()
+                $existing->getFrom_id() == $entity->getFrom_id() &&
+                $existing->getFrom_contenttype() == $entity->getFrom_contenttype() &&
+                $existing->getTo_contenttype() == $entity->getTo_contenttype()
+                $existing->getTo_id() == $entity->getTo_id()
             ) {
                 return $existing;
             }
@@ -124,10 +125,10 @@ class Relations extends ArrayCollection
     }
 
     /**
-     * Gets a specific taxonomy name from the overall collection
+     * Gets a specific relation type name from the overall collection
      *
      * @param $fieldname
-     * @return Taxonomy
+     * @return Relations
      */
     public function getField($fieldname)
     {
@@ -136,6 +137,11 @@ class Relations extends ArrayCollection
         });
     }
 
+    /**
+     * Identifies which relations are incoming to the given entity
+     * @param $entity
+     * @return mixed
+     */
     public function incoming($entity)
     {
         return $this->filter(function ($el) use ($entity) {
