@@ -218,9 +218,9 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\WidgetHandler::countWidgets()
      */
-    public function countWidgets($type = '', $location = '')
+    public function countWidgets($location = '', $type = 'frontend')
     {
-        return $this->handlers['widgets']->countWidgets($type, $location);
+        return $this->handlers['widgets']->countWidgets($location, $type);
     }
 
     /**
@@ -290,9 +290,9 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\WidgetHandler::hasWidgets()
      */
-    public function hasWidgets($type = '', $location = '')
+    public function hasWidgets($location = '', $type = 'frontend')
     {
-        return $this->handlers['widgets']->hasWidgets($type, $location);
+        return $this->handlers['widgets']->hasWidgets($location, $type);
     }
 
     /**
@@ -614,9 +614,9 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\WidgetHandler::widgets()
      */
-    public function widgets($type = '', $location = '')
+    public function widgets($location = '', $type = 'frontend')
     {
-        return $this->handlers['widgets']->widgets($type, $location);
+        return $this->handlers['widgets']->widgets($location, $type);
     }
 
     /**
