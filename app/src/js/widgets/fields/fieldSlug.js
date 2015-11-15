@@ -112,7 +112,7 @@
             });
 
             if (self.options.isEmpty) {
-                self._ui.unlock.trigger('click');
+                self._unlock(false);
             }
         },
 
