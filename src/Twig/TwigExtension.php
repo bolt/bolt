@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * The class for Bolt' Twig tags, functions and filters.
  */
-class TwigExtension extends \Twig_Extension
+class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /** @var \Silex\Application */
     private $app;
