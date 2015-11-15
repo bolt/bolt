@@ -70,6 +70,12 @@
              */
             this._count = self._ui.slot.find('div.repeater-group').length;
 
+            // Adjust limit value.
+            if (self.options.limit === 0) {
+                self.options.limit = Infinity;
+            }
+            self._setCount();
+
             self._ui.add.on('click', function () {
                 self._append();
             });
@@ -79,7 +85,7 @@
                     duplicatedSet = self._clone(setToDuplicate);
 
                 setToDuplicate.after(duplicatedSet);
-                self._count++;
+                self._setCount(1);
                 self._renumber();
             });
 
@@ -87,7 +93,7 @@
                 var setToDelete = $(this).closest('.repeater-group');
 
                 setToDelete.remove();
-                self._count--;
+                self._setCount(-1);
                 self._renumber();
             });
 
@@ -108,7 +114,7 @@
             var newSet = this._clone(this._template);
 
             this._ui.slot.append(newSet);
-            this._count++;
+            this._setCount(1);
             this._renumber();
         },
 
@@ -163,6 +169,32 @@
                     //console.log('  - ' + this.name + ' => ' +this.name.replace(re, name + '[' + index + ']'));
                 });
             });
+        },
+
+        /**
+         * Adds a vlaue to the group counter and adjust button states according to it.
+         *
+         * @private
+         * @function clone
+         * @memberof Bolt.fields.repeater
+         * @param {number} [add=0] - The value to add to the counter
+         */
+        _setCount: function (add) {
+            this._count += add || 0;
+
+            if (this._count >= this.options.limit) {
+                this._ui.add.addClass('disabled');
+                this.element.find('.duplicate-button').addClass('disabled');
+            } else {
+                this._ui.add.removeClass('disabled');
+                this.element.find('.duplicate-button').removeClass('disabled');
+            }
+
+            if (this._count <= 1) {
+                this.element.find('.delete-button').addClass('disabled');
+            } else {
+                this.element.find('.delete-button').removeClass('disabled');
+            }
         }
     });
 })(jQuery, Bolt);
