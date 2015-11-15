@@ -114,7 +114,7 @@ class Relations extends ArrayCollection
             if (
                 $existing->getFrom_id() == $entity->getFrom_id() &&
                 $existing->getFrom_contenttype() == $entity->getFrom_contenttype() &&
-                $existing->getTo_contenttype() == $entity->getTo_contenttype()
+                $existing->getTo_contenttype() == $entity->getTo_contenttype() &&
                 $existing->getTo_id() == $entity->getTo_id()
             ) {
                 return $existing;
