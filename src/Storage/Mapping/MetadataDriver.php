@@ -260,8 +260,8 @@ class MetadataDriver implements MappingDriver
     }
 
     /**
+     * @param $contentKey
      * @param $className
-     * @param Table $table
      */
     public function setIncomingRelations($contentKey, $className)
     {
