@@ -2,30 +2,35 @@
 <script>
 /*<![CDATA[*/
 
-if (window.jQuery) {
-    jQuery(function() {
-        jQuery('div.widget').each(function () {
-            if (typeof $(this).data('defer') === 'undefined') {
-                return;
-            }
+document.addEventListener("DOMContentLoaded", function(event) {
 
-            var key = $(this).data('key');
+    var widgets = document.querySelectorAll('div.widget');
 
-            $.ajax({
-                url: '{{ paths.async }}widget/' + key,
-                type: 'GET',
-                success: function (result) {
-                    $('#widget-' + key).html(result);
-                },
-                error: function () {
-                    console.log('failed to get widget');
+    for(i = 0; i < widgets.length; i++) {
+        if (widgets[i].getAttribute('data-defer') === 'true') {
+            var key = widgets[i].getAttribute('data-key');
+
+            var request = new XMLHttpRequest();
+            request.open('GET', '{{ paths.async }}widget/' + key, true);
+
+            request.onload = function() {
+                if (this.status >= 200 && this.status < 400) {
+                    var widget = document.querySelectorAll('div#widget-' + this.responseURL.replace(/^.*\/|\.*$/g, ''));
+                    widget[0].innerHTML = this.response;
+                } else {
+                    console.log('Failed to get widget. Status: ' + this.status);
                 }
-            });
-        });
-    });
-} else {
-    console.log('Deferred widgets only work when jQuery is present. Sorry.');
-}
+            };
+
+            request.onerror = function() {
+                console.log('Failed to get widget. Connection error.');
+            };
+
+            request.send();
+        }
+    };
+
+});
 
 /*]]>*/
 </script>
