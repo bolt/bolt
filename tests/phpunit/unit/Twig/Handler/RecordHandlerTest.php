@@ -559,7 +559,7 @@ GRINGALET;
         $handler = new RecordHandler($app);
 
         $result = $handler->selectField([], 'koala', false);
-        $this->assertSame([''], $result);
+        $this->assertSame(['' => ''], $result);
     }
 
     public function testSelectFieldContentFieldString()
