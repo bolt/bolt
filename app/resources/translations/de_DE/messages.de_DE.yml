@@ -326,7 +326,6 @@
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Versuchen Sie sich mit ihrem FTP-Programm einzuloggen und die Datei lesbar zu machen oder gehen sie <a>zurück</a> zur letzen Seite."
 "Types": "Typen"
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Unglücklicherweise konnte kein Inhalt gefunden werden. Probieren Sie eine andere Seite, oder besuchen Sie die <a href=\"%paths_root%\">Startseite</a>."
-"Unique Alias": "Eindeutiger Alias"
 "Update the database": "Datenbank aktualisieren"
 "Upload a file to this folder": "Eine Datei in dieses Verzeichnis hochladen"
 "Upload file": "Datei hochladen"
@@ -519,6 +518,7 @@ field:
             set: "Slug setzen:"
             unlock: "Sicher, dass Sie diesen Slug entsperren möchten? Das könnte existierende Links ins Leere laufen lassen."
         permalink: "Permanenter Link"
+        unique-alias: "Eindeutiger Alias"
     video:
         button:
             preview: "Vorschau"
