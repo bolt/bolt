@@ -46,6 +46,9 @@ class Relations extends ArrayCollection
         }
         foreach ($flatVals as $field => $values) {
             foreach ($values as $val) {
+                if (!$val) {
+                    continue;
+                }
                 $newentity = new Entity\Relations([
                     'from_contenttype' => (string)$entity->getContenttype(),
                     'from_id' => $entity->getId(),
