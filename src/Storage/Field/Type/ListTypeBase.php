@@ -25,7 +25,7 @@ class ListTypeBase extends FieldTypeBase
             $value = $this->isJson($value) ? json_decode($value, true) : $value;
 
             // Remove elements that are not important for storage.
-            foreach ($value as &$v) {
+            foreach ((array)$value as &$v) {
                 unset($v['id']);
                 unset($v['order']);
                 unset($v['progress']);
