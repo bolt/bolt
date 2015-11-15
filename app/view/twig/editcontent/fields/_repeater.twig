@@ -2,9 +2,10 @@
 {% set labelkey = field.label ?: key|ucfirst %}
 
 {% set data_bolt_widget = {
-    _:    'fieldRepeater',
-    limit: field.limit|default(0),
-    name: name,
+    _:       'fieldRepeater',
+    minimum: 1,
+    maximum: field.limit|default(0),
+    name:    name,
 } %}
 
 <fieldset class="bolt-field-repeater" data-bolt-widget="{{ data_bolt_widget|json_encode }}">

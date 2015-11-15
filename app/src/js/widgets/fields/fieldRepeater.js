@@ -18,11 +18,13 @@
         /**
          * Default options.
          *
-         * @property {number} limit - Maximum number ouf groups, 0 means unlimited
-         * @property {string} name  - Prefix for field names
+         * @property {number} minimum - Minimum number of groups
+         * @property {number} maximum - Maximum number of groups, 0 means unlimited
+         * @property {string} name    - Prefix for field names
          */
         options: {
-            limit: '',
+            minimum: 1,
+            maximum: 1,
             name:  ''
         },
 
@@ -70,9 +72,9 @@
              */
             this._count = self._ui.slot.find('div.repeater-group').length;
 
-            // Adjust limit value.
-            if (self.options.limit === 0) {
-                self.options.limit = Infinity;
+            // Adjust upper limit.
+            if (self.options.maximum === 0) {
+                self.options.maximum = Infinity;
             }
             self._setCount();
 
@@ -97,8 +99,8 @@
                 self._renumber();
             });
 
-            // Add initial group if there is none.
-            if (self._count === 0) {
+            // Add initial groups until minimum number is reached.
+            while (self._count < self.options.minimum) {
                 self._append();
             }
         },
@@ -182,7 +184,7 @@
         _setCount: function (add) {
             this._count += add || 0;
 
-            if (this._count >= this.options.limit) {
+            if (this._count >= this.options.maximum) {
                 this._ui.add.addClass('disabled');
                 this.element.find('.duplicate-button').addClass('disabled');
             } else {
@@ -190,7 +192,7 @@
                 this.element.find('.duplicate-button').removeClass('disabled');
             }
 
-            if (this._count <= 1) {
+            if (this._count <= this.options.minimum) {
                 this.element.find('.delete-button').addClass('disabled');
             } else {
                 this.element.find('.delete-button').removeClass('disabled');
