@@ -78,12 +78,15 @@
 
                 setToDuplicate.after(duplicatedSet);
                 self._count++;
+                self._renumber();
             });
 
             self.element.on('click', '.delete-button', function () {
                 var setToDelete = $(this).closest('.repeater-group');
 
                 setToDelete.remove();
+                self._count--;
+                self._renumber();
             });
 
             // Add initial group if there is none.
