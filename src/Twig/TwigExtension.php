@@ -87,7 +87,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
             new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated),
             new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
-            new \Twig_SimpleFunction('widgets',            [$this, 'widgets'],     $safe),
+            new \Twig_SimpleFunction('widgets',            [$this, 'widgets'],      $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -220,7 +220,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
      */
     public function countWidgets($location = '', $type = 'frontend')
     {
-        return $this->handlers['widgets']->countWidgets($location, $type);
+        return $this->handlers['widget']->countWidgets($location, $type);
     }
 
     /**
@@ -284,7 +284,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
      */
     public function getWidgets()
     {
-        return $this->handlers['widgets']->getWidgets();
+        return $this->handlers['widget']->getWidgets();
     }
 
     /**
@@ -292,7 +292,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
      */
     public function hasWidgets($location = '', $type = 'frontend')
     {
-        return $this->handlers['widgets']->hasWidgets($location, $type);
+        return $this->handlers['widget']->hasWidgets($location, $type);
     }
 
     /**
@@ -616,7 +616,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
      */
     public function widgets($location = '', $type = 'frontend')
     {
-        return $this->handlers['widgets']->widgets($location, $type);
+        return $this->handlers['widget']->widgets($location, $type);
     }
 
     /**

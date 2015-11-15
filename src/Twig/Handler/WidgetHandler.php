@@ -9,7 +9,7 @@ use Silex;
  *
  * @internal
  */
-class WidgetsHandler
+class WidgetHandler
 {
     /** @var \Silex\Application */
     private $app;
