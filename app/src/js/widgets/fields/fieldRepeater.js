@@ -16,6 +16,15 @@
      */
     $.widget('bolt.fieldRepeater', /** @lends jQuery.widget.bolt.fieldRepeater.prototype */ {
         /**
+         * Default options.
+         *
+         * @property {string} name - Prefix for field names
+         */
+        options: {
+            name: ''
+        },
+
+        /**
          * The constructor of the repeater field widget.
          *
          * @private
