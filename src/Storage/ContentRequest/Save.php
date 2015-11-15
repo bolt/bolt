@@ -200,16 +200,9 @@ class Save
             return;
         }
 
-        $entities = [];
-        foreach ($formValues['relation'] as $contentType => $relations) {
-            $repo = $this->em->getRepository($contentType);
-            foreach ($relations as $id) {
-                if ($relation = $repo->find($id)) {
-                    $entities[$contentType][] = $relation;
-                }
-            }
-        }
-        $content->setRelation($entities);
+        $related = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+        $related->setFromPost($formValues, $content);
+        $content->setTaxonomy($related);
     }
 
     /**
