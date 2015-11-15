@@ -74,13 +74,11 @@
         bolt.omnisearch.init();
         bolt.extend.init();
 
-        bolt.activity.init();
         bolt.ckeditor.init();
         bolt.datetime.init();
 
         legacyInit();
-        bolt.buic.init();
-        bolt.fields.init();
+        bolt.app.initWidgets();
     };
 
     /**
@@ -91,6 +89,38 @@
      */
     app.buid = function () {
         return 'buid-' + buid++;
+    };
+
+    /**
+     * Initializes all bolt widgets in the given context or global.
+     *
+     * @function initWidgets
+     * @memberof Bolt.app
+     * @param {Object} context -
+     */
+    app.initWidgets = function (context) {
+        if (typeof context === 'undefined') {
+            context = $(document.documentElement);
+        }
+
+        // Initialze all uninitialized widgets.
+        $('[data-bolt-widget]', context).each(function () {
+            var element = $(this),
+                conf = element.data('bolt-widget'),
+                type;
+
+            if (typeof conf === 'object') {
+                type = conf._;
+                delete conf._;
+            } else {
+                type = conf;
+                conf = {};
+            }
+
+            element[type](conf)
+                .removeAttr('data-bolt-widget')
+                .removeData('bolt-widget');
+        });
     };
 
     /*

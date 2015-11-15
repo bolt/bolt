@@ -55,6 +55,7 @@
 {% extends '@bolt/_base/_fieldset.twig' %}
 
 {% block fieldset_type 'imagelist' %}
+{% block fieldset_widget 'fieldImagelist' %}
 
 {% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  option.info %}
@@ -78,7 +79,7 @@
         </div>
 
         {# Progress info #}
-        <div class="buic-progress"></div>
+        <div class="buic-progress" data-bolt-widget="buicProgress"></div>
 
         {# Buttons #}
         {% set can_upload = context.can.upload and option.can_upload %}

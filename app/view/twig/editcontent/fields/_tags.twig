@@ -24,10 +24,11 @@
 {% extends '@bolt/_base/_fieldset.twig' %}
 
 {% block fieldset_type 'tags' %}
+{% block fieldset_widget 'fieldTags' %}
 
 {% set fieldset_conf = {
     slug: taxonomy.slug,
-    allow_spaces: taxonomy.allow_spaces,
+    allowSpaces: taxonomy.allow_spaces,
 }%}
 
 {% block fieldset_label_text  taxonomy.name %}

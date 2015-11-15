@@ -59,6 +59,7 @@
 {% extends '@bolt/_base/_fieldset.twig' %}
 
 {% block fieldset_type 'select' %}
+{% block fieldset_widget 'fieldSelect' %}
 
 {% set fieldset_conf = {
     autocomplete: field.autocomplete|default(false)

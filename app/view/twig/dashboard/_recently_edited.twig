@@ -7,7 +7,7 @@
         <h3>{{ __('contenttypes.generic.recently-edited', {'%contenttypes%': contenttype}) }}</h3>
 </div>
 
-<div class="buic-listing">
+<div class="buic-listing" data-bolt-widget="buicListing">
     <table class="table dashboardlisting listing">
         {% for content in multiplecontent %}
             {% set listing_vars = {

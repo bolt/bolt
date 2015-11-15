@@ -1,8 +1,6 @@
 /**
- * BUIC listing widget.
- *
- * @param {object} $ - Global jQuery object
- * @param {object} bolt - Global Bolt object
+ * @param {Object} $    - Global jQuery object
+ * @param {Object} bolt - The Bolt module
  */
 (function ($, bolt) {
     'use strict';
@@ -16,7 +14,7 @@
      * @class buicListing
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.buicListing', /** @lends jQuery.widget.bolt.buicListing */ {
+    $.widget('bolt.buicListing', /** @lends jQuery.widget.bolt.buicListing.prototype */ {
         /**
          * The constructor of the listing widget.
          *

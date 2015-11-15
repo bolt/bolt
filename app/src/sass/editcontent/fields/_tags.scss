@@ -1,0 +1,26 @@
+/*** Fieldset: Tags ***/
+
+fieldset.bolt-field-tags {
+    .tagcloud {
+        display: none;
+        margin-top: 6px;
+        padding: 3px 1px;
+        background: #fafafa;
+        border-radius: 10px;
+        text-align: center;
+
+        button {
+            background: none;
+            border: none;
+            padding: 1px 2px;
+            margin: 1px 2px;
+            vertical-align: middle;
+            line-height: 1;
+
+            &:hover {
+                text-decoration: underline;
+                cursor: copy;
+            }
+        }
+    }
+}

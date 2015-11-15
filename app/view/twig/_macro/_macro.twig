@@ -186,10 +186,10 @@
         {# Button: Upload #}
         {% if canUpload %}
             <span class="btn btn-tertiary btn-sm fileinput-button">
-            	<i class="fa fa-upload"></i>
-            	<span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
-            	<input{{ attr(attr_upload) }}>
-        	</span>
+                <i class="fa fa-upload"></i>
+                <span>{{ (type == 'image') ? __('Upload image') : __('Upload file') }}</span>
+                <input{{ attr(attr_upload) }}>
+            </span>
         {% else %}
             <button type="button" class="btn btn-sm" disabled="disabled">
                 {{ __('Upload not allowed') }}

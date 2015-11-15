@@ -1,0 +1,23 @@
+/*** Fieldset: Repeater ***/
+
+fieldset.bolt-field-repeater {
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    padding-bottom: 20px;
+    margin-bottom: 15px;
+
+    >label.main {
+        margin-top: 10px;
+        float: none;
+        padding-left: 0px;
+    }
+
+    .repeater-add {
+        float: right;
+    }
+
+    .repeater-group {
+        border: 1px solid #ddd;
+        margin: 15px;
+    }
+}

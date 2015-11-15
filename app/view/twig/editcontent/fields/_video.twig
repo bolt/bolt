@@ -6,88 +6,106 @@
 } %}
 
 {#=== INIT ===========================================================================================================#}
-{% set randid = random() %}
-{% set video = context.content.get(contentkey) %}
 
-{% set videotitle = (video.title is defined) ? '"<b>' ~ video.title|trimtext(18) ~ '</b>" by ' ~ video.authorname|trimtext(18) %}
+{% set preview_w = 200 %}
+{% set preview_h = 150 %}
+
+{% set modal_id = buid() %}
+
+{% set video = context.content.get(contentkey) %}
 
 {% set attributes = {
     url: {
-        _bind:        ['video', {key: key}],
-        class:        'form-control',
-        id:           'video-' ~ key,
+        class:        'form-control url',
+        id:           buid(),
         name:         name ~ '[url]',
         placeholder:  __('field.video.placeholder.url') ~ ' …',
         type:         'url',
-        value:        video.url|default(''),
-        data_video:   'main',
+        value:        video.url|default('')
     },
 
     width: {
-        class:      'form-control',
-        id:         'video-' ~ key ~ '-width',
+        class:      'form-control width',
+        id:         buid(),
         name:       name ~ '[width]',
         type:       'number',
-        value:      video.width|default(''),
-        data_video: 'width',
+        value:      video.width|default('')
     },
 
     height: {
-        class:      'form-control',
-        id:         'video-' ~ key ~ '-height',
+        class:      'form-control height',
+        id:         buid(),
         name:       name ~ '[height]',
         type:       'number',
-        value:      video.height|default(''),
-        data_video: 'height',
+        value:      video.height|default('')
     },
 
     hid_ratio: {
-        id:         'video-' ~ key ~ '-ratio',
+        class:      'ratio',
         name:       name ~ '[ratio]',
         type:       'hidden',
-        value:      video.ratio|default(''),
-        data_video: 'ratio',
+        value:      video.ratio|default('')
     },
 
     hid_title: {
-        id:         'video-' ~ key ~ '-title',
+        class:      'form-control title',
         name:       name ~ '[title]',
-        type:       'hidden',
-        value:      video.title|default(''),
-        data_video: 'title',
+        readonly:   true,
+        title:      __('Title'),
+        type:       'text',
+        value:      video.title|default('')
     },
 
     hid_authorname: {
-        id:         'video-' ~ key ~ '-author_name',
+        class:      'form-control authorname',
         name:       name ~ '[authorname]',
-        type:       'hidden',
+        readonly:   true,
+        title:      __('Author'),
+        type:       'text',
         value:      video.authorname|default(''),
-        data_video: 'authorname',
     },
 
     hid_authorurl: {
-        id:         'video-' ~ key ~ '-author_url',
+        class:      'authorurl',
         name:       name ~ '[authorurl]',
         type:       'hidden',
         value:      video.authorurl|default(''),
-        data_video: 'authorurl',
     },
 
     hid_html: {
-        id:         'video-' ~ key ~ '-html',
+        class:      'html',
         name:       name ~ '[html]',
         type:       'hidden',
-        value:      (video.html is defined ? video.html|replace({'"': '\''}) : ''),
-        data_video: 'html',
+        value:      (video.html is defined ? video.html|replace({'"': '\''}) : '')
     },
 
     hid_thumbnail: {
-        id:         'video-' ~ key ~ '-thumbnail',
+        class:      'thumbnailurl',
         name:       name ~ '[thumbnail]',
         type:       'hidden',
         value:      video.thumbnail|default(''),
-        data_video: 'thumbnail',
-    }
+    },
+
+    preview: {
+        alt:       __('field.video.label.preview'),
+        height:    preview_h,
+        src:       video.thumbnail|default(app.paths.app ~ 'view/img/default_empty_4x3.png'),
+        width:     preview_w,
+    },
+
+    play: {
+        class:     video.html|default() ? '' : 'hidden',
+        href:      '#' ~ modal_id,
+        type:      'button',
+        role:     'button',
+        'data-toggle':  'modal',
+    },
+
+    refresh: {
+        class:     'btn btn-default refresh',
+        type:      'button',
+        disabled:  video.url|default('')|length <= 2 or video.html|default() ? true : false,
+    },
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -95,6 +113,7 @@
 {% extends '@bolt/_base/_fieldset.twig' %}
 
 {% block fieldset_type 'video' %}
+{% block fieldset_widget 'fieldVideo' %}
 
 {% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  option.info %}
@@ -104,71 +123,59 @@
     <div class="col-sm-8">
         <div class="form-group">
             <div class="col-sm-12">
-                <label>{{ __('field.video.label.url') }}</label>
-                <input{{ macro.attr(attributes.url) }}>
+                <label for="{{ attributes.url.id }}">{{ __('field.video.label.url') }}</label>
+                <div class="input-group">
+                    <input{{ hattr(attributes.url) }}>
+                    <span class="input-group-btn">
+                        <button{{ hattr(attributes.refresh) }}><i class="fa fa-refresh"></i></button>
+                    </span>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-sm-2">{{ __('field.video.label.size') }}</label>
             <div class="col-sm-10 form-inline">
-                <label for="{{ 'video-' ~ key ~ '-width' }}" class="sr-only">{{ __('field.video.width') }}</label>
-                <input{{ macro.attr(attributes.width) }}> ×
-                <label for="{{ 'video-' ~ key ~ '-height' }}" class="sr-only">{{ __('field.video.height') }}</label>
-                <input{{ macro.attr(attributes.height) }}>
-                <label class='label-pixels'>{{ __('field.video.pixel') }}</label>
+                <label for="{{ attributes.width.id }}" class="sr-only">{{ __('field.video.width') }}</label>
+                <input{{ hattr(attributes.width) }}> ×
+                <label for="{{ attributes.height.id }}" class="sr-only">{{ __('field.video.height') }}</label>
+                <input{{ hattr(attributes.height) }}>
+                <label class="label-pixels">{{ __('field.video.pixel') }}</label>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-9">
+            <div class="col-sm-12">
                 <label>{{ __('field.video.matched-video') }}</label>
-                <p id="video-{{ key }}-text">{{ videotitle|raw }}</p>
+                <input{{ hattr(attributes.hid_title) }}>
+                <input{{ hattr(attributes.hid_authorname) }}>
             </div>
 
-            <div class="hidden-xs col-sm-3">
-                <span class="pull-right">
-                    <a href="#modal-{{ randid }}" role="button" class="btn btn-default" data-toggle="modal">
-                    <i class="fa fa-youtube-play"></i>
-                    {{ __('field.video.button.preview') }}</a>
-                </span>
-            </div>
-
-            <input{{ macro.attr(attributes.hid_ratio) }}>
-            <input{{ macro.attr(attributes.hid_title) }}>
-            <input{{ macro.attr(attributes.hid_authorname) }}>
-            <input{{ macro.attr(attributes.hid_authorurl) }}>
-            <input{{ macro.attr(attributes.hid_html) }}>
-            <input{{ macro.attr(attributes.hid_thumbnail) }}>
+            <input{{ hattr(attributes.hid_ratio) }}>
+            <input{{ hattr(attributes.hid_authorurl) }}>
+            <input{{ hattr(attributes.hid_html) }}>
+            <input{{ hattr(attributes.hid_thumbnail) }}>
         </div>
     </div>
 
     <div class="col-sm-4">
-        <div class="right-on-large">{# to make the preview align right on wide screens #}
+        <div class="right-on-large">
             <label>{{ __('field.video.label.preview') }}</label>
-            <div class="imageholder" id="thumbnail-{{ key }}" data-video="thumbcontainer">
-                {% if video.thumbnail|default('') %}
-                    <img data-video="thumbimage" src="{{ video.thumbnail }}" width="200" height="150" alt="{{ __('field.video.label.preview') }}">
-                {% else %}
-                    <img src="{{ app.paths.app }}view/img/default_empty_4x3.png" width="200" height="150" alt="{{ __('No preview image') }}">
-                {% endif %}
+            <div class="imageholder">
+                <img{{ hattr(attributes.preview) }}>
+                <button{{ hattr(attributes.play) }}></button>
             </div>
         </div>
     </div>
 
     {# Modal video preview #}
-    <div class="modal" id="modal-{{ randid }}" tabindex="-1" role="dialog" aria-hidden="true" data-video="modal">
+    <div class="modal" id="{{ modal_id }}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body">
-                    {% if video.html is defined %}
-                        {{ video.html }}
-                    {% else %}
-                        <p>{{ __('field.video.preview.no-url') }}</p>
-                    {% endif %}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-tertiary " data-dismiss="modal" aria-hidden="true">{{ __('field.video.preview.button.close') }}</button>
+                    <button type="button" class="btn btn-tertiary" data-dismiss="modal" aria-hidden="true">{{ __('field.video.preview.button.close') }}</button>
                 </div>
             </div>
         </div>

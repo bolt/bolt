@@ -99,7 +99,7 @@
             jq.find('[data-bolt-field]').each(function() {
                 // Find form field
                 var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']');
-                var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
+                var fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
 
                 $(this).addClass('bolt-editable');
 
@@ -182,7 +182,7 @@
             // Find form field
             var fieldName = $(this).data('bolt-field');
             var field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName) + ']');
-            var fieldType = field.closest('[data-fieldtype]').data('fieldtype');
+            var fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
             var fieldValue = '';
 
             if (fieldType === 'html') {

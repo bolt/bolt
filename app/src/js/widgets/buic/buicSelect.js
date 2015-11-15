@@ -1,7 +1,5 @@
 /**
- * BUIC select widget.
- *
- * @param {object} $ - Global jQuery object
+ * @param {Object} $ - Global jQuery object
  */
 (function ($) {
     'use strict';
@@ -15,7 +13,7 @@
      * @class buicSelect
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.buicSelect', /** @lends jQuery.widget.bolt.buicSelect */ {
+    $.widget('bolt.buicSelect', /** @lends jQuery.widget.bolt.buicSelect.prototype */ {
         /**
          * The constructor of the select widget.
          *

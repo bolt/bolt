@@ -84,12 +84,8 @@
 
 {% extends '@bolt/_base/_fieldset.twig' %}
 
-{% set fieldset_conf = {
-    height: preview_h,
-    width: preview_w,
-}%}
-
 {% block fieldset_type 'image' %}
+{% block fieldset_widget 'fieldImage' %}
 
 {% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  option.info %}
@@ -119,7 +115,7 @@
                 {% endfor %}
 
                 {# Progressbar #}
-                <div class="buic-progress"></div>
+                <div class="buic-progress" data-bolt-widget="buicProgress"></div>
 
                 {# Uploadbuttons #}
                 {{ macro.upload_buttons('image', hattr.upload, option.upload, context.can.upload and option.can_upload) }}

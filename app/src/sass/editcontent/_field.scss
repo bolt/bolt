@@ -1,0 +1,27 @@
+/*** Styles for all Fieldsets ***/
+
+fieldset[class*=' bolt-field-'], fieldset[class^='bolt-field-'] {
+    /*** Label ***/
+
+    label, .control-label {
+        font-weight: normal;
+        font-size: 13px;
+        color: #808080;
+    }
+
+    // Main label.
+    label.main {
+        color: #282828;
+        font-weight: normal;
+        font-size: 16px;
+        margin-bottom: 6px;
+    }
+
+    /*** Info popup ***/
+
+    .info-pop {
+        cursor: help;
+        color: #bbb;
+        padding-left: 4px;
+    }
+}

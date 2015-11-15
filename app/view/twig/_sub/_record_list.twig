@@ -27,7 +27,7 @@
     {% endset %}
 
     {% if not async %}
-        <div class="buic-listing" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
+        <div class="buic-listing" data-bolt-widget="buicListing" data-contenttype="{{ contenttype.slug }}" data-bolt_csrf_token="{{ token() }}">
     {% endif %}
         <table class="{{ extra_classes }} dashboardlisting listing">
             {% for content in multiplecontent %}

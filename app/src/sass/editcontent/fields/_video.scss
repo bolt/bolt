@@ -1,0 +1,76 @@
+/*** Fieldset: Video ***/
+
+fieldset.bolt-field-video {
+
+    input[type=number] {
+        width: 30% !important;      // Reset from _editcontent.scss
+        min-width: 10px !important; // Reset from _editcontent.scss
+        max-width: 100px;
+    }
+
+    .form-inline .form-control {
+        display: inline-block;
+        width: 100%;
+        vertical-align: middle;
+    }
+
+    .label-pixels {
+        display: inline;
+    }
+
+    .title, .authorname {
+        box-shadow: none;
+        font-size: 13px !important;
+        line-height: 13px !important;
+        cursor: text;
+        padding: 1px 6px;
+        height: auto;
+        text-overflow: ellipsis;
+    }
+
+    .authorname {
+        margin-top: 4px;
+    }
+
+    .imageholder {
+        position: relative;
+
+        button {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 200px;
+            height: 100%;
+            background: none;
+            border: none;
+            color: #000;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #d00;
+            }
+
+            &:after {
+                $width: 40px;
+                $height: 20px;
+
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: $width;
+                height: $height;
+                margin-left: -$width/2;
+                margin-top: -$height/2;
+                background: #fff;
+                line-height: 0.6;
+                text-align: center;
+                font-family: fontawesome;
+                font-size: 300%;
+                content: "\f16a"
+            }
+        }
+    }
+}

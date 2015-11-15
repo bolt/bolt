@@ -37,6 +37,7 @@
 {% extends '@bolt/_base/_fieldset.twig' %}
 
 {% block fieldset_type 'file' %}
+{% block fieldset_widget 'fieldFile' %}
 
 {% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  option.info %}
@@ -48,7 +49,7 @@
         <input{{ macro.attr(attributes.filepath) }}>
 
         {# Progressbar #}
-        <div class="buic-progress"></div>
+        <div class="buic-progress" data-bolt-widget="buicProgress"></div>
 
         {# Uploadbuttons #}
         {{ macro.upload_buttons('file', attributes.upload, option.upload, can_upload) }}
