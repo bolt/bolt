@@ -204,13 +204,13 @@ class UsersRepository extends Repository
     /**
      * Null sensitive data that doesn't need to be passed around.
      *
-     * @param Entity\Users $userEntity
+     * @param Entity\Users $entity
      */
-    protected function unsetSensitiveFields(Entity\Users $userEntity)
+    protected function unsetSensitiveFields(Entity\Users $entity)
     {
-        $userEntity->setPassword(null);
-        $userEntity->setShadowpassword(null);
-        $userEntity->setShadowtoken(null);
-        $userEntity->setShadowvalidity(null);
+        $entity->setPassword(null);
+        $entity->setShadowpassword(null);
+        $entity->setShadowtoken(null);
+        $entity->setShadowvalidity(null);
     }
 }
