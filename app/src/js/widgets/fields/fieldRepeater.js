@@ -103,6 +103,7 @@
 
             this._ui.slot.append(newSet);
             this._count++;
+            this._renumber();
         },
 
         /**
@@ -133,6 +134,29 @@
             bolt.app.initWidgets(cloned);
 
             return cloned;
+        },
+
+        /**
+         * Renumbers group input names.
+         *
+         * @private
+         * @function clone
+         * @memberof Bolt.fields.repeater
+         */
+        _renumber: function () {
+            var name = this.options.name,
+                nameEsc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+                re = new RegExp('^' + nameEsc + '\\\[(#|\\\d)\\\]');
+
+            //console.log('_renumber');
+            this._ui.slot.find('div.repeater-group').each(function (index, group) {
+                //console.log('  Group ' + index + ':');
+
+                $(group).find('[name]').each(function () {
+                    this.name = this.name.replace(re, name + '[' + index + ']');
+                    //console.log('  - ' + this.name + ' => ' +this.name.replace(re, name + '[' + index + ']'));
+                });
+            });
         }
     });
 })(jQuery, Bolt);
