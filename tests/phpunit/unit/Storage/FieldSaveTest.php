@@ -28,12 +28,13 @@ class FieldSaveTest extends BoltUnitTest
             $this->assertNotEmpty($entry->slug);
         }
 
-        $record->setRelation([]);
+        $newRels = $em->createCollection('Bolt\Storage\Entity\Relations');
+        $record->setRelation($newRels);
         $em->save($record);
 
         // Test that there are no relations now on a fresh search
         $record1 = $repo->find(1);
-        $this->assertNull($record1->relation);
+        $this->assertEquals(0, count($record1->relation));
     }
 
     public function testTaxonomySave()

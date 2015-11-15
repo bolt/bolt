@@ -176,6 +176,9 @@ abstract class FieldTypeBase implements FieldTypeInterface
         $compiled = [];
 
         foreach ($normalized as $key => $value) {
+            if ($value === null) {
+                continue;
+            }
             foreach (explode(',', $value) as $i => $val) {
                 $compiled[$i][$key] = $val;
             }

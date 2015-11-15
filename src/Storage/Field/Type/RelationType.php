@@ -1,7 +1,8 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\EntityProxy;
+use Bolt\Storage\Collection;
+use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
@@ -12,10 +13,10 @@ use Doctrine\DBAL\Query\QueryBuilder;
  * the lifecycle of a field from pre-query to persist.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class RelationType extends FieldTypeBase
 {
-    use RelationTypeTrait;
 
     /**
      * Relation fields can allow filters on the relations fetched. For now this is limited
@@ -79,7 +80,10 @@ class RelationType extends FieldTypeBase
             $alias = $from[0]['table'];
         }
 
-        $query->addSelect($this->getPlatformGroupConcat("$field.to_id", $field, $query))
+        // Standard relation fetch
+        $query
+            ->addSelect($this->getPlatformGroupConcat("$field.id", '_' . $field . '_id', $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.to_id", '_' . $field . '_toid', $query))
             ->leftJoin($alias, $target, $field, "$alias.id = $field.from_id AND $field.from_contenttype='$boltname' AND $field.to_contenttype='$field'")
             ->addGroupBy("$alias.id");
     }
@@ -90,12 +94,24 @@ class RelationType extends FieldTypeBase
     public function hydrate($data, $entity)
     {
         $field = $this->mapping['fieldname'];
-        $relations = array_filter(explode(',', $data[$field]));
-        $values = $entity->getRelation();
-        foreach ($relations as $id) {
-            $values[$field][] = new EntityProxy($field, $id, $this->em);
+        $data = $this->normalizeData($data, $field);
+        if (!count($entity->getRelation())) {
+            $entity->setRelation($this->em->createCollection('Bolt\Storage\Entity\Relations'));
         }
-        $entity->setRelation($values);
+
+        $fieldRels = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+        foreach ($data as $relData) {
+            $rel = [];
+            $rel['id'] = $relData['id'];
+            $rel['from_id'] = $entity->getId();
+            $rel['from_contenttype'] = (string)$entity->getContenttype();
+            $rel['to_contenttype'] = $field;
+            $rel['to_id'] = $relData['toid'];
+            $relEntity = new Entity\Relations($rel);
+            $entity->getRelation()->add($relEntity);
+            $fieldRels->add($relEntity);
+        }
+        $this->set($entity, $fieldRels);
     }
 
     /**
@@ -104,29 +120,32 @@ class RelationType extends FieldTypeBase
     public function persist(QuerySet $queries, $entity)
     {
         $field = $this->mapping['fieldname'];
-        $relations = $entity->getRelation();
+        $relations = $entity->getRelation()
+            ->getField($field);
 
-        $relations[$field] = isset($relations[$field]) ? $this->filterArray($relations[$field]) : [];
-        // Fetch existing relations
-        $result = $this->getExistingRelations($entity);
-        $existing = array_map(
-            function ($el) {
-                return isset($el['to_id']) ? $el['to_id'] : [];
-            },
-            $result
+
+        // Fetch existing relations and create two sets of records, updates and deletes.
+        $existingDB = $this->getExistingRelations($entity) ?: [];
+        $collection = $this->em->createCollection('Bolt\Storage\Entity\Relations');
+        $collection->setFromDatabaseValues($existingDB);
+        $toDelete = $collection->update($relations);
+        $repo = $this->em->getRepository('Bolt\Storage\Entity\Relations');
+
+        // Add a listener to the main query save that sets the from ID on save and then saves the relations
+        $queries->onResult(
+            function ($query, $result, $id) use ($repo, $collection, $toDelete) {
+                foreach ($collection as $entity) {
+                    $entity->from_id = $id;
+                    $repo->save($entity);
+                }
+
+                foreach ($toDelete as $entity) {
+                    $repo->delete($entity);
+                }
+            }
         );
-        $proposed = array_map(
-            function ($el) {
-                return $el ? $el->getId() : [];
-            },
-            isset($relations[$field]) ? $relations[$field] : []
-        );
 
-        $toInsert = array_diff($proposed, $existing);
-        $toDelete = array_diff($existing, $proposed);
 
-        $this->appendInsertQueries($queries, $entity, $toInsert);
-        $this->appendDeleteQueries($queries, $entity, $toDelete);
     }
 
     /**
@@ -135,6 +154,31 @@ class RelationType extends FieldTypeBase
     public function getName()
     {
         return 'relation';
+    }
+
+    /**
+     * Get existing relationship records.
+     *
+     * @param mixed $entity
+     *
+     * @return array
+     */
+    protected function getExistingRelations($entity)
+    {
+        $query = $this->em->createQueryBuilder()
+            ->select('*')
+            ->from($this->mapping['target'])
+            ->where('from_id = :from_id')
+            ->andWhere('from_contenttype = :from_contenttype')
+            ->andWhere('to_contenttype = :to_contenttype')
+            ->setParameters([
+                'from_id'          => $entity->id,
+                'from_contenttype' => $entity->getContenttype(),
+                'to_contenttype'   => $this->mapping['fieldname'],
+            ]);
+        $result = $query->execute()->fetchAll();
+
+        return $result ?: [];
     }
 
     /**
@@ -149,14 +193,13 @@ class RelationType extends FieldTypeBase
     protected function getPlatformGroupConcat($column, $alias, QueryBuilder $query)
     {
         $platform = $query->getConnection()->getDatabasePlatform()->getName();
-
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT(DISTINCT $column) as $alias";
+                return "GROUP_CONCAT($column) as $alias";
             case 'sqlite':
-                return "GROUP_CONCAT(DISTINCT $column) as $alias";
+                return "GROUP_CONCAT($column) as $alias";
             case 'postgresql':
-                return "string_agg(distinct $column, ',') as $alias";
+                return "string_agg($column, ',') as $alias";
         }
     }
 }

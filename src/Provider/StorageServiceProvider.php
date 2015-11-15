@@ -121,6 +121,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'html'                             => 'Bolt\Storage\Field\Type\HtmlType',
             'image'                            => 'Bolt\Storage\Field\Type\ImageType',
             'imagelist'                        => 'Bolt\Storage\Field\Type\ImageListType',
+            'incomingrelation'                 => 'Bolt\Storage\Field\Type\IncomingRelationType',
             'integer'                          => 'Bolt\Storage\Field\Type\IntegerType',
             'markdown'                         => 'Bolt\Storage\Field\Type\MarkdownType',
             'relation'                         => 'Bolt\Storage\Field\Type\RelationType',
@@ -160,6 +161,12 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['storage.relations_collection'] = $app->protect(
+            function () use ($app) {
+                return new Collection\Relations([], $app['storage']);
+            }
+        );
+
         $app['storage.taxonomy_collection'] = $app->protect(
             function () use ($app) {
                 return new Collection\Taxonomy([], $app['storage.metadata']);
@@ -169,6 +176,7 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.collection_manager'] = $app->share(
             function ($app) {
                 $manager = new Collection\CollectionManager();
+                $manager->setHandler('Bolt\Storage\Entity\Relations', $app['storage.relations_collection']);
                 $manager->setHandler('Bolt\Storage\Entity\Taxonomy', $app['storage.taxonomy_collection']);
 
                 return $manager;

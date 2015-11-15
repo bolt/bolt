@@ -121,7 +121,7 @@ class Edit
             'change_ownership'   => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':change-ownership:' . $content->getId()),
         ];
         $contextHas = [
-            'incoming_relations' => is_array($content->relation),
+            'incoming_relations' => count($content->getRelation()->incoming($content)),
             'relations'          => isset($contentType['relations']),
             'tabs'               => $contentType['groups'] !== false,
             'taxonomy'           => isset($contentType['taxonomy']),
