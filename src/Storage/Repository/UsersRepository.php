@@ -10,9 +10,8 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class UsersRepository extends Repository
 {
+    private $userEntities = [];
 
-    private $userEntities = array();
-    
     /**
      * Delete a user.
      *
@@ -199,6 +198,15 @@ class UsersRepository extends Repository
             ->setParameter('shadowvalidity', date('Y-m-d H:i:s'));
 
         return $qb;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function save($entity, $silent = null)
+    {
+        $this->userEntities = [];
+        return parent::save($entity, $silent);
     }
 
     /**
