@@ -42,8 +42,7 @@
              * @memberOf jQuery.widget.bolt.fieldRepeater.prototype
              * @private
              *
-             * @property {Object} edit   - Edit button.
-             * @property {Object} copy   - Copy button.
+             * @property {Object} slot - Group container
              */
             this._ui = {
                 slot: self.element.find('.repeater-slot')
