@@ -3,14 +3,13 @@
 
     <div class="panel-body">
         {% for rkey, rfield in field.fields %}
-            {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
             {% set rfield = rfield|merge({'canUpload': field.canUpload}) %}
             {% set rcontext = {
-                'key': rkey,
-                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
+                'key':        rkey,
+                'name':       name ~ '[' ~ index ~ '][' ~ rkey ~ '][]',
                 'contentkey': rkey,
-                'field': rfield,
-                'labelkey': rlabelkey,
+                'field':      rfield,
+                'labelkey':   rfield.label ?: rkey|ucfirst,
             } %}
             <div class="col-xs-12">
                 {% include context.fields[rfield.type].template with rcontext %}
