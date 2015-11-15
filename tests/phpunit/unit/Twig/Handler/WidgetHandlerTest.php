@@ -24,7 +24,7 @@ class WidgetHandlerTest extends BoltUnitTest
         ;
 
         $app['asset.queue.widget']->add($widget);
-        $count = $handler->countWidgets('gum-tree', 'frontend');
+        $count = $handler->countWidgets('frontend', 'gum-tree');
         $this->assertSame(1, $count);
     }
 
@@ -39,7 +39,7 @@ class WidgetHandlerTest extends BoltUnitTest
         ;
 
         $app['asset.queue.widget']->add($widget);
-        $result = $handler->getWidgets('gum-tree', 'frontend');
+        $result = $handler->getWidgets('frontend', 'gum-tree');
         $this->assertCount(1, $result);
 
         $this->assertInstanceOf('Bolt\Asset\Widget\Widget', reset($result));
@@ -50,7 +50,7 @@ class WidgetHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new WidgetHandler($app);
 
-        $this->assertFalse($handler->hasWidgets('gum-tree', 'frontend'));
+        $this->assertFalse($handler->hasWidgets('frontend', 'gum-tree'));
 
         $widget = (new Widget())
             ->setType('frontend')
@@ -60,7 +60,7 @@ class WidgetHandlerTest extends BoltUnitTest
 
         $app['asset.queue.widget']->add($widget);
 
-        $this->assertTrue($handler->hasWidgets('gum-tree', 'frontend'));
+        $this->assertTrue($handler->hasWidgets('frontend', 'gum-tree'));
     }
 
     public function testWidget()
