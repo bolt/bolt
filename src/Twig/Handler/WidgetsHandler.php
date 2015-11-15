@@ -2,10 +2,6 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Helpers\Html;
-use Bolt\Helpers\Str;
-use Bolt\Legacy\Content;
-use Maid\Maid;
 use Silex;
 
 /**
