@@ -10,6 +10,8 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class UsersRepository extends Repository
 {
+    private $userEntities = [];
+
     /**
      * Delete a user.
      *
@@ -20,6 +22,9 @@ class UsersRepository extends Repository
      */
     public function deleteUser($userId)
     {
+        // Forget remembered users.
+        $this->userEntities = [];
+
         $query = $this->deleteUserQuery($userId);
 
         return $query->execute();
@@ -57,10 +62,18 @@ class UsersRepository extends Repository
      */
     public function getUser($userId)
     {
+        // Check if we've already retrieved this user.
+        if (isset($this->userEntities[$userId])) {
+            return $this->userEntities[$userId];
+        }
+
         $query = $this->getUserQuery($userId);
         if ($userEntity = $this->findOneWith($query)) {
             $this->unsetSensitiveFields($userEntity);
         }
+
+        // Remember the user
+        $this->userEntities[$userId] = $userEntity;
 
         return $userEntity;
     }
@@ -188,10 +201,22 @@ class UsersRepository extends Repository
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function save($entity, $silent = null)
+    {
+        $this->userEntities = [];
+        return parent::save($entity, $silent);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function update($entity, $exclusions = [])
     {
+        // Forget remembered users.
+        $this->userEntities = [];
+
         if ($entity->getPassword() === null) {
             $result = parent::update($entity, ['password']);
         } else {
