@@ -104,7 +104,7 @@
             });
 
             self._ui.group.on('dblclick', function () {
-                self._unlock(false);
+                self._unlock();
             });
 
             self._ui.edit.on('click', function () {
@@ -112,7 +112,7 @@
             });
 
             if (self.options.isEmpty) {
-                self._unlock(false);
+                self._unlock();
             }
         },
 
@@ -143,11 +143,10 @@
          * Unlocks the slug field.
          *
          * @private
-         * @param {boolean} doConfirm - Open a confirmation dialog before unlocking
+         * @param {boolean} [doConfirm=false] - Open a confirmation dialog before unlocking
          */
         _unlock: function (doConfirm) {
-            // Only ask for confirmation when using the button. Not on doubleclick.
-            if (!doConfirm || confirm(bolt.data('field.slug.message.unlock'))) {
+            if (doConfirm !== true || confirm(bolt.data('field.slug.message.unlock'))) {
                 this._ui.group
                     .removeClass('locked')
                     .addClass('unlocked');
