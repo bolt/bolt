@@ -115,6 +115,34 @@ class Queue implements QueueInterface
     }
 
     /**
+     * Get the number of queued widgets.
+     *
+     * @return boolean
+     */
+    public function hasItemsInQueue($type, $location)
+    {
+        return (boolean) $this->countItemsInQueue($type, $location);
+    }
+
+    /**
+     * Get the number of queued widgets.
+     *
+     * @return boolean
+     */
+    public function countItemsInQueue($type, $location)
+    {
+        $count = 0;
+
+        foreach ($this->queue as $widget) {
+            if ($widget->getType() === $type && $widget->getLocation() === $location) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
+    /**
      * Render a location's widget.
      *
      * @param string $type
