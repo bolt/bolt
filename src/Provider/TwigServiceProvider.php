@@ -1,15 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
-use Bolt\Twig\Handler\AdminHandler;
-use Bolt\Twig\Handler\ArrayHandler;
-use Bolt\Twig\Handler\HtmlHandler;
-use Bolt\Twig\Handler\ImageHandler;
-use Bolt\Twig\Handler\RecordHandler;
-use Bolt\Twig\Handler\TextHandler;
-use Bolt\Twig\Handler\UserHandler;
-use Bolt\Twig\Handler\UtilsHandler;
-use Bolt\Twig\Handler\WidgetHandler;
+use Bolt\Twig\Handler;
 use Bolt\Twig\TwigExtension;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -28,15 +20,15 @@ class TwigServiceProvider implements ServiceProviderInterface
                 return new \Pimple(
                     [
                         // @codingStandardsIgnoreStart
-                        'admin'  => $app->share(function () use ($app) { return new AdminHandler($app); }),
-                        'array'  => $app->share(function () use ($app) { return new ArrayHandler($app); }),
-                        'html'   => $app->share(function () use ($app) { return new HtmlHandler($app); }),
-                        'image'  => $app->share(function () use ($app) { return new ImageHandler($app); }),
-                        'record' => $app->share(function () use ($app) { return new RecordHandler($app); }),
-                        'text'   => $app->share(function () use ($app) { return new TextHandler($app); }),
-                        'user'   => $app->share(function () use ($app) { return new UserHandler($app); }),
-                        'utils'  => $app->share(function () use ($app) { return new UtilsHandler($app); }),
-                        'widget' => $app->share(function () use ($app) { return new WidgetHandler($app); }),
+                        'admin'  => $app->share(function () use ($app) { return new Handler\AdminHandler($app); }),
+                        'array'  => $app->share(function () use ($app) { return new Handler\ArrayHandler($app); }),
+                        'html'   => $app->share(function () use ($app) { return new Handler\HtmlHandler($app); }),
+                        'image'  => $app->share(function () use ($app) { return new Handler\ImageHandler($app); }),
+                        'record' => $app->share(function () use ($app) { return new Handler\RecordHandler($app); }),
+                        'text'   => $app->share(function () use ($app) { return new Handler\TextHandler($app); }),
+                        'user'   => $app->share(function () use ($app) { return new Handler\UserHandler($app); }),
+                        'utils'  => $app->share(function () use ($app) { return new Handler\UtilsHandler($app); }),
+                        'widget' => $app->share(function () use ($app) { return new Handler\WidgetHandler($app); }),
                         // @codingStandardsIgnoreEnd
                     ]
                 );
