@@ -78,6 +78,12 @@
 
                 setToDelete.remove();
             });
+
+            // Add initial group if there is none.
+            if (self._count === 0) {
+                self._ui.slot.append(self._clone(self._template));
+                self._count++;
+            }
         },
 
         /**
