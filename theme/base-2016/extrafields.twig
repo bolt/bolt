@@ -5,7 +5,7 @@
 <div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
 <div class="flex container margin padding popUppers">
         <article class="eight s-twelve">
-            {{ widgets('frontend', 'main_top') }}
+            {{ widgets('main_top') }}
             <h1 data-bolt-field="title">{{ record.title }}</h1>
             {% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'title', 'subtitle', 'ownerid', 'templatefields'] %}
                 {% if record.fieldtype(key) == "imagelist" and value is not empty %}
@@ -68,14 +68,14 @@
                 </ul>
                 </p>
             {% endif %}
-            {{ widgets('frontend', 'main_bottom') }}
+            {{ widgets('main_bottom') }}
         </article>
         <article class="four m-twelve">
-            {{ widgets('frontend', 'aside_top') }}
+            {{ widgets('aside_top') }}
             <h2 data-bolt-field="templatefields[section_1]">{{ record.templatefields.section_1 }}</h2>
             {{ popup(record.templatefields.image, 440, 0) }}
             <div data-bolt-field="templatefields[section_2]">{{ record.templatefields.section_2 }}</div>
-            {{ widgets('frontend', 'aside_bottom') }}
+            {{ widgets('aside_bottom') }}
          </article>
     </div>
 {% endblock %}
