@@ -1,0 +1,20 @@
+<div class="repeater-group row panel panel-default">
+    {% include '@bolt/editcontent/fields/_repeater-header.twig' %}
+
+    <div class="panel-body">
+        {% for rkey, rfield in field.fields %}
+            {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
+            {% set rfield = rfield|merge({'canUpload': field.canUpload}) %}
+            {% set rcontext = {
+                'key': rkey,
+                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
+                'contentkey': rkey,
+                'field': rfield,
+                'labelkey': rlabelkey,
+            } %}
+            <div class="col-xs-12">
+                {% include context.fields[rfield.type].template with rcontext %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
