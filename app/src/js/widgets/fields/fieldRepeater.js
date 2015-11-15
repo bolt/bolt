@@ -84,9 +84,12 @@
 
             self.element.on('click', '.duplicate-button', function () {
                 var setToDuplicate = $(this).closest('.repeater-group'),
-                    duplicatedSet = self._clone(setToDuplicate);
+                    //duplicatedSet = self._clone(setToDuplicate),
+                    newSet = self._clone(this._template);
 
-                setToDuplicate.after(duplicatedSet);
+                // TODO: Copy values from source to destination sets.
+
+                setToDuplicate.after(newSet);
                 self._setCount(1);
                 self._renumber();
             });
