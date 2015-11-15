@@ -40,6 +40,10 @@ trait ContentRouteTrait
      */
     public function link()
     {
+        if (empty($this->app)) {
+            $this->app = \Bolt\Configuration\ResourceManager::getApp();
+        }
+
         if (empty($this->id)) {
             return null;
         }
