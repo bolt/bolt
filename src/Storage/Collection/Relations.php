@@ -46,13 +46,13 @@ class Relations extends ArrayCollection
         }
         foreach ($flatVals as $field => $values) {
             foreach ($values as $val) {
-                $taxentity = new Entity\Relations([
+                $newentity = new Entity\Relations([
                     'from_contenttype' => (string)$entity->getContenttype(),
                     'from_id' => $entity->getId(),
                     'to_contenttype' => $field,
                     'to_id' => $val
                 ]);
-                $this->add($taxentity);
+                $this->add($newentity);
             }
         }
     }
