@@ -95,24 +95,24 @@ script:
   - rm ./* -rf ; rm .git* -rf
   - mv .tmp/* .
   # Set up MySQL
-  - mysql -e "DROP DATABASE bolt_travis;" -u root
-  - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
-  - mysql -e "GRANT ALL PRIVILEGES ON bolt_travis.* TO 'bolt_travis'@'localhost';" -u root
-  - mysql -e "FLUSH PRIVILEGES;" -u root
+  # - mysql -e "DROP DATABASE bolt_travis;" -u root
+  # - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
+  # - mysql -e "GRANT ALL PRIVILEGES ON bolt_travis.* TO 'bolt_travis'@'localhost';" -u root
+  # - mysql -e "FLUSH PRIVILEGES;" -u root
   # Set up PostgreSQL
-  - psql -c "DROP DATABASE bolt_travis;" -U postgres
-  - psql -c "CREATE DATABASE bolt_travis;" -U postgres
-  - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
+  # - psql -c "DROP DATABASE bolt_travis;" -U postgres
+  # - psql -c "CREATE DATABASE bolt_travis;" -U postgres
+  # - psql -c "GRANT ALL PRIVILEGES ON DATABASE bolt_travis TO bolt_travis;" -U postgres
   # Codeception set up (PHP >5.3)
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept build  --config ./vendor/bolt/bolt/codeception.yml ; fi
   # Codeception Sqlite run (PHP >5.3)
   - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
   # Codeception MySQL run (PHP >5.3)
-  - ./vendor/bolt/bolt/tests/travis/test-db-config mysql
-  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
+  # - ./vendor/bolt/bolt/tests/travis/test-db-config mysql
+  # - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
   # Codeception PostgreSQL run (PHP >5.3)
-  - ./vendor/bolt/bolt/tests/travis/test-db-config postgres
-  - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
+  # - ./vendor/bolt/bolt/tests/travis/test-db-config postgres
+  # - if [[ $TRAVIS_PHP_VERSION =~ (^5.[456]|^7|^hhvm) ]]; then ./vendor/codeception/codeception/codecept run --config ./vendor/bolt/bolt/codeception.yml ; fi
 
 after_script:
 
