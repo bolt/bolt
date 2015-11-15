@@ -9,12 +9,21 @@
 
 {% set attributes = {
     slug: {
-        class:  'form-control',
+        class: 'form-control',
         id:    key,
         name:  name,
         type:  'hidden',
         value: context.content.get(key),
     }
+} %}
+
+{% set trans = {
+    label_alias:     __('Unique Alias'),
+    label_permalink: __('field.slug.permalink'),
+    menu_copy:       __('field.slug.button.copy'),
+    menu_edit:       __('field.slug.button.edit'),
+    menu_lock:       __('field.slug.button.lock'),
+    menu_unlock:     __('field.slug.button.unlock'),
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -32,7 +41,7 @@
 {% block fieldset_type 'slug' %}
 {% block fieldset_widget 'fieldSlug' %}
 
-{% block fieldset_label_text option.viewless ? __('Unique Alias') : __('field.slug.permalink') %}
+{% block fieldset_label_text option.viewless ? trans.label_alias : trans.label_permalink %}
 {% block fieldset_label_class 'col-sm-12' %}
 
 {% block fieldset_controls %}
@@ -46,16 +55,16 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li class="copy">
-                        <a href="#"><i class="fa fa-fw fa-copy"></i> {{ __('field.slug.button.copy') }}</a>
+                        <a href="#"><i class="fa fa-fw fa-copy"></i> {{ trans.menu_copy }}</a>
                     </li>
                     <li class="lock">
-                        <a href="#"><i class="fa fa-fw fa-lock"></i> {{ __('field.slug.button.lock') }}</a>
+                        <a href="#"><i class="fa fa-fw fa-lock"></i> {{ trans.menu_lock }}</a>
                     </li>
                     <li class="unlock">
-                        <a href="#"><i class="fa fa-fw fa-unlock-alt"></i> {{ __('field.slug.button.unlock') }} …</a>
+                        <a href="#"><i class="fa fa-fw fa-unlock-alt"></i> {{ trans.menu_unlock }} …</a>
                     </li>
                     <li class="edit">
-                        <a href="#"><i class="fa fa-fw fa-pencil"></i> {{ __('field.slug.button.edit') }} …</a>
+                        <a href="#"><i class="fa fa-fw fa-pencil"></i> {{ trans.menu_edit }} …</a>
                     </li>
                 </ul>
             </div>
