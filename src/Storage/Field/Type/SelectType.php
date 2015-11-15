@@ -16,4 +16,12 @@ class SelectType extends FieldTypeBase
     {
         return 'select';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStorageType()
+    {
+        return Type::getType('text');
+    }
 }
