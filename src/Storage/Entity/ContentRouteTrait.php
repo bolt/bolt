@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage\Entity;
 
+use Bolt\Configuration\ResourceManager;
+
 /**
  * Trait class for ContentType routing.
  *
@@ -41,7 +43,7 @@ trait ContentRouteTrait
     public function link()
     {
         if (empty($this->app)) {
-            $this->app = \Bolt\Configuration\ResourceManager::getApp();
+            $this->app = ResourceManager::getApp();
         }
 
         if (empty($this->id)) {
