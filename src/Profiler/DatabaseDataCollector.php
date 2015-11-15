@@ -66,7 +66,7 @@ class DatabaseDataCollector extends DataCollector
 
         $return = [];
         foreach ($queries as $query) {
-            foreach($cruftarray as $cruft) {
+            foreach ($cruftarray as $cruft) {
                 if (strpos($query['sql'], $cruft) !== false) {
                     continue(2);
                 }
