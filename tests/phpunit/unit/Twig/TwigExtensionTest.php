@@ -605,7 +605,7 @@ class TwigExtensionTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $handlers = $this->getTwigHandlers($app);
-        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'widget');
+        $handlers['widget'] = $this->getMockHandler('WidgetHandler', 'widget');
         $twig = new TwigExtension($app, $handlers, true);
 
         $twig->widget(null, null);
