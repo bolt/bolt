@@ -18,10 +18,12 @@
         /**
          * Default options.
          *
-         * @property {string} name - Prefix for field names
+         * @property {number} limit - Maximum number ouf groups, 0 means unlimited
+         * @property {string} name  - Prefix for field names
          */
         options: {
-            name: ''
+            limit: '',
+            name:  ''
         },
 
         /**
