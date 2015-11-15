@@ -13,6 +13,21 @@ use Bolt\Twig\Handler\WidgetHandler;
  */
 class WidgetHandlerTest extends BoltUnitTest
 {
+    public function testCountWidgets()
+    {
+        $app = $this->getApp();
+        $handler = new WidgetHandler($app);
+        $widget = (new Widget())
+            ->setType('frontend')
+            ->setLocation('gum-tree')
+            ->setContent('<blink>Drop Bear Warning!</blink>')
+        ;
+
+        $app['asset.queue.widget']->add($widget);
+        $count = $handler->countWidgets('gum-tree', 'frontend');
+        $this->assertSame(1, $count);
+    }
+
     public function testWidget()
     {
         $app = $this->getApp();
