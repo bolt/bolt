@@ -48,10 +48,21 @@
              */
             this._template = $(self.element.find('script[type="text/template"]').html());
 
+            /**
+             * The repeater template.
+             *
+             * @type {Object}
+             * @name _template
+             * @memberOf jQuery.widget.bolt.fieldRepeater.prototype
+             * @private
+             */
+            this._count = self._ui.slot.find('div.repeater-group').length;
+
             self.element.on('click', '.add-button', function () {
                 var newSet = self._clone(self._template);
 
                 self._ui.slot.append(newSet);
+                self._count++;
             });
 
             self.element.on('click', '.duplicate-button', function () {
@@ -59,6 +70,7 @@
                     duplicatedSet = self._clone(setToDuplicate);
 
                 setToDuplicate.after(duplicatedSet);
+                self._count++;
             });
 
             self.element.on('click', '.delete-button', function () {
