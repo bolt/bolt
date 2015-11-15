@@ -23,8 +23,8 @@ class Users extends BaseTable
         $this->table->addColumn('displayname',    'string',     ['length' => 32]);
         $this->table->addColumn('stack',          'json_array', ['notnull' => false]);
         $this->table->addColumn('enabled',        'boolean',    ['default' => true]);
-        $this->table->addColumn('shadowpassword', 'string',     ['length' => 128, 'default' => '']);
-        $this->table->addColumn('shadowtoken',    'string',     ['length' => 128, 'default' => '']);
+        $this->table->addColumn('shadowpassword', 'string',     ['length' => 128, 'notnull' => false, 'default' => null]);
+        $this->table->addColumn('shadowtoken',    'string',     ['length' => 128, 'notnull' => false, 'default' => null]);
         $this->table->addColumn('shadowvalidity', 'datetime',   ['notnull' => false, 'default' => null]);
         $this->table->addColumn('failedlogins',   'integer',    ['default' => 0]);
         $this->table->addColumn('throttleduntil', 'datetime',   ['notnull' => false, 'default' => null]);

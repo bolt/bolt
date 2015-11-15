@@ -110,9 +110,9 @@ class RepositoryTest extends BoltUnitTest
         $repo = $em->getRepository($entityName);
 
         $newUser = [
-            'username'    => 'test',
-            'password'    => 'fake',
-            'email'       => 'testuser@example.com',
+            'username'    => 'koala',
+            'password'    => 'dr0pbe@r',
+            'email'       => 'koala@dropbear.com.au',
             'displayname' => 'Test User',
             'lastip'      => '127.0.0.1'
         ];
@@ -123,7 +123,7 @@ class RepositoryTest extends BoltUnitTest
         $result = $repo->findOneBy(['displayname' => 'Test User']);
 
         $this->assertInstanceOf($entityName, $result);
-        $this->assertEquals('test', $result->getUsername());
+        $this->assertEquals('koala', $result->getUsername());
         $this->assertEquals(1, $this->eventCount['preSave']);
         $this->assertEquals(1, $this->eventCount['postSave']);
     }

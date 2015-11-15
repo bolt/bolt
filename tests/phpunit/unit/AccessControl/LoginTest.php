@@ -22,17 +22,17 @@ class LoginTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
             ->method('error')
-            ->with($this->equalTo('Invalid login parameters.'));
-        $app['logger.flash'] = $logger;
+            ->with($this->equalTo('Login function called with empty username/password combination, or no authentication token.'));
+        $app['logger.system'] = $logger;
 
         $login = new Login($app);
         $request = new Request();
 
-        $response = $login->login($request);
-        $this->assertFalse($response);
+        $this->setExpectedException('Bolt\Exception\AccessControlException', 'Invalid login parameters.');
+        $login->login($request);
     }
 
     public function testLoginInvalidUsername()

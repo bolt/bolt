@@ -46,8 +46,8 @@ class Password
             $password = $this->app['randomgenerator']->generateString(12);
 
             $userEntity->setPassword($password);
-            $userEntity->setShadowpassword('');
-            $userEntity->setShadowtoken('');
+            $userEntity->setShadowpassword(null);
+            $userEntity->setShadowtoken(null);
             $userEntity->setShadowvalidity(null);
 
             $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
@@ -74,16 +74,18 @@ class Password
         // Hash the remote caller's IP with the token
         $tokenHash = md5($token . '-' . str_replace('.', '-', $remoteIP));
 
-        if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUserShadowAuth($tokenHash)) {
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        if ($userEntity = $repo->getUserShadowAuth($tokenHash)) {
+            $userAuth = $repo->getUserAuthData($userEntity->getId());
             // Update entries
-            $userEntity->setPassword($userEntity->getShadowpassword());
-            $userEntity->setShadowpassword('');
-            $userEntity->setShadowtoken('');
+            $userEntity->setPassword($userAuth->getShadowpassword());
+            $userEntity->setShadowpassword(null);
+            $userEntity->setShadowtoken(null);
             $userEntity->setShadowvalidity(null);
-            $userEntity->setShadowSave(true);
 
             $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->save($userEntity);
 
+            $this->app['logger.flash']->clear();
             $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
 
             return true;
@@ -110,6 +112,7 @@ class Password
 
         if (!$userEntity) {
             // For safety, this is the message we display, regardless of whether user exists.
+            $this->app['logger.flash']->clear();
             $this->app['logger.flash']->info(Trans::__("A password reset link has been sent to '%user%'.", ['%user%' => $username]));
 
             return false;

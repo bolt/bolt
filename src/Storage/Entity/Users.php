@@ -17,7 +17,6 @@ namespace Bolt\Storage\Entity;
  * @method string    getShadowvalidity()
  * @method integer   getFailedlogins()
  * @method \DateTime getThrottleduntil()
- * @method boolean   getShadowSave()
  * @method setId($id)
  * @method setUsername($username)
  * @method setPassword($password)
@@ -43,8 +42,8 @@ class Users extends Entity
     protected $displayname;
     protected $stack = [];
     protected $enabled;
-    protected $shadowpassword = '';
-    protected $shadowtoken = '';
+    protected $shadowpassword;
+    protected $shadowtoken;
     protected $shadowvalidity;
     protected $failedlogins = 0;
     protected $throttleduntil;

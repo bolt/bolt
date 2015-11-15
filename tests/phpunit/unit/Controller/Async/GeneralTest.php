@@ -29,6 +29,7 @@ class GeneralTest extends ControllerUnitTest
         $this->allowLogin($app);
         $this->setRequest(Request::create('/async'));
         $request = $this->getRequest();
+        $request->cookies->set($app['token.authentication.name'], 'dropbear');
 
         $kernel = $this->getMock('Symfony\\Component\\HttpKernel\\HttpKernelInterface');
         $app['dispatcher']->dispatch(KernelEvents::REQUEST, new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST));

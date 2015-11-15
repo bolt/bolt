@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\AccessControl;
 
+use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Repository\AuthtokenRepository;
 use Bolt\Storage\Repository\UsersRepository;
@@ -36,7 +37,7 @@ class AccessChecker
     /** @var array */
     protected $cookieOptions;
     /** @var boolean */
-    protected $validsession;
+    protected $validSession;
     /** @var string */
     protected $remoteIP;
     /** @var string */
@@ -116,8 +117,12 @@ class AccessChecker
      */
     public function isValidSession($authCookie)
     {
-        if ($this->validsession !== null) {
-            return $this->validsession;
+        if ($authCookie === null) {
+            throw new AccessControlException('Can not validate session with an empty token.');
+        }
+
+        if ($this->validSession !== null) {
+            return $this->validSession;
         }
 
         $check = false;
@@ -129,14 +134,14 @@ class AccessChecker
         }
 
         if (!$check) {
-            // Eithter the session keys don't match, or the session is too old
+            // Either the session keys don't match, or the session is too old
             $check = $this->checkSessionDatabase($authCookie);
         }
 
         if ($check) {
-            return $this->validsession = true;
+            return $this->validSession = true;
         }
-        $this->validsession = false;
+        $this->validSession = false;
         $this->systemLogger->debug("Clearing sessions for expired or invalid token: $authCookie", ['event' => 'authentication']);
 
         return $this->revokeSession();

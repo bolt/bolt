@@ -2,6 +2,7 @@
 namespace Bolt\AccessControl;
 
 use Bolt\AccessControl\Token\Token;
+use Bolt\Exception\AccessControlException;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
@@ -51,6 +52,8 @@ class Login extends AccessChecker
      * @param string  $userName
      * @param string  $password
      *
+     * @throws AccessControlException
+     *
      * @return boolean
      */
     public function login(Request $request, $userName = null, $password = null)
@@ -67,9 +70,8 @@ class Login extends AccessChecker
             return $this->loginCheckAuthtoken($authCookie);
         }
 
-        $this->flashLogger->error(Trans::__('Invalid login parameters.'));
-
-        return false;
+        $this->systemLogger->error('Login function called with empty username/password combination, or no authentication token.', ['event' => 'security']);
+        throw new AccessControlException('Invalid login parameters.');
     }
 
     /**
@@ -86,11 +88,17 @@ class Login extends AccessChecker
             return false;
         }
 
-        $crypt = new PasswordLib();
-        if (!$crypt->verifyPasswordHash($password, $userEntity->getPassword())) {
-            $this->loginFailed($userEntity);
+        $userAuth = $this->repositoryUsers->getUserAuthData($userEntity->getId());
+        if ($userAuth->getPassword() === null || $userAuth->getPassword() === '') {
+            $this->systemLogger->alert("Attempt to login to an account with empty password field '$userName'", ['event' => 'security']);
+            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
 
-            return false;
+            return $this->loginFailed($userEntity);
+        }
+
+        $check = (new PasswordLib())->verifyPasswordHash($password, $userAuth->getPassword());
+        if (!$check) {
+            return $this->loginFailed($userEntity);
         }
 
         return $this->loginFinish($userEntity);
@@ -168,7 +176,6 @@ class Login extends AccessChecker
             return false;
         }
 
-        $userEntity->setPassword('**dontchange**');
         $tokenEntity = $this->updateAuthToken($userEntity);
         $token = new Token($userEntity, $tokenEntity);
 
@@ -182,6 +189,8 @@ class Login extends AccessChecker
      * Add error messages to logs and update the user.
      *
      * @param Entity\Users $userEntity
+     *
+     * @return false
      */
     protected function loginFailed(Entity\Users $userEntity)
     {
@@ -191,8 +200,10 @@ class Login extends AccessChecker
         // Update the failed login attempts, and perhaps throttle the logins.
         $userEntity->setFailedlogins($userEntity->getFailedlogins() + 1);
         $userEntity->setThrottleduntil($this->throttleUntil($userEntity->getFailedlogins() + 1));
-        unset($userEntity->password);
+        $userEntity->setPassword(null);
         $this->repositoryUsers->save($userEntity);
+
+        return false;
     }
 
     /**
@@ -211,7 +222,7 @@ class Login extends AccessChecker
         $userEntity = $this->updateUserShadowLogin($userEntity);
 
         // Don't try to save the password on login
-        unset($userEntity->password);
+        $userEntity->setPassword(null);
         if ($this->repositoryUsers->save($userEntity)) {
             $this->flashLogger->success(Trans::__("You've been logged on successfully."));
 
@@ -231,8 +242,8 @@ class Login extends AccessChecker
     protected function updateUserShadowLogin(Entity\Users $userEntity)
     {
         if (Carbon::now() > $userEntity->getShadowvalidity()) {
-            $userEntity->setShadowpassword('');
-            $userEntity->setShadowtoken('');
+            $userEntity->setShadowpassword(null);
+            $userEntity->setShadowtoken(null);
             $userEntity->setShadowvalidity(null);
         }
 

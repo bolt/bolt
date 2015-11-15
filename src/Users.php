@@ -225,14 +225,13 @@ class Users
         }
 
         try {
-            if (!$tempusers = $this->repository->findAll()) {
+            if (!$tempusers = $this->repository->getUsers()) {
                 return [];
             }
 
             /** @var \Bolt\Storage\Entity\Users $userEntity */
             foreach ($tempusers as $userEntity) {
                 $id = $userEntity->getId();
-                $userEntity->setPassword('**dontchange**');
                 $this->users[$id] = $userEntity->toArray();
             }
         } catch (TableNotFoundException $e) {
@@ -274,8 +273,6 @@ class Users
         // Fallback: See if we can get it by username or email address.
         try {
             if ($userEntity = $this->repository->getUser($userId)) {
-                $userEntity->setPassword('**dontchange**');
-
                 return $userEntity->toArray();
             }
         } catch (TableNotFoundException $e) {

@@ -35,8 +35,9 @@ class UserAddTest extends BoltUnitTest
         // Test that the saved value matches the hash
         $repo = $app['storage']->getRepository('Bolt\Storage\Entity\Users');
         $userEntity = $repo->getUser('test');
+        $userAuth = $repo->getUserAuthData($userEntity->getId());
         $crypt = new PasswordLib();
-        $auth = $crypt->verifyPasswordHash('testPass', $userEntity->getPassword());
+        $auth = $crypt->verifyPasswordHash('testPass', $userAuth->getPassword());
         $this->assertTrue($auth);
     }
 

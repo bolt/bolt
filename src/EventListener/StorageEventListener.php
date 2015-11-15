@@ -6,6 +6,7 @@ use Bolt\Config;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
+use Bolt\Exception\AccessControlException;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Entity;
@@ -135,14 +136,32 @@ class StorageEventListener implements EventSubscriberInterface
      */
     protected function passwordHash(Entity\Users $usersEntity)
     {
-        if ($usersEntity->getShadowSave()) {
-            return;
-        } elseif ($usersEntity->getPassword() && $usersEntity->getPassword() !== '**dontchange**') {
-            $crypt = new PasswordLib();
-            $usersEntity->setPassword($crypt->createPasswordHash($usersEntity->getPassword(), '$2a$', ['cost' => $this->hashStrength]));
-        } else {
-            unset($usersEntity->password);
+        if ($usersEntity->getPassword() !== null) {
+            $usersEntity->setPassword($this->getValidHash($usersEntity->getPassword()));
         }
+    }
+
+    /**
+     * Return a valid hash for a password, of if the password is already hashed
+     * just return as is.
+     *
+     * @param string $password
+     *
+     * @return string
+     */
+    private function getValidHash($password)
+    {
+        if (strlen($password) === 60 && strpos($password, '$2y$') === 0) {
+            return $password;
+        }
+        if (strlen($password) === 34 && strpos($password, '$P$') === 0) {
+            return $password;
+        }
+        if (strlen($password) < 6) {
+            throw new AccessControlException('Can not save a password with a length shorter than 6 characters!');
+        }
+
+        return (new PasswordLib())->createPasswordHash($password, '$2y$', ['cost' => $this->hashStrength]);
     }
 
     /**
@@ -152,9 +171,7 @@ class StorageEventListener implements EventSubscriberInterface
      */
     protected function enableUser(Entity\Users $usersEntity)
     {
-        if ($usersEntity->getShadowSave()) {
-            return;
-        } elseif ($usersEntity->getId() === null) {
+        if ($usersEntity->getId() === null) {
             $usersEntity->setEnabled(true);
         }
     }

@@ -50,16 +50,19 @@ class UsersRepository extends Repository
     /**
      * Get a user.
      *
-     * @param string|integer $userId Either the user's ID, username, or email
-     *                               address.
+     * @param string|integer $userId  Either the user's ID, username, or email
+     *                                address.
      *
      * @return Entity\Users|false
      */
     public function getUser($userId)
     {
         $query = $this->getUserQuery($userId);
+        if ($userEntity = $this->findOneWith($query)) {
+            $this->unsetSensitiveFields($userEntity);
+        }
 
-        return $this->findOneWith($query);
+        return $userEntity;
     }
 
     /**
@@ -82,6 +85,56 @@ class UsersRepository extends Repository
         $qb->setParameter('userId', $userId);
 
         return $qb;
+    }
+
+    /**
+     * Get a user's authentication data.
+     *
+     * @param string|integer $userId
+     *
+     * @return Entity\Users|false
+     */
+    public function getUserAuthData($userId)
+    {
+        $query = $this->getUserAuthDataQuery($userId);
+
+        return $this->findOneWith($query);
+    }
+
+    /**
+     * Get the user fetch query.
+     *
+     * @param string|integer $userId
+     *
+     * @return QueryBuilder
+     */
+    public function getUserAuthDataQuery($userId)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->select('id')
+            ->addSelect('password')
+            ->addSelect('shadowpassword')
+            ->where('id = :userId')
+            ->setParameter('userId', $userId);
+
+        return $qb;
+    }
+
+    /**
+     * Get all the system users.
+     *
+     * @return Entity\Users[]|false
+     */
+    public function getUsers()
+    {
+        $userEntities = $this->findAll();
+        if ($userEntities) {
+            foreach ($userEntities as $userEntity) {
+                $this->unsetSensitiveFields($userEntity);
+            }
+        }
+
+        return $userEntities;
     }
 
     /**
@@ -139,13 +192,25 @@ class UsersRepository extends Repository
      */
     public function update($entity, $exclusions = [])
     {
-        $password = $entity->getPassword(); // PHP 5.4 compatibility
-        if (empty($password) || $entity->getPassword() === '**dontchange**') {
+        if ($entity->getPassword() === null) {
             $result = parent::update($entity, ['password']);
         } else {
             $result = parent::update($entity);
         }
 
         return $result;
+    }
+
+    /**
+     * Null sensitive data that doesn't need to be passed around.
+     *
+     * @param Entity\Users $entity
+     */
+    protected function unsetSensitiveFields(Entity\Users $entity)
+    {
+        $entity->setPassword(null);
+        $entity->setShadowpassword(null);
+        $entity->setShadowtoken(null);
+        $entity->setShadowvalidity(null);
     }
 }
