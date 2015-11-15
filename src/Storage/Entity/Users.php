@@ -17,7 +17,6 @@ namespace Bolt\Storage\Entity;
  * @method string    getShadowvalidity()
  * @method integer   getFailedlogins()
  * @method \DateTime getThrottleduntil()
- * @method boolean   getShadowSave()
  * @method setId($id)
  * @method setUsername($username)
  * @method setPassword($password)

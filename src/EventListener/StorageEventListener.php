@@ -136,9 +136,7 @@ class StorageEventListener implements EventSubscriberInterface
      */
     protected function passwordHash(Entity\Users $usersEntity)
     {
-        if ($usersEntity->getShadowSave()) {
-            return;
-        } elseif ($usersEntity->getPassword() !== null) {
+        if ($usersEntity->getPassword() !== null) {
             $usersEntity->setPassword($this->getValidHash($usersEntity->getPassword()));
         }
     }
@@ -173,9 +171,7 @@ class StorageEventListener implements EventSubscriberInterface
      */
     protected function enableUser(Entity\Users $usersEntity)
     {
-        if ($usersEntity->getShadowSave()) {
-            return;
-        } elseif ($usersEntity->getId() === null) {
+        if ($usersEntity->getId() === null) {
             $usersEntity->setEnabled(true);
         }
     }
