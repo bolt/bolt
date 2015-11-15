@@ -251,7 +251,7 @@ class RecordHandler
      */
     public function selectField($content, $fieldName, $startempty = false, $keyName = 'id')
     {
-        $retval = $startempty ? [] : [''];
+        $retval = $startempty ? [] : ['' => ''];
 
         if (empty($content)) {
             return $retval;

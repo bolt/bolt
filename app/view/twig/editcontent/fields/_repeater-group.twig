@@ -1,0 +1,34 @@
+<div class="repeater-group row panel panel-default">
+    <div class="panel-heading text-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-default duplicate-button">
+                <i class="fa fa-copy"></i> {{ __('Duplicate Set') }}
+            </button>
+            <button type="button" class="btn btn-sm btn-silent-danger delete-button">
+                <i class="fa fa-trash"></i> {{ __('Delete Set') }}
+            </button>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        {% set defaults = {
+            class:      '',
+            label:      '',
+            variant:    '',
+            canUpload:  field.canUpload,
+        } %}
+        {% for rkey, rfield in field.fields %}
+            {% set rfield = defaults|merge(rfield) %}
+            {% set rcontext = {
+                'key':        rkey,
+                'name':       name ~ '[' ~ index ~ '][' ~ rkey ~ ']',
+                'contentkey': rkey,
+                'field':      rfield,
+                'labelkey':   rfield.label|default(rkey|ucfirst),
+            } %}
+            <div class="col-xs-12">
+                {% include context.fields[rfield.type].template with rcontext %}
+            </div>
+        {% endfor %}
+    </div>
+</div>

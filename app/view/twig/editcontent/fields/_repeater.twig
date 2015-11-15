@@ -1,7 +1,14 @@
 {% set repeatfieldvals = context.content.get('contentkey') %}
 {% set labelkey = field.label ?: key|ucfirst %}
 
-<fieldset class="bolt-field-repeater" data-bolt-widget="fieldRepeater">
+{% set data_bolt_widget = {
+    _:       'fieldRepeater',
+    minimum: 1,
+    maximum: field.limit|default(0),
+    name:    name,
+} %}
+
+<fieldset class="bolt-field-repeater" data-bolt-widget="{{ data_bolt_widget|json_encode }}">
     <legend class="sr-only">{{ labelkey }}</legend>
     <label class="main col-xs-12">{{ labelkey }}</label>
 
@@ -13,53 +20,13 @@
     {% endif %}
 
     <div class="repeater-slot">
-
-        <script type="text/template" id="{{ name }}_template">
-            <div class="repeater-group row panel panel-default">
-                {% include '@bolt/editcontent/fields/_repeater-header.twig' %}
-                <div class="panel-body">
-                    {% for rkey, rfield in field.fields %}
-                        {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
-                        {% set rfield = rfield|merge({'canUpload': field.canUpload}) %}
-                        <div class="col-xs-12">
-                            {% include context.fields[rfield.type].template with {
-                                'key': rkey,
-                                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
-                                'contentkey': rkey,
-                                'field': rfield,
-                                'labelkey': rlabelkey,
-                            } %}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
+        <script type="text/template">
+            {% set index = '#' %}
+            {% include '@bolt/editcontent/fields/_repeater-group.twig' %}
         </script>
 
-        {# In cases where we don't have any values set, the we show a single set of fields by default #}
-        {% if not repeatfieldvals.length %}
-            <div class="repeater-group row panel panel-default">
-                {% include '@bolt/editcontent/fields/_repeater-header.twig' %}
-                <div class="panel-body">
-                    {% for rkey, rfield in field.fields %}
-                        {% set rlabelkey = rfield.label ?: rkey|ucfirst %}
-                        {% set rfield = rfield|merge({'canUpload': field.canUpload}) %}
-                        <div class="col-xs-12">
-                            {% include context.fields[rfield.type].template with {
-                                'key': rkey,
-                                'name': name ~ '['~index~'][' ~ rkey ~ '][]',
-                                'contentkey': rkey,
-                                'field': rfield,
-                                'labelkey': rlabelkey
-                            } %}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        {% else %}
-            {% for repeatfieldset in repeatfieldvals %}
-
-            {% endfor %}
-        {% endif %}
+        {% for repeatfieldset in repeatfieldvals %}
+        {% endfor %}
     </div>
 
     <div class="repeater-add">
@@ -67,5 +34,4 @@
             <i class="fa fa-plus"></i> Add new {{ labelkey }} set
         </button>
     </div>
-
 </fieldset>
