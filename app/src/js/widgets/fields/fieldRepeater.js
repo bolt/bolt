@@ -23,10 +23,19 @@
         _create: function () {
             var self = this;
 
+            /**
+             * The repeater template.
+             *
+             * @type {Object}
+             * @name _template
+             * @memberOf jQuery.widget.bolt.fieldRepeater.prototype
+             * @private
+             */
+            this._template = $(self.element.find('script[type="text/template"]').html());
+
             self.element.on('click', '.add-button', function () {
-                var template = self.element.find('script[type="text/template"]').html(),
-                    slot = self.element.find('.repeater-slot'),
-                    newSet = self._clone($(template));
+                var slot = self.element.find('.repeater-slot'),
+                    newSet = self._clone(this._template);
 
                 slot.append(newSet);
             });
