@@ -26,7 +26,7 @@
 
                 <img src="{{ app.paths.app }}view/img/bolt-logo.png" width="150" height="62" alt="Bolt" class="logo">
 
-                {{ widget('backend', 'login_top') }}
+                {{ widgets('login_top', 'backend') }}
 
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -35,13 +35,13 @@
                     </div>
                 </div>
 
-                {{ widget('backend', 'login_middle') }}
+                {{ widgets('login_middle', 'backend') }}
 
                 {% if context.randomquote|default(false) %}
                     <blockquote class="quote">{{ randomquote() }}</blockquote>
                 {% endif %}
 
-                {{ widget('backend', 'login_bottom') }}
+                {{ widgets('login_bottom', 'backend') }}
 
             </div>
         </div>

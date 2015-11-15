@@ -49,6 +49,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('backtrace',          [$this, 'printBacktrace']),
             new \Twig_SimpleFunction('buid',               [$this, 'buid'],        $safe),
             new \Twig_SimpleFunction('cachehash',          [$this, 'cacheHash'],   $safe),
+            new \Twig_SimpleFunction('countwidgets',       [$this, 'countWidgets'],  $safe),
             new \Twig_SimpleFunction('current',            [$this, 'current']),
             new \Twig_SimpleFunction('data',               [$this, 'addData']),
             new \Twig_SimpleFunction('dump',               [$this, 'printDump']),
@@ -59,6 +60,8 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('first',              'twig_first',           $env + $deprecated),
             new \Twig_SimpleFunction('getuser',            [$this, 'getUser']),
             new \Twig_SimpleFunction('getuserid',          [$this, 'getUserId']),
+            new \Twig_SimpleFunction('getwidgets',         [$this, 'getWidgets'],  $safe),
+            new \Twig_SimpleFunction('haswidgets',         [$this, 'hasWidgets'],  $safe),
             new \Twig_SimpleFunction('hattr',              [$this, 'hattr'],       $safe),
             new \Twig_SimpleFunction('hclass',             [$this, 'hclass'],      $safe),
             new \Twig_SimpleFunction('htmllang',           [$this, 'htmlLang']),
@@ -84,7 +87,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
             new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated),
             new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
-            new \Twig_SimpleFunction('widget',             [$this, 'widget'],      $safe),
+            new \Twig_SimpleFunction('widgets',            [$this, 'widgets'],      $safe),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -213,6 +216,14 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
+     * @see \Bolt\Twig\Handler\WidgetHandler::countWidgets()
+     */
+    public function countWidgets($location = '', $type = 'frontend')
+    {
+        return $this->handlers['widget']->countWidgets($location, $type);
+    }
+
+    /**
      * @see \Bolt\Twig\Handler\RecordHandler::current()
      */
     public function current($content)
@@ -266,6 +277,22 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function getUserId($who)
     {
         return $this->handlers['user']->getUserId($who);
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\WidgetHandler::getWidgets()
+     */
+    public function getWidgets()
+    {
+        return $this->handlers['widget']->getWidgets();
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\WidgetHandler::hasWidgets()
+     */
+    public function hasWidgets($location = '', $type = 'frontend')
+    {
+        return $this->handlers['widget']->hasWidgets($location, $type);
     }
 
     /**
@@ -585,11 +612,11 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * @see \Bolt\Twig\Handler\AdminHandler::widget()
+     * @see \Bolt\Twig\Handler\WidgetHandler::widgets()
      */
-    public function widget($type = '', $location = '')
+    public function widgets($location = '', $type = 'frontend')
     {
-        return $this->handlers['html']->widget($type, $location);
+        return $this->handlers['widget']->widgets($location, $type);
     }
 
     /**

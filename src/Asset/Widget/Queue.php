@@ -115,10 +115,44 @@ class Queue implements QueueInterface
     }
 
     /**
+     * Get the number of queued widgets.
+     *
+     * @param string $type     Either 'frontend' or 'backend'
+     * @param string $location Location (e.g. 'dashboard_aside_top')
+     *
+     * @return boolean
+     */
+    public function hasItemsInQueue($type, $location)
+    {
+        return (boolean) $this->countItemsInQueue($type, $location);
+    }
+
+    /**
+     * Get the number of queued widgets.
+     *
+     * @param string $type     Either 'frontend' or 'backend'
+     * @param string $location Location (e.g. 'dashboard_aside_top')
+     *
+     * @return boolean
+     */
+    public function countItemsInQueue($type, $location)
+    {
+        $count = 0;
+
+        foreach ($this->queue as $widget) {
+            if ($widget->getType() === $type && $widget->getLocation() === $location) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
+    /**
      * Render a location's widget.
      *
-     * @param string $type
-     * @param string $location
+     * @param string $type     Either 'frontend' or 'backend'
+     * @param string $location Location (e.g. 'dashboard_aside_top')
      *
      * @return string|null
      */

@@ -1,32 +1,38 @@
 {% spaceless %}
-<script>
-/*<![CDATA[*/
-
-if (window.jQuery) {
-    jQuery(function() {
-        jQuery('div.widget').each(function () {
-            if (typeof $(this).data('defer') === 'undefined') {
-                return;
-            }
-
-            var key = $(this).data('key');
-
-            $.ajax({
-                url: '{{ paths.async }}widget/' + key,
-                type: 'GET',
-                success: function (result) {
-                    $('#widget-' + key).html(result);
-                },
-                error: function () {
-                    console.log('failed to get widget');
-                }
-            });
-        });
-    });
-} else {
-    console.log('Deferred widgets only work when jQuery is present. Sorry.');
-}
-
-/*]]>*/
-</script>
+<script>/*<![CDATA[*/ document.addEventListener("DOMContentLoaded",function(e){var t=document.querySelectorAll("div.widget");for(i=0;i<t.length;i++)if("true"===t[i].getAttribute("data-defer")){var n=t[i].getAttribute("data-key"),o=new XMLHttpRequest;o.open("GET","{{ paths.async }}widget/"+n,!0),o.onload=function(){if(this.status>=200&&this.status<400){var e=document.querySelectorAll("div#widget-"+this.responseURL.replace(/^.*\/|\.*$/g,""));e[0].innerHTML=this.response}else console.log("Failed to get widget. Status: "+this.status)},o.onerror=function(){console.log("Failed to get widget. Connection error.")},o.send()}}); /*]]>*/</script>
 {% endspaceless %}
+{#
+
+Uncompressed version of the script, before compression using jscompress.com:
+
+document.addEventListener("DOMContentLoaded", function(event) {
+
+    var widgets = document.querySelectorAll('div.widget');
+
+    for(i = 0; i < widgets.length; i++) {
+        if (widgets[i].getAttribute('data-defer') === 'true') {
+            var key = widgets[i].getAttribute('data-key');
+
+            var request = new XMLHttpRequest();
+            request.open('GET', '{{ paths.async }}widget/' + key, true);
+
+            request.onload = function() {
+                if (this.status >= 200 && this.status < 400) {
+                    var widget = document.querySelectorAll('div#widget-' + this.responseURL.replace(/^.*\/|\.*$/g, ''));
+                    widget[0].innerHTML = this.response;
+                } else {
+                    console.log('Failed to get widget. Status: ' + this.status);
+                }
+            };
+
+            request.onerror = function() {
+                console.log('Failed to get widget. Connection error.');
+            };
+
+            request.send();
+        }
+    };
+
+});
+
+#}

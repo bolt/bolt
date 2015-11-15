@@ -68,7 +68,7 @@
 
             {% include '@bolt/_sub/_messages.twig' %}
 
-            {{ widget('backend', 'editcontent_below_header') }}
+            {{ widgets('editcontent_below_header', 'backend') }}
 
             {# Only if we have grouping tabs. #}
             {% if context.has.tabs %}
@@ -128,7 +128,7 @@
 
             {% include '@bolt/editcontent/_includes-data.twig' %}
 
-            {{ widget('backend', 'editcontent_bottom') }}
+            {{ widgets('editcontent_bottom', 'backend') }}
 
         </div>
 

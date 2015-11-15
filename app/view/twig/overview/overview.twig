@@ -26,25 +26,25 @@
 
             {% include '@bolt/_sub/_messages.twig' %}
 
-            {{ widget('backend', 'overview_below_header') }}
+            {{ widgets('overview_below_header', 'backend') }}
 
             {{ list(context.contenttype, context.multiplecontent, context.permissions, '') }}
 
-            {{ widget('backend', 'overview_bottom') }}
+            {{ widgets('overview_bottom', 'backend') }}
 
         </div>
 
         <aside class="col-md-4">
 
-            {{ widget('backend', 'overview_aside_top') }}
+            {{ widgets('overview_aside_top', 'backend') }}
 
             {% include '@bolt/overview/_panel-actions_overview.twig' %}
 
-            {{ widget('backend', 'overview_aside_middle') }}
+            {{ widgets('overview_aside_middle', 'backend') }}
 
             {{ panels.lastmodified(context.contenttype.slug) }}
 
-            {{ widget('backend', 'overview_aside_bottom') }}
+            {{ widgets('overview_aside_bottom', 'backend') }}
 
         </aside>
     </div>
