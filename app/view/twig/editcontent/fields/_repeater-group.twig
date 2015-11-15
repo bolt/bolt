@@ -15,7 +15,7 @@
             {% set rfield = rfield|merge({'canUpload': field.canUpload}) %}
             {% set rcontext = {
                 'key':        rkey,
-                'name':       name ~ '[' ~ index ~ '][' ~ rkey ~ '][]',
+                'name':       name ~ '[' ~ index ~ '][' ~ rkey ~ ']',
                 'contentkey': rkey,
                 'field':      rfield,
                 'labelkey':   rfield.label ?: rkey|ucfirst,

@@ -14,11 +14,13 @@
 
     <div class="repeater-slot">
         <script type="text/template" id="{{ name }}_template">
+            {% set index = '#' %}
             {% include '@bolt/editcontent/fields/_repeater-group.twig' %}
         </script>
 
         {# In cases where we don't have any values set, the we show a single set of fields by default #}
         {% if not repeatfieldvals.length %}
+            {% set index = '0' %}
             {% include '@bolt/editcontent/fields/_repeater-group.twig' %}
         {% else %}
             {% for repeatfieldset in repeatfieldvals %}
