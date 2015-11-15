@@ -42,9 +42,11 @@
              * @memberOf jQuery.widget.bolt.fieldRepeater.prototype
              * @private
              *
+             * @property {Object} add  - Add button
              * @property {Object} slot - Group container
              */
             this._ui = {
+                add:  self.element.find('.add-button'),
                 slot: self.element.find('.repeater-slot')
             };
 
@@ -68,7 +70,7 @@
              */
             this._count = self._ui.slot.find('div.repeater-group').length;
 
-            self.element.on('click', '.add-button', function () {
+            self._ui.add.on('click', function () {
                 self._append();
             });
 
