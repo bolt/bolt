@@ -25,8 +25,8 @@ use Carbon\Carbon;
  */
 class Content extends Entity
 {
-    use ContentTypeTitleTrait;
     use ContentRouteTrait;
+    use ContentTypeTitleTrait;
 
     protected $contenttype;
     protected $_legacy;
