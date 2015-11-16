@@ -47,7 +47,8 @@
          * @param {Object|string} [def.footer]       - Add a footer
          */
         show: function (def) {
-            var dialog,
+            var self = this,
+                dialog,
                 dialogHeader = '',
                 dialogBody = '',
                 dialogFooter = '',
@@ -95,6 +96,15 @@
 
             this.element
                 .append(dialog)
+                .on('show.bs.modal', function () {
+                })
+                .on('shown.bs.modal', function () {
+                })
+                .on('hide.bs.modal', function () {
+                })
+                .on('hidden.bs.modal', function () {
+                    self._clear();
+                })
                 .modal('show');
         }
     });
