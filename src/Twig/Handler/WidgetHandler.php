@@ -25,14 +25,14 @@ class WidgetHandler
     /**
      * Return the number of widgets in the queue for a given type / location.
      *
-     * @param string $type     Either 'frontend' or 'backend'
      * @param string $location Location (e.g. 'dashboard_aside_top')
+     * @param string $type     Either 'frontend' or 'backend'
      *
      * @return integer
      */
-    public function countWidgets($type, $location)
+    public function countWidgets($location = '', $type = 'frontend')
     {
-        return $this->app['asset.queue.widget']->countItemsInQueue($type, $location);
+        return $this->app['asset.queue.widget']->countItemsInQueue($location, $type);
     }
 
     /**
@@ -48,26 +48,26 @@ class WidgetHandler
     /**
      * Check if a type / location has widgets in the queue.
      *
-     * @param string $type     Either 'frontend' or 'backend'
      * @param string $location Location (e.g. 'dashboard_aside_top')
+     * @param string $type     Either 'frontend' or 'backend'
      *
      * @return boolean
      */
-    public function hasWidgets($type, $location)
+    public function hasWidgets($location = '', $type = 'frontend')
     {
-        return $this->app['asset.queue.widget']->hasItemsInQueue($type, $location);
+        return $this->app['asset.queue.widget']->hasItemsInQueue($location, $type);
     }
 
     /**
      * Renders a particular widget type on the given location.
      *
-     * @param string $type     Either 'frontend' or 'backend'
      * @param string $location Location (e.g. 'dashboard_aside_top')
+     * @param string $type     Either 'frontend' or 'backend'
      *
      * @return \Twig_Markup|string
      */
-    public function widgets($type, $location)
+    public function widgets($location = '', $type = 'frontend')
     {
-        return $this->app['asset.queue.widget']->render($type, $location);
+        return $this->app['asset.queue.widget']->render($location, $type);
     }
 }
