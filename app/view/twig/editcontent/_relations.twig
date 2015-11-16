@@ -14,7 +14,9 @@
 
 {# Output 'incoming' relations #}
 {% for incoming in context.content.relation.incoming(context.content) %}
-    <p>{{ __('This record is related to:') }}</p>
+    {% if loop.first %}
+        <p>{{ __('This record is related to:') }}</p>
+    {% endif %}
     <div class="buic-listing" data-bolt-widget="buicListing">
         <table class="table dashboardlisting listing">
             {% setcontent record = incoming.from_contenttype ~ '/' ~ incoming.from_id %}
