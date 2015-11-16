@@ -82,9 +82,7 @@
     function select(fieldset, path) {
         if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
             $('input.path', fieldset).val(path).trigger('change');
-        } else if (fieldset.is(':bolt-fieldFilelist')) {
-            bolt.uploads.addToList(fieldset, path);
-        } else if (fieldset.is(':bolt-fieldImagelist')) {
+        } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
             bolt.uploads.addToList(fieldset, path);
         } else {
             bolt.stack.addToStack(path);
