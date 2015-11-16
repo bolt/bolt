@@ -159,7 +159,7 @@
      */
     uploads.addToList = function (fieldset, filename, title) {
         var listField = $('div.list', fieldset),
-            type = $(fieldset).data('bolt-field'),
+            type = $(fieldset).data('bolt-fieldset'),
             templateItem = type === 'filelist' ? 'field.filelist.template.item' : 'field.imagelist.template.item';
 
         // Remove empty list message, if there.
