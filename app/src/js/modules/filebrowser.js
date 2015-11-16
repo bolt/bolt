@@ -79,8 +79,9 @@
      * @param {Object} fieldset - Fieldset
      * @param {string} path - Path to the selected file
      */
-    function select(fieldset, path) {
-        switch (fieldset.data('bolt-field')) {
+    function select(innerfieldset, path) {
+        var fieldset = $(innerfieldset).closest('div[data-bolt-fieldset]');
+        switch (fieldset.data('bolt-fieldset')) {
             case 'file':
             case 'image':
                 $('input.path', fieldset).val(path).trigger('change');
