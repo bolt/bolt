@@ -231,6 +231,7 @@
      * @param {Object} fieldset
      */
     function bindSelectFromStack(fieldset) {
+        console.log(fieldset);
         $('ul.select-from-stack a', fieldset).on('click', function () {
             var path = $(this).data('path');
 
