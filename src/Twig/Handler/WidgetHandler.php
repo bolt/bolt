@@ -32,7 +32,7 @@ class WidgetHandler
      */
     public function countWidgets($location = '', $type = 'frontend')
     {
-        return $this->app['asset.queue.widget']->countItemsInQueue($type, $location);
+        return $this->app['asset.queue.widget']->countItemsInQueue($location, $type);
     }
 
     /**
@@ -55,7 +55,7 @@ class WidgetHandler
      */
     public function hasWidgets($location = '', $type = 'frontend')
     {
-        return $this->app['asset.queue.widget']->hasItemsInQueue($type, $location);
+        return $this->app['asset.queue.widget']->hasItemsInQueue($location, $type);
     }
 
     /**
@@ -68,6 +68,6 @@ class WidgetHandler
      */
     public function widgets($location = '', $type = 'frontend')
     {
-        return $this->app['asset.queue.widget']->render($type, $location);
+        return $this->app['asset.queue.widget']->render($location, $type);
     }
 }
