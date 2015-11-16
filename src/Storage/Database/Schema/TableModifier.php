@@ -90,6 +90,9 @@ class TableModifier
         foreach ($tableAlter as $query) {
             if ($this->runQuery($tableName, $query)) {
                 $response->addTitle($tableName, sprintf('Updated `%s` table to match current schema.', $tableName));
+            } else {
+                // Don't continue processing a table after exception is hit.
+                continue;
             }
         }
     }
