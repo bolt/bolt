@@ -43,7 +43,7 @@ class IncomingRelationType extends RelationType
 
         $query
             ->addSelect($this->getPlatformGroupConcat("$field.id", '_' . $field . '_id', $query))
-            ->addSelect($this->getPlatformGroupConcat("$field.to_id", '_' . $field . '_toid', $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.from_id", '_' . $field . '_fromid', $query))
             ->addSelect($this->getPlatformGroupConcat("$field.from_contenttype", '_' . $field . '_fromcontenttype', $query))
             ->leftJoin($alias, $target, $field, "$alias.id = $field.to_id AND $field.to_contenttype='$boltname'")
             ->addGroupBy("$alias.id");
@@ -64,7 +64,7 @@ class IncomingRelationType extends RelationType
         foreach ($data as $relData) {
             $rel = [];
             $rel['id'] = $relData['id'];
-            $rel['from_id'] = $relData['toid'];
+            $rel['from_id'] = $relData['fromid'];
             $rel['from_contenttype'] = $relData['fromcontenttype'];
             $rel['to_contenttype'] = (string)$entity->getContenttype();
             $rel['to_id'] = $entity->getId();
