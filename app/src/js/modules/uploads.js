@@ -230,25 +230,19 @@
      * @memberof Bolt.uploads
      * @param {Object} fieldset
      */
-    function bindSelectFromStack(innerfieldset) {
-        var fieldset = $(innerfieldset).closest('div[data-bolt-fieldset]');
+    function bindSelectFromStack(fieldset) {
         $('ul.select-from-stack a', fieldset).on('click', function () {
             var path = $(this).data('path');
 
             // Close the dropdown.
             $(this).closest('.btn-group').find('button.dropdown-toggle').dropdown('toggle');
 
-            switch ($(fieldset).data('bolt-fieldset')) {
-                case 'file':
-                case 'image':
-                    $('input.path', fieldset).val(path).trigger('change');
-                    break;
-                case 'filelist':
-                    uploads.addToList(fieldset, path);
-                    break;
-                case 'imagelist':
-                    uploads.addToList(fieldset, path);
-                    break;
+            if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
+                $('input.path', fieldset).val(path).trigger('change');
+            } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
+                uploads.addToList(fieldset, path);
+            } else {
+                bolt.stack.addToStack(path);
             }
 
             return false;
