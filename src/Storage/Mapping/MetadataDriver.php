@@ -480,5 +480,4 @@ class MetadataDriver implements MappingDriver
     {
         return $this->taxonomies;
     }
-
 }

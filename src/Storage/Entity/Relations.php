@@ -11,6 +11,4 @@ class Relations extends Entity
     protected $from_id;
     protected $to_contenttype;
     protected $to_id;
-
-
 }

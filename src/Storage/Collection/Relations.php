@@ -6,8 +6,6 @@ use Bolt\Exception\StorageException;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\EntityProxy;
-use Bolt\Storage\Mapping\MetadataDriver;
-use Closure;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -17,12 +15,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Relations extends ArrayCollection
 {
-
     protected $em;
 
     /**
      * Relations constructor.
-     * @param array $elements
+     *
+     * @param array         $elements
      * @param EntityManager $em
      */
     public function __construct(array $elements = [], EntityManager $em = null)
@@ -35,7 +33,6 @@ class Relations extends ArrayCollection
     {
         $this->em = $em;
     }
-
 
     public function setFromPost($formValues, $entity)
     {
@@ -51,9 +48,9 @@ class Relations extends ArrayCollection
                 }
                 $newentity = new Entity\Relations([
                     'from_contenttype' => (string)$entity->getContenttype(),
-                    'from_id' => $entity->getId(),
-                    'to_contenttype' => $field,
-                    'to_id' => $val
+                    'from_id'          => $entity->getId(),
+                    'to_contenttype'   => $field,
+                    'to_id'            => $val
                 ]);
                 $this->add($newentity);
             }
@@ -74,6 +71,7 @@ class Relations extends ArrayCollection
      * Any records not in the incoming set are deleted from the collection and the deleted ones returned as an array.
      *
      * @param Relations $collection
+     *
      * @return array
      */
     public function update(Relations $collection)
@@ -102,13 +100,14 @@ class Relations extends ArrayCollection
         return $deleted;
     }
 
-
     /**
      * This loops over the existing collection to see if the properties in the incoming
      * are already available on a saved record. To do this it checks the four key properties
      * if there's a match it returns the original, otherwise
      * it returns the new and adds the new one to the collection.
+     *
      * @param $entity
+     *
      * @return mixed|null
      */
     public function getOriginal($entity)
@@ -131,6 +130,7 @@ class Relations extends ArrayCollection
      * Gets a specific relation type name from the overall collection
      *
      * @param $fieldname
+     *
      * @return Relations
      */
     public function getField($fieldname)
@@ -142,7 +142,9 @@ class Relations extends ArrayCollection
 
     /**
      * Identifies which relations are incoming to the given entity
+     *
      * @param $entity
+     *
      * @return mixed
      */
     public function incoming($entity)
@@ -170,6 +172,4 @@ class Relations extends ArrayCollection
 
         return $collection;
     }
-
-
 }

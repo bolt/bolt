@@ -146,7 +146,6 @@ class StorageServiceProvider implements ServiceProviderInterface
             'Bolt\Storage\Entity\Users'      => 'Bolt\Storage\Repository\UsersRepository',
         ];
 
-
         $app['storage.metadata'] = $app->share(
             function ($app) {
                 $meta = new MetadataDriver(

@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
@@ -17,7 +16,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class RelationType extends FieldTypeBase
 {
-
     /**
      * Relation fields can allow filters on the relations fetched. For now this is limited
      * to the id field because of the possible complexity of fetching and filtering
@@ -123,7 +121,6 @@ class RelationType extends FieldTypeBase
         $relations = $entity->getRelation()
             ->getField($field);
 
-
         // Fetch existing relations and create two sets of records, updates and deletes.
         $existingDB = $this->getExistingRelations($entity) ?: [];
         $collection = $this->em->createCollection('Bolt\Storage\Entity\Relations');
@@ -144,8 +141,6 @@ class RelationType extends FieldTypeBase
                 }
             }
         );
-
-
     }
 
     /**

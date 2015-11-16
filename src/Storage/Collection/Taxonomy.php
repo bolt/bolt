@@ -14,12 +14,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Taxonomy extends ArrayCollection
 {
-
     public $config;
 
     /**
      * Taxonomy constructor.
-     * @param array $elements
+     *
+     * @param array          $elements
      * @param MetadataDriver $metadata
      */
     public function __construct(array $elements = [], MetadataDriver $metadata = null)
@@ -46,12 +46,12 @@ class Taxonomy extends ArrayCollection
                     $name = $val;
                 }
                 $taxentity = new Entity\Taxonomy([
-                    'name' => $name,
-                    'content_id' => $entity->getId(),
-                    'contenttype' => (string)$entity->getContenttype(),
+                    'name'         => $name,
+                    'content_id'   => $entity->getId(),
+                    'contenttype'  => (string)$entity->getContenttype(),
                     'taxonomytype' => $field,
-                    'slug' => $val,
-                    'sortorder' => $order,
+                    'slug'         => $val,
+                    'sortorder'    => $order,
                 ]);
                 $this->add($taxentity);
             }
@@ -114,6 +114,7 @@ class Taxonomy extends ArrayCollection
 
     /**
      * Gets the elements that have already been persisted
+     *
      * @return Taxonomy
      */
     public function getExisting()
@@ -128,7 +129,9 @@ class Taxonomy extends ArrayCollection
      * are already available on a saved record. To do this it checks the three key properties
      * content_id, taxonomytype and slug, if there's a match it returns the original, otherwise
      * it returns the new and adds the new one to the collection.
+     *
      * @param $entity
+     *
      * @return mixed|null
      */
     public function getOriginal($entity)
@@ -150,6 +153,7 @@ class Taxonomy extends ArrayCollection
      * Gets a specific taxonomy name from the overall collection
      *
      * @param $fieldname
+     *
      * @return Taxonomy
      */
     public function getField($fieldname)
@@ -200,5 +204,4 @@ class Taxonomy extends ArrayCollection
             }
         }
     }
-
 }

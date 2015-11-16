@@ -17,7 +17,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class TaxonomyType extends FieldTypeBase
 {
-
     /**
      * Taxonomy fields allows queries on the parameters passed in.
      * For example the following queries:
@@ -28,7 +27,8 @@ class TaxonomyType extends FieldTypeBase
      * expression to filter the join side rather than on the main side.
      *
      * @param QueryInterface $query
-     * @param ClassMetadata $metadata
+     * @param ClassMetadata  $metadata
+     *
      * @return void
      */
     public function query(QueryInterface $query, ClassMetadata $metadata)
@@ -60,8 +60,9 @@ class TaxonomyType extends FieldTypeBase
      * It does this via an additional ->addSelect() and ->leftJoin() call on the QueryBuilder
      * which includes then includes the taxonomies in the same query as the content fetch.
      *
-     * @param QueryBuilder $query
+     * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
+     *
      * @return void
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
@@ -121,7 +122,6 @@ class TaxonomyType extends FieldTypeBase
         $this->set($entity, $fieldTaxonomy);
         $entity->setGroup($this->getGroup($fieldTaxonomy));
         $entity->setSortorder($this->getSortorder($fieldTaxonomy));
-
     }
 
     /**
@@ -153,8 +153,6 @@ class TaxonomyType extends FieldTypeBase
                 }
             }
         );
-
-
     }
 
     /**
@@ -168,9 +166,9 @@ class TaxonomyType extends FieldTypeBase
     /**
      * Get platform specific group_concat token for provided column.
      *
-     * @param string $column
-     * @param string $order
-     * @param string $alias
+     * @param string       $column
+     * @param string       $order
+     * @param string       $alias
      * @param QueryBuilder $query
      *
      * @return string
@@ -202,8 +200,8 @@ class TaxonomyType extends FieldTypeBase
                 $index = array_search($needle, array_keys($taxData['options']));
                 $sortorder = $taxData['sortorder'];
                 $group = [
-                    'slug' => $tax->getSlug(),
-                    'name' => $tax->getName(),
+                    'slug'  => $tax->getSlug(),
+                    'name'  => $tax->getName(),
                     'order' => $sortorder,
                     'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
                 ];
@@ -243,8 +241,8 @@ class TaxonomyType extends FieldTypeBase
             ->andWhere('contenttype = :contenttype')
             ->andWhere('taxonomytype = :taxonomytype')
             ->setParameters([
-                'content_id' => $entity->id,
-                'contenttype' => $entity->getContenttype(),
+                'content_id'   => $entity->id,
+                'contenttype'  => $entity->getContenttype(),
                 'taxonomytype' => $this->mapping['fieldname'],
             ]);
         $result = $query->execute()
@@ -252,5 +250,4 @@ class TaxonomyType extends FieldTypeBase
 
         return $result ?: [];
     }
-
 }

@@ -55,8 +55,8 @@ class UsersRepository extends Repository
     /**
      * Get a user.
      *
-     * @param string|integer $userId  Either the user's ID, username, or email
-     *                                address.
+     * @param string|integer $userId Either the user's ID, username, or email
+     *                               address.
      *
      * @return Entity\Users|false
      */

@@ -172,7 +172,9 @@ class EntityManager
 
     /**
      * Shorthand access method to create collection. Consults aliases to allow short names.
+     *
      * @param $className
+     *
      * @return mixed
      */
     public function createCollection($className)

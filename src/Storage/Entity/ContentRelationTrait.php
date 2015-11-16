@@ -119,5 +119,4 @@ trait ContentRelationTrait
             unset($this->relation[$contenttype]);
         }
     }
-
 }

@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\QuerySet;
@@ -16,9 +15,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class IncomingRelationType extends RelationType
 {
-
-
-
     /**
      * For relations, the load method adds an extra ->addSelect() and ->leftJoin() to the query that
      * fetches the related records from the join table in the same query as the content fetch.
@@ -51,7 +47,6 @@ class IncomingRelationType extends RelationType
             ->addSelect($this->getPlatformGroupConcat("$field.from_contenttype", '_' . $field . '_fromcontenttype', $query))
             ->leftJoin($alias, $target, $field, "$alias.id = $field.to_id AND $field.to_contenttype='$boltname'")
             ->addGroupBy("$alias.id");
-
     }
 
     /**
@@ -76,12 +71,10 @@ class IncomingRelationType extends RelationType
             $relEntity = new Entity\Relations($rel);
             $entity->getRelation()->add($relEntity);
         }
-
     }
 
     public function persist(QuerySet $queries, $entity)
     {
-
     }
 
     /**

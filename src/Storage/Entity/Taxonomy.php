@@ -15,10 +15,8 @@ class Taxonomy extends Entity
     protected $name;
     protected $sortorder;
 
-
     public function setConfig(array $config)
     {
         $this->_config = $config;
     }
-
 }

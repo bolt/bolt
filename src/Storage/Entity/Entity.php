@@ -26,5 +26,4 @@ abstract class Entity implements ArrayAccess, JsonSerializable
     {
         return strval($this->getId());
     }
-
 }
