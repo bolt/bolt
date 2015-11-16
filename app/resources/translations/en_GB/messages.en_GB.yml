@@ -483,6 +483,7 @@ field:
             set: "Set the slug to:"
             unlock: "Are you sure you wish to unlock the slug? This might break existing links to this record."
         permalink: "Permalink"
+        unique-alias: "Unique alias"
     video:
         button:
             preview: "Preview"

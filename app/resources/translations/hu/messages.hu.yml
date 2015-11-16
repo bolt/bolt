@@ -319,7 +319,6 @@
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Próbálj bejelentkezni az FTP klienseddel és állítsd a fájlt olvashatóvá vagy lépj <a>vissza</a> a legutóbbi oldalra."
 "Types": "Típusok"
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Sajnos nem található tartalom. Próbálj egy másik lapot, vagy navigálj a <a href=\"%paths_root%\">kezdőoldalra</a>."
-"Unique Alias": "Egyedi álnév"
 "Update the database": "Adatbázis frissítése"
 "Upload a file to this folder": "Fájl feltöltése ebbe a mappába"
 "Upload file": "Fájl feltöltése"
@@ -514,6 +513,7 @@ field:
             set: "Slug beállítása:"
             unlock: "Biztos hogy feloldod? Ez hatással lehet a már ide mutató linkek működésére."
         permalink: "Permalink"
+        unique-alias: "Egyedi álnév"
     video:
         button:
             preview: "Előnézet"

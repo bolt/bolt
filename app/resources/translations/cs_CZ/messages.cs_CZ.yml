@@ -323,7 +323,6 @@
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Zkuste se přihlásit pomocí ftp klienta a nastavte atributy souboru pro zápis. Nebo zkuste jít <a>zpět</a> na poslední stranu."
 "Types": "Typy"
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Bohužel zde není k nalezení žádný obsah. Zkuste jinou stránku nebo <a href=\"%paths_root%\">úvodní stranu</a>."
-"Unique Alias": "Jedinečný alias"
 "Update the database": "Aktualizovat databázi"
 "Upload a file to this folder": "Nahrajte soubor do této složky"
 "Upload file": "Nahrát soubor"
@@ -512,6 +511,7 @@ field:
             set: "Nastavit trvalý odkaz na:"
             unlock: "Jste si jisti, že chcete upravit trvalý odkaz? Můžeto ovlivnit již existující vazby. "
         permalink: "Trvalý odkaz"
+        unique-alias: "Jedinečný alias"
     video:
         button:
             preview: "Náhled"

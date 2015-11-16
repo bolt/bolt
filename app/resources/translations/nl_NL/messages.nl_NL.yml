@@ -91,7 +91,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unable to retrieve login session data. Please check your system's PHP session settings.": #
-"Unique Alias": #
 "Warning": #
 "Welcome to your new Bolt site, %USER%.": #
 "You do not have the right privileges to %ACTION% that record.": #

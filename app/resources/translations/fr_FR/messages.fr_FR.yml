@@ -387,7 +387,6 @@
 "Unable to retrieve login session data. Please check your system's PHP session settings.": "Impossible de reprendre la session. Merci de vérifier la configuration des sessions au niveau du moteur PHP."
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Malheureusement, aucun contenu n'est disponible. Vous pouvez visiter une autre page ou revenir à <a href=\"%paths_root%\">l'accueil</a>."
 "Uninstall": "Supprimer"
-"Unique Alias": "Alias unique"
 "Unstable test versions": "Versions de test"
 "Update Package": "Mettre à jour"
 "Update the database": "Mettre à jour la base de données"
@@ -537,6 +536,7 @@ field:
             set: "Définir le permalien"
             unlock: "Etes-vous certain de vouloir débloquer le permalien ? Cela peut casser les liens existant vers ce contenu."
         permalink: "Permalien"
+        unique-alias: "Alias unique"
     video:
         button:
             preview: "Aperçu"
