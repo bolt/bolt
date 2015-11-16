@@ -159,7 +159,7 @@
      */
     uploads.addToList = function (fieldset, filename, title) {
         var listField = $('div.list', fieldset),
-            type = $(fieldset).data('bolt-field'),
+            type = $(fieldset).data('bolt-fieldset'),
             templateItem = type === 'filelist' ? 'field.filelist.template.item' : 'field.imagelist.template.item';
 
         // Remove empty list message, if there.
@@ -230,14 +230,15 @@
      * @memberof Bolt.uploads
      * @param {Object} fieldset
      */
-    function bindSelectFromStack(fieldset) {
+    function bindSelectFromStack(innerfieldset) {
+        var fieldset = $(innerfieldset).closest('div[data-bolt-fieldset]');
         $('ul.select-from-stack a', fieldset).on('click', function () {
             var path = $(this).data('path');
 
             // Close the dropdown.
             $(this).closest('.btn-group').find('button.dropdown-toggle').dropdown('toggle');
 
-            switch ($(fieldset).data('bolt-field')) {
+            switch ($(fieldset).data('bolt-fieldset')) {
                 case 'file':
                 case 'image':
                     $('input.path', fieldset).val(path).trigger('change');
@@ -350,13 +351,12 @@
      * @param {Object} data
      */
     function onUploadDone(event, data) {
-        var fieldset = $(event.target).closest('fieldset');
-
+        var fieldset = $(event.target).closest('div[data-bolt-fieldset]');
         $.each(data.result, function (idx, file) {
             if (file.error) {
                 bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
             } else {
-                switch ($(fieldset).data('bolt-field')) {
+                switch ($(fieldset).data('bolt-fieldset')) {
                     case 'file':
                     case 'image':
                         $(fieldset).find('input.path').val(file.name).trigger('change');
@@ -414,7 +414,7 @@
     function serializeList(fieldset) {
         var listField = $('div.list', fieldset),
             dataField = $('textarea', fieldset),
-            isFile = $(fieldset).data('bolt-field') === 'filelist',
+            isFile = $(fieldset).data('bolt-fieldset') === 'filelist',
             templateEmpty = isFile ? 'field.filelist.template.empty' : 'field.imagelist.template.empty',
             data = [];
 
