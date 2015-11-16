@@ -237,7 +237,7 @@
             // Close the dropdown.
             $(this).closest('.btn-group').find('button.dropdown-toggle').dropdown('toggle');
 
-            switch ($(fieldset).data('bolt-field')) {
+            switch ($(fieldset).data('bolt-fieldset')) {
                 case 'file':
                 case 'image':
                     $('input.path', fieldset).val(path).trigger('change');
@@ -413,7 +413,7 @@
     function serializeList(fieldset) {
         var listField = $('div.list', fieldset),
             dataField = $('textarea', fieldset),
-            isFile = $(fieldset).data('bolt-field') === 'filelist',
+            isFile = $(fieldset).data('bolt-fieldset') === 'filelist',
             templateEmpty = isFile ? 'field.filelist.template.empty' : 'field.imagelist.template.empty',
             data = [];
 
