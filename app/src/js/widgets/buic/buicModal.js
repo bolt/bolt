@@ -20,6 +20,22 @@
          * @private
          */
         _create: function () {
+            /**
+             * Dialog elements.
+             *
+             * @type {Object}
+             * @name _dialog
+             * @memberOf jQuery.widget.bolt.buicModal.prototype
+             * @private
+             *
+             * @property {Object} body   - Dialog body
+             * @property {Object} footer - Dialog footer
+             */
+            this._dialog = {
+                body:   '',
+                footer: ''
+            };
+
             this.element
                 .attr('tabindex', -1)
                 .attr('role', 'dialog')
@@ -40,24 +56,34 @@
         /**
          * Sets the body of the modal.
          *
+         * @param {Object|string} footer - The footer part of the modal.
+         */
+        footer: function (footer) {
+            this._dialog.footer = $('<div>').addClass('modal-footer').append(footer);
+        },
+
+        /**
+         * Sets the body of the modal.
+         *
          * @param {Object|string} body - The body part of the modal.
          */
         body: function (body) {
-            this.setBody = $('<div>').addClass('modal-body').append(body);
+            this._dialog.body = $('<div>').addClass('modal-body').append(body);
         },
 
         /**
          * Builds and shows the modal.
          */
         show: function () {
-            var dialog = $('<div>').addClass('modal-dialog'),
-                content = $('<div>').addClass('modal-content');
-
-            // Add the body part.
-            content.append(this.setBody);
-
-            // Build the dialog.
-            dialog.append(content);
+            var dialog =
+                $('<div>')
+                    .addClass('modal-dialog')
+                    .append(
+                        $('<div>')
+                            .addClass('modal-content')
+                            .append(this._dialog.body)
+                            .append(this._dialog.footer)
+                    );
 
             // Clear the modal.
             this._clear();
