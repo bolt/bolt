@@ -20,6 +20,42 @@
          * @private
          */
         _create: function () {
+            this.element
+                .attr('id', 'bolt-modal')
+                .addClass('buic-modal');
+
+            this._init();
+        },
+
+        /**
+         * Clears the modal.
+         *
+         * @private
+         */
+        _clear: function () {
+            this.element
+                .removeData('bs.modal')
+                .empty();
+        },
+
+        /**
+         * Initialzes the modal.
+         *
+         * @private
+         */
+        _init: function () {
+            this._clear();
+
+            this.element
+                .append(
+                    '<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">' +
+                        '<div class="modal-dialog">' +
+                            '<div class="modal-content">' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+                )
+                .modal({show: false});
         }
     });
 })(jQuery);
