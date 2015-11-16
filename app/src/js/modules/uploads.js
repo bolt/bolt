@@ -351,7 +351,7 @@
      */
     function onUploadDone(event, data) {
         var fieldset = $(event.target).closest('fieldset');
-
+        console.log(fieldset);
         $.each(data.result, function (idx, file) {
             if (file.error) {
                 bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
