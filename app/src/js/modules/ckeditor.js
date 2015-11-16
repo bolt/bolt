@@ -82,7 +82,7 @@
                 param = $(this.element.$).data('param') || {},
                 set = bolt.conf('ckeditor');
 
-            config.language = bolt.conf('locale.short');
+            config.language = bolt.conf('ckeditor.lang');
             config.skin = 'boltcke';
             config.resize_enabled = true;
             config.entities = false;
