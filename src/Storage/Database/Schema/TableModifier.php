@@ -88,12 +88,11 @@ class TableModifier
     protected function alterTable($tableName, array $tableAlter, SchemaCheck $response)
     {
         foreach ($tableAlter as $query) {
-            if ($this->runQuery($tableName, $query)) {
-                $response->addTitle($tableName, sprintf('Updated `%s` table to match current schema.', $tableName));
-            } else {
+            if ($this->runQuery($tableName, $query) === null) {
                 // Don't continue processing a table after exception is hit.
-                continue;
+                return;
             }
+            $response->addTitle($tableName, sprintf('Updated `%s` table to match current schema.', $tableName));
         }
     }
 
