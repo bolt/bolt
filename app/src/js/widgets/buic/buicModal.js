@@ -20,24 +20,6 @@
          * @private
          */
         _create: function () {
-            /**
-             * Dialog elements.
-             *
-             * @type {Object}
-             * @name _dialog
-             * @memberOf jQuery.widget.bolt.buicModal.prototype
-             * @private
-             *
-             * @property {Object} body   - Dialog body
-             * @property {Object} footer - Dialog footer
-             * @property {Object} header - Dialog header
-             */
-            this._dialog = {
-                body:   '',
-                footer: '',
-                header: ''
-            };
-
             this.element
                 .attr('tabindex', -1)
                 .attr('role', 'dialog')
@@ -56,57 +38,56 @@
         },
 
         /**
-         * Sets the body of the modal.
+         * Builds and shows the modal.
          *
-         * @param {Object|string} body - The body part of the modal.
+         * @param {Object}        def                - Definition of the modal
+         * @param {boolean}       [def.closer=false] - Add a close button
+         * @param {Object|string} [def.headline]     - Add a headline
+         * @param {Object|string} [def.body]         - Add a body
+         * @param {Object|string} [def.footer]       - Add a footer
          */
-        body: function (body) {
-            this._dialog.body = $('<div>').addClass('modal-body').append(body);
-        },
+        show: function (def) {
+            var dialog,
+                dialogHeader = '',
+                dialogBody = '',
+                dialogFooter = '',
+                closer = '',
+                headline = '';
 
-        /**
-         * Sets the body of the modal.
-         *
-         * @param {Object|string} footer - The footer part of the modal.
-         */
-        footer: function (footer) {
-            this._dialog.footer = $('<div>').addClass('modal-footer').append(footer);
-        },
+            // Header
+            if (def.closer || def.headline) {
+                if (def.closer) {
+                    closer = '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                             '</button>';
+                }
 
-        /**
-         * Sets the header of the modal.
-         *
-         * @param {Object|string} headline       - Add a headline to the modal
-         * @param {boolean}       [closer=false] - Add a close button
-         */
-        header: function (headline, closer) {
+                if (def.headline) {
+                    headline = $('<h4>').addClass('modal-title').append(def.headline);
+                }
 
-            var hd = $('<h4>').addClass('modal-title').append(headline),
-                cb = '';
-
-            if (closer) {
-                cb = '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-                         '<span aria-hidden="true">&times;</span>' +
-                     '</button>';
+                dialogHeader = $('<div>').addClass('modal-header').append(closer).append(headline);
             }
 
-            this._dialog.header = $('<div>').addClass('modal-header').append(cb).append(hd);
-        },
+            // Body
+            dialogBody = $('<div>').addClass('modal-body').append(def.body || '');
 
-        /**
-         * Builds and shows the modal.
-         */
-        show: function () {
-            var dialog =
+            // Footer
+            if (def.footer) {
+                dialogFooter = $('<div>').addClass('modal-footer').append(def.footer);
+            }
+
+            // Dialog
+            dialog =
                 $('<div>')
                     .addClass('modal-dialog')
                     .attr('role', 'document')
                     .append(
                         $('<div>')
                             .addClass('modal-content')
-                            .append(this._dialog.header)
-                            .append(this._dialog.body)
-                            .append(this._dialog.footer)
+                            .append(dialogHeader)
+                            .append(dialogBody)
+                            .append(dialogFooter)
                     );
 
             // Clear the modal.
