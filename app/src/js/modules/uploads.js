@@ -355,7 +355,7 @@
             if (file.error) {
                 bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
             } else {
-                switch ($(fieldset).data('bolt-field')) {
+                switch ($(fieldset).data('bolt-fieldset')) {
                     case 'file':
                     case 'image':
                         $(fieldset).find('input.path').val(file.name).trigger('change');
