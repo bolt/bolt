@@ -30,10 +30,12 @@
              *
              * @property {Object} body   - Dialog body
              * @property {Object} footer - Dialog footer
+             * @property {Object} header - Dialog header
              */
             this._dialog = {
                 body:   '',
-                footer: ''
+                footer: '',
+                header: ''
             };
 
             this.element
@@ -56,6 +58,15 @@
         /**
          * Sets the body of the modal.
          *
+         * @param {Object|string} body - The body part of the modal.
+         */
+        body: function (body) {
+            this._dialog.body = $('<div>').addClass('modal-body').append(body);
+        },
+
+        /**
+         * Sets the body of the modal.
+         *
          * @param {Object|string} footer - The footer part of the modal.
          */
         footer: function (footer) {
@@ -63,12 +74,23 @@
         },
 
         /**
-         * Sets the body of the modal.
+         * Sets the header of the modal.
          *
-         * @param {Object|string} body - The body part of the modal.
+         * @param {Object|string} headline       - Add a headline to the modal
+         * @param {boolean}       [closer=false] - Add a close button
          */
-        body: function (body) {
-            this._dialog.body = $('<div>').addClass('modal-body').append(body);
+        header: function (headline, closer) {
+
+            var hd = $('<h4>').addClass('modal-title').append(headline),
+                cb = '';
+
+            if (closer) {
+                cb = '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                         '<span aria-hidden="true">&times;</span>' +
+                     '</button>';
+            }
+
+            this._dialog.header = $('<div>').addClass('modal-header').append(cb).append(hd);
         },
 
         /**
@@ -78,9 +100,11 @@
             var dialog =
                 $('<div>')
                     .addClass('modal-dialog')
+                    .attr('role', 'document')
                     .append(
                         $('<div>')
                             .addClass('modal-content')
+                            .append(this._dialog.header)
                             .append(this._dialog.body)
                             .append(this._dialog.footer)
                     );
