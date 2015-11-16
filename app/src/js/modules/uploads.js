@@ -230,8 +230,8 @@
      * @memberof Bolt.uploads
      * @param {Object} fieldset
      */
-    function bindSelectFromStack(fieldset) {
-        console.log(fieldset);
+    function bindSelectFromStack(innerfieldset) {
+        var fieldset = $(innerfieldset).closest('div[data-bolt-fieldset]');
         $('ul.select-from-stack a', fieldset).on('click', function () {
             var path = $(this).data('path');
 
