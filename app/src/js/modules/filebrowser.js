@@ -79,21 +79,15 @@
      * @param {Object} fieldset - Fieldset
      * @param {string} path - Path to the selected file
      */
-    function select(innerfieldset, path) {
-        var fieldset = $(innerfieldset).closest('div[data-bolt-fieldset]');
-        switch (fieldset.data('bolt-fieldset')) {
-            case 'file':
-            case 'image':
-                $('input.path', fieldset).val(path).trigger('change');
-                break;
-            case 'filelist':
-                bolt.uploads.addToList(fieldset, path);
-                break;
-            case 'imagelist':
-                bolt.uploads.addToList(fieldset, path);
-                break;
-            default:
-                bolt.stack.addToStack(path);
+    function select(fieldset, path) {
+        if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
+            $('input.path', fieldset).val(path).trigger('change');
+        } else if (fieldset.is(':bolt-fieldFilelist')) {
+            bolt.uploads.addToList(fieldset, path);
+        } else if (fieldset.is(':bolt-fieldImagelist')) {
+            bolt.uploads.addToList(fieldset, path);
+        } else {
+            bolt.stack.addToStack(path);
         }
 
         // Close the modal dialog.
