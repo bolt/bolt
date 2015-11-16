@@ -50,6 +50,15 @@
     {% set page_scripts_inc = page_scripts_inc|merge([localepath ~ page_locale_short ~ '.min.js']) %}
 {% endif %}
 
+{# Determine locale include for ckeditor #}
+{% set localepath = 'view/js/locale/ckeditor/' %}
+{% set page_locale_long_bcp47 = page_locale_long|replace('_', '-')|lower %}
+{% if file_exists(paths.apppath ~ '/' ~ localepath ~ page_locale_long_bcp47 ~ '.js') %}
+    {% set ckeditor_lang = page_locale_long_bcp47 %}
+{% else %}
+    {% set ckeditor_lang = page_locale_short %}
+{% endif %}
+
 {% endspaceless -%}
 
 <!DOCTYPE html>
@@ -100,6 +109,7 @@
         maxSizeNice: app['filepermissions'].getMaxUploadSizeNice(),
     },
     ckeditor: {
+        lang:        ckeditor_lang,
         images:      0 + config.get('general/wysiwyg/images'),
         styles:      0 + config.get('general/wysiwyg/styles'),
         tables:      0 + config.get('general/wysiwyg/tables'),
