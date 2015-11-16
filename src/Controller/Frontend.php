@@ -190,6 +190,11 @@ class Frontend extends ConfigurableBase
 
         // First, get the preview from Post.
         $content = $this->storage()->getContentObject($contenttypeslug);
+
+        if ($id = $request->get('id')) {
+            $content = $this->storage()->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
+        }
+
         $content->setFromPost($request->request->all(), $contenttype);
 
         $liveEditor = $request->get('_live-editor-preview');

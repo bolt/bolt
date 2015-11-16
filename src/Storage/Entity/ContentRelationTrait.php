@@ -105,4 +105,19 @@ trait ContentRelationTrait
 
         $this->relation[$contenttype] = array_unique($ids);
     }
+
+    /**
+     * Clears a relation.
+     *
+     * @param string|array $contenttype
+     *
+     * @return void
+     */
+    public function clearRelation($contenttype)
+    {
+        if (!empty($this->relation[$contenttype])) {
+            unset($this->relation[$contenttype]);
+        }
+    }
+
 }
