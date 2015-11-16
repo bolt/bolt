@@ -21,10 +21,9 @@
          */
         _create: function () {
             this.element
-                .attr('id', 'bolt-modal')
-                .addClass('buic-modal');
-
-            this._init();
+                .attr('tabindex', -1)
+                .attr('role', 'dialog')
+                .addClass('buic-modal modal fade');
         },
 
         /**
@@ -39,23 +38,33 @@
         },
 
         /**
-         * Initialzes the modal.
+         * Sets the body of the modal.
          *
-         * @private
+         * @param {Object|string} body - The body part of the modal.
          */
-        _init: function () {
+        body: function (body) {
+            this.setBody = $('<div>').addClass('modal-body').append(body);
+        },
+
+        /**
+         * Builds and shows the modal.
+         */
+        show: function () {
+            var dialog = $('<div>').addClass('modal-dialog'),
+                content = $('<div>').addClass('modal-content');
+
+            // Add the body part.
+            content.append(this.setBody);
+
+            // Build the dialog.
+            dialog.append(content);
+
+            // Clear the modal.
             this._clear();
 
             this.element
-                .append(
-                    '<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">' +
-                        '<div class="modal-dialog">' +
-                            '<div class="modal-content">' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>'
-                )
-                .modal({show: false});
+                .append(dialog)
+                .modal('show');
         }
     });
 })(jQuery);
