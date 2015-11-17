@@ -163,4 +163,21 @@ class WidgetHandlerTest extends BoltUnitTest
         $result = $handler->widgets();
         $this->assertNull($result);
     }
+
+    public function testWidgetNoLocationStrict()
+    {
+        $app = $this->getApp();
+        $app['config']->set('general/strict_variables', true);
+
+        $handler = new WidgetHandler($app);
+        $widget = (new Widget())
+            ->setType('frontend')
+            ->setLocation('gum-tree')
+            ->setContent('<blink>Drop Bear Warning!</blink>')
+        ;
+
+        $this->setExpectedException('InvalidArgumentException', 'wigets() requires a location, none given');
+        $app['asset.queue.widget']->add($widget);
+        $handler->widgets();
+    }
 }
