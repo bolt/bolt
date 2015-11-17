@@ -31,17 +31,21 @@ class Database extends BackendBase
      *
      * Does not do actual repairs.
      *
+     * @param Request $request
+     *
      * @return \Bolt\Response\BoltResponse
      */
-    public function check()
+    public function check(Request $request)
     {
         /** @var $response \Bolt\Storage\Database\Schema\SchemaCheck */
         $check = $this->app['schema']->check();
 
         $context = [
-            'modifications_made'     => null,
-            'modifications_required' => $check->getResponseStrings(),
-            'modifications_hints'    => $check->getHints(),
+            'changes' => null,
+            'check'   => $check,
+            'debug'   => $request->query->has('debug'),
+            'alters'  => $this->app['schema.comparator']->getAlters(),
+            'creates' => $this->app['schema.comparator']->getCreates(),
         ];
 
         return $this->render('@bolt/dbcheck/dbcheck.twig', $context);

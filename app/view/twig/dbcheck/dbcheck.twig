@@ -10,11 +10,11 @@
 
 {% block page_main %}
 
-    {% set hints = context.modifications_hints|default([]) %}
+    {% set hints = context.check.hints|default([]) %}
 
     <div class="row">
         <div class="col-xs-12">
-            {% if context.modifications_made %}
+            {% if context.changes %}
 
                 {{ list(__('Modifications made to the database:'), context.modifications_made) }}
                 {{ list(__('Hints:'), hints) }}
@@ -25,9 +25,9 @@
                     <p><button type="submit" class="btn btn-default btn-primary">{{ __('Check again') }}</button></p>
                 </form>
 
-            {% elseif context.modifications_required %}
+            {% elseif context.check.responsestrings %}
 
-                {{ list(__('Modifications needed:'), context.modifications_required) }}
+                {{ list(__('Modifications needed:'), context.check.responsestrings) }}
                 {{ list(__('Hints:'), hints) }}
 
                 <form action="{{ path('dbupdate') }}" method="post">
