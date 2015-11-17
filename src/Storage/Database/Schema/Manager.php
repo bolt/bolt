@@ -50,7 +50,7 @@ class Manager
      */
     public function __call($name, $args)
     {
-        $this->app['logger.system']->warning('[DEPRECATED]: An extension is called an invalid or removed integrity checker function: ' . $name, ['event' => 'deprecated']);
+        $this->app['logger.system']->warning('[DEPRECATED]: An extension called an invalid, or removed, integrity checker function: ' . $name, ['event' => 'deprecated']);
     }
 
     /**
@@ -58,7 +58,7 @@ class Manager
      */
     public function __get($name)
     {
-        $this->app['logger.system']->warning('[DEPRECATED]: An extension is called an invalid or removed integrity checker property: ' . $name, ['event' => 'deprecated']);
+        $this->app['logger.system']->warning('[DEPRECATED]: An extension called an invalid, or removed integrity, checker property: ' . $name, ['event' => 'deprecated']);
     }
 
     /**
