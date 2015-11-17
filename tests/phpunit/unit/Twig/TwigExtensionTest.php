@@ -141,6 +141,16 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->cacheHash(null);
     }
 
+    public function testCountWidgets()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['widget'] = $this->getMockHandler('WidgetHandler', 'countWidgets');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->countWidgets(null, null);
+    }
+
     public function testCurrent()
     {
         $app = $this->getApp();
@@ -209,6 +219,26 @@ class TwigExtensionTest extends BoltUnitTest
         $twig = new TwigExtension($app, $handlers, true);
 
         $twig->getUserId(null);
+    }
+
+    public function testGetWidgets()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['widget'] = $this->getMockHandler('WidgetHandler', 'getWidgets');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->getWidgets(null, null);
+    }
+
+    public function testHasWidgets()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['widget'] = $this->getMockHandler('WidgetHandler', 'hasWidgets');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->hasWidgets(null, null);
     }
 
     public function testHattr()
