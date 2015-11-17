@@ -141,7 +141,7 @@ class Application extends Silex\Application
                 'db.options' => $this['config']->get('general/database'),
             ]
         );
-        $this->register(new EventListener\DoctrineListener());
+        $this->register(new Provider\DatabaseProvider());
 
         $this->checkDatabaseConnection();
 

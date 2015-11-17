@@ -6,9 +6,14 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 
-class DoctrineListener implements ServiceProviderInterface, EventSubscriber
+/**
+ * Listener for Doctrine events.
+ *
+ * @author Carson Full <carsonfull@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
+class DoctrineListener implements EventSubscriber
 {
     /**
      * Event fired on database connection failure.
@@ -54,36 +59,11 @@ class DoctrineListener implements ServiceProviderInterface, EventSubscriber
         }
     }
 
-    public function register(Application $app)
-    {
-        $self = $this;
-        // For each database connection add this class as an event subscriber
-        $app['dbs.event_manager'] = $app->share(
-            $app->extend(
-                'dbs.event_manager',
-                function ($managers) use ($self) {
-                    /** @var \Pimple $managers */
-                    foreach ($managers->keys() as $name) {
-                        /** @var \Doctrine\Common\EventManager $manager */
-                        $manager = $managers[$name];
-                        $manager->addEventSubscriber($self);
-                    }
-
-                    return $managers;
-                }
-            )
-        );
-    }
-
     public function getSubscribedEvents()
     {
         return [
             Events::postConnect,
             'failConnect'
         ];
-    }
-
-    public function boot(Application $app)
-    {
     }
 }
