@@ -69,7 +69,7 @@
                     .append(
                         $('<div/>')
                             .addClass('modal-dialog modal-lg')
-                            .addClass(self.options.small ? 'modal-lg' : '')
+                            .addClass(self.options.small ? 'modal-sm' : '')
                             .addClass(self.options.large ? 'modal-lg' : '')
                             .attr('role', 'document')
                             .append(self._ui.content)
