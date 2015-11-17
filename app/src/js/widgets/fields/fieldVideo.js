@@ -23,9 +23,7 @@
         _create: function () {
             var self = this,
                 fieldset = this.element,
-                timeout = 0/*,
-                modal = fieldset.find('div.modal'),
-                /*modalBody = fieldset.find('div.modal-body')*/;
+                timeout = 0;
 
             /**
              * Refs to UI elements of this widget.
