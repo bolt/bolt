@@ -17,12 +17,16 @@
         /**
          * Default options.
          *
+         * @property {boolean}       [small=false]  - Create a small dialog
+         * @property {boolean}       [large=false]  - Create a large dialog
          * @property {boolean}       [closer=false] - Add a close button
          * @property {Object|string} [headline]     - Add a headline
          * @property {Object|string} [body]         - Add a body
          * @property {Object|string} [footer]       - Add a footer
          */
         options: {
+            small:    false,
+            large:    false,
             closer:   false,
             headline: '',
             body:     '',
@@ -64,7 +68,9 @@
                     .addClass('buic-modal modal fade')
                     .append(
                         $('<div/>')
-                            .addClass('modal-dialog')
+                            .addClass('modal-dialog modal-lg')
+                            .addClass(self.options.small ? 'modal-lg' : '')
+                            .addClass(self.options.large ? 'modal-lg' : '')
                             .attr('role', 'document')
                             .append(self._ui.content)
                     );
