@@ -95,7 +95,7 @@ class Queue implements QueueInterface
     public function process($html)
     {
         /** @var WidgetAssetInterface $widget */
-        foreach ($this->sort($this->queue) as $widget) {
+        foreach ($this->queue as $widget) {
             if ($widget->getType() === 'frontend' && $widget->isDeferred()) {
                 $html = $this->addDeferredJavaScript($widget, $html);
             }
@@ -160,7 +160,8 @@ class Queue implements QueueInterface
     {
         $html = null;
 
-        foreach ($this->queue as $widget) {
+        /** @var WidgetAssetInterface $widget */
+        foreach ($this->sort($this->queue) as $widget) {
             if ($widget->getType() === $type && $widget->getLocation() === $location) {
                 $html .= $this->addWidgetHolder($widget);
             }
