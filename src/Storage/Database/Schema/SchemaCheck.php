@@ -171,7 +171,7 @@ class SchemaCheck
                 $tableName,
                 join('`, `', array_keys($diff->removedColumns))
             );
-            $this->addHint($hint);
+            $this->hints[] = $hint;
         }
     }
 
