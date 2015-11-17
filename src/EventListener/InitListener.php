@@ -1,5 +1,6 @@
 <?php
-namespace Bolt\Storage\Database;
+
+namespace Bolt\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
