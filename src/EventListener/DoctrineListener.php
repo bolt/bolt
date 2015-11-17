@@ -8,7 +8,7 @@ use Doctrine\DBAL\Events;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
-class InitListener implements ServiceProviderInterface, EventSubscriber
+class DoctrineListener implements ServiceProviderInterface, EventSubscriber
 {
     /**
      * Event fired on database connection failure.
