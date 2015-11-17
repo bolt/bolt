@@ -31,7 +31,7 @@ class DatabaseTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/dbcheck'));
         $this->checkTwigForTemplate($this->getApp(), '@bolt/dbcheck/dbcheck.twig');
 
-        $this->controller()->check();
+        $this->controller()->check($this->getRequest());
     }
 
     public function testUpdate()

@@ -20,25 +20,15 @@ class SchemaCheck
     private $messages = [];
     /** @var array */
     private $hints = [];
-    /** @var array */
+    /** @var TableDiff[] */
     private $diffs = [];
 
     /**
-     * Add a diff detail.
+     * Get a table diffs.
      *
-     * @param string $detail
+     * @return TableDiff[]
      */
-    public function addDiffDetail($detail)
-    {
-        $this->diffs[] = $detail;
-    }
-
-    /**
-     * Get the diff details.
-     *
-     * @return array
-     */
-    public function getDiffDetails()
+    public function getDiff()
     {
         return $this->diffs;
     }
@@ -155,6 +145,8 @@ class SchemaCheck
      */
     public function checkDiff($tableName, TableDiff $diff)
     {
+        $this->diffs[$tableName] = $diff;
+
         // Adds
         $this->getAddedColumns($tableName, $diff);
         $this->getAddedIndexes($tableName, $diff);
@@ -179,7 +171,7 @@ class SchemaCheck
                 $tableName,
                 join('`, `', array_keys($diff->removedColumns))
             );
-            $this->addHint($hint);
+            $this->hints[] = $hint;
         }
     }
 
