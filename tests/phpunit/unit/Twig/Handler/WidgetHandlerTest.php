@@ -28,6 +28,23 @@ class WidgetHandlerTest extends BoltUnitTest
         $this->assertSame(1, $count);
     }
 
+    public function testCountWidgetsNoLocationDefault()
+    {
+        $app = $this->getApp();
+        $app['config']->set('general/strict_variables', false);
+
+        $handler = new WidgetHandler($app);
+        $widget = (new Widget())
+            ->setType('frontend')
+            ->setLocation('gum-tree')
+            ->setContent('<blink>Drop Bear Warning!</blink>')
+        ;
+
+        $app['asset.queue.widget']->add($widget);
+        $count = $handler->countWidgets();
+        $this->assertSame(0, $count);
+    }
+
     public function testGetWidgets()
     {
         $app = $this->getApp();
