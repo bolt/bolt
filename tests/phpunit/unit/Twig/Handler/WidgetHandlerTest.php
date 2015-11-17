@@ -146,4 +146,21 @@ class WidgetHandlerTest extends BoltUnitTest
         $this->assertRegExp('#<div class="widgetholder widgetholder-gum-tree">#', $result);
         $this->assertRegExp('#<blink>Drop Bear Warning!</blink>#', $result);
     }
+
+    public function testWidgetNoLocationDefault()
+    {
+        $app = $this->getApp();
+        $app['config']->set('general/strict_variables', false);
+
+        $handler = new WidgetHandler($app);
+        $widget = (new Widget())
+            ->setType('frontend')
+            ->setLocation('gum-tree')
+            ->setContent('<blink>Drop Bear Warning!</blink>')
+        ;
+
+        $app['asset.queue.widget']->add($widget);
+        $result = $handler->widgets();
+        $this->assertNull($result);
+    }
 }
