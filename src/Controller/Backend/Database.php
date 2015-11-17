@@ -76,8 +76,9 @@ class Database extends BackendBase
         $output = $this->session()->get('dbupdate_result', []);
 
         $context = [
-            'modifications_made'     => $output,
-            'modifications_required' => null,
+            'changes' => $output,
+            'check'   => null,
+            'debug'   => false,
         ];
 
         return $this->render('@bolt/dbcheck/dbcheck.twig', $context);
