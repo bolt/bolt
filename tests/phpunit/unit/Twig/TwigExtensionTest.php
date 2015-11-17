@@ -221,6 +221,16 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->getWidgets(null, null);
     }
 
+    public function testHasWidgets()
+    {
+        $app = $this->getApp();
+        $handlers = $this->getTwigHandlers($app);
+        $handlers['widget'] = $this->getMockHandler('WidgetHandler', 'hasWidgets');
+        $twig = new TwigExtension($app, $handlers, true);
+
+        $twig->hasWidgets(null, null);
+    }
+
     public function testHattr()
     {
         $app = $this->getApp();
