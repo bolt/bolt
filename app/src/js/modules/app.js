@@ -103,23 +103,23 @@
             context = $(document.documentElement);
         }
 
-        // Initialze all uninitialized widgets.
+        // Initialize all uninitialized widgets.
         $('[data-bolt-widget]', context).each(function () {
             var element = $(this),
-                conf = element.data('bolt-widget'),
-                type;
+                data = element.data('bolt-widget'),
+                widgets = {};
 
-            if (typeof conf === 'object') {
-                type = conf._;
-                delete conf._;
+            if (typeof data === 'string') {
+                widgets[data] = {};
             } else {
-                type = conf;
-                conf = {};
+                widgets = data;
             }
 
-            element[type](conf)
-                .removeAttr('data-bolt-widget')
-                .removeData('bolt-widget');
+            $.each(widgets, function (type, options) {
+                element[type](options)
+                    .removeAttr('data-bolt-widget')
+                    .removeData('bolt-widget');
+            });
         });
     };
 

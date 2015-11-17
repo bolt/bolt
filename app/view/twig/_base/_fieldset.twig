@@ -7,7 +7,7 @@
 {% if not widget_name %}
     {% set data_bolt_widget = '' %}
 {% elseif fieldset_conf|default() is iterable %}
-    {% set data_bolt_widget = {_: widget_name}|merge(fieldset_conf)|json_encode %}
+    {% set data_bolt_widget = {(widget_name): fieldset_conf}|json_encode %}
 {% else %}
     {% set data_bolt_widget = widget_name %}
 {% endif %}
