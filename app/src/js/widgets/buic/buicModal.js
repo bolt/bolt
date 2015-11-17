@@ -46,7 +46,7 @@
          * @param {Object|string} [def.body]         - Add a body
          * @param {Object|string} [def.footer]       - Add a footer
          */
-        show: function (def) {
+        go: function (def) {
             var self = this,
                 dialog,
                 dialogHeader = '',
@@ -97,12 +97,16 @@
             this.element
                 .append(dialog)
                 .on('show.bs.modal', function () {
+                    self._trigger('show');
                 })
                 .on('shown.bs.modal', function () {
+                    self._trigger('shown');
                 })
                 .on('hide.bs.modal', function () {
+                    self._trigger('hide');
                 })
                 .on('hidden.bs.modal', function () {
+                    self._trigger('hidden');
                     self._clear();
                 })
                 .modal('show');
