@@ -32,6 +32,10 @@ class WidgetHandler
      */
     public function countWidgets($location = null, $type = 'frontend')
     {
+        if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
+            throw new \InvalidArgumentException('countwigets() requires a location, none given');
+        }
+
         return $this->app['asset.queue.widget']->countItemsInQueue($location, $type);
     }
 
@@ -55,6 +59,10 @@ class WidgetHandler
      */
     public function hasWidgets($location = null, $type = 'frontend')
     {
+        if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
+            throw new \InvalidArgumentException('haswidgets() requires a location, none given');
+        }
+
         return $this->app['asset.queue.widget']->hasItemsInQueue($location, $type);
     }
 
@@ -68,6 +76,10 @@ class WidgetHandler
      */
     public function widgets($location = null, $type = 'frontend')
     {
+        if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
+            throw new \InvalidArgumentException('wigets() requires a location, none given');
+        }
+
         return $this->app['asset.queue.widget']->render($location, $type);
     }
 }
