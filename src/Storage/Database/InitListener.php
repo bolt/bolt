@@ -10,6 +10,15 @@ use Silex\ServiceProviderInterface;
 class InitListener implements ServiceProviderInterface, EventSubscriber
 {
     /**
+     * Event fired on database connection failure.
+     *
+     * @param ConnectionEventArgs $args
+     */
+    public function failConnect(ConnectionEventArgs $args)
+    {
+    }
+
+    /**
      * After connecting, update this connection's database settings.
      *
      * Note: Doctrine expects this method to be called postConnect
@@ -67,7 +76,10 @@ class InitListener implements ServiceProviderInterface, EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return [Events::postConnect];
+        return [
+            Events::postConnect,
+            'failConnect'
+        ];
     }
 
     public function boot(Application $app)
