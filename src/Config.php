@@ -653,6 +653,9 @@ class Config
             $options['randomfunction'] = 'RANDOM()';
         }
 
+        // Specify the wrapper class for the connection
+        $options['wrapperClass'] = '\Bolt\Storage\Database\Connection';
+
         // Parse SQLite separately since it has to figure out database path
         if ($driver === 'sqlite') {
             return $this->parseSqliteOptions($options);
@@ -664,7 +667,7 @@ class Config
         }
 
         // Specify we want a master slave connection
-        $options['wrapperClass'] = '\Doctrine\DBAL\Connections\MasterSlaveConnection';
+        $options['wrapperClass'] = '\Bolt\Storage\Database\MasterSlaveConnection';
 
         // Add master connection where MasterSlaveConnection looks for it.
         $options['master'] = $master;
