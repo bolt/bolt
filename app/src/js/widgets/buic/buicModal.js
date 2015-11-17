@@ -37,10 +37,27 @@
         _create: function () {
             var self = this;
 
-            this._content = $('<div/>')
+            /**
+             * Refs to UI elements of this widget.
+             *
+             * @type {Object}
+             * @name _ui
+             * @memberOf jQuery.widget.bolt.fieldSlug.prototype
+             * @private
+             *
+             * @property {Object} content  - Content element of the modal.
+             * @property {Object} modal    - The modal.
+             */
+            this._ui = {
+                content:  null,
+                modal:    null
+            };
+
+            // Setup UI elements.
+            self._ui.content = $('<div/>')
                 .addClass('modal-content');
 
-            this._modal =
+            self._ui.modal =
                 $('<div/>')
                     .attr('tabindex', -1)
                     .attr('role', 'dialog')
@@ -49,16 +66,19 @@
                         $('<div/>')
                             .addClass('modal-dialog')
                             .attr('role', 'document')
-                            .append(this._content)
+                            .append(self._ui.content)
                     );
 
-            this._addHeader();
-            this._addBody();
-            this._addFooter();
+            // Build and add content.
+            self._addHeader();
+            self._addBody();
+            self._addFooter();
 
-            this.element.prepend(this._modal);
+            // Add it to the DOM.
+            self.element.prepend(self._ui.modal);
 
-            this._modal
+            // Activate bootstrap modal.
+            self._ui.modal
                 .on('show.bs.modal', function () {
                     self._trigger('show');
                 })
@@ -81,7 +101,7 @@
          * @private
          */
         _destroy: function () {
-            this._modal
+            this._ui.modal
                 .data('modal', null)
                 .remove();
         },
@@ -105,7 +125,7 @@
                     headline = $('<h4/>').addClass('modal-title').append(this.options.headline);
                 }
 
-                this._content.append(
+                this._ui.content.append(
                     $('<div/>')
                         .addClass('modal-header')
                         .append(closer)
@@ -118,7 +138,7 @@
          * Adds a body to the modal.
          */
         _addBody: function () {
-            this._content.append(
+            this._ui.content.append(
                 $('<div/>')
                     .addClass('modal-body')
                     .append(this.options.body || '')
@@ -130,7 +150,7 @@
          */
         _addFooter: function () {
             if (this.options.footer) {
-                this._content.append(
+                this._ui.content.append(
                     $('<div/>')
                         .addClass('modal-footer')
                         .append(this.options.footer)
