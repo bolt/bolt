@@ -30,7 +30,7 @@ class WidgetHandler
      *
      * @return integer
      */
-    public function countWidgets($location = '', $type = 'frontend')
+    public function countWidgets($location = null, $type = 'frontend')
     {
         return $this->app['asset.queue.widget']->countItemsInQueue($location, $type);
     }
@@ -53,7 +53,7 @@ class WidgetHandler
      *
      * @return boolean
      */
-    public function hasWidgets($location = '', $type = 'frontend')
+    public function hasWidgets($location = null, $type = 'frontend')
     {
         return $this->app['asset.queue.widget']->hasItemsInQueue($location, $type);
     }
@@ -66,7 +66,7 @@ class WidgetHandler
      *
      * @return \Twig_Markup|string
      */
-    public function widgets($location = '', $type = 'frontend')
+    public function widgets($location = null, $type = 'frontend')
     {
         return $this->app['asset.queue.widget']->render($location, $type);
     }
