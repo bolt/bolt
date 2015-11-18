@@ -72,7 +72,7 @@ class Application extends Silex\Application
 
     protected function initConfig()
     {
-        $this->register(new Provider\DatabaseSchemaProvider())
+        $this->register(new Provider\DatabaseSchemaServiceProvider())
             ->register(new Provider\ConfigServiceProvider());
     }
 

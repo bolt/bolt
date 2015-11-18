@@ -14,7 +14,7 @@ use Silex\ServiceProviderInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class DatabaseSchemaProvider implements ServiceProviderInterface
+class DatabaseSchemaServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
