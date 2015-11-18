@@ -77,7 +77,7 @@ class WidgetHandler
     public function widgets($location = null, $type = 'frontend')
     {
         if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
-            throw new \InvalidArgumentException('wigets() requires a location, none given');
+            throw new \InvalidArgumentException('widgets() requires a location, none given');
         }
 
         return $this->app['asset.queue.widget']->render($location, $type);
