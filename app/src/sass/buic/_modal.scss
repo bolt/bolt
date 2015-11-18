@@ -2,11 +2,29 @@
  * BUIC: Modal.
  */
 .buic-modal {
+    .modal-body {
+        min-height: 200px;
+    }
+
     .modal-loading {
-        padding: 100px 0;
-        text-align: center;
-        font-size: 500%;
-        color: #aaa;
+        .modal-body {
+            opacity: 0.4;
+        }
+
+        &:after {
+            position: absolute;
+            display: block;
+            top: 50px;
+            left: 50%;
+            width: 70px;
+            margin-left: -35px;
+            text-align: center;
+            font-family: FontAwesome;
+            content: "\f110";
+            font-size: 500%;
+            color: #666;
+            animation: fa-spin 2s infinite linear;
+        }
     }
 
     .modal-error {

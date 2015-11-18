@@ -72,6 +72,7 @@
                 header:  header,
                 body:    body,
                 footer:  footer,
+                content: content,
                 modal:   modal
             };
 
@@ -189,11 +190,8 @@
         _load: function () {
             var self = this;
 
-            self._setHeader('');
-            self._setBody('<i class="fa fa-spinner fa-pulse"></i>');
-            self._setFooter('');
             self._ui.body.removeClass('modal-error');
-            self._ui.body.addClass('modal-loading');
+            self._ui.content.addClass('modal-loading');
 
             $.get(self.options.remote.url, self.options.remote.params || {})
                 .done(function (data) {
@@ -223,7 +221,7 @@
                     self._setFooter();
                 })
                 .always(function () {
-                    self._ui.body.removeClass('modal-loading');
+                    self._ui.content.removeClass('modal-loading');
                 });
         },
 
