@@ -84,7 +84,14 @@
                 self._setFooter();
             }
 
-            // Add it to the DOM.
+            // Retry button.
+            this._on(this.element, {
+                'click .modal-retry': function () {
+                    self._load();
+                }
+            });
+
+            // Add the modal to the DOM.
             self.element.prepend(self._ui.modal);
 
             // Activate bootstrap modal.
@@ -103,6 +110,10 @@
                     self.destroy();
                 })
                 .modal('show');
+
+            self._on(self.element, 'click ', function () {
+
+            });
         },
 
         /**
@@ -184,19 +195,31 @@
         _load: function () {
             var self = this;
 
-            this._setHeader('');
-            this._setBody('<i class="fa fa-spinner fa-pulse"></i>');
-            this._setFooter('');
-            this._ui.body.addClass('loading');
+            self._setHeader('');
+            self._setBody('<i class="fa fa-spinner fa-pulse"></i>');
+            self._setFooter('');
+            self._ui.body.removeClass('modal-error');
+            self._ui.body.addClass('modal-loading');
 
             $.get(self.options.remote.url, self.options.remote.params || {})
                 .done(function (data) {
                     self.options.content = data;
-                    self._ui.body.removeClass('loading');
 
                     self._setHeader();
                     self._setBody();
                     self._setFooter();
+                })
+                .fail(function () {
+                    self._ui.body.addClass('modal-error');
+
+                    self._setHeader();
+                    self._setBody(
+                        '<button type=button class="btn btn-default modal-retry"><i class="fa fa-refresh"></i></button>'
+                    );
+                    self._setFooter();
+                })
+                .always(function () {
+                    self._ui.body.removeClass('modal-loading');
                 });
         }
     });

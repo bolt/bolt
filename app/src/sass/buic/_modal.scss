@@ -2,10 +2,15 @@
  * BUIC: Modal.
  */
 .buic-modal {
-    .loading {
+    .modal-loading {
         padding: 100px 0;
         text-align: center;
         font-size: 500%;
         color: #aaa;
+    }
+
+    .modal-error {
+        padding: 100px 0;
+        text-align: center;
     }
 }
