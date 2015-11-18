@@ -27,6 +27,7 @@
         </script>
 
         {% for repeatfieldset in repeatfieldvals %}
+            {% include '@bolt/editcontent/fields/_repeater-group.twig' with { 'content': repeatfieldset } %}
         {% endfor %}
     </div>
 
