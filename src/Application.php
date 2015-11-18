@@ -4,13 +4,10 @@ namespace Bolt;
 
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
-use Bolt\Exception\LowlevelException;
-use Bolt\Helpers\Str;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
 use Bolt\Provider\WhoopsServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
-use Doctrine\DBAL\DBALException;
 use Silex;
 use Symfony\Component\Stopwatch;
 
