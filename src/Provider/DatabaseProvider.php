@@ -16,6 +16,16 @@ class DatabaseProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        $app['db.config'] = $app->share(
+            $app->extend('db.config',
+                function ($config) use ($app) {
+                    $config->setFilterSchemaAssetsExpression($app['schema.tables_filter']);
+
+                    return $config;
+                }
+            )
+        );
+
         // For each database connection add this class as an event subscriber
         $app['dbs.event_manager'] = $app->share(
             $app->extend(

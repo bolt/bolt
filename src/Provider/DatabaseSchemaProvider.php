@@ -32,6 +32,11 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
             }
         );
 
+        $app['schema.tables_filter'] = function () use ($app) {
+            $prefix = $app['config']->get('general/database/prefix');
+            return "/^$prefix.+/";
+        };
+
         /** @deprecated Will be removed in Bolt 3 */
         $app['integritychecker'] = $app->share(
             function ($app) {
