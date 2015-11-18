@@ -195,7 +195,7 @@
             self._ui.body.removeClass('modal-error');
             self._ui.body.addClass('modal-loading');
 
-            $.get(+self.options.remote.url, self.options.remote.params || {})
+            $.get(self.options.remote.url, self.options.remote.params || {})
                 .done(function (data) {
                     self.options.content = data;
 
