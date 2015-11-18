@@ -17,14 +17,17 @@
         /**
          * Default options.
          *
-         * @property {boolean}       [small=false]  - Create a small dialog
-         * @property {boolean}       [large=false]  - Create a large dialog
-         * @property {boolean}       [closer=false] - Add a close button
-         * @property {Object|string} [headline]     - Add a headline
-         * @property {Object|string} [body]         - Add a body
-         * @property {Object|string} [footer]       - Add a footer
-         * @property {Object|string} [content]      - Add a content
-         * @property {string}        [remote]       - Add a URL to load content from
+         * @property {boolean}       [small=false]   - Create a small dialog
+         * @property {boolean}       [large=false]   - Create a large dialog
+         * @property {boolean}       [closer=false]  - Add a close button
+         * @property {Object|string} [headline]      - Add a headline
+         * @property {Object|string} [body]          - Add a body
+         * @property {Object|string} [footer]        - Add a footer
+         * @property {Object|string} [content]       - Add a content
+         * @property {string}        [remote]        - Add a URL to load content from
+         * @property {string}        [remote.url]    - Remote URL
+         * @property {string}        [remote.params] - Remote URL
+         * @property {function}      [loaded]        - Callback fired when remote data was laoded
          */
         options: {
             small:    false,
@@ -34,7 +37,8 @@
             body:     undefined,
             footer:   undefined,
             content:  undefined,
-            remote:   undefined
+            remote:   undefined,
+            loaded:   undefined
         },
 
         /**
@@ -110,10 +114,6 @@
                     self.destroy();
                 })
                 .modal('show');
-
-            self._on(self.element, 'click ', function () {
-
-            });
         },
 
         /**
@@ -208,6 +208,16 @@
                     self._setHeader();
                     self._setBody();
                     self._setFooter();
+
+                    self._trigger(
+                        'loaded',
+                        null,
+                        {
+                            header:  self._ui.header,
+                            body:    self._ui.body,
+                            footer:  self._ui.footer
+                        }
+                    );
                 })
                 .fail(function () {
                     self._ui.body.addClass('modal-error');
