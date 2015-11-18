@@ -35,7 +35,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
             )
         );
 
-        $app['db.doctrine_listner'] = $app->share(
+        $app['db.doctrine_listener'] = $app->share(
             function ($app) {
                 return new DoctrineListener($app['logger.system']);
             }
@@ -50,7 +50,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
                     foreach ($managers->keys() as $name) {
                         /** @var \Doctrine\Common\EventManager $manager */
                         $manager = $managers[$name];
-                        $manager->addEventSubscriber($app['db.doctrine_listner']);
+                        $manager->addEventSubscriber($app['db.doctrine_listener']);
                     }
 
                     return $managers;
