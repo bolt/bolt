@@ -34,7 +34,7 @@ abstract class BaseComparator
     protected $tablesCreate;
     /** @var \Doctrine\DBAL\Schema\TableDiff[] */
     protected $tablesAlter;
-    /** @var array */
+    /** @var IgnoredChange[] */
     protected $ignoredChanges = [];
     /** @var boolean */
     protected $pending;
@@ -55,6 +55,7 @@ abstract class BaseComparator
         $this->manager = $manager;
         $this->schemaTables = $schemaTables;
         $this->systemLog = $systemLog;
+        $this->setIgnoredChanges();
     }
 
     /**
@@ -149,6 +150,11 @@ abstract class BaseComparator
 
         return $queries;
     }
+
+    /**
+     * Create a list of changes this platform will ignore.
+     */
+    abstract protected function setIgnoredChanges();
 
     /**
      * Remove table/column diffs that for verious reasons aren't supported on a
