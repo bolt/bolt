@@ -141,7 +141,7 @@ class Application extends Silex\Application
                 'db.options' => $this['config']->get('general/database'),
             ]
         );
-        $this->register(new Provider\DatabaseProvider());
+        $this->register(new Provider\DatabaseServiceProvider());
 
         $this->register(
             new Silex\Provider\HttpCacheServiceProvider(),

@@ -12,7 +12,7 @@ use Silex\ServiceProviderInterface;
  * @author Carson Full <carsonfull@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class DatabaseProvider implements ServiceProviderInterface
+class DatabaseServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
