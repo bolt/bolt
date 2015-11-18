@@ -351,7 +351,6 @@
 
             var devpacks = data.dev;
             var stablepacks = data.stable;
-            var latestpacks = [ data.stable[0] ];
 
             if (devpacks.length > 0) {
                 find('.dev-version-container .installed-version-item').html('');
@@ -363,16 +362,16 @@
                 find('.stable-version-container .installed-version-item').html('');
                 find('.stable-version-container .installed-version-item')
                     .append(buildVersionTable(stablepacks));
-            }
 
-            if (latestpacks.length > 0) {
                 find('.latest-version-container .installed-version-item').html('');
                 find('.latest-version-container .installed-version-item')
-                    .append(buildVersionTable(latestpacks));
+                    .append(buildVersionTable([ data.stable[0] ]));
+
+                find('.install-latest-container').show();
+            } else {
+                find('.install-version-container').show();
             }
 
-
-            find('.install-latest-container').show();
             find('#installModal .loader').hide();
         })
         .fail(function(data) {
@@ -393,18 +392,20 @@
         for (var v in packages) {
             if (packages.hasOwnProperty(v)) {
                 version = packages[v];
-                aclass = version.buildStatus === 'approved' ? ' label-success' : '';
+                if (typeof version !== 'undefined') {
+                    aclass = version.buildStatus === 'approved' ? ' label-success' : '';
 
-                // Add a row and replace macro values.
-                tpl += bolt.data(
-                    'extend.packages.versions',
-                    {
-                        '%NAME%': version.name,
-                        '%VERSION%': version.version,
-                        '%CLASS%%': aclass,
-                        '%BUILDSTATUS%': version.buildStatus
-                    }
-                );
+                    // Add a row and replace macro values.
+                    tpl += bolt.data(
+                        'extend.packages.versions',
+                        {
+                            '%NAME%': version.name,
+                            '%VERSION%': version.version,
+                            '%CLASS%%': aclass,
+                            '%BUILDSTATUS%': version.buildStatus
+                        }
+                    );
+                }
             }
         }
 
