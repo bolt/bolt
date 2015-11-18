@@ -16,6 +16,15 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        if (!isset($app['db'])) {
+            $app->register(
+                new \Silex\Provider\DoctrineServiceProvider(),
+                [
+                    'db.options' => $app['config']->get('general/database'),
+                ]
+            );
+        }
+
         $app['db.config'] = $app->share(
             $app->extend('db.config',
                 function ($config) use ($app) {

@@ -135,18 +135,14 @@ class Application extends Silex\Application
      */
     public function initDatabase()
     {
-        $this->register(
-            new Silex\Provider\DoctrineServiceProvider(),
-            [
-                'db.options' => $this['config']->get('general/database'),
-            ]
-        );
         $this->register(new Provider\DatabaseServiceProvider());
 
         $this->register(
             new Silex\Provider\HttpCacheServiceProvider(),
             ['http_cache.cache_dir' => $this['resources']->getPath('cache')]
         );
+
+        $this->checkDatabaseConnection();
     }
 
     /**
