@@ -13,17 +13,17 @@ class MySql extends BaseComparator
 {
     /** @var string */
     protected $platform = 'mysql';
-    /** @var array */
-    protected $ignoredChanges = [
-        'changedColumns' => [
-            'propertyName'   => 'type',
-            'ignoredChanges' => [
-                ['before' => 'date', 'after' => 'date'],
-                ['before' => 'datetime', 'after' => 'datetime'],
-                ['before' => 'text', 'after' => 'json_array'],
-            ],
-        ]
-    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setIgnoredChanges()
+    {
+        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'date', 'date');
+        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'datetime', 'datetime');
+        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'text', 'json_array');
+        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'default', 'text', 'text');
+    }
 
     /**
      * {@inheritDoc}
