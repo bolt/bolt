@@ -20,12 +20,12 @@ class DatabaseProvider implements ServiceProviderInterface
         $app['dbs.event_manager'] = $app->share(
             $app->extend(
                 'dbs.event_manager',
-                function ($managers) {
+                function ($managers) use ($app) {
                     /** @var \Pimple $managers */
                     foreach ($managers->keys() as $name) {
                         /** @var \Doctrine\Common\EventManager $manager */
                         $manager = $managers[$name];
-                        $manager->addEventSubscriber(new DoctrineListener());
+                        $manager->addEventSubscriber(new DoctrineListener($app['logger.system']));
                     }
 
                     return $managers;
