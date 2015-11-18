@@ -185,12 +185,14 @@
             var self = this;
 
             this._setHeader('');
-            this._setBody('');
+            this._setBody('<i class="fa fa-spinner fa-pulse"></i>');
             this._setFooter('');
+            this._ui.body.addClass('loading');
 
             $.get(self.options.remote.url, self.options.remote.params || {})
                 .done(function (data) {
                     self.options.content = data;
+                    self._ui.body.removeClass('loading');
 
                     self._setHeader();
                     self._setBody();

@@ -1,5 +1,11 @@
 /**
  * BUIC: Modal.
  */
-.buic-select {
+.buic-modal {
+    .loading {
+        padding: 100px 0;
+        text-align: center;
+        font-size: 500%;
+        color: #aaa;
+    }
 }
