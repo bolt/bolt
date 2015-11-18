@@ -3,6 +3,22 @@ namespace Bolt\Exception;
 
 class LowLevelDatabaseException extends LowlevelException
 {
+    public static function failedConnect($platform, \Exception $previous)
+    {
+        $error = <<<TEXT
+Bolt could not connect to the configured database.
+
+Things to check:
+&nbsp;&nbsp;* Ensure the $platform database is running
+&nbsp;&nbsp;* Check the <code>database:</code> parameters are configured correctly in <code>app/config/config.yml</code>
+&nbsp;&nbsp;&nbsp;&nbsp;* Database name is correct
+&nbsp;&nbsp;&nbsp;&nbsp;* User name has access to the named database
+&nbsp;&nbsp;&nbsp;&nbsp;* Password is correct
+TEXT;
+
+        return new static($error, $previous->getCode(), $previous);
+    }
+
     public static function missingParameter($parameter)
     {
         return new static("There is no <code>$parameter</code> set for your database.");

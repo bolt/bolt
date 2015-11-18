@@ -3,7 +3,7 @@
 namespace Bolt\EventListener;
 
 use Bolt\Events\FailedConnectionEvent;
-use Bolt\Exception\LowlevelException;
+use Bolt\Exception\LowLevelDatabaseException;
 use Bolt\Helpers\Str;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
@@ -29,7 +29,9 @@ class DoctrineListener implements EventSubscriber
     /**
      * Event fired on database connection failure.
      *
-     * @param ConnectionEventArgs $args
+     * @param FailedConnectionEvent $args
+     *
+     * @throws LowLevelDatabaseException
      */
     public function failConnect(FailedConnectionEvent $args)
     {
@@ -46,14 +48,7 @@ class DoctrineListener implements EventSubscriber
         $platform = $args->getDriver()->getName();
         $platform = Str::replaceFirst('pdo_', '', $platform);
 
-        $error = "Bolt could not connect to the configured database.\n\n" .
-                 "Things to check:\n" .
-                 "&nbsp;&nbsp;* Ensure the $platform database is running\n" .
-                 "&nbsp;&nbsp;* Check the <code>database:</code> parameters are configured correctly in <code>app/config/config.yml</code>\n" .
-                 "&nbsp;&nbsp;&nbsp;&nbsp;* Database name is correct\n" .
-                 "&nbsp;&nbsp;&nbsp;&nbsp;* User name has access to the named database\n" .
-                 "&nbsp;&nbsp;&nbsp;&nbsp;* Password is correct\n";
-        throw new LowlevelException($error, $e->getCode(), $e);
+        throw LowLevelDatabaseException::failedConnect($platform, $e);
     }
 
     /**
