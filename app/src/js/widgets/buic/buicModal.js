@@ -190,7 +190,6 @@
         _load: function () {
             var self = this;
 
-            self._ui.body.removeClass('modal-error');
             self._ui.content.addClass('modal-loading');
 
             $.get(self.options.remote.url, self.options.remote.params || {})
@@ -212,8 +211,6 @@
                     );
                 })
                 .fail(function () {
-                    self._ui.body.addClass('modal-error');
-
                     self._setHeader();
                     self._setBody(
                         '<button type=button class="btn btn-default modal-retry"><i class="fa fa-refresh"></i></button>'

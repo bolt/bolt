@@ -25,10 +25,17 @@
             color: #666;
             animation: fa-spin 2s infinite linear;
         }
+
+        .modal-retry {
+            display: none;
+        }
     }
 
-    .modal-error {
-        padding: 100px 0;
-        text-align: center;
+    .modal-retry {
+        position: absolute;
+        left: 50%;
+        width: 36px;
+        margin-left: -18px;
+        margin-top: 50px;
     }
 }
