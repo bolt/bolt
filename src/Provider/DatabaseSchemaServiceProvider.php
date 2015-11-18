@@ -14,7 +14,7 @@ use Silex\ServiceProviderInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class DatabaseSchemaProvider implements ServiceProviderInterface
+class DatabaseSchemaServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
@@ -31,6 +31,11 @@ class DatabaseSchemaProvider implements ServiceProviderInterface
                 return rtrim($prefix, '_') . '_';
             }
         );
+
+        $app['schema.tables_filter'] = function () use ($app) {
+            $prefix = $app['config']->get('general/database/prefix');
+            return "/^$prefix.+/";
+        };
 
         /** @deprecated Will be removed in Bolt 3 */
         $app['integritychecker'] = $app->share(

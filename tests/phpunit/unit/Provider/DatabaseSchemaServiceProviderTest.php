@@ -1,20 +1,20 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Provider\DatabaseSchemaProvider;
+use Bolt\Provider\DatabaseSchemaServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test src/Provider/DatabaseSchemaProvider.
+ * Class to test src/Provider/DatabaseSchemaServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class DatabaseSchemaProviderTest extends BoltUnitTest
+class DatabaseSchemaServiceProviderTest extends BoltUnitTest
 {
     public function testProvider()
     {
         $app = $this->getApp();
-        $provider = new DatabaseSchemaProvider($app);
+        $provider = new DatabaseSchemaServiceProvider($app);
         $app->register($provider);
         $this->assertInstanceOf('Bolt\Storage\Database\Schema\Manager', $app['schema']);
         $app->boot();

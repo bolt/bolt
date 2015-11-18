@@ -4,13 +4,10 @@ namespace Bolt;
 
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
-use Bolt\Exception\LowlevelException;
-use Bolt\Helpers\Str;
 use Bolt\Provider\LoggerServiceProvider;
 use Bolt\Provider\PathServiceProvider;
 use Bolt\Provider\WhoopsServiceProvider;
 use Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider;
-use Doctrine\DBAL\DBALException;
 use Silex;
 use Symfony\Component\Stopwatch;
 
@@ -72,7 +69,7 @@ class Application extends Silex\Application
 
     protected function initConfig()
     {
-        $this->register(new Provider\DatabaseSchemaProvider())
+        $this->register(new Provider\DatabaseSchemaServiceProvider())
             ->register(new Provider\ConfigServiceProvider());
     }
 
@@ -135,59 +132,15 @@ class Application extends Silex\Application
      */
     public function initDatabase()
     {
-        $this->register(
-            new Silex\Provider\DoctrineServiceProvider(),
-            [
-                'db.options' => $this['config']->get('general/database'),
-            ]
-        );
-        $this->register(new Storage\Database\InitListener());
-
+        $this->register(new Provider\DatabaseServiceProvider());
         $this->checkDatabaseConnection();
-
-        $this->register(
-            new Silex\Provider\HttpCacheServiceProvider(),
-            ['http_cache.cache_dir' => $this['resources']->getPath('cache')]
-        );
     }
 
     /**
-     * Set up the DBAL connection now to check for a proper connection to the database.
-     *
-     * @throws LowlevelException
+     * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
      */
     protected function checkDatabaseConnection()
     {
-        // [SECURITY]: If we get an error trying to connect to database, we throw a new
-        // LowLevelException with general information to avoid leaking connection information.
-        try {
-            $this['db']->connect();
-        // A ConnectionException or DriverException could be thrown, we'll catch DBALException to be safe.
-        } catch (DBALException $e) {
-            $this['logger.system']->debug($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
-
-            // Trap double exceptions caused by throwing a new LowlevelException
-            set_exception_handler(['\Bolt\Exception\LowlevelException', 'nullHandler']);
-
-            /*
-             * Using Driver here since Platform may try to connect
-             * to the database, which has failed since we are here.
-             */
-            $platform = $this['db']->getDriver()->getName();
-            $platform = Str::replaceFirst('pdo_', '', $platform);
-
-            $error = "Bolt could not connect to the configured database.\n\n" .
-                     "Things to check:\n" .
-                     "&nbsp;&nbsp;* Ensure the $platform database is running\n" .
-                     "&nbsp;&nbsp;* Check the <code>database:</code> parameters are configured correctly in <code>app/config/config.yml</code>\n" .
-                     "&nbsp;&nbsp;&nbsp;&nbsp;* Database name is correct\n" .
-                     "&nbsp;&nbsp;&nbsp;&nbsp;* User name has access to the named database\n" .
-                     "&nbsp;&nbsp;&nbsp;&nbsp;* Password is correct\n";
-            throw new LowlevelException($error, $e->getCode(), $e);
-        }
-
-        // Resume normal error handling
-        restore_error_handler();
     }
 
     /**
@@ -195,8 +148,12 @@ class Application extends Silex\Application
      */
     public function initRendering()
     {
-        $this->register(new Provider\TwigServiceProvider());
-        $this->register(new Provider\RenderServiceProvider());
+        $this
+            ->register(new Provider\TwigServiceProvider())
+            ->register(new Provider\RenderServiceProvider())
+            ->register(new Silex\Provider\HttpCacheServiceProvider(),
+                ['http_cache.cache_dir' => $this['resources']->getPath('cache')]
+            );
     }
 
     /**

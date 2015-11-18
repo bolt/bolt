@@ -1,14 +1,56 @@
 <?php
-namespace Bolt\Storage\Database;
 
+namespace Bolt\EventListener;
+
+use Bolt\Events\FailedConnectionEvent;
+use Bolt\Exception\LowLevelDatabaseException;
+use Bolt\Helpers\Str;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
-use Silex\Application;
-use Silex\ServiceProviderInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 
-class InitListener implements ServiceProviderInterface, EventSubscriber
+/**
+ * Listener for Doctrine events.
+ *
+ * @author Carson Full <carsonfull@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
+class DoctrineListener implements EventSubscriber
 {
+    use LoggerAwareTrait;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->setLogger($logger);
+    }
+
+    /**
+     * Event fired on database connection failure.
+     *
+     * @param FailedConnectionEvent $args
+     *
+     * @throws LowLevelDatabaseException
+     */
+    public function failConnect(FailedConnectionEvent $args)
+    {
+        $e = $args->getException();
+        $this->logger->debug($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+
+        // Trap double exceptions
+        set_exception_handler(function () {});
+
+        /*
+         * Using Driver here since Platform may try to connect
+         * to the database, which has failed since we are here.
+         */
+        $platform = $args->getDriver()->getName();
+        $platform = Str::replaceFirst('pdo_', '', $platform);
+
+        throw LowLevelDatabaseException::failedConnect($platform, $e);
+    }
+
     /**
      * After connecting, update this connection's database settings.
      *
@@ -44,33 +86,11 @@ class InitListener implements ServiceProviderInterface, EventSubscriber
         }
     }
 
-    public function register(Application $app)
-    {
-        $self = $this;
-        // For each database connection add this class as an event subscriber
-        $app['dbs.event_manager'] = $app->share(
-            $app->extend(
-                'dbs.event_manager',
-                function ($managers) use ($self) {
-                    /** @var \Pimple $managers */
-                    foreach ($managers->keys() as $name) {
-                        /** @var \Doctrine\Common\EventManager $manager */
-                        $manager = $managers[$name];
-                        $manager->addEventSubscriber($self);
-                    }
-
-                    return $managers;
-                }
-            )
-        );
-    }
-
     public function getSubscribedEvents()
     {
-        return [Events::postConnect];
-    }
-
-    public function boot(Application $app)
-    {
+        return [
+            Events::postConnect,
+            'failConnect'
+        ];
     }
 }
