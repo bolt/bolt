@@ -23,6 +23,7 @@
          * @property {Object|string} [headline]     - Add a headline
          * @property {Object|string} [body]         - Add a body
          * @property {Object|string} [footer]       - Add a footer
+         * @property {Object|string} [content]      - Add a content
          */
         options: {
             small:    false,
@@ -30,7 +31,8 @@
             closer:   false,
             headline: '',
             body:     '',
-            footer:   ''
+            footer:   '',
+            content:   ''
         },
 
         /**
@@ -117,7 +119,8 @@
          */
         _addHeader: function () {
             var closer = '',
-                headline = '';
+                headline = '',
+                contentHeader = $(this.options.content).children('div.modal-header')[0];
 
             // Header
             if (this.options.closer || this.options.headline) {
@@ -137,6 +140,8 @@
                         .append(closer)
                         .append(headline)
                 );
+            } else if (contentHeader) {
+                this._ui.content.append(contentHeader);
             }
         },
 
@@ -144,23 +149,33 @@
          * Adds a body to the modal.
          */
         _addBody: function () {
-            this._ui.content.append(
-                $('<div/>')
-                    .addClass('modal-body')
-                    .append(this.options.body || '')
-            );
+            var contentBody = $(this.options.content).children('div.modal-body')[0];
+
+            if (this.options.body || !contentBody) {
+                this._ui.content.append(
+                    $('<div/>')
+                        .addClass('modal-body')
+                        .append(this.options.body || '')
+                );
+            } else if (contentBody) {
+                this._ui.content.append(contentBody);
+            }
         },
 
         /**
          * Adds a Footer to the modal.
          */
         _addFooter: function () {
+            var contentFooter = $(this.options.content).children('div.modal-footer')[0];
+
             if (this.options.footer) {
                 this._ui.content.append(
                     $('<div/>')
                         .addClass('modal-footer')
                         .append(this.options.footer)
                 );
+            } else if (contentFooter) {
+                this._ui.content.append(contentFooter);
             }
         }
     });
