@@ -57,7 +57,7 @@ class WidgetHandlerTest extends BoltUnitTest
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
 
-        $this->setExpectedException('InvalidArgumentException', 'countwigets() requires a location, none given');
+        $this->setExpectedException('InvalidArgumentException', 'countwidgets() requires a location, none given');
         $app['asset.queue.widget']->add($widget);
         $handler->countWidgets();
     }
