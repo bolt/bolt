@@ -202,7 +202,7 @@ class TaxonomyType extends FieldTypeBase
                 $group = [
                     'slug'  => $tax->getSlug(),
                     'name'  => $tax->getName(),
-                    'order' => $sortorder,
+                    'order' => $tax->getSortorder(),
                     'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
                 ];
             }
