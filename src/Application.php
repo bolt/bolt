@@ -136,12 +136,6 @@ class Application extends Silex\Application
     public function initDatabase()
     {
         $this->register(new Provider\DatabaseServiceProvider());
-
-        $this->register(
-            new Silex\Provider\HttpCacheServiceProvider(),
-            ['http_cache.cache_dir' => $this['resources']->getPath('cache')]
-        );
-
         $this->checkDatabaseConnection();
     }
 
@@ -157,8 +151,12 @@ class Application extends Silex\Application
      */
     public function initRendering()
     {
-        $this->register(new Provider\TwigServiceProvider());
-        $this->register(new Provider\RenderServiceProvider());
+        $this
+            ->register(new Provider\TwigServiceProvider())
+            ->register(new Provider\RenderServiceProvider())
+            ->register(new Silex\Provider\HttpCacheServiceProvider(),
+                ['http_cache.cache_dir' => $this['resources']->getPath('cache')]
+            );
     }
 
     /**
