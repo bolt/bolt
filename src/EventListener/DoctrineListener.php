@@ -10,8 +10,6 @@ use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
-use Silex\Application;
 
 /**
  * Listener for Doctrine events.
@@ -36,7 +34,7 @@ class DoctrineListener implements EventSubscriber
     public function failConnect(FailedConnectionEvent $args)
     {
         $e = $args->getException();
-        $this->logger->log(LogLevel::DEBUG, $e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+        $this->logger->debug($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
 
         // Trap double exceptions
         set_exception_handler(function () {});
