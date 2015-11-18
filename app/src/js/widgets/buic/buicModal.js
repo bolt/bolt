@@ -26,7 +26,7 @@
          * @property {Object|string} [content]       - Add a content
          * @property {string}        [remote]        - Add a URL to load content from
          * @property {string}        [remote.url]    - Remote URL
-         * @property {string}        [remote.params] - Remote URL
+         * @property {Object}        [remote.params] - Remote URL
          * @property {function}      [loaded]        - Callback fired when remote data was laoded
          */
         options: {
