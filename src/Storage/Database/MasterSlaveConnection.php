@@ -2,8 +2,7 @@
 
 namespace Bolt\Storage\Database;
 
-use Doctrine\DBAL\Event\ConnectionEventArgs;
-use Doctrine\DBAL\Events;
+use Bolt\Events\FailedConnectionEvent;
 use Doctrine\DBAL\DBALException;
 
 /**
@@ -23,9 +22,9 @@ class MasterSlaveConnection extends \Doctrine\DBAL\Connections\MasterSlaveConnec
         try {
             return parent::connect($connectionName);
         } catch (DBALException $e) {
-            if ($this->_eventManager->hasListeners(Events::postConnect)) {
-                $eventArgs = new ConnectionEventArgs($this);
-                $this->_eventManager->dispatchEvent(Events::postConnect, $eventArgs);
+            if ($this->_eventManager->hasListeners('failConnect')) {
+                $eventArgs = new FailedConnectionEvent($this, $e);
+                $this->_eventManager->dispatchEvent('failConnect', $eventArgs);
             }
         }
     }

@@ -2,12 +2,12 @@
 
 namespace Bolt\EventListener;
 
+use Bolt\Events\FailedConnectionEvent;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Str;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
-use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -33,9 +33,9 @@ class DoctrineListener implements EventSubscriber
      *
      * @param ConnectionEventArgs $args
      */
-    public function failConnect(ConnectionEventArgs $args)
+    public function failConnect(FailedConnectionEvent $args)
     {
-        $e = new \Exception('Connection failure');
+        $e = $args->getException();
         $this->logger->log(LogLevel::DEBUG, $e->getMessage(), ['event' => 'exception', 'exception' => $e]);
 
         // Trap double exceptions

@@ -2,8 +2,7 @@
 
 namespace Bolt\Storage\Database;
 
-use Doctrine\DBAL\Event\ConnectionEventArgs;
-use Doctrine\DBAL\Events;
+use Bolt\Events\FailedConnectionEvent;
 use Doctrine\DBAL\DBALException;
 
 /**
@@ -24,7 +23,7 @@ class Connection extends \Doctrine\DBAL\Connection
             return parent::connect();
         } catch (DBALException $e) {
             if ($this->_eventManager->hasListeners('failConnect')) {
-                $eventArgs = new ConnectionEventArgs($this);
+                $eventArgs = new FailedConnectionEvent($this, $e);
                 $this->_eventManager->dispatchEvent('failConnect', $eventArgs);
             }
         }
