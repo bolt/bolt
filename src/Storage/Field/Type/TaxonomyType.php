@@ -198,11 +198,10 @@ class TaxonomyType extends FieldTypeBase
                 // Previously we only cared about the last one… so yeah
                 $needle = $tax->getSlug();
                 $index = array_search($needle, array_keys($taxData['options']));
-                $sortorder = $taxData['sortorder'];
                 $group = [
                     'slug'  => $tax->getSlug(),
                     'name'  => $tax->getName(),
-                    'order' => $sortorder,
+                    'order' => $tax->getSortorder(),
                     'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
                 ];
             }

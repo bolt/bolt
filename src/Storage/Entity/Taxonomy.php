@@ -13,7 +13,7 @@ class Taxonomy extends Entity
     protected $taxonomytype;
     protected $slug;
     protected $name;
-    protected $sortorder;
+    protected $sortorder = 0;
 
     public function setConfig(array $config)
     {
