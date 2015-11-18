@@ -327,7 +327,7 @@ class General extends AsyncBase
             $this->app['logger.system']->info('Fetching from remote server: ' . $source, ['event' => 'news']);
 
             try {
-                $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], [], $curl['options'])->getBody(true);
+                $fetchedNewsData = $this->app['guzzle.client']->get($curl['url'], ['config' => ['curl' => $curl['options']]])->getBody(true);
                 if ($this->getOption('general/branding/news_variable')) {
                     $newsVariable = $this->getOption('general/branding/news_variable');
                     $fetchedNewsItems = json_decode($fetchedNewsData)->$newsVariable;
@@ -388,14 +388,14 @@ class General extends AsyncBase
         );
 
         // Standard option(s)
-        $options = ['CURLOPT_CONNECTTIMEOUT' => 5];
+        $options = [CURLOPT_CONNECTTIMEOUT => 5, CURLOPT_TIMEOUT => 10];
 
         // Options valid if using a proxy
         if ($this->getOption('general/httpProxy')) {
             $proxies = [
-                'CURLOPT_PROXY'        => $this->getOption('general/httpProxy/host'),
-                'CURLOPT_PROXYTYPE'    => 'CURLPROXY_HTTP',
-                'CURLOPT_PROXYUSERPWD' => $this->getOption('general/httpProxy/user') . ':' .
+                CURLOPT_PROXY        => $this->getOption('general/httpProxy/host'),
+                CURLOPT_PROXYTYPE    => CURLPROXY_HTTP,
+                CURLOPT_PROXYUSERPWD => $this->getOption('general/httpProxy/user') . ':' .
                 $this->getOption('general/httpProxy/password'),
             ];
         }
