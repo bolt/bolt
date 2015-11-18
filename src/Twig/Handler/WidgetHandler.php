@@ -33,7 +33,7 @@ class WidgetHandler
     public function countWidgets($location = null, $type = 'frontend')
     {
         if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
-            throw new \InvalidArgumentException('countwigets() requires a location, none given');
+            throw new \InvalidArgumentException('countwidgets() requires a location, none given');
         }
 
         return $this->app['asset.queue.widget']->countItemsInQueue($location, $type);
