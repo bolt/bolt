@@ -29,10 +29,9 @@
             small:    false,
             large:    false,
             closer:   false,
-            headline: '',
-            body:     '',
-            footer:   '',
-            content:   ''
+            headline: undefined,
+            body:     undefined,
+            footer:   undefined
         },
 
         /**
@@ -41,7 +40,13 @@
          * @private
          */
         _create: function () {
-            var self = this;
+            var self =    this,
+                header =  $('<div class="modal-header hidden"/>'),
+                body =    $('<div class=modal-body/>'),
+                footer =  $('<div class="modal-footer hidden"/>'),
+                content = $('<div class=modal-content/>').append(header, body, footer),
+                dialog =  $('<div class=modal-dialog role=document/>').append(content),
+                modal =   $('<div tabindex=-1 role=dialog class="modal fade buic-modal"/>').append(dialog);
 
             /**
              * Refs to UI elements of this widget.
@@ -51,36 +56,26 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              *
-             * @property {Object} content  - Content element of the modal.
-             * @property {Object} modal    - The modal.
+             * @property {Object} header - Header element of the modal
+             * @property {Object} body   - Body element of the modal
+             * @property {Object} footer - Footer element of the modal
+             * @property {Object} modal  - The modal
              */
             this._ui = {
-                content:  null,
-                modal:    null
+                header:  header,
+                body:    body,
+                footer:  footer,
+                modal:   modal
             };
 
-            // Setup UI elements.
-            self._ui.content = $('<div/>')
-                .addClass('modal-content');
-
-            self._ui.modal =
-                $('<div/>')
-                    .attr('tabindex', -1)
-                    .attr('role', 'dialog')
-                    .addClass('buic-modal modal fade')
-                    .append(
-                        $('<div/>')
-                            .addClass('modal-dialog modal-lg')
-                            .addClass(self.options.small ? 'modal-sm' : '')
-                            .addClass(self.options.large ? 'modal-lg' : '')
-                            .attr('role', 'document')
-                            .append(self._ui.content)
-                    );
+            dialog
+                .toggleClass('modal-sm', self.options.small)
+                .toggleClass('modal-lg', self.options.large);
 
             // Build and add content.
-            self._addHeader();
-            self._addBody();
-            self._addFooter();
+            self._setHeader();
+            self._setBody();
+            self._setFooter();
 
             // Add it to the DOM.
             self.element.prepend(self._ui.modal);
@@ -115,68 +110,65 @@
         },
 
         /**
-         * Adds a header to the modal.
+         * Sets the header of the modal.
+         *
+         * @param {Object|string} [header] - Header element to set
          */
-        _addHeader: function () {
-            var closer = '',
-                headline = '',
-                contentHeader = $(this.options.content).children('div.modal-header')[0];
+        _setHeader: function (header) {
+            if (header === undefined) {
+                if (this.options.closer || this.options.headline) {
+                    header = $();
 
-            // Header
-            if (this.options.closer || this.options.headline) {
-                if (this.options.closer) {
-                    closer = '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                    if (this.options.closer) {
+                        header = header.add(
+                            '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
                                 '<span aria-hidden="true">&times;</span>' +
-                             '</button>';
-                }
+                            '</button>'
+                        );
+                    }
 
-                if (this.options.headline) {
-                    headline = $('<h4/>').addClass('modal-title').append(this.options.headline);
+                    if (this.options.headline) {
+                        header = header.add($('<h4 class="modal-title"/>').append(this.options.headline));
+                    }
+                } else {
+                    header = $(this.options.content).children('div.modal-header')[0];
                 }
-
-                this._ui.content.append(
-                    $('<div/>')
-                        .addClass('modal-header')
-                        .append(closer)
-                        .append(headline)
-                );
-            } else if (contentHeader) {
-                this._ui.content.append(contentHeader);
             }
+
+            this._ui.header
+                .toggleClass('hidden', !header.length)
+                .html(header);
         },
 
         /**
-         * Adds a body to the modal.
+         * Sets the body of the modal.
+         *
+         * @param {Object|string} [body] - Body element to set
          */
-        _addBody: function () {
-            var contentBody = $(this.options.content).children('div.modal-body')[0];
-
-            if (this.options.body || !contentBody) {
-                this._ui.content.append(
-                    $('<div/>')
-                        .addClass('modal-body')
-                        .append(this.options.body || '')
-                );
-            } else if (contentBody) {
-                this._ui.content.append(contentBody);
-            }
+        _setBody: function (body) {
+            this._ui.body.html(
+                (body === undefined ? '' : body) ||
+                $('<div>').append(this.options.body).html() ||
+                $(this.options.content).children('div.modal-body')[0] ||
+                ''
+            );
         },
 
         /**
-         * Adds a Footer to the modal.
+         *  Sets the footer of the modal.
+         *
+         * @param {Object|string} [footer] - Footer element to set
          */
-        _addFooter: function () {
-            var contentFooter = $(this.options.content).children('div.modal-footer')[0];
+        _setFooter: function (footer) {
+            footer =
+                (footer === undefined ? '' : footer) ||
+                $('<div>').append(this.options.footer).html() ||
+                $(this.options.content).children('div.modal-footer')[0] ||
+                '';
 
-            if (this.options.footer) {
-                this._ui.content.append(
-                    $('<div/>')
-                        .addClass('modal-footer')
-                        .append(this.options.footer)
-                );
-            } else if (contentFooter) {
-                this._ui.content.append(contentFooter);
-            }
+            this._ui.footer
+                .toggleClass('hidden', !footer.length)
+                .html(footer);
         }
     });
 })(jQuery);
