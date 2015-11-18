@@ -97,7 +97,7 @@ class FieldCollection extends AbstractLazyCollection
                 $type = $field->getStorageType();
                 $typeCol = 'value_' . $type->getName();
                 $val->setValue($val->$typeCol);
-                $objects[$val->getName()] = $val;
+                $objects[$val->getFieldname()] = $val;
             }
         }
 
