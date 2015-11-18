@@ -24,6 +24,7 @@
          * @property {Object|string} [body]         - Add a body
          * @property {Object|string} [footer]       - Add a footer
          * @property {Object|string} [content]      - Add a content
+         * @property {string}        [remote]       - Add a URL to load content from
          */
         options: {
             small:    false,
@@ -31,7 +32,9 @@
             closer:   false,
             headline: undefined,
             body:     undefined,
-            footer:   undefined
+            footer:   undefined,
+            content:  undefined,
+            remote:   undefined
         },
 
         /**
@@ -73,9 +76,13 @@
                 .toggleClass('modal-lg', self.options.large);
 
             // Build and add content.
-            self._setHeader();
-            self._setBody();
-            self._setFooter();
+            if (this.options.remote) {
+                self._load();
+            } else {
+                self._setHeader();
+                self._setBody();
+                self._setFooter();
+            }
 
             // Add it to the DOM.
             self.element.prepend(self._ui.modal);
@@ -131,7 +138,7 @@
                         header = header.add($('<h4 class="modal-title"/>').append(this.options.headline));
                     }
                 } else {
-                    header = $(this.options.content).children('div.modal-header')[0];
+                    header = $(this.options.content).children('div.modal-header')[0] || '';
                 }
             }
 
@@ -169,6 +176,26 @@
             this._ui.footer
                 .toggleClass('hidden', !footer.length)
                 .html(footer);
+        },
+
+        /**
+         * Loads content from a url.
+         */
+        _load: function () {
+            var self = this;
+
+            this._setHeader('');
+            this._setBody('');
+            this._setFooter('');
+
+            $.get(self.options.remote.url, self.options.remote.params || {})
+                .done(function (data) {
+                    self.options.content = data;
+
+                    self._setHeader();
+                    self._setBody();
+                    self._setFooter();
+                });
         }
     });
 })(jQuery);
