@@ -80,13 +80,7 @@
                 .toggleClass('modal-lg', self.options.large);
 
             // Build and add content.
-            if (this.options.remote) {
-                self._load();
-            } else {
-                self._setHeader();
-                self._setBody();
-                self._setFooter();
-            }
+            self._render();
 
             // Retry button.
             this._on(this.element, {
@@ -173,7 +167,7 @@
         },
 
         /**
-         *  Sets the footer of the modal.
+         * Sets the footer of the modal.
          *
          * @param {Object|string} [footer] - Footer element to set
          */
@@ -201,7 +195,7 @@
             self._ui.body.removeClass('modal-error');
             self._ui.body.addClass('modal-loading');
 
-            $.get(self.options.remote.url, self.options.remote.params || {})
+            $.get(+self.options.remote.url, self.options.remote.params || {})
                 .done(function (data) {
                     self.options.content = data;
 
@@ -231,6 +225,35 @@
                 .always(function () {
                     self._ui.body.removeClass('modal-loading');
                 });
+        },
+
+        /**
+         * Render.
+         */
+        _render: function () {
+            if (this.options.remote) {
+                this._load();
+            } else {
+                this._setHeader();
+                this._setBody();
+                this._setFooter();
+            }
+        },
+
+        /**
+         * Render if remote option is changed.
+         *
+         * @param {string} key   - Option key
+         * @param {*}      value - Option value
+         */
+        _setOption: function (key, value) {
+            var render = key === 'remote';
+
+            this._super(key, value);
+
+            if (render) {
+                this._render();
+            }
         }
     });
 })(jQuery);
