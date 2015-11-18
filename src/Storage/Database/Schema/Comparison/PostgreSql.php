@@ -13,18 +13,17 @@ class PostgreSql extends BaseComparator
 {
     /** @var string */
     protected $platform = 'postgresql';
-    /** @var array */
-    protected $ignoredChanges = [
-        'changedColumns' => [
-            'propertyName'   => 'type',
-            'ignoredChanges' => [
-                ['before' => 'date', 'after' => 'date'],
-                ['before' => 'datetime', 'after' => 'datetime'],
-                ['before' => 'string', 'after' => 'json_array'],
-                ['before' => 'text', 'after' => 'json_array'],
-            ],
-        ]
-    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setIgnoredChanges()
+    {
+        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'date', 'date');
+        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'datetime', 'datetime');
+        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'string', 'json_array');
+        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'text', 'json_array');
+    }
 
     /**
      * {@inheritDoc}
