@@ -58,6 +58,8 @@ HTML;
     out. Be sure to include the exact error message you're getting!</p>
 HTML;
 
+    public static $screen;
+
     /**
      * Print a 'low level' error page, and quit. The user has to fix something.
      *
@@ -94,7 +96,7 @@ HTML;
             $output = self::cleanHTML($output);
         }
 
-        echo $output;
+        self::$screen = $output;
     }
 
     /**
@@ -190,6 +192,8 @@ HTML;
 
             echo str_replace($app['resources']->getPath('rootpath'), '', $html);
         }
+
+        echo self::$screen;
     }
 
     /**
