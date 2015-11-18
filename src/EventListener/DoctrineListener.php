@@ -2,9 +2,15 @@
 
 namespace Bolt\EventListener;
 
+use Bolt\Exception\LowlevelException;
+use Bolt\Helpers\Str;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Silex\Application;
 
 /**
@@ -15,6 +21,13 @@ use Silex\Application;
  */
 class DoctrineListener implements EventSubscriber
 {
+    use LoggerAwareTrait;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->setLogger($logger);
+    }
+
     /**
      * Event fired on database connection failure.
      *
@@ -22,6 +35,27 @@ class DoctrineListener implements EventSubscriber
      */
     public function failConnect(ConnectionEventArgs $args)
     {
+        $e = new \Exception('Connection failure');
+        $this->logger->log(LogLevel::DEBUG, $e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+
+        // Trap double exceptions
+        set_exception_handler(function () {});
+
+        /*
+         * Using Driver here since Platform may try to connect
+         * to the database, which has failed since we are here.
+         */
+        $platform = $args->getDriver()->getName();
+        $platform = Str::replaceFirst('pdo_', '', $platform);
+
+        $error = "Bolt could not connect to the configured database.\n\n" .
+                 "Things to check:\n" .
+                 "&nbsp;&nbsp;* Ensure the $platform database is running\n" .
+                 "&nbsp;&nbsp;* Check the <code>database:</code> parameters are configured correctly in <code>app/config/config.yml</code>\n" .
+                 "&nbsp;&nbsp;&nbsp;&nbsp;* Database name is correct\n" .
+                 "&nbsp;&nbsp;&nbsp;&nbsp;* User name has access to the named database\n" .
+                 "&nbsp;&nbsp;&nbsp;&nbsp;* Password is correct\n";
+        throw new LowlevelException($error, $e->getCode(), $e);
     }
 
     /**

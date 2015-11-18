@@ -143,8 +143,6 @@ class Application extends Silex\Application
         );
         $this->register(new Provider\DatabaseProvider());
 
-        $this->checkDatabaseConnection();
-
         $this->register(
             new Silex\Provider\HttpCacheServiceProvider(),
             ['http_cache.cache_dir' => $this['resources']->getPath('cache')]
@@ -152,42 +150,10 @@ class Application extends Silex\Application
     }
 
     /**
-     * Set up the DBAL connection now to check for a proper connection to the database.
-     *
-     * @throws LowlevelException
+     * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
      */
     protected function checkDatabaseConnection()
     {
-        // [SECURITY]: If we get an error trying to connect to database, we throw a new
-        // LowLevelException with general information to avoid leaking connection information.
-        try {
-            $this['db']->connect();
-        // A ConnectionException or DriverException could be thrown, we'll catch DBALException to be safe.
-        } catch (DBALException $e) {
-            $this['logger.system']->debug($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
-
-            // Trap double exceptions caused by throwing a new LowlevelException
-            set_exception_handler(['\Bolt\Exception\LowlevelException', 'nullHandler']);
-
-            /*
-             * Using Driver here since Platform may try to connect
-             * to the database, which has failed since we are here.
-             */
-            $platform = $this['db']->getDriver()->getName();
-            $platform = Str::replaceFirst('pdo_', '', $platform);
-
-            $error = "Bolt could not connect to the configured database.\n\n" .
-                     "Things to check:\n" .
-                     "&nbsp;&nbsp;* Ensure the $platform database is running\n" .
-                     "&nbsp;&nbsp;* Check the <code>database:</code> parameters are configured correctly in <code>app/config/config.yml</code>\n" .
-                     "&nbsp;&nbsp;&nbsp;&nbsp;* Database name is correct\n" .
-                     "&nbsp;&nbsp;&nbsp;&nbsp;* User name has access to the named database\n" .
-                     "&nbsp;&nbsp;&nbsp;&nbsp;* Password is correct\n";
-            throw new LowlevelException($error, $e->getCode(), $e);
-        }
-
-        // Resume normal error handling
-        restore_error_handler();
     }
 
     /**
