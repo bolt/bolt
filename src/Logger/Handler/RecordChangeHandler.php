@@ -50,7 +50,12 @@ class RecordChangeHandler extends AbstractProcessingHandler
 
         $record = $this->processRecord($record);
         $record['formatted'] = $this->getFormatter()->format($record);
-        $this->write($record);
+
+        try {
+            $this->write($record);
+        } catch (\Exception $e) {
+            // Nothing.
+        }
 
         return false === $this->bubble;
     }
@@ -111,23 +116,19 @@ class RecordChangeHandler extends AbstractProcessingHandler
         $str = json_encode($data);
         $user = $this->app['users']->getCurrentUser();
 
-        try {
-            $this->app['db']->insert(
-                $this->tablename,
-                [
-                    'date'          => $record['datetime']->format('Y-m-d H:i:s'),
-                    'ownerid'       => $user['id'],
-                    'title'         => $title,
-                    'contenttype'   => is_array($contenttype) ? $contenttype['slug'] : $contenttype,
-                    'contentid'     => $context['id'],
-                    'mutation_type' => $context['action'],
-                    'diff'          => $str,
-                    'comment'       => $context['comment'],
-                ]
-            );
-        } catch (\Exception $e) {
-            // Nothing.
-        }
+        $this->app['db']->insert(
+            $this->tablename,
+            [
+                'date'          => $record['datetime']->format('Y-m-d H:i:s'),
+                'ownerid'       => $user['id'],
+                'title'         => $title,
+                'contenttype'   => is_array($contenttype) ? $contenttype['slug'] : $contenttype,
+                'contentid'     => $context['id'],
+                'mutation_type' => $context['action'],
+                'diff'          => $str,
+                'comment'       => $context['comment'],
+            ]
+        );
     }
 
     /**

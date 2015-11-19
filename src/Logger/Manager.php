@@ -2,8 +2,8 @@
 
 namespace Bolt\Logger;
 
-use Bolt\Pager;
 use Bolt\Storage\Repository;
+use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\Application;
 
 /**
@@ -88,13 +88,18 @@ class Manager
     public function getActivity($log, $page = 1, $amount = 10, $options = [])
     {
         if ($log == 'change') {
-            $rows = $this->changeRepository->getActivity($page, $amount, $options);
-            $rowcount = $this->changeRepository->getActivityCount($options);
+            $repo = $this->changeRepository;
         } elseif ($log == 'system') {
-            $rows = $this->systemRepository->getActivity($page, $amount, $options);
-            $rowcount = $this->systemRepository->getActivityCount($options);
+            $repo = $this->systemRepository;
         } else {
             throw new \UnexpectedValueException("Invalid log type requested: $log");
+        }
+
+        try {
+            $rows = $repo->getActivity($page, $amount, $options);
+            $rowcount = $repo->getActivityCount($options);
+        } catch (TableNotFoundException $e) {
+            return;
         }
 
         // Set up the pager
