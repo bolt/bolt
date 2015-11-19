@@ -49,10 +49,16 @@
             {% endif %}
 
             <div class="btn-group">
-                <button type="button" data-modal-source="{{ paths.async }}browse/files?fieldid={{ stack_id }}" class="btn btn-tertiary" data-toggle="modal" data-target="#modal-server-select">
-                    <i class="fa fa-download"></i>
-                    {{ __('Select') }}
-                </button>
+                {% set attr = {
+                    'class': 'btn btn-tertiary',
+                    'data-bolt-widget': {
+                        buicFilebrowser: {
+                            url: paths.async ~ 'browse/files'
+                        },
+                    },
+                    'type': 'button',
+                } %}
+                <button{{ hattr(attr) }}><i class="fa fa-download"></i> {{ __('Select') }}</button>
             </div>
         </div>
 
