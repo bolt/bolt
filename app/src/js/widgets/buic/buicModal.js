@@ -25,8 +25,8 @@
          * @property {Object|string} [body]          - Add a body
          * @property {Object|string} [footer]        - Add a footer
          * @property {string}        [remote]        - Add a URL to load content from
-         * @property {string}        [remote.url]    - Remote URL
-         * @property {Object}        [remote.params] - Remote URL
+         * @property {string}        [remote.url]    - Remote: URL to which the request is sent.
+         * @property {Object}        [remote.data]   - Remote: data  that is sent to the server with the request.
          * @property {function}      [loaded]        - Callback fired when remote data was laoded
          */
         options: {
@@ -143,7 +143,7 @@
 
             self._ui.content.addClass('modal-loading');
 
-            $.get(self.options.remote.url, self.options.remote.params || {})
+            $.get(self.options.remote.url, self.options.remote.data || {})
                 .done(function (data) {
                     self.options.classname = $(data)[0].className;
 

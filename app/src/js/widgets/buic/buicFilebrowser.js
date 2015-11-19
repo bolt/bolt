@@ -43,13 +43,13 @@
          */
         _browse: function () {
             var self = this,
-                params = {};
+                data = {};
 
             $('body').buicModal({
                 size: 'large',
                 remote: {
-                    url:    self.options.url,
-                    params: params
+                    url:  self.options.url,
+                    data: data
                 },
                 loaded: function (evt, data) {
                     data.body
