@@ -11,10 +11,10 @@
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      *
-     * @class buicFilebrowser
+     * @class buicBrowser
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.buicFilebrowser', /** @lends jQuery.widget.bolt.buicFilebrowser.prototype */ {
+    $.widget('bolt.buicBrowser', /** @lends jQuery.widget.bolt.buicBrowser.prototype */ {
         /**
          * Default options.
          *
@@ -37,7 +37,7 @@
              *
              * @type {string}
              * @name _url
-             * @memberOf jQuery.widget.bolt.buicFilebrowser.prototype
+             * @memberOf jQuery.widget.bolt.buicBrowser.prototype
              * @private
              */
             this._url = bolt.conf('paths.async') + 'browse/' + this.options.namespace +
