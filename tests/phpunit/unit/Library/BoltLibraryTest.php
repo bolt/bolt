@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Library;
 
+use Bolt\Exception\LowlevelException;
 use Bolt\Library;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -172,9 +173,16 @@ class BoltLibraryTest extends BoltUnitTest
         $file = PHPUNIT_ROOT . '/resources/data.php';
         $fp = fopen($file, 'a');
         flock($fp, LOCK_EX);
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Could not lock/i");
-        $response = Library::saveSerialize($file, $data);
+
+        try {
+            Library::saveSerialize($file, $data);
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp('/Error opening file/', $e->getMessage());
+            $this->assertRegExp('/Could not lock/', $e->getMessage());
+            $this->assertRegExp('/Try logging in with your FTP client and check to see if it is chmodded to be readable by the webuser/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testSaveSerializeErrors()
@@ -197,9 +205,14 @@ class BoltLibraryTest extends BoltUnitTest
     public function testLoadSerializeErrors()
     {
         $file = TEST_ROOT . '/non/existent/path/data.php';
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/File is not readable/i");
-        $this->assertTrue(Library::loadSerialize($file));
+
+        try {
+            $this->assertTrue(Library::loadSerialize($file));
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp('/File is not readable!/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testLoadSerializeErrorsSilently()
