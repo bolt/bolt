@@ -20,10 +20,10 @@
          * @property {boolean}       [small=false]   - Create a small dialog
          * @property {boolean}       [large=false]   - Create a large dialog
          * @property {boolean}       [closer=false]  - Add a close button
-         * @property {Object|string} [headline]      - Add a headline
+         * @property {Object|string} [headline]      - Add a headline (If set, the header is build out of it and closer)
+         * @property {Object|string} [header]        - Add a header
          * @property {Object|string} [body]          - Add a body
          * @property {Object|string} [footer]        - Add a footer
-         * @property {Object|string} [content]       - Add a content
          * @property {string}        [remote]        - Add a URL to load content from
          * @property {string}        [remote.url]    - Remote URL
          * @property {Object}        [remote.params] - Remote URL
@@ -34,9 +34,9 @@
             large:    false,
             closer:   false,
             headline: undefined,
+            header:   undefined,
             body:     undefined,
             footer:   undefined,
-            content:  undefined,
             remote:   undefined,
             loaded:   undefined
         },
@@ -81,7 +81,13 @@
                 .toggleClass('modal-lg', self.options.large);
 
             // Build and add content.
-            self._render();
+            if (this.options.remote) {
+                this._load();
+            } else {
+                this._setHeader();
+                this._setBody();
+                this._setFooter();
+            }
 
             // Retry button.
             this._on(this.element, {
@@ -128,25 +134,26 @@
          * @param {Object|string} [header] - Header element to set
          */
         _setHeader: function (header) {
-            if (header === undefined) {
-                if (this.options.closer || this.options.headline) {
-                    header = $();
+            if (this.options.headline !== undefined) {
+                this.options.header = $();
 
-                    if (this.options.closer) {
-                        header = header.add(
-                            '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-                                '<span aria-hidden="true">&times;</span>' +
-                            '</button>'
-                        );
-                    }
-
-                    if (this.options.headline) {
-                        header = header.add($('<h4 class="modal-title"/>').append(this.options.headline));
-                    }
-                } else {
-                    header = $(this.options.content).children('header')[0] || '';
+                if (this.options.closer) {
+                    this.options.header = this.options.header.add(
+                        '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                        '</button>'
+                    );
                 }
+
+                this.options.header = this.options.header
+                    .add($('<h4 class="modal-title"/>')
+                    .append(this.options.headline));
             }
+
+            header =
+                (header === undefined ? '' : header) ||
+                $('<div>').append(this.options.header).html() ||
+                '';
 
             this._ui.header
                 .off()
@@ -165,7 +172,6 @@
                 .html(
                     (body === undefined ? '' : body) ||
                     $('<div>').append(this.options.body).html() ||
-                    $(this.options.content).children('main')[0] ||
                     ''
                 );
         },
@@ -179,7 +185,6 @@
             footer =
                 (footer === undefined ? '' : footer) ||
                 $('<div>').append(this.options.footer).html() ||
-                $(this.options.content).children('footer')[0] ||
                 '';
 
             this._ui.footer
@@ -198,7 +203,13 @@
 
             $.get(self.options.remote.url, self.options.remote.params || {})
                 .done(function (data) {
-                    self.options.content = data;
+                    self.options.header = undefined;
+                    self.options.body = undefined;
+                    self.options.footer = undefined;
+
+                    $(data).children('header, main, footer').each(function () {
+                        self.options[$(this)[0].tagName.toLowerCase().replace('main', 'body')] = $(this)[0].innerHTML;
+                    });
 
                     self._setHeader();
                     self._setBody();
@@ -215,28 +226,20 @@
                     );
                 })
                 .fail(function () {
+                    self.options.header = undefined;
+                    self.options.body =
+                        '<button type=button class="btn btn-default modal-retry">' +
+                            '<i class="fa fa-refresh"></i>' +
+                        '</button>';
+                    self.options.footer = undefined;
+
                     self._setHeader();
-                    self._setBody(
-                        '<button type=button class="btn btn-default modal-retry"><i class="fa fa-refresh"></i></button>'
-                    );
+                    self._setBody();
                     self._setFooter();
                 })
                 .always(function () {
                     self._ui.content.removeClass('modal-loading');
                 });
-        },
-
-        /**
-         * Render.
-         */
-        _render: function () {
-            if (this.options.remote) {
-                this._load();
-            } else {
-                this._setHeader();
-                this._setBody();
-                this._setFooter();
-            }
         },
 
         /**
@@ -251,7 +254,7 @@
             this._super(key, value);
 
             if (render) {
-                this._render();
+                this._load();
             }
         }
     });
