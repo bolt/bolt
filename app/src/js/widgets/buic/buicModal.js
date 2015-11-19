@@ -149,6 +149,7 @@
             }
 
             this._ui.header
+                .off()
                 .toggleClass('hidden', !header.length)
                 .html(header);
         },
@@ -159,12 +160,14 @@
          * @param {Object|string} [body] - Body element to set
          */
         _setBody: function (body) {
-            this._ui.body.html(
-                (body === undefined ? '' : body) ||
-                $('<div>').append(this.options.body).html() ||
-                $(this.options.content).children('main')[0] ||
-                ''
-            );
+            this._ui.body
+                .off()
+                .html(
+                    (body === undefined ? '' : body) ||
+                    $('<div>').append(this.options.body).html() ||
+                    $(this.options.content).children('main')[0] ||
+                    ''
+                );
         },
 
         /**
@@ -180,6 +183,7 @@
                 '';
 
             this._ui.footer
+                .off()
                 .toggleClass('hidden', !footer.length)
                 .html(footer);
         },
