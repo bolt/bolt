@@ -111,7 +111,7 @@ class BackendManagerCest
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('/bolt/editcontent/pages/3');
 
-        $I->see('This is the contact text');
+        $I->seeInSource('This is the contact text');
 
         $I->selectOption('#statusselect', 'published');
 

@@ -53,7 +53,7 @@
     },
     "require-dev" : {
         "bolt/codingstyle" : "~1.0",
-        "codeception/codeception" : "2.1.2",
+        "codeception/codeception" : "^2.1",
         "lstrojny/phpunit-function-mocker" : "dev-master@dev",
         "phpmd/phpmd" : "~2.2",
         "phpunit/dbunit" : "~1.3",

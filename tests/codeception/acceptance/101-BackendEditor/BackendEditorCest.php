@@ -275,7 +275,7 @@ class BackendEditorCest
          * properly handle URL queries parameters in POSTs. For now we'll just
          * pretend that seeing the data is good enough…
          */
-        $I->see('This is the contact text');
+        $I->seeInSource('This is the contact text');
 //         $I->seeInField('#templatefields-section_1', 'This is the contact text');
     }
 }
