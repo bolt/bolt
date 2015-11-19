@@ -72,6 +72,7 @@ HTML;
      */
     public function __construct($message, $code = null, $previous = null)
     {
+        parent::__construct(strip_tags($message), $code, $previous);
         $html = self::$html;
         $info = self::$info;
 
