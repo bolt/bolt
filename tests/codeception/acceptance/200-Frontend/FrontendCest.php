@@ -91,7 +91,7 @@ class FrontendCest
 
         $I->amOnPage('/contact');
 
-        $I->see("This is the contact text");
+        $I->seeInSource('This is the contact text');
     }
 
     /**
