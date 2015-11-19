@@ -1,115 +1,104 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <title>Remote file for Bootstrap Modal</title>
-    </head>
+<div class="modal-content">
+    <div class="modal-body">
 
-    <body>
-        <div class="modal-content">
-            <div class="modal-body">
+        {% if context.pathsegments|length > 0 %}
+            <p>
+                {{ __('Path:') }}
+                <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace}) }) }}>
+                    {{ context.namespace|excerpt(40)|shy -}}
+                </a> /
+                {% for path, segment in context.pathsegments %}
+                {% if not loop.first %} / {% endif %}
+                <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': path}) }) }}>
+                    {{ segment|default('…')|excerpt(40)|shy }}
+                </a> /
+                {% endfor %}
+            </p>
+        {% endif %}
 
-                {% if context.pathsegments|length > 0 %}
-                    <p>
-                        {{ __('Path:') }}
-                        <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace}) }) }}>
-                            {{ context.namespace|excerpt(40)|shy -}}
-                        </a> /
-                        {% for path, segment in context.pathsegments %}
-                        {% if not loop.first %} / {% endif %}
-                        <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': path}) }) }}>
-                            {{ segment|default('…')|excerpt(40)|shy }}
-                        </a> /
-                        {% endfor %}
-                    </p>
-                {% endif %}
+        {% if context.folders|length > 0 %}
+            <table class="dashboardlisting">
+                <tr>
+                    <th>{{ __('Folders') }}</th>
+                </tr>
 
-                {% if context.folders|length > 0 %}
-                    <table class="dashboardlisting">
-                        <tr>
-                            <th>{{ __('Folders') }}</th>
-                        </tr>
+                {% for folder in context.folders %}
+                    <tr style="height: 30px;">
+                        <td> <i class="fa fa-fw fa-folder-open-o"></i>
+                            <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath}) }) }}>
+                                <b>{{ folder.foldername|excerpt(40)|shy }}/</b>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
 
-                        {% for folder in context.folders %}
-                            <tr style="height: 30px;">
-                                <td> <i class="fa fa-fw fa-folder-open-o"></i>
-                                    <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath}) }) }}>
-                                        <b>{{ folder.foldername|excerpt(40)|shy }}/</b>
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                {% endif %}
+        {% if context.files|length > 0 %}
+        <table class="dashboardlisting">
+            <tr>
+                <th>{{ __('page.ckeditor-browse-server.files') }}</th>
+                <th style="min-width: 102px;">{{ __('page.ckeditor-browse-server.size') }}</th>
+                <th>&nbsp;</th>
+            </tr>
 
-                {% if context.files|length > 0 %}
-                <table class="dashboardlisting">
+            {% for file in context.files %}
+                {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
                     <tr>
-                        <th>{{ __('page.ckeditor-browse-server.files') }}</th>
-                        <th style="min-width: 102px;">{{ __('page.ckeditor-browse-server.size') }}</th>
-                        <th>&nbsp;</th>
+                        <td>
+
+                            <i class="fa fa-fw fa-file-image-o"></i>
+
+                            {% if file.readable %}
+                                <a{{ hattr({'href': '#', 'data-fbrowser-select': file.relativepath}) }}>
+                                    <b>{{ file.filename|excerpt(80)|shy }}</b>
+                                </a>
+                            {% else %}
+                                <b>{{ file.filename|excerpt(80)|shy }} </b><i class="fa fa-lock"></i>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ file.filesize }}.
+                            {% if file.imagesize is defined %}
+                                <br>{{ file.imagesize }} px.
+                            {% endif %}
+                        </td>
+
+                        <td class="listthumb">
+                            {{ file.newpath|showimage(54, 40, 'c') }}
+                        </td>
+
+                    </tr>
+                {% else %}
+
+                    <tr>
+                        <td>
+
+                            <i class="fa fa-fw fa-file-image-o"></i>
+
+                            {% if file.readable %}
+                                <a{{ hattr({'href': '#', 'data-fbrowser-select': file.relativepath}) }}>
+                                    <b>{{ file.filename|excerpt(80)|shy }}</b>
+                                </a>
+                            {% else %}
+                                <b>{{ file.filename|excerpt(80)|shy }} </b><i class="fa fa-lock"></i>
+                            {% endif %}
+                        </td>
+
+                        <td>{{ file.filesize }}.</td>
+
+                        <td class="listthumb">&nbsp;</td>
+
                     </tr>
 
-                    {% for file in context.files %}
-                        {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
-                            <tr>
-                                <td>
-
-                                    <i class="fa fa-fw fa-file-image-o"></i>
-
-                                    {% if file.readable %}
-                                        <a{{ hattr({'href': '#', 'data-fbrowser-select': file.relativepath}) }}>
-                                            <b>{{ file.filename|excerpt(80)|shy }}</b>
-                                        </a>
-                                    {% else %}
-                                        <b>{{ file.filename|excerpt(80)|shy }} </b><i class="fa fa-lock"></i>
-                                    {% endif %}
-                                </td>
-
-                                <td>
-                                    {{ file.filesize }}.
-                                    {% if file.imagesize is defined %}
-                                        <br>{{ file.imagesize }} px.
-                                    {% endif %}
-                                </td>
-
-                                <td class="listthumb">
-                                    {{ file.newpath|showimage(54, 40, 'c') }}
-                                </td>
-
-                            </tr>
-                        {% else %}
-
-                            <tr>
-                                <td>
-
-                                    <i class="fa fa-fw fa-file-image-o"></i>
-
-                                    {% if file.readable %}
-                                        <a{{ hattr({'href': '#', 'data-fbrowser-select': file.relativepath}) }}>
-                                            <b>{{ file.filename|excerpt(80)|shy }}</b>
-                                        </a>
-                                    {% else %}
-                                        <b>{{ file.filename|excerpt(80)|shy }} </b><i class="fa fa-lock"></i>
-                                    {% endif %}
-                                </td>
-
-                                <td>{{ file.filesize }}.</td>
-
-                                <td class="listthumb">&nbsp;</td>
-
-                            </tr>
-
-                        {% endif %}
-                    {% endfor %}
-                    </table>
                 {% endif %}
-            </div>
+            {% endfor %}
+            </table>
+        {% endif %}
+    </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-            </div>
-        </div>
-
-    </body>
-</html>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
+    </div>
+</div>
