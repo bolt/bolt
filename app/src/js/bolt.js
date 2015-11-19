@@ -10,7 +10,6 @@
  * @mixes Bolt.data
  * @mixes Bolt.datetime
  * @mixes Bolt.extend
- * @mixes Bolt.filebrowser
  * @mixes Bolt.files
  * @mixes Bolt.omnisearch
  * @mixes Bolt.secmenu

@@ -23,9 +23,7 @@
         _create: function () {
             var self = this,
                 fieldset = this.element,
-                timeout = 0,
-                modal = fieldset.find('div.modal'),
-                modalBody = fieldset.find('div.modal-body');
+                timeout = 0;
 
             /**
              * Refs to UI elements of this widget.
@@ -91,14 +89,14 @@
                 self._update();
             });
 
-            // Setup the preview modal.
-            modal
-                .on('show.bs.modal', function () {
-                    modalBody.html(self._ui.html.val());
-                })
-                .on('hidden.bs.modal', function () {
-                    modalBody.empty();
+            self._ui.play.on('click', function () {
+                $('body').buicModal({
+                    size:     'large',
+                    closer:   true,
+                    headline: self._ui.title.val(),
+                    body:     self._ui.html.val()
                 });
+            });
         },
 
         /**
