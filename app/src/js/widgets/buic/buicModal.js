@@ -63,31 +63,21 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              *
-             * @property {Object} header - Header element of the modal
-             * @property {Object} body   - Body element of the modal
-             * @property {Object} footer - Footer element of the modal
-             * @property {Object} modal  - The modal
+             * @property {Object} header  - Header element of the modal
+             * @property {Object} body    - Body element of the modal
+             * @property {Object} footer  - Footer element of the modal
+             * @property {Object} content - Content element of the modal
+             * @property {Object} dialog  - Dialog element of the modal
+             * @property {Object} modal   - The modal
              */
             this._ui = {
                 header:  header,
                 body:    body,
                 footer:  footer,
                 content: content,
+                dialog:  dialog,
                 modal:   modal
             };
-
-            dialog
-                .toggleClass('modal-sm', self.options.small)
-                .toggleClass('modal-lg', self.options.large);
-
-            // Build and add content.
-            if (this.options.remote) {
-                this._load();
-            } else {
-                this._setHeader();
-                this._setBody();
-                this._setFooter();
-            }
 
             // Retry button.
             this._on(this.element, {
@@ -129,68 +119,19 @@
         },
 
         /**
-         * Sets the header of the modal.
-         *
-         * @param {Object|string} [header] - Header element to set
+         * Render.
          */
-        _setHeader: function (header) {
-            if (this.options.headline !== undefined) {
-                this.options.header = $();
+        _init: function () {
+            this._ui.dialog
+                .toggleClass('modal-sm', this.options.small)
+                .toggleClass('modal-lg', this.options.large);
 
-                if (this.options.closer) {
-                    this.options.header = this.options.header.add(
-                        '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-                            '<span aria-hidden="true">&times;</span>' +
-                        '</button>'
-                    );
-                }
-
-                this.options.header = this.options.header
-                    .add($('<h4 class="modal-title"/>')
-                    .append(this.options.headline));
+            // Build and add content.
+            if (this.options.remote) {
+                this._load();
+            } else {
+                this._update();
             }
-
-            header =
-                (header === undefined ? '' : header) ||
-                $('<div>').append(this.options.header).html() ||
-                '';
-
-            this._ui.header
-                .off()
-                .toggleClass('hidden', !header.length)
-                .html(header);
-        },
-
-        /**
-         * Sets the body of the modal.
-         *
-         * @param {Object|string} [body] - Body element to set
-         */
-        _setBody: function (body) {
-            this._ui.body
-                .off()
-                .html(
-                    (body === undefined ? '' : body) ||
-                    $('<div>').append(this.options.body).html() ||
-                    ''
-                );
-        },
-
-        /**
-         * Sets the footer of the modal.
-         *
-         * @param {Object|string} [footer] - Footer element to set
-         */
-        _setFooter: function (footer) {
-            footer =
-                (footer === undefined ? '' : footer) ||
-                $('<div>').append(this.options.footer).html() ||
-                '';
-
-            this._ui.footer
-                .off()
-                .toggleClass('hidden', !footer.length)
-                .html(footer);
         },
 
         /**
@@ -203,17 +144,13 @@
 
             $.get(self.options.remote.url, self.options.remote.params || {})
                 .done(function (data) {
-                    self.options.header = undefined;
-                    self.options.body = undefined;
-                    self.options.footer = undefined;
+                    $.each(['header', 'body', 'footer'], function (idx, part) {
+                        var element = $(data).children(part.replace('body', 'main'))[0];
 
-                    $(data).children('header, main, footer').each(function () {
-                        self.options[$(this)[0].tagName.toLowerCase().replace('main', 'body')] = $(this)[0].innerHTML;
+                        self.options[part] = element ? element.innerHTML : undefined;
                     });
 
-                    self._setHeader();
-                    self._setBody();
-                    self._setFooter();
+                    self._update();
 
                     self._trigger(
                         'loaded',
@@ -233,9 +170,7 @@
                         '</button>';
                     self.options.footer = undefined;
 
-                    self._setHeader();
-                    self._setBody();
-                    self._setFooter();
+                    self._update();
                 })
                 .always(function () {
                     self._ui.content.removeClass('modal-loading');
@@ -243,19 +178,36 @@
         },
 
         /**
-         * Render if remote option is changed.
-         *
-         * @param {string} key   - Option key
-         * @param {*}      value - Option value
+         * Renders header, body and footer parts of the modal.
          */
-        _setOption: function (key, value) {
-            var render = key === 'remote';
+        _update: function () {
+            var self = this,
+                content;
 
-            this._super(key, value);
+            if (this.options.headline !== undefined) {
+                this.options.header = $();
 
-            if (render) {
-                this._load();
+                if (this.options.closer) {
+                    this.options.header = this.options.header.add(
+                        '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span>' +
+                        '</button>'
+                    );
+                }
+
+                this.options.header = this.options.header
+                    .add($('<h4 class="modal-title"/>')
+                    .append(this.options.headline));
             }
+
+            $.each(['header', 'body', 'footer'], function (idx, part) {
+                content = $('<div>').append(self.options[part]).html() || '';
+
+                self._ui[part]
+                    .off()
+                    .toggleClass('hidden', !content.length)
+                    .html(content);
+            });
         }
     });
 })(jQuery);
