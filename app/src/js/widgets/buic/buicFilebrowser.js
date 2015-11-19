@@ -21,7 +21,8 @@
          * @property {string} [url] - URL to browse
          */
         options: {
-            url: ''
+            namespace: '',
+            path: ''
         },
 
         /**
@@ -30,6 +31,18 @@
          * @private
          */
         _create: function () {
+
+            /**
+             * The current url.
+             *
+             * @type {string}
+             * @name _url
+             * @memberOf jQuery.widget.bolt.buicFilebrowser.prototype
+             * @private
+             */
+            this._url = bolt.conf('paths.async') + 'browse/' + this.options.namespace +
+                            (this.options.path ? '/' + this.options.path : '');
+
             this._on({
                 'click': function() {
                     this._browse();
@@ -49,13 +62,13 @@
             $('body').buicModal({
                 size: 'large',
                 remote: {
-                    url:  self.options.url,
+                    url:  self._url,
                     data: data
                 },
                 loaded: function (evt, modal) {
                     modal.body
                         .on('click.bolt', '[data-fbrowser-chdir]', function () {
-                            self.options.url = $(this).data('fbrowser-chdir');
+                            self._url = $(this).data('fbrowser-chdir');
                             self._browse();
                         })
                         .on('click.bolt', '[data-fbrowser-select]', function () {

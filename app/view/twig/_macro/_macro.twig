@@ -203,7 +203,8 @@
             'class': 'btn btn-tertiary btn-sm',
             'data-bolt-widget': {
                 buicFilebrowser: {
-                    url: paths.async ~ 'browse/files' ~ (uploadpath ? '/' ~ uploadpath : ''),
+                    namespace: 'files',
+                    path: uploadpath,
                 },
             },
             'type': 'button',
