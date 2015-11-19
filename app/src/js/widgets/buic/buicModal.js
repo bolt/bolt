@@ -144,7 +144,7 @@
                         header = header.add($('<h4 class="modal-title"/>').append(this.options.headline));
                     }
                 } else {
-                    header = $(this.options.content).children('div.modal-header')[0] || '';
+                    header = $(this.options.content).children('header')[0] || '';
                 }
             }
 
@@ -162,7 +162,7 @@
             this._ui.body.html(
                 (body === undefined ? '' : body) ||
                 $('<div>').append(this.options.body).html() ||
-                $(this.options.content).children('div.modal-body')[0] ||
+                $(this.options.content).children('main')[0] ||
                 ''
             );
         },
@@ -176,7 +176,7 @@
             footer =
                 (footer === undefined ? '' : footer) ||
                 $('<div>').append(this.options.footer).html() ||
-                $(this.options.content).children('div.modal-footer')[0] ||
+                $(this.options.content).children('footer')[0] ||
                 '';
 
             this._ui.footer

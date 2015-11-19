@@ -1,6 +1,5 @@
-<div class="modal-content">
-    <div class="modal-body">
-
+<div>
+    <main>
         {% if context.pathsegments|length > 0 %}
             <p>
                 {{ __('Path:') }}
@@ -96,9 +95,9 @@
             {% endfor %}
             </table>
         {% endif %}
-    </div>
+    </main>
 
-    <div class="modal-footer">
+    <footer>
         <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-    </div>
+    </footer>
 </div>
