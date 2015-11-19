@@ -23,8 +23,10 @@
             var button = this.element.find('button'),
                 state = this.element.find('input');
 
-            button.on('click', function () {
-                state.prop('checked', !state.prop('checked'));
+            this._on(button, {
+                'click': function () {
+                    state.prop('checked', !state.prop('checked'));
+                }
             });
         }
     });
