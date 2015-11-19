@@ -91,7 +91,7 @@
 
             self._ui.play.on('click', function () {
                 $('body').buicModal({
-                    large:    true,
+                    size:     'large',
                     closer:   true,
                     headline: self._ui.title.val(),
                     body:     self._ui.html.val()

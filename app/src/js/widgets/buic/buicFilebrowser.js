@@ -46,7 +46,7 @@
                 params = {};
 
             $('body').buicModal({
-                large: true,
+                size: 'large',
                 remote: {
                     url:    self.options.url,
                     params: params

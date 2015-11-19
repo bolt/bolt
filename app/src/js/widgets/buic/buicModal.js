@@ -17,8 +17,7 @@
         /**
          * Default options.
          *
-         * @property {boolean}       [small=false]   - Create a small dialog
-         * @property {boolean}       [large=false]   - Create a large dialog
+         * @property {string}        [size]          - Alter the modal size. Allowd values: 'small' and 'large'
          * @property {boolean}       [closer=false]  - Add a close button
          * @property {Object|string} [headline]      - Add a headline (If set, the header is build out of it and closer)
          * @property {Object|string} [header]        - Add a header
@@ -30,8 +29,7 @@
          * @property {function}      [loaded]        - Callback fired when remote data was laoded
          */
         options: {
-            small:    false,
-            large:    false,
+            size:     undefined,
             closer:   false,
             headline: undefined,
             header:   undefined,
@@ -123,8 +121,8 @@
          */
         _init: function () {
             this._ui.dialog
-                .toggleClass('modal-sm', this.options.small)
-                .toggleClass('modal-lg', this.options.large);
+                .toggleClass('modal-sm', this.options.size === 'small')
+                .toggleClass('modal-lg', this.options.size === 'large');
 
             // Build and add content.
             if (this.options.remote) {
