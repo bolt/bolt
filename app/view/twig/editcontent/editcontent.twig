@@ -74,7 +74,7 @@
             {% if context.has.tabs %}
                 <ul class="nav nav-tabs" id="filtertabs">
                     {% for group in context.groups %}
-                        <li{{ group.is_active ? ' class="active"' : '' }}>
+                        <li{{ group.is_active ? ' class="active"' : '' }} id="tabindicator-{{ group.id }}">
                             <a href="#{{ group.id }}" data-toggle="tab">{{ group.label }}</a>
                         </li>
                     {% endfor %}
