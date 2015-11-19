@@ -86,7 +86,6 @@
                         warning.html(bolt.data('field.templateselect.message.change'));
                         container.removeClass('hidden');
                         $('#tabindicator-tab-template').show();
-                        console.log('show');
                     }
                 }
             });
