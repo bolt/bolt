@@ -1,7 +1,8 @@
 /**
  * @param {Object} $ - Global jQuery object
+ * @param {Object} bolt - The Bolt module
  */
-(function ($) {
+(function ($, bolt) {
     'use strict';
 
     /**
@@ -51,14 +52,36 @@
                     url:  self.options.url,
                     data: data
                 },
-                loaded: function (evt, data) {
-                    data.body
+                loaded: function (evt, modal) {
+                    modal.body
                         .on('click.bolt', '[data-fbrowser-chdir]', function () {
-                        self.options.url = $(this).data('fbrowser-chdir');
-                        self._browse();
-                    });
+                            self.options.url = $(this).data('fbrowser-chdir');
+                            self._browse();
+                        })
+                        .on('click.bolt', '[data-fbrowser-select]', function () {
+                            self._select($(this).data('fbrowser-select'));
+                            modal.close();
+                        });
                 }
             });
+        },
+
+        /**
+         * Select file in modal file selector dialog.
+         *
+         * @private
+         * @param {string} path - Path to the selected file
+         */
+        _select: function (path) {
+            var fieldset = this.element.closest('fieldset');
+
+            if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
+                $('input.path', fieldset).val(path).trigger('change');
+            } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
+                bolt.uploads.addToList(fieldset, path);
+            } else {
+                bolt.stack.addToStack(path);
+            }
         }
     });
-})(jQuery);
+})(jQuery, Bolt);

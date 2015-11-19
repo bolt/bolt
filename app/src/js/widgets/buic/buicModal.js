@@ -159,6 +159,9 @@
                         'loaded',
                         null,
                         {
+                            close: function () {
+                                self._ui.modal.modal('hide');
+                            },
                             header:  self._ui.header,
                             body:    self._ui.body,
                             footer:  self._ui.footer
