@@ -201,7 +201,11 @@ class TaxonomyType extends FieldTypeBase
                 $group = [
                     'slug'  => $tax->getSlug(),
                     'name'  => $tax->getName(),
+<<<<<<< HEAD
                     'order' => $tax->getSortorder(),
+=======
+                    'order' => isset($taxData['sortorder']) ? $taxData['sortorder'] : false,
+>>>>>>> origin/fix/notices
                     'index' => $index ?: 2147483647, // Maximum for a 32-bit integer
                 ];
             }
