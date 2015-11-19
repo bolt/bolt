@@ -18,7 +18,6 @@
         {% set attributes = {
             'checked':           opt.checked|default(false),
             'class':             'form-control',
-            'data-bolt-widget':  'buicCheckbox',
             'disabled':          opt.disabled|default(false),
             'id':                id,
             'name':              opt.name|default(''),
@@ -27,7 +26,7 @@
             'value':             '1',
         } %}
 
-        <div{{ hclass(['buic-checkbox', opt.class|default()]) }}>
+        <div{{ hclass(['buic-checkbox', opt.class|default()]) }} data-bolt-widget="buicCheckbox">
             <input{{ hattr(attributes) }}>
             <button type="button"></button>
             {% if opt.label|default('') %}
