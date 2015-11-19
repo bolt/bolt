@@ -38,7 +38,7 @@
         },
 
         /**
-         *
+         * Browser directory on server.
          *
          * @private
          */
