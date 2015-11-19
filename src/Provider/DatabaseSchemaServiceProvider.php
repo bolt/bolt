@@ -37,6 +37,18 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
             return "/^$prefix.+/";
         };
 
+        $app['schema.charset'] = $app->share(
+            function ($app) {
+                return $app['config']->get('general/database/charset', 'utf8');
+            }
+        );
+
+        $app['schema.collate'] = $app->share(
+            function ($app) {
+                return $app['config']->get('general/database/collate', 'utf8_unicode_ci');
+            }
+        );
+
         /** @deprecated Will be removed in Bolt 3 */
         $app['integritychecker'] = $app->share(
             function ($app) {
@@ -130,6 +142,8 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                                 $app['schema'],
                                 $app['schema.base_tables'],
                                 $app['schema.prefix'],
+                                $app['schema.charset'],
+                                $app['schema.collate'],
                                 $app['logger.system'],
                                 $app['logger.flash']
                             );
@@ -142,6 +156,8 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                                 $app['schema'],
                                 $app['schema.content_tables'],
                                 $app['schema.prefix'],
+                                $app['schema.charset'],
+                                $app['schema.collate'],
                                 $app['logger.system'],
                                 $app['logger.flash']
                             );
@@ -154,6 +170,8 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                                 $app['schema'],
                                 $app['schema.extension_tables'],
                                 $app['schema.prefix'],
+                                $app['schema.charset'],
+                                $app['schema.collate'],
                                 $app['logger.system'],
                                 $app['logger.flash']
                             );

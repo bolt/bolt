@@ -55,13 +55,17 @@ abstract class BaseTable
      * @param Schema $schema
      * @param string $tableName
      * @param string $aliasName
+     * @param string $charset
+     * @param string $collate
      *
      * @return \Doctrine\DBAL\Schema\Table
      */
-    public function buildTable(Schema $schema, $tableName, $aliasName)
+    public function buildTable(Schema $schema, $tableName, $aliasName, $charset, $collate)
     {
         $this->table = $schema->createTable($tableName);
         $this->table->addOption('alias', $aliasName);
+        $this->table->addOption('charset', $charset);
+        $this->table->addOption('collate', $collate);
         $this->aliasName = $aliasName;
         $this->tableName = $this->table->getName();
         $this->addColumns();

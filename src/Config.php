@@ -909,6 +909,7 @@ class Config
                 'dbname'         => 'bolt',
                 'prefix'         => 'bolt_',
                 'charset'        => 'utf8',
+                'collate'        => 'utf8_unicode_ci',
                 'randomfunction' => '',
             ],
             'sitename'                    => 'Default Bolt site',

@@ -35,11 +35,15 @@ class ExtensionTables extends BaseBuilder
                 foreach ($table as $t) {
                     $alias = str_replace($this->prefix, '', $t->getName());
                     $t->addOption('alias', $alias);
+                    $t->addOption('charset', $this->charset);
+                    $t->addOption('collate', $this->collate);
                     $tables[$alias] = $t;
                 }
             } else {
                 $alias = str_replace($this->prefix, '', $table->getName());
                 $table->addOption('alias', $alias);
+                $table->addOption('charset', $this->charset);
+                $table->addOption('collate', $this->collate);
                 $tables[$alias] = $table;
             }
         }

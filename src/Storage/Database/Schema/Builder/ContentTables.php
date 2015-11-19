@@ -31,7 +31,7 @@ class ContentTables extends BaseBuilder
         $tables = [];
         foreach ($this->tables->keys() as $name) {
             $contentType = $contentTypes[$name];
-            $tables[$name] = $this->tables[$name]->buildTable($schema, $this->prefix. $name, $name);
+            $tables[$name] = $this->tables[$name]->buildTable($schema, $this->prefix. $name, $name, $this->charset, $this->collate);
             if (isset($contentType['fields']) && is_array($contentType['fields'])) {
                 $this->addContentTypeTableColumns($this->tables[$name], $tables[$name], $contentType['fields'], $fieldManager);
             }
