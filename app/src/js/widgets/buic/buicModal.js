@@ -19,6 +19,7 @@
          *
          * @property {string}        [size]          - Alter the modal size. Allowd values: 'small' and 'large'
          * @property {boolean}       [closer=false]  - Add a close button
+         * @property {string}        [classname]     - Add a class to the content part
          * @property {Object|string} [headline]      - Add a headline (If set, the header is build out of it and closer)
          * @property {Object|string} [header]        - Add a header
          * @property {Object|string} [body]          - Add a body
@@ -29,14 +30,15 @@
          * @property {function}      [loaded]        - Callback fired when remote data was laoded
          */
         options: {
-            size:     undefined,
-            closer:   false,
-            headline: undefined,
-            header:   undefined,
-            body:     undefined,
-            footer:   undefined,
-            remote:   undefined,
-            loaded:   undefined
+            size:      undefined,
+            closer:    false,
+            classname: undefined,
+            headline:  undefined,
+            header:    undefined,
+            body:      undefined,
+            footer:    undefined,
+            remote:    undefined,
+            loaded:    undefined
         },
 
         /**
@@ -120,6 +122,7 @@
          * Render.
          */
         _init: function () {
+            // Set modals size.
             this._ui.dialog
                 .toggleClass('modal-sm', this.options.size === 'small')
                 .toggleClass('modal-lg', this.options.size === 'large');
@@ -142,6 +145,8 @@
 
             $.get(self.options.remote.url, self.options.remote.params || {})
                 .done(function (data) {
+                    self.options.classname = $(data)[0].className;
+
                     $.each(['header', 'body', 'footer'], function (idx, part) {
                         var element = $(data).children(part.replace('body', 'main'))[0];
 
@@ -198,6 +203,12 @@
                     .append(this.options.headline));
             }
 
+            // Set content classname.
+            this._ui.content
+                .attr('class', 'modal-content')
+                .addClass(this.options.classname);
+
+            // Render modal parts.
             $.each(['header', 'body', 'footer'], function (idx, part) {
                 content = $('<div>').append(self.options[part]).html() || '';
 
