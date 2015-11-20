@@ -5,7 +5,7 @@
     // Make the listing scrolling
     $screen-height:   100vh;
     $dialog-margin:   2 * 30px;
-    $header-vpadding: 10px;
+    $header-vpadding: 6px;
     $header-height:   37px + 2 * $header-vpadding;
     $body-padding:    15px;
     $thead-height:    13px;
@@ -28,6 +28,10 @@
     }
 
     // Modal header
+    .modal-header {
+        padding: $header-vpadding 15px;
+    }
+
     h4 {
         span {
             display: inline-block;
