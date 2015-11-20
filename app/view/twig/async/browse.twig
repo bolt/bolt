@@ -16,34 +16,29 @@
             </p>
         {% endif %}
 
-        {# Folders #}
-        {% if context.folders|length > 0 %}
+        {# Folders + Files #}
+        {% if context.folders|length + context.files|length > 0 %}
             <table class="dashboardlisting">
+                {# Header #}
                 <tr>
-                    <th>{{ __('Folders') }}</th>
+                    <th>{{ __('Folders') }} / {{ __('page.ckeditor-browse-server.files') }}</th>
+                    <th style="min-width: 102px;">{{ __('page.ckeditor-browse-server.size') }}</th>
+                    <th>&nbsp;</th>
                 </tr>
 
+                {# Folders #}
                 {% for folder in context.folders %}
                     <tr style="height: 30px;">
-                        <td> <i class="fa fa-fw fa-folder-open-o"></i>
+                        <td colspan="3">
+                            <i class="fa fa-fw fa-folder-open-o"></i>
                             <a{{ hattr({'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath}) }) }}>
                                 <b>{{ folder.foldername|excerpt(40)|shy }}/</b>
                             </a>
                         </td>
                     </tr>
                 {% endfor %}
-            </table>
-        {% endif %}
 
-        {# Files #}
-        {% if context.files|length > 0 %}
-            <table class="dashboardlisting">
-                <tr>
-                    <th>{{ __('page.ckeditor-browse-server.files') }}</th>
-                    <th style="min-width: 102px;">{{ __('page.ckeditor-browse-server.size') }}</th>
-                    <th>&nbsp;</th>
-                </tr>
-
+                {# Folders + Files #}
                 {% for file in context.files %}
                     {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
                         <tr>
