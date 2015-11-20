@@ -35,8 +35,8 @@
                     </tr>
                 </thead>
 
-                <tbody>
-                    {# Folders #}
+                {# Folders #}
+                <tbody class="folders">
                     {% for folder in context.folders %}
                         <tr class="directory">
                             <td colspan="3">
@@ -46,8 +46,10 @@
                             </td>
                         </tr>
                     {% endfor %}
+                </tbody>
 
-                    {# Folders + Files #}
+                {# Files #}
+                <tbody class="files">
                     {% for file in context.files %}
                         {% if file.type in ['jpeg', 'jpg', 'png', 'gif', 'ico', 'svg'] %}
                             {% set type = 'type-image' %}
