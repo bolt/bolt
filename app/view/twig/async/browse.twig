@@ -25,92 +25,83 @@
     <main>
         {# Folders + Files #}
         {% if context.folders|length + context.files|length > 0 %}
-            <table class="dashboardlisting filelist">
-                {# Header #}
-                <thead>
-                    <tr>
-                        <th>
-                            <label><input type="checkbox" name="folders" value="1" checked>{{ __('Folders') }}</label>
-                            <label><input type="checkbox" name="files" value="1" checked>{{ __('page.ckeditor-browse-server.files') }}</label>
-                        </th>
+            <div class="header">
+                <label><input type="checkbox" name="folders" value="1" checked>{{ __('Folders') }}</label>
+                <label><input type="checkbox" name="files" value="1" checked>{{ __('page.ckeditor-browse-server.files') }}</label>
+            </div>
 
-                        <th style="min-width: 102px;">
-                            <label>{{ __('page.ckeditor-browse-server.size') }}</label>
-                        </th>
-
-                        <th></th>
-                    </tr>
-                </thead>
-
-                {# Folders #}
-                <tbody class="folders">
-                    {% for folder in context.folders %}
-                        <tr class="directory">
-                            <td colspan="3">
-                                <a{{ hattr({'class': 'entry type-folder', 'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath}) }) }}>
-                                    {{ folder.foldername|excerpt(40)|shy }}/
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-
-                {# Files #}
-                <tbody class="files">
-                    {% for file in context.files %}
-                        {% if file.type in ['jpeg', 'jpg', 'png', 'gif', 'ico', 'svg'] %}
-                            {% set type = 'type-image' %}
-                        {% elseif file.type in ['mpg', 'mov', 'mp4', 'm4v', 'ogv', 'wmv', 'avi', 'webm'] %}
-                            {% set type = 'type-video' %}
-                        {% elseif file.type in ['mp3', 'ogg', 'wav', 'm4a'] %}
-                            {% set type = 'type-audio' %}
-                        {% elseif file.type in ['pdf'] %}
-                            {% set type = 'type-pdf' %}
-                        {% elseif file.type in ['ppt', 'pptx'] %}
-                            {% set type = 'type-powerpoint' %}
-                        {% elseif file.type in ['xls', 'xlsx'] %}
-                            {% set type = 'type-excel' %}
-                        {% elseif file.type in ['doc', 'docx'] %}
-                            {% set type = 'type-word' %}
-                        {% elseif file.type in ['twig', 'html', 'js', 'css', 'scss', 'md'] %}
-                            {% set type = 'type-code' %}
-                        {% elseif file.type in ['txt'] %}
-                            {% set type = 'type-text' %}
-                        {% else %}
-                            {% set type = 'type-file' %}
-                        {% endif %}
-
-                        <tr class="file{% if not file.readable %} locked{% endif %}">
-                            <td>
-                                {% if file.readable %}
-                                    <a{{ hattr({'class': 'entry ' ~ type, 'href': '#', 'data-fbrowser-select': file.relativepath}) }}>
-                                        {{ file.filename|excerpt(80)|shy }}
+            <div class="list">
+                <table class="dashboardlisting">
+                    {# Folders #}
+                    <tbody class="folders">
+                        {% for folder in context.folders %}
+                            <tr class="directory">
+                                <td colspan="3">
+                                    <a{{ hattr({'class': 'entry type-folder', 'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath}) }) }}>
+                                        {{ folder.foldername|excerpt(40)|shy }}/
                                     </a>
-                                {% else %}
-                                    <span class="entry {{ type }}">{{ file.filename|excerpt(80)|shy }}</span>
-                                {% endif %}
-                            </td>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
 
-                            <td>
-                                {{ file.filesize }}.
-                                {% if file.imagesize is defined %}
-                                    <br>{{ file.imagesize }} px.
-                                {% endif %}
-                            </td>
+                    {# Files #}
+                    <tbody class="files">
+                        {% for file in context.files %}
+                            {% if file.type in ['jpeg', 'jpg', 'png', 'gif', 'ico', 'svg'] %}
+                                {% set type = 'type-image' %}
+                            {% elseif file.type in ['mpg', 'mov', 'mp4', 'm4v', 'ogv', 'wmv', 'avi', 'webm'] %}
+                                {% set type = 'type-video' %}
+                            {% elseif file.type in ['mp3', 'ogg', 'wav', 'm4a'] %}
+                                {% set type = 'type-audio' %}
+                            {% elseif file.type in ['pdf'] %}
+                                {% set type = 'type-pdf' %}
+                            {% elseif file.type in ['ppt', 'pptx'] %}
+                                {% set type = 'type-powerpoint' %}
+                            {% elseif file.type in ['xls', 'xlsx'] %}
+                                {% set type = 'type-excel' %}
+                            {% elseif file.type in ['doc', 'docx'] %}
+                                {% set type = 'type-word' %}
+                            {% elseif file.type in ['twig', 'html', 'js', 'css', 'scss', 'md'] %}
+                                {% set type = 'type-code' %}
+                            {% elseif file.type in ['txt'] %}
+                                {% set type = 'type-text' %}
+                            {% else %}
+                                {% set type = 'type-file' %}
+                            {% endif %}
 
-                            <td class="listthumb">
-                                {% if file.imagesize is defined %}
-                                    {{ file.newpath|showimage(54, 40, 'c') }}
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                <tbody>
-            </table>
+                            <tr class="file{% if not file.readable %} locked{% endif %}">
+                                <td>
+                                    {% if file.readable %}
+                                        <a{{ hattr({'class': 'entry ' ~ type, 'href': '#', 'data-fbrowser-select': file.relativepath}) }}>
+                                            {{ file.filename|excerpt(80)|shy }}
+                                        </a>
+                                    {% else %}
+                                        <span class="entry {{ type }}">{{ file.filename|excerpt(80)|shy }}</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{ file.filesize }}.
+                                    {% if file.imagesize is defined %}
+                                        <br>{{ file.imagesize }} px.
+                                    {% endif %}
+                                </td>
+
+                                <td class="listthumb">
+                                    {% if file.imagesize is defined %}
+                                        {{ file.newpath|showimage(54, 40, 'c') }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    <tbody>
+                </table>
+            </div>
         {% endif %}
     </main>
 
-    <footer>
-        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-    </footer>
+    {#<footer>
+        .<button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
+    </footer>#}
 </div>

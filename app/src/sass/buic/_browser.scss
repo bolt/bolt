@@ -2,6 +2,32 @@
  * BUIC: Browser.
  */
 .buic-browser {
+    // Make the listing scrolling
+    $screen-height:   100vh;
+    $dialog-margin:   2 * 30px;
+    $header-vpadding: 10px;
+    $header-height:   37px + 2 * $header-vpadding;
+    $body-padding:    15px;
+    $thead-height:    13px;
+    $thead-vpadding:  10px;
+
+    div.header {
+        height: $thead-height + 2 * $thead-vpadding;
+        padding: $thead-vpadding 15px;
+    }
+
+    div.list {
+        max-height: calc(#{$screen-height} - #{4px + $dialog-margin + $header-height + 2 * $body-padding + $thead-height +  2* $thead-vpadding});
+        overflow-y: scroll;
+        margin: 0;
+    }
+
+    table {
+        margin: 0;
+        padding: 0;
+    }
+
+    // Modal header
     h4 {
         span {
             display: inline-block;
@@ -9,40 +35,43 @@
         }
     }
 
-    .filelist {
-        thead {
-            th {
-                vertical-align: bottom;
-            }
+    // Listing header
+    div.header {
+        background: #f2f2f2;
 
-            label {
-                display: inline;
-                border-right: 1px solid #888;
-                padding-right: 10px;
-                margin-right: 10px;
+        label {
+            display: inline;
+            border-right: 1px solid #888;
+            padding-right: 10px;
+            margin-right: 10px;
+            margin-bottom: 0;
+            line-height: 1;
 
-                &:last-child {
-                    border: none;
-                }
-            }
-
-            input {
-               vertical-align: baseline;
-               position: relative;
-               top: 1px;
+            &:last-child {
+                border: none;
             }
         }
 
+        input {
+           position: relative;
+           top: 1px;
+           margin-top: 0;
+        }
+    }
+
+    // Listing
+    table {
         td {
             padding-top: 2px;
             padding-bottom: 2px;
         }
 
-        tr.directory {
-            td {
-                background: #fdfdfd;
-            }
+        tr.directory td {
+            background: #fdfdfd;
+            padding-top: 0;
+            padding-bottom: 0;
         }
+
         tr.locked {
             opacity: 0.4;
 
@@ -56,70 +85,71 @@
                 content: "\f023"; // fa-lock
             }
         }
+    }
 
-        .entry {
-            font-weight: bold;
+    // Folder/file icons
+    .entry {
+        font-weight: bold;
 
-            &:before {
-                display: inline-block;
-                margin-right: 12px;
-                width: 30px;
-                vertical-align: middle;
-                text-align: center;
-                font-family: FontAwesome;
-                font-size: 200%;
-                font-weight: normal;
-                color: #000;
-                content: "\f115"; // fa-folder-open-o
-            }
-        }
-
-        .type-file:before {
-            content: "\f016"; // fa-file-o
-        }
-
-        .type-folder:before {
+        &:before {
+            display: inline-block;
+            margin-right: 12px;
+            width: 30px;
+            vertical-align: middle;
+            text-align: center;
+            font-family: FontAwesome;
+            font-size: 200%;
+            font-weight: normal;
+            color: #000;
             content: "\f115"; // fa-folder-open-o
         }
+    }
 
-        .type-image:before {
-            content: "\f1c5"; // fa-file-image-o
-        }
+    .type-file:before {
+        content: "\f016"; // fa-file-o
+    }
 
-        .type-video:before {
-            content: "\f1c8"; // fa-file-video-o
-        }
+    .type-folder:before {
+        content: "\f115"; // fa-folder-open-o
+    }
 
-        .type-audio:before {
-            content: "\f1c7"; // fa-file-audio-o
-        }
+    .type-image:before {
+        content: "\f1c5"; // fa-file-image-o
+    }
 
-        .type-archive:before {
-            content: "\f1c6"; // fa-file-archive-o
-        }
+    .type-video:before {
+        content: "\f1c8"; // fa-file-video-o
+    }
 
-        .type-pdf:before {
-            content: "\f1c1"; // fa-file-pdf-o
-        }
+    .type-audio:before {
+        content: "\f1c7"; // fa-file-audio-o
+    }
 
-        .type-powerpoint:before {
-            content: "\f1c4"; // fa-file-powerpoint-o
-        }
+    .type-archive:before {
+        content: "\f1c6"; // fa-file-archive-o
+    }
 
-        .type-excel:before {
-            content: "\f1c3"; // fa-file-excel-o
-        }
+    .type-pdf:before {
+        content: "\f1c1"; // fa-file-pdf-o
+    }
 
-        .type-word:before {
-            content: "\f1c2"; // fa-file-word-o
-        }
+    .type-powerpoint:before {
+        content: "\f1c4"; // fa-file-powerpoint-o
+    }
 
-        .type-code:before {
-            content: "\f1c9"; // fa-file-code-o
-        }
+    .type-excel:before {
+        content: "\f1c3"; // fa-file-excel-o
+    }
 
-        .type-text:before {
-            content: "\f0f6"; // fa-file-text-o
-        }
+    .type-word:before {
+        content: "\f1c2"; // fa-file-word-o
+    }
+
+    .type-code:before {
+        content: "\f1c9"; // fa-file-code-o
+    }
+
+    .type-text:before {
+        content: "\f0f6"; // fa-file-text-o
     }
 }

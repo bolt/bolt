@@ -220,6 +220,8 @@
                     .toggleClass('hidden', !content.length)
                     .html(content);
             });
+
+            this._ui.modal.modal('handleUpdate');
         }
     });
 })(jQuery);
