@@ -105,23 +105,27 @@
         &:before {
             display: inline-block;
             margin-right: 10px;
-            width: 30px;
+            width: 25px;
             vertical-align: middle;
             text-align: center;
             font-family: FontAwesome;
             font-size: 200%;
             font-weight: normal;
             color: #000;
-            content: "\f115"; // fa-folder-open-o
+        }
+    }
+
+    .type-folder {
+        color: #7e94a5;
+
+        &:before {
+            content: "\f114"; // fa-folder-o
+            color: #7e94a5;
         }
     }
 
     .type-file:before {
         content: "\f016"; // fa-file-o
-    }
-
-    .type-folder:before {
-        content: "\f115"; // fa-folder-open-o
     }
 
     .type-image:before {
