@@ -1,5 +1,6 @@
-<div>
+<div class="buic-browser">
     <main>
+        {# Path #}
         {% if context.pathsegments|length > 0 %}
             <p>
                 {{ __('Path:') }}
@@ -15,6 +16,7 @@
             </p>
         {% endif %}
 
+        {# Folders #}
         {% if context.folders|length > 0 %}
             <table class="dashboardlisting">
                 <tr>
@@ -33,6 +35,7 @@
             </table>
         {% endif %}
 
+        {# Files #}
         {% if context.files|length > 0 %}
         <table class="dashboardlisting">
             <tr>
