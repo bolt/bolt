@@ -2,4 +2,85 @@
  * BUIC: Browser.
  */
 .buic-browser {
+    .filelist {
+        tr.locked {
+            opacity: 0.4;
+
+            span:after {
+                display: inline-block;
+                margin-left: 8px;
+                vertical-align: middle;
+                font-family: FontAwesome;
+                //font-size: 150%;
+                font-weight: normal;
+                color: #000;
+                content: "\f023"; // fa-lock
+            }
+        }
+
+        .entry {
+            font-weight: bold;
+
+            &:before {
+                display: inline-block;
+                margin-right: 12px;
+                width: 30px;
+                vertical-align: middle;
+                text-align: center;
+                font-family: FontAwesome;
+                font-size: 200%;
+                font-weight: normal;
+                color: #000;
+                content: "\f115"; // fa-folder-open-o
+            }
+        }
+
+        .type-file:before {
+            content: "\f016"; // fa-file-o
+        }
+
+        .type-folder:before {
+            content: "\f115"; // fa-folder-open-o
+        }
+
+        .type-image:before {
+            content: "\f1c5"; // fa-file-image-o
+        }
+
+        .type-video:before {
+            content: "\f1c8"; // fa-file-video-o
+        }
+
+        .type-audio:before {
+            content: "\f1c7"; // fa-file-audio-o
+        }
+
+        .type-archive:before {
+            content: "\f1c6"; // fa-file-archive-o
+        }
+
+        .type-pdf:before {
+            content: "\f1c1"; // fa-file-pdf-o
+        }
+
+        .type-powerpoint:before {
+            content: "\f1c4"; // fa-file-powerpoint-o
+        }
+
+        .type-excel:before {
+            content: "\f1c3"; // fa-file-excel-o
+        }
+
+        .type-word:before {
+            content: "\f1c2"; // fa-file-word-o
+        }
+
+        .type-code:before {
+            content: "\f1c9"; // fa-file-code-o
+        }
+
+        .type-text:before {
+            content: "\f0f6"; // fa-file-text-o
+        }
+    }
 }
