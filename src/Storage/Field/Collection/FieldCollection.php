@@ -81,6 +81,17 @@ class FieldCollection extends AbstractLazyCollection
         return parent::add($element);
     }
 
+    public function get($key)
+    {
+        $this->initialize();
+
+        foreach ($this->collection as $field) {
+            if ($field->getName() == $key ) {
+                return $field;
+            }
+        }
+    }
+
     /**
      * Handles the conversion of references to entities.
      */
