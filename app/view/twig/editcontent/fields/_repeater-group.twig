@@ -25,7 +25,9 @@
                 'contentkey': rkey,
                 'field':      rfield,
                 'labelkey':   rfield.label|default(rkey|ucfirst),
-                'content':    content
+                'context' {
+                    'content':    content
+                }
             } %}
             <div class="col-xs-12">
                 {% include context.fields[rfield.type].template with rcontext %}
