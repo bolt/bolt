@@ -8,7 +8,7 @@
     $header-vpadding: 6px;
     $header-height:   37px + 2 * $header-vpadding;
     $body-padding:    15px;
-    $thead-height:    13px;
+    $thead-height:    21px;
     $thead-vpadding:  10px;
 
     div.header {
@@ -17,7 +17,7 @@
     }
 
     div.list {
-        max-height: calc(#{$screen-height} - #{4px + $dialog-margin + $header-height + 2 * $body-padding + $thead-height +  2* $thead-vpadding});
+        height: calc(#{$screen-height} - #{4px + $dialog-margin + $header-height + 2 * $body-padding + $thead-height +  2* $thead-vpadding});
         overflow-y: scroll;
         margin: 0;
     }
@@ -42,6 +42,7 @@
     // Listing header
     div.header {
         background: #f2f2f2;
+        vertical-align: baseline;
 
         label {
             display: inline;
@@ -49,17 +50,23 @@
             padding-right: 10px;
             margin-right: 10px;
             margin-bottom: 0;
-            line-height: 1;
+            line-height: $thead-height;
 
             &:last-child {
                 border: none;
             }
         }
 
-        input {
+        input[type="checkbox"] {
            position: relative;
            top: 1px;
            margin-top: 0;
+        }
+
+        input[type="text"] {
+            font-weight: normal;
+            line-height: 15px;
+            padding: 1px 4px;
         }
     }
 
@@ -97,7 +104,7 @@
 
         &:before {
             display: inline-block;
-            margin-right: 12px;
+            margin-right: 10px;
             width: 30px;
             vertical-align: middle;
             text-align: center;

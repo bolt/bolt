@@ -28,6 +28,7 @@
             <div class="header">
                 <label><input type="checkbox" name="folders" value="1" checked>{{ __('Folders') }}</label>
                 <label><input type="checkbox" name="files" value="1" checked>{{ __('page.ckeditor-browse-server.files') }}</label>
+                <label><i class="fa fa-filter"></i> <input type="text" name="filter" value=""></label>
             </div>
 
             <div class="list">
@@ -35,10 +36,10 @@
                     {# Folders #}
                     <tbody class="folders">
                         {% for folder in context.folders %}
-                            <tr class="directory">
+                            <tr{{ hattr({'class': 'directory', 'data-fbrowser-name': folder.foldername}) }}>
                                 <td colspan="3">
                                     <a{{ hattr({'class': 'entry type-folder', 'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath}) }) }}>
-                                        {{ folder.foldername|excerpt(40)|shy }}/
+                                        {{ folder.foldername|excerpt(80)|shy }}/
                                     </a>
                                 </td>
                             </tr>
@@ -70,7 +71,7 @@
                                 {% set type = 'type-file' %}
                             {% endif %}
 
-                            <tr class="file{% if not file.readable %} locked{% endif %}">
+                            <tr{{ hattr({'class': file.readable ? '' : 'locked', 'data-fbrowser-name': file.filename}) }}>
                                 <td>
                                     {% if file.readable %}
                                         <a{{ hattr({'class': 'entry ' ~ type, 'href': '#', 'data-fbrowser-select': file.relativepath}) }}>

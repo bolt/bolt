@@ -85,6 +85,16 @@
                         })
                         .on('change.bolt', 'input[name="files"]', function () {
                             modal.body.find('tbody.files').toggleClass('hidden', !this.checked);
+                        })
+                        .keyup('input[name="filter"]', function (evt) {
+                            var term = evt.target.value,
+                                found;
+
+                            modal.body.find('[data-fbrowser-name]').each(function () {
+                                found = term === '' || $(this).data('fbrowser-name').search(term) >= 0;
+
+                                $(this).toggleClass('hidden', !found);
+                            });
                         });
                 }
             });
