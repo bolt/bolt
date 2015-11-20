@@ -79,6 +79,12 @@
                         .on('click.bolt', '[data-fbrowser-select]', function () {
                             self._select($(this).data('fbrowser-select'));
                             modal.close();
+                        })
+                        .on('change.bolt', 'input[name="folders"]', function () {
+                            modal.body.find('tbody.folders').toggleClass('hidden', !this.checked);
+                        })
+                        .on('change.bolt', 'input[name="files"]', function () {
+                            modal.body.find('tbody.files').toggleClass('hidden', !this.checked);
                         });
                 }
             });

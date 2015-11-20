@@ -10,6 +10,29 @@
     }
 
     .filelist {
+        thead {
+            th {
+                vertical-align: bottom;
+            }
+
+            label {
+                display: inline;
+                border-right: 1px solid #888;
+                padding-right: 10px;
+                margin-right: 10px;
+
+                &:last-child {
+                    border: none;
+                }
+            }
+
+            input {
+               vertical-align: baseline;
+               position: relative;
+               top: 1px;
+            }
+        }
+
         td {
             padding-top: 2px;
             padding-bottom: 2px;

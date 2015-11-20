@@ -29,9 +29,16 @@
                 {# Header #}
                 <thead>
                     <tr>
-                        <th>{{ __('Folders') }} / {{ __('page.ckeditor-browse-server.files') }}</th>
-                        <th style="min-width: 102px;">{{ __('page.ckeditor-browse-server.size') }}</th>
-                        <th>&nbsp;</th>
+                        <th>
+                            <label><input type="checkbox" name="folders" value="1" checked>{{ __('Folders') }}</label>
+                            <label><input type="checkbox" name="files" value="1" checked>{{ __('page.ckeditor-browse-server.files') }}</label>
+                        </th>
+
+                        <th style="min-width: 102px;">
+                            <label>{{ __('page.ckeditor-browse-server.size') }}</label>
+                        </th>
+
+                        <th></th>
                     </tr>
                 </thead>
 
