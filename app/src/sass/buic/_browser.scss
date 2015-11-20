@@ -2,6 +2,13 @@
  * BUIC: Browser.
  */
 .buic-browser {
+    h4 {
+        span {
+            display: inline-block;
+            margin: 0 8px 0 4px;
+        }
+    }
+
     .filelist {
         tr.locked {
             opacity: 0.4;
@@ -11,7 +18,6 @@
                 margin-left: 8px;
                 vertical-align: middle;
                 font-family: FontAwesome;
-                //font-size: 150%;
                 font-weight: normal;
                 color: #000;
                 content: "\f023"; // fa-lock
