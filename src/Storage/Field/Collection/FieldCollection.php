@@ -86,7 +86,7 @@ class FieldCollection extends AbstractLazyCollection
         $this->initialize();
 
         foreach ($this->collection as $field) {
-            if ($field->getFieldname() == $key ) {
+            if ($field->getFieldname() == $key) {
                 return $field;
             }
         }
