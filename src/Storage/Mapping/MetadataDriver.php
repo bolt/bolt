@@ -371,9 +371,9 @@ class MetadataDriver implements MappingDriver
         foreach ($fields as $name => &$field) {
             $type = $field['type'];
             if (isset($this->typemap[$type])) {
-                $type = new $this->typemap[$type];
+                $type = new $this->typemap[$type]();
             } else {
-                $type = new $this->typemap['text'];
+                $type = new $this->typemap['text']();
             }
             $field['fieldtype'] = $type;
             $field['fieldname'] = $name;

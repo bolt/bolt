@@ -459,7 +459,7 @@ class Users extends BackendBase
     private function getEditableUser($id)
     {
         if (empty($id)) {
-            return new Entity\Users;
+            return new Entity\Users();
         } elseif (!$userEntity = $this->getUser($id)) {
             $this->flashes()->error(Trans::__('That user does not exist.'));
 
