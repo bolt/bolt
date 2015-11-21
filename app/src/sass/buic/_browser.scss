@@ -19,6 +19,7 @@
     div.list {
         height: calc(#{$screen-height} - #{4px + $dialog-margin + $header-height + 2 * $body-padding + $thead-height +  2* $thead-vpadding});
         overflow-y: scroll;
+        overflow-x: hidden;
         margin: 0;
     }
 
@@ -90,8 +91,26 @@
     // Listing
     table {
         td {
-            padding-top: 2px;
-            padding-bottom: 2px;
+            padding: 2px 8px;
+        }
+
+        // Name column
+        td:nth-child(1) {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 0;
+        }
+
+        // Info column
+        td:nth-child(2) {
+            vertical-align: middle;
+            width: 110px;
+        }
+
+        // Thumbnail column
+        td:nth-child(3) {
+            width: 54px;
         }
 
         tr.directory td {
@@ -105,7 +124,6 @@
 
             span:after {
                 display: inline-block;
-                margin-left: 8px;
                 vertical-align: middle;
                 font-family: FontAwesome;
                 font-weight: normal;
@@ -118,7 +136,6 @@
     // Folder/file icons
     .entry {
         font-weight: bold;
-        margin-left: 4px;
 
         &:before {
             display: inline-block;
