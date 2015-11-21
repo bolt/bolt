@@ -29,7 +29,7 @@ abstract class BaseCommand extends Command
          *   Accessed request service outside of request scope. Try moving that
          *   call to a before handler or controller
          */
-        $app['request'] = $request ? : Request::createFromGlobals();
+        $app['request'] = $request ?: Request::createFromGlobals();
     }
 
     /**
