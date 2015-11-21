@@ -19,7 +19,6 @@
     div.list {
         height: calc(#{$screen-height} - #{4px + $dialog-margin + $header-height + 2 * $body-padding + $thead-height +  2* $thead-vpadding});
         overflow-y: scroll;
-        overflow-x: hidden;
         margin: 0;
     }
 
@@ -95,22 +94,37 @@
         }
 
         // Name column
-        td:nth-child(1) {
+        td.name {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            width: 100%;
             max-width: 0;
         }
 
         // Info column
-        td:nth-child(2) {
+        td.info {
             vertical-align: middle;
             width: 110px;
+            min-width: 110px;
         }
 
         // Thumbnail column
-        td:nth-child(3) {
-            width: 54px;
+        td.thumb {
+            width: 70px;
+            min-width: 70px;
+        }
+
+        @media (max-width: 640px) {
+            td.info {
+                display: none;
+            }
+        }
+
+        @media (max-width: 400px) {
+            td.thumb {
+                display: none;
+            }
         }
 
         tr.directory td {
