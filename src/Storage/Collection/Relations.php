@@ -162,7 +162,7 @@ class Relations extends ArrayCollection
     public function offsetGet($offset)
     {
         if ($this->em === null) {
-            throw new StorageException('Unable to load collection values. Ensure that EntityManager is set on '. __CLASS__);
+            throw new StorageException('Unable to load collection values. Ensure that EntityManager is set on ' . __CLASS__);
         }
         $collection = new LazyCollection();
         $proxies = $this->getField($offset);
