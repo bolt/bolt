@@ -26,9 +26,18 @@
         {# Folders + Files #}
         {% if context.folders|length + context.files|length > 0 %}
             <div class="header">
-                <label><input type="checkbox" name="folders" value="1" checked>{{ __('Folders') }}</label>
-                <label><input type="checkbox" name="files" value="1" checked>{{ __('page.ckeditor-browse-server.files') }}</label>
-                <label><i class="fa fa-filter"></i> <input type="text" name="filter" value=""></label>
+
+                <div>
+                    <button type="button" aria-pressed="true" class="toogle-folders" title="{{ __('Folders') }}"></button>
+                </div>
+
+                <div>
+                    <button type="button" aria-pressed="true" class="toogle-files" title="{{ __('page.ckeditor-browse-server.files') }}"></button>
+                </div>
+
+                <div>
+                    <i class="fa fa-filter"></i> <input type="text" name="filter" value="">
+                </div>
             </div>
 
             <div class="list">

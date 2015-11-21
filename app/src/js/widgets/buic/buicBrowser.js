@@ -80,11 +80,16 @@
                             self._select($(this).data('fbrowser-select'));
                             modal.close();
                         })
-                        .on('change.bolt', 'input[name="folders"]', function () {
-                            modal.body.find('tbody.folders').toggleClass('hidden', !this.checked);
-                        })
-                        .on('change.bolt', 'input[name="files"]', function () {
-                            modal.body.find('tbody.files').toggleClass('hidden', !this.checked);
+                        .on('click.bolt', '[aria-pressed]', function (evt) {
+                            var activated = $(this).attr('aria-pressed') === 'false',
+                                type = this.className.replace('toogle-', '');
+
+                            $(this).attr('aria-pressed', activated ? 'true' : 'false');
+                            modal.body.find('tbody.' + type).toggleClass('hidden', !activated);
+
+                            if (evt.clientX > 0) {
+                                this.blur();
+                            }
                         })
                         .keyup('input[name="filter"]', function (evt) {
                             var term = evt.target.value,
