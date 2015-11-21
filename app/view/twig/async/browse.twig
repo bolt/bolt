@@ -1,4 +1,12 @@
 <div class="buic-browser">
+    {% set extensions = [''] %}
+    {% for file in context.files %}
+        {% if file.type not in extensions %}
+            {% set extensions = extensions|merge([file.type]) %}
+        {% endif %}
+    {% endfor %}
+    {% set extensions = extensions|sort %}
+
     <header>
         {# Closer #}
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -36,6 +44,11 @@
 
                 <div>
                     <i class="fa fa-filter"></i> <input type="text" name="filter" value="">
+                    <select name="ext">
+                        {% for ext in extensions %}
+                            <option value="{{ ext }}">{{ ext|upper() }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
 

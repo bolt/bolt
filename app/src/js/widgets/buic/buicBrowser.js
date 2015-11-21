@@ -68,9 +68,13 @@
                 loaded: function (evt, modal) {
                     // Set data structures
                     modal.body.find('.entry').each(function () {
-                        var tr = this.closest('tr');
+                        var tr = this.closest('tr'),
+                            name = $(this).text().trim(),
+                            ext = name.match(/\.(.+?[^/])$/);
 
-                        $(tr).attr('data-bolt-browse-name', $(this).text().trim());
+                        $(tr)
+                            .attr('data-bolt-browse-name', name)
+                            .attr('data-bolt-browse-ext', ext ? ext[1] : '');
                     });
 
                     // Set up event handler
@@ -99,17 +103,32 @@
                                 this.blur();
                             }
                         })
-                        .keyup('input[name="filter"]', function (evt) {
-                            var term = evt.target.value,
-                                found;
-
-                            modal.body.find('[data-bolt-browse-name]').each(function () {
-                                found = term === '' || $(this).data('bolt-browse-name').search(term) >= 0;
-
-                                $(this).toggleClass('hidden', !found);
-                            });
+                        .on('change', 'select[name="ext"]', function () {
+                            self._filter(modal);
+                        })
+                        .keyup('input[name="filter"]', function () {
+                            self._filter(modal);
                         });
                 }
+            });
+        },
+
+        /**
+         * Filter displaxed files and folders.
+         *
+         * @private
+         * @param {Object} modal - The modal dialog object
+         */
+        _filter: function (modal) {
+            var term = modal.body.find('input[name="filter"]').val(),
+                ext = modal.body.find('select[name="ext"]').val(),
+                hide;
+
+            modal.body.find('[data-bolt-browse-name]').each(function () {
+                hide = ext !== '' && $(this).data('bolt-browse-ext') !== ext ||
+                       term !== '' && $(this).data('bolt-browse-name').search(term) < 0;
+
+                $(this).toggleClass('hidden', hide);
             });
         },
 
