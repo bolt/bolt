@@ -44,7 +44,7 @@
                     {# Folders #}
                     <tbody class="folders">
                         {% for folder in context.folders %}
-                            <tr{{ hattr({'class': 'directory', 'data-fbrowser-name': folder.foldername}) }}>
+                            <tr class="directory">
                                 <td class="name">
                                     <a{{ hattr({'class': 'entry type-folder', 'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath}) }) }}>
                                         {{ folder.foldername }}/
@@ -81,7 +81,7 @@
                                 {% set type = 'type-file' %}
                             {% endif %}
 
-                            <tr{{ hattr({'class': file.readable ? '' : 'locked', 'data-fbrowser-name': file.filename}) }}>
+                            <tr{{ hattr({'class': file.readable ? '' : 'locked'}) }}>
                                 <td class="name">
                                     {% if file.readable %}
                                         <a{{ hattr({'class': 'entry ' ~ type, 'href': '#', 'data-fbrowser-select': file.relativepath}) }}>

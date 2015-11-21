@@ -66,6 +66,14 @@
                     data: data
                 },
                 loaded: function (evt, modal) {
+                    // Set data structures
+                    modal.body.find('.entry').each(function () {
+                        var tr = this.closest('tr');
+
+                        $(tr).attr('data-bolt-browse-name', $(this).text().trim());
+                    });
+
+                    // Set up event handler
                     modal.header
                         .on('click.bolt', '[data-fbrowser-chdir]', function () {
                             self._url = $(this).data('fbrowser-chdir');
@@ -95,8 +103,8 @@
                             var term = evt.target.value,
                                 found;
 
-                            modal.body.find('[data-fbrowser-name]').each(function () {
-                                found = term === '' || $(this).data('fbrowser-name').search(term) >= 0;
+                            modal.body.find('[data-bolt-browse-name]').each(function () {
+                                found = term === '' || $(this).data('bolt-browse-name').search(term) >= 0;
 
                                 $(this).toggleClass('hidden', !found);
                             });
