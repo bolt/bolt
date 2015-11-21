@@ -162,7 +162,7 @@ class LowlevelChecksTest extends BoltUnitTest
             $check->doDatabaseCheck();
             $this->fail('Bolt\Exception\LowlevelException not thrown');
         } catch (LowlevelException $e) {
-            $this->assertRegExp("/MySQL was selected as the database type, but the driver does not exist or is not loaded/", $e->getMessage());
+            $this->assertRegExp('/MySQL was selected as the database type, but the driver does not exist or is not loaded/', $e->getMessage());
             $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
         }
     }
@@ -197,7 +197,7 @@ class LowlevelChecksTest extends BoltUnitTest
             $check->doDatabaseCheck();
             $this->fail('Bolt\Exception\LowlevelException not thrown');
         } catch (LowlevelException $e) {
-            $this->assertRegExp("/PostgreSQL was selected as the database type, but the driver does not exist or is not loaded/", $e->getMessage());
+            $this->assertRegExp('/PostgreSQL was selected as the database type, but the driver does not exist or is not loaded/', $e->getMessage());
             $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
         }
     }
@@ -211,7 +211,7 @@ class LowlevelChecksTest extends BoltUnitTest
             $check->doDatabaseCheck();
             $this->fail('Bolt\Exception\LowlevelException not thrown');
         } catch (LowlevelException $e) {
-            $this->assertRegExp("/SQLite was selected as the database type, but the driver does not exist or is not loaded/", $e->getMessage());
+            $this->assertRegExp('/SQLite was selected as the database type, but the driver does not exist or is not loaded/', $e->getMessage());
             $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
         }
     }
@@ -224,7 +224,7 @@ class LowlevelChecksTest extends BoltUnitTest
             $check->doDatabaseCheck();
             $this->fail('Bolt\Exception\LowlevelException not thrown');
         } catch (LowlevelException $e) {
-            $this->assertRegExp("/was selected as the database type, but it is not supported/", $e->getMessage());
+            $this->assertRegExp('/was selected as the database type, but it is not supported/', $e->getMessage());
             $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
         }
     }
@@ -368,7 +368,7 @@ class LowlevelChecksTest extends BoltUnitTest
             $check->doDatabaseCheck();
             $this->fail('Bolt\Exception\LowlevelException not thrown');
         } catch (LowlevelException $e) {
-            $this->assertRegExp("/There is no databasename set for your database/", $e->getMessage());
+            $this->assertRegExp('/There is no databasename set for your database/', $e->getMessage());
             $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
         }
     }
@@ -381,7 +381,7 @@ class LowlevelChecksTest extends BoltUnitTest
             $check->doDatabaseCheck();
             $this->fail('Bolt\Exception\LowlevelException not thrown');
         } catch (LowlevelException $e) {
-            $this->assertRegExp("/There is no username set for your database/", $e->getMessage());
+            $this->assertRegExp('/There is no username set for your database/', $e->getMessage());
             $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
         }
     }
@@ -393,7 +393,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['core']));
 
-        $this->expectOutputRegex("/PHP Fatal Error: Bolt Core/");
+        $this->expectOutputRegex('/PHP Fatal Error: Bolt Core/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
@@ -408,7 +408,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->will($this->returnValue($this->errorResponses['vendor']));
 
         $app = $this->getApp();
-        $this->expectOutputRegex("/PHP Fatal Error: Vendor Library/");
+        $this->expectOutputRegex('/PHP Fatal Error: Vendor Library/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
@@ -419,7 +419,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['extension']));
 
-        $this->expectOutputRegex("/PHP Fatal Error: Bolt Extensions/");
+        $this->expectOutputRegex('/PHP Fatal Error: Bolt Extensions/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
@@ -433,13 +433,13 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['unknown']));
 
-        $this->expectOutputRegex("/PHP Fatal Error: Bolt Generic/");
+        $this->expectOutputRegex('/PHP Fatal Error: Bolt Generic/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
     public function testAssertWritableDir()
     {
-        $badDir = "/path/to/nowhere";
+        $badDir = '/path/to/nowhere';
         $check = $this->getCleanChecker();
 
         try {

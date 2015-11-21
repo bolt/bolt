@@ -73,7 +73,7 @@ class TaxonomyType extends FieldTypeBase
 
         if ($this->mapping['data']['has_sortorder']) {
             $order = "$field.sortorder";
-            $query->addSelect($this->getPlatformGroupConcat("$field.sortorder", $order, "_" . $field . '_sortorder',
+            $query->addSelect($this->getPlatformGroupConcat("$field.sortorder", $order, '_' . $field . '_sortorder',
                 $query));
         } else {
             $order = "$field.id";
@@ -88,7 +88,7 @@ class TaxonomyType extends FieldTypeBase
         }
 
         $query
-            ->addSelect($this->getPlatformGroupConcat("$field.id", $order, "_" . $field . '_id', $query))
+            ->addSelect($this->getPlatformGroupConcat("$field.id", $order, '_' . $field . '_id', $query))
             ->addSelect($this->getPlatformGroupConcat("$field.slug", $order, '_' . $field . '_slug', $query))
             ->addSelect($this->getPlatformGroupConcat("$field.name", $order, '_' . $field . '_name', $query))
             ->addSelect($this->getPlatformGroupConcat("$field.taxonomytype", $order, '_' . $field . '_taxonomytype',
@@ -113,7 +113,7 @@ class TaxonomyType extends FieldTypeBase
         $fieldTaxonomy = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
         foreach ($data as $tax) {
             $tax['content_id'] = $entity->getId();
-            $tax['contenttype'] = (string)$entity->getContenttype();
+            $tax['contenttype'] = (string) $entity->getContenttype();
             $taxEntity = new Entity\Taxonomy($tax);
             $entity->getTaxonomy()
                 ->add($taxEntity);

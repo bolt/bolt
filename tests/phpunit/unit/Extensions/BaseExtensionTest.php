@@ -506,7 +506,7 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
             ->will($this->returnValue(false));
         $app['permissions'] = $permissions;
 
-        $this->expectOutputRegex("/Redirecting to/i");
+        $this->expectOutputRegex('/Redirecting to/i');
         $response = $ext->requireUserPermission('test');
         $this->assertFalse($response);
     }

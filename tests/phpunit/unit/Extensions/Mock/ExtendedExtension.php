@@ -13,7 +13,7 @@ class ExtendedExtension extends BaseExtension
 {
     public function getName()
     {
-        return "mockExtended";
+        return 'mockExtended';
     }
 
     public function initialize()

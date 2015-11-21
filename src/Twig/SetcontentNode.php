@@ -24,7 +24,7 @@ class SetcontentNode extends \Twig_Node
             ->write('$context[\'' . $this->getAttribute('name') . '\'] = ')
             ->write('$template_storage->getContent(')
             ->subcompile($this->getAttribute('contenttype'))
-            ->raw(", ")
+            ->raw(', ')
             ->subcompile($arguments);
 
         if (!is_null($this->getNode('wherearguments'))) {

@@ -68,7 +68,7 @@ class GeneralTest extends ControllerUnitTest
         $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
 
         $guzzleInterface = $this->getMock('GuzzleHttp\Message\RequestInterface');
-        $testGuzzle->expects($this->at(0))->method("get")->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
+        $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
         $app['guzzle.client'] = $testGuzzle;
 
         $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
@@ -127,7 +127,7 @@ class GeneralTest extends ControllerUnitTest
         $response = $this->controller()->dashboardNews($this->getRequest());
 
         $context = $response->getContext();
-        $this->assertEquals(['item' => 'one'], (array)$context['context']['information']);
+        $this->assertEquals(['item' => 'one'], (array) $context['context']['information']);
     }
 
     public function testDashboardNews()

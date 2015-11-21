@@ -52,7 +52,7 @@ class CronRunner extends BaseCommand
             } else {
                 $this->auditLog(__CLASS__, 'Cron run');
             }
-            $output->writeln("<info>Cron run!</info>");
+            $output->writeln('<info>Cron run!</info>');
         }
     }
 }

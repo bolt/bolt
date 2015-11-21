@@ -11,7 +11,7 @@ class LoripsumMock extends \PHPUnit_Framework_TestCase
     {
         switch ($request) {
             case '/1/veryshort':
-                return "<p>Ecce aliud simile dissimile. </p>";
+                return '<p>Ecce aliud simile dissimile. </p>';
 
             case '/medium/decorate/link/1':
                 return "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <b>Non semper, inquam;</b> <a href='http://loripsum.net/' target='_blank'>Quae duo sunt, unum facit.</a> <b>Ecce aliud simile dissimile.</b> Duo Reges: constructio interrete. Nam et complectitur verbis, quod vult, et dicit plane, quod intellegam; </p>";
@@ -36,7 +36,7 @@ class LoripsumMock extends \PHPUnit_Framework_TestCase
 ";
 
             default:
-                return "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quo plebiscito decreta a senatu est consuli quaestio Cn. Illud non continuo, ut aeque incontentae. Duo Reges: constructio interrete. Sed haec in pueris; Sed quid sentiat, non videtis. Cum autem in quo sapienter dicimus, id a primo rectissime dicitur. </p>
+                return '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quo plebiscito decreta a senatu est consuli quaestio Cn. Illud non continuo, ut aeque incontentae. Duo Reges: constructio interrete. Sed haec in pueris; Sed quid sentiat, non videtis. Cum autem in quo sapienter dicimus, id a primo rectissime dicitur. </p>
 
 <p>Sed haec quidem liberius ab eo dicuntur et saepius. Hunc vos beatum; Iubet igitur nos Pythius Apollo noscere nosmet ipsos. Quis Aristidem non mortuum diligit? Conclusum est enim contra Cyrenaicos satis acute, nihil ad Epicurum. Satis est tibi in te, satis in legibus, satis in mediocribus amicitiis praesidii. An vero, inquit, quisquam potest probare, quod perceptfum, quod. Primum cur ista res digna odio est, nisi quod est turpis? Huius, Lyco, oratione locuples, rebus ipsis ielunior. Quae cum dixisset paulumque institisset, Quid est? Teneo, inquit, finem illi videri nihil dolere. Erat enim res aperta. </p>
 
@@ -44,7 +44,7 @@ class LoripsumMock extends \PHPUnit_Framework_TestCase
 
 <p>Traditur, inquit, ab Epicuro ratio neglegendi doloris. Sin eam, quam Hieronymus, ne fecisset idem, ut voluptatem illam Aristippi in prima commendatione poneret. Sed haec quidem liberius ab eo dicuntur et saepius. Vitiosum est enim in dividendo partem in genere numerare. Quamquam id quidem, infinitum est in hac urbe; </p>
 
-";
+';
         }
     }
 }

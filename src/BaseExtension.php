@@ -323,7 +323,7 @@ abstract class BaseExtension implements ExtensionInterface
                 // Failure!!
                 $configdir = dirname($configfile);
                 $message = "Couldn't copy $configdistfile to $configfile: " .
-                "File is not writable. Create the file manually, " .
+                'File is not writable. Create the file manually, ' .
                 "or make the $configdir directory writable.";
                 $this->app['logger.system']->critical($message, ['event' => 'extensions']);
                 $this->app['logger.flash']->error($message);

@@ -33,9 +33,9 @@ class SearchWeighterTest extends BoltUnitTest
         $app = $this->getApp();
         $results = $app['query']->getContent('pages/first/3');
         $results = iterator_to_array($results);
-        $results[2]->setTitle("Lorem Ipsum title to improve lorem ipsum result");
-        $results[1]->setTitle("Lorem Ipsum");
-        $results[1]->setBody("Lorem Ipsum");
+        $results[2]->setTitle('Lorem Ipsum title to improve lorem ipsum result');
+        $results[1]->setTitle('Lorem Ipsum');
+        $results[1]->setBody('Lorem Ipsum');
 
         $weighter = $app['query.search_weighter'];
         $weighter->setResults($results);

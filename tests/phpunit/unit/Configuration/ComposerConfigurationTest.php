@@ -64,7 +64,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
             $this->fail('Bolt\Exception\LowlevelException not thrown');
         } catch (LowlevelException $e) {
             $this->assertRegExp("/The default folder \/non\/existent\/path doesn't exist/", $e->getMessage());
-            $this->assertRegExp("/When using Bolt as a Composer package it will need to have access to the following folders/", $e->getMessage());
+            $this->assertRegExp('/When using Bolt as a Composer package it will need to have access to the following folders/', $e->getMessage());
             $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
         }
     }
@@ -80,14 +80,14 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
             $this->fail('Bolt\Exception\LowlevelException not thrown');
         } catch (LowlevelException $e) {
             $this->assertRegExp("/The default folder \/path\/to\/nowhere doesn't exist/", $e->getMessage());
-            $this->assertRegExp("/When using Bolt as a Composer package it will need to have access to the following folders/", $e->getMessage());
+            $this->assertRegExp('/When using Bolt as a Composer package it will need to have access to the following folders/', $e->getMessage());
             $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
         }
     }
 
     public function testCheckDir()
     {
-        $fakeLocation = "/path/to/nowhere";
+        $fakeLocation = '/path/to/nowhere';
         $config = new Composer(TEST_ROOT);
         $verifier = new ComposerChecks($config);
 
@@ -115,7 +115,7 @@ class ComposerConfigurationTest extends \PHPUnit_Framework_TestCase
             $this->fail('Bolt\Exception\LowlevelException not thrown');
         } catch (LowlevelException $e) {
             $this->assertRegExp("/The default folder \/path\/to\/nowhere isn't writable. Make sure it's writable to the user that the webserver is using/", $e->getMessage());
-            $this->assertRegExp("/When using Bolt as a Composer package it will need to have access to the following folders/", $e->getMessage());
+            $this->assertRegExp('/When using Bolt as a Composer package it will need to have access to the following folders/', $e->getMessage());
             $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
         }
     }

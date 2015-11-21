@@ -24,9 +24,9 @@ class Library
     public static function formatFilesize($size)
     {
         if ($size > 1024 * 1024) {
-            return sprintf("%0.2f MiB", ($size / 1024 / 1024));
+            return sprintf('%0.2f MiB', ($size / 1024 / 1024));
         } elseif ($size > 1024) {
-            return sprintf("%0.2f KiB", ($size / 1024));
+            return sprintf('%0.2f KiB', ($size / 1024));
         } else {
             return $size . ' B';
         }
@@ -80,9 +80,9 @@ class Library
     public static function safeFilename($filename)
     {
         $filename = rawurlencode($filename); // Use 'rawurlencode', because we prefer '%20' over '+' for spaces.
-        $filename = str_replace("%2F", "/", $filename);
+        $filename = str_replace('%2F', '/', $filename);
 
-        if (substr($filename, 0, 1) == "/") {
+        if (substr($filename, 0, 1) == '/') {
             $filename = substr($filename, 1);
         }
 
@@ -140,8 +140,8 @@ class Library
     {
         $app = ResourceManager::getApp();
 
-        if (!empty($add) && $add[0] != "?") {
-            $add = "?" . $add;
+        if (!empty($add) && $add[0] != '?') {
+            $add = '?' . $add;
         }
 
         if (empty($param)) {
@@ -178,7 +178,7 @@ class Library
         $app = ResourceManager::getApp();
 
         if (empty($path)) {
-            $path = "/";
+            $path = '/';
         }
         header("location: $path");
         echo "<p>Redirecting to <a href='$path'>$path</a>.</p>";

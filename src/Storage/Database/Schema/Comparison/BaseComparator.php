@@ -107,6 +107,7 @@ abstract class BaseComparator
         if ($this->response !== null) {
             return $this->response;
         }
+
         return $this->response = new SchemaCheck();
     }
 

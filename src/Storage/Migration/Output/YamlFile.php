@@ -52,7 +52,7 @@ class YamlFile implements OutputFileInterface
         } catch (\Exception $e) {
             $this->export
                 ->setError(true)
-                ->setErrorMessage("Unable to generate valid YAML data!");
+                ->setErrorMessage('Unable to generate valid YAML data!');
 
             return false;
         }

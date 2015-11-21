@@ -112,8 +112,8 @@ class Extend extends BackendBase
                 $filesystem->mkdir($destination);
                 $filesystem->mirror($source, $destination);
 
-                if (file_exists($destination . "/config.yml.dist")) {
-                    $filesystem->copy($destination . "/config.yml.dist", $destination . "/config.yml");
+                if (file_exists($destination . '/config.yml.dist')) {
+                    $filesystem->copy($destination . '/config.yml.dist', $destination . '/config.yml');
                 }
 
                 return new Response(Trans::__('Theme successfully generated. You can now edit it directly from your theme folder.'));

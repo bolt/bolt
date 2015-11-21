@@ -19,7 +19,7 @@ class StatServiceTest extends BoltUnitTest
             ->method('recordInstall')
             ->with('mytest', '1.0.0');
 
-        $response = $stat->recordInstall("mytest", '1.0.0');
+        $response = $stat->recordInstall('mytest', '1.0.0');
     }
 }
 

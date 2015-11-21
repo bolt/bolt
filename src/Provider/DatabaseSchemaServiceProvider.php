@@ -34,6 +34,7 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
 
         $app['schema.tables_filter'] = function () use ($app) {
             $prefix = $app['config']->get('general/database/prefix');
+
             return "/^$prefix.+/";
         };
 

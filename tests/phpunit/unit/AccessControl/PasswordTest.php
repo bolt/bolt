@@ -228,7 +228,7 @@ class PasswordTest extends BoltUnitTest
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
         $logger->expects($this->atLeastOnce())
             ->method('error')
-            ->with($this->equalTo("Failed to send password request. Please check the email settings."));
+            ->with($this->equalTo('Failed to send password request. Please check the email settings.'));
         $app['logger.flash'] = $logger;
 
         $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);

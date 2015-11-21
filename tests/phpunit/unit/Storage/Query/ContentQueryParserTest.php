@@ -103,7 +103,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('entries');
         $qb->setParameters(['order' => '-datepublish', 'id' => '!1', 'printquery' => true]);
-        $this->expectOutputString("SELECT entries.* FROM bolt_entries entries WHERE entries.id <> :id_1 ORDER BY datepublish DESC");
+        $this->expectOutputString('SELECT entries.* FROM bolt_entries entries WHERE entries.id <> :id_1 ORDER BY datepublish DESC');
         $qb->fetch();
     }
 
@@ -115,7 +115,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setParameters(['order' => '-datepublish', 'id' => '!1', 'getquery' => function ($query) {
             echo $query;
         }]);
-        $this->expectOutputString("SELECT pages.* FROM bolt_pages pages WHERE pages.id <> :id_1 ORDER BY datepublish DESC");
+        $this->expectOutputString('SELECT pages.* FROM bolt_pages pages WHERE pages.id <> :id_1 ORDER BY datepublish DESC');
         $qb->fetch();
     }
 
@@ -127,7 +127,7 @@ class ContentQueryParserTest extends BoltUnitTest
         $qb->setParameters(['order' => '-datepublish, title', 'getquery' => function ($query) {
             echo $query;
         }]);
-        $this->expectOutputString("SELECT entries.* FROM bolt_entries entries ORDER BY datepublish DESC, title ASC");
+        $this->expectOutputString('SELECT entries.* FROM bolt_entries entries ORDER BY datepublish DESC, title ASC');
         $qb->fetch();
     }
 

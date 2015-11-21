@@ -54,14 +54,14 @@ class ConfigSet extends BaseCommand
             $yaml = new YamlUpdater($this->app, $file);
 
             if ($yaml->change($key, $value, $backup)) {
-                $result = sprintf("New value for <info>%s: %s</info> was successful. File updated.", $key, $value);
+                $result = sprintf('New value for <info>%s: %s</info> was successful. File updated.', $key, $value);
             } else {
                 $result = sprintf("<error>The key '%s' was not found in %s.</error>", $key, $file);
             }
         } catch (FileNotFoundException $e) {
             $result = sprintf("<error>Can't read file: %s.</error>", $file);
         } catch (ParseException $e) {
-            $result = sprintf("<error>Invalid YAML in file: %s.</error>", $file);
+            $result = sprintf('<error>Invalid YAML in file: %s.</error>', $file);
         } catch (FilesystemException $e) {
             $result = sprintf('<error>' . $e->getMessage() . '</error>');
         }

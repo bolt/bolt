@@ -271,9 +271,9 @@ class Config
             }
 
             // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-            if ((strpos($hostname, '.') > 0) && preg_match("/[a-z0-9]/i", $hostname)) {
-                if (preg_match("/^www[0-9]*./", $hostname)) {
-                    $general['cookies_domain'] = '.' . preg_replace("/^www[0-9]*./", '', $hostname);
+            if ((strpos($hostname, '.') > 0) && preg_match('/[a-z0-9]/i', $hostname)) {
+                if (preg_match('/^www[0-9]*./', $hostname)) {
+                    $general['cookies_domain'] = '.' . preg_replace('/^www[0-9]*./', '', $hostname);
                 } else {
                     $general['cookies_domain'] = '.' . $hostname;
                 }

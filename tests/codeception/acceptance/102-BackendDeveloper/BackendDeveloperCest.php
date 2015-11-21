@@ -283,7 +283,7 @@ class BackendDeveloperCest
 
         // Edit the field
         $twig = $I->grabTextFrom('#form_contents', 'textarea');
-        $twig .= PHP_EOL . "# Let's make this perfectly clear" ;
+        $twig .= PHP_EOL . "# Let's make this perfectly clear";
         $twig .= PHP_EOL . 'theres_no_secrets_this_year: true' . PHP_EOL;
 
         $I->fillField('#form_contents', $twig);

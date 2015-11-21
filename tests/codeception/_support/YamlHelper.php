@@ -258,7 +258,7 @@ class YamlHelper extends \Codeception\Module
             '',
         ];
 
-        return implode("\n", $routing);;
+        return implode("\n", $routing);
     }
 
     /**

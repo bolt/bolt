@@ -143,7 +143,7 @@ trait ContentTaxonomyTrait
         foreach (array_keys($this->taxonomy) as $type) {
             $taxonomytype = $this->app['config']->get('taxonomy/' . $type);
             // Don't order tags.
-            if ($taxonomytype['behaves_like'] == "tags") {
+            if ($taxonomytype['behaves_like'] == 'tags') {
                 continue;
             }
 

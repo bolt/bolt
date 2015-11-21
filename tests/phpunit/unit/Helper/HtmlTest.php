@@ -15,17 +15,17 @@ class HtmlTest extends BoltUnitTest
     {
         // Simple text
         $input = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.';
-        $this->assertEquals("Lorem ipsum", Html::trimText($input, 11, false));
-        $this->assertEquals("Lorem ipsum…", Html::trimText($input, 12, true));
+        $this->assertEquals('Lorem ipsum', Html::trimText($input, 11, false));
+        $this->assertEquals('Lorem ipsum…', Html::trimText($input, 12, true));
 
         // Make sure tags are stripped
         $input = 'Lorem <strong>ipsum</strong> dolor sit amet, consectetur adipisicing elit.';
-        $this->assertEquals("Lorem ipsum", Html::trimText($input, 11, false));
+        $this->assertEquals('Lorem ipsum', Html::trimText($input, 11, false));
     }
 
     public function testDecorateTT()
     {
         $input = 'Lorem `ipsum` dolor.';
-        $this->assertEquals("Lorem <tt>ipsum</tt> dolor.", Html::decorateTT($input));
+        $this->assertEquals('Lorem <tt>ipsum</tt> dolor.', Html::decorateTT($input));
     }
 }

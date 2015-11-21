@@ -42,8 +42,8 @@ class BoltDataCollectorTest extends BoltUnitTest
     public function testBrandingData()
     {
         $app = $this->getApp();
-        $app['config']->set("general/branding/provided_by/0", 'testperson');
-        $app['config']->set("general/branding/provided_by/1", 'testemail');
+        $app['config']->set('general/branding/provided_by/0', 'testperson');
+        $app['config']->set('general/branding/provided_by/1', 'testemail');
         $request = Request::create('/', 'GET');
         $response = $app->handle($request);
 
@@ -56,13 +56,13 @@ class BoltDataCollectorTest extends BoltUnitTest
     public function testEditLinks()
     {
         $app = $this->getApp();
-        $app['editlink'] = "editlink";
-        $app['edittitle'] = "edittitle";
+        $app['editlink'] = 'editlink';
+        $app['edittitle'] = 'edittitle';
         $request = Request::create('/', 'GET');
         $response = $app->handle($request);
         $data = new BoltDataCollector($app);
         $data->collect($request, $response);
-        $this->assertEquals("editlink", $data->getEditlink());
-        $this->assertEquals("edittitle", $data->getEdittitle());
+        $this->assertEquals('editlink', $data->getEditlink());
+        $this->assertEquals('edittitle', $data->getEdittitle());
     }
 }

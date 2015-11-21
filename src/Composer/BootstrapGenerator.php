@@ -70,11 +70,11 @@ EOD;
     public function generate()
     {
         if ($this->webroot) {
-            $autoload = "../vendor/autoload.php";
-            $base = "dirname(__DIR__)";
+            $autoload = '../vendor/autoload.php';
+            $base = 'dirname(__DIR__)';
         } else {
-            $autoload = "vendor/autoload.php";
-            $base = "__DIR__";
+            $autoload = 'vendor/autoload.php';
+            $base = '__DIR__';
         }
 
         $template = '';

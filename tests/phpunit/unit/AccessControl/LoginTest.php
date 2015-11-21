@@ -228,7 +228,7 @@ class LoginTest extends BoltUnitTest
             ->with($this->matchesRegularExpression('#Generating authentication cookie#'));
         $logger->expects($this->at(2))
             ->method('debug')
-            ->with($this->matchesRegularExpression("#Saving new login token#"));
+            ->with($this->matchesRegularExpression('#Saving new login token#'));
         $app['logger.system'] = $logger;
 
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['success']);

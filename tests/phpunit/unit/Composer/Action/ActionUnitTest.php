@@ -17,6 +17,7 @@ abstract class ActionUnitTest extends BoltUnitTest
         $bolt = parent::getApp();
         $bolt['extend.action.options']['basedir'] = $bolt['resources']->getPath('extensions');
         $bolt['extend.action.options']['composerjson'] = $bolt['resources']->getPath('extensions') . '/composer.json';
+
         return $bolt;
     }
 }

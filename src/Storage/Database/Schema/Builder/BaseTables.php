@@ -22,7 +22,7 @@ class BaseTables extends BaseBuilder
     {
         $tables = [];
         foreach ($this->tables->keys() as $name) {
-            $tables[$name] = $this->tables[$name]->buildTable($schema, $this->prefix. $name, $name, $this->charset, $this->collate);
+            $tables[$name] = $this->tables[$name]->buildTable($schema, $this->prefix . $name, $name, $this->charset, $this->collate);
         }
 
         return $tables;

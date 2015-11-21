@@ -207,7 +207,7 @@ class Password
 
         if ($failed) {
             $this->app['logger.system']->error("Failed to send password request sent to '" . $userEntity['displayname'] . "'.", ['event' => 'authentication']);
-            $this->app['logger.flash']->error(Trans::__("Failed to send password request. Please check the email settings."));
+            $this->app['logger.flash']->error(Trans::__('Failed to send password request. Please check the email settings.'));
         }
     }
 }

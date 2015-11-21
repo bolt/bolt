@@ -16,7 +16,7 @@ class String
     /**
      * @deprecated
      */
-    public static function makeSafe($str, $strict = false, $extrachars = "")
+    public static function makeSafe($str, $strict = false, $extrachars = '')
     {
         trigger_error(self::NOTICE, E_USER_DEPRECATED);
 

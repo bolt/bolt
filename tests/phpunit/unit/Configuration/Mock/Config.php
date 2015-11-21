@@ -49,26 +49,26 @@ class Config
     public function mockPostgres()
     {
         $this->value = $this->db1;
-        $this->value['driver'] = "pdo_pgsql";
+        $this->value['driver'] = 'pdo_pgsql';
     }
 
     public function mockSqlite()
     {
         $this->value = $this->db1;
-        $this->value['driver'] = "pdo_sqlite";
-        $this->value['path'] = "test/bolt.db";
+        $this->value['driver'] = 'pdo_sqlite';
+        $this->value['path'] = 'test/bolt.db';
     }
 
     public function mockUnsupportedPlatform()
     {
         $this->value = $this->db1;
-        $this->value['driver'] = "mongodb";
+        $this->value['driver'] = 'mongodb';
     }
 
     public function mockSqliteMem()
     {
         $this->value = $this->db1;
-        $this->value['driver'] = "pdo_sqlite";
+        $this->value['driver'] = 'pdo_sqlite';
         $this->value['memory'] = true;
     }
 }

@@ -22,7 +22,7 @@ class Search implements PluginInterface
 
     public function handle($term, $extensions = 'jpg,jpeg,gif,png')
     {
-        $extensions = explode(",", $extensions);
+        $extensions = explode(',', $extensions);
         $allFiles = $this->filesystem->listContents('', true);
         $files = [];
 

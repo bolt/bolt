@@ -40,7 +40,7 @@ class ExtensionsEnable extends BaseCommand
             $this->auditLog(__CLASS__, "Installed extension $name");
         }
 
-        $output->writeln("<info>[Done]</info> ");
+        $output->writeln('<info>[Done]</info> ');
         $output->writeln($result, OutputInterface::OUTPUT_PLAIN);
     }
 }

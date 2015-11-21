@@ -229,7 +229,7 @@ class BackendAdminCest
      */
     public function createDerpaderpTest(\AcceptanceTester $I)
     {
-        $I->wantTo("Fail creating a user where password matches user and display names and email address is invalid.");
+        $I->wantTo('Fail creating a user where password matches user and display names and email address is invalid.');
 
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
@@ -481,8 +481,8 @@ class BackendAdminCest
 
         $I->amOnPage('/bolt/file/edit/config/routing.yml');
         $I->see('pagebinding:');
-        $I->see("/{slug}");
-        $I->see("contenttype: pages");
+        $I->see('/{slug}');
+        $I->see('contenttype: pages');
     }
 
     /**

@@ -41,6 +41,6 @@ class LogClear extends BaseCommand
         $this->app['logger.manager']->clear('change');
 
         $this->auditLog(__CLASS__, 'System system & change logs cleared');
-        $output->writeln("<info>System & change logs cleared!</info>");
+        $output->writeln('<info>System & change logs cleared!</info>');
     }
 }

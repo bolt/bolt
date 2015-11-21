@@ -17,7 +17,7 @@ class SystemHandlerTest extends BoltUnitTest
     public function testSetupInitialize()
     {
         $app = $this->getApp();
-        $app['request'] = Request::createFromGlobals("/");
+        $app['request'] = Request::createFromGlobals('/');
         $log = new Logger('logger.system');
         $handler = new SystemHandler($app);
 
@@ -33,7 +33,7 @@ class SystemHandlerTest extends BoltUnitTest
     public function testHandle()
     {
         $app = $this->getApp();
-        $app['request'] = Request::createFromGlobals("/");
+        $app['request'] = Request::createFromGlobals('/');
         $log = new Logger('logger.system');
         $log->pushHandler(new SystemHandler($app));
 
@@ -41,7 +41,7 @@ class SystemHandlerTest extends BoltUnitTest
         $db = $mocker->getConnectionMock();
         $db->expects($this->any())
             ->method('insert')
-            ->with($this->equalTo("bolt_log_system"));
+            ->with($this->equalTo('bolt_log_system'));
         $app['db'] = $db;
 
         $log->addRecord(Logger::DEBUG, 'test', ['id' => 5, 'title' => 'test']);
@@ -50,7 +50,7 @@ class SystemHandlerTest extends BoltUnitTest
     public function testHandleWithException()
     {
         $app = $this->getApp();
-        $app['request'] = Request::createFromGlobals("/");
+        $app['request'] = Request::createFromGlobals('/');
         $log = new Logger('logger.system');
         $log->pushHandler(new SystemHandler($app));
 
@@ -58,7 +58,7 @@ class SystemHandlerTest extends BoltUnitTest
         $db = $mocker->getConnectionMock();
         $db->expects($this->any())
             ->method('insert')
-            ->with($this->equalTo("bolt_log_system"));
+            ->with($this->equalTo('bolt_log_system'));
         $app['db'] = $db;
 
         $log->addRecord(Logger::DEBUG, 'test', ['event' => '', 'exception' => new \Exception()]);
