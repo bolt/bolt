@@ -420,7 +420,7 @@ HTML;
         ];
         foreach ($locations as $location) {
             $app = $this->getApp();
-            $template = "<invalid></invalid>";
+            $template = '<invalid></invalid>';
             $snip = '<meta name="test-snippet" />';
             $app['asset.queue.snippet']->add($location, $snip);
             $html = $app['asset.queue.snippet']->process($template);

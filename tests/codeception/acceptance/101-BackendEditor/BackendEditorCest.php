@@ -124,7 +124,7 @@ class BackendEditorCest
      */
     public function checkCreateRecordsEventTest(\AcceptanceTester $I)
     {
-        $I->wantTo("Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on create");
+        $I->wantTo('Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on create');
 
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
@@ -174,7 +174,7 @@ class BackendEditorCest
      */
     public function checkSaveRecordsEventTest(\AcceptanceTester $I)
     {
-        $I->wantTo("Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on save");
+        $I->wantTo('Check the PRE_SAVE & POST_SAVE StorageEvent triggered correctly on save');
 
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);

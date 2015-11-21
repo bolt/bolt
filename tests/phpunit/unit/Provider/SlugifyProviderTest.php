@@ -20,7 +20,7 @@ class SlugifyProviderTest extends BoltUnitTest
         $app->boot();
 
         $slug = 'This is a title';
-        $this->assertEquals("this-is-a-title", $app['slugify']->slugify($slug));
+        $this->assertEquals('this-is-a-title', $app['slugify']->slugify($slug));
 
         $slug = 'Nürnberg Bratwürste';
         $this->assertEquals('nuernberg-bratwuerste', $app['slugify']->slugify($slug));

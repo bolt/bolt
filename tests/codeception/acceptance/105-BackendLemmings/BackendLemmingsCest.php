@@ -62,7 +62,7 @@ class BackendLemmingsCest
      */
     public function dashboardWithoutPermissionRedirectsToHomepageTest(\AcceptanceTester $I)
     {
-        $I->wantTo("Set permissions/global/dashboard to empty and be redirected to the homepage");
+        $I->wantTo('Set permissions/global/dashboard to empty and be redirected to the homepage');
 
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);

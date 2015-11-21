@@ -12,7 +12,7 @@ class MockLocalExtension extends BaseExtension implements ExtensionInterface
 
     public function getName()
     {
-        return "testlocal";
+        return 'testlocal';
     }
 
     public function initialize()

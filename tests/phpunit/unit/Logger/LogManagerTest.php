@@ -32,7 +32,7 @@ class LogManagerTest extends BoltUnitTest
         $db = $mocker->getConnectionMock();
         $db->expects($this->any())
             ->method('executeUpdate')
-            ->with($this->equalTo("DELETE FROM bolt_log_system WHERE date < :date"));
+            ->with($this->equalTo('DELETE FROM bolt_log_system WHERE date < :date'));
 
         $app['db'] = $db;
         $log = $this->getLogManager($app);
@@ -46,7 +46,7 @@ class LogManagerTest extends BoltUnitTest
         $db = $mocker->getConnectionMock();
         $db->expects($this->any())
             ->method('executeUpdate')
-            ->with($this->equalTo("DELETE FROM bolt_log_change WHERE date < :date"));
+            ->with($this->equalTo('DELETE FROM bolt_log_change WHERE date < :date'));
 
         $app['db'] = $db;
         $log = $this->getLogManager($app);

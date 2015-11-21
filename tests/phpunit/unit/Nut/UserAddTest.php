@@ -78,6 +78,6 @@ class UserAddTest extends BoltUnitTest
             ]
         );
         $result = $tester->getDisplay();
-        $this->assertEquals("Error creating user: koala", trim($result));
+        $this->assertEquals('Error creating user: koala', trim($result));
     }
 }

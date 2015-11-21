@@ -92,7 +92,7 @@ class CacheTest extends BoltUnitTest
         if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
             throw new \InvalidArgumentException('Win can');
         } else {
-            $newCache = new Cache("/foo/bar/baz", $this->getApp());
+            $newCache = new Cache('/foo/bar/baz', $this->getApp());
         }
     }
 
