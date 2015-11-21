@@ -43,6 +43,8 @@
     div.header {
         line-height: $thead-height;
         background: #f2f2f2;
+        overflow: hidden;
+        white-space: nowrap;
 
         & > div {
             display: inline-block;
