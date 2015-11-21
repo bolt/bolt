@@ -238,7 +238,7 @@ class Permissions
         }
 
         $roleNames = array_unique($roleNames);
-        if (in_array(Permissions::ROLE_ROOT, $roleNames)) {
+        if (in_array(self::ROLE_ROOT, $roleNames)) {
             $this->audit(
                 sprintf(
                     'Granting "%s"%s to root user',
@@ -463,11 +463,11 @@ class Permissions
     {
         if (isset($user['roles']) && is_array($user['roles'])) {
             $userRoles = $user['roles'];
-            $userRoles[] = Permissions::ROLE_EVERYONE;
+            $userRoles[] = self::ROLE_EVERYONE;
         } else {
             $userRoles = [];
         }
-        $userRoles[] = Permissions::ROLE_ANONYMOUS;
+        $userRoles[] = self::ROLE_ANONYMOUS;
 
         return $userRoles;
     }
@@ -622,7 +622,7 @@ class Permissions
                     $contenttype = $parts[1];
                 }
                 if (empty($contenttype)) {
-                    if (in_array(Permissions::ROLE_EVERYONE, $userRoles)) {
+                    if (in_array(self::ROLE_EVERYONE, $userRoles)) {
                         $this->audit("Granting 'overview' for everyone (hard-coded override)");
 
                         return true;
@@ -672,7 +672,7 @@ class Permissions
                 }
 
                 if (intval($content['ownerid']) && (intval($content['ownerid']) === intval($user['id']))) {
-                    $userRoles[] = Permissions::ROLE_OWNER;
+                    $userRoles[] = self::ROLE_OWNER;
                 }
                 break;
 

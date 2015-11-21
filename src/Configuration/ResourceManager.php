@@ -120,7 +120,7 @@ class ResourceManager
     public function setApp(Application $app)
     {
         $this->app = $app;
-        ResourceManager::$theApp = $app;
+        self::$theApp = $app;
     }
 
     /**
