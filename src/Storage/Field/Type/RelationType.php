@@ -102,7 +102,7 @@ class RelationType extends FieldTypeBase
             $rel = [];
             $rel['id'] = $relData['id'];
             $rel['from_id'] = $entity->getId();
-            $rel['from_contenttype'] = (string)$entity->getContenttype();
+            $rel['from_contenttype'] = (string) $entity->getContenttype();
             $rel['to_contenttype'] = $field;
             $rel['to_id'] = $relData['toid'];
             $relEntity = new Entity\Relations($rel);

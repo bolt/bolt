@@ -113,7 +113,7 @@ class TaxonomyType extends FieldTypeBase
         $fieldTaxonomy = $this->em->createCollection('Bolt\Storage\Entity\Taxonomy');
         foreach ($data as $tax) {
             $tax['content_id'] = $entity->getId();
-            $tax['contenttype'] = (string)$entity->getContenttype();
+            $tax['contenttype'] = (string) $entity->getContenttype();
             $taxEntity = new Entity\Taxonomy($tax);
             $entity->getTaxonomy()
                 ->add($taxEntity);
