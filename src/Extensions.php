@@ -586,7 +586,7 @@ class Extensions
             'exception' => $e,
         ];
 
-        $this->app['logger.system']->addRecord($level, sprintf("%s for %s: %s", $msg, $extensionName, $e->getMessage()), $context);
+        $this->app['logger.system']->addRecord($level, sprintf('%s for %s: %s', $msg, $extensionName, $e->getMessage()), $context);
 
         $this->app['logger.flash']->error(
             Trans::__("[Extension error] $msg for %ext%: %error%", ['%ext%' => $extensionName, '%error%' => $e->getMessage()])

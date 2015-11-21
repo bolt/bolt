@@ -141,10 +141,10 @@ class RecordChangeHandler extends AbstractProcessingHandler
     protected function checkTransaction(array $context)
     {
         if (!in_array($context['action'], $this->allowed)) {
-            throw new \UnexpectedValueException("Invalid action '{$context['action']}' specified for changelog (must be one of [ " . implode(', ', $this->allowed) . " ])");
+            throw new \UnexpectedValueException("Invalid action '{$context['action']}' specified for changelog (must be one of [ " . implode(', ', $this->allowed) . ' ])');
         }
         if (empty($context['old']) && empty($context['new'])) {
-            throw new \UnexpectedValueException("Tried to log something that cannot be: both old and new content are empty");
+            throw new \UnexpectedValueException('Tried to log something that cannot be: both old and new content are empty');
         }
         if (empty($context['old']) && in_array($context['action'], ['UPDATE', 'DELETE'])) {
             throw new \UnexpectedValueException("Cannot log action '{$context['action']}' when old content doesn't exist");
@@ -222,7 +222,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
      */
     private function initialize()
     {
-        $this->tablename = sprintf("%s%s", $this->app['config']->get('general/database/prefix', "bolt_"), 'log_change');
+        $this->tablename = sprintf('%s%s', $this->app['config']->get('general/database/prefix', 'bolt_'), 'log_change');
         $this->allowed = ['INSERT', 'UPDATE', 'DELETE'];
         $this->initialized = true;
     }

@@ -412,7 +412,7 @@ class Permissions
      */
     public function getGlobalRoles()
     {
-        return $this->app['config']->get("permissions/global");
+        return $this->app['config']->get('permissions/global');
     }
 
     /**
@@ -586,7 +586,7 @@ class Permissions
 
                 return true;
             default:
-                throw new \Exception("Invalid permission check rule of type " . $rule['type'] . ", expected P_SIMPLE, P_AND or P_OR");
+                throw new \Exception('Invalid permission check rule of type ' . $rule['type'] . ', expected P_SIMPLE, P_AND or P_OR');
         }
     }
 

@@ -37,14 +37,14 @@ class TestRunner extends BaseCommand
             $executable = 'php ' . realpath(dirname(dirname(dirname(dirname(__DIR__)))) . '/vendor/phpunit/phpunit/phpunit.php');
         } else {
             // check if phpunit is in the path
-            $returnVal = shell_exec("which phpunit");
+            $returnVal = shell_exec('which phpunit');
             if (!empty($returnVal)) {
                 $executable = 'phpunit';
             }
         }
 
         if (is_null($executable)) {
-            $output->writeln("No PHPUnit test runner found in the vendor dir or your path");
+            $output->writeln('No PHPUnit test runner found in the vendor dir or your path');
         } else {
             $output->write(system($executable));
         }

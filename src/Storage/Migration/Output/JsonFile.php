@@ -51,7 +51,7 @@ class JsonFile implements OutputFileInterface
         if ($json === false) {
             $this->export
                 ->setError(true)
-                ->setErrorMessage("Unable to generate valid JSON data!");
+                ->setErrorMessage('Unable to generate valid JSON data!');
 
             return false;
         } elseif (!$last) {

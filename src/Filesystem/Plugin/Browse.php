@@ -63,7 +63,7 @@ class Browse implements PluginInterface
                     'readable'     => false,
                     'type'         => isset($entry['extension']) ? $entry['extension'] : '',
                     'filesize'     => Lib::formatFilesize($entry['size']),
-                    'modified'     => date("Y/m/d H:i:s", $entry['timestamp']),
+                    'modified'     => date('Y/m/d H:i:s', $entry['timestamp']),
                     'permissions'  => 'public',
                     'url'          => $url,
                 ];
@@ -81,7 +81,7 @@ class Browse implements PluginInterface
 
                     if (!empty($entry['extension']) && in_array($entry['extension'], ['gif', 'jpg', 'png', 'jpeg'])) {
                         $size = getimagesize($fullfilename);
-                        $files[$entry['path']]['imagesize'] = sprintf("%s × %s", $size[0], $size[1]);
+                        $files[$entry['path']]['imagesize'] = sprintf('%s × %s', $size[0], $size[1]);
                     }
 
                     $files[$entry['path']]['permissions'] = util::full_permissions($fullfilename);
@@ -93,7 +93,7 @@ class Browse implements PluginInterface
                     'path'       => $entry['dirname'],
                     'foldername' => $entry['basename'],
                     'newpath'    => $entry['path'],
-                    'modified'   => date("Y/m/d H:i:s", $entry['timestamp']),
+                    'modified'   => date('Y/m/d H:i:s', $entry['timestamp']),
                     'writable'   => true,
                 ];
 

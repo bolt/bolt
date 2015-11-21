@@ -22,7 +22,7 @@ class Input
             }
         } elseif (is_string($var)) {
             // expand tabs
-            $var = str_replace("\t", "    ", $var);
+            $var = str_replace("\t", '    ', $var);
 
             // prune control characters
             if ($stripControlChars) {

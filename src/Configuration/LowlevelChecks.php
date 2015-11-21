@@ -99,7 +99,7 @@ class LowlevelChecks
                 "<a href='http://www.php.net/manual/en/info.configuration.php#ini.magic-quotes-gpc'>this page</a>, and point out the " .
                 "<span style='color: #F00;'>BIG RED BANNER</span> that states that magic_quotes are <u>DEPRECATED</u>. Seriously. <br><br>" .
                 "If you can't change it in the server-settings, or your admin won't do it for you, try adding this line to your " .
-                "`.htaccess`-file: <pre>php_value magic_quotes_gpc off</pre>"
+                '`.htaccess`-file: <pre>php_value magic_quotes_gpc off</pre>'
             );
         }
     }
@@ -123,14 +123,14 @@ class LowlevelChecks
     {
         if (!is_dir($path)) {
             throw new LowlevelException(
-                "The folder <code>" . htmlspecialchars($path, ENT_QUOTES) . "</code> doesn't exist. Make sure it is " .
-                "present and writable to the user that the webserver is using."
+                'The folder <code>' . htmlspecialchars($path, ENT_QUOTES) . "</code> doesn't exist. Make sure it is " .
+                'present and writable to the user that the webserver is using.'
             );
         }
         if (!is_writable($path)) {
             throw new LowlevelException(
-                "The folder <code>" . htmlspecialchars($path, ENT_QUOTES) . "</code> isn't writable. Make sure it is " .
-                "present and writable to the user that the webserver is using."
+                'The folder <code>' . htmlspecialchars($path, ENT_QUOTES) . "</code> isn't writable. Make sure it is " .
+                'present and writable to the user that the webserver is using.'
             );
         }
     }
@@ -159,11 +159,11 @@ class LowlevelChecks
             throw new LowlevelException(
                 'The file <code>' . htmlspecialchars($this->config->getPath('web'), ENT_QUOTES) . '/.htaccess' .
                 "</code> doesn't exist. Make sure it's present and readable to the user that the " .
-                "webserver is using. " .
-                "If you are not running Apache, or your Apache setup performs the correct rewrites without " .
-                "requiring a .htaccess file (in other words, <strong>if you know what you are doing</strong>), " .
+                'webserver is using. ' .
+                'If you are not running Apache, or your Apache setup performs the correct rewrites without ' .
+                'requiring a .htaccess file (in other words, <strong>if you know what you are doing</strong>), ' .
                 'you can disable this check by calling <code>$config->getVerifier()->disableApacheChecks(); ' .
-                "in <code>bootstrap.php</code>"
+                'in <code>bootstrap.php</code>'
             );
         }
     }
@@ -258,7 +258,7 @@ class LowlevelChecks
         if (file_exists($ymlname) && !is_readable($ymlname)) {
             $error = sprintf(
                 "Couldn't read <code>%s</code>-file inside <code>%s</code>. Make sure the file exists and is readable to the user that the webserver is using.",
-                htmlspecialchars($name . ".yml", ENT_QUOTES),
+                htmlspecialchars($name . '.yml', ENT_QUOTES),
                 htmlspecialchars($this->config->getPath('config'), ENT_QUOTES)
             );
             throw new LowlevelException($error);
@@ -270,9 +270,9 @@ class LowlevelChecks
                 $message = sprintf(
                     "Couldn't create a new <code>%s</code>-file inside <code>%s</code>. Create the file manually by copying
                     <code>%s</code>, and optionally make it writable to the user that the webserver is using.",
-                    htmlspecialchars($name . ".yml", ENT_QUOTES),
+                    htmlspecialchars($name . '.yml', ENT_QUOTES),
                     htmlspecialchars($this->config->getPath('config'), ENT_QUOTES),
-                    htmlspecialchars($name . ".yml.dist", ENT_QUOTES)
+                    htmlspecialchars($name . '.yml.dist', ENT_QUOTES)
                 );
 
                 throw new LowlevelException($message);

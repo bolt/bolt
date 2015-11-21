@@ -53,7 +53,7 @@ class UserAdd extends BaseCommand
             $message[] = ("<error>    * User name '{$user->getUsername()}' already exists</error>");
         }
         if ($valid === false) {
-            $message[] = ("<error>Error creating user:</error>");
+            $message[] = ('<error>Error creating user:</error>');
             $output->write(array_reverse($message), true);
 
             return;
