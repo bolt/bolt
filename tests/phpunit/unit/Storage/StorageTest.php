@@ -310,6 +310,7 @@ class StorageMock extends Storage
     protected function executeGetContentQueries($decoded)
     {
         $this->queries[] = $decoded;
+
         return parent::executeGetContentQueries($decoded);
     }
 }

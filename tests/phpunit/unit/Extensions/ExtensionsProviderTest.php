@@ -391,7 +391,7 @@ HTML;
         $this->localExtensionInstall();
         $app = $this->getApp();
 
-        require_once PHPUNIT_WEBROOT .'/extensions/vendor/autoload.php';
+        require_once PHPUNIT_WEBROOT . '/extensions/vendor/autoload.php';
 
         $koala = new \Bolt\Extensions\TestVendor\TestExt\GumLeaves();
         $this->assertSame('Koala Power!', $koala->getDropBear());
@@ -470,7 +470,7 @@ HTML;
 
         // Test snippet inserts at top of <head>
         $html = $app['extensions']->processSnippetQueue("<html></html>");
-        $this->assertEquals("<html></html><br />".PHP_EOL.PHP_EOL, $html);
+        $this->assertEquals("<html></html><br />" . PHP_EOL . PHP_EOL, $html);
     }
 
     public function testExtensionSnippets()
@@ -530,7 +530,7 @@ HTML;
             $snip = '<meta name="test-snippet" />';
             $app['extensions']->insertSnippet($location, $snip);
             $html = $app['extensions']->processSnippetQueue($template);
-            $this->assertEquals($template.$snip.PHP_EOL, $html);
+            $this->assertEquals($template . $snip . PHP_EOL, $html);
         }
     }
 
@@ -556,12 +556,12 @@ HTML;
 
     public function testCommentsHandled()
     {
-        $template = $this->template."<!-- This is a comment -->";
+        $template = $this->template . "<!-- This is a comment -->";
         $app = $this->getApp();
         $snip = '<meta name="test-snippet" />';
         $app['extensions']->insertSnippet('append', $snip);
         $html = $app['extensions']->processSnippetQueue($template);
-        $this->assertEquals($template.$snip.PHP_EOL, $html);
+        $this->assertEquals($template . $snip . PHP_EOL, $html);
     }
 }
 

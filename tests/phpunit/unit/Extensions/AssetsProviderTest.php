@@ -368,7 +368,7 @@ HTML;
 
         // Test snippet inserts at top of <head>
         $html = $app['asset.queue.snippet']->process('<html></html>');
-        $this->assertEquals('<html></html><br />'.PHP_EOL.PHP_EOL, $html);
+        $this->assertEquals('<html></html><br />' . PHP_EOL . PHP_EOL, $html);
     }
 
     public function testExtensionSnippets()
@@ -424,7 +424,7 @@ HTML;
             $snip = '<meta name="test-snippet" />';
             $app['asset.queue.snippet']->add($location, $snip);
             $html = $app['asset.queue.snippet']->process($template);
-            $this->assertEquals($template.$snip.PHP_EOL, $html);
+            $this->assertEquals($template . $snip . PHP_EOL, $html);
         }
     }
 }

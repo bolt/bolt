@@ -127,7 +127,7 @@ class GeneralTest extends ControllerUnitTest
         $response = $this->controller()->dashboardNews($this->getRequest());
 
         $context = $response->getContext();
-        $this->assertEquals(['item' => 'one'], (array)$context['context']['information']);
+        $this->assertEquals(['item' => 'one'], (array) $context['context']['information']);
     }
 
     public function testDashboardNews()
