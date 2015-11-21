@@ -122,13 +122,21 @@
         _filter: function (modal) {
             var term = modal.body.find('input[name="filter"]').val(),
                 ext = modal.body.find('select[name="ext"]').val(),
+                name,
                 hide;
 
             modal.body.find('[data-bolt-browse-name]').each(function () {
+                name = $(this).data('bolt-browse-name');
                 hide = ext !== '' && $(this).data('bolt-browse-ext') !== ext ||
-                       term !== '' && $(this).data('bolt-browse-name').search(term) < 0;
-
+                       term !== '' && name.search(term) < 0;
                 $(this).toggleClass('hidden', hide);
+
+                if (!hide) {
+                    $(this).find('a, span').each(function () {
+                        var text = name.replace(term, '<mark>' + term + '</mark>');
+                        console.log($(this).html(text));
+                    });
+                }
             });
         },
 
