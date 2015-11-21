@@ -102,6 +102,7 @@ trait AssetTrait
             ->setPriority($options['priority'])
             ->setAttributes($options['attrib'])
         ;
+
         return $asset;
     }
 

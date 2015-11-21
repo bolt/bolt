@@ -55,6 +55,7 @@ class UserAdd extends BaseCommand
         if ($valid === false) {
             $message[] = ("<error>Error creating user:</error>");
             $output->write(array_reverse($message), true);
+
             return;
         }
 
