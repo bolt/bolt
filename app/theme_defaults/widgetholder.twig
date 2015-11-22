@@ -1,7 +1,5 @@
 {% spaceless %}
-    <div class='widget {{ widget.class|join(' ') }}' id='widget-{{ widget.key }}' data-key='{{ widget.key }}'
-    {%- if widget.defer %} data-defer='true'{% endif -%}
-    >
-        {{ html|default('<!-- placeholder for ' ~ widget.key ~ ' -->')|raw }}
-    </div>
+<div class="widgetholder widgetholder-{{ location|slugify }}">
+    {{ html|raw }}
+</div>
 {% endspaceless %}

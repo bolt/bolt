@@ -156,23 +156,23 @@ class Queue implements QueueInterface
      *
      * @return string|null
      */
-    public function render($location, $type = 'frontend')
+    public function render($location, $type = 'frontend', $wrapper = '', $holdertemplate = '')
     {
         $html = null;
 
         /** @var WidgetAssetInterface $widget */
         foreach ($this->sort($this->queue) as $widget) {
             if ($widget->getType() === $type && $widget->getLocation() === $location) {
-                $html .= $this->addWidgetHolder($widget);
+                $html .= $this->addWidgetHolder($widget, $holdertemplate);
             }
         }
 
         if ($html !== null) {
-            $html = sprintf(
-                '<div class="widgetholder widgetholder-%s">%s</div>',
-                $location,
-                $html
-            );
+            if (empty($wrapper)) {
+                $wrapper = 'widgetholder.twig';
+            }
+            $twigvars = ['location' => $location, 'html' => $html];
+            $html = $this->render->render($wrapper, $twigvars);
         }
 
         return $html;
@@ -185,15 +185,21 @@ class Queue implements QueueInterface
      *
      * @return \Twig_Markup
      */
-    protected function addWidgetHolder(WidgetAssetInterface $widget)
+    protected function addWidgetHolder(WidgetAssetInterface $widget, $holdertemplate = '')
     {
-        return $this->render->render(
-            'widgetholder.twig',
+        if (empty($holdertemplate)) {
+            $holdertemplate = 'widgetwrapper.twig';
+        }
+
+        $html = $this->render->render(
+            $holdertemplate,
             [
                 'widget' => $widget,
                 'html'   => $widget->isDeferred() ? '' : $this->getHtml($widget),
             ]
         );
+
+        return $html;
     }
 
     /**
