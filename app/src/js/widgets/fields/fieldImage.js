@@ -30,16 +30,19 @@
             bolt.uploads.bindField($(fieldset));
 
             // Update the preview image on change.
-            input.on('change', function () {
-                var path = input.val(),
-                    url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
+            this._on(input, {
+                'change': function () {
+                    var path = input.val(),
+                        url = bolt.conf('paths.app') + 'view/img/default_empty_4x3.png';
 
-                if (path) {
-                    url = bolt.conf('paths.root') +'thumbs/' + width + 'x' + height + 'c/' + encodeURI(path);
+                    if (path) {
+                        url = bolt.conf('paths.root') +'thumbs/' + width + 'x' + height + 'c/' + encodeURI(path);
+                    }
+
+                    preview.attr('src', url);
+                    }
                 }
-
-                preview.attr('src', url);
-            });
+            );
         }
     });
 })(jQuery, Bolt);
