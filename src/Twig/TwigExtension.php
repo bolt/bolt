@@ -614,9 +614,9 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\WidgetHandler::widgets()
      */
-    public function widgets($location = null, $type = 'frontend')
+    public function widgets($location = null, $type = 'frontend', $wrapper = '', $holder = '')
     {
-        return $this->handlers['widget']->widgets($location, $type);
+        return $this->handlers['widget']->widgets($location, $type, $wrapper, $holder);
     }
 
     /**
