@@ -1,80 +1,41 @@
 /*** Fieldset: Slug ***/
 
 fieldset.bolt-field-slug {
-    $icon-right-margin: 6px;
-    $icon-width: 20px;
-
     .input-group-addon {
         background: #fff;
-        text-align: left;
-        font-family: $fonts-family-monospace;
-        color: #aaa;
-        font-size: 13px;
-
-        em {
-            color: black;
-            font-style: normal;
-            font-weight: normal;
-            line-height: 22px;
-        }
+        padding-right: 1px;
+        border-right: none;
+        color: #999;
     }
 
-    span.input-group-addon:before {
-        display: inline-block;
-        margin-right: $icon-right-margin;
-        width: $icon-width;
-        padding: 2px 0;
-        text-align: center;
-        line-height: 1;
+    input {
+        padding-left: 1px;
+        border-left: none;
+        text-overflow: ellipsis;
+        // Correct something (probably) wrong in Bootstrap customizing:
+        line-height: 18px;
+        height: 32px;
+    }
+
+    button {
         font-family: "FontAwesome";
-        background: #f0f0f0;
-        border-radius: 3px;
-        text-indent: 0;
+
+        &:after {
+            content: "\f13e"; // fa-unlock-alt
+            color: #080;
+
+        }
     }
 
     .locked {
-
-        height: 32px;
-
-        li.lock {
-            display: none;
+        .input-group-addon, input {
+            background: #f8f8f8;
+            color: #999;
         }
 
-        span.input-group-addon:before {
-            content: "\f023";
+        button:after {
+            content: "\f023"; // fa-lock
             color: #a00;
         }
-    }
-
-    .unlocked {
-        li.unlock {
-            display: none;
-        }
-
-        span.input-group-addon:before {
-            content: "\f13e";
-            color: #080;
-        }
-    }
-
-    .input-group-btn {
-        button {
-            height: 32px;
-            padding: 6px $padding-base-vertical;
-        }
-    }
-
-    span.input-group-addon {
-        display: inline-block;
-        overflow: hidden;
-        margin: 1px 0;
-        width: 100%;
-        height: 32px;
-        text-indent: -$icon-width - $icon-right-margin;
-        padding-top: 5px;
-        padding-left: $icon-width + $padding-base-vertical + $icon-right-margin;
-        white-space: normal;
-        word-break: break-all;
-        cursor: default;
     }
 }
