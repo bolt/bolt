@@ -11,6 +11,7 @@ fieldset.bolt-field-slug {
     input {
         padding-left: 1px;
         border-left: none;
+        background: #fff;
         text-overflow: ellipsis;
         // Correct something (probably) wrong in Bootstrap customizing:
         line-height: 18px;
@@ -21,21 +22,20 @@ fieldset.bolt-field-slug {
         font-family: "FontAwesome";
 
         &:after {
-            content: "\f13e"; // fa-unlock-alt
-            color: #080;
-
+            content: "\f023"; // fa-lock
+            color: #a00;
         }
     }
 
-    .locked {
+    .generated {
         .input-group-addon, input {
             background: #f8f8f8;
             color: #999;
         }
 
         button:after {
-            content: "\f023"; // fa-lock
-            color: #a00;
+            content: "\f13e"; // fa-unlock-alt
+            color: #080;
         }
     }
 }

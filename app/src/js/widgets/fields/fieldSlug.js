@@ -38,8 +38,7 @@
          * @private
          */
         _create: function () {
-            var self = this,
-                fieldset = self.element;
+            var fieldset = this.element;
 
             /**
              * Refs to UI elements of this widget.
@@ -51,14 +50,12 @@
              *
              * @property {Object} group  - Group container.
              * @property {Object} data   - Data field.
-             * @property {Object} lock   - Lock button.
-             * @property {Object} unlock - Unlock button.
+             * @property {Object} toggle - Lock/Unlock button.
              */
             this._ui = {
                 group:  fieldset.find('.input-group'),
                 data:   fieldset.find('input'),
-                lock:   fieldset.find('li.lock a'),
-                unlock: fieldset.find('li.unlock a')
+                toggle: fieldset.find('button')
             };
 
             /**
@@ -72,21 +69,17 @@
             this._timeout = 0;
 
             // Bind events.
-
-            self._ui.lock.on('click', function () {
-                self._lock();
+            this._on(this._ui.toggle, {
+                'click': function () {
+                    this._toggleGeneration(true);
+                },
+                'dblclick': function () {
+                    this._toggleGeneration();
+                }
             });
 
-            self._ui.unlock.on('click', function () {
-                self._unlock(true);
-            });
-
-            self._ui.group.on('dblclick', function () {
-                self._unlock();
-            });
-
-            if (self.options.isEmpty) {
-                self._unlock();
+            if (this._ui.group.hasClass('generated')) {
+                this._startGeneration();
             }
         },
 
@@ -100,32 +93,23 @@
         },
 
         /**
-         * Locks the slug field.
-         *
-         * @private
-         */
-        _lock: function () {
-            this._ui.group
-                .removeClass('unlocked')
-                .addClass('locked');
-
-            this._stopAutoGeneration();
-        },
-
-        /**
-         * Unlocks the slug field.
+         * Toogle automatic generation of the slug field.
          *
          * @private
          * @param {boolean} [doConfirm=false] - Open a confirmation dialog before unlocking
          */
-        _unlock: function (doConfirm) {
-            if (doConfirm !== true || confirm(bolt.data('field.slug.message.unlock'))) {
-                this._ui.group
-                    .removeClass('locked')
-                    .addClass('unlocked');
+        _toggleGeneration: function (doConfirm) {
+            var generated = this._ui.group.hasClass('generated');
 
-                this._startAutoGeneration();
+            if (generated) {
+                generated = false;
+                this._stopGeneration();
+            } else if (doConfirm !== true || confirm(bolt.data('field.slug.message.unlock'))) {
+                generated = true;
+                this._startGeneration();
             }
+            this._ui.group.toggleClass('generated', generated);
+            this._ui.data.prop('readonly', generated);
         },
 
         /**
@@ -158,7 +142,7 @@
          *
          * @private
          */
-        _startAutoGeneration: function () {
+        _startGeneration: function () {
             var self = this,
                 form = self.element.closest('form');
 
@@ -196,7 +180,7 @@
          *
          * @private
          */
-        _stopAutoGeneration: function () {
+        _stopGeneration: function () {
             var form = this.element.closest('form');
 
             clearTimeout(this._timeout);

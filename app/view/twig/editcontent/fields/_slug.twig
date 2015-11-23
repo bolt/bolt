@@ -48,7 +48,7 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-12">
-        <div class="input-group locked">
+        <div class="input-group{{ context.content.get(contentkey) == '' ? ' generated' : '' }}">
             <span class="input-group-addon">/{{ context.content.contenttype }}/</span>
             <input{{ macro.attr(attributes.slug) }}>
             <span class="input-group-btn">
