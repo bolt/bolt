@@ -56,7 +56,6 @@
              * @property {Object} lock   - Lock button.
              * @property {Object} unlock - Unlock button.
              * @property {Object} edit   - Edit button.
-             * @property {Object} copy   - Copy button.
              */
             this._ui = {
                 group:  fieldset.find('.input-group'),
@@ -65,8 +64,7 @@
                 data:   fieldset.find('input'),
                 lock:   fieldset.find('li.lock a'),
                 unlock: fieldset.find('li.unlock a'),
-                edit:   fieldset.find('li.edit a'),
-                copy:   fieldset.find('li.copy')
+                edit:   fieldset.find('li.edit a')
             };
 
             /**
@@ -78,20 +76,6 @@
              * @private
              */
             this._timeout = 0;
-
-            /**
-             * Clipboard.
-             *
-             * @type {object}
-             * @name _clipboard
-             * @memberOf jQuery.widget.bolt.fieldSlug.prototype
-             * @private
-             */
-            this._clipboard = new Clipboard(self._ui.copy.get(0), {
-                text: function () {
-                    return self._ui.prefix.text() + self._ui.data.val();
-                }
-            });
 
             // Bind events.
 
@@ -123,7 +107,6 @@
          */
         _destroy: function () {
             clearTimeout(this._timeout);
-            this._clipboard.destroy();
         },
 
         /**
