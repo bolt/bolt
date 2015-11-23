@@ -47,10 +47,10 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              *
-             * @property {Object} form   - The form this input is part of
-             * @property {Object} group  - Group container
-             * @property {Object} data   - Data field
-             * @property {Object} uses   - Collection of uses fields
+             * @property {Object} form  - The form this input is part of
+             * @property {Object} group - Group container
+             * @property {Object} data  - Data field
+             * @property {Object} uses  - Collection of uses fields
              */
             this._ui = {
                 form:   this.element.closest('form'),
@@ -184,7 +184,7 @@
 
             $.each(self._ui.uses, function (i, field) {
                 value = $(field).val();
-                
+
                 if (value) {
                     term += (typeof value === 'object' ? value.join(' ') : value) + ' ';
                 }
