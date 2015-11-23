@@ -151,12 +151,13 @@
         _startGeneration: function () {
             var self = this;
 
+            self._buildSlug();
+
             $.each(self.options.uses, function (i, bindField) {
                 $('[name="' + bindField + '"]', self._ui.form)
-                    .on('propertychange.bolt input.bolt change.bolt', function () {
+                    .on('propertychange.bolt input.bolt', function () {
                         self._buildSlug();
-                    })
-                    .trigger('change.bolt');
+                    });
             });
         },
 
