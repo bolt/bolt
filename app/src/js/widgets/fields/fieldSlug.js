@@ -57,6 +57,16 @@
             };
 
             /**
+             * Slug is generated, if true.
+             *
+             * @type {boolean}
+             * @name _timeout
+             * @memberOf jQuery.widget.bolt.fieldSlug.prototype
+             * @private
+             */
+            this._generated = this._ui.group.hasClass('generated');
+
+            /**
              * A timeout.
              *
              * @type {number}
@@ -76,7 +86,7 @@
                 }
             });
 
-            if (this._ui.group.hasClass('generated')) {
+            if (this._generated) {
                 this._startGeneration();
             }
         },
@@ -97,17 +107,15 @@
          * @param {boolean} [doConfirm=false] - Open a confirmation dialog before unlocking
          */
         _toggleGeneration: function (doConfirm) {
-            var generated = this._ui.group.hasClass('generated');
-
-            if (generated) {
-                generated = false;
+            if (this._generated) {
+                this._generated = false;
                 this._stopGeneration();
             } else if (doConfirm !== true || confirm(bolt.data('field.slug.message.unlock'))) {
-                generated = true;
+                this._generated = true;
                 this._startGeneration();
             }
-            this._ui.group.toggleClass('generated', generated);
-            this._ui.data.prop('readonly', generated);
+            this._ui.group.toggleClass('generated', this._generated);
+            this._ui.data.prop('readonly', this._generated);
         },
 
         /**
