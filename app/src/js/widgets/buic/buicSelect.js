@@ -20,33 +20,35 @@
          * @private
          */
         _create: function () {
-            var self = this;
-
             // Private properties
             this.select = this.element.find('select');
             this.buttonAll = this.element.find('.select-all');
             this.buttonNone = this.element.find('.select-none');
 
             // Initialize the select-all button.
-            this.buttonAll
-                .prop('title', this.buttonAll.text().trim())
-                .on('click', function () {
-                    self.all();
+            this.buttonAll.prop('title', this.buttonAll.text().trim());
+            this._on(this.buttonAll, {
+                'click': function () {
+                    this.all();
                     this.blur();
-                });
+                }
+            });
 
             // Initialize the select-none button.
-            this.buttonNone
-                .prop('title', this.buttonNone.text().trim())
-                .on('click', function () {
-                    self.none();
+            this.buttonNone.prop('title', this.buttonNone.text().trim());
+            this._on(this.buttonNone, {
+                'click': function () {
+                    this.none();
                     this.blur();
-                });
+                }
+            });
 
             // Enable/disable buttons.
             this._updateButtons();
-            this.select.on('change', function () {
-                self._updateButtons();
+            this._on(this.select, {
+                'change': function () {
+                    this._updateButtons();
+                }
             });
         },
 
