@@ -46,10 +46,12 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              *
-             * @property {Object} group  - Group container.
-             * @property {Object} data   - Data field.
+             * @property {Object} form   - The form this input is part of
+             * @property {Object} group  - Group container
+             * @property {Object} data   - Data field
              */
             this._ui = {
+                form:   this.element.closest('form'),
                 group:  fieldset.find('.input-group'),
                 data:   fieldset.find('input')
             };
@@ -147,15 +149,14 @@
          * @private
          */
         _startGeneration: function () {
-            var self = this,
-                form = self.element.closest('form');
+            var self = this;
 
             $.each(self.options.uses, function (i, bindField) {
-                $('[name="' + bindField + '"]', form).on('propertychange.bolt input.bolt change.bolt', function () {
+                $('[name="' + bindField + '"]', self._ui.form).on('propertychange.bolt input.bolt change.bolt', function () {
                     var usesValue = [];
 
                     $.each(self.options.uses, function (i, useField) {
-                        var field = $('[name="' + useField + '"]', form);
+                        var field = $('[name="' + useField + '"]', self._ui.form);
 
                         if (field.is('select')) {
                             field.find('option:selected').each(function(i, option) {
@@ -185,12 +186,12 @@
          * @private
          */
         _stopGeneration: function () {
-            var form = this.element.closest('form');
+            var self = this;
 
             clearTimeout(this._timeout);
 
             $.each(this.options.uses, function (i, name) {
-                $('[name="' + name + '"]', form).off('propertychange.bolt input.bolt change.bolt');
+                $('[name="' + name + '"]', self._ui.form).off('propertychange.bolt input.bolt change.bolt');
             });
         }
     });
