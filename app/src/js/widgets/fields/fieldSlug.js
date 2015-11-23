@@ -155,7 +155,7 @@
 
             $.each(self.options.uses, function (i, bindField) {
                 self._on($('[name="' + bindField + '"]', self._ui.form), {
-                    'propertychange': function () {
+                    'change': function () {
                         self._buildSlug();
                     },
                     'input': function () {
@@ -208,7 +208,7 @@
             clearTimeout(this._timeout);
 
             $.each(this.options.uses, function (i, name) {
-                self._off($('[name="' + name + '"]', self._ui.form), 'propertychange');
+                self._off($('[name="' + name + '"]', self._ui.form), 'change');
                 self._off($('[name="' + name + '"]', self._ui.form), 'input');
             });
         }
