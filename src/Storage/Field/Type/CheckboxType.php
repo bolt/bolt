@@ -16,4 +16,12 @@ class CheckboxType extends FieldTypeBase
     {
         return 'checkbox';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStorageType()
+    {
+        return Type::getType('string');
+    }
 }
