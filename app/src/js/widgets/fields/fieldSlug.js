@@ -50,16 +50,12 @@
              * @private
              *
              * @property {Object} group  - Group container.
-             * @property {Object} show   - Slug display.
-             * @property {Object} prefix - URL prefix (like `/contenttype/` ).
              * @property {Object} data   - Data field.
              * @property {Object} lock   - Lock button.
              * @property {Object} unlock - Unlock button.
              */
             this._ui = {
                 group:  fieldset.find('.input-group'),
-                show:   fieldset.find('em'),
-                prefix: fieldset.find('span.prefix'),
                 data:   fieldset.find('input'),
                 lock:   fieldset.find('li.lock a'),
                 unlock: fieldset.find('li.unlock a')
@@ -151,7 +147,6 @@
             $.get(bolt.conf('paths.async') + 'makeuri', data)
                 .done(function (uri) {
                     self._ui.data.val(uri);
-                    self._ui.show.html(uri);
                 })
                 .fail(function () {
                     console.log('failed to get an URI');
