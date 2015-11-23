@@ -50,5 +50,13 @@
                 <button class="btn btn-default" type="button" aria-label="{{ trans.menu_unlock }}"></button>
             </span>
         </div>
+        {% if option.uses|length %}
+            <div class="linkinfo hidden">
+                <i class="fa fa-link"></i>
+                {% for key in option.uses %}
+                    {% if not loop.first%} + {% endif %}{{ context.contenttype.fields[key].label ?: key|ucfirst }}
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 {% endblock fieldset_controls %}

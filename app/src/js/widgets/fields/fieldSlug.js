@@ -50,12 +50,14 @@
              * @property {Object} form  - The form this input is part of
              * @property {Object} group - Group container
              * @property {Object} data  - Data field
+             * @property {Object} info  - Linkinfo block
              * @property {Object} uses  - Collection of uses fields
              */
             this._ui = {
                 form:   this.element.closest('form'),
                 group:  fieldset.find('.input-group'),
                 data:   fieldset.find('input'),
+                info:  fieldset.find('.linkinfo'),
                 uses:   $()
             };
 
@@ -124,6 +126,7 @@
                 this._startGeneration();
             }
             this._ui.group.toggleClass('generated', this._generated);
+            this._ui.info.toggleClass('hidden', !this._generated);
             this._ui.data.prop('readonly', this._generated);
         },
 
