@@ -55,7 +55,6 @@
              * @property {Object} data   - Data field.
              * @property {Object} lock   - Lock button.
              * @property {Object} unlock - Unlock button.
-             * @property {Object} edit   - Edit button.
              */
             this._ui = {
                 group:  fieldset.find('.input-group'),
@@ -63,8 +62,7 @@
                 prefix: fieldset.find('span.prefix'),
                 data:   fieldset.find('input'),
                 lock:   fieldset.find('li.lock a'),
-                unlock: fieldset.find('li.unlock a'),
-                edit:   fieldset.find('li.edit a')
+                unlock: fieldset.find('li.unlock a')
             };
 
             /**
@@ -89,10 +87,6 @@
 
             self._ui.group.on('dblclick', function () {
                 self._unlock();
-            });
-
-            self._ui.edit.on('click', function () {
-                self._edit();
             });
 
             if (self.options.isEmpty) {
@@ -135,20 +129,6 @@
                     .addClass('unlocked');
 
                 this._startAutoGeneration();
-            }
-        },
-
-        /**
-         * Edit the slug.
-         *
-         * @private
-         */
-        _edit: function () {
-            var newslug = prompt(bolt.data('field.slug.message.set'), this._ui.data.val());
-
-            if (newslug) {
-                this._lock();
-                this._getUri(newslug);
             }
         },
 
