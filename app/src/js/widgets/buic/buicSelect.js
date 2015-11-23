@@ -44,10 +44,10 @@
             });
 
             // Enable/disable buttons.
-            this._updateButtons();
+            this._update();
             this._on(this.select, {
                 'change': function () {
-                    this._updateButtons();
+                    this._update();
                 }
             });
         },
@@ -57,7 +57,7 @@
          *
          * @private
          */
-        _updateButtons: function () {
+        _update: function () {
             var options = this.select.find('option'),
                 count = options.length,
                 selected = options.filter(':selected').length,
