@@ -152,32 +152,44 @@
             var self = this;
 
             $.each(self.options.uses, function (i, bindField) {
-                $('[name="' + bindField + '"]', self._ui.form).on('propertychange.bolt input.bolt change.bolt', function () {
-                    var usesValue = [];
+                $('[name="' + bindField + '"]', self._ui.form)
+                    .on('propertychange.bolt input.bolt change.bolt', function () {
+                        self._buildSlug();
+                    })
+                    .trigger('change.bolt');
+            });
+        },
 
-                    $.each(self.options.uses, function (i, useField) {
-                        var field = $('[name="' + useField + '"]', self._ui.form);
+        /**
+         * Build the slug using the fields described in the uses parameter.
+         *
+         * @private
+         */
+        _buildSlug: function () {
+            var self = this,
+                usesValue = [];
 
-                        if (field.is('select')) {
-                            field.find('option:selected').each(function(i, option) {
-                                if (option.text !== '') {
-                                    usesValue.push(option.text);
-                                }
-                            });
-                        } else if (field.val()) {
-                            usesValue.push(field.val());
+            $.each(self.options.uses, function (i, useField) {
+                var field = $('[name="' + useField + '"]', self._ui.form);
+
+                if (field.is('select')) {
+                    field.find('option:selected').each(function(i, option) {
+                        if (option.text !== '') {
+                            usesValue.push(option.text);
                         }
                     });
-
-                    clearTimeout(self._timeout);
-                    self._timeout = setTimeout(
-                        function () {
-                            self._getUri(usesValue.join(' '));
-                        },
-                        200
-                    );
-                }).trigger('change.bolt');
+                } else if (field.val()) {
+                    usesValue.push(field.val());
+                }
             });
+
+            clearTimeout(self._timeout);
+            self._timeout = setTimeout(
+                function () {
+                    self._getUri(usesValue.join(' '));
+                },
+                200
+            );
         },
 
         /**
