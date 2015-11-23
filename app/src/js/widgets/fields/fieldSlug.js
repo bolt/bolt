@@ -90,9 +90,6 @@
             // Bind events.
             this._on({
                 'click button': function () {
-                    this._toggleGeneration(true);
-                },
-                'dblclick button': function () {
                     this._toggleGeneration();
                 }
             });
@@ -115,13 +112,12 @@
          * Toogle automatic generation of the slug field.
          *
          * @private
-         * @param {boolean} [doConfirm=false] - Open a confirmation dialog before unlocking
          */
-        _toggleGeneration: function (doConfirm) {
+        _toggleGeneration: function () {
             if (this._generated) {
                 this._generated = false;
                 this._stopGeneration();
-            } else if (doConfirm !== true || confirm(bolt.data('field.slug.message.unlock'))) {
+            } else if (confirm(bolt.data('field.slug.message.unlock'))) {
                 this._generated = true;
                 this._startGeneration();
             }
