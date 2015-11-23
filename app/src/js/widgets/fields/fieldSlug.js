@@ -36,7 +36,8 @@
          * @private
          */
         _create: function () {
-            var fieldset = this.element;
+            var self = this,
+                fieldset = this.element;
 
             /**
              * Refs to UI elements of this widget.
@@ -49,12 +50,20 @@
              * @property {Object} form   - The form this input is part of
              * @property {Object} group  - Group container
              * @property {Object} data   - Data field
+             * @property {Object} uses   - Collection of uses fields
              */
             this._ui = {
                 form:   this.element.closest('form'),
                 group:  fieldset.find('.input-group'),
-                data:   fieldset.find('input')
+                data:   fieldset.find('input'),
+                uses:   $()
             };
+
+            $('[name]', self._ui.form).each(function () {
+                if (self.options.uses.indexOf(this.name.replace(/\[\]$/, '')) >= 0) {
+                    self._ui.uses = self._ui.uses.add($(this));
+                }
+            });
 
             /**
              * Slug is generated, if true.
@@ -153,15 +162,13 @@
 
             self._buildSlug();
 
-            $.each(self.options.uses, function (i, bindField) {
-                self._on($('[name="' + bindField + '"]', self._ui.form), {
-                    'change': function () {
-                        self._buildSlug();
-                    },
-                    'input': function () {
-                        self._buildSlug();
-                    }
-                });
+            self._on(self._ui.uses, {
+                'change': function () {
+                    self._buildSlug();
+                },
+                'input': function () {
+                    self._buildSlug();
+                }
             });
         },
 
@@ -174,17 +181,15 @@
             var self = this,
                 usesValue = [];
 
-            $.each(self.options.uses, function (i, useField) {
-                var field = $('[name="' + useField + '"]', self._ui.form);
-
-                if (field.is('select')) {
-                    field.find('option:selected').each(function(i, option) {
+            $.each(self._ui.uses, function (i, field) {
+                if ($(field).is('select')) {
+                    $(field).find('option:selected').each(function(i, option) {
                         if (option.text !== '') {
                             usesValue.push(option.text);
                         }
                     });
-                } else if (field.val()) {
-                    usesValue.push(field.val());
+                } else if ($(field).val()) {
+                    usesValue.push($(field).val());
                 }
             });
 
@@ -207,10 +212,8 @@
 
             clearTimeout(this._timeout);
 
-            $.each(this.options.uses, function (i, name) {
-                self._off($('[name="' + name + '"]', self._ui.form), 'change');
-                self._off($('[name="' + name + '"]', self._ui.form), 'input');
-            });
+            self._off(self.options.uses, 'change');
+            self._off(self.options.uses, 'input');
         }
     });
 })(jQuery, Bolt);
