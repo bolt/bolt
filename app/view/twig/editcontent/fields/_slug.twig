@@ -30,14 +30,9 @@
 
 {% set fieldset_conf = {
     contentId: context.content.id,
-    isEmpty:   (context.content.get(contentkey) == ''),
     key:       key,
     slug:      context.content.contenttype.slug,
     uses:      option.uses,
-    text: {
-        lock:   trans.menu_lock,
-        unlock: trans.menu_unlock,
-    },
 }%}
 
 {% block fieldset_type 'slug' %}

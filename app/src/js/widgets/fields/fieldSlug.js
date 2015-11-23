@@ -19,14 +19,12 @@
          * Default options.
          *
          * @property {string|null} contentId - Content Id
-         * @property {boolean}     isEmpty   - Slug is not set?
          * @property {string}      key       - The field key
          * @property {string}      slug      - Content slug
          * @property {Array}       uses      - Fields used to automatically generate a slug
          */
         options: {
             contentId: null,
-            isEmpty:   true,
             key:       '',
             slug:      '',
             uses:      []
