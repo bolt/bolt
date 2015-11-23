@@ -212,8 +212,10 @@
 
             clearTimeout(this._timeout);
 
-            self._off(self.options.uses, 'change');
-            self._off(self.options.uses, 'input');
+            $(self.options.uses).each(function () {
+                self._off($(this), 'change');
+                self._off($(this), 'input');
+            });
         }
     });
 })(jQuery, Bolt);
