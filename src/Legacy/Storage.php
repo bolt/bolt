@@ -642,12 +642,16 @@ class Storage
      *
      * @return \Bolt\Legacy\Content
      */
-    private function searchSingleContentType($query, $contenttype, $fields, array $filter = null)
+    private function searchSingleContentType($query, $contenttype, $fields, array $filter = null, $implode = false)
     {
         // This could be even more configurable
         // (see also Content->getFieldWeights)
         $searchableTypes = ['text', 'textarea', 'html', 'markdown'];
         $table = $this->getContenttypeTablename($contenttype);
+
+        if ($implode) {
+            $query['words'] = [ implode(' ', $query['words']) ];
+        }
 
         // Build fields 'WHERE'
         $fieldsWhere = [];
@@ -806,6 +810,8 @@ class Storage
 
         // Build our search results array
         $results = [];
+
+        // First, attempt to search for the literal string, eg. "Lorum Ipsum"
         foreach ($contenttypes as $contenttype) {
             $ctconfig = $this->getContentType($contenttype);
 
@@ -816,9 +822,27 @@ class Storage
                 $filter = $filters[$contenttype];
             }
 
-            $subResults = $this->searchSingleContentType($query, $contenttype, $fields, $filter);
+            $subResults = $this->searchSingleContentType($query, $contenttype, $fields, $filter, true);
 
             $results = array_merge($results, $subResults);
+        }
+
+        // If that didn't produce results, search for "Lorum" or "Ipsum"
+        if (empty($results)) {
+            foreach ($contenttypes as $contenttype) {
+                $ctconfig = $this->getContentType($contenttype);
+
+                $fields = $ctconfig['fields'];
+                $filter = null;
+
+                if (is_array($filters) && isset($filters[$contenttype])) {
+                    $filter = $filters[$contenttype];
+                }
+
+                $subResults = $this->searchSingleContentType($query, $contenttype, $fields, $filter, false);
+
+                $results = array_merge($results, $subResults);
+            }
         }
 
         // Sort the results
