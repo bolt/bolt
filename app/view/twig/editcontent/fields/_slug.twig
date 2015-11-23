@@ -12,7 +12,7 @@
         class: 'form-control',
         id:    key,
         name:  name,
-        type:  'hidden',
+        type:  'text',
         value: context.content.get(key),
     }
 } %}
@@ -20,8 +20,6 @@
 {% set trans = {
     label_alias:     __('field.slug.unique-alias'),
     label_permalink: __('field.slug.permalink'),
-    menu_copy:       __('field.slug.button.copy'),
-    menu_edit:       __('field.slug.button.edit'),
     menu_lock:       __('field.slug.button.lock'),
     menu_unlock:     __('field.slug.button.unlock'),
 } %}
@@ -36,6 +34,10 @@
     key:       key,
     slug:      context.content.contenttype.slug,
     uses:      option.uses,
+    text: {
+        lock:   trans.menu_lock,
+        unlock: trans.menu_unlock,
+    },
 }%}
 
 {% block fieldset_type 'slug' %}
@@ -47,27 +49,11 @@
 {% block fieldset_controls %}
     <div class="col-sm-12">
         <div class="input-group locked">
-            <span class="input-group-addon"><span class="prefix">/{{ context.content.contenttype }}/</span><em>{{ context.content.get(contentkey) }}</em></span>
+            <span class="input-group-addon">/{{ context.content.contenttype }}/</span>
             <input{{ macro.attr(attributes.slug) }}>
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="copy">
-                        <a href="#"><i class="fa fa-fw fa-copy"></i> {{ trans.menu_copy }}</a>
-                    </li>
-                    <li class="lock">
-                        <a href="#"><i class="fa fa-fw fa-lock"></i> {{ trans.menu_lock }}</a>
-                    </li>
-                    <li class="unlock">
-                        <a href="#"><i class="fa fa-fw fa-unlock-alt"></i> {{ trans.menu_unlock }} …</a>
-                    </li>
-                    <li class="edit">
-                        <a href="#"><i class="fa fa-fw fa-pencil"></i> {{ trans.menu_edit }} …</a>
-                    </li>
-                </ul>
-            </div>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" aria-label="{{ trans.menu_unlock }}"></button>
+            </span>
         </div>
     </div>
 {% endblock fieldset_controls %}
