@@ -179,24 +179,21 @@
          */
         _buildSlug: function () {
             var self = this,
-                usesValue = [];
+                term = '',
+                value;
 
             $.each(self._ui.uses, function (i, field) {
-                if ($(field).is('select')) {
-                    $(field).find('option:selected').each(function(i, option) {
-                        if (option.text !== '') {
-                            usesValue.push(option.text);
-                        }
-                    });
-                } else if ($(field).val()) {
-                    usesValue.push($(field).val());
+                value = $(field).val();
+                
+                if (value) {
+                    term += (typeof value === 'object' ? value.join(' ') : value) + ' ';
                 }
             });
 
             clearTimeout(self._timeout);
             self._timeout = setTimeout(
                 function () {
-                    self._getUri(usesValue.join(' '));
+                    self._getUri(term.trim());
                 },
                 200
             );
