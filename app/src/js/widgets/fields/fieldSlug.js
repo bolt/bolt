@@ -154,10 +154,14 @@
             self._buildSlug();
 
             $.each(self.options.uses, function (i, bindField) {
-                $('[name="' + bindField + '"]', self._ui.form)
-                    .on('propertychange.bolt input.bolt', function () {
+                self._on($('[name="' + bindField + '"]', self._ui.form), {
+                    'propertychange': function () {
                         self._buildSlug();
-                    });
+                    },
+                    'input': function () {
+                        self._buildSlug();
+                    }
+                });
             });
         },
 
@@ -204,7 +208,8 @@
             clearTimeout(this._timeout);
 
             $.each(this.options.uses, function (i, name) {
-                $('[name="' + name + '"]', self._ui.form).off('propertychange.bolt input.bolt change.bolt');
+                self._off($('[name="' + name + '"]', self._ui.form), 'propertychange');
+                self._off($('[name="' + name + '"]', self._ui.form), 'input');
             });
         }
     });
