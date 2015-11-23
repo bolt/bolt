@@ -89,7 +89,8 @@
 
             // Bind events.
             this._on({
-                'click button': function () {
+                'click button': function (evt) {
+                    $(evt.currentTarget).blur();
                     this._toggleGeneration();
                 }
             });
