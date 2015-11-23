@@ -50,12 +50,10 @@
              *
              * @property {Object} group  - Group container.
              * @property {Object} data   - Data field.
-             * @property {Object} toggle - Lock/Unlock button.
              */
             this._ui = {
                 group:  fieldset.find('.input-group'),
-                data:   fieldset.find('input'),
-                toggle: fieldset.find('button')
+                data:   fieldset.find('input')
             };
 
             /**
@@ -69,11 +67,11 @@
             this._timeout = 0;
 
             // Bind events.
-            this._on(this._ui.toggle, {
-                'click': function () {
+            this._on({
+                'click button': function () {
                     this._toggleGeneration(true);
                 },
-                'dblclick': function () {
+                'dblclick button': function () {
                     this._toggleGeneration();
                 }
             });
