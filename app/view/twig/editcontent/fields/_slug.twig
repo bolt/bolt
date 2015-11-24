@@ -16,6 +16,11 @@
     {% set mode = 'locked' %}
 {% endif %}
 
+{% set uses = [] %}
+{% for key in option.uses %}
+    {% set uses = uses|merge([context.contenttype.fields[key].label ?: key|ucfirst]) %}
+{% endfor %}
+
 
 {% set attributes = {
     slug: {
@@ -33,7 +38,7 @@
     label_permalink: __('field.slug.permalink'),
     menu_locked:     __('field.slug.button.lock'),
     menu_editable:   __('Editable'),
-    menu_linked:     __('Linked to: …'),
+    menu_linked:     __('Linked to:'),
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -70,7 +75,7 @@
                     </li>
                     {% if option.uses|length %}
                         <li class="link{{ mode == 'linked' ? ' disabled' : '' }}">
-                            <a href="#"><i class="fa fa-fw fa-link"></i> {{ trans.menu_linked }}</a>
+                            <a href="#"><i class="fa fa-fw fa-link"></i> {{ trans.menu_linked }} <var>{{ uses|join(' + ')}}</var></a>
                         </li>
                     {% endif %}
                     <li class="edit{{ mode == 'editable' ? ' disabled' : '' }}">
@@ -78,15 +83,6 @@
                     </li>
                 </ul>
             </div>
-
         </div>
-        {% if option.uses|length %}
-            <div class="linkinfo hidden">
-                <i class="fa fa-link"></i>
-                {% for key in option.uses %}
-                    {% if not loop.first%} + {% endif %}{{ context.contenttype.fields[key].label ?: key|ucfirst }}
-                {% endfor %}
-            </div>
-        {% endif %}
     </div>
 {% endblock fieldset_controls %}
