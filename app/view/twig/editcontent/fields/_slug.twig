@@ -20,8 +20,9 @@
 {% set trans = {
     label_alias:     __('field.slug.unique-alias'),
     label_permalink: __('field.slug.permalink'),
-    menu_lock:       __('field.slug.button.lock'),
-    menu_unlock:     __('field.slug.button.unlock'),
+    menu_locked:     __('field.slug.button.lock'),
+    menu_editable:   __('Editable'),
+    menu_linked:     __('Linked to: …'),
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -46,9 +47,22 @@
         <div class="input-group{{ context.content.get(contentkey) == '' ? ' generated' : '' }}">
             <span class="input-group-addon">/{{ context.content.contenttype }}/</span>
             <input{{ macro.attr(attributes.slug) }}>
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button" aria-label="{{ trans.menu_unlock }}"></button>
-            </span>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li class="lock">
+                        <a href="#"><i class="fa fa-fw fa-lock"></i> {{ trans.menu_locked }}</a>
+                    </li>
+                    <li class="unlock">
+                        <a href="#"><i class="fa fa-fw fa-link"></i> {{ trans.menu_linked }}</a>
+                    </li>
+                    <li class="edit">
+                        <a href="#"><i class="fa fa-fw fa-pencil"></i> {{ trans.menu_editable }}</a>
+                    </li>
+                </ul>
+            </div>
         </div>
         {% if option.uses|length %}
             <div class="linkinfo hidden">
