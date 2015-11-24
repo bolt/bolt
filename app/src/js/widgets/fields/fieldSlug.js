@@ -98,10 +98,10 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              */
-            this._mode = 0 +
-                this._ui.group.hasClass('locked') ? mode.locked : 0 +
-                this._ui.group.hasClass('linked') ? mode.linked : 0 +
-                this._ui.group.hasClass('editable') ? mode.editable : 0;
+            this._mode =
+                (this._ui.group.hasClass('locked') ? mode.lock : 0) +
+                (this._ui.group.hasClass('linked') ? mode.link : 0) +
+                (this._ui.group.hasClass('editable') ? mode.edit : 0);
 
             if (this._mode === mode.linked) {
                 this._startGeneration();
@@ -148,8 +148,6 @@
                 modeIsLinked = setMode === mode.link,
                 modeIsEditable = setMode === mode.edit;
 
-            this._mode = setMode;
-
             // Set dropdown button states.
             $('li.lock', this.element).toggleClass('disabled', modeIsLocked);
             $('li.link', this.element).toggleClass('disabled', modeIsLinked);
@@ -162,24 +160,14 @@
                 .toggleClass('edititable', modeIsEditable);
 
             this._ui.data.prop('readonly', !modeIsEditable);
-        },
 
-        /**
-         * Toogle automatic generation of the slug field.
-         *
-         * @private
-         */
-        _toggleGeneration: function () {
-            if (this._generated) {
-                this._generated = false;
-                this._stopGeneration();
-            } else if (confirm(bolt.data('field.slug.message.unlock'))) {
-                this._generated = true;
+            if (modeIsLinked) {
                 this._startGeneration();
+            } else if (this._mode === mode.link) {
+                this._stopGeneration();
             }
-            this._ui.group.toggleClass('generated', this._generated);
-            this._ui.info.toggleClass('hidden', !this._generated);
-            this._ui.data.prop('readonly', this._generated);
+
+            this._mode = setMode;
         },
 
         /**
