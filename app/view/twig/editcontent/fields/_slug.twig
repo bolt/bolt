@@ -36,9 +36,9 @@
 {% set trans = {
     label_alias:     __('field.slug.unique-alias'),
     label_permalink: __('field.slug.permalink'),
-    menu_locked:     __('field.slug.button.lock'),
-    menu_editable:   __('Editable'),
-    menu_linked:     __('Linked to:'),
+    menu_edit:       __('field.slug.button.edit'),
+    menu_link:       __('field.slug.button.link'),
+    menu_lock:       __('field.slug.button.lock'),
     warning:         __('field.slug.message.warning'),
 } %}
 
@@ -72,15 +72,15 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li class="lock{{ mode == 'locked' ? ' disabled' : '' }}">
-                        <a href="#"><i class="fa fa-fw fa-lock"></i> {{ trans.menu_locked }}</a>
+                        <a href="#"><i class="fa fa-fw fa-lock"></i> {{ trans.menu_lock }}</a>
                     </li>
                     {% if option.uses|length %}
                         <li class="link{{ mode == 'linked' ? ' disabled' : '' }}">
-                            <a href="#"><i class="fa fa-fw fa-link"></i> {{ trans.menu_linked }} <var>{{ uses|join(' + ')}}</var></a>
+                            <a href="#"><i class="fa fa-fw fa-link"></i> {{ trans.menu_link }} <var>{{ uses|join(' + ')}}</var></a>
                         </li>
                     {% endif %}
                     <li class="edit{{ mode == 'editable' ? ' disabled' : '' }}">
-                        <a href="#"><i class="fa fa-fw fa-pencil"></i> {{ trans.menu_editable }}</a>
+                        <a href="#"><i class="fa fa-fw fa-pencil"></i> {{ trans.menu_edit }}</a>
                     </li>
                 </ul>
             </div>

@@ -475,14 +475,11 @@ field:
             preview: "Preview"
     slug:
         button:
-            copy: "Copy"
             edit: "Edit"
+            link: "Link to:"
             lock: "Lock"
-            unlock: "Unlock"
         message:
-            set: "Set the slug to:"
-            unlock: "Are you sure you wish to unlock the slug? This might break existing links to this record."
-            warning: Editing this field might break existing links to this record!
+            warning: "Editing this field might break existing links to this record!"
         permalink: "Permalink"
         unique-alias: "Unique alias"
     video:

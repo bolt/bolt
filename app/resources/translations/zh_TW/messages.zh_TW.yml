@@ -457,9 +457,6 @@ field:
         placeholder:
             address: "街道、郵編、城市或者其他位置資訊"
     slug:
-        message:
-            set: "將slug設定為："
-            unlock: "你確定要解鎖slug嗎？這可能會破壞連線到這條記錄的原有連結。"
         permalink: "永久連結"
     video:
         button:

@@ -528,9 +528,6 @@ field:
             markedview: "Markdown"
             preview: "Voorvertoning"
     slug:
-        message:
-            set: "Stel de slug in als:"
-            unlock: "Weet je zeker dat je de slug wilt ontgrendelen? Dit kan mogelijk bestaande links naar deze record breken."
         permalink: "Permalink"
     video:
         button:
