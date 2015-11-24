@@ -98,7 +98,10 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              */
-            this._mode = this._ui.group.hasClass('linked') ? mode.linked : mode.locked;
+            this._mode = 0 +
+                this._ui.group.hasClass('locked') ? mode.locked : 0 +
+                this._ui.group.hasClass('linked') ? mode.linked : 0 +
+                this._ui.group.hasClass('editable') ? mode.editable : 0;
 
             if (this._mode === mode.linked) {
                 this._startGeneration();

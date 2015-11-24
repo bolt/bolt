@@ -7,12 +7,22 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set is_empty = context.content.get(contentkey) == '' %}
+{% set has_uses = option.uses|length > 0 %}
+
+{% if is_empty %}
+    {% set mode = has_uses ? 'linked' : 'editable' %}
+{% else %}
+    {% set mode = 'locked' %}
+{% endif %}
+
+
 {% set attributes = {
     slug: {
         class:     'form-control',
         id:        key,
         name:      name,
-        readonly:  true,
+        readonly:  mode != 'editable',
         type:      'text',
         value:     context.content.get(key),
     }
@@ -25,8 +35,6 @@
     menu_editable:   __('Editable'),
     menu_linked:     __('Linked to: …'),
 } %}
-
-{% set is_empty = context.content.get(contentkey) == '' %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -47,25 +55,30 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-12">
-        <div class="input-group {{ is_empty ? 'linked' : 'locked' }}">
+        <div class="input-group {{ mode }}">
             <span class="input-group-addon">/{{ context.content.contenttype }}/</span>
+
             <input{{ macro.attr(attributes.slug) }}>
+
             <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="lock{{ is_empty ? '' : ' disabled' }}">
+                    <li class="lock{{ mode == 'locked' ? ' disabled' : '' }}">
                         <a href="#"><i class="fa fa-fw fa-lock"></i> {{ trans.menu_locked }}</a>
                     </li>
-                    <li class="link{{ is_empty ? ' disabled' : '' }}">
-                        <a href="#"><i class="fa fa-fw fa-link"></i> {{ trans.menu_linked }}</a>
-                    </li>
-                    <li class="edit">
+                    {% if option.uses|length %}
+                        <li class="link{{ mode == 'linked' ? ' disabled' : '' }}">
+                            <a href="#"><i class="fa fa-fw fa-link"></i> {{ trans.menu_linked }}</a>
+                        </li>
+                    {% endif %}
+                    <li class="edit{{ mode == 'editable' ? ' disabled' : '' }}">
                         <a href="#"><i class="fa fa-fw fa-pencil"></i> {{ trans.menu_editable }}</a>
                     </li>
                 </ul>
             </div>
+
         </div>
         {% if option.uses|length %}
             <div class="linkinfo hidden">
