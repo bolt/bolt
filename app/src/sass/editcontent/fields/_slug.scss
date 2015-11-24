@@ -19,12 +19,8 @@ fieldset.bolt-field-slug {
     }
 
     button {
-        font-family: "FontAwesome";
-
-        &:after {
-            content: "\f023"; // fa-lock
-            color: #a00;
-        }
+        padding-left: 8px;
+        padding-right: 8px;
     }
 
     .linkinfo {
@@ -38,11 +34,6 @@ fieldset.bolt-field-slug {
         .input-group-addon, input {
             background: #f8f8f8;
             color: #999;
-        }
-
-        button:after {
-            content: "\f13e"; // fa-unlock-alt
-            color: #080;
         }
     }
 }
