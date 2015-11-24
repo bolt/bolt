@@ -433,9 +433,6 @@ field:
         placeholder:
             address: "街道、邮编、城市或者其他位置信息"
     slug:
-        message:
-            set: "将slug设置为："
-            unlock: "你确定要解锁slug吗？这可能会破坏连接到这条记录的原有链接。"
         permalink: "永久链接"
     video:
         button:

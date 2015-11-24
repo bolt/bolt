@@ -98,7 +98,6 @@
 "component.changelog-pager.page": # "Page"
 "contenttypes.generic.group.ungrouped": # "Ungrouped"
 "field.geolocation.placeholder.address": # "Street, ZIP code, city or other location"
-"field.slug.message.unlock": # "Are you sure you wish to unlock the slug? This might break existing links to this record."
 "field.video.label.preview": # "Preview image"
 "field.video.pixel": # "pixel"
 "field.video.placeholder.url": # "URL of video on Youtube, Vimeo or other video website"
@@ -514,8 +513,6 @@ field:
             marker-placement: "Colocação do marcador"
         matched-address: "Endereços encontrados:"
     slug:
-        message:
-            set: "Define slug para"
         permalink: "Link permanente"
     video:
         button:

@@ -1,80 +1,85 @@
 /*** Fieldset: Slug ***/
 
 fieldset.bolt-field-slug {
-    $icon-right-margin: 6px;
-    $icon-width: 20px;
+    $background-readonly: #f8f8f8;
+    $color-readonly:      #999;
 
     .input-group-addon {
-        background: #fff;
-        text-align: left;
-        font-family: $fonts-family-monospace;
-        color: #aaa;
-        font-size: 13px;
+        background: $background-readonly;
+        color: $color-readonly;
+        padding-right: 1px;
+        padding-left: 10px;
+        border-right: none;
 
-        em {
-            color: black;
-            font-style: normal;
-            font-weight: normal;
-            line-height: 22px;
+        // State display.
+        &:before {
+            display: inline-block;
+            width: 21px;
+            margin-right: 10px;
+            text-align: center;
+            font-family: FontAwesome;
+            color: #000;
+            content: "\f023"; // fa-lock
         }
     }
 
-    span.input-group-addon:before {
-        display: inline-block;
-        margin-right: $icon-right-margin;
-        width: $icon-width;
-        padding: 2px 0;
-        text-align: center;
-        line-height: 1;
-        font-family: "FontAwesome";
-        background: #f0f0f0;
-        border-radius: 3px;
-        text-indent: 0;
-    }
-
-    .locked {
-
+    input {
+        padding-left: 1px;
+        border-left: none;
+        text-overflow: ellipsis;
+        color: $color-readonly;
+        // Correct something (probably) wrong in Bootstrap customizing:
+        line-height: 18px;
         height: 32px;
 
-        li.lock {
-            display: none;
-        }
-
-        span.input-group-addon:before {
-            content: "\f023";
-            color: #a00;
+        &[readonly] {
+            background: $background-readonly;
+            box-shadow: none;
         }
     }
 
-    .unlocked {
-        li.unlock {
-            display: none;
+    button {
+        // Make the dropdown button more narrow.
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    li.link var {
+        margin-left: 20px;
+        display: block;
+        color: #888;
+    }
+
+    .edititable {
+        .input-group-addon, input {
+            background: #fff;
         }
 
-        span.input-group-addon:before {
-            content: "\f13e";
-            color: #080;
+        input {
+            color: inherit;
+        }
+
+        .input-group-addon:before {
+            content: "\f040"; // fa-pencil
         }
     }
 
-    .input-group-btn {
-        button {
-            height: 32px;
-            padding: 6px $padding-base-vertical;
+    .linked {
+        .input-group-addon:before {
+            content: "\f0c1"; // fa-link
         }
     }
 
-    span.input-group-addon {
-        display: inline-block;
-        overflow: hidden;
-        margin: 1px 0;
-        width: 100%;
-        height: 32px;
-        text-indent: -$icon-width - $icon-right-margin;
-        padding-top: 5px;
-        padding-left: $icon-width + $padding-base-vertical + $icon-right-margin;
-        white-space: normal;
-        word-break: break-all;
-        cursor: default;
+    .loading {
+        .input-group-addon:before {
+            animation: fa-spin 2s infinite linear;
+            animation-delay: 0.5s
+        }
+    }
+
+    .warning {
+        margin-top: 4px;
+        margin-left: 10px;
+        color: #800;
     }
 }
