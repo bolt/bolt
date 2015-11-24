@@ -159,6 +159,10 @@
                 .toggleClass('linked', modeIsLinked)
                 .toggleClass('edititable', modeIsEditable);
 
+            // Show/hide edit warning.
+            $('.warning', this.element).toggleClass('hidden', !modeIsEditable);
+
+            // Toggle the input readonly.
             this._ui.data.prop('readonly', !modeIsEditable);
 
             if (modeIsLinked) {

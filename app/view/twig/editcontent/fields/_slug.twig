@@ -39,6 +39,7 @@
     menu_locked:     __('field.slug.button.lock'),
     menu_editable:   __('Editable'),
     menu_linked:     __('Linked to:'),
+    warning:         __('field.slug.message.warning'),
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -85,4 +86,9 @@
             </div>
         </div>
     </div>
+    {% if not is_empty %}
+        <div class="col-sm-12 warning hidden">
+            <i class="fa fa-exclamation-triangle"></i> {{ trans.warning }}
+        </div>
+    {% endif %}
 {% endblock fieldset_controls %}
