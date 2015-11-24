@@ -153,6 +153,8 @@
                 .toggleClass('locked', modeIsLocked)
                 .toggleClass('linked', modeIsLinked)
                 .toggleClass('edititable', modeIsEditable);
+
+            this._ui.data.prop('readonly', !modeIsEditable);
         },
 
         /**

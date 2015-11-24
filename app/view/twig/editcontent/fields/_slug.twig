@@ -9,11 +9,12 @@
 
 {% set attributes = {
     slug: {
-        class: 'form-control',
-        id:    key,
-        name:  name,
-        type:  'text',
-        value: context.content.get(key),
+        class:     'form-control',
+        id:        key,
+        name:      name,
+        readonly:  true,
+        type:      'text',
+        value:     context.content.get(key),
     }
 } %}
 

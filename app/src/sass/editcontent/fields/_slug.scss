@@ -15,11 +15,14 @@ fieldset.bolt-field-slug {
         padding-left: 1px;
         border-left: none;
         text-overflow: ellipsis;
-        background: $background-readonly;
         color: $color-readonly;
         // Correct something (probably) wrong in Bootstrap customizing:
         line-height: 18px;
         height: 32px;
+
+        &[readonly] {
+            background: $background-readonly;
+        }
     }
 
     button {
