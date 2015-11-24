@@ -120,6 +120,7 @@
                 'click li.edit': function (event) {
                     event.preventDefault();
                     this._setMode(mode.edit);
+                    this.element.find('input').focus();
                 },
                 'focusout input': function () {
                     this._setMode(mode.lock);
