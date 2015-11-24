@@ -169,7 +169,7 @@
 
             if (modeIsLinked) {
                 this._startGeneration();
-            } else if (this._mode === mode.link) {
+            } else if (this._timeout > 0) {
                 this._stopGeneration();
             }
 
@@ -207,16 +207,14 @@
          * @private
          */
         _startGeneration: function () {
-            var self = this;
+            this._buildSlug();
 
-            self._buildSlug();
-
-            self._on(self._ui.uses, {
+            this._on(this._ui.uses, {
                 'change': function () {
-                    self._buildSlug();
+                    this._buildSlug();
                 },
                 'input': function () {
-                    self._buildSlug();
+                    this._buildSlug();
                 }
             });
         },
@@ -254,14 +252,11 @@
          * @private
          */
         _stopGeneration: function () {
-            var self = this;
-
             clearTimeout(this._timeout);
+            this._timeout = 0;
 
-            $(self.options.uses).each(function () {
-                self._off($(this), 'change');
-                self._off($(this), 'input');
-            });
+            this._off(this._ui.uses, 'change');
+            this._off(this._ui.uses, 'input');
         }
     });
 })(jQuery, Bolt);
