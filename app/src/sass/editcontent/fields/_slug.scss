@@ -1,24 +1,29 @@
 /*** Fieldset: Slug ***/
 
 fieldset.bolt-field-slug {
+    $background-readonly: #f8f8f8;
+    $color-readonly:      #999;
+
     .input-group-addon {
-        background: #fff;
+        background: $background-readonly;
+        color: $color-readonly;
         padding-right: 1px;
         border-right: none;
-        color: #999;
     }
 
     input {
         padding-left: 1px;
         border-left: none;
-        background: #fff;
         text-overflow: ellipsis;
+        background: $background-readonly;
+        color: $color-readonly;
         // Correct something (probably) wrong in Bootstrap customizing:
         line-height: 18px;
         height: 32px;
     }
 
     button {
+        // Make the dropdown button more narrow.
         padding-left: 8px;
         padding-right: 8px;
     }
@@ -30,10 +35,12 @@ fieldset.bolt-field-slug {
         color: #999;
     }
 
-    .generated {
+    .edititable {
         .input-group-addon, input {
-            background: #f8f8f8;
-            color: #999;
+            background: #fff;
+        }
+        input {
+            color: #000;
         }
     }
 }
