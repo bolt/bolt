@@ -123,7 +123,9 @@
                     this.element.find('input').focus();
                 },
                 'focusout input': function () {
-                    this._setMode(mode.lock);
+                    if (this._mode === mode.edit) {
+                        this._setMode(mode.lock);
+                    }
                 }
             });
         },
