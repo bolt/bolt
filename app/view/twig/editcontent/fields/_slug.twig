@@ -25,6 +25,8 @@
     menu_linked:     __('Linked to: …'),
 } %}
 
+{% set is_empty = context.content.get(contentkey) == '' %}
+
 {#=== FIELDSET =======================================================================================================#}
 
 {% extends '@bolt/_base/_fieldset.twig' %}
@@ -44,7 +46,7 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-12">
-        <div class="input-group{{ context.content.get(contentkey) == '' ? ' generated' : '' }}">
+        <div class="input-group {{ is_empty ? 'linked' : 'locked' }}">
             <span class="input-group-addon">/{{ context.content.contenttype }}/</span>
             <input{{ macro.attr(attributes.slug) }}>
             <div class="input-group-btn">
@@ -52,10 +54,10 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="lock">
+                    <li class="lock{{ is_empty ? '' : ' disabled' }}">
                         <a href="#"><i class="fa fa-fw fa-lock"></i> {{ trans.menu_locked }}</a>
                     </li>
-                    <li class="unlock">
+                    <li class="link{{ is_empty ? ' disabled' : '' }}">
                         <a href="#"><i class="fa fa-fw fa-link"></i> {{ trans.menu_linked }}</a>
                     </li>
                     <li class="edit">

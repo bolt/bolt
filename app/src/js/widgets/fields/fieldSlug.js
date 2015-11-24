@@ -6,6 +6,19 @@
     'use strict';
 
     /**
+     * Mode identifiers.
+     *
+     * @memberOf jQuery.widget.bolt.fieldSlug
+     * @static
+     * @type {Object.<string, number>}
+     */
+    var mode = {
+        lock: 1,
+        link: 2,
+        edit: 3
+    };
+
+    /**
      * Slug field widget.
      *
      * @license http://opensource.org/licenses/mit-license.php MIT License
@@ -68,16 +81,6 @@
             });
 
             /**
-             * Slug is generated, if true.
-             *
-             * @type {boolean}
-             * @name _timeout
-             * @memberOf jQuery.widget.bolt.fieldSlug.prototype
-             * @private
-             */
-            this._generated = this._ui.group.hasClass('generated');
-
-            /**
              * A timeout.
              *
              * @type {number}
@@ -87,17 +90,35 @@
              */
             this._timeout = 0;
 
-            // Bind events.
-            this._on({
-                'click button': function (evt) {
-                    $(evt.currentTarget).blur();
-                    this._toggleGeneration();
-                }
-            });
+            /**
+             * Slug is generated, if true.
+             *
+             * @type {number}
+             * @name _mode
+             * @memberOf jQuery.widget.bolt.fieldSlug.prototype
+             * @private
+             */
+            this._mode = this._ui.group.hasClass('linked') ? mode.linked : mode.locked;
 
-            if (this._generated) {
+            if (this._mode === mode.linked) {
                 this._startGeneration();
             }
+
+            // Bind events.
+            this._on({
+                'click li.lock': function (event) {
+                    event.preventDefault();
+                    this._setMode(mode.lock);
+                },
+                'click li.link': function (event) {
+                    event.preventDefault();
+                    this._setMode(mode.link);
+                },
+                'click li.edit': function (event) {
+                    event.preventDefault();
+                    this._setMode(mode.edit);
+                }
+            });
         },
 
         /**
@@ -107,6 +128,31 @@
          */
         _destroy: function () {
             clearTimeout(this._timeout);
+        },
+
+        /**
+         * Update widgets visual and functional state.
+         *
+         * @private
+         * @param {number} setMode - Mode to set
+         */
+        _setMode: function (setMode) {
+            var modeIsLocked = setMode === mode.lock,
+                modeIsLinked = setMode === mode.link,
+                modeIsEditable = setMode === mode.edit;
+
+            this._mode = setMode;
+
+            // Set dropdown button states.
+            $('li.lock', this.element).toggleClass('disabled', modeIsLocked);
+            $('li.link', this.element).toggleClass('disabled', modeIsLinked);
+            $('li.edit', this.element).toggleClass('disabled', modeIsEditable);
+
+            // Set container class.
+            this._ui.group
+                .toggleClass('locked', modeIsLocked)
+                .toggleClass('linked', modeIsLinked)
+                .toggleClass('edititable', modeIsEditable);
         },
 
         /**
