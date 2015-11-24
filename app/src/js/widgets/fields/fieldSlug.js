@@ -63,14 +63,12 @@
              * @property {Object} form  - The form this input is part of
              * @property {Object} group - Group container
              * @property {Object} data  - Data field
-             * @property {Object} info  - Linkinfo block
              * @property {Object} uses  - Collection of uses fields
              */
             this._ui = {
                 form:   this.element.closest('form'),
                 group:  fieldset.find('.input-group'),
                 data:   fieldset.find('input'),
-                info:  fieldset.find('.linkinfo'),
                 uses:   $()
             };
 
