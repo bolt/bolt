@@ -8,7 +8,19 @@ fieldset.bolt-field-slug {
         background: $background-readonly;
         color: $color-readonly;
         padding-right: 1px;
+        padding-left: 10px;
         border-right: none;
+
+        // State display.
+        &:before {
+            display: inline-block;
+            width: 21px;
+            padding-right: 10px;
+            text-align: center;
+            font-family: FontAwesome;
+            color: #000;
+            content: "\f023"; // fa-lock
+        }
     }
 
     input {
@@ -41,8 +53,19 @@ fieldset.bolt-field-slug {
         .input-group-addon, input {
             background: #fff;
         }
+
         input {
             color: #000;
+        }
+
+        .input-group-addon:before {
+            content: "\f040"; // fa-pencil
+        }
+    }
+
+    .linked {
+        .input-group-addon:before {
+            content: "\f0c1"; // fa-link
         }
     }
 }
