@@ -235,7 +235,9 @@
 
             $.get(bolt.conf('paths.async') + 'makeuri', data)
                 .done(function (uri) {
-                    self._ui.data.val(uri);
+                    if (self._mode === mode.link) {
+                        self._ui.data.val(uri);
+                    }
                 })
                 .fail(function () {
                     console.log('failed to get an URI');
