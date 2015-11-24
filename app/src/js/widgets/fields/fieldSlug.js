@@ -103,7 +103,7 @@
                 (this._ui.group.hasClass('linked') ? mode.link : 0) +
                 (this._ui.group.hasClass('editable') ? mode.edit : 0);
 
-            if (this._mode === mode.linked) {
+            if (this._mode === mode.link) {
                 this._startGeneration();
             }
 
