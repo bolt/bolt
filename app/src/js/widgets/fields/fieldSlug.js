@@ -166,56 +166,28 @@
             // Toggle the input readonly.
             this._ui.data.prop('readonly', !modeIsEditable);
 
+            // Start/stop generating slugs from uses fields.
             if (modeIsLinked) {
-                this._startGeneration();
+                this._buildSlug();
+
+                this._on(this._ui.uses, {
+                    'change': function () {
+                        this._buildSlug();
+                    },
+                    'input': function () {
+                        this._buildSlug();
+                    }
+                });
             } else if (this._timeout > 0) {
-                this._stopGeneration();
+                clearTimeout(this._timeout);
+                this._timeout = 0;
+
+                this._off(this._ui.uses, 'change');
+                this._off(this._ui.uses, 'input');
             }
 
+            // Finally set new mode.
             this._mode = setMode;
-        },
-
-        /**
-         * Get URI for slug from remote.
-         *
-         * @private
-         * @param {string} text - New slug text
-         */
-        _getUri: function (text) {
-            var self = this,
-                data = {
-                    title:           text,
-                    contenttypeslug: self.options.slug,
-                    id:              self.options.contentId,
-                    slugfield:       self.options.key,
-                    fulluri:         false
-                };
-
-            $.get(bolt.conf('paths.async') + 'makeuri', data)
-                .done(function (uri) {
-                    self._ui.data.val(uri);
-                })
-                .fail(function () {
-                    console.log('failed to get an URI');
-                });
-        },
-
-        /**
-         * Start generating slugs from uses fields.
-         *
-         * @private
-         */
-        _startGeneration: function () {
-            this._buildSlug();
-
-            this._on(this._ui.uses, {
-                'change': function () {
-                    this._buildSlug();
-                },
-                'input': function () {
-                    this._buildSlug();
-                }
-            });
         },
 
         /**
@@ -246,16 +218,28 @@
         },
 
         /**
-         * Stop generating slugs from uses fields.
+         * Get URI for slug from remote.
          *
          * @private
+         * @param {string} text - New slug text
          */
-        _stopGeneration: function () {
-            clearTimeout(this._timeout);
-            this._timeout = 0;
+        _getUri: function (text) {
+            var self = this,
+                data = {
+                    title:           text,
+                    contenttypeslug: self.options.slug,
+                    id:              self.options.contentId,
+                    slugfield:       self.options.key,
+                    fulluri:         false
+                };
 
-            this._off(this._ui.uses, 'change');
-            this._off(this._ui.uses, 'input');
+            $.get(bolt.conf('paths.async') + 'makeuri', data)
+                .done(function (uri) {
+                    self._ui.data.val(uri);
+                })
+                .fail(function () {
+                    console.log('failed to get an URI');
+                });
         }
     });
 })(jQuery, Bolt);
