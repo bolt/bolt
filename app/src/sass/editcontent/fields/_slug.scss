@@ -34,6 +34,7 @@ fieldset.bolt-field-slug {
 
         &[readonly] {
             background: $background-readonly;
+            box-shadow: none;
         }
     }
 
