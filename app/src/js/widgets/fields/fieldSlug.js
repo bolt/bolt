@@ -74,6 +74,7 @@
                 uses:   $()
             };
 
+            // Get all references to linked ellements.
             $('[name]', self._ui.form).each(function () {
                 if (self.options.uses.indexOf(this.name.replace(/\[\]$/, '')) >= 0) {
                     self._ui.uses = self._ui.uses.add($(this));
@@ -98,13 +99,13 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              */
-            this._mode =
-                (this._ui.group.hasClass('locked') ? mode.lock : 0) +
-                (this._ui.group.hasClass('linked') ? mode.link : 0) +
-                (this._ui.group.hasClass('editable') ? mode.edit : 0);
+            this._mode = mode.lock;
 
-            if (this._mode === mode.link) {
-                this._startGeneration();
+            // Initialize modes.
+            if (this._ui.group.hasClass('linked')) {
+                this._setMode(mode.link);
+            } else if (this._ui.group.hasClass('editable')) {
+                this._mode = mode.edit;
             }
 
             // Bind events.
