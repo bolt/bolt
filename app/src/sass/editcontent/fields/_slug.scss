@@ -15,7 +15,7 @@ fieldset.bolt-field-slug {
         &:before {
             display: inline-block;
             width: 21px;
-            padding-right: 10px;
+            margin-right: 10px;
             text-align: center;
             font-family: FontAwesome;
             color: #000;
@@ -66,6 +66,13 @@ fieldset.bolt-field-slug {
     .linked {
         .input-group-addon:before {
             content: "\f0c1"; // fa-link
+        }
+    }
+
+    .loading {
+        .input-group-addon:before {
+            animation: fa-spin 2s infinite linear;
+            animation-delay: 0.5s
         }
     }
 

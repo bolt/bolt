@@ -233,6 +233,8 @@
                     fulluri:         false
                 };
 
+            self._ui.group.addClass('loading');
+
             $.get(bolt.conf('paths.async') + 'makeuri', data)
                 .done(function (uri) {
                     if (self._mode === mode.link) {
@@ -241,6 +243,9 @@
                 })
                 .fail(function () {
                     console.log('failed to get an URI');
+                })
+                .always(function () {
+                    self._ui.group.removeClass('loading');
                 });
         }
     });
