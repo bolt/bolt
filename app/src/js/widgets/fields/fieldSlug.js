@@ -120,6 +120,9 @@
                 'click li.edit': function (event) {
                     event.preventDefault();
                     this._setMode(mode.edit);
+                },
+                'focusout input': function () {
+                    this._setMode(mode.lock);
                 }
             });
         },
