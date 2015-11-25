@@ -44,10 +44,25 @@ fieldset.bolt-field-slug {
         padding-right: 8px;
     }
 
-    li.link var {
-        margin-left: 20px;
-        display: block;
-        color: #888;
+    li.link {
+        white-space: normal;
+
+        a {
+            white-space: normal;
+        }
+
+        i {
+            position: absolute;
+        }
+
+        span {
+            display: block;
+            margin-left: 21px;
+        }
+
+        var {
+            color: #888;
+        }
     }
 
     .edititable {

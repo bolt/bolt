@@ -76,7 +76,7 @@
                     </li>
                     {% if option.uses|length %}
                         <li class="link{{ mode == 'linked' ? ' disabled' : '' }}">
-                            <a href="#"><i class="fa fa-fw fa-link"></i> {{ trans.menu_link }} <var>{{ uses|join(' + ')}}</var></a>
+                            <a href="#"><i class="fa fa-fw fa-link"></i> <span>{{ trans.menu_link }} <var>{{ uses|join(' + ')}}</var></span></a>
                         </li>
                     {% endif %}
                     <li class="edit{{ mode == 'editable' ? ' disabled' : '' }}">
