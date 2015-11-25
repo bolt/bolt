@@ -148,7 +148,7 @@
 
     .navbar-brand {
         display: inline-block;
-        top: 0px;
+        top: 0;
         color: #FFF;
         font-size: 28px;
         line-height: 28px;
@@ -168,7 +168,7 @@
     }
 
     form {
-        padding:  0 0 0;
+        padding: 0;
         display: inline;
     }
 
@@ -206,7 +206,7 @@
 .navbar-site:hover,
 .navbar-site:hover i
 {
-    color: #ffffff !important;
+    color: #fff !important;
     text-decoration: none;
     background-color: #428bca;
     outline: 0;
@@ -217,7 +217,7 @@
     margin: 11px 0 0 -8px;
     padding: 5px 8px 4px 5px;
     background-color: desaturate(lighten($boltblue, 45), 35);
-    border: 0px solid #FFF !important;
+    border: 0 solid #FFF !important;
     color: #222;
 }
 
@@ -245,7 +245,7 @@
 ul.dropdown-menu {
     margin: 0;
     border-radius: 0;
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
 
     li {
         text-align: left;
