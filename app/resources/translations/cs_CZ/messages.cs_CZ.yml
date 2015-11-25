@@ -507,9 +507,6 @@ field:
         placeholder:
             address: "Ulice, PSČ, město nebo jiné označení polohy"
     slug:
-        message:
-            set: "Nastavit trvalý odkaz na:"
-            unlock: "Jste si jisti, že chcete upravit trvalý odkaz? Můžeto ovlivnit již existující vazby. "
         permalink: "Trvalý odkaz"
         unique-alias: "Jedinečný alias"
     video:

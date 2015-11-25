@@ -6,6 +6,19 @@
     'use strict';
 
     /**
+     * Mode identifiers.
+     *
+     * @memberOf jQuery.widget.bolt.fieldSlug
+     * @static
+     * @type {Object.<string, number>}
+     */
+    var mode = {
+        lock: 1,
+        link: 2,
+        edit: 3
+    };
+
+    /**
      * Slug field widget.
      *
      * @license http://opensource.org/licenses/mit-license.php MIT License
@@ -19,14 +32,12 @@
          * Default options.
          *
          * @property {string|null} contentId - Content Id
-         * @property {boolean}     isEmpty   - Slug is not set?
          * @property {string}      key       - The field key
          * @property {string}      slug      - Content slug
          * @property {Array}       uses      - Fields used to automatically generate a slug
          */
         options: {
             contentId: null,
-            isEmpty:   true,
             key:       '',
             slug:      '',
             uses:      []
@@ -39,7 +50,7 @@
          */
         _create: function () {
             var self = this,
-                fieldset = self.element;
+                fieldset = this.element;
 
             /**
              * Refs to UI elements of this widget.
@@ -49,25 +60,24 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              *
-             * @property {Object} group  - Group container.
-             * @property {Object} show   - Slug display.
-             * @property {Object} prefix - URL prefix (like `/contenttype/` ).
-             * @property {Object} data   - Data field.
-             * @property {Object} lock   - Lock button.
-             * @property {Object} unlock - Unlock button.
-             * @property {Object} edit   - Edit button.
-             * @property {Object} copy   - Copy button.
+             * @property {Object} form  - The form this input is part of
+             * @property {Object} group - Group container
+             * @property {Object} data  - Data field
+             * @property {Object} uses  - Collection of uses fields
              */
             this._ui = {
+                form:   this.element.closest('form'),
                 group:  fieldset.find('.input-group'),
-                show:   fieldset.find('em'),
-                prefix: fieldset.find('span.prefix'),
                 data:   fieldset.find('input'),
-                lock:   fieldset.find('li.lock a'),
-                unlock: fieldset.find('li.unlock a'),
-                edit:   fieldset.find('li.edit a'),
-                copy:   fieldset.find('li.copy')
+                uses:   $()
             };
+
+            // Get all references to linked ellements.
+            $('[name]', self._ui.form).each(function () {
+                if (self.options.uses.indexOf(this.name.replace(/\[\]$/, '')) >= 0) {
+                    self._ui.uses = self._ui.uses.add($(this));
+                }
+            });
 
             /**
              * A timeout.
@@ -80,40 +90,43 @@
             this._timeout = 0;
 
             /**
-             * Clipboard.
+             * Slug is generated, if true.
              *
-             * @type {object}
-             * @name _clipboard
+             * @type {number}
+             * @name _mode
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              */
-            this._clipboard = new Clipboard(self._ui.copy.get(0), {
-                text: function () {
-                    return self._ui.prefix.text() + self._ui.data.val();
-                }
-            });
+            this._mode = mode.lock;
+
+            // Initialize modes.
+            if (this._ui.group.hasClass('linked')) {
+                this._setMode(mode.link);
+            } else if (this._ui.group.hasClass('editable')) {
+                this._mode = mode.edit;
+            }
 
             // Bind events.
-
-            self._ui.lock.on('click', function () {
-                self._lock();
+            this._on({
+                'click li.lock': function (event) {
+                    event.preventDefault();
+                    this._setMode(mode.lock);
+                },
+                'click li.link': function (event) {
+                    event.preventDefault();
+                    this._setMode(mode.link);
+                },
+                'click li.edit': function (event) {
+                    event.preventDefault();
+                    this._setMode(mode.edit);
+                    this.element.find('input').focus();
+                },
+                'focusout input': function () {
+                    if (this._mode === mode.edit) {
+                        this._setMode(mode.lock);
+                    }
+                }
             });
-
-            self._ui.unlock.on('click', function () {
-                self._unlock(true);
-            });
-
-            self._ui.group.on('dblclick', function () {
-                self._unlock();
-            });
-
-            self._ui.edit.on('click', function () {
-                self._edit();
-            });
-
-            if (self.options.isEmpty) {
-                self._unlock();
-            }
         },
 
         /**
@@ -123,50 +136,85 @@
          */
         _destroy: function () {
             clearTimeout(this._timeout);
-            this._clipboard.destroy();
         },
 
         /**
-         * Locks the slug field.
+         * Update widgets visual and functional state.
          *
          * @private
+         * @param {number} setMode - Mode to set
          */
-        _lock: function () {
+        _setMode: function (setMode) {
+            var modeIsLocked = setMode === mode.lock,
+                modeIsLinked = setMode === mode.link,
+                modeIsEditable = setMode === mode.edit;
+
+            // Set dropdown button states.
+            $('li.lock', this.element).toggleClass('disabled', modeIsLocked);
+            $('li.link', this.element).toggleClass('disabled', modeIsLinked);
+            $('li.edit', this.element).toggleClass('disabled', modeIsEditable);
+
+            // Set container class.
             this._ui.group
-                .removeClass('unlocked')
-                .addClass('locked');
+                .toggleClass('locked', modeIsLocked)
+                .toggleClass('linked', modeIsLinked)
+                .toggleClass('edititable', modeIsEditable);
 
-            this._stopAutoGeneration();
+            // Show/hide edit warning.
+            $('.warning', this.element).toggleClass('hidden', !modeIsEditable);
+
+            // Toggle the input readonly.
+            this._ui.data.prop('readonly', !modeIsEditable);
+
+            // Start/stop generating slugs from uses fields.
+            if (modeIsLinked) {
+                this._buildSlug();
+
+                this._on(this._ui.uses, {
+                    'change': function () {
+                        this._buildSlug();
+                    },
+                    'input': function () {
+                        this._buildSlug();
+                    }
+                });
+            } else if (this._timeout > 0) {
+                clearTimeout(this._timeout);
+                this._timeout = 0;
+
+                this._off(this._ui.uses, 'change');
+                this._off(this._ui.uses, 'input');
+            }
+
+            // Finally set new mode.
+            this._mode = setMode;
         },
 
         /**
-         * Unlocks the slug field.
-         *
-         * @private
-         * @param {boolean} [doConfirm=false] - Open a confirmation dialog before unlocking
-         */
-        _unlock: function (doConfirm) {
-            if (doConfirm !== true || confirm(bolt.data('field.slug.message.unlock'))) {
-                this._ui.group
-                    .removeClass('locked')
-                    .addClass('unlocked');
-
-                this._startAutoGeneration();
-            }
-        },
-
-        /**
-         * Edit the slug.
+         * Build the slug using the fields described in the uses parameter.
          *
          * @private
          */
-        _edit: function () {
-            var newslug = prompt(bolt.data('field.slug.message.set'), this._ui.data.val());
+        _buildSlug: function () {
+            var self = this,
+                term = '',
+                value;
 
-            if (newslug) {
-                this._lock();
-                this._getUri(newslug);
-            }
+            $.each(self._ui.uses, function (i, field) {
+                value = $(field).val();
+
+                if (value) {
+                    term += (typeof value === 'object' ? value.join(' ') : value) + ' ';
+                }
+            });
+
+            clearTimeout(self._timeout);
+            self._timeout = setTimeout(
+                function () {
+                    self._getUri(term.trim());
+                },
+                200
+            );
         },
 
         /**
@@ -185,67 +233,20 @@
                     fulluri:         false
                 };
 
+            self._ui.group.addClass('loading');
+
             $.get(bolt.conf('paths.async') + 'makeuri', data)
                 .done(function (uri) {
-                    self._ui.data.val(uri);
-                    self._ui.show.html(uri);
+                    if (self._mode === mode.link) {
+                        self._ui.data.val(uri);
+                    }
                 })
                 .fail(function () {
                     console.log('failed to get an URI');
+                })
+                .always(function () {
+                    self._ui.group.removeClass('loading');
                 });
-        },
-
-        /**
-         * Start generating slugs from uses fields.
-         *
-         * @private
-         */
-        _startAutoGeneration: function () {
-            var self = this,
-                form = self.element.closest('form');
-
-            $.each(self.options.uses, function (i, bindField) {
-                $('[name="' + bindField + '"]', form).on('propertychange.bolt input.bolt change.bolt', function () {
-                    var usesValue = [];
-
-                    $.each(self.options.uses, function (i, useField) {
-                        var field = $('[name="' + useField + '"]', form);
-
-                        if (field.is('select')) {
-                            field.find('option:selected').each(function(i, option) {
-                                if (option.text !== '') {
-                                    usesValue.push(option.text);
-                                }
-                            });
-                        } else if (field.val()) {
-                            usesValue.push(field.val());
-                        }
-                    });
-
-                    clearTimeout(self._timeout);
-                    self._timeout = setTimeout(
-                        function () {
-                            self._getUri(usesValue.join(' '));
-                        },
-                        200
-                    );
-                }).trigger('change.bolt');
-            });
-        },
-
-        /**
-         * Stop generating slugs from uses fields.
-         *
-         * @private
-         */
-        _stopAutoGeneration: function () {
-            var form = this.element.closest('form');
-
-            clearTimeout(this._timeout);
-
-            $.each(this.options.uses, function (i, name) {
-                $('[name="' + name + '"]', form).off('propertychange.bolt input.bolt change.bolt');
-            });
         }
     });
 })(jQuery, Bolt);

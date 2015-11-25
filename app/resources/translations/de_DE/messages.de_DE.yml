@@ -514,9 +514,12 @@ field:
             markedview: "Markdown"
             preview: "Vorschau"
     slug:
+        button:
+            edit: "Ändern"
+            link: "Verknüpfen mit:"
+            lock: "Sperren"
         message:
-            set: "Slug setzen:"
-            unlock: "Sicher, dass Sie diesen Slug entsperren möchten? Das könnte existierende Links ins Leere laufen lassen."
+            warning: "Ändernungen an diesem Feld können sich auf externe Verlinkungen auswirken!"
         permalink: "Permanenter Link"
         unique-alias: "Eindeutiger Alias"
     video:
