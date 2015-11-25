@@ -138,7 +138,8 @@ class Builder
             if ($handler) {
                 call_user_func_array($handler, [$entity, $data[$key]]);
             } else {
-                call_user_func_array([$fieldType, 'set'], [$entity, $data[$key]]);
+                $val = isset($data[$key]) ? $data[$key] : null;
+                call_user_func_array([$fieldType, 'set'], [$entity, $val]);
             }
         }
 
