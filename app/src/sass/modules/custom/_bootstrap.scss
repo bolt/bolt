@@ -76,19 +76,6 @@
     color: $btn-default-color !important;
 }
 
-// Buttons that behave as a link, and specifically in a dropdown-menu.
-.dropdown-menu .btn-link {
-    color: $dropdown-link-color;
-    padding: 3px 20px;
-    display: block;
-}
-
-.dropdown-menu .btn-link:hover {
-    color: $dropdown-link-hover-color;
-    background-color: $dropdown-link-hover-bg;
-    text-decoration: none;
-}
-
 // Override page-header
 .page-header {
     padding-bottom: 16px;
@@ -242,10 +229,24 @@
 /**
  * Dropdown menu lists
  */
-ul.dropdown-menu {
+
+.dropdown-menu {
     margin: 0;
     border-radius: 0;
     box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+
+    // Buttons that behave as a link, and specifically in a dropdown-menu.
+    .btn-link {
+        color: $dropdown-link-color;
+        padding: 3px 20px;
+        display: block;
+
+        &:hover {
+            color: $dropdown-link-hover-color;
+            background-color: $dropdown-link-hover-bg;
+            text-decoration: none;
+        }
+    }
 
     li {
         text-align: left;
