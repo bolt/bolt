@@ -149,7 +149,7 @@
     .navbar-brand {
         display: inline-block;
         top: 0;
-        color: #FFF;
+        color: #fff;
         font-size: 28px;
         line-height: 28px;
         font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -217,13 +217,13 @@
     margin: 11px 0 0 -8px;
     padding: 5px 8px 4px 5px;
     background-color: desaturate(lighten($boltblue, 45), 35);
-    border: 0 solid #FFF !important;
+    border: 0 solid #fff !important;
     color: #222;
 }
 
 .navbar-toggle:hover,
 .navbar-toggle:focus {
-    background-color: #FFF !important;
+    background-color: #fff !important;
 }
 
 .navbar-header {
