@@ -111,7 +111,8 @@
  * Override navbar styles
  */
 
-.navbar-fixed-top, .navbar-fixed-bottom  {
+.navbar-fixed-top,
+.navbar-fixed-bottom  {
     position: static;
     background-color: $boltblue;
 }
@@ -141,57 +142,30 @@
     }
 }
 
-.navbar .navbar-brand {
-    display: inline-block;
-    top: 0px;
-    color: #FFF;
-    font-size: 28px;
-    line-height: 28px;
-    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    margin: 0;
-    padding: 8px 8px 8px 2px;
-
-    @media (max-width: 640px) {
-       padding: 10px 8px 8px 6px;
-   }
-}
-
-.navbar .navbar-brand img {
-    width: 26px;
-    height: 26px;
-    margin: 0 2px 2px 0;
-}
-
-.navbar-site {
-    display: inline-block;
-    color: #ccc !important;
-    font-size: 22px;
-    line-height: 30px;
-    margin-top: 8px;
-    padding: 1px 5px 0 5px;
-    float: left;
-    font-weight: normal;
-    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.navbar-site i {
-    color: #ccc !important;
-    font-size: 16px;
-}
-
-.navbar-brand:hover,
-.navbar-site:hover,
-.navbar-site:hover i
-{
-    color: #ffffff !important;
-    text-decoration: none;
-    background-color: #428bca;
-    outline: 0;
-}
-
 .navbar {
     min-height: 54px;
     margin-bottom: 0;
+
+    .navbar-brand {
+        display: inline-block;
+        top: 0px;
+        color: #FFF;
+        font-size: 28px;
+        line-height: 28px;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 8px 8px 8px 2px;
+
+        @media (max-width: 640px) {
+           padding: 10px 8px 8px 6px;
+        }
+
+        img {
+            width: 26px;
+            height: 26px;
+            margin: 0 2px 2px 0;
+        }
+    }
 
     form {
         padding:  0 0 0;
@@ -210,10 +184,37 @@
             background: #3d5a71; // todo
         }
     }
+
+    .navbar-collapse .navbar.pull-right {
+        margin-top: 10px;
+    }
 }
 
-.navbar .navbar-collapse .navbar.pull-right {
-    margin-top: 10px;
+.navbar-site {
+    display: inline-block;
+    color: #ccc !important;
+    font-size: 22px;
+    line-height: 30px;
+    margin-top: 8px;
+    padding: 1px 5px 0 5px;
+    float: left;
+    font-weight: normal;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+    i {
+        color: #ccc !important;
+        font-size: 16px;
+    }
+}
+
+.navbar-brand:hover,
+.navbar-site:hover,
+.navbar-site:hover i
+{
+    color: #ffffff !important;
+    text-decoration: none;
+    background-color: #428bca;
+    outline: 0;
 }
 
 .navbar-toggle {
