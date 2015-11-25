@@ -27,6 +27,8 @@
 
         <nav id="navpage-secondary" class="navbar-default navbar-static-side">
             {% include '@bolt/_nav/_secondary.twig' %}
+            {# Note: We include the footer here, because of z-index issues otherwise. #}
+            {% include '@bolt/_nav/_footer.twig' %}
         </nav>
 
         <div id="navpage-content" class="container-fluid">
@@ -72,6 +74,5 @@
 
     </div>
 
-    {% include '@bolt/_nav/_footer.twig' %}
 
 {% endblock page_plain %}
