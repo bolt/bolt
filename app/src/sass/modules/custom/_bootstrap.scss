@@ -361,7 +361,7 @@ ul.dropdown-menu li a.nolink {
     }
 }
 
-// Hack to fix wrong usage of control-label meanwhile - correct solution later
+// Customize left aligned labels for horizontal forms.
 @media (min-width: 768px) {
     .form-horizontal .control-label {
         text-align: left;
