@@ -19,7 +19,7 @@ fieldset.bolt-field-slug {
             text-align: center;
             font-family: FontAwesome;
             color: #000;
-            content: "\f023"; // fa-lock
+            content: $fa-var-lock;
         }
     }
 
@@ -60,13 +60,13 @@ fieldset.bolt-field-slug {
         }
 
         .input-group-addon:before {
-            content: "\f040"; // fa-pencil
+            content: $fa-var-pencil;
         }
     }
 
     .linked {
         .input-group-addon:before {
-            content: "\f0c1"; // fa-link
+            content: $fa-var-link;
         }
     }
 
