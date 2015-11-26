@@ -1,3 +1,25 @@
+Bolt 2.2.14
+-----------
+
+Released 2015-11-27. Notable changes:
+
+ - Updated: Symfony components updated to 2.6.12
+ - Fixed: Determine web profiler location using Extension rather than bundle (See #4432)
+ - Fixed: No scrolling panes on "View Users" page. (See #4438)
+ - Fixed: Limit user agent strings to 128 characters on persist. (See #4413)
+ - Fixed: Make 'required' for `type: select` fields work. (See: #4420)
+ - Fixed: Replace `☰` for `≡ `for better supported unicode on Android. (see #4388)
+ - Regex that insert snippets not working when </head> does not starts the line.  #4367
+ - Changed: Set `composer/composer` to dev stability. (See #4345)
+ - Fixed: Fixed priority issue in assets (See #4343)
+ - Fixed: Fixing reordering images in an ImageList. (See #3573)
+ - Fixed: Retrieve existing relations before setting them from POST. Fixes "No related entries on preview" issue. (See #4340)
+ - Fixed: Handle save status transition (See #4326)
+ - Added: Allow the `notfound:` status to point to a static template, instead of a contenttype record. 
+ - Fixed: Don't insert Bolt meta tags on AJAX requests (See #4297)
+ - Fixed: Put correct cannonical link into html head on paging content request
+ - Fixed: Increase z-index, so popups cover `{{ dump() }}` output. 
+
 Bolt 2.2.13
 -----------
 
