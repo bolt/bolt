@@ -56,8 +56,6 @@
                 $(self).removeClass('disabled');
                 $(self).find('i').removeClass('fa-spin fa-spinner');
             }, 10000, this);
-            return false;
-
         });
 
         // Add 'spinners' for forms that should be submitted only once.
@@ -71,8 +69,6 @@
                 $(self).removeClass('disabled');
                 $(self).find('i').removeClass('fa-spin fa-spinner');
             }, 10000, $(this).find('button[type=submit]'));
-            return false;
-
         });
 
     };
