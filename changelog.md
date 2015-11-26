@@ -8,6 +8,7 @@ Released 2015-11-27. Notable changes:
  - Fixed: No scrolling panes on "View Users" page. (See #4438)
  - Fixed: Limit user agent strings to 128 characters on persist. (See #4413)
  - Fixed: Make 'required' for `type: select` fields work. (See: #4420)
+ - Fixed: Fix alt and title tags for popup & showimage, height/width for showImage (See #4231)
  - Fixed: Replace `☰` for `≡ `for better supported unicode on Android. (see #4388)
  - Regex that insert snippets not working when </head> does not starts the line.  #4367
  - Changed: Set `composer/composer` to dev stability. (See #4345)
