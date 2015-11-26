@@ -7,7 +7,7 @@
 
 {% block page_main %}
 
-    <form method="post" role="form">
+    <form method="post" role="form" class="submitspinner">
 
         <div class="form-group">
             <label for="username" class="control-label">{{ __('page.login.label.username') }}</label>
@@ -30,11 +30,13 @@
         </div>
 
         <p class="login-group">
-            <button type="submit" class="btn btn-primary" name="action" value="login"><i class="icon-signin"></i> {{ __('page.login.button.log-on') }}</button>
+            <button type="submit" class="btn btn-primary" name="action" value="login">
+                <i class="fa fa-sign-in fa-fw"></i> {{ __('page.login.button.log-on') }}
+            </button>
             <button type="button" class="btn btn-link login-forgot"> {{ __('page.login.button.forgot-password') }}</button>
         </p>
         <p style="display: none;" class="reset-group">
-            <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="icon-envelope"></i> {{ __('page.login.button.reset-password') }}</button>
+            <button type="submit" class="btn btn-primary" name="action" value="reset"><i class="fa fa-envelope-o"></i> {{ __('page.login.button.reset-password') }}</button>
             <button type="button" class="btn btn-link login-remembered"> {{ __('page.login.button.back') }}</button>
         </p>
 
