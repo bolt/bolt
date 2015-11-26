@@ -12,9 +12,11 @@
         {{ __('There are no users present in the system. Please create the first user, which will be granted root privileges.') }}
     </p>
 
-    <form method="post" class="form-horizontal" role="form" autocomplete="off">
+    <form method="post" class="form-horizontal submitspinner" role="form" autocomplete="off">
         {{ form_widget(context.form) }}
-        <input type="submit" value="{{ __('Create the first user') }}" name="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" name="submit" value="login">
+            <i class="fa fa-sign-in fa-fw"></i> {{ __('Create the first user') }}
+        </button>
     </form>
 
     {% if context.note is not empty %}

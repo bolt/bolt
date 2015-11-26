@@ -47,6 +47,6 @@ class FirstUserCest
         $I->fillField('form[email]',                 $this->user['admin']['email']);
         $I->fillField('form[displayname]',           $this->user['admin']['displayname']);
 
-        $I->click('input[type=submit]');
+        $I->click('button[type=submit]');
     }
 }

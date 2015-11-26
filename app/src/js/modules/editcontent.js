@@ -251,7 +251,7 @@
                 msgNotSaved = data.msgNotSaved;
 
             // Disable the buttons, to indicate stuff is being done.
-            $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled');
+            $('#sidebarsavecontinuebutton, #savecontinuebutton').addClass('disabled').blur();
             $('#sidebarsavecontinuebutton i, #savecontinuebutton i').addClass('fa-spin fa-spinner');
             $('p.lastsaved').text(bolt.data('editcontent.msg.saving'));
 
@@ -316,7 +316,7 @@
                     .always(function(){
                         // Re-enable buttons
                         window.setTimeout(function(){
-                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled').blur();
+                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
                             $('#sidebarsavecontinuebutton i, #savecontinuebutton i').removeClass('fa-spin fa-spinner');
                         }, 300);
                     });
