@@ -137,7 +137,7 @@
                 <div class="panel-body">
                         <p><strong>{{ __('page.extend.message.check-for-updates') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-secondary{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="update-check">
+                            <a class="btn btn-secondary{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="update-check">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-check') }}
                             </a>
                         </div>
@@ -145,7 +145,7 @@
                         <hr>
                         <p><strong>{{ __('page.extend.message.maintenance') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-default{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="update-run">
+                            <a class="btn btn-default{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="update-run">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-all') }}
                             </a>
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -154,7 +154,7 @@
                             </button>
                             <ul class="dropdown-menu pull-right" role="menu">
                                 <li>
-                                    <a class="btn btn-default{% if not context.writeable or not context.online %} disabled{% endif %}" data-request="install-run">
+                                    <a class="btn btn-default{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="install-run">
                                         <i class="fa fa-download fa-fw"></i> {{ __('page.extend.button.install-all') }}
                                     </a>
                                 </li>
