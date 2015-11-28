@@ -15,7 +15,7 @@ use Bolt\Asset\Target;
 trait DeprecatedFunctionsTrait
 {
     /** @return \Silex\Application */
-    abstract public function getApp();
+    abstract protected function getApp();
 
     /**
      * Add jQuery to the output.
