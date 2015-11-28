@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Field\Collection;
 
+use Bolt\Exception\FieldConfigurationException;
 use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
