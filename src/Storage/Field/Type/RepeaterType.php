@@ -47,14 +47,13 @@ class RepeaterType extends FieldTypeBase
     public function persist(QuerySet $queries, $entity)
     {
         $this->normalize($entity);
-        $key = $this->mapping['fieldname'];
-        $accessor = 'get' . ucfirst($key);
 
-        $existingFields = $this->getExistingFields($entity) ?: [];
         $collection = new RepeatingFieldCollection($this->em);
-        $collection->addFromReferences($existingFields);
-
-        $collection->setFromDatabaseValues($existingDB);
+        $existingFields = $this->getExistingFields($entity) ?: [];
+        foreach ($existingFields as $group => $ids) {
+            $collection->addFromReferences($ids, $group);
+        }
+        dump($collection); exit;
         $toDelete = $collection->update($taxonomy);
         $repo = $this->em->getRepository('Bolt\Storage\Entity\FieldValue');
 
