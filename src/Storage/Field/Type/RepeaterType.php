@@ -60,6 +60,7 @@ class RepeaterType extends FieldTypeBase
 
         $toDelete = $collection->update($proposed);
         dump($collection->toArray(), $toDelete);
+        exit;
         $repo = $this->em->getRepository('Bolt\Storage\Entity\FieldValue');
 
         $queries->onResult(
