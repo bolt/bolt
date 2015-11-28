@@ -95,7 +95,7 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
 
-    public function update()
+    public function update($collection)
     {
         $updated = [];
         // First give priority to already existing entities
