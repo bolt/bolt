@@ -70,6 +70,58 @@ class RepeatingFieldCollection extends ArrayCollection
     }
 
     /**
+     * This loops over the existing collection to see if the properties in the incoming
+     * are already available on a saved record.
+     *
+     * @param $entity
+     *
+     * @return mixed|null
+     */
+    public function getOriginal($entity)
+    {
+        foreach ($this as $k => $existing) {
+            if (
+                $existing->getContent_id() == $entity->getContent_id() &&
+                $existing->getContenttype() == $entity->getContenttype() &&
+                $existing->getName() == $entity->getName() &&
+                $existing->getGrouping() == $entity->getGrouping() &&
+                $existing->getFieldname() == $entity->getFieldname()
+            ) {
+                return $existing;
+            }
+        }
+
+        return $entity;
+    }
+
+
+    public function update()
+    {
+        $updated = [];
+        // First give priority to already existing entities
+        foreach ($collection as $entity) {
+            $master = $this->getOriginal($entity);
+            $master->setValue($entity->getValue());
+            $updated[] = $master;
+        }
+
+        $deleted = [];
+        foreach ($this as $old) {
+            if (!in_array($old, $updated)) {
+                $deleted[] = $old;
+            }
+        }
+
+        // Clear the collection so that we re-add only the updated elements
+        $this->clear();
+        foreach ($updated as $new) {
+            $this->add($new);
+        }
+
+        return $deleted;
+    }
+
+    /**
      * @return array
      */
     public function getNew()
