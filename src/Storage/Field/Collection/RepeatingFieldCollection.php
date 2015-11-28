@@ -80,7 +80,6 @@ class RepeatingFieldCollection extends ArrayCollection
     public function getOriginal($entity)
     {
         $entities = $this->flatten();
-        dump($entities); exit;
         foreach ($entities as $existing) {
             if (
                 $existing->getContent_id() == $entity->getContent_id() &&
