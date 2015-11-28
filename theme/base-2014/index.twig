@@ -6,7 +6,12 @@
     <div class="large-8 columns">
 
         <hr>
-            {{ widgets('main_top') }}
+            {{ widgets(
+                location = 'main_top',
+                type = 'frontend',
+                wrapper = '2014_widgetwrapper.twig',
+                holder = '2014_widgetholder.twig'
+            ) }}
         <hr>
 
         <article>

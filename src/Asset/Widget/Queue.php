@@ -172,7 +172,7 @@ class Queue implements QueueInterface
                 $wrappertemplate = 'widgetholder.twig';
             }
             $twigvars = ['location' => $location, 'html' => $html];
-            $html = $this->render->render($wrapper, $twigvars);
+            $html = $this->render->render($wrappertemplate, $twigvars);
         }
 
         return $html;
