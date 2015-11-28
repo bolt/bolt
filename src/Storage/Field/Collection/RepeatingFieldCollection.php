@@ -82,8 +82,6 @@ class RepeatingFieldCollection extends ArrayCollection
         $entities = $this->flatten();
         foreach ($entities as $existing) {
             if (
-                $existing->getContent_id() == $entity->getContent_id() &&
-                $existing->getContenttype() == $entity->getContenttype() &&
                 $existing->getName() == $entity->getName() &&
                 $existing->getGrouping() == $entity->getGrouping() &&
                 $existing->getFieldname() == $entity->getFieldname()
