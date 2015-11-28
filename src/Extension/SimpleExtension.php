@@ -10,11 +10,13 @@ use Silex\Application;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-abstract class SimpleExtension extends AbstractExtension implements \Twig_ExtensionInterface, \Twig_Extension_GlobalsInterface
+abstract class SimpleExtension extends AbstractExtension implements \Twig_ExtensionInterface
 {
     use TwigExtensionTrait;
 
+    /** @var \Twig_SimpleFunction[] */
     private $twigFunctions = [];
+    /** @var \Twig_SimpleFilter[] */
     private $twigFilters = [];
 
     abstract public function initialize(Application $app);
