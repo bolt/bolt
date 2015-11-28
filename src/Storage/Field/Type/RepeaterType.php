@@ -50,7 +50,26 @@ class RepeaterType extends FieldTypeBase
         $key = $this->mapping['fieldname'];
         $accessor = 'get' . ucfirst($key);
 
-        $collection = $entity->$accessor();
+        $existingFields = $this->getExistingFields($entity) ?: [];
+        dump($existingFields); exit;
+        $collection = new RepeatingFieldCollection($this->em);
+
+        $collection->setFromDatabaseValues($existingDB);
+        $toDelete = $collection->update($taxonomy);
+        $repo = $this->em->getRepository('Bolt\Storage\Entity\FieldValue');
+
+        $queries->onResult(
+            function ($query, $result, $id) use ($repo, $collection, $toDelete) {
+                foreach ($collection as $entity) {
+                    $entity->content_id = $id;
+                    $repo->save($entity);
+                }
+
+                foreach ($toDelete as $entity) {
+                    $repo->delete($entity);
+                }
+            }
+        );
 
         $this->addToInsertQuery($queries, $collection->getNew(), $entity);
         $this->addToUpdateQuery($queries, $collection->getExisting(), $entity);
