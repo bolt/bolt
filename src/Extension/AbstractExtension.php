@@ -2,6 +2,7 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Helpers\Str;
 use Silex\Application;
 
 /**
@@ -17,6 +18,8 @@ abstract class AbstractExtension implements ExtensionInterface
     protected $path;
     /** @var string */
     protected $name;
+    /** @var string */
+    protected $namespace;
 
     /**
      * {@inheritdoc}
@@ -52,8 +55,13 @@ abstract class AbstractExtension implements ExtensionInterface
      */
     public function getNamespace()
     {
-        $class = get_class($this);
-        return substr($class, 0, strrpos($class, '\\'));
+        if ($this->namespace === null) {
+            $class = get_class($this);
+            $class = Str::replaceFirst('Bolt\\Extension\\', '', $class);
+            $this->namespace = substr($class, 0, strrpos($class, '\\'));
+        }
+
+        return $this->namespace;
     }
 
     /**
