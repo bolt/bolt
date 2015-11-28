@@ -156,7 +156,7 @@ class Queue implements QueueInterface
      *
      * @return string|null
      */
-    public function render($location, $type = 'frontend', $wrapper = '', $holdertemplate = '')
+    public function render($location, $type = 'frontend', $wrappertemplate = '', $holdertemplate = '')
     {
         $html = null;
 
@@ -168,8 +168,8 @@ class Queue implements QueueInterface
         }
 
         if ($html !== null) {
-            if (empty($wrapper)) {
-                $wrapper = 'widgetholder.twig';
+            if (empty($wrappertemplate)) {
+                $wrappertemplate = 'widgetholder.twig';
             }
             $twigvars = ['location' => $location, 'html' => $html];
             $html = $this->render->render($wrapper, $twigvars);
