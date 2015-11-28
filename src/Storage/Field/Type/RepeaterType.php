@@ -51,8 +51,8 @@ class RepeaterType extends FieldTypeBase
         $accessor = 'get' . ucfirst($key);
 
         $existingFields = $this->getExistingFields($entity) ?: [];
-        dump($existingFields); exit;
         $collection = new RepeatingFieldCollection($this->em);
+        $collection->addFromReferences($existingFields);
 
         $collection->setFromDatabaseValues($existingDB);
         $toDelete = $collection->update($taxonomy);
@@ -187,7 +187,7 @@ class RepeaterType extends FieldTypeBase
         }
 
         foreach ($results as $result) {
-            $fields[$result['grouping']][$result['name']] = $result['id'];
+            $fields[$result['grouping']][] = $result['id'];
         }
 
         return $fields;
