@@ -100,7 +100,7 @@ class RepeatingFieldCollection extends ArrayCollection
     {
         $updated = [];
         // First give priority to already existing entities
-        foreach ($collection as $entity) {
+        foreach ($collection->flatten() as $entity) {
             $master = $this->getOriginal($entity);
             $master->setValue($entity->getValue());
             $updated[] = $master;
