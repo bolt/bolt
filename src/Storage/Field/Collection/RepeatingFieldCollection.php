@@ -105,7 +105,7 @@ class RepeatingFieldCollection extends ArrayCollection
         }
 
         $deleted = [];
-        foreach ($this as $old) {
+        foreach ($this->flatten() as $old) {
             if (!in_array($old, $updated)) {
                 $deleted[] = $old;
             }
