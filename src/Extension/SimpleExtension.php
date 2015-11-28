@@ -43,9 +43,9 @@ abstract class SimpleExtension extends AbstractExtension implements \Twig_Extens
     /**
      * Add a Twig Function.
      *
-     * @param string $name
-     * @param string $callback
-     * @param array  $options
+     * @param string          $name
+     * @param string|callable $callback
+     * @param array           $options
      */
     public function addTwigFunction($name, $callback, $options = [])
     {
@@ -60,9 +60,9 @@ abstract class SimpleExtension extends AbstractExtension implements \Twig_Extens
     /**
      * Add a Twig Filter.
      *
-     * @param string $name
-     * @param string $callback
-     * @param array  $options
+     * @param string          $name
+     * @param string|callable $callback
+     * @param array           $options
      */
     public function addTwigFilter($name, $callback, $options = [])
     {
