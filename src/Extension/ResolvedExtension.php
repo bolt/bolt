@@ -14,6 +14,8 @@ class ResolvedExtension
 {
     /** @var ExtensionInterface */
     protected $innerExtension;
+    /** @var bool */
+    protected $enabled;
 
     /**
      * Constructor.
@@ -92,6 +94,7 @@ class ResolvedExtension
      */
     public function isEnabled()
     {
+        return $this->enabled;
     }
 
     /**
@@ -101,5 +104,6 @@ class ResolvedExtension
      */
     public function setEnabled($enabled)
     {
+        $this->enabled = (bool) $enabled;
     }
 }
