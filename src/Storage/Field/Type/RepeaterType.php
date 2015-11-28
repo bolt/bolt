@@ -69,7 +69,7 @@ class RepeaterType extends FieldTypeBase
         $collection = new RepeatingFieldCollection($this->em);
         $collection->setName($key);
 
-        if (count($values[$key])) {
+        if (isset($values[$key]) && count($values[$key])) {
             foreach ($values[$key] as $group => $refs) {
                 $collection->addFromReferences($refs, $group);
             }
