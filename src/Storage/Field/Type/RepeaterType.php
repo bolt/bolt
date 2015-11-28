@@ -19,8 +19,9 @@ class RepeaterType extends FieldTypeBase
      * For repeating fields, the load method adds extra joins and selects to the query that
      * fetches the related records from the field and field value tables in the same query as the content fetch.
      *
-     * @param QueryBuilder  $query
+     * @param QueryBuilder $query
      * @param ClassMetadata $metadata
+     * @return void
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -73,9 +74,6 @@ class RepeaterType extends FieldTypeBase
                 }
             }
         );
-
-        $this->addToInsertQuery($queries, $collection->getNew(), $entity);
-        $this->addToUpdateQuery($queries, $collection->getExisting(), $entity);
     }
 
     public function hydrate($data, $entity)

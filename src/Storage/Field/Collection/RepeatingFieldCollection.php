@@ -79,7 +79,7 @@ class RepeatingFieldCollection extends ArrayCollection
      */
     public function getOriginal($entity)
     {
-        foreach ($this as $k => $existing) {
+        foreach ($this->flatten() as $existing) {
             if (
                 $existing->getContent_id() == $entity->getContent_id() &&
                 $existing->getContenttype() == $entity->getContenttype() &&
@@ -161,5 +161,15 @@ class RepeatingFieldCollection extends ArrayCollection
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function flatten()
+    {
+        $flat = [];
+        foreach ($this as $collection => $vals) {
+            $flat = array_merge($flat, $vals->toArray());
+        }
+
+        return $flat;
     }
 }
