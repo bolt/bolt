@@ -29,6 +29,18 @@ abstract class AbstractExtension implements ExtensionInterface
     }
 
     /**
+     * Return the application object.
+     *
+     * Note: This is allows traits to access app without losing coding completion
+     *
+     * @return Application
+     */
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function setApp(Application $app)
