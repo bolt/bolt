@@ -52,7 +52,7 @@ class RepeaterType extends FieldTypeBase
         $accessor = 'get' . ucfirst($key);
         $proposed = $entity->$accessor();
 
-        $collection = new RepeatingFieldCollection($this->em);
+        $collection = new RepeatingFieldCollection($this->em, $this->mapping);
         $existingFields = $this->getExistingFields($entity) ?: [];
         foreach ($existingFields as $group => $ids) {
             $collection->addFromReferences($ids, $group);
@@ -85,7 +85,7 @@ class RepeaterType extends FieldTypeBase
             $values[$split[0]][$split[1]][] = $split[2];
         }
 
-        $collection = new RepeatingFieldCollection($this->em);
+        $collection = new RepeatingFieldCollection($this->em, $this->mapping);
         $collection->setName($key);
 
         if (isset($values[$key]) && count($values[$key])) {
@@ -111,7 +111,7 @@ class RepeaterType extends FieldTypeBase
         $outerCollection = $entity->$accessor();
         $newVal = [];
         if (!$outerCollection instanceof RepeatingFieldCollection) {
-            $collection = new RepeatingFieldCollection($this->em);
+            $collection = new RepeatingFieldCollection($this->em, $this->mapping);
             $collection->setName($key);
 
             if (is_array($outerCollection)) {

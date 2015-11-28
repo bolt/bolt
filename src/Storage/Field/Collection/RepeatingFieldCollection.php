@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class RepeatingFieldCollection extends ArrayCollection
 {
     protected $em;
+    protected $mapping;
     protected $name;
 
     /**
@@ -22,9 +23,10 @@ class RepeatingFieldCollection extends ArrayCollection
      * @param EntityManager $em
      * @param array         $elements
      */
-    public function __construct(EntityManager $em, $elements = [])
+    public function __construct(EntityManager $em, array $mapping, $elements = [])
     {
         $this->em = $em;
+        $this->mapping = $mapping;
         parent::__construct($elements);
     }
 
@@ -51,6 +53,13 @@ class RepeatingFieldCollection extends ArrayCollection
             $field->setName($this->getName());
             $field->setValue($value);
             $field->setFieldname($name);
+            $field->setFieldtype($this->getFieldTypeName($field->getFieldname()));
+
+            $fieldObject = $this->getFieldType($field->getFieldname());
+            $type = $fieldObject->getStorageType();
+            $typeCol = 'value_' . $type->getName();
+            $field->$typeCol = $field->getValue();
+
             $field->setGrouping($grouping);
             $collection->add($field);
         }
@@ -170,5 +179,40 @@ class RepeatingFieldCollection extends ArrayCollection
         }
 
         return $flat;
+    }
+
+    /**
+     * @param $field
+     *
+     * @throws FieldConfigurationException
+     *
+     * @return mixed
+     */
+    protected function getFieldType($field)
+    {
+        if (!isset($this->mapping['data']['fields'][$field]['fieldtype'])) {
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
+        }
+        $mapping = $this->mapping['data']['fields'][$field];
+        $setting = $mapping['fieldtype'];
+
+        return $this->em->getFieldManager()->get($setting, $mapping);
+    }
+
+    /**
+     * @param $field
+     *
+     * @throws FieldConfigurationException
+     *
+     * @return mixed
+     */
+    protected function getFieldTypeName($field)
+    {
+        if (!isset($this->mapping['data']['fields'][$field]['type'])) {
+            throw new FieldConfigurationException('Invalid repeating field configuration for ' . $field);
+        }
+        $mapping = $this->mapping['data']['fields'][$field];
+
+        return $mapping['type'];
     }
 }
