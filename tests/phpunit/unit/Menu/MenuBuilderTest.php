@@ -1,7 +1,7 @@
 <?php
-namespace Bolt\Tests\Helper;
+namespace Bolt\Tests\Menu;
 
-use Bolt\Helpers\MenuBuilder;
+use Bolt\Menu\MenuBuilder;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
