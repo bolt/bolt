@@ -27,7 +27,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
         /**
          * Wrapper for old log service, used by extensions.
          *
-         * @deprecated To be removed for Bolt 3.0
+         * @deprecated Deprecated since 3.0, to be removed in 4.0.
          */
         $app['log'] = $app->share(
             function ($app) {

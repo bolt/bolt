@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
- * @deprecated Use {@see \Bolt\Controller\Frontend} instead
+ * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see \Bolt\Controller\Frontend} instead
  */
 class Frontend
 {

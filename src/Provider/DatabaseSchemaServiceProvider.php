@@ -50,7 +50,7 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
             }
         );
 
-        /** @deprecated Will be removed in Bolt 3 */
+        /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
         $app['integritychecker'] = $app->share(
             function ($app) {
                 $app['logger.system']->warning("[DEPRECATED]: An extension is using app['integritychecker'] and this has been replaced with app['schema'].", ['event' => 'deprecated']);

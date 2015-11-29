@@ -140,7 +140,7 @@ class RecordHandler
      * Trims the given string to a particular length. Deprecated, use excerpt
      * instead.
      *
-     * @deprecated
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @param string  $content
      * @param integer $length  Defaults to 200

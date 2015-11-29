@@ -158,7 +158,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
 
         // User calls can cause exceptions that block the exception handler
         try {
-            /** @deprecated Since 2.3 to be removed in 3.0 */
+            /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
             $usersVal = $this->safe ? null : $users->getUsers();
             $usersCur = $users->getCurrentUser();
         } catch (\Exception $e) {
@@ -344,7 +344,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * @deprecated Since 2.3, will be removed in 3.0. Just use config instead.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Just use config instead.
      * @see \Bolt\Twig\Handler\AdminHandler::isChangelogEnabled()
      */
     public function isChangelogEnabled()
@@ -596,7 +596,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * @deprecated Use {@see \Bolt\Twig\TwigExtension::excerpt} instead
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see \Bolt\Twig\TwigExtension::excerpt} instead
      */
     public function trim($content, $length = 200)
     {
