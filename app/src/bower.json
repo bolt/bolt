@@ -16,7 +16,6 @@
     },
     "devDependencies": {
         "jquery-ui": "~1.11.4",
-        "jquery.cookie": "~1.4.1",
         "jquery.tagcloud.js": "https://github.com/addywaddy/jquery.tagcloud.js.git",
         "magnific-popup": "~1.0.0",
         "moment": "~2.10.6",
