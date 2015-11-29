@@ -59,6 +59,7 @@ class RepeatingFieldCollection extends ArrayCollection
                 $field->setValue($dbHandler->convertToPHPValue($value, $storageTypeHandler->getPlatform()));
             }
             $field->setFieldname($name);
+            $field->setContenttype((string)$entity->contenttype);
             $field->setFieldtype($this->getFieldTypeName($field->getFieldname()));
             $field->setGrouping($grouping);
             $collection->add($field);
