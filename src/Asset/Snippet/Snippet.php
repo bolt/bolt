@@ -1,14 +1,12 @@
 <?php
 namespace Bolt\Asset\Snippet;
 
-use Bolt\Asset\AssetInterface;
-
 /**
  * Snippet objects.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Snippet implements AssetInterface
+class Snippet implements SnippetAssetInterface
 {
     /** @var integer */
     protected $priority;
@@ -38,11 +36,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Set the priority.
-     *
-     * @param integer $priority
-     *
-     * @return Snippet
+     * {@inheritdoc}
      */
     public function setPriority($priority)
     {
@@ -52,9 +46,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Get location.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getLocation()
     {
@@ -62,11 +54,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Set location.
-     *
-     * @param string $location
-     *
-     * @return Snippet
+     * {@inheritdoc}
      */
     public function setLocation($location)
     {
@@ -76,9 +64,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Get callback or HTML string.
-     *
-     * @return callable|string
+     * {@inheritdoc}
      */
     public function getCallback()
     {
@@ -86,11 +72,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Set callback or HTML string.
-     *
-     * @param callable|string $callback
-     *
-     * @return Snippet
+     * {@inheritdoc}
      */
     public function setCallback($callback)
     {
@@ -100,9 +82,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Get the callback arguments.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getCallbackArguments()
     {
@@ -110,11 +90,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Set the callback arguments.
-     *
-     * @param array $callbackArguments
-     *
-     * @return Snippet
+     * {@inheritdoc}
      */
     public function setCallbackArguments($callbackArguments)
     {
@@ -124,9 +100,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Get the extension name that this connects to.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getExtension()
     {
@@ -134,11 +108,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Set the extension name that this connects to.
-     *
-     * @param string $extensionName
-     *
-     * @return Snippet
+     * {@inheritdoc}
      */
     public function setExtension($extensionName)
     {
