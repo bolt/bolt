@@ -547,26 +547,6 @@ class Extensions
     }
 
     /**
-     * Check if there are additional menu-options set for the current user.
-     *
-     * @see \Bolt\Extensions\hasMenuOptions()
-     */
-    public function hasMenuOptions()
-    {
-        return !empty($this->menuoptions);
-    }
-
-    /**
-     * Get an array with the additional menu-options that are set for the current user.
-     *
-     * @see \Bolt\Extensions\hasMenuOptions()
-     */
-    public function getMenuOptions()
-    {
-        return $this->menuoptions;
-    }
-
-    /**
      * Returns whether or not there are any extensions that need so send mail
      */
     public function hasMailSenders()
