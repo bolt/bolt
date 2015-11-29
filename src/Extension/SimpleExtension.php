@@ -2,91 +2,17 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Twig\TwigExtensionTrait;
 use Silex\Application;
+use Twig_ExtensionInterface;
 
 /**
  * This will replace current BaseExtension.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-abstract class SimpleExtension extends AbstractExtension implements \Twig_ExtensionInterface
+abstract class SimpleExtension extends AbstractExtension implements Twig_ExtensionInterface
 {
-    use TwigExtensionTrait;
-
-    /** @var \Twig_SimpleFunction[] */
-    private $twigFunctions = [];
-    /** @var \Twig_SimpleFilter[] */
-    private $twigFilters = [];
+    use TwigTrait;
 
     abstract public function initialize(Application $app);
-
-    /**
-     * {@inheritdoc}
-     */
-    public function register(Application $app)
-    {
-        $app['twig'] = $app->share(
-            $app->extend(
-                'twig',
-                function ($twig) {
-                    $twig->addExtension($this);
-
-                    return $twig;
-                }
-            )
-        );
-
-        $this->initialize($app);
-    }
-
-    /**
-     * Add a Twig Function.
-     *
-     * @param string          $name
-     * @param string|callable $callback
-     * @param array           $options
-     */
-    public function addTwigFunction($name, $callback, $options = [])
-    {
-        // If we pass a callback as a simple string, we need to turn it into an array.
-        if (is_string($callback) && method_exists($this, $callback)) {
-            $callback = [$this, $callback];
-        }
-
-        $this->twigFunctions[] = new \Twig_SimpleFunction($name, $callback, $options);
-    }
-
-    /**
-     * Add a Twig Filter.
-     *
-     * @param string          $name
-     * @param string|callable $callback
-     * @param array           $options
-     */
-    public function addTwigFilter($name, $callback, $options = [])
-    {
-        // If we pass a callback as a simple string, we need to turn it into an array.
-        if (is_string($callback) && method_exists($this, $callback)) {
-            $callback = [$this, $callback];
-        }
-
-        $this->twigFilters[] = new \Twig_SimpleFilter($name, $callback, $options);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFunctions()
-    {
-        return $this->twigFunctions;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilters()
-    {
-        return $this->twigFilters;
-    }
 }
