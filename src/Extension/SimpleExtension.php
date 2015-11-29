@@ -12,6 +12,8 @@ use Twig_ExtensionInterface;
  */
 abstract class SimpleExtension extends AbstractExtension implements Twig_ExtensionInterface
 {
+    use AssetTrait;
+    use MenuTrait;
     use TwigTrait;
 
     abstract public function initialize(Application $app);
