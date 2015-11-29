@@ -72,6 +72,9 @@
         "squizlabs/php_codesniffer" : "~2.0",
         "symfony/phpunit-bridge" : "^2.8"
     },
+    "conflict": {
+        "rossriley/flysystem53": "*"
+    },
     "config" : {
         "preferred-install" : "dist"
     },
