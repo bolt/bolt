@@ -38,6 +38,7 @@
         "load-grunt-tasks": "~3.3.0",
         "magnific-popup": "~1.0.0",
         "modernizr": "~3.2.0",
+        "moment": "~2.10.6",
         "node-sass": "~3.4.2",
         "postcss-single-charset": "~1.0.0",
         "request": "~2.67.0"
