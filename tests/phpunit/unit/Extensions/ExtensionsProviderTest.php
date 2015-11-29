@@ -539,8 +539,10 @@ HTML;
         $app = $this->getApp();
         $this->setSessionUser(new Entity\Users());
         $app['extensions']->addMenuOption('My Test', 'mytest');
-        $this->assertTrue($app['extensions']->hasMenuOptions());
-        $this->assertEquals(1, count($app['extensions']->getMenuOptions()));
+
+        $this->assertInstanceOf('Bolt\Helpers\MenuEntry', $app['menu.admin']->getChild('extend'));
+        $this->assertInstanceOf('Bolt\Helpers\MenuEntry', $app['menu.admin']->getChild('extend')->getChild('My Test'));
+        $this->assertSame('/bolt/extend/mytest', $app['menu.admin']->getChild('extend')->getChild('My Test')->getUri());
     }
 
     public function testTwigExtensions()
