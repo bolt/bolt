@@ -15,7 +15,6 @@
         "jquery": "~2.1.4"
     },
     "devDependencies": {
-        "font-awesome": "~4.4.0",
         "jquery-ui": "~1.11.4",
         "jquery.cookie": "~1.4.1",
         "jquery.tagcloud.js": "https://github.com/addywaddy/jquery.tagcloud.js.git",
