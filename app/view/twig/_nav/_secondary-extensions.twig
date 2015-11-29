@@ -27,7 +27,8 @@
         {
             icon: extension.icon|default('fa:briefcase'),
             label: extension.label,
-            link: extension.path
+            link: extension.path,
+            isallowed: extension.allow
         }
     ]) %}
 {% endfor %}

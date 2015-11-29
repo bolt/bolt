@@ -530,22 +530,21 @@ class Extensions
      * @param string $label
      * @param string $path
      * @param bool   $icon
-     * @param string $requiredPermission (NULL if no permission is required)
+     * @param string $allow Required permission to see menu
      */
-    public function addMenuOption($label, $path, $icon = false, $requiredPermission = null)
+    public function addMenuOption($label, $path, $icon = false, $allow = null)
     {
         // Fix the path, if we have not given a full path.
         if (strpos($path, '/') === false) {
             $path = $this->app['resources']->getUrl('bolt') . $path;
         }
 
-        if (empty($requiredPermission) || $this->app['users']->isAllowed($requiredPermission)) {
-            $this->menuoptions[$path] = [
-                'label' => $label,
-                'path'  => $path,
-                'icon'  => $icon,
-            ];
-        }
+        $this->menuoptions[$path] = [
+            'label' => $label,
+            'path'  => $path,
+            'icon'  => $icon,
+            'allow' => $allow ?: 'everyone',
+        ];
     }
 
     /**
