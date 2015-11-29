@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Helpers;
+namespace Bolt\Menu;
 
 /**
  * Class Menu
