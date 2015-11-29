@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Helpers;
+namespace Bolt\Menu;
 
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Url;
