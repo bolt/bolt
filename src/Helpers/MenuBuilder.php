@@ -25,11 +25,11 @@ class MenuBuilder
         $menus = $this->app['config']->get('menu');
 
         if (!empty($identifier) && isset($menus[$identifier])) {
-            $name = strtolower($identifier);
             $menu = $menus[$identifier];
+            $name = strtolower($identifier);
         } else {
-            $name = strtolower(\utilphp\util::array_first_key($menus));
-            $menu = \utilphp\util::array_first($menus);
+            $menu = reset($menus);
+            $name = strtolower(key($menus));
         }
 
         if (!is_array($menu)) {
