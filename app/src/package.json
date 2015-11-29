@@ -10,6 +10,7 @@
     "devDependencies": {
         "autoprefixer": "~6.1.1",
         "backbone": "~1.2.3",
+        "blueimp-file-upload": "9.11.2",
         "css-mqpacker": "~4.0.0",
         "csswring": "~4.0.0",
         "deep-extend": "~0.4.0",
