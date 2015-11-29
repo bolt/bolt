@@ -55,9 +55,16 @@ class RepeatingFieldCollection extends ArrayCollection
             $field = new FieldValue();
             $field->setName($this->getName());
             $dbHandler = $storageTypeHandler->getStorageType();
+
+            // We'd prefer data set from an array to already be correctly hydrated, but as a helper we here
+            // pass it through the hydrate step if the value is a string. This will take care of cases where
+            // a date/datetime is passed as string rather than an object.
             if (is_string($value)) {
                 $field->setValue($dbHandler->convertToPHPValue($value, $storageTypeHandler->getPlatform()));
+            } else {
+                $field->setValue($value);
             }
+
             $field->setFieldname($name);
             $field->setContenttype((string)$entity->contenttype);
             $field->setFieldtype($this->getFieldTypeName($field->getFieldname()));
