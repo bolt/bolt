@@ -55,12 +55,7 @@ class RepeatingFieldCollection extends ArrayCollection
             $field->setValue($value);
             $field->setFieldname($name);
             $field->setFieldtype($this->getFieldTypeName($field->getFieldname()));
-
-            $fieldObject = $this->getFieldType($field->getFieldname());
-            $type = $fieldObject->getStorageType();
-            $typeCol = 'value_' . $type->getName();
-            $field->$typeCol = $field->getValue();
-
+            $field->handleStorage($this->getFieldType($name));
             $field->setGrouping($grouping);
             $collection->add($field);
         }
