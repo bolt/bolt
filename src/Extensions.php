@@ -12,6 +12,7 @@ use Composer\Json\JsonFile;
 use Monolog\Logger;
 use Silex;
 use Symfony\Component\Finder\Finder;
+use Bolt\Helpers\MenuEntry;
 
 /**
  * @deprecated Deprecated since 3.0, to be removed in 4.0.
@@ -529,22 +530,20 @@ class Extensions
      *
      * @param string $label
      * @param string $path
-     * @param bool   $icon
-     * @param string $allow Required permission to see menu
+     * @param string $icon
+     * @param string $permission Required permission to see menu
      */
-    public function addMenuOption($label, $path, $icon = false, $allow = null)
+    public function addMenuOption($label, $path, $icon = null, $permission = null)
     {
-        // Fix the path, if we have not given a full path.
-        if (strpos($path, '/') === false) {
-            $path = $this->app['resources']->getUrl('bolt') . $path;
-        }
+        /** @var MenuEntry $menus */
+        $menus = $this->app['menu.admin'];
+        $child = (new MenuEntry($label, $path, $menus->getChild('extend')))
+            ->setLabel($label)
+            ->setIcon($icon)
+            ->setPermission($permission)
+        ;
 
-        $this->menuoptions[$path] = [
-            'label' => $label,
-            'path'  => $path,
-            'icon'  => $icon,
-            'allow' => $allow ?: 'everyone',
-        ];
+        $menus->getChild('extend')->addChild($child);
     }
 
     /**

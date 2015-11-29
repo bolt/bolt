@@ -532,10 +532,10 @@ abstract class BaseExtension implements ExtensionInterface
      *
      * @param string $label
      * @param string $path
-     * @param bool   $icon
+     * @param string $icon
      * @param string $requiredPermission (NULL if no permission is required)
      */
-    public function addMenuOption($label, $path, $icon = false, $requiredPermission = null)
+    public function addMenuOption($label, $path, $icon = null, $requiredPermission = null)
     {
         $this->app['extensions']->addMenuOption($label, $path, $icon, $requiredPermission);
     }
