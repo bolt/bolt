@@ -117,7 +117,7 @@ class RepeaterType extends FieldTypeBase
             if (is_array($outerCollection)) {
                 foreach ($outerCollection as $group => $fields) {
                     if (is_array($fields)) {
-                        $collection->addFromArray($fields, $group);
+                        $collection->addFromArray($fields, $group, $entity);
                     }
                 }
             }

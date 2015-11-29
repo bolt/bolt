@@ -45,7 +45,7 @@ class RepeatingFieldCollection extends ArrayCollection
      * @param array $fields
      * @param int   $grouping
      */
-    public function addFromArray(array $fields, $grouping = 0)
+    public function addFromArray(array $fields, $grouping = 0, $entity)
     {
         $collection = new FieldCollection([], $this->em);
         $collection->setGrouping($grouping);
