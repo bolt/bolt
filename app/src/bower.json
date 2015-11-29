@@ -15,7 +15,6 @@
         "jquery": "~2.1.4"
     },
     "devDependencies": {
-        "backbone": "~1.2.3",
         "blueimp-file-upload": "9.11.2",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.6",
