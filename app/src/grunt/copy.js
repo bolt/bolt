@@ -10,7 +10,7 @@ module.exports = {
             expand: true,
             flatten: true,
             src: [
-                '<%= path.src.bower %>/font-awesome/fonts/*'
+                '<%= path.src.npm %>/font-awesome/fonts/*'
             ],
             filter: 'isFile',
             dest: '<%= path.dest.fonts %>/'
