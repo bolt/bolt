@@ -540,8 +540,8 @@ HTML;
         $this->setSessionUser(new Entity\Users());
         $app['extensions']->addMenuOption('My Test', 'mytest');
 
-        $this->assertInstanceOf('Bolt\Helpers\MenuEntry', $app['menu.admin']->getChild('extend'));
-        $this->assertInstanceOf('Bolt\Helpers\MenuEntry', $app['menu.admin']->getChild('extend')->getChild('My Test'));
+        $this->assertInstanceOf('Bolt\Menu\MenuEntry', $app['menu.admin']->getChild('extend'));
+        $this->assertInstanceOf('Bolt\Menu\MenuEntry', $app['menu.admin']->getChild('extend')->getChild('My Test'));
         $this->assertSame('/bolt/extend/mytest', $app['menu.admin']->getChild('extend')->getChild('My Test')->getUri());
     }
 
