@@ -2,7 +2,7 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Helpers\MenuEntry;
+use Bolt\Menu\MenuEntry;
 
 /**
  * Admin menu handling trait for an extension.

@@ -167,7 +167,7 @@ class HtmlHandler
             return null;
         }
 
-        /** @var \Bolt\Helpers\Menu $menu */
+        /** @var \Bolt\Menu\Menu $menu */
         $menu = $this->app['menu']->menu($identifier);
 
         $twigvars = [

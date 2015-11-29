@@ -6,13 +6,13 @@ use Bolt;
 use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\DeprecatedFunctionsTrait;
 use Bolt\Extensions\ExtensionInterface;
+use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
 use Composer\Json\JsonFile;
 use Monolog\Logger;
 use Silex;
 use Symfony\Component\Finder\Finder;
-use Bolt\Helpers\MenuEntry;
 
 /**
  * @deprecated Deprecated since 3.0, to be removed in 4.0.

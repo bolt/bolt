@@ -2,8 +2,8 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Helpers\MenuBuilder;
-use Bolt\Helpers\MenuEntry;
+use Bolt\Menu\MenuBuilder;
+use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
