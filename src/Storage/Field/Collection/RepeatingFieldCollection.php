@@ -50,12 +50,13 @@ class RepeatingFieldCollection extends ArrayCollection
         $collection = new FieldCollection([], $this->em);
         $collection->setGrouping($grouping);
         foreach ($fields as $name => $value) {
+            $storageTypeHandler = $this->getFieldType($name);
+
             $field = new FieldValue();
             $field->setName($this->getName());
-            $field->setValue($value);
+            $storageTypeHandler->hydrate($field, ['value' => $value]);
             $field->setFieldname($name);
             $field->setFieldtype($this->getFieldTypeName($field->getFieldname()));
-            $field->handleStorage($this->getFieldType($name));
             $field->setGrouping($grouping);
             $collection->add($field);
         }
@@ -106,6 +107,8 @@ class RepeatingFieldCollection extends ArrayCollection
         foreach ($collection->flatten() as $entity) {
             $master = $this->getOriginal($entity);
             $master->setValue($entity->getValue());
+            $master->handleStorage($this->getFieldType($entity->getName()));
+
             $updated[] = $master;
         }
 
