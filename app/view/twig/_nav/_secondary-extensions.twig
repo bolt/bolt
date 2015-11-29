@@ -1,20 +1,21 @@
 {# Empty array for submenu #}
 {% set sub = [] %}
+{% set extend_menu = app['menu.admin'].child('extend') %}
 
 {% if isallowed('extensions||extensions:config') %}
 
     {# Add the "view" and "configure" options #}
     {% set sub = sub|merge([
         {
-            icon: 'fa:cubes',
-            label: __('Extensions'),
-            link: path('extend', {}),
-            isallowed: 'extensions'
+            icon: extend_menu.icon,
+            label: extend_menu.label,
+            link: extend_menu.uri,
+            isallowed: extend_menu.permission
         }
     ]) %}
 
     {# Add a divider, if there are any items to print. We don't want a divider with nothing below it #}
-    {% if app.extensions.getMenuoptions|length > 0 %}
+    {% if extend_menu.children|length > 0 %}
         {% set sub = sub|merge(['-']) %}
     {% endif %}
 
@@ -22,13 +23,13 @@
 {% endif %}
 
 {# Add the available extensions that have added a menu-item. #}
-{% for extension in app.extensions.getMenuoptions %}
+{% for extend_submenu in extend_menu.children %}
     {% set sub = sub|merge([
         {
-            icon: extension.icon|default('fa:briefcase'),
-            label: extension.label,
-            link: extension.path,
-            isallowed: extension.allow
+            icon: extend_submenu.icon|default('fa:briefcase'),
+            label: extend_submenu.label,
+            link: extend_submenu.uri,
+            isallowed: extend_submenu.permission
         }
     ]) %}
 {% endfor %}
