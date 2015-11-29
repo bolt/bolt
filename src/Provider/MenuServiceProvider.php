@@ -3,16 +3,15 @@
 namespace Bolt\Provider;
 
 use Bolt\Helpers\MenuBuilder;
+use Bolt\Helpers\MenuEntry;
+use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 class MenuServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given app.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
+     * {@inheritdoc}
      */
     public function register(Application $app)
     {
@@ -23,14 +22,28 @@ class MenuServiceProvider implements ServiceProviderInterface
                 return $builder;
             }
         );
+
+        /**
+         * @internal Backwards compatibility not guaranteed on this provider presently.
+         */
+        $app['menu.admin'] = $app->share(
+            function ($app) {
+                $rootEntry = new MenuEntry('root', $app['config']->get('general/branding/path'));
+                $extendEntry = (new MenuEntry('extend', 'extend', $rootEntry))
+                    ->setLabel(Trans::__('Extensions'))
+                    ->setIcon('fa:cubes')
+                    ->setPermission('extensions')
+                ;
+
+                $rootEntry->addChild($extendEntry);
+
+                return $rootEntry;
+            }
+        );
     }
 
     /**
-     * Bootstraps the application.
-     *
-     * This method is called after all services are registered
-     * and should be used for "dynamic" configuration (whenever
-     * a service must be requested).
+     * {@inheritdoc}
      */
     public function boot(Application $app)
     {
