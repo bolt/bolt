@@ -57,6 +57,10 @@ class MenuEntry
      */
     public function getUri()
     {
+        if (strpos($this->uri, '/') === 0) {
+            return $this->uri;
+        }
+
         return $this->parent ? $this->parent->getUri() . '/' . $this->uri : $this->uri;
     }
 
