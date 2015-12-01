@@ -82,7 +82,7 @@
         {% elseif context.filetype == "md" %}
             {% set codemirror = ['markdown'] %}
         {% elseif context.filetype in ['css', 'less'] %}
-            {% set codemirror = 'css' %}
+            {% set codemirror = ['css'] %}
         {% elseif context.filetype == "js" %}
             {% set codemirror = ['javascript'] %}
         {% else %}
