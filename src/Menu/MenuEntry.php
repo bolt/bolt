@@ -2,6 +2,8 @@
 
 namespace Bolt\Menu;
 
+use LogicException;
+
 /**
  * A menu entry item.
  *
@@ -31,13 +33,11 @@ class MenuEntry
      *
      * @param string    $name
      * @param string    $uri
-     * @param MenuEntry $parent
      */
-    public function __construct($name, $uri, MenuEntry $parent = null)
+    public function __construct($name, $uri)
     {
         $this->name = $name;
         $this->uri = $uri;
-        $this->parent = $parent;
     }
 
     /**
@@ -146,6 +146,7 @@ class MenuEntry
     public function addChild(MenuEntry $child)
     {
         $this->children[$child->getName()] = $child;
+        $child->setParent($this);
 
         return $this;
     }
@@ -170,5 +171,23 @@ class MenuEntry
     public function getChildren()
     {
         return (array) $this->children;
+    }
+
+    /**
+     * Set the menu entry's children name.
+     *
+     * @param MenuEntry $parent
+     *
+     * @return MenuEntry
+     */
+    public function setParent(MenuEntry $parent)
+    {
+        if ($this->parent !== null) {
+            throw new LogicException('Parent menu association can not be changed after being set.');
+        }
+
+        $this->parent = $parent;
+
+        return $this;
     }
 }

@@ -537,12 +537,11 @@ class Extensions
     {
         /** @var MenuEntry $menus */
         $menus = $this->app['menu.admin'];
-        $child = (new MenuEntry($label, $path, $menus->getChild('extend')))
+        $child = (new MenuEntry($label, $path))
             ->setLabel($label)
             ->setIcon($icon)
             ->setPermission($permission)
         ;
-
         $menus->getChild('extend')->addChild($child);
     }
 

@@ -29,12 +29,11 @@ class MenuServiceProvider implements ServiceProviderInterface
         $app['menu.admin'] = $app->share(
             function ($app) {
                 $rootEntry = new MenuEntry('root', $app['config']->get('general/branding/path'));
-                $extendEntry = (new MenuEntry('extend', 'extend', $rootEntry))
+                $extendEntry = (new MenuEntry('extend', 'extend'))
                     ->setLabel(Trans::__('Extensions'))
                     ->setIcon('fa:cubes')
                     ->setPermission('extensions')
                 ;
-
                 $rootEntry->addChild($extendEntry);
 
                 return $rootEntry;
