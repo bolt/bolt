@@ -22,7 +22,7 @@ trait MenuTrait
      * @param string $icon
      * @param string $permission
      */
-    protected function addMenu($label, $path, $icon = null, $permission = null)
+    protected function addMenuEntry($label, $path, $icon = null, $permission = null)
     {
         /** @var MenuEntry $menus */
         $menus = $this->getApp()['menu.admin'];
