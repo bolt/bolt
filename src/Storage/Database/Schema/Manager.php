@@ -29,7 +29,7 @@ class Manager
     /** @var \Silex\Application */
     private $app;
 
-    /** @deprecated Will be removed in v3 */
+    /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
     const INTEGRITY_CHECK_INTERVAL    = 1800; // max. validity of a database integrity check, in seconds
     const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
 
@@ -46,7 +46,7 @@ class Manager
     }
 
     /**
-     * @deprecated Will be removed in v3. This is a place holder to prevent fatal errors.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. This is a place holder to prevent fatal errors.
      */
     public function __call($name, $args)
     {
@@ -54,7 +54,7 @@ class Manager
     }
 
     /**
-     * @deprecated Will be removed in v3. This is a place holder to prevent fatal errors.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. This is a place holder to prevent fatal errors.
      */
     public function __get($name)
     {

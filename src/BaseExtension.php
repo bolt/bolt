@@ -449,7 +449,7 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Return the available Snippets, used in \Bolt\Extensions.
      *
-     * @deprecated Use $app['asset.queue.snippet']->getQueue()
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use $app['asset.queue.snippet']->getQueue()
      *
      * @return array
      */
@@ -514,7 +514,7 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Clear all previously added assets.
      *
-     * @deprecated since 2.3 and will be removed in Bolt 3
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function clearAssets()
     {
@@ -560,7 +560,7 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Parse a snippet, an pass on the generated HTML to the caller (Extensions).
      *
-     * @deprecated since 2.3 and will be removed in Bolt 3
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @param string $callback
      * @param string $var1
@@ -592,8 +592,8 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * @deprecated
-     * @see: requireUserRole()
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     * @see requireUserRole()
      *
      * @param string $permission
      *
@@ -624,7 +624,7 @@ abstract class BaseExtension implements ExtensionInterface
     }
 
     /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function parseWidget()
     {

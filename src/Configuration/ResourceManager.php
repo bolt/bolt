@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * Intended to simplify the ability to override resource location
  *
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
+ *
  * @author Ross Riley, riley.ross@gmail.com
  */
 class ResourceManager
@@ -26,7 +28,7 @@ class ResourceManager
     /**
      * @var \Silex\Application
      *
-     * @deprecated Don't use! Will probably refactored out soon
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public static $theApp;
 
@@ -113,7 +115,9 @@ class ResourceManager
     }
 
     /**
-     * @deprecated Don't use! Will probably refactored out soon
+     * Don't use!
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @param Application $app
      */

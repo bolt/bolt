@@ -20,7 +20,7 @@ trait DeprecatedFunctionsTrait
     /**
      * Add jQuery to the output.
      *
-     * @deprecated Since 2.3 will be removed in Bolt 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function addJquery()
     {
@@ -30,7 +30,7 @@ trait DeprecatedFunctionsTrait
     /**
      * Don't add jQuery to the output.
      *
-     * @deprecated Since 2.3 will be removed in Bolt 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function disableJquery()
     {
@@ -41,7 +41,7 @@ trait DeprecatedFunctionsTrait
      * Legacy function that returns a list of all css and js assets that are
      * added via extensions.
      *
-     * @deprecated Use $app['asset.queue.file']->getQueue() and/or $app['asset.queue.snippet']->getQueue()
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use $app['asset.queue.file']->getQueue() and/or $app['asset.queue.snippet']->getQueue()
      *
      * @return array
      */
@@ -64,28 +64,28 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertWidget()
     {
     }
 
     /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function renderWidgetHolder()
     {
     }
 
     /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function renderWidget()
     {
     }
 
     /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = [])
     {
@@ -93,7 +93,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function clearSnippetQueue()
     {
@@ -101,7 +101,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function processSnippetQueue($html)
     {
@@ -109,7 +109,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 and will removed in Bolt 3.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function processAssets($html)
     {
@@ -117,7 +117,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertStartOfHead($tag, $html)
     {
@@ -125,7 +125,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertStartOfBody($tag, $html)
     {
@@ -133,7 +133,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertEndOfHead($tag, $html)
     {
@@ -141,7 +141,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertEndOfBody($tag, $html)
     {
@@ -149,7 +149,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertEndOfHtml($tag, $html)
     {
@@ -157,7 +157,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertAfterMeta($tag, $html)
     {
@@ -165,7 +165,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertAfterCss($tag, $html)
     {
@@ -173,7 +173,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertBeforeCss($tag, $html)
     {
@@ -181,7 +181,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertBeforeJS($tag, $html)
     {
@@ -189,7 +189,7 @@ trait DeprecatedFunctionsTrait
     }
 
     /**
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function insertAfterJs($tag, $html, $insidehead = true)
     {

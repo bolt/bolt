@@ -497,7 +497,7 @@ class Extensions
     /**
      * Get the extension base URL.
      *
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @return string
      */
@@ -509,7 +509,7 @@ class Extensions
     /**
      * Get the extension base path.
      *
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @return string
      */

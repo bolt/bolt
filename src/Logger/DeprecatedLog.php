@@ -7,7 +7,7 @@ use Silex\Application;
 /**
  * Handler for deprecated log message.
  *
- * @deprecated since version 2.1
+ * @deprecated since 2.1 will be removed in 4.0
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

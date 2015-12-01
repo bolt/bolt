@@ -94,7 +94,7 @@ class Library
      *
      * @return array
      *
-     * @deprecated
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public static function hackislyParseRegexTemplates($obj)
     {

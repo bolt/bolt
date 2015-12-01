@@ -32,7 +32,7 @@ class CronRepository extends Repository
      */
     public function queryNextRunTime($interimName)
     {
-        /** @deprecated To be removed in Bolt 3.0 */
+        /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
         $oldname = strtolower(str_replace('cron.', '', $interimName));
 
         $qb = $this->createQueryBuilder();
