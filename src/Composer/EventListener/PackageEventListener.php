@@ -1,43 +1,39 @@
 <?php
 namespace Bolt\Composer\EventListener;
 
+use Composer\DependencyResolver\Operation\InstallOperation;
+use Composer\DependencyResolver\Operation\UpdateOperation;
+use Composer\Installer\PackageEvent;
+
 class PackageEventListener
 {
     /**
      * Event handler for composer package events
      *
-     * @param \Composer\EventDispatcher\Event $event
+     * @param PackageEvent $event
      */
-    public static function handle($event)
+    public static function handle(PackageEvent $event)
     {
-        try {
-            $operation = $event->getOperation();
-            if (method_exists($operation, 'getPackage')) {
-                $installedPackage = $operation->getPackage();
-            } elseif (method_exists($operation, 'getTargetPackage')) {
-                $installedPackage = $operation->getTargetPackage();
-            } else {
-                return;
-            }
-        } catch (\Exception $e) {
+        $operation = $event->getOperation();
+        if ($operation instanceof InstallOperation) {
+            $package = $operation->getPackage();
+        } elseif ($operation instanceof UpdateOperation) {
+            $package = $operation->getTargetPackage();
+        } else {
             return;
         }
 
-        $rootExtra = $event->getComposer()->getPackage()->getExtra();
-        $extra = $installedPackage->getExtra();
-        if (isset($extra['bolt-assets'])) {
-            $type = $installedPackage->getType();
-            $pathToPublic = $rootExtra['bolt-web-path'];
-
-            // Get the path from extensions base through to public
-            $destParts = [getcwd(), $pathToPublic, 'extensions', 'vendor', $installedPackage->getName(), $extra['bolt-assets']];
-            $dest = realpath(join(DIRECTORY_SEPARATOR, $destParts));
-            if ($type === 'bolt-extension' && isset($extra['bolt-assets'])) {
-                $sourceParts = [getcwd(), 'vendor', $installedPackage->getName(), $extra['bolt-assets']];
-                $source = join(DIRECTORY_SEPARATOR, $sourceParts);
-                self::mirror($source, $dest);
-            }
+        $extra = $package->getExtra();
+        if ($package->getType() !== 'bolt-extension' || !isset($extra['bolt-assets'])) {
+            return;
         }
+        $packageAssets = 'vendor/' . $package->getName() . '/' . $extra['bolt-assets'];
+
+        // Copy package assets to main web path
+        $rootExtra = $event->getComposer()->getPackage()->getExtra();
+        $dest = realpath($rootExtra['bolt-web-path'] . '/extensions/' . $packageAssets);
+
+        self::mirror($packageAssets, $dest);
     }
 
     /**
@@ -62,12 +58,12 @@ class PackageEventListener
         foreach ($iterator as $item) {
             /** @var $item \SplFileInfo */
             if ($item->isDir()) {
-                $new = $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
+                $new = $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname();
                 if (!is_dir($new)) {
-                    mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                    mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
                 }
             } else {
-                copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
             }
         }
     }
