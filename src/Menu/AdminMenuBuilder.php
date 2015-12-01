@@ -39,6 +39,7 @@ final class AdminMenuBuilder
     public function build(Application $app)
     {
         $this->addConfiguration($app);
+        $this->addFileManagement($app);
 
         return $this->rootEntry;
     }
@@ -149,5 +150,40 @@ final class AdminMenuBuilder
 
         // Add to root
         $this->rootEntry->addChild($configEntry);
+    }
+
+    /**
+     * File management menus.
+     *
+     * @param Application $app
+     */
+    protected function addFileManagement(Application $app)
+    {
+        $fileEntry = (new MenuEntry('files', 'files'))
+            ->setLabel(Trans::__('Extensions'))
+            ->setIcon('fa:cubes')
+            ->setPermission('extensions')
+        ;
+
+        // Uploaded files
+        $path = $app['url_generator']->generate('files', ['namespace' => 'files', 'path' => '']);
+        $uploadsEntry = (new MenuEntry('files_uploads', $path))
+            ->setLabel(Trans::__('Uploaded files'))
+            ->setIcon('fa:folder-open-o')
+            ->setPermission('files:uploads')
+        ;
+        $fileEntry->addChild($uploadsEntry);
+
+        // Themes
+        $path = $app['url_generator']->generate('files', ['namespace' => 'theme', 'path' => '']);
+        $templatesEntry = (new MenuEntry('files_themes', $path))
+            ->setLabel(Trans::__('View/edit Templates'))
+            ->setIcon('fa:desktop')
+            ->setPermission('files:theme')
+        ;
+        $fileEntry->addChild($templatesEntry);
+
+        // Add to root
+        $this->rootEntry->addChild($fileEntry);
     }
 }
