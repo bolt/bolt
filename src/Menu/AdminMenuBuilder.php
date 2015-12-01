@@ -40,6 +40,7 @@ final class AdminMenuBuilder
     {
         $this->addConfiguration($app);
         $this->addFileManagement($app);
+        $this->addTranslations($app);
 
         return $this->rootEntry;
     }
@@ -185,5 +186,48 @@ final class AdminMenuBuilder
 
         // Add to root
         $this->rootEntry->addChild($fileEntry);
+    }
+
+    /**
+     * Translations menus.
+     *
+     * @param Application $app
+     */
+    protected function addTranslations(Application $app)
+    {
+        $translationEntry = (new MenuEntry('translations', 'tr'))
+            ->setLabel(Trans::__('Translations'))
+            ->setPermission('translation')
+        ;
+
+        // Messages
+        $path = $app['url_generator']->generate('translation', ['domain' => 'messages']);
+        $messagesEntry = (new MenuEntry('tr_messages', $path))
+            ->setLabel(Trans::__('Messages'))
+            ->setIcon('fa:flag')
+            ->setPermission('translation')
+        ;
+        $translationEntry->addChild($messagesEntry);
+
+        // Long messages
+        $path = $app['url_generator']->generate('translation', ['domain' => 'infos']);
+        $longMessagesEntry = (new MenuEntry('tr_long_messages', $path))
+            ->setLabel(Trans::__('Long messages'))
+            ->setIcon('fa:flag')
+            ->setPermission('translation')
+        ;
+        $translationEntry->addChild($longMessagesEntry);
+
+        // Contenttypes
+        $path = $app['url_generator']->generate('translation', ['domain' => 'contenttypes']);
+        $contenttypesEntry = (new MenuEntry('tr_contenttypes', $path))
+            ->setLabel(Trans::__('Contenttypes'))
+            ->setIcon('fa:flag')
+            ->setPermission('translation')
+        ;
+        $translationEntry->addChild($contenttypesEntry);
+
+        // Add to root
+        $this->rootEntry->addChild($translationEntry);
     }
 }
