@@ -1,14 +1,15 @@
+{% set files_menu = app['menu.admin'].child('files') %}
 {% set sub = [
     {
-        icon: 'fa:folder-open-o',
-        label: __('Uploaded files'),
-        link: path('files', {'namespace': 'files', 'path': ''}),
-        isallowed: 'files:uploads'
+        icon: files_menu.child('files_uploads').icon,
+        label: files_menu.child('files_uploads').label,
+        link: files_menu.child('files_uploads').uri,
+        isallowed: files_menu.child('files_uploads').permission
     }, {
-        icon: 'fa:desktop',
-        label: __('View/edit Templates'),
-        link: path('files', {'namespace': 'theme', 'path': ''}),
-        isallowed: 'files:theme'
+        icon: files_menu.child('files_themes').icon,
+        label: files_menu.child('files_themes').label,
+        link: files_menu.child('files_themes').uri,
+        isallowed: files_menu.child('files_themes').permission
     }
 ] %}
 
