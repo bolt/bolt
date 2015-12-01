@@ -41,6 +41,7 @@ final class AdminMenuBuilder
         $this->addConfiguration($app);
         $this->addFileManagement($app);
         $this->addTranslations($app);
+        $this->addExtend();
 
         return $this->rootEntry;
     }
@@ -229,5 +230,18 @@ final class AdminMenuBuilder
 
         // Add to root
         $this->rootEntry->addChild($translationEntry);
+    }
+
+    /**
+     * Extend menus.
+     */
+    protected function addExtend()
+    {
+        $extendEntry = (new MenuEntry('extend', 'extend'))
+            ->setLabel(Trans::__('Extensions'))
+            ->setIcon('fa:cubes')
+            ->setPermission('extensions')
+        ;
+        $this->rootEntry->addChild($extendEntry);
     }
 }
