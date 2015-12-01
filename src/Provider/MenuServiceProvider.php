@@ -2,9 +2,9 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Menu\AdminMenuBuilder;
 use Bolt\Menu\MenuBuilder;
 use Bolt\Menu\MenuEntry;
-use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -28,13 +28,8 @@ class MenuServiceProvider implements ServiceProviderInterface
          */
         $app['menu.admin'] = $app->share(
             function ($app) {
-                $rootEntry = new MenuEntry('root', $app['config']->get('general/branding/path'));
-                $extendEntry = (new MenuEntry('extend', 'extend'))
-                    ->setLabel(Trans::__('Extensions'))
-                    ->setIcon('fa:cubes')
-                    ->setPermission('extensions')
-                ;
-                $rootEntry->addChild($extendEntry);
+                $adminMenu = new AdminMenuBuilder(new MenuEntry('root', $app['config']->get('general/branding/path')));
+                $rootEntry = $adminMenu->build($app);
 
                 return $rootEntry;
             }
