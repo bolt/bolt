@@ -2,12 +2,10 @@
 
 namespace Bolt\Extension;
 
-use Bolt\Twig\TwigExtensionTrait;
-use LogicException;
+use Bolt\Twig\DynamicExtension;
 use Silex\Application;
-use Twig_ExtensionInterface;
-use Twig_SimpleFilter;
-use Twig_SimpleFunction;
+use Twig_SimpleFilter as SimpleFilter;
+use Twig_SimpleFunction as SimpleFunction;
 
 /**
  * Twig function/filter addition and interface functions for an extension.
@@ -17,37 +15,49 @@ use Twig_SimpleFunction;
  */
 trait TwigTrait
 {
-    use TwigExtensionTrait;
-
-    /** @var \Twig_SimpleFunction[] */
-    private $twigFunctions = [];
-    /** @var \Twig_SimpleFilter[] */
-    private $twigFilters = [];
+    /** @var DynamicExtension */
+    private $twigExtension;
+    /** @var DynamicExtension */
+    private $safeTwigExtension;
 
     /** @return \Silex\Application */
     abstract protected function getApp();
 
+    /** @return string */
+    abstract public function getName();
+
     /**
-     * {@inheritdoc}
+     * Call this in register method.
+     *
+     * @param Application $app
      */
     protected function registerTwigExtension(Application $app)
     {
-        if (!$this instanceof Twig_ExtensionInterface) {
-            throw new LogicException('Extension must implement Twig_ExtensionInterface to register Twig extensions');
-        }
-
         $app['twig'] = $app->share(
             $app->extend(
                 'twig',
                 function ($twig) {
-                    $twig->addExtension($this);
+                    if ($this->twigExtension) {
+                        $twig->addExtension($this->twigExtension);
+                    }
 
                     return $twig;
                 }
             )
         );
 
-        $this->initialize($app);
+        $app['safe_twig'] = $app->share(
+            $app->extend(
+                'safe_twig',
+                function ($twig) {
+                    if ($this->safeTwigExtension) {
+                        $twig->addExtension($this->safeTwigExtension);
+                    }
+
+                    return $twig;
+                }
+            )
+        );
     }
 
     /**
@@ -59,16 +69,30 @@ trait TwigTrait
      */
     protected function addTwigFunction($name, $callback, $options = [])
     {
-        if (!$this instanceof Twig_ExtensionInterface) {
-            throw new LogicException('Extension must implement Twig_ExtensionInterface to add Twig functions');
-        }
-
         // If we pass a callback as a simple string, we need to turn it into an array.
         if (is_string($callback) && method_exists($this, $callback)) {
             $callback = [$this, $callback];
         }
 
-        $this->twigFunctions[] = new Twig_SimpleFunction($name, $callback, $options);
+        $safe = method_exists($this, 'isSafe') && $this->isSafe();
+        if (isset($options['safe'])) {
+            $safe = (bool) $options['safe'];
+            unset($options['safe']);
+        }
+
+        $function = new SimpleFunction($name, $callback, $options);
+
+        if ($this->twigExtension === null) {
+            $this->twigExtension = new DynamicExtension($this->getName());
+        }
+        $this->twigExtension->addFunction($function);
+
+        if ($safe) {
+            if ($this->safeTwigExtension === null) {
+                $this->safeTwigExtension = new DynamicExtension($this->getName());
+            }
+            $this->safeTwigExtension->addFunction($function);
+        }
     }
 
     /**
@@ -80,31 +104,29 @@ trait TwigTrait
      */
     protected function addTwigFilter($name, $callback, $options = [])
     {
-        if (!$this instanceof Twig_ExtensionInterface) {
-            throw new LogicException('Extension must implement Twig_ExtensionInterface to add Twig filters');
-        }
-
         // If we pass a callback as a simple string, we need to turn it into an array.
         if (is_string($callback) && method_exists($this, $callback)) {
             $callback = [$this, $callback];
         }
 
-        $this->twigFilters[] = new Twig_SimpleFilter($name, $callback, $options);
-    }
+        $safe = method_exists($this, 'isSafe') && $this->isSafe();
+        if (isset($options['safe'])) {
+            $safe = (bool) $options['safe'];
+            unset($options['safe']);
+        }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFunctions()
-    {
-        return $this->twigFunctions;
-    }
+        $filter = new SimpleFilter($name, $callback, $options);
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFilters()
-    {
-        return $this->twigFilters;
+        if ($this->twigExtension === null) {
+            $this->twigExtension = new DynamicExtension($this->getName());
+        }
+        $this->twigExtension->addFilter($filter);
+
+        if ($safe) {
+            if ($this->safeTwigExtension === null) {
+                $this->safeTwigExtension = new DynamicExtension($this->getName());
+            }
+            $this->safeTwigExtension->addFilter($filter);
+        }
     }
 }
