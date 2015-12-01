@@ -38,6 +38,116 @@ final class AdminMenuBuilder
      */
     public function build(Application $app)
     {
+        $this->addConfiguration($app);
+
         return $this->rootEntry;
+    }
+
+    /**
+     * Configuration menus.
+     *
+     * @param Application $app
+     */
+    protected function addConfiguration(Application $app)
+    {
+        // Main configuration
+        $configEntry = (new MenuEntry('config', 'config'))
+            ->setLabel(Trans::__('Configuration'))
+            ->setIcon('fa:cogs')
+            ->setPermission('settings')
+        ;
+
+        // Users & Permssions
+        $path = $this->rootEntry->getUri() . '/users';
+        $accessControlEntry = (new MenuEntry('users', $path))
+            ->setLabel(Trans::__('Users & Permissions'))
+            ->setIcon('fa:group')
+            ->setPermission('users')
+        ;
+        $configEntry->addChild($accessControlEntry);
+
+        // Main configuration
+        $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'config.yml']);
+        $mainConfigEntry = (new MenuEntry('config_main', $path))
+            ->setLabel(Trans::__('Main configuration'))
+            ->setIcon('fa:cog')
+            ->setPermission('files:config')
+        ;
+        $configEntry->addChild($mainConfigEntry);
+
+        // ContentTypes
+        $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'contenttypes.yml']);
+        $contentTypesEntry = (new MenuEntry('config_contenttypes', $path))
+            ->setLabel(Trans::__('Contenttypes'))
+            ->setIcon('fa:paint-brush')
+            ->setPermission('files:config')
+        ;
+        $configEntry->addChild($contentTypesEntry);
+
+        // Taxonomy
+        $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'taxonomy.yml']);
+        $taxonomyEntry = (new MenuEntry('config_taxonomy', $path))
+            ->setLabel(Trans::__('Taxonomy'))
+            ->setIcon('fa:tags')
+            ->setPermission('files:config')
+        ;
+        $configEntry->addChild($taxonomyEntry);
+
+        // Menus
+        $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'menu.yml']);
+        $menuSetupEntry = (new MenuEntry('config_menu', $path))
+            ->setLabel(Trans::__('Menu setup'))
+            ->setIcon('fa:list')
+            ->setPermission('files:config')
+        ;
+        $configEntry->addChild($menuSetupEntry);
+
+        // Routing
+        $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'routing.yml']);
+        $routingSetupEntry = (new MenuEntry('config_routing', $path))
+            ->setLabel(Trans::__('menu.configuration.routing'))
+            ->setIcon('fa:random')
+            ->setPermission('files:config')
+        ;
+        $configEntry->addChild($routingSetupEntry);
+
+        // Database checks
+        $path = $this->rootEntry->getUri() . '/dbcheck';
+        $databaseEntry = (new MenuEntry('dbcheck', $path))
+            ->setLabel(Trans::__('Check database'))
+            ->setIcon('fa:database')
+            ->setPermission('dbupdate')
+        ;
+        $configEntry->addChild($databaseEntry);
+
+        // Cache flush
+        $path = $this->rootEntry->getUri() . '/clearcache';
+        $cacheEntry = (new MenuEntry('clearcache', $path))
+            ->setLabel(Trans::__('Clear the cache'))
+            ->setIcon('fa:eraser')
+            ->setPermission('clearcache')
+        ;
+        $configEntry->addChild($cacheEntry);
+
+        // Change log
+        $path = $this->rootEntry->getUri() . '/changelog';
+        $changeLogEntry = (new MenuEntry('log_change', $path))
+            ->setLabel(Trans::__('logs.change-log'))
+            ->setIcon('fa:archive')
+            ->setPermission('changelog')
+        ;
+        $configEntry->addChild($changeLogEntry);
+
+        // System log
+        $path = $this->rootEntry->getUri() . '/systemlog';
+        $systemLogEntry = (new MenuEntry('log_system', $path))
+            ->setLabel(Trans::__('logs.system-log'))
+            ->setIcon('fa:archive')
+            ->setPermission('systemlog')
+        ;
+        $configEntry->addChild($systemLogEntry);
+
+        // Add to root
+        $this->rootEntry->addChild($configEntry);
     }
 }
