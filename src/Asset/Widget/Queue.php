@@ -156,23 +156,20 @@ class Queue implements QueueInterface
      *
      * @return string|null
      */
-    public function render($location, $type = 'frontend', $wrappertemplate = '', $holdertemplate = '')
+    public function render($location, $type = 'frontend', $wrapperTemplate, $holderTemplate)
     {
         $html = null;
 
         /** @var WidgetAssetInterface $widget */
         foreach ($this->sort($this->queue) as $widget) {
             if ($widget->getType() === $type && $widget->getLocation() === $location) {
-                $html .= $this->addWidgetHolder($widget, $holdertemplate);
+                $html .= $this->addWidgetHolder($widget, $holderTemplate);
             }
         }
 
         if ($html !== null) {
-            if (empty($wrappertemplate)) {
-                $wrappertemplate = 'widgetholder.twig';
-            }
             $twigvars = ['location' => $location, 'html' => $html];
-            $html = $this->render->render($wrappertemplate, $twigvars);
+            $html = $this->render->render($wrapperTemplate, $twigvars);
         }
 
         return $html;
@@ -185,14 +182,10 @@ class Queue implements QueueInterface
      *
      * @return \Twig_Markup
      */
-    protected function addWidgetHolder(WidgetAssetInterface $widget, $holdertemplate = '')
+    protected function addWidgetHolder(WidgetAssetInterface $widget, $holderTemplate)
     {
-        if (empty($holdertemplate)) {
-            $holdertemplate = 'widgetwrapper.twig';
-        }
-
         $html = $this->render->render(
-            $holdertemplate,
+            $holderTemplate,
             [
                 'widget' => $widget,
                 'html'   => $widget->isDeferred() ? '' : $this->getHtml($widget),
