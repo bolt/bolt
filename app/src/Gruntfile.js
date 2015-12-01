@@ -20,7 +20,7 @@ module.exports = function(grunt) {
                 js: 'js',
                 lib: 'lib',
                 sass: 'sass',
-                bower: 'bower_components'
+                npm: 'node_modules'
             },
             dest: {
                 js: '../view/js',
