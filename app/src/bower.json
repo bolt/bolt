@@ -12,7 +12,6 @@
         "tests"
     ],
     "devDependencies": {
-        "jquery-ui": "~1.11.4",
-        "jquery.tagcloud.js": "https://github.com/addywaddy/jquery.tagcloud.js.git"
+        "jquery-ui": "~1.11.4"
     }
 }
