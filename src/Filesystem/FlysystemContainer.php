@@ -1,45 +1,60 @@
 <?php
 namespace Bolt\Filesystem;
 
-use League\Flysystem\Filesystem;
 use Sirius\Upload\Container\ContainerInterface;
 
 class FlysystemContainer implements ContainerInterface
 {
-    public $filesystem;
+    /** @var FilesystemInterface */
+    private $filesystem;
 
-    public function __construct(Filesystem $filesystem)
+    /**
+     * Constructor.
+     *
+     * @param FilesystemInterface $filesystem
+     */
+    public function __construct(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isWritable()
     {
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function has($file)
     {
         return $this->filesystem->has($file);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function save($file, $content)
     {
-        return $this->filesystem->put($file, $content);
+        $this->filesystem->put($file, $content);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function delete($file)
     {
-        return $this->filesystem->delete($file);
+        $this->filesystem->delete($file);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function moveUploadedFile($localFile, $destination)
     {
-        $stream = fopen($localFile, 'r+');
-        if ($this->filesystem->putStream($destination, $stream) === true) {
-            return $destination;
-        }
-
-        return false;
+        $this->filesystem->putStream($destination, fopen($localFile, 'r+'));
     }
 }
