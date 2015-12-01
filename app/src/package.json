@@ -46,5 +46,11 @@
         "request": "~2.67.0",
         "select2": "~4.0.1",
         "underscore": "~1.8.3"
+    },
+    "scripts": {
+        "install": "napa"
+    },
+    "napa": {
+        "source-sans-pro": "git+https://github.com/adobe-fonts/source-sans-pro.git#2.020R-ro/1.075R-it"
     }
 }

@@ -17,7 +17,7 @@ module.exports = {
         }, {
             expand: true,
             flatten: true,
-            cwd: '<%= path.src.bower %>/source-sans-pro',
+            cwd: '<%= path.src.npm %>/source-sans-pro',
             src: 'WOFF?(2)/OTF/SourceSansPro-@(It|Regular|Semibold).otf.woff?(2)',
             dest: '<%= path.dest.fonts %>',
             rename: function(dest, src) {
