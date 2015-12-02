@@ -16,7 +16,7 @@ class Widget implements WidgetAssetInterface
     /** @var string */
     protected $key;
     /** @var string */
-    protected $type;
+    protected $zone;
     /** @var string */
     protected $location;
     /** @var callable */
@@ -84,17 +84,17 @@ class Widget implements WidgetAssetInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getZone()
     {
-        return $this->type;
+        return $this->zone;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setType($type)
+    public function setZone($zone)
     {
-        $this->type = $type;
+        $this->zone = $zone;
 
         return $this;
     }
