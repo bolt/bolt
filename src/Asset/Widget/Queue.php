@@ -170,6 +170,8 @@ class Queue implements QueueInterface
         if (!empty($widgets)) {
             $twigvars = [ 'location' => $location, 'widgets' => $widgets ];
             $html = $this->render->render($wrapperTemplate, $twigvars);
+        } else {
+            $html = null;
         }
 
         return $html;
