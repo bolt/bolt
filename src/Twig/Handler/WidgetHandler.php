@@ -74,12 +74,12 @@ class WidgetHandler
      *
      * @return \Twig_Markup|string
      */
-    public function widgets($location = null, $type = 'frontend', $wrapper = 'widgetholder.twig', $holder = 'widgetwrapper.twig')
+    public function widgets($location = null, $type = 'frontend', $wrapper = 'widgetholder.twig')
     {
         if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
             throw new \InvalidArgumentException('widgets() requires a location, none given');
         }
 
-        return $this->app['asset.queue.widget']->render($location, $type, $wrapper, $holder);
+        return $this->app['asset.queue.widget']->render($location, $type, $wrapper);
     }
 }

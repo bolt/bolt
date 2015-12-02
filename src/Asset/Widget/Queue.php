@@ -156,44 +156,25 @@ class Queue implements QueueInterface
      *
      * @return string|null
      */
-    public function render($location, $type = 'frontend', $wrapperTemplate, $holderTemplate)
+    public function render($location, $type = 'frontend', $wrapperTemplate = 'widgetwrapper.twig')
     {
-        $html = null;
+        $widgets = [];
 
         /** @var WidgetAssetInterface $widget */
         foreach ($this->sort($this->queue) as $widget) {
             if ($widget->getType() === $type && $widget->getLocation() === $location) {
-                $html .= $this->addWidgetHolder($widget, $holderTemplate);
+                $widgets[] = [ 'object' => $widget, 'html' => $this->getHtml($widget) ];
             }
         }
 
-        if ($html !== null) {
-            $twigvars = ['location' => $location, 'html' => $html];
+        if (!empty($widgets)) {
+            $twigvars = [ 'location' => $location, 'widgets' => $widgets ];
             $html = $this->render->render($wrapperTemplate, $twigvars);
         }
 
         return $html;
     }
 
-    /**
-     * Add a widget holder, empty if deferred.
-     *
-     * @param WidgetAssetInterface $widget
-     *
-     * @return \Twig_Markup
-     */
-    protected function addWidgetHolder(WidgetAssetInterface $widget, $holderTemplate)
-    {
-        $html = $this->render->render(
-            $holderTemplate,
-            [
-                'widget' => $widget,
-                'html'   => $widget->isDeferred() ? '' : $this->getHtml($widget),
-            ]
-        );
-
-        return $html;
-    }
 
     /**
      * Get the HTML content from the widget.

@@ -1,7 +1,12 @@
 {% spaceless %}
-    <div class='widget {{ widget.class|join(' ') }}' id='widget-{{ widget.key }}' data-key='{{ widget.key }}'
-    {%- if widget.defer %} data-defer='true'{% endif -%}
-    >
-        {{ html|default('<!-- placeholder for ' ~ widget.key ~ ' -->')|raw }}
-    </div>
+<div class="widgetholder widgetholder-{{ location|slugify }}">
+
+    {% for widget in widgets %}
+        <div class='widget {{ widget.object.class|join(' ') }}' id='widget-{{ widget.object.key }}' data-key='{{ widget.object.key }}'
+        {%- if widget.object.defer %} data-defer='true'{% endif %}>
+            {{ widget.html|default('<!-- placeholder for ' ~ widget.object.key ~ ' -->')|raw }}
+        </div>
+    {% endfor %}
+
+</div>
 {% endspaceless %}
