@@ -26,17 +26,17 @@ class WidgetHandler
      * Return the number of widgets in the queue for a given type / location.
      *
      * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $type     Either 'frontend' or 'backend'
+     * @param string $zone     Either 'frontend' or 'backend'
      *
      * @return integer
      */
-    public function countWidgets($location = null, $type = 'frontend')
+    public function countWidgets($location = null, $zone = 'frontend')
     {
         if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
             throw new \InvalidArgumentException('countwidgets() requires a location, none given');
         }
 
-        return $this->app['asset.queue.widget']->countItemsInQueue($location, $type);
+        return $this->app['asset.queue.widget']->countItemsInQueue($location, $zone);
     }
 
     /**
@@ -53,33 +53,33 @@ class WidgetHandler
      * Check if a type / location has widgets in the queue.
      *
      * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $type     Either 'frontend' or 'backend'
+     * @param string $zone     Either 'frontend' or 'backend'
      *
      * @return boolean
      */
-    public function hasWidgets($location = null, $type = 'frontend')
+    public function hasWidgets($location = null, $zone = 'frontend')
     {
         if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
             throw new \InvalidArgumentException('haswidgets() requires a location, none given');
         }
 
-        return $this->app['asset.queue.widget']->hasItemsInQueue($location, $type);
+        return $this->app['asset.queue.widget']->hasItemsInQueue($location, $zone);
     }
 
     /**
      * Renders a particular widget type on the given location.
      *
      * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $type     Either 'frontend' or 'backend'
+     * @param string $zone     Either 'frontend' or 'backend'
      *
      * @return \Twig_Markup|string
      */
-    public function widgets($location = null, $type = 'frontend', $wrapper = 'widgetholder.twig')
+    public function widgets($location = null, $zone = 'frontend', $wrapper = 'widgetholder.twig')
     {
         if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
             throw new \InvalidArgumentException('widgets() requires a location, none given');
         }
 
-        return $this->app['asset.queue.widget']->render($location, $type, $wrapper);
+        return $this->app['asset.queue.widget']->render($location, $zone, $wrapper);
     }
 }

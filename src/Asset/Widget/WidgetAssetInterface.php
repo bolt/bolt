@@ -27,20 +27,20 @@ interface WidgetAssetInterface extends AssetInterface, \ArrayAccess
     public function setKey();
 
     /**
-     * Get the widget's type, either 'frontend' or 'backend'
+     * Get the widget's zone / type, either 'frontend' or 'backend'
      *
      * @return string|null
      */
-    public function getType();
+    public function getZone();
 
     /**
-     * Set the widget type, either 'frontend' or 'backend'.
+     * Set the widget zone / type, either 'frontend' or 'backend'.
      *
-     * @param string $type
+     * @param string $zone
      *
      * @return WidgetAssetInterface
      */
-    public function setType($type);
+    public function setZone($zone);
 
     /**
      * Get the widget's target location.
