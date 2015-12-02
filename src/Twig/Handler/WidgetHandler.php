@@ -74,7 +74,7 @@ class WidgetHandler
      *
      * @return \Twig_Markup|string
      */
-    public function widgets($location = null, $zone = 'frontend', $wrapper = 'widgetholder.twig')
+    public function widgets($location = null, $zone = 'frontend', $wrapper = 'widgetwrapper.twig')
     {
         if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
             throw new \InvalidArgumentException('widgets() requires a location, none given');
