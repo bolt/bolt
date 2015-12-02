@@ -20,7 +20,7 @@ module.exports = function(grunt) {
                 js: 'js',
                 lib: 'lib',
                 sass: 'sass',
-                bower: 'bower_components'
+                npm: 'node_modules'
             },
             dest: {
                 js: '../view/js',
@@ -48,7 +48,6 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/datetime.js',
                 '<%= path.src.js %>/modules/editcontent.js',
                 '<%= path.src.js %>/modules/extend.js',
-                '<%= path.src.js %>/modules/filebrowser.js',
                 '<%= path.src.js %>/modules/files.js',
                 '<%= path.src.js %>/modules/liveeditor.js',
                 '<%= path.src.js %>/modules/omnisearch.js',

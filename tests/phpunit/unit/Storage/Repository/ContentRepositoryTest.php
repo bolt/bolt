@@ -54,7 +54,7 @@ class ContentRepositoryTest extends BoltUnitTest
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
         $record = $repo->find(1);
-        $record->title = "Updated Test Showcase";
+        $record->title = 'Updated Test Showcase';
         $repo->save($record);
 
         $record2 = $repo->find(1);

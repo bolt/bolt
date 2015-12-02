@@ -206,6 +206,7 @@ class UsersRepository extends Repository
     public function save($entity, $silent = null)
     {
         $this->userEntities = [];
+
         return parent::save($entity, $silent);
     }
 

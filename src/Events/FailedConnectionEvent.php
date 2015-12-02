@@ -3,8 +3,8 @@
 namespace Bolt\Events;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Event\ConnectionEventArgs;
 
 /**
  * Event dispatched on Doctrine ConnectionException occurrence.

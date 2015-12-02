@@ -5,6 +5,57 @@ Not yet released.
 
  - Lots (list needs to be compiled)
 
+Bolt 2.2.14
+-----------
+
+Released 2015-11-27. Notable changes:
+
+ - Updated: Symfony components updated to 2.6.12
+ - Fixed: Determine web profiler location using Extension rather than bundle (See #4432)
+ - Fixed: No scrolling panes on "View Users" page. (See #4438)
+ - Fixed: Limit user agent strings to 128 characters on persist. (See #4413)
+ - Fixed: Fix alt and title tags for popup & showimage, height/width for showImage (See #4231)
+ - Fixed: Make 'required' for `type: select` fields work. (See: #4420)
+ - Fixed: Replace `☰` for `≡ `for better supported unicode on Android. (see #4388)
+ - Regex that insert snippets not working when </head> does not starts the line.  #4367
+ - Changed: Set `composer/composer` to dev stability. (See #4345)
+ - Fixed: Fixed priority issue in assets (See #4343)
+ - Fixed: Fixing reordering images in an ImageList. (See #3573)
+ - Fixed: Retrieve existing relations before setting them from POST. Fixes "No related entries on preview" issue. (See #4340)
+ - Fixed: Handle save status transition (See #4326)
+ - Added: Allow the `notfound:` status to point to a static template, instead of a contenttype record. 
+ - Fixed: Don't insert Bolt meta tags on AJAX requests (See #4297)
+ - Fixed: Put correct cannonical link into html head on paging content request
+ - Fixed: Increase z-index, so popups cover `{{ dump() }}` output. 
+
+Bolt 2.2.13
+-----------
+
+Released 2015-10-07. Notable changes:
+
+- Fixed: Taxonomies being wiped on status change using grouped taxonomy. (See #3868)
+- Fixed: Add edit permission to the `modifiable` property (See #4198)
+- Added: Allow height and autocomplete in categories taxonomies.
+- Added: Allow for 'type: hidden' fields in `contenttypes.yml`
+- Added: Allow the theme's `config.yml` to set add_jquery. Fixes #4098
+- Added: Optionally allow spaces in tags.
+- Updated: Updating UIkit(2.22), CodeMirror and Marked.js
+- Changed: Ignore theme directory except for base-* and default
+- Changed: Use tag names instead of slugs for autocomplete and tag cloud. #4125
+- Changed: Strip periods, commas, colons & semi-colons from prefill titles
+- Changed: date-time format uses a more i18n-friendly format (See #4053)
+- Changed: Moving 'Install new extension' to the top of the screen.
+- Fixed: Don't sort getContent in listing view, when the contenttype has a taxonomy that has a sortorder.
+- Fixed: Don't show (non working) drag'n'drop in list overviews.
+- Fixed: Fix the info text for imagelist fields (See #4051)
+- Fixed: Fix to #3991 – Geolocation snaps pin to matched address.
+- Fixed: No links for records that are 'viewless'. Fixes #3999 for [2.2]
+- Fixed: [2.2] Allow non-strings as query parameters with pager. issue #4109
+- Fixed: "Timed publish" fixed for SQLITE (Now using a `DateTime` object instead of `CURRENT_TIMESTAMP`)
+- Fixed: Fix: Don't show notice about `mailoptions` when not logged on.
+- Fixed: Alignment of #navpage-secondary menu item icons in FireFox. (See #4178)
+- Fixed: Strip tags from `<title>` in editcontent. Fixes: #3590.
+- Fixed: Fix secondary nav element's class not being output in certain cases.
 
 Bolt 2.2.12
 -----------

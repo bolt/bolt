@@ -271,9 +271,9 @@ class Config
             }
 
             // Don't set the domain for a cookie on a "TLD" - like 'localhost', or if the server_name is an IP-address
-            if ((strpos($hostname, '.') > 0) && preg_match("/[a-z0-9]/i", $hostname)) {
-                if (preg_match("/^www[0-9]*./", $hostname)) {
-                    $general['cookies_domain'] = '.' . preg_replace("/^www[0-9]*./", '', $hostname);
+            if ((strpos($hostname, '.') > 0) && preg_match('/[a-z0-9]/i', $hostname)) {
+                if (preg_match('/^www[0-9]*./', $hostname)) {
+                    $general['cookies_domain'] = '.' . preg_replace('/^www[0-9]*./', '', $hostname);
                 } else {
                     $general['cookies_domain'] = '.' . $hostname;
                 }
@@ -379,7 +379,7 @@ class Config
     {
         $themeConfig = $this->parseConfigYaml('theme.yml', $themePath);
 
-        /** @deprecated Since 2.3 and will be removed in Bolt v3.0 (config.yml was the old filename) */
+        /** @deprecated Deprecated since 3.0, to be removed in 4.0. (config.yml was the old filename) */
         if (empty($themeConfig)) {
             $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
         }
@@ -1138,7 +1138,7 @@ class Config
         // Check the timestamp for the theme's config.yml
         $themeConfigFile = $this->app['resources']->getPath('themepath/theme.yml');
 
-        /** @deprecated Since 2.3 and will be removed in Bolt v3.0 (config.yml was the old filename) */
+        /** @deprecated Deprecated since 3.0, to be removed in 4.0. (config.yml was the old filename) */
         if (!file_exists($themeConfigFile)) {
             $themeConfigFile = $this->app['resources']->getPath('themepath/config.yml');
         }
@@ -1181,7 +1181,7 @@ class Config
     /**
      * Use get('general/database') instead
      *
-     * @deprecated Since 2.1, to be removed in 3.0.
+     * @deprecated since 2.1 will be removed in 4.0.
      *
      * @return array
      */
@@ -1204,7 +1204,7 @@ class Config
      * See classes in \Bolt\EventListener for examples of these.
      * These middlewares could also be filtered by checking for Zone inside of listener.
      *
-     * @deprecated Since 2.3, to be removed in 3.0.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @return string
      */

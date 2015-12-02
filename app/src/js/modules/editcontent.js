@@ -323,7 +323,7 @@
                     .always(function(){
                         // Re-enable buttons
                         window.setTimeout(function(){
-                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled').blur();
+                            $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');
                             $('#sidebarsavecontinuebutton i, #savecontinuebutton i').removeClass('fa-spin fa-spinner');
                         }, 300);
                     });

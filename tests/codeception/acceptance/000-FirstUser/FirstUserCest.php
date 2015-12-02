@@ -47,7 +47,7 @@ class FirstUserCest
         $I->fillField('form[email]',                 $this->user['admin']['email']);
         $I->fillField('form[displayname]',           $this->user['admin']['displayname']);
 
-        $I->click('input[type=submit]');
+        $I->click('button[type=submit]');
 
         // We should now be logged in an greeted!
         $I->see('Welcome to your new Bolt site');

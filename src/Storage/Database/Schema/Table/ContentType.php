@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Storage\Database\Schema\Table;
 
 class ContentType extends BaseTable
@@ -144,7 +145,7 @@ class ContentType extends BaseTable
     /**
      * Add a column for decimals.
      *
-     * @deprecated
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @param string $fieldName
      */

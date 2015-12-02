@@ -212,7 +212,7 @@ class UtilsHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new UtilsHandler($app);
 
-        $this->expectOutputRegex("/Redirecting to/i");
+        $this->expectOutputRegex('/Redirecting to/i');
         $handler->redirect('/clippy/koala', false);
         $this->assertContains('location: /clippy/koala', xdebug_get_headers());
     }

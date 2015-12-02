@@ -58,6 +58,8 @@ HTML;
     out. Be sure to include the exact error message you're getting!</p>
 HTML;
 
+    public static $screen;
+
     /**
      * Print a 'low level' error page, and quit. The user has to fix something.
      *
@@ -70,6 +72,7 @@ HTML;
      */
     public function __construct($message, $code = null, $previous = null)
     {
+        parent::__construct(strip_tags($message), $code, $previous);
         $html = self::$html;
         $info = self::$info;
 
@@ -94,7 +97,7 @@ HTML;
             $output = self::cleanHTML($output);
         }
 
-        echo $output;
+        self::$screen = $output;
     }
 
     /**
@@ -190,6 +193,8 @@ HTML;
 
             echo str_replace($app['resources']->getPath('rootpath'), '', $html);
         }
+
+        echo self::$screen;
     }
 
     /**
@@ -210,11 +215,11 @@ HTML;
      */
     private static function cleanHTML($output)
     {
-        $output = preg_replace('/<title>.*<\/title>/smi', "", $output);
-        $output = preg_replace('/<style>.*<\/style>/smi', "", $output);
+        $output = preg_replace('/<title>.*<\/title>/smi', '', $output);
+        $output = preg_replace('/<style>.*<\/style>/smi', '', $output);
         $output = strip_tags($output);
         $output = preg_replace('/(\n+)(\s+)/smi', "\n", $output);
-        $output = preg_replace('/&nbsp;/smi', " ", $output);
+        $output = preg_replace('/&nbsp;/smi', ' ', $output);
 
         return $output;
     }

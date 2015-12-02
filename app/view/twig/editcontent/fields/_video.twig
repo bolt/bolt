@@ -10,8 +10,6 @@
 {% set preview_w = 200 %}
 {% set preview_h = 150 %}
 
-{% set modal_id = buid() %}
-
 {% set video = context.content.get(contentkey) %}
 
 {% set attributes = {
@@ -95,10 +93,8 @@
 
     play: {
         class:     video.html|default() ? '' : 'hidden',
-        href:      '#' ~ modal_id,
         type:      'button',
-        role:     'button',
-        'data-toggle':  'modal',
+        role:      'button',
     },
 
     refresh: {
@@ -164,19 +160,6 @@
             <div class="imageholder">
                 <img{{ hattr(attributes.preview) }}>
                 <button{{ hattr(attributes.play) }}></button>
-            </div>
-        </div>
-    </div>
-
-    {# Modal video preview #}
-    <div class="modal" id="{{ modal_id }}" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-tertiary" data-dismiss="modal" aria-hidden="true">{{ __('field.video.preview.button.close') }}</button>
-                </div>
             </div>
         </div>
     </div>

@@ -192,6 +192,7 @@ class TestClass
     public function foo()
     {
         $this->called = true;
+
         return true;
     }
 

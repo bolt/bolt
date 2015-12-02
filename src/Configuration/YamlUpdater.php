@@ -60,7 +60,7 @@ class YamlUpdater
     {
         $yaml = $this->parsed;
 
-        $keyparts = explode("/", $key);
+        $keyparts = explode('/', $key);
         while ($key = array_shift($keyparts)) {
             $yaml = &$yaml[$key];
         }
@@ -82,7 +82,7 @@ class YamlUpdater
      */
     public function change($key, $value, $makebackup = true)
     {
-        $pattern = str_replace("/", ":.*", $key);
+        $pattern = str_replace('/', ':.*', $key);
         preg_match_all('/^' . $pattern . '(:\s*)/mis', $this->file->read(), $matches,  PREG_OFFSET_CAPTURE);
 
         if (count($matches[0]) > 0 && count($matches[1])) {
@@ -92,7 +92,7 @@ class YamlUpdater
         }
 
         $line = substr_count($this->file->read(), "\n", 0, $index);
-        $this->yaml[$line] = preg_replace('/^(.*):(.*)/', "$1: " . $this->prepareValue($value), $this->yaml[$line]);
+        $this->yaml[$line] = preg_replace('/^(.*):(.*)/', '$1: ' . $this->prepareValue($value), $this->yaml[$line]);
 
         return $this->save($makebackup);
     }
@@ -110,7 +110,7 @@ class YamlUpdater
     public function prepareValue($value)
     {
         if (is_array($value)) {
-            return "[ " . implode(", ", $value) . " ]";
+            return '[ ' . implode(', ', $value) . ' ]';
         }
 
         if (preg_match('/[^a-z0-9]/i', $value)) {

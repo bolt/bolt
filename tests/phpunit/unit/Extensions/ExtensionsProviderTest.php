@@ -252,8 +252,8 @@ HTML;
     public function testEmptyProcessAssets()
     {
         $app = $this->getApp();
-        $html = $app['extensions']->processAssets("html");
-        $this->assertEquals("html", $html);
+        $html = $app['extensions']->processAssets('html');
+        $this->assertEquals('html', $html);
     }
 
     public function testJsProcessAssets()
@@ -391,7 +391,7 @@ HTML;
         $this->localExtensionInstall();
         $app = $this->getApp();
 
-        require_once PHPUNIT_WEBROOT .'/extensions/vendor/autoload.php';
+        require_once PHPUNIT_WEBROOT . '/extensions/vendor/autoload.php';
 
         $koala = new \Bolt\Extensions\TestVendor\TestExt\GumLeaves();
         $this->assertSame('Koala Power!', $koala->getDropBear());
@@ -469,8 +469,8 @@ HTML;
         );
 
         // Test snippet inserts at top of <head>
-        $html = $app['extensions']->processSnippetQueue("<html></html>");
-        $this->assertEquals("<html></html><br />".PHP_EOL.PHP_EOL, $html);
+        $html = $app['extensions']->processSnippetQueue('<html></html>');
+        $this->assertEquals('<html></html><br />' . PHP_EOL . PHP_EOL, $html);
     }
 
     public function testExtensionSnippets()
@@ -488,16 +488,16 @@ HTML;
         $app->initialize();
         $app['extensions']->register(new Mock\Extension($app));
         $html = $app['extensions']->processSnippetQueue($this->template);
-        $this->assertContains("js/jquery", $html);
+        $this->assertContains('js/jquery', $html);
 
         $app = $this->getApp();
         $app['extensions']->register(new Mock\Extension($app));
         $app['extensions']->addJquery();
         $html = $app['extensions']->processSnippetQueue($this->template);
-        $this->assertContains("js/jquery", $html);
+        $this->assertContains('js/jquery', $html);
         $app['extensions']->disableJquery();
         $html = $app['extensions']->processSnippetQueue($this->template);
-        $this->assertNotContains("js/jquery", $html);
+        $this->assertNotContains('js/jquery', $html);
     }
 
     public function testAddJqueryOnlyOnce()
@@ -526,11 +526,11 @@ HTML;
         ];
         foreach ($locations as $location) {
             $app = $this->getApp();
-            $template = "<invalid></invalid>";
+            $template = '<invalid></invalid>';
             $snip = '<meta name="test-snippet" />';
             $app['extensions']->insertSnippet($location, $snip);
             $html = $app['extensions']->processSnippetQueue($template);
-            $this->assertEquals($template.$snip.PHP_EOL, $html);
+            $this->assertEquals($template . $snip . PHP_EOL, $html);
         }
     }
 
@@ -556,12 +556,12 @@ HTML;
 
     public function testCommentsHandled()
     {
-        $template = $this->template."<!-- This is a comment -->";
+        $template = $this->template . '<!-- This is a comment -->';
         $app = $this->getApp();
         $snip = '<meta name="test-snippet" />';
         $app['extensions']->insertSnippet('append', $snip);
         $html = $app['extensions']->processSnippetQueue($template);
-        $this->assertEquals($template.$snip.PHP_EOL, $html);
+        $this->assertEquals($template . $snip . PHP_EOL, $html);
     }
 }
 

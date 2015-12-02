@@ -20,6 +20,6 @@ class InfoTest extends BoltUnitTest
 
         $tester->execute([]);
         $result = $tester->getDisplay();
-        $this->assertRegExp("/(PHP Version|HipHop)/", $result);
+        $this->assertRegExp('/(PHP Version|HipHop)/', $result);
     }
 }

@@ -33,6 +33,7 @@ abstract class ControllerUnitTest extends BoltUnitTest
         if (!$this->app) {
             $this->app = $this->makeApp();
         }
+
         return $this->app;
     }
 

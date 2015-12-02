@@ -10,7 +10,7 @@ class TwigExtension extends \Twig_Extension
 {
     public function getName()
     {
-        return "testTwig";
+        return 'testTwig';
     }
 
     public function isSafe()

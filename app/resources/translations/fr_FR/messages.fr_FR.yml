@@ -532,9 +532,6 @@ field:
             markedview: "Markdown"
             preview: "Aperçu"
     slug:
-        message:
-            set: "Définir le permalien"
-            unlock: "Etes-vous certain de vouloir débloquer le permalien ? Cela peut casser les liens existant vers ce contenu."
         permalink: "Permalien"
         unique-alias: "Alias unique"
     video:

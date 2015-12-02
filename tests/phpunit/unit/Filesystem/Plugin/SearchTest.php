@@ -17,7 +17,7 @@ class SearchTest extends BoltUnitTest
 
         $plugin = new Plugin\Search();
         $plugin->setFilesystem($fs);
-        $result = $plugin->handle("*");
+        $result = $plugin->handle('*');
         $this->assertGreaterThan(0, count($result));
     }
 

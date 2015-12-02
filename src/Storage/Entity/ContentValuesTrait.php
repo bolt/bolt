@@ -236,7 +236,7 @@ trait ContentValuesTrait
         }
 
         // Check if the value need to be unserialized.
-        if (is_string($value) && substr($value, 0, 2) === "a:") {
+        if (is_string($value) && substr($value, 0, 2) === 'a:') {
             try {
                 $unserdata = Lib::smartUnserialize($value);
             } catch (\Exception $e) {
@@ -301,7 +301,7 @@ trait ContentValuesTrait
 
         if (!isset($this->values['datechanged']) ||
             !preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $this->values['datechanged'])) {
-            $this->values['datechanged'] = date("Y-m-d H:i:s");
+            $this->values['datechanged'] = date('Y-m-d H:i:s');
         }
 
         $this->values[$key] = $value;
@@ -347,7 +347,7 @@ trait ContentValuesTrait
         // Check if the values need to be unserialized, and pre-processed.
         foreach ($this->values as $key => $value) {
             if ((in_array($this->fieldtype($key), $serializedFieldTypes)) || ($key == 'templatefields')) {
-                if (!empty($value) && is_string($value) && (substr($value, 0, 2) == "a:" || $value[0] === '[' || $value[0] === '{')) {
+                if (!empty($value) && is_string($value) && (substr($value, 0, 2) == 'a:' || $value[0] === '[' || $value[0] === '{')) {
                     try {
                         $unserdata = Lib::smartUnserialize($value);
                     } catch (\Exception $e) {
@@ -360,7 +360,7 @@ trait ContentValuesTrait
                 }
             }
 
-            if ($this->fieldtype($key) == "video" && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
+            if ($this->fieldtype($key) == 'video' && is_array($this->values[$key]) && !empty($this->values[$key]['url'])) {
                 $video = $this->values[$key];
 
                 // update the HTML, according to given width and height
@@ -369,15 +369,15 @@ trait ContentValuesTrait
                     $video['html'] = preg_replace("/height=(['\"])([0-9]+)(['\"])/i", 'height=${1}' . $video['height'] . '${3}', $video['html']);
                 }
 
-                $responsiveclass = "responsive-video";
+                $responsiveclass = 'responsive-video';
 
                 // See if it's widescreen or not.
                 if (!empty($video['height']) && (($video['width'] / $video['height']) > 1.76)) {
-                    $responsiveclass .= " widescreen";
+                    $responsiveclass .= ' widescreen';
                 }
 
-                if (strpos($video['url'], "vimeo") !== false) {
-                    $responsiveclass .= " vimeo";
+                if (strpos($video['url'], 'vimeo') !== false) {
+                    $responsiveclass .= ' vimeo';
                 }
 
                 $video['responsive'] = sprintf('<div class="%s">%s</div>', $responsiveclass, $video['html']);
@@ -389,8 +389,8 @@ trait ContentValuesTrait
                 $this->values[$key] = $video;
             }
 
-            if ($this->fieldtype($key) == "date" || $this->fieldtype($key) == "datetime") {
-                if ($this->values[$key] === "") {
+            if ($this->fieldtype($key) == 'date' || $this->fieldtype($key) == 'datetime') {
+                if ($this->values[$key] === '') {
                     $this->values[$key] = null;
                 }
             }
@@ -443,7 +443,7 @@ trait ContentValuesTrait
             if ($this['status']) {
                 $values['status'] = $this['status'];
             } else {
-                $values['status'] = "draft";
+                $values['status'] = 'draft';
             }
         }
 

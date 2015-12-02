@@ -101,8 +101,10 @@ $navbar-padding-horizontal: 0;
 /**
  * Bolt User Interface Components.
  */
+@import "buic/browser";
 @import "buic/checkbox";
 @import "buic/listing";
+@import "buic/modal";
 @import "buic/moment";
 @import "buic/progress";
 @import "buic/select";

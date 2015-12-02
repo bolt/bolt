@@ -461,9 +461,6 @@ field:
         placeholder:
             address: "Gata, postkod, stad eller annan plats"
     slug:
-        message:
-            set: "Sätt permalänken till:"
-            unlock: "Är du säker på att du vill låsa upp permalänken? Detta kan bryta befintliga länkar till dokumentet."
         permalink: "Permalänk"
     video:
         button:

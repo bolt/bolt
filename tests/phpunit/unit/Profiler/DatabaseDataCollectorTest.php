@@ -35,7 +35,7 @@ class DatabaseDataCollectorTest extends BoltUnitTest
     {
         $debug = new DebugStack();
         $data = new DatabaseDataCollector($debug);
-        $debug->startQuery("PRAGMA test");
+        $debug->startQuery('PRAGMA test');
         $debug->stopQuery();
 
         $app = $this->getApp();

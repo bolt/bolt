@@ -4,12 +4,12 @@ namespace Bolt\Controllers;
 use Bolt\Controller\Requirement;
 
 /**
- * @deprecated since version 2.3, use {@see Bolt\Controller\Requirement} instead.
+ * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see Bolt\Controller\Requirement} instead.
  */
 class Routing extends Requirement
 {
     /**
-     * @deprecated since version 2.3, use {@see Bolt\Controller\Requirement::anyContentType} instead.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see Bolt\Controller\Requirement::anyContentType} instead.
      */
     public function getAnyContentTypeRequirement()
     {
@@ -17,7 +17,7 @@ class Routing extends Requirement
     }
 
     /**
-     * @deprecated since version 2.3, use {@see Bolt\Controller\Requirement::pluralContentTypes} instead.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see Bolt\Controller\Requirement::pluralContentTypes} instead.
      */
     public function getPluralContentTypeRequirement()
     {
@@ -25,7 +25,7 @@ class Routing extends Requirement
     }
 
     /**
-     * @deprecated since version 2.3, use {@see Bolt\Controller\Requirement::anyTaxonomyType} instead.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see Bolt\Controller\Requirement::anyTaxonomyType} instead.
      */
     public function getAnyTaxonomyTypeRequirement()
     {
@@ -33,7 +33,7 @@ class Routing extends Requirement
     }
 
     /**
-     * @deprecated since version 2.3, use {@see Bolt\Controller\Requirement::pluralTaxonomyTypes} instead.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see Bolt\Controller\Requirement::pluralTaxonomyTypes} instead.
      */
     public function getPluralTaxonomyTypeRequirement()
     {
@@ -41,7 +41,7 @@ class Routing extends Requirement
     }
 
     /**
-     * @deprecated since version 2.3, use {@see Bolt\Controller\Requirement::singleTaxonomy} instead.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see Bolt\Controller\Requirement::singleTaxonomy} instead.
      *
      * @param string $taxonomyName
      * @param string $emptyValue

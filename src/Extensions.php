@@ -497,7 +497,7 @@ class Extensions
     /**
      * Get the extension base URL.
      *
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @return string
      */
@@ -509,7 +509,7 @@ class Extensions
     /**
      * Get the extension base path.
      *
-     * @deprecated since 2.3 will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @return string
      */
@@ -586,7 +586,7 @@ class Extensions
             'exception' => $e,
         ];
 
-        $this->app['logger.system']->addRecord($level, sprintf("%s for %s: %s", $msg, $extensionName, $e->getMessage()), $context);
+        $this->app['logger.system']->addRecord($level, sprintf('%s for %s: %s', $msg, $extensionName, $e->getMessage()), $context);
 
         $this->app['logger.flash']->error(
             Trans::__("[Extension error] $msg for %ext%: %error%", ['%ext%' => $extensionName, '%error%' => $e->getMessage()])

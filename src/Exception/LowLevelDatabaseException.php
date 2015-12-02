@@ -28,8 +28,8 @@ TEXT;
     {
         return new static(
             sprintf(
-                "%s was selected as the database type, but the driver does not exist or is not loaded. " .
-                "Please install the %s driver.",
+                '%s was selected as the database type, but the driver does not exist or is not loaded. ' .
+                'Please install the %s driver.',
                 $name,
                 $driver
             )
@@ -45,7 +45,7 @@ TEXT;
     {
         return new static(
             "There is no <code>password</code> set for the database connection, and you're using user 'root'.<br/> " .
-            "That must surely be a mistake, right? " .
+            'That must surely be a mistake, right? ' .
             "Bolt will stubbornly refuse to run until you've set a password for 'root'."
         );
     }
@@ -74,7 +74,7 @@ TEXT;
     {
         return new static(
             sprintf(
-                "The database %s <code>%s</code> %s. " .
+                'The database %s <code>%s</code> %s. ' .
                 "Make sure it's present and writable to the user that the webserver is using.",
                 $type,
                 $path,

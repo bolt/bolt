@@ -23,13 +23,13 @@ class FilePermissionsTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $fp = new FilePermissions($app);
-        $hiddenFile = ".bashrc";
+        $hiddenFile = '.bashrc';
         $this->assertFalse($fp->allowedUpload($hiddenFile));
 
-        $badExtension = "evil.exe";
+        $badExtension = 'evil.exe';
         $this->assertFalse($fp->allowedUpload($badExtension));
 
-        $okFile = "mycoolimage.jpg";
+        $okFile = 'mycoolimage.jpg';
         $this->assertTrue($fp->allowedUpload($okFile));
     }
 }

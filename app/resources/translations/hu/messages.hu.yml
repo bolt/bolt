@@ -509,9 +509,6 @@ field:
         placeholder:
             address: "Utca, irsz., város vagy egyéb hely"
     slug:
-        message:
-            set: "Slug beállítása:"
-            unlock: "Biztos hogy feloldod? Ez hatással lehet a már ide mutató linkek működésére."
         permalink: "Permalink"
         unique-alias: "Egyedi álnév"
     video:

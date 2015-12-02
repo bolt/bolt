@@ -8,30 +8,51 @@
         "url": "https://github.com/bolt/bolt.git"
     },
     "devDependencies": {
-        "autoprefixer": "~6.1.0",
+        "autoprefixer": "~6.1.2",
+        "backbone": "~1.2.3",
+        "blueimp-file-upload": "9.11.2",
+        "bootbox": "~4.4.0",
+        "bootstrap-sass": "~3.3.6",
         "css-mqpacker": "~4.0.0",
         "csswring": "~4.0.0",
         "deep-extend": "~0.4.0",
+        "font-awesome": "~4.5.0",
         "grunt": "~0.4.5",
         "grunt-bom-removal": "~0.2.0",
-        "grunt-bootlint": "~0.9.1",
+        "grunt-bootlint": "~0.10.0",
         "grunt-contrib-concat": "~0.5.1",
         "grunt-contrib-copy": "~0.8.2",
         "grunt-contrib-jshint": "~0.11.3",
-        "grunt-contrib-uglify": "~0.10.1",
+        "grunt-contrib-uglify": "~0.11.0",
         "grunt-contrib-watch": "~0.6.1",
-        "grunt-endline": "~0.4.0",
+        "grunt-endline": "~0.4.1",
         "grunt-eol": "~0.2.0",
         "grunt-html": "~5.0.1",
-        "grunt-jsdoc": "~1.0.0",
+        "grunt-jsdoc": "~1.1.0",
         "grunt-phpdocumentor": "~0.4.1",
         "grunt-postcss": "~0.7.1",
         "grunt-remove": "~0.1.0",
+        "jquery": "~2.1.4",
+        "jquery-formatdatetime": "~1.1.6",
+        "jquery.cookie": "~1.4.1",
         "load-grunt-config": "~0.19.0",
         "load-grunt-tasks": "~3.3.0",
+        "magnific-popup": "~1.0.0",
         "modernizr": "~3.2.0",
+        "moment": "~2.10.6",
+        "napa": "~2.0.2",
         "node-sass": "~3.4.2",
         "postcss-single-charset": "~1.0.0",
-        "request": "~2.65.0"
+        "request": "~2.67.0",
+        "select2": "~4.0.1",
+        "underscore": "~1.8.3"
+    },
+    "scripts": {
+        "install": "napa"
+    },
+    "napa": {
+        "jquery-ui": "git+https://github.com/jquery/jquery-ui.git#1.11.4",
+        "jquery.tagcloud.js": "git+https://github.com/addywaddy/jquery.tagcloud.js.git",
+        "source-sans-pro": "git+https://github.com/adobe-fonts/source-sans-pro.git#2.020R-ro/1.075R-it"
     }
 }

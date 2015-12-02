@@ -28,34 +28,34 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
         return [
             // A regular "word"
             [
-                "this",
+                'this',
                 [
                     ['type' => PermissionParser::T_QUERY, 'capture' => 'this']
                 ]
             ],
             // Words follow a certain pattern
             [
-                "this:is:also:valid",
+                'this:is:also:valid',
                 [
                     ['type' => PermissionParser::T_QUERY, 'capture' => 'this:is:also:valid']
                 ]
             ],
             [
-                "so-is:this:6",
+                'so-is:this:6',
                 [
                     ['type' => PermissionParser::T_QUERY, 'capture' => 'so-is:this:6']
                 ]
             ],
             // Properly end words
             [
-                "this)",
+                'this)',
                 [
                     ['type' => PermissionParser::T_QUERY, 'capture' => 'this'],
                     ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null]
                 ]
             ],
             [
-                "this||",
+                'this||',
                 [
                     ['type' => PermissionParser::T_QUERY, 'capture' => 'this'],
                     ['type' => PermissionParser::T_OR, 'capture' => null]
@@ -63,90 +63,90 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
             ],
             // Do not mistake this for "and"
             [
-                "andz",
+                'andz',
                 [
                     ['type' => PermissionParser::T_QUERY, 'capture' => 'andz']
                 ]
             ],
             // Variations of the "true" token
             [
-                "true",
+                'true',
                 [
                     ['type' => PermissionParser::T_TRUE, 'capture' => null]
                 ]
             ],
             [
-                "TRUE",
+                'TRUE',
                 [
                     ['type' => PermissionParser::T_TRUE, 'capture' => null]
                 ]
             ],
             [
-                "True",
+                'True',
                 [
                     ['type' => PermissionParser::T_TRUE, 'capture' => null]
                 ]
             ],
             [
-                "trUe",
+                'trUe',
                 [
                     ['type' => PermissionParser::T_TRUE, 'capture' => null]
                 ]
             ],
             // Variations of the "false" token
             [
-                "false",
+                'false',
                 [
                     ['type' => PermissionParser::T_FALSE, 'capture' => null]
                 ]
             ],
             [
-                "FALSE",
+                'FALSE',
                 [
                     ['type' => PermissionParser::T_FALSE, 'capture' => null]
                 ]
             ],
             [
-                "False",
+                'False',
                 [
                     ['type' => PermissionParser::T_FALSE, 'capture' => null]
                 ]
             ],
             [
-                "fAlsE",
+                'fAlsE',
                 [
                     ['type' => PermissionParser::T_FALSE, 'capture' => null]
                 ]
             ],
             // Variations of the "and" token
             [
-                "and",
+                'and',
                 [
                     ['type' => PermissionParser::T_AND, 'capture' => null]
                 ]
             ],
             [
-                "aNd",
+                'aNd',
                 [
                     ['type' => PermissionParser::T_AND, 'capture' => null]
                 ]
             ],
             [
-                "&",
+                '&',
                 [
                     ['type' => PermissionParser::T_AND, 'capture' => null]
                 ]
             ],
             // also skip over spaces
             [
-                "&& ",
+                '&& ',
                 [
                     ['type' => PermissionParser::T_AND, 'capture' => null]
                 ]
             ],
             // but treat space-separated tokens separately
             [
-                "& &",
+                '& &',
                 [
                     ['type' => PermissionParser::T_AND, 'capture' => null],
                     ['type' => PermissionParser::T_AND, 'capture' => null]
@@ -154,26 +154,26 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
             ],
             // variations of "or"
             [
-                "or",
+                'or',
                 [
                     ['type' => PermissionParser::T_OR, 'capture' => null]
                 ]
             ],
             [
-                "|",
+                '|',
                 [
                     ['type' => PermissionParser::T_OR, 'capture' => null]
                 ]
             ],
             [
-                " ||",
+                ' ||',
                 [
                     ['type' => PermissionParser::T_OR, 'capture' => null]
                 ]
             ],
             // combined "and" & "or"
             [
-                "&||",
+                '&||',
                 [
                     ['type' => PermissionParser::T_AND, 'capture' => null],
                     ['type' => PermissionParser::T_OR, 'capture' => null]
@@ -181,20 +181,20 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
             ],
             // parens
             [
-                "(",
+                '(',
                 [
                     ['type' => PermissionParser::T_OPEN_PARENS, 'capture' => null]
                 ]
             ],
             [
-                ")",
+                ')',
                 [
                     ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null]
                 ]
             ],
             // something complex, putting it all together
             [
-                "this or (that and something&else ))",
+                'this or (that and something&else ))',
                 [
                     ['type' => PermissionParser::T_QUERY, 'capture' => 'this'],
                     ['type' => PermissionParser::T_OR, 'capture' => null],
@@ -226,26 +226,26 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
         return [
             // A single query
             [
-                "this",
+                'this',
                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
             ],
             // Parentheses around a single query should not make a difference.
             [
-                "(this)",
+                '(this)',
                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
             ],
             [
-                "(((this)))",
+                '(((this)))',
                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
             ],
             // Neither should whitespace.
             [
-                "(((    this) ))",
+                '(((    this) ))',
                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
             ],
             // OR query
             [
-                "this or that",
+                'this or that',
                 ['type' => PermissionParser::P_OR, 'value' =>
                     [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
@@ -255,7 +255,7 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
             ],
             // AND query
             [
-                "this and that",
+                'this and that',
                 ['type' => PermissionParser::P_AND, 'value' =>
                     [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
@@ -265,7 +265,7 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
             ],
             // sequences of "ands" should collapse into one
             [
-                "this and that and something",
+                'this and that and something',
                 ['type' => PermissionParser::P_AND, 'value' =>
                     [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
@@ -276,7 +276,7 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
             ],
             // combined AND/OR query with precedence ("or" binds tighter than "and")
             [
-                "this and that or something",
+                'this and that or something',
                 ['type' => PermissionParser::P_AND, 'value' =>
                     [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
@@ -290,7 +290,7 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             [
-                "this or that and something",
+                'this or that and something',
                 ['type' => PermissionParser::P_AND, 'value' =>
                     [
                         ['type' => PermissionParser::P_OR, 'value' =>
@@ -305,7 +305,7 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
             ],
             // parentheses to override precedence explicitly
             [
-                "this or (that and something)",
+                'this or (that and something)',
                 ['type' => PermissionParser::P_OR, 'value' =>
                     [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],

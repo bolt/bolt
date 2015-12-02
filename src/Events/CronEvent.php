@@ -92,7 +92,7 @@ class CronEvent extends Event
         // Trim change log files
         $this->app['logger.manager']->trim('change');
 
-        $this->notify("Trimming logs");
+        $this->notify('Trimming logs');
     }
 
     /**

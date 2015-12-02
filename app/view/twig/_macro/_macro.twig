@@ -179,7 +179,6 @@
     {% from _self import attr %}
 
     {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
-    {% set href = paths.async ~ 'browse/files' ~ (uploadpath ? '/' ~ uploadpath : '' ) %}
 
     <div class="button-wrap fileselectbuttongroup">
 
@@ -200,10 +199,17 @@
         {% endif %}
 
         {# Button: Select from Server #}
-        <button type="button" class="btn btn-tertiary btn-sm" data-target="#modal-server-select" data-modal-source="{{ href }}" data-toggle="modal">
-            <i class="fa fa-download"></i>
-            {{ __('field.general.select-from-server') }}
-        </button>
+        {% set attr = {
+            'class': 'btn btn-tertiary btn-sm',
+            'data-bolt-widget': {
+                buicBrowser: {
+                    namespace: 'files',
+                    path: uploadpath,
+                },
+            },
+            'type': 'button',
+        } %}
+        <button{{ hattr(attr) }}><i class="fa fa-download"></i> {{ __('field.general.select-from-server') }}</button>
 
         {# Button: Select from Stack #}
         {% if not app.config.get('general/backend/stack/disable', false) and items %}

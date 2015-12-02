@@ -47,6 +47,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 $this->app->boot();
             }
         }
+
         return $this->app;
     }
 
@@ -134,7 +135,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $user = [
             'username'    => $username,
             'password'    => 'password',
-            'email'       => $username.'@example.com',
+            'email'       => $username . '@example.com',
             'displayname' => $displayname,
             'roles'       => [$role],
         ];

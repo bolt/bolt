@@ -7,23 +7,39 @@
 
 {#=== INIT ===========================================================================================================#}
 
+{% set is_empty = context.content.get(contentkey) == '' %}
+{% set has_uses = option.uses|length > 0 %}
+
+{% if is_empty %}
+    {% set mode = has_uses ? 'linked' : 'editable' %}
+{% else %}
+    {% set mode = 'locked' %}
+{% endif %}
+
+{% set uses = [] %}
+{% for key in option.uses %}
+    {% set uses = uses|merge([context.contenttype.fields[key].label ?: key|ucfirst]) %}
+{% endfor %}
+
+
 {% set attributes = {
     slug: {
-        class: 'form-control',
-        id:    key,
-        name:  name,
-        type:  'hidden',
-        value: context.content.get(key),
+        class:     'form-control',
+        id:        key,
+        name:      name,
+        readonly:  mode != 'editable',
+        type:      'text',
+        value:     context.content.get(key),
     }
 } %}
 
 {% set trans = {
     label_alias:     __('field.slug.unique-alias'),
     label_permalink: __('field.slug.permalink'),
-    menu_copy:       __('field.slug.button.copy'),
     menu_edit:       __('field.slug.button.edit'),
+    menu_link:       __('field.slug.button.link'),
     menu_lock:       __('field.slug.button.lock'),
-    menu_unlock:     __('field.slug.button.unlock'),
+    warning:         __('field.slug.message.warning'),
 } %}
 
 {#=== FIELDSET =======================================================================================================#}
@@ -32,7 +48,6 @@
 
 {% set fieldset_conf = {
     contentId: context.content.id,
-    isEmpty:   (context.content.get(contentkey) == ''),
     key:       key,
     slug:      context.content.contenttype.slug,
     uses:      option.uses,
@@ -46,28 +61,34 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-12">
-        <div class="input-group locked">
-            <span class="input-group-addon"><span class="prefix">/{{ context.content.contenttype }}/</span><em>{{ context.content.get(contentkey) }}</em></span>
+        <div class="input-group {{ mode }}">
+            <span class="input-group-addon">/{{ context.content.contenttype }}/</span>
+
             <input{{ macro.attr(attributes.slug) }}>
+
             <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="copy">
-                        <a href="#"><i class="fa fa-fw fa-copy"></i> {{ trans.menu_copy }}</a>
-                    </li>
-                    <li class="lock">
+                    <li class="lock{{ mode == 'locked' ? ' disabled' : '' }}">
                         <a href="#"><i class="fa fa-fw fa-lock"></i> {{ trans.menu_lock }}</a>
                     </li>
-                    <li class="unlock">
-                        <a href="#"><i class="fa fa-fw fa-unlock-alt"></i> {{ trans.menu_unlock }} …</a>
-                    </li>
-                    <li class="edit">
-                        <a href="#"><i class="fa fa-fw fa-pencil"></i> {{ trans.menu_edit }} …</a>
+                    {% if option.uses|length %}
+                        <li class="link{{ mode == 'linked' ? ' disabled' : '' }}">
+                            <a href="#"><i class="fa fa-fw fa-link"></i> <span>{{ trans.menu_link }} <var>{{ uses|join(' + ')}}</var></span></a>
+                        </li>
+                    {% endif %}
+                    <li class="edit{{ mode == 'editable' ? ' disabled' : '' }}">
+                        <a href="#"><i class="fa fa-fw fa-pencil"></i> {{ trans.menu_edit }}</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+    {% if not is_empty %}
+        <div class="col-sm-12 warning hidden">
+            <i class="fa fa-exclamation-triangle"></i> {{ trans.warning }}
+        </div>
+    {% endif %}
 {% endblock fieldset_controls %}

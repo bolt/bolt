@@ -107,27 +107,42 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $check = $this->getCleanChecker();
         $check->magicQuotes = true;
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doChecks();
+
+        try {
+            $check->doChecks();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/Bolt requires 'Magic Quotes' to be off/", $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testSafeModeException()
     {
         $check = $this->getCleanChecker();
         $check->safeMode = true;
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doChecks();
+
+        try {
+            $check->doChecks();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/Bolt requires 'Safe mode' to be off/", $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testApacheChecks()
     {
         $check = $this->getCleanChecker();
         $check->isApache = true;
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doChecks();
+
+        try {
+            $check->doChecks();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/.htaccess doesn't exist. Make sure it's present and readable to the user that the webserver is using./", $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testApacheCheckCanBeDisabled()
@@ -142,9 +157,14 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $check = $this->getMockedChecker('mockMysql');
         $check->mysqlLoaded = false;
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doDatabaseCheck();
+
+        try {
+            $check->doDatabaseCheck();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp('/MySQL was selected as the database type, but the driver does not exist or is not loaded/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testGoodMysql()
@@ -172,26 +192,41 @@ class LowlevelChecksTest extends BoltUnitTest
     {
         $check = $this->getMockedChecker('mockPostgres');
         $check->postgresLoaded = false;
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doDatabaseCheck();
+
+        try {
+            $check->doDatabaseCheck();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp('/PostgreSQL was selected as the database type, but the driver does not exist or is not loaded/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testPlatformFailsSqlite()
     {
         $check = $this->getMockedChecker('mockSqlite');
         $check->sqliteLoaded = false;
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doDatabaseCheck();
+
+        try {
+            $check->doDatabaseCheck();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp('/SQLite was selected as the database type, but the driver does not exist or is not loaded/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testPlatformUnsupported()
     {
         $check = $this->getMockedChecker('mockUnsupportedPlatform');
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/database type, but it is not supported/");
-        $check->doDatabaseCheck();
+
+        try {
+            $check->doDatabaseCheck();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp('/was selected as the database type, but it is not supported/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testGoodSqliteFile()
@@ -249,9 +284,13 @@ class LowlevelChecksTest extends BoltUnitTest
             ->with('test/bolt.db')
             ->will($this->returnValue(false));
 
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/is not writable/");
-        $check->doDatabaseCheck();
+        try {
+            $check->doDatabaseCheck();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/The database file test\/bolt.db is not writable. Make sure it's present and writable to the user that the webserver is using./", $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testSqliteNonexistentDir()
@@ -269,9 +308,13 @@ class LowlevelChecksTest extends BoltUnitTest
             ->with('test')
             ->will($this->returnValue(false));
 
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/does not exist/");
-        $check->doDatabaseCheck();
+        try {
+            $check->doDatabaseCheck();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/The database folder test does not exist. Make sure it's present and writable to the user that the webserver is using./", $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testSqliteUnwritableDir()
@@ -295,33 +338,52 @@ class LowlevelChecksTest extends BoltUnitTest
             ->with('test')
             ->will($this->returnValue(false));
 
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/is not writable/");
-        $check->doDatabaseCheck();
+        try {
+            $check->doDatabaseCheck();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/The database folder test is not writable. Make sure it's present and writable to the user that the webserver is using./", $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testDbFailsAsRootWithoutPassword()
     {
         $check = $this->getMockedChecker('mockRoot');
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt will stubbornly refuse to run until you've set a password/");
-        $check->doDatabaseCheck();
+
+        try {
+            $check->doDatabaseCheck();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/There is no password set for the database connection, and you're using user 'root'. That must surely be a mistake, right\? Bolt will stubbornly refuse to run until you've set a password for 'root'./", $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testEmptyDb()
     {
         $check = $this->getMockedChecker('mockEmptyDb');
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doDatabaseCheck();
+
+        try {
+            $check->doDatabaseCheck();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp('/There is no databasename set for your database/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testEmptyDbUser()
     {
         $check = $this->getMockedChecker('mockEmptyUser');
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doDatabaseCheck();
+
+        try {
+            $check->doDatabaseCheck();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp('/There is no username set for your database/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testCoreFatalErrorCatch()
@@ -331,7 +393,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['core']));
 
-        $this->expectOutputRegex("/PHP Fatal Error: Bolt Core/");
+        $this->expectOutputRegex('/PHP Fatal Error: Bolt Core/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
@@ -346,7 +408,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->will($this->returnValue($this->errorResponses['vendor']));
 
         $app = $this->getApp();
-        $this->expectOutputRegex("/PHP Fatal Error: Vendor Library/");
+        $this->expectOutputRegex('/PHP Fatal Error: Vendor Library/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
@@ -357,7 +419,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['extension']));
 
-        $this->expectOutputRegex("/PHP Fatal Error: Bolt Extensions/");
+        $this->expectOutputRegex('/PHP Fatal Error: Bolt Extensions/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
@@ -371,17 +433,22 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['unknown']));
 
-        $this->expectOutputRegex("/PHP Fatal Error: Bolt Generic/");
+        $this->expectOutputRegex('/PHP Fatal Error: Bolt Generic/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
     public function testAssertWritableDir()
     {
-        $badDir = "/path/to/nowhere";
+        $badDir = '/path/to/nowhere';
         $check = $this->getCleanChecker();
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->assertWritableDir($badDir);
+
+        try {
+            $check->assertWritableDir($badDir);
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/The folder \/path\/to\/nowhere doesn't exist. Make sure it is present and writable to the user that the webserver is using./", $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testConfigFileAlreadyExistsSoIgnore()
@@ -425,9 +492,13 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('is_readable')
             ->will($this->returnValue(false));
 
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Bolt - Fatal Error/");
-        $check->doChecks();
+        try {
+            $check->doChecks();
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp("/Couldn't read config.yml/", $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     // This helper provides a mocked checker object with the config values preset

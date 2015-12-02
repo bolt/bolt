@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Library;
 
+use Bolt\Exception\LowlevelException;
 use Bolt\Library;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,7 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testGetExtension()
     {
-        $file = "picture-of-kittens.jpg";
+        $file = 'picture-of-kittens.jpg';
         $this->assertEquals('jpg', Library::getExtension($file));
 
         $empty = '/path/to/noext';
@@ -38,11 +39,11 @@ class BoltLibraryTest extends BoltUnitTest
 
     public function testSafeFilename()
     {
-        $abs = "/etc/passwd";
+        $abs = '/etc/passwd';
         $this->assertEquals('etc/passwd', Library::safeFilename($abs));
 
         // Test urlparams get encoded
-        $urlparams = "%2F..%2F..%2Fsecretfile.txt";
+        $urlparams = '%2F..%2F..%2Fsecretfile.txt';
         $this->assertEquals('%252F..%252F..%252Fsecretfile.txt', Library::safeFilename($urlparams));
     }
 
@@ -70,8 +71,8 @@ class BoltLibraryTest extends BoltUnitTest
         $app->run();
         $this->expectOutputRegex('#Redirecting to /bolt/#');
 
-        $basic = "homepage";
-        $this->assertEquals("/", Library::path($basic));
+        $basic = 'homepage';
+        $this->assertEquals('/', Library::path($basic));
 
         $this->assertEquals(
             '/pages/content',
@@ -81,8 +82,8 @@ class BoltLibraryTest extends BoltUnitTest
             )
         );
 
-        $query = "testing=yes";
-        $this->assertEquals("/search?testing=yes", Library::path("search", [], $query));
+        $query = 'testing=yes';
+        $this->assertEquals('/search?testing=yes', Library::path('search', [], $query));
     }
 
     public function testRedirect()
@@ -106,7 +107,7 @@ class BoltLibraryTest extends BoltUnitTest
     public function testRedirectLocation()
     {
         $app = $this->getApp();
-        $request = Request::create("/");
+        $request = Request::create('/');
         $app->handle($request);
         $app['request'] = $request;
 
@@ -127,8 +128,8 @@ class BoltLibraryTest extends BoltUnitTest
         }
 
         $app = $this->getApp();
-        $this->expectOutputRegex("/Redirecting to/i");
-        $redirect = Library::simpleredirect("/test", false);
+        $this->expectOutputRegex('/Redirecting to/i');
+        $redirect = Library::simpleredirect('/test', false);
         $this->assertContains('location: /test', xdebug_get_headers());
     }
 
@@ -143,8 +144,8 @@ class BoltLibraryTest extends BoltUnitTest
         }
 
         $app = $this->getApp();
-        $this->expectOutputRegex("/Redirecting to/i");
-        $redirect = Library::simpleredirect("", false);
+        $this->expectOutputRegex('/Redirecting to/i');
+        $redirect = Library::simpleredirect('', false);
         $this->assertContains('location: /', xdebug_get_headers());
     }
 
@@ -156,7 +157,7 @@ class BoltLibraryTest extends BoltUnitTest
         $app = $this->getApp();
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', "Redirecting to '/test2'.");
         $this->expectOutputString("<p>Redirecting to <a href='/test2'>/test2</a>.</p><script>window.setTimeout(function () { window.location='/test2'; }, 500);</script>");
-        $redirect = Library::simpleredirect("/test2", true);
+        $redirect = Library::simpleredirect('/test2', true);
     }
 
     public function testSaveSerialize()
@@ -172,9 +173,16 @@ class BoltLibraryTest extends BoltUnitTest
         $file = PHPUNIT_ROOT . '/resources/data.php';
         $fp = fopen($file, 'a');
         flock($fp, LOCK_EX);
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/Could not lock/i");
-        $response = Library::saveSerialize($file, $data);
+
+        try {
+            Library::saveSerialize($file, $data);
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp('/Error opening file/', $e->getMessage());
+            $this->assertRegExp('/Could not lock/', $e->getMessage());
+            $this->assertRegExp('/Try logging in with your FTP client and check to see if it is chmodded to be readable by the webuser/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testSaveSerializeErrors()
@@ -197,9 +205,14 @@ class BoltLibraryTest extends BoltUnitTest
     public function testLoadSerializeErrors()
     {
         $file = TEST_ROOT . '/non/existent/path/data.php';
-        $this->setExpectedException('Bolt\Exception\LowlevelException');
-        $this->expectOutputRegex("/File is not readable/i");
-        $this->assertTrue(Library::loadSerialize($file));
+
+        try {
+            $this->assertTrue(Library::loadSerialize($file));
+            $this->fail('Bolt\Exception\LowlevelException not thrown');
+        } catch (LowlevelException $e) {
+            $this->assertRegExp('/File is not readable!/', $e->getMessage());
+            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+        }
     }
 
     public function testLoadSerializeErrorsSilently()
@@ -232,7 +245,7 @@ class BoltLibraryTest extends BoltUnitTest
         $data = "\r\n" . serialize('string');
         file_put_contents($file, $data);
         $data = Library::loadSerialize($file);
-        $this->assertEquals("string", $data);
+        $this->assertEquals('string', $data);
         unlink($file);
     }
 
@@ -242,7 +255,7 @@ class BoltLibraryTest extends BoltUnitTest
         $data = "\n\n" . serialize('string');
         file_put_contents($file, $data);
         $data = Library::loadSerialize($file);
-        $this->assertEquals("string", $data);
+        $this->assertEquals('string', $data);
         unlink($file);
     }
 

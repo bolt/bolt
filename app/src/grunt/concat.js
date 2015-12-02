@@ -98,10 +98,9 @@ module.exports = function (grunt, option) {
                 '<%= path.tmp %>/jquery.fileupload-process.min.js',             //   2 kb
                 '<%= path.tmp %>/jquery.fileupload-validate.min.js',            //   2 kb
                 '<%= path.tmp %>/bootstrap.min.js',                             //  24 kb
-                '<%= path.src.bower %>/select2/dist/js/select2.min.js',         //  62 kb
+                '<%= path.src.npm %>/select2/dist/js/select2.min.js',           //  62 kb
                 '<%= path.tmp %>/moment.min.js',                                //  35 kb
                 '<%= path.tmp %>/modernizr-custom.min.js',                      //   5 kb
-                '<%= path.src.bower %>/clipboard/dist/clipboard.min.js'         //   8 kb
             ],
             dest: '<%= path.dest.js %>/lib.js'
         },
@@ -118,10 +117,10 @@ module.exports = function (grunt, option) {
             src: [
                 '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.structure.css',
                 '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.theme.css',
-                '<%= path.src.bower %>/select2/dist/css/select2.css',
-                '<%= path.src.bower %>/blueimp-file-upload/css/jquery.fileupload.css',
-                '<%= path.src.bower %>/blueimp-file-upload/css/jquery.fileupload-ui.css',
-                '<%= path.src.bower %>/magnific-popup/dist/magnific-popup.css'
+                '<%= path.src.npm %>/select2/dist/css/select2.css',
+                '<%= path.src.npm %>/blueimp-file-upload/css/jquery.fileupload.css',
+                '<%= path.src.npm %>/blueimp-file-upload/css/jquery.fileupload-ui.css',
+                '<%= path.src.npm %>/magnific-popup/dist/magnific-popup.css'
             ],
             dest: '<%= path.dest.css %>/lib.css'
         }

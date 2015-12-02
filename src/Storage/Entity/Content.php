@@ -39,7 +39,7 @@ class Content extends Entity
     protected $relation;
     protected $taxonomy;
 
-    /** @var array @deprecated Since v2.3 will be removed in v3.0 */
+    /** @var array @deprecated Deprecated since 3.0, to be removed in 4.0. */
     protected $group;
     protected $sortorder;
 

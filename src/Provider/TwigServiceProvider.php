@@ -53,7 +53,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                 function ($filesystem, $app) {
                     $filesystem->addPath($app['resources']->getPath('app/view/twig'), 'bolt');
 
-                    // @deprecated Since Bolt 2.3 and will be removed in Bolt 3.
+                    /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
                     $filesystem->addPath($app['resources']->getPath('app/view/twig'));
 
                     return $filesystem;

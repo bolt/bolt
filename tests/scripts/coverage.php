@@ -445,7 +445,7 @@ class Git
             $this->output->write("<info>Pulling $remote</info>", true);
             $this->builder->setArguments(['pull', $remote]);
         } else {
-            $this->output->write("<info>Pulling branches remote</info>", true);
+            $this->output->write('<info>Pulling branches remote</info>', true);
             $this->builder->setArguments(['pull']);
         }
 
@@ -503,7 +503,7 @@ class Git
      */
     public function fetchAll()
     {
-        $this->output->write("<info>Fetching all</info>", true);
+        $this->output->write('<info>Fetching all</info>', true);
 
         $process = $this->builder->setArguments(['fetch', '--all'])
             ->getProcess()

@@ -14,7 +14,7 @@ use Symfony\Component\Stopwatch;
 class Application extends Silex\Application
 {
     /**
-     * @deprecated Since 2.3, to be removed in 3.0. Use $app['locale_fallbacks'] instead.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use $app['locale_fallbacks'] instead.
      */
     const DEFAULT_LOCALE = 'en_GB';
 
@@ -23,8 +23,8 @@ class Application extends Silex\Application
      */
     public function __construct(array $values = [])
     {
-        $values['bolt_version'] = '2.3.0';
-        $values['bolt_name'] = 'alpha 5';
+        $values['bolt_version'] = '3.0.0';
+        $values['bolt_name'] = 'alpha 1';
         $values['bolt_released'] = false; // `true` for stable releases, `false` for alpha, beta and RC.
         $values['bolt_long_version'] = function ($app) {
             return $app['bolt_version'] . ' ' . $app['bolt_name'];
@@ -137,7 +137,7 @@ class Application extends Silex\Application
     }
 
     /**
-     * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     protected function checkDatabaseConnection()
     {
@@ -266,35 +266,35 @@ class Application extends Silex\Application
     }
 
     /**
-     * @deprecated To be removed in Bolt 3.0. Use {@see ControllerEvents::MOUNT} instead.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see ControllerEvents::MOUNT} instead.
      */
     public function initMountpoints()
     {
     }
 
     /**
-     * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function beforeHandler()
     {
     }
 
     /**
-     * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function afterHandler()
     {
     }
 
     /**
-     * @deprecated since Bolt 2.3 and will be removed in Bolt 3.0.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
     public function errorHandler()
     {
     }
 
     /**
-     * @deprecated Remove with the monolithic Bolt\Storage in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @param string $name
      *
@@ -312,7 +312,7 @@ class Application extends Silex\Application
      *
      * @return string
      *
-     * @deprecated since 2.3, will be removed in 3.0
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *             Use parameters in application instead
      */
     public function getVersion($long = true)
@@ -328,7 +328,7 @@ class Application extends Silex\Application
      *
      * @return string The generated path
      *
-     * @deprecated Since 2.3, to be removed in 3.0.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *             Use {@see \Symfony\Component\Routing\Generator\UrlGeneratorInterface} instead.
      */
     public function generatePath($route, $parameters = [])

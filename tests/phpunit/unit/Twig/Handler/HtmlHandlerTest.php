@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Twig;
 
-use Bolt\Asset\Widget\Widget;
 use Bolt\Legacy\Content;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\HtmlHandler;
@@ -24,7 +23,7 @@ class HtmlHandlerTest extends BoltUnitTest
 
         $handler = new HtmlHandler($app);
 
-        $file = str_replace(TEST_ROOT .'/', '', __FILE__);
+        $file = str_replace(TEST_ROOT . '/', '', __FILE__);
         $sum = md5(__FILE__);
 
         $result = $handler->cacheHash($file);

@@ -22,7 +22,6 @@
         "Backbone": true,
         "Bolt": true,
         "CKEDITOR": true,
-        "Clipboard": true,
         "CodeMirror": true,
         "init": true,
         "JSON": true,

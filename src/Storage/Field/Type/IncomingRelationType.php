@@ -66,7 +66,7 @@ class IncomingRelationType extends RelationType
             $rel['id'] = $relData['id'];
             $rel['from_id'] = $relData['fromid'];
             $rel['from_contenttype'] = $relData['fromcontenttype'];
-            $rel['to_contenttype'] = (string)$entity->getContenttype();
+            $rel['to_contenttype'] = (string) $entity->getContenttype();
             $rel['to_id'] = $entity->getId();
             $relEntity = new Entity\Relations($rel);
             $entity->getRelation()->add($relEntity);

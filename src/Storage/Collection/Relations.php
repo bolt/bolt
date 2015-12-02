@@ -47,7 +47,7 @@ class Relations extends ArrayCollection
                     continue;
                 }
                 $newentity = new Entity\Relations([
-                    'from_contenttype' => (string)$entity->getContenttype(),
+                    'from_contenttype' => (string) $entity->getContenttype(),
                     'from_id'          => $entity->getId(),
                     'to_contenttype'   => $field,
                     'to_id'            => $val
@@ -150,7 +150,7 @@ class Relations extends ArrayCollection
     public function incoming($entity)
     {
         return $this->filter(function ($el) use ($entity) {
-            return $el->getTo_contenttype() == (string)$entity->getContenttype();
+            return $el->getTo_contenttype() == (string) $entity->getContenttype();
         });
     }
 
@@ -162,7 +162,7 @@ class Relations extends ArrayCollection
     public function offsetGet($offset)
     {
         if ($this->em === null) {
-            throw new StorageException('Unable to load collection values. Ensure that EntityManager is set on '.__CLASS__);
+            throw new StorageException('Unable to load collection values. Ensure that EntityManager is set on ' . __CLASS__);
         }
         $collection = new LazyCollection();
         $proxies = $this->getField($offset);

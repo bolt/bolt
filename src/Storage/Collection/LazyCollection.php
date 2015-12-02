@@ -25,6 +25,7 @@ class LazyCollection extends AbstractLazyCollection
     public function add($element)
     {
         $this->initialize();
+
         return $this->collection->add($element);
     }
 

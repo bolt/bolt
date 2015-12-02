@@ -65,14 +65,13 @@ class FieldLoadTest extends BoltUnitTest
         $repo = $em->getRepository('pages');
         $record = $repo->find(3);
         $tax = $em->createCollection('Bolt\Storage\Entity\Taxonomy');
-        $tax->setFromPost(['chapters'=>['main']], $record);
+        $tax->setFromPost(['chapters' => ['main']], $record);
         $record->setTaxonomy($tax);
         $repo->save($record);
         $recordSaved = $repo->find(3);
         $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $recordSaved->taxonomy['chapters']);
         $this->assertInstanceOf('Bolt\Storage\Collection\Taxonomy', $recordSaved->getChapters());
         $this->assertEquals(1, count($recordSaved->getChapters()));
-
     }
 
     protected function addSomeContent()

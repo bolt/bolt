@@ -81,7 +81,7 @@ class ExtensionsInfoService
             return ($this->format === 'json') ? json_decode($result) : (string) $result;
         } catch (\Exception $e) {
             if ($this->isRetry) {
-                $msg = "Error connecting to the Extension Marketplace:\n". $e->getMessage();
+                $msg = "Error connecting to the Extension Marketplace:\n" . $e->getMessage();
                 throw new ExtensionsInfoServiceException($msg, $e->getCode(), $e);
             }
             $this->isRetry = true;
