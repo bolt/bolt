@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig\Handler;
 
+use Bolt\Controller\Zone;
 use Silex;
 
 /**
@@ -26,11 +27,11 @@ class WidgetHandler
      * Return the number of widgets in the queue for a given type / location.
      *
      * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $zone     Either 'frontend' or 'backend'
+     * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
      * @return integer
      */
-    public function countWidgets($location = null, $zone = 'frontend')
+    public function countWidgets($location = null, $zone = Zone::FRONTEND)
     {
         if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
             throw new \InvalidArgumentException('countwidgets() requires a location, none given');
@@ -53,11 +54,11 @@ class WidgetHandler
      * Check if a type / location has widgets in the queue.
      *
      * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $zone     Either 'frontend' or 'backend'
+     * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
      * @return boolean
      */
-    public function hasWidgets($location = null, $zone = 'frontend')
+    public function hasWidgets($location = null, $zone = Zone::FRONTEND)
     {
         if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
             throw new \InvalidArgumentException('haswidgets() requires a location, none given');
@@ -70,11 +71,11 @@ class WidgetHandler
      * Renders a particular widget type on the given location.
      *
      * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $zone     Either 'frontend' or 'backend'
+     * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
      * @return \Twig_Markup|string
      */
-    public function widgets($location = null, $zone = 'frontend', $wrapper = 'widgetwrapper.twig')
+    public function widgets($location = null, $zone = Zone::FRONTEND, $wrapper = 'widgetwrapper.twig')
     {
         if ($location === null && $this->app['twig.options']['strict_variables'] === true) {
             throw new \InvalidArgumentException('widgets() requires a location, none given');

@@ -7,6 +7,7 @@ use Bolt\Asset\Injector;
 use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
+use Bolt\Controller\Zone;
 use Bolt\Render;
 use Doctrine\Common\Cache\CacheProvider;
 
@@ -96,7 +97,7 @@ class Queue implements QueueInterface
     {
         /** @var WidgetAssetInterface $widget */
         foreach ($this->queue as $widget) {
-            if ($widget->getZone() === 'frontend' && $widget->isDeferred()) {
+            if ($widget->getZone() === Zone::FRONTEND && $widget->isDeferred()) {
                 $html = $this->addDeferredJavaScript($widget, $html);
             }
         }
@@ -118,24 +119,24 @@ class Queue implements QueueInterface
      * Get the number of queued widgets.
      *
      * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $zone     Either 'frontend' or 'backend'
+     * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
      * @return boolean
      */
-    public function hasItemsInQueue($location, $zone = 'frontend')
+    public function hasItemsInQueue($location, $zone = Zone::FRONTEND)
     {
-        return (boolean) $this->countItemsInQueue($location, $zone = 'frontend');
+        return (boolean) $this->countItemsInQueue($location, $zone);
     }
 
     /**
      * Get the number of queued widgets.
      *
      * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $zone     Either 'frontend' or 'backend'
+     * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
      * @return boolean
      */
-    public function countItemsInQueue($location, $zone = 'frontend')
+    public function countItemsInQueue($location, $zone = Zone::FRONTEND)
     {
         $count = 0;
 
@@ -152,11 +153,11 @@ class Queue implements QueueInterface
      * Render a location's widget.
      *
      * @param string $location Location (e.g. 'dashboard_aside_top')
-     * @param string $zone     Either 'frontend' or 'backend'
+     * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
      * @return string|null
      */
-    public function render($location, $zone = 'frontend', $wrapperTemplate = 'widgetwrapper.twig')
+    public function render($location, $zone = Zone::FRONTEND, $wrapperTemplate = 'widgetwrapper.twig')
     {
         $widgets = [];
 
