@@ -27,7 +27,7 @@ class WidgetTest extends BoltUnitTest
             ->setPostfix('after')
             ->setPrefix('before')
             ->setPriority(0)
-            ->setType('frontend')
+            ->setZone('frontend')
         ;
 
         $this->assertSame(42, $widget->getCacheDuration());
@@ -40,7 +40,7 @@ class WidgetTest extends BoltUnitTest
         $this->assertSame('after', $widget->getPostfix());
         $this->assertSame('before', $widget->getPrefix());
         $this->assertSame(0, $widget->getPriority());
-        $this->assertSame('frontend', $widget->getType());
+        $this->assertSame('frontend', $widget->getZone());
     }
 
     public function testWidgetCasts()
@@ -62,14 +62,14 @@ class WidgetTest extends BoltUnitTest
     {
         $widget = new Widget();
 
-        $this->assertTrue(isset($widget['type']));
+        $this->assertTrue(isset($widget['zone']));
         $this->assertFalse(isset($widget['koala']));
 
-        $widget['type'] = 'koala';
-        $this->assertSame('koala', $widget['type']);
+        $widget['zone'] = 'koala';
+        $this->assertSame('koala', $widget['zone']);
 
-        unset($widget['type']);
-        $this->assertNull($widget['type']);
+        unset($widget['zone']);
+        $this->assertNull($widget['zone']);
     }
 
     public function testWidgetCastStringFromContent()

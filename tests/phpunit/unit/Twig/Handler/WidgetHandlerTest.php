@@ -18,7 +18,7 @@ class WidgetHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('gum-tree')
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
@@ -35,7 +35,7 @@ class WidgetHandlerTest extends BoltUnitTest
 
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('gum-tree')
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
@@ -52,7 +52,7 @@ class WidgetHandlerTest extends BoltUnitTest
 
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('gum-tree')
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
@@ -67,7 +67,7 @@ class WidgetHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('gum-tree')
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
@@ -87,7 +87,7 @@ class WidgetHandlerTest extends BoltUnitTest
         $this->assertFalse($handler->hasWidgets('gum-tree', 'frontend'));
 
         $widget = (new Widget())
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('gum-tree')
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
@@ -104,7 +104,7 @@ class WidgetHandlerTest extends BoltUnitTest
 
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('gum-tree')
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
@@ -120,7 +120,7 @@ class WidgetHandlerTest extends BoltUnitTest
 
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('gum-tree')
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
@@ -135,7 +135,7 @@ class WidgetHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('gum-tree')
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
@@ -154,7 +154,7 @@ class WidgetHandlerTest extends BoltUnitTest
 
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('gum-tree')
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;
@@ -171,7 +171,7 @@ class WidgetHandlerTest extends BoltUnitTest
 
         $handler = new WidgetHandler($app);
         $widget = (new Widget())
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('gum-tree')
             ->setContent('<blink>Drop Bear Warning!</blink>')
         ;

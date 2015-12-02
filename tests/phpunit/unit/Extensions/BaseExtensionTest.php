@@ -463,7 +463,7 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         ;
         $widget = new \Bolt\Asset\Widget\Widget();
         $widget
-            ->setType('frontend')
+            ->setZone('frontend')
             ->setLocation('aside_top')
         ;
 
