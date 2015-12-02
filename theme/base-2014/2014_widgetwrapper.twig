@@ -1,0 +1,41 @@
+{#
+
+Widgets are wrapped in two divs: the div for the widget itself, and one to wrap
+the _group of widgets_, for when there is more than one widget that get placed
+for a single `{{ widgets('..') }}` tag.
+
+In most cases this will give template developers enough handles to attach
+styling, but this template can be overriden. If you do so, copy this file to
+your theme's folder, and modify to you needs.
+
++---( widgetholder div )----+
+|                           |
+| +----( widget div )-----+ |
+| |                       | |
+| | Widget contents       | |
+| | (as HTML or deferred) | |
+| |                       | |
+| +-----------------------+ |
+|                           |
+| +----( widget div )-----+ |
+| |                       | |
+| | Widget contents       | |
+| | (as HTML or deferred) | |
+| |                       | |
+| +-----------------------+ |
+|                           |
++---------------------------+
+
+#}
+{% spaceless %}
+<div class="widgetholder widgetholder-{{ location|slugify }}" style="border: 2px solid #F00; padding: 4px;">
+
+    {% for widget in widgets %}
+        <div class='widget {{ widget.object.class|join(' ') }}' id='widget-{{ widget.object.key }}' data-key='{{ widget.object.key }}'
+        {%- if widget.object.defer %} data-defer='true'{% endif %}  style="border: 2px solid #0F0; padding: 4px;">
+            {{ widget.html|default('<!-- placeholder for ' ~ widget.object.key ~ ' -->')|raw }}
+        </div>
+    {% endfor %}
+
+</div>
+{% endspaceless %}
