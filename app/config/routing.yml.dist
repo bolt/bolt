@@ -82,13 +82,10 @@ contentlisting:
 
 # Example override for a specific contenttype
 
-# pagebinding:
-#     path: /{slug}
-#     defaults:
-#         _controller: controller.frontend:record
-#         contenttypeslug: page
-#     contenttype: pages
-
+#pagebinding:
+#  path:           /{slug}
+#  defaults:       { _controller: 'Bolt\Controllers\Frontend::record', 'contenttypeslug': 'page' }
+#  contenttype:    pages
 
 
 # Example single record override
