@@ -176,7 +176,7 @@ class Frontend
         // Fetch the current record, so we can show 'incoming relations' in the preview.
         $id = $request->get('id');
         if (!empty($id)) {
-            $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
+            $content = $app['storage']->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true, 'status' => '!'));
         }
 
         $content->setFromPost($request->request->all(), $contenttype);
