@@ -84,12 +84,13 @@ class FilesystemManager extends AsyncBase
             $this->flashes()->error($msg);
         }
 
-        list($files, $folders) = $filesystem->browse($path, $this->app);
+        $files = $filesystem->find()->in($path)->files()->toArray();
+        $directories = $filesystem->find()->in($path)->directories()->toArray();
 
         $context = [
             'namespace'    => $namespace,
             'files'        => $files,
-            'folders'      => $folders,
+            'directories'  => $directories,
             'pathsegments' => $pathsegments,
         ];
 
@@ -211,11 +212,21 @@ class FilesystemManager extends AsyncBase
     public function filesAutoComplete(Request $request)
     {
         $term = $request->get('term');
-        $extensions = $request->query->get('ext');
+        $extensions = implode('|', explode(',', $request->query->get('ext')));
+        $regex = sprintf('/.*(%s).*\.(%s)$/', $term, $extensions);
 
-        $files = $this->filesystem()->search($term, $extensions);
+        $files = $this->filesystem()
+            ->find()
+            ->in('files://')
+            ->name($regex)
+        ;
 
-        return $this->json($files);
+        /** @var \Bolt\Filesystem\Handler\File $file */
+        foreach ($files as $file) {
+            $result[] = $file->getPath();
+        }
+
+        return $this->json($result);
     }
 
     /**

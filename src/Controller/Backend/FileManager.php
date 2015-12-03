@@ -132,10 +132,10 @@ class FileManager extends BackendBase
         $path = rtrim($path, '/');
 
         // Defaults
-        $files      = [];
-        $folders    = [];
-        $formview   = false;
-        $uploadview = true;
+        $files       = [];
+        $directories = [];
+        $formview    = false;
+        $uploadview  = true;
 
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
@@ -193,7 +193,8 @@ class FileManager extends BackendBase
                 $formview = $form->createView();
             }
 
-            list($files, $folders) = $filesystem->browse($path, $this->app);
+            $files = $filesystem->find()->in($path)->files()->toArray();
+            $directories = $filesystem->find()->in($path)->directories()->toArray();
         }
 
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
@@ -207,7 +208,7 @@ class FileManager extends BackendBase
         $context = [
             'path'         => $path,
             'files'        => $files,
-            'folders'      => $folders,
+            'directories'  => $directories,
             'pathsegments' => $this->getPathSegments($path),
             'form'         => $formview,
             'namespace'    => $namespace,
