@@ -4,8 +4,8 @@ namespace Bolt\Provider;
 
 use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
-use Bolt\Filesystem\Plugin;
 use Bolt\Filesystem\Manager;
+use Bolt\Filesystem\Plugin;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -30,7 +30,6 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                     ],
                     [
                         new Plugin\Search(),
-                        new Plugin\Browse(),
                         new Plugin\PublicUrl($app),
                         new Plugin\Authorized($app),
                         new Plugin\ThumbnailUrl($app),
