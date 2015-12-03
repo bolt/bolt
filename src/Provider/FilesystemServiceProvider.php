@@ -29,7 +29,6 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         'extensions' => new Filesystem(new Local($app['resources']->getPath('extensions'))),
                     ],
                     [
-                        new Plugin\Search(),
                         new Plugin\PublicUrl($app),
                         new Plugin\Authorized($app),
                         new Plugin\ThumbnailUrl($app),
