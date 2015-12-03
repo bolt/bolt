@@ -99,7 +99,13 @@ class Storage
         $output = '';
 
         // get a list of images.
-        $this->images = $this->app['filesystem']->search('*', 'jpg,jpeg,png');
+        $images = $this->app['filesystem']
+            ->find()
+            ->in('files://')
+            ->name('/\.jpe?g$/')
+            ->name('*.png')
+            ->toArray()
+        ;
 
         $emptyOnly = empty($contenttypes);
 
@@ -116,7 +122,7 @@ class Storage
             $amount = isset($contenttype['prefill']) ? $contenttype['prefill'] : 5;
 
             for ($i = 1; $i <= $amount; $i++) {
-                $output .= $this->preFillSingle($key, $contenttype);
+                $output .= $this->preFillSingle($key, $contenttype, $images);
             }
         }
 
@@ -130,12 +136,13 @@ class Storage
      *
      * @see preFill
      *
-     * @param $key
-     * @param $contenttype
+     * @param string $key
+     * @param array  $contenttype
+     * @param array  $images
      *
      * @return string
      */
-    private function preFillSingle($key, $contenttype)
+    private function preFillSingle($key, $contenttype, $images)
     {
         $content = [];
         $title = '';
@@ -149,8 +156,8 @@ class Storage
         $user = $this->app['users']->getUser($username);
 
         $content['ownerid'] = $user['id'];
-
         $content['status'] = 'published';
+        shuffle($images);
 
         foreach ($contenttype['fields'] as $field => $values) {
             switch ($values['type']) {
@@ -162,8 +169,9 @@ class Storage
                     break;
                 case 'image':
                     // Get a random image
-                    if (!empty($this->images)) {
-                        $content[$field]['file'] = $this->images[array_rand($this->images)];
+                    if (!empty($images)) {
+                        $image = next($images);
+                        $content[$field]['file'] = $image->getPath();
                     }
                     break;
                 case 'html':
