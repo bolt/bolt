@@ -223,6 +223,9 @@ accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, t
 # instead. It includes file types that are harder to exploit.
 # accept_file_types: [ gif, jpg, jpeg, png, txt, md, pdf, epub, mp3, svg ]
 
+# The following is the default list of file-types that can be uploaded through the 'image' field.
+accept_image_file_types: ['gif', 'jpg', 'jpeg', 'png']
+
 # If you want to 'brand' the Bolt backend for a client, you can change some key
 # variables here, that determine the name of the backend, and adds a primary
 # support/contact link to the footer.
