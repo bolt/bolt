@@ -81,11 +81,12 @@ class FieldCollection extends AbstractLazyCollection
         return parent::add($element);
     }
 
-
     /**
      * Helper method to get the value for a specific field
      * this is compatible with content.get(contentkey) calls from twig.
+     *
      * @param $key
+     *
      * @return mixed
      */
     public function get($key)

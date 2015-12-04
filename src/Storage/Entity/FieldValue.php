@@ -30,7 +30,7 @@ class FieldValue extends Entity
 
     public function __toString()
     {
-        return (string)$this->getValue();
+        return (string) $this->getValue();
     }
 
     /**
@@ -52,6 +52,7 @@ class FieldValue extends Entity
     /**
      *  When the entity needs to be persisted the value has to be copied to  a field specific to the storage type
      *  To do this we need a field type so we lookup the correct column to write to.
+     *
      * @param $fieldObject
      */
     public function handleStorage($fieldObject)
@@ -60,5 +61,4 @@ class FieldValue extends Entity
         $typeCol = 'value_' . $type->getName();
         $this->$typeCol = $this->getValue();
     }
-
 }

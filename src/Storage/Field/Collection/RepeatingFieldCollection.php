@@ -43,8 +43,9 @@ class RepeatingFieldCollection extends ArrayCollection
 
     /**
      * @param array $fields
-     * @param int $grouping
+     * @param int   $grouping
      * @param $entity
+     *
      * @throws FieldConfigurationException
      */
     public function addFromArray(array $fields, $grouping = 0, $entity = null)
@@ -69,7 +70,7 @@ class RepeatingFieldCollection extends ArrayCollection
 
             $field->setFieldname($name);
             if ($entity) {
-                $field->setContenttype((string)$entity->contenttype);
+                $field->setContenttype((string) $entity->contenttype);
             }
             $field->setFieldtype($this->getFieldTypeName($field->getFieldname()));
             $field->setGrouping($grouping);
@@ -113,7 +114,6 @@ class RepeatingFieldCollection extends ArrayCollection
 
         return $entity;
     }
-
 
     public function update($collection)
     {
