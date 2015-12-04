@@ -77,9 +77,9 @@ abstract class FieldTypeBase implements FieldTypeInterface
 
         $type = $this->getStorageType();
 
-        if (null != $value) {
+        if (null !== $value) {
             $value = $type->convertToDatabaseValue($value, $this->getPlatform());
-        } else {
+        } elseif (isset($this->mapping['default'])) {
             $value = $this->mapping['default'];
         }
         $qb->setValue($key, ':' . $key);
