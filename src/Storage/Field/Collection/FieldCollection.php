@@ -81,6 +81,24 @@ class FieldCollection extends AbstractLazyCollection
         return parent::add($element);
     }
 
+
+    /**
+     * Helper method to get the value for a specific field
+     * this is compatible with content.get(contentkey) calls from twig.
+     * @param $key
+     * @return mixed
+     */
+    public function get($key)
+    {
+        $this->initialize();
+
+        foreach ($this->collection as $field) {
+            if ($field->getFieldname() == $key) {
+                return $field->getValue();
+            }
+        }
+    }
+
     /**
      * Handles the conversion of references to entities.
      */
@@ -97,7 +115,7 @@ class FieldCollection extends AbstractLazyCollection
                 $type = $field->getStorageType();
                 $typeCol = 'value_' . $type->getName();
                 $val->setValue($val->$typeCol);
-                $objects[$val->getName()] = $val;
+                $objects[$val->getFieldname()] = $val;
             }
         }
 
