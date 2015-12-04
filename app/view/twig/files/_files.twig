@@ -13,12 +13,12 @@
             <tr>
                 {# Column: Filename #}
                 <td>
-                    {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
+                    {% if file.image %}
 
                         <i class="fa fa-fw fa-file-image-o"></i>
 
-                        {% if file.readable %}
-                            <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}"
+                        {% if file.public %}
+                            <a href="{{ file.path|thumbnail(1000, 1000, 'r') }}"
                                class="magnific"
                                title="Image: {{ file.filename }}">
                                 <b>{{ file.filename|excerpt(80)|shy }}</b>
@@ -28,19 +28,19 @@
                             <i class="fa fa-lock"></i>
                         {% endif %}
 
-                    {% elseif file.type in ['twig', 'txt', 'html', 'md', 'markdown', 'json', 'htm', 'scss', 'css', 'less', 'js', 'yml'] %}
+                    {% elseif file.extension in ['twig', 'txt', 'html', 'md', 'markdown', 'json', 'htm', 'scss', 'css', 'less', 'js', 'yml'] %}
 
                         <i class="fa fa-fw fa-file-code-o"></i>
 
-                        {% if file.readable %}
-                            <a href="{{ path('fileedit', {'namespace': context.namespace, 'file': file.newpath}) }}">
+                        {% if file.public %}
+                            <a href="{{ path('fileedit', {'namespace': context.namespace, 'file': file.path}) }}">
                                 <b>{{ file.filename|excerpt(80)|shy }}</b>
                             </a>
                         {% else %}
                             <b>{{ file.filename|excerpt(80)|shy }}</b>
                         {% endif %}
 
-                        {% if not file.readable or not file.writable %}
+                        {% if file.private %}
                             <i class="fa fa-lock"></i>
                         {% endif %}
 
@@ -48,7 +48,7 @@
 
                         <i class="fa fa-fw fa-link"></i>
 
-                        {% if file.readable %}
+                        {% if file.public %}
                             <a href="{{ file.url }}" target="_blank">
                                 <b>{{ file.filename|excerpt(80)|shy }}</b>
                             </a>
@@ -60,19 +60,19 @@
                 </td>
                 {# Column: Filesize #}
                 <td style="min-width: 120px;" class="hidden-xs hidden-sm">
-                    {{ file.filesize }}.
-                    {% if file.imagesize is defined %}
-                       <br> {{ file.imagesize }} px.
-                    {% endif %}
+                    {{ file.sizeformatted }}
+                        {% if file.image %}
+                            <br> {{ file.dimensions }}
+                        {% endif %}
                 </td>
                 {# Column: Modified #}
                 <td style="min-width: 140px;" class="hidden-xs hidden-sm">
-                    {{ buic.moment(file.modified) }}
+                    {{ buic.moment(file.timestamp) }}
                 </td>
                 {# Column: Thumbnail #}
                 <td class="listthumb">
-                    {% if file.imagesize is defined %}
-                        {{ file.newpath|showimage(54, 40, 'c')|replace({'alt=""': 'alt="' ~ __('Thumbnail')|e('html_attr') ~ '"'})|raw }}
+                    {% if file.image %}
+                        {{ file.path|showimage(54, 40, 'c')|replace({'alt=""': 'alt="' ~ __('Thumbnail')|e('html_attr') ~ '"'})|raw }}
                     {% endif %}
                 </td>
                 {# Column: Actions #}
@@ -99,13 +99,13 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.deleteFile('{{ context.namespace }}', '{{ file.newpath }}', this);">
+                                    <a href="#" data-action="Bolt.files.deleteFile('{{ context.namespace }}', '{{ file.path }}', this);">
                                         <i class="fa fa-ban"></i>
                                         {{ __('Delete %filename%', {'%filename%': file.filename}) }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.newpath }}')">
+                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ context.namespace }}', '{{ file.path }}')">
                                         <i class="fa fa-files-o"></i>
                                         {{ __('Duplicate %filename%', {'%filename%': file.filename }) }}
                                     </a>
@@ -114,7 +114,7 @@
                                 <li>
                                     <a class="nolink">
                                         {{ __('Permissions') }}:
-                                        <strong><code>{{ file.permissions }}</code></strong>
+                                        <strong><code>{{ file.visibility }}</code></strong>
                                     </a>
                                 </li>
                             </ul>

@@ -9,7 +9,7 @@
 
     <tbody>
         {% for file in context.files %}
-            {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
+            {% if file.type == 'image' %}
 
                 <tr>
                     <td>
@@ -18,21 +18,21 @@
 
                         {% if file.readable %}
                             <a class="filebrowserCallbackLink" href="{{ file.url }}">
-                                <b>{{ file.filename|excerpt(60)|shy }}</b>
+                                <b>{{ file.path|excerpt(60)|shy }}</b>
                             </a>
                         {% else %}
-                            <b>{{ file.filename|excerpt(60)|shy }} </b><i class="fa fa-lock"></i>
+                            <b>{{ file.path|excerpt(60)|shy }} </b><i class="fa fa-lock"></i>
                         {% endif %}
                     </td>
                     <td>
-                        {{ file.filesize }}.<br>
-                        {% if file.imagesize is defined %}{{ file.imagesize }} {{ __('page.ckeditor-browse-server.pixel') }}{% endif %}
+                        {{ file.sizeformatted }}<br>
+                        {% if file.type == 'image' %}{{ file.info.width }} x {{ file.info.height }} px {{ __('page.ckeditor-browse-server.pixel') }}{% endif %}
                     </td>
                     <td>
-                        {{ file.newpath|showimage(54, 40, 'c') }}
+                        {{ file.path|showimage(54, 40, 'c') }}
                     </td>
                     {# <td>
-                        <a href="{{ file.newpath|thumbnail(1000, 1000, 'r') }}" class="btn btn-mini magnifig" title="Image: {{ file.filename }}">{{ __('Preview') }}</a>
+                        <a href="{{ file.path|thumbnail(1000, 1000, 'r') }}" class="btn btn-mini magnifig" title="Image: {{ file.filename }}">{{ __('Preview') }}</a>
                     </td> #}
                 </tr>
             {% endif %}
