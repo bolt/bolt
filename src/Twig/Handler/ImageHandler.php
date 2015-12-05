@@ -62,7 +62,7 @@ class ImageHandler
      * @param string  $filename
      * @param boolean $safe
      *
-     * @return \Bolt\Filesystem\Image|false
+     * @return \Bolt\Filesystem\Handler\Image|false
      */
     public function imageInfo($filename, $safe)
     {
@@ -78,7 +78,7 @@ class ImageHandler
             return false;
         }
 
-        return $image;
+        return $image->getInfo();
     }
 
     /**
@@ -157,12 +157,12 @@ class ImageHandler
             $info = $this->imageInfo($thumb->getFileName(), false);
 
             if ($width !== null) {
-                $thumb->setHeight(round($width / $info['aspectratio']));
+                $thumb->setHeight(round($width / $info->getAspectRatio()));
             } elseif ($height !== null) {
-                $thumb->setWidth(round($height * $info['aspectratio']));
+                $thumb->setWidth(round($height * $info->getAspectRatio()));
             } else {
-                $thumb->setWidth($info['width']);
-                $thumb->setHeight($info['height']);
+                $thumb->setWidth($info->getWidth());
+                $thumb->setHeight($info->getHeight());
             }
         }
 
