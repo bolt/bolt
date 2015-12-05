@@ -40,7 +40,7 @@ class FilesystemProviderTest extends BoltUnitTest
         );
         $config->compat();
         $bolt = $this->getApp();
-        $this->assertInstanceOf('League\Flysystem\Filesystem', $bolt['filesystem']->getFilesystem());
-        $this->assertInstanceOf('League\Flysystem\Filesystem', $bolt['filesystem']->getFilesystem('config'));
+        $this->assertInstanceOf('Bolt\Filesystem\Filesystem', $bolt['filesystem']->getFilesystem('root'));
+        $this->assertInstanceOf('Bolt\Filesystem\Filesystem', $bolt['filesystem']->getFilesystem('config'));
     }
 }
