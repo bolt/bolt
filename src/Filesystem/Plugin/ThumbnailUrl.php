@@ -3,7 +3,7 @@
 namespace Bolt\Filesystem\Plugin;
 
 /**
- * @deprecated Since 2.3, will be removed in 3.0.
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
  */
 class ThumbnailUrl extends AdapterPlugin
 {
