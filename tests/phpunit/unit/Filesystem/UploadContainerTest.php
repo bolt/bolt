@@ -1,19 +1,20 @@
 <?php
+
 namespace Bolt\Tests\Filesystem;
 
 use Bolt\Filesystem\Filesystem;
-use Bolt\Filesystem\FlysystemContainer;
+use Bolt\Filesystem\UploadContainer;
 use Bolt\Tests\BoltUnitTest;
 use League\Flysystem\Adapter\NullAdapter;
 
 /**
- * Class to test src/Filesystem/FilesystemContainer.
+ * Class to test src/Filesystem/UploadContainerTest.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class FilesystemContainerTest extends BoltUnitTest
+class UploadContainerTest extends BoltUnitTest
 {
-    /** @var FlysystemContainer */
+    /** @var UploadContainer */
     private $container;
 
     /**
@@ -28,7 +29,7 @@ class FilesystemContainerTest extends BoltUnitTest
         $adapter = new NullAdapter(TEST_ROOT);
         $fs = new Filesystem($adapter);
 
-        $this->container = new FlysystemContainer($fs);
+        $this->container = new UploadContainer($fs);
     }
 
     public function testIsWritable()
