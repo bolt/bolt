@@ -92,34 +92,22 @@ class ImageHandlerTest extends BoltUnitTest
         $this->assertSame('/thumbs/20x20c/generic-logo.png', $result);
     }
 
-    public function testImageInfoSafe()
-    {
-        $app = $this->getApp();
-        $handler = new ImageHandler($app);
-
-        $result = $handler->imageInfo('generic-logo.png', true);
-        $this->assertNull($result);
-    }
-
     public function testImageInfoNotReadable()
     {
         $app = $this->getApp();
         $handler = new ImageHandler($app);
 
         $result = $handler->imageInfo('koala.jpg', false);
-        $this->assertInstanceOf('Bolt\Helpers\Image\Image', $result);
-        $this->assertNull($result['filename']);
-        $this->assertNull($result['fullpath']);
-        $this->assertNull($result['url']);
-        $this->assertNull($result['width']);
-        $this->assertNull($result['height']);
-        $this->assertNull($result['type']);
-        $this->assertNull($result['mime']);
-        $this->assertNull($result['aspectratio']);
-        $this->assertNull($result['exif']);
-        $this->assertNull($result['landscape']);
-        $this->assertNull($result['portrait']);
-        $this->assertNull($result['square']);
+        $this->assertInstanceOf('Bolt\Filesystem\Handler\Image\Info', $result);
+        $this->assertSame(0, $result->getWidth());
+        $this->assertSame(0, $result->getHeight());
+        $this->assertSame('UNKNOWN', (string) $result->getType());
+        $this->assertNull($result->getMime());
+        $this->assertSame(0.0, $result->getAspectRatio());
+        $this->assertInstanceOf('Bolt\Filesystem\Handler\Image\Exif', $result->getExif());
+        $this->assertFalse($result->isLandscape());
+        $this->assertTrue($result->isPortrait());
+        $this->assertFalse($result->isSquare());
     }
 
     public function testImageInfo()
@@ -128,22 +116,20 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->imageInfo('generic-logo.png', false);
-        $this->assertSame(624, $result['width']);
-        $this->assertSame(351, $result['height']);
-        $this->assertSame('jpeg', $result['type']);
-        $this->assertSame('image/jpeg', $result['mime']);
-        $this->assertRegExp('#1.7777#', (string) $result['aspectratio']);
-        $this->assertSame('generic-logo.png', $result['filename']);
-        $this->assertRegExp('#tests/phpunit/web-root/files/generic-logo.png#', $result['fullpath']);
-        $this->assertSame('/files/generic-logo.png', $result['url']);
-        $this->assertSame('', $result['exif']['latitude']);
-        $this->assertFalse($result['exif']['longitude']);
-        $this->assertFalse($result['exif']['datetime']);
-        $this->assertFalse($result['exif']['orientation']);
-        $this->assertRegExp('#1.7777#', (string) $result['exif']['aspectratio']);
-        $this->asserttrue($result['landscape']);
-        $this->assertFalse($result['portrait']);
-        $this->assertFalse($result['square']);
+        $this->assertInstanceOf('Bolt\Filesystem\Handler\Image\Info', $result);
+        $this->assertSame(624, $result->getWidth());
+        $this->assertSame(351, $result->getHeight());
+        $this->assertSame('JPEG', (string) $result->getType());
+        $this->assertSame('image/jpeg', $result->getMime());
+        $this->assertRegExp('#1.7777#', (string) $result->getAspectRatio());
+        $this->assertFalse($result->getExif()->getLatitude());
+        $this->assertFalse($result->getExif()->getLongitude());
+        $this->assertFalse($result->getExif()->getDatetime());
+        $this->assertFalse($result->getExif()->getOrientation());
+        $this->assertRegExp('#1.7777#', (string) $result->getExif()->getAspectRatio());
+        $this->asserttrue($result->isLandscape());
+        $this->assertFalse($result->isPortrait());
+        $this->assertFalse($result->isSquare());
     }
 
     public function testPopupEmptyFileName()
