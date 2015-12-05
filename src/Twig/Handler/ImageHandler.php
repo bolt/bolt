@@ -2,6 +2,10 @@
 
 namespace Bolt\Twig\Handler;
 
+use Bolt\Filesystem\Handler\Image\Dimensions;
+use Bolt\Filesystem\Handler\Image\Exif;
+use Bolt\Filesystem\Handler\Image\Info;
+use Bolt\Filesystem\Handler\Image\Type;
 use Bolt\Helpers\Image\Thumbnail;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
@@ -60,22 +64,15 @@ class ImageHandler
      * Get an image.
      *
      * @param string  $filename
-     * @param boolean $safe
      *
-     * @return \Bolt\Filesystem\Handler\Image|false
+     * @return \Bolt\Filesystem\Handler\Image
      */
-    public function imageInfo($filename, $safe)
+    public function imageInfo($filename)
     {
-        // This function is vulnerable to path traversal, so blocking it in
-        // safe mode for now.
-        if ($safe) {
-            return null;
-        }
-
         $image = $this->app['filesystem']->getImage('files://' . $filename);
 
         if (!$image->exists()) {
-            return false;
+            return new Info(new Dimensions(0, 0), Type::getById(IMAGETYPE_UNKNOWN), 0, 0, null, new Exif([]));
         }
 
         return $image->getInfo();
