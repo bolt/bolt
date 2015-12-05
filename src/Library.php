@@ -90,18 +90,6 @@ class Library
     }
 
     /**
-     * @param object $obj
-     *
-     * @return array
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public static function hackislyParseRegexTemplates($obj)
-    {
-        return self::parseTwigTemplates($obj);
-    }
-
-    /**
      * parse the used .twig templates from the Twig Loader object, using regular expressions.
      *
      * We use this for showing them in the debug toolbar.
