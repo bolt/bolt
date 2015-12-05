@@ -4,7 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Events\ControllerEvents;
 use Bolt\Events\MountEvent;
-use Bolt\Filesystem\Image;
+use Bolt\Filesystem\Handler\Image;
 use Bolt\Thumbs;
 use Bolt\Thumbs\ImageResource;
 use Silex\Application;
