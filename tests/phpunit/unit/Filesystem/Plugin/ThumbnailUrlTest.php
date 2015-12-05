@@ -1,11 +1,12 @@
 <?php
+
 namespace Bolt\Tests\Filesystem\Plugin;
 
+use Bolt\Filesystem\Adapter\Local;
+use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Manager;
 use Bolt\Filesystem\Plugin;
 use Bolt\Tests\BoltUnitTest;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 
 class ThumbnailUrlTest extends BoltUnitTest
 {
@@ -16,7 +17,7 @@ class ThumbnailUrlTest extends BoltUnitTest
         $adapter = new Local(PHPUNIT_ROOT . '/resources');
         $fs = new Filesystem($adapter);
 
-        $manager = new Manager($app);
+        $manager = new Manager([]);
         $manager->mountFilesystem('files', $fs);
         $manager->addPlugin(new Plugin\ThumbnailUrl($app));
 
