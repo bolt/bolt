@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Tests\Nut;
 
+use Bolt\Filesystem\Adapter\Local;
+use Bolt\Filesystem\Filesystem;
 use Bolt\Nut\ConfigSet;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -15,7 +17,8 @@ class ConfigSetTest extends BoltUnitTest
     public function testSet()
     {
         $app = $this->getApp();
-        $app['filesystem']->mount('config', PHPUNIT_ROOT . '/resources/');
+        $filesystem = new Filesystem(new Local(PHPUNIT_ROOT . '/resources/'));
+        $app['filesystem']->mountFilesystem('config', $filesystem);
 
         $command = new ConfigSet($app);
         $tester = new CommandTester($command);
