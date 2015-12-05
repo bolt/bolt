@@ -1,12 +1,13 @@
 <?php
+
 namespace Bolt\Controller\Backend;
 
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use League\Flysystem\File;
-use League\Flysystem\FileNotFoundException;
-use League\Flysystem\FilesystemInterface;
+use Bolt\Filesystem\Exception\ExceptionInterface;
+use Bolt\Filesystem\FilesystemInterface;
+use Bolt\Filesystem\Handler\File;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -251,10 +252,11 @@ class FileManager extends BackendBase
                 // Remove ^M (or \r) characters from the file.
                 $contents = str_ireplace("\x0D", '', $contents);
 
-                if ($file->update($contents)) {
+                try {
+                    $file->update($contents);
                     $result['msg'] = Trans::__("File '%s' has been saved.", ['%s' => $file->getPath()]);
-                    $result['datechanged'] = date_format(new \DateTime('@' . $file->getTimestamp()), 'c');
-                } else {
+                    $result['datechanged'] = $file->getCarbon()->toIso8601String();
+                } catch (ExceptionInterface $e) {
                     $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", ['%s' => $file->getPath()]);
                 }
             }
