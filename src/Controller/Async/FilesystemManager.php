@@ -212,8 +212,8 @@ class FilesystemManager extends AsyncBase
      */
     public function filesAutoComplete(Request $request)
     {
-        $term = $request->get('term');
-        $extensions = implode('|', explode(',', $request->query->get('ext')));
+        $term = $request->get('term', '.*');
+        $extensions = implode('|', explode(',', $request->query->get('ext', '.*')));
         $regex = sprintf('/.*(%s).*\.(%s)$/', $term, $extensions);
 
         $files = $this->filesystem()
