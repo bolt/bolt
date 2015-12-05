@@ -1,9 +1,10 @@
 <?php
+
 namespace Bolt\Filesystem;
 
 use Sirius\Upload\Container\ContainerInterface;
 
-class FlysystemContainer implements ContainerInterface
+class UploadContainer implements ContainerInterface
 {
     /** @var FilesystemInterface */
     private $filesystem;

@@ -2,7 +2,7 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Filesystem\FlysystemContainer;
+use Bolt\Filesystem\UploadContainer;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Sirius\Upload\Handler as UploadHandler;
@@ -53,7 +53,7 @@ class UploadServiceProvider implements ServiceProviderInterface
                 if (!is_writable($base)) {
                     throw new \RuntimeException("Unable to write to upload destination. Check permissions on $base", 1);
                 }
-                $container = new FlysystemContainer($app['filesystem']->getFilesystem($app['upload.namespace']));
+                $container = new UploadContainer($app['filesystem']->getFilesystem($app['upload.namespace']));
 
                 return $container;
             }
