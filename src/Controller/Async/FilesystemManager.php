@@ -1,8 +1,9 @@
 <?php
 namespace Bolt\Controller\Async;
 
+use Bolt\Filesystem\Exception\ExceptionInterface;
+use Bolt\Filesystem\Exception\IOException;
 use Bolt\Translation\Translator as Trans;
-use League\Flysystem\FileNotFoundException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -115,10 +116,10 @@ class FilesystemManager extends AsyncBase
         $folderName = $request->request->get('foldername');
 
         try {
-            if ($this->filesystem()->createDir("$namespace://$parentPath$folderName")) {
-                return $this->json(null, Response::HTTP_OK);
-            }
+            $this->filesystem()->createDir("$namespace://$parentPath$folderName");
 
+            return $this->json(null, Response::HTTP_OK);
+        } catch (IOException $e) {
             return $this->json(Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
             return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -167,7 +168,7 @@ class FilesystemManager extends AsyncBase
             }
 
             return $this->json(Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]), Response::HTTP_FORBIDDEN);
-        } catch (FileNotFoundException $e) {
+        } catch (ExceptionInterface $e) {
             return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -275,10 +276,10 @@ class FilesystemManager extends AsyncBase
         $folderName = $request->request->get('foldername');
 
         try {
-            if ($this->filesystem()->deleteDir("$namespace://$parentPath$folderName")) {
-                return $this->json(null, Response::HTTP_OK);
-            }
+            $this->filesystem()->deleteDir("$namespace://$parentPath$folderName");
 
+            return $this->json(null, Response::HTTP_OK);
+        } catch (IOException $e) {
             return $this->json(Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
         } catch (\Exception $e) {
             return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
