@@ -16,12 +16,12 @@
 
                         <i class="fa fa-fw fa-file-image-o"></i>
 
-                        {% if file.readable %}
+                        {% if file.public %}
                             <a class="filebrowserCallbackLink" href="{{ file.url }}">
-                                <b>{{ file.path|excerpt(60)|shy }}</b>
+                                <b>{{ file.filename|excerpt(60)|shy }}</b>
                             </a>
                         {% else %}
-                            <b>{{ file.path|excerpt(60)|shy }} </b><i class="fa fa-lock"></i>
+                            <b>{{ file.filename|excerpt(60)|shy }} </b><i class="fa fa-lock"></i>
                         {% endif %}
                     </td>
                     <td>

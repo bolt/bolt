@@ -56,11 +56,11 @@
                 <table class="dashboardlisting">
                     {# Folders #}
                     <tbody class="folders">
-                        {% for directory in context.directories %}
+                    {% for directory in context.directories %}
                             <tr class="directory">
                                 <td class="name">
                                     <a{{ hattr({'class': 'entry type-folder', 'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': directory.path}) }) }}>
-                                        {{ directory.dirname }}/
+                                        {{ directory.path }}/
                                     </a>
                                 </td>
                                 <td class="info"></td>
@@ -94,7 +94,7 @@
                                 {% set type = 'type-file' %}
                             {% endif %}
 
-                            <tr{{ hattr({'class': file.readable ? '' : 'locked'}) }}>
+                            <tr{{ hattr({'class': file.public ? '' : 'locked'}) }}>
                                 <td class="name">
                                     {% if file.public %}
                                         <a{{ hattr({'class': 'entry ' ~ type, 'href': '#', 'data-fbrowser-select': file.path}) }}>
@@ -106,7 +106,7 @@
                                 </td>
 
                                 <td class="info">
-                                    {{ file.filesize }}
+                                    {{ file.size }}
                                     {% if file.image %}
                                         <br> {{ file.dimensions }}
                                     {% endif %}
