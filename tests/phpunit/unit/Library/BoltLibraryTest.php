@@ -60,9 +60,6 @@ class BoltLibraryTest extends BoltUnitTest
         $templates = Library::parseTwigTemplates($loader);
 
         $this->assertEquals(1, count($templates));
-
-        // Test deprecated function for now
-        $this->assertEquals($templates, Library::hackislyParseRegexTemplates($loader));
     }
 
     public function testPath()
