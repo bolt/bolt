@@ -12,7 +12,7 @@
                 <td>
                     <i class="fa fa-fw fa-folder-open-o"></i>
                     <a href="{{ path('files', {'path': directory.path, 'namespace': context.namespace}) }}">
-                        <b>{{ directory.path|excerpt(60)|shy }}/</b>
+                        <b>{{ directory.filename|excerpt(60)|shy }}/</b>
                     </a>
                 </td>
                 <td>
@@ -34,21 +34,21 @@
                                 <a href="#"
                                    data-action="bolt.files.renameFolder('{{ context.namespace }}',
                                                                     '{{ context.pathsegments|keys|last }}',
-                                                                    '{{ directory.dirname }}',
+                                                                    '{{ directory.path }}',
                                                                     this);">
 
                                     <i class="fa fa-keyboard-o"></i>
-                                    {{ __('Rename %foldername%', {'%foldername%': directory.dirname}) }}
+                                    {{ __('Rename %foldername%', {'%foldername%': directory.filename}) }}
                                 </a>
                                 <a href="#"
                                    class="confirm"
                                    data-action="bolt.files.deleteFolder('{{ context.namespace }}',
                                                                     '{{ context.pathsegments|keys|last }}',
-                                                                    '{{ directory.dirname }}',
+                                                                    '{{ directory.path }}',
                                                                     this);">
 
                                     <i class="fa fa-ban"></i>
-                                    {{ __('Delete %foldername%', {'%foldername%': directory.dirname}) }}
+                                    {{ __('Delete %foldername%', {'%foldername%': directory.filename}) }}
                                 </a>
                             </li>
                         </ul>
