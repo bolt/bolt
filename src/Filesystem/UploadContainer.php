@@ -2,6 +2,7 @@
 
 namespace Bolt\Filesystem;
 
+use Bolt\Filesystem\Exception\IOException;
 use Sirius\Upload\Container\ContainerInterface;
 
 class UploadContainer implements ContainerInterface
@@ -53,9 +54,19 @@ class UploadContainer implements ContainerInterface
 
     /**
      * {@inheritdoc}
+     *
+     * This is called from \Sirius\Upload\Handler::processSingleFile() which expects a boolean return value,
+     * and as \Bolt\FilesystemInterface::putStream only returns void or throws an error, we catch
+     * IOExceptions here and return a false on exception.
      */
     public function moveUploadedFile($localFile, $destination)
     {
-        $this->filesystem->putStream($destination, fopen($localFile, 'r+'));
+        try {
+            $this->filesystem->putStream($destination, fopen($localFile, 'r+'));
+        } catch (IOException $e) {
+            return false;
+        }
+
+        return true;
     }
 }
