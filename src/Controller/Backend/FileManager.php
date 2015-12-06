@@ -2,6 +2,7 @@
 
 namespace Bolt\Controller\Backend;
 
+use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
