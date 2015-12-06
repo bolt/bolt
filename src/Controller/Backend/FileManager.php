@@ -82,7 +82,6 @@ class FileManager extends BackendBase
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
 
-        $writeallowed = $this->isWriteable($file);
         $data = ['contents' => $contents];
 
         /** @var Form $form */
@@ -110,7 +109,7 @@ class FileManager extends BackendBase
             'pathsegments'   => $this->getPathSegments(dirname($file->getPath())),
             'additionalpath' => $additionalpath,
             'namespace'      => $namespace,
-            'write_allowed'  => $writeallowed,
+            'write_allowed'  => true,
             'filegroup'      => $this->getFileGroup($filesystem, $file),
             'datechanged'    => date_format(new \DateTime('@' . $file->getTimestamp()), 'c'),
         ];
@@ -344,29 +343,6 @@ class FileManager extends BackendBase
             foreach ($result->getMessages() as $message) {
                 $this->flashes()->error((string) $message);
             }
-        }
-    }
-
-    /**
-     * Check if the file can be written to and notify if not.
-     *
-     * @param File $file
-     *
-     * @return boolean
-     */
-    private function isWriteable(File $file)
-    {
-        if ($file->getVisibility() !== 'public') {
-            $this->flashes()->info(
-                Trans::__(
-                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                    ['%s' => $file->getPath()]
-                )
-            );
-
-            return false;
-        } else {
-            return true;
         }
     }
 
