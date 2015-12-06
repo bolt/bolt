@@ -1,8 +1,8 @@
 <div class="buic-browser">
     {% set extensions = [''] %}
     {% for file in context.files %}
-        {% if file.type not in extensions %}
-            {% set extensions = extensions|merge([file.type]) %}
+        {% if file.extension not in extensions %}
+            {% set extensions = extensions|merge([file.extension]) %}
         {% endif %}
     {% endfor %}
     {% set extensions = extensions|sort %}
