@@ -1179,18 +1179,6 @@ class Config
     }
 
     /**
-     * Use get('general/database') instead
-     *
-     * @deprecated since 2.1 will be removed in 4.0.
-     *
-     * @return array
-     */
-    public function getDBOptions()
-    {
-        return $this->get('general/database');
-    }
-
-    /**
      * Use {@see Zone} instead with a {@see Request}.
      *
      * Going forward, decisions determined by current request
