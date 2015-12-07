@@ -61,9 +61,9 @@
                 {# Column: Filesize #}
                 <td style="min-width: 120px;" class="hidden-xs hidden-sm">
                     {{ file.sizeformatted }}
-                        {% if file.image %}
-                            <br> {{ file.dimensions }}
-                        {% endif %}
+                    {% if file.image %}
+                        <br> {{ file.dimensions }}
+                    {% endif %}
                 </td>
                 {# Column: Modified #}
                 <td style="min-width: 140px;" class="hidden-xs hidden-sm">
