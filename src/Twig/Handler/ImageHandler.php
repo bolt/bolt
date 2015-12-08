@@ -2,7 +2,10 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Helpers\Image\Image;
+use Bolt\Filesystem\Handler\Image\Dimensions;
+use Bolt\Filesystem\Handler\Image\Exif;
+use Bolt\Filesystem\Handler\Image\Info;
+use Bolt\Filesystem\Handler\Image\Type;
 use Bolt\Helpers\Image\Thumbnail;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
@@ -58,27 +61,21 @@ class ImageHandler
     }
 
     /**
-     * Get an array with the dimensions of an image, together with its
-     * aspectratio and some other info.
+     * Get an image.
      *
      * @param string  $filename
-     * @param boolean $safe
      *
-     * @return array Specifics
+     * @return \Bolt\Filesystem\Handler\Image
      */
-    public function imageInfo($filename, $safe)
+    public function imageInfo($filename)
     {
-        // This function is vulnerable to path traversal, so blocking it in
-        // safe mode for now.
-        if ($safe) {
-            return null;
+        $image = $this->app['filesystem']->getImage('files://' . $filename);
+
+        if (!$image->exists()) {
+            return new Info(new Dimensions(0, 0), Type::getById(IMAGETYPE_UNKNOWN), 0, 0, null, new Exif([]));
         }
 
-        return new Image(
-            $filename,
-            $this->app['resources']->getPath('filespath'),
-            $this->app['resources']->getUrl('files')
-        );
+        return $image->getInfo();
     }
 
     /**
@@ -157,12 +154,12 @@ class ImageHandler
             $info = $this->imageInfo($thumb->getFileName(), false);
 
             if ($width !== null) {
-                $thumb->setHeight(round($width / $info['aspectratio']));
+                $thumb->setHeight(round($width / $info->getAspectRatio()));
             } elseif ($height !== null) {
-                $thumb->setWidth(round($height * $info['aspectratio']));
+                $thumb->setWidth(round($height * $info->getAspectRatio()));
             } else {
-                $thumb->setWidth($info['width']);
-                $thumb->setHeight($info['height']);
+                $thumb->setWidth($info->getWidth());
+                $thumb->setHeight($info->getHeight());
             }
         }
 
@@ -225,14 +222,14 @@ class ImageHandler
      */
     private function getThubnailUri(Thumbnail $thumb)
     {
-        $thumbStr = sprintf(
-            '%sx%s%s/%s',
-            $thumb->getWidth(),
-            $thumb->getHeight(),
-            $thumb->getScale(),
-            $thumb->getFileName()
+        return $this->app['url_generator']->generate(
+            'thumb',
+            [
+                'width'  => $thumb->getWidth(),
+                'height' => $thumb->getHeight(),
+                'action' => $thumb->getScale(),
+                'file'   => $thumb->getFileName(),
+            ]
         );
-
-        return $this->app['url_generator']->generate('thumb', ['thumb' => $thumbStr]);
     }
 }

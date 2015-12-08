@@ -133,7 +133,7 @@ class GeneralTest extends ControllerUnitTest
         $logger = $this->getMock('Monolog\Logger', ['error'], ['test']);
         $logger->expects($this->once())
             ->method('error')
-            ->with("Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.");
+            ->with("Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.");
         $this->setService('logger.system', $logger);
 
         $this->setRequest(Request::create('/bolt/prefill', 'POST', ['contenttypes' => 'pages']));

@@ -184,7 +184,7 @@ class Edit
      */
     private function setCanUpload($fields)
     {
-        $filesystem = $this->filesystem->getFilesystem();
+        $filesystem = $this->filesystem->getFilesystem('files');
 
         foreach ($fields as &$values) {
             if (isset($values['upload'])) {

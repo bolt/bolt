@@ -1,22 +1,24 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Provider\FilesystemProvider;
+use Bolt\Provider\FilesystemServiceProvider;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test src/Provider/FilesystemProvider.
+ * Class to test Bolt\Provider\FilesystemServiceProvider.
  *
  * @author Ross Riley <riley.ross@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
  */
-class FilesystemProviderTest extends BoltUnitTest
+class FilesystemServiceProviderTest extends BoltUnitTest
 {
     public function testProvider()
     {
         $app = $this->getApp();
-        $provider = new FilesystemProvider($app);
-        $app->register($provider);
+
+        $app->register(new FilesystemServiceProvider());
         $this->assertInstanceOf('Bolt\Filesystem\Manager', $app['filesystem']);
+
         $app->boot();
     }
 }

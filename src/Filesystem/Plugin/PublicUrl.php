@@ -2,6 +2,8 @@
 
 namespace Bolt\Filesystem\Plugin;
 
+use Bolt\Library as Lib;
+
 class PublicUrl extends AdapterPlugin
 {
     public function getMethod()
@@ -13,6 +15,6 @@ class PublicUrl extends AdapterPlugin
     {
         $prefix = $this->app['resources']->getUrl($this->namespace);
 
-        return $prefix . $path;
+        return $prefix . Lib::safeFilename($path);
     }
 }

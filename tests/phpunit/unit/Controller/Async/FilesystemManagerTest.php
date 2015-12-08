@@ -4,6 +4,7 @@ namespace Bolt\Tests\Controller\Async;
 use Bolt\Response\BoltResponse;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +36,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $response = $this->controller()->createFolder($this->getRequest());
 
         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testDeleteFile()
@@ -74,14 +75,20 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testFilesAutoComplete()
     {
+        $fs = new Filesystem();
+        $fs->mirror(TEST_ROOT . '/files', PHPUNIT_WEBROOT . '/files');
+
         $this->setRequest(Request::create('/async/file/autocomplete', 'GET', [
-            'term' => '*',
+            'term' => 'blu',
         ]));
 
         $response = $this->controller()->filesAutoComplete($this->getRequest());
+        $fs->remove(PHPUNIT_WEBROOT . '/files');
 
         $this->assertTrue($response instanceof JsonResponse);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertRegExp('/blur-breakfast-coffee-271.jpg/', (string) $response);
+        $this->assertRegExp('/blur-flowers-home-1093.jpg/', (string) $response);
     }
 
     public function testRemoveFolder()
@@ -91,10 +98,11 @@ class FilesystemManagerTest extends ControllerUnitTest
             'parent'     => '',
             'foldername' => '__phpunit_test_delete_me',
         ]));
+        $this->controller()->createFolder($this->getRequest());
         $response = $this->controller()->removeFolder($this->getRequest());
 
         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testRenameFile()

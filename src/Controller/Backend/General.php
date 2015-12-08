@@ -168,7 +168,7 @@ class General extends BackendBase
                 $content = $this->storage()->preFill($contenttypes);
                 $this->flashes()->success($content);
             } catch (RequestException $e) {
-                $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
+                $msg = "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.";
                 $this->flashes()->error($msg);
                 $this->app['logger.system']->error($msg, ['event' => 'storage']);
             }

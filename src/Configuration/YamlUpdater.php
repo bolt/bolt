@@ -1,8 +1,8 @@
 <?php
 namespace Bolt\Configuration;
 
-use Bolt\Exception\FilesystemException;
-use League\Flysystem\File;
+use Bolt\Filesystem\Exception\IOException;
+use Bolt\Filesystem\Handler\File;
 use Silex;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
@@ -125,7 +125,7 @@ class YamlUpdater
      *
      * @param boolean $makebackup Back up the file before commiting changes to it
      *
-     * @throws \Bolt\Exception\FilesystemException
+     * @throws IOException
      *
      * @return boolean true if save was successful
      */
@@ -141,9 +141,7 @@ class YamlUpdater
         }
 
         // Update the YAML file if we can, or throw an error
-        if (! $this->file->update($this->yaml)) {
-            throw new FilesystemException('Unable to write to file: ' . $this->file->getPath(), FilesystemException::FILE_NOT_WRITEABLE);
-        }
+        $this->file->update($this->yaml);
 
         return true;
     }
