@@ -14,6 +14,9 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml;
 
+/**
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
+ */
 abstract class BaseExtension implements ExtensionInterface
 {
     use AssetTrait;

@@ -13,6 +13,9 @@ use Monolog\Logger;
 use Silex;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
+ */
 class Extensions
 {
     use AssetTrait;

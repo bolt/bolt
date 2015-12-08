@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to handle things dealing with users.
+ *
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
  */
 class Users
 {

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Backend controller for record manipulation routes.
  *
- * Prior to v2.3 this functionality primarily existed in the monolithic
+ * Prior to v3.0 this functionality primarily existed in the monolithic
  * Bolt\Controllers\Backend class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>

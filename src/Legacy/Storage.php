@@ -1330,7 +1330,7 @@ class Storage
         } elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/random/4'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
-            $dboptions = $this->app['config']->getDBoptions();
+            $dboptions = $this->app['config']->get('general/database');
             $metaParameters['order'] = $dboptions['randomfunction']; // 'RAND()' or 'RANDOM()'
             if (!isset($metaParameters['limit'])) {
                 $metaParameters['limit'] = $match[2];
