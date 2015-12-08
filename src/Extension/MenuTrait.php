@@ -3,6 +3,7 @@
 namespace Bolt\Extension;
 
 use Bolt\Menu\MenuEntry;
+use Pimple as Container;
 
 /**
  * Admin menu handling trait for an extension.
@@ -11,8 +12,8 @@ use Bolt\Menu\MenuEntry;
  */
 trait MenuTrait
 {
-    /** @return \Silex\Application */
-    abstract protected function getApp();
+    /** @return Container */
+    abstract protected function getContainer();
 
     /**
      * Add a menu option to backend menu.
@@ -24,8 +25,10 @@ trait MenuTrait
      */
     protected function addMenuEntry($label, $path, $icon = null, $permission = null)
     {
+        $app = $this->getContainer();
         /** @var MenuEntry $menus */
-        $menus = $this->getApp()['menu.admin'];
+        $menus = $app['menu.admin'];
+
         $child = (new MenuEntry($label, $path))
             ->setLabel($label)
             ->setIcon($icon)

@@ -2,6 +2,7 @@
 
 namespace Bolt\Extension;
 
+use Pimple as Container;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -13,11 +14,11 @@ use Silex\ServiceProviderInterface;
 interface ExtensionInterface extends ServiceProviderInterface
 {
     /**
-     * Sets the application.
+     * Sets the container.
      *
-     * @param Application $app
+     * @param Container $container
      */
-    public function setApp(Application $app);
+    public function setContainer(Container $container);
 
     /**
      * Returns the extension name (the class short name).

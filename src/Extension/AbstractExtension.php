@@ -3,6 +3,7 @@
 namespace Bolt\Extension;
 
 use Bolt\Helpers\Str;
+use Pimple as Container;
 use Silex\Application;
 
 /**
@@ -12,8 +13,8 @@ use Silex\Application;
  */
 abstract class AbstractExtension implements ExtensionInterface
 {
-    /** @var Application */
-    protected $app;
+    /** @var Container */
+    protected $container;
     /** @var string */
     protected $path;
     /** @var string */
@@ -31,9 +32,9 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function setApp(Application $app)
+    public function setContainer(Container $container)
     {
-        $this->app = $app;
+        $this->container = $container;
     }
 
     /**
@@ -78,14 +79,14 @@ abstract class AbstractExtension implements ExtensionInterface
     }
 
     /**
-     * Return the application object.
+     * Return the container.
      *
      * Note: This is allows traits to access app without losing coding completion
      *
-     * @return Application
+     * @return Container
      */
-    protected function getApp()
+    protected function getContainer()
     {
-        return $this->app;
+        return $this->container;
     }
 }

@@ -6,6 +6,7 @@ use Bolt\Asset\AssetInterface;
 use Bolt\Asset\File\FileAssetInterface;
 use Bolt\Asset\Snippet\SnippetAssetInterface;
 use Bolt\Asset\Widget\WidgetAssetInterface;
+use Pimple as Container;
 
 /**
  * Asset loading trait for an extension.
@@ -14,8 +15,8 @@ use Bolt\Asset\Widget\WidgetAssetInterface;
  */
 trait AssetTrait
 {
-    /** @return \Silex\Application */
-    abstract protected function getApp();
+    /** @return Container */
+    abstract protected function getContainer();
 
     /**
      * Add an file, snippet or widget asset to the render queue.
@@ -24,12 +25,14 @@ trait AssetTrait
      */
     protected function addAsset(AssetInterface $asset)
     {
+        $app = $this->getContainer();
+
         if ($asset instanceof FileAssetInterface) {
-            $this->getApp()['asset.queue.file']->add($asset);
+            $app['asset.queue.file']->add($asset);
         } elseif ($asset instanceof SnippetAssetInterface) {
-            $this->getApp()['asset.queue.snippet']->add($asset);
+            $app['asset.queue.snippet']->add($asset);
         } elseif ($asset instanceof WidgetAssetInterface) {
-            $this->getApp()['asset.queue.widget']->add($asset);
+            $app['asset.queue.widget']->add($asset);
         } else {
             throw new \InvalidArgumentException('Asset must implement either FileAssetInterface, SnippetAssetInterface or WidgetAssetInterface');
         }

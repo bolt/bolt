@@ -3,6 +3,7 @@
 namespace Bolt\Extension;
 
 use Bolt\Twig\DynamicExtension;
+use Pimple as Container;
 use Silex\Application;
 use Twig_SimpleFilter as SimpleFilter;
 use Twig_SimpleFunction as SimpleFunction;
@@ -20,8 +21,8 @@ trait TwigTrait
     /** @var DynamicExtension */
     private $safeTwigExtension;
 
-    /** @return \Silex\Application */
-    abstract protected function getApp();
+    /** @return Container */
+    abstract protected function getContainer();
 
     /** @return string */
     abstract public function getName();
@@ -29,9 +30,9 @@ trait TwigTrait
     /**
      * Call this in register method.
      *
-     * @param Application $app
+     * @param Container $app
      */
-    protected function registerTwigExtension(Application $app)
+    protected function registerTwigExtension(Container $app)
     {
         $app['twig'] = $app->share(
             $app->extend(
