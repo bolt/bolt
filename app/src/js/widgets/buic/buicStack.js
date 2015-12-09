@@ -64,9 +64,7 @@
                 item = $('.stackitem.item-' + i, this._ui.holder);
                 item.addClass('item-' + (i + 1)).removeClass('item-' + i);
             }
-            if ($('.stackitem.item-8', this._ui.holder).is('*')) {
-                $('.stackitem.item-8', this._ui.holder).remove();
-            }
+            $('.stackitem:nth-child(7)', this._ui.holder).remove();
 
             // Insert new item at the front.
             if (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif') {
