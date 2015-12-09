@@ -3,6 +3,7 @@
 namespace Bolt\EventListener;
 
 use Bolt\Asset\Snippet\Queue;
+use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Config;
 use Bolt\Configuration\ResourceManager;
@@ -71,17 +72,29 @@ class SnippetListener implements EventSubscriberInterface
      */
     protected function addSnippets()
     {
-        $this->queue->add(Target::END_OF_HEAD, '<meta name="generator" content="Bolt">');
+        $generatorSnippet = (new Snippet())
+            ->setLocation(Target::END_OF_HEAD)
+            ->setCallback('<meta name="generator" content="Bolt">')
+        ;
+        $this->queue->add($generatorSnippet);
 
         if ($this->config->get('general/canonical')) {
             $canonical = $this->resources->getUrl('canonicalurl');
-            $this->queue->add(Target::END_OF_HEAD, $this->encode('<link rel="canonical" href="%s">', $canonical));
+            $canonicalSnippet = (new Snippet())
+                ->setLocation(Target::END_OF_HEAD)
+                ->setCallback($this->encode('<link rel="canonical" href="%s">', $canonical))
+            ;
+            $this->queue->add($canonicalSnippet);
         }
 
         if ($favicon = $this->config->get('general/favicon')) {
             $host = $this->resources->getUrl('hosturl');
             $theme = $this->resources->getUrl('theme');
-            $this->queue->add(Target::END_OF_HEAD, $this->encode('<link rel="shortcut icon" href="%s%s%s">', $host, $theme, $favicon));
+            $faviconSnippet = (new Snippet())
+                ->setLocation(Target::END_OF_HEAD)
+                ->setCallback($this->encode('<link rel="shortcut icon" href="%s%s%s">', $host, $theme, $favicon))
+            ;
+            $this->queue->add($faviconSnippet);
         }
     }
 

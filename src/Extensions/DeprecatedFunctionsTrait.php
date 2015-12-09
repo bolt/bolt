@@ -3,6 +3,7 @@
 namespace Bolt\Extensions;
 
 use Bolt;
+use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 
 /**
@@ -87,9 +88,16 @@ trait DeprecatedFunctionsTrait
     /**
      * @deprecated Deprecated since 3.0, to be removed in 4.0.
      */
-    public function insertSnippet($location, $callback, $extensionname = 'core', $extraparameters = [])
+    public function insertSnippet($location, $callback, $extensionName = 'core', $callbackArguments = [])
     {
-        $this->getApp()['asset.queue.snippet']->add($location, $callback, $extensionname, (array) $extraparameters);
+        $snippet = (new Snippet())
+            ->setLocation($location)
+            ->setCallback($callback)
+            ->setExtension($extensionName)
+            ->setCallbackArguments($callbackArguments)
+        ;
+
+        $this->getApp()['asset.queue.snippet']->add($snippet);
     }
 
     /**

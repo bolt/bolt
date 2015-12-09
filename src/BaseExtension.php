@@ -1,6 +1,7 @@
 <?php
 namespace Bolt;
 
+use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Widget\Widget;
 use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\ExtensionInterface;
@@ -471,9 +472,9 @@ abstract class BaseExtension implements ExtensionInterface
      *
      * @param string $location
      * @param string $callback
-     * @param array  $extraparameters
+     * @param array  $callbackArguments
      */
-    public function addSnippet($location, $callback, $extraparameters = [])
+    public function addSnippet($location, $callback, $callbackArguments = [])
     {
         if ($callback instanceof BoltResponse) {
             $callback = (string) $callback;
@@ -484,7 +485,14 @@ abstract class BaseExtension implements ExtensionInterface
             $callback = [$this, $callback];
         }
 
-        $this->app['asset.queue.snippet']->add($location, $callback, $this->getName(), (array) $extraparameters);
+        $snippet = (new Snippet())
+            ->setLocation($location)
+            ->setCallback($callback)
+            ->setExtension($this->getName())
+            ->setCallbackArguments((array) $callbackArguments)
+        ;
+
+        $this->getApp()['asset.queue.snippet']->add($snippet);
     }
 
     /**
