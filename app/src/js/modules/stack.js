@@ -63,6 +63,11 @@
 
         $.get(bolt.conf('paths.async') + 'stack/add/' + filename)
             .done(function () {
+                // If added via a button on the page, disable the button, as visual feedback.
+                if (element) {
+                    $(element).addClass('disabled');
+                }
+
                 // Move all current items one down, and remove the last one.
                 var stack = $('#stackholder div.stackitem'),
                     i,
@@ -77,11 +82,6 @@
                 }
                 if ($('#stackholder div.stackitem.item-8').is('*')) {
                     $('#stackholder div.stackitem.item-8').remove();
-                }
-
-                // If added via a button on the page, disable the button, as visual feedback.
-                if (element !== null) {
-                    $(element).addClass('disabled');
                 }
 
                 // Insert new item at the front.
