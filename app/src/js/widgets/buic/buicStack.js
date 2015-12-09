@@ -65,15 +65,15 @@
             // Remove the last stackitem.
             $('.stackitem:nth-child(7)', this._ui.holder).remove();
 
+            // If the "empty stack" notice was showing, remove it.
+            $('.empty').remove();
+
             // Insert new item at the front.
             this._ui.template[ext.match(/^(JPE?G|PNG|GIF)$/) ? 'image' : 'other'].clone()
                 .find('img').attr('src', bolt.conf('paths.bolt') + '../thumbs/100x100c/' + encodeURI(path)).end()
                 .find('strong').html(ext).end()
                 .find('small').html(path).end()
                 .prependTo(this._ui.holder);
-
-            // If the "empty stack" notice was showing, remove it.
-            $('.empty').remove();
         }
     });
 })(jQuery, Bolt);
