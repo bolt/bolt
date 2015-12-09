@@ -237,13 +237,7 @@
             // Close the dropdown.
             $(this).closest('.btn-group').find('button.dropdown-toggle').dropdown('toggle');
 
-            if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
-                $('input.path', fieldset).val(path).trigger('change');
-            } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
-                uploads.addToList(fieldset, path);
-            } else if (fieldset.is(':bolt-buicStack')) {
-                fieldset.buicStack('add', path);
-            }
+            add(fieldset, path, false);
 
             return false;
         });
@@ -351,14 +345,7 @@
             if (file.error) {
                 bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
             } else {
-                if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
-                    $('input.path', fieldset).val(file.name).trigger('change');
-                    bolt.stack.addToStack(file.name);
-                } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
-                    uploads.addToList(fieldset, file.name);
-                } else if (fieldset.is(':bolt-buicStack')) {
-                    fieldset.buicStack('add', file.name);
-                }
+                add(fieldset, file.name, true);
             }
         });
     }
@@ -419,6 +406,30 @@
         // Display empty list message.
         if (data.length === 0) {
             listField.html(Bolt.data(templateEmpty));
+        }
+    }
+
+    /**
+     * Add the file.
+     *
+     * @private
+     * @function add
+     * @memberof Bolt.uploads
+     *
+     * @param {Object} fieldset
+     * @param {string} path
+     * @param {boolean} stackAdd
+     */
+    function add(fieldset, path, stackAdd) {
+        if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
+            $('input.path', fieldset).val(path).trigger('change');
+            if (stackAdd) {
+                bolt.stack.addToStack(path);
+            }
+        } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
+            uploads.addToList(fieldset, path);
+        } else if (fieldset.is(':bolt-buicStack')) {
+            fieldset.buicStack('add', path);
         }
     }
 
