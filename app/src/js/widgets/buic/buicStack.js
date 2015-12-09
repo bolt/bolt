@@ -40,34 +40,24 @@
          */
         prepend: function (path) {
             var stack = $('#stackholder div.stackitem'),
-                i,
-                ii,
+                ext = path.substr(path.lastIndexOf('.') + 1).toLowerCase(),
                 item,
                 html,
-                ext = path.substr(path.lastIndexOf('.') + 1).toLowerCase(),
-                type;
-
-            if (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif') {
-                type = 'image';
-            } else {
-                type = 'other';
-            }
+                i;
 
             // Move all current items one down, and remove the last one.
             for (i = stack.length; i >= 1; i--) {
-                ii = i + 1;
                 item = $('#stackholder div.stackitem.item-' + i);
-                item.addClass('item-' + ii).removeClass('item-' + i);
+                item.addClass('item-' + (i + 1)).removeClass('item-' + i);
             }
             if ($('#stackholder div.stackitem.item-8').is('*')) {
                 $('#stackholder div.stackitem.item-8').remove();
             }
 
             // Insert new item at the front.
-            if (type === 'image') {
+            if (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif') {
                 html = $('#protostack div.image').clone();
-                $(html).find('img').attr('src', bolt.conf('paths.bolt') + '../thumbs/100x100c/' +
-                    encodeURI(path));
+                $(html).find('img').attr('src', bolt.conf('paths.bolt') + '../thumbs/100x100c/' + encodeURI(path));
             } else {
                 html = $('#protostack div.other').clone();
                 $(html).find('strong').html(ext.toUpperCase());
