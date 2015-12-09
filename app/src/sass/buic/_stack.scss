@@ -60,40 +60,40 @@ fieldset.buic-stack {
         box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
     }
 
-    .stackitem.item-1 {
+    .stackitem:nth-child(1) {
         z-index: $stackitem-zindex - 1;
     }
 
-    .stackitem.item-2 {
+    .stackitem:nth-child(2) {
         z-index: $stackitem-zindex - 2;
         transform: rotate(4deg);
         margin-top: 8px;
     }
 
-    .stackitem.item-3 {
+    .stackitem:nth-child(3) {
         z-index: $stackitem-zindex - 3;
         transform: rotate(-3deg);
         margin-top: -8px;
     }
 
-    .stackitem.item-4 {
+    .stackitem:nth-child(4) {
         z-index: $stackitem-zindex - 4;
         transform: rotate(9deg);
         margin-top: 3px;
     }
 
-    .stackitem.item-5 {
+    .stackitem:nth-child(5) {
         z-index: $stackitem-zindex - 5;
         margin-top: -6px;
     }
 
-    .stackitem.item-6 {
+    .stackitem:nth-child(6) {
         z-index: $stackitem-zindex - 6;
         transform: rotate(3deg);
         margin-top: 5px;
     }
 
-    .stackitem.item-7 {
+    .stackitem:nth-child(7) {
         z-index: $stackitem-zindex - 7;
         transform: rotate(-5deg);
         margin-top: -3px;
