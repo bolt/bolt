@@ -79,16 +79,19 @@
 
                     // Set up event handler
                     modal.header
-                        .on('click.bolt', '[data-fbrowser-chdir]', function () {
+                        .on('click.bolt', '[data-fbrowser-chdir]', function (evt) {
+                            evt.preventDefault();
                             self._url = $(this).data('fbrowser-chdir');
                             self._browse();
                         });
                     modal.body
-                        .on('click.bolt', '[data-fbrowser-chdir]', function () {
+                        .on('click.bolt', '[data-fbrowser-chdir]', function (evt) {
+                            evt.preventDefault();
                             self._url = $(this).data('fbrowser-chdir');
                             self._browse();
                         })
-                        .on('click.bolt', '[data-fbrowser-select]', function () {
+                        .on('click.bolt', '[data-fbrowser-select]', function (evt) {
+                            evt.preventDefault();
                             self._select($(this).data('fbrowser-select'));
                             modal.close();
                         })
