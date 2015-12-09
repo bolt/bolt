@@ -3,7 +3,7 @@
 </h2>
 
 <fieldset class="buic-stack" data-bolt-widget="buicStack">
-    <div id="stackholder">
+    <div class="stackholder">
         {% for item in context.stack %}
             <div class="stackitem stackitem-wide item-{{ loop.index }} {{ item.type }}">
                 <a href="{{ app.paths.files }}{{ item.filepath }}" class="filebrowserCallbackLink">

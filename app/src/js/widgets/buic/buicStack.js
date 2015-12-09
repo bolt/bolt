@@ -21,6 +21,20 @@
          * @private
          */
         _create: function () {
+            /**
+             * Refs to UI elements of this widget.
+             *
+             * @type {Object}
+             * @name _ui
+             * @memberOf jQuery.widget.bolt.buicStack.prototype
+             * @private
+             *
+             * @property {Object} holder  - Stackholder
+             */
+            this._ui = {
+                holder:  this.element.find('.stackholder')
+            };
+
             bolt.uploads.bindStack(this.element);
         },
 
@@ -39,7 +53,7 @@
          * @param {string} path - Path to add to the stack
          */
         prepend: function (path) {
-            var stack = $('#stackholder div.stackitem'),
+            var stack = $('.stackitem', this._ui.holder),
                 ext = path.substr(path.lastIndexOf('.') + 1).toLowerCase(),
                 item,
                 html,
@@ -47,11 +61,11 @@
 
             // Move all current items one down, and remove the last one.
             for (i = stack.length; i >= 1; i--) {
-                item = $('#stackholder div.stackitem.item-' + i);
+                item = $('.stackitem.item-' + i, this._ui.holder);
                 item.addClass('item-' + (i + 1)).removeClass('item-' + i);
             }
-            if ($('#stackholder div.stackitem.item-8').is('*')) {
-                $('#stackholder div.stackitem.item-8').remove();
+            if ($('.stackitem.item-8', this._ui.holder).is('*')) {
+                $('.stackitem.item-8', this._ui.holder).remove();
             }
 
             // Insert new item at the front.
@@ -63,7 +77,7 @@
                 $(html).find('strong').html(ext.toUpperCase());
                 $(html).find('small').html(path);
             }
-            $('#stackholder').prepend(html);
+            this._ui.holder.prepend(html);
 
             // If the "empty stack" notice was showing, remove it.
             $('.nostackitems').remove();
