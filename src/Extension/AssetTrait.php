@@ -105,11 +105,11 @@ trait AssetTrait
 
         foreach ($this->getAssets() as $asset) {
             if (!$asset instanceof AssetInterface) {
-                throw new \InvalidArgumentException(
-                    get_called_class() .
-                    '::getAssets() should return a list of Bolt\Asset\AssetInterface objects. Got: ' .
+                throw new \InvalidArgumentException(sprintf(
+                    '%s::getAssets() should return a list of Bolt\Asset\AssetInterface objects. Got: %s',
+                    get_called_class(),
                     get_class($asset)
-                );
+                ));
             }
 
             $this->addAsset($asset);
