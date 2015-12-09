@@ -206,7 +206,7 @@ class Queue implements QueueInterface
 
         restore_error_handler();
 
-        if ($e) {
+        if ($e instanceof \Exception) {
             throw $e;
         }
         if ($widget->getCacheDuration() !== null) {
