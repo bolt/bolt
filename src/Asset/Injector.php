@@ -56,12 +56,6 @@ class Injector
      */
     public function inject(AssetInterface $asset, $location, $html)
     {
-        // Don't inject 'empty' assets, which lead to empty lines in output.
-        $test = trim((string) $asset); // For PHP 5.4
-        if (empty($test)) {
-            return $html;
-        }
-
         $functionMap = $this->getMap();
         if (isset($functionMap[$location])) {
             $html = $this->{$functionMap[$location]}($asset, $html);
