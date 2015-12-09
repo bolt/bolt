@@ -30,13 +30,16 @@
              * @private
              *
              * @property {Object} holder         - Stackholder
-             * @property {Object} templateImage  - Template for stackitems of type 'image'
-             * @property {Object} templateOther  - Template for stackitems of type 'other'
+             * @property {Object} template       - Templates
+             * @property {Object} template.image - Template for stackitems of type 'image'
+             * @property {Object} template.other - Template for stackitems of type 'other'
              */
             this._ui = {
                 holder:        this.element.find('.stackholder'),
-                templateImage: this.element.find('.templates .image'),
-                templateOther: this.element.find('.templates .other')
+                template: {
+                    image: this.element.find('.templates .image'),
+                    other: this.element.find('.templates .other')
+                }
             };
 
             bolt.uploads.bindStack(this.element);
@@ -57,16 +60,15 @@
          * @param {string} path - Path to add to the stack
          */
         prepend: function (path) {
-            var ext = path.substr(path.lastIndexOf('.') + 1).toLowerCase(),
-                isImage = ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif';
+            var ext = path.substr(path.lastIndexOf('.') + 1).toUpperCase();
 
             // Remove the last stackitem.
             $('.stackitem:nth-child(7)', this._ui.holder).remove();
 
             // Insert new item at the front.
-            this._ui[isImage ? 'templateImage' : 'templateOther'].clone()
+            this._ui.template[ext.match(/^(JPE?G|PNG|GIF)$/) ? 'image' : 'other'].clone()
                 .find('img').attr('src', bolt.conf('paths.bolt') + '../thumbs/100x100c/' + encodeURI(path)).end()
-                .find('strong').html(ext.toUpperCase()).end()
+                .find('strong').html(ext).end()
                 .find('small').html(path).end()
                 .prependTo(this._ui.holder);
 
