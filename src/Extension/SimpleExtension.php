@@ -25,6 +25,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     {
         $this->registerTwigExtension();
         $this->registerMenuEntries();
+        $this->registerAssets();
 
         $this->initialize($app);
     }
