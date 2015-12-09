@@ -11,8 +11,7 @@
 {% block panel_head __('Files on the stack') %}
 
 {% block panel_body %}
-    {% set stack_id = buid() %}
-    <fieldset class="buic-stack" id="{{ stack_id }}" data-bolt-widget="buicStack">
+    <fieldset class="buic-stack" data-bolt-widget="buicStack">
         <div class="stackholder">
             {% for idx, item in context.stack if idx < 7 %}
                 <div class="stackitem {{ item.type }} info-pop"
@@ -25,7 +24,7 @@
                     {% endif %}
                 </div>
             {% else %}
-                <div class="nostackitems">{{ __('There are no items on the Stack, yet.') }}</div>
+                <div class="empty">{{ __('There are no items on the Stack, yet.') }}</div>
             {% endfor %}
         </div>
 
@@ -62,12 +61,12 @@
             </div>
         </div>
 
-        <div id="protostack">
-            <div class="stackitem image info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
+        <div class="templates">
+            <div class="stackitem image info-pop" data-placement="bottom" data-html="true" data-title="" data-content="">
                 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" width="100" height="100" alt="{{ __('Thumbnail') }}">
             </div>
 
-            <div class="stackitem other info-pop item-1" data-placement="bottom" data-html="true" data-title="" data-content="">
+            <div class="stackitem other info-pop" data-placement="bottom" data-html="true" data-title="" data-content="">
                 <strong>HTML</strong>
                 <small>index.html</small>
             </div>
