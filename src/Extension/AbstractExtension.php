@@ -20,6 +20,8 @@ abstract class AbstractExtension implements ExtensionInterface
     /** @var string */
     protected $name;
     /** @var string */
+    protected $vendor;
+    /** @var string */
     protected $namespace;
 
     /**
@@ -47,11 +49,25 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
+    public function getVendor()
+    {
+        if ($this->vendor === null) {
+            $namespace = $this->getNamespace();
+            $name = Str::replaceFirst('Bolt\\Extension\\', '', $namespace);
+            $pos = strpos($name, '\\');
+            $this->vendor = $pos === false ? $name : substr($name, 0, $pos);
+        }
+
+        return $this->vendor;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getNamespace()
     {
         if ($this->namespace === null) {
             $class = get_class($this);
-            $class = Str::replaceFirst('Bolt\\Extension\\', '', $class);
             $this->namespace = substr($class, 0, strrpos($class, '\\'));
         }
 

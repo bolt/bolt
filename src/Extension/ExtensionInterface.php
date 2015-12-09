@@ -35,6 +35,13 @@ interface ExtensionInterface
     public function getName();
 
     /**
+     * Returns the extension vendor.
+     *
+     * @return string
+     */
+    public function getVendor();
+
+    /**
      * Returns the extension namespace.
      *
      * @return string
