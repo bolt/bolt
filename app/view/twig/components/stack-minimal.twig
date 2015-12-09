@@ -2,7 +2,7 @@
     <i class="fa fa-paperclip"></i> {{ __('Files on the stack') }}
 </h2>
 
-<fieldset class="stack">
+<fieldset class="stack" data-bolt-widget="buicStack">
     <div id="stackholder">
         {% for item in context.stack %}
             <div class="stackitem stackitem-wide item-{{ loop.index }} {{ item.type }}">

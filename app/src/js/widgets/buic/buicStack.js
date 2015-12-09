@@ -1,7 +1,8 @@
 /**
  * @param {Object} $ - Global jQuery object
+ * @param {Object} bolt - The Bolt module
  */
-(function ($) {
+(function ($, bolt) {
     'use strict';
 
     /**
@@ -20,6 +21,7 @@
          * @private
          */
         _create: function () {
+            bolt.uploads.bindStack(this.element);
         }
     });
-})(jQuery);
+})(jQuery, Bolt);
