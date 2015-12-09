@@ -62,6 +62,8 @@
      * @memberof Bolt.secmenu
      */
     function adjustSidebarHeight() {
+        $('#navpage-secondary').outerHeight(0);
+
         var newHeight = $(document).height() - $('#navpage-secondary').position().top,
             next = 3000;
 
