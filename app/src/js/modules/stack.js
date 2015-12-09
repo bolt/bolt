@@ -61,11 +61,8 @@
         // We don't need 'files/' in the path. Accept input with or without it, but strip it out here.
         filename = filename.replace(/files\//ig, '');
 
-        $.ajax({
-            url: bolt.conf('paths.async') + 'stack/add/' + filename,
-            type: 'GET',
-            success: function () {
-                console.log('added file to stack: '+filename);
+        $.get(bolt.conf('paths.async') + 'stack/add/' + filename)
+            .done(function () {
                 // Move all current items one down, and remove the last one.
                 var stack = $('#stackholder div.stackitem'),
                     i,
@@ -101,12 +98,10 @@
 
                 // If the "empty stack" notice was showing, remove it.
                 $('.nostackitems').remove();
-
-            },
-            error: function () {
+            })
+            .fail(function () {
                 console.log('Failed to add file to stack');
-            }
-        });
+            });
     };
 
     // Apply mixin container
