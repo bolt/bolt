@@ -22,6 +22,15 @@
          */
         _create: function () {
             bolt.uploads.bindStack(this.element);
+        },
+
+        /**
+         * Add a file to the stack.
+         *
+         * @param {string} path - Path to add to the stack
+         */
+        add: function (path) {
+            bolt.stack.addToStack(path);
         }
     });
 })(jQuery, Bolt);

@@ -153,8 +153,8 @@
                 $('input.path', fieldset).val(path).trigger('change');
             } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
                 bolt.uploads.addToList(fieldset, path);
-            } else {
-                bolt.stack.addToStack(path);
+            } else if (fieldset.is(':bolt-buicStack')) {
+                fieldset.buicStack('add', path);
             }
         }
     });

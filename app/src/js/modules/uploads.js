@@ -241,8 +241,8 @@
                 $('input.path', fieldset).val(path).trigger('change');
             } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
                 uploads.addToList(fieldset, path);
-            } else {
-                bolt.stack.addToStack(path);
+            } else if (fieldset.is(':bolt-buicStack')) {
+                fieldset.buicStack('add', path);
             }
 
             return false;
@@ -345,24 +345,19 @@
      * @param {Object} data
      */
     function onUploadDone(event, data) {
-        var fieldset = $(event.target).closest('div[data-bolt-fieldset]');
+        var fieldset = $(event.target).closest('fieldset');
 
         $.each(data.result, function (idx, file) {
             if (file.error) {
                 bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
             } else {
-                switch ($(fieldset).data('bolt-fieldset')) {
-                    case 'file':
-                    case 'image':
-                        $(fieldset).find('input.path').val(file.name).trigger('change');
-                        bolt.stack.addToStack(file.name);
-                        break;
-                    case 'filelist':
-                    case 'imagelist':
-                        uploads.addToList(fieldset, file.name);
-                        break;
-                    default:
-                        bolt.stack.addToStack(file.name);
+                if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
+                    $('input.path', fieldset).val(file.name).trigger('change');
+                    bolt.stack.addToStack(file.name);
+                } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
+                    uploads.addToList(fieldset, file.name);
+                } else if (fieldset.is(':bolt-buicStack')) {
+                    fieldset.buicStack('add', file.name);
                 }
             }
         });
