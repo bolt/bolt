@@ -26,7 +26,16 @@
      * @memberof Bolt.stack
      */
     stack.init = function () {
-        bolt.uploads.bindStack($('fieldset.stack'));
+        // Initialize add-to-stack button.
+        $('a[data-bolt-addtostack]').each(function () {
+            $(this).on('click', function (event) {
+                var button = $(event.currentTarget),
+                    file = button.data('bolt-addtostack');
+
+                event.preventDefault();
+                stack.addToStack(file, button);
+            });
+        });
     };
 
     /**
@@ -56,6 +65,7 @@
             url: bolt.conf('paths.async') + 'stack/add/' + filename,
             type: 'GET',
             success: function () {
+                console.log('added file to stack: '+filename);
                 // Move all current items one down, and remove the last one.
                 var stack = $('#stackholder div.stackitem'),
                     i,

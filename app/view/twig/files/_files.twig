@@ -81,7 +81,7 @@
                     <div class="btn-group">
 
                         {% if not app.config.get('general/backend/stack/disable', false) and not stacked(file.path) %}
-                            <a href="#" class="btn btn-default btn-sm" data-action="Bolt.stack.addToStack('{{ file.path }}', this);">
+                            <a href="#" class="btn btn-default btn-sm" data-bolt-addtostack="{{ file.path }}">
                                 <i class="fa fa-paperclip"></i>
                                 <span class="visible-sm-inline visible-xs-inline">{{ __('Stack') }}</span>
                                 <span class="hidden-sm hidden-xs">{{ __('Place on stack') }}</span>
