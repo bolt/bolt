@@ -38,9 +38,19 @@ abstract class AbstractExtension implements ExtensionInterface
     public function getName()
     {
         if ($this->name === null) {
-            $name = get_class($this);
-            $pos = strrpos($name, '\\');
-            $this->name = $pos === false ? $name : substr($name, $pos + 1);
+            // Get name from class name without Extension suffix
+            $parts = explode('\\', get_class($this));
+            $name = array_pop($parts);
+            $pos = strrpos($name, 'Extension');
+            if ($pos !== false) {
+                $name = substr($name, 0, $pos);
+            }
+            // If class name is "Extension" use last part of namespace.
+            if ($name === '') {
+                $name = array_pop($parts);
+            }
+
+            $this->name = $name;
         }
 
         return $this->name;
