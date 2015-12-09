@@ -167,6 +167,19 @@ HTML;
 </html>
 HTML;
 
+    public $snippetException = <<<HTML
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="existing.css" media="screen">
+        <!-- An exception occurred creating snippet -->
+    </head>
+    <body>
+        <script src="existing.js"></script>
+    </body>
+</html>
+HTML;
+
     protected function getApp($boot = true)
     {
         $app = parent::getApp($boot);
@@ -209,28 +222,17 @@ HTML;
     public function testBadExtensionSnippets()
     {
         $app = $this->getApp();
-        $logger = $this->getMock('\Monolog\Logger', ['critical'], ['testlogger']);
-        $logger->expects($this->atLeastOnce())
-            ->method('critical')
-            ->will($this->returnCallback(function ($message) {
-                    \PHPUnit_Framework_Assert::assertSame(
-                        'Snippet loading failed for Bolt\Tests\Extensions\Mock\BadExtensionSnippets with callable a:2:{i:0;O:47:"Bolt\Tests\Extensions\Mock\BadExtensionSnippets":0:{}i:1;s:18:"badSnippetCallBack";}',
-                        $message);
-                }
-            ))
-        ;
         $app['asset.queue.snippet'] = new \Bolt\Asset\Snippet\Queue(
             $app['asset.injector'],
             $app['cache'],
             $app['config'],
             $app['resources'],
-            $app['request_stack'],
-            $logger
+            $app['request_stack']
         );
         $app['extensions']->register(new Mock\BadExtensionSnippets($app));
 
         $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->template), $this->html($html));
+        $this->assertEquals($this->html($this->snippetException), $this->html($html));
     }
 
     public function testAddCss()

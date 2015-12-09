@@ -2,6 +2,7 @@
 namespace Bolt\Tests\Extensions\Mock;
 
 use Bolt\Application;
+use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Extensions\ExtensionInterface;
 
@@ -14,7 +15,13 @@ class Extension implements ExtensionInterface
 {
     public function __construct(Application $app)
     {
-        $app['asset.queue.snippet']->add(Target::END_OF_HEAD, [$this, 'snippetCallBack']);
+
+        $snippet = (new Snippet())
+            ->setLocation(Target::END_OF_HEAD)
+            ->setCallback([$this, 'snippetCallBack'])
+            ->setExtension(__CLASS__)
+        ;
+        $app['asset.queue.snippet']->add($snippet);
     }
 
     public function initialize()

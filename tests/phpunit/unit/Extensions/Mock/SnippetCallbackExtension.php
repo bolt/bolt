@@ -2,6 +2,7 @@
 namespace Bolt\Tests\Extensions\Mock;
 
 use Bolt\Application;
+use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 
 /**
@@ -13,7 +14,12 @@ class SnippetCallbackExtension extends Extension
 {
     public function __construct(Application $app)
     {
-        $app['asset.queue.snippet']->add(Target::START_OF_HEAD, [$this, 'snippetCallBack']);
+        $snippet = (new Snippet())
+            ->setLocation(Target::START_OF_HEAD)
+            ->setCallback([$this, 'snippetCallBack'])
+            ->setExtension(__CLASS__)
+        ;
+        $app['asset.queue.snippet']->add($snippet);
     }
 
     public function getName()
