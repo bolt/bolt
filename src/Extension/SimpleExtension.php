@@ -3,13 +3,14 @@
 namespace Bolt\Extension;
 
 use Silex\Application;
+use Silex\ServiceProviderInterface;
 
 /**
  * This will replace current BaseExtension.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-abstract class SimpleExtension extends AbstractExtension
+abstract class SimpleExtension extends AbstractExtension implements ServiceProviderInterface
 {
     use AssetTrait;
     use MenuTrait;
@@ -25,5 +26,20 @@ abstract class SimpleExtension extends AbstractExtension
         $this->registerTwigExtension($app);
 
         $this->initialize($app);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getServiceProvider()
+    {
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function boot(Application $app)
+    {
     }
 }

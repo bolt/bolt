@@ -11,8 +11,15 @@ use Silex\ServiceProviderInterface;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-interface ExtensionInterface extends ServiceProviderInterface
+interface ExtensionInterface
 {
+    /**
+     * Returns the service provider.
+     *
+     * @return ServiceProviderInterface
+     */
+    public function getServiceProvider();
+
     /**
      * Sets the container.
      *

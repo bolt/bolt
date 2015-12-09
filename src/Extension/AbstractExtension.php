@@ -25,13 +25,6 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function boot(Application $app)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setContainer(Container $container)
     {
         $this->container = $container;
