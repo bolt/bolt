@@ -29,10 +29,14 @@
              * @memberOf jQuery.widget.bolt.buicStack.prototype
              * @private
              *
-             * @property {Object} holder  - Stackholder
+             * @property {Object} holder         - Stackholder
+             * @property {Object} templateImage  - Template for stackitems of type 'image'
+             * @property {Object} templateOther  - Template for stackitems of type 'other'
              */
             this._ui = {
-                holder:  this.element.find('.stackholder')
+                holder:        this.element.find('.stackholder'),
+                templateImage: this.element.find('.templates .image'),
+                templateOther: this.element.find('.templates .other')
             };
 
             bolt.uploads.bindStack(this.element);
@@ -61,10 +65,10 @@
 
             // Insert new item at the front.
             if (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif') {
-                html = $('#protostack div.image').clone();
+                html = this._ui.templateImage.clone();
                 $(html).find('img').attr('src', bolt.conf('paths.bolt') + '../thumbs/100x100c/' + encodeURI(path));
             } else {
-                html = $('#protostack div.other').clone();
+                html = this._ui.templateOther.clone();
                 $(html).find('strong').html(ext.toUpperCase());
                 $(html).find('small').html(path);
             }
