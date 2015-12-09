@@ -4,7 +4,7 @@
 
 <fieldset class="buic-stack" data-bolt-widget="buicStack">
     <div class="stackholder">
-        {% for item in context.stack %}
+        {% for idx, item in context.stack if idx < 7 %}
             <div class="stackitem stackitem-wide item-{{ loop.index }} {{ item.type }}">
                 <a href="{{ app.paths.files }}{{ item.filepath }}" class="filebrowserCallbackLink">
                     {% if item.type == 'image' %}

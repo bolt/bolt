@@ -14,7 +14,7 @@
     {% set stack_id = buid() %}
     <fieldset class="buic-stack" id="{{ stack_id }}" data-bolt-widget="buicStack">
         <div class="stackholder">
-            {% for item in context.stack %}
+            {% for idx, item in context.stack if idx < 7 %}
                 <div class="stackitem item-{{ loop.index }} {{ item.type }} info-pop"
                      data-placement="bottom" data-html="true" data-title="{{ item.basename }}" data-content="{{ item.info }}">
                     {% if item.type == 'image' %}
