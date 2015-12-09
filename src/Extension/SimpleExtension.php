@@ -2,6 +2,7 @@
 
 namespace Bolt\Extension;
 
+use Pimple as Container;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -16,7 +17,9 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     use MenuTrait;
     use TwigTrait;
 
-    abstract public function initialize(Application $app);
+    public function initialize(Container $container)
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -27,7 +30,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
         $this->registerMenuEntries();
         $this->registerAssets();
 
-        $this->initialize($app);
+        $this->initialize($this->container);
     }
 
     /**
