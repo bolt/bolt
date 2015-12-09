@@ -2,20 +2,23 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Events\ControllerEvents;
 use Pimple as Container;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * This will replace current BaseExtension.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-abstract class SimpleExtension extends AbstractExtension implements ServiceProviderInterface
+abstract class SimpleExtension extends AbstractExtension implements ServiceProviderInterface, EventSubscriberInterface
 {
     use AssetTrait;
     use MenuTrait;
     use TwigTrait;
+    use ControllerMountTrait;
 
     public function initialize(Container $container)
     {
@@ -46,5 +49,16 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
      */
     public function boot(Application $app)
     {
+        $this->container['dispatcher']->addSubscriber($this);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            ControllerEvents::MOUNT => 'onMount',
+        ];
     }
 }
