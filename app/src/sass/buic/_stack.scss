@@ -9,9 +9,9 @@ fieldset.buic-stack {
     }
 
     .stackholder {
-        height: 120px;
         padding: 12px 0 12px 2px;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     .stackbuttons {
