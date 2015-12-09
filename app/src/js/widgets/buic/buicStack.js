@@ -58,21 +58,17 @@
          */
         prepend: function (path) {
             var ext = path.substr(path.lastIndexOf('.') + 1).toLowerCase(),
-                html;
+                isImage = ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif';
 
             // Remove the last stackitem.
             $('.stackitem:nth-child(7)', this._ui.holder).remove();
 
             // Insert new item at the front.
-            if (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif') {
-                html = this._ui.templateImage.clone();
-                $(html).find('img').attr('src', bolt.conf('paths.bolt') + '../thumbs/100x100c/' + encodeURI(path));
-            } else {
-                html = this._ui.templateOther.clone();
-                $(html).find('strong').html(ext.toUpperCase());
-                $(html).find('small').html(path);
-            }
-            this._ui.holder.prepend(html);
+            this._ui[isImage ? 'templateImage' : 'templateOther'].clone()
+                .find('img').attr('src', bolt.conf('paths.bolt') + '../thumbs/100x100c/' + encodeURI(path)).end()
+                .find('strong').html(ext.toUpperCase()).end()
+                .find('small').html(path).end()
+                .prependTo(this._ui.holder);
 
             // If the "empty stack" notice was showing, remove it.
             $('.empty').remove();
