@@ -75,8 +75,7 @@ class AssetServiceProvider implements ServiceProviderInterface
                     $app['cache'],
                     $app['config'],
                     $app['resources'],
-                    $app['request_stack'],
-                    $app['logger.system']
+                    $app['request_stack']
                 );
 
                 return $queue;

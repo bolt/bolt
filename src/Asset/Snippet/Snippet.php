@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Asset\Snippet;
 
 /**
@@ -24,7 +25,11 @@ class Snippet implements SnippetAssetInterface
      */
     public function __toString()
     {
-        return (string) $this->callback;
+        try {
+            return (string) $this->getCallableResult();
+        } catch (\Exception $e) {
+            return '<!-- An exception occurred creating snippet -->';
+        }
     }
 
     /**
@@ -125,5 +130,48 @@ class Snippet implements SnippetAssetInterface
     public function isCore()
     {
         return $this->extension === 'core';
+    }
+
+    /**
+     * Get the output from the callback.
+     *
+     * @throws \RuntimeException
+     *
+     * @return string
+     */
+    private function getCallableResult()
+    {
+        if ($this->extension === 'core' && is_callable($this->callback)) {
+            // Snippet is a callback in the 'global scope'
+            return call_user_func_array($this->callback, (array) $this->callbackArguments);
+        } elseif ($callable = $this->getCallable()) {
+            // Snippet is defined in the extension itself.
+            return call_user_func_array($callable, (array) $this->callbackArguments);
+        } elseif (is_string($this->callback) || $this->callback instanceof \Twig_Markup) {
+            // Insert the 'callback' as a string.
+            return (string) $this->callback;
+        }
+
+        try {
+            $msg = sprintf('Snippet loading failed for %s with callable %s', $this->extension, serialize($this->callback));
+        } catch (\Exception $e) {
+            $msg = sprintf('Snippet loading failed for %s with an unknown callback.', $this->extension);
+        }
+
+        throw new \RuntimeException($msg);
+    }
+
+    /**
+     * Check for a valid snippet callback.
+     *
+     * @return callable|null
+     */
+    private function getCallable()
+    {
+        if (is_callable($this->callback)) {
+            return $this->callback;
+        } elseif (is_callable([$this->extension, $this->callback])) {
+            return [$this->extension, $this->callback];
+        }
     }
 }

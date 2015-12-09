@@ -57,7 +57,7 @@ trait AssetTrait
 
                     foreach ($this->assets as $asset) {
                         if ($asset instanceof SnippetAssetInterface) {
-                            $queue->add($asset); //TODO
+                            $queue->add($asset);
                         }
                     }
 

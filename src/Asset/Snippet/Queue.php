@@ -8,7 +8,6 @@ use Bolt\Config;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Controller\Zone;
 use Doctrine\Common\Cache\CacheProvider;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -33,8 +32,6 @@ class Queue implements QueueInterface
     protected $resources;
     /** @var \Symfony\Component\HttpFoundation\RequestStack */
     protected $requestStack;
-    /** @var \Psr\Log\LoggerInterface */
-    protected $loggerSystem;
 
     /** @var array */
     private $matchedComments;
@@ -47,42 +44,30 @@ class Queue implements QueueInterface
      * @param Config          $config
      * @param ResourceManager $resources
      * @param RequestStack    $requestStack
-     * @param LoggerInterface $loggerSystem
      */
     public function __construct(
         Injector $injector,
         CacheProvider $cache,
         Config $config,
         ResourceManager $resources,
-        RequestStack $requestStack,
-        LoggerInterface $loggerSystem
+        RequestStack $requestStack
     ) {
         $this->injector = $injector;
         $this->cache = $cache;
         $this->config = $config;
         $this->resources = $resources;
         $this->requestStack = $requestStack;
-        $this->loggerSystem = $loggerSystem;
     }
 
     /**
      * Insert a snippet. And by 'insert' we actually mean 'add it to the queue,
      * to be processed later'.
      *
-     * @param string          $location
-     * @param callable|string $callback
-     * @param string          $extensionName
-     * @param array|null      $callbackArguments
+     * @param SnippetAssetInterface $snippet
      */
-    public function add($location, $callback, $extensionName = 'core', array $callbackArguments = [])
+    public function add(SnippetAssetInterface $snippet)
     {
-        $callback = $this->getCallableResult($extensionName, $callback, $callbackArguments);
-        $this->queue[] = (new Snippet())
-            ->setLocation($location)
-            ->setCallback($callback)
-            ->setExtension($extensionName)
-            ->setCallbackArguments($callbackArguments)
-        ;
+        $this->queue[] = $snippet;
     }
 
     /**
@@ -168,54 +153,6 @@ class Queue implements QueueInterface
         }
 
         return $html;
-    }
-
-    /**
-     * Get the output from the callback.
-     *
-     * @param string          $extensionName
-     * @param callable|string $callback
-     * @param array           $parameters
-     *
-     * @return string
-     */
-    private function getCallableResult($extensionName, $callback, array $parameters)
-    {
-        if ($extensionName === 'core' && is_callable($callback)) {
-            // Snippet is a callback in the 'global scope'
-            return call_user_func_array($callback, (array) $parameters);
-        } elseif ($callable = $this->getCallable($extensionName, $callback)) {
-            // Snippet is defined in the extension itself.
-            return call_user_func_array($callable, (array) $parameters);
-        } elseif (is_string($callback) || $callback instanceof \Twig_Markup) {
-            // Insert the 'callback' as a string.
-            return (string) $callback;
-        }
-
-        try {
-            $this->loggerSystem->critical(sprintf('Snippet loading failed for %s with callable %s', $extensionName, serialize($callback)), ['context' => 'extensions']);
-        } catch (\Exception $e) {
-            $this->loggerSystem->critical(sprintf('Snippet loading failed for %s with an unknown callback.', $extensionName), ['context' => 'extensions']);
-        }
-
-        return '';
-    }
-
-    /**
-     * Check for a valid snippet callback.
-     *
-     * @param string          $extensionName
-     * @param callable|string $callback
-     *
-     * @return callable|null
-     */
-    private function getCallable($extensionName, $callback)
-    {
-        if (is_callable($callback)) {
-            return $callback;
-        } elseif (is_callable([$extensionName, $callback])) {
-            return [$extensionName, $callback];
-        }
     }
 
     /**
