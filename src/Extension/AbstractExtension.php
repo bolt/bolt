@@ -16,13 +16,13 @@ abstract class AbstractExtension implements ExtensionInterface
     /** @var Container */
     protected $container;
     /** @var string */
-    protected $path;
+    private $path;
     /** @var string */
-    protected $name;
+    private $name;
     /** @var string */
-    protected $vendor;
+    private $vendor;
     /** @var string */
-    protected $namespace;
+    private $namespace;
 
     /**
      * {@inheritdoc}
