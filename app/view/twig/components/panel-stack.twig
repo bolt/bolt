@@ -12,7 +12,7 @@
 
 {% block panel_body %}
     {% set stack_id = buid() %}
-    <fieldset class="stack" id="{{ stack_id }}" data-bolt-widget="buicStack">
+    <fieldset class="buic-stack" id="{{ stack_id }}" data-bolt-widget="buicStack">
         <div id="stackholder">
             {% for item in context.stack %}
                 <div class="stackitem item-{{ loop.index }} {{ item.type }} info-pop"

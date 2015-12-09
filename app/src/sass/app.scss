@@ -90,7 +90,6 @@ $navbar-padding-horizontal: 0;
 @import "modules/popover";
 @import "modules/dashboard";
 @import "modules/aside";
-@import "modules/stack";
 @import "modules/forms";
 @import "modules/liveeditor";
 @import "modules/login";
@@ -108,6 +107,7 @@ $navbar-padding-horizontal: 0;
 @import "buic/moment";
 @import "buic/progress";
 @import "buic/select";
+@import "buic/stack";
 
 /**
  * Editcontent.
