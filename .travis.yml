@@ -67,6 +67,8 @@ before_script:
   # - cd .tmp
   # Add requires
   - composer require --working-dir=.tmp/ --no-update bolt/bolt:dev-master phpunit/phpunit:^4.5 codeception/codeception:^2.1 lstrojny/phpunit-function-mocker:dev-master guzzlehttp/guzzle:^5.3 composer/composer:dev-master@dev passwordlib/passwordlib:1.0.x-dev@dev
+  # Temporary until versions are tagged
+  - composer require --working-dir=.tmp/ --no-update bolt/filesystem:^2.0@dev bolt/thumbs:^3.0@dev
   # Create the project
   - composer create-project --working-dir=.tmp/ --no-interaction --prefer-dist
   # Update the Composer Bolt install with the PR files
