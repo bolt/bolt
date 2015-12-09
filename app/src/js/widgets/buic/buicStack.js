@@ -71,7 +71,7 @@
             this._ui.holder.prepend(html);
 
             // If the "empty stack" notice was showing, remove it.
-            $('.nostackitems').remove();
+            $('.empty').remove();
         }
     });
 })(jQuery, Bolt);
