@@ -23,7 +23,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
      */
     final public function register(Application $app)
     {
-        $this->registerTwigExtension($app);
+        $this->registerTwigExtension();
 
         $this->initialize($app);
     }

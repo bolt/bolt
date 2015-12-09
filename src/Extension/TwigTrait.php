@@ -20,6 +20,8 @@ trait TwigTrait
     private $twigExtension;
     /** @var DynamicExtension */
     private $safeTwigExtension;
+    /** @var bool */
+    private $loadedTwig = false;
 
     /** @return Container */
     abstract protected function getContainer();
@@ -28,16 +30,56 @@ trait TwigTrait
     abstract public function getName();
 
     /**
+     * Returns a list of twig functions.
+     *
+     * Example:
+     * <pre>
+     *  return [
+     *      'foo' => 'fooFunction',
+     *      'bar' => ['barFunction', ['is_safe' => 'html']]
+     *  ];
+     * </pre>
+     *
+     * @return array
+     */
+    protected function getTwigFunctions()
+    {
+        return [];
+    }
+
+    /**
+     * Returns a list of twig filters.
+     *
+     * Example:
+     * <pre>
+     *  return [
+     *      'foo' => 'fooFilter',
+     *      'bar' => ['barFilter', ['is_safe' => 'html']]
+     *  ];
+     * </pre>
+     *
+     * @return array
+     */
+    protected function getTwigFilters()
+    {
+        return [];
+    }
+
+    /**
      * Call this in register method.
      *
-     * @param Container $app
+     * @internal
      */
-    protected function registerTwigExtension(Container $app)
+    final protected function registerTwigExtension()
     {
+        $app = $this->getContainer();
+
         $app['twig'] = $app->share(
             $app->extend(
                 'twig',
                 function ($twig) {
+                    $this->loadTwig();
+
                     if ($this->twigExtension) {
                         $twig->addExtension($this->twigExtension);
                     }
@@ -51,6 +93,8 @@ trait TwigTrait
             $app->extend(
                 'safe_twig',
                 function ($twig) {
+                    $this->loadTwig();
+
                     if ($this->safeTwigExtension) {
                         $twig->addExtension($this->safeTwigExtension);
                     }
@@ -62,7 +106,37 @@ trait TwigTrait
     }
 
     /**
+     * Lazily adds filters and functions to our DynamicExtensions
+     */
+    private function loadTwig()
+    {
+        if ($this->loadedTwig) {
+            return;
+        }
+
+        foreach ($this->getTwigFunctions() as $name => $options) {
+            if (is_string($options)) {
+                $this->addTwigFunction($name, $options);
+            } else {
+                $this->addTwigFunction($name, $options[0], isset($options[1]) ? $options[1] : []);
+            }
+        }
+
+        foreach ($this->getTwigFilters() as $name => $options) {
+            if (is_string($options)) {
+                $this->addTwigFilter($name, $options);
+            } else {
+                $this->addTwigFilter($name, $options[0], isset($options[1]) ? $options[1] : []);
+            }
+        }
+
+        $this->loadedTwig = true;
+    }
+
+    /**
      * Add a Twig Function.
+     *
+     * @internal Will be made private in 4.0. Use getTwigFunctions() instead.
      *
      * @param string          $name
      * @param string|callable $callback
@@ -98,6 +172,8 @@ trait TwigTrait
 
     /**
      * Add a Twig Filter.
+     *
+     * @internal Will be made private in 4.0. Use getTwigFilters() instead.
      *
      * @param string          $name
      * @param string|callable $callback
