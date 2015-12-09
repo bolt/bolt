@@ -53,17 +53,10 @@
          * @param {string} path - Path to add to the stack
          */
         prepend: function (path) {
-            var stack = $('.stackitem', this._ui.holder),
-                ext = path.substr(path.lastIndexOf('.') + 1).toLowerCase(),
-                item,
-                html,
-                i;
+            var ext = path.substr(path.lastIndexOf('.') + 1).toLowerCase(),
+                html;
 
-            // Move all current items one down, and remove the last one.
-            for (i = stack.length; i >= 1; i--) {
-                item = $('.stackitem.item-' + i, this._ui.holder);
-                item.addClass('item-' + (i + 1)).removeClass('item-' + i);
-            }
+            // Remove the last stackitem.
             $('.stackitem:nth-child(7)', this._ui.holder).remove();
 
             // Insert new item at the front.
