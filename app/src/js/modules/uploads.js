@@ -346,6 +346,7 @@
      */
     function onUploadDone(event, data) {
         var fieldset = $(event.target).closest('div[data-bolt-fieldset]');
+
         $.each(data.result, function (idx, file) {
             if (file.error) {
                 bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
@@ -361,7 +362,7 @@
                         uploads.addToList(fieldset, file.name);
                         break;
                     default:
-                    bolt.stack.addToStack(file.name);
+                        bolt.stack.addToStack(file.name);
                 }
             }
         });
