@@ -116,47 +116,6 @@
                 }
             });
 
-                /*$('div.list', fieldset)*/
-                /*.on('click', '.list-item', function (event) {
-                    if ($(event.target).hasClass('list-item')) {
-                        if (event.shiftKey) {
-                            if (lastClick) {
-                                var currentIndex = $(this).index(),
-                                    lastIndex = lastClick.index();
-
-                                if (lastIndex > currentIndex) {
-                                    $(this).nextUntil(lastClick).add(this).add(lastClick).addClass('selected');
-                                } else if (lastIndex < currentIndex) {
-                                    $(this).prevUntil(lastClick).add(this).add(lastClick).addClass('selected');
-                                } else {
-                                    $(this).toggleClass('selected');
-                                }
-                            }
-                        } else if (event.ctrlKey || event.metaKey) {
-                            $(this).toggleClass('selected');
-                        } else {
-                            $('.list-item', fieldset).not($(this)).removeClass('selected');
-                            $(this).toggleClass('selected');
-                        }
-
-                        lastClick = event.shiftKey || event.ctrlKey || event.metaKey || $(this).hasClass('selected') ?
-                            $(this) : null;
-                    }
-                })*/
-                /*.on('click', '.remove-button', function (event) {
-                    var msg = isImage ? 'field.imagelist.message.remove' : 'field.filelist.message.remove';
-
-                    event.preventDefault();
-
-                    if (confirm(bolt.data(msg))) {
-                        $(this).closest('.list-item').remove();
-                        self._serialize();
-                    }
-                })*/
-                /*.on('change', 'input', function () {
-                    self._serialize();
-                });*/
-
             $('.remove-selected-button', fieldset).on('click', function () {
                 var msg = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
 
