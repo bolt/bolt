@@ -27,7 +27,7 @@
      * @param {Object} fieldset
      */
     uploads.bindField = function (fieldset) {
-        bindUpload(fieldset, false);
+        uploads.bindUpload(fieldset, false);
         bindSelectFromStack(fieldset);
         uploads.bindAutocomplete(fieldset);
     };
@@ -141,7 +141,7 @@
             }
         });
 
-        bindUpload(fieldset, true);
+        uploads.bindUpload(fieldset, true);
         bindSelectFromStack(fieldset);
     };
 
@@ -154,7 +154,7 @@
      * @param {Object} container
      */
     uploads.bindStack = function (container) {
-        bindUpload(container);
+        uploads.bindUpload(container);
     };
 
     /**
@@ -195,12 +195,12 @@
      * button along with drag and drop functionality. To do this it uses the `key` parameter which needs to
      * be a unique ID.
      *
-     * @private
+     * @static
      * @function bindUpload
      * @memberof Bolt.uploads
      * @param {Object} fieldset
      */
-    function bindUpload(fieldset) {
+    uploads.bindUpload = function (fieldset) {
         var fileInput = $(fieldset).find('input[type=file]'),
             dropZone = $(fieldset).find('.dropzone'),
             //
@@ -230,7 +230,7 @@
             .on('fileuploadprogress', onUploadProgress)
             .on('fileuploadalways', onUploadAlways)
             .on('fileuploaddone', onUploadDone);
-    }
+    };
 
     /**
      * Binds event to select from stack button.
