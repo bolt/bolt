@@ -7,13 +7,10 @@ use Bolt\Extension\SimpleExtension;
 use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
-use Bolt\Helpers\Arr;
 use Bolt\Library as Lib;
 use Bolt\Response\BoltResponse;
 use Composer\Json\JsonFile;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml;
 
 /**
@@ -231,135 +228,6 @@ abstract class BaseExtension extends SimpleExtension
         }
 
         return $this->extensionConfig;
-    }
-
-    /**
-     * Override this to provide a default configuration, which will be used
-     * in the absence of a config.yml file.
-     *
-     * @return array
-     */
-    protected function getDefaultConfig()
-    {
-        return [];
-    }
-
-    /**
-     * Load the configuration files, creating missing files as needed based on
-     * the .dist default.
-     *
-     * @return array
-     */
-    public function getConfig()
-    {
-        if ($this->configLoaded) {
-            return $this->config;
-        }
-
-        $this->config = $this->getDefaultConfig();
-
-        // Config file name should follow the format of {ext_name}.{vendor}.yml
-        // and be in the root of the extension config directory
-        $basefile = explode('/', $this->getMachineName());
-        $basefile = isset($basefile[1]) ? $basefile[1] . '.' . $basefile[0] : $basefile[0];
-        $basefile = $this->app['resources']->getPath('extensionsconfig') . '/' . $basefile;
-
-        // Load main config
-        if ($this->isConfigValid($basefile . '.yml', true)) {
-            $this->loadConfigFile($basefile . '.yml');
-        }
-
-        // Load local config
-        if ($this->isConfigValid($basefile . '_local.yml', false)) {
-            $this->loadConfigFile($basefile . '_local.yml');
-        }
-
-        $this->configLoaded = true;
-
-        return $this->config;
-    }
-
-    /**
-     * Test if a given config file is valid (exists and is readable) and create
-     * if required.
-     *
-     * @param string  $configfile Fully qualified file path
-     * @param boolean $create     True - create file is non-existant
-     *                            False - Only test for file existance
-     *
-     * @return boolean
-     */
-    private function isConfigValid($configfile, $create)
-    {
-        if (file_exists($configfile)) {
-            if (is_readable($configfile)) {
-                return true;
-            }
-
-            // Config file exists but is not readable
-            $configdir = dirname($configfile);
-            $message = "Couldn't read $configfile. Please correct file " .
-                       "permissions and ensure the $configdir directory readable.";
-            $this->app['logger.system']->critical($message, ['event' => 'extensions']);
-            $this->app['logger.flash']->error($message);
-
-            return false;
-        }
-
-        if (!$create) {
-            return false;
-        }
-
-        $fs = new Filesystem();
-        $configdistfile = $this->basepath . '/config.yml.dist';
-
-        // There are cases where the config directory may not exist yet, try to create it.
-        try {
-            $fs->mkdir(dirname($configfile));
-        } catch (IOException $e) {
-            $message = 'Unable to create extension configuration directory at ' . dirname($configfile);
-            $this->app['logger.flash']->error($message);
-            $this->app['logger.system']->error($message, ['event' => 'exception', 'exception' => $e]);
-        }
-
-        // If config.yml.dist exists, attempt to copy it to config.yml.
-        if (is_readable($configdistfile) && is_dir(dirname($configfile))) {
-            if (copy($configdistfile, $configfile)) {
-                // Success!
-                $this->app['logger.system']->info("Copied $configdistfile to $configfile", ['event' => 'extensions']);
-
-                return true;
-            } else {
-                // Failure!!
-                $configdir = dirname($configfile);
-                $message = "Couldn't copy $configdistfile to $configfile: " .
-                'File is not writable. Create the file manually, ' .
-                "or make the $configdir directory writable.";
-                $this->app['logger.system']->critical($message, ['event' => 'extensions']);
-                $this->app['logger.flash']->error($message);
-
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Load and process a give config file.
-     *
-     * @param string $configfile Fully qualified file path
-     */
-    private function loadConfigFile($configfile)
-    {
-        $yamlparser = new Yaml\Parser();
-
-        $newConfig = $yamlparser->parse(file_get_contents($configfile) . "\n");
-
-        // Don't error on empty config files
-        if (is_array($newConfig)) {
-            $this->config = Arr::mergeRecursiveDistinct($this->config, $newConfig);
-        }
     }
 
     /**
