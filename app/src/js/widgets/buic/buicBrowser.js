@@ -16,6 +16,13 @@
      */
     $.widget('bolt.buicBrowser', /** @lends jQuery.widget.bolt.buicBrowser.prototype */ {
         /**
+         * Event reporting that a file was selected.
+         *
+         * @event jQuery.widget.bolt.buicBrowser#buicbrowserselected
+         * @property {string} path - The path to the selected file
+         */
+
+        /**
          * Default options.
          *
          * @property {string} [url] - URL to browse
@@ -54,6 +61,7 @@
          * Browser directory on server.
          *
          * @private
+         * @fires jQuery.widget.bolt.buicBrowser#buicbrowserselected
          */
         _browse: function () {
             var self = this,
@@ -92,7 +100,7 @@
                         })
                         .on('click.bolt', '[data-fbrowser-select]', function (evt) {
                             evt.preventDefault();
-                            self._select($(this).data('fbrowser-select'));
+                            self._trigger('selected', null, {path: $(this).data('fbrowser-select')});
                             modal.close();
                         })
                         .on('click.bolt', '[aria-pressed]', function (evt) {
@@ -140,28 +148,6 @@
                     });
                 }
             });
-        },
-
-        /**
-         * Select file in modal file selector dialog.
-         *
-         * @private
-         * @param {string} path - Path to the selected file
-         */
-        _select: function (path) {
-            var fieldset = this.element.closest('fieldset');
-
-            if (fieldset.is(':bolt-fieldFile')) {
-                fieldset.fieldFile('setPath', path);
-            } else if (fieldset.is(':bolt-fieldImage')) {
-                fieldset.fieldImage('setPath', path);
-            } else if (fieldset.is(':bolt-fieldFilelist')) {
-                fieldset.fieldFilelist('addPath', path);
-            } else if (fieldset.is(':bolt-fieldImagelist')) {
-                fieldset.fieldImagelist('addPath', path);
-            } else if (fieldset.is(':bolt-buicStack')) {
-                fieldset.buicStack('add', path);
-            }
         }
     });
 })(jQuery, Bolt);

@@ -11,6 +11,13 @@
     'use strict';
 
     /**
+     * Event reporting that a file was selected.
+     *
+     * @event Bolt.uploads#uploaduploaded
+     * @property {string} path - The path to the selected file
+     */
+
+    /**
      * Bolt.uploads mixin container.
      *
      * @private
@@ -66,6 +73,8 @@
      * @static
      * @function bindSelectFromStack
      * @memberof Bolt.uploads
+     * @fires Bolt.uploads#uploaduploaded
+     *
      * @param {Object} fieldset
      */
     uploads.bindSelectFromStack = function (fieldset) {
@@ -75,7 +84,7 @@
             // Close the dropdown.
             $(this).closest('.btn-group').find('button.dropdown-toggle').dropdown('toggle');
 
-            add(fieldset, path, false);
+            $(this).trigger('uploaduploaded', {path: path});
 
             return false;
         });
@@ -173,6 +182,8 @@
      * @private
      * @function onUploadDone
      * @memberof Bolt.uploads
+     * @fires Bolt.uploads#uploaduploaded
+     *
      * @param {Object} event
      * @param {Object} data
      */
@@ -183,34 +194,9 @@
             if (file.error) {
                 bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
             } else {
-                add(fieldset, file.name, true);
+                fieldset.trigger('uploaduploaded', {path: file.name});
             }
         });
-    }
-
-    /**
-     * Add the file.
-     *
-     * @private
-     * @function add
-     * @memberof Bolt.uploads
-     *
-     * @param {Object} fieldset
-     * @param {string} path
-     * @param {boolean} stackAdd
-     */
-    function add(fieldset, path, stackAdd) {
-        if (fieldset.is(':bolt-fieldFile')) {
-            fieldset.fieldFile('setPath', path, stackAdd);
-        } else if (fieldset.is(':bolt-fieldImage')) {
-            fieldset.fieldImage('setPath', path, stackAdd);
-        } else if (fieldset.is(':bolt-fieldFilelist')) {
-            fieldset.fieldFilelist('addPath', path);
-        } else if (fieldset.is(':bolt-fieldImagelist')) {
-            fieldset.fieldImagelist('addPath', path);
-        } else if (fieldset.is(':bolt-buicStack')) {
-            fieldset.buicStack('add', path);
-        }
     }
 
     // Apply mixin container

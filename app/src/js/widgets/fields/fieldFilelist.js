@@ -19,6 +19,8 @@
          * The constructor of the filelist field widget.
          *
          * @private
+         * @listens jQuery.widget.bolt.buicBrowser#buicbrowserselected
+         * @listens Bolt.uploads#uploaduploaded
          */
         _create: function () {
             var self = this,
@@ -136,9 +138,43 @@
                 }
             });
 
+            // Listen to external events.
+            self._on({
+                'buicbrowserselected': self._addPath,
+                'uploaduploaded':      self._addPath
+            });
+
             // Bind events.
             bolt.uploads.bindUpload(fieldset, true);
             bolt.uploads.bindSelectFromStack(fieldset);
+        },
+
+        /**
+         * Adds a file path to the list.
+         *
+         * @private
+         *
+         * @param {Object}                                             event - The event
+         * @param {jQuery.widget.bolt.buicBrowser#buicbrowserselected|
+         *         Bolt.uploads#uploaduploaded}                        data  - Data containing the path
+         */
+        _addPath: function (event, data) {
+            // Remove empty list message, if there.
+            $('>p', this._ui.list).remove();
+
+            // Append to list.
+            this._ui.list.append(
+                $(Bolt.data(
+                    this.options.isImage ? 'field.imagelist.template.item' : 'field.filelist.template.item',
+                    {
+                        '%TITLE_A%':    data.path,
+                        '%FILENAME_E%': $('<div>').text(data.path).html(), // Escaped
+                        '%FILENAME_A%': data.path
+                    }
+                ))
+            );
+
+            this._serialize();
         },
 
         /**
@@ -160,31 +196,6 @@
             if (data.length === 0) {
                 this._ui.list.html(bolt.data(template));
             }
-        },
-
-        /**
-         * Adds a titled file path to the list.
-         *
-         * @param {string} path
-         * @param {string} title
-         */
-        addPath: function (path, title) {
-            // Remove empty list message, if there.
-            $('>p', this._ui.list).remove();
-
-            // Append to list.
-            this._ui.list.append(
-                $(Bolt.data(
-                    this.options.isImage ? 'field.imagelist.template.item' : 'field.filelist.template.item',
-                    {
-                        '%TITLE_A%':    title || path,
-                        '%FILENAME_E%': $('<div>').text(path).html(), // Escaped
-                        '%FILENAME_A%': path
-                    }
-                ))
-            );
-
-            this._serialize();
         }
     });
 })(jQuery, Bolt);

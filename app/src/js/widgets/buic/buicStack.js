@@ -16,11 +16,27 @@
      */
     $.widget('bolt.buicStack', /** @lends jQuery.widget.bolt.buicStack.prototype */ {
         /**
+         * Add a file to the stack.
+         *
+         * @private
+         *
+         * @param {Object}                                             event - The event
+         * @param {jQuery.widget.bolt.buicBrowser#buicbrowserselected|
+         *         Bolt.uploads#uploaduploaded}                        data  - Data containing the path
+         */
+        _addPath: function (event, data) {
+            bolt.stack.addToStack(data.path);
+        },
+
+        /**
          * The constructor of the stack widget.
          *
          * @private
          */
         _create: function () {
+            var self = this,
+                fieldset = this.element;
+
             /**
              * Refs to UI elements of this widget.
              *
@@ -28,6 +44,7 @@
              * @name _ui
              * @memberOf jQuery.widget.bolt.buicStack.prototype
              * @private
+             * @listens jQuery.widget.bolt.buicBrowser#buicbrowserselected
              *
              * @property {Object} holder         - Stackholder
              * @property {Object} template       - Templates
@@ -35,23 +52,20 @@
              * @property {Object} template.other - Template for stackitems of type 'other'
              */
             this._ui = {
-                holder:        this.element.find('.stackholder'),
-                template: {
-                    image: this.element.find('.templates .image'),
-                    other: this.element.find('.templates .other')
-                }
+                holder:     fieldset.find('.stackholder'),
+                template:   {
+                                image: fieldset.find('.templates .image'),
+                                other: fieldset.find('.templates .other')
+                            }
             };
 
-            bolt.uploads.bindUpload(this.element);
-        },
+            // Listen to external events.
+            self._on({
+                'buicbrowserselected': self._addPath,
+                'uploaduploaded':      self._addPath
+            });
 
-        /**
-         * Add a file to the stack.
-         *
-         * @param {string} path - Path to add to the stack
-         */
-        add: function (path) {
-            bolt.stack.addToStack(path);
+            bolt.uploads.bindUpload(fieldset);
         },
 
         /**
