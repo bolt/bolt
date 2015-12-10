@@ -174,23 +174,6 @@ abstract class BaseExtension extends SimpleExtension
     }
 
     /**
-     * Make sure jQuery is added.
-     */
-    public function addJquery()
-    {
-        $this->app['extensions']->addJquery();
-    }
-
-    /**
-     * Don't make sure jQuery is added. Note that this does not mean that jQuery will _not_ be added.
-     * It only means that the extension will not add it, but others still might do so.
-     */
-    public function disableJquery()
-    {
-        $this->app['extensions']->disableJquery();
-    }
-
-    /**
      * Returns a list of all css and js assets that are added via extensions.
      *
      * @return array

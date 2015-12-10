@@ -19,26 +19,6 @@ trait DeprecatedFunctionsTrait
     abstract protected function getApp();
 
     /**
-     * Add jQuery to the output.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function addJquery()
-    {
-        $this->getApp()['config']->set('general/add_jquery', true);
-    }
-
-    /**
-     * Don't add jQuery to the output.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function disableJquery()
-    {
-        $this->getApp()['config']->set('general/add_jquery', false);
-    }
-
-    /**
      * Legacy function that returns a list of all css and js assets that are
      * added via extensions.
      *
