@@ -9,6 +9,8 @@ use Bolt\Asset\File\Stylesheet;
 /**
  * Extension assets BC trait.
  *
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 trait AssetTrait
@@ -84,6 +86,8 @@ trait AssetTrait
      * @param FileAssetInterface $asset
      * @param string             $fileName
      * @param array              $options
+     *
+     * @return FileAssetInterface
      */
     private function setupAsset(FileAssetInterface $asset, $fileName, array $options)
     {
