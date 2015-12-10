@@ -116,12 +116,15 @@
                 }
             });
 
-            $('.remove-selected-button', fieldset).on('click', function () {
-                var msg = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
+            // Bind "Remove selected" button event.
+            this._on($('.remove-selected-button', fieldset), {
+                'click': function () {
+                    var msg = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
 
-                if (confirm(bolt.data(msg))) {
-                    $('.selected', fieldset).closest('.list-item').remove();
-                    self._serialize();
+                    if (confirm(bolt.data(msg))) {
+                        $('.selected', list).closest('.list-item').remove();
+                        self._serialize();
+                    }
                 }
             });
 
