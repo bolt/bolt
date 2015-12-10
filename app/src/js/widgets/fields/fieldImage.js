@@ -40,9 +40,8 @@
                     }
 
                     preview.attr('src', url);
-                    }
                 }
-            );
+            });
         }
     });
 })(jQuery, Bolt);
