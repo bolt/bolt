@@ -146,18 +146,6 @@
     };
 
     /**
-     * Bind upload capability to the stack.
-     *
-     * @static
-     * @function bindStack
-     * @memberof Bolt.uploads
-     * @param {Object} container
-     */
-    uploads.bindStack = function (container) {
-        uploads.bindUpload(container);
-    };
-
-    /**
      * Adds a file to an upload list.
      *
      * @static

@@ -42,7 +42,7 @@
                 }
             };
 
-            bolt.uploads.bindStack(this.element);
+            bolt.uploads.bindUpload(this.element);
         },
 
         /**
