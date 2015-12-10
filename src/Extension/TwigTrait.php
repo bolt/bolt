@@ -30,7 +30,7 @@ trait TwigTrait
     abstract public function getName();
 
     /**
-     * Returns a list of twig functions.
+     * Returns a list of twig functions to register.
      *
      * Example:
      * <pre>
@@ -42,13 +42,13 @@ trait TwigTrait
      *
      * @return array
      */
-    protected function getTwigFunctions()
+    protected function registerTwigFunctions()
     {
         return [];
     }
 
     /**
-     * Returns a list of twig filters.
+     * Returns a list of twig filters to register.
      *
      * Example:
      * <pre>
@@ -60,7 +60,7 @@ trait TwigTrait
      *
      * @return array
      */
-    protected function getTwigFilters()
+    protected function registerTwigFilters()
     {
         return [];
     }
@@ -70,7 +70,7 @@ trait TwigTrait
      *
      * @internal
      */
-    final protected function registerTwigExtension()
+    final protected function extendTwigService()
     {
         $app = $this->getContainer();
 
@@ -114,7 +114,7 @@ trait TwigTrait
             return;
         }
 
-        foreach ($this->getTwigFunctions() as $name => $options) {
+        foreach ($this->registerTwigFunctions() as $name => $options) {
             if (is_string($options)) {
                 $this->addTwigFunction($name, $options);
             } else {
@@ -122,7 +122,7 @@ trait TwigTrait
             }
         }
 
-        foreach ($this->getTwigFilters() as $name => $options) {
+        foreach ($this->registerTwigFilters() as $name => $options) {
             if (is_string($options)) {
                 $this->addTwigFilter($name, $options);
             } else {
@@ -136,7 +136,7 @@ trait TwigTrait
     /**
      * Add a Twig Function.
      *
-     * @internal Will be made private in 4.0. Use getTwigFunctions() instead.
+     * @internal Will be made private in 4.0. Use registerTwigFunctions() instead.
      *
      * @param string          $name
      * @param string|callable $callback
@@ -173,7 +173,7 @@ trait TwigTrait
     /**
      * Add a Twig Filter.
      *
-     * @internal Will be made private in 4.0. Use getTwigFilters() instead.
+     * @internal Will be made private in 4.0. Use registerTwigFilters() instead.
      *
      * @param string          $name
      * @param string|callable $callback

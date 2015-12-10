@@ -28,7 +28,7 @@ trait AssetTrait
      *
      * @internal
      */
-    final protected function registerAssets()
+    final protected function extendAssetServices()
     {
         $app = $this->getContainer();
 
@@ -85,17 +85,17 @@ trait AssetTrait
     }
 
     /**
-     * Returns a list of assets to load. Assets can be a file, snippet, or widget.
+     * Returns a list of assets to register. Assets can be a file, snippet, or widget.
      *
      * @return AssetInterface[]
      */
-    protected function getAssets()
+    protected function registerAssets()
     {
         return [];
     }
 
     /**
-     * Merges assets returned from getAssets() to our list.
+     * Merges assets returned from registerAssets() to our list.
      */
     private function loadAssets()
     {
@@ -103,10 +103,10 @@ trait AssetTrait
             return;
         }
 
-        foreach ($this->getAssets() as $asset) {
+        foreach ($this->registerAssets() as $asset) {
             if (!$asset instanceof AssetInterface) {
                 throw new \InvalidArgumentException(sprintf(
-                    '%s::getAssets() should return a list of Bolt\Asset\AssetInterface objects. Got: %s',
+                    '%s::registerAssets() should return a list of Bolt\Asset\AssetInterface objects. Got: %s',
                     get_called_class(),
                     get_class($asset)
                 ));
@@ -121,7 +121,7 @@ trait AssetTrait
     /**
      * Add an file, snippet or widget asset to the render queue.
      *
-     * @internal Will be made private in 4.0. Use getAssets() instead.
+     * @internal Will be made private in 4.0. Use registerAssets() instead.
      *
      * @param AssetInterface $asset
      */

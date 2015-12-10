@@ -24,7 +24,7 @@ trait MenuTrait
      *
      * @internal
      */
-    final protected function registerMenuEntries()
+    final protected function extendMenuService()
     {
         $app = $this->getContainer();
 
@@ -34,10 +34,10 @@ trait MenuTrait
                 function (MenuEntry $menus) {
                     $menu = $menus->getChild('extend');
 
-                    foreach ($this->getMenuEntries() as $menuEntry) {
+                    foreach ($this->registerMenuEntries() as $menuEntry) {
                         if (!$menuEntry instanceof MenuEntry) {
                             throw new \InvalidArgumentException(sprintf(
-                                '%s::getMenuEntries() should return a list of Bolt\Menu\MenuEntry objects. Got: %s',
+                                '%s::registerMenuEntries() should return a list of Bolt\Menu\MenuEntry objects. Got: %s',
                                 get_called_class(),
                                 get_class($menuEntry)
                             ));
@@ -57,11 +57,11 @@ trait MenuTrait
     }
 
     /**
-     * Returns a list of menu entries.
+     * Returns a list of menu entries to register.
      *
      * @return MenuEntry[]
      */
-    protected function getMenuEntries()
+    protected function registerMenuEntries()
     {
         return [];
     }
@@ -69,7 +69,7 @@ trait MenuTrait
     /**
      * Add a menu option to backend menu.
      *
-     * @internal Will be made private in 4.0. Use getMenuEntries() instead.
+     * @internal Will be made private in 4.0. Use registerMenuEntries() instead.
      *
      * @param string $label
      * @param string $path

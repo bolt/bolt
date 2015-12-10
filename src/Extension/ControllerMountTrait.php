@@ -24,19 +24,19 @@ trait ControllerMountTrait
      *
      * @return ControllerCollection[]|ControllerProviderInterface[]
      */
-    protected function getControllers()
+    protected function registerControllers()
     {
         return [];
     }
 
     /**
-     * Mounts the controllers defined in getControllers().
+     * Mounts the controllers defined in registerControllers().
      *
      * @param MountEvent $event
      */
     final public function onMount(MountEvent $event)
     {
-        foreach ($this->getControllers() as $prefix => $collection) {
+        foreach ($this->registerControllers() as $prefix => $collection) {
             $event->mount($prefix, $collection);
         }
     }
