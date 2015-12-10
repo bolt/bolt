@@ -19,20 +19,6 @@
     var uploads = {};
 
     /**
-     * This function handles the setup of any field that requires upload capability.
-     *
-     * @static
-     * @function bindField
-     * @memberof Bolt.uploads
-     * @param {Object} fieldset
-     */
-    uploads.bindField = function (fieldset) {
-        uploads.bindUpload(fieldset, false);
-        uploads.bindSelectFromStack(fieldset);
-        uploads.bindAutocomplete(fieldset);
-    };
-
-    /**
      * Setup autocomplete popup.
      *
      * @static

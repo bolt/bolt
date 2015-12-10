@@ -27,7 +27,9 @@
                 width = preview.attr('width'),
                 height = preview.attr('height');
 
-            bolt.uploads.bindField($(fieldset));
+            bolt.uploads.bindUpload(fieldset, false);
+            bolt.uploads.bindSelectFromStack(fieldset);
+            bolt.uploads.bindAutocomplete(fieldset);
 
             // Update the preview image on change.
             this._on(input, {

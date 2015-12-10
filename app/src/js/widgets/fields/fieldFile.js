@@ -21,7 +21,9 @@
          * @private
          */
         _create: function () {
-            bolt.uploads.bindField(this.element);
+            bolt.uploads.bindUpload(this.element, false);
+            bolt.uploads.bindSelectFromStack(this.element);
+            bolt.uploads.bindAutocomplete(this.element);
         }
     });
 })(jQuery, Bolt);
