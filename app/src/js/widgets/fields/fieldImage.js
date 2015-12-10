@@ -13,6 +13,7 @@
      *
      * @class fieldImage
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.fieldFile
      */
     $.widget('bolt.fieldImage', $.bolt.fieldFile, /** @lends jQuery.widget.bolt.fieldImage.prototype */ {
         /**
