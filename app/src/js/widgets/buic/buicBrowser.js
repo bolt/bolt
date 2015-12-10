@@ -136,8 +136,7 @@
 
                 if (!hide) {
                     $(this).find('a, span').each(function () {
-                        var text = name.replace(term, '<mark>' + term + '</mark>');
-                        console.log($(this).html(text));
+                        $(this).html(name.replace(term, '<mark>' + term + '</mark>'));
                     });
                 }
             });
