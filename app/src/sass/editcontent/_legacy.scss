@@ -116,6 +116,11 @@
                     border: 2px solid $btn-tertiary-bg;
                 }
 
+                &.zombie {
+                    border: 2px solid #d00;
+                    opacity: 0.1;
+                }
+
                 &.ui-sortable-helper {
                     cursor: ns-resize;
                 }

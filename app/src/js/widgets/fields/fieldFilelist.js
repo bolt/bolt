@@ -120,9 +120,12 @@
                         msgOne = isImage ? 'field.imagelist.message.remove' : 'field.filelist.message.remove',
                         msgMlt = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
 
+                    items.addClass('zombie');
                     if (confirm(bolt.data(items.length > 1 ? msgMlt : msgOne))) {
                         event.target.closest('.item').remove();
                         self._serialize();
+                    } else {
+                        items.removeClass('zombie');
                     }
 
                     event.preventDefault();
