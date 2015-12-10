@@ -472,39 +472,11 @@ abstract class BaseExtension extends SimpleExtension
     }
 
     /**
-     * Add a menu option to the 'settings' menu. Note that the item is only added if the current user
-     * meets the required permission.
-     *
-     * @see \Bolt\Extensions\addMenuOption()
-     *
-     * @param string $label
-     * @param string $path
-     * @param string $icon
-     * @param string $requiredPermission (NULL if no permission is required)
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use \Bolt\Extension\MenuTrait::addMenuEntry() instead
      */
     public function addMenuOption($label, $path, $icon = null, $requiredPermission = null)
     {
-        $this->app['extensions']->addMenuOption($label, $path, $icon, $requiredPermission);
-    }
-
-    /**
-     * Check if there are additional menu-options set for the current user.
-     *
-     * @see \Bolt\Extensions\hasMenuOptions()
-     */
-    public function hasMenuOptions()
-    {
-        return $this->app['extensions']->hasMenuOption();
-    }
-
-    /**
-     * Get an array with the additional menu-options that are set for the current user.
-     *
-     * @see \Bolt\Extensions\hasMenuOptions()
-     */
-    public function getMenuOptions()
-    {
-        return $this->app['extensions']->getMenuOption();
+        $this->addMenuEntry($label, $path, $icon, $requiredPermission);
     }
 
     /**
