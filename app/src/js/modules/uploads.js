@@ -28,7 +28,7 @@
      */
     uploads.bindField = function (fieldset) {
         uploads.bindUpload(fieldset, false);
-        bindSelectFromStack(fieldset);
+        uploads.bindSelectFromStack(fieldset);
         uploads.bindAutocomplete(fieldset);
     };
 
@@ -142,7 +142,7 @@
         });
 
         uploads.bindUpload(fieldset, true);
-        bindSelectFromStack(fieldset);
+        uploads.bindSelectFromStack(fieldset);
     };
 
     /**
@@ -235,12 +235,12 @@
     /**
      * Binds event to select from stack button.
      *
-     * @private
-     * @function bindUpload
+     * @static
+     * @function bindSelectFromStack
      * @memberof Bolt.uploads
      * @param {Object} fieldset
      */
-    function bindSelectFromStack(fieldset) {
+    uploads.bindSelectFromStack = function (fieldset) {
         $('ul.select-from-stack a', fieldset).on('click', function () {
             var path = $(this).data('path');
 
@@ -251,7 +251,7 @@
 
             return false;
         });
-    }
+    };
 
     /**
      * Upload processing failed.
