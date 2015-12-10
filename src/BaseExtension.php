@@ -2,9 +2,6 @@
 namespace Bolt;
 
 use Bolt\Extension\SimpleExtension;
-use Bolt\Extensions\AssetTrait;
-use Bolt\Extensions\ExtensionInterface;
-use Bolt\Extensions\TwigProxy;
 use Composer\Json\JsonFile;
 use Symfony\Component\Yaml;
 
@@ -16,8 +13,6 @@ abstract class BaseExtension extends SimpleExtension
     public $config;
 
     protected $app;
-    /** @var TwigProxy */
-    protected $twigExtension;
     protected $installtype = 'composer';
 
     private $extensionConfig;
@@ -176,22 +171,6 @@ abstract class BaseExtension extends SimpleExtension
     public function isSafe()
     {
         return false;
-    }
-
-    protected function initializeTwig()
-    {
-        if (!$this->twigExtension) {
-            $this->twigExtension = new TwigProxy($this->getName());
-        }
-    }
-
-    public function getTwigExtensions()
-    {
-        if ($this->twigExtension) {
-            return [$this->twigExtension];
-        }
-
-        return [];
     }
 
     /**
