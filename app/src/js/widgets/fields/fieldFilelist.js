@@ -26,11 +26,29 @@
                 isImage = this.options.isImage || false,
                 lastClickIndex = 0;
 
+            /**
+             * Refs to UI elements of this widget.
+             *
+             * @type {Object}
+             * @name _ui
+             * @memberOf jQuery.widget.bolt.fieldFilelist.prototype
+             * @private
+             *
+             * @property {Object} data           - List data holder
+             * @property {Object} list           - List container
+             * @property {Object} removeSelected - Remove selected button
+             */
+            this._ui = {
+                data:           fieldset.find('textarea'),
+                list:           fieldset.find('.list'),
+                removeSelected: fieldset.find('.remove-selected-button')
+            };
+
             // Mark this widget as type of "FileList", if not already set.
-            this.options.isImage = isImage;
+            self.options.isImage = isImage;
 
             // Make the list sortable.
-            $('div.list', fieldset).sortable({
+            self._ui.list.sortable({
                 // Set a helper element to be used for dragging display.
                 helper: function (event, item) {
                     // We select the item dragged, as it isn't selected on a single item drag.
@@ -69,9 +87,7 @@
             });
 
             // Bind list events.
-            var list = $('div.list', fieldset);
-
-            this._on(list, {
+            this._on(self._ui.list, {
                 'click.list-item': function (event) {
                     var item = $(event.target);
 
@@ -81,7 +97,7 @@
                                 end = Math.max(lastClickIndex, item.index());
 
                             // Select all items in range.
-                            list.children().each(function (idx, listitem) {
+                            self._ui.list.children().each(function (idx, listitem) {
                                 $(listitem).toggleClass('selected', idx >= begin && idx <= end);
                             });
                         } else if (event.ctrlKey || event.metaKey) {
@@ -89,7 +105,7 @@
                             // Remember last clicked item.
                             lastClickIndex = item.index();
                         } else {
-                            var otherSelectedItems = list.children('.selected').not(item);
+                            var otherSelectedItems = self._ui.list.children('.selected').not(item);
 
                             // Unselect all other selected items.
                             otherSelectedItems.removeClass('selected');
@@ -117,12 +133,12 @@
             });
 
             // Bind "Remove selected" button event.
-            this._on($('.remove-selected-button', fieldset), {
+            this._on(this._ui.removeSelected, {
                 'click': function () {
                     var msg = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
 
                     if (confirm(bolt.data(msg))) {
-                        $('.selected', list).closest('.list-item').remove();
+                        $('.selected', self._ui.list).closest('.list-item').remove();
                         self._serialize();
                     }
                 }
@@ -137,22 +153,20 @@
          * Serialize list data on change.
          */
         _serialize: function () {
-            var listField = $('div.list', this.element),
-                dataField = $('textarea', this.element),
-                template = this.options.isImage ? 'field.imagelist.template.empty' : 'field.filelist.template.empty',
+            var template = this.options.isImage ? 'field.imagelist.template.empty' : 'field.filelist.template.empty',
                 data = [];
 
-            $('.list-item', listField).each(function () {
+            $('.list-item', this._ui.list).each(function () {
                 data.push({
                     filename: $(this).find('input.filename').val(),
                     title: $(this).find('input.title').val()
                 });
             });
-            dataField.val(JSON.stringify(data));
+            this._ui.data.val(JSON.stringify(data));
 
             // Display empty list message.
             if (data.length === 0) {
-                listField.html(bolt.data(template));
+                this._ui.list.html(bolt.data(template));
             }
         }
     });
