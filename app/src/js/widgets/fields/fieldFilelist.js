@@ -36,12 +36,10 @@
              *
              * @property {Object} data           - List data holder
              * @property {Object} list           - List container
-             * @property {Object} removeSelected - Remove selected button
              */
             this._ui = {
                 data:           fieldset.find('textarea'),
-                list:           fieldset.find('.list'),
-                removeSelected: fieldset.find('.remove-selected-button')
+                list:           fieldset.find('.list')
             };
 
             // Mark this widget as type of "FileList", if not already set.
@@ -116,31 +114,22 @@
                         }
                     }
                 },
-                'click.remove-button': function (event) {
-                    var msg = isImage ? 'field.imagelist.message.remove' : 'field.filelist.message.remove';
+                'click.remove': function (event) {
+                    var item = $(event.target).closest('.list-item'),
+                        items = item.hasClass('selected') ? $('.selected', self._ui.list) : item,
+                        msgOne = isImage ? 'field.imagelist.message.remove' : 'field.filelist.message.remove',
+                        msgMlt = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
 
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    if (confirm(bolt.data(msg))) {
+                    if (confirm(bolt.data(items.length > 1 ? msgMlt : msgOne))) {
                         event.target.closest('.list-item').remove();
                         self._serialize();
                     }
+
+                    event.preventDefault();
+                    event.stopPropagation();
                 },
                 'change input': function () {
                     self._serialize();
-                }
-            });
-
-            // Bind "Remove selected" button event.
-            this._on(this._ui.removeSelected, {
-                'click': function () {
-                    var msg = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
-
-                    if (confirm(bolt.data(msg))) {
-                        $('.selected', self._ui.list).closest('.list-item').remove();
-                        self._serialize();
-                    }
                 }
             });
 

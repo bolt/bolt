@@ -45,7 +45,7 @@
         </a>
         <input type="text" class="title" value="%TITLE_A%">
         <input type="hidden" class="filename" value="%FILENAME_A%">
-        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
+        <a href="#" class="remove"><i class="fa fa-times"></i></a>
     </div>
 {% endset %}
 {% set template_item = template_item|trim|preg_replace('/>\\s+</', '><') %}
@@ -87,13 +87,6 @@
             {{ macro.upload_buttons('image', attributes.fileupload, option.upload, can_upload) }}
 
             <textarea name="{{ name }}" class="hide">{{ list|json_encode() }}</textarea>
-
-            <div class="button-wrap fileselectbuttongroup">
-                <span class="btn btn-default btn-sm remove-selected-button">
-                    <i class="fa fa-trash"></i>
-                    <span>{{ __('Remove selected') }}</span>
-                </span>
-            </div>
         </div>
     </div>
 {% endblock fieldset_controls %}

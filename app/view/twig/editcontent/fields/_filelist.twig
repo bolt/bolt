@@ -44,7 +44,7 @@
     <div class="list-item ui-state-default">
         <input type="text" class="title" value="%TITLE_A%">
         <input type="hidden" class="filename" value="%FILENAME_A%">
-        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
+        <a href="#" class="remove"><i class="fa fa-times"></i></a>
         <span>%FILENAME_E%</span>
     </div>
 {% endset %}
@@ -85,13 +85,6 @@
         {# Buttons #}
         <div class="clearfix">
             {{ macro.upload_buttons('file', attributes.fileupload, option.upload, can_upload) }}
-
-            <div class="button-wrap fileselectbuttongroup">
-                <button type="button" class="btn btn-default btn-sm remove-selected-button">
-                    <i class="fa fa-trash"></i>
-                    <span>{{ __('Remove selected') }}</span>
-                </button>
-            </div>
         </div>
 
         {# Data #}
