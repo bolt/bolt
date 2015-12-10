@@ -3,6 +3,7 @@ namespace Bolt;
 
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Widget\Widget;
+use Bolt\Extension\SimpleExtension;
 use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
@@ -18,7 +19,7 @@ use Symfony\Component\Yaml;
 /**
  * @deprecated Deprecated since 3.0, to be removed in 4.0.
  */
-abstract class BaseExtension implements ExtensionInterface
+abstract class BaseExtension extends SimpleExtension
 {
     use AssetTrait;
 
@@ -38,6 +39,11 @@ abstract class BaseExtension implements ExtensionInterface
     private $composerJsonLoaded;
     private $composerJson;
     private $configLoaded;
+
+    /**
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     */
+    abstract protected function initialize();
 
     /**
      * @param Application $app
@@ -363,29 +369,6 @@ abstract class BaseExtension implements ExtensionInterface
     {
         return $this->namespace;
     }
-
-    /**
-     * Hook method that gets called during the process of registering
-     * extensions with Bolt's core.
-     * The `initialize()` method is called after constructing the extension
-     * and loading its configuration, but before dispatching into any of its
-     * route handlers, and before hooking up Twig functions and filters.
-     * This means that `$this->app` and `$this->config` are available, but you
-     * cannot rely on anything that the extension itself injects into Bolt, and
-     * you cannot safely access any other extensions.
-     *
-     * Typical things to do in `initialize()` include:
-     * - registering CSS and JavaScript files to be included in frontend
-     *   responses
-     * - registering Twig functions and filters
-     * - registering providers into Bolt's DI hub ($app)
-     * - setting up internal state that relies on `$this->config`
-     * - registering route handlers
-     * - extending the menu
-     *
-     * An empty default implementation is given for convenience.
-     */
-    abstract public function initialize();
 
     /**
      * Allow use of the extension's Twig function in content records when the
