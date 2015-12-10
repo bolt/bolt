@@ -1,13 +1,11 @@
 <?php
 namespace Bolt;
 
-use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Widget\Widget;
 use Bolt\Extension\SimpleExtension;
 use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
-use Bolt\Response\BoltResponse;
 use Composer\Json\JsonFile;
 use Symfony\Component\Yaml;
 
@@ -212,34 +210,6 @@ abstract class BaseExtension extends SimpleExtension
         }
 
         return $snippets;
-    }
-
-    /**
-     * Insert a snippet into the generated HTML.
-     *
-     * @param string $location
-     * @param string $callback
-     * @param array  $callbackArguments
-     */
-    public function addSnippet($location, $callback, $callbackArguments = [])
-    {
-        if ($callback instanceof BoltResponse) {
-            $callback = (string) $callback;
-        }
-
-        // If we pass a callback as a simple string, we need to turn it into an array.
-        if (is_string($callback) && method_exists($this, $callback)) {
-            $callback = [$this, $callback];
-        }
-
-        $snippet = (new Snippet())
-            ->setLocation($location)
-            ->setCallback($callback)
-            ->setExtension($this->getName())
-            ->setCallbackArguments((array) $callbackArguments)
-        ;
-
-        $this->getApp()['asset.queue.snippet']->add($snippet);
     }
 
     /**

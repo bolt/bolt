@@ -6,8 +6,10 @@ use Bolt\Asset\AssetInterface;
 use Bolt\Asset\File\FileAssetInterface;
 use Bolt\Asset\File\JavaScript;
 use Bolt\Asset\File\Stylesheet;
+use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Snippet\SnippetAssetInterface;
 use Bolt\Asset\Widget\WidgetAssetInterface;
+use Bolt\Response\BoltResponse;
 use Pimple as Container;
 
 /**
@@ -163,6 +165,36 @@ trait AssetTrait
         }
         $fileAsset->setFileName($this->getAssetPath($fileAsset->getFileName()));
         $this->assets[] = $fileAsset;
+    }
+
+    /**
+     * Insert a snippet into the generated HTML.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use registerAssets() instead.
+     *
+     * @param string $location
+     * @param string $callback
+     * @param array  $callbackArguments
+     */
+    protected function addSnippet($location, $callback, $callbackArguments = [])
+    {
+        if ($callback instanceof BoltResponse) {
+            $callback = (string) $callback;
+        }
+
+        // If we pass a callback as a simple string, we need to turn it into an array.
+        if (is_string($callback) && method_exists($this, $callback)) {
+            $callback = [$this, $callback];
+        }
+
+        $snippet = (new Snippet())
+            ->setLocation($location)
+            ->setCallback($callback)
+            ->setExtension($this->getName())
+            ->setCallbackArguments((array) $callbackArguments)
+        ;
+
+        $this->assets[] = $snippet;
     }
 
     /**
