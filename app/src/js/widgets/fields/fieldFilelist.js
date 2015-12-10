@@ -69,8 +69,53 @@
             });
 
             // Bind list events.
-            $('div.list', fieldset)
-                .on('click', '.list-item', function (event) {
+            this._on($('div.list', fieldset), {
+                'click.list-item': function (event) {
+                    var item = $(event.target);
+
+                    if (item.hasClass('list-item')) {
+                        if (event.shiftKey) {
+                            if (lastClick) {
+                                var currentIndex = item.index(),
+                                    lastIndex = lastClick.index();
+
+                                if (lastIndex > currentIndex) {
+                                    item.nextUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                                } else if (lastIndex < currentIndex) {
+                                    item.prevUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                                } else {
+                                    item.toggleClass('selected');
+                                }
+                            }
+                        } else if (event.ctrlKey || event.metaKey) {
+                            item.toggleClass('selected');
+                        } else {
+                            $('.list-item', fieldset).not(item).removeClass('selected');
+                            item.toggleClass('selected');
+                        }
+
+                        lastClick = event.shiftKey || event.ctrlKey || event.metaKey || item.hasClass('selected') ?
+                            item : null;
+                    }
+                },
+                'click.remove-button': function (event) {
+                    var msg = isImage ? 'field.imagelist.message.remove' : 'field.filelist.message.remove';
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    if (confirm(bolt.data(msg))) {
+                        event.target.closest('.list-item').remove();
+                        self._serialize();
+                    }
+                },
+                'change input': function () {
+                    self._serialize();
+                }
+            });
+
+                /*$('div.list', fieldset)*/
+                /*.on('click', '.list-item', function (event) {
                     if ($(event.target).hasClass('list-item')) {
                         if (event.shiftKey) {
                             if (lastClick) {
@@ -95,8 +140,8 @@
                         lastClick = event.shiftKey || event.ctrlKey || event.metaKey || $(this).hasClass('selected') ?
                             $(this) : null;
                     }
-                })
-                .on('click', '.remove-button', function (event) {
+                })*/
+                /*.on('click', '.remove-button', function (event) {
                     var msg = isImage ? 'field.imagelist.message.remove' : 'field.filelist.message.remove';
 
                     event.preventDefault();
@@ -105,10 +150,10 @@
                         $(this).closest('.list-item').remove();
                         self._serialize();
                     }
-                })
-                .on('change', 'input', function () {
+                })*/
+                /*.on('change', 'input', function () {
                     self._serialize();
-                });
+                });*/
 
             $('.remove-selected-button', fieldset).on('click', function () {
                 var msg = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
