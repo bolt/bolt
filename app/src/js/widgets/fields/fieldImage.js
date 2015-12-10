@@ -14,7 +14,7 @@
      * @class fieldImage
      * @memberOf jQuery.widget.bolt
      */
-    $.widget('bolt.fieldImage', /** @lends jQuery.widget.bolt.fieldImage.prototype */ {
+    $.widget('bolt.fieldImage', $.bolt.fieldFile, /** @lends jQuery.widget.bolt.fieldImage.prototype */ {
         /**
          * The constructor of the image field widget.
          *
@@ -27,9 +27,7 @@
                 width = preview.attr('width'),
                 height = preview.attr('height');
 
-            bolt.uploads.bindUpload(fieldset, false);
-            bolt.uploads.bindSelectFromStack(fieldset);
-            bolt.uploads.bindAutocomplete(fieldset);
+            this._super();
 
             // Update the preview image on change.
             this._on(input, {
