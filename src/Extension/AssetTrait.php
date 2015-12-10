@@ -4,6 +4,8 @@ namespace Bolt\Extension;
 
 use Bolt\Asset\AssetInterface;
 use Bolt\Asset\File\FileAssetInterface;
+use Bolt\Asset\File\JavaScript;
+use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\SnippetAssetInterface;
 use Bolt\Asset\Widget\WidgetAssetInterface;
 use Pimple as Container;
@@ -127,6 +129,140 @@ trait AssetTrait
     protected function addAsset(AssetInterface $asset)
     {
         $this->assets[] = $asset;
+    }
+
+    /**
+     * Add a particular CSS file to the output. This will be inserted before the
+     * other css files.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use registerAssets() instead.
+     *
+     * @param FileAssetInterface|string $fileAsset Asset object, or file name
+     */
+    protected function addCss($fileAsset)
+    {
+        if (!$fileAsset instanceof FileAssetInterface) {
+            $fileAsset = $this->setupAsset(new Stylesheet(), $fileAsset, func_get_args());
+        }
+        $fileAsset->setFileName($this->getAssetPath($fileAsset->getFileName()));
+        $this->assets[] = $fileAsset;
+    }
+
+    /**
+     * Add a particular javascript file to the output. This will be inserted after
+     * the other javascript files.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use registerAssets() instead.
+     *
+     * @param FileAssetInterface|string $fileAsset File name
+     */
+    protected function addJavascript($fileAsset)
+    {
+        if (!$fileAsset instanceof FileAssetInterface) {
+            $fileAsset = $this->setupAsset(new JavaScript(), $fileAsset, func_get_args());
+        }
+        $fileAsset->setFileName($this->getAssetPath($fileAsset->getFileName()));
+        $this->assets[] = $fileAsset;
+    }
+
+    /**
+     * Get the relative path to the asset file.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
+     * @param string $fileName
+     *
+     * @return string|null
+     */
+    private function getAssetPath($fileName)
+    {
+        $app = $this->getContainer();
+        if (file_exists($this->getBasePath() . '/' . $fileName)) {
+            return $this->getBaseUrl() . $fileName;
+        } elseif (file_exists($app['resources']->getPath('themepath/' . $fileName))) {
+            return $app['resources']->getUrl('theme') . $fileName;
+        }
+
+        $message = sprintf(
+            "Couldn't add file asset '%s': File does not exist in either %s or %s directories.",
+            $fileName,
+            $this->getBaseUrl(),
+            $app['resources']->getUrl('theme')
+        );
+        $app['logger.system']->error($message, ['event' => 'extensions']);
+
+        return $fileName;
+    }
+
+    /**
+     * Set up an asset.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
+     * @param FileAssetInterface $asset
+     * @param string             $fileName
+     * @param array              $options
+     *
+     * @return FileAssetInterface
+     */
+    private function setupAsset(FileAssetInterface $asset, $fileName, array $options)
+    {
+        $options = array_merge(
+            [
+                'late'     => false,
+                'priority' => 0,
+                'attrib'   => [],
+            ],
+            $this->getCompatibleArgs($options)
+        );
+
+        $asset
+            ->setFileName($fileName)
+            ->setLate($options['late'])
+            ->setPriority($options['priority'])
+            ->setAttributes($options['attrib'])
+        ;
+
+        return $asset;
+    }
+
+    /**
+     * Get options that are compatible with Bolt 2.1 & 2.2 function signatures.
+     * < 2.2 ($filename, $late = false, $priority = 0)
+     * 2.2.x ($filename, $options = [])
+     *
+     * Where options were:
+     *   'late'     - True to add to the end of the HTML <body>
+     *   'priority' - Loading priority
+     *   'attrib'   - A string containing either/both 'defer', and 'async'
+     *
+     * Passed in $args array can be:
+     * - args[0] always the file name
+     * - args[1] either $late     or $options[]
+     * - args[2] either $priority or not set
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
+     * @param array $args
+     *
+     * @return array
+     */
+    private function getCompatibleArgs(array $args)
+    {
+        if (empty($args[1]) || !is_array($args[1])) {
+            return [
+                'late'     => isset($args[1]) ? $args[1] : false,
+                'priority' => isset($args[2]) ? $args[2] : 0,
+                'attrib'   => []
+            ];
+        }
+
+        $options = $args[1];
+        if (isset($options['attrib'])) {
+            $options['attrib'] = explode(' ', $options['attrib']);
+        }
+
+        return $options;
     }
 
     /**

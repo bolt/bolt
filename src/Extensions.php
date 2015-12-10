@@ -4,7 +4,6 @@ namespace Bolt;
 
 use Bolt;
 use Bolt\Extension\ExtensionInterface;
-use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\DeprecatedFunctionsTrait;
 use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
@@ -19,7 +18,6 @@ use Symfony\Component\Finder\Finder;
  */
 class Extensions
 {
-    use AssetTrait;
     use DeprecatedFunctionsTrait;
 
     /** @var \Silex\Application */

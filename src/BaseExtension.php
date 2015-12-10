@@ -16,8 +16,6 @@ use Symfony\Component\Yaml;
  */
 abstract class BaseExtension extends SimpleExtension
 {
-    use AssetTrait;
-
     public $config;
 
     protected $app;
@@ -117,7 +115,7 @@ abstract class BaseExtension extends SimpleExtension
         if (!$this->composerJsonLoaded && !$this->composerJson) {
             $this->composerJsonLoaded = true;
             $this->composerJson = null;
-            $jsonFile = new JsonFile($this->getBasepath() . '/composer.json');
+            $jsonFile = new JsonFile(__DIR__ . '/composer.json');
             if ($jsonFile->exists()) {
                 $this->composerJson = $jsonFile->read();
             }
