@@ -7,7 +7,6 @@ use Bolt\Composer\EventListener\BufferIOListener;
 use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis;
 use Bolt\Extensions;
-use Bolt\Extensions\StatService;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -25,7 +24,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         $app['extensions.stats'] = $app->share(
             function ($app) {
-                $stats = new StatService($app);
+                $stats = new Satis\StatService($app['guzzle.client'], $app['logger.system']);
 
                 return $stats;
             }

@@ -1,11 +1,10 @@
 <?php
 namespace Bolt\Tests\Extensions;
 
-use Bolt\Extensions\StatService;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test src/Extensions/StatService.
+ * Class to test src/Composer/Satis/StatService.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
@@ -14,7 +13,7 @@ class StatServiceTest extends BoltUnitTest
     public function testSetup()
     {
         $app = $this->getApp();
-        $stat = $this->getMock('Bolt\Extensions\StatService', ['recordInstall'], [$app]);
+        $stat = $this->getMock('Bolt\Composer\Satis\StatService', ['recordInstall'], [$app]);
         $stat->expects($this->once())
             ->method('recordInstall')
             ->with('mytest', '1.0.0');

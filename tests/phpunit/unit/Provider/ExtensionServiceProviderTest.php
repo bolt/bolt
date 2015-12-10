@@ -17,7 +17,7 @@ class ExtensionServiceProviderTest extends BoltUnitTest
         $provider = new ExtensionServiceProvider($app);
         $app->register($provider);
         $this->assertInstanceOf('Bolt\Extensions', $app['extensions']);
-        $this->assertInstanceOf('Bolt\Extensions\StatService', $app['extensions.stats']);
+        $this->assertInstanceOf('Bolt\Composer\Satis\StatService', $app['extensions.stats']);
         $app->boot();
     }
 }
