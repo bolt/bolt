@@ -16,8 +16,15 @@ trait MenuTrait
     /** @var MenuEntry[] */
     private $menuEntries = [];
 
-    /** @return Container */
-    abstract protected function getContainer();
+    /**
+     * Returns a list of menu entries to register.
+     *
+     * @return MenuEntry[]
+     */
+    protected function registerMenuEntries()
+    {
+        return [];
+    }
 
     /**
      * Call this in register method.
@@ -57,16 +64,6 @@ trait MenuTrait
     }
 
     /**
-     * Returns a list of menu entries to register.
-     *
-     * @return MenuEntry[]
-     */
-    protected function registerMenuEntries()
-    {
-        return [];
-    }
-
-    /**
      * Add a menu option to backend menu.
      *
      * @internal Will be made private in 4.0. Use registerMenuEntries() instead.
@@ -84,4 +81,7 @@ trait MenuTrait
             ->setPermission($permission)
         ;
     }
+
+    /** @return Container */
+    abstract protected function getContainer();
 }

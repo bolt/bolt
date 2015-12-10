@@ -20,8 +20,15 @@ trait AssetTrait
     /** @var bool */
     private $loadedAssets = false;
 
-    /** @return Container */
-    abstract protected function getContainer();
+    /**
+     * Returns a list of assets to register. Assets can be a file, snippet, or widget.
+     *
+     * @return AssetInterface[]
+     */
+    protected function registerAssets()
+    {
+        return [];
+    }
 
     /**
      * Call this in register method.
@@ -85,16 +92,6 @@ trait AssetTrait
     }
 
     /**
-     * Returns a list of assets to register. Assets can be a file, snippet, or widget.
-     *
-     * @return AssetInterface[]
-     */
-    protected function registerAssets()
-    {
-        return [];
-    }
-
-    /**
      * Merges assets returned from registerAssets() to our list.
      */
     private function loadAssets()
@@ -129,4 +126,7 @@ trait AssetTrait
     {
         $this->assets[] = $asset;
     }
+
+    /** @return Container */
+    abstract protected function getContainer();
 }

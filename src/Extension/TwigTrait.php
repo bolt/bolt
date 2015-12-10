@@ -23,12 +23,6 @@ trait TwigTrait
     /** @var bool */
     private $loadedTwig = false;
 
-    /** @return Container */
-    abstract protected function getContainer();
-
-    /** @return string */
-    abstract public function getName();
-
     /**
      * Returns a list of twig functions to register.
      *
@@ -206,4 +200,10 @@ trait TwigTrait
             $this->safeTwigExtension->addFilter($filter);
         }
     }
+
+    /** @return Container */
+    abstract protected function getContainer();
+
+    /** @return string */
+    abstract public function getName();
 }
