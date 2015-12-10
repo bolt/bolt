@@ -7,7 +7,6 @@ use Bolt\Extension\SimpleExtension;
 use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\ExtensionInterface;
 use Bolt\Extensions\TwigProxy;
-use Bolt\Library as Lib;
 use Bolt\Response\BoltResponse;
 use Composer\Json\JsonFile;
 use Symfony\Component\Yaml;
@@ -378,38 +377,6 @@ abstract class BaseExtension extends SimpleExtension
             return $this->app['asset.queue.widget']->add($widget);
         }
         $this->app['logger.system']->error(sprintf('%s tried inserting an invalid widget object. Ignoring.', $this->getName()), ['event' => 'extensions']);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     * @see requireUserRole()
-     *
-     * @param string $permission
-     *
-     * @return bool
-     */
-    public function requireUserLevel($permission = 'dashboard')
-    {
-        return $this->requireUserPermission($permission);
-    }
-
-    /**
-     * Check if a user is logged in, and has the proper required permission. If
-     * not, we redirect the user to the dashboard.
-     *
-     * @param string $permission
-     *
-     * @return bool True if permission allowed
-     */
-    public function requireUserPermission($permission = 'dashboard')
-    {
-        if ($this->app['users']->isAllowed($permission)) {
-            return true;
-        } else {
-            Lib::simpleredirect($this->app['config']->get('general/branding/path'));
-
-            return false;
-        }
     }
 
     /**
