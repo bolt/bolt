@@ -21,25 +21,123 @@
          * @private
          */
         _create: function () {
+            var self = this,
+                fieldset = this.element,
+                isImage = this.options.isImage || false,
+                lastClick = null;
+
             // Mark this widget as type of "FileList", if not already set.
-            this.options.isImage = this.options.isImage || false;
+            this.options.isImage = isImage;
+
+            // Make the list sortable.
+            $('div.list', fieldset).sortable({
+                helper: function (event, item) {
+                    if (!item.hasClass('selected')) {
+                        item.toggleClass('selected');
+                    }
+
+                    return $('<div></div>');
+                },
+                start: function (event, ui) {
+                    var elements = $('.selected', fieldset).not('.ui-sortable-placeholder'),
+                        len = elements.length,
+                        placeholder = ui.placeholder,
+                        currentOuterHeight = placeholder.outerHeight(true),
+                        currentInnerHeight = placeholder.height(),
+                        margin = parseInt(placeholder.css('margin-top')) + parseInt(placeholder.css('margin-bottom'));
+
+                    elements.hide();
+                    placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
+                    ui.item.data('items', elements);
+                },
+                beforeStop: function (event, ui) {
+                    ui.item.before(ui.item.data('items'));
+                },
+                stop: function () {
+                    $('.selected', fieldset).show();
+                    self._serialize();
+                },
+                delay: 100,
+                distance: 5
+            });
+
+            // Bind list events.
+            $('div.list', fieldset)
+                .on('click', '.list-item', function (event) {
+                    if ($(event.target).hasClass('list-item')) {
+                        if (event.shiftKey) {
+                            if (lastClick) {
+                                var currentIndex = $(this).index(),
+                                    lastIndex = lastClick.index();
+
+                                if (lastIndex > currentIndex) {
+                                    $(this).nextUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                                } else if (lastIndex < currentIndex) {
+                                    $(this).prevUntil(lastClick).add(this).add(lastClick).addClass('selected');
+                                } else {
+                                    $(this).toggleClass('selected');
+                                }
+                            }
+                        } else if (event.ctrlKey || event.metaKey) {
+                            $(this).toggleClass('selected');
+                        } else {
+                            $('.list-item', fieldset).not($(this)).removeClass('selected');
+                            $(this).toggleClass('selected');
+                        }
+
+                        lastClick = event.shiftKey || event.ctrlKey || event.metaKey || $(this).hasClass('selected') ?
+                            $(this) : null;
+                    }
+                })
+                .on('click', '.remove-button', function (event) {
+                    var msg = isImage ? 'field.imagelist.message.remove' : 'field.filelist.message.remove';
+
+                    event.preventDefault();
+
+                    if (confirm(bolt.data(msg))) {
+                        $(this).closest('.list-item').remove();
+                        self._serialize();
+                    }
+                })
+                .on('change', 'input', function () {
+                    self._serialize();
+                });
+
+            $('.remove-selected-button', fieldset).on('click', function () {
+                var msg = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
+
+                if (confirm(bolt.data(msg))) {
+                    $('.selected', fieldset).closest('.list-item').remove();
+                    self._serialize();
+                }
+            });
 
             // Bind events.
-            bolt.uploads.bindList(
-                this.element,
-                {
-                    removeSingle: bolt.data(
-                        this.options.isImage ?
-                            'field.imagelist.message.remove' : 'field.filelist.message.remove'
-                    ),
-                    removeMulti: bolt.data(
-                        this.options.isImage ?
-                            'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti'
-                    )
-                }
-            );
-            bolt.uploads.bindUpload(this.element, true);
-            bolt.uploads.bindSelectFromStack(this.element);
+            bolt.uploads.bindUpload(fieldset, true);
+            bolt.uploads.bindSelectFromStack(fieldset);
+        },
+
+        /**
+         * Serialize list data on change.
+         */
+        _serialize: function () {
+            var listField = $('div.list', this.element),
+                dataField = $('textarea', this.element),
+                template = this.options.isImage ? 'field.imagelist.template.empty' : 'field.filelist.template.empty',
+                data = [];
+
+            $('.list-item', listField).each(function () {
+                data.push({
+                    filename: $(this).find('input.filename').val(),
+                    title: $(this).find('input.title').val()
+                });
+            });
+            dataField.val(JSON.stringify(data));
+
+            // Display empty list message.
+            if (data.length === 0) {
+                listField.html(bolt.data(template));
+            }
         }
     });
 })(jQuery, Bolt);
