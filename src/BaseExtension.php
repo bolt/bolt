@@ -373,42 +373,6 @@ abstract class BaseExtension extends SimpleExtension
         return false;
     }
 
-    /**
-     * Add a Twig Function.
-     *
-     * @param string $name
-     * @param string $callback
-     * @param array  $options
-     */
-    public function addTwigFunction($name, $callback, $options = [])
-    {
-        // If we pass a callback as a simple string, we need to turn it into an array.
-        if (is_string($callback) && method_exists($this, $callback)) {
-            $callback = [$this, $callback];
-        }
-
-        $this->initializeTwig();
-        $this->twigExtension->addTwigFunction(new \Twig_SimpleFunction($name, $callback, $options));
-    }
-
-    /**
-     * Add a Twig Filter.
-     *
-     * @param string $name
-     * @param string $callback
-     * @param array  $options
-     */
-    public function addTwigFilter($name, $callback, $options = [])
-    {
-        // If we pass a callback as a simple string, we need to turn it into an array.
-        if (is_string($callback) && method_exists($this, $callback)) {
-            $callback = [$this, $callback];
-        }
-
-        $this->initializeTwig();
-        $this->twigExtension->addTwigFilter(new \Twig_SimpleFilter($name, $callback, $options));
-    }
-
     protected function initializeTwig()
     {
         if (!$this->twigExtension) {
