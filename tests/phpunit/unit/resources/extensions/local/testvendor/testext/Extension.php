@@ -1,9 +1,8 @@
 <?php
 use Bolt\Application;
 use Bolt\BaseExtension;
-use Bolt\Extensions\ExtensionInterface;
 
-class MockLocalExtension extends BaseExtension implements ExtensionInterface
+class MockLocalExtension extends BaseExtension
 {
     public function __construct(Application $app)
     {
