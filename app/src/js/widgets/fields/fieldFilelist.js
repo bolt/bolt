@@ -86,10 +86,10 @@
 
             // Bind list events.
             this._on(self._ui.list, {
-                'click.list-item': function (event) {
+                'click.item': function (event) {
                     var item = $(event.target);
 
-                    if (item.hasClass('list-item')) {
+                    if (item.hasClass('item')) {
                         if (event.shiftKey) {
                             var begin = Math.min(lastClickIndex, item.index()),
                                 end = Math.max(lastClickIndex, item.index());
@@ -115,13 +115,13 @@
                     }
                 },
                 'click.remove': function (event) {
-                    var item = $(event.target).closest('.list-item'),
+                    var item = $(event.target).closest('.item'),
                         items = item.hasClass('selected') ? $('.selected', self._ui.list) : item,
                         msgOne = isImage ? 'field.imagelist.message.remove' : 'field.filelist.message.remove',
                         msgMlt = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
 
                     if (confirm(bolt.data(items.length > 1 ? msgMlt : msgOne))) {
-                        event.target.closest('.list-item').remove();
+                        event.target.closest('.item').remove();
                         self._serialize();
                     }
 
@@ -145,7 +145,7 @@
             var template = this.options.isImage ? 'field.imagelist.template.empty' : 'field.filelist.template.empty',
                 data = [];
 
-            $('.list-item', this._ui.list).each(function () {
+            $('.item', this._ui.list).each(function () {
                 data.push({
                     filename: $(this).find('input.filename').val(),
                     title: $(this).find('input.title').val()

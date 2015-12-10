@@ -237,7 +237,7 @@
             templateEmpty = isFile ? 'field.filelist.template.empty' : 'field.imagelist.template.empty',
             data = [];
 
-        $('.list-item', listField).each(function () {
+        $('.item', listField).each(function () {
             data.push({
                 filename: $(this).find('input.filename').val(),
                 title: $(this).find('input.title').val()
