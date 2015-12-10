@@ -28,6 +28,8 @@
                     removeMulti: bolt.data('field.imagelist.message.removeMulti')
                 }
             );
+            bolt.uploads.bindUpload(this.element, true);
+            bolt.uploads.bindSelectFromStack(this.element);
         }
     });
 })(jQuery, Bolt);

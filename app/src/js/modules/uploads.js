@@ -126,9 +126,6 @@
                 serializeList(fieldset);
             }
         });
-
-        uploads.bindUpload(fieldset, true);
-        uploads.bindSelectFromStack(fieldset);
     };
 
     /**
