@@ -23,7 +23,18 @@
         _create: function () {
             bolt.uploads.bindUpload(this.element, false);
             bolt.uploads.bindSelectFromStack(this.element);
-            bolt.uploads.bindAutocomplete(this.element);
+
+            // Initialize the autocomplete popup.
+            var accept = ($('input[accept]', this.element).prop('accept') || '').replace(/\./g, ''),
+                input = $('input.path', this.element);
+
+            input.autocomplete({
+                source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
+                minLength: 2,
+                close: function () {
+                    $(input).trigger('change');
+                }
+            });
         }
     });
 })(jQuery, Bolt);

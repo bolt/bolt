@@ -19,27 +19,6 @@
     var uploads = {};
 
     /**
-     * Setup autocomplete popup.
-     *
-     * @static
-     * @function bindAutocomplete
-     * @memberof Bolt.uploads
-     * @param {Object} fieldset
-     */
-    uploads.bindAutocomplete = function (fieldset) {
-        var accept = ($(fieldset).find('input[accept]').prop('accept') || '').replace(/\./g, ''),
-            input = $(fieldset).find('input.path');
-
-        input.autocomplete({
-            source: bolt.conf('paths.async') + 'file/autocomplete?ext=' + encodeURIComponent(accept),
-            minLength: 2,
-            close: function () {
-                $(input).trigger('change');
-            }
-        });
-    };
-
-    /**
      * This function handles the setup of any list fields that requires upload capability.
      *
      * @static
