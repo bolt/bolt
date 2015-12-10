@@ -16,6 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 abstract class SimpleExtension extends AbstractExtension implements ServiceProviderInterface, EventSubscriberInterface
 {
     use AssetTrait;
+    use ConfigTrait;
     use MenuTrait;
     use TwigTrait;
     use ControllerMountTrait;
