@@ -21,8 +21,7 @@ abstract class BaseExtension extends SimpleExtension
     public $config;
 
     protected $app;
-    protected $basepath;
-    protected $namespace;
+
     protected $functionlist;
     protected $filterlist;
     protected $snippetlist;
@@ -47,8 +46,6 @@ abstract class BaseExtension extends SimpleExtension
     {
         $this->app = $app;
 
-        $this->setBasepath();
-
         // Don't load config just yet. Let 'Extensions' handle this when
         // activating, just clear the "configLoaded" flag to tell the
         // lazy-loading mechanism to do its thing.
@@ -67,46 +64,6 @@ abstract class BaseExtension extends SimpleExtension
     protected function getApp()
     {
         return $this->app;
-    }
-
-    /**
-     * Set the 'basepath' and the 'namespace' for the extension. We can't use
-     * __DIR__, because that would give us the base path for BaseExtension.php
-     * (the file you're looking at), rather than the base path for the actual,
-     * derived, extension class.
-     *
-     * @see http://stackoverflow.com/questions/11117637/getting-current-working-directory-of-an-extended-class-in-php
-     */
-    private function setBasepath()
-    {
-        $reflection = new \ReflectionClass($this);
-        $basepath = dirname($reflection->getFileName());
-        $this->basepath = $this->app['pathmanager']->create($basepath);
-        $this->namespace = basename(dirname($reflection->getFileName()));
-    }
-
-    /**
-     * Get the base path, that is, the directory where the (derived) extension
-     * class file is located. The base path is the "root directory" under which
-     * all files related to the extension can be found.
-     *
-     * @return string
-     */
-    public function getBasePath()
-    {
-        return $this->basepath;
-    }
-
-    /**
-     * Get the extensions base URL.
-     *
-     * @return string
-     */
-    public function getBaseUrl()
-    {
-        $relative = str_replace($this->app['resources']->getPath('extensions'), '', $this->basepath);
-
-        return $this->app['resources']->getUrl('extensions') . ltrim($relative, '/') . '/';
     }
 
     /**
