@@ -31,8 +31,8 @@ class MenuEntry
     /**
      * Constructor.
      *
-     * @param string    $name
-     * @param string    $uri
+     * @param string $name
+     * @param string $uri
      */
     public function __construct($name, $uri)
     {
@@ -137,18 +137,19 @@ class MenuEntry
     }
 
     /**
-     * Set the menu entry's children name.
+     * Add child menu entry.
      *
-     * @param MenuEntry $child
+     * @param string    $name
+     * @param string    $uri
      *
      * @return MenuEntry
      */
-    public function addChild(MenuEntry $child)
+    public function add($name, $uri)
     {
-        $this->children[$child->getName()] = $child;
-        $child->setParent($this);
+        $this->children[$name] = new MenuEntry($name, $uri);
+        $this->children[$name]->setParent($this);
 
-        return $this;
+        return $this->children[$name];
     }
 
     /**
@@ -158,7 +159,7 @@ class MenuEntry
      *
      * @return MenuEntry
      */
-    public function getChild($name)
+    public function get($name)
     {
         return $this->children[$name];
     }
@@ -168,7 +169,7 @@ class MenuEntry
      *
      * @return MenuEntry
      */
-    public function getChildren()
+    public function children()
     {
         return (array) $this->children;
     }

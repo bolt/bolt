@@ -21,7 +21,6 @@ class MenuEntryTest extends BoltUnitTest
         $this->assertSame('root', $rootEntry->getName());
         $this->assertNull($rootEntry->getIcon());
         $this->assertSame('everyone', $rootEntry->getPermission());
-        $this->assertSame([], $rootEntry->getChildren());
 
         $app['config']->set('general/branding/path', '/koala/drop-bear');
         $rootEntry = new MenuEntry('root', $app['config']->get('general/branding/path'));
@@ -32,12 +31,11 @@ class MenuEntryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $rootEntry = new MenuEntry('root', $app['config']->get('general/branding/path'));
-        $extendEntry = (new MenuEntry('dropbear', 'drop-bears', $rootEntry))
+        $extendEntry = $rootEntry->add('dropbear', 'drop-bears')
             ->setLabel('Furry Animals')
             ->setIcon('fa:koala')
             ->setPermission('strict')
         ;
-        $rootEntry->addChild($extendEntry);
 
         $this->assertSame('/bolt/drop-bears', $extendEntry->getUri());
         $this->assertSame('dropbear', $extendEntry->getName());
@@ -46,14 +44,14 @@ class MenuEntryTest extends BoltUnitTest
         $this->assertSame('strict', $extendEntry->getPermission());
         $this->assertSame('/bolt/drop-bears', $extendEntry->getUri());
 
-        $this->assertSame('/bolt/drop-bears', $rootEntry->getChild('dropbear')->getUri());
-        $this->assertSame('dropbear', $rootEntry->getChild('dropbear')->getName());
-        $this->assertSame('Furry Animals', $rootEntry->getChild('dropbear')->getLabel());
-        $this->assertSame('fa:koala', $rootEntry->getChild('dropbear')->getIcon());
-        $this->assertSame('strict', $rootEntry->getChild('dropbear')->getPermission());
-        $this->assertSame('/bolt/drop-bears', $rootEntry->getChild('dropbear')->getUri());
+        $this->assertSame('/bolt/drop-bears', $rootEntry->get('dropbear')->getUri());
+        $this->assertSame('dropbear', $rootEntry->get('dropbear')->getName());
+        $this->assertSame('Furry Animals', $rootEntry->get('dropbear')->getLabel());
+        $this->assertSame('fa:koala', $rootEntry->get('dropbear')->getIcon());
+        $this->assertSame('strict', $rootEntry->get('dropbear')->getPermission());
+        $this->assertSame('/bolt/drop-bears', $rootEntry->get('dropbear')->getUri());
 
-        $firstBorn = $rootEntry->getChildren();
+        $firstBorn = $rootEntry->children();
         $this->assertInstanceOf('Bolt\Menu\MenuEntry', $firstBorn['dropbear']);
         $this->assertSame('/bolt/drop-bears', $firstBorn['dropbear']->getUri());
         $this->assertSame('dropbear', $firstBorn['dropbear']->getName());

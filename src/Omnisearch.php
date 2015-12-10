@@ -220,16 +220,17 @@ class Omnisearch
             return;
         }
 
-        $extensionsmenu = $this->app['menu.admin']->getChild('extend')->getChildren();
+        $extensionsMenu = $this->app['menu.admin']->get('extend')->children();
         $index = 0;
-        foreach ($extensionsmenu as $extension) {
+        /** @var \Bolt\Menu\MenuEntry $extension */
+        foreach ($extensionsMenu as $extension) {
             $this->register(
                 [
-                    'keywords'    => [$extension['label'], 'Extensions'],
-                    'label'       => Trans::__('Extensions') . ' » ' . $extension['label'],
+                    'keywords'    => [$extension->getLabel(), 'Extensions'],
+                    'label'       => Trans::__('Extensions') . ' » ' . $extension->getLabel(),
                     'description' => '',
                     'priority'    => self::OMNISEARCH_EXTENSION - $index,
-                    'path'        => $extension['path'],
+                    'path'        => $extension->getUri(),
                 ]
             );
 

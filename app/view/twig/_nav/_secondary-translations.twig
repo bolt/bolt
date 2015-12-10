@@ -1,20 +1,20 @@
-{% set tr_menu = app['menu.admin'].child('translations') %}
+{% set tr_menu = app['menu.admin'].get('translations') %}
 {% set sub = [
     {
-        icon: tr_menu.child('tr_messages').icon,
-        label: tr_menu.child('tr_messages').label,
-        link: tr_menu.child('tr_messages').uri,
-        isallowed: tr_menu.child('tr_messages').permission
+        icon: tr_menu.get('tr_messages').icon,
+        label: tr_menu.get('tr_messages').label,
+        link: tr_menu.get('tr_messages').uri,
+        isallowed: tr_menu.get('tr_messages').permission
     }, {
-        icon: tr_menu.child('tr_long_messages').icon,
-        label: tr_menu.child('tr_long_messages').label,
-        link: tr_menu.child('tr_long_messages').uri,
-        isallowed: tr_menu.child('tr_long_messages').permission
+        icon: tr_menu.get('tr_long_messages').icon,
+        label: tr_menu.get('tr_long_messages').label,
+        link: tr_menu.get('tr_long_messages').uri,
+        isallowed: tr_menu.get('tr_long_messages').permission
     }, {
-        icon: tr_menu.child('tr_contenttypes').icon,
-        label: tr_menu.child('tr_contenttypes').label,
-        link: tr_menu.child('tr_contenttypes').uri,
-        isallowed: tr_menu.child('tr_contenttypes').permission
+        icon: tr_menu.get('tr_contenttypes').icon,
+        label: tr_menu.get('tr_contenttypes').label,
+        link: tr_menu.get('tr_contenttypes').uri,
+        isallowed: tr_menu.get('tr_contenttypes').permission
     }
 ] %}
 

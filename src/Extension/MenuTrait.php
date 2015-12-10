@@ -39,7 +39,7 @@ trait MenuTrait
             $app->extend(
                 'menu.admin',
                 function (MenuEntry $menus) {
-                    $menu = $menus->getChild('extend');
+                    $menu = $menus->get('extend');
 
                     foreach ($this->registerMenuEntries() as $menuEntry) {
                         if (!$menuEntry instanceof MenuEntry) {
@@ -50,11 +50,7 @@ trait MenuTrait
                             ));
                         }
 
-                        $menu->addChild($menuEntry);
-                    }
-
-                    foreach ($this->menuEntries as $menuEntry) {
-                        $menu->addChild($menuEntry);
+                        $menu->add($menuEntry->getName(), $menuEntry->getUri());
                     }
 
                     return $menus;

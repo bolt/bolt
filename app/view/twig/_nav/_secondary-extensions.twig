@@ -1,6 +1,6 @@
 {# Empty array for submenu #}
 {% set sub = [] %}
-{% set extend_menu = app['menu.admin'].child('extend') %}
+{% set extend_menu = app['menu.admin'].get('extend') %}
 
 {% if isallowed('extensions||extensions:config') %}
 

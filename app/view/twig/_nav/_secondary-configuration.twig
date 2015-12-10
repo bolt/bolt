@@ -1,59 +1,59 @@
-{% set config_menu = app['menu.admin'].child('config') %}
+{% set config_menu = app['menu.admin'].get('config') %}
 {% set sub = [
     {
-        icon: config_menu.child('users').icon,
-        label: config_menu.child('users').label,
-        link: config_menu.child('users').uri,
-        isallowed: config_menu.child('users').permission
+        icon: config_menu.get('users').icon,
+        label: config_menu.get('users').label,
+        link: config_menu.get('users').uri,
+        isallowed: config_menu.get('users').permission
     }, {
-        icon: config_menu.child('config_main').icon,
-        label: config_menu.child('config_main').label,
-        link: config_menu.child('config_main').uri,
-        isallowed: config_menu.child('config_main').permission
+        icon: config_menu.get('config_main').icon,
+        label: config_menu.get('config_main').label,
+        link: config_menu.get('config_main').uri,
+        isallowed: config_menu.get('config_main').permission
     }, {
-        icon: config_menu.child('config_contenttypes').icon,
-        label: config_menu.child('config_contenttypes').label,
-        link: config_menu.child('config_contenttypes').uri,
-        isallowed: config_menu.child('config_contenttypes').permission
+        icon: config_menu.get('config_contenttypes').icon,
+        label: config_menu.get('config_contenttypes').label,
+        link: config_menu.get('config_contenttypes').uri,
+        isallowed: config_menu.get('config_contenttypes').permission
     }, {
-        icon: config_menu.child('config_taxonomy').icon,
-        label: config_menu.child('config_taxonomy').label,
-        link: config_menu.child('config_taxonomy').uri,
-        isallowed: config_menu.child('config_taxonomy').permission
+        icon: config_menu.get('config_taxonomy').icon,
+        label: config_menu.get('config_taxonomy').label,
+        link: config_menu.get('config_taxonomy').uri,
+        isallowed: config_menu.get('config_taxonomy').permission
     },
     '-',
     {
-        icon: config_menu.child('config_menu').icon,
-        label: config_menu.child('config_menu').label,
-        link: config_menu.child('config_menu').uri,
-        isallowed: config_menu.child('config_menu').permission
+        icon: config_menu.get('config_menu').icon,
+        label: config_menu.get('config_menu').label,
+        link: config_menu.get('config_menu').uri,
+        isallowed: config_menu.get('config_menu').permission
     }, {
-        icon: config_menu.child('config_routing').icon,
-        label: config_menu.child('config_routing').label,
-        link: config_menu.child('config_routing').uri,
-        isallowed: config_menu.child('config_routing').permission
+        icon: config_menu.get('config_routing').icon,
+        label: config_menu.get('config_routing').label,
+        link: config_menu.get('config_routing').uri,
+        isallowed: config_menu.get('config_routing').permission
     },
     '-',
     {
-        icon: config_menu.child('dbcheck').icon,
-        label: config_menu.child('dbcheck').label,
-        link: config_menu.child('dbcheck').uri,
-        isallowed: config_menu.child('dbcheck').permission
+        icon: config_menu.get('dbcheck').icon,
+        label: config_menu.get('dbcheck').label,
+        link: config_menu.get('dbcheck').uri,
+        isallowed: config_menu.get('dbcheck').permission
     }, {
-        icon: config_menu.child('clearcache').icon,
-        label: config_menu.child('clearcache').label,
-        link: config_menu.child('clearcache').uri,
-        isallowed: config_menu.child('clearcache').permission
+        icon: config_menu.get('clearcache').icon,
+        label: config_menu.get('clearcache').label,
+        link: config_menu.get('clearcache').uri,
+        isallowed: config_menu.get('clearcache').permission
     }, {
-        icon: config_menu.child('log_change').icon,
-        label: config_menu.child('log_change').label,
-        link: config_menu.child('log_change').uri,
-        isallowed: config_menu.child('log_change').permission
+        icon: config_menu.get('log_change').icon,
+        label: config_menu.get('log_change').label,
+        link: config_menu.get('log_change').uri,
+        isallowed: config_menu.get('log_change').permission
     }, {
-        icon: config_menu.child('log_system').icon,
-        label: config_menu.child('log_system').label,
-        link: config_menu.child('log_system').uri,
-        isallowed: config_menu.child('log_system').permission
+        icon: config_menu.get('log_system').icon,
+        label: config_menu.get('log_system').label,
+        link: config_menu.get('log_system').uri,
+        isallowed: config_menu.get('log_system').permission
     }
 ] %}
 
