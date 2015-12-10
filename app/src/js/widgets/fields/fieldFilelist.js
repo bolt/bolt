@@ -31,32 +31,38 @@
 
             // Make the list sortable.
             $('div.list', fieldset).sortable({
+                // Set a helper element to be used for dragging display.
                 helper: function (event, item) {
                     // We select the item dragged, as it isn't selected on a single item drag.
                     item.addClass('selected');
 
                     return $('<div/>');
                 },
+                // Triggered when sorting starts.
                 start: function (event, ui) {
                     var elements = $('.selected', fieldset).not('.ui-sortable-placeholder'),
-                        len = elements.length,
+                        itemCount = elements.length,
                         placeholder = ui.placeholder,
-                        currentOuterHeight = placeholder.outerHeight(true),
-                        currentInnerHeight = placeholder.height(),
+                        outerHeight = placeholder.outerHeight(true),
+                        innerHeight = placeholder.height(),
                         margin = parseInt(placeholder.css('margin-top')) + parseInt(placeholder.css('margin-bottom'));
 
                     elements.hide();
-                    placeholder.height(currentInnerHeight + len * currentOuterHeight - currentOuterHeight - margin);
+                    placeholder.height(innerHeight + (itemCount - 1) * outerHeight - margin);
                     ui.item.data('items', elements);
                 },
+                // Triggered when sorting stops, but when the placeholder/helper is still available.
                 beforeStop: function (event, ui) {
                     ui.item.before(ui.item.data('items'));
                 },
+                // Triggered when sorting has stopped.
                 stop: function () {
                     $('.selected', fieldset).show();
                     self._serialize();
                 },
+                // Time in milliseconds to define when the sorting should start.
                 delay: 100,
+                // Tolerance, in pixels, for when sorting should start.
                 distance: 5
             });
 
