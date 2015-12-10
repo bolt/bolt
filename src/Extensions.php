@@ -3,8 +3,8 @@
 namespace Bolt;
 
 use Bolt;
+use Bolt\Extension\DeprecatedFunctionsTrait;
 use Bolt\Extension\ExtensionInterface;
-use Bolt\Extensions\DeprecatedFunctionsTrait;
 use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
