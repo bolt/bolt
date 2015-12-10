@@ -19,6 +19,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     use MenuTrait;
     use TwigTrait;
     use ControllerMountTrait;
+    use NutTrait;
 
     public function initialize(Container $container)
     {
@@ -32,6 +33,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
         $this->extendTwigService();
         $this->extendMenuService();
         $this->extendAssetServices();
+        $this->extendNutService();
 
         $this->initialize($this->container);
     }
