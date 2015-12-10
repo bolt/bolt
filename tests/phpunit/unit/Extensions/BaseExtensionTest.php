@@ -407,34 +407,6 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $ext->addMenuOption('test', '/test');
     }
 
-    public function testHasMenuOption()
-    {
-        $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Extensions', ['hasMenuOption'], [$app]);
-
-        $handler->expects($this->once())
-            ->method('hasMenuOption');
-
-        $app['extensions'] = $handler;
-
-        $ext->hasMenuOptions();
-    }
-
-    public function testGetMenuOption()
-    {
-        $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $handler = $this->getMock('Bolt\Extensions', ['getMenuOption'], [$app]);
-
-        $handler->expects($this->once())
-            ->method('getMenuOption');
-
-        $app['extensions'] = $handler;
-
-        $ext->getMenuOptions();
-    }
-
     public function testParseSnippet()
     {
         $app = $this->makeApp();
