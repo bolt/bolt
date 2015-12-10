@@ -32,11 +32,10 @@
             // Make the list sortable.
             $('div.list', fieldset).sortable({
                 helper: function (event, item) {
-                    if (!item.hasClass('selected')) {
-                        item.toggleClass('selected');
-                    }
+                    // We select the item dragged, as it isn't selected on a single item drag.
+                    item.addClass('selected');
 
-                    return $('<div></div>');
+                    return $('<div/>');
                 },
                 start: function (event, ui) {
                     var elements = $('.selected', fieldset).not('.ui-sortable-placeholder'),
