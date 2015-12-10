@@ -10,7 +10,6 @@ use Bolt\Extensions\TwigProxy;
 use Bolt\Library as Lib;
 use Bolt\Response\BoltResponse;
 use Composer\Json\JsonFile;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Yaml;
 
 /**
@@ -418,15 +417,5 @@ abstract class BaseExtension extends SimpleExtension
      */
     public function parseWidget()
     {
-    }
-
-    /**
-     * Add a console command.
-     *
-     * @param Command $command
-     */
-    public function addConsoleCommand(Command $command)
-    {
-        $this->app['nut.commands.add']($command);
     }
 }
