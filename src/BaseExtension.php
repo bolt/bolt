@@ -21,10 +21,6 @@ abstract class BaseExtension extends SimpleExtension
     public $config;
 
     protected $app;
-
-    protected $functionlist;
-    protected $filterlist;
-    protected $snippetlist;
     /** @var TwigProxy */
     protected $twigExtension;
     protected $installtype = 'composer';
@@ -32,7 +28,6 @@ abstract class BaseExtension extends SimpleExtension
     private $extensionConfig;
     private $composerJsonLoaded;
     private $composerJson;
-    private $configLoaded;
 
     /**
      * @deprecated Deprecated since 3.0, to be removed in 4.0.
@@ -46,16 +41,8 @@ abstract class BaseExtension extends SimpleExtension
     {
         $this->app = $app;
 
-        // Don't load config just yet. Let 'Extensions' handle this when
-        // activating, just clear the "configLoaded" flag to tell the
-        // lazy-loading mechanism to do its thing.
-        $this->configLoaded = false;
         $this->extensionConfig = null;
         $this->composerJsonLoaded = false;
-
-        $this->functionlist = [];
-        $this->filterlist = [];
-        $this->snippetlist = [];
     }
 
     /**
