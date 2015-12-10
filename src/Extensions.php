@@ -3,9 +3,9 @@
 namespace Bolt;
 
 use Bolt;
+use Bolt\Extension\ExtensionInterface;
 use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\DeprecatedFunctionsTrait;
-use Bolt\Extensions\ExtensionInterface;
 use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
@@ -335,7 +335,6 @@ class Extensions
         $name = $extension->getName();
 
         try {
-            $this->loadExtensionConfig($extension, $name);
             $this->loadExtensionInitialize($extension, $name);
             $this->loadExtensionTwigGlobal($extension, $name);
             $this->loadExtensionTwig($extension, $name);
@@ -349,24 +348,6 @@ class Extensions
         // If an extension makes it known it sends email, increase the counter
         if (is_callable([$extension, 'sendsMail']) && $extension->sendsMail()) {
             $this->mailsenders++;
-        }
-    }
-
-    /**
-     * Attempt to get extension YAML config.
-     *
-     * @param ExtensionInterface $extension
-     * @param string             $name
-     *
-     * @throws \Exception
-     */
-    private function loadExtensionConfig(ExtensionInterface $extension, $name)
-    {
-        try {
-            $extension->getConfig();
-        } catch (\Exception $e) {
-            $this->logInitFailure('Failed to load YAML config', $name, $e, Logger::ERROR);
-            throw $e;
         }
     }
 
