@@ -152,8 +152,10 @@
         _select: function (path) {
             var fieldset = this.element.closest('fieldset');
 
-            if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
-                $('input.path', fieldset).val(path).trigger('change');
+            if (fieldset.is(':bolt-fieldFile')) {
+                fieldset.fieldFile('setPath', path);
+            } else if (fieldset.is(':bolt-fieldImage')) {
+                fieldset.fieldImage('setPath', path);
             } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
                 bolt.uploads.addToList(fieldset, path);
             } else if (fieldset.is(':bolt-buicStack')) {

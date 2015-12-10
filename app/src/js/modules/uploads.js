@@ -352,11 +352,10 @@
      * @param {boolean} stackAdd
      */
     function add(fieldset, path, stackAdd) {
-        if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
-            $('input.path', fieldset).val(path).trigger('change');
-            if (stackAdd) {
-                bolt.stack.addToStack(path);
-            }
+        if (fieldset.is(':bolt-fieldFile')) {
+            fieldset.fieldFile('setPath', path, stackAdd);
+        } else if (fieldset.is(':bolt-fieldImage')) {
+            fieldset.fieldImage('setPath', path, stackAdd);
         } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
             uploads.addToList(fieldset, path);
         } else if (fieldset.is(':bolt-buicStack')) {

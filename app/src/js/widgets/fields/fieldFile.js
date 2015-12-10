@@ -35,6 +35,22 @@
                     $(input).trigger('change');
                 }
             });
+        },
+
+        /**
+         * Sets the path to file.
+         *
+         * @param {string} path
+         * @param {boolean} stackAdd
+         */
+        setPath: function (path, stackAdd) {
+            $('input.path', this.element)
+                .val(path)
+                .trigger('change');
+
+            if (stackAdd) {
+                bolt.stack.addToStack(path);
+            }
         }
     });
 })(jQuery, Bolt);
