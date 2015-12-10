@@ -5,8 +5,8 @@ namespace Bolt\Provider;
 use Bolt\Composer\Action;
 use Bolt\Composer\EventListener\BufferIOListener;
 use Bolt\Composer\PackageManager;
+use Bolt\Composer\Satis;
 use Bolt\Extensions;
-use Bolt\Extensions\ExtensionsInfoService;
 use Bolt\Extensions\StatService;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -62,7 +62,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         $app['extend.info'] = $app->share(
             function ($app) {
-                return new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
+                return new Satis\QueryService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
             }
         );
 

@@ -89,7 +89,7 @@ class ExtendTest extends ControllerUnitTest
 
     public function testInstallInfo()
     {
-        $mockInfo = $this->getMock('Bolt\Extensions\ExtensionsInfoService', ['info'], [], 'MockInfoService', false);
+        $mockInfo = $this->getMock('Bolt\Composer\Satis\QueryService', ['info'], [], 'MockInfoService', false);
         $mockInfo->expects($this->once())
             ->method('info')
             ->will($this->returnValue($this->packageInfoProvider()));

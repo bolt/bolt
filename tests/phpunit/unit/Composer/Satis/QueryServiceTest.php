@@ -1,20 +1,20 @@
 <?php
-namespace Bolt\Tests\Extensions;
+namespace Bolt\Tests\Composer\Satis;
 
-use Bolt\Extensions\ExtensionsInfoService;
+use Bolt\Composer\Satis\QueryService;
 use Bolt\Tests\BoltUnitTest;
 
 /**
- * Class to test src/Extensions/ExtensionsInfoService.
+ * Class to test src/Composer/Satis/QueryService.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class InfoServiceTest extends BoltUnitTest
+class QueryServiceTest extends BoltUnitTest
 {
     public function testPackageInfoValid()
     {
         $app = $this->getApp();
-        $service = new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
+        $service = new QueryService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
 
         $response = $service->info('gawain/clippy', '2.0.0');
         $this->assertObjectHasAttribute('package', $response);
@@ -24,7 +24,7 @@ class InfoServiceTest extends BoltUnitTest
     public function testPackageInfoInvalid()
     {
         $app = $this->getApp();
-        $service = new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
+        $service = new QueryService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
 
         $response = $service->info('rossriley/mytest', '2.0.0');
         $this->assertObjectHasAttribute('package', $response);
@@ -36,7 +36,7 @@ class InfoServiceTest extends BoltUnitTest
     public function testInfoList()
     {
         $app = $this->getApp();
-        $service = new ExtensionsInfoService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
+        $service = new QueryService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);
 
         $response = $service->all();
         $this->assertObjectHasAttribute('packages', $response);

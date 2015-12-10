@@ -1,7 +1,8 @@
 <?php
-namespace Bolt\Extensions;
 
-use Bolt\Exception\ExtensionsInfoServiceException;
+namespace Bolt\Composer\Satis;
+
+use Bolt\Exception\SatisQueryException;
 use GuzzleHttp\Client;
 
 /**
@@ -10,13 +11,13 @@ use GuzzleHttp\Client;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  **/
-class ExtensionsInfoService
+class QueryService
 {
     public $site;
     public $urls;
     public $format = 'json';
 
-    /** @var \GuzzleHttp\Client|\Guzzle\Service\Client */
+    /** @var \GuzzleHttp\Client */
     private $client;
     /** @var boolean */
     private $isRetry;
@@ -24,9 +25,9 @@ class ExtensionsInfoService
     /**
      * Constructor function.
      *
-     * @param \GuzzleHttp\Client|\Guzzle\Service\Client $client
-     * @param string                                    $site
-     * @param array                                     $urls
+     * @param \GuzzleHttp\Client $client
+     * @param string             $site
+     * @param array              $urls
      */
     public function __construct(Client $client, $site, $urls = [])
     {
@@ -48,7 +49,7 @@ class ExtensionsInfoService
      * @param string $package Composer package name 'author/extension'
      * @param string $bolt    Bolt version number
      *
-     * @return string|boolean
+     * @return string|boolean|object
      */
     public function info($package, $bolt)
     {
@@ -69,7 +70,9 @@ class ExtensionsInfoService
      * @param string $url
      * @param array  $params
      *
-     * @return string|boolean
+     * @throws SatisQueryException
+     *
+     * @return string|boolean|object
      */
     public function execute($url, $params = [])
     {
@@ -82,7 +85,7 @@ class ExtensionsInfoService
         } catch (\Exception $e) {
             if ($this->isRetry) {
                 $msg = "Error connecting to the Extension Marketplace:\n" . $e->getMessage();
-                throw new ExtensionsInfoServiceException($msg, $e->getCode(), $e);
+                throw new SatisQueryException($msg, $e->getCode(), $e);
             }
             $this->isRetry = true;
             $this->site = str_replace('https://', 'http://', $this->site);
