@@ -60,6 +60,8 @@
                     $('.selected', fieldset).show();
                     self._serialize();
                 },
+                // Set on which axis items items can be dragged.
+                axis: 'y',
                 // Time in milliseconds to define when the sorting should start.
                 delay: 100,
                 // Tolerance, in pixels, for when sorting should start.
