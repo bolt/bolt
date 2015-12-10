@@ -31,14 +31,4 @@ class SnippetCallbackExtension extends Extension
     {
         return '<meta name="test-snippet" />';
     }
-
-    public function parseSnippet($callback, $var1 = '', $var2 = '', $var3 = '')
-    {
-        return call_user_func([$this, $callback], $var1, $var2, $var3);
-    }
-
-    public function parseWidget($callback, $var1 = '', $var2 = '', $var3 = '')
-    {
-        return call_user_func([$this, $callback], $var1, $var2, $var3);
-    }
 }
