@@ -5,7 +5,6 @@ namespace Bolt;
 use Bolt;
 use Bolt\Extension\DeprecatedFunctionsTrait;
 use Bolt\Extension\ExtensionInterface;
-use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
 use Composer\Autoload\ClassLoader;
 use Composer\Json\JsonFile;
@@ -499,29 +498,6 @@ class Extensions
     public function getBasePath()
     {
         return $this->app['resources']->getPath('extensions');
-    }
-
-    /**
-     * Add a menu option to the 'settings' menu. Note that the item is only added if the current user
-     * meets the required permission.
-     *
-     * @see \Bolt\BaseExtension\addMenuOption()
-     *
-     * @param string $label
-     * @param string $path
-     * @param string $icon
-     * @param string $permission Required permission to see menu
-     */
-    public function addMenuOption($label, $path, $icon = null, $permission = null)
-    {
-        /** @var MenuEntry $menus */
-        $menus = $this->app['menu.admin'];
-        $child = (new MenuEntry($label, $path))
-            ->setLabel($label)
-            ->setIcon($icon)
-            ->setPermission($permission)
-        ;
-        $menus->getChild('extend')->addChild($child);
     }
 
     /**
