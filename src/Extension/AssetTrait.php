@@ -198,6 +198,20 @@ trait AssetTrait
     }
 
     /**
+     * Add a Widget to the render queue.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use registerAssets() instead.
+     *
+     * @param Widget $widget
+     */
+    protected function addWidget($widget)
+    {
+        if ($widget instanceof Widget) {
+            $this->assets[] = $widget;
+        }
+    }
+
+    /**
      * Get the relative path to the asset file.
      *
      * @deprecated Deprecated since 3.0, to be removed in 4.0.

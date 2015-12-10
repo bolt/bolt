@@ -1,7 +1,6 @@
 <?php
 namespace Bolt;
 
-use Bolt\Asset\Widget\Widget;
 use Bolt\Extension\SimpleExtension;
 use Bolt\Extensions\AssetTrait;
 use Bolt\Extensions\ExtensionInterface;
@@ -276,18 +275,5 @@ abstract class BaseExtension extends SimpleExtension
         } else {
             return false;
         }
-    }
-
-    /**
-     * Add a Widget to the render queue.
-     *
-     * @param Widget $widget
-     */
-    public function addWidget($widget)
-    {
-        if ($widget instanceof Widget) {
-            return $this->app['asset.queue.widget']->add($widget);
-        }
-        $this->app['logger.system']->error(sprintf('%s tried inserting an invalid widget object. Ignoring.', $this->getName()), ['event' => 'extensions']);
     }
 }
