@@ -160,6 +160,31 @@
             if (data.length === 0) {
                 this._ui.list.html(bolt.data(template));
             }
+        },
+
+        /**
+         * Adds a titled file path to the list.
+         *
+         * @param {string} path
+         * @param {string} title
+         */
+        addPath: function (path, title) {
+            // Remove empty list message, if there.
+            $('>p', this._ui.list).remove();
+
+            // Append to list.
+            this._ui.list.append(
+                $(Bolt.data(
+                    this.options.isImage ? 'field.imagelist.template.item' : 'field.filelist.template.item',
+                    {
+                        '%TITLE_A%':    title || path,
+                        '%FILENAME_E%': $('<div>').text(path).html(), // Escaped
+                        '%FILENAME_A%': path
+                    }
+                ))
+            );
+
+            this._serialize();
         }
     });
 })(jQuery, Bolt);

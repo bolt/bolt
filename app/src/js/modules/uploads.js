@@ -19,39 +19,6 @@
     var uploads = {};
 
     /**
-     * Adds a file to an upload list.
-     *
-     * @static
-     * @function addToList
-     * @memberof Bolt.uploads
-     * @param {Object} fieldset
-     * @param {string} filename
-     * @param {string=} title (Optional)
-     */
-    uploads.addToList = function (fieldset, filename, title) {
-        var listField = $('div.list', fieldset),
-            type = $(fieldset).data('bolt-fieldset'),
-            templateItem = type === 'filelist' ? 'field.filelist.template.item' : 'field.imagelist.template.item';
-
-        // Remove empty list message, if there.
-        $('>p', listField).remove();
-
-        // Append to list.
-        listField.append(
-            $(Bolt.data(
-                templateItem,
-                {
-                    '%TITLE_A%':    title || filename,
-                    '%FILENAME_E%': $('<div>').text(filename).html(), // Escaped
-                    '%FILENAME_A%': filename
-                }
-            ))
-        );
-
-        serializeList(fieldset);
-    };
-
-    /**
      * This function works at a lower level than the bindField function, it sets up the handlers for the upload
      * button along with drag and drop functionality. To do this it uses the `key` parameter which needs to
      * be a unique ID.
@@ -222,36 +189,6 @@
     }
 
     /**
-     * Serialize list data on change.
-     *
-     * @private
-     * @function serializeList
-     * @memberof Bolt.uploads
-     *
-     * @param {Object} fieldset
-     */
-    function serializeList(fieldset) {
-        var listField = $('div.list', fieldset),
-            dataField = $('textarea', fieldset),
-            isFile = $(fieldset).data('bolt-fieldset') === 'filelist',
-            templateEmpty = isFile ? 'field.filelist.template.empty' : 'field.imagelist.template.empty',
-            data = [];
-
-        $('.item', listField).each(function () {
-            data.push({
-                filename: $(this).find('input.filename').val(),
-                title: $(this).find('input.title').val()
-            });
-        });
-        dataField.val(JSON.stringify(data));
-
-        // Display empty list message.
-        if (data.length === 0) {
-            listField.html(Bolt.data(templateEmpty));
-        }
-    }
-
-    /**
      * Add the file.
      *
      * @private
@@ -267,8 +204,10 @@
             fieldset.fieldFile('setPath', path, stackAdd);
         } else if (fieldset.is(':bolt-fieldImage')) {
             fieldset.fieldImage('setPath', path, stackAdd);
-        } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
-            uploads.addToList(fieldset, path);
+        } else if (fieldset.is(':bolt-fieldFilelist')) {
+            fieldset.fieldFilelist('addPath', path);
+        } else if (fieldset.is(':bolt-fieldImagelist')) {
+            fieldset.fieldImagelist('addPath', path);
         } else if (fieldset.is(':bolt-buicStack')) {
             fieldset.buicStack('add', path);
         }

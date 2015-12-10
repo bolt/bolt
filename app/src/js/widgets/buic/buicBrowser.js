@@ -155,8 +155,10 @@
                 fieldset.fieldFile('setPath', path);
             } else if (fieldset.is(':bolt-fieldImage')) {
                 fieldset.fieldImage('setPath', path);
-            } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
-                bolt.uploads.addToList(fieldset, path);
+            } else if (fieldset.is(':bolt-fieldFilelist')) {
+                fieldset.fieldFilelist('addPath', path);
+            } else if (fieldset.is(':bolt-fieldImagelist')) {
+                fieldset.fieldImagelist('addPath', path);
             } else if (fieldset.is(':bolt-buicStack')) {
                 fieldset.buicStack('add', path);
             }
