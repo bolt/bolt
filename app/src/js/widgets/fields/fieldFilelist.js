@@ -21,11 +21,21 @@
          * @private
          */
         _create: function () {
+            // Mark this widget as type of "FileList", if not already set.
+            this.options.isImage = this.options.isImage || false;
+
+            // Bind events.
             bolt.uploads.bindList(
                 this.element,
                 {
-                    removeSingle: bolt.data('field.filelist.message.remove'),
-                    removeMulti: bolt.data('field.filelist.message.removeMulti')
+                    removeSingle: bolt.data(
+                        this.options.isImage ?
+                            'field.imagelist.message.remove' : 'field.filelist.message.remove'
+                    ),
+                    removeMulti: bolt.data(
+                        this.options.isImage ?
+                            'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti'
+                    )
                 }
             );
             bolt.uploads.bindUpload(this.element, true);
