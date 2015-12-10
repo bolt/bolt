@@ -21,7 +21,6 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
         $this->assertNotEmpty($ext->getBasePath());
         $this->assertNotEmpty($ext->getBaseUrl());
-        $this->assertEquals('mockobject', $ext->getMachineName());
     }
 
     public function testComposerLoading()
@@ -62,17 +61,6 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $ext->setComposerConfiguration(['name' => 'valuefrommock']);
 
         $this->assertEquals('valuefrommock', $ext->getComposerName());
-    }
-
-    public function testGetMachineName()
-    {
-        $app = $this->makeApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-
-        // Machine name calculated from the Class name in this case MockObject
-        $this->assertEquals('mockobject', $ext->getMachineName());
-        $ext->setComposerConfiguration(['name' => 'valuefrommock']);
-        $this->assertEquals('valuefrommock', $ext->getMachineName());
     }
 
     public function testSetComposerConfiguration()

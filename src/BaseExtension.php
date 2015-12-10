@@ -82,23 +82,6 @@ abstract class BaseExtension extends SimpleExtension
     }
 
     /**
-     * Gets a 'machine name' for this extension.
-     * The machine name is the composer name, if available, or a slugified
-     * version of the name as reported by getName() otherwise.
-     *
-     * @return string
-     */
-    public function getMachineName()
-    {
-        $composerName = $this->getComposerName();
-        if (empty($composerName)) {
-            return $this->app['slugify']->slugify($this->getName());
-        } else {
-            return $composerName;
-        }
-    }
-
-    /**
      * Get the contents of the extension's composer.json file, lazy-loading
      * as needed.
      */
