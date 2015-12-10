@@ -24,7 +24,7 @@
             var self = this,
                 fieldset = this.element,
                 isImage = this.options.isImage || false,
-                lastClick = null;
+                lastClickIndex = 0;
 
             // Mark this widget as type of "FileList", if not already set.
             this.options.isImage = isImage;
@@ -69,33 +69,35 @@
             });
 
             // Bind list events.
-            this._on($('div.list', fieldset), {
+            var list = $('div.list', fieldset);
+
+            this._on(list, {
                 'click.list-item': function (event) {
                     var item = $(event.target);
 
                     if (item.hasClass('list-item')) {
                         if (event.shiftKey) {
-                            if (lastClick) {
-                                var currentIndex = item.index(),
-                                    lastIndex = lastClick.index();
+                            var begin = Math.min(lastClickIndex, item.index()),
+                                end = Math.max(lastClickIndex, item.index());
 
-                                if (lastIndex > currentIndex) {
-                                    item.nextUntil(lastClick).add(this).add(lastClick).addClass('selected');
-                                } else if (lastIndex < currentIndex) {
-                                    item.prevUntil(lastClick).add(this).add(lastClick).addClass('selected');
-                                } else {
-                                    item.toggleClass('selected');
-                                }
-                            }
+                            // Select all items in range.
+                            list.children().each(function (idx, listitem) {
+                                $(listitem).toggleClass('selected', idx >= begin && idx <= end);
+                            });
                         } else if (event.ctrlKey || event.metaKey) {
                             item.toggleClass('selected');
+                            // Remember last clicked item.
+                            lastClickIndex = item.index();
                         } else {
-                            $('.list-item', fieldset).not(item).removeClass('selected');
-                            item.toggleClass('selected');
-                        }
+                            var otherSelectedItems = list.children('.selected').not(item);
 
-                        lastClick = event.shiftKey || event.ctrlKey || event.metaKey || item.hasClass('selected') ?
-                            item : null;
+                            // Unselect all other selected items.
+                            otherSelectedItems.removeClass('selected');
+                            // Select if others were selected, otherwise toogle.
+                            item.toggleClass('selected', otherSelectedItems.length > 0 ? true : null);
+                            // Remember last clicked item.
+                            lastClickIndex = item.index();
+                        }
                     }
                 },
                 'click.remove-button': function (event) {
