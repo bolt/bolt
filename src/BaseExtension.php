@@ -363,14 +363,6 @@ abstract class BaseExtension extends SimpleExtension
     }
 
     /**
-     * @see \Bolt\Extensions\ExtensionInterface::getName()
-     */
-    public function getName()
-    {
-        return $this->namespace;
-    }
-
-    /**
      * Allow use of the extension's Twig function in content records when the
      * content type has the setting 'allowtwig: true' is set.
      *
