@@ -16,10 +16,10 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
 {
     use AssetTrait;
     use ConfigTrait;
-    use MenuTrait;
-    use TwigTrait;
     use ControllerMountTrait;
+    use MenuTrait;
     use NutTrait;
+    use TwigTrait;
 
     /**
      * {@inheritdoc}
