@@ -29,8 +29,18 @@
     uploads.bindField = function (fieldset) {
         bindUpload(fieldset, false);
         bindSelectFromStack(fieldset);
+        uploads.bindAutocomplete(fieldset);
+    };
 
-        // Setup autocomplete popup.
+    /**
+     * Setup autocomplete popup.
+     *
+     * @static
+     * @function bindAutocomplete
+     * @memberof Bolt.uploads
+     * @param {Object} fieldset
+     */
+    uploads.bindAutocomplete = function (fieldset) {
         var accept = ($(fieldset).find('input[accept]').prop('accept') || '').replace(/\./g, ''),
             input = $(fieldset).find('input.path');
 
