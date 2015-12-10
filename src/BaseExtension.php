@@ -378,11 +378,4 @@ abstract class BaseExtension extends SimpleExtension
         }
         $this->app['logger.system']->error(sprintf('%s tried inserting an invalid widget object. Ignoring.', $this->getName()), ['event' => 'extensions']);
     }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function parseWidget()
-    {
-    }
 }
