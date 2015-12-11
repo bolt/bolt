@@ -20,7 +20,7 @@
          *
          * @private
          * @listens jQuery.widget.bolt.buicBrowser#buicbrowserselected
-         * @listens jQuery.widget.bolt.buicUpload#uploaduploaded
+         * @listens jQuery.widget.bolt.buicUpload#buicuploaduploaded
          */
         _create: function () {
             var self = this,
@@ -42,7 +42,7 @@
             self._on({
                 'click.select-from-stack a': self._onSelectFromStack,
                 'buicbrowserselected':       self._onSetPath,
-                'uploaduploaded':            self._onSetPath
+                'buicuploaduploaded':        self._onSetPath
             });
 
             // Bind upload.
@@ -73,7 +73,7 @@
          *
          * @param {Object}                                             event - The event
          * @param {jQuery.widget.bolt.buicBrowser#buicbrowserselected|
-         *         jQuery.widget.bolt.buicUpload#uploaduploaded|
+         *         jQuery.widget.bolt.buicUpload#buicuploaduploaded|
          *         Object}                                             data  - Data containing the path
          */
         _onSetPath: function (event, data) {

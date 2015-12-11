@@ -18,7 +18,7 @@
         /**
          * Event reporting that a file was selected.
          *
-         * @event jQuery.widget.bolt.buicUpload#uploaduploaded
+         * @event jQuery.widget.bolt.buicUpload#buicuploaduploaded
          * @property {string} path - The path to the selected file
          */
 
@@ -149,7 +149,7 @@
          * Files successfully uploaded.
          *
          * @private
-         * @fires jQuery.widget.bolt.buicUpload#uploaduploaded
+         * @fires jQuery.widget.bolt.buicUpload#buicuploaduploaded
          *
          * @param {Object} event
          * @param {Object} data
@@ -161,7 +161,7 @@
                 if (file.error) {
                     bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
                 } else {
-                    fieldset.trigger('uploaduploaded', {path: file.name});
+                    fieldset.trigger('uploaded', {path: file.name});
                 }
             });
         }
