@@ -26,9 +26,6 @@
             var self = this,
                 fieldset = this.element;
 
-            bolt.uploads.bindUpload(fieldset, false);
-            bolt.uploads.bindSelectFromStack(fieldset);
-
             // Initialize the autocomplete popup.
             var accept = ($('input[accept]', fieldset).prop('accept') || '').replace(/\./g, ''),
                 input = $('input.path', fieldset);
@@ -41,11 +38,32 @@
                 }
             });
 
-            // Listen to external events.
+            // Binds event handlers.
             self._on({
-                'buicbrowserselected': self._setPath,
-                'uploaduploaded':      self._setPath
+                'click.select-from-stack a': self._onSelectFromStack,
+                'buicbrowserselected':       self._onSetPath,
+                'uploaduploaded':            self._onSetPath
             });
+
+            // Bind upload.
+            bolt.uploads.bindUpload(fieldset, false);
+        },
+
+        /**
+         * Sets the path to file.
+         *
+         * @private
+         *
+         * @param {Object} event - The event
+         */
+        _onSelectFromStack: function (event) {
+            var link = $(event.target);
+
+            // Close the dropdown.
+            link.closest('.btn-group').removeClass('open');
+
+            this._onSetPath(event, {path: link.data('path')});
+            event.preventDefault();
         },
 
         /**
@@ -55,14 +73,17 @@
          *
          * @param {Object}                                             event - The event
          * @param {jQuery.widget.bolt.buicBrowser#buicbrowserselected|
-         *         Bolt.uploads#uploaduploaded}                        data  - Data containing the path
+         *         Bolt.uploads#uploaduploaded|
+         *         Object}                                             data  - Data containing the path
          */
-        _setPath: function (event, data) {
+        _onSetPath: function (event, data) {
             $('input.path', this.element)
                 .val(data.path)
                 .trigger('change');
 
-            bolt.stack.addToStack(data.path);
+            if (event.type !== 'click') {
+                bolt.stack.addToStack(data.path);
+            }
         }
     });
 })(jQuery, Bolt);

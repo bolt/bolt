@@ -68,29 +68,6 @@
     };
 
     /**
-     * Binds event to select from stack button.
-     *
-     * @static
-     * @function bindSelectFromStack
-     * @memberof Bolt.uploads
-     * @fires Bolt.uploads#uploaduploaded
-     *
-     * @param {Object} fieldset
-     */
-    uploads.bindSelectFromStack = function (fieldset) {
-        $('ul.select-from-stack a', fieldset).on('click', function () {
-            var path = $(this).data('path');
-
-            // Close the dropdown.
-            $(this).closest('.btn-group').find('button.dropdown-toggle').dropdown('toggle');
-
-            $(this).trigger('uploaduploaded', {path: path});
-
-            return false;
-        });
-    };
-
-    /**
      * Upload processing failed.
      *
      * @private

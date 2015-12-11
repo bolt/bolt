@@ -138,15 +138,15 @@
                 }
             });
 
-            // Listen to external events.
+            // Binds event handlers.
             self._on({
-                'buicbrowserselected': self._addPath,
-                'uploaduploaded':      self._addPath
+                'click.select-from-stack a': self._onSelectFromStack,
+                'buicbrowserselected':       self._onAddPath,
+                'uploaduploaded':            self._onAddPath
             });
 
-            // Bind events.
+            // Bind upload.
             bolt.uploads.bindUpload(fieldset, true);
-            bolt.uploads.bindSelectFromStack(fieldset);
         },
 
         /**
@@ -156,9 +156,10 @@
          *
          * @param {Object}                                             event - The event
          * @param {jQuery.widget.bolt.buicBrowser#buicbrowserselected|
-         *         Bolt.uploads#uploaduploaded}                        data  - Data containing the path
+         *         Bolt.uploads#uploaduploaded|
+         *         Object}                                             data  - Data containing the path
          */
-        _addPath: function (event, data) {
+        _onAddPath: function (event, data) {
             // Remove empty list message, if there.
             $('>p', this._ui.list).remove();
 
@@ -175,6 +176,23 @@
             );
 
             this._serialize();
+        },
+
+        /**
+         * Sets the path to file.
+         *
+         * @private
+         *
+         * @param {Object} event - The event
+         */
+        _onSelectFromStack: function (event) {
+            var link = $(event.target);
+
+            // Close the dropdown.
+            link.closest('.btn-group').removeClass('open');
+
+            this._onSetPath(event, {path: link.data('path')});
+            event.preventDefault();
         },
 
         /**
