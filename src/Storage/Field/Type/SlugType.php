@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
+use Bolt\Storage\QuerySet;
+
 /**
  * This is one of a suite of basic Bolt field transformers that handles
  * the lifecycle of a field from pre-query to persist.
@@ -15,5 +17,17 @@ class SlugType extends FieldTypeBase
     public function getName()
     {
         return 'slug';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function persist(QuerySet $queries, $entity)
+    {
+        if ($entity->getSlug() === null) {
+            // When no slug value is given, generate a pseudo-random reasonably unique one.
+            $entity->setSlug('slug-' . md5(mt_rand()));
+        }
+        parent::persist($queries, $entity);
     }
 }
