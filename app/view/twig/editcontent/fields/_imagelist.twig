@@ -46,6 +46,7 @@
         <input type="text" class="title" value="%TITLE_A%">
         <input type="hidden" class="filename" value="%FILENAME_A%">
         <a href="#" class="remove"><i class="fa fa-times"></i></a>
+        <span>%FILENAME_E%</span>
     </div>
 {% endset %}
 {% set template_item = template_item|trim|preg_replace('/>\\s+</', '><') %}
@@ -71,7 +72,8 @@
             {% for image in list %}
                 {{ template_item|replace({
                     '%TITLE_A%':    image.title|e('html_attr'),
-                    '%FILENAME_A%': image.filename|e('html_attr')
+                    '%FILENAME_A%': image.filename|e('html_attr'),
+                    '%FILENAME_E%': image.filename|e('html')
                 })|raw }}
             {% else %}
                 {{ template_empty|raw }}
