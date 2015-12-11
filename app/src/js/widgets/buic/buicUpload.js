@@ -28,8 +28,9 @@
          * @private
          */
         _create: function () {
-            var fileInput = $('input[type=file]', this.element),
-                dropZone = $('.dropzone', this.element),
+            var fieldset = this.element,
+                fileInput = $('input[type=file]', fieldset),
+                dropZone = $('.dropzone', fieldset),
                 //
                 accept = $(fileInput).attr('accept'),
                 extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
@@ -39,6 +40,20 @@
             if (this.options.maxSize === null) {
                 this.options.maxSize = bolt.utils.filterInt(bolt.conf('uploadConfig.maxSize'), 2000000);
             }
+
+            /**
+             * Refs to UI elements of this widget.
+             *
+             * @type {Object}
+             * @name _ui
+             * @memberOf jQuery.widget.bolt.buicUpload.prototype
+             * @private
+             *
+             * @property {Object} progress - Progress bar widget
+             */
+            this._ui = {
+                progress: $(':bolt-buicProgress', fieldset)
+            };
 
             // Initialize the upload widget.
             fileInput.fileupload({
@@ -110,10 +125,10 @@
          * @param {Object} data
          */
         _onUploadSubmit: function(event, data) {
-            var progress = $(event.target).closest('fieldset').find(':bolt-buicProgress');
+            var self = this;
 
             $.each(data.files, function () {
-                progress.buicProgress('add', this.name);
+                self._ui.progress.buicProgress('add', this.name);
             });
         },
 
@@ -126,10 +141,10 @@
          * @param {Object} data
          */
         _onUploadProgress: function (event, data) {
-            var progress = $(event.target).closest('fieldset').find(':bolt-buicProgress');
+            var self = this;
 
             $.each(data.files, function () {
-                progress.buicProgress('set', this.name, data.loaded / data.total);
+                self._ui.progress.buicProgress('set', this.name, data.loaded / data.total);
             });
         },
 
@@ -142,10 +157,10 @@
          * @param {Object} data
          */
         _onUploadAlways: function (event, data) {
-            var progress = $(event.target).closest('fieldset').find(':bolt-buicProgress');
+            var self = this;
 
             $.each(data.files, function () {
-                progress.buicProgress('remove', this.name);
+                self._ui.progress.buicProgress('remove', this.name);
             });
         },
 
@@ -165,7 +180,7 @@
                 if (file.error) {
                     bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
                 } else {
-                    fieldset.trigger('uploaded', {path: file.name});
+                    fieldset._trigger('uploaded', {path: file.name});
                 }
             });
         },
