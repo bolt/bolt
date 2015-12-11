@@ -17,7 +17,8 @@ class TestRunner extends BaseCommand
     {
         $this
             ->setName('tests:run')
-            ->setDescription('Runs all available tests');
+            ->setDescription('Runs all available tests')
+        ;
     }
 
     /**

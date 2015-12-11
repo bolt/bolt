@@ -20,7 +20,8 @@ class LogClear extends BaseCommand
         $this
             ->setName('log:clear')
             ->setDescription('Clear (truncate) the system & change logs.')
-            ->addOption('force', 'f', InputOption::VALUE_NONE, 'If set, no confirmation will be required');
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'If set, no confirmation will be required')
+        ;
     }
 
     /**

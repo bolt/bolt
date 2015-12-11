@@ -17,7 +17,8 @@ class CacheClear extends BaseCommand
     {
         $this
             ->setName('cache:clear')
-            ->setDescription('Clear the cache');
+            ->setDescription('Clear the cache')
+        ;
     }
 
     /**

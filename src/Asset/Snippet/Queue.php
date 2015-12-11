@@ -81,7 +81,8 @@ class Queue implements QueueInterface
             ->setLocation($location)
             ->setCallback($callback)
             ->setExtension($extensionName)
-            ->setCallbackArguments($callbackArguments);
+            ->setCallbackArguments($callbackArguments)
+        ;
     }
 
     /**
@@ -161,7 +162,8 @@ class Queue implements QueueInterface
             $jqueryfile = $this->resources->getPath('app/view/js/jquery-2.1.4.min.js');
             $asset = (new Snippet())
                 ->setLocation(Target::BEFORE_JS)
-                ->setCallback('<script src="' . $jqueryfile . '"></script>');
+                ->setCallback('<script src="' . $jqueryfile . '"></script>')
+            ;
             $html = $this->injector->inject($asset, $asset->getLocation(), $html);
         }
 

@@ -24,7 +24,8 @@ class DatabasePrefill extends BaseCommand
             ->setName('database:prefill')
             ->setDescription('Pre-fill the database Lorem Ipsum records')
             ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
-            ->addArgument('contenttypes', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'A list of Contentypes to pre-fill. If this argument is empty, all Contenttypes are used.');
+            ->addArgument('contenttypes', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'A list of Contentypes to pre-fill. If this argument is empty, all Contenttypes are used.')
+        ;
     }
 
     /**

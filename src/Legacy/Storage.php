@@ -1138,7 +1138,8 @@ class Storage
                 ->update($tablename)
                 ->set('status', ':newstatus')
                 ->set('datechanged', ':datechanged')
-                ->setParameter('datechanged', date('Y-m-d H:i:s'));
+                ->setParameter('datechanged', date('Y-m-d H:i:s'))
+            ;
 
             $this->timedWhere($query, $type);
 
@@ -1185,7 +1186,8 @@ class Storage
             ->from($tablename)
             ->set('status', ':newstatus')
             ->set('datechanged', ':datechanged')
-            ->setParameter('datechanged', date('Y-m-d H:i:s'));
+            ->setParameter('datechanged', date('Y-m-d H:i:s'))
+        ;
 
         $this->timedWhere($query, $type);
 
@@ -1206,7 +1208,8 @@ class Storage
                 ->andWhere('datepublish < :currenttime')
                 ->setParameter('oldstatus', 'timed')
                 ->setParameter('newstatus', 'published')
-                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME);
+                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
+            ;
         } else {
             $query
                 ->where('status = :oldstatus')
@@ -1216,7 +1219,8 @@ class Storage
                 ->setParameter('oldstatus', 'published')
                 ->setParameter('newstatus', 'held')
                 ->setParameter('zeroday', '1900-01-01 00:00:01')
-                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME);
+                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
+            ;
         }
     }
 

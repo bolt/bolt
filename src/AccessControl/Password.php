@@ -186,7 +186,8 @@ class Password
             ->setReplyTo($from)
             ->setTo([$userEntity['email'] => $userEntity['displayname']])
             ->setBody(strip_tags($mailhtml))
-            ->addPart($mailhtml, 'text/html');
+            ->addPart($mailhtml, 'text/html')
+        ;
 
         $failed = true;
         $failedRecipients = [];

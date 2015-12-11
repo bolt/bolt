@@ -23,7 +23,8 @@ class CronRunner extends BaseCommand
         $this
             ->setName('cron')
             ->setDescription('Cron virtual daemon')
-            ->addOption('run', null, InputOption::VALUE_REQUIRED, "Run a particular interim's jobs:\n" . implode("\n", $interims));
+            ->addOption('run', null, InputOption::VALUE_REQUIRED, "Run a particular interim's jobs:\n" . implode("\n", $interims))
+        ;
     }
 
     /**

@@ -17,7 +17,8 @@ class Info extends BaseCommand
     {
         $this
             ->setName('info')
-            ->setDescription('Display phpinfo().');
+            ->setDescription('Display phpinfo().')
+        ;
     }
 
     /**
