@@ -44,6 +44,22 @@
         return val + ' ' + units[u].trim() + 'B';
     };
 
+    /**
+     * Strict parsing of int values.
+     *
+     * @static
+     * @function filterInt
+     * @memberof Bolt.utils
+     * @see https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/parseInt
+     *
+     * @param {string} value            - Value to check for being int.
+     * @param {number} [defaultInt=NaN] - Default value to return when the tested value does not match.
+     * @returns {number}
+     */
+    utils.filterInt = function (value, defaultInt) {
+        return /^(\-|\+)?([0-9]+|Infinity)$/.test(value) ? Number(value) : defaultInt || NaN;
+    };
+
     // Apply mixin container
     bolt.utils = utils;
 
