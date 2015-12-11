@@ -189,7 +189,7 @@ class RepeatingFieldCollection extends ArrayCollection
     {
         $flat = [];
         foreach ($this as $collection => $vals) {
-            $flat = array_merge($flat, $vals->toArray());
+            $flat = array_merge($flat, array_values($vals->toArray()));
         }
 
         return $flat;
