@@ -24,9 +24,7 @@
          */
         _create: function () {
             var self = this,
-                fieldset = this.element,
-                isImage = this.options.isImage || false,
-                lastClickIndex = 0;
+                fieldset = this.element;
 
             /**
              * Refs to UI elements of this widget.
@@ -36,16 +34,26 @@
              * @memberOf jQuery.widget.bolt.fieldFilelist.prototype
              * @private
              *
-             * @property {Object} data           - List data holder
-             * @property {Object} list           - List container
+             * @property {Object} data - List data holder
+             * @property {Object} list - List container
              */
             this._ui = {
-                data:           fieldset.find('textarea'),
-                list:           fieldset.find('.list')
+                data: fieldset.find('textarea'),
+                list: fieldset.find('.list')
             };
 
+            /**
+             * Index of the last clicked item.
+             *
+             * @type {number}
+             * @name _lastClickIndex
+             * @memberOf jQuery.widget.bolt.fieldFilelist.prototype
+             * @private
+             */
+            this._lastClickIndex = 0;
+
             // Mark this widget as type of "FileList", if not already set.
-            self.options.isImage = isImage;
+            self.options.isImage = this.options.isImage || false;
 
             // Make the list sortable.
             self._ui.list.sortable({
@@ -87,55 +95,10 @@
             });
 
             // Bind list events.
-            this._on(self._ui.list, {
-                'click.item': function (event) {
-                    var item = $(event.target);
-
-                    if (item.hasClass('item')) {
-                        if (event.shiftKey) {
-                            var begin = Math.min(lastClickIndex, item.index()),
-                                end = Math.max(lastClickIndex, item.index());
-
-                            // Select all items in range.
-                            self._ui.list.children().each(function (idx, listitem) {
-                                $(listitem).toggleClass('selected', idx >= begin && idx <= end);
-                            });
-                        } else if (event.ctrlKey || event.metaKey) {
-                            item.toggleClass('selected');
-                            // Remember last clicked item.
-                            lastClickIndex = item.index();
-                        } else {
-                            var otherSelectedItems = self._ui.list.children('.selected').not(item);
-
-                            // Unselect all other selected items.
-                            otherSelectedItems.removeClass('selected');
-                            // Select if others were selected, otherwise toogle.
-                            item.toggleClass('selected', otherSelectedItems.length > 0 ? true : null);
-                            // Remember last clicked item.
-                            lastClickIndex = item.index();
-                        }
-                    }
-                },
-                'click.remove': function (event) {
-                    var item = $(event.target).closest('.item'),
-                        items = item.hasClass('selected') ? $('.selected', self._ui.list) : item,
-                        msgOne = isImage ? 'field.imagelist.message.remove' : 'field.filelist.message.remove',
-                        msgMlt = isImage ? 'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
-
-                    items.addClass('zombie');
-                    if (confirm(bolt.data(items.length > 1 ? msgMlt : msgOne))) {
-                        event.target.closest('.item').remove();
-                        self._serialize();
-                    } else {
-                        items.removeClass('zombie');
-                    }
-
-                    event.preventDefault();
-                    event.stopPropagation();
-                },
-                'change input': function () {
-                    self._serialize();
-                }
+            self._on(self._ui.list, {
+                'click.item':   self._onSelect,
+                'click.remove': self._onRemove,
+                'change input': self._serialize
             });
 
             // Binds event handlers.
@@ -176,6 +139,69 @@
             );
 
             this._serialize();
+        },
+
+        /**
+         * Handles on the list item remove button clicks.
+         *
+         * @private
+         *
+         * @param {Object} event - The event
+         */
+        _onRemove: function (event) {
+            var item = $(event.target).closest('.item'),
+                items = item.hasClass('selected') ? $('.selected', this._ui.list) : item,
+                msgOne = this.options.isImage ?
+                    'field.imagelist.message.remove' : 'field.filelist.message.remove',
+                msgMlt = this.options.isImage ?
+                    'field.imagelist.message.removeMulti' : 'field.filelist.message.removeMulti';
+
+            items.addClass('zombie');
+            if (confirm(bolt.data(items.length > 1 ? msgMlt : msgOne))) {
+                event.target.closest('.item').remove();
+                this._serialize();
+            } else {
+                items.removeClass('zombie');
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+        },
+
+        /**
+         * Handles clicks on items.
+         *
+         * @private
+         *
+         * @param {Object} event - The event
+         */
+        _onSelect: function (event) {
+            var item = $(event.target);
+
+            if (item.hasClass('item')) {
+                if (event.shiftKey) {
+                    var begin = Math.min(this._lastClickIndex, item.index()),
+                        end = Math.max(this._lastClickIndex, item.index());
+
+                    // Select all items in range.
+                    this._ui.list.children().each(function (idx, listitem) {
+                        $(listitem).toggleClass('selected', idx >= begin && idx <= end);
+                    });
+                } else if (event.ctrlKey || event.metaKey) {
+                    item.toggleClass('selected');
+                    // Remember last clicked item.
+                    this._lastClickIndex = item.index();
+                } else {
+                    var otherSelectedItems = this._ui.list.children('.selected').not(item);
+
+                    // Unselect all other selected items.
+                    otherSelectedItems.removeClass('selected');
+                    // Select if others were selected, otherwise toogle.
+                    item.toggleClass('selected', otherSelectedItems.length > 0 ? true : null);
+                    // Remember last clicked item.
+                    this._lastClickIndex = item.index();
+                }
+            }
         },
 
         /**
