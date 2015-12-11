@@ -138,8 +138,11 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
         }
 
         // Install the local extension
-        $this->writeln('Installing local extension');
-        $fs->mirror(CODECEPTION_DATA . '/extensions/local/', INSTALL_ROOT . '/extensions/local/', null, ['override' => true, 'delete' => true]);
+        //$this->writeln('Installing local extension');
+        //$fs->mirror(CODECEPTION_DATA . '/extensions/local/', INSTALL_ROOT . '/extensions/local/', null, ['override' => true, 'delete' => true]);
+        dump('Local extension installation disabled!');
+        dump(sprintf('Class: %s::%s', __CLASS__, __FUNCTION__));
+        dump(sprintf('File %s:%s', __FILE__, __LINE__));
 
         // Empty the cache
         system('php ' . NUT_PATH . ' cache:clear');
