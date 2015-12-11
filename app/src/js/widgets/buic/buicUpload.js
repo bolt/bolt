@@ -174,13 +174,13 @@
          * @param {Object} data
          */
         _onUploadDone: function (event, data) {
-            var fieldset = $(event.target).closest('fieldset');
+            var self = this;
 
             $.each(data.result, function (idx, file) {
                 if (file.error) {
                     bootbox.alert(bolt.data('field.uploads.template.error', {'%ERROR%': file.error}));
                 } else {
-                    fieldset._trigger('uploaded', {path: file.name});
+                    self._trigger('uploaded', event, {path: file.name});
                 }
             });
         },
