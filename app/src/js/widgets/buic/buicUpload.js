@@ -31,22 +31,26 @@
             var fileInput = $('input[type=file]', this.element),
                 dropZone = $('.dropzone', this.element),
                 //
-                maxSize = bolt.conf('uploadConfig.maxSize'),
                 accept = $(fileInput).attr('accept'),
                 extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
                 pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i');
+
+            // Set maxSize, if not set on creation.
+            if (this.options.maxSize === null) {
+                this.options.maxSize = bolt.utils.filterInt(bolt.conf('uploadConfig.maxSize'), 2000000);
+            }
 
             // Initialize the upload widget.
             fileInput.fileupload({
                 dataType: 'json',
                 dropZone: dropZone,
                 pasteZone: null,
-                maxFileSize: maxSize > 0 ? maxSize : undefined,
+                maxFileSize: this.options.maxSize > 0 ? this.options.maxSize : undefined,
                 minFileSize: undefined,
                 acceptFileTypes: accept ? pattern : undefined,
                 maxNumberOfFiles: undefined,
                 messages: {
-                    maxFileSize: '>:' + bolt.utils.humanBytes(maxSize),
+                    maxFileSize: '>:' + bolt.utils.humanBytes(this.options.maxSize),
                     minFileSize: '<',
                     acceptFileTypes: 'T:.' + extensions.join(', .'),
                     maxNumberOfFiles: '#'
@@ -164,6 +168,15 @@
                     fieldset.trigger('uploaded', {path: file.name});
                 }
             });
+        },
+
+        /**
+         * Default options.
+         *
+         * @property {?number} maxSize - Maximum upload size in bytes. 0 means unlimited.
+         */
+        options: {
+            maxSize: null
         }
     });
 })(jQuery, Bolt);
