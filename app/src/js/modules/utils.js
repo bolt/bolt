@@ -22,26 +22,27 @@
      * @function init
      * @memberof Bolt.utils
      *
-     * @param {integer} val - Value to format.
+     * @param {number} value - Value to format.
+     * @returns {string}
      */
-    utils.humanBytes = function (val) {
+    utils.humanBytes = function (value) {
         var units = ' kMGTPEZY',
             u = -1;
 
-        while (++u < 8 && Math.abs(val) >= 1000) {
-            val /= 1000;
+        while (++u < 8 && Math.abs(value) >= 1000) {
+            value /= 1000;
         }
 
         if (!!(typeof Intl === 'object' && Intl && typeof Intl.NumberFormat === 'function')) {
-            val = val.toLocaleString(
+            value = value.toLocaleString(
                 bolt.conf('locale.long').replace(/_/g, '-'),
                 {maximumSignificantDigits: 3}
             );
         } else {
-            val = val.toFixed(2);
+            value = value.toFixed(2);
         }
 
-        return val + ' ' + units[u].trim() + 'B';
+        return value + ' ' + units[u].trim() + 'B';
     };
 
     /**
