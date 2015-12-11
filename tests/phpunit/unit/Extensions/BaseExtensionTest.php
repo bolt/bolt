@@ -431,45 +431,6 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $ext->addWidget($widget);
     }
 
-    public function testRequireUserLevel()
-    {
-        $app = $this->getApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app], '', true, true, true, ['requireUserPermission']);
-
-        $ext->expects($this->once())
-            ->method('requireUserPermission');
-
-        $ext->requireUserLevel('test');
-    }
-
-    public function testRequireUserPermission()
-    {
-        $app = $this->getApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
-        $permissions->expects($this->once())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-        $app['permissions'] = $permissions;
-
-        $ext->requireUserPermission('test');
-    }
-
-    public function testRequireUserPermissionRedirect()
-    {
-        $app = $this->getApp();
-        $ext = $this->getMockForAbstractClass('Bolt\BaseExtension', [$app]);
-        $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
-        $permissions->expects($this->once())
-            ->method('isAllowed')
-            ->will($this->returnValue(false));
-        $app['permissions'] = $permissions;
-
-        $this->expectOutputRegex('/Redirecting to/i');
-        $response = $ext->requireUserPermission('test');
-        $this->assertFalse($response);
-    }
-
     public function testAddNutCommand()
     {
         $app = $this->makeApp();

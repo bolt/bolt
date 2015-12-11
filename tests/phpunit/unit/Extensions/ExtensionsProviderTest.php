@@ -208,17 +208,6 @@ HTML;
         $this->assertEquals('Initialisation failed for badextension: BadExtension', $app['logger.system']->lastLog());
     }
 
-    public function testBadExtensionConfig()
-    {
-        $app = $this->getApp();
-        $app['logger.system'] = new Mock\Logger();
-        $app['extensions']->register(new Mock\BadExtensionConfig($app));
-        $this->assertEquals(
-            'Failed to load YAML config for badextensionconfig: BadExtensionConfig',
-            $app['logger.system']->lastLog()
-        );
-    }
-
     public function testBadExtensionSnippets()
     {
         $app = $this->getApp();
@@ -233,93 +222,6 @@ HTML;
 
         $html = $app['asset.queue.snippet']->process($this->template);
         $this->assertEquals($this->html($this->snippetException), $this->html($html));
-    }
-
-    public function testAddCss()
-    {
-        $app = $this->getApp();
-        $app['extensions']->addCss('testfile.css');
-        $assets = $app['extensions']->getAssets();
-        $this->assertEquals(1, count($assets['css']));
-    }
-
-    public function testAddJs()
-    {
-        $app = $this->getApp();
-        $app['extensions']->addJavascript('testfile.js');
-        $assets = $app['extensions']->getAssets();
-        $this->assertEquals(1, count($assets['js']));
-    }
-
-    public function testEmptyProcessAssets()
-    {
-        $app = $this->getApp();
-        $html = $app['extensions']->processAssets('html');
-        $this->assertEquals('html', $html);
-    }
-
-    public function testJsProcessAssets()
-    {
-        $app = $this->getApp();
-        $app['extensions']->addJavascript('testfile.js');
-        $html = $app['extensions']->processAssets($this->template);
-        $this->assertEquals($this->html($this->expectedJs), $this->html($html));
-    }
-
-    public function testJsProcessAssetsMin()
-    {
-        $app = $this->getApp();
-        $app['extensions']->addJavascript('testfile.js');
-        $html = $app['extensions']->processAssets($this->minify($this->template));
-        $this->assertEquals($this->minify($this->expectedJs), $this->minify($html));
-    }
-
-    public function testLateJs()
-    {
-        $app = $this->getApp();
-        $app['extensions']->addJavascript('testfile.js', true);
-        $html = $app['extensions']->processAssets($this->template);
-        $this->assertEquals($this->html($this->expectedLateJs), $this->html($html));
-    }
-
-    public function testLateJsMin()
-    {
-        $app = $this->getApp();
-        $app['extensions']->addJavascript('testfile.js', true);
-        $html = $app['extensions']->processAssets($this->minify($this->template));
-        $this->assertEquals($this->minify($this->expectedLateJs), $this->minify($html));
-    }
-
-    public function testCssProcessAssets()
-    {
-        $app = $this->getApp();
-        $app['extensions']->addCss('testfile.css');
-        $html = $app['extensions']->processAssets($this->template);
-        $this->assertEquals($this->html($this->expectedCss), $this->html($html));
-    }
-
-    public function testCssProcessAssetsMin()
-    {
-        $app = $this->getApp();
-        $app['extensions']->addCss('testfile.css');
-        $html = $app['extensions']->processAssets($this->minify($this->template));
-        $this->assertEquals($this->minify($this->expectedCss), $this->minify($html));
-    }
-
-    public function testLateCss()
-    {
-        $app = $this->getApp();
-        $app['extensions']->addCss('testfile.css', true);
-        $html = $app['extensions']->processAssets($this->template);
-        $this->assertEquals($this->html($this->expectedLateCss), $this->html($html));
-    }
-
-    public function testLateCssMin()
-    {
-        $app = $this->getApp();
-        $app['extensions']->addCss('testfile.css', true);
-        $html = $app['extensions']->processAssets($this->minify($this->template));
-        $this->assertEquals($this->minify($this->expectedLateCss), $this->minify($html));
     }
 
     // This method normalises the html so that differing whitespace doesn't effect the strings.
@@ -481,34 +383,6 @@ HTML;
         $app['extensions']->register(new Mock\Extension($app));
         $html = $app['extensions']->processSnippetQueue($this->template);
         $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($html));
-    }
-
-    public function testAddJquery()
-    {
-        $app = $this->makeApp();
-        $app['config']->set('general/add_jquery', true);
-        $app->initialize();
-        $app['extensions']->register(new Mock\Extension($app));
-        $html = $app['extensions']->processSnippetQueue($this->template);
-        $this->assertContains('js/jquery', $html);
-
-        $app = $this->getApp();
-        $app['extensions']->register(new Mock\Extension($app));
-        $app['extensions']->addJquery();
-        $html = $app['extensions']->processSnippetQueue($this->template);
-        $this->assertContains('js/jquery', $html);
-        $app['extensions']->disableJquery();
-        $html = $app['extensions']->processSnippetQueue($this->template);
-        $this->assertNotContains('js/jquery', $html);
-    }
-
-    public function testAddJqueryOnlyOnce()
-    {
-        $app = $this->getApp();
-        $app['extensions']->register(new Mock\Extension($app));
-        $app['extensions']->addJquery();
-        $html = $app['extensions']->processSnippetQueue($this->template);
-        $html = $app['extensions']->processSnippetQueue($html);
     }
 
     public function testSnippetsWorkWithBadHtml()
