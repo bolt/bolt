@@ -125,15 +125,7 @@
          * @param {Object} data
          */
         _onUploadSubmit: function(event, data) {
-            var self = this;
-
-            if (self._ui.progress === null) {
-                self._ui.progress = $(':bolt-buicProgress', this.element);
-            }
-
-            $.each(data.files, function () {
-                self._ui.progress.buicProgress('add', this.name);
-            });
+            this._progress('add', data.files);
         },
 
         /**
@@ -145,11 +137,7 @@
          * @param {Object} data
          */
         _onUploadProgress: function (event, data) {
-            var self = this;
-
-            $.each(data.files, function () {
-                self._ui.progress.buicProgress('set', this.name, data.loaded / data.total);
-            });
+            this._progress('set', data.files, data.loaded / data.total);
         },
 
         /**
@@ -161,11 +149,7 @@
          * @param {Object} data
          */
         _onUploadAlways: function (event, data) {
-            var self = this;
-
-            $.each(data.files, function () {
-                self._ui.progress.buicProgress('remove', this.name);
-            });
+            this._progress('remove', data.files);
         },
 
         /**
@@ -186,6 +170,27 @@
                 } else {
                     self._trigger('uploaded', event, {path: file.name});
                 }
+            });
+        },
+
+        /**
+         * Send commands to buicProgress to display upload progress.
+         *
+         * @private
+         *
+         * @param {string} command - Command to send
+         * @param {array}  files   - Files to process
+         * @param {number} [done]  - Percentage of bytes already uploaded
+         */
+        _progress: function (command, files, done) {
+            var self = this;
+
+            if (self._ui.progress === null) {
+                self._ui.progress = $(':bolt-buicProgress', self.element);
+            }
+
+            $.each(files, function () {
+                self._ui.progress.buicProgress(command, this.name, done);
             });
         },
 
