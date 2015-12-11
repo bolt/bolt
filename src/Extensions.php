@@ -25,8 +25,6 @@ class Extensions
     private $basefolder;
     /** @var ExtensionInterface[] List of enabled extensions. */
     private $enabled = [];
-    /** @var array List of menu items to add in the backend. */
-    private $menuoptions = [];
     /** @var integer Number of registered extensions that need to be able to send mail. */
     private $mailsenders = 0;
     /** @var array Contains all initialized extensions. */
@@ -60,10 +58,8 @@ class Extensions
 
     /**
      * Autoloads all registered extension files with an instance of the app.
-     *
-     * @return void
      **/
-    public function autoload($app)
+    public function autoload()
     {
         $loader = new ClassLoader();
 
@@ -100,10 +96,8 @@ class Extensions
 
     /**
      * Workaround to load locally installed extensions.
-     *
-     * @param Application $app
      */
-    public function localload($app)
+    public function localload()
     {
         $flag = $this->app['filesystem']->has('extensions://local');
 
@@ -319,8 +313,8 @@ class Extensions
             return;
         }
 
-        $this->autoload($this->app);
-        $this->localload($this->app);
+        $this->autoload();
+        $this->localload();
         $this->isInitialized = true;
         foreach ($this->enabled as $extension) {
             $this->initializeExtension($extension);
@@ -460,9 +454,11 @@ class Extensions
     }
 
     /**
-     * Get the namespcae from a FQCN.
+     * Get the namespace from a FQCN.
      *
      * @param ExtensionInterface $extension
+     *
+     * @return mixed
      */
     private function getNamespace($extension)
     {
