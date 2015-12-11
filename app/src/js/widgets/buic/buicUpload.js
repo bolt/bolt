@@ -92,14 +92,14 @@
          */
         _onProcessFail: function (event, data) {
             var currentFile = data.files[data.index],
-                    type = currentFile.error.substr(0, 1),
-                    alert,
-                    context = {
-                        '%FILENAME%': currentFile.name,
-                        '%FILESIZE%': bolt.utils.humanBytes(currentFile.size),
-                        '%FILETYPE%': currentFile.type,
-                        '%ALLOWED%': currentFile.error.substr(2)
-                    };
+                type = currentFile.error.substr(0, 1),
+                alert,
+                context = {
+                    '%FILENAME%': currentFile.name,
+                    '%FILESIZE%': bolt.utils.humanBytes(currentFile.size),
+                    '%FILETYPE%': currentFile.type,
+                    '%ALLOWED%': currentFile.error.substr(2)
+                };
 
             switch (type) {
                 case '>':
