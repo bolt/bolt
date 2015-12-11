@@ -131,7 +131,7 @@
                 $(Bolt.data(
                     this.options.isImage ? 'field.imagelist.template.item' : 'field.filelist.template.item',
                     {
-                        '%TITLE_A%':    data.path,
+                        '%TITLE_A%':    data.path.replace(/\.[a-z]+$/, ''),
                         '%FILENAME_E%': $('<div>').text(data.path).html(), // Escaped
                         '%FILENAME_A%': data.path
                     }
