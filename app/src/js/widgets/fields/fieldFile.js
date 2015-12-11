@@ -20,7 +20,7 @@
          *
          * @private
          * @listens jQuery.widget.bolt.buicBrowser#buicbrowserselected
-         * @listens Bolt.uploads#uploaduploaded
+         * @listens jQuery.widget.bolt.buicUpload#uploaduploaded
          */
         _create: function () {
             var self = this,
@@ -73,7 +73,7 @@
          *
          * @param {Object}                                             event - The event
          * @param {jQuery.widget.bolt.buicBrowser#buicbrowserselected|
-         *         Bolt.uploads#uploaduploaded|
+         *         jQuery.widget.bolt.buicUpload#uploaduploaded|
          *         Object}                                             data  - Data containing the path
          */
         _onSetPath: function (event, data) {

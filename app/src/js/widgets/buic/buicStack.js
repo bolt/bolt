@@ -22,7 +22,7 @@
          *
          * @param {Object}                                             event - The event
          * @param {jQuery.widget.bolt.buicBrowser#buicbrowserselected|
-         *         Bolt.uploads#uploaduploaded}                        data  - Data containing the path
+         *         jQuery.widget.bolt.buicUpload#uploaduploaded}       data  - Data containing the path
          */
         _addPath: function (event, data) {
             bolt.stack.addToStack(data.path);
