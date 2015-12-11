@@ -1,8 +1,10 @@
 <?php
-namespace Bolt;
+
+namespace Bolt\Legacy;
 
 use Bolt\Extension\SimpleExtension;
 use Composer\Json\JsonFile;
+use Silex\Application;
 use Symfony\Component\Yaml;
 
 /**
@@ -190,7 +192,7 @@ abstract class BaseExtension extends SimpleExtension
      */
     public function clearAssets()
     {
-        return $this->app['asset.queue.file']->clear();
+        $this->app['asset.queue.file']->clear();
     }
 
     /**
