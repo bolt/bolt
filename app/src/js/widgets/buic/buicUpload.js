@@ -49,10 +49,10 @@
              * @memberOf jQuery.widget.bolt.buicUpload.prototype
              * @private
              *
-             * @property {Object} progress - Progress bar widget
+             * @property {?Object} progress - Progress bar widget
              */
             this._ui = {
-                progress: $(':bolt-buicProgress', fieldset)
+                progress: null
             };
 
             // Initialize the upload widget.
@@ -126,6 +126,10 @@
          */
         _onUploadSubmit: function(event, data) {
             var self = this;
+
+            if (self._ui.progress === null) {
+                self._ui.progress = $(':bolt-buicProgress', this.element);
+            }
 
             $.each(data.files, function () {
                 self._ui.progress.buicProgress('add', this.name);
