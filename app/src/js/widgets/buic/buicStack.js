@@ -32,6 +32,8 @@
          * The constructor of the stack widget.
          *
          * @private
+         * @listens jQuery.widget.bolt.buicBrowser#buicbrowserselected
+         * @listens jQuery.widget.bolt.buicUpload#buicuploaduploaded
          */
         _create: function () {
             var self = this,
@@ -44,7 +46,6 @@
              * @name _ui
              * @memberOf jQuery.widget.bolt.buicStack.prototype
              * @private
-             * @listens jQuery.widget.bolt.buicBrowser#buicbrowserselected
              *
              * @property {Object} holder         - Stackholder
              * @property {Object} template       - Templates
