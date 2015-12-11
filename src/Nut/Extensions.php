@@ -17,7 +17,8 @@ class Extensions extends BaseCommand
     {
         $this
             ->setName('extensions')
-            ->setDescription('Lists all installed extensions');
+            ->setDescription('Lists all installed extensions')
+        ;
     }
 
     /**

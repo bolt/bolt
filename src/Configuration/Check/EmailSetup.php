@@ -110,7 +110,8 @@ class EmailSetup extends BaseCheck implements ConfigurationCheckInterface
                 ->setReplyTo([$senderMail                => $senderName])
                 ->setTo([$this->options['user']['email'] => $this->options['user']['displayname']])
                 ->setBody(strip_tags($mailhtml))
-                ->addPart($mailhtml, 'text/html');
+                ->addPart($mailhtml, 'text/html')
+            ;
 
             $this->app['swiftmailer.use_spool'] = false;
             if ($this->app['mailer']->send($message) > 0) {

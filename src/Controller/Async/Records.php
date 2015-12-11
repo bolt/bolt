@@ -3,7 +3,6 @@
 namespace Bolt\Controller\Async;
 
 use Bolt\Storage\ContentRequest\ListingOptions;
-use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,7 +89,8 @@ class Records extends AsyncBase
             ->setOrder($referer->query->get('order'))
             ->setPage($referer->query->get('page_' . $contentType))
             ->setFilter($referer->query->get('filter'))
-            ->setTaxonomies($taxonomy);
+            ->setTaxonomies($taxonomy)
+        ;
 
         $context = [
             'contenttype'     => $this->getContentType($contentType),

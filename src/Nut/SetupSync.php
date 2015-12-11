@@ -20,7 +20,8 @@ class SetupSync extends BaseCommand
     {
         $this
             ->setName('setup:sync')
-            ->setDescription('Synchronise a Bolt install private asset directories with the web root.');
+            ->setDescription('Synchronise a Bolt install private asset directories with the web root.')
+        ;
     }
 
     /**

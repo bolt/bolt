@@ -27,7 +27,8 @@ class ConfigSet extends BaseCommand
             ->addArgument('key', InputArgument::REQUIRED, 'The key you wish to get.')
             ->addArgument('value', InputArgument::REQUIRED, 'The value you wish to set it to.')
             ->addOption('file', 'f', InputOption::VALUE_OPTIONAL, 'Specify config file to use')
-            ->addOption('backup', 'b', InputOption::VALUE_NONE, 'Make a backup of the config file');
+            ->addOption('backup', 'b', InputOption::VALUE_NONE, 'Make a backup of the config file')
+        ;
     }
 
     /**

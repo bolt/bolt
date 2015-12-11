@@ -24,7 +24,8 @@ class UserAdd extends BaseCommand
             ->addArgument('displayname', InputArgument::REQUIRED, 'The display name for the new user.')
             ->addArgument('email', InputArgument::REQUIRED, 'The email address for the new user.')
             ->addArgument('password', InputArgument::REQUIRED, 'The password for the new user.')
-            ->addArgument('role', InputArgument::REQUIRED, 'The role you wish to give them.');
+            ->addArgument('role', InputArgument::REQUIRED, 'The role you wish to give them.')
+        ;
     }
 
     /**

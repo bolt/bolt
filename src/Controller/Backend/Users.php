@@ -444,7 +444,8 @@ class Users extends BackendBase
                     'label'       => Trans::__('page.edit-users.label.display-name'),
                     'attr'        => ['placeholder' => Trans::__('page.edit-users.placeholder.displayname')],
                 ]
-            );
+            )
+        ;
 
         return $form;
     }

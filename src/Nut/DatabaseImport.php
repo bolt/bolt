@@ -21,7 +21,8 @@ class DatabaseImport extends BaseCommand
             ->setName('database:import')
             ->setDescription('[EXPERIMENTAL] Import database records from a YAML or JSON file')
             ->addOption('no-interaction', 'n', InputOption::VALUE_NONE, 'Do not ask for confirmation')
-            ->addOption('file',           'f', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'A YAML or JSON file to use for import data. Must end with .yml, .yaml or .json');
+            ->addOption('file',           'f', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'A YAML or JSON file to use for import data. Must end with .yml, .yaml or .json')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -47,7 +48,8 @@ class DatabaseImport extends BaseCommand
             ->setMigrationFiles($files)
             ->checkMigrationFilesValid(true)
             ->checkMigrationFilesExist('import')
-            ->importMigrationFiles();
+            ->importMigrationFiles()
+        ;
 
         if ($import->getError()) {
             foreach ($import->getErrorMessages() as $error) {
