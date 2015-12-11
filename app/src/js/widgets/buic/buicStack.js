@@ -65,7 +65,7 @@
                 'uploaduploaded':      self._addPath
             });
 
-            bolt.uploads.bindUpload(fieldset);
+            fieldset.buicUpload();
         },
 
         /**

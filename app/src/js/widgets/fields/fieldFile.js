@@ -46,7 +46,7 @@
             });
 
             // Bind upload.
-            bolt.uploads.bindUpload(fieldset, false);
+            fieldset.buicUpload();
         },
 
         /**
