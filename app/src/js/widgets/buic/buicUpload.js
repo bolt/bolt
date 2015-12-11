@@ -36,27 +36,31 @@
                 extensions = accept ? accept.replace(/^\./, '').split(/,\./) : [],
                 pattern = new RegExp('(\\.|\\/)(' + extensions.join('|') + ')$', 'i');
 
-            fileInput
-                .fileupload({
-                    dataType: 'json',
-                    dropZone: dropZone,
-                    pasteZone: null,
-                    maxFileSize: maxSize > 0 ? maxSize : undefined,
-                    minFileSize: undefined,
-                    acceptFileTypes: accept ? pattern : undefined,
-                    maxNumberOfFiles: undefined,
-                    messages: {
-                        maxFileSize: '>:' + bolt.utils.humanBytes(maxSize),
-                        minFileSize: '<',
-                        acceptFileTypes: 'T:.' + extensions.join(', .'),
-                        maxNumberOfFiles: '#'
-                    }
-                })
-                .on('fileuploadprocessfail', this._onProcessFail)
-                .on('fileuploadsubmit',      this._onUploadSubmit)
-                .on('fileuploadprogress',    this._onUploadProgress)
-                .on('fileuploadalways',      this._onUploadAlways)
-                .on('fileuploaddone',        this._onUploadDone);
+            // Initialize the upload widget.
+            fileInput.fileupload({
+                dataType: 'json',
+                dropZone: dropZone,
+                pasteZone: null,
+                maxFileSize: maxSize > 0 ? maxSize : undefined,
+                minFileSize: undefined,
+                acceptFileTypes: accept ? pattern : undefined,
+                maxNumberOfFiles: undefined,
+                messages: {
+                    maxFileSize: '>:' + bolt.utils.humanBytes(maxSize),
+                    minFileSize: '<',
+                    acceptFileTypes: 'T:.' + extensions.join(', .'),
+                    maxNumberOfFiles: '#'
+                }
+            });
+
+            // Binds event handlers.
+            this._on({
+                'fileuploadprocessfail': this._onProcessFail,
+                'fileuploadsubmit':      this._onUploadSubmit,
+                'fileuploadprogress':    this._onUploadProgress,
+                'fileuploadalways':      this._onUploadAlways,
+                'fileuploaddone':        this._onUploadDone
+            });
         },
 
         /**
