@@ -16,8 +16,6 @@ class YamlUpdater
 {
     /** @var Parser */
     private $parser;
-    /** @var integer Number of lines in the file. */
-    private $lines = 0;
     /** @var array Contains a line of the file per index. */
     private $yaml = [];
     /** @var File */

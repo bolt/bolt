@@ -20,8 +20,6 @@ final class RequirePackage extends BaseAction
 {
     /** @var \Composer\Package\Version\VersionSelector */
     private $versionSelector;
-    /** @var \Composer\Repository\RepositoryInterface */
-    private $repos;
 
     /**
      * Require (install) a package.
@@ -60,7 +58,7 @@ final class RequirePackage extends BaseAction
         // Get the Composer repos
         $repos = $composer->getRepositoryManager()->getRepositories();
 
-        $this->repos = new CompositeRepository(
+        $repos = new CompositeRepository(
             array_merge([new PlatformRepository()], $repos)
         );
 

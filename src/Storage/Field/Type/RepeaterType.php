@@ -110,7 +110,6 @@ class RepeaterType extends FieldTypeBase
         $accessor = 'get' . ucfirst($key);
 
         $outerCollection = $entity->$accessor();
-        $newVal = [];
         if (!$outerCollection instanceof RepeatingFieldCollection) {
             $collection = new RepeatingFieldCollection($this->em, $this->mapping);
             $collection->setName($key);

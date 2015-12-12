@@ -21,6 +21,9 @@ use Bolt\Library as Lib;
  */
 trait ContentValuesTrait
 {
+    /** @var boolean Whether this is a "real" contenttype or an embedded ones */
+    protected $isRootType;
+
     /**
      * Pseudo-magic function, used for when templates use {{ content.get(title) }},
      * so we can map it to $this->values['title'].
