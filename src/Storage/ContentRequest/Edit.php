@@ -242,7 +242,7 @@ class Edit
      */
     private function getPublishingDate($date, $setNowOnEmpty = false)
     {
-        if ($setNowOnEmpty and $date === '') {
+        if ($setNowOnEmpty && $date === '') {
             return date('Y-m-d H:i:s');
         } elseif ($date === '1900-01-01 00:00:00') {
             return '';
