@@ -53,4 +53,12 @@
     .select2-search__field {
         width: 100% !important;
     }
+
+    // Allow wordwrap (and trimming). Fixes https://github.com/bolt/bolt/issues/4570
+    .select2-selection--single .select2-selection__rendered {
+        word-break: break-all;
+        height: 2em;
+        white-space: normal;
+    }
+
 }
