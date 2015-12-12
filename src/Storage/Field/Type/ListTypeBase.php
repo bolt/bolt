@@ -21,7 +21,7 @@ class ListTypeBase extends FieldTypeBase
         $key = $this->mapping['fieldname'];
         $value = $entity->get($key);
 
-        if ($value !== null && !empty($value)) {
+        if ($value !== null) {
             $value = $this->isJson($value) ? json_decode($value, true) : $value;
 
             // Remove elements that are not important for storage.
