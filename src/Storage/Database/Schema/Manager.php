@@ -3,7 +3,6 @@
 namespace Bolt\Storage\Database\Schema;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\Table;
 use Silex\Application;
 
 /**

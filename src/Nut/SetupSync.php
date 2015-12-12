@@ -2,7 +2,6 @@
 
 namespace Bolt\Nut;
 
-use Bolt\Configuration\Environment;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

@@ -1,7 +1,6 @@
 <?php
 namespace Bolt\Storage\Field\Type;
 
-use Bolt\Storage\Entity\TemplateFields;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\ContentType;
