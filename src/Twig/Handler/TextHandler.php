@@ -134,6 +134,6 @@ class TextHandler
     {
         json_decode($string, true);
 
-        return (json_last_error() === JSON_ERROR_NONE);
+        return json_last_error() === JSON_ERROR_NONE;
     }
 }

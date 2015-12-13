@@ -494,7 +494,7 @@ class Extensions
         array_pop($classatoms);
 
         // return second to last as namespace name
-        return (array_pop($classatoms));
+        return array_pop($classatoms);
     }
 
     /**
@@ -555,7 +555,7 @@ class Extensions
      */
     public function hasMenuOptions()
     {
-        return (!empty($this->menuoptions));
+        return !empty($this->menuoptions);
     }
 
     /**
