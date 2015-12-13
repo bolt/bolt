@@ -176,7 +176,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         );
 
         $app['session.listener.factory'] = $app->protect(
-            function ($session, $options, $setToRequest = false) use ($app) {
+            function ($session, $options, $setToRequest = false) {
                 return new SessionListener($session, $options, $setToRequest);
             }
         );

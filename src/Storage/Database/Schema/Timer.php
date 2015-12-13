@@ -4,7 +4,6 @@ namespace Bolt\Storage\Database\Schema;
 
 use Bolt\Exception\StorageException;
 use Carbon\Carbon;
-use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 

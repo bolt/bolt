@@ -26,8 +26,6 @@ class TranslationFile
     private $relPath;
     /** @var array List of all translatable Strings found. */
     private $translatables = [];
-    /** @var string */
-    private $locale;
 
     /**
      * Constructor.
@@ -40,7 +38,6 @@ class TranslationFile
     {
         $this->app = $app;
         $this->domain = $domain;
-        $this->locale = $locale;
 
         // Build Path
         list($this->absPath, $this->relPath) = $this->buildPath($domain, $locale);

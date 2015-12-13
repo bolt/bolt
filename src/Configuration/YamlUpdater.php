@@ -16,8 +16,6 @@ class YamlUpdater
 {
     /** @var Parser */
     private $parser;
-    /** @var integer Number of lines in the file. */
-    private $lines = 0;
     /** @var array Contains a line of the file per index. */
     private $yaml = [];
     /** @var File */
@@ -44,9 +42,6 @@ class YamlUpdater
 
         // Create a searchable array
         $this->yaml = explode("\n", $yaml);
-
-        // Track the number of lines we have
-        $this->lines = count($this->yaml);
     }
 
     /**
