@@ -68,6 +68,9 @@ class Content extends Entity
     public function set($key, $value)
     {
         $setter = 'set'.ucfirst($key);
+        if (is_array($value)) {
+            $value = array_filter($value);
+        }
         $this->$setter($value);
     }
 
@@ -79,8 +82,7 @@ class Content extends Entity
     public function setValues(array $values)
     {
         foreach($values as $key => $value) {
-            $setter = 'set'.ucfirst($key);
-            $this->$setter($value);
+            $this->set($key, $value);
         }
     }
 
