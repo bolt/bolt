@@ -67,12 +67,13 @@ class Content extends Entity
      */
     public function set($key, $value)
     {
-        $this->$key = $value;
+        $setter = 'set'.ucfirst($key);
+        $this->$setter($value);
     }
 
     /**
      * Helper to set an array of values
-     * 
+     *
      * @param array $values
      */
     public function setValues(array $values)
