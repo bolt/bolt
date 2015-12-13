@@ -42,9 +42,6 @@ class YamlUpdater
 
         // Create a searchable array
         $this->yaml = explode("\n", $yaml);
-
-        // Track the number of lines we have
-        $this->lines = count($this->yaml);
     }
 
     /**
