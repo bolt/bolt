@@ -119,7 +119,6 @@ class UsersTest extends ControllerUnitTest
 
         // This block attempts to create the user
 
-
         $this->setRequest(Request::create(
             '/bolt/userfirst',
             'POST',
