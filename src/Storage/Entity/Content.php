@@ -63,11 +63,14 @@ class Content extends Entity
      * Setter for content values.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function set($key, $value)
     {
-        $setter = 'set'.ucfirst($key);
+        $setter = 'set' . ucfirst($key);
+        if (is_array($value)) {
+            $value = array_filter($value);
+        }
         $this->$setter($value);
     }
 
@@ -78,9 +81,8 @@ class Content extends Entity
      */
     public function setValues(array $values)
     {
-        foreach($values as $key => $value) {
-            $setter = 'set'.ucfirst($key);
-            $this->$setter($value);
+        foreach ($values as $key => $value) {
+            $this->set($key, $value);
         }
     }
 
