@@ -63,7 +63,7 @@ class ImageHandler
     /**
      * Get an image.
      *
-     * @param string  $filename
+     * @param string $filename
      *
      * @return \Bolt\Filesystem\Handler\Image
      */

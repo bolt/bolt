@@ -13,7 +13,7 @@ class OptionsBagTest extends BoltUnitTest
 {
     public function testInstanceOf()
     {
-        $bag = new OptionsBag;
+        $bag = new OptionsBag();
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $bag);
     }
 

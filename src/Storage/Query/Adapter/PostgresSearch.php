@@ -63,16 +63,16 @@ class PostgresSearch
     public function getWeight($score)
     {
         switch (true) {
-            case ($score >= 75):
+            case $score >= 75:
                 return 'A';
 
-            case ($score >= 50):
+            case $score >= 50:
                 return 'B';
 
-            case ($score >= 25):
+            case $score >= 25:
                 return 'C';
 
-            case ($score < 25):
+            case $score < 25:
                 return 'D';
         }
 

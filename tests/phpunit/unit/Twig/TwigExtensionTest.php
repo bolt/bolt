@@ -72,7 +72,7 @@ class TwigExtensionTest extends BoltUnitTest
         $users
             ->expects($this->atLeastOnce())
             ->method('getCurrentUser')
-            ->will($this->throwException(new \Exception));
+            ->will($this->throwException(new \Exception()));
         $app['users'] = $users;
         $request = Request::createFromGlobals();
         $app['request'] = $request;

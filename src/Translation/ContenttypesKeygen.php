@@ -144,7 +144,7 @@ class ContenttypesKeygen
         $translatables = array_filter(
             array_keys($this->translatables),
             function ($key) {
-                return (substr($key, 0, 21) === 'contenttypes.generic.' && substr($key, 21, 6) !== 'group.');
+                return substr($key, 0, 21) === 'contenttypes.generic.' && substr($key, 21, 6) !== 'group.';
             }
         );
 
@@ -190,7 +190,7 @@ class ContenttypesKeygen
      */
     private function isSaved($key)
     {
-        return (isset($this->saved[$key]) && $this->saved[$key] !== '');
+        return isset($this->saved[$key]) && $this->saved[$key] !== '';
     }
 
     /**

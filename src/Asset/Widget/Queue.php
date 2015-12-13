@@ -178,7 +178,6 @@ class Queue implements QueueInterface
         return $html;
     }
 
-
     /**
      * Get the HTML content from the widget.
      *

@@ -96,7 +96,7 @@ class FilePermissions
         $extension = strtolower(Lib::getExtension($originalFilename));
         $allowedExtensions = $this->getAllowedUploadExtensions();
 
-        return (in_array($extension, $allowedExtensions));
+        return in_array($extension, $allowedExtensions);
     }
 
     /**
