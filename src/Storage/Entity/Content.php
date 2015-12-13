@@ -81,7 +81,7 @@ class Content extends Entity
      */
     public function setValues(array $values)
     {
-        foreach($values as $key => $value) {
+        foreach ($values as $key => $value) {
             $this->set($key, $value);
         }
     }
