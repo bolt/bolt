@@ -2,13 +2,13 @@
 
 namespace Bolt\Controller\Backend;
 
+use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\FilesystemInterface;
+use Bolt\Filesystem\Handler\File;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use Bolt\Filesystem\Exception\ExceptionInterface;
-use Bolt\Filesystem\FilesystemInterface;
-use Bolt\Filesystem\Handler\File;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
