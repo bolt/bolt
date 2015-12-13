@@ -71,6 +71,19 @@ class Content extends Entity
     }
 
     /**
+     * Helper to set an array of values
+     * 
+     * @param array $values
+     */
+    public function setValues(array $values)
+    {
+        foreach($values as $key => $value) {
+            $setter = 'set'.ucfirst($key);
+            $this->$setter($value);
+        }
+    }
+
+    /**
      * Getter for a record's 'title' field.
      *
      * If there is no field called 'title' then we just return the first text
