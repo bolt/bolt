@@ -9,7 +9,7 @@ use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Log\LoggerInterface;
 use RandomLib\Generator;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use UAParser;
 
@@ -24,6 +24,8 @@ class AccessChecker
     protected $repositoryAuthtoken;
     /** @var \Bolt\Storage\Repository\UsersRepository */
     protected $repositoryUsers;
+    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    protected $requestStack;
     /** @var \Symfony\Component\HttpFoundation\Session\SessionInterface */
     protected $session;
     /** @var \Bolt\Logger\FlashLoggerInterface */
@@ -50,6 +52,7 @@ class AccessChecker
      *
      * @param AuthtokenRepository  $repositoryAuthtoken
      * @param UsersRepository      $repositoryUsers
+     * @param RequestStack         $requestStack
      * @param SessionInterface     $session
      * @param FlashLoggerInterface $flashLogger
      * @param LoggerInterface      $systemLogger
@@ -60,6 +63,7 @@ class AccessChecker
     public function __construct(
         AuthtokenRepository $repositoryAuthtoken,
         UsersRepository $repositoryUsers,
+        RequestStack $requestStack,
         SessionInterface $session,
         FlashLoggerInterface $flashLogger,
         LoggerInterface $systemLogger,
@@ -69,6 +73,7 @@ class AccessChecker
     ) {
         $this->repositoryAuthtoken = $repositoryAuthtoken;
         $this->repositoryUsers = $repositoryUsers;
+        $this->requestStack = $requestStack;
         $this->session = $session;
         $this->flashLogger = $flashLogger;
         $this->systemLogger = $systemLogger;

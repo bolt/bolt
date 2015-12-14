@@ -33,6 +33,7 @@ class Login extends AccessChecker
         parent::__construct(
             $repoAuth,
             $repoUsers,
+            $app['request_stack'],
             $app['session'],
             $app['logger.flash'],
             $app['logger.system'],
