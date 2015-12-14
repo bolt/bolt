@@ -289,6 +289,10 @@ class AccessChecker
      */
     protected function getClientHost()
     {
+        if ($this->requestStack->getCurrentRequest() === null) {
+            throw new \RuntimeException(sprintf('%s can not be called outside of request cycle', __METHOD__));
+        }
+
         return $this->requestStack->getCurrentRequest()->getHost();
     }
 
@@ -299,6 +303,10 @@ class AccessChecker
      */
     protected function getClientIp()
     {
+        if ($this->requestStack->getCurrentRequest() === null) {
+            throw new \RuntimeException(sprintf('%s can not be called outside of request cycle', __METHOD__));
+        }
+
         return $this->requestStack->getCurrentRequest()->getClientIp() ?: '127.0.0.1';
     }
 
@@ -309,6 +317,10 @@ class AccessChecker
      */
     protected function getClientUserAgent()
     {
+        if ($this->requestStack->getCurrentRequest() === null) {
+            throw new \RuntimeException(sprintf('%s can not be called outside of request cycle', __METHOD__));
+        }
+
         return $this->requestStack->getCurrentRequest()->server->get('HTTP_USER_AGENT');
     }
 }
