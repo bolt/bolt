@@ -201,6 +201,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             [
                 $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
                 $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
+                $app['request_stack'],
                 $app['session'],
                 $app['logger.flash'],
                 $app['logger.system'],

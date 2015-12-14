@@ -119,7 +119,7 @@ class UsersTest extends ControllerUnitTest
 
         // This block attempts to create the user
 
-        $this->setRequest(Request::create(
+        $request = Request::create(
             '/bolt/userfirst',
             'POST',
             [
@@ -132,7 +132,9 @@ class UsersTest extends ControllerUnitTest
                     '_token'                => 'xyz'
                 ]
             ]
-        ));
+        );
+        $this->setRequest($request);
+        $this->getApp()['request_stack']->push($request);
         $response = $this->controller()->first($this->getRequest());
         $this->assertEquals('/bolt', $response->getTargetUrl());
     }
