@@ -101,6 +101,9 @@
                 'change input': self._serialize
             });
 
+            // For some reason "keyup" does not work with _on(), so for now…
+            $('input.title', self._ui.list).on('keyup', self._updateTitle);
+
             // Binds event handlers.
             self._on({
                 'click.select-from-stack a': self._onSelectFromStack,
@@ -231,8 +234,8 @@
 
             $('.item', this._ui.list).each(function () {
                 data.push({
-                    filename: $(this).find('input.filename').val(),
-                    title: $(this).find('input.title').val()
+                    filename: $('input.filename', this).val(),
+                    title: $('input.title', this).val()
                 });
             });
             this._ui.data.val(JSON.stringify(data));
@@ -241,6 +244,17 @@
             if (data.length === 0) {
                 this._ui.list.html(bolt.data(template));
             }
+        },
+
+        /**
+         * Mirror changes on title into title attribute.
+         *
+         * @param {Object} event - The event
+         */
+        _updateTitle: function (event) {
+            var item = $(event.target).closest('.item');
+
+            $('a', item).attr('title', $('.title', item).val());
         }
     });
 })(jQuery, Bolt);
