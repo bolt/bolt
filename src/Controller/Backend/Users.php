@@ -354,7 +354,7 @@ class Users extends BackendBase
             return false;
         }
 
-        $login = $this->login()->login($request, $userEntity->getUsername(), $form->get('password')->getData());
+        $login = $this->login()->login($userEntity->getUsername(), $form->get('password')->getData());
         $token = $this->session()->get('authentication');
         if ($login && $token) {
             $this->flashes()->clear();

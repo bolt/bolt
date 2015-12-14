@@ -89,6 +89,9 @@ class AccessCheckerTest extends BoltUnitTest
     {
         $app = $this->getApp(false);
 
+        $ipAddress = '8.8.8.8';
+        $userAgent = 'Bolt PHPUnit tests';
+
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['info']);
         $logger->expects($this->atLeastOnce())
             ->method('info')
@@ -106,6 +109,11 @@ class AccessCheckerTest extends BoltUnitTest
         $tokenEntity->setUseragent('Bolt PHPUnit tests');
 
         $token = new Token($userEntity, $tokenEntity);
+        $request = Request::createFromGlobals();
+        $request->server->set('REMOTE_ADDR', $ipAddress);
+        $request->server->set('HTTP_USER_AGENT', $userAgent);
+        $request->cookies->set($app['token.authentication.name'], $token);
+        $app['request_stack']->push($request);
 
         $app['session']->start();
         $app['session']->set('authentication', $token);
@@ -161,11 +169,12 @@ class AccessCheckerTest extends BoltUnitTest
         $request->server->set('REMOTE_ADDR', $ipAddress);
         $request->server->set('HTTP_USER_AGENT', $userAgent);
         $request->cookies->set($app['token.authentication.name'], $token);
+        $app['request_stack']->push($request);
 
         $app['session']->start();
         $app['session']->set('authentication', $token);
 
-        $accessControl = $this->getAccessControl(true);
+        $accessControl = $this->getAccessControl();
         $this->assertInstanceOf('Bolt\AccessControl\AccessChecker', $accessControl);
 
         $mockAuth = $this->getMock('Bolt\Storage\Entity\Authtoken', ['getToken']);
@@ -180,7 +189,6 @@ class AccessCheckerTest extends BoltUnitTest
             ->method('getUser');
         $app['storage']->setRepository('Bolt\Storage\Entity\Users', $mockUser);
 
-        $accessControl->setRequest($request);
         $response = $accessControl->isValidSession($token);
         $this->assertFalse($response);
     }
@@ -194,7 +202,6 @@ class AccessCheckerTest extends BoltUnitTest
         $request->server->set('HTTP_USER_AGENT', 'Bolt PHPUnit tests');
 
         $app = $this->getApp();
-        $app['access_control']->setRequest($request);
 
         return $app['access_control'];
     }
