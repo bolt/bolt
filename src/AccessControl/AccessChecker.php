@@ -100,6 +100,8 @@ class AccessChecker
      *
      * @param string $authCookie
      *
+     * @throws AccessControlException
+     *
      * @return boolean
      */
     public function isValidSession($authCookie)
