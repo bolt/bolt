@@ -174,11 +174,7 @@ class HtmlHandler
             'name' => $menu->getName(),
             'menu' => $menu->getItems(),
         ];
-
-        // If $params is not empty, merge it with twigvars.
-        if (!empty($params) && is_array($params)) {
-            $twigvars = $twigvars + $params;
-        }
+        $twigvars += (array) $params;
 
         return $env->render($template, $twigvars);
     }
