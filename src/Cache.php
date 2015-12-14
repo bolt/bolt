@@ -87,11 +87,19 @@ class Cache extends FilesystemCache
     }
 
     /**
-     * Clear the cache. Both the doctrine FilesystemCache, as well as twig and thumbnail temp files.
-     *
-     * @see clearCacheHelper
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use doFlush() instead.
      */
     public function clearCache()
+    {
+        return $this->doFlush();
+    }
+
+    /**
+     * Clear the cache. Both the doctrine FilesystemCache, as well as twig and thumbnail temp files.
+     *
+     * @see flushHelper
+     */
+    public function doFlush()
     {
         $result = [
             'successfiles'   => 0,
@@ -103,25 +111,25 @@ class Cache extends FilesystemCache
         ];
 
         // Clear Doctrine's folder.
-        $this->flushAll();
+        parent::doFlush();
 
         // Clear our own cache folder.
-        $this->clearCacheHelper($this->getDirectory(), '', $result);
+        $this->flushHelper($this->getDirectory(), '', $result);
 
         // Clear the thumbs folder.
-        $this->clearCacheHelper($this->app['resources']->getPath('web/thumbs'), '', $result);
+        $this->flushHelper($this->app['resources']->getPath('web/thumbs'), '', $result);
 
         return $result;
     }
 
     /**
-     * Helper function for clearCache().
+     * Helper function for doFlush().
      *
      * @param string $startFolder
      * @param string $additional
      * @param array  $result
      */
-    private function clearCacheHelper($startFolder, $additional, &$result)
+    private function flushHelper($startFolder, $additional, &$result)
     {
         $currentfolder = realpath($startFolder . '/' . $additional);
 
@@ -150,7 +158,7 @@ class Cache extends FilesystemCache
             }
 
             if (is_dir($currentfolder . '/' . $entry)) {
-                $this->clearCacheHelper($startFolder, $additional . '/' . $entry, $result);
+                $this->flushHelper($startFolder, $additional . '/' . $entry, $result);
 
                 if (@rmdir($currentfolder . '/' . $entry)) {
                     $result['successfolders']++;

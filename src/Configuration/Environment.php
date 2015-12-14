@@ -57,7 +57,7 @@ class Environment
             return;
         }
         $this->syncView();
-        $this->cache->clearCache();
+        $this->cache->doFlush();
     }
 
     /**
