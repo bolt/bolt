@@ -24,8 +24,6 @@ class Environment
     /** @var string */
     protected $viewPath;
     /** @var string */
-    protected $boltName;
-    /** @var string */
     protected $boltVersion;
 
     /**
@@ -34,16 +32,14 @@ class Environment
      * @param string $appPath
      * @param string $viewPath
      * @param Cache  $cache
-     * @param string $boltName
      * @param string $boltVersion
      */
-    public function __construct($appPath, $viewPath, Cache $cache, $boltName, $boltVersion)
+    public function __construct($appPath, $viewPath, Cache $cache, $boltVersion)
     {
         $this->filesystem = new Filesystem();
         $this->appPath = rtrim($appPath, '/');
         $this->viewPath = rtrim($viewPath, '/');
         $this->cache = $cache;
-        $this->boltName = $boltName;
         $this->boltVersion = $boltVersion;
     }
 
@@ -114,7 +110,7 @@ class Environment
             return false;
         }
 
-        $version = md5($this->boltVersion . $this->boltName);
+        $version = md5($this->boltVersion);
         $cached  = file_get_contents($file);
 
         if ($version === $cached) {

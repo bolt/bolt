@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt\Configuration\ResourceManager;
 use Doctrine\Common\Cache\FilesystemCache;
 use Silex;
 
@@ -13,50 +14,37 @@ use Silex;
  */
 class Cache extends FilesystemCache
 {
-    /**
-     * Max cache age. Default 10 minutes.
-     */
+    /** Max cache age. Default 10 minutes. */
     const DEFAULT_MAX_AGE = 600;
+    /** Default cache file extension. */
+    const EXTENSION = '.data';
 
-    /** @var Silex\Application */
-    private $app;
-
-    /**
-     * Default cache file extension.
-     */
-    private $extension = '.data';
-
-    /**
-     * @var string[] regular expressions for replacing disallowed characters in file name
-     */
+    /** @var ResourceManager */
+    private $resourceManager;
+    /** @var string */
+    private $boltVersion;
+    /** @var string[] replacements for disallowed file characters */
+    private $replacementCharacters = ['__', '-'];
+    /** @var string[] regular expressions for replacing disallowed characters in file name */
     private $disallowedCharacterPatterns = [
         '/\-/', // replaced to disambiguate original `-` and `-` derived from replacements
         '/[^a-zA-Z0-9\-_\[\]]/', // also excludes non-ascii chars (not supported, depending on FS),
     ];
 
     /**
-     * @var string[] replacements for disallowed file characters
-     */
-    private $replacementCharacters = ['__', '-'];
-
-    /**
-     * Set up the object. Initialize the proper folder for storing the files.
+     * Cache constructor.
      *
-     * @param string            $cacheDir
-     * @param Silex\Application $app
-     *
-     * @throws \Exception
+     * @param string          $directory
+     * @param string          $extension
+     * @param int             $umask
+     * @param ResourceManager $resourceManager
+     * @param string          $boltVersion
      */
-    public function __construct($cacheDir, Silex\Application $app)
+    public function __construct($directory, $extension = self::EXTENSION, $umask = 0002, ResourceManager $resourceManager = null, $boltVersion = 'Bolt')
     {
-        $this->app = $app;
-
-        try {
-            parent::__construct($cacheDir, $this->extension);
-        } catch (\Exception $e) {
-            $app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
-            throw $e;
-        }
+        parent::__construct($directory, $extension, $umask);
+        $this->resourceManager = $resourceManager;
+        $this->boltVersion = $boltVersion;
     }
 
     /**
@@ -83,7 +71,7 @@ class Cache extends FilesystemCache
             . $foldername
             . DIRECTORY_SEPARATOR
             . preg_replace($this->disallowedCharacterPatterns, $this->replacementCharacters, $id)
-            . $this->extension;
+            . self::EXTENSION;
     }
 
     /**
@@ -117,7 +105,7 @@ class Cache extends FilesystemCache
         $this->flushHelper($this->getDirectory(), '', $result);
 
         // Clear the thumbs folder.
-        $this->flushHelper($this->app['resources']->getPath('web/thumbs'), '', $result);
+        $this->flushHelper($this->resourceManager->getPath('web/thumbs'), '', $result);
 
         return $result;
     }
@@ -178,7 +166,7 @@ class Cache extends FilesystemCache
      */
     private function updateCacheVersion()
     {
-        $version = md5($this->app['bolt_version'] . $this->app['bolt_name']);
+        $version = md5($this->boltVersion);
         file_put_contents($this->getDirectory() . '/.version', $version);
     }
 }
