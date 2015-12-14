@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Nut;
 
 use Bolt\Nut\CacheClear;
@@ -43,9 +44,9 @@ class CacheClearTest extends BoltUnitTest
         $good = ['successfiles' => 1, 'failedfiles' => 0];
         $bad = ['successfiles' => 0, 'failedfiles' => 1, 'failed' => ['test.txt']];
 
-        $cache = $this->getMock('Bolt\Cache', ['clearCache'], [$path, $app]);
+        $cache = $this->getMock('Bolt\Cache', ['doFlush'], [$path, $app]);
         $cache->expects($this->any())
-            ->method('clearCache')
+            ->method('doFlush')
             ->will($this->returnValue($$type));
 
         return $cache;
