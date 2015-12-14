@@ -59,7 +59,6 @@ class Login extends AccessChecker
      */
     public function login(Request $request, $userName = null, $password = null)
     {
-        $this->setRequest($request);
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
 
         // Remove expired tokens
@@ -114,7 +113,7 @@ class Login extends AccessChecker
      */
     protected function loginCheckAuthtoken($authCookie)
     {
-        if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->remoteIP, $this->userAgent)) {
+        if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->getClientIp(), $this->getClientUserAgent())) {
             $this->flashLogger->error(Trans::__('Invalid login parameters.'));
 
             return false;
@@ -134,7 +133,7 @@ class Login extends AccessChecker
             return $this->loginFinish($userEntity);
         }
 
-        $this->systemLogger->alert(sprintf('Attempt to login with an invalid token from %s', $this->remoteIP), ['event' => 'security']);
+        $this->systemLogger->alert(sprintf('Attempt to login with an invalid token from %s', $this->getClientIp()), ['event' => 'security']);
 
         return false;
     }
@@ -217,7 +216,7 @@ class Login extends AccessChecker
     protected function updateUserLogin(Entity\Users $userEntity)
     {
         $userEntity->setLastseen(Carbon::now());
-        $userEntity->setLastip($this->remoteIP);
+        $userEntity->setLastip($this->getClientIp());
         $userEntity->setFailedlogins(0);
         $userEntity->setThrottleduntil($this->throttleUntil(0));
         $userEntity = $this->updateUserShadowLogin($userEntity);
@@ -262,7 +261,7 @@ class Login extends AccessChecker
     {
         $salt = $this->randomGenerator->generateString(32);
 
-        if (!$tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->remoteIP, $this->userAgent)) {
+        if (!$tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->getClientIp(), $this->getClientUserAgent())) {
             $tokenEntity = new Entity\Authtoken();
         }
 
@@ -274,9 +273,9 @@ class Login extends AccessChecker
         $tokenEntity->setToken($token);
         $tokenEntity->setSalt($salt);
         $tokenEntity->setValidity(Carbon::create()->addSeconds($validityPeriod));
-        $tokenEntity->setIp($this->remoteIP);
+        $tokenEntity->setIp($this->getClientIp());
         $tokenEntity->setLastseen(Carbon::now());
-        $tokenEntity->setUseragent($this->userAgent);
+        $tokenEntity->setUseragent($this->getClientUserAgent());
 
         $this->repositoryAuthtoken->save($tokenEntity);
 

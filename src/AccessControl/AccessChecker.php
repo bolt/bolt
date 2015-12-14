@@ -40,12 +40,6 @@ class AccessChecker
     protected $cookieOptions;
     /** @var boolean */
     protected $validSession;
-    /** @var string */
-    protected $remoteIP;
-    /** @var string */
-    protected $userAgent;
-    /** @var string */
-    protected $hostName;
 
     /**
      * Constructor.
@@ -80,18 +74,6 @@ class AccessChecker
         $this->permissions = $permissions;
         $this->randomGenerator = $randomGenerator;
         $this->cookieOptions = $cookieOptions;
-    }
-
-    /**
-     * Set the request data.
-     *
-     * @param Request $request
-     */
-    public function setRequest(Request $request)
-    {
-        $this->hostName  = $request->getHost();
-        $this->remoteIP  = $request->getClientIp() ?: '127.0.0.1';
-        $this->userAgent = $request->server->get('HTTP_USER_AGENT');
     }
 
     /**
@@ -200,10 +182,10 @@ class AccessChecker
      */
     protected function checkSessionDatabase($authCookie)
     {
-        $userAgent = $this->cookieOptions['browseragent'] ? $this->userAgent : null;
+        $userAgent = $this->cookieOptions['browseragent'] ? $this->getClientUserAgent() : null;
 
         try {
-            if (!$authTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->remoteIP, $userAgent)) {
+            if (!$authTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->getClientIp(), $userAgent)) {
                 return false;
             }
 
@@ -291,10 +273,40 @@ class AccessChecker
             throw new \InvalidArgumentException(__FUNCTION__ . ' required a name and salt to be provided.');
         }
 
-        $token = (string) new Token\Generator($username, $salt, $this->remoteIP, $this->hostName, $this->userAgent, $this->cookieOptions);
+        $token = (string) new Token\Generator($username, $salt, $this->getClientIp(), $this->getClientHost(), $this->getClientUserAgent(), $this->cookieOptions);
 
-        $this->systemLogger->debug("Generating authentication cookie — Username: '$username' Salt: '$salt' IP: '{$this->remoteIP}' Host name: '{$this->hostName}' Agent: '{$this->userAgent}' Result: $token", ['event' => 'authentication']);
+        $this->systemLogger->debug("Generating authentication cookie — Username: '$username' Salt: '$salt' IP: '{$this->getClientIp()}' Host name: '{$this->getClientHost()}' Agent: '{$this->getClientUserAgent()}' Result: $token", ['event' => 'authentication']);
 
         return $token;
+    }
+
+    /**
+     * Return the user's host name.
+     *
+     * @return string
+     */
+    protected function getClientHost()
+    {
+        return $this->requestStack->getCurrentRequest()->getHost();
+    }
+
+    /**
+     * Return the user's IP address.
+     *
+     * @return string
+     */
+    protected function getClientIp()
+    {
+        return $this->requestStack->getCurrentRequest()->getClientIp() ?: '127.0.0.1';
+    }
+
+    /**
+     * Return the user's browser User Agent.
+     *
+     * @return string
+     */
+    protected function getClientUserAgent()
+    {
+        return $this->requestStack->getCurrentRequest()->server->get('HTTP_USER_AGENT');
     }
 }
