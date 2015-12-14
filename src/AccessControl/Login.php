@@ -8,7 +8,6 @@ use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
 use PasswordLib\PasswordLib;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Login authentication handling.
@@ -49,7 +48,6 @@ class Login extends AccessChecker
      * Attempt to login a user with the given password. Accepts username or
      * email.
      *
-     * @param Request $request
      * @param string  $userName
      * @param string  $password
      *
@@ -57,9 +55,9 @@ class Login extends AccessChecker
      *
      * @return boolean
      */
-    public function login(Request $request, $userName = null, $password = null)
+    public function login($userName = null, $password = null)
     {
-        $authCookie = $request->cookies->get($this->app['token.authentication.name']);
+        $authCookie = $this->requestStack->getCurrentRequest()->cookies->get($this->app['token.authentication.name']);
 
         // Remove expired tokens
         $this->repositoryAuthtoken->deleteExpiredTokens();

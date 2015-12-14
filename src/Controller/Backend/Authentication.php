@@ -141,7 +141,7 @@ class Authentication extends BackendBase
      */
     private function handlePostLogin(Request $request, $username, $password)
     {
-        if (!$this->login()->login($request, $username, $password)) {
+        if (!$this->login()->login($username, $password)) {
             return $this->getLogin($request, true);
         }
 
