@@ -499,7 +499,7 @@ trait ContentValuesTrait
         foreach ($this->contenttype['fields'] as $key => $field) {
             if ($field['type'] == 'image') {
                 // After v1.5.1 we store image data as an array
-                if (is_array($this->values[$key])) {
+                if (is_array($this->values[$key]) && isset($this->values[$key]['file'])) {
                     return $this->values[$key]['file'];
                 }
 
