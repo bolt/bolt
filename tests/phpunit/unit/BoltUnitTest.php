@@ -236,7 +236,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             $path,
             \Bolt\Cache::EXTENSION,
             0002,
-            $app['resources']
+            $app['filesystem']
         ];
 
         $cache = $this->getMock('Bolt\Cache', ['doFlush'], $params);

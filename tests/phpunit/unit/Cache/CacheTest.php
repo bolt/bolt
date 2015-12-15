@@ -30,7 +30,7 @@ class CacheTest extends BoltUnitTest
             $this->workspace,
             Cache::EXTENSION,
             0002,
-            $app['resources']
+            $app['filesystem']
         );
     }
 
@@ -103,7 +103,7 @@ class CacheTest extends BoltUnitTest
                 '/foo/bar/baz',
                 Cache::EXTENSION,
                 0002,
-                $app['resources']
+                $app['filesystem']
             );
         }
     }
@@ -123,7 +123,7 @@ class CacheTest extends BoltUnitTest
                 $this->workspace,
                 Cache::EXTENSION,
                 0002,
-                $app['resources']
+                $app['filesystem']
             );
         }
     }
