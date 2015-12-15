@@ -5,6 +5,7 @@ namespace Bolt\Extension;
 use Bolt\Events\ControllerEvents;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -34,6 +35,15 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     }
 
     /**
+     * Define events to listen to here.
+     *
+     * @param EventDispatcherInterface $dispatcher
+     */
+    protected function subscribe(EventDispatcherInterface $dispatcher)
+    {
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getServiceProvider()
@@ -47,6 +57,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     public function boot(Application $app)
     {
         $this->container['dispatcher']->addSubscriber($this);
+        $this->subscribe($this->container['dispatcher']);
     }
 
     /**
