@@ -13,8 +13,9 @@
      *
      * @class fieldImage
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.fieldFile
      */
-    $.widget('bolt.fieldImage', /** @lends jQuery.widget.bolt.fieldImage.prototype */ {
+    $.widget('bolt.fieldImage', $.bolt.fieldFile, /** @lends jQuery.widget.bolt.fieldImage.prototype */ {
         /**
          * The constructor of the image field widget.
          *
@@ -27,7 +28,7 @@
                 width = preview.attr('width'),
                 height = preview.attr('height');
 
-            bolt.uploads.bindField($(fieldset));
+            this._super();
 
             // Update the preview image on change.
             this._on(input, {
@@ -40,9 +41,8 @@
                     }
 
                     preview.attr('src', url);
-                    }
                 }
-            );
+            });
         }
     });
 })(jQuery, Bolt);

@@ -331,3 +331,8 @@
         }
     }
 }
+
+// Hack to get magnific popup displayed properly.
+body.mfp-zoom-out-cur #navpage-secondary {
+    z-index: 1000;
+}

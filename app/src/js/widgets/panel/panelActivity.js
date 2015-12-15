@@ -13,6 +13,8 @@
      *
      * @class panelActivity
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseInterval
+     *
      * @param {Object} [options] - Options to overide.
      */
     $.widget('bolt.panelActivity', $.bolt.baseInterval, /** @lends jQuery.widget.bolt.panelActivity.prototype */ {
