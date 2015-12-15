@@ -21,8 +21,6 @@ class Cache extends FilesystemCache
 
     /** @var ResourceManager */
     private $resourceManager;
-    /** @var string */
-    private $boltVersion;
 
     /**
      * Cache constructor.
@@ -31,13 +29,11 @@ class Cache extends FilesystemCache
      * @param string          $extension
      * @param int             $umask
      * @param ResourceManager $resourceManager
-     * @param string          $boltVersion
      */
-    public function __construct($directory, $extension = self::EXTENSION, $umask = 0002, ResourceManager $resourceManager = null, $boltVersion = 'Bolt')
+    public function __construct($directory, $extension = self::EXTENSION, $umask = 0002, ResourceManager $resourceManager = null)
     {
         parent::__construct($directory, $extension, $umask);
         $this->resourceManager = $resourceManager;
-        $this->boltVersion = $boltVersion;
     }
 
     /**
@@ -123,16 +119,5 @@ class Cache extends FilesystemCache
         }
 
         $dir->close();
-
-        $this->updateCacheVersion();
-    }
-
-    /**
-     * Write our version string out to given cache directory
-     */
-    private function updateCacheVersion()
-    {
-        $version = md5($this->boltVersion);
-        file_put_contents($this->getDirectory() . '/.version', $version);
     }
 }

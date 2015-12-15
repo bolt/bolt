@@ -54,6 +54,7 @@ class Environment
         }
         $this->syncView();
         $this->cache->doFlush();
+        $this->updateCacheVersion();
     }
 
     /**
@@ -118,5 +119,14 @@ class Environment
         }
 
         return false;
+    }
+
+    /**
+     * Write our version string out to given cache directory
+     */
+    protected function updateCacheVersion()
+    {
+        $version = md5($this->boltVersion);
+        file_put_contents($this->cache->getDirectory() . '/.version', $version);
     }
 }
