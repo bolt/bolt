@@ -21,11 +21,17 @@ class CacheTest extends BoltUnitTest
 
     public function setUp()
     {
+        $app = $this->getApp();
         $path = new PlatformFileSystemPathFactory();
         $this->workspace = $path->createTemporaryPath();
         mkdir($this->workspace, 0777, true);
         $this->workspace = realpath($this->workspace);
-        $this->cache = new Cache($this->workspace, $this->getApp());
+        $this->cache = new Cache(
+            $this->workspace,
+            Cache::EXTENSION,
+            0002,
+            $app['resources']
+        );
     }
 
     public function tearDown()
@@ -92,7 +98,13 @@ class CacheTest extends BoltUnitTest
         if (strtoupper(substr(PHP_OS, 0, 3) == 'WIN')) {
             throw new \InvalidArgumentException('Win can');
         } else {
-            $newCache = new Cache('/foo/bar/baz', $this->getApp());
+            $app = $this->getApp();
+            new Cache(
+                '/foo/bar/baz',
+                Cache::EXTENSION,
+                0002,
+                $app['resources']
+            );
         }
     }
 
@@ -106,7 +118,13 @@ class CacheTest extends BoltUnitTest
         } else {
             $this->clean($this->workspace);
             mkdir($this->workspace, 0400);
-            $this->cache = new Cache($this->workspace, $this->getApp());
+            $app = $this->getApp();
+            $this->cache = new Cache(
+                $this->workspace,
+                Cache::EXTENSION,
+                0002,
+                $app['resources']
+            );
         }
     }
 }

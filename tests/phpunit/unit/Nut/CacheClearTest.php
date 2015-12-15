@@ -39,13 +39,11 @@ class CacheClearTest extends BoltUnitTest
 
     protected function getCacheMock($type = 'good')
     {
-        $app = $this->getApp();
-        $path = $app['resources']->getPath('cache');
         $good = ['successfiles' => 1, 'failedfiles' => 0];
         $bad = ['successfiles' => 0, 'failedfiles' => 1, 'failed' => ['test.txt']];
 
-        $cache = $this->getMock('Bolt\Cache', ['doFlush'], [$path, $app]);
-        $cache->expects($this->any())
+        $cache = parent::getCacheMock();
+        $cache->expects($this->once())
             ->method('doFlush')
             ->will($this->returnValue($$type));
 

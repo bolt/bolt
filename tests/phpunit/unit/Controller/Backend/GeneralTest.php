@@ -48,7 +48,7 @@ class GeneralTest extends ControllerUnitTest
     public function testClearCache()
     {
         $this->allowLogin($this->getApp());
-        $cache = $this->getMock('Bolt\Cache', ['doFlush'], [__DIR__, $this->getApp()]);
+        $cache = $this->getCacheMock();
         $cache->expects($this->at(0))
             ->method('doFlush')
             ->will($this->returnValue(['successfiles' => '1.txt', 'failedfiles' => '2.txt']));
