@@ -2,7 +2,10 @@
 
 namespace Bolt;
 
-use Bolt\Configuration\ResourceManager;
+use Bolt\Filesystem\AggregateFilesystemInterface;
+use Bolt\Filesystem\Exception\IOException;
+use Bolt\Filesystem\FilesystemInterface;
+use Bolt\Filesystem\Handler\HandlerInterface;
 use Doctrine\Common\Cache\FilesystemCache;
 use Silex;
 
@@ -19,21 +22,21 @@ class Cache extends FilesystemCache
     /** Default cache file extension. */
     const EXTENSION = '.data';
 
-    /** @var ResourceManager */
-    private $resourceManager;
+    /** @var AggregateFilesystemInterface */
+    private $filesystem;
 
     /**
      * Cache constructor.
      *
-     * @param string          $directory
-     * @param string          $extension
-     * @param int             $umask
-     * @param ResourceManager $resourceManager
+     * @param string                       $directory
+     * @param string                       $extension
+     * @param int                          $umask
+     * @param AggregateFilesystemInterface $filesystem
      */
-    public function __construct($directory, $extension = self::EXTENSION, $umask = 0002, ResourceManager $resourceManager = null)
+    public function __construct($directory, $extension = self::EXTENSION, $umask = 0002, AggregateFilesystemInterface $filesystem = null)
     {
         parent::__construct($directory, $extension, $umask);
-        $this->resourceManager = $resourceManager;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -47,7 +50,7 @@ class Cache extends FilesystemCache
     /**
      * Clear the cache. Both the doctrine FilesystemCache, as well as twig and thumbnail temp files.
      *
-     * @see flushHelper
+     * @return array
      */
     public function doFlush()
     {
@@ -63,11 +66,13 @@ class Cache extends FilesystemCache
         // Clear Doctrine's folder.
         parent::doFlush();
 
-        // Clear our own cache folder.
-        $this->flushHelper($this->getDirectory(), '', $result);
+        if ($this->filesystem instanceof AggregateFilesystemInterface) {
+            // Clear our own cache folder.
+            $this->flushFilesystemCache($this->filesystem->getFilesystem('cache'), $result);
 
-        // Clear the thumbs folder.
-        $this->flushHelper($this->resourceManager->getPath('web/thumbs'), '', $result);
+            // Clear the thumbs folder.
+            $this->flushFilesystemCache($this->filesystem->getFilesystem('thumbs'), $result);
+        }
 
         return $result;
     }
@@ -75,49 +80,42 @@ class Cache extends FilesystemCache
     /**
      * Helper function for doFlush().
      *
-     * @param string $startFolder
-     * @param string $additional
-     * @param array  $result
+     * @param FilesystemInterface $filesystem
+     * @param array               $result
      */
-    private function flushHelper($startFolder, $additional, &$result)
+    private function flushFilesystemCache(FilesystemInterface $filesystem, &$result)
     {
-        $currentfolder = realpath($startFolder . '/' . $additional);
+        $files = $filesystem->find()
+            ->files()
+            ->notName('index.html')
+            ->ignoreDotFiles()
+            ->ignoreVCS()
+        ;
 
-        if (!file_exists($currentfolder)) {
-            $result['log'] .= "Folder $currentfolder doesn't exist.<br>";
-
-            return;
-        }
-
-        $dir = dir($currentfolder);
-
-        while (($entry = $dir->read()) !== false) {
-            $exclude = ['.', '..', '.assetsalt', '.gitignore', 'index.html', '.version'];
-
-            if (in_array($entry, $exclude)) {
-                continue;
-            }
-
-            if (is_file($currentfolder . '/' . $entry)) {
-                if (is_writable($currentfolder . '/' . $entry) && unlink($currentfolder . '/' . $entry)) {
-                    $result['successfiles']++;
-                } else {
-                    $result['failedfiles']++;
-                    $result['failed'][] = str_replace($startFolder, 'cache', $currentfolder . '/' . $entry);
-                }
-            }
-
-            if (is_dir($currentfolder . '/' . $entry)) {
-                $this->flushHelper($startFolder, $additional . '/' . $entry, $result);
-
-                if (@rmdir($currentfolder . '/' . $entry)) {
-                    $result['successfolders']++;
-                } else {
-                    $result['failedfolders']++;
-                }
+        /** @var HandlerInterface $file */
+        foreach ($files as $file) {
+            try {
+                $file->delete();
+                $result['successfiles']++;
+            } catch (IOException $e) {
+                $result['failedfiles']++;
+                $result['failed'][] = $file->getPath();
             }
         }
 
-        $dir->close();
+        $dirs = $filesystem->find()
+            ->directories()
+            ->depth('< 1')
+        ;
+
+        /** @var HandlerInterface $dir */
+        foreach ($dirs as $dir) {
+            try {
+                $dir->delete();
+                $result['successfolders']++;
+            } catch (IOException $e) {
+                $result['failedfolders']++;
+            }
+        }
     }
 }

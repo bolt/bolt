@@ -17,7 +17,7 @@ class CacheServiceProvider implements ServiceProviderInterface
                         $app['resources']->getPath('cache'),
                         Cache::EXTENSION,
                         0002,
-                        $app['resources']
+                        $app['filesystem']
                     );
                 } catch (\Exception $e) {
                     $app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
