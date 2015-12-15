@@ -16,6 +16,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
 {
     use AssetTrait;
     use ConfigTrait;
+    use ControllerTrait;
     use ControllerMountTrait;
     use MenuTrait;
     use NutTrait;
@@ -54,7 +55,10 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     public static function getSubscribedEvents()
     {
         return [
-            ControllerEvents::MOUNT => 'onMount',
+            ControllerEvents::MOUNT => [
+                ['onMountRoutes', 0],
+                ['onMountControllers', 0]
+            ],
         ];
     }
 }

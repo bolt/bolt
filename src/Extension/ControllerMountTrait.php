@@ -84,8 +84,10 @@ trait ControllerMountTrait
      * Mounts the controllers defined in registerControllers().
      *
      * @param MountEvent $event
+     *
+     * @internal
      */
-    final public function onMount(MountEvent $event)
+    final public function onMountControllers(MountEvent $event)
     {
         foreach ($this->registerFrontendControllers() as $prefix => $collection) {
             $event->mount($prefix, $collection);
