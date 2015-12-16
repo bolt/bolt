@@ -223,6 +223,10 @@ class ImageHandler
      */
     private function getThubnailUri(Thumbnail $thumb)
     {
+        if ($thumb->getFileName() === null) {
+            return;
+        }
+
         return $this->app['url_generator']->generate(
             'thumb',
             [
