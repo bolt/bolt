@@ -137,7 +137,7 @@ class Edit
             'allowed_status'     => $allowedStatuses,
             'contentowner'       => $contentowner,
             'fields'             => $this->config->fields->fields(),
-            'fieldtemplates'     => $this->getTempateFieldTemplates($contentType, $content),
+            'fieldtemplates'     => $this->getTemplateFieldTemplates($contentType, $content),
             'fieldtypes'         => $this->getUsedFieldtypes($contentType, $content, $contextHas),
             'groups'             => $this->createGroupTabs($contentType, $contextHas),
             'can'                => $contextCan,
@@ -205,7 +205,7 @@ class Edit
      *
      * @return array
      */
-    private function getTempateFieldTemplates(array $contentType, Content $content)
+    private function getTemplateFieldTemplates(array $contentType, Content $content)
     {
         $templateFieldTemplates = [];
         $templateFieldsConfig = $this->config->get('theme/templatefields');
@@ -217,7 +217,7 @@ class Edit
             foreach ($contentType['fields'] as $name => $field) {
                 if ($field['type'] === 'templateselect' && !empty($content->values[$name])) {
                     $toRepair[$name] = $content->values[$name];
-                    $content->setValue($name, '');
+                    $content->set($name, '');
                 }
             }
             if ($content->hasTemplateFields()) {
@@ -225,7 +225,7 @@ class Edit
             }
 
             foreach ($toRepair as $name => $value) {
-                $content->setValue($name, $value);
+                $content->set($name, $value);
             }
         }
 
