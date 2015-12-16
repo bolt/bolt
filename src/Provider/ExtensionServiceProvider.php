@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Composer\Action;
 use Bolt\Composer\EventListener\BufferIOListener;
+use Bolt\Composer\ExtensionAutoloader;
 use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis;
 use Bolt\Extensions;
@@ -19,6 +20,14 @@ class ExtensionServiceProvider implements ServiceProviderInterface
                 $extensions = new Extensions($app);
 
                 return $extensions;
+            }
+        );
+
+        $app['extensions.autoload'] = $app->share(
+            function ($app) {
+                $loader = new ExtensionAutoloader($app['filesystem']->getFilesystem('extensions'));
+
+                return $loader;
             }
         );
 
