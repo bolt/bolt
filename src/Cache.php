@@ -7,13 +7,13 @@ use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\HandlerInterface;
 use Doctrine\Common\Cache\FilesystemCache;
-use Silex;
 
 /**
- * Simple, file based cache for volatile data.. Useful for storing non-vital
+ * Simple, file based cache for volatile data. Useful for storing non-vital
  * information like feeds, and other stuff that can be recovered easily.
  *
- * @author Bob den Otter, bob@twokings.nl
+ * @author Bob den Otter <bob@twokings.nl>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class Cache extends FilesystemCache
 {
