@@ -106,7 +106,12 @@ class Render
                 // maximum duration, otherwise a proxy/cache might keep the
                 // cache twice as long in the worst case scenario, and now it's
                 // only 50% max, but likely less
-                $response->setSharedMaxAge($this->cacheDuration() / 2);
+                // 's_maxage' sets the cache for shared caches.
+                // max_age sets it for regular browser caches
+
+                $age = $this->cacheDuration() / 2;
+
+                $response->setMaxAge($age)->setSharedMaxAge($age);
             }
         }
 
