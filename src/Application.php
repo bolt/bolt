@@ -44,7 +44,7 @@ class Application extends Silex\Application
         $this->register(new PathServiceProvider());
 
         // Initialize the config. Note that we do this here, on 'construct'.
-        // All other initialisation is triggered from bootstrap.php
+        // All other initialization is triggered from bootstrap.php
         // Warning!
         // One of a valid ResourceManager ['resources'] or ClassLoader ['classloader']
         // must be defined for working properly
@@ -67,7 +67,7 @@ class Application extends Silex\Application
         $this['editlink'] = '';
         $this['edittitle'] = '';
 
-        // Initialise the JavaScipt data gateway
+        // Initialize the JavaScript data gateway
         $this['jsdata'] = array();
     }
 
@@ -100,7 +100,7 @@ class Application extends Silex\Application
 
     public function initialize()
     {
-        // Initialise logging
+        // Initialize logging.
         $this->initLogger();
 
         // Set up locale and translations.
@@ -109,7 +109,7 @@ class Application extends Silex\Application
         // Initialize Twig and our rendering Provider.
         $this->initRendering();
 
-        // Initialize Web Profiler Providers if enabled
+        // Initialize Web Profiler Providers if enabled.
         $this->initProfiler();
 
         // Initialize the Database Providers.
@@ -127,13 +127,13 @@ class Application extends Silex\Application
         // Mail config checks for extensions
         $this->before(array($this, 'initMailCheck'));
 
-        // Initialise the global 'before' handler.
+        // Initialize the global 'before' handler.
         $this->before(array($this, 'beforeHandler'));
 
-        // Initialise the global 'after' handler.
+        // Initialize the global 'after' handler.
         $this->after(array($this, 'afterHandler'));
 
-        // Initialise the 'error' handler.
+        // Initialize the 'error' handler.
         $this->error(array($this, 'errorHandler'));
     }
 
