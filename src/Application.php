@@ -63,7 +63,7 @@ class Application extends Silex\Application
         $this['editlink'] = '';
         $this['edittitle'] = '';
 
-        // Initialise the JavaScipt data gateway
+        // Initialize the JavaScript data gateway.
         $this['jsdata'] = [];
     }
 
@@ -111,13 +111,13 @@ class Application extends Silex\Application
         // Initialize enabled extensions before executing handlers.
         $this->initExtensions();
 
-        // Initialise the global 'before' handler.
+        // Initialize the global 'before' handler.
         $this->before([$this, 'beforeHandler']);
 
-        // Initialise the global 'after' handler.
+        // Initialize the global 'after' handler.
         $this->after([$this, 'afterHandler']);
 
-        // Calling for BC. Initialise the 'error' handler.
+        // Calling for BC. Initialize the 'error' handler.
         $this->error([$this, 'errorHandler']);
     }
 
