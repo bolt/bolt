@@ -108,10 +108,10 @@ class Render
                 // only 50% max, but likely less
                 // 's_maxage' sets the cache for shared caches.
                 // max_age sets it for regular browser caches
-                $response->setCache(array(
-                    'max_age'       => $this->cacheDuration() / 2,
-                    's_maxage'      => $this->cacheDuration() / 2
-                ));
+
+                $age = $this->cacheDuration() / 2;
+
+                $response->setMaxAge($age)->setSharedMaxAge($age);
             }
         }
 
