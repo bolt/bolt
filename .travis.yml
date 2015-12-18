@@ -1,5 +1,10 @@
 language: php
 
+# Prevent cutover to GCE. Can be removed once full Travis legacy envvironment is upgraded
+sudo: required
+dist: precise
+group: legacy
+
 php:
   - 5.3
   - 5.4
