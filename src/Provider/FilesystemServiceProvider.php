@@ -27,6 +27,8 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                         'config'     => new Filesystem(new Local($app['resources']->getPath('config'))),
                         'theme'      => new Filesystem(new Local($app['resources']->getPath('themebase'))),
                         'extensions' => new Filesystem(new Local($app['resources']->getPath('extensions'))),
+                        'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
+                        'thumbs'     => new Filesystem(new Local($app['resources']->getPath('web/thumbs'))),
                     ],
                     [
                         new Plugin\PublicUrl($app),

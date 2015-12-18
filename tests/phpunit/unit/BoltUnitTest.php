@@ -225,6 +225,25 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         return $loginMock;
     }
 
+    protected function getCacheMock($path = null)
+    {
+        if ($path === null) {
+            $app = $this->getApp();
+            $path = $app['resources']->getPath('cache');
+        }
+
+        $params = [
+            $path,
+            \Bolt\Cache::EXTENSION,
+            0002,
+            $app['filesystem']
+        ];
+
+        $cache = $this->getMock('Bolt\Cache', ['doFlush'], $params);
+
+        return $cache;
+    }
+
     protected function getTwigHandlers($app)
     {
         return new \Pimple([

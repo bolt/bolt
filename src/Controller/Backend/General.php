@@ -78,7 +78,7 @@ class General extends BackendBase
      */
     public function clearCache()
     {
-        $result = $this->app['cache']->clearCache();
+        $result = $this->app['cache']->doFlush();
 
         $output = Trans::__('Deleted %s files from cache.', ['%s' => $result['successfiles']]);
 
