@@ -220,7 +220,7 @@ class PackageManager
      */
     public function initJson($file, array $data = [])
     {
-        $this->app['extend.action']['json']->execute($file, $data);
+        $this->app['extend.manager.json']->init($file, $data);
     }
 
     /**
@@ -370,7 +370,7 @@ class PackageManager
      */
     private function updateJson()
     {
-        $this->json = $this->app['extend.action']['json']->updateJson();
+        $this->json = $this->app['extend.manager.json']->update();
     }
 
     /**

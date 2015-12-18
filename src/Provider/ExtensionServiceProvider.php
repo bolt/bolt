@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Bolt\Composer\Action;
 use Bolt\Composer\EventListener\BufferIOListener;
 use Bolt\Composer\ExtensionAutoloader;
+use Bolt\Composer\JsonManager;
 use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis;
 use Bolt\Extensions;
@@ -62,6 +63,12 @@ class ExtensionServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['extend.manager.json'] = $app->share(
+            function ($app) {
+                return new JsonManager($app);
+            }
+        );
+
         $app['extend.listener'] = $app->share(
             function ($app) {
                 return new BufferIOListener($app['extend.manager']);
@@ -83,7 +90,6 @@ class ExtensionServiceProvider implements ServiceProviderInterface
                         'autoload' => $app->share(function () use ($app) { return new Action\DumpAutoload($app); }),
                         'check'    => $app->share(function () use ($app) { return new Action\CheckPackage($app); }),
                         'install'  => $app->share(function () use ($app) { return new Action\InstallPackage($app); }),
-                        'json'     => $app->share(function () use ($app) { return new Action\BoltExtendJson($app); }),
                         'remove'   => $app->share(function () use ($app) { return new Action\RemovePackage($app); }),
                         'require'  => $app->share(function () use ($app) { return new Action\RequirePackage($app); }),
                         'search'   => $app->share(function () use ($app) { return new Action\SearchPackage($app); }),
