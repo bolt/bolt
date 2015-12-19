@@ -13,7 +13,7 @@ use Bolt\Filesystem\Handler\JsonFile;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ExtensionAutoloader
+class ExtensionFinder
 {
     /** @var array */
     protected $extensions;
