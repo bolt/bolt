@@ -3,6 +3,7 @@
 namespace Bolt\Composer;
 
 use Bolt\Extension\ExtensionInterface;
+use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\File;
 use Bolt\Filesystem\Handler\JsonFile;
@@ -33,7 +34,7 @@ class ExtensionAutoloader
     /**
      * Load a collection of extension classes.
      *
-     * @return \Bolt\Extension\ExtensionInterface[]
+     * @return \Bolt\Extension\ResolvedExtension[]
      */
     public function load()
     {
@@ -48,7 +49,6 @@ class ExtensionAutoloader
         }
         require_once dirname(dirname(__DIR__)) . '/extensions/vendor/autoload.php';
 
-        /** @var ExtensionInterface[] $classes */
         $classes = [];
         foreach ($autoloadJson->parse() as $loader) {
             if (class_exists($loader['class'])) {
@@ -56,7 +56,7 @@ class ExtensionAutoloader
                 $class = new $loader['class']();
                 if ($class instanceof ExtensionInterface) {
                     $name = $class->getName();
-                    $classes[$name] = $class;
+                    $classes[$name] = new ResolvedExtension($class);
                 }
             }
         }

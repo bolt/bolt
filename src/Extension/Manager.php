@@ -13,7 +13,7 @@ class Manager
 {
     /** @var \Bolt\Composer\ExtensionAutoloader */
     protected $autoloader;
-    /** @var ExtensionInterface[] */
+    /** @var ResolvedExtension[] */
     protected $extensions;
 
     /** @var Application */
@@ -48,7 +48,7 @@ class Manager
     public function get($name)
     {
         if (isset($this->extensions[$name])) {
-            return $this->extensions[$name];
+            return $this->extensions[$name]->getInnerExtension();
         }
     }
 }
