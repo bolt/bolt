@@ -43,7 +43,7 @@
                 {{ form_widget(context.form) }}
 
                 <div class="progress" id="progress-wrapper">
-                    <div id="complexity-bar" class="progress-bar progress-bar-success" role="progressbar" style="width: 42.1951%;"></div>
+                    <div id="complexity-bar" class="progress-bar progress-bar-success" role="progressbar" style="width: 0;"></div>
                 </div>
 
                 <input type="submit" value="{{ __('page.edit-users.button.save') }}" name="submit" class="btn btn-primary">
@@ -57,17 +57,15 @@
         var el = $('#progress-wrapper').detach()
         $('#form_password').parent().append(el);
 
-        // Initialize complexify
-        $('#form_password').complexify({}, function (valid, complexity) {
+        // Initialize complexify, to indicate password strength.
+        $('#form_password').complexify({'strengthScaleFactor': 0.6, 'minimumChars': 6}, function (valid, complexity) {
             var progressBar = $('#complexity-bar');
-            console.log('complexity');
-            progressBar.toggleClass('progress-bar-success', valid);
-            progressBar.toggleClass('progress-bar-danger', !valid);
+            progressBar.toggleClass('progress-bar-danger', (complexity < 40 ));
+            progressBar.toggleClass('progress-bar-warning', (complexity < 50 ));
+            progressBar.toggleClass('progress-bar-success', (complexity > 60 ));
             progressBar.css({'width': complexity + '%'});
-            $('#complexify #complexity').text(Math.round(complexity) + '%');
         });
     });
 </script>
-
 
 {% endblock page_main %}
