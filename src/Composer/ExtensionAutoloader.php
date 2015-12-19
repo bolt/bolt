@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer;
 
+use Bolt\Extension\ExtensionInterface;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\File;
 use Bolt\Filesystem\Handler\JsonFile;
@@ -27,6 +28,38 @@ class ExtensionAutoloader
     public function __construct(FilesystemInterface $filesystem)
     {
         $this->filesystem = $filesystem;
+    }
+
+    /**
+     * Load a collection of extension classes.
+     *
+     * @return \Bolt\Extension\ExtensionInterface[]
+     */
+    public function load()
+    {
+        /** @var JsonFile $autoloadJson */
+        $autoloadJson = $this->filesystem->get('autoload.json');
+        if (!$autoloadJson->exists()) {
+            return [];
+        }
+        $autoloadPhp = $this->filesystem->get('vendor/autoload.php');
+        if (!$autoloadPhp->exists()) {
+            return [];
+        }
+        require_once dirname(dirname(__DIR__)) . '/extensions/vendor/autoload.php';
+
+        /** @var ExtensionInterface[] $classes */
+        $classes = [];
+        foreach ($autoloadJson->parse() as $loader) {
+            if (class_exists($loader['class'])) {
+                /** @var ExtensionInterface $class */
+                $class = new $loader['class']();
+                $name = $class->getName();
+                $classes[$name] = $class;
+            }
+        }
+
+        return $classes;
     }
 
     /**
