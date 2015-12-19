@@ -37,4 +37,18 @@ class Manager
     {
         $this->extensions = $this->autoloader->load();
     }
+
+    /**
+     * Get an installed extension class.
+     *
+     * @param $name
+     *
+     * @return ExtensionInterface
+     */
+    public function get($name)
+    {
+        if (isset($this->extensions[$name])) {
+            return $this->extensions[$name];
+        }
+    }
 }
