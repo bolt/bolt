@@ -11,6 +11,11 @@ use Silex\Application;
  */
 class Manager
 {
+    /** @var \Bolt\Composer\ExtensionAutoloader */
+    protected $autoloader;
+    /** @var ExtensionInterface[] */
+    protected $extensions;
+
     /** @var Application */
     private $app;
 
@@ -22,5 +27,14 @@ class Manager
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->autoloader = $app['extensions.autoload'];
+    }
+
+    /**
+     * Load and fetch the extension classes.
+     */
+    public function load()
+    {
+        $this->extensions = $this->autoloader->load();
     }
 }
