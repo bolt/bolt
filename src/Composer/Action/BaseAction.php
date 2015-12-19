@@ -59,6 +59,8 @@ abstract class BaseAction
     /**
      * Get a Composer object.
      *
+     * @throws \Exception
+     *
      * @return \Composer\Composer
      */
     protected function getComposer()
@@ -79,6 +81,7 @@ abstract class BaseAction
                 }
             } catch (\Exception $e) {
                 $this->app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+                throw $e;
             }
         }
 
