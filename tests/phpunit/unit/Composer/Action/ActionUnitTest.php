@@ -8,8 +8,8 @@ abstract class ActionUnitTest extends BoltUnitTest
     public function setUp()
     {
         $app = $this->getApp();
-        $action = $app['extend.action']['json'];
-        $action->updateJson();
+        $action = $app['extend.manager.json'];
+        $action->update();
     }
 
     protected function getApp($boot = true)

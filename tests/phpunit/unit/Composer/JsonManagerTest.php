@@ -1,19 +1,19 @@
 <?php
+
 namespace Bolt\Tests\Composer\Action;
 
-use Bolt\Composer\Action\BoltExtendJson;
-
 /**
- * Class to test src/Composer/Action/BoltExtendJson.
+ * Class to test Bolt\Composer\JsonManager class.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class BoltExtendJsonTest extends ActionUnitTest
+class JsonManagerTest extends ActionUnitTest
 {
     public function testExecute()
     {
         $app = $this->getApp();
-        $app['extend.action']['json']->execute(
+        $app['filesystem']->get('extensions://composer.json')->delete();
+        $app['extend.manager.json']->init(
             $app['extend.action.options']['composerjson'],
             ['extra' => ['bolt-test' => true]]
         );
@@ -22,6 +22,6 @@ class BoltExtendJsonTest extends ActionUnitTest
     public function testWrite()
     {
         $app = $this->getApp();
-        $app['extend.action']['json']->updateJson();
+        $app['extend.manager.json']->update();
     }
 }
