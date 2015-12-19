@@ -86,6 +86,7 @@ module.exports = function (grunt, option) {
                 '<%= path.tmp %>/jquery.cookie.min.js',                         //   2 kb
                 '<%= path.tmp %>/jquery.formatDateTime.min.js',                 //   3 kb
                 '<%= path.tmp %>/jquery.tagcloud.min.js',                       //   2 kb
+                '<%= path.src.npm %>/complexify/jquery.complexify.min.js',      //   2 kb
                 '<%= path.tmp %>/underscore.min.js',                            //  16 kb
                 '<%= path.tmp %>/backbone.min.js',                              //  22 kb
                 '<%= path.tmp %>/bootbox.min.js',                               //  10 kb
