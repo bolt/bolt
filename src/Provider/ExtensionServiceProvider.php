@@ -8,7 +8,7 @@ use Bolt\Composer\ExtensionAutoloader;
 use Bolt\Composer\JsonManager;
 use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis;
-use Bolt\Extensions;
+use Bolt\Extension\Manager;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -18,7 +18,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
     {
         $app['extensions'] = $app->share(
             function ($app) {
-                $extensions = new Extensions($app);
+                $extensions = new Manager($app);
 
                 return $extensions;
             }
