@@ -76,6 +76,7 @@ class JsonManager
         }
 
         $json = $this->setJsonDefaults($json);
+        $json = $this->setJsonLocal($json);
 
         // Write out the file, but only if it's actually changed, and if it's writable.
         if ($json != $jsonOrig) {
@@ -137,5 +138,47 @@ class JsonManager
         ksort($json);
 
         return $json;
+    }
+
+    /**
+     * If we're using local extensions, install/require the merge plugin.
+     *
+     * @param array $composerJson
+     *
+     * @return array
+     */
+    private function setJsonLocal(array $composerJson)
+    {
+        $local = $this->app['filesystem']
+            ->getFilesystem('extensions')
+            ->getDir('local')
+            ->exists()
+        ;
+        if ($local === false) {
+            return $composerJson;
+        }
+
+        $defaults = [
+            'extra' => [
+                'merge-plugin'  => [
+                    'include' => [
+                        'local/*/*/composer.json',
+                    ],
+                ],
+            ],
+            'repositories' => [
+                'merge-plugin' => [
+                    'type' => 'vcs',
+                    'url'  => 'https://github.com/wikimedia/composer-merge-plugin.git',
+                ],
+            ],
+            'require' => [
+                'wikimedia/composer-merge-plugin' => '^1.3',
+            ]
+        ];
+        $composerJson = Arr::mergeRecursiveDistinct($composerJson, $defaults);
+        ksort($composerJson);
+
+        return $composerJson;
     }
 }
