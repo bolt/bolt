@@ -54,8 +54,10 @@ class ExtensionAutoloader
             if (class_exists($loader['class'])) {
                 /** @var ExtensionInterface $class */
                 $class = new $loader['class']();
-                $name = $class->getName();
-                $classes[$name] = $class;
+                if ($class instanceof ExtensionInterface) {
+                    $name = $class->getName();
+                    $classes[$name] = $class;
+                }
             }
         }
 
