@@ -38,9 +38,33 @@
 
             <form method="post" class="form-horizontal" autocomplete="off">
                 {{ form_widget(context.form) }}
+
+                <div class="progress" id="progress-wrapper">
+                    <div id="complexity-bar" class="progress-bar progress-bar-success" role="progressbar" style="width: 42.1951%;"></div>
+                </div>
+
                 <input type="submit" value="{{ __('page.edit-users.button.save') }}" name="submit" class="btn btn-primary">
             </form>
         </div>
     </div>
+
+<script type="text/javascript">
+    $(function() {
+        // Attach and detach the progressbar.
+        var el = $('#progress-wrapper').detach()
+        $('#form_password').parent().append(el);
+
+        // Initialize complexify
+        $('#form_password').complexify({}, function (valid, complexity) {
+            var progressBar = $('#complexity-bar');
+            console.log('complexity');
+            progressBar.toggleClass('progress-bar-success', valid);
+            progressBar.toggleClass('progress-bar-danger', !valid);
+            progressBar.css({'width': complexity + '%'});
+            $('#complexify #complexity').text(Math.round(complexity) + '%');
+        });
+    });
+</script>
+
 
 {% endblock page_main %}
