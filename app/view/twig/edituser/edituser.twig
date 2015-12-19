@@ -37,6 +37,9 @@
             {% endif %}
 
             <form method="post" class="form-horizontal" autocomplete="off">
+                {# Google chrome, you so stupid.. @see http://stackoverflow.com/questions/15738259/disabling-chrome-autofill #}
+                <input type="password" name="password_fake" id="password_fake" value="" style="display:none;" />
+
                 {{ form_widget(context.form) }}
 
                 <div class="progress" id="progress-wrapper">
