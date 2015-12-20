@@ -4,6 +4,7 @@ namespace Bolt\Composer;
 
 use Bolt\Extension\ExtensionInterface;
 use Bolt\Extension\ResolvedExtension;
+use Bolt\Filesystem\Exception\IncludeFileException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\File;
 use Bolt\Filesystem\Handler\JsonFile;
@@ -38,18 +39,20 @@ class ExtensionFinder
      */
     public function load()
     {
+        $classes = [];
+
         /** @var JsonFile $autoloadJson */
         $autoloadJson = $this->filesystem->get('autoload.json');
         if (!$autoloadJson->exists()) {
-            return [];
+            return $classes;
         }
-        $autoloadPhp = $this->filesystem->get('vendor/autoload.php');
-        if (!$autoloadPhp->exists()) {
-            return [];
-        }
-        require_once dirname(dirname(__DIR__)) . '/extensions/vendor/autoload.php';
 
-        $classes = [];
+        try {
+            $this->filesystem->includeFile('vendor/autoload.php');
+        } catch (IncludeFileException $e) {
+            return $classes;
+        }
+
         foreach ($autoloadJson->parse() as $loader) {
             if (class_exists($loader['class'])) {
                 /** @var ExtensionInterface $class */
