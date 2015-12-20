@@ -1,3 +1,13 @@
+Bolt 2.2.15
+-----------
+
+Not yet released. Notable changes: 
+
+ - Fixed: Add JSON to list of denied file types for Apache (See #4610)
+ - Fixed: Fix/more spinners and missing icons (See #4573)
+ - Fixed: Sidebar Height Resize Issue (See #4573)
+ - Fixed: Fix preview unpublished content (See #4544)
+
 Bolt 2.2.14
 -----------
 
