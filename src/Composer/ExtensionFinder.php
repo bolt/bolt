@@ -41,7 +41,7 @@ class ExtensionFinder
         $classes = [];
 
         /** @var JsonFile $autoloadJson */
-        $autoloadJson = $this->filesystem->get('autoload.json');
+        $autoloadJson = $this->filesystem->get('vendor/autoload.json');
         if (!$autoloadJson->exists()) {
             return $classes;
         }
