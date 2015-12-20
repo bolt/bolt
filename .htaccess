@@ -9,7 +9,7 @@ Options -Indexes
   Options -MultiViews
 </IfModule>
 
-<FilesMatch "\.(yml|db|twig|md)$">
+<FilesMatch "\.(db|md|json|twig|yml)$">
   <IfModule mod_authz_core.c>
     Require all denied
   </IfModule>
