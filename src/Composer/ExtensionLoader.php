@@ -20,6 +20,8 @@ class ExtensionLoader
     protected $extensions = [];
     /** @var string[] */
     protected $map = [];
+    /** @var array */
+    protected $autoload;
 
     /** @var FilesystemInterface */
     private $filesystem;
@@ -55,7 +57,8 @@ class ExtensionLoader
             return;
         }
 
-        foreach ($autoloadJson->parse() as $package => $loader) {
+        $this->autoload = (array) $autoloadJson->parse();
+        foreach ($this->autoload as $package => $loader) {
             if (class_exists($loader['class'])) {
                 /** @var ExtensionInterface $class */
                 $class = new $loader['class']();
@@ -70,6 +73,16 @@ class ExtensionLoader
                 $this->flashLogger->error(sprintf("Extension package %s has an invalid class '%s' and has been skipped.", $package, $loader['class']));
             }
         }
+    }
+
+    /**
+     * Return the generated autoloading cache.
+     *
+     * @return array
+     */
+    public function getAutoload()
+    {
+        return $this->autoload;
     }
 
     /**
