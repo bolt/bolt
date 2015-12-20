@@ -376,15 +376,15 @@ class PackageManager
     /**
      * Ping site to see if we have a valid connection and it is responding correctly.
      *
-     * @param boolean $addquery
+     * @param boolean $addQuery
      */
-    private function ping($addquery = false)
+    private function ping($addQuery = false)
     {
         $uri = $this->app['extend.site'] . 'ping';
-        $www = isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : 'unknown';
+        $www = $this->app['request_stack']->getCurrentRequest()->server->get('SERVER_SOFTWARE', 'unknown');
         $query = [];
 
-        if ($addquery) {
+        if ($addQuery) {
             $query = [
                 'bolt_ver'  => $this->app['bolt_version'],
                 'bolt_name' => $this->app['bolt_name'],
