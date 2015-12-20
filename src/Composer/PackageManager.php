@@ -239,49 +239,46 @@ class PackageManager
         // Installed Composer packages
         $installed = $this->app['extend.action']['show']->execute('installed');
         $packages['installed'] = $this->formatPackageResponse($installed);
+        if ($this->json === null || empty($this->json['require'])) {
+            return $packages;
+        }
+
+        $keys = array_keys($installed);
 
         // Pending Composer packages
-        $keys = array_keys($installed);
-        if ($this->json !== null && !empty($this->json['require'])) {
-            foreach ($this->json['require'] as $require => $version) {
-                if (!in_array($require, $keys)) {
-                    $packages['pending'][] = [
-                        'name'     => $require,
-                        'version'  => $version,
-                        'type'     => 'unknown',
-                        'descrip'  => Trans::__('Not yet installed.'),
-                        'authors'  => [],
-                        'keywords' => [],
-                    ];
-                }
+        foreach ($this->json['require'] as $require => $version) {
+            if (!in_array($require, $keys)) {
+                $packages['pending'][] = [
+                    'name'     => $require,
+                    'version'  => $version,
+                    'type'     => 'unknown',
+                    'descrip'  => Trans::__('Not yet installed.'),
+                    'authors'  => [],
+                    'keywords' => [],
+                ];
             }
         }
 
         // Local packages
-        foreach ($this->app['extensions']->getEnabled() as $ext) {
-            /** @var $ext \Bolt\BaseExtension */
-            if ($ext->getInstallType() !== 'local') {
+        foreach ($this->app['extensions.loader']->getMap() as $phpName => $composerName) {
+            if (isset($this->json['require'][$composerName])) {
                 continue;
             }
+
             // Get the Composer configuration
-            $json = $ext->getComposerJSON();
-            if ($json) {
-                $packages['local'][] = [
-                    'name'     => $json['name'],
-                    'title'    => $ext->getName(),
-                    'version'  => 'local',
-                    'type'     => $json['type'],
-                    'descrip'  => $json['description'],
-                    'authors'  => $json['authors'],
-                    'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',
-                    'readme'   => '', // TODO: make local readme links
-                    'config'   => $this->linkConfig($json['name']),
-                ];
-            } else {
-                $packages['local'][] = [
-                    'title'    => $ext->getName(),
-                ];
-            }
+            $json = $this->app['extensions']->getComposerJson($composerName);
+            $extension = $this->app['extensions.loader']->get($json['name']);
+            $packages['local'][] = [
+                'name'     => $json['name'],
+                'title'    => $extension->getName(),
+                'version'  => 'local',
+                'type'     => $json['type'],
+                'descrip'  => $json['description'],
+                'authors'  => $json['authors'],
+                'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',
+                'readme'   => '', // TODO: make local readme links
+                'config'   => $this->linkConfig($json['name']),
+            ];
         }
 
         return $packages;
@@ -302,10 +299,13 @@ class PackageManager
             /** @var \Composer\Package\CompletePackageInterface $package */
             $package = $package['package'];
             $name = $package->getPrettyName();
-            $conf = $this->app['extensions']->getComposerConfig($name);
+
+            if (!$this->app['extensions.loader']->get($name)) {
+                continue;
+            }
             $pack[] = [
                 'name'     => $name,
-                'title'    => $conf['name'],
+                'title'    => $this->app['extensions.loader']->get($name)->getName(),
                 'version'  => $package->getPrettyVersion(),
                 'authors'  => $package->getAuthors(),
                 'type'     => $package->getType(),
