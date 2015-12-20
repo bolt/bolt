@@ -36,8 +36,6 @@ class ExtensionLoader
      */
     public function load()
     {
-        $classes = [];
-
         /** @var JsonFile $autoloadJson */
         $autoloadJson = $this->filesystem->get('vendor/autoload.json');
         if (!$autoloadJson->exists()) {
@@ -59,6 +57,34 @@ class ExtensionLoader
                     $this->extensions[$name] = new ResolvedExtension($class);
                 }
             }
+        }
+    }
+
+    /**
+     * Get an installed extension class.
+     *
+     * @param $name
+     *
+     * @return ExtensionInterface|null
+     */
+    public function get($name)
+    {
+        if (isset($this->extensions[$name])) {
+            return $this->extensions[$name]->getInnerExtension();
+        }
+    }
+
+    /**
+     * Get the resolved form of an installed extension class.
+     *
+     * @param $name
+     *
+     * @return ResolvedExtension|null
+     */
+    public function getResolved($name)
+    {
+        if (isset($this->extensions[$name])) {
+            return $this->extensions[$name];
         }
     }
 }
