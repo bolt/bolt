@@ -4,6 +4,7 @@ namespace Bolt\Composer;
 
 use Bolt\Extension\ExtensionInterface;
 use Bolt\Extension\ResolvedExtension;
+use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IncludeFileException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\File;
@@ -108,14 +109,25 @@ class ExtensionFinder
      */
     protected function getComposerJson()
     {
-        return $this->filesystem
+        $finder = $this->filesystem
             ->find()
             ->files()
-            ->in(['vendor', 'local'])
             ->notPath('vendor/composer')
             ->depth(2)
             ->name('composer.json')
             ->contains('"bolt-class"')
         ;
+        try {
+            $finder->in('vendor');
+        } catch (FileNotFoundException $e) {
+            // Composer has not had autoloader dumped
+        }
+        try {
+            $finder->in('local');
+        } catch (FileNotFoundException $e) {
+            // No local extensions are installed
+        }
+
+        return $finder;
     }
 }
