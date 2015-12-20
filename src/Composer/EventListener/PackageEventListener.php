@@ -1,10 +1,22 @@
 <?php
+
 namespace Bolt\Composer\EventListener;
 
 use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UpdateOperation;
 use Composer\Installer\PackageEvent;
+use Composer\Script\Event;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Event listener for extension Composer operations.
+ *
+ * @author Ross Riley <riley.ross@gmail.com>
+ * @author Carson Full <carsonfull@gmail.com>
+ * @author Gawain Lynch <gawain.lynch@gmail.com>
+ */
 class PackageEventListener
 {
     /**
@@ -37,6 +49,26 @@ class PackageEventListener
     }
 
     /**
+     * Dump the metadata for extension loading on the 'post-autoload-dump' event.
+     *
+     * @param Event $event
+     */
+    public static function dump(Event $event)
+    {
+        $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
+        $finder = self::getInstalledComposerJson();
+        $extensions = [];
+
+        /** @var SplFileInfo $file */
+        foreach ($finder as $file) {
+            $extensions = self::parseComposerJson($file, $extensions);
+        }
+
+        $fs = new Filesystem();
+        $fs->dumpFile($vendorDir . '/autoload.json', json_encode($extensions, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+    }
+
+    /**
      * Mirror a directory if the two directories don't match
      *
      * @param string $source
@@ -56,7 +88,7 @@ class PackageEventListener
             \RecursiveIteratorIterator::SELF_FIRST
         );
         foreach ($iterator as $item) {
-            /** @var $item \SplFileInfo */
+            /** @var $item SplFileInfo */
             if ($item->isDir()) {
                 $new = $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname();
                 if (!is_dir($new)) {
@@ -66,5 +98,54 @@ class PackageEventListener
                 copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
             }
         }
+    }
+
+    /**
+     * Return all the installed extension composer.json files.
+     *
+     * @return Finder
+     */
+    private static function getInstalledComposerJson()
+    {
+        $finder = new Finder();
+        $finder->files()
+            ->name('composer.json')
+            ->notPath('vendor/composer')
+            ->contains('"bolt-class"')
+            ->depth(2)
+        ;
+        try {
+            $finder->in(['local']);
+        } catch (\InvalidArgumentException $e) {
+            // No local extensions are installed
+        }
+        try {
+            $finder->in(['vendor']);
+        } catch (\InvalidArgumentException $e) {
+            // Composer has not had its autoloader dumped
+        }
+
+        return $finder;
+    }
+
+    /**
+     * Parse a composer.json file and return specific metadata.
+     *
+     * @param SplFileInfo $jsonFile
+     * @param array       $extensions
+     *
+     * @return array
+     */
+    private static function parseComposerJson(SplFileInfo $jsonFile, array $extensions)
+    {
+        $jsonData = json_decode($jsonFile->getContents(), true);
+        $key = $jsonData['name'];
+        $extensions[$key] = [
+            'name'  => $jsonData['name'],
+            'class' => $jsonData['extra']['bolt-class'],
+            'path'  => $jsonFile->getPath(),
+        ];
+
+        return $extensions;
     }
 }

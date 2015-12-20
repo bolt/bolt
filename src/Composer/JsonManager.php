@@ -130,6 +130,7 @@ class JsonManager
                 ],
             ],
             'scripts' => [
+                'post-autoload-dump'   => 'Bolt\\Composer\\EventListener\\PackageEventListener::dump',
                 'post-package-install' => 'Bolt\\Composer\\EventListener\\PackageEventListener::handle',
                 'post-package-update'  => 'Bolt\\Composer\\EventListener\\PackageEventListener::handle',
             ],
