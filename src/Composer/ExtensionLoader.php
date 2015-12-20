@@ -61,6 +61,16 @@ class ExtensionLoader
     }
 
     /**
+     * Get all installed extensions.
+     *
+     * @return ResolvedExtension[]
+     */
+    public function all()
+    {
+        return $this->extensions;
+    }
+
+    /**
      * Get an installed extension class.
      *
      * @param $name
