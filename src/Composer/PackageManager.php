@@ -391,42 +391,40 @@ class PackageManager
                 'php'       => phpversion(),
                 'www'       => $www,
             ];
-        } else {
-            try {
-                $this->app['guzzle.client']->head($uri, ['query' => $query, 'exceptions' => true, 'connect_timeout' => 5, 'timeout' => 10]);
-
-                $this->app['extend.online'] = true;
-            } catch (ClientException $e) {
-                // Thrown for 400 level errors
-                $this->messages[] = Trans::__(
-                    'Client error: %errormessage%',
-                    ['%errormessage%' => $e->getMessage()]
-                );
-                $this->app['extend.online'] = false;
-            } catch (ServerException $e) {
-                // Thrown for 500 level errors
-                $this->messages[] = Trans::__(
-                    'Extension server returned an error: %errormessage%',
-                    ['%errormessage%' => $e->getMessage()]
-                );
-                $this->app['extend.online'] = false;
-            } catch (RequestException $e) {
-                // Thrown for connection timeout, DNS errors, etc
-                $this->messages[] = Trans::__(
-                    'Testing connection to extension server failed: %errormessage%',
-                    ['%errormessage%' => $e->getMessage()]
-                );
-                $this->app['extend.online'] = false;
-            } catch (\Exception $e) {
-                // Catch all
-                $this->messages[] = Trans::__(
-                    'Generic failure while testing connection to extension server: %errormessage%',
-                    ['%errormessage%' => $e->getMessage()]
-                );
-                $this->app['extend.online'] = false;
-            }
-            $query = [];
         }
 
+        try {
+            $this->app['guzzle.client']->head($uri, ['query' => $query, 'exceptions' => true, 'connect_timeout' => 5, 'timeout' => 10]);
+
+            $this->app['extend.online'] = true;
+        } catch (ClientException $e) {
+            // Thrown for 400 level errors
+            $this->messages[] = Trans::__(
+                'Client error: %errormessage%',
+                ['%errormessage%' => $e->getMessage()]
+            );
+            $this->app['extend.online'] = false;
+        } catch (ServerException $e) {
+            // Thrown for 500 level errors
+            $this->messages[] = Trans::__(
+                'Extension server returned an error: %errormessage%',
+                ['%errormessage%' => $e->getMessage()]
+            );
+            $this->app['extend.online'] = false;
+        } catch (RequestException $e) {
+            // Thrown for connection timeout, DNS errors, etc
+            $this->messages[] = Trans::__(
+                'Testing connection to extension server failed: %errormessage%',
+                ['%errormessage%' => $e->getMessage()]
+            );
+            $this->app['extend.online'] = false;
+        } catch (\Exception $e) {
+            // Catch all
+            $this->messages[] = Trans::__(
+                'Generic failure while testing connection to extension server: %errormessage%',
+                ['%errormessage%' => $e->getMessage()]
+            );
+            $this->app['extend.online'] = false;
+        }
     }
 }
