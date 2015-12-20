@@ -9,14 +9,14 @@ use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\JsonFile;
 
 /**
- * Class to manage autoloading functionality for extensions.
+ * Class to manage loading of extensions.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ExtensionFinder
+class ExtensionLoader
 {
-    /** @var array */
-    protected $extensions;
+    /** @var ResolvedExtension[] */
+    protected $extensions = [];
 
     /** @var FilesystemInterface */
     private $filesystem;
@@ -33,8 +33,6 @@ class ExtensionFinder
 
     /**
      * Load a collection of extension classes.
-     *
-     * @return \Bolt\Extension\ResolvedExtension[]
      */
     public function load()
     {
@@ -43,13 +41,13 @@ class ExtensionFinder
         /** @var JsonFile $autoloadJson */
         $autoloadJson = $this->filesystem->get('vendor/autoload.json');
         if (!$autoloadJson->exists()) {
-            return $classes;
+            return;
         }
 
         try {
             $this->filesystem->includeFile('vendor/autoload.php');
         } catch (IncludeFileException $e) {
-            return $classes;
+            return;
         }
 
         foreach ($autoloadJson->parse() as $loader) {
@@ -58,11 +56,9 @@ class ExtensionFinder
                 $class = new $loader['class']();
                 if ($class instanceof ExtensionInterface) {
                     $name = $class->getName();
-                    $classes[$name] = new ResolvedExtension($class);
+                    $this->extensions[$name] = new ResolvedExtension($class);
                 }
             }
         }
-
-        return $classes;
     }
 }
