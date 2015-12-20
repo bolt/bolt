@@ -12,7 +12,7 @@ The content of these files look like:
 These files are ignored by git.
 
 
-### Sourcemaps (grunt-local/sourcemaps.js)
+### Sourcemaps (grunt-local/sourcemap.js)
 
 Sample file to enable generation of sourcemaps:
 
