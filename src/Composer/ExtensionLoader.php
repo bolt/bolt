@@ -17,6 +17,8 @@ class ExtensionLoader
 {
     /** @var ResolvedExtension[] */
     protected $extensions = [];
+    /** @var string[] */
+    protected $map;
 
     /** @var FilesystemInterface */
     private $filesystem;
@@ -48,13 +50,14 @@ class ExtensionLoader
             return;
         }
 
-        foreach ($autoloadJson->parse() as $loader) {
+        foreach ($autoloadJson->parse() as $package => $loader) {
             if (class_exists($loader['class'])) {
                 /** @var ExtensionInterface $class */
                 $class = new $loader['class']();
                 if ($class instanceof ExtensionInterface) {
-                    $name = $class->getName();
-                    $this->extensions[$name] = new ResolvedExtension($class);
+                    $phpName = $class->getName();
+                    $this->map[$phpName] = $package;
+                    $this->extensions[$package] = new ResolvedExtension($class);
                 }
             }
         }
@@ -79,8 +82,8 @@ class ExtensionLoader
      */
     public function get($name)
     {
-        if (isset($this->extensions[$name])) {
-            return $this->extensions[$name]->getInnerExtension();
+        if ($key = $this->getMappedKey($name)) {
+            return $this->extensions[$key]->getInnerExtension();
         }
     }
 
@@ -93,8 +96,27 @@ class ExtensionLoader
      */
     public function getResolved($name)
     {
-        if (isset($this->extensions[$name])) {
-            return $this->extensions[$name];
+        if ($key = $this->getMappedKey($name)) {
+            return $this->extensions[$key];
         }
+    }
+
+    /**
+     * Resolve a Composer or PHP extension name to the stored key.
+     *
+     * @param $name
+     *
+     * @return string|null
+     */
+    private function getMappedKey($name)
+    {
+        $key = null;
+        if (isset($this->map[$name])) {
+            $key = $this->map[$name];
+        } elseif (isset($this->extensions[$name])) {
+            $key = $name;
+        }
+
+        return $key;
     }
 }
