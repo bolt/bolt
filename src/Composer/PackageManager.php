@@ -271,7 +271,7 @@ class PackageManager
             $packages['local'][] = [
                 'name'     => $json['name'],
                 'title'    => $extension->getName(),
-                'version'  => 'local',
+                'version'  => isset($json['version']) ? $json['version'] : 'local',
                 'type'     => $json['type'],
                 'descrip'  => $json['description'],
                 'authors'  => $json['authors'],
