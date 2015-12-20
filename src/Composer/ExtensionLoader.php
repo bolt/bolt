@@ -18,7 +18,7 @@ class ExtensionLoader
     /** @var ResolvedExtension[] */
     protected $extensions = [];
     /** @var string[] */
-    protected $map;
+    protected $map = [];
 
     /** @var FilesystemInterface */
     private $filesystem;
@@ -99,6 +99,16 @@ class ExtensionLoader
         if ($key = $this->getMappedKey($name)) {
             return $this->extensions[$key];
         }
+    }
+
+    /**
+     * Return the in-use extension name map.
+     *
+     * @return string[]
+     */
+    public function getMap()
+    {
+        return $this->map;
     }
 
     /**
