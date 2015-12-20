@@ -50,7 +50,7 @@ These files will automatically be ignored by git.
 
 ### Sourcemaps
 
-If it doesn't yet exist, create the file `app/src/grunt-local/sourcemaps.js`. A sample file to
+If it doesn't yet exist, create the file `app/src/grunt-local/sourcemap.js`. A sample file to
 enable generation of sourcemaps looks like this:
 
     module.exports = {
