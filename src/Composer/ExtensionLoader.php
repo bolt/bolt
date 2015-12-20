@@ -7,6 +7,7 @@ use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\Exception\IncludeFileException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\JsonFile;
+use Bolt\Logger\FlashLoggerInterface;
 
 /**
  * Class to manage loading of extensions.
@@ -22,15 +23,19 @@ class ExtensionLoader
 
     /** @var FilesystemInterface */
     private $filesystem;
+    /** @var FlashLoggerInterface */
+    private $flashLogger;
 
     /**
      * Constructor.
      *
-     * @param FilesystemInterface $filesystem
+     * @param FilesystemInterface  $filesystem
+     * @param FlashLoggerInterface $flashLogger
      */
-    public function __construct(FilesystemInterface $filesystem)
+    public function __construct(FilesystemInterface $filesystem, FlashLoggerInterface $flashLogger)
     {
         $this->filesystem = $filesystem;
+        $this->flashLogger = $flashLogger;
     }
 
     /**
@@ -58,7 +63,11 @@ class ExtensionLoader
                     $phpName = $class->getName();
                     $this->map[$phpName] = $package;
                     $this->extensions[$package] = new ResolvedExtension($class);
+                } else {
+                    $this->flashLogger->error(sprintf("Extension package %s base class %s does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.", $package, $loader['class']));
                 }
+            } else {
+                $this->flashLogger->error(sprintf("Extension package %s has an invalid class '%s' and has been skipped.", $package, $loader['class']));
             }
         }
     }

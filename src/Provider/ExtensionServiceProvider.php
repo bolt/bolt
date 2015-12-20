@@ -26,7 +26,10 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         $app['extensions.loader'] = $app->share(
             function ($app) {
-                $loader = new ExtensionLoader($app['filesystem']->getFilesystem('extensions'));
+                $loader = new ExtensionLoader(
+                    $app['filesystem']->getFilesystem('extensions'),
+                    $app['logger.flash']
+                );
 
                 return $loader;
             }
