@@ -276,7 +276,7 @@ class PackageManager
                 'descrip'  => $json['description'],
                 'authors'  => $json['authors'],
                 'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',
-                'readme'   => '', // TODO: make local readme links
+                'readme'   => $this->linkReadMe($json['name']),
                 'config'   => $this->linkConfig($json['name']),
             ];
         }
@@ -328,20 +328,22 @@ class PackageManager
      */
     private function linkReadMe($name)
     {
-        $base = $this->app['resources']->getPath('extensionspath/vendor/' . $name);
-
+        $autoloader = $this->app['extensions.loader']->getAutoload();
+        $base = $this->app['resources']->getPath('extensionspath/' . $autoloader[$name]['path']);
+        $location = strpos($autoloader[$name]['path'], 'local') === false ? 'vendor' : 'local';
         $readme = null;
+
         if (is_readable($base . '/README.md')) {
             $readme = $name . '/README.md';
         } elseif (is_readable($base . '/readme.md')) {
             $readme = $name . '/readme.md';
         }
 
-        if ($readme) {
-            return $this->app['resources']->getUrl('async') . 'readme/' . $readme;
+        if (!$readme) {
+            return;
         }
 
-        return null;
+        return $this->app['url_generator']->generate('readme', ['location' => $location, 'filename' => $readme]);
     }
 
     /**
@@ -353,16 +355,16 @@ class PackageManager
      */
     private function linkConfig($name)
     {
-        // Generate the configfilename from the extension $name
-        $configfilename = join('.', array_reverse(explode('/', $name))) . '.yml';
+        // Generate the configFileName from the extension $name
+        $configFileName = join('.', array_reverse(explode('/', $name))) . '.yml';
 
         // Check if we have a config file, and if it's readable. (yet)
-        $configfilepath = $this->app['resources']->getPath('extensionsconfig/' . $configfilename);
-        if (is_readable($configfilepath)) {
-            return $this->app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'extensions/' . $configfilename]);
+        $configFilePath = $this->app['resources']->getPath('extensionsconfig/' . $configFileName);
+        if (!is_readable($configFilePath)) {
+            return;
         }
 
-        return null;
+        return $this->app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'extensions/' . $configFileName]);
     }
 
     /**
