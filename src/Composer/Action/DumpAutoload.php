@@ -23,7 +23,7 @@ final class DumpAutoload extends BaseAction
         $package = $composer->getPackage();
         $config = $composer->getConfig();
 
-        if ($this->getOption('optimizeautoloader')) {
+        if ($this->getOptions()->optimizeAutoloader()) {
             // Generating optimized autoload files
         } else {
             // Generating autoload files
@@ -31,8 +31,8 @@ final class DumpAutoload extends BaseAction
 
         try {
             $generator = $composer->getAutoloadGenerator();
-            $generator->setDevMode(!$this->getOption('nodev'));
-            $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $this->getOption('optimizeautoloader'));
+            $generator->setDevMode(!$this->getOptions()->noDev());
+            $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $this->getOptions()->optimizeAutoloader());
         } catch (\Exception $e) {
             $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
             $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
