@@ -145,7 +145,7 @@ final class RequirePackage extends BaseAction
      */
     private function updateFileCleanly(JsonFile $jsonFile, array $new, $requireKey, $removeKey, $sortPackages, $postReset)
     {
-        $composerJson = $jsonFile->parse();
+        $composerJson = $jsonFile->read();
         $manipulator = new JsonManipulator($composerJson);
 
         foreach ($new as $package => $constraint) {
@@ -160,7 +160,7 @@ final class RequirePackage extends BaseAction
                 return false;
             }
         }
-        $jsonFile->dump($manipulator->getContents());
+        $jsonFile->put($manipulator->getContents());
 
         return true;
     }
