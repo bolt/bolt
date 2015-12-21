@@ -69,10 +69,12 @@ cron_hour: 3
 #favicon: images/favicon-bolt.ico
 
 # The default content to use for the homepage, and the template to render it
-# with.
+# with. This can either be a specific record (like `page/1`) or a listing of
+# records (like `entries`). In the chosen 'homepage_template', you will have
+# `record` or `records` at your disposal, depending on the 'homepage' setting.
 #
 # Note: If you've changed the filename, and your changes do not show up on
-#       the website, be sure to check for a config.yml file in your theme's
+#       the website, be sure to check for a theme.yml file in your theme's
 #       folder. If a template is set there, it will override the setting here.
 homepage: page/1
 homepage_template: index.twig
