@@ -19,9 +19,17 @@
 
 {% block fieldset_type 'hidden' %}
 
+{% block label_prepend %}
+    <label{{ macro.attr(attributes_label) }}>{{ block('fieldset_label_text') }}: {{ field_info|default('') }}</label>
+{% endblock %}
+
 {% block fieldset_controls %}
 
     <!-- {{ (option.info) ? macro.infopop(labelkey , option.info) :labelkey }} -->
     <input{{ macro.attr(attr_text) }}>
 
 {% endblock fieldset_controls %}
+
+{% block label_append %}
+{% endblock %}
+

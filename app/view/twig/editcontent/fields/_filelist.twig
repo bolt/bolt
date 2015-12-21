@@ -62,6 +62,10 @@
 {% block fieldset_label_info  option.info %}
 {% block fieldset_label_class 'col-xs-12' %}
 
+{% block label_prepend %}
+    <label{{ macro.attr(attributes_label) }}>{{ block('fieldset_label_text') }}: {{ field_info|default('') }}</label>
+{% endblock %}
+
 {% block fieldset_controls %}
     {{ data('field.filelist.template.empty', template_empty) }}
     {{ data('field.filelist.template.item', template_item) }}
@@ -93,3 +97,7 @@
         <textarea name="{{ name }}" class="hide">{{ list|json_encode() }}</textarea>
     </div>
 {% endblock fieldset_controls %}
+
+{% block label_append %}
+{% endblock %}
+

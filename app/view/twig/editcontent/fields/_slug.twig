@@ -59,6 +59,10 @@
 {% block fieldset_label_text option.viewless ? trans.label_alias : trans.label_permalink %}
 {% block fieldset_label_class 'col-sm-12' %}
 
+{% block label_prepend %}
+    <label{{ macro.attr(attributes_label) }}>{{ block('fieldset_label_text') }}: {{ field_info|default('') }}</label>
+{% endblock %}
+
 {% block fieldset_controls %}
     <div class="col-sm-12">
         <div class="input-group {{ mode }}">
@@ -92,3 +96,7 @@
         </div>
     {% endif %}
 {% endblock fieldset_controls %}
+
+{% block label_append %}
+{% endblock %}
+

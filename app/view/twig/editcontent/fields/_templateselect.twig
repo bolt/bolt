@@ -44,6 +44,10 @@
 {% block fieldset_label_class 'col-sm-3' %}
 {% block fieldset_label_for   key %}
 
+{% block label_prepend %}
+    <label{{ macro.attr(attributes_label) }}>{{ block('fieldset_label_text') }}: {{ field_info|default('') }}</label>
+{% endblock %}
+
 {% block fieldset_controls %}
     <div class="col-sm-9">
         {{ buic.select(buico_select) }}
@@ -52,3 +56,7 @@
         <p class="form-control-static"></p>
     </div>
 {% endblock fieldset_controls %}
+
+{% block label_append %}
+{% endblock %}
+

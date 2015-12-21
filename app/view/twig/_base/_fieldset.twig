@@ -30,6 +30,7 @@
 
 <fieldset{{ macro.attr(attributes_fieldset) }}>
     <legend class="sr-only">{% block fieldset_label_text %}{% endblock fieldset_label_text %}</legend>
-    <label{{ macro.attr(attributes_label) }}>{{ block('fieldset_label_text') }}: {{ field_info|default('') }}</label>
+    {% block label_prepend %}{% endblock label_prepend %}
     {% block fieldset_controls %}{% endblock fieldset_controls %}
+    {% block label_append %}{% endblock label_append %}
 </fieldset>

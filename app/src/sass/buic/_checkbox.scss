@@ -1,26 +1,44 @@
-/**
- * BUIC: Checkbox.
- */
-.buic-checkbox {
+.bolt-field-checkbox {
     margin-top: 6px;
-    //background: red;
     vertical-align: top;
+    margin-bottom: 0;
 
     label {
         display: inline-block;
-        margin-left: 6px;
-        white-space: nowrap;
+        margin-left: 0;
+        white-space: normal;
         vertical-align: top;
         line-height: 21px;
         color: red;
         cursor: pointer;
     }
 
-    input {
-        margin: 8px 8px 0 0;
-        height: auto;
-        width: auto;
-        display: inline-block;
-    }
-}
+    input[type=checkbox] { 
+        display:none;
+    } 
 
+    input[type=checkbox] + label {
+        &:before {
+            font-family: FontAwesome;
+            display: inline-block;
+            font-size:20px;
+            color:#666; 
+            content: "\f096";
+            position: relative;
+            top: 1px;
+            letter-spacing: 8px;
+        }
+        &:hover {
+            &:before {
+                color:#444;
+            }
+        }
+    }
+
+    input[type=checkbox]:checked + label:before {
+        content: "\f046";
+        letter-spacing: 5px;
+        color:#444; 
+    }
+ 
+}
