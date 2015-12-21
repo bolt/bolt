@@ -38,7 +38,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         $app['extensions.stats'] = $app->share(
             function ($app) {
-                $stats = new Satis\StatService($app['guzzle.client'], $app['logger.system']);
+                $stats = new Satis\StatService($app['guzzle.client'], $app['logger.system'], $app['extend.site']);
 
                 return $stats;
             }

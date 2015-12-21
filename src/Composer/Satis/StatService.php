@@ -9,7 +9,10 @@ use Silex\Application;
 
 class StatService
 {
+    /** @var array */
     public $urls = ['install' => 'stat/install/%s/%s'];
+    /** @var string */
+    private $extendSite;
     /** @var ClientInterface  */
     private $client;
     /** @var LoggerInterface  */
@@ -20,11 +23,13 @@ class StatService
      *
      * @param ClientInterface $client
      * @param LoggerInterface $loggerSystem
+     * @param string          $extendSite
      */
-    public function __construct(ClientInterface $client, LoggerInterface $loggerSystem)
+    public function __construct(ClientInterface $client, LoggerInterface $loggerSystem, $extendSite)
     {
         $this->client = $client;
         $this->loggerSystem = $loggerSystem;
+        $this->extendSite = $extendSite;
     }
 
     /**
@@ -35,7 +40,7 @@ class StatService
      */
     public function recordInstall($package, $version)
     {
-        $url = sprintf($this->app['extend.site'] . $this->urls['install'], $package, $version);
+        $url = sprintf($this->extendSite . $this->urls['install'], $package, $version);
 
         try {
             $this->client->head($url);
