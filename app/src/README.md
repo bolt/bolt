@@ -216,3 +216,5 @@ Just for the forgetful people and as JSON allows no comments …
 ###Tilde:
 
     ~1.2.3:   ≥ 1.2.3-0  and  < 1.3.0-0
+
+Still problems, test it [here](http://semver.npmjs.com/).
