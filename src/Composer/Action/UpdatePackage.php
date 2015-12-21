@@ -3,7 +3,6 @@
 namespace Bolt\Composer\Action;
 
 use Bolt\Exception\PackageManagerException;
-use Bolt\Helpers\Arr;
 use Composer\Installer;
 
 /**
@@ -25,41 +24,31 @@ final class UpdatePackage extends BaseAction
      */
     public function execute(array $packages = [], array $options = [])
     {
+        // Handle passed in options
+        foreach ($options as $key => $value) {
+            $this->getOptions()->set($key, $value);
+        }
+
         /** @var $composer \Composer\Composer */
         $composer = $this->getComposer();
         $io = $this->getIO();
-        $packageManagerOptions = $this->app['extend.action.options'];
-
-        // Handle passed in options
-        if (!empty($options)) {
-            $options = Arr::mergeRecursiveDistinct($packageManagerOptions, $options);
-        } else {
-            $options = $packageManagerOptions;
-        }
-
         $install = Installer::create($io, $composer);
-        $config = $composer->getConfig();
-        $optimize = $config->get('optimize-autoloader');
-
-        // Set preferred install method
-        $prefer = $this->getPreferedTarget($config->get('preferred-install'));
-
         try {
             $install
-                ->setDryRun($options['dryrun'])
-                ->setVerbose($options['verbose'])
-                ->setPreferSource($prefer['source'])
-                ->setPreferDist($prefer['dist'])
-                ->setDevMode(!$options['nodev'])
-                ->setDumpAutoloader(!$options['noautoloader'])
-                ->setRunScripts(!$options['noscripts'])
-                ->setOptimizeAutoloader($optimize)
+                ->setDryRun($this->getOptions()->dryRun())
+                ->setVerbose($this->getOptions()->verbose())
+                ->setPreferSource($this->getOptions()->preferSource())
+                ->setPreferDist($this->getOptions()->preferDist())
+                ->setDevMode(!$this->getOptions()->noDev())
+                ->setDumpAutoloader(!$this->getOptions()->noAutoloader())
+                ->setRunScripts(!$this->getOptions()->noScripts())
+                ->setOptimizeAutoloader($this->getOptions()->optimizeAutoloader())
                 ->setUpdate(true)
                 ->setUpdateWhitelist($packages)
-                ->setWhitelistDependencies($options['withdependencies'])
-                ->setIgnorePlatformRequirements($options['ignoreplatformreqs'])
-                ->setPreferStable($options['preferstable'])
-                ->setPreferLowest($options['preferlowest'])
+                ->setWhitelistDependencies($this->getOptions()->withDependencies())
+                ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
+                ->setPreferStable($this->getOptions()->preferStable())
+                ->setPreferLowest($this->getOptions()->preferLowest())
                 ->disablePlugins();
 
             return $install->run();
