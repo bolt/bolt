@@ -36,7 +36,7 @@ final class RequirePackage extends BaseAction
         $io = $this->getIO();
 
         /** @var \Bolt\Filesystem\Handler\JsonFile $jsonFile */
-        $jsonFile = $this->app['filesystem']->get($this->getOption('composerjson'));
+        $jsonFile = $this->getOptions()->composerJson();
         $newlyCreated = !$jsonFile->exists();
 
         if ($newlyCreated) {
@@ -62,20 +62,20 @@ final class RequirePackage extends BaseAction
         $this->updateComposerJson($jsonFile, $package, true);
 
         // JSON file has been created/updated, if we're not installing, exit
-        if ($this->getOption('noupdate')) {
+        if ($this->getOptions()->noUpdate()) {
             return 0;
         }
 
         /** @var $install \Composer\Installer */
         $install = Installer::create($io, $composer)
-            ->setVerbose($this->getOption('verbose'))
-            ->setPreferSource($this->getOption('prefersource'))
-            ->setPreferDist($this->getOption('preferdist'))
-            ->setDevMode(!$this->getOption('updatenodev'))
-            ->setUpdate($this->getOption('update'))
+            ->setVerbose($this->getOptions()->verbose())
+            ->setPreferSource($this->getOptions()->preferSource())
+            ->setPreferDist($this->getOptions()->preferDist())
+            ->setDevMode(!$this->getOptions()->updateNoDev())
+            ->setUpdate($this->getOptions()->update())
             ->setUpdateWhitelist(array_keys($package))
-            ->setWhitelistDependencies($this->getOption('updatewithdependencies'))
-            ->setIgnorePlatformRequirements($this->getOption('ignoreplatformreqs'))
+            ->setWhitelistDependencies($this->getOptions()->updateWithDependencies())
+            ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
         ;
 
         try {
@@ -112,9 +112,9 @@ final class RequirePackage extends BaseAction
     {
         $composerJson = $jsonFile->parse();
 
-        $sortPackages = $this->getOption('sortpackages');
-        $requireKey = $this->getOption('dev') ? 'require-dev' : 'require';
-        $removeKey = $this->getOption('dev') ? 'require' : 'require-dev';
+        $sortPackages = $this->getOptions()->sortPackages();
+        $requireKey = $this->getOptions()->dev() ? 'require-dev' : 'require';
+        $removeKey = $this->getOptions()->dev() ? 'require' : 'require-dev';
         $baseRequirements = array_key_exists($requireKey, $composerJson) ? $composerJson[$requireKey] : [];
 
         if (!$this->updateFileCleanly($jsonFile, $package, $requireKey, $removeKey, $sortPackages, $postReset)) {
