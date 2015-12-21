@@ -141,9 +141,10 @@ class PackageEventListener
         $jsonData = json_decode($jsonFile->getContents(), true);
         $key = $jsonData['name'];
         $extensions[$key] = [
-            'name'  => $jsonData['name'],
-            'class' => $jsonData['extra']['bolt-class'],
-            'path'  => $jsonFile->getPath(),
+            'name'       => $jsonData['name'],
+            'constraint' => $jsonData['require']['bolt/bolt'],
+            'class'      => $jsonData['extra']['bolt-class'],
+            'path'       => $jsonFile->getPath(),
         ];
 
         return $extensions;
