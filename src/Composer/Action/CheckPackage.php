@@ -22,7 +22,7 @@ final class CheckPackage extends BaseAction
         $rootpack = $this->app['extend.action']['show']->execute('installed');
 
         /** @var \Bolt\Filesystem\Handler\JsonFile $jsonFile */
-        $jsonFile = $this->app['filesystem']->get($this->getOption('composerjson'));
+        $jsonFile = $this->getOptions()->composerJson();
 
         // Get the packages that a set as "required" in the JSON file
         $json = $jsonFile->parse();
