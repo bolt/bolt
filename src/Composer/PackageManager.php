@@ -300,12 +300,21 @@ class PackageManager
             $package = $package['package'];
             $name = $package->getPrettyName();
 
-            if (!$this->app['extensions.loader']->get($name)) {
+            // For now we hide this one.
+            if ($name === 'wikimedia/composer-merge-plugin') {
                 continue;
             }
+
+            // If there is nothing in the autoloader cache, it is either stale or a v2 extension pre-installed.
+            if ($this->app['extensions.loader']->get($name)) {
+                $title = $this->app['extensions.loader']->get($name)->getName();
+            } else {
+                $title = $name;
+            }
+
             $pack[] = [
                 'name'     => $name,
-                'title'    => $this->app['extensions.loader']->get($name)->getName(),
+                'title'    => $title,
                 'version'  => $package->getPrettyVersion(),
                 'authors'  => $package->getAuthors(),
                 'type'     => $package->getType(),
@@ -329,6 +338,10 @@ class PackageManager
     private function linkReadMe($name)
     {
         $autoloader = $this->app['extensions.loader']->getAutoload();
+        if (!isset($autoloader[$name])) {
+            return;
+        }
+
         $base = $this->app['resources']->getPath('extensionspath/' . $autoloader[$name]['path']);
         $location = strpos($autoloader[$name]['path'], 'local') === false ? 'vendor' : 'local';
         $readme = null;
