@@ -14,46 +14,39 @@
         position: relative;
     }
 
-    input[type=checkbox] { 
+    input[type="checkbox"] {
         display:none;
-    } 
-
-    input[type=checkbox] + label {
-        padding-left:26px;
-        i {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width:20px;
-            height:20px;
-            position: absolute;
-            margin-right: 5px;
-            left:0;
-            top:7px;
-            background-color: #fff;
-            &:before {
-                position:absolute;
-                top:1px;
-                left:1px;
-                font-family: FontAwesome;
-                display: inline-block;
-                font-size:16px;
-                color:#666; 
-                content: "\00a0";
-                letter-spacing: 8px;
+        & + label {
+            padding-left:26px;
+            i {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                width:20px;
+                height:20px;
+                position: absolute;
+                margin-right: 5px;
+                left:0;
+                top:7px;
+                background-color: #fff;
+                &:before {
+                    position:absolute;
+                    top:1px;
+                    left:1px;
+                    font-family: FontAwesome;
+                    display: inline-block;
+                    font-size:16px;
+                    color:#666; 
+                    content: "\00a0";
+                    letter-spacing: 8px;
+                }
             }
-            // &:hover {
-            //     &:before {
-            //         color:#444;
-            //     }
-            // }
+        }
+        &:checked + label {
+            i:before {
+                content: "\f00c";
+                letter-spacing: 8px;
+                color:#444; 
+            }
         }
     }
-
-    input[type=checkbox]:checked + label {
-        i:before {
-            content: "\f00c";
-            letter-spacing: 8px;
-            color:#444; 
-        }
-    } 
 }
