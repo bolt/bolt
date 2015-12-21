@@ -1,82 +1,86 @@
-# Bolts backend’s frontend workflow using grunt
+Bolts backend’s frontend workflow using grunt
+=============================================
 
-## Available grunt tasks
 
-- **``grunt``**<br>
-Starts the watch task that watches Bolts own Javascript and Sass files and automatically rebuilds ``bolt.js``,
-``bolt.css`` and ``liveeditor.css`` on changes.
+Available grunt tasks
+---------------------
 
-- **``grunt updateBolt``**<br>
-Manually starts a rebuild of ``bolt.js``, ``bolt.css`` and ``liveeditor.css``.
+- **`grunt`**<br> Starts the watch task that monitors the Javascript and Sass source files and
+  automatically rebuilds `bolt.js`, `bolt.css` and `liveeditor.css` when changes are detected.
 
-- **``grunt updateLib``**<br>
-Updates everything that depends on external resources, either provided by bower or embeded in the ``lib`` folder.
-This command mainly builds ``lib.js`` and ``lib.css`` from external libraries, installs fonts, CKEditor and library
-locale files. It has to be run after and update to those external resources.
+- **`grunt updateBolt`**<br> Manually starts a rebuild of `bolt.js`, `bolt.css` and
+  `liveeditor.css`.
 
-- **``grunt prepareCkeditor``**<br>
-Does some cleanup on CKEditor files in ``lib/ckeditor`` after updating CKEditor. Update process:
+- **`grunt updateLib`**<br> Updates everything that depends on external resources, either
+  provided by npm or embedded in the `lib` folder. This command mainly builds `lib.js` and
+  `lib.css` from external libraries, installs fonts, CKEditor and library locale files. It has to
+  be run after any update to one of the external resources.
 
-    * Get newer version with URL extracted from ``lib/ckeditor/build-config.js``.
-    * Empty ``lib/ckeditor`` and unpack the newer version in that folder.
-    * Run ``grunt prepareCkeditor`` go get files prepared.
-    * Run ``grunt updateLib`` go get everything in place.
+- **`grunt prepareCkeditor`**<br> Does some cleanup on CKEditor files in `lib/ckeditor` after
+  updating it. Update process:
 
-- **``grunt docJs``**<br>
-Generates documentation of Bolts own Javascript modules in folder ``docs/js``.
+    * Get the latest version with URL extracted from `lib/ckeditor/build-config.js`.
+    * Empty the folder `lib/ckeditor` and unpack the newer version there.
+    * Run `grunt prepareCkeditor` to get files prepared.
+    * Run `grunt updateLib` to get everything in place.
 
-- **``grunt docPhp``**<br>
-Generates documentation of Bolt source files in folder ``docs/php``.
+- **`grunt docJs`**<br> Generates documentation of Bolt's own Javascript modules in the folder
+  `docs/js`.
 
-- **``grunt lintHtml``**<br>
-Downloads Bolt backend pages defined in ``grunt-local/pages.js`` and checks them for html errors and problems.
+- **`grunt docPhp`**<br> Generates documentation of Bolt source files in the folder `docs/php`.
 
-- **``grunt lintBoot``**<br>
-Downloads Bolt backend pages defined in ``grunt-local/pages.js`` and checks them for Bootstrap errors and problems.
+- **`grunt lintHtml`**<br> Downloads the Bolt backend pages defined in `grunt-local/pages.js` and
+  checks them for html errors and problems.
 
-## Local options
+- **`grunt lintBoot`**<br> Downloads Bolt backend pages defined in `grunt-local/pages.js` and
+  checks them for Bootstrap errors and problems.
 
-Add JS options files to ``app/src/grunt-local/`` in which you put the options you want to overwrite.
-The content of these files look like:
+Local options
+-------------
+
+Add JS options files to the folder `app/src/grunt-local/`, in which you can put the options you
+want to overwrite. The content of these files look like:
 
     module.exports = {
         value: "The value"
     };
 
-These files are ignored by git.
+These files will automatically be ignored by git.
 
 
-### Sourcemaps (grunt-local/sourcemaps.js)
+### Sourcemaps
 
-Sample file to enable generation of sourcemaps:
+If it doesn't yet exist, create the file `app/src/grunt-local/sourcemap.js`. A sample file to
+enable generation of sourcemaps looks like this:
 
     module.exports = {
         css: true,
         js: true
     };
 
-### Pages (grunt-local/pages.js)
+### Pages
 
-For the linting tasks you have to define a list of pages to download to the ``tmp/pages`` folder.
+For the linting tasks you have to define a list of pages to download to the `tmp/pages` folder. If it doesn't yet exist, create the file `app/src/grunt-local/pages.js`. A sample file to
+enable this task looks like this:
 
     module.exports = {
         baseurl: "http://bolt.localhost/bolt/",
         requests: { … }
     };
 
-The key of the ``requests`` part is the filename and the value defines the page to download.
+The key of the `requests` part is the filename and the value defines the page to download.
 
-- If no extension is given on the request key ``.html`` is automatically appended.
+- If no extension is given on the request key `.html` is automatically appended.
 - If the value is a string it is handled as a GET request with that value a relative url.
 - If the value is an empty string the key is used as value.
 - If the value is an object it is used as request configuration (see https://github.com/request/request).
-- If the key is ``@login`` it is handled as not saved login request.
-  The value has to be ``{u: "<username>", p: "<password>"}`` then.
-- If the key is ``@logout`` it is handled as not saved logout request. The value has to be ``{}`` then.
+- If the key is `@login` it is handled as not saved login request.
+  The value has to be `{u: "<username>", p: "<password>"}` then.
+- If the key is `@logout` it is handled as not saved logout request. The value has to be `{}` then.
 
 #### Example: Key handling
 
-Three requests save the same page to file ``login.html``.
+Three requests save the same page to file `login.html`.
 
     module.exports = {
         baseurl: "http://bolt.localhost/bolt/",
@@ -90,7 +94,7 @@ Three requests save the same page to file ``login.html``.
 
 #### Example: POST request
 
-Issue a manual login (same as ``@login``, only page is saved as ``dashboard.html``):
+Issue a manual login (same as `@login`, only page is saved as `dashboard.html`):
 
     module.exports = {
         baseurl: "http://bolt.localhost/bolt/",
@@ -175,7 +179,8 @@ Issue a manual login (same as ``@login``, only page is saved as ``dashboard.html
 
 ### Bootlint
 
-You can override bootlint options, e.g.:
+If it doesn't yet exist, create the file `app/src/grunt-local/bootlint.js`. You can override
+Bootlint options, e.g.:
 
     module.exports = {
         relaxerror: ["W012"],
@@ -186,7 +191,8 @@ You can override bootlint options, e.g.:
 
 ### Htmllint
 
-You can override bootlint options, e.g.:
+If it doesn't yet exist, create the file `app/src/grunt-local/htmllint.js`. You can override
+Htmllint options, e.g.:
 
     module.exports = {
         ignore: [
@@ -196,7 +202,8 @@ You can override bootlint options, e.g.:
     };
 
 
-##Range Specifiers
+Range Specifiers
+----------------
 
 Just for the forgetful people and as JSON allows no comments …
 
@@ -209,3 +216,5 @@ Just for the forgetful people and as JSON allows no comments …
 ###Tilde:
 
     ~1.2.3:   ≥ 1.2.3-0  and  < 1.3.0-0
+
+Still problems, test it [here](http://semver.npmjs.com/).
