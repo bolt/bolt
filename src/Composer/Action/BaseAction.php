@@ -47,13 +47,11 @@ abstract class BaseAction
     /**
      * Get a single option.
      *
-     * @param string $key
-     *
-     * @return string|boolean|null
+     * @return Options
      */
-    protected function getOption($key)
+    protected function getOptions()
     {
-        return $this->app['extend.action.options'][$key];
+        return $this->app['extend.action.options'];
     }
 
     /**
@@ -67,11 +65,11 @@ abstract class BaseAction
     {
         if (!$this->composer) {
             // Set working directory
-            chdir($this->getOption('basedir'));
+            chdir($this->getOptions()->baseDir());
 
             // Use the factory to get a new Composer object
             try {
-                $this->composer = Factory::create($this->getIO(), $this->getOption('composerjson'), true);
+                $this->composer = Factory::create($this->getIO(), $this->getOptions()->composerJson()->getPath(), true);
 
                 // Add the event subscriber
                 $this->composer->getEventDispatcher()->addSubscriber($this->app['extend.listener']);
