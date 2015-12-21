@@ -24,25 +24,19 @@ final class InstallPackage extends BaseAction
         /** @var $composer \Composer\Composer */
         $composer = $this->getComposer();
         $io = $this->getIO();
-
         $install = Installer::create($io, $composer);
-        $config = $composer->getConfig();
-        $optimize = $config->get('optimize-autoloader');
-
-        // Set preferred install method
-        $prefer = $this->getPreferedTarget($config->get('preferred-install'));
 
         try {
             $install
-                ->setDryRun($this->getOption('dryrun'))
-                ->setVerbose($this->getOption('verbose'))
-                ->setPreferSource($prefer['source'])
-                ->setPreferDist($prefer['dist'])
-                ->setDevMode(!$this->getOption('nodev'))
-                ->setDumpAutoloader(!$this->getOption('noautoloader'))
-                ->setRunScripts(!$this->getOption('noscripts'))
-                ->setOptimizeAutoloader($optimize)
-                ->setIgnorePlatformRequirements($this->getOption('ignoreplatformreqs'))
+                ->setDryRun($this->getOptions()->dryRun())
+                ->setVerbose($this->getOptions()->verbose())
+                ->setPreferSource($this->getOptions()->preferSource())
+                ->setPreferDist($this->getOptions()->preferDist())
+                ->setDevMode(!$this->getOptions()->noDev())
+                ->setDumpAutoloader(!$this->getOptions()->noAutoloader())
+                ->setRunScripts(!$this->getOptions()->noScripts())
+                ->setOptimizeAutoloader($this->getOptions()->optimizeAutoloader())
+                ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
                 ->setUpdate(true);
 
             return $install->run();
