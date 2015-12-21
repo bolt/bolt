@@ -27,28 +27,27 @@ final class RemovePackage extends BaseAction
             throw new PackageManagerException('No package specified for removal');
         }
 
-        $io = $this->getIO();
-
         /** @var \Bolt\Filesystem\Handler\JsonFile $jsonFile */
-        $jsonFile = $this->app['filesystem']->get($this->getOption('composerjson'));
+        $jsonFile = $this->getOptions()->composerJson();
         $composerJson = $composerBackup = $jsonFile->parse();
-        $type = $this->getOption('dev') ? 'require-dev' : 'require';
+        $type = $this->getOptions()->dev() ? 'require-dev' : 'require';
 
         // Remove packages from JSON
         foreach ($composerJson[$type] as $package) {
             unset($composerJson[$type][$package]);
         }
 
+        $io = $this->getIO();
         // Reload Composer config
         $composer = $this->resetComposer();
         // Create the installer
         $install = Installer::create($io, $composer)
-            ->setVerbose($this->getOption('verbose'))
-            ->setDevMode(!$this->getOption('updatenodev'))
+            ->setVerbose($this->getOptions()->verbose())
+            ->setDevMode(!$this->getOptions()->updateNoDev())
             ->setUpdate(true)
             ->setUpdateWhitelist($packages)
-            ->setWhitelistDependencies($this->getOption('updatewithdependencies'))
-            ->setIgnorePlatformRequirements($this->getOption('ignoreplatformreqs'))
+            ->setWhitelistDependencies($this->getOptions()->updateWithDependencies())
+            ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
         ;
 
         try {
