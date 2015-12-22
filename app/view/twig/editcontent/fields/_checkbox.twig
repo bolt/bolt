@@ -12,11 +12,13 @@
     checkbox: {
         checked:  context.content.get(contentkey),
         id:       buid(),
-        info:     option.info,
-        label:    labelSub,
+        info:     option.labelMain ? '' : option.info,
+        label:    option.labelSub,
         name:     name,
     }
 } %}
+
+{% set controls_class = 'col-md-9 ' ~ (option.labelMain ? '' : 'col-sm-offset-3') %}
 
 {#=== FIELDSET =======================================================================================================#}
 
@@ -24,10 +26,13 @@
 
 {% block fieldset_type 'checkbox' %}
 
+{% block fieldset_label_text  option.labelMain %}
 {% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-md-3' %}
+{% block fieldset_label_for   buico.checkbox.id %}
 
 {% block fieldset_controls %}
-    <div class="col-md-9 col-sm-offset-3">
+    <div class="{{ controls_class }}">
         {{ buic.checkbox(buico.checkbox) }}
     </div>
 {% endblock fieldset_controls %}
