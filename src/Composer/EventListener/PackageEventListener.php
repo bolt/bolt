@@ -59,9 +59,12 @@ class PackageEventListener
         $finder = self::getInstalledComposerJson();
         $extensions = [];
 
-        /** @var SplFileInfo $file */
-        foreach ($finder as $file) {
-            $extensions = self::parseComposerJson($file, $extensions);
+        /** @var SplFileInfo $jsonFile */
+        foreach ($finder as $jsonFile) {
+            $jsonData = json_decode($jsonFile->getContents(), true);
+            if (isset($jsonData['type']) && $jsonData['type'] === 'bolt-extension') {
+                $extensions[$jsonData['name']] = new PackageDescriptor($jsonFile->getPath(), $jsonData);
+            }
         }
 
         $fs = new Filesystem();
@@ -111,7 +114,6 @@ class PackageEventListener
         $finder->files()
             ->name('composer.json')
             ->notPath('vendor/composer')
-            ->contains('"bolt-class"')
             ->depth(2)
         ;
         try {
@@ -126,27 +128,5 @@ class PackageEventListener
         }
 
         return $finder;
-    }
-
-    /**
-     * Parse a composer.json file and return specific metadata.
-     *
-     * @param SplFileInfo $jsonFile
-     * @param array       $extensions
-     *
-     * @return array
-     */
-    private static function parseComposerJson(SplFileInfo $jsonFile, array $extensions)
-    {
-        $jsonData = json_decode($jsonFile->getContents(), true);
-        $key = $jsonData['name'];
-        $extensions[$key] = [
-            'name'       => $jsonData['name'],
-            'constraint' => $jsonData['require']['bolt/bolt'],
-            'class'      => $jsonData['extra']['bolt-class'],
-            'path'       => $jsonFile->getPath(),
-        ];
-
-        return $extensions;
     }
 }
