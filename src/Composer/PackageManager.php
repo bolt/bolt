@@ -221,6 +221,8 @@ class PackageManager
      */
     public function getAllPackages()
     {
+        $installed = $this->app['extend.action']['show']->execute('installed');
+        $installedKeys = array_keys($installed);
         $packages = [
             'installed' => [],
             'pending'   => [],
@@ -228,17 +230,14 @@ class PackageManager
         ];
 
         // Installed Composer packages
-        $installed = $this->app['extend.action']['show']->execute('installed');
         $packages['installed'] = $this->formatPackageResponse($installed);
         if ($this->json === null || empty($this->json['require'])) {
             return $packages;
         }
 
-        $keys = array_keys($installed);
-
         // Pending Composer packages
         foreach ($this->json['require'] as $require => $version) {
-            if (!in_array($require, $keys)) {
+            if (!in_array($require, $installedKeys)) {
                 $packages['pending'][] = [
                     'name'     => $require,
                     'version'  => $version,
@@ -250,9 +249,8 @@ class PackageManager
             }
         }
 
-        // Local packages
         foreach ($this->app['extensions']->getMap() as $phpName => $composerName) {
-            if (isset($this->json['require'][$composerName])) {
+            if (isset($installedKeys[$composerName]) || isset($this->json['require'][$composerName])) {
                 continue;
             }
 
@@ -261,7 +259,7 @@ class PackageManager
             $extension = $this->app['extensions']->get($json['name']);
             $packages['local'][] = [
                 'name'     => $json['name'],
-                'title'    => $extension->getName(),
+                'title'    => $extension ? $extension->getName() : $json['name'],
                 'version'  => isset($json['version']) ? $json['version'] : 'local',
                 'type'     => $json['type'],
                 'descrip'  => $json['description'],
@@ -278,7 +276,7 @@ class PackageManager
     /**
      * Format a Composer API package array suitable for AJAX response.
      *
-     * @param array $packages
+     * @param \Composer\Package\CompletePackageInterface[] $packages
      *
      * @return array
      */
@@ -290,11 +288,6 @@ class PackageManager
             /** @var \Composer\Package\CompletePackageInterface $package */
             $package = $package['package'];
             $name = $package->getPrettyName();
-
-            // For now we hide this one.
-            if ($name === 'wikimedia/composer-merge-plugin') {
-                continue;
-            }
 
             // If there is nothing in the autoloader cache, it is either stale or a v2 extension pre-installed.
             if ($this->app['extensions']->get($name)) {
@@ -388,13 +381,17 @@ class PackageManager
      */
     private function getComposerJson($name)
     {
-        $autoloadJson = $this->app['extensions']->getAutoload();
-        if (isset($autoloadJson[$name])) {
-            /** @var JsonFile $jsonFile */
-            $jsonFile = $this->app['filesystem']->get('extensions://' . $autoloadJson[$name]['path'] . '/composer.json');
+        $autoloadJsons = (array) $this->app['extensions']->getAutoload();
+        foreach ($autoloadJsons as $autoloadJson) {
+            if ($autoloadJson['name'] === $name) {
+                /** @var JsonFile $jsonFile */
+                $jsonFile = $this->app['filesystem']->get('extensions://' . $autoloadJson['path'] . '/composer.json');
 
-            return $jsonFile->parse();
+                return $jsonFile->parse();
+            }
         }
+
+        return ['name' => 'unknown'];
     }
 
     /**
