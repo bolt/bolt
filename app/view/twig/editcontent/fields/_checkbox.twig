@@ -1,8 +1,9 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    label:  field.label,
-    info:   field.info|default('')
+    labelMain:  field.label is iterable ? field.label[0]|default('') : field.label|default(labelkey),
+    labelSub:   field.label is iterable ? field.label[1]|default('') : '',
+    info:       field.info|default('')
 } %}
 
 {#=== INIT ===========================================================================================================#}
@@ -12,7 +13,7 @@
         checked:  context.content.get(contentkey),
         id:       buid(),
         info:     option.info,
-        label:    labelkey,
+        label:    labelSub,
         name:     name,
     }
 } %}
