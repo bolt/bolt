@@ -86,6 +86,8 @@ class Frontend extends ConfigurableBase
     /**
      * Controller for the "Homepage" route. Usually the front page of the website.
      *
+     * @param Request $request
+     *
      * @return BoltResponse
      */
     public function homepage(Request $request)
@@ -448,6 +450,7 @@ class Frontend extends ConfigurableBase
      *
      * @param  Request $request         The Symfony Request
      * @param  string  $contenttypeslug The content type slug
+     *
      * @return array                    Parameters to use in getContent
      */
     private function getListingParameters(Request $request, $contenttypeslug)
