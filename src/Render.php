@@ -23,6 +23,8 @@ class Render
     public $safe;
     /** @var string */
     public $twigKey;
+    /** @var boolean */
+    protected $retrievedFromCache = false;
 
     /**
      * Set up the object.
@@ -73,11 +75,14 @@ class Render
     {
         $html = $response->getContent();
 
-        /** @var \Bolt\Asset\QueueInterface $queue */
-        if (!$this->app['request_stack']->getCurrentRequest()->isXmlHttpRequest()) {
-            foreach ($this->app['asset.queues'] as $queue) {
-                $html = $queue->process($html);
+        if (!$this->wasRetrievedFromCache()) {
+            /** @var \Bolt\Asset\QueueInterface $queue */
+            if (!$this->app['request_stack']->getCurrentRequest()->isXmlHttpRequest()) {
+                foreach ($this->app['asset.queues'] as $queue) {
+                    $html = $queue->process($html);
+                }
             }
+            $this->cacheRequest($html);
         }
 
         $this->cacheRequest($html);
@@ -108,14 +113,32 @@ class Render
                 // only 50% max, but likely less
                 // 's_maxage' sets the cache for shared caches.
                 // max_age sets it for regular browser caches
-
                 $age = $this->cacheDuration() / 2;
-
                 $response->setMaxAge($age)->setSharedMaxAge($age);
+
+                $this->setRetrievedFromCache();
             }
         }
 
         return $response;
+    }
+
+    /**
+     * Check whether this page was retrieved from cache
+     *
+     * @return boolean
+     */
+    private function wasRetrievedFromCache()
+    {
+        return $this->retrievedFromCache;
+    }
+
+    /**
+     * Set the flag to indicate this page was retrieved from cache
+     */
+    private function setRetrievedFromCache()
+    {
+        $this->retrievedFromCache = true;
     }
 
     /**
