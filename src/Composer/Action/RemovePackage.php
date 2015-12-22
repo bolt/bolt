@@ -33,9 +33,10 @@ final class RemovePackage extends BaseAction
         $type = $this->getOptions()->dev() ? 'require-dev' : 'require';
 
         // Remove packages from JSON
-        foreach ($composerJson[$type] as $package) {
+        foreach ($packages as $package) {
             unset($composerJson[$type][$package]);
         }
+        $jsonFile->dump($composerJson);
 
         $io = $this->getIO();
         // Reload Composer config
@@ -50,8 +51,8 @@ final class RemovePackage extends BaseAction
             ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
         ;
 
+        $status = $install->run();
         try {
-            $status = $install->run();
         } catch (\Exception $e) {
             $msg = sprintf('%s recieved an error from Composer: %s in %s::%s', __METHOD__, $e->getMessage(), $e->getFile(), $e->getLine());
             $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
