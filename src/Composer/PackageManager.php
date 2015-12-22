@@ -57,17 +57,7 @@ class PackageManager
      */
     public function getOutput()
     {
-        return $this->ioOutput;
-    }
-
-    /**
-     * Set the output from the last IO.
-     *
-     * @param string $output
-     */
-    public function setOutput($output)
-    {
-        $this->ioOutput = $output;
+        return $this->app['extend.action.io']->getOutput();
     }
 
     /**

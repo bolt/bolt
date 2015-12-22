@@ -10,6 +10,7 @@ use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis;
 use Bolt\Extension\Manager;
 use Bolt\Filesystem\Handler\JsonFile;
+use Composer\IO\BufferIO;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -102,6 +103,12 @@ class ExtensionServiceProvider implements ServiceProviderInterface
                         // @codingStandardsIgnoreEnd
                     ]
                 );
+            }
+        );
+
+        $app['extend.action.io'] = $app->share(
+            function () {
+                return new BufferIO();
             }
         );
 

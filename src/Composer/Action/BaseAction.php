@@ -4,7 +4,6 @@ namespace Bolt\Composer\Action;
 
 use Composer\DependencyResolver\Pool;
 use Composer\Factory;
-use Composer\IO\BufferIO;
 use Composer\Package\Version\VersionSelector;
 use Silex\Application;
 
@@ -93,11 +92,7 @@ abstract class BaseAction
      */
     protected function getIO()
     {
-        if (!$this->io) {
-            $this->io = new BufferIO();
-        }
-
-        return $this->io;
+        return $this->app['extend.action.io'];
     }
 
     /**

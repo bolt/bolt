@@ -235,6 +235,8 @@ class Extend extends BackendBase
      *
      * @param Request $request
      *
+     * @throws PackageManagerException]
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function packageInfo(Request $request)
