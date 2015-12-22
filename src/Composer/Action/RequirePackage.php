@@ -55,9 +55,6 @@ final class RequirePackage extends BaseAction
         // Get a back up of the file contents
         $composerBackup = $jsonFile->parse();
 
-        // Reload Composer config
-        $composer = $this->resetComposer();
-
         // Update our JSON file now with a contraint
         $this->updateComposerJson($jsonFile, $package, true);
 
@@ -65,6 +62,9 @@ final class RequirePackage extends BaseAction
         if ($this->getOptions()->noUpdate()) {
             return 0;
         }
+
+        // Reload Composer config
+        $composer = $this->resetComposer();
 
         /** @var $install \Composer\Installer */
         $install = Installer::create($io, $composer)
