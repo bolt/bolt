@@ -243,7 +243,11 @@ class Extend extends BackendBase
         $version = $request->get('version');
         $response = $this->manager()->showPackage('installed', $package, $version);
 
-        return $this->json($this->manager()->formatPackageResponse($response));
+        if ($response) {
+            return $this->json($this->manager()->formatPackageResponse($response));
+        } else {
+            throw new PackageManagerException(Trans::__('Unable to get installation information for %PACKAGE% %VERSION%.', ['%PACKAGE%' => $package, '%VERSION%' => $version]));
+        }
     }
 
     /**
