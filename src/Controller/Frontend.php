@@ -455,7 +455,7 @@ class Frontend extends ConfigurableBase
      */
     private function getListingParameters(Request $request, $contenttypeslug)
     {
-        $contenttype = $this->getContentType(current(split('/', $contenttypeslug)));
+        $contenttype = $this->getContentType(current(explode('/', $contenttypeslug)));
 
         // If the contenttype is 'viewless', don't show the listing / record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
