@@ -6,6 +6,7 @@ use Bolt\Filesystem\Exception\IncludeFileException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Logger\FlashLoggerInterface;
+use Cocur\Slugify\Slugify;
 
 /**
  * Class to manage loading of extensions.
@@ -72,6 +73,19 @@ class Manager
                 $this->flashLogger->error(sprintf("Extension package %s has an invalid class '%s' and has been skipped.", $loader['name'], $loader['class']));
             }
         }
+    }
+
+    /**
+     * Insert an extension.
+     *
+     * This should only be used during bootstrap… You probably don't want to use this function.
+     *
+     * @param ExtensionInterface $extension
+     */
+    public function add(ExtensionInterface $extension)
+    {
+        $name = Slugify::create()->slugify($extension->getVendor() . '/' . $extension->getName(), '/');
+        $this->extensions[$name] = $extension;
     }
 
     /**
