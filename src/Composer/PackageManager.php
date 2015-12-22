@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer;
 
+use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
@@ -250,14 +251,14 @@ class PackageManager
         }
 
         // Local packages
-        foreach ($this->app['extensions.loader']->getMap() as $phpName => $composerName) {
+        foreach ($this->app['extensions']->getMap() as $phpName => $composerName) {
             if (isset($this->json['require'][$composerName])) {
                 continue;
             }
 
             // Get the Composer configuration
             $json = $this->getComposerJson($composerName);
-            $extension = $this->app['extensions.loader']->get($json['name']);
+            $extension = $this->app['extensions']->get($json['name']);
             $packages['local'][] = [
                 'name'     => $json['name'],
                 'title'    => $extension->getName(),
@@ -296,8 +297,8 @@ class PackageManager
             }
 
             // If there is nothing in the autoloader cache, it is either stale or a v2 extension pre-installed.
-            if ($this->app['extensions.loader']->get($name)) {
-                $title = $this->app['extensions.loader']->get($name)->getName();
+            if ($this->app['extensions']->get($name)) {
+                $title = $this->app['extensions']->get($name)->getName();
             } else {
                 $title = $name;
             }
@@ -327,7 +328,7 @@ class PackageManager
      */
     private function linkReadMe($name)
     {
-        $autoloader = $this->app['extensions.loader']->getAutoload();
+        $autoloader = $this->app['extensions']->getAutoload();
         if (!isset($autoloader[$name])) {
             return;
         }
@@ -387,7 +388,7 @@ class PackageManager
      */
     private function getComposerJson($name)
     {
-        $autoloadJson = $this->app['extensions.loader']->getAutoload();
+        $autoloadJson = $this->app['extensions']->getAutoload();
         if (isset($autoloadJson[$name])) {
             /** @var JsonFile $jsonFile */
             $jsonFile = $this->app['filesystem']->get('extensions://' . $autoloadJson[$name]['path'] . '/composer.json');

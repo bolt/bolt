@@ -4,7 +4,6 @@ namespace Bolt\Provider;
 
 use Bolt\Composer\Action;
 use Bolt\Composer\EventListener\BufferIOListener;
-use Bolt\Composer\ExtensionLoader;
 use Bolt\Composer\JsonManager;
 use Bolt\Composer\PackageManager;
 use Bolt\Composer\Satis;
@@ -20,15 +19,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
     {
         $app['extensions'] = $app->share(
             function ($app) {
-                $extensions = new Manager($app);
-
-                return $extensions;
-            }
-        );
-
-        $app['extensions.loader'] = $app->share(
-            function ($app) {
-                $loader = new ExtensionLoader(
+                $loader = new Manager(
                     $app['filesystem']->getFilesystem('extensions'),
                     $app['logger.flash']
                 );

@@ -250,7 +250,7 @@ class Application extends Silex\Application
      */
     public function initExtensions()
     {
-        $this['extensions.loader']->load();
+        $this['extensions']->load();
     }
 
     /**
