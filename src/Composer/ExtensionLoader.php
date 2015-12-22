@@ -67,7 +67,7 @@ class ExtensionLoader
                     $this->map[$phpName] = $package;
                     $this->extensions[$package] = new ResolvedExtension($class);
                 } else {
-                    $this->flashLogger->error(sprintf("Extension package %s base class %s does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.", $package, $loader['class']));
+                    $this->flashLogger->error(sprintf('Extension package %s base class %s does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.', $package, $loader['class']));
                 }
             } else {
                 $this->flashLogger->error(sprintf("Extension package %s has an invalid class '%s' and has been skipped.", $package, $loader['class']));

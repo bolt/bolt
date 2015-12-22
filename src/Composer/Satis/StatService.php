@@ -5,7 +5,6 @@ namespace Bolt\Composer\Satis;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Log\LoggerInterface;
-use Silex\Application;
 
 class StatService
 {

@@ -152,7 +152,6 @@ final class RequirePackage extends BaseAction
             if ($postReset) {
                 $constraint = $this->findBestVersionForPackage($package);
             }
-
             if (!$manipulator->addLink($requireKey, $package, $constraint, $sortPackages)) {
                 return false;
             }
