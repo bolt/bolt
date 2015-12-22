@@ -266,7 +266,7 @@ class PackageManager
             }
 
             // Get the Composer configuration
-            $json = $this->app['extensions']->getComposerJson($composerName);
+            $json = $this->getComposerJson($composerName);
             $extension = $this->app['extensions.loader']->get($json['name']);
             $packages['local'][] = [
                 'name'     => $json['name'],
@@ -386,6 +386,24 @@ class PackageManager
     private function updateJson()
     {
         $this->json = $this->app['extend.manager.json']->update();
+    }
+
+    /**
+     * Get an extension's composer.json data.
+     *
+     * @param $name
+     *
+     * @return array
+     */
+    private function getComposerJson($name)
+    {
+        $autoloadJson = $this->app['extensions.loader']->getAutoload();
+        if (isset($autoloadJson[$name])) {
+            /** @var JsonFile $jsonFile */
+            $jsonFile = $this->app['filesystem']->get('extensions://' . $autoloadJson[$name]['path'] . '/composer.json');
+
+            return $jsonFile->parse();
+        }
     }
 
     /**
