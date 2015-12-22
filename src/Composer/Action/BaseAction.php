@@ -68,7 +68,7 @@ abstract class BaseAction
 
             try {
                 // Use the factory to get a new Composer object
-                $this->composer = Factory::create($this->getIO(), $this->getOptions()->composerJson()->parse(), false);
+                $this->composer = Factory::create($this->getIO(), $this->getOptions()->composerJson()->getPath(), false);
             } catch (\Exception $e) {
                 $this->app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
                 throw $e;
