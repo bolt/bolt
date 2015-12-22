@@ -29,13 +29,14 @@ class Frontend
     /**
      * @deprecated Use {@see \Bolt\Controller\Frontend} instead
      *
-     * @param \Silex\Application $app
+     * @param Request     $request
+     * @param Application $app
      *
      * @return string
      */
-    public function homepage(Application $app)
+    public function homepage(Request $request, Application $app)
     {
-        $response = $this->frontend($app)->homepage();
+        $response = $this->frontend($app)->homepage($request);
 
         return $this->render($app, $response->getTemplateName(), 'homepage');
     }
