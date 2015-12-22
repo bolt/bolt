@@ -55,6 +55,10 @@
 {% block fieldset_label_text  __('Meta information') %}
 {% block fieldset_label_class 'col-xs-12' ~ (context.has.tabs ? '' : ' hidden') %}
 
+{% block label_prepend %}
+    <label{{ macro.attr(attributes_label) }}>{{ block('fieldset_label_text') }}: {{ field_info|default('') }}</label>
+{% endblock %}
+
 {% block fieldset_controls %}
     <div class="col-xs-12">
         {% if not context.has.tabs %}
@@ -132,3 +136,7 @@
         {% endif %}
     </div>
 {% endblock fieldset_controls %}
+
+{% block label_append %}
+{% endblock %}
+

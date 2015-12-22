@@ -26,13 +26,12 @@
             'value':             '1',
         } %}
 
-        <div{{ hclass(['buic-checkbox', opt.class|default()]) }} data-bolt-widget="buicCheckbox">
+        {# <div{{ hclass(['buic-checkbox', opt.class|default()]) }} data-bolt-widget="buicCheckbox"> #}
             <input{{ hattr(attributes) }}>
-            <button type="button"></button>
             {% if opt.label|default('') %}
                 <label for="{{ id }}">{{ opt.label }}</label>
             {% endif %}
-        </div>
+        {# </div> #}
     {% endspaceless %}
 {% endmacro %}
 

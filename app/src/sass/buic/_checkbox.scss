@@ -1,52 +1,52 @@
-/**
- * BUIC: Checkbox.
- */
-.buic-checkbox {
+.bolt-field-checkbox {
     margin-top: 6px;
-    //background: red;
     vertical-align: top;
+    margin-bottom: 0;
 
     label {
         display: inline-block;
-        margin-left: 6px;
-        white-space: nowrap;
+        margin-left: 0;
+        white-space: normal;
         vertical-align: top;
         line-height: 21px;
         color: red;
         cursor: pointer;
+        position: relative;
     }
 
-    input {
-        display: none;
-
-        & + button:before {
-            line-height: 22px;
-            font-family: FontAwesome;
-            display: inline-block;
-            font-size: 16px;
-            width: 22px;
-            height: 22px;
-            margin: -1px 0 0 -1px;
+    input[type="checkbox"] {
+        display:none;
+        & + label {
+            padding-left:26px;
+            i {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                width:20px;
+                height:20px;
+                position: absolute;
+                margin-right: 5px;
+                left:0;
+                top:7px;
+                background-color: #fff;
+                &:before {
+                    position:absolute;
+                    top:1px;
+                    left:1px;
+                    font-family: FontAwesome;
+                    display: inline-block;
+                    font-size:16px;
+                    color:#666; 
+                    content: "\00a0";
+                    letter-spacing: 8px;
+                }
+            }
         }
-
-        & + button:before {
-            content: " ";
+        &:checked + label {
+            i:before {
+                content: "\f00c";
+                letter-spacing: 8px;
+                color:#444; 
+            }
         }
-
-        &:checked + button:before {
-            content: "\f00c";
-            color: #555;
-        }
-    }
-
-    button {
-        line-height: 21px;
-        width: 21px;
-        height: 21px;
-        padding: 0;
-        border: 1px solid #CCC;
-        border-radius: 3px;
-        background: #FFF;
-        overflow: hidden;
     }
 }

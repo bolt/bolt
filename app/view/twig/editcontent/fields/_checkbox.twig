@@ -23,11 +23,16 @@
 
 {% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  option.info %}
-{% block fieldset_label_class 'col-md-3' %}
+{% block fieldset_label_class '' %}
 {% block fieldset_label_for   buico.checkbox.id %}
 
+{% block label_prepend %}
+    <div class="col-sm-3"></div>
+{% endblock %}
+
 {% block fieldset_controls %}
-    <div class="col-md-9">
+    <div class="col-sm-9">
         {{ buic.checkbox(buico.checkbox) }}
+        <label{{ macro.attr(attributes_label) }}><i class="fa"></i>{{ block('fieldset_label_text') }} {{ field_info|default('') }}</label>
     </div>
 {% endblock fieldset_controls %}
