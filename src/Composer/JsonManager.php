@@ -167,12 +167,6 @@ class JsonManager
                     ],
                 ],
             ],
-            'repositories' => [
-                'merge-plugin' => [
-                    'type' => 'vcs',
-                    'url'  => 'https://github.com/wikimedia/composer-merge-plugin.git',
-                ],
-            ],
             'require' => [
                 'wikimedia/composer-merge-plugin' => '^1.3',
             ]
