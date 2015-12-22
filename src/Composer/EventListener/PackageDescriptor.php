@@ -20,15 +20,37 @@ final class PackageDescriptor implements JsonSerializable
     /**
      * Constructor.
      *
+     * @param string $name
+     * @param string $class
+     * @param string $path
+     * @param string $constraint
+     * @param bool   $valid
+     */
+    public function __construct($name, $class, $path, $constraint, $valid = true)
+    {
+        $this->name = $name;
+        $this->class = $class;
+        $this->path = $path;
+        $this->constraint = $constraint;
+        $this->valid = $valid;
+    }
+
+    /**
+     * Creating calss from unknown JSON data.
+     *
      * @param       $path
      * @param array $jsonData
+     *
+     * @return PackageDescriptor
      */
-    public function __construct($path, array $jsonData)
+    public static function parse($path, array $jsonData)
     {
-        $this->path = $path;
-        $this->name = $jsonData['name'];
-        $this->setClass($jsonData);
-        $this->setConstraint($jsonData);
+        $name = $jsonData['name'];
+        $class = self::setClass($jsonData);
+        $constraint = self::setConstraint($jsonData);
+        $valid = $class && $constraint;
+
+        return new self($name, $class, $path, $constraint, $valid);
     }
 
     /**
@@ -49,13 +71,13 @@ final class PackageDescriptor implements JsonSerializable
      * Record the package's loading class.
      *
      * @param array $jsonData
+     *
+     * @return string|null
      */
-    private function setClass(array $jsonData)
+    private static function setClass(array $jsonData)
     {
         if (isset($jsonData['extra']['bolt-class'])) {
-            $this->class = $jsonData['extra']['bolt-class'];
-        } else {
-            $this->valid = false;
+            return $jsonData['extra']['bolt-class'];
         }
     }
 
@@ -63,13 +85,13 @@ final class PackageDescriptor implements JsonSerializable
      * Record the package's version constraints.
      *
      * @param array $jsonData
+     *
+     * @return string|null
      */
-    private function setConstraint(array $jsonData)
+    private static function setConstraint(array $jsonData)
     {
         if (isset($jsonData['require']['bolt/bolt'])) {
-            $this->constraint = $jsonData['require']['bolt/bolt'];
-        } else {
-            $this->valid = false;
+            return $jsonData['require']['bolt/bolt'];
         }
     }
 }

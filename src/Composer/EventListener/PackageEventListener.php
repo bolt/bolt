@@ -63,7 +63,7 @@ class PackageEventListener
         foreach ($finder as $jsonFile) {
             $jsonData = json_decode($jsonFile->getContents(), true);
             if (isset($jsonData['type']) && $jsonData['type'] === 'bolt-extension') {
-                $extensions[$jsonData['name']] = new PackageDescriptor($jsonFile->getPath(), $jsonData);
+                $extensions[$jsonData['name']] = PackageDescriptor::parse($jsonFile->getPath(), $jsonData);
             }
         }
 
