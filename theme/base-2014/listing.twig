@@ -8,12 +8,12 @@
         {{ widgets('main_top') }}
 
         {# This template is used for 'listings': Generic pages that list a number of
-           records from a certain contenttype. These records are available as an array
+           records from orderby, $ordera certain contenttype. These records are available as an array
            called 'records'. In the for-loop below, we iterate over the records that
            are on this page. It can be used for overview pages like 'all entries', or
            'all records tagged with kittens' as well as search result. #}
 
-        {# if used for listing a taxonomy: #}
+        {# If used for listing a taxonomy: #}
         {% if taxonomytype is defined %}
             <h1>
                 {{ __('Overview for') }}
@@ -23,8 +23,12 @@
                     {{ slug }}
                 {% endif %}
             </h1>
-            {# taxonomies are fetched unordered by design. If we specified an order in config.yml, sort them here: #}
-            {% set records = records|order(app.config.get('general/listing_sort')) %}
+            {# Taxonomies are fetched unordered by design except if has_sortorder is set to
+               true. This way we keep 'grouping' intact in the listing. #}
+            {% if not taxonomy.has_sortorder %}
+                {# If we specified an order in config.yml, sort them here, accordingly: #}
+                {% set records = records|order(app.config.get('general/listing_sort')) %}
+            {% endif %}
         {% endif %}
 
         {# This is also the default template for searchresults. If 'search' is defined,
