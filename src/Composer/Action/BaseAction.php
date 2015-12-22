@@ -67,19 +67,19 @@ abstract class BaseAction
             // Set working directory
             chdir($this->getOptions()->baseDir());
 
-            // Use the factory to get a new Composer object
             try {
-                $this->composer = Factory::create($this->getIO(), $this->getOptions()->composerJson()->getPath(), true);
-
-                // Add the event subscriber
-                $this->composer->getEventDispatcher()->addSubscriber($this->app['extend.listener']);
-
-                if (!$this->app['extend.manager']->useSsl()) {
-                    $this->setAllowSslDowngrade(true);
-                }
+                // Use the factory to get a new Composer object
+                $this->composer = Factory::create($this->getIO(), $this->getOptions()->composerJson()->parse(), true);
             } catch (\Exception $e) {
                 $this->app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
                 throw $e;
+            }
+
+            // Add the event subscriber
+            $this->composer->getEventDispatcher()->addSubscriber($this->app['extend.listener']);
+
+            if (!$this->app['extend.manager']->useSsl()) {
+                $this->setAllowSslDowngrade(true);
             }
         }
 
