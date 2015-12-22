@@ -1036,6 +1036,9 @@ class Storage
         // Make the query for the pager.
         $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $where);
 
+        $orderby = (array_key_exists('has_sortorder', $taxonomytype)
+            && $taxonomytype['has_sortorder'] === true) ? 'sortorder' : 'id';
+
         // Sort on either 'ascending' or 'descending'
         // Make sure we set the order.
         $order = 'ASC';
@@ -1045,7 +1048,7 @@ class Storage
         }
 
         // Add the limit
-        $query = sprintf('SELECT * FROM %s %s ORDER BY id %s', $tablename, $where, $order);
+        $query = sprintf('SELECT * FROM %s %s ORDER BY %s %s', $tablename, $where, $orderby, $order);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
 
         $taxorows = $this->app['db']->fetchAll($query);

@@ -14,7 +14,14 @@
                     {{ slug }}
                 {% endif %}
             </h1>
-        {% set records = records|order(app.config.get('general/listing_sort')) %}
+
+            {# Taxonomies are fetched unordered by design except if has_sortorder is set to
+               true. This way we keep 'grouping' intact in the listing. #}
+            {% if not taxonomy.has_sortorder %}
+                {# If we specified an order in config.yml, sort them here, accordingly: #}
+                {% set records = records|order(app.config.get('general/listing_sort')) %}
+            {% endif %}
+
         {% elseif search is defined %}
             <h1>
                 {{ __('Search results for <b> %search% </b>.', { '%search%': search|escape }) }}
