@@ -404,9 +404,12 @@ class PackageManager
     private function ping($addQuery = false)
     {
         $uri = $this->app['extend.site'] . 'ping';
-        $www = $this->app['request_stack']->getCurrentRequest()->server->get('SERVER_SOFTWARE', 'unknown');
         $query = [];
-
+        if ($this->app['request_stack']->getCurrentRequest() !== null) {
+            $www = $this->app['request_stack']->getCurrentRequest()->server->get('SERVER_SOFTWARE', 'unknown');
+        } else {
+            $www = 'unknown';
+        }
         if ($addQuery) {
             $query = [
                 'bolt_ver'  => $this->app['bolt_version'],
