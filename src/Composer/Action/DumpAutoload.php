@@ -32,6 +32,7 @@ final class DumpAutoload extends BaseAction
         try {
             $generator = $composer->getAutoloadGenerator();
             $generator->setDevMode(!$this->getOptions()->noDev());
+            $generator->setRunScripts(!$this->getOptions()->noScripts());
             $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $this->getOptions()->optimizeAutoloader());
         } catch (\Exception $e) {
             $msg = sprintf('%s recieved an error from Composer: %s in %s::%s', __METHOD__, $e->getMessage(), $e->getFile(), $e->getLine());

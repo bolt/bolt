@@ -76,6 +76,7 @@ final class RequirePackage extends BaseAction
             ->setUpdateWhitelist(array_keys($package))
             ->setWhitelistDependencies($this->getOptions()->updateWithDependencies())
             ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
+            ->setRunScripts(!$this->getOptions()->noScripts())
         ;
 
         try {

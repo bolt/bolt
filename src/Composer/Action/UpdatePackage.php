@@ -49,7 +49,8 @@ final class UpdatePackage extends BaseAction
                 ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
                 ->setPreferStable($this->getOptions()->preferStable())
                 ->setPreferLowest($this->getOptions()->preferLowest())
-                ->disablePlugins();
+                ->setRunScripts(!$this->getOptions()->noScripts())
+            ;
 
             return $install->run();
         } catch (\Exception $e) {

@@ -49,6 +49,7 @@ final class RemovePackage extends BaseAction
             ->setUpdateWhitelist($packages)
             ->setWhitelistDependencies($this->getOptions()->updateWithDependencies())
             ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
+            ->setRunScripts(!$this->getOptions()->noScripts())
         ;
 
         $status = $install->run();

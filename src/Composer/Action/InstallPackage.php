@@ -37,7 +37,9 @@ final class InstallPackage extends BaseAction
                 ->setRunScripts(!$this->getOptions()->noScripts())
                 ->setOptimizeAutoloader($this->getOptions()->optimizeAutoloader())
                 ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
-                ->setUpdate(true);
+                ->setUpdate(true)
+                ->setRunScripts(!$this->getOptions()->noScripts())
+            ;
 
             return $install->run();
         } catch (\Exception $e) {
