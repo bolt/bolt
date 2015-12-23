@@ -213,6 +213,29 @@
         e.preventDefault();
     };
 
+    var autoloadDump = function (e) {
+        var target = find('.update-output');
+
+        find('.update-container').show();
+        activeConsole = target;
+        activeConsole.html(bolt.data('extend.text.install-all'));
+
+        $.get(bolt.data('extend.baseurl') + 'dumpAutoload', function (data) {
+                target.html(data);
+                delay(function () {
+                    find('.update-container').hide();
+                }, 7000);
+
+                checkInstalled();
+            })
+            .fail(function(data) {
+                formatErrorLog(data);
+            });
+
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
     var checkInstalled = function () {
         find('.installed-container').each(function(){
             var target = $(this).find('.installed-list');
@@ -683,6 +706,7 @@
                 case 'install-package':   install(e.originalEvent); break;
                 case 'prefill-package':   prefill(e.originalEvent); break;
                 case 'install-run':       installRun(e.originalEvent); break;
+                case 'autoload-dump':     autoloadDump(e.originalEvent); break;
                 case 'generate-theme':    generateTheme(e.originalEvent); break;
                 case 'package-available': packageAvailable(e.originalEvent); break;
                 case 'package-copy':      copyTheme(e.originalEvent); break;
