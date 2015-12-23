@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
 use Composer\DependencyResolver\Pool;
 use Composer\Factory;
 use Composer\Package\Version\VersionSelector;
@@ -69,6 +70,8 @@ abstract class BaseAction
             try {
                 // Use the factory to get a new Composer object
                 $this->composer = Factory::create($this->getIO(), $this->getOptions()->composerJson()->getPath(), false);
+            } catch (\InvalidArgumentException $e) {
+                throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
             } catch (\Exception $e) {
                 $this->app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
                 throw $e;
