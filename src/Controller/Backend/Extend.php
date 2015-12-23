@@ -2,6 +2,8 @@
 
 namespace Bolt\Controller\Backend;
 
+use Bolt\Composer\Package;
+use Bolt\Composer\PackageCollection;
 use Bolt\Exception\PackageManagerException;
 use Bolt\Translation\Translator as Trans;
 use Silex;
@@ -26,6 +28,9 @@ class Extend extends BackendBase
 
         $c->get('/check', 'check')
             ->bind('check');
+
+        $c->get('/dumpAutoload', 'dumpAutoload')
+            ->bind('dumpAutoload');
 
         $c->get('/update', 'update')
             ->bind('update');
@@ -80,6 +85,25 @@ class Extend extends BackendBase
     public function check()
     {
         return $this->json($this->manager()->checkPackage());
+    }
+
+    /**
+     * Dumps the autoloader.
+     *
+     * @throws PackageManagerException
+     *
+     * @return Response
+     */
+    public function dumpAutoload()
+    {
+        $response = $this->manager()->dumpAutoload();
+        if ($response === 0) {
+            $this->app['logger.system']->info($this->manager()->getOutput(), ['event' => 'extensions']);
+
+            return new Response($this->manager()->getOutput());
+        } else {
+            throw new PackageManagerException($this->manager()->getOutput(), $response);
+        }
     }
 
     /**
@@ -246,7 +270,12 @@ class Extend extends BackendBase
         $response = $this->manager()->showPackage('installed', $package, $version);
 
         if ($response) {
-            return $this->json($this->manager()->formatPackageResponse($response));
+            $collection = new PackageCollection();
+            foreach ($response as $package) {
+                $collection->add(Package::createFromComposerPackage($package['package']));
+            }
+
+            return $this->json($collection);
         } else {
             throw new PackageManagerException(Trans::__('Unable to get installation information for %PACKAGE% %VERSION%.', ['%PACKAGE%' => $package, '%VERSION%' => $version]));
         }

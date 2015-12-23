@@ -124,9 +124,9 @@ class PackageManager
     /**
      * Dump fresh autoloader.
      */
-    public function dumpautoload()
+    public function dumpAutoload()
     {
-        $this->app['extend.action']['autoload']->execute();
+        return $this->app['extend.action']['autoload']->execute();
     }
 
     /**
