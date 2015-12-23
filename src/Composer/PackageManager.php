@@ -221,95 +221,62 @@ class PackageManager
      */
     public function getAllPackages()
     {
+        $collection = new PackageCollection();
         $installed = $this->app['extend.action']['show']->execute('installed');
-        $installedKeys = array_keys($installed);
-        $packages = [
-            'installed' => [],
-            'pending'   => [],
-            'local'     => [],
-        ];
+        $autoloaded = (array) $this->app['extensions']->getAutoload();
+        $requires = isset($this->json['require']) ? $this->json['require'] : [];
 
-        // Installed Composer packages
-        $packages['installed'] = $this->formatPackageResponse($installed);
-        if ($this->json === null || empty($this->json['require'])) {
-            return $packages;
+        // Installed
+        foreach ($installed as $composerPacakge) {
+            $package = Package::createFromComposerPackage($composerPacakge['package']);
+            $name = $package->getName();
+            $title = $this->app['extensions']->get($name) ?: $name;
+
+            $package->setStatus('installed');
+            $package->setTitle($title);
+            $package->setReadmeLink($this->linkReadMe($name));
+            $package->setConfigLink($this->linkConfig($name));
+            $package->setConstraint($autoloaded[$name]['constraint']);
+            $package->setValid($autoloaded[$name]['valid']);
+            $package->setEnabled(true);
+
+            $collection->add($package);
         }
 
-        // Pending Composer packages
-        foreach ($this->json['require'] as $require => $version) {
-            if (!in_array($require, $installedKeys)) {
-                $packages['pending'][] = [
-                    'name'     => $require,
-                    'version'  => $version,
-                    'type'     => 'unknown',
-                    'descrip'  => Trans::__('Not yet installed.'),
-                    'authors'  => [],
-                    'keywords' => [],
-                ];
-            }
-        }
-
-        foreach ($this->app['extensions']->getMap() as $phpName => $composerName) {
-            if (isset($installedKeys[$composerName]) || isset($this->json['require'][$composerName])) {
+        // Local
+        foreach ($autoloaded as $name => $data) {
+            if ($collection->get($name)) {
                 continue;
             }
+            $extension = $this->app['extensions']->get($name);
+            $title = $extension ? $extension->getName() : $name;
+            $composerJson = $this->app['filesystem']->get('extensions://' . $data['path'] . '/composer.json');
+            $package = Package::createFromComposerJson($composerJson->parse());
+            $package->setStatus('local');
+            $package->setValid($autoloaded[$name]['valid']);
+            $package->setEnabled(true);
+            $package->setTitle($title);
 
-            // Get the Composer configuration
-            $json = $this->getComposerJson($composerName);
-            $extension = $this->app['extensions']->get($json['name']);
-            $packages['local'][] = [
-                'name'     => $json['name'],
-                'title'    => $extension ? $extension->getName() : $json['name'],
-                'version'  => isset($json['version']) ? $json['version'] : 'local',
-                'type'     => $json['type'],
-                'descrip'  => $json['description'],
-                'authors'  => $json['authors'],
-                'keywords' => !empty($json['keywords']) ? $json['keywords'] : '',
-                'readme'   => $this->linkReadMe($json['name']),
-                'config'   => $this->linkConfig($json['name']),
-            ];
+            $collection->add($package);
         }
 
-        return $packages;
-    }
-
-    /**
-     * Format a Composer API package array suitable for AJAX response.
-     *
-     * @param \Composer\Package\CompletePackageInterface[] $packages
-     *
-     * @return array
-     */
-    public function formatPackageResponse(array $packages)
-    {
-        $pack = [];
-
-        foreach ($packages as $package) {
-            /** @var \Composer\Package\CompletePackageInterface $package */
-            $package = $package['package'];
-            $name = $package->getPrettyName();
-
-            // If there is nothing in the autoloader cache, it is either stale or a v2 extension pre-installed.
-            if ($this->app['extensions']->get($name)) {
-                $title = $this->app['extensions']->get($name)->getName();
-            } else {
-                $title = $name;
+        // Pending
+        foreach ($requires as $name => $version) {
+            if ($collection->get($name)) {
+                continue;
             }
+            $package = new Package();
+            $package->setStatus('pending');
+            $package->setName($name);
+            $package->setTitle($name);
+            $package->setVersion($version);
+            $package->setType('unknown');
+            $package->setDescription(Trans::__('Not yet installed.'));
 
-            $pack[] = [
-                'name'     => $name,
-                'title'    => $title,
-                'version'  => $package->getPrettyVersion(),
-                'authors'  => $package->getAuthors(),
-                'type'     => $package->getType(),
-                'descrip'  => $package->getDescription(),
-                'keywords' => $package->getKeywords(),
-                'readme'   => $this->linkReadMe($name),
-                'config'   => $this->linkConfig($name),
-            ];
+            $collection->add($package);
         }
 
-        return $pack;
+        return $collection;
     }
 
     /**
