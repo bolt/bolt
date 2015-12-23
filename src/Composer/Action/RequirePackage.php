@@ -56,7 +56,7 @@ final class RequirePackage extends BaseAction
         $composerBackup = $jsonFile->parse();
 
         // Update our JSON file now with a contraint
-        $this->updateComposerJson($jsonFile, $package, true);
+        $this->updateComposerJson($jsonFile, $package);
 
         // JSON file has been created/updated, if we're not installing, exit
         if ($this->getOptions()->noUpdate()) {
@@ -107,9 +107,8 @@ final class RequirePackage extends BaseAction
      *
      * @param JsonFile $jsonFile
      * @param array    $package
-     * @param boolean  $postReset
      */
-    private function updateComposerJson(JsonFile $jsonFile, array $package, $postReset)
+    private function updateComposerJson(JsonFile $jsonFile, array $package)
     {
         $composerJson = $jsonFile->parse();
 
@@ -118,7 +117,7 @@ final class RequirePackage extends BaseAction
         $removeKey = $this->getOptions()->dev() ? 'require' : 'require-dev';
         $baseRequirements = array_key_exists($requireKey, $composerJson) ? $composerJson[$requireKey] : [];
 
-        if (!$this->updateFileCleanly($jsonFile, $package, $requireKey, $removeKey, $sortPackages, $postReset)) {
+        if (!$this->updateFileCleanly($jsonFile, $package, $requireKey, $removeKey, $sortPackages)) {
             foreach ($package as $name => $version) {
                 $baseRequirements[$name] = $version;
 
@@ -140,19 +139,15 @@ final class RequirePackage extends BaseAction
      * @param string   $requireKey
      * @param string   $removeKey
      * @param boolean  $sortPackages
-     * @param boolean  $postReset
      *
      * @return boolean
      */
-    private function updateFileCleanly(JsonFile $jsonFile, array $new, $requireKey, $removeKey, $sortPackages, $postReset)
+    private function updateFileCleanly(JsonFile $jsonFile, array $new, $requireKey, $removeKey, $sortPackages)
     {
         $composerJson = $jsonFile->read();
         $manipulator = new JsonManipulator($composerJson);
 
         foreach ($new as $package => $constraint) {
-            if ($postReset) {
-                $constraint = $this->findBestVersionForPackage($package);
-            }
             if (!$manipulator->addLink($requireKey, $package, $constraint, $sortPackages)) {
                 return false;
             }
