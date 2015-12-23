@@ -52,7 +52,11 @@ class Options
     /** @var  bool */
     protected $onlyName;
     /** @var  bool */
+    protected $optimize;
+    /** @var  bool */
     protected $optimizeAutoloader;
+    /** @var  bool */
+    protected $classmapAuthoritative;
 
     /**
      * Constructor.
@@ -321,6 +325,18 @@ class Options
     }
 
     /**
+     * Convert PSR-0/4 autoloading to classmap to get a faster autoloader. This is recommended especially for production.
+     *
+     * Composer parameter: --optimize
+     *
+     * @return bool|null
+     */
+    public function optimize()
+    {
+        return $this->optimize;
+    }
+
+    /**
      * Optimizes PSR0 and PSR4 packages to be loaded with classmaps too, good for production.
      *
      * Composer parameter: --optimize-autoloader
@@ -330,6 +346,18 @@ class Options
     public function optimizeAutoloader()
     {
         return $this->optimizeAutoloader;
+    }
+
+    /**
+     * Autoload classes from the classmap only. Implicitly enables --optimize-autoloader.
+     *
+     * Composer parameter: --classmap-authoritative
+     *
+     * @return bool|null
+     */
+    public function classmapAuthoritative()
+    {
+        return $this->classmapAuthoritative;
     }
 
     /**
