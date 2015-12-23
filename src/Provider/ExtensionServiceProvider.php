@@ -67,7 +67,7 @@ class ExtensionServiceProvider implements ServiceProviderInterface
 
         $app['extend.listener'] = $app->share(
             function ($app) {
-                return new BufferIOListener($app['extend.manager']);
+                return new BufferIOListener($app['extend.manager'], $app['logger.system']);
             }
         );
 
