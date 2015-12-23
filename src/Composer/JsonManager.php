@@ -105,6 +105,9 @@ class JsonManager
 
         // Enforce standard settings
         $defaults = [
+            'name'         => 'bolt/extensions',
+            'description'  => 'Bolt extension installation interface',
+            'license'      => 'MIT',
             'repositories' => [
                 'packagist' => false,
                 'bolt'      => [
@@ -169,7 +172,7 @@ class JsonManager
             ],
             'require' => [
                 'wikimedia/composer-merge-plugin' => '^1.3',
-            ]
+            ],
         ];
         $composerJson = Arr::mergeRecursiveDistinct($composerJson, $defaults);
         ksort($composerJson);
