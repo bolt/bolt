@@ -2,6 +2,10 @@
 
 namespace Bolt\Composer\EventListener;
 
+use Composer\Composer;
+use Composer\Package\Link;
+use Composer\Semver\Constraint\Constraint;
+use Composer\Semver\Semver;
 use JsonSerializable;
 
 /**
@@ -15,7 +19,7 @@ final class PackageDescriptor implements JsonSerializable
     protected $class;
     protected $path;
     protected $constraint;
-    protected $valid = true;
+    protected $valid;
 
     /**
      * Constructor.
@@ -26,7 +30,7 @@ final class PackageDescriptor implements JsonSerializable
      * @param string $constraint
      * @param bool   $valid
      */
-    public function __construct($name, $class, $path, $constraint, $valid = true)
+    public function __construct($name, $class, $path, $constraint, $valid)
     {
         $this->name = $name;
         $this->class = $class;
@@ -36,19 +40,20 @@ final class PackageDescriptor implements JsonSerializable
     }
 
     /**
-     * Creating calss from unknown JSON data.
+     * Create class from uncertain JSON data.
      *
-     * @param       $path
-     * @param array $jsonData
+     * @param Composer $composer
+     * @param          $path
+     * @param array    $jsonData
      *
      * @return PackageDescriptor
      */
-    public static function parse($path, array $jsonData)
+    public static function parse(Composer $composer, $path, array $jsonData)
     {
         $name = $jsonData['name'];
         $class = self::setClass($jsonData);
         $constraint = self::setConstraint($jsonData);
-        $valid = $class && $constraint;
+        $valid = self::isValid($composer, $class, $constraint);
 
         return new self($name, $class, $path, $constraint, $valid);
     }
@@ -93,5 +98,22 @@ final class PackageDescriptor implements JsonSerializable
         if (isset($jsonData['require']['bolt/bolt'])) {
             return $jsonData['require']['bolt/bolt'];
         }
+    }
+
+    /**
+     * Check if the extension is valid for loading, i.e has a class and is withing version constraints.
+     *
+     * @param Composer    $composer
+     * @param string|null $class
+     * @param string|null $constraint
+     *
+     * @return bool
+     */
+    private static function isValid(Composer $composer, $class, $constraint)
+    {
+        $provides = $composer->getPackage()->getProvides();
+        $boltVersion = isset($provides['bolt/bolt']) ? $provides['bolt/bolt'] : new Link('__root__', 'bolt/bolt', new Constraint('=', '0.0.0'));
+
+        return $class && Semver::satisfies($boltVersion->getPrettyConstraint(), $constraint);
     }
 }

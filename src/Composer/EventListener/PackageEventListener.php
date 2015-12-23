@@ -55,7 +55,8 @@ class PackageEventListener
      */
     public static function dump(Event $event)
     {
-        $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
+        $composer = $event->getComposer();
+        $vendorDir = $composer->getConfig()->get('vendor-dir');
         $finder = self::getInstalledComposerJson();
         $extensions = [];
 
@@ -63,7 +64,7 @@ class PackageEventListener
         foreach ($finder as $jsonFile) {
             $jsonData = json_decode($jsonFile->getContents(), true);
             if (isset($jsonData['type']) && $jsonData['type'] === 'bolt-extension') {
-                $extensions[$jsonData['name']] = PackageDescriptor::parse($jsonFile->getPath(), $jsonData);
+                $extensions[$jsonData['name']] = PackageDescriptor::parse($composer, $jsonFile->getPath(), $jsonData);
             }
         }
 
