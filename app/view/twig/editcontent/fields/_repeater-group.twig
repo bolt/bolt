@@ -16,6 +16,7 @@
             label:      '',
             variant:    '',
             canUpload:  field.canUpload,
+            can: {'upload': field.canUpload }
         } %}
         {% for rkey, rfield in field.fields %}
             {% set rfield = defaults|merge(rfield) %}
@@ -26,7 +27,7 @@
                 'field':      rfield,
                 'labelkey':   rfield.label|default(rkey|ucfirst),
                 'context': {
-                    'content':    content|default(false)
+                    'content':    content
                 }
             } %}
             <div class="col-xs-12">
