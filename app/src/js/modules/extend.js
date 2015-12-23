@@ -257,21 +257,9 @@
 
                 var nadda = true;
 
-                // Render installed packages.
-                if (data.installed.length) {
-                    html += renderPackage(data.installed, true);
-                    nadda = false;
-                }
-
-                // Render pacakges pending install.
-                if (data.pending.length) {
-                    html += renderPackage(data.pending, true);
-                    nadda = false;
-                }
-
-                // Render locally installed packages.
-                if (data.local.length) {
-                    html += renderPackage(data.local, false);
+                // Render packages
+                if (typeof data === 'object') {
+                    html += renderPackage(data);
                     nadda = false;
                 }
 
@@ -290,7 +278,7 @@
         });
     };
 
-    var renderPackage = function (data, composer) {
+    var renderPackage = function (data) {
         var html = '';
 
         for (var e in data) {
@@ -321,7 +309,7 @@
                 var available = '',
                     uninstall = '';
 
-                if (composer) {
+                if (ext.status === 'installed') {
                     available = conf.avail_button.subst({
                         '%NAME%': ext.name
                     });
@@ -339,12 +327,12 @@
                     '%AUTHORS%':     authors,
                     '%TYPE%':        ext.type,
                     '%AVAILABLE%':   available,
-                    '%README%':      ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
-                    '%CONFIG%':      ext.config ? conf.config_button.subst({'%CONFIG%': ext.config}) : '',
+                    '%README%':      ext.readmeLink ? conf.readme_button.subst({'%README%': ext.readmeLink}) : '',
+                    '%CONFIG%':      ext.configLink ? conf.config_button.subst({'%CONFIG%': ext.configLink}) : '',
                     '%THEME%':       ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
                     '%BASEURL%':     bolt.data('extend.baseurl'),
                     '%UNINSTALL%':   uninstall,
-                    '%DESCRIPTION%': ext.descrip ? conf.description.subst({'%DESCRIPTION%': ext.descrip}) : '',
+                    '%DESCRIPTION%': ext.description ? conf.description.subst({'%DESCRIPTION%': ext.description}) : '',
                     '%KEYWORDS%':    keywords});
             }
         }
@@ -468,11 +456,11 @@
             {'package': packageName, 'version': packageVersion}
         )
         .done(function(data) {
-            if (data[0].type === 'bolt-extension') {
-                extensionPostInstall(data[0]);
+            if (data.type === 'bolt-extension') {
+                extensionPostInstall(data);
             }
-            if (data[0].type === 'bolt-theme') {
-                themePostInstall(data[0]);
+            if (data.type === 'bolt-theme') {
+                themePostInstall(data);
             }
         })
         .fail(function(data) {
