@@ -26,7 +26,7 @@
                 'field':      rfield,
                 'labelkey':   rfield.label|default(rkey|ucfirst),
                 'context': {
-                    'content':    content
+                    'content':    content|default(false)
                 }
             } %}
             <div class="col-xs-12">
