@@ -54,18 +54,21 @@ class NotFoundListener implements EventSubscriberInterface
             return;
         }
 
-        if (substr($this->notFoundPage, -5) === '.twig') {
+        // If $notFoundPage is referencing a template, render it and be done.
+        if ($this->render->hasTemplate($this->notFoundPage)) {
             $response = $this->render->render($this->notFoundPage);
-        } else {
-            $content = $this->storage->getContent($this->notFoundPage, ['returnsingle' => true]);
-
-            if (!$content instanceof Content || empty($content->id)) {
-                return;
-            }
-
-            $template = $this->templateChooser->record($content);
-            $response = $this->render->render($template, $content->getTemplateContext());
+            $event->setResponse($response);
+            return;
         }
+
+        // Next try for referencing DB content.
+        $content = $this->storage->getContent($this->notFoundPage, ['returnsingle' => true]);
+        if (!$content instanceof Content || empty($content->id)) {
+            return;
+        }
+
+        $template = $this->templateChooser->record($content);
+        $response = $this->render->render($template, $content->getTemplateContext());
 
         $event->setResponse($response);
     }

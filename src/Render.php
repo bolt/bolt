@@ -65,6 +65,37 @@ class Render
     }
 
     /**
+     * Check if the template exists.
+     *
+     * @param string $template The name of the template.
+     *
+     * @return bool
+     */
+    public function hasTemplate($template)
+    {
+        /** @var \Twig_Environment $env */
+        $env = $this->app[$this->twigKey];
+        $loader = $env->getLoader();
+
+        /*
+         * Twig_ExistsLoaderInterface is getting merged into
+         * Twig_LoaderInterface in Twig 2.0. Check for this
+         * instead once we are there, and remove getSource() check.
+         */
+        if ($loader instanceof \Twig_ExistsLoaderInterface) {
+            return $loader->exists($template);
+        }
+
+        try {
+            $loader->getSource($template);
+        } catch (\Twig_Error_Loader $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Postprocess the rendered HTML: insert the snippets, and stuff.
      *
      * @param Response $response
