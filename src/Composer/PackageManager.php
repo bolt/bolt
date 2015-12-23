@@ -230,7 +230,8 @@ class PackageManager
         foreach ($installed as $composerPacakge) {
             $package = Package::createFromComposerPackage($composerPacakge['package']);
             $name = $package->getName();
-            $title = $this->app['extensions']->get($name) ?: $name;
+            $extension = $this->app['extensions']->get($name);
+            $title = $extension ? $extension->getName() : $name;
 
             $package->setStatus('installed');
             $package->setTitle($title);
@@ -250,6 +251,7 @@ class PackageManager
             }
             $extension = $this->app['extensions']->get($name);
             $title = $extension ? $extension->getName() : $name;
+            /** @var JsonFile $composerJson */
             $composerJson = $this->app['filesystem']->get('extensions://' . $data['path'] . '/composer.json');
             $package = Package::createFromComposerJson($composerJson->parse());
             $package->setStatus('local');

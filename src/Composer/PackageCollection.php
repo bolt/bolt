@@ -48,6 +48,8 @@ final class PackageCollection implements JsonSerializable
      */
     public function jsonSerialize()
     {
+        ksort($this->packages);
+
         return $this->packages;
     }
 }
