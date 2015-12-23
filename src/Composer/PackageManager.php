@@ -255,9 +255,11 @@ class PackageManager
             $composerJson = $this->app['filesystem']->get('extensions://' . $data['path'] . '/composer.json');
             $package = Package::createFromComposerJson($composerJson->parse());
             $package->setStatus('local');
+            $package->setTitle($title);
+            $package->setReadmeLink($this->linkReadMe($name));
+            $package->setConfigLink($this->linkConfig($name));
             $package->setValid($autoloaded[$name]['valid']);
             $package->setEnabled(true);
-            $package->setTitle($title);
 
             $collection->add($package);
         }
@@ -271,6 +273,8 @@ class PackageManager
             $package->setStatus('pending');
             $package->setName($name);
             $package->setTitle($name);
+            $package->setReadmeLink($this->linkReadMe($name));
+            $package->setConfigLink($this->linkConfig($name));
             $package->setVersion($version);
             $package->setType('unknown');
             $package->setDescription(Trans::__('Not yet installed.'));
