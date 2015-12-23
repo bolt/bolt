@@ -23,8 +23,6 @@ class PackageManager
     private $json;
     /** @var string[] */
     private $messages = [];
-    /** @var string Holds the output from Composer\IO\BufferIO */
-    private $ioOutput;
 
     /**
      * Constructor.
