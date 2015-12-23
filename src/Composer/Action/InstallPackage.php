@@ -24,23 +24,25 @@ final class InstallPackage extends BaseAction
         /** @var $composer \Composer\Composer */
         $composer = $this->getComposer();
         $io = $this->getIO();
-        $install = Installer::create($io, $composer);
+        $config = $composer->getConfig();
+
+        $optimize = $this->getOptions()->optimizeAutoloader() || $config->get('optimize-autoloader');
+        $authoritative = $this->getOptions()->classmapAuthoritative() || $config->get('classmap-authoritative');
+
+        $install = Installer::create($io, $composer)
+            ->setDryRun($this->getOptions()->dryRun())
+            ->setVerbose($this->getOptions()->verbose())
+            ->setPreferSource($this->getOptions()->preferSource())
+            ->setPreferDist($this->getOptions()->preferDist())
+            ->setDevMode(!$this->getOptions()->noDev())
+            ->setDumpAutoloader(!$this->getOptions()->noAutoloader())
+            ->setRunScripts(!$this->getOptions()->noScripts())
+            ->setOptimizeAutoloader($optimize)
+            ->setClassMapAuthoritative($authoritative)
+            ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
+        ;
 
         try {
-            $install
-                ->setDryRun($this->getOptions()->dryRun())
-                ->setVerbose($this->getOptions()->verbose())
-                ->setPreferSource($this->getOptions()->preferSource())
-                ->setPreferDist($this->getOptions()->preferDist())
-                ->setDevMode(!$this->getOptions()->noDev())
-                ->setDumpAutoloader(!$this->getOptions()->noAutoloader())
-                ->setRunScripts(!$this->getOptions()->noScripts())
-                ->setOptimizeAutoloader($this->getOptions()->optimizeAutoloader())
-                ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
-                ->setUpdate(true)
-                ->setRunScripts(!$this->getOptions()->noScripts())
-            ;
-
             return $install->run();
         } catch (\Exception $e) {
             $msg = sprintf('%s recieved an error from Composer: %s in %s::%s', __METHOD__, $e->getMessage(), $e->getFile(), $e->getLine());
