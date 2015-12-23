@@ -2,6 +2,7 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IncludeFileException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\JsonFile;
@@ -44,14 +45,12 @@ class Manager
      */
     public function load()
     {
-        /** @var JsonFile $autoloadJson */
-        $autoloadJson = $this->filesystem->get('vendor/autoload.json');
-        if (!$autoloadJson->exists()) {
-            return;
-        }
-
         try {
+            /** @var JsonFile $autoloadJson */
+            $autoloadJson = $this->filesystem->get('vendor/autoload.json');
             $this->filesystem->includeFile('vendor/autoload.php');
+        } catch (FileNotFoundException $e) {
+            return;
         } catch (IncludeFileException $e) {
             return;
         }
