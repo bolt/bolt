@@ -57,6 +57,11 @@ class Manager
 
         $this->autoload = (array) $autoloadJson->parse();
         foreach ($this->autoload as $loader) {
+            // Skip loading if marked invalid
+            if ($loader['valid'] === false) {
+                continue;
+            }
+
             $composerName = $loader['name'];
             if (class_exists($loader['class'])) {
                 /** @var ExtensionInterface $class */
