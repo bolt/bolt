@@ -80,28 +80,11 @@ class PackageEventListener
      */
     public static function mirror($source, $dest)
     {
-        @mkdir($dest, 0755, true);
-
         if (realpath($source) === realpath($dest)) {
             return;
         }
-
-        /** @var $iterator \RecursiveIteratorIterator|\RecursiveDirectoryIterator */
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-        foreach ($iterator as $item) {
-            /** @var $item SplFileInfo */
-            if ($item->isDir()) {
-                $new = $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname();
-                if (!is_dir($new)) {
-                    mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
-                }
-            } else {
-                copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
-            }
-        }
+        $fs = new Filesystem();
+        $fs->mirror($source, $dest);
     }
 
     /**
