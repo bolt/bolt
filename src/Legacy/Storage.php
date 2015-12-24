@@ -19,6 +19,11 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use utilphp\util;
 
+/**
+ * Legacy Storage class.
+ *
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
+ */
 class Storage
 {
     /** @var array */
