@@ -6,6 +6,7 @@ use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IncludeFileException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\JsonFile;
+use Bolt\Legacy\ExtensionsTrait;
 use Bolt\Logger\FlashLoggerInterface;
 use Cocur\Slugify\Slugify;
 
@@ -16,6 +17,8 @@ use Cocur\Slugify\Slugify;
  */
 class Manager
 {
+    use ExtensionsTrait;
+
     /** @var ResolvedExtension[] */
     protected $extensions = [];
     /** @var string[] */
@@ -167,5 +170,17 @@ class Manager
         }
 
         return $key;
+    }
+
+    /**
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
+     * @internal Do not use! For legacy support only.
+     */
+    protected function getApp()
+    {
+        // Yes Carson, this is only here to annoy you!
+        // Merry Christmas my good friend, and here's to another wonderful year of working together
+        return \Bolt\Configuration\ResourceManager::getApp();
     }
 }
