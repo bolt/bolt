@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Composer\Action;
 
 /**
@@ -28,7 +29,8 @@ class CheckPackageTest extends ActionUnitTest
         $app = $this->getApp();
         $json = $app['extend.manager.json']->update();
         $json['require']['gawain/clippy'] = '~2.0';
-        $app['extend.manager.json']->init($app['extend.action.options']['composerjson'], $json);
+        $app['extend.action.options']->composerJson()->delete();
+        $app['extend.manager.json']->init($app['extend.action.options']->composerJson()->getFullPath(), $json);
 
         $result = $app['extend.action']['check']->execute();
         $this->assertEquals('gawain/clippy', $result['installs'][0]['name']);

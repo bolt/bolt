@@ -14,7 +14,7 @@ class JsonManagerTest extends ActionUnitTest
         $app = $this->getApp();
         $app['filesystem']->get('extensions://composer.json')->delete();
         $app['extend.manager.json']->init(
-            $app['extend.action.options']['composerjson'],
+            $app['extend.action.options']->composerJson()->getFullPath(),
             ['extra' => ['bolt-test' => true]]
         );
     }
