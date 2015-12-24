@@ -318,6 +318,9 @@
                         '%NAME%': ext.name
                     });
                 }
+                var invalid = ' — [INVALID] ';
+                var disabled = ' — [DISABLED] ';
+                var constraint = '<i class="fa fa-cog fa-fw"></i>';
 
                 // Generate the HTML for a package item.
                 html += conf.item.subst({
@@ -333,7 +336,11 @@
                     '%BASEURL%':     bolt.data('extend.baseurl'),
                     '%UNINSTALL%':   uninstall,
                     '%DESCRIPTION%': ext.description ? conf.description.subst({'%DESCRIPTION%': ext.description}) : '',
-                    '%KEYWORDS%':    keywords});
+                    '%KEYWORDS%':    keywords,
+                    '%STATUS%':      ext.valid === false ? invalid : '',
+                    '%ENABLED%':     ext.enabled === false ? disabled : '',
+                    '%CONSTRAINT%':  ext.constraint !== null ? constraint + ' Requires Bolt ' + ext.constraint : ''
+                });
             }
         }
 
