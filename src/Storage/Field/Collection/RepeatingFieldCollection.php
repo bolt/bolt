@@ -229,4 +229,9 @@ class RepeatingFieldCollection extends ArrayCollection
 
         return $mapping['type'];
     }
+
+    public function getEmptySet()
+    {
+        return new FieldCollection([], $this->em);
+    }
 }
