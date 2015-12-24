@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Extension;
+namespace Bolt\Legacy;
 
 use Bolt;
 use Bolt\Asset\Snippet\Snippet;
