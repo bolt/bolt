@@ -17,6 +17,8 @@ class Environment
 {
     /** @var Cache */
     protected $cache;
+    /** @var Pimple */
+    protected $actions;
     /** @var Filesystem */
     protected $filesystem;
     /** @var string */
