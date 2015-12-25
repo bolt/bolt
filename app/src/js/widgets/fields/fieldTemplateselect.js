@@ -65,10 +65,16 @@
                             }
                         ));
 
-                        // Iterate over the templatefields, check if they're all empty
+                        // Iterate over the templatefields, check if they're all empty. Note:
+                        // We're conveniently forgetting <select> elements here, because we
+                        // can't 'guess' if the first option also means "nothing selected".
                         var templatefieldsEmpty = true;
-                        $('input[name^="templatefields"]').each(function(){
-                            if ($(this).val() !== '') {
+                        $('[name^="templatefields"]').each(function(){
+                            if ($(this).attr('type') !== 'checkbox' && $(this).prop('tagName') !== "SELECT" &&
+                                $(this).val() !== '') {
+                                templatefieldsEmpty = false;
+                            }
+                            if ($(this).attr('type') === 'checkbox' && $(this).prop('checked')) {
                                 templatefieldsEmpty = false;
                             }
                         });
