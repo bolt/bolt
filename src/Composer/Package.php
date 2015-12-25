@@ -37,9 +37,13 @@ final class Package implements JsonSerializable
         $class->type = $package->getType();
         $class->name = $package->getPrettyName();
         $class->description = $package->getDescription();
-        $class->version = $package->getPrettyVersion();
         $class->authors = $package->getAuthors();
         $class->keywords = $package->getKeywords();
+        if ($package->getVersion() === '9999999-dev') {
+            $class->version = sprintf('%s (%s)', $package->getPrettyVersion(), substr($package->getSourceReference(), 0, 6));
+        } else {
+            $class->version = $package->getPrettyVersion();
+        }
 
         return $class;
     }
