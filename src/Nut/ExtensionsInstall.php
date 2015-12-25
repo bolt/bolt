@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ExtensionsEnable extends BaseCommand
+class ExtensionsInstall extends BaseCommand
 {
     /**
      * @see \Symfony\Component\Console\Command\Command::configure()
