@@ -222,7 +222,7 @@ class Config
         $config['menu']         = $this->parseConfigYaml('menu.yml');
         $config['routing']      = $this->parseConfigYaml('routing.yml');
         $config['permissions']  = $this->parseConfigYaml('permissions.yml');
-        $config['extensions']   = [];
+        $config['extensions']   = $this->parseConfigYaml('extensions.yml');
 
         // fetch the theme config. requires special treatment due to the path being dynamic
         $this->app['resources']->initializeConfig($config);
@@ -1085,6 +1085,7 @@ class Config
             file_exists($dir . '/menu.yml') ? filemtime($dir . '/menu.yml') : 10000000000,
             file_exists($dir . '/routing.yml') ? filemtime($dir . '/routing.yml') : 10000000000,
             file_exists($dir . '/permissions.yml') ? filemtime($dir . '/permissions.yml') : 10000000000,
+            file_exists($dir . '/extensions.yml') ? filemtime($dir . '/extensions.yml') : 10000000000,
             file_exists($dir . '/config_local.yml') ? filemtime($dir . '/config_local.yml') : 0,
         ];
         if (file_exists($this->app['resources']->getPath('cache/config_cache.php'))) {
