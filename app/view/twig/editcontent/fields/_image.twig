@@ -16,7 +16,7 @@
 {% set preview_h = 150 %}
 
 {# Convert from old stored image format that is used until re-saved #}
-{% set image = (context.content.get(contentkey) is iterable)
+{% set image = (context.content.get(contentkey) is iterable) and (context.content.get(contentkey) is not empty)
            ? context.content.get(contentkey)
            : {'file': context.content.get(contentkey)}
 %}
@@ -46,7 +46,7 @@
     preview: {
         'alt':          'Preview',
         'height':       preview_h,
-        'src':          context.content.get(contentkey) != '' ? image.file|thumbnail(preview_w, preview_h, 'c') : app.paths.app ~ 'view/img/default_empty_4x3.png',
+        'src':          image.file is not empty ? image.file|thumbnail(preview_w, preview_h, 'c') : app.paths.app ~ 'view/img/default_empty_4x3.png',
         'width':        preview_w,
     },
 } %}

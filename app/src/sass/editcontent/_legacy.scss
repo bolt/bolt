@@ -71,93 +71,6 @@
         }
     }
 
-    /*** Filelistholder ***/
-
-    div.filelistholder {
-        &.dropzone {
-            height: auto;
-        }
-
-        p {
-            padding: 8px;
-            color: #999;
-            margin: 0;
-            font-style: italic;
-        }
-
-        img {
-            padding-right: 6px;
-        }
-
-        div.buttons {
-            float: left;
-            padding: 7px 8px;
-        }
-
-        div.list {
-            border: 1px solid #e0e0e0;
-            padding: 0;
-            width: 100%;
-            background-color: #FFF;
-            border-radius: 3px;
-
-            div {
-                min-height: 48px;
-                margin: 6px;
-                padding: 4px 6px;
-                border: 2px solid #efefef;
-                border: 2px solid #f0f0f0;
-                border-radius: 3px;
-                cursor: pointer;
-                overflow: hidden;
-                background: #f6f6f6;
-
-                &.selected {
-                    border: 2px solid $btn-tertiary-bg;
-                }
-
-                &.ui-sortable-helper {
-                    cursor: ns-resize;
-                }
-
-                * {
-                    float: left;
-                }
-
-                input {
-                    padding: 1px 0 0 5px;
-                    width: 65%;
-                    border: 0;
-
-                    @include respond-to(medium-screens) {
-                        width: 83%;
-                    }
-                }
-
-                // Remove button
-                a.remove-button {
-                    padding: 5px;
-                    cursor: pointer;
-                    color: #999;
-                    float: right;
-                    border-radius: 3px;
-
-                    &:hover {
-                        background: #dcdcdc;
-                    }
-                }
-
-                // File description
-                span {
-                    font-size: 80%;
-                    font-weight: bold;
-                    padding: 3px 0 0 5px;
-                    clear: both;
-                }
-            }
-        }
-    }
-
     /*** Fileselect button group ***/
 
     .fileselectbuttongroup {
@@ -258,5 +171,8 @@
     .uk-htmleditor-fullscreen {
         margin-top: 52px;
         margin-bottom: 24px;
+        // Z-index has to be a ridiculous value, because the sidebar is 1000001,
+        // which in turn has to be higher than Symfony's vardumper, which is 100000.
+        z-index: 100010;
     }
 }

@@ -16,6 +16,13 @@
      */
     $.widget('bolt.buicBrowser', /** @lends jQuery.widget.bolt.buicBrowser.prototype */ {
         /**
+         * Event reporting that a file was selected.
+         *
+         * @event jQuery.widget.bolt.buicBrowser#buicbrowserselected
+         * @property {string} path - The path to the selected file
+         */
+
+        /**
          * Default options.
          *
          * @property {string} [url] - URL to browse
@@ -54,6 +61,7 @@
          * Browser directory on server.
          *
          * @private
+         * @fires jQuery.widget.bolt.buicBrowser#buicbrowserselected
          */
         _browse: function () {
             var self = this,
@@ -79,17 +87,20 @@
 
                     // Set up event handler
                     modal.header
-                        .on('click.bolt', '[data-fbrowser-chdir]', function () {
+                        .on('click.bolt', '[data-fbrowser-chdir]', function (evt) {
+                            evt.preventDefault();
                             self._url = $(this).data('fbrowser-chdir');
                             self._browse();
                         });
                     modal.body
-                        .on('click.bolt', '[data-fbrowser-chdir]', function () {
+                        .on('click.bolt', '[data-fbrowser-chdir]', function (evt) {
+                            evt.preventDefault();
                             self._url = $(this).data('fbrowser-chdir');
                             self._browse();
                         })
-                        .on('click.bolt', '[data-fbrowser-select]', function () {
-                            self._select($(this).data('fbrowser-select'));
+                        .on('click.bolt', '[data-fbrowser-select]', function (evt) {
+                            evt.preventDefault();
+                            self._trigger('selected', null, {path: $(this).data('fbrowser-select')});
                             modal.close();
                         })
                         .on('click.bolt', '[aria-pressed]', function (evt) {
@@ -133,29 +144,10 @@
 
                 if (!hide) {
                     $(this).find('a, span').each(function () {
-                        var text = name.replace(term, '<mark>' + term + '</mark>');
-                        console.log($(this).html(text));
+                        $(this).html(name.replace(term, '<mark>' + term + '</mark>'));
                     });
                 }
             });
-        },
-
-        /**
-         * Select file in modal file selector dialog.
-         *
-         * @private
-         * @param {string} path - Path to the selected file
-         */
-        _select: function (path) {
-            var fieldset = this.element.closest('fieldset');
-
-            if (fieldset.is(':bolt-fieldFile') || fieldset.is(':bolt-fieldImage')) {
-                $('input.path', fieldset).val(path).trigger('change');
-            } else if (fieldset.is(':bolt-fieldFilelist') || fieldset.is(':bolt-fieldImagelist')) {
-                bolt.uploads.addToList(fieldset, path);
-            } else {
-                bolt.stack.addToStack(path);
-            }
         }
     });
 })(jQuery, Bolt);

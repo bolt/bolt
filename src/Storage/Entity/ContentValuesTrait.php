@@ -21,6 +21,9 @@ use Bolt\Library as Lib;
  */
 trait ContentValuesTrait
 {
+    /** @var boolean Whether this is a "real" contenttype or an embedded ones */
+    protected $isRootType;
+
     /**
      * Pseudo-magic function, used for when templates use {{ content.get(title) }},
      * so we can map it to $this->values['title'].
@@ -496,7 +499,7 @@ trait ContentValuesTrait
         foreach ($this->contenttype['fields'] as $key => $field) {
             if ($field['type'] == 'image') {
                 // After v1.5.1 we store image data as an array
-                if (is_array($this->values[$key])) {
+                if (is_array($this->values[$key]) && isset($this->values[$key]['file'])) {
                     return $this->values[$key]['file'];
                 }
 

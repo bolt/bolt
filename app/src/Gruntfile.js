@@ -53,7 +53,7 @@ module.exports = function(grunt) {
                 '<%= path.src.js %>/modules/omnisearch.js',
                 '<%= path.src.js %>/modules/secmenu.js',
                 '<%= path.src.js %>/modules/stack.js',
-                '<%= path.src.js %>/modules/uploads.js',
+                '<%= path.src.js %>/modules/utils.js',
                 // Bolt widgets
                 '<%= path.src.js %>/widgets/**/*.js',
                 // Old stuff

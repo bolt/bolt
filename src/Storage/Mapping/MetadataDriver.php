@@ -214,6 +214,7 @@ class MetadataDriver implements MappingDriver
 
             if ($data['type'] === 'repeater') {
                 foreach ($data['fields'] as $key => &$value) {
+                    $value['fieldname'] = $key;
                     if (isset($this->typemap[$value['type']])) {
                         $value['fieldtype'] = $this->typemap[$value['type']];
                     } else {
@@ -396,6 +397,10 @@ class MetadataDriver implements MappingDriver
             $type = $this->contenttypes[$name]['fields'][$column->getName()]['type'];
         } elseif ($column->getType()) {
             $type = get_class($column->getType());
+        }
+
+        if ($column->getName() === 'slug') {
+            $type = 'slug';
         }
 
         if ($type === 'select' && isset($this->contenttypes[$name]['fields'][$column->getName()]['multiple']) && $this->contenttypes[$name]['fields'][$column->getName()]['multiple'] === true) {

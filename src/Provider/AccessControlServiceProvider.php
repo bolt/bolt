@@ -35,6 +35,7 @@ class AccessControlServiceProvider implements ServiceProviderInterface
                 $tracker = new AccessControl\AccessChecker(
                     $repoAuth,
                     $repoUser,
+                    $app['request_stack'],
                     $app['session'],
                     $app['logger.flash'],
                     $app['logger.system'],

@@ -9,7 +9,7 @@ use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Psr\Log\LoggerInterface;
 use RandomLib\Generator;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use UAParser;
 
@@ -24,6 +24,8 @@ class AccessChecker
     protected $repositoryAuthtoken;
     /** @var \Bolt\Storage\Repository\UsersRepository */
     protected $repositoryUsers;
+    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    protected $requestStack;
     /** @var \Symfony\Component\HttpFoundation\Session\SessionInterface */
     protected $session;
     /** @var \Bolt\Logger\FlashLoggerInterface */
@@ -38,18 +40,13 @@ class AccessChecker
     protected $cookieOptions;
     /** @var boolean */
     protected $validSession;
-    /** @var string */
-    protected $remoteIP;
-    /** @var string */
-    protected $userAgent;
-    /** @var string */
-    protected $hostName;
 
     /**
      * Constructor.
      *
      * @param AuthtokenRepository  $repositoryAuthtoken
      * @param UsersRepository      $repositoryUsers
+     * @param RequestStack         $requestStack
      * @param SessionInterface     $session
      * @param FlashLoggerInterface $flashLogger
      * @param LoggerInterface      $systemLogger
@@ -60,6 +57,7 @@ class AccessChecker
     public function __construct(
         AuthtokenRepository $repositoryAuthtoken,
         UsersRepository $repositoryUsers,
+        RequestStack $requestStack,
         SessionInterface $session,
         FlashLoggerInterface $flashLogger,
         LoggerInterface $systemLogger,
@@ -69,24 +67,13 @@ class AccessChecker
     ) {
         $this->repositoryAuthtoken = $repositoryAuthtoken;
         $this->repositoryUsers = $repositoryUsers;
+        $this->requestStack = $requestStack;
         $this->session = $session;
         $this->flashLogger = $flashLogger;
         $this->systemLogger = $systemLogger;
         $this->permissions = $permissions;
         $this->randomGenerator = $randomGenerator;
         $this->cookieOptions = $cookieOptions;
-    }
-
-    /**
-     * Set the request data.
-     *
-     * @param Request $request
-     */
-    public function setRequest(Request $request)
-    {
-        $this->hostName  = $request->getHost();
-        $this->remoteIP  = $request->getClientIp() ?: '127.0.0.1';
-        $this->userAgent = $request->server->get('HTTP_USER_AGENT');
     }
 
     /**
@@ -112,6 +99,8 @@ class AccessChecker
      *      - If a match accept
      *
      * @param string $authCookie
+     *
+     * @throws AccessControlException
      *
      * @return boolean
      */
@@ -195,10 +184,10 @@ class AccessChecker
      */
     protected function checkSessionDatabase($authCookie)
     {
-        $userAgent = $this->cookieOptions['browseragent'] ? $this->userAgent : null;
+        $userAgent = $this->cookieOptions['browseragent'] ? $this->getClientUserAgent() : null;
 
         try {
-            if (!$authTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->remoteIP, $userAgent)) {
+            if (!$authTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->getClientIp(), $userAgent)) {
                 return false;
             }
 
@@ -286,10 +275,52 @@ class AccessChecker
             throw new \InvalidArgumentException(__FUNCTION__ . ' required a name and salt to be provided.');
         }
 
-        $token = (string) new Token\Generator($username, $salt, $this->remoteIP, $this->hostName, $this->userAgent, $this->cookieOptions);
+        $token = (string) new Token\Generator($username, $salt, $this->getClientIp(), $this->getClientHost(), $this->getClientUserAgent(), $this->cookieOptions);
 
-        $this->systemLogger->debug("Generating authentication cookie — Username: '$username' Salt: '$salt' IP: '{$this->remoteIP}' Host name: '{$this->hostName}' Agent: '{$this->userAgent}' Result: $token", ['event' => 'authentication']);
+        $this->systemLogger->debug("Generating authentication cookie — Username: '$username' Salt: '$salt' IP: '{$this->getClientIp()}' Host name: '{$this->getClientHost()}' Agent: '{$this->getClientUserAgent()}' Result: $token", ['event' => 'authentication']);
 
         return $token;
+    }
+
+    /**
+     * Return the user's host name.
+     *
+     * @return string
+     */
+    protected function getClientHost()
+    {
+        if ($this->requestStack->getCurrentRequest() === null) {
+            throw new \RuntimeException(sprintf('%s can not be called outside of request cycle', __METHOD__));
+        }
+
+        return $this->requestStack->getCurrentRequest()->getHost();
+    }
+
+    /**
+     * Return the user's IP address.
+     *
+     * @return string
+     */
+    protected function getClientIp()
+    {
+        if ($this->requestStack->getCurrentRequest() === null) {
+            throw new \RuntimeException(sprintf('%s can not be called outside of request cycle', __METHOD__));
+        }
+
+        return $this->requestStack->getCurrentRequest()->getClientIp() ?: '127.0.0.1';
+    }
+
+    /**
+     * Return the user's browser User Agent.
+     *
+     * @return string
+     */
+    protected function getClientUserAgent()
+    {
+        if ($this->requestStack->getCurrentRequest() === null) {
+            throw new \RuntimeException(sprintf('%s can not be called outside of request cycle', __METHOD__));
+        }
+
+        return $this->requestStack->getCurrentRequest()->server->get('HTTP_USER_AGENT');
     }
 }

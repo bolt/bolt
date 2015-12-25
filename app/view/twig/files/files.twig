@@ -15,7 +15,7 @@
 
     {{ data('files.msg.create_folder', __('Please enter a new folder name!')) }}
     {{ data('files.msg.create_file', __('Please enter a new file name!')) }}
-    {% if context.folders|length > 0 %}
+    {% if context.directories|length > 0 %}
         {{ data('files.msg.rename_folder', __('Please enter a new folder name!')) }}
         {{ data('files.msg.delete_folder', __('Do you really want to delete %FOLDERNAME%?')) }}
     {% endif %}
@@ -31,7 +31,7 @@
 
             {{ widgets('files_below_header', 'backend') }}
 
-            {% if context.folders|length > 0 %}
+            {% if context.directories|length > 0 %}
                 {% include '@bolt/files/_folders.twig' %}
             {% endif %}
 

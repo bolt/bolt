@@ -23,6 +23,8 @@ class Render
     public $safe;
     /** @var string */
     public $twigKey;
+    /** @var boolean */
+    protected $retrievedFromCache = false;
 
     /**
      * Set up the object.
@@ -63,6 +65,37 @@ class Render
     }
 
     /**
+     * Check if the template exists.
+     *
+     * @param string $template The name of the template.
+     *
+     * @return bool
+     */
+    public function hasTemplate($template)
+    {
+        /** @var \Twig_Environment $env */
+        $env = $this->app[$this->twigKey];
+        $loader = $env->getLoader();
+
+        /*
+         * Twig_ExistsLoaderInterface is getting merged into
+         * Twig_LoaderInterface in Twig 2.0. Check for this
+         * instead once we are there, and remove getSource() check.
+         */
+        if ($loader instanceof \Twig_ExistsLoaderInterface) {
+            return $loader->exists($template);
+        }
+
+        try {
+            $loader->getSource($template);
+        } catch (\Twig_Error_Loader $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Postprocess the rendered HTML: insert the snippets, and stuff.
      *
      * @param Response $response
@@ -73,11 +106,14 @@ class Render
     {
         $html = $response->getContent();
 
-        /** @var \Bolt\Asset\QueueInterface $queue */
-        if (!$this->app['request_stack']->getCurrentRequest()->isXmlHttpRequest()) {
-            foreach ($this->app['asset.queues'] as $queue) {
-                $html = $queue->process($html);
+        if (!$this->wasRetrievedFromCache()) {
+            /** @var \Bolt\Asset\QueueInterface $queue */
+            if (!$this->app['request_stack']->getCurrentRequest()->isXmlHttpRequest()) {
+                foreach ($this->app['asset.queues'] as $queue) {
+                    $html = $queue->process($html);
+                }
             }
+            $this->cacheRequest($html);
         }
 
         $this->cacheRequest($html);
@@ -106,11 +142,34 @@ class Render
                 // maximum duration, otherwise a proxy/cache might keep the
                 // cache twice as long in the worst case scenario, and now it's
                 // only 50% max, but likely less
-                $response->setSharedMaxAge($this->cacheDuration() / 2);
+                // 's_maxage' sets the cache for shared caches.
+                // max_age sets it for regular browser caches
+                $age = $this->cacheDuration() / 2;
+                $response->setMaxAge($age)->setSharedMaxAge($age);
+
+                $this->setRetrievedFromCache();
             }
         }
 
         return $response;
+    }
+
+    /**
+     * Check whether this page was retrieved from cache
+     *
+     * @return boolean
+     */
+    private function wasRetrievedFromCache()
+    {
+        return $this->retrievedFromCache;
+    }
+
+    /**
+     * Set the flag to indicate this page was retrieved from cache
+     */
+    private function setRetrievedFromCache()
+    {
+        $this->retrievedFromCache = true;
     }
 
     /**

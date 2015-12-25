@@ -8,7 +8,6 @@ use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
 use PasswordLib\PasswordLib;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Login authentication handling.
@@ -33,6 +32,7 @@ class Login extends AccessChecker
         parent::__construct(
             $repoAuth,
             $repoUsers,
+            $app['request_stack'],
             $app['session'],
             $app['logger.flash'],
             $app['logger.system'],
@@ -48,7 +48,6 @@ class Login extends AccessChecker
      * Attempt to login a user with the given password. Accepts username or
      * email.
      *
-     * @param Request $request
      * @param string  $userName
      * @param string  $password
      *
@@ -56,10 +55,9 @@ class Login extends AccessChecker
      *
      * @return boolean
      */
-    public function login(Request $request, $userName = null, $password = null)
+    public function login($userName = null, $password = null)
     {
-        $this->setRequest($request);
-        $authCookie = $request->cookies->get($this->app['token.authentication.name']);
+        $authCookie = $this->requestStack->getCurrentRequest()->cookies->get($this->app['token.authentication.name']);
 
         // Remove expired tokens
         $this->repositoryAuthtoken->deleteExpiredTokens();
@@ -113,7 +111,7 @@ class Login extends AccessChecker
      */
     protected function loginCheckAuthtoken($authCookie)
     {
-        if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->remoteIP, $this->userAgent)) {
+        if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->getClientIp(), $this->getClientUserAgent())) {
             $this->flashLogger->error(Trans::__('Invalid login parameters.'));
 
             return false;
@@ -133,7 +131,7 @@ class Login extends AccessChecker
             return $this->loginFinish($userEntity);
         }
 
-        $this->systemLogger->alert(sprintf('Attempt to login with an invalid token from %s', $this->remoteIP), ['event' => 'security']);
+        $this->systemLogger->alert(sprintf('Attempt to login with an invalid token from %s', $this->getClientIp()), ['event' => 'security']);
 
         return false;
     }
@@ -216,7 +214,7 @@ class Login extends AccessChecker
     protected function updateUserLogin(Entity\Users $userEntity)
     {
         $userEntity->setLastseen(Carbon::now());
-        $userEntity->setLastip($this->remoteIP);
+        $userEntity->setLastip($this->getClientIp());
         $userEntity->setFailedlogins(0);
         $userEntity->setThrottleduntil($this->throttleUntil(0));
         $userEntity = $this->updateUserShadowLogin($userEntity);
@@ -261,7 +259,7 @@ class Login extends AccessChecker
     {
         $salt = $this->randomGenerator->generateString(32);
 
-        if (!$tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->remoteIP, $this->userAgent)) {
+        if (!$tokenEntity = $this->repositoryAuthtoken->getUserToken($userEntity->getUsername(), $this->getClientIp(), $this->getClientUserAgent())) {
             $tokenEntity = new Entity\Authtoken();
         }
 
@@ -273,9 +271,9 @@ class Login extends AccessChecker
         $tokenEntity->setToken($token);
         $tokenEntity->setSalt($salt);
         $tokenEntity->setValidity(Carbon::create()->addSeconds($validityPeriod));
-        $tokenEntity->setIp($this->remoteIP);
+        $tokenEntity->setIp($this->getClientIp());
         $tokenEntity->setLastseen(Carbon::now());
-        $tokenEntity->setUseragent($this->userAgent);
+        $tokenEntity->setUseragent($this->getClientUserAgent());
 
         $this->repositoryAuthtoken->save($tokenEntity);
 

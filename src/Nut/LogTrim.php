@@ -17,7 +17,8 @@ class LogTrim extends BaseCommand
     {
         $this
             ->setName('log:trim')
-            ->setDescription('Trim the system & change logs.');
+            ->setDescription('Trim the system & change logs.')
+        ;
     }
 
     /**

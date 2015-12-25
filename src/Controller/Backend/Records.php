@@ -1,11 +1,8 @@
 <?php
 namespace Bolt\Controller\Backend;
 
-use Bolt\Storage\ContentRequest\Edit;
 use Bolt\Storage\ContentRequest\Listing;
 use Bolt\Storage\ContentRequest\ListingOptions;
-use Bolt\Storage\ContentRequest\Save;
-use Bolt\Storage\Entity\Content;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Backend controller for record manipulation routes.
  *
- * Prior to v2.3 this functionality primarily existed in the monolithic
+ * Prior to v3.0 this functionality primarily existed in the monolithic
  * Bolt\Controllers\Backend class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
@@ -127,7 +124,8 @@ class Records extends BackendBase
             ->setOrder($request->query->get('order'))
             ->setPage($request->query->get('page_' . $contenttypeslug))
             ->setFilter($request->query->get('filter'))
-            ->setTaxonomies($taxonomy);
+            ->setTaxonomies($taxonomy)
+        ;
 
         $context = [
             'contenttype'     => $this->getContentType($contenttypeslug),

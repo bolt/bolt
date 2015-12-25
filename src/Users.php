@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class to handle things dealing with users.
+ *
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
  */
 class Users
 {
@@ -146,9 +148,7 @@ class Users
      */
     public function login($user, $password)
     {
-        $request = Request::createFromGlobals();
-
-        return $this->app['access_control.login']->login($request, $user, $password);
+        return $this->app['access_control.login']->login($user, $password);
     }
 
     /**
@@ -172,9 +172,7 @@ class Users
      */
     public function loginAuthtoken()
     {
-        $request = Request::createFromGlobals();
-
-        return $this->app['access_control.login']->login($request, null, null);
+        return $this->app['access_control.login']->login(null, null);
     }
 
     /**

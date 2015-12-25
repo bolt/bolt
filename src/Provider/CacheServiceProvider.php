@@ -12,7 +12,17 @@ class CacheServiceProvider implements ServiceProviderInterface
     {
         $app['cache'] = $app->share(
             function (Application $app) {
-                $cache = new Cache($app['resources']->getPath('cache'), $app);
+                try {
+                    $cache = new Cache(
+                        $app['resources']->getPath('cache'),
+                        Cache::EXTENSION,
+                        0002,
+                        $app['filesystem']
+                    );
+                } catch (\Exception $e) {
+                    $app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+                    throw $e;
+                }
 
                 return $cache;
             }

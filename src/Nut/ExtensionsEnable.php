@@ -23,7 +23,8 @@ class ExtensionsEnable extends BaseCommand
             ->setAliases(['extensions:install'])
             ->setDescription('Installs an extension by name and version.')
             ->addArgument('name', InputArgument::REQUIRED, 'Name of the extension to enable')
-            ->addArgument('version', InputArgument::REQUIRED, 'Version of the extension to enable');
+            ->addArgument('version', InputArgument::REQUIRED, 'Version of the extension to enable')
+        ;
     }
 
     /**

@@ -1,19 +1,21 @@
 /**
- * Stacked files
+ * BUIC: Stack.
  */
-fieldset.stack {
-    #protostack {
+fieldset.buic-stack {
+    $stackitem-zindex: 111;
+
+    .templates {
         display: none;
     }
 
-    #stackholder {
-        height: 120px;
+    .stackholder {
         padding: 12px 0 12px 2px;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     .stackbuttons {
-        margin-top:16px;
+        margin-top: 16px;
         .btn-group {
             display: inline-block;
             margin: 0;
@@ -22,7 +24,7 @@ fieldset.stack {
 
     .stackitem {
         border: 6px solid #fff;
-        background-color: #DDD;
+        background-color: #ddd;
         box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
         width: 100px;
         height: 100px;
@@ -54,46 +56,51 @@ fieldset.stack {
     }
 
     .stackitem:hover {
-        z-index: 120 !important;
+        z-index: $stackitem-zindex !important;
         box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
     }
 
-    .stackitem.item-1 {
-        z-index: 110;
+    .stackitem:nth-child(1) {
+        z-index: $stackitem-zindex - 1;
     }
 
-    .stackitem.item-2 {
-        z-index: 109;
+    .stackitem:nth-child(2) {
+        z-index: $stackitem-zindex - 2;
         transform: rotate(4deg);
         margin-top: 8px;
     }
 
-    .stackitem.item-3 {
-        z-index: 108;
+    .stackitem:nth-child(3) {
+        z-index: $stackitem-zindex - 3;
         transform: rotate(-3deg);
         margin-top: -8px;
     }
 
-    .stackitem.item-4 {
-        z-index: 107;
+    .stackitem:nth-child(4) {
+        z-index: $stackitem-zindex - 4;
         transform: rotate(9deg);
         margin-top: 3px;
     }
 
-    .stackitem.item-5 {
-        z-index: 106;
+    .stackitem:nth-child(5) {
+        z-index: $stackitem-zindex - 5;
         margin-top: -6px;
     }
 
-    .stackitem.item-6 {
-        z-index: 105;
+    .stackitem:nth-child(6) {
+        z-index: $stackitem-zindex - 6;
         transform: rotate(3deg);
         margin-top: 5px;
     }
 
-    .stackitem.item-7 {
-        z-index: 104;
+    .stackitem:nth-child(7) {
+        z-index: $stackitem-zindex - 7;
         transform: rotate(-5deg);
         margin-top: -3px;
+    }
+
+    .empty {
+        text-align: center;
+        color: #aaa;
     }
 }

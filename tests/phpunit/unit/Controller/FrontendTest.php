@@ -42,7 +42,7 @@ class FrontendTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/'));
 
-        $response = $this->controller()->homepage();
+        $response = $this->controller()->homepage($this->getRequest());
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('index.twig', $response->getTemplateName());
@@ -53,7 +53,7 @@ class FrontendTest extends ControllerUnitTest
         $this->getService('config')->set('general/homepage_template', 'custom-home.twig');
         $this->setRequest(Request::create('/'));
 
-        $response = $this->controller()->homepage();
+        $response = $this->controller()->homepage($this->getRequest());
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('custom-home.twig', $response->getTemplateName());
@@ -71,7 +71,7 @@ class FrontendTest extends ControllerUnitTest
             ->will($this->returnValue($content1));
         $this->setService('storage', $storage);
 
-        $response = $this->controller()->homepage();
+        $response = $this->controller()->homepage($this->getRequest());
         $globals = $response->getGlobalContext();
 
         $this->assertTrue($response instanceof BoltResponse);
@@ -93,7 +93,7 @@ class FrontendTest extends ControllerUnitTest
             ));
         $this->setService('storage', $storage);
 
-        $globals = $this->controller()->homepage()->getGlobalContext();
+        $globals = $this->controller()->homepage($this->getRequest())->getGlobalContext();
 
         $this->assertSame($content1, $globals['records'][0]);
         $this->assertSame($content2, $globals['records'][1]);

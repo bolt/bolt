@@ -13,6 +13,9 @@ use Monolog\Logger;
 use Silex;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
+ */
 class Extensions
 {
     use AssetTrait;
@@ -491,7 +494,7 @@ class Extensions
         array_pop($classatoms);
 
         // return second to last as namespace name
-        return (array_pop($classatoms));
+        return array_pop($classatoms);
     }
 
     /**
@@ -552,7 +555,7 @@ class Extensions
      */
     public function hasMenuOptions()
     {
-        return (!empty($this->menuoptions));
+        return !empty($this->menuoptions);
     }
 
     /**

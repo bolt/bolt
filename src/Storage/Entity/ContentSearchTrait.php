@@ -17,6 +17,9 @@ namespace Bolt\Storage\Entity;
  */
 trait ContentSearchTrait
 {
+    /** @var integer The last time we weight a searchresult */
+    protected $lastWeight = 0;
+
     /**
      * Get the content's query weight… and something to eat… it looks hungry.
      *

@@ -1,4 +1,4 @@
-{% set repeatfieldvals = context.content.get('contentkey') %}
+{% set repeatfieldvals = context.content.get(contentkey) %}
 {% set labelkey = field.label ?: key|ucfirst %}
 
 {% set data_bolt_widget = {
@@ -23,10 +23,11 @@
     <div class="repeater-slot">
         <script type="text/template">
             {% set index = '#' %}
-            {% include '@bolt/editcontent/fields/_repeater-group.twig' %}
+            {% include '@bolt/editcontent/fields/_repeater-group.twig' with { 'content': repeatfieldvals.getEmptySet , 'index': index} %}
         </script>
 
-        {% for repeatfieldset in repeatfieldvals %}
+        {% for index, repeatfieldset in repeatfieldvals %}
+            {% include '@bolt/editcontent/fields/_repeater-group.twig' with { 'content': repeatfieldset, 'index': index} %}
         {% endfor %}
     </div>
 

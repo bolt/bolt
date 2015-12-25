@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Events;
 
 use Silex\Application;
@@ -83,7 +84,7 @@ class CronEvent extends Event
     private function cronWeekly()
     {
         // Clear the cache
-        $this->app['cache']->clearCache();
+        $this->app['cache']->doFlush();
         $this->notify('Clearing cache');
 
         // Trim system log files

@@ -63,21 +63,23 @@ class Application extends Silex\Application
         $this['editlink'] = '';
         $this['edittitle'] = '';
 
-        // Initialise the JavaScipt data gateway
+        // Initialize the JavaScript data gateway.
         $this['jsdata'] = [];
     }
 
     protected function initConfig()
     {
         $this->register(new Provider\DatabaseSchemaServiceProvider())
-            ->register(new Provider\ConfigServiceProvider());
+            ->register(new Provider\ConfigServiceProvider())
+        ;
     }
 
     protected function initSession()
     {
         $this
             ->register(new Provider\TokenServiceProvider())
-            ->register(new Provider\SessionServiceProvider());
+            ->register(new Provider\SessionServiceProvider())
+        ;
     }
 
     public function initialize()
@@ -109,13 +111,13 @@ class Application extends Silex\Application
         // Initialize enabled extensions before executing handlers.
         $this->initExtensions();
 
-        // Initialise the global 'before' handler.
+        // Initialize the global 'before' handler.
         $this->before([$this, 'beforeHandler']);
 
-        // Initialise the global 'after' handler.
+        // Initialize the global 'after' handler.
         $this->after([$this, 'afterHandler']);
 
-        // Calling for BC. Initialise the 'error' handler.
+        // Calling for BC. Initialize the 'error' handler.
         $this->error([$this, 'errorHandler']);
     }
 
@@ -215,8 +217,8 @@ class Application extends Silex\Application
             ->register(new Provider\FilePermissionsServiceProvider())
             ->register(new Provider\MenuServiceProvider())
             ->register(new Provider\UploadServiceProvider())
-            ->register(new Provider\FilesystemProvider())
-            ->register(new Thumbs\ThumbnailProvider())
+            ->register(new Provider\FilesystemServiceProvider())
+            ->register(new Provider\ThumbnailsServiceProvider())
             ->register(new Provider\NutServiceProvider())
             ->register(new Provider\GuzzleServiceProvider())
             ->register(new Provider\PrefillServiceProvider())
@@ -226,7 +228,8 @@ class Application extends Silex\Application
             ->register(new Provider\EventListenerServiceProvider())
             ->register(new Provider\AssetServiceProvider())
             ->register(new Provider\FormServiceProvider())
-            ->register(new Provider\MailerServiceProvider());
+            ->register(new Provider\MailerServiceProvider())
+        ;
 
         $this['paths'] = $this['resources']->getPaths();
 

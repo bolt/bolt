@@ -16,7 +16,7 @@ class PrefillTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $factory = new MessageFactory;
+        $factory = new MessageFactory();
         $request = $factory->createRequest('GET', '/');
         $response = new Response(Response::HTTP_OK);
         $guzzle = $this->getMock('GuzzleHttp\Client', ['get']);

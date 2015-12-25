@@ -48,13 +48,13 @@ class GeneralTest extends ControllerUnitTest
     public function testClearCache()
     {
         $this->allowLogin($this->getApp());
-        $cache = $this->getMock('Bolt\Cache', ['clearCache'], [__DIR__, $this->getApp()]);
+        $cache = $this->getCacheMock();
         $cache->expects($this->at(0))
-            ->method('clearCache')
+            ->method('doFlush')
             ->will($this->returnValue(['successfiles' => '1.txt', 'failedfiles' => '2.txt']));
 
         $cache->expects($this->at(1))
-            ->method('clearCache')
+            ->method('doFlush')
             ->will($this->returnValue(['successfiles' => '1.txt']));
 
         $this->setService('cache', $cache);
@@ -133,7 +133,7 @@ class GeneralTest extends ControllerUnitTest
         $logger = $this->getMock('Monolog\Logger', ['error'], ['test']);
         $logger->expects($this->once())
             ->method('error')
-            ->with("Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.");
+            ->with("Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.");
         $this->setService('logger.system', $logger);
 
         $this->setRequest(Request::create('/bolt/prefill', 'POST', ['contenttypes' => 'pages']));

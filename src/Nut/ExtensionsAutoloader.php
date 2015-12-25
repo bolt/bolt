@@ -18,7 +18,8 @@ class ExtensionsAutoloader extends BaseCommand
     {
         $this
             ->setName('extensions:autoloader')
-            ->setDescription('Update the extensions autoloader.');
+            ->setDescription('Update the extensions autoloader.')
+        ;
     }
 
     /**

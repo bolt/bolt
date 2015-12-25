@@ -8,8 +8,6 @@ use Composer\Json\JsonFile;
 use Composer\Json\JsonManipulator;
 use Composer\Package\Version\VersionParser;
 use Composer\Package\Version\VersionSelector;
-use Composer\Repository\CompositeRepository;
-use Composer\Repository\PlatformRepository;
 
 /**
  * Composer require package class.
@@ -20,8 +18,6 @@ final class RequirePackage extends BaseAction
 {
     /** @var \Composer\Package\Version\VersionSelector */
     private $versionSelector;
-    /** @var \Composer\Repository\RepositoryInterface */
-    private $repos;
 
     /**
      * Require (install) a package.
@@ -56,13 +52,6 @@ final class RequirePackage extends BaseAction
             // JSON is not writable
             return 1;
         }
-
-        // Get the Composer repos
-        $repos = $composer->getRepositoryManager()->getRepositories();
-
-        $this->repos = new CompositeRepository(
-            array_merge([new PlatformRepository()], $repos)
-        );
 
         // Format the package array
         $package = $this->formatRequirements($package);

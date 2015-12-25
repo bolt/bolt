@@ -21,6 +21,8 @@ class RepeaterType extends FieldTypeBase
      *
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
+     *
+     * @return void
      */
     public function load(QueryBuilder $query, ClassMetadata $metadata)
     {
@@ -49,11 +51,29 @@ class RepeaterType extends FieldTypeBase
         $this->normalize($entity);
         $key = $this->mapping['fieldname'];
         $accessor = 'get' . ucfirst($key);
+        $proposed = $entity->$accessor();
 
-        $collection = $entity->$accessor();
+        $collection = new RepeatingFieldCollection($this->em, $this->mapping);
+        $existingFields = $this->getExistingFields($entity) ?: [];
+        foreach ($existingFields as $group => $ids) {
+            $collection->addFromReferences($ids, $group);
+        }
 
-        $this->addToInsertQuery($queries, $collection->getNew(), $entity);
-        $this->addToUpdateQuery($queries, $collection->getExisting(), $entity);
+        $toDelete = $collection->update($proposed);
+        $repo = $this->em->getRepository('Bolt\Storage\Entity\FieldValue');
+
+        $queries->onResult(
+            function ($query, $result, $id) use ($repo, $collection, $toDelete) {
+                foreach ($collection as $entity) {
+                    $entity->content_id = $id;
+                    $repo->save($entity);
+                }
+
+                foreach ($toDelete as $entity) {
+                    $repo->delete($entity);
+                }
+            }
+        );
     }
 
     public function hydrate($data, $entity)
@@ -66,10 +86,10 @@ class RepeaterType extends FieldTypeBase
             $values[$split[0]][$split[1]][] = $split[2];
         }
 
-        $collection = new RepeatingFieldCollection($this->em);
+        $collection = new RepeatingFieldCollection($this->em, $this->mapping);
         $collection->setName($key);
 
-        if (count($values[$key])) {
+        if (isset($values[$key]) && count($values[$key])) {
             foreach ($values[$key] as $group => $refs) {
                 $collection->addFromReferences($refs, $group);
             }
@@ -90,15 +110,14 @@ class RepeaterType extends FieldTypeBase
         $accessor = 'get' . ucfirst($key);
 
         $outerCollection = $entity->$accessor();
-        $newVal = [];
         if (!$outerCollection instanceof RepeatingFieldCollection) {
-            $collection = new RepeatingFieldCollection($this->em);
+            $collection = new RepeatingFieldCollection($this->em, $this->mapping);
             $collection->setName($key);
 
             if (is_array($outerCollection)) {
                 foreach ($outerCollection as $group => $fields) {
                     if (is_array($fields)) {
-                        $collection->addFromArray($fields, $group);
+                        $collection->addFromArray($fields, $group, $entity);
                     }
                 }
             }
@@ -168,7 +187,7 @@ class RepeaterType extends FieldTypeBase
         }
 
         foreach ($results as $result) {
-            $fields[$result['grouping']][$result['name']] = $result['id'];
+            $fields[$result['grouping']][] = $result['id'];
         }
 
         return $fields;

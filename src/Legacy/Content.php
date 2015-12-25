@@ -2,7 +2,6 @@
 
 namespace Bolt\Legacy;
 
-use Bolt\Helpers\Html;
 use Bolt\Storage\Entity;
 use Maid\Maid;
 use Silex;
@@ -27,12 +26,6 @@ class Content implements \ArrayAccess
 
     /** @var \Silex\Application */
     protected $app;
-
-    /** @var integer The last time we weight a searchresult */
-    private $lastWeight = 0;
-
-    /** @var boolean Whether this is a "real" contenttype or an embedded ones */
-    private $isRootType;
 
     /**
      * @param \Silex\Application $app

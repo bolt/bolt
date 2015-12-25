@@ -1,8 +1,7 @@
 /**
  * @param {Object} $    - Global jQuery object
- * @param {Object} bolt - The Bolt module
  */
-(function ($, bolt) {
+(function ($) {
     'use strict';
 
     /**
@@ -13,21 +12,20 @@
      *
      * @class fieldImagelist
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.fieldFilelist
      */
-    $.widget('bolt.fieldImagelist', /** @lends jQuery.widget.bolt.fieldImagelist.prototype */ {
+    $.widget('bolt.fieldImagelist', $.bolt.fieldFilelist, /** @lends jQuery.widget.bolt.fieldImagelist.prototype */ {
         /**
          * The constructor of the imagelist field widget.
          *
          * @private
          */
         _create: function () {
-            bolt.uploads.bindList(
-                this.element,
-                {
-                    removeSingle: bolt.data('field.imagelist.message.remove'),
-                    removeMulti: bolt.data('field.imagelist.message.removeMulti')
-                }
-            );
+            // Mark this widget as type of "ImageList".
+            this.options.isImage = true;
+
+            // Call the parent constructor.
+            this._super();
         }
     });
-})(jQuery, Bolt);
+})(jQuery);

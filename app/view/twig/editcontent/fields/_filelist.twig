@@ -41,11 +41,12 @@
 {### Template: Listitem ###}
 
 {% set template_item %}
-    <div class="list-item ui-state-default">
+    <div class="item ui-state-default">
+        <div class="icon"><i class="fa fa-file-o"></i><span>%EXT_E%</span></div>
         <input type="text" class="title" value="%TITLE_A%">
         <input type="hidden" class="filename" value="%FILENAME_A%">
-        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
-        <span>%FILENAME_E%</span>
+        <a href="#" class="remove"><i class="fa fa-times"></i></a>
+        <span class="desc">%FILENAME_E%</span>
     </div>
 {% endset %}
 {% set template_item = template_item|trim|preg_replace('/>\\s+</', '><') %}
@@ -65,14 +66,15 @@
     {{ data('field.filelist.template.empty', template_empty) }}
     {{ data('field.filelist.template.item', template_item) }}
 
-    <div class="col-xs-12 filelistholder dropzone">
+    <div class="col-xs-12 dropzone">
         {# Filelist #}
         <div class="list">
             {% for file in list %}
                 {{ template_item|replace({
                     '%TITLE_A%':    file.title|e('html_attr'),
                     '%FILENAME_A%': file.filename|e('html_attr'),
-                    '%FILENAME_E%': file.filename|e('html')
+                    '%FILENAME_E%': file.filename|e('html'),
+                    '%EXT_E%': file.filename|preg_replace('/.+?\.([a-z0-9]+)$/', '$1')|upper|e('html')
                 })|raw }}
             {% else %}
                 {{ template_empty|raw }}
@@ -85,13 +87,6 @@
         {# Buttons #}
         <div class="clearfix">
             {{ macro.upload_buttons('file', attributes.fileupload, option.upload, can_upload) }}
-
-            <div class="button-wrap fileselectbuttongroup">
-                <button type="button" class="btn btn-default btn-sm remove-selected-button">
-                    <i class="fa fa-trash"></i>
-                    <span>{{ __('Remove selected') }}</span>
-                </button>
-            </div>
         </div>
 
         {# Data #}

@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * Helper class for ContentType record editor saves.
  *
- * Prior to v2.3 this functionality existed in \Bolt\Controllers\Backend::editcontent().
+ * Prior to v3.0 this functionality existed in \Bolt\Controllers\Backend::editcontent().
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

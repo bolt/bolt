@@ -17,7 +17,8 @@ class DatabaseRepair extends BaseCommand
     {
         $this
             ->setName('database:update')
-            ->setDescription('Repair and/or update the database.');
+            ->setDescription('Repair and/or update the database.')
+        ;
     }
 
     /**

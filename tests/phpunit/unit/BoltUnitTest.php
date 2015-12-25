@@ -201,6 +201,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             [
                 $app['storage']->getRepository('Bolt\Storage\Entity\Authtoken'),
                 $app['storage']->getRepository('Bolt\Storage\Entity\Users'),
+                $app['request_stack'],
                 $app['session'],
                 $app['logger.flash'],
                 $app['logger.system'],
@@ -222,6 +223,25 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $loginMock = $this->getMock('Bolt\AccessControl\Login', $functions, [$app]);
 
         return $loginMock;
+    }
+
+    protected function getCacheMock($path = null)
+    {
+        if ($path === null) {
+            $app = $this->getApp();
+            $path = $app['resources']->getPath('cache');
+        }
+
+        $params = [
+            $path,
+            \Bolt\Cache::EXTENSION,
+            0002,
+            $app['filesystem']
+        ];
+
+        $cache = $this->getMock('Bolt\Cache', ['doFlush'], $params);
+
+        return $cache;
     }
 
     protected function getTwigHandlers($app)

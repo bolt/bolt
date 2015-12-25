@@ -481,9 +481,9 @@ class Config
         // Allow explicit setting of a Contenttype's table name suffix. We default
         // to slug if not present as it has been this way since Bolt v1.2.1
         if (!isset($contentType['tablename'])) {
-            $contentType['tablename'] = $contentType['slug'];
+            $contentType['tablename'] = Slugify::create()->slugify($contentType['slug'], '_');
         } else {
-            $contentType['tablename'] = Slugify::create()->slugify($contentType['tablename']);
+            $contentType['tablename'] = Slugify::create()->slugify($contentType['tablename'], '_');
         }
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $generalConfig);
@@ -1176,18 +1176,6 @@ class Config
         $now = date_format(new \DateTime($timezone), 'Y-m-d H:i:s');
 
         return $now;
-    }
-
-    /**
-     * Use get('general/database') instead
-     *
-     * @deprecated since 2.1 will be removed in 4.0.
-     *
-     * @return array
-     */
-    public function getDBOptions()
-    {
-        return $this->get('general/database');
     }
 
     /**

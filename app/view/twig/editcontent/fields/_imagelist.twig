@@ -39,13 +39,14 @@
 {### Template: Listitem ###}
 
 {% set template_item %}
-    <div class="list-item ui-state-default">
-        <a class="thumbnail-link" href="{{ app.paths.bolt }}../files/%FILENAME_A%">
+    <div class="item ui-state-default">
+        <a class="magnific" href="{{ app.paths.files }}%FILENAME_A%" title="%TITLE_A%">
             <img src="{{ app.paths.bolt }}../thumbs/60x40/%FILENAME_A%" width="60" height="40">
         </a>
         <input type="text" class="title" value="%TITLE_A%">
         <input type="hidden" class="filename" value="%FILENAME_A%">
-        <a href="#" class="remove-button"><i class="fa fa-times"></i></a>
+        <a href="#" class="remove"><i class="fa fa-times"></i></a>
+        <span class="desc">%FILENAME_E%</span>
     </div>
 {% endset %}
 {% set template_item = template_item|trim|preg_replace('/>\\s+</', '><') %}
@@ -65,13 +66,14 @@
     {{ data('field.imagelist.template.empty', template_empty) }}
     {{ data('field.imagelist.template.item', template_item) }}
 
-    <div class="col-xs-12 filelistholder dropzone">
+    <div class="col-xs-12 dropzone">
         {# Imagelist #}
         <div class="list">
             {% for image in list %}
                 {{ template_item|replace({
                     '%TITLE_A%':    image.title|e('html_attr'),
-                    '%FILENAME_A%': image.filename|e('html_attr')
+                    '%FILENAME_A%': image.filename|e('html_attr'),
+                    '%FILENAME_E%': image.filename|e('html')
                 })|raw }}
             {% else %}
                 {{ template_empty|raw }}
@@ -87,13 +89,6 @@
             {{ macro.upload_buttons('image', attributes.fileupload, option.upload, can_upload) }}
 
             <textarea name="{{ name }}" class="hide">{{ list|json_encode() }}</textarea>
-
-            <div class="button-wrap fileselectbuttongroup">
-                <span class="btn btn-default btn-sm remove-selected-button">
-                    <i class="fa fa-trash"></i>
-                    <span>{{ __('Remove selected') }}</span>
-                </span>
-            </div>
         </div>
     </div>
 {% endblock fieldset_controls %}

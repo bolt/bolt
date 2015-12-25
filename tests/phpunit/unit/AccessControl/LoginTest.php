@@ -21,7 +21,10 @@ class LoginTest extends BoltUnitTest
     public function testLoginNoCredentials()
     {
         $app = $this->getApp();
+
+        $app['request_stack']->push(new Request());
         $this->addDefaultUser($app);
+
         $logger = $this->getMock('\Monolog\Logger', ['error'], ['testlogger']);
         $logger->expects($this->atLeastOnce())
             ->method('error')
@@ -29,16 +32,17 @@ class LoginTest extends BoltUnitTest
         $app['logger.system'] = $logger;
 
         $login = new Login($app);
-        $request = new Request();
 
         $this->setExpectedException('Bolt\Exception\AccessControlException', 'Invalid login parameters.');
-        $login->login($request);
+        $login->login();
     }
 
     public function testLoginInvalidUsername()
     {
         $app = $this->getApp();
+        $app['request_stack']->push(new Request());
         $this->addDefaultUser($app);
+
         $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
         $logger->expects($this->atLeastOnce())
             ->method('error')
@@ -46,15 +50,15 @@ class LoginTest extends BoltUnitTest
         $app['logger.flash'] = $logger;
 
         $login = new Login($app);
-        $request = new Request();
 
-        $response = $login->login($request, 'koala', 'sneaky');
+        $response = $login->login('koala', 'sneaky');
         $this->assertFalse($response);
     }
 
     public function testLoginDisabledUsername()
     {
         $app = $this->getApp();
+        $app['request_stack']->push(new Request());
         $this->addDefaultUser($app);
 
         $logger = $this->getMock('\Monolog\Logger', ['alert'], ['testlogger']);
@@ -76,9 +80,8 @@ class LoginTest extends BoltUnitTest
         $repo->save($userEntity);
 
         $login = new Login($app);
-        $request = new Request();
 
-        $response = $login->login($request, 'admin', 'sneaky');
+        $response = $login->login('admin', 'sneaky');
         $this->assertFalse($response);
     }
 
@@ -99,10 +102,11 @@ class LoginTest extends BoltUnitTest
             ->with($this->equalTo('Username or password not correct. Please check your input.'));
         $app['logger.flash'] = $logger;
 
-        $login = new Login($app);
-        $request = new Request();
+        $app['request_stack']->push(new Request());
 
-        $response = $login->login($request, 'admin', 'sneaky');
+        $login = new Login($app);
+
+        $response = $login->login('admin', 'sneaky');
         $this->assertFalse($response);
     }
 
@@ -120,11 +124,13 @@ class LoginTest extends BoltUnitTest
             ->with($this->matchesRegularExpression('#Saving new login token#'));
         $app['logger.system'] = $logger;
 
-        $login = new Login($app);
         $request = Request::createFromGlobals();
         $request->server->set('HTTP_USER_AGENT', 'Bolt PHPUnit tests');
+        $app['request_stack']->push($request);
 
-        $response = $login->login($request, 'admin', 'password');
+        $login = new Login($app);
+
+        $response = $login->login('admin', 'password');
         $this->assertTrue($response);
     }
 
@@ -139,12 +145,14 @@ class LoginTest extends BoltUnitTest
             ->with($this->equalTo('Invalid login parameters.'));
         $app['logger.flash'] = $logger;
 
-        $login = new Login($app);
         $request = Request::createFromGlobals();
         $request->server->set('REMOTE_ADDR', '1.2.3.4');
         $request->cookies->set($app['token.authentication.name'], 'abc123');
+        $app['request_stack']->push($request);
 
-        $response = $login->login($request);
+        $login = new Login($app);
+
+        $response = $login->login();
         $this->assertFalse($response);
     }
 
@@ -170,14 +178,15 @@ class LoginTest extends BoltUnitTest
         $entityAuthtoken->setValidity(Carbon::create()->addHours(-1));
         $repo->save($entityAuthtoken);
 
-        $login = new Login($app);
         $request = Request::createFromGlobals();
-
         $request->server->set('REMOTE_ADDR', '1.2.3.4');
         $request->server->set('HTTP_USER_AGENT', 'Bolt PHPUnit tests');
         $request->cookies->set($app['token.authentication.name'], 'abc123');
+        $app['request_stack']->push($request);
 
-        $response = $login->login($request);
+        $login = new Login($app);
+
+        $response = $login->login();
         $this->assertFalse($response);
     }
 
@@ -206,14 +215,15 @@ class LoginTest extends BoltUnitTest
         $entityAuthtoken->setValidity(Carbon::create()->addHours(2));
         $repo->save($entityAuthtoken);
 
-        $login = new Login($app);
         $request = Request::createFromGlobals();
-
         $request->server->set('REMOTE_ADDR', '1.2.3.4');
         $request->server->set('HTTP_USER_AGENT', 'Bolt PHPUnit tests');
         $request->cookies->set($app['token.authentication.name'], 'abc123');
+        $app['request_stack']->push($request);
 
-        $response = $login->login($request);
+        $login = new Login($app);
+
+        $response = $login->login();
         $this->assertFalse($response);
     }
 
@@ -264,12 +274,14 @@ class LoginTest extends BoltUnitTest
         $entityAuthtoken->setValidity(Carbon::create()->addHours(2));
         $repo->save($entityAuthtoken);
 
-        $login = new Login($app);
         $request = Request::createFromGlobals();
 
         $request->server->set('REMOTE_ADDR', $ipAddress);
         $request->server->set('HTTP_USER_AGENT', $userAgent);
         $request->cookies->set($app['token.authentication.name'], $token);
+        $app['request_stack']->push($request);
+
+        $login = new Login($app);
 
         $response = $login->login($request);
         $this->assertTrue($response);

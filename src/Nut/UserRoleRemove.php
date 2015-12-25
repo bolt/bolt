@@ -20,7 +20,8 @@ class UserRoleRemove extends BaseCommand
             ->setName('role:remove')
             ->setDescription('Remove a certain role from a user.')
             ->addArgument('username', InputArgument::REQUIRED, 'The username (loginname) you wish to remove the role from.')
-            ->addArgument('role', InputArgument::REQUIRED, 'The role you wish to remove.');
+            ->addArgument('role', InputArgument::REQUIRED, 'The role you wish to remove.')
+        ;
     }
 
     /**

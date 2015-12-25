@@ -3,7 +3,6 @@
 namespace Bolt\Twig\Handler;
 
 use Bolt\Helpers\Html;
-use Bolt\Legacy\Content;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
@@ -192,7 +191,8 @@ class RecordHandler
             ->notPath('.sass-cache')
             ->depth('<2')
             ->path($name)
-            ->sortByName();
+            ->sortByName()
+        ;
 
         foreach ($finder as $file) {
             $name = $file->getRelativePathname();

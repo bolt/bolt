@@ -2,7 +2,6 @@
 
 namespace Bolt\Nut;
 
-use Bolt\Configuration\Environment;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -20,7 +19,8 @@ class SetupSync extends BaseCommand
     {
         $this
             ->setName('setup:sync')
-            ->setDescription('Synchronise a Bolt install private asset directories with the web root.');
+            ->setDescription('Synchronise a Bolt install private asset directories with the web root.')
+        ;
     }
 
     /**

@@ -73,8 +73,6 @@ class Authentication extends BackendBase
      */
     public function postLogin(Request $request)
     {
-        $this->login()->setRequest($request);
-
         $username = trim($request->request->get('username'));
         $password = $request->request->get('password');
         switch ($request->get('action')) {
@@ -143,7 +141,7 @@ class Authentication extends BackendBase
      */
     private function handlePostLogin(Request $request, $username, $password)
     {
-        if (!$this->login()->login($request, $username, $password)) {
+        if (!$this->login()->login($username, $password)) {
             return $this->getLogin($request, true);
         }
 

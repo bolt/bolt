@@ -1,12 +1,14 @@
 <?php
+
 namespace Bolt\Controller\Backend;
 
+use Bolt\Filesystem\Exception\ExceptionInterface;
+use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\FilesystemInterface;
+use Bolt\Filesystem\Handler\File;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
-use League\Flysystem\File;
-use League\Flysystem\FileNotFoundException;
-use League\Flysystem\FilesystemInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,7 +20,7 @@ use Symfony\Component\Yaml\Parser;
 /**
  * Backend controller for file/directory management routes.
  *
- * Prior to v2.3 this functionality primarily existed in the monolithic
+ * Prior to v3.0 this functionality primarily existed in the monolithic
  * Bolt\Controllers\Backend class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
@@ -81,7 +83,6 @@ class FileManager extends BackendBase
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
 
-        $writeallowed = $this->isWriteable($file);
         $data = ['contents' => $contents];
 
         /** @var Form $form */
@@ -109,7 +110,7 @@ class FileManager extends BackendBase
             'pathsegments'   => $this->getPathSegments(dirname($file->getPath())),
             'additionalpath' => $additionalpath,
             'namespace'      => $namespace,
-            'write_allowed'  => $writeallowed,
+            'write_allowed'  => true,
             'filegroup'      => $this->getFileGroup($filesystem, $file),
             'datechanged'    => date_format(new \DateTime('@' . $file->getTimestamp()), 'c'),
         ];
@@ -132,10 +133,10 @@ class FileManager extends BackendBase
         $path = rtrim($path, '/');
 
         // Defaults
-        $files      = [];
-        $folders    = [];
-        $formview   = false;
-        $uploadview = true;
+        $files       = [];
+        $directories = [];
+        $formview    = false;
+        $uploadview  = true;
 
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
@@ -193,7 +194,8 @@ class FileManager extends BackendBase
                 $formview = $form->createView();
             }
 
-            list($files, $folders) = $filesystem->browse($path, $this->app);
+            $files = $filesystem->find()->in($path)->files()->toArray();
+            $directories = $filesystem->find()->in($path)->directories()->toArray();
         }
 
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
@@ -207,7 +209,7 @@ class FileManager extends BackendBase
         $context = [
             'path'         => $path,
             'files'        => $files,
-            'folders'      => $folders,
+            'directories'  => $directories,
             'pathsegments' => $this->getPathSegments($path),
             'form'         => $formview,
             'namespace'    => $namespace,
@@ -250,10 +252,11 @@ class FileManager extends BackendBase
                 // Remove ^M (or \r) characters from the file.
                 $contents = str_ireplace("\x0D", '', $contents);
 
-                if ($file->update($contents)) {
+                try {
+                    $file->update($contents);
                     $result['msg'] = Trans::__("File '%s' has been saved.", ['%s' => $file->getPath()]);
-                    $result['datechanged'] = date_format(new \DateTime('@' . $file->getTimestamp()), 'c');
-                } else {
+                    $result['datechanged'] = $file->getCarbon()->toIso8601String();
+                } catch (ExceptionInterface $e) {
                     $result['msg'] = Trans::__("File '%s' could not be saved, for some reason.", ['%s' => $file->getPath()]);
                 }
             }
@@ -341,29 +344,6 @@ class FileManager extends BackendBase
             foreach ($result->getMessages() as $message) {
                 $this->flashes()->error((string) $message);
             }
-        }
-    }
-
-    /**
-     * Check if the file can be written to and notify if not.
-     *
-     * @param File $file
-     *
-     * @return boolean
-     */
-    private function isWriteable(File $file)
-    {
-        if ($file->getVisibility() !== 'public') {
-            $this->flashes()->info(
-                Trans::__(
-                    "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.",
-                    ['%s' => $file->getPath()]
-                )
-            );
-
-            return false;
-        } else {
-            return true;
         }
     }
 

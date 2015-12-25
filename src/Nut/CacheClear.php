@@ -17,7 +17,8 @@ class CacheClear extends BaseCommand
     {
         $this
             ->setName('cache:clear')
-            ->setDescription('Clear the cache');
+            ->setDescription('Clear the cache')
+        ;
     }
 
     /**
@@ -25,7 +26,7 @@ class CacheClear extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = $this->app['cache']->clearCache();
+        $result = $this->app['cache']->doFlush();
 
         $output->writeln(sprintf("Deleted %s files from cache.\n", $result['successfiles']));
 

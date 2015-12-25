@@ -99,7 +99,13 @@ class Storage
         $output = '';
 
         // get a list of images.
-        $this->images = $this->app['filesystem']->search('*', 'jpg,jpeg,png');
+        $images = $this->app['filesystem']
+            ->find()
+            ->in('files://')
+            ->name('/\.jpe?g$/')
+            ->name('*.png')
+            ->toArray()
+        ;
 
         $emptyOnly = empty($contenttypes);
 
@@ -116,7 +122,7 @@ class Storage
             $amount = isset($contenttype['prefill']) ? $contenttype['prefill'] : 5;
 
             for ($i = 1; $i <= $amount; $i++) {
-                $output .= $this->preFillSingle($key, $contenttype);
+                $output .= $this->preFillSingle($key, $contenttype, $images);
             }
         }
 
@@ -130,12 +136,13 @@ class Storage
      *
      * @see preFill
      *
-     * @param $key
-     * @param $contenttype
+     * @param string $key
+     * @param array  $contenttype
+     * @param array  $images
      *
      * @return string
      */
-    private function preFillSingle($key, $contenttype)
+    private function preFillSingle($key, $contenttype, $images)
     {
         $content = [];
         $title = '';
@@ -149,8 +156,8 @@ class Storage
         $user = $this->app['users']->getUser($username);
 
         $content['ownerid'] = $user['id'];
-
         $content['status'] = 'published';
+        shuffle($images);
 
         foreach ($contenttype['fields'] as $field => $values) {
             switch ($values['type']) {
@@ -162,8 +169,9 @@ class Storage
                     break;
                 case 'image':
                     // Get a random image
-                    if (!empty($this->images)) {
-                        $content[$field]['file'] = $this->images[array_rand($this->images)];
+                    if (!empty($images)) {
+                        $image = next($images);
+                        $content[$field]['file'] = $image->getPath();
                     }
                     break;
                 case 'html':
@@ -1028,6 +1036,9 @@ class Storage
         // Make the query for the pager.
         $pagerquery = sprintf('SELECT COUNT(*) AS count FROM %s %s', $tablename, $where);
 
+        $orderby = (array_key_exists('has_sortorder', $taxonomytype)
+            && $taxonomytype['has_sortorder'] === true) ? 'sortorder' : 'id';
+
         // Sort on either 'ascending' or 'descending'
         // Make sure we set the order.
         $order = 'ASC';
@@ -1037,7 +1048,7 @@ class Storage
         }
 
         // Add the limit
-        $query = sprintf('SELECT * FROM %s %s ORDER BY id %s', $tablename, $where, $order);
+        $query = sprintf('SELECT * FROM %s %s ORDER BY %s %s', $tablename, $where, $orderby, $order);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, $limit, ($page - 1) * $limit);
 
         $taxorows = $this->app['db']->fetchAll($query);
@@ -1130,7 +1141,8 @@ class Storage
                 ->update($tablename)
                 ->set('status', ':newstatus')
                 ->set('datechanged', ':datechanged')
-                ->setParameter('datechanged', date('Y-m-d H:i:s'));
+                ->setParameter('datechanged', date('Y-m-d H:i:s'))
+            ;
 
             $this->timedWhere($query, $type);
 
@@ -1177,7 +1189,8 @@ class Storage
             ->from($tablename)
             ->set('status', ':newstatus')
             ->set('datechanged', ':datechanged')
-            ->setParameter('datechanged', date('Y-m-d H:i:s'));
+            ->setParameter('datechanged', date('Y-m-d H:i:s'))
+        ;
 
         $this->timedWhere($query, $type);
 
@@ -1198,7 +1211,8 @@ class Storage
                 ->andWhere('datepublish < :currenttime')
                 ->setParameter('oldstatus', 'timed')
                 ->setParameter('newstatus', 'published')
-                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME);
+                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
+            ;
         } else {
             $query
                 ->where('status = :oldstatus')
@@ -1208,7 +1222,8 @@ class Storage
                 ->setParameter('oldstatus', 'published')
                 ->setParameter('newstatus', 'held')
                 ->setParameter('zeroday', '1900-01-01 00:00:01')
-                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME);
+                ->setParameter('currenttime', new \DateTime(), \Doctrine\DBAL\Types\Type::DATETIME)
+            ;
         }
     }
 
@@ -1322,7 +1337,7 @@ class Storage
         } elseif (preg_match('#^/?([a-z0-9_-]+)/random/([0-9]+)$#i', $textquery, $match)) {
             // like 'page/random/4'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
-            $dboptions = $this->app['config']->getDBoptions();
+            $dboptions = $this->app['config']->get('general/database');
             $metaParameters['order'] = $dboptions['randomfunction']; // 'RAND()' or 'RANDOM()'
             if (!isset($metaParameters['limit'])) {
                 $metaParameters['limit'] = $match[2];

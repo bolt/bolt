@@ -60,4 +60,5 @@ Vagrantfile
 .project
 /bolt.log
 coverage.xml
-
+pimple.json
+dump.php

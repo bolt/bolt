@@ -2,7 +2,6 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Logger\DeprecatedLog;
 use Bolt\Logger\FlashLogger;
 use Bolt\Logger\Handler\RecordChangeHandler;
 use Bolt\Logger\Handler\SystemHandler;
@@ -24,19 +23,6 @@ class LoggerServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        /**
-         * Wrapper for old log service, used by extensions.
-         *
-         * @deprecated Deprecated since 3.0, to be removed in 4.0.
-         */
-        $app['log'] = $app->share(
-            function ($app) {
-                $log = new DeprecatedLog($app);
-
-                return $log;
-            }
-        );
-
         // System log
         $app['logger.system'] = $app->share(
             function ($app) {

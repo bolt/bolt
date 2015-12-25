@@ -14,7 +14,7 @@
  * @mixes Bolt.omnisearch
  * @mixes Bolt.secmenu
  * @mixes Bolt.stack
- * @mixes Bolt.uploads
+ * @mixes Bolt.utils
  *
  * @mixes Bolt.fields
  * @mixes Bolt.fields.categories

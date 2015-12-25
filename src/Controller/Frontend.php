@@ -86,11 +86,14 @@ class Frontend extends ConfigurableBase
     /**
      * Controller for the "Homepage" route. Usually the front page of the website.
      *
+     * @param Request $request
+     *
      * @return BoltResponse
      */
-    public function homepage()
+    public function homepage(Request $request)
     {
-        $content = $this->getContent($this->getOption('general/homepage'));
+        $listingparameters = $this->getListingParameters($request, $this->getOption('general/homepage'));
+        $content = $this->getContent($this->getOption('general/homepage'), $listingparameters);
 
         $template = $this->templateChooser()->homepage($content);
 
@@ -242,56 +245,17 @@ class Frontend extends ConfigurableBase
      */
     public function listing(Request $request, $contenttypeslug)
     {
-        $contenttype = $this->getContentType($contenttypeslug);
+        $listingparameters = $this->getListingParameters($request, $contenttypeslug);
+        $content = $this->getContent($contenttypeslug, $listingparameters);
 
-        // If the contenttype is 'viewless', don't show the record page.
-        if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $this->abort(Response::HTTP_NOT_FOUND, "Page $contenttypeslug not found.");
-
-            return null;
-        }
-
-        $pagerid = Pager::makeParameterId($contenttypeslug);
-        // First, get some content
-        $page = $request->query->get($pagerid, $request->query->get('page', 1));
-
-        // Theme value takes precedence over CT & default config
-        // @see https://github.com/bolt/bolt/issues/3951
-        if (!$amount = $this->getOption('theme/listing_records', false)) {
-            $amount = empty($contenttype['listing_records']) ? $this->getOption('general/listing_records') : $contenttype['listing_records'];
-        }
-        if (!$order = $this->getOption('theme/listing_sort', false)) {
-            $order = empty($contenttype['sort']) ? null : $contenttype['sort'];
-        }
-        // If $order is not set, one of two things can happen: Either we let `getContent()` sort by itself, or we
-        // explicitly set it to sort on the general/listing_sort setting.
-        if ($order === null) {
-            $taxonomies = $this->getOption('taxonomy');
-            $hassortorder = false;
-            if (!empty($contenttype['taxonomy'])) {
-                foreach ($contenttype['taxonomy'] as $contenttypetaxonomy) {
-                    if ($taxonomies[$contenttypetaxonomy]['has_sortorder']) {
-                        // We have a taxonomy with a sortorder, so we must keep $order = false, in order
-                        // to let `getContent()` handle it. We skip the fallback that's a few lines below.
-                        $hassortorder = true;
-                    }
-                }
-            }
-            if (!$hassortorder) {
-                $order = $this->getOption('general/listing_sort');
-            }
-        }
-
-        $content = $this->getContent($contenttype['slug'], ['limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true]);
-
-        $template = $this->templateChooser()->listing($contenttype);
+        $template = $this->templateChooser()->listing($content->contenttype);
 
         // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
         $globals = [
-            'records'            => $content,
-            $contenttype['slug'] => $content,
-            'contenttype'        => $contenttype['name'],
+            'records'        => $content,
+            $contenttypeslug => $content,
+            'contenttype'    => $content->contenttype['name'],
         ];
 
         return $this->render($template, [], $globals);
@@ -479,5 +443,56 @@ class Frontend extends ConfigurableBase
         }
 
         return $this->render($template);
+    }
+
+    /**
+     * Returns an array of the parameters used in getContent for listing pages.
+     *
+     * @param  Request $request         The Symfony Request
+     * @param  string  $contenttypeslug The content type slug
+     *
+     * @return array                    Parameters to use in getContent
+     */
+    private function getListingParameters(Request $request, $contenttypeslug)
+    {
+        $contenttype = $this->getContentType(current(explode('/', $contenttypeslug)));
+
+        // If the contenttype is 'viewless', don't show the listing / record page.
+        if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
+            $this->abort(Response::HTTP_NOT_FOUND, "Page " . $contenttype['slug'] . " not found.");
+        }
+
+        // Build the pager
+        $pagerid = Pager::makeParameterId($contenttype['slug']);
+        $page = $request->query->get($pagerid, $request->query->get('page', 1));
+
+        // Theme value takes precedence over CT & default config
+        // @see https://github.com/bolt/bolt/issues/3951
+        if (!$amount = $this->getOption('theme/listing_records', false)) {
+            $amount = empty($contenttype['listing_records']) ? $this->getOption('general/listing_records') : $contenttype['listing_records'];
+        }
+        if (!$order = $this->getOption('theme/listing_sort', false)) {
+            $order = empty($contenttype['sort']) ? null : $contenttype['sort'];
+        }
+        // If $order is not set, one of two things can happen: Either we let `getContent()` sort by itself, or we
+        // explicitly set it to sort on the general/listing_sort setting.
+        if ($order === null) {
+            $taxonomies = $this->getOption('taxonomy');
+            $hassortorder = false;
+            if (!empty($contenttype['taxonomy'])) {
+                foreach ($contenttype['taxonomy'] as $contenttypetaxonomy) {
+                    if ($taxonomies[$contenttypetaxonomy]['has_sortorder']) {
+                        // We have a taxonomy with a sortorder, so we must keep $order = false, in order
+                        // to let `getContent()` handle it. We skip the fallback that's a few lines below.
+                        $hassortorder = true;
+                    }
+                }
+            }
+            if (!$hassortorder) {
+                $order = $this->getOption('general/listing_sort');
+            }
+        }
+
+        return ['limit' => $amount, 'order' => $order, 'page' => $page, 'paging' => true];
     }
 }

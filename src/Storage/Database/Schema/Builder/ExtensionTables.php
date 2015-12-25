@@ -3,7 +3,6 @@
 namespace Bolt\Storage\Database\Schema\Builder;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\Table;
 
 /**
  * Builder for Bolt extension tables.

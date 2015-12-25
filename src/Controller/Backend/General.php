@@ -17,7 +17,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * General controller for basic backend routes.
  *
- * Prior to v2.3 this functionality primarily existed in the monolithic
+ * Prior to v3.0 this functionality primarily existed in the monolithic
  * Bolt\Controllers\Backend class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
@@ -78,7 +78,7 @@ class General extends BackendBase
      */
     public function clearCache()
     {
-        $result = $this->app['cache']->clearCache();
+        $result = $this->app['cache']->doFlush();
 
         $output = Trans::__('Deleted %s files from cache.', ['%s' => $result['successfiles']]);
 
@@ -168,7 +168,7 @@ class General extends BackendBase
                 $content = $this->storage()->preFill($contenttypes);
                 $this->flashes()->success($content);
             } catch (RequestException $e) {
-                $msg = "Timeout attempting to the 'Lorem Ipsum' generator. Unable to add dummy content.";
+                $msg = "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content.";
                 $this->flashes()->error($msg);
                 $this->app['logger.system']->error($msg, ['event' => 'storage']);
             }

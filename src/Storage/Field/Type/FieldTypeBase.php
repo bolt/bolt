@@ -79,7 +79,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
 
         if (null !== $value) {
             $value = $type->convertToDatabaseValue($value, $this->getPlatform());
-        } else {
+        } elseif (isset($this->mapping['default'])) {
             $value = $this->mapping['default'];
         }
         $qb->setValue($key, ':' . $key);
@@ -95,7 +95,7 @@ abstract class FieldTypeBase implements FieldTypeInterface
         $key = $this->mapping['fieldname'];
         $type = $this->getStorageType();
         $val = $data[$key];
-        if ($val) {
+        if ($val !== null) {
             $value = $type->convertToPHPValue($val, $this->getPlatform());
             $this->set($entity, $value);
         }
@@ -115,6 +115,9 @@ abstract class FieldTypeBase implements FieldTypeInterface
     public function set($entity, $value)
     {
         $key = $this->mapping['fieldname'];
+        if (!$value && isset($this->mapping['data']['default'])) {
+            $value = $this->mapping['data']['default'];
+        }
         $entity->$key = $value;
     }
 

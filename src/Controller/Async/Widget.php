@@ -43,7 +43,7 @@ class Widget extends AsyncBase
         }
 
         $authCookie = $request->cookies->get($this->app['token.authentication.name']);
-        if ($widget->getType() !== 'frontend' && !$this->accessControl()->isValidSession($authCookie)) {
+        if ($widget->getZone() !== 'frontend' && !$this->accessControl()->isValidSession($authCookie)) {
             $this->abort(Response::HTTP_UNAUTHORIZED, 'You must be logged in to use this.');
         }
 
