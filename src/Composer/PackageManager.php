@@ -230,13 +230,16 @@ class PackageManager
             $name = $package->getName();
             $extension = $this->app['extensions']->get($name);
             $title = $extension ? $extension->getName() : $name;
+            // Handle non-Bolt packages
+            $constraint = isset($autoloaded[$name]['constraint']) ? $autoloaded[$name]['constraint'] : $this->app['bolt_version'];
+            $valid = isset($autoloaded[$name]['valid']) ? $autoloaded[$name]['valid'] : true;
 
             $package->setStatus('installed');
             $package->setTitle($title);
             $package->setReadmeLink($this->linkReadMe($name));
             $package->setConfigLink($this->linkConfig($name));
-            $package->setConstraint($autoloaded[$name]['constraint']);
-            $package->setValid($autoloaded[$name]['valid']);
+            $package->setConstraint($constraint);
+            $package->setValid($valid);
             $package->setEnabled(true);
 
             $collection->add($package);
