@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer;
 
+use Bolt\Filesystem\Exception\ParseException;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Translation\Translator as Trans;
 use GuzzleHttp\Exception\ClientException;
@@ -74,7 +75,14 @@ class PackageManager
 
         if ($this->app['extend.writeable']) {
             // Do required JSON update/set up
-            $this->updateJson();
+            try {
+                $this->updateJson();
+            } catch (ParseException $e) {
+                $this->app['logger.flash']->error(Trans::__('Error reading extensions/composer.json file: %ERROR%', ['%ERROR%' => $e->getMessage()]));
+                $this->started = false;
+
+                return;
+            }
 
             // Ping the extensions server to confirm connection
             $this->ping(true);
@@ -219,6 +227,10 @@ class PackageManager
      */
     public function getAllPackages()
     {
+        if ($this->started === false) {
+            return;
+        }
+
         $collection = new PackageCollection();
         $installed = $this->app['extend.action']['show']->execute('installed');
         $autoloaded = (array) $this->app['extensions']->getAutoload();
