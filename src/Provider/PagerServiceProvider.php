@@ -1,0 +1,46 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: rix
+ * Date: 2015.12.21.
+ * Time: 10:16
+ */
+
+namespace Bolt\Provider;
+
+
+use Bolt\Pager\PagerManager;
+use Silex\Application;
+use Silex\ServiceProviderInterface;
+
+class PagerServiceProvider implements ServiceProviderInterface
+{
+
+    /**
+     * Registers services on the given app.
+     *
+     * This method should only be used to configure services and parameters.
+     * It should not get services.
+     */
+    public function register(Application $app)
+    {
+        // the provider
+        $app['pager'] = $app->share(
+            function () use ($app) {
+                return new PagerManager($app);
+            }
+        );
+    }
+
+    /**
+     * Bootstraps the application.
+     *
+     * This method is called after all services are registered
+     * and should be used for "dynamic" configuration (whenever
+     * a service must be requested).
+     */
+    public function boot(Application $app)
+    {
+        // TODO: Implement boot() method.
+    }
+}
