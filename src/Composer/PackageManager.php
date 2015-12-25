@@ -240,7 +240,7 @@ class PackageManager
             $package->setConfigLink($this->linkConfig($name));
             $package->setConstraint($constraint);
             $package->setValid($valid);
-            $package->setEnabled(true);
+            $package->setEnabled($this->isEnabled($name));
 
             $collection->add($package);
         }
@@ -260,7 +260,7 @@ class PackageManager
             $package->setReadmeLink($this->linkReadMe($name));
             $package->setConfigLink($this->linkConfig($name));
             $package->setValid($autoloaded[$name]['valid']);
-            $package->setEnabled(true);
+            $package->setEnabled($this->isEnabled($name));
 
             $collection->add($package);
         }
@@ -284,6 +284,23 @@ class PackageManager
         }
 
         return $collection;
+    }
+
+    /**
+     * Check if an extension is enabled/disabled by admin.
+     *
+     * @param $name
+     *
+     * @return bool
+     */
+    private function isEnabled($name)
+    {
+        $extConfig = $this->app['config']->get('extensions', []);
+        if (isset($extConfig[$name])) {
+            return $extConfig[$name];
+        }
+
+        return true;
     }
 
     /**
