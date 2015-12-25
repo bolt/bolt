@@ -2,6 +2,7 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Config;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IncludeFileException;
 use Bolt\Filesystem\FilesystemInterface;
@@ -30,6 +31,8 @@ class Manager
     private $filesystem;
     /** @var FlashLoggerInterface */
     private $flashLogger;
+    /** @var Config */
+    private $config;
 
     /**
      * Constructor.
@@ -37,10 +40,11 @@ class Manager
      * @param FilesystemInterface  $filesystem
      * @param FlashLoggerInterface $flashLogger
      */
-    public function __construct(FilesystemInterface $filesystem, FlashLoggerInterface $flashLogger)
+    public function __construct(FilesystemInterface $filesystem, FlashLoggerInterface $flashLogger, Config $config)
     {
         $this->filesystem = $filesystem;
         $this->flashLogger = $flashLogger;
+        $this->config = $config;
     }
 
     /**
@@ -60,12 +64,17 @@ class Manager
 
         $this->autoload = (array) $autoloadJson->parse();
         foreach ($this->autoload as $loader) {
-            // Skip loading if marked invalid
+            $composerName = $loader['name'];
             if ($loader['valid'] === false) {
+                // Skip loading if marked invalid
+                continue;
+            }
+            $extConfig = $this->config->get('extensions', []);
+            if (isset($extConfig[$composerName]) && $extConfig[$composerName] === false) {
+                // Skip loading if marked disabled
                 continue;
             }
 
-            $composerName = $loader['name'];
             if (class_exists($loader['class'])) {
                 /** @var ExtensionInterface $class */
                 $class = new $loader['class']();
@@ -118,7 +127,7 @@ class Manager
     /**
      * Get an installed extension class.
      *
-     * @param $name
+     * @param string $name
      *
      * @return ExtensionInterface|null
      */
@@ -132,7 +141,7 @@ class Manager
     /**
      * Get the resolved form of an installed extension class.
      *
-     * @param $name
+     * @param string $name
      *
      * @return ResolvedExtension|null
      */
@@ -156,7 +165,7 @@ class Manager
     /**
      * Resolve a Composer or PHP extension name to the stored key.
      *
-     * @param $name
+     * @param string $name
      *
      * @return string|null
      */

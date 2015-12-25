@@ -21,7 +21,8 @@ class ExtensionServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $loader = new Manager(
                     $app['filesystem']->getFilesystem('extensions'),
-                    $app['logger.flash']
+                    $app['logger.flash'],
+                    $app['config']
                 );
 
                 return $loader;
