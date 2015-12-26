@@ -32,16 +32,16 @@ use Silex\Application;
  *
  * @package Bolt\Pager
  */
-class PagerManager extends \Pimple
+class PagerManager implements \ArrayAccess
 {
     const PAGE = 'page';
 
     protected $app;
     protected $link;
+    protected $values;
 
     public function __construct(Application $app)
     {
-        parent::__construct();
         $this->app = $app;
         $this->decodeHttpQuery();
     }
@@ -79,7 +79,7 @@ class PagerManager extends \Pimple
      * @param $suffix
      * @return string
      */
-    public function makeParameterId($suffix)
+    public function makeParameterId($suffix = '')
     {
         $suffix = ($suffix !== '') ? '_'.$suffix : '';
 
@@ -114,24 +114,34 @@ class PagerManager extends \Pimple
         return '?'.$this->encodeHttpQuery();
     }
 
-    public function offsetExists($id)
+    public function offsetExists($context)
     {
-        return parent::offsetExists($this->makeParameterId($id));
+        return array_key_exists($this->makeParameterId($context), $this->values);
     }
 
-    public function offsetSet($id, $value)
+    public function offsetSet($context, $value)
     {
-        parent::offsetSet($this->makeParameterId($id), $value);
+        $this->values[$this->makeParameterId($context)] = ($value instanceof Pager) ? $value : new Pager($value);
     }
 
-    public function offsetUnset($id)
+    public function offsetUnset($context)
     {
-        parent::offsetUnset($this->makeParameterId($id));
+        unset($this->values[$this->makeParameterId($context)]);
     }
 
-    public function offsetGet($id)
+    public function offsetGet($context)
     {
-        return parent::offsetGet($this->makeParameterId($id));
+        $ctxkey = $this->makeParameterId($context);
+        if (array_key_exists($ctxkey, $this->values)) {
+            return $this->values[$ctxkey];
+        }
+
+        $key = $this->makeParameterId();
+        if (array_key_exists($key, $this->values)) {
+            return $this->values[$key];
+        }
+
+        return $this->values[$ctxkey] = new Pager(['current' => 1]);
     }
 
     public function keys()
@@ -142,8 +152,25 @@ class PagerManager extends \Pimple
 
                 return array_pop($chunks);
             },
-            parent::keys()
+            array_keys($this->values)
         );
+    }
+
+    public function isEmptyPager()
+    {
+        return (count($this->values) === 0);
+    }
+
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    public function getPager($id = '')
+    {
+        return ($id) ? $this->values[$id] : end($this->values);
     }
 
     /**
