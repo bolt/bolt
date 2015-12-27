@@ -550,6 +550,7 @@ class ResourceManager
      * Checks if current request has pager parameters
      *
      * @return bool
+     * @todo Pager - move to Manager
      */
     private function isPagingRequest(Request $request)
     {
