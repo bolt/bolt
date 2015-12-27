@@ -11,10 +11,21 @@ namespace Bolt\Pager;
 
 class Pager extends \ArrayObject
 {
-    public $for;
+/*  public $for;
     public $count;
     public $totalpages;
     public $current;
     public $showing_from;
     public $showing_to;
+*/
+
+    /**
+     *
+     * @param string $linkFor
+     * @return mixed
+     */
+    public function makelink($linkFor = '')
+    {
+        return $this->manager->makelink($linkFor);
+    }
 }
