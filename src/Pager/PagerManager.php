@@ -62,17 +62,16 @@ class PagerManager implements \ArrayAccess
             return $this->link;
         }
 
-        $pageid = $this->makeParameterId($linkFor);
-        $parameters = $this->app['request']->query->all();
-        if (array_key_exists($pageid, $this->values)) {
-            unset($this->values[$pageid]);
-        } else {
-            unset($this->values[self::PAGE]);
-        }
+        $pagerid = $this->findPager($linkFor);
+        unset($this->values[$pagerid]);
 
-        $this->values[$pageid] = $current;
+        $qparams = $this->app['request']->query->all();
+        unset($qparams[$pagerid]);
 
-        return (string) $this;
+        // $this->values[$pageid] = $current; ???
+        $link = sprintf('?%s&%s=', $this->encodeHttpQuery($qparams), $pagerid);
+
+        return $link;
     }
 
     /**
@@ -101,9 +100,11 @@ class PagerManager implements \ArrayAccess
     /**
      * @return array
      */
-    public function encodeHttpQuery()
+    public function encodeHttpQuery($qparams = null)
     {
-        return array_merge($this->app['request']->query->all(), $this->remapPagers());
+        $qparams = ($qparams === null) ? $this->app['request']->query->all() : [];
+
+        return http_build_query(array_merge($qparams, $this->remapPagers()));
     }
 
     /**
@@ -119,9 +120,11 @@ class PagerManager implements \ArrayAccess
         return array_key_exists($this->makeParameterId($context), $this->values);
     }
 
-    public function offsetSet($context, $value)
+    public function offsetSet($context, $pager)
     {
-        $this->values[$this->makeParameterId($context)] = ($value instanceof Pager) ? $value : new Pager($value);
+        $pager = ($pager instanceof Pager) ?: new Pager($pager, \ArrayObject::ARRAY_AS_PROPS);
+        $pager['manager'] = $this;
+        $this->values[$this->makeParameterId($context)] = $pager;
     }
 
     public function offsetUnset($context)
@@ -141,7 +144,10 @@ class PagerManager implements \ArrayAccess
             return $this->values[$key];
         }
 
-        return $this->values[$ctxkey] = new Pager(['current' => 1]);
+        return $this->values[$ctxkey] = new Pager(
+            ['current' => 1, 'for' => $context, 'manager' => $this],
+            \ArrayObject::ARRAY_AS_PROPS
+        );
     }
 
     public function keys()
@@ -170,7 +176,12 @@ class PagerManager implements \ArrayAccess
 
     public function getPager($id = '')
     {
-        return ($id) ? $this->values[$id] : end($this->values);
+        return ($id) ? $this->values[$this->makeParameterId($id)] : $this->values[$this->findInitializedPager()];
+    }
+
+    protected function findPager($id = '')
+    {
+        return ($id) ? $this->makeParameterId($id) : $this->findInitializedPager();
     }
 
     /**
@@ -184,5 +195,16 @@ class PagerManager implements \ArrayAccess
             },
             $this->values
         );
+    }
+
+    protected function findInitializedPager()
+    {
+        foreach ($this->values as $key => $pager) {
+            if (array_key_exists('totalpages', $this->values[$key])) {
+                return $key;
+            }
+        }
+
+        return $key;
     }
 }
