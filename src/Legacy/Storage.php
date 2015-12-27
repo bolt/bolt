@@ -43,9 +43,6 @@ class Storage
 
     /** @var bool Test to indicate if we're inside a dispatcher. */
     private $inDispatcher = false;
-// @todo Pager cleanup
-    /** @var array */
-    protected static $pager = [];
 
     public function __construct(Application $app)
     {
@@ -876,12 +873,10 @@ class Storage
     }
 
     /**
-     * @todo Pager
      * @param array $parameters
-     * @param array $pager
      * @return array
      */
-    public function searchAllContentTypes(array $parameters = [], &$pager = [])
+    public function searchAllContentTypes(array $parameters = [])
     {
         // Note: we can only apply this kind of results aggregating when we don't
         // use LIMIT and OFFSET! If we'd want to use it, this should be rewritten.
@@ -889,7 +884,7 @@ class Storage
         $result = [];
 
         foreach ($this->getContentTypes() as $contenttype) {
-            $contentTypeSearchResults = $this->searchContentType($contenttype, $parameters, $pager);
+            $contentTypeSearchResults = $this->searchContentType($contenttype, $parameters);
             foreach ($contentTypeSearchResults as $searchresult) {
                 $result[] = $searchresult;
             }
@@ -899,14 +894,12 @@ class Storage
     }
 
     /**
-     * @todo Pager
      * @param $contenttypename
      * @param array $parameters
-     * @param array $pager
      * @return array
      * @throws \Exception
      */
-    public function searchContentType($contenttypename, array $parameters = [], &$pager = [])
+    public function searchContentType($contenttypename, array $parameters = [])
     {
         $where = [];
         $tablename = $this->getContenttypeTablename($contenttypename);
@@ -954,7 +947,9 @@ class Storage
 
         // If we're allowed to use pagination, use the 'page' parameter.
         if (!empty($parameters['paging']) && $this->app->raw('request') instanceof Request) {
-            $page = $this->app['request']->get('page', $page);
+            // @todo Pager - strong supervision necessarry
+            // $page = $this->app['request']->get('page', $page);
+            $page = $this->app['pager']->getPager();
         }
 
         $queryparams = "";
@@ -1676,11 +1671,6 @@ class Storage
         if (isset($inParameters['page']) && $inParameters['page'] !== null) {
             return $inParameters['page'];
         } else {
-//          @todo Pager cleanup
-//            $param = Pager::makeParameterId($context);
-            /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
-//            $query = $this->app['request']->query;
-//            $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
             $page = $this->app['pager'][$context]->current;
         }
 
@@ -2944,47 +2934,5 @@ class Storage
         $oldContent = $this->app['db']->fetchAssoc("SELECT * FROM $tablename WHERE id = ?", [$contentId]);
 
         return $oldContent;
-    }
-
-    /**
-     * Setter for pager storage element.
-     *
-     * @param string $name
-     * @param array|Pager $pager
-     * @todo Pager cleanup
-     * @deprecated
-     * @return $this
-     */
-    public function setPager($name, $pager)
-    {
-        static::$pager[$name] = ($pager instanceof Pager) ? $pager : new Pager($pager, $this->app);
-
-        return $this;
-    }
-
-    /**
-     * Getter of a pager element. Pager can hold a paging snapshot map.
-     *
-     * @param string $name Optional name of a pager element. Whole pager map returns if no name given.
-     *
-     * @return array
-     * @todo Pager cleanup
-     */
-    public function &getPager($name = null)
-    {
-        if ($name) {
-            if (array_key_exists($name, static::$pager)) {
-                return static::$pager[$name];
-            } else {
-                return false;
-            }
-        } else {
-            return static::$pager;
-        }
-    }
-
-    public function isEmptyPager()
-    {
-        return (count(static::$pager) === 0);
     }
 }
