@@ -43,7 +43,7 @@ class Storage
 
     /** @var bool Test to indicate if we're inside a dispatcher. */
     private $inDispatcher = false;
-
+// @todo Pager cleanup
     /** @var array */
     protected static $pager = [];
 
@@ -875,6 +875,12 @@ class Storage
         ];
     }
 
+    /**
+     * @todo Pager
+     * @param array $parameters
+     * @param array $pager
+     * @return array
+     */
     public function searchAllContentTypes(array $parameters = [], &$pager = [])
     {
         // Note: we can only apply this kind of results aggregating when we don't
@@ -892,6 +898,14 @@ class Storage
         return $result;
     }
 
+    /**
+     * @todo Pager
+     * @param $contenttypename
+     * @param array $parameters
+     * @param array $pager
+     * @return array
+     * @throws \Exception
+     */
     public function searchContentType($contenttypename, array $parameters = [], &$pager = [])
     {
         $where = [];
@@ -988,7 +1002,7 @@ class Storage
 
         // Set up the $pager array with relevant values.
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
-        $pager = [
+        $this->app['pager']['search'] = [
             'for'          => 'search',
             'count'        => $rowcount['count'],
             'totalpages'   => ceil($rowcount['count'] / $limit),
@@ -1076,16 +1090,16 @@ class Storage
 
         // Set up the $pager array with relevant values.
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
-        $pager = [
-            'for'          => $taxonomytype['singular_slug'] . '_' . $slug,
+
+        $pagefor = $taxonomytype['singular_slug'].'_'.$slug;
+        $this->app['pager'][$pagefor] = [
+            'for'          => $pagefor,
             'count'        => $rowcount['count'],
             'totalpages'   => ceil($rowcount['count'] / $limit),
             'current'      => $page,
             'showing_from' => ($page - 1) * $limit + 1,
             'showing_to'   => ($page - 1) * $limit + count($taxorows),
         ];
-
-        $this->app['storage']->setPager($taxonomytype['singular_slug'] . '_' . $slug, $pager);
 
         return $content;
     }
@@ -1662,10 +1676,12 @@ class Storage
         if (isset($inParameters['page']) && $inParameters['page'] !== null) {
             return $inParameters['page'];
         } else {
-            $param = Pager::makeParameterId($context);
+//          @todo Pager cleanup
+//            $param = Pager::makeParameterId($context);
             /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
-            $query = $this->app['request']->query;
-            $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
+//            $query = $this->app['request']->query;
+//            $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
+            $page = $this->app['pager'][$context]->current;
         }
 
         return $page;
@@ -1918,7 +1934,7 @@ class Storage
         // Set up the $pager array with relevant values, but only if we requested paging.
         if (isset($decoded['parameters']['paging'])) {
             $pagerName = implode('_', $decoded['contenttypes']);
-            $pager = [
+            $this->app['pager'][$pagerName] = [
                 'for'          => $pagerName,
                 'count'        => $totalResults,
                 'totalpages'   => ceil($totalResults / $decoded['parameters']['limit']),
@@ -1926,8 +1942,7 @@ class Storage
                 'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
                 'showing_to'   => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results),
             ];
-            $this->setPager($pagerName, $pager);
-            $this->app['twig']->addGlobal('pager', $this->getPager());
+            $this->app['twig']->addGlobal('pager', $this->app['pager']);
         }
 
         $this->app['stopwatch']->stop('bolt.getcontent');
@@ -2935,8 +2950,11 @@ class Storage
     /**
      * Setter for pager storage element.
      *
-     * @param string      $name
+     * @param string $name
      * @param array|Pager $pager
+     * @todo Pager cleanup
+     * @deprecated
+     * @return $this
      */
     public function setPager($name, $pager)
     {
@@ -2951,6 +2969,7 @@ class Storage
      * @param string $name Optional name of a pager element. Whole pager map returns if no name given.
      *
      * @return array
+     * @todo Pager cleanup
      */
     public function &getPager($name = null)
     {
