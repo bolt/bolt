@@ -281,12 +281,7 @@ class Frontend extends ConfigurableBase
         }
         // First, get some content
         $context = $taxonomy['singular_slug'] . '_' . $slug;
-        // @todo Pager cleanup
-//        $pagerid = Pager::makeParameterId($context);
-         /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
-//        $query = $request->query;
-//        $page = $query->get($pagerid, $query->get('page', 1));
-        $page = $this->app['pager'][$context]->current;
+        $page = $this->app['pager'][$context]['current'];
         // Theme value takes precedence over default config @see https://github.com/bolt/bolt/issues/3951
         $amount = $this->getOption('theme/listing_records', false) ?: $this->getOption('general/listing_records');
         $order = $this->getOption('theme/listing_sort', false) ?: $this->getOption('general/listing_sort');
@@ -373,7 +368,7 @@ class Frontend extends ConfigurableBase
 
 //        $param = Pager::makeParameterId($context);
 //        $page = $request->query->get($param, $request->query->get('page', 1));
-        $page = $this->app['pager'][$context]->current;
+        $page = $this->app['pager'][$context]['current'];
 
         // Theme value takes precedence over default config @see https://github.com/bolt/bolt/issues/3951
         $pageSize = $this->getOption('theme/search_results_records', false);
@@ -416,7 +411,7 @@ class Frontend extends ConfigurableBase
             'showing_to'   => $offset + count($result['results']),
         ];
 
-        $this->app['pager']->etLink($this->generateUrl('search', ['q' => $q]).'&page_search=');
+        $this->app['pager']->setLink($this->generateUrl('search', ['q' => $q]).'&page_search=');
 
         $globals = [
             'records'      => $result['results'],
@@ -465,7 +460,7 @@ class Frontend extends ConfigurableBase
         }
 
         // Build the pager
-        $page = $this->app['pager'][$contenttype['slug']]->current;
+        $page = $this->app['pager'][$contenttype['slug']]['current'];
 
         // Theme value takes precedence over CT & default config
         // @see https://github.com/bolt/bolt/issues/3951
