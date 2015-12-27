@@ -9,17 +9,25 @@
 
 {% set geolocation = context.content.get(contentkey) %}
 
+{# Don't change these names as they are used as JSON keys inside the db storage! #}
+{% set storage_name = {
+    address:    'address',
+    latitude:   'latitude',
+    longitude:  'longitude',
+    formatted:  'formatted_address',
+} %}
+
 {% set attributes = {
     address: {
         class:       'form-control address',
-        name:        name ~ '[address]',
+        name:        name ~ '[' ~ storage_name.address ~ ']',
         placeholder: __('field.geolocation.placeholder.address') ~ ' …',
         type:        'text',
     },
 
     latitude: {
         class:       'form-control latitude',
-        name:        name ~ '[latitude]',
+        name:        name ~ '[' ~ storage_name.latitude ~ ']',
         readonly:    true,
         step:        'any',
         type:        'number',
@@ -27,7 +35,7 @@
 
     longitude: {
         class:       'form-control longitude',
-        name:        name ~ '[longitude]',
+        name:        name ~ '[' ~ storage_name.longitude ~ ']',
         readonly:    true,
         step:        'any',
         type:        'number',
@@ -35,7 +43,7 @@
 
     formatted: {
         class:      'form-control matched',
-        name:        name ~ '[formatted_address]',
+        name:        name ~ '[' ~ storage_name.formatted ~ ']',
         placeholder: '—',
         readonly:    true,
         type:        'text',
