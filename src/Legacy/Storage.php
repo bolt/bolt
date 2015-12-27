@@ -1847,12 +1847,11 @@ class Storage
      *
      * @param string $textquery
      * @param string $parameters
-     * @param array  $pager
      * @param array  $whereparameters
      *
      * @return array
      */
-    public function getContent($textquery, $parameters = '', &$pager = [], $whereparameters = [])
+    public function getContent($textquery, $parameters = '', $whereparameters = [])
     {
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.getcontent', 'doctrine');
