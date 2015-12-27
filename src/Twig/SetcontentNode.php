@@ -29,7 +29,7 @@ class SetcontentNode extends \Twig_Node
 
         if (!is_null($this->getNode('wherearguments'))) {
             $compiler
-                ->raw(', $pager, ')
+                //->raw(', $pager, ')
                 ->subcompile($this->getNode('wherearguments'));
         }
 
