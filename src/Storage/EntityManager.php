@@ -423,20 +423,4 @@ class EntityManager
         //$this->getLogger()->warning('[DEPRECATED] Accessing ['storage']->$method is no longer supported and will be removed in a future version.');
         return call_user_func_array([$this->legacy(), $method], $args);
     }
-
-    /**
-     * Note that this method is explicitly defined here because the magic method above cannot
-     * pass dynamic variables by reference
-     *
-     * @param string $textquery
-     * @param array  $parameters
-     * @param array  $pager
-     * @param array  $whereparameters
-     *
-     * @return \Bolt\Legacy\Content|\Bolt\Legacy\Content[]
-     */
-    public function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
-    {
-        return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
-    }
 }
