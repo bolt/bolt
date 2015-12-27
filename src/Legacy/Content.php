@@ -287,8 +287,7 @@ class Content implements \ArrayAccess
             'hydrate'      => true,
         ];
 
-        $pager = [];
-        $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $pager, $where);
+        $previous = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $where);
 
         return $previous;
     }
@@ -318,8 +317,7 @@ class Content implements \ArrayAccess
             'hydrate'      => true,
         ];
 
-        $pager = [];
-        $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $pager, $where);
+        $next = $this->app['storage']->getContent($this->contenttype['singular_slug'], $params, $where);
 
         return $next;
     }
