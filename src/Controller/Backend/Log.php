@@ -59,8 +59,11 @@ class Log extends BackendBase
         }
 
         // Test/get page number
-        $param = Pager::makeParameterId('activity');
-        $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+// @todo Pager cleanup
+//        $param = Pager::makeParameterId('activity');
+//        $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+
+        $page = $this->app['pager']['activity']->current;
 
         $options = [
             'contenttype' => $request->query->get('contenttype'),
@@ -171,8 +174,11 @@ class Log extends BackendBase
         }
 
         // Test/get page number
-        $param = Pager::makeParameterId('activity');
-        $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+// @todo Pager cleanup
+//        $param = Pager::makeParameterId('activity');
+//        $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+        $page = $this->app['pager']['activity']->current;
+
         $options = [
             'level'   => $request->query->get('level'),
             'context' => $request->query->get('context'),
