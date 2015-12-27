@@ -103,7 +103,7 @@ class Manager
         }
 
         // Set up the pager
-        $pager = [
+        $this->app['pager']['activity'] = [
             'for'          => 'activity',
             'count'        => $rowcount,
             'totalpages'   => ceil($rowcount / $amount),
@@ -111,8 +111,6 @@ class Manager
             'showing_from' => ($page - 1) * $amount + 1,
             'showing_to'   => ($page - 1) * $amount + count($rows),
         ];
-
-        $this->app['storage']->setPager('activity', $pager);
 
         return $rows;
     }
