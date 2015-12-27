@@ -1671,7 +1671,7 @@ class Storage
         if (isset($inParameters['page']) && $inParameters['page'] !== null) {
             return $inParameters['page'];
         } else {
-            $page = $this->app['pager'][$context]->current;
+            $page = $this->app['pager'][$context]['current'];
         }
 
         return $page;
