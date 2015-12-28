@@ -52,7 +52,7 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Used for calling from template to build up paginated URL link.
+     * Use for calling from template to build up paginated URL link.
      * It preserves each http query parameters except that requested for and returns a http GET query string.
      * Last parameter appended to the end of the string so its value can be just concatenating.
      *
@@ -70,12 +70,14 @@ class PagerManager implements \ArrayAccess
         }
 
         $pagerid = $this->findPagerId($linkFor);
+        $saved = $this->values[$pagerid];
         unset($this->values[$pagerid]);
 
         $qparams = $this->app['request']->query->all();
         unset($qparams[$pagerid]);
 
         $link = sprintf('?%s&%s=', $this->encodeHttpQuery($qparams), $pagerid);
+        $this->values[$pagerid] = $saved;
 
         return $link;
     }
