@@ -7,6 +7,8 @@ use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Target;
 use Closure;
 use Doctrine\Common\Cache\CacheProvider;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * File asset queue processor.
@@ -71,21 +73,19 @@ class Queue implements QueueInterface
      *
      * Uses sorting by priority.
      */
-    public function process($html)
+    public function process(Request $request, Response $response)
     {
         /** @var FileAssetInterface $asset */
         foreach ($this->sort($this->javascript) as $key => $asset) {
-            $html = $this->processJsAssets($asset, $html);
+            $this->processJsAssets($asset, $response);
             unset($this->javascript[$key]);
         }
 
         /** @var FileAssetInterface $asset */
         foreach ($this->sort($this->stylesheet) as $key => $asset) {
-            $html = $this->processCssAssets($asset, $html);
+            $this->processCssAssets($asset, $response);
             unset($this->stylesheet[$key]);
         }
-
-        return $html;
     }
 
     /**
@@ -112,16 +112,14 @@ class Queue implements QueueInterface
      * Process the CSS asset queue.
      *
      * @param FileAssetInterface $asset
-     * @param string             $html
-     *
-     * @return string
+     * @param Response           $response
      */
-    protected function processCssAssets(FileAssetInterface $asset, $html)
+    protected function processCssAssets(FileAssetInterface $asset, Response $response)
     {
         if ($asset->isLate()) {
-            return $this->injector->inject($asset, Target::END_OF_BODY, $html);
+            $this->injector->inject($asset, Target::END_OF_BODY, $response);
         } else {
-            return $this->injector->inject($asset, Target::BEFORE_CSS, $html);
+            $this->injector->inject($asset, Target::BEFORE_CSS, $response);
         }
     }
 
@@ -129,16 +127,14 @@ class Queue implements QueueInterface
      * Process the JavaScript asset queue.
      *
      * @param FileAssetInterface $asset
-     * @param string             $html
-     *
-     * @return string
+     * @param Response           $response
      */
-    protected function processJsAssets(FileAssetInterface $asset, $html)
+    protected function processJsAssets(FileAssetInterface $asset, Response $response)
     {
         if ($asset->isLate()) {
-            return $this->injector->inject($asset, Target::END_OF_BODY, $html);
+            $this->injector->inject($asset, Target::END_OF_BODY, $response);
         } else {
-            return $this->injector->inject($asset, Target::AFTER_JS, $html);
+            $this->injector->inject($asset, Target::AFTER_JS, $response);
         }
     }
 }
