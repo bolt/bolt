@@ -227,7 +227,7 @@ class PagerManager implements \ArrayAccess
     /**
      * Set pager manager link value directly forcing link build.
      *
-     * @param $link Link to force
+     * @param string $link Link to force
      * @return $this
      */
     public function setLink($link)
@@ -292,6 +292,7 @@ class PagerManager implements \ArrayAccess
      */
     protected function findInitializedPagerId()
     {
+        $key = '';
         foreach ($this->values as $key => $pager) {
             if (array_key_exists('totalpages', $this->values[$key])) {
                 return $key;
