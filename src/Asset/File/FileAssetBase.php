@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Asset\File;
 
+use Bolt\Controller\Zone;
+
 /**
  * File asset base class.
  *
@@ -20,6 +22,8 @@ abstract class FileAssetBase implements FileAssetInterface
     protected $attributes;
     /** @var string */
     protected $cacheHash;
+    /** @var string */
+    protected $zone = Zone::FRONTEND;
 
     /**
      * Constructor.
@@ -139,6 +143,24 @@ abstract class FileAssetBase implements FileAssetInterface
     public function setCacheHash($cacheHash)
     {
         $this->cacheHash = $cacheHash;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getZone()
+    {
+        return $this->zone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setZone($zone)
+    {
+        $this->zone = $zone;
 
         return $this;
     }
