@@ -86,7 +86,9 @@ class Queue implements QueueInterface
 
         /** @var Snippet $asset */
         foreach ($this->queue as $key => $asset) {
-            $this->injector->inject($asset, $asset->getLocation(), $response);
+            if ($asset->getZone() === Zone::get($request)) {
+                $this->injector->inject($asset, $asset->getLocation(), $response);
+            }
             unset($this->queue[$key]);
         }
 
