@@ -281,7 +281,7 @@ class Frontend extends ConfigurableBase
         }
         // First, get some content
         $context = $taxonomy['singular_slug'] . '_' . $slug;
-        $page = $this->app['pager'][$context]['current'];
+        $page = $this->app['pager']->getCurrentPage($context);
         // Theme value takes precedence over default config @see https://github.com/bolt/bolt/issues/3951
         $amount = $this->getOption('theme/listing_records', false) ?: $this->getOption('general/listing_records');
         $order = $this->getOption('theme/listing_sort', false) ?: $this->getOption('general/listing_sort');
@@ -366,9 +366,7 @@ class Frontend extends ConfigurableBase
         }
         $q = Input::cleanPostedData($q, false);
 
-//        $param = Pager::makeParameterId($context);
-//        $page = $request->query->get($param, $request->query->get('page', 1));
-        $page = $this->app['pager'][$context]['current'];
+        $page = $this->app['pager']->getCurrentPage($context);
 
         // Theme value takes precedence over default config @see https://github.com/bolt/bolt/issues/3951
         $pageSize = $this->getOption('theme/search_results_records', false);
@@ -460,7 +458,7 @@ class Frontend extends ConfigurableBase
         }
 
         // Build the pager
-        $page = $this->app['pager'][$contenttype['slug']]['current'];
+        $page = $this->app['pager']->getCurrentPage($contenttype['slug']);
 
         // Theme value takes precedence over CT & default config
         // @see https://github.com/bolt/bolt/issues/3951

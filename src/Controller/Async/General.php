@@ -145,7 +145,7 @@ class General extends AsyncBase
     public function latestActivity(Request $request)
     {
         // Test/get page number
-        $page = $this->app['pager']['activity']['current'];
+        $page = $this->app['pager']->getCurrentPage('activity');
 
         $change = $this->app['logger.manager']->getActivity('change', $page, 8);
         $system = $this->app['logger.manager']->getActivity('system', $page, 8, ['context' => ['authentication', 'security']]);
