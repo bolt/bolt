@@ -59,7 +59,7 @@ class Log extends BackendBase
         }
 
         // Test/get page number
-        $page = $this->app['pager']['activity']['current'];
+        $page = $this->app['pager']->getCurrentPage('activity');
 
         $options = [
             'contenttype' => $request->query->get('contenttype'),
@@ -170,7 +170,7 @@ class Log extends BackendBase
         }
 
         // Test/get page number
-        $page = $this->app['pager']['activity']['current'];
+        $page = $this->app['pager']->getCurrentPage('activity');
 
         $options = [
             'level'   => $request->query->get('level'),
