@@ -947,8 +947,6 @@ class Storage
 
         // If we're allowed to use pagination, use the 'page' parameter.
         if (!empty($parameters['paging']) && $this->app->raw('request') instanceof Request) {
-            // @todo Pager - strong supervision necessarry
-            // $page = $this->app['request']->get('page', $page);
             $page = $this->app['pager']->getPager();
         }
 
@@ -1512,8 +1510,6 @@ class Storage
         // $decoded['contettypes'] gotten here
         // get page nr. from url if has
 
-        // @todo Pager cleanup
-        // $metaParameters['page'] = $this->decodePageParameter(implode('_', $decoded['contenttypes']), $inParameters);
         $metaParameters['page'] = $this->app['pager']->getCurrentPage(implode('_', $decoded['contenttypes']));
 
         $this->prepareDecodedQueryForUse($decoded, $metaParameters, $ctypeParameters);
