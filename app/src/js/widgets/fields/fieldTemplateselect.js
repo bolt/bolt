@@ -64,11 +64,34 @@
                                 '%MESSAGE%': bolt.data('field.templateselect.message.warning')
                             }
                         ));
-                        warning.addClass('text-danger');
-                        container.removeClass('hidden');
+
+                        // Iterate over the templatefields, check if they're all empty. Note:
+                        // We're conveniently forgetting <select> elements here, because we
+                        // can't 'guess' if the first option also means "nothing selected".
+                        var templatefieldsEmpty = true;
+                        $('[name^="templatefields"]').each(function(){
+                            if ($(this).attr('type') !== 'checkbox' && $(this).prop('tagName') !== "SELECT" &&
+                                $(this).val() !== '') {
+                                templatefieldsEmpty = false;
+                            }
+                            if ($(this).attr('type') === 'checkbox' && $(this).prop('checked')) {
+                                templatefieldsEmpty = false;
+                            }
+                        });
+
+                        if (templatefieldsEmpty) {
+                            // we can simply hide the "template" tab and don't need the notice.
+                            $('#tabindicator-tab-template').hide();
+                        } else {
+                            // Show the notice
+                            warning.addClass('text-danger');
+                            container.removeClass('hidden');
+                        }
+
                     } else if (self.options.fieldTemplates.indexOf(select.val()) > -1) {
                         warning.html(bolt.data('field.templateselect.message.change'));
                         container.removeClass('hidden');
+                        $('#tabindicator-tab-template').show();
                     }
                 }
             });
