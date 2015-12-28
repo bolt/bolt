@@ -43,12 +43,12 @@ class PagerManager implements \ArrayAccess
 
     protected $app;
     protected $link;
-    protected $values;
+    protected $values = [];
 
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->decodeHttpQuery();
+        $this->values = $this->decodeHttpQuery();
     }
 
     /**
@@ -100,15 +100,18 @@ class PagerManager implements \ArrayAccess
      */
     public function decodeHttpQuery()
     {
+        $values = [];
         foreach ($this->app['request']->query->all() as $key => $parameter) {
             if (strpos($key, self::PAGE) === 0) {
                 $contextId = end(explode('_', $key));
-                $this->values[$key] = new Pager(
+                $values[$key] = new Pager(
                     ['current' => $parameter, 'for' => $contextId, 'manager' => $this],
                     \ArrayObject::ARRAY_AS_PROPS
                 );
             }
         }
+
+        return $values;
     }
 
     /**
@@ -179,7 +182,7 @@ class PagerManager implements \ArrayAccess
             return $this->values[$ctxkey];
         }
 
-        $key = $this->makeParameterId();
+/*        $key = $this->makeParameterId();
         if (array_key_exists($key, $this->values)) {
             return $this->values[$key];
         }
@@ -187,7 +190,9 @@ class PagerManager implements \ArrayAccess
         return $this->values[$ctxkey] = new Pager(
             ['current' => 1, 'for' => $contextId, 'manager' => $this],
             \ArrayObject::ARRAY_AS_PROPS
-        );
+        );*/
+
+        return false;
     }
 
     /**
@@ -239,6 +244,17 @@ class PagerManager implements \ArrayAccess
     public function getPager($contextId = '')
     {
         return ($contextId) ? $this->values[$this->makeParameterId($contextId)] : $this->values[$this->findInitializedPagerId()];
+    }
+
+    /**
+     * @param string $contextId
+     * @return Pager|int
+     */
+    public function getCurrentPage($contextId = '')
+    {
+        $pager = $this->offsetGet($contextId) ?: $this->offsetGet('');
+
+        return ($pager) ? $pager['current'] : 1;
     }
 
     /**
