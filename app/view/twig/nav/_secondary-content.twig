@@ -1,4 +1,4 @@
-{% set sub_hide = [] %}
+{% set definedSubs = [] %}
 
 {% for slug, contenttype in app.config.get('contenttypes')  %}
     {% if isallowed('contenttype:' ~ slug) %}
@@ -16,7 +16,7 @@
         {% set sub = [sub_view, sub_new, '-'] %}
 
         {# Contenttypes, where show_in_menu is set true #}
-        {% if contenttype.show_in_menu %}
+        {% if contenttype.show_in_menu == "true" %}
 
             {% setcontent records = slug limit 4 nohydrate orderby '-datechanged' %}
             {% for record in records %}
@@ -34,7 +34,7 @@
 
             {{ nav.submenu(contenttype.icon_many|default(''), label, sub, active, true) }}
 
-        {# Contenttypes, where show_in_menu is set false #}
+        {# Contenttypes, where show_in_menu is set to a custom value or false #}
         {% else %}
 
             {% set sub_view = {
@@ -43,11 +43,24 @@
                 link: path('overview', {'contenttypeslug': slug})
             } %}
 
-            {% set sub_hide = sub_hide|merge([sub_view]) %}
+            {% set key = contenttype.show_in_menu ?: 'Other content' %}
+            {% if definedSubs[key] is defined %}
+                {% for submenuName, submenudef in definedSubs %}
+                    {% if key == submenuName %}
+                        {% set submenudef = submenudef|merge([sub_view]) %}
+                        {% set definedSubs = definedSubs|merge({(submenuName) : submenudef}) %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% set definedSubs = definedSubs|merge({(key) : [sub_view]}) %}
+            {% endif %}
 
         {% endif %}
     {% endif %}
 {% endfor %}
 
-{# Display contenttypes, that have show_in_menu set to false in a submenu #}
-{{ nav.submenu('fa:th-list', __('Other content'), sub_hide) }}
+{# Display contenttypes, that have show_in_menu set to false or a custom value in submenus #}
+{% for submenuName, submenudef in definedSubs %}
+    {# Create the submenu and force it to be a submenu #}
+    {{ nav.submenu('fa:th-list', submenuName, submenudef, false, false, false, true) }}
+{% endfor %}

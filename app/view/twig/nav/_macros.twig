@@ -19,7 +19,7 @@
  # @param bool    wide
  # @param array   subitems
  #}
-{% macro submenu(icon, label, popoveritems, active, wide, subitems) %}
+{% macro submenu(icon, label, popoveritems, active, wide, subitems, force_submenu) %}
 
     {% from _self import label, icon %}
 
@@ -42,7 +42,7 @@
     {% set class = ((wide ? ' menu-pop-wide' : '') ~ (active ? ' active' : ''))|trim %}
 
     {# Show stuff! #}
-    {% if allowedany %}
+    {% if allowedany and not force_submenu|default(false)  %}
         <li{% if class %} class="{{ class }}"{% endif %}>
             {% if allowedamount == 1 %}
                 {% set item = allowedsingle %}
