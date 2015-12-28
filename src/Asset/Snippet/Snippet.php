@@ -2,6 +2,8 @@
 
 namespace Bolt\Asset\Snippet;
 
+use Bolt\Controller\Zone;
+
 /**
  * Snippet objects.
  *
@@ -19,6 +21,8 @@ class Snippet implements SnippetAssetInterface
     protected $callbackArguments;
     /** @var string */
     protected $extension = 'core';
+    /** @var string */
+    protected $zone = Zone::FRONTEND;
 
     /**
      * {@inheritdoc}
@@ -130,6 +134,24 @@ class Snippet implements SnippetAssetInterface
     public function isCore()
     {
         return $this->extension === 'core';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getZone()
+    {
+        return $this->zone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setZone($zone)
+    {
+        $this->zone = $zone;
+
+        return $this;
     }
 
     /**
