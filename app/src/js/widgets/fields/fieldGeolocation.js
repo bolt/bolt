@@ -239,8 +239,11 @@
          * @private
          */
         _onExpand: function () {
+            var markerPos = this._marker.getPosition();
+
             this._ui.mapholder.parent().toggleClass('expanded');
             google.maps.event.trigger(this._map, 'resize');
+            this._map.setCenter(markerPos);
         }
     });
 })(jQuery, Bolt);
