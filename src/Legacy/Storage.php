@@ -1511,7 +1511,10 @@ class Storage
 
         // $decoded['contettypes'] gotten here
         // get page nr. from url if has
-        $metaParameters['page'] = $this->decodePageParameter(implode('_', $decoded['contenttypes']), $inParameters);
+
+        // @todo Pager cleanup
+        // $metaParameters['page'] = $this->decodePageParameter(implode('_', $decoded['contenttypes']), $inParameters);
+        $metaParameters['page'] = $this->app['pager']->getCurrentPage(implode('_', $decoded['contenttypes']));
 
         $this->prepareDecodedQueryForUse($decoded, $metaParameters, $ctypeParameters);
 
@@ -1656,25 +1659,6 @@ class Storage
         }
 
         return $decoded;
-    }
-
-    /**
-     * Decodes contextual page number from current request url if found.
-     *
-     * @param string $context      Pager id/name in url which value we find
-     * @param array  $inParameters
-     *
-     * @return mixed Page number in context
-     */
-    protected function decodePageParameter($context = '', $inParameters = null)
-    {
-        if (isset($inParameters['page']) && $inParameters['page'] !== null) {
-            return $inParameters['page'];
-        } else {
-            $page = $this->app['pager'][$context]['current'];
-        }
-
-        return $page;
     }
 
     /**
