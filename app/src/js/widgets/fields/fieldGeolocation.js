@@ -91,6 +91,12 @@
              */
             this._timeout = 0;
 
+            // Bind events.
+            self._on({
+                'click.expand': self._onExpand,
+                'click.compress': self._onExpand
+            });
+
             $(bolt)
                 .one('bolt:gmaps-loaded', function () {
                     self._initGoogleMap(self.options.latitude, self.options.longitude);
@@ -225,6 +231,16 @@
                     google.maps.event.trigger(self._map, 'resize');
                 }
             });
+        },
+
+        /**
+         * Expand/Compact button clicked.
+         *
+         * @private
+         */
+        _onExpand: function () {
+            this._ui.mapholder.parent().toggleClass('expanded');
+            google.maps.event.trigger(this._map, 'resize');
         }
     });
 })(jQuery, Bolt);
