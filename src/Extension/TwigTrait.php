@@ -250,6 +250,21 @@ trait TwigTrait
         }
     }
 
+    /**
+     * Render a Twig template.
+     *
+     * @param string $template
+     * @param array  $context
+     *
+     * @return string
+     */
+    protected function renderTwigTemplate($template, array $context = [])
+    {
+        $app = $this->getContainer();
+
+        return $app['twig']->render($template, $context);
+    }
+
     /** @return Container */
     abstract protected function getContainer();
 
