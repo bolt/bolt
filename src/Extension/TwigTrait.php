@@ -60,6 +60,24 @@ trait TwigTrait
     }
 
     /**
+     * Returns a list of relative paths to add to Twig's path array.
+     *
+     * Example:
+     * <pre>
+     *  return [
+     *      'templates/foo',
+     *      'templates/bar' => 'prepend'
+     *  ];
+     * </pre>
+     *
+     * @return array
+     */
+    protected function registerTwigPaths()
+    {
+        return [];
+    }
+
+    /**
      * Call this in register method.
      *
      * @internal
@@ -124,7 +142,38 @@ trait TwigTrait
             }
         }
 
+        foreach ($this->registerTwigPaths() as $key => $value) {
+            if (is_string($key) && $value === 'prepend') {
+                $this->addTwigPath($key, true);
+            } else {
+                $this->addTwigPath($value, false);
+            }
+        }
+
         $this->loadedTwig = true;
+    }
+
+    /**
+     * Append a path to Twig's path array.
+     *
+     * @param string $path
+     * @param bool   $prepend
+     *
+     * @throws \Twig_Error_Loader
+     */
+    protected function addTwigPath($path, $prepend)
+    {
+        $app = $this->getContainer();
+        $filesystem = $app['filesystem']->getFilesystem('extensions');
+        $relativePath = $filesystem->getAdapter()->removePathPrefix($this->getPath());
+
+        if ($app['filesystem']->getFilesystem('extensions')->has(sprintf('%s/%s', $relativePath, $path))) {
+            if ($prepend) {
+                $app['twig.loader.filesystem']->prependPath(sprintf('%s/%s', $this->getPath(), $path));
+            } else {
+                $app['twig.loader.filesystem']->addPath(sprintf('%s/%s', $this->getPath(), $path));
+            }
+        }
     }
 
     /**
@@ -206,4 +255,7 @@ trait TwigTrait
 
     /** @return string */
     abstract public function getName();
+
+    /** @return string */
+    abstract protected function getPath();
 }
