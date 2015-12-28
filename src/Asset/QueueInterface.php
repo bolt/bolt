@@ -17,8 +17,6 @@ interface QueueInterface
      *
      * @param Request  $request
      * @param Response $response
-     *
-     * @return Response
      */
     public function process(Request $request, Response $response);
 
