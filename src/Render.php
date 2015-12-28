@@ -4,6 +4,7 @@ namespace Bolt;
 
 use Bolt\Response\BoltResponse;
 use Silex;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -23,8 +24,6 @@ class Render
     public $safe;
     /** @var string */
     public $twigKey;
-    /** @var boolean */
-    protected $retrievedFromCache = false;
 
     /**
      * Set up the object.
@@ -98,27 +97,18 @@ class Render
     /**
      * Postprocess the rendered HTML: insert the snippets, and stuff.
      *
+     * @param Request  $request
      * @param Response $response
-     *
-     * @return string
      */
-    public function postProcess(Response $response)
+    public function postProcess(Request $request, Response $response)
     {
-        $html = $response->getContent();
-
-        if (!$this->wasRetrievedFromCache()) {
-            /** @var \Bolt\Asset\QueueInterface $queue */
-            if (!$this->app['request_stack']->getCurrentRequest()->isXmlHttpRequest()) {
-                foreach ($this->app['asset.queues'] as $queue) {
-                    $html = $queue->process($html);
-                }
+        /** @var \Bolt\Asset\QueueInterface $queue */
+        if (!$this->app['request_stack']->getCurrentRequest()->isXmlHttpRequest()) {
+            foreach ($this->app['asset.queues'] as $queue) {
+                $queue->process($request, $response);
             }
-            $this->cacheRequest($html);
         }
-
-        $this->cacheRequest($html);
-
-        return $html;
+        $this->cacheRequest($response);
     }
 
     /**
@@ -144,10 +134,10 @@ class Render
                 // only 50% max, but likely less
                 // 's_maxage' sets the cache for shared caches.
                 // max_age sets it for regular browser caches
-                $age = $this->cacheDuration() / 2;
-                $response->setMaxAge($age)->setSharedMaxAge($age);
 
-                $this->setRetrievedFromCache();
+                $age = $this->cacheDuration() / 2;
+
+                $response->setMaxAge($age)->setSharedMaxAge($age);
             }
         }
 
@@ -155,31 +145,15 @@ class Render
     }
 
     /**
-     * Check whether this page was retrieved from cache
+     * Store a fully rendered (and post-processed) page to cache.
      *
-     * @return boolean
+     * @param Response $response
      */
-    private function wasRetrievedFromCache()
-    {
-        return $this->retrievedFromCache;
-    }
-
-    /**
-     * Set the flag to indicate this page was retrieved from cache
-     */
-    private function setRetrievedFromCache()
-    {
-        $this->retrievedFromCache = true;
-    }
-
-    /**
-     * Store a fully rendered (and postprocessed) page to cache.
-     *
-     * @param $html
-     */
-    public function cacheRequest($html)
+    public function cacheRequest(Response $response)
     {
         if ($this->checkCacheConditions('request')) {
+            $html = $response->getContent();
+
             // This is where the magic happens.. We also store it with an empty
             // 'template' name, so we can later fetch it by its request.
             $key = md5($this->app['request']->getPathInfo() . $this->app['request']->getQueryString());
