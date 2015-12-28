@@ -11,13 +11,18 @@ namespace Bolt\Pager;
 
 class Pager extends \ArrayObject
 {
-/*  public $for;
-    public $count;
-    public $totalpages;
-    public $current;
-    public $showing_from;
-    public $showing_to;
-*/
+    /*
+     * Possible ArrayObject members
+     *
+     *  public $for;
+     *  public $count;
+     *  public $totalpages;
+     *  public $current;
+     *  public $showing_from;
+     *  public $showing_to;
+     *
+     *  public $manager;
+     */
 
     /**
      *
