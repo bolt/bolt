@@ -9,7 +9,9 @@ use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Legacy\ExtensionsTrait;
 use Bolt\Logger\FlashLoggerInterface;
+use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
+use Silex\Application;
 
 /**
  * Class to manage loading of extensions.
@@ -33,12 +35,15 @@ class Manager
     private $flashLogger;
     /** @var Config */
     private $config;
+    /** @var bool */
+    private $registered = false;
 
     /**
      * Constructor.
      *
      * @param FilesystemInterface  $filesystem
      * @param FlashLoggerInterface $flashLogger
+     * @param Config               $config
      */
     public function __construct(FilesystemInterface $filesystem, FlashLoggerInterface $flashLogger, Config $config)
     {
@@ -62,6 +67,7 @@ class Manager
             return;
         }
 
+        // Load extensions we're managing via the autoloader
         $this->autoload = (array) $autoloadJson->parse();
         foreach ($this->autoload as $loader) {
             $composerName = $loader['name'];
@@ -74,20 +80,30 @@ class Manager
                 // Skip loading if marked disabled
                 continue;
             }
+            $this->loadExtension($loader['class'], $composerName);
+        }
+    }
 
-            if (class_exists($loader['class'])) {
-                /** @var ExtensionInterface $class */
-                $class = new $loader['class']();
-                if ($class instanceof ExtensionInterface) {
-                    $phpName = $class->getName();
-                    $this->map[$phpName] = $composerName;
-                    $this->extensions[$composerName] = new ResolvedExtension($class);
-                } else {
-                    $this->flashLogger->error(sprintf('Extension package %s base class %s does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.', $loader['name'], $loader['class']));
-                }
-            } else {
-                $this->flashLogger->error(sprintf("Extension package %s has an invalid class '%s' and has been skipped.", $loader['name'], $loader['class']));
-            }
+    /**
+     * Load a single extension.
+     *
+     * @param string $className
+     * @param string $composerName
+     */
+    private function loadExtension($className, $composerName)
+    {
+        if (class_exists($className) === false) {
+            $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
+
+            return;
+        }
+
+        /** @var ExtensionInterface $extension */
+        $extension = new $className();
+        if ($extension instanceof ExtensionInterface) {
+            $this->setResolved($extension, $composerName);
+        } else {
+            $this->flashLogger->error(Trans::__("Extension package %NAME% base class '%CLASS%' does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
         }
     }
 
@@ -100,8 +116,8 @@ class Manager
      */
     public function add(ExtensionInterface $extension)
     {
-        $name = Slugify::create()->slugify($extension->getVendor() . '/' . $extension->getName(), '/');
-        $this->extensions[$name] = $extension;
+        $internalName = Slugify::create()->slugify($extension->getVendor() . '/' . $extension->getName(), '/');
+        $this->setResolved($extension, $internalName);
     }
 
     /**
@@ -127,7 +143,7 @@ class Manager
     /**
      * Get an installed extension class.
      *
-     * @param string $name
+     * @param string|null $name
      *
      * @return ExtensionInterface|null
      */
@@ -141,7 +157,7 @@ class Manager
     /**
      * Get the resolved form of an installed extension class.
      *
-     * @param string $name
+     * @param string|null $name
      *
      * @return ResolvedExtension|null
      */
@@ -150,6 +166,35 @@ class Manager
         if ($key = $this->getMappedKey($name)) {
             return $this->extensions[$key];
         }
+    }
+
+    /**
+     * Add an extension as resolved to the class.
+     *
+     * @param ExtensionInterface $extension
+     * @param string             $internalName
+     */
+    private function setResolved(ExtensionInterface $extension, $internalName)
+    {
+        $this->extensions[$internalName] = new ResolvedExtension($extension);
+        $this->map[$extension->getName()] = $internalName;
+    }
+
+    /**
+     * Call register() for each extension.
+     *
+     * @param Application $app
+     */
+    public function register(Application $app)
+    {
+        if ($this->registered) {
+            throw new \RuntimeException(Trans::__('Can not re-register extensions.'));
+        }
+        foreach ($this->extensions as $extension) {
+            $extension->getInnerExtension()->setContainer($app);
+            $app->register($extension->getInnerExtension()->getServiceProvider());
+        }
+        $this->registered = true;
     }
 
     /**
