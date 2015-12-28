@@ -91,7 +91,7 @@ abstract class AbstractExtension implements ExtensionInterface
     {
         if ($this->path === null) {
             $reflected = new \ReflectionObject($this);
-            $this->path = dirname($reflected->getFileName());
+            $this->path = preg_replace('/\/src(\/|)$/', '$1', dirname($reflected->getFileName()));
         }
 
         return $this->path;
