@@ -8,6 +8,7 @@ use Bolt\Asset\File\JavaScript;
 use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Snippet\SnippetAssetInterface;
+use Bolt\Asset\Widget\Widget;
 use Bolt\Asset\Widget\WidgetAssetInterface;
 use Bolt\Response\BoltResponse;
 use Pimple as Container;
@@ -130,6 +131,9 @@ trait AssetTrait
      */
     protected function addAsset(AssetInterface $asset)
     {
+        if ($asset instanceof FileAssetInterface) {
+            $asset->setFileName($this->getAssetPath($asset->getFileName()));
+        }
         $this->assets[] = $asset;
     }
 
@@ -234,8 +238,6 @@ trait AssetTrait
     /**
      * Get the relative path to the asset file.
      *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
      * @param string $fileName
      *
      * @return string|null
@@ -243,7 +245,7 @@ trait AssetTrait
     private function getAssetPath($fileName)
     {
         $app = $this->getContainer();
-        if (file_exists($this->getBasePath() . '/' . $fileName)) {
+        if (file_exists($this->getPath() . '/web/' . $fileName)) {
             return $this->getBaseUrl() . $fileName;
         } elseif (file_exists($app['resources']->getPath('themepath/' . $fileName))) {
             return $app['resources']->getUrl('theme') . $fileName;
@@ -332,26 +334,6 @@ trait AssetTrait
     }
 
     /**
-     * Get the base path, that is, the directory where the (derived) extension
-     * class file is located.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @return string
-     */
-    private function getBasePath()
-    {
-        if ($this->basePath === null) {
-            $app = $this->getContainer();
-            $reflection = new \ReflectionClass($this);
-            $basePath = dirname($reflection->getFileName());
-            $this->basePath = $app['pathmanager']->create($basePath);
-        }
-
-        return $this->basePath;
-    }
-
-    /**
      * Get the extensions base URL.
      *
      * @deprecated Deprecated since 3.0, to be removed in 4.0.
@@ -363,11 +345,17 @@ trait AssetTrait
         $app = $this->getContainer();
         $extPath = $app['resources']->getPath('extensions');
         $extUrl = $app['resources']->getUrl('extensions');
-        $relative = str_replace($extPath, '', $this->basePath);
+        $relative = str_replace($extPath, '', $this->getPath());
 
-        return $extUrl . ltrim($relative, '/') . '/';
+        return $extUrl . ltrim($relative, '/') . '/web/';
     }
 
     /** @return Container */
     abstract protected function getContainer();
+
+    /** @return string */
+    abstract protected function getName();
+
+    /** @return string */
+    abstract protected function getPath();
 }
