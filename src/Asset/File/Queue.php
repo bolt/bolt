@@ -5,6 +5,7 @@ use Bolt\Asset\AssetSortTrait;
 use Bolt\Asset\Injector;
 use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Target;
+use Bolt\Controller\Zone;
 use Closure;
 use Doctrine\Common\Cache\CacheProvider;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,13 +78,13 @@ class Queue implements QueueInterface
     {
         /** @var FileAssetInterface $asset */
         foreach ($this->sort($this->javascript) as $key => $asset) {
-            $this->processJsAssets($asset, $response);
+            $this->processAsset($asset, $request, $response);
             unset($this->javascript[$key]);
         }
 
         /** @var FileAssetInterface $asset */
         foreach ($this->sort($this->stylesheet) as $key => $asset) {
-            $this->processCssAssets($asset, $response);
+            $this->processAsset($asset, $request, $response);
             unset($this->stylesheet[$key]);
         }
     }
@@ -109,31 +110,21 @@ class Queue implements QueueInterface
     }
 
     /**
-     * Process the CSS asset queue.
+     * Process a single asset.
      *
      * @param FileAssetInterface $asset
+     * @param Request            $request
      * @param Response           $response
      */
-    protected function processCssAssets(FileAssetInterface $asset, Response $response)
+    protected function processAsset(FileAssetInterface $asset, Request $request, Response $response)
     {
-        if ($asset->isLate()) {
+        if ($asset->getZone() !== Zone::get($request)) {
+            return;
+        } elseif ($asset->isLate()) {
             $this->injector->inject($asset, Target::END_OF_BODY, $response);
-        } else {
+        } elseif ($asset->getType() === 'stylesheet') {
             $this->injector->inject($asset, Target::BEFORE_CSS, $response);
-        }
-    }
-
-    /**
-     * Process the JavaScript asset queue.
-     *
-     * @param FileAssetInterface $asset
-     * @param Response           $response
-     */
-    protected function processJsAssets(FileAssetInterface $asset, Response $response)
-    {
-        if ($asset->isLate()) {
-            $this->injector->inject($asset, Target::END_OF_BODY, $response);
-        } else {
+        } elseif ($asset->getType() === 'javascript') {
             $this->injector->inject($asset, Target::AFTER_JS, $response);
         }
     }
