@@ -92,16 +92,16 @@
             // Activate bootstrap modal.
             self._ui.modal
                 .on('show.bs.modal', function () {
-                    self._trigger('show');
+                    self._fire('show');
                 })
                 .on('shown.bs.modal', function () {
-                    self._trigger('shown');
+                    self._fire('shown');
                 })
                 .on('hide.bs.modal', function () {
-                    self._trigger('hide');
+                    self._fire('hide');
                 })
                 .on('hidden.bs.modal', function () {
-                    self._trigger('hidden');
+                    self._fire('hidden');
                     self.destroy();
                 })
                 .modal('show');
@@ -116,6 +116,29 @@
             this._ui.modal
                 .data('modal', null)
                 .remove();
+        },
+
+        /**
+         * Triggers event with modal data added.
+         *
+         * @private
+         * @param {string} eventType - Event type
+         */
+        _fire: function (eventType) {
+            var self = this;
+
+            self._trigger(
+                eventType,
+                null,
+                {
+                    close: function () {
+                        self._ui.modal.modal('hide');
+                    },
+                    header:  self._ui.header,
+                    body:    self._ui.body,
+                    footer:  self._ui.footer
+                }
+            );
         },
 
         /**
@@ -154,19 +177,7 @@
                     });
 
                     self._update();
-
-                    self._trigger(
-                        'loaded',
-                        null,
-                        {
-                            close: function () {
-                                self._ui.modal.modal('hide');
-                            },
-                            header:  self._ui.header,
-                            body:    self._ui.body,
-                            footer:  self._ui.footer
-                        }
-                    );
+                    self._fire('loaded');
                 })
                 .fail(function () {
                     self.options.header = undefined;
