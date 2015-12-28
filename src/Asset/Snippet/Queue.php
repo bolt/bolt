@@ -8,7 +8,8 @@ use Bolt\Config;
 use Bolt\Configuration\ResourceManager;
 use Bolt\Controller\Zone;
 use Doctrine\Common\Cache\CacheProvider;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Snippet queue processor.
@@ -30,8 +31,6 @@ class Queue implements QueueInterface
     protected $config;
     /** @var \Bolt\Configuration\ResourceManager */
     protected $resources;
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
-    protected $requestStack;
 
     /** @var array */
     private $matchedComments;
@@ -43,20 +42,17 @@ class Queue implements QueueInterface
      * @param CacheProvider   $cache
      * @param Config          $config
      * @param ResourceManager $resources
-     * @param RequestStack    $requestStack
      */
     public function __construct(
         Injector $injector,
         CacheProvider $cache,
         Config $config,
-        ResourceManager $resources,
-        RequestStack $requestStack
+        ResourceManager $resources
     ) {
         $this->injector = $injector;
         $this->cache = $cache;
         $this->config = $config;
         $this->resources = $resources;
-        $this->requestStack = $requestStack;
     }
 
     /**
@@ -81,28 +77,27 @@ class Queue implements QueueInterface
     /**
      * {@inheritdoc}
      */
-    public function process($html)
+    public function process(Request $request, Response $response)
     {
         // First, gather all html <!-- comments -->, because they shouldn't be
         // considered for replacements. We use a callback, so we can fill our
         // $this->matchedComments array
-        $html = preg_replace_callback('/<!--(.*)-->/Uis', [$this, 'pregCallback'], $html);
+        preg_replace_callback('/<!--(.*)-->/Uis', [$this, 'pregCallback'], $response->getContent());
 
         /** @var Snippet $asset */
         foreach ($this->queue as $key => $asset) {
-            $html = $this->injector->inject($asset, $asset->getLocation(), $html);
+            $this->injector->inject($asset, $asset->getLocation(), $response);
             unset($this->queue[$key]);
         }
 
         // Conditionally add jQuery
-        $html = $this->addJquery($html);
+        $this->addJquery($request, $response);
 
         // Finally, replace back ###comment### with its original comment.
         if (!empty($this->matchedComments)) {
-            $html = preg_replace(array_keys($this->matchedComments), $this->matchedComments, $html, 1);
+            $html = preg_replace(array_keys($this->matchedComments), $this->matchedComments, $response->getContent(), 1);
+            $response->setContent($html);
         }
-
-        return $html;
     }
 
     /**
@@ -126,33 +121,30 @@ class Queue implements QueueInterface
      * - jquery-1.8.2.min.js
      * - jquery-1.5.js
      *
-     * @param string $html
-     *
-     * @return string HTML
+     * @param Request  $request
+     * @param Response $response
      */
-    protected function addJquery($html)
+    protected function addJquery(Request $request, Response $response)
     {
         if (!$this->config->get('general/add_jquery', false) &&
             !$this->config->get('theme/add_jquery', false)) {
-            return $html;
+            return;
         }
 
-        $zone = Zone::FRONTEND;
-        if ($request = $this->requestStack->getCurrentRequest()) {
-            $zone = Zone::get($request);
+        if (Zone::isFrontend($request) === false) {
+            return;
         }
 
+        $html = $response->getContent();
         $regex = '/<script(.*)jquery(-latest|-[0-9\.]*)?(\.min)?\.js/';
-        if ($zone === Zone::FRONTEND && !preg_match($regex, $html)) {
+        if (!preg_match($regex, $html)) {
             $jqueryfile = $this->resources->getPath('app/view/js/jquery-2.1.4.min.js');
             $asset = (new Snippet())
                 ->setLocation(Target::BEFORE_JS)
                 ->setCallback('<script src="' . $jqueryfile . '"></script>')
             ;
-            $html = $this->injector->inject($asset, $asset->getLocation(), $html);
+            $this->injector->inject($asset, $asset->getLocation(), $response);
         }
-
-        return $html;
     }
 
     /**
