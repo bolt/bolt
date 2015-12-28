@@ -13,27 +13,38 @@ use Silex\Application;
 
 /**
  * Class PagerManager
+ * -------------------
  *  is a centralized service that would be instantiated lazily by PagerServiceProvider.
  *  It's changes Pager:: based, global smelling static calls that would be served by the manager to
  *  fit TDD principle.
- *  The service will be accessible via $app['pager'] then.
+ *  The service will be accessible via ``$app['pager']`` then.
  *
  * Role of the manager
+ * -------------------
  * - manages Pager elements which are atomic objects of a paging reference and roughly corresponding current Bolt\Pager
  *   objects
  * - responsible for decoding/encoding pager objects from/to query parameters
  * - centralizing all pager related operations like
- *      $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+ *      ``$page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;``
  *      that occurs redundantly in code atm
- * - a pager element would be reached as $app['pager']['search']
- * - (string) $app['pager'] for encoding html query rather than Pager::makeLink()
- * - no more Bolt\Legacy\Storage::GetContent() (and others) has to receive &$pager as argument, which is not so clear
+ * - a pager element would be reached as ``$app['pager']['search']``
+ * - ``(string) $app['pager']`` for encoding html query rather than ``Pager::makeLink()``
+ * - no more ``Bolt\Legacy\Storage::GetContent()`` (and others) has to receive &$pager as argument, which is not so clear
  *   enough
  *
  * Conventions:
- *  Context Id : Textual id of a pager element. It is hints the context or content type where the pager is refers to
- *  Pager Id/Parameter Id : Full text id of a pager object in placeholder array. It is a key with <PAGE>_<context_id>.
- *             Query parameters can contain current page state under this parameter id.
+ * ------------
+ *  - *Context Id* : Textual id of a pager element. It is hints the context or content type where the pager is refers to
+ *  - *Pager Id* / *Parameter Id* : Full text id of a pager object in placeholder array. It is a key with
+ * ``<PAGE>_<context_id>``. Query parameters can contain current page state under this parameter id.
+ *
+ * Practical:
+ * ----------
+ *  - Variable ``pager`` injected into templates contains a member ``manager`` furthermore, so PagerManager API can be
+ *  accessed via
+ *  - Instantiating PagerManager - like reaching ``$app['pager']`` - decodes http page parameters and can be addressed
+ *  by their context id. So ``$app['pager']['entities']`` returns a Pager object decoded from query parameters was
+ *  ``page_entities=N`` originally
  *
  * @package Bolt\Pager
  */
@@ -183,16 +194,6 @@ class PagerManager implements \ArrayAccess
         if (array_key_exists($ctxkey, $this->values)) {
             return $this->values[$ctxkey];
         }
-
-/*        $key = $this->makeParameterId();
-        if (array_key_exists($key, $this->values)) {
-            return $this->values[$key];
-        }
-
-        return $this->values[$ctxkey] = new Pager(
-            ['current' => 1, 'for' => $contextId, 'manager' => $this],
-            \ArrayObject::ARRAY_AS_PROPS
-        );*/
 
         return false;
     }
