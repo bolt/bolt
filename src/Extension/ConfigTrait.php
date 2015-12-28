@@ -45,7 +45,7 @@ trait ConfigTrait
         $filesystem = $app['filesystem'];
 
         $file = new YamlFile();
-        $filesystem->getFile(sprintf('config://extensions/%s.%s.yml', $this->getName(), $this->getVendor()), $file);
+        $filesystem->getFile(sprintf('config://extensions/%s.%s.yml', strtolower($this->getName()), strtolower($this->getVendor())), $file);
 
         if (!$file->exists()) {
             $this->copyDistFile($file);
@@ -92,16 +92,17 @@ trait ConfigTrait
     private function copyDistFile(YamlFile $file)
     {
         $app = $this->getContainer();
+        $filesystem = $app['filesystem']->getFilesystem('extensions');
+        $relativePath = $filesystem->getAdapter()->removePathPrefix($this->getPath());
 
-        $distFile = new YamlFile();
-        $distFile = $app['filesystem']->getFile(sprintf('extension-%s://config.yml.dist', $this->getName()), $distFile);
+        /** @var YamlFile $distFile */
+        $distFile = $filesystem->get(sprintf('%s/config.yml.dist', $relativePath), new YamlFile());
         if (!$distFile->exists()) {
             return;
         }
-
-        $distFile->copy($file->getFullPath());
+        $file->write($distFile->read());
         $app['logger.system']->info(
-            sprintf('Copied %s to %s', $distFile->getFullPath(), $distFile->getFullPath()),
+            sprintf('Copied %s to %s', $distFile->getFullPath(), $file->getFullPath()),
             ['event' => 'extensions']
         );
     }
@@ -111,6 +112,9 @@ trait ConfigTrait
 
     /** @return string */
     abstract public function getVendor();
+
+    /** @return string */
+    abstract protected function getPath();
 
     /** @return Container */
     abstract protected function getContainer();
