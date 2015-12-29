@@ -49,7 +49,7 @@ interface ExtensionInterface
     public function getNamespace();
 
     /**
-     * Returns the extensions directory path.
+     * Returns the extensions root directory path.
      *
      * The path should always be returned as a Unix path (with /).
      *
