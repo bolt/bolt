@@ -78,7 +78,7 @@ class FileManager extends BackendBase
         $type = Lib::getExtension($file->getPath());
 
         $contents = null;
-        if (!$file->exists() || !($contents = $file->read())) {
+        if (!$file->exists() || false === $file->read()) {
             $error = Trans::__("The file '%s' doesn't exist, or is not readable.", ['%s' => $file->getPath()]);
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
