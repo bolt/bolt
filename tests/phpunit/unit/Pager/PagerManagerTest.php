@@ -31,10 +31,72 @@ class PagerManagerTest extends BoltUnitTest
      */
     public function testMakeParameterId($expected, $suffix)
     {
-        $app = $this->getApp();
-        $app['request'] = Request::create('/');
-        $manager = new PagerManager($app);
+        $manager = $this->createPagerManager(Request::create('/'));
         $this->assertEquals($expected, $manager->makeParameterId($suffix));
+    }
+
+    public function testOffsetSet()
+    {
+        $manager = $this->createPagerManager(Request::create('/'));
+        $manager['data'] = ['current' => '1', 'totalpages' => 2, 'for' => 'data'];
+        var_dump($manager->getPagers());
+    }
+
+    /**
+     * @return array
+     */
+    public function decodeHttpQueryProvider()
+    {
+        return [
+            ['?nopagerpar=2', [[]]],
+            ['?page',
+                [
+                    '' => ['for' => 'page', 'current' => ''],
+                ],
+            ],
+            ['?page=3',
+                [
+                    '' => ['for' => 'page', 'current' => 3],
+                ],
+            ],
+            ['?page=3&nopage=A',
+                [
+                    '' => ['for' => 'page', 'current' => 3],
+                ],
+            ],
+            ['?page_some=2&nopage',
+                [
+                    'some' => ['for' => 'some', 'current' => 2],
+                ],
+            ],
+            ['?page_some=2&page=3&nopage',
+                [
+                    'some' => ['for' => 'some', 'current' => 2],
+                    '' => ['for' => 'page', 'current' => 3],
+                ],
+            ],
+            ['?page_some=2&page_others=3&nopage',
+                [
+                    'some' => ['for' => 'some', 'current' => 2],
+                    'others' => ['for' => 'others', 'current' => 3],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider decodeHttpQueryProvider
+     */
+    public function testDecodeHttpQuery($query, $expected)
+    {
+        $manager = $this->createPagerManager(Request::create($query));
+        $mirror = new PagerManager($this->getApp());
+        foreach ($expected as $parid => $pager) {
+            if ($pager) {
+                $mirror[$parid] = $pager;
+            }
+        }
+        $this->assertEquals($mirror->getPagers(), $manager->decodeHttpQuery());
     }
 
     /**
@@ -68,42 +130,6 @@ class PagerManagerTest extends BoltUnitTest
             '?a=b&page_acategory=',
         ];
 
-        /*
-                $tests[] = [
-                    '?a=b&page_acategory=',
-                    [
-                        'for' => 'acategory',
-                    ],
-                    [
-                        'a' => 'b',
-                        'page' => 5
-                    ],
-                ];
-
-                $tests[] = [
-                    '?a=b&page_acategory=6&page=',
-                    [
-                        'for' => '',
-                    ],
-                    [
-                        'a' => 'b',
-                        'page' => 5,
-                        'page_acategory' => 6
-                    ],
-                ];
-
-                $tests[] = [
-                    '?a=b&page=5&page_acategory=',
-                    [
-                        'for' => 'acategory',
-                    ],
-                    [
-                        'a' => 'b',
-                        'page' => 5,
-                        'page_acategory' => 6
-                    ],
-                ];
-                */
 
         return $tests;
     }
@@ -111,14 +137,17 @@ class PagerManagerTest extends BoltUnitTest
     /**
      * @dataProvider makelinkProvider
      */
-    public function testMakelink($linkFor, $query, $pagers, $expected)
+    public function testMakelink($linkFor, $query, $expected)
     {
-        $app = $this->getApp();
-        $app['request'] = Request::create($query);
-
-        $manager = new PagerManager($app);
-
+        $manager = $this->createPagerManager(Request::create($query));
         $this->assertEquals($expected, $manager->makelink($linkFor));
     }
 
+    private function createPagerManager($request)
+    {
+        $app = $this->getApp();
+        $app['request'] = $request;
+
+        return new PagerManager($app);
+    }
 }
