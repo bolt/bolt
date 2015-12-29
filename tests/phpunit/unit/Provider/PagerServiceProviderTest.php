@@ -1,23 +1,26 @@
 <?php
 namespace Bolt\Tests\Provider;
 
-use Bolt\Provider\FilesystemServiceProvider;
+use Bolt\Provider\PagerServiceProvider;
 use Bolt\Tests\BoltUnitTest;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test Bolt\Provider\FilesystemServiceProvider.
+ * Class PagerServiceProviderTest
  *
- * @author Ross Riley <riley.ross@gmail.com>
- * @author Carson Full <carsonfull@gmail.com>
+ * @package Bolt\Tests\Provider
+ * @author Rix Beck <rix@neologik.hu>
  */
-class FilesystemServiceProviderTest extends BoltUnitTest
+class PagerServiceProviderTest extends BoltUnitTest
 {
     public function testProvider()
     {
         $app = $this->getApp();
+        $app['request'] = Request::create('/');
+        $provider = new PagerServiceProvider($app);
+        $app->register($provider);
 
-        $app->register(new FilesystemServiceProvider());
-        $this->assertInstanceOf('Bolt\Filesystem\Manager', $app['filesystem']);
+        $this->assertInstanceOf('Bolt\Pager\PagerManager', $app['pager']);
 
         $app->boot();
     }

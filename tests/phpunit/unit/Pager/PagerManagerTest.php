@@ -2,16 +2,17 @@
 
 namespace Bolt\Tests\Pager;
 
-use Bolt\Pager;
+use Bolt\Pager\PagerManager;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * PagerTest for class Pager
+ * PagerManagerTest for class PagerManager
  *
  * @package Bolt\Tests\Pager
+ * @author Rix Beck <rix@neologik.hu>
  */
-class PagerTest extends BoltUnitTest
+class PagerManagerTest extends BoltUnitTest
 {
     /**
      * @return array
@@ -30,7 +31,10 @@ class PagerTest extends BoltUnitTest
      */
     public function testMakeParameterId($expected, $suffix)
     {
-        $this->assertEquals($expected, Pager::makeParameterId($suffix));
+        $app = $this->getApp();
+        $app['request'] = Request::create('/');
+        $manager = new PagerManager($app);
+        $this->assertEquals($expected, $manager->makeParameterId($suffix));
     }
 
     /**
@@ -41,81 +45,65 @@ class PagerTest extends BoltUnitTest
         $tests = [];
 
         $tests[] = [
-            'bylink',
-            [
-                'link' => 'bylink',
-                'for'  => 'foo'
-            ],
-            [
-                'a' => 'b',
-            ],
-        ];
-
-        $tests[] = [
+            'acategory',
+            '?a=b',
             '?a=b&page_acategory=',
-            [
-                'for'  => 'acategory'
-            ],
-            [
-                'a' => 'b',
-            ],
         ];
 
         $tests[] = [
-            '?a=b&page=',
-            [
-                'for'  => ''
-            ],
-            [
-                'a' => 'b',
-            ],
+            '',
+            '?a=b',
+            '?a=b',
         ];
 
         $tests[] = [
+            'acategory',
+            '?a=b&page_acategory=5',
             '?a=b&page_acategory=',
-            [
-                'for'  => 'acategory',
-            ],
-            [
-                'a'              => 'b',
-                'page_acategory' => 5
-            ],
         ];
 
         $tests[] = [
+            'acategory',
+            '?a=b&page_acategory=5',
             '?a=b&page_acategory=',
-            [
-                'for'  => 'acategory',
-            ],
-            [
-                'a'    => 'b',
-                'page' => 5
-            ],
         ];
 
-        $tests[] = [
-            '?a=b&page_acategory=6&page=',
-            [
-                'for'  => '',
-            ],
-            [
-                'a'              => 'b',
-                'page'           => 5,
-                'page_acategory' => 6
-            ],
-        ];
+        /*
+                $tests[] = [
+                    '?a=b&page_acategory=',
+                    [
+                        'for' => 'acategory',
+                    ],
+                    [
+                        'a' => 'b',
+                        'page' => 5
+                    ],
+                ];
 
-        $tests[] = [
-            '?a=b&page=5&page_acategory=',
-            [
-                'for'  => 'acategory',
-            ],
-            [
-                'a'              => 'b',
-                'page'           => 5,
-                'page_acategory' => 6
-            ],
-        ];
+                $tests[] = [
+                    '?a=b&page_acategory=6&page=',
+                    [
+                        'for' => '',
+                    ],
+                    [
+                        'a' => 'b',
+                        'page' => 5,
+                        'page_acategory' => 6
+                    ],
+                ];
+
+                $tests[] = [
+                    '?a=b&page=5&page_acategory=',
+                    [
+                        'for' => 'acategory',
+                    ],
+                    [
+                        'a' => 'b',
+                        'page' => 5,
+                        'page_acategory' => 6
+                    ],
+                ];
+                */
 
         return $tests;
     }
@@ -123,33 +111,14 @@ class PagerTest extends BoltUnitTest
     /**
      * @dataProvider makelinkProvider
      */
-    public function testMakelink($expected, $pageArray, $params)
+    public function testMakelink($linkFor, $query, $pagers, $expected)
     {
         $app = $this->getApp();
-        $_GET = $params;
-        $app['request'] = Request::createFromGlobals();
+        $app['request'] = Request::create($query);
 
-        $pager = new Pager($pageArray, $app);
+        $manager = new PagerManager($app);
 
-        $this->assertEquals($expected, $pager->makelink());
+        $this->assertEquals($expected, $manager->makelink($linkFor));
     }
 
-    /**
-     * From here on its the recursive part where you can get some headaches
-     */
-    public function testRecursiveMakelink()
-    {
-        $test = [
-            'for'        => 'acategory',
-            'showing_to' => [
-                'link'  => 'reclink',
-            ],
-        ];
-
-        $app = $this->getApp();
-        $app['request'] = Request::createFromGlobals();
-
-        $pager = new Pager($test, $app);
-        $this->assertInstanceOf('Bolt\Pager', $pager->showing_to);
-    }
 }
