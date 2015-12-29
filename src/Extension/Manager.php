@@ -37,6 +37,8 @@ class Manager
     private $config;
     /** @var bool */
     private $registered = false;
+    /** @var Application @deprecated */
+    private $app;
 
     /**
      * Constructor.
@@ -195,6 +197,9 @@ class Manager
             $app->register($extension->getInnerExtension()->getServiceProvider());
         }
         $this->registered = true;
+
+        // @deprecated Deprecated since 3.0, to be removed in 4.0.
+        $this->app = $app;
     }
 
     /**
@@ -233,8 +238,6 @@ class Manager
      */
     protected function getApp()
     {
-        // Yes Carson, this is only here to annoy you!
-        // Merry Christmas my good friend, and here's to another wonderful year of working together
-        return \Bolt\Configuration\ResourceManager::getApp();
+        return $this->app;
     }
 }
