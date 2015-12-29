@@ -4,6 +4,7 @@ namespace Bolt\Controller\Backend;
 
 use Bolt\Filesystem\Exception\ExceptionInterface;
 use Bolt\Filesystem\Exception\FileNotFoundException;
+use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\File;
 use Bolt\Helpers\Input;
@@ -77,13 +78,15 @@ class FileManager extends BackendBase
         $file = $filesystem->get($file);
         $type = Lib::getExtension($file->getPath());
 
-        $contents = null;
-        if (!$file->exists() || false === $file->read()) {
-            $error = Trans::__("The file '%s' doesn't exist, or is not readable.", ['%s' => $file->getPath()]);
+        try {
+            $data = ['contents' => $file->read()];
+        } catch (FileNotFoundException $e) {
+            $error = Trans::__("The file '%s' doesn't exist.", ['%s' => $file->getPath()]);
+            $this->abort(Response::HTTP_NOT_FOUND, $error);
+        } catch (IOException $e) {
+            $error = Trans::__("The file '%s' is not readable.", ['%s' => $file->getPath()]);
             $this->abort(Response::HTTP_NOT_FOUND, $error);
         }
-
-        $data = ['contents' => $contents];
 
         /** @var Form $form */
         $form = $this->createFormBuilder('form', $data)
