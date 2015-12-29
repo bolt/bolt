@@ -7,7 +7,7 @@
 
 namespace Bolt\Composer;
 
-use Composer\Script\CommandEvent;
+use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ScriptHandler
@@ -15,10 +15,10 @@ class ScriptHandler
     /**
      * Install basic assets and create needed directories.
      *
-     * @param CommandEvent $event
-     * @param array|bool   $options
+     * @param Event      $event
+     * @param array|bool $options
      */
-    public static function installAssets(CommandEvent $event, $options = false)
+    public static function installAssets(Event $event, $options = false)
     {
         if (false === $options) {
             $options = self::getOptions($event);
@@ -76,7 +76,12 @@ class ScriptHandler
         }
     }
 
-    public static function bootstrap(CommandEvent $event)
+    /**
+     * Bootstrap a new Composer based install.
+     *
+     * @param Event $event
+     */
+    public static function bootstrap(Event $event)
     {
         $webroot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', false);
 
@@ -99,11 +104,11 @@ class ScriptHandler
     /**
      * Get a default set of options.
      *
-     * @param CommandEvent $event
+     * @param Event $event
      *
      * @return array
      */
-    protected static function getOptions(CommandEvent $event)
+    protected static function getOptions(Event $event)
     {
         $options = array_merge(
             [
