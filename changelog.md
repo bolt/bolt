@@ -1,7 +1,7 @@
 Bolt 2.2.15
 -----------
 
-Not yet released. Notable changes: 
+Released 2015-12-29. Notable changes: 
 
  - Fixed: Exception is no longer thrown when editing an empty config file or template. (See #4636)
  - Added: Add custom sidebar groups for contenttypes. (Backport of #3793)
