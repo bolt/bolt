@@ -89,8 +89,11 @@ class PagerManager implements \ArrayAccess
         $qparams = $this->app['request']->query->all();
         unset($qparams[$pagerid]);
 
-        $link = '?'.$this->encodeHttpQuery($qparams);
-        $link .= ($pagerid) ? "&{$pagerid}=" : '';
+        $chunks[] = $this->encodeHttpQuery($qparams);
+        if ($pagerid) {
+            $chunks[] = "{$pagerid}=";
+        }
+        $link = '?'.implode('&', $chunks);
 
         $this->pagers[$pagerid] = $saved;
 
@@ -135,7 +138,7 @@ class PagerManager implements \ArrayAccess
     /**
      * Encodes Http GET query string from actual parts of query parameters and from 'current' values of pager objects
      *
-     * @param array|null $qparams[optional] Optional parameters where actual values to be merged into
+     * @param array|null $qparams [optional] Optional parameters where actual values to be merged into
      * @return string Encoded query string
      */
     public function encodeHttpQuery($qparams = null)
@@ -246,7 +249,7 @@ class PagerManager implements \ArrayAccess
     /**
      * Gets the explicitly indexed pager or finds a completely initialized one
      *
-     * @param string $contextId[optional]
+     * @param string $contextId [optional]
      * @return mixed
      */
     public function getPager($contextId = '')
@@ -276,7 +279,7 @@ class PagerManager implements \ArrayAccess
     /**
      * Gets a parameter id of an explicit context id or gets a valid one
      *
-     * @param string $contextId[optional]
+     * @param string $contextId [optional]
      * @return int|string
      */
     protected function findPagerId($contextId = '')
@@ -301,7 +304,7 @@ class PagerManager implements \ArrayAccess
 
     /**
      * Finds any initialized pager and gets its pager id
-     * 
+     *
      * @return int|string
      */
     protected function findInitializedPagerId()
