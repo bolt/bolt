@@ -74,11 +74,10 @@ class FileManager extends BackendBase
             $this->abort(Response::HTTP_FORBIDDEN, $error);
         }
 
-        /** @var File $file */
-        $file = $filesystem->get($file);
-        $type = Lib::getExtension($file->getPath());
-
         try {
+            /** @var File $file */
+            $file = $filesystem->get($file);
+            $type = Lib::getExtension($file->getPath());
             $data = ['contents' => $file->read()];
         } catch (FileNotFoundException $e) {
             $error = Trans::__("The file '%s' doesn't exist.", ['%s' => $file->getPath()]);
