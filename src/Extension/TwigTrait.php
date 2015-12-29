@@ -258,7 +258,7 @@ trait TwigTrait
      *
      * @return string
      */
-    protected function renderTwigTemplate($template, array $context = [])
+    protected function renderTemplate($template, array $context = [])
     {
         $app = $this->getContainer();
 
