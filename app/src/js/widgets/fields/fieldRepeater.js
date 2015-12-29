@@ -13,8 +13,9 @@
      *
      * @class fieldRepeater
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldRepeater', /** @lends jQuery.widget.bolt.fieldRepeater.prototype */ {
+    $.widget('bolt.fieldRepeater', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldRepeater.prototype */ {
         /**
          * Default options.
          *

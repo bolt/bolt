@@ -13,8 +13,9 @@
      *
      * @class fieldCategories
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldCategories', /** @lends jQuery.widget.bolt.fieldCategories.prototype */ {
+    $.widget('bolt.fieldCategories', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldCategories.prototype */ {
         /**
          * The constructor of the categories field widget.
          *

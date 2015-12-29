@@ -13,8 +13,9 @@
      *
      * @class fieldSelect
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldSelect', /** @lends jQuery.widget.bolt.fieldSelect.prototype */ {
+    $.widget('bolt.fieldSelect', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldSelect.prototype */ {
         /**
          * Default options.
          *

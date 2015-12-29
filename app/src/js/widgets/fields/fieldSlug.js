@@ -26,8 +26,9 @@
      *
      * @class fieldSlug
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldSlug', /** @lends jQuery.widget.bolt.fieldSlug.prototype */ {
+    $.widget('bolt.fieldSlug', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldSlug.prototype */ {
         /**
          * Default options.
          *

@@ -12,8 +12,9 @@
      *
      * @class fieldTextarea
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldTextarea', /** @lends jQuery.widget.bolt.fieldTextarea.prototype */ {
+    $.widget('bolt.fieldTextarea', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldTextarea.prototype */ {
         /**
          * The constructor of the textarea field widget.
          *

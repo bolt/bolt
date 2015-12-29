@@ -12,8 +12,9 @@
      *
      * @class fieldText
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldText', /** @lends jQuery.widget.bolt.fieldText.prototype */ {
+    $.widget('bolt.fieldText', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldText.prototype */ {
         /**
          * The constructor of the text field widget.
          *
