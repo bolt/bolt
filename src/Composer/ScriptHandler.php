@@ -83,10 +83,10 @@ class ScriptHandler
      */
     public static function bootstrap(Event $event)
     {
-        $webroot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', false);
+        $webroot = $event->getIO()->askConfirmation('<question>Do you want your web directory to be a separate folder to root? [y/n] </question>', false);
 
         if ($webroot) {
-            $webname  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
+            $webname  = $event->getIO()->ask('<question>What do you want your public directory to be named? [default: public] </question>', 'public');
             $webname  = trim($webname, '/');
             $assetDir = './' . $webname;
         } else {
