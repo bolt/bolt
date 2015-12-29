@@ -13,7 +13,7 @@ Released 2015-12-29. Notable changes:
  - Fixed: Exception is no longer thrown when editing an empty config file or template. (See #4636)
  - Added: Add custom sidebar groups for contenttypes. (Backport of #3793)
  - Fixed: Don't re-sort taxonomy listing pages, if the taxonomy has `has_sortorder` (See #4601)
- - Fixed: Add JSON to list of denied file types for Apache (See #4610)
+ - Fixed: Add JSON to list of denied file types for Apache (See #4610) [security]
  - Fixed: Fix/more spinners and missing icons (See #4573)
  - Fixed: Sidebar Height Resize Issue (See #4573)
  - Fixed: Fix preview unpublished content (See #4544)
