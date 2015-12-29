@@ -1845,11 +1845,11 @@ class Backend implements ControllerProviderInterface
             }
         }
 
-        $contents = null;
-        if (!$file->exists() || false === $file->read()) {
+        if (!$file->exists() || $file->read() === false) {
             $error = Trans::__("The file '%s' doesn't exist, or is not readable.", array('%s' => $file->getPath()));
             $app->abort(Response::HTTP_NOT_FOUND, $error);
         }
+        $contents = $file->read();
 
         if (!$file->update($contents)) {
             $app['session']->getFlashBag()->add(
