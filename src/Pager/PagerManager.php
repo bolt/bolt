@@ -47,6 +47,7 @@ use Silex\Application;
  *  ``page_entities=N`` originally
  *
  * @package Bolt\Pager
+ * @author Rix Beck <rix@neologik.hu>
  */
 class PagerManager implements \ArrayAccess
 {
@@ -64,8 +65,9 @@ class PagerManager implements \ArrayAccess
 
     /**
      * Use for calling from template to build up paginated URL link.
-     * It preserves each http query parameters except that requested for and returns a http GET query string.
+     * It preserves each http query parameters except which is requested and returns a http GET query string.
      * Last parameter appended to the end of the string so its value can be just concatenating.
+     * Against deprecated Pager::makelink() this is will build link based on initialized pagers.
      *
      * @param string $linkFor [optional] Id of pager the link should be built for. With empty argument passing
      *          the link will be built for the first initialized pager object found.
@@ -87,7 +89,9 @@ class PagerManager implements \ArrayAccess
         $qparams = $this->app['request']->query->all();
         unset($qparams[$pagerid]);
 
-        $link = sprintf('?%s&%s=', $this->encodeHttpQuery($qparams), $pagerid);
+        $link = '?'.$this->encodeHttpQuery($qparams);
+        $link .= ($pagerid) ? "&{$pagerid}=" : '';
+
         $this->values[$pagerid] = $saved;
 
         return $link;
@@ -116,7 +120,8 @@ class PagerManager implements \ArrayAccess
         $values = [];
         foreach ($this->app['request']->query->all() as $key => $parameter) {
             if (strpos($key, self::PAGE) === 0) {
-                $contextId = end(explode('_', $key));
+                $chunks = explode('_', $key);
+                $contextId = end($chunks);
                 $values[$key] = new Pager(
                     ['current' => $parameter, 'for' => $contextId, 'manager' => $this],
                     \ArrayObject::ARRAY_AS_PROPS
@@ -135,7 +140,7 @@ class PagerManager implements \ArrayAccess
      */
     public function encodeHttpQuery($qparams = null)
     {
-        $qparams = ($qparams === null) ? $this->app['request']->query->all() : [];
+        $qparams = ($qparams === null) ? $this->app['request']->query->all() : $qparams;
 
         return http_build_query(array_merge($qparams, $this->remapPagers()));
     }
