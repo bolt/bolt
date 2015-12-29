@@ -1846,7 +1846,7 @@ class Backend implements ControllerProviderInterface
         }
 
         $contents = null;
-        if (!$file->exists() || !($contents = $file->read())) {
+        if (!$file->exists() || false === $file->read()) {
             $error = Trans::__("The file '%s' doesn't exist, or is not readable.", array('%s' => $file->getPath()));
             $app->abort(Response::HTTP_NOT_FOUND, $error);
         }
