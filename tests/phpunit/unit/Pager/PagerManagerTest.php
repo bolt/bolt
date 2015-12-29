@@ -3,7 +3,6 @@
 namespace Bolt\Tests\Pager;
 
 use Bolt\Pager\PagerManager;
-use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -12,34 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
  * @package Bolt\Tests\Pager
  * @author Rix Beck <rix@neologik.hu>
  */
-class PagerManagerTest extends BoltUnitTest
+class PagerManagerTest extends PagerManagerTestBase
 {
-    /**
-     * @return array
-     */
-    public function makeParameterIdProvider()
-    {
-        return [
-            ['page_a', 'a'],
-            ['page_1', 1],
-            ['page', ''],
-        ];
-    }
-
-    /**
-     * @dataProvider makeParameterIdProvider
-     */
-    public function testMakeParameterId($expected, $suffix)
-    {
-        $manager = $this->createPagerManager(Request::create('/'));
-        $this->assertEquals($expected, $manager->makeParameterId($suffix));
-    }
-
     public function testOffsetSet()
     {
         $manager = $this->createPagerManager(Request::create('/'));
         $manager['data'] = ['current' => '1', 'totalpages' => 2, 'for' => 'data'];
-        var_dump($manager->getPagers());
+        //var_dump($manager->getPagers());
     }
 
     /**
@@ -141,13 +119,5 @@ class PagerManagerTest extends BoltUnitTest
     {
         $manager = $this->createPagerManager(Request::create($query));
         $this->assertEquals($expected, $manager->makelink($linkFor));
-    }
-
-    private function createPagerManager($request)
-    {
-        $app = $this->getApp();
-        $app['request'] = $request;
-
-        return new PagerManager($app);
     }
 }
