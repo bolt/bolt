@@ -6,24 +6,18 @@ use Bolt\Pager\PagerManager;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * PagerManagerTest for class PagerManager
+ * PagerManagerFunctionalTest for class PagerManager
  *
  * @package Bolt\Tests\Pager
  * @author Rix Beck <rix@neologik.hu>
  */
-class PagerManagerTest extends PagerManagerTestBase
+class PagerManagerFunctionalTest extends PagerManagerTestBase
 {
-    public function testOffsetSet()
-    {
-        $manager = $this->createPagerManager(Request::create('/'));
-        $manager['data'] = ['current' => '1', 'totalpages' => 2, 'for' => 'data'];
-        //var_dump($manager->getPagers());
-    }
 
     /**
      * @return array
      */
-    public function decodeHttpQueryProvider()
+/*    public function decodeHttpQueryProvider()
     {
         return [
             ['?nopagerpar=2', [[]]],
@@ -60,12 +54,12 @@ class PagerManagerTest extends PagerManagerTestBase
                 ],
             ],
         ];
-    }
+    }*/
 
     /**
-     * @dataProvider decodeHttpQueryProvider
+     * @x-dataProvider decodeHttpQueryProvider
      */
-    public function testDecodeHttpQuery($query, $expected)
+/*    public function testDecodeHttpQuery($query, $expected)
     {
         $manager = $this->createPagerManager(Request::create($query));
         $mirror = new PagerManager($this->getApp());
@@ -75,7 +69,7 @@ class PagerManagerTest extends PagerManagerTestBase
             }
         }
         $this->assertEquals($mirror->getPagers(), $manager->decodeHttpQuery());
-    }
+    }*/
 
     /**
      * @return array
