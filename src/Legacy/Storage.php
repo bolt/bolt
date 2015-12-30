@@ -2915,4 +2915,12 @@ class Storage
 
         return $oldContent;
     }
+
+    /**
+     * @return bool
+     */
+    public function isEmptyPager()
+    {
+        return $this->app['pager']->isEmptyPager();
+    }
 }
