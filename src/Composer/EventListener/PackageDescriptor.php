@@ -15,11 +15,17 @@ use JsonSerializable;
  */
 final class PackageDescriptor implements JsonSerializable
 {
+    /** @var string */
     protected $name;
+    /** @var string */
     protected $type;
+    /** @var string */
     protected $class;
+    /** @var string */
     protected $path;
+    /** @var string */
     protected $constraint;
+    /** @var bool */
     protected $valid;
 
     /**
@@ -43,6 +49,54 @@ final class PackageDescriptor implements JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConstraint()
+    {
+        return $this->constraint;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isValid()
+    {
+        return $this->valid;
+    }
+
+    /**
      * Create class from uncertain JSON data.
      *
      * @param Composer $composer
@@ -57,7 +111,7 @@ final class PackageDescriptor implements JsonSerializable
         $type = strpos($path, 'vendor') === 0 ? 'composer' : 'local';
         $class = self::setClass($jsonData);
         $constraint = self::setConstraint($jsonData);
-        $valid = self::isValid($composer, $class, $constraint);
+        $valid = self::getValid($composer, $class, $constraint);
 
         return new self($name, $type, $class, $path, $constraint, $valid);
     }
@@ -114,7 +168,7 @@ final class PackageDescriptor implements JsonSerializable
      *
      * @return bool
      */
-    private static function isValid(Composer $composer, $class, $constraint)
+    private static function getValid(Composer $composer, $class, $constraint)
     {
         $provides = $composer->getPackage()->getProvides();
         $boltVersion = isset($provides['bolt/bolt']) ? $provides['bolt/bolt'] : new Link('__root__', 'bolt/bolt', new Constraint('=', '0.0.0'));
