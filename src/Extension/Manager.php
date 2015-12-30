@@ -2,6 +2,7 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Composer\EventListener\PackageDescriptor;
 use Bolt\Config;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IncludeFileException;
@@ -36,6 +37,8 @@ class Manager
     /** @var Config */
     private $config;
     /** @var bool */
+    private $loaded = false;
+    /** @var bool */
     private $registered = false;
     /** @var Application @deprecated */
     private $app;
@@ -59,59 +62,23 @@ class Manager
      */
     public function load()
     {
-        try {
-            /** @var JsonFile $autoloadJson */
-            $autoloadJson = $this->filesystem->get('vendor/autoload.json');
-            $this->filesystem->includeFile('vendor/autoload.php');
-        } catch (FileNotFoundException $e) {
-            return;
-        } catch (IncludeFileException $e) {
-            return;
+        if ($this->loaded) {
+            throw new \RuntimeException(Trans::__('Extensions already loaded.'));
         }
 
-        // Load extensions we're managing via the autoloader
-        $this->autoload = (array) $autoloadJson->parse();
-        foreach ($this->autoload as $loader) {
-            $composerName = $loader['name'];
-            if ($loader['valid'] === false) {
-                // Skip loading if marked invalid
-                continue;
-            }
-            $extConfig = $this->config->get('extensions', []);
-            if (isset($extConfig[$composerName]) && $extConfig[$composerName] === false) {
-                // Skip loading if marked disabled
-                continue;
-            }
-            $this->loadExtension($loader['class'], $composerName, $loader['type']);
-        }
-    }
-
-    /**
-     * Load a single extension.
-     *
-     * @param string $className
-     * @param string $composerName
-     * @param string $type
-     */
-    private function loadExtension($className, $composerName, $type)
-    {
-        if (class_exists($className) === false) {
-            if ($type === 'local' && class_exists('Wikimedia\Composer\MergePlugin') === false) {
-                $this->flashLogger->error(Trans::__("Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
-            } else {
-                $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
-            }
+        // Include the extensions autoload file
+        if ($this->filesystem->has('vendor/autoload.php') === false) {
+            $this->loaded = true;
 
             return;
         }
+        $this->filesystem->includeFile('vendor/autoload.php');
 
-        /** @var ExtensionInterface $extension */
-        $extension = new $className();
-        if ($extension instanceof ExtensionInterface) {
-            $this->setResolved($extension, $composerName);
-        } else {
-            $this->flashLogger->error(Trans::__("Extension package %NAME% base class '%CLASS%' does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
-        }
+        // Load managed extensions
+        $this->loadCache();
+        $this->loadExtensions();
+
+        $this->loaded = true;
     }
 
     /**
@@ -130,10 +97,16 @@ class Manager
     /**
      * Return the generated autoloading cache.
      *
-     * @return array
+     * @throws \RuntimeException
+     *
+     * @return PackageDescriptor[]|null
      */
     public function getAutoload()
     {
+        if ($this->loaded === false) {
+            throw new \RuntimeException(Trans::__('Extensions not yet loaded.'));
+        }
+
         return $this->autoload;
     }
 
@@ -190,6 +163,8 @@ class Manager
     /**
      * Call register() for each extension.
      *
+     * @throws \RuntimeException
+     *
      * @param Application $app
      */
     public function register(Application $app)
@@ -234,6 +209,74 @@ class Manager
         }
 
         return $key;
+    }
+
+    /**
+     * Load the extension autoload.json cache file and build the PackageDescriptor array.
+     */
+    private function loadCache()
+    {
+        try {
+            /** @var JsonFile $autoload */
+            $autoload = $this->filesystem->get('vendor/autoload.json');
+        } catch (FileNotFoundException $e) {
+            return;
+        }
+        $autoloadJson = (array) $autoload->parse();
+
+        // Get extensions we're managing via the autoloader
+        foreach ($autoloadJson as $name => $loader) {
+            $this->autoload[$name] = PackageDescriptor::create($loader);
+        }
+    }
+
+    /**
+     * Load managed extensions.
+     */
+    private function loadExtensions()
+    {
+        /** @var PackageDescriptor $loader */
+        foreach ((array) $this->autoload as $loader) {
+            $composerName = $loader->getName();
+            if ($loader->isValid() === false) {
+                // Skip loading if marked invalid
+                continue;
+            }
+            $extConfig = $this->config->get('extensions', []);
+            if (isset($extConfig[$composerName]) && $extConfig[$composerName] === false) {
+                // Skip loading if marked disabled
+                continue;
+            }
+            $this->loadExtension($loader->getClass(), $composerName, $loader->getType());
+        }
+    }
+
+    /**
+     * Load a single extension.
+     *
+     * @param string $className
+     * @param string $composerName
+     * @param string $type
+     */
+    private function loadExtension($className, $composerName, $type)
+    {
+        if (class_exists($className) === false) {
+            if ($type === 'local' && class_exists('Wikimedia\Composer\MergePlugin') === false) {
+                $this->flashLogger->error(Trans::__("Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
+            } else {
+                $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
+            }
+
+            return;
+        }
+
+        /** @var ExtensionInterface $extension */
+        $extension = new $className();
+        if ($extension instanceof ExtensionInterface) {
+            $this->setResolved($extension, $composerName);
+        } else {
+            $this->flashLogger->error(Trans::__("Extension package %NAME% base class '%CLASS%' does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
+        }
     }
 
     /**
