@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Pager;
 
+use Bolt\Pager\Pager;
 use Bolt\Pager\PagerManager;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -17,7 +18,7 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
     /**
      * @return array
      */
-/*    public function decodeHttpQueryProvider()
+    public function decodeHttpQueryProvider()
     {
         return [
             ['?nopagerpar=2', [[]]],
@@ -54,12 +55,12 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
                 ],
             ],
         ];
-    }*/
+    }
 
     /**
-     * @x-dataProvider decodeHttpQueryProvider
+     * @dataProvider decodeHttpQueryProvider
      */
-/*    public function testDecodeHttpQuery($query, $expected)
+    public function testDecodeHttpQuery($query, $expected)
     {
         $manager = $this->createPagerManager(Request::create($query));
         $mirror = new PagerManager($this->getApp());
@@ -69,7 +70,7 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
             }
         }
         $this->assertEquals($mirror->getPagers(), $manager->decodeHttpQuery());
-    }*/
+    }
 
     /**
      * @return array
@@ -113,5 +114,79 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
     {
         $manager = $this->createPagerManager(Request::create($query));
         $this->assertEquals($expected, $manager->makelink($linkFor));
+    }
+
+
+    public function getPagerProvider()
+    {
+        return [
+            [
+                '?a=b&page_acategory=5',
+                [
+                    'some' => ['for' => 'some', 'current' => 2],
+                    'others' => ['for' => 'others', 'current' => 3, 'totalpages' => 12],
+                ],
+                '',
+                ['for' => 'others', 'current' => 3, 'totalpages' => 12],
+            ],
+            [
+                '?a=b&page_acategory=5',
+                [
+                    'some' => ['for' => 'some', 'current' => 2],
+                    'others' => ['for' => 'others', 'current' => 3, 'totalpages' => 12],
+                ],
+                'acategory',
+                ['for' => 'acategory', 'current' => 5 ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getPagerProvider
+     */
+    public function testGetPager($query, $pagers, $contextId, $expected)
+    {
+        $manager = $this->createPagerManager(Request::create($query));
+        foreach ($pagers as $ctxid => $pager) {
+            $manager[$ctxid] = $pager;
+        }
+        $expected['manager'] = $manager;
+        $expected = new Pager($expected);
+        $this->assertEquals($expected, $manager->getPager($contextId));
+    }
+
+    public function getCurrentPageProvider()
+    {
+        return [
+            [
+                '?a=b&page_acategory',
+                '',
+                1,
+            ],
+            [
+                '?a=b&page_acategory=5',
+                'acategory',
+                5,
+            ],
+            [
+                '?a=b&page_acategory=5',
+                'bcategory',
+                1,
+            ],
+            [
+                '?a=b&page=5&page_me=2',
+                '',
+                5,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getCurrentPageProvider
+     */
+    public function testGetCurrentPage($query, $contextId, $expected)
+    {
+        $manager = $this->createPagerManager(Request::create($query));
+        $this->assertEquals($expected, $manager->getCurrentPage($contextId));
     }
 }
