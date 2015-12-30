@@ -287,8 +287,8 @@ wysiwyg:
     underline: false         # Adds a button to underline text, using the `<u>`-tag.
     ruler: false             # Adds a button to add a horizontal ruler, using the `<hr>`-tag.
     strike: false            # Adds a button to add stikethrough, using the `<s>`-tag.
-    blockquote: false        # Allows the user to insert code snippets using `<pre><code>`-tags.
-    codesnippet: false       # Allows the user to insert blockquotes using the `<blockquote>`-tag.
+    blockquote: false        # Allows the user to insert blockquotes using the `<blockquote>`-tag.
+    codesnippet: false       # Allows the user to insert code snippets using `<pre><code>`-tags.
     specialchar: false       # Adds a button to insert special chars like '€' or '™'.
     ck:
         allowedContent: true # If set to 'true', any elements and attributes are allowed in Wysiwg Elements
