@@ -194,7 +194,7 @@ class PagerManagerUnitTest extends PagerManagerTestBase
             ],
             [
                 [
-                    'A' => ['for' => 'page' ],
+                    'A' => ['for' => 'page'],
                     'B' => ['for' => 'page', 'current' => '', 'totalpages' => 3],
                 ],
                 'B',
@@ -216,6 +216,22 @@ class PagerManagerUnitTest extends PagerManagerTestBase
         $result = $this->methodInvoker($manager, 'findInitializedPagerId', []);
 
         $this->assertEquals($expected, $result);
+    }
+
+    public function testRemapPagers()
+    {
+        $manager = $this->createPagerManagerMockBuilder()
+            ->setMethods(['decodeHttpQuery'])
+            ->getMock();
+        $pagers = &$this->getProtectedAttrRef($manager, 'pagers');
+        $pagers = [
+            'A' => new Pager(['for' => 'A', 'current' => 1]),
+            'B' => new Pager(['for' => 'B', 'current' => 2]),
+            'C' => new Pager(['for' => 'C', 'current' => 3]),
+        ];
+        $result = $this->methodInvoker($manager, 'remapPagers', []);
+
+        $this->assertEquals(['A' => 1, 'B' => 2, 'C' => 3], $result);
     }
 
     private function prepareEncodeHttpQuery()
@@ -240,5 +256,4 @@ class PagerManagerUnitTest extends PagerManagerTestBase
 
         return [$manager, $expected];
     }
-
 }
