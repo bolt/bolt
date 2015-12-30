@@ -89,6 +89,7 @@ class PagerManager implements \ArrayAccess
         $qparams = $this->app['request']->query->all();
         unset($qparams[$pagerid]);
 
+        $chunks = [];
         $chunks[] = $this->encodeHttpQuery($qparams);
         if ($pagerid) {
             $chunks[] = "{$pagerid}=";
