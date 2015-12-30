@@ -366,7 +366,7 @@ class Config
     {
         $themeConfig = $this->parseConfigYaml('theme.yml', $themePath);
 
-        /** @deprecated Since 2.3 and will be removed in Bolt v3.0 (config.yml was the old filename) */
+        /** @deprecated Since 2.2.16 and will be removed in Bolt v4.0 (config.yml was the old filename) */
         if (empty($themeConfig)) {
             $themeConfig = $this->parseConfigYaml('config.yml', $themePath);
         }
@@ -1110,7 +1110,7 @@ class Config
         $paths = $this->app['resources']->getPaths();
         $themeConfigFile = $paths['themepath'] . '/theme.yml';
 
-        /** @deprecated Since 2.3 and will be removed in Bolt v3.0 (config.yml was the old filename) */
+        /** @deprecated Since 2.2.16 and will be removed in Bolt v4.0 (config.yml was the old filename) */
         if (!file_exists($themeConfigFile)) {
             $themeConfigFile = $paths['themepath'] . '/config.yml';
         }
