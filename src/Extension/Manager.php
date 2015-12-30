@@ -82,7 +82,7 @@ class Manager
                 // Skip loading if marked disabled
                 continue;
             }
-            $this->loadExtension($loader['class'], $composerName);
+            $this->loadExtension($loader['class'], $composerName, $loader['type']);
         }
     }
 
@@ -91,11 +91,16 @@ class Manager
      *
      * @param string $className
      * @param string $composerName
+     * @param string $type
      */
-    private function loadExtension($className, $composerName)
+    private function loadExtension($className, $composerName, $type)
     {
         if (class_exists($className) === false) {
-            $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
+            if ($type === 'local' && class_exists('Wikimedia\Composer\MergePlugin') === false) {
+                $this->flashLogger->error(Trans::__("Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
+            } else {
+                $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
+            }
 
             return;
         }
