@@ -307,13 +307,14 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Shortcut for {@see \Bolt\Storage::getContent}
+     * Shortcut for {@see \Bolt\Legacy\Storage::getContent()}
      *
      * @param string $textquery
      * @param array  $parameters
      * @param array  $whereparameters
      *
      * @return \Bolt\Legacy\Content|\Bolt\Legacy\Content[]
+     * @see \Bolt\Legacy\Storage::getContent()
      */
     protected function getContent($textquery, $parameters = [], $whereparameters = [])
     {
