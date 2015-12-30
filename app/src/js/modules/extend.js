@@ -309,6 +309,9 @@
                 var available = '',
                     uninstall = '';
 
+                if (ext.name === 'wikimedia/composer-merge-plugin') {
+                    ext.title = 'Local Extension Helper';
+                }
                 if (ext.status === 'installed') {
                     available = conf.avail_button.subst({
                         '%NAME%': ext.name
