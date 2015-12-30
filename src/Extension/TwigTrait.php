@@ -5,6 +5,7 @@ namespace Bolt\Extension;
 use Bolt\Twig\DynamicExtension;
 use Pimple as Container;
 use Silex\Application;
+use Twig_Loader_Filesystem as LoaderFilesystem;
 use Twig_SimpleFilter as SimpleFilter;
 use Twig_SimpleFunction as SimpleFunction;
 
@@ -66,7 +67,7 @@ trait TwigTrait
      * <pre>
      *  return [
      *      'templates/foo',
-     *      'templates/bar' => 'prepend'
+     *      'templates/bar' => ['position' => 'prepend', 'namespace' => 'MyExtension']
      *  ];
      * </pre>
      *
@@ -143,10 +144,10 @@ trait TwigTrait
         }
 
         foreach ($this->registerTwigPaths() as $key => $value) {
-            if (is_string($key) && $value === 'prepend') {
-                $this->addTwigPath($key, true);
+            if (is_array($value)) {
+                $this->addTwigPath($key, $value);
             } else {
-                $this->addTwigPath($value, false);
+                $this->addTwigPath($value);
             }
         }
 
@@ -157,21 +158,23 @@ trait TwigTrait
      * Append a path to Twig's path array.
      *
      * @param string $path
-     * @param bool   $prepend
+     * @param array  $options
      *
      * @throws \Twig_Error_Loader
      */
-    protected function addTwigPath($path, $prepend)
+    private function addTwigPath($path, array $options = [])
     {
         $app = $this->getContainer();
         $filesystem = $app['filesystem']->getFilesystem('extensions');
         $relativePath = $filesystem->getAdapter()->removePathPrefix($this->getPath());
+        $options = array_merge(['position' => 'append', 'namespace' => LoaderFilesystem::MAIN_NAMESPACE], $options);
 
         if ($app['filesystem']->getFilesystem('extensions')->has(sprintf('%s/%s', $relativePath, $path))) {
-            if ($prepend) {
-                $app['twig.loader.filesystem']->prependPath(sprintf('%s/%s', $this->getPath(), $path));
+            $twigPath = sprintf('%s/%s', $this->getPath(), $path);
+            if ($options['position'] === 'prepend') {
+                $app['twig.loader.filesystem']->prependPath($twigPath, $options['namespace']);
             } else {
-                $app['twig.loader.filesystem']->addPath(sprintf('%s/%s', $this->getPath(), $path));
+                $app['twig.loader.filesystem']->addPath($twigPath, $options['namespace']);
             }
         }
     }
