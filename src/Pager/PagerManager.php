@@ -230,7 +230,7 @@ class PagerManager implements \ArrayAccess
      */
     public function isEmptyPager()
     {
-        return (count($this->pagers) === 0);
+        return empty($this->pagers);
     }
 
     /**
@@ -247,7 +247,8 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
-     * Gets the explicitly indexed pager or finds a completely initialized one
+     * Gets the explicitly indexed pager or finds a completely initialized one.
+     * Pager is initialized if its _$totalpages_ attribute set.
      *
      * @param string $contextId [optional]
      * @return mixed
@@ -309,13 +310,12 @@ class PagerManager implements \ArrayAccess
      */
     protected function findInitializedPagerId()
     {
-        $key = '';
         foreach ($this->pagers as $key => $pager) {
-            if (array_key_exists('totalpages', $this->pagers[$key])) {
+            if (array_key_exists('totalpages', $pager)) {
                 return $key;
             }
         }
 
-        return $key;
+        return '';
     }
 }
