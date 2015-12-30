@@ -117,6 +117,18 @@ final class PackageDescriptor implements JsonSerializable
     }
 
     /**
+     * Re-instantiate class from array element.
+     *
+     * @param array $data
+     *
+     * @return PackageDescriptor
+     */
+    public static function create(array $data)
+    {
+        return new self($data['name'], $data['type'], $data['class'], $data['path'], $data['constraint'], $data['valid']);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
