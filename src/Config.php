@@ -19,6 +19,8 @@ use Symfony\Component\Yaml\Parser;
 /**
  * Class for our config object.
  *
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
+ *
  * @author Bob den Otter, bob@twokings.nl
  */
 class Config

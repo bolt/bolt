@@ -6,6 +6,11 @@ use Bolt\Storage\Entity;
 use Maid\Maid;
 use Silex;
 
+/**
+ * Legacy Content class.
+ *
+ * @deprecated Deprecated since 3.0, to be removed in 4.0.
+ */
 class Content implements \ArrayAccess
 {
     use Entity\ContentRelationTrait;
