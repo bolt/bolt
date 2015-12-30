@@ -493,6 +493,8 @@ GRINGALET;
     public function testPagerEmptyPager()
     {
         $app = $this->getApp();
+        $app['request'] = Request::create('/');
+
         $storage = $this->getMock('\Bolt\Legacy\Storage', ['isEmptyPager'], [$app]);
         $storage
             ->expects($this->atLeastOnce())
@@ -515,6 +517,8 @@ GRINGALET;
     public function testPager()
     {
         $app = $this->getApp();
+        $app['request'] = Request::create('/');
+
         $storage = $this->getMock('\Bolt\Legacy\Storage', ['isEmptyPager', 'getPager'], [$app]);
         $storage
             ->expects($this->atLeastOnce())
