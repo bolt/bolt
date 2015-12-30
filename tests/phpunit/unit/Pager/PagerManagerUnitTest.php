@@ -105,6 +105,119 @@ class PagerManagerUnitTest extends PagerManagerTestBase
         $this->assertEquals($expected, \PHPUnit_Framework_Assert::readAttribute($manager, 'pagers'));
     }
 
+    public function testOffsetGet()
+    {
+        $manager = $this->createPagerManagerMockBuilder()
+            ->setMethods(['decodeHttpQuery'])
+            ->getMock();
+
+        $pagers = &$this->getProtectedAttrRef($manager, 'pagers');
+
+        $refdata = ['current' => 123];
+        $pagers['page_dotz'] = $refdata;
+
+        $this->assertEquals($refdata, $manager['dotz']);
+    }
+
+    public function testOffsetExists()
+    {
+        $manager = $this->createPagerManagerMockBuilder()
+            ->setMethods(['decodeHttpQuery'])
+            ->getMock();
+
+        $pagers = &$this->getProtectedAttrRef($manager, 'pagers');
+
+        $refdata = ['current' => 123];
+        $pagers['page_some'] = $refdata;
+
+        $this->assertTrue($manager->offsetExists('some'));
+        unset($pagers['page_some']);
+        $this->assertFalse($manager->offsetExists('some'));
+    }
+
+    public function testOffsetUnset()
+    {
+        $manager = $this->createPagerManagerMockBuilder()
+            ->setMethods(['decodeHttpQuery'])
+            ->getMock();
+
+        $pagers = &$this->getProtectedAttrRef($manager, 'pagers');
+        $refdata = ['current' => 123];
+        $pagers['page_some'] = $refdata;
+        unset($manager['some']);
+        $this->assertFalse($manager->offsetExists('some'));
+    }
+
+    public function testKeys()
+    {
+        $manager = $this->createPagerManagerMockBuilder()
+            ->setMethods(['decodeHttpQuery'])
+            ->getMock();
+
+        $pagers = &$this->getProtectedAttrRef($manager, 'pagers');
+        $refkeys = range('A', 'J');
+        $refdata = array_combine($refkeys, range(1, 10));
+        $pagers = $refdata;
+        $this->assertEquals($refkeys, $manager->keys());
+    }
+
+    /**
+     * @return array
+     */
+    public function findInitializedPagerIdProvider()
+    {
+        return [
+            [
+                [],
+                '',
+            ],
+            [
+                [
+                    'A' => ['for' => 'page', 'current' => ''],
+                    'B' => ['for' => 'page', 'current' => ''],
+                ],
+                '',
+            ],
+            [
+                [
+                    'A' => ['for' => 'page', 'totalpages' => ''],
+                    'B' => ['for' => 'page', 'current' => ''],
+                ],
+                'A',
+            ],
+            [
+                [
+                    'A' => ['for' => 'page', 'totalpages' => ''],
+                    'B' => ['for' => 'page', 'current' => '', 'totalpages' => 3],
+                ],
+                'A',
+            ],
+            [
+                [
+                    'A' => ['for' => 'page' ],
+                    'B' => ['for' => 'page', 'current' => '', 'totalpages' => 3],
+                ],
+                'B',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider findInitializedPagerIdProvider
+     */
+    public function testFindInitializedPagerId($data, $expected)
+    {
+        $manager = $this->createPagerManagerMockBuilder()
+            ->setMethods(['decodeHttpQuery'])
+            ->getMock();
+
+        $pagers = &$this->getProtectedAttrRef($manager, 'pagers');
+        $pagers = $data;
+        $result = $this->methodInvoker($manager, 'findInitializedPagerId', []);
+
+        $this->assertEquals($expected, $result);
+    }
+
     private function prepareEncodeHttpQuery()
     {
         $manager = $this->createPagerManagerMockBuilder(Request::create('/?some=thing'))
