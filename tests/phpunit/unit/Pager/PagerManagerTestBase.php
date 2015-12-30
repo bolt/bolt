@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rix
- * Date: 2015.12.29.
- * Time: 22:25
- */
 
 namespace Bolt\Tests\Pager;
-
 
 use Bolt\Pager\PagerManager;
 use Bolt\Tests\BoltUnitTest;

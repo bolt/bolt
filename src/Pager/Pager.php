@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rix
- * Date: 2015.12.21.
- * Time: 12:44
- */
 
 namespace Bolt\Pager;
-
 
 class Pager extends \ArrayObject
 {
