@@ -138,11 +138,9 @@ class General extends AsyncBase
     /**
      * Get the 'latest activity' for the dashboard.
      *
-     * @param Request $request
-     *
      * @return \Bolt\Response\BoltResponse
      */
-    public function latestActivity(Request $request)
+    public function latestActivity()
     {
         // Test/get page number
         $page = $this->app['pager']->getCurrentPage('activity');
