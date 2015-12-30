@@ -16,6 +16,7 @@ use JsonSerializable;
 final class PackageDescriptor implements JsonSerializable
 {
     protected $name;
+    protected $type;
     protected $class;
     protected $path;
     protected $constraint;
@@ -25,14 +26,16 @@ final class PackageDescriptor implements JsonSerializable
      * Constructor.
      *
      * @param string $name
+     * @param string $type
      * @param string $class
      * @param string $path
      * @param string $constraint
      * @param bool   $valid
      */
-    public function __construct($name, $class, $path, $constraint, $valid)
+    public function __construct($name, $type, $class, $path, $constraint, $valid)
     {
         $this->name = $name;
+        $this->type = $type;
         $this->class = $class;
         $this->path = $path;
         $this->constraint = $constraint;
@@ -51,11 +54,12 @@ final class PackageDescriptor implements JsonSerializable
     public static function parse(Composer $composer, $path, array $jsonData)
     {
         $name = $jsonData['name'];
+        $type = strpos($path, 'vendor') === 0 ? 'composer' : 'local';
         $class = self::setClass($jsonData);
         $constraint = self::setConstraint($jsonData);
         $valid = self::isValid($composer, $class, $constraint);
 
-        return new self($name, $class, $path, $constraint, $valid);
+        return new self($name, $type, $class, $path, $constraint, $valid);
     }
 
     /**
@@ -65,6 +69,7 @@ final class PackageDescriptor implements JsonSerializable
     {
         return [
             'name'       => $this->name,
+            'type'       => $this->type,
             'path'       => $this->path,
             'class'      => $this->class,
             'constraint' => $this->constraint,
