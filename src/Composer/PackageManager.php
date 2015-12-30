@@ -233,7 +233,7 @@ class PackageManager
 
         $collection = new PackageCollection();
         $installed = $this->app['extend.action']['show']->execute('installed');
-        $autoloaded = (array) $this->app['extensions']->getAutoload();
+        $autoload = (array) $this->app['extensions']->getAutoload();
         $requires = isset($this->json['require']) ? $this->json['require'] : [];
 
         // Installed
@@ -243,8 +243,13 @@ class PackageManager
             $extension = $this->app['extensions']->get($name);
             $title = $extension ? $extension->getName() : $name;
             // Handle non-Bolt packages
-            $constraint = isset($autoloaded[$name]['constraint']) ? $autoloaded[$name]['constraint'] : $this->app['bolt_version'];
-            $valid = isset($autoloaded[$name]['valid']) ? $autoloaded[$name]['valid'] : true;
+            if (isset($autoload[$name])) {
+                $constraint = $autoload[$name]->getConstraint() ?: $this->app['bolt_version'];
+                $valid = $autoload[$name]->isValid();
+            } else {
+                $constraint =  $this->app['bolt_version'];
+                $valid = true;
+            }
 
             $package->setStatus('installed');
             $package->setTitle($title);
@@ -258,20 +263,20 @@ class PackageManager
         }
 
         // Local
-        foreach ($autoloaded as $name => $data) {
+        foreach ($autoload as $name => $data) {
             if ($collection->get($name)) {
                 continue;
             }
             $extension = $this->app['extensions']->get($name);
             $title = $extension ? $extension->getName() : $name;
             /** @var JsonFile $composerJson */
-            $composerJson = $this->app['filesystem']->get('extensions://' . $data['path'] . '/composer.json');
+            $composerJson = $this->app['filesystem']->get('extensions://' . $data->getPath() . '/composer.json');
             $package = Package::createFromComposerJson($composerJson->parse());
             $package->setStatus('local');
             $package->setTitle($title);
             $package->setReadmeLink($this->linkReadMe($name));
             $package->setConfigLink($this->linkConfig($name));
-            $package->setValid($autoloaded[$name]['valid']);
+            $package->setValid($data->isValid());
             $package->setEnabled($this->isEnabled($name));
 
             $collection->add($package);
@@ -324,13 +329,13 @@ class PackageManager
      */
     private function linkReadMe($name)
     {
-        $autoloader = $this->app['extensions']->getAutoload();
-        if (!isset($autoloader[$name])) {
+        $autoload = $this->app['extensions']->getAutoload();
+        if (!isset($autoload[$name])) {
             return;
         }
 
-        $base = $this->app['resources']->getPath('extensionspath/' . $autoloader[$name]['path']);
-        $location = strpos($autoloader[$name]['path'], 'local') === false ? 'vendor' : 'local';
+        $base = $this->app['resources']->getPath('extensionspath/' . $autoload[$name]->getPath());
+        $location = strpos($autoload[$name]->getPath(), 'local') === false ? 'vendor' : 'local';
         $readme = null;
 
         if (is_readable($base . '/README.md')) {
@@ -384,9 +389,9 @@ class PackageManager
      */
     private function getComposerJson($name)
     {
-        $autoloadJsons = (array) $this->app['extensions']->getAutoload();
-        foreach ($autoloadJsons as $autoloadJson) {
-            if ($autoloadJson['name'] === $name) {
+        $autoload = $this->app['extensions']->getAutoload();
+        foreach ($autoload as $autoloadJson) {
+            if ($autoloadJson->getName() === $name) {
                 /** @var JsonFile $jsonFile */
                 $jsonFile = $this->app['filesystem']->get('extensions://' . $autoloadJson['path'] . '/composer.json');
 
