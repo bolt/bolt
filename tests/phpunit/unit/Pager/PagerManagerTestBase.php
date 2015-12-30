@@ -38,4 +38,27 @@ abstract class PagerManagerTestBase extends BoltUnitTest
 
         return $app;
     }
+
+    protected function &getProtectedAttrRef($object, $attrName)
+    {
+        $writer = \Closure::bind(
+            function &($object, $attrName) {
+                return $object->$attrName;
+            },
+            null,
+            $object
+        );
+
+        return $writer($object, $attrName);
+    }
+
+    protected function methodInvoker($object, $method, array $args = [])
+    {
+        $closure = function ($method, $args) {
+            return call_user_func_array([$this, $method], $args);
+        };
+        $invoker = $closure->bindTo($object, $object);
+
+        return $invoker($method, $args);
+    }
 }
