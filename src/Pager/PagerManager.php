@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rix
- * Date: 2015.12.21.
- * Time: 10:32
- */
 
 namespace Bolt\Pager;
-
 
 use Silex\Application;
 

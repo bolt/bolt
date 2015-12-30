@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rix
- * Date: 2015.12.21.
- * Time: 10:16
- */
 
 namespace Bolt\Provider;
-
 
 use Bolt\Pager\PagerManager;
 use Silex\Application;
@@ -41,6 +34,5 @@ class PagerServiceProvider implements ServiceProviderInterface
      */
     public function boot(Application $app)
     {
-        // TODO: Implement boot() method.
     }
 }
