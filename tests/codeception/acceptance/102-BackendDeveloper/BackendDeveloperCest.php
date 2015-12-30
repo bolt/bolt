@@ -99,7 +99,7 @@ class BackendDeveloperCest
         $I->see('css/',         Locator::href("/bolt/files/theme/$dir/css"));
         $I->see('images/',      Locator::href("/bolt/files/theme/$dir/images"));
         $I->see('javascripts/', Locator::href("/bolt/files/theme/$dir/javascripts"));
-        $I->see('config.yml',   Locator::href("/bolt/file/edit/theme/$dir/config.yml"));
+        $I->see('theme.yml',    Locator::href("/bolt/file/edit/theme/$dir/theme.yml"));
         $I->see('entry.twig',   Locator::href("/bolt/file/edit/theme/$dir/entry.twig"));
         $I->see('index.twig',   Locator::href("/bolt/file/edit/theme/$dir/index.twig"));
 
