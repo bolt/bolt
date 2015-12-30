@@ -31,22 +31,6 @@ trait ControllerMountTrait
     }
 
     /**
-     * Returns a list of frontend route callbacks to add.
-     *
-     * <pre>
-     *  return [
-     *      '/foobar' => $callable,
-     *  ];
-     * </pre>
-     *
-     * @return array
-     */
-    protected function registerFrontendRoutes()
-    {
-        return [];
-    }
-
-    /**
      * Returns a list of backend controllers to mount.
      *
      * Note: The backend prefix will be automatically prepended to prefixes defined here.
@@ -60,22 +44,6 @@ trait ControllerMountTrait
      * @return ControllerCollection[]|ControllerProviderInterface[]
      */
     protected function registerBackendControllers()
-    {
-        return [];
-    }
-
-    /**
-     * Returns a list of frontend route callbacks to add.
-     *
-     * <pre>
-     *  return [
-     *      '/foobar' => $callable,
-     *  ];
-     * </pre>
-     *
-     * @return array
-     */
-    protected function registerBackendRoutes()
     {
         return [];
     }
@@ -97,14 +65,6 @@ trait ControllerMountTrait
         $backendPrefix = $app['controller.backend.mount_prefix'];
         foreach ($this->registerBackendControllers() as $prefix => $collection) {
             $event->mount($backendPrefix . '/' . ltrim($prefix, '/'), $collection);
-        }
-
-        foreach ($this->registerFrontendRoutes() as $prefix => $callable) {
-            $app->match($prefix, $callable);
-        }
-
-        foreach ($this->registerBackendRoutes() as $prefix => $callable) {
-            $app->match($backendPrefix . '/' . ltrim($prefix, '/'), $callable);
         }
     }
 
