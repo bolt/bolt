@@ -1,7 +1,15 @@
+Bolt 2.2.16
+-----------
+
+Not yet released. Notable changes:
+
+ - Change: Updating .gitignore. Add PHPstorm cruft. (See #4621)
+ - Change: Themes use `theme.yml` now, fallback to old `config.yml` (See #4414)
+
 Bolt 2.2.15
 -----------
 
-Released 2015-12-29. Notable changes: 
+Released 2015-12-29. Notable changes:
 
  - Fixed: Exception is no longer thrown when editing an empty config file or template. (See #4636)
  - Added: Add custom sidebar groups for contenttypes. (Backport of #3793)
@@ -29,10 +37,10 @@ Released 2015-11-27. Notable changes:
  - Fixed: Fixing reordering images in an ImageList. (See #3573)
  - Fixed: Retrieve existing relations before setting them from POST. Fixes "No related entries on preview" issue. (See #4340)
  - Fixed: Handle save status transition (See #4326)
- - Added: Allow the `notfound:` status to point to a static template, instead of a contenttype record. 
+ - Added: Allow the `notfound:` status to point to a static template, instead of a contenttype record.
  - Fixed: Don't insert Bolt meta tags on AJAX requests (See #4297)
  - Fixed: Put correct cannonical link into html head on paging content request
- - Fixed: Increase z-index, so popups cover `{{ dump() }}` output. 
+ - Fixed: Increase z-index, so popups cover `{{ dump() }}` output.
 
 Bolt 2.2.13
 -----------
