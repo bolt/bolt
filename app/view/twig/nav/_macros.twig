@@ -42,9 +42,9 @@
     {% set class = ((wide ? ' menu-pop-wide' : '') ~ (active ? ' active' : ''))|trim %}
 
     {# Show stuff! #}
-    {% if allowedany and not force_submenu|default(false)  %}
+    {% if allowedany %}
         <li{% if class %} class="{{ class }}"{% endif %}>
-            {% if allowedamount == 1 %}
+            {% if allowedamount == 1 and not force_submenu|default(false) %}
                 {% set item = allowedsingle %}
                 <a href="{{ item.link }}">
                     {{ icon(item.icon, "icon") }}{{ item.label|default("<em>(" ~ __("no content …") ~ ")</em>")|raw }}
