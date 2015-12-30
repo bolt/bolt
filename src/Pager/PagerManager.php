@@ -39,7 +39,6 @@ use Silex\Application;
  *  by their context id. So ``$app['pager']['entities']`` returns a Pager object decoded from query parameters was
  *  ``page_entities=N`` originally
  *
- * @package Bolt\Pager
  * @author Rix Beck <rix@neologik.hu>
  */
 class PagerManager implements \ArrayAccess
