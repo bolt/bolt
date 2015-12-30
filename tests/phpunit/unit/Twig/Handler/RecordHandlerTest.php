@@ -489,7 +489,7 @@ GRINGALET;
         $this->assertArrayNotHasKey('listing.twig', $result);
         $this->assertArrayNotHasKey('record.twig', $result);
     }
-// @todo Pager refactoring
+
     public function testPagerEmptyPager()
     {
         $app = $this->getApp();
@@ -511,7 +511,7 @@ GRINGALET;
         $result = $handler->pager($env, $pagerName, $surr, $template, $class);
         $this->assertSame('', $result);
     }
-// @todo Pager refactoring
+
     public function testPager()
     {
         $app = $this->getApp();
