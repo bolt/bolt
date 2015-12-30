@@ -365,14 +365,15 @@ class Options
      */
     private function setDefaults()
     {
-        $this->withDependencies = true;
-        $this->sortPackages = true;
-        $this->preferSource = false;
-        $this->preferDist = true;
-        $this->update = true;
-        $this->updateNoDev = true;
-        $this->updateWithDependencies = true;
+        $this->noDev = true;
         $this->onlyName = true;
         $this->optimizeAutoloader = true;
+        $this->preferDist = true;
+        $this->preferSource = false;
+        $this->sortPackages = true;
+        $this->updateNoDev = true;
+        $this->update = true;
+        $this->updateWithDependencies = true;
+        $this->withDependencies = true;
     }
 }
