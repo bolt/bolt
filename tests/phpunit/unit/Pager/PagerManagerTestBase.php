@@ -5,6 +5,7 @@ namespace Bolt\Tests\Pager;
 use Bolt\Pager\Pager;
 use Bolt\Pager\PagerManager;
 use Bolt\Tests\BoltUnitTest;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 abstract class PagerManagerTestBase extends BoltUnitTest
 {
@@ -25,10 +26,15 @@ abstract class PagerManagerTestBase extends BoltUnitTest
         return $mockBuilder;
     }
 
-    protected function initApp($request)
+    protected function initApp($request = null)
     {
         $app = $this->getApp();
         $app['request'] = $request;
+        $app['request_stack'] = new RequestStack();
+        
+        if ($request) {
+            $app['request_stack']->push($request);
+        }
 
         return $app;
     }
