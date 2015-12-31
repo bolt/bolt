@@ -2,28 +2,118 @@
 
 namespace Bolt\Pager;
 
-class Pager extends \ArrayObject
+use Bolt\Legacy\AbstractPager;
+
+/**
+ * Class Pager
+ *  Elementary pager object.
+ *
+ * @author Rix Beck <rix@neologik.hu>
+ */
+class Pager extends AbstractPager
 {
-    /*
-     * Possible ArrayObject members
-     *
-     *  public $for;
-     *  public $count;
-     *  public $totalpages;
-     *  public $current;
-     *  public $showing_from;
-     *  public $showing_to;
-     *
-     *  public $manager;
+    public $for;
+    public $count;
+    public $totalpages;
+    public $current;
+    public $showingFrom;
+    public $showingTo;
+    /**
+     * @var PagerManager
      */
+    public $manager;
+
+    public function __construct(PagerManager $manager = null)
+    {
+        if ($manager) {
+            $this->manager = $manager;
+        }
+    }
+
+    /**
+     * @param mixed $for
+     * @return Pager
+     */
+    public function setFor($for)
+    {
+        $this->for = $for;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $count
+     * @return Pager
+     */
+    public function setCount($count)
+    {
+        $this->count = $count;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $totalpages
+     * @return Pager
+     */
+    public function setTotalpages($totalpages)
+    {
+        $this->totalpages = $totalpages;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $current
+     * @return Pager
+     */
+    public function setCurrent($current)
+    {
+        $this->current = $current;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $showingFrom
+     * @return Pager
+     */
+    public function setShowingFrom($showingFrom)
+    {
+        $this->showingFrom = $showingFrom;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $showingTo
+     * @return Pager
+     */
+    public function setShowingTo($showingTo)
+    {
+        $this->showingTo = $showingTo;
+
+        return $this;
+    }
+
+    /**
+     * @param PagerManager $manager
+     * @return Pager
+     */
+    public function setManager($manager)
+    {
+        $this->manager = $manager;
+
+        return $this;
+    }
 
     /**
      *
      * @param string $linkFor
      * @return mixed
      */
-    public function makelink($linkFor = '')
+    public function makeLink($linkFor = '')
     {
-        return $this->manager->makelink($linkFor);
+        return $this->manager->makeLink($linkFor);
     }
 }
