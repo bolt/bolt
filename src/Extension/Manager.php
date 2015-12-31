@@ -93,22 +93,6 @@ class Manager
     }
 
     /**
-     * Return the generated autoloading cache.
-     *
-     * @throws \RuntimeException
-     *
-     * @return PackageDescriptor[]|null
-     */
-    public function getAutoload()
-    {
-        if ($this->loaded === false) {
-            throw new \RuntimeException(Trans::__('Extensions not yet loaded.'));
-        }
-
-        return $this->autoload;
-    }
-
-    /**
      * Get all installed extensions.
      *
      * @return ResolvedExtension[]

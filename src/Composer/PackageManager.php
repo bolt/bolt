@@ -233,19 +233,19 @@ class PackageManager
 
         $collection = new PackageCollection();
         $installed = $this->app['extend.action']['show']->execute('installed');
-        $autoload = (array) $this->app['extensions']->getAutoload();
+        $extensions = $this->app['extensions']->all();
         $requires = isset($this->json['require']) ? $this->json['require'] : [];
 
         // Installed
-        foreach ($installed as $composerPacakge) {
-            $package = Package::createFromComposerPackage($composerPacakge['package']);
+        foreach ($installed as $composerPackage) {
+            $package = Package::createFromComposerPackage($composerPackage['package']);
             $name = $package->getName();
             $extension = $this->app['extensions']->get($name);
             $title = $extension ? $extension->getName() : $name;
             // Handle non-Bolt packages
-            if (isset($autoload[$name])) {
-                $constraint = $autoload[$name]->getConstraint() ?: $this->app['bolt_version'];
-                $valid = $autoload[$name]->isValid();
+            if (isset($extensions[$name])) {
+                $constraint = $extensions[$name]->getDescriptor()->getConstraint() ?: $this->app['bolt_version'];
+                $valid = $extensions[$name]->isValid();
             } else {
                 $constraint =  $this->app['bolt_version'];
                 $valid = true;
@@ -263,20 +263,19 @@ class PackageManager
         }
 
         // Local
-        foreach ($autoload as $name => $data) {
+        foreach ($extensions as $name => $extension) {
             if ($collection->get($name)) {
                 continue;
             }
-            $extension = $this->app['extensions']->get($name);
             $title = $extension ? $extension->getName() : $name;
             /** @var JsonFile $composerJson */
-            $composerJson = $this->app['filesystem']->get('extensions://' . $data->getPath() . '/composer.json');
+            $composerJson = $this->app['filesystem']->get('extensions://' . $extension->getRelativePath() . '/composer.json');
             $package = Package::createFromComposerJson($composerJson->parse());
             $package->setStatus('local');
             $package->setTitle($title);
             $package->setReadmeLink($this->linkReadMe($name));
             $package->setConfigLink($this->linkConfig($name));
-            $package->setValid($data->isValid());
+            $package->setValid($extension->isValid());
             $package->setEnabled($this->isEnabled($name));
 
             $collection->add($package);
@@ -329,13 +328,13 @@ class PackageManager
      */
     private function linkReadMe($name)
     {
-        $autoload = $this->app['extensions']->getAutoload();
-        if (!isset($autoload[$name])) {
+        $extensions = $this->app['extensions']->all();
+        if (!isset($extensions[$name])) {
             return;
         }
 
-        $base = $this->app['resources']->getPath('extensionspath/' . $autoload[$name]->getPath());
-        $location = strpos($autoload[$name]->getPath(), 'local') === false ? 'vendor' : 'local';
+        $base = $this->app['resources']->getPath('extensionspath/' . $extensions[$name]->getRelativePath());
+        $location = strpos($extensions[$name]->getRelativePath(), 'local') === false ? 'vendor' : 'local';
         $readme = null;
 
         if (is_readable($base . '/README.md')) {
@@ -378,28 +377,6 @@ class PackageManager
     private function updateJson()
     {
         $this->json = $this->app['extend.manager.json']->update();
-    }
-
-    /**
-     * Get an extension's composer.json data.
-     *
-     * @param $name
-     *
-     * @return array
-     */
-    private function getComposerJson($name)
-    {
-        $autoload = $this->app['extensions']->getAutoload();
-        foreach ($autoload as $autoloadJson) {
-            if ($autoloadJson->getName() === $name) {
-                /** @var JsonFile $jsonFile */
-                $jsonFile = $this->app['filesystem']->get('extensions://' . $autoloadJson['path'] . '/composer.json');
-
-                return $jsonFile->parse();
-            }
-        }
-
-        return ['name' => 'unknown'];
     }
 
     /**
