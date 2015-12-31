@@ -5,7 +5,6 @@ namespace Bolt\Extension;
 use Bolt\Composer\EventListener\PackageDescriptor;
 use Bolt\Config;
 use Bolt\Filesystem\Exception\FileNotFoundException;
-use Bolt\Filesystem\Exception\IncludeFileException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Legacy\ExtensionsTrait;
@@ -180,16 +179,6 @@ class Manager
 
         // @deprecated Deprecated since 3.0, to be removed in 4.0.
         $this->app = $app;
-    }
-
-    /**
-     * Return the in-use extension name map.
-     *
-     * @return string[]
-     */
-    public function getMap()
-    {
-        return $this->map;
     }
 
     /**
