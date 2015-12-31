@@ -223,20 +223,18 @@ class PackageManager
     /**
      * Get packages that a properly installed, pending installed and locally installed.
      *
-     * @return array
+     * @return PackageCollection
      */
     public function getAllPackages()
     {
+        $collection = new PackageCollection();
+
         if ($this->started === false) {
-            return;
+            return $collection;
         }
 
-        $collection = new PackageCollection();
-        $installed = $this->app['extend.action']['show']->execute('installed');
-        $extensions = $this->app['extensions']->all();
-        $requires = isset($this->json['require']) ? $this->json['require'] : [];
-
         // Installed
+        $installed = $this->app['extend.action']['show']->execute('installed');
         foreach ($installed as $composerPackage) {
             $package = Package::createFromComposerPackage($composerPackage['package']);
             $name = $package->getName();
@@ -267,16 +265,16 @@ class PackageManager
         }
 
         // Local
+        $extensions = $this->app['extensions']->all();
         foreach ($extensions as $name => $extension) {
-            if ($collection->get($name)) {
+            if ($collection->get($extension->getId())) {
                 continue;
             }
-            $title = $extension ? $extension->getName() : $name;
             /** @var JsonFile $composerJson */
-            $composerJson = $this->app['filesystem']->get('extensions://' . $extension->getRelativePath() . '/composer.json');
+            $composerJson = $extension->getBaseDirectory()->get('composer.json');
             $package = Package::createFromComposerJson($composerJson->parse());
             $package->setStatus('local');
-            $package->setTitle($title);
+            $package->setTitle($extension->getName());
             $package->setReadmeLink($this->linkReadMe($name));
             $package->setConfigLink($this->linkConfig($name));
             $package->setValid($extension->isValid());
@@ -286,6 +284,7 @@ class PackageManager
         }
 
         // Pending
+        $requires = isset($this->json['require']) ? $this->json['require'] : [];
         foreach ($requires as $name => $version) {
             if ($collection->get($name)) {
                 continue;
@@ -315,13 +314,13 @@ class PackageManager
      */
     private function linkReadMe($name)
     {
-        $extensions = $this->app['extensions']->all();
-        if (!isset($extensions[$name])) {
+        $extension = $this->app['extensions']->getResolved($name);
+        if ($extension === null) {
             return;
         }
 
-        $base = $this->app['resources']->getPath('extensionspath/' . $extensions[$name]->getRelativePath());
-        $location = strpos($extensions[$name]->getRelativePath(), 'local') === false ? 'vendor' : 'local';
+        $base = $this->app['resources']->getPath('extensionspath/' . $extension->getRelativePath());
+        $location = strpos($extension->getRelativePath(), 'local') === false ? 'vendor' : 'local';
         $readme = null;
 
         if (is_readable($base . '/README.md')) {

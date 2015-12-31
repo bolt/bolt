@@ -76,6 +76,14 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
+    public function getId()
+    {
+        return $this->getVendor() . '/' . $this->getName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         if ($this->name === null) {

@@ -42,6 +42,16 @@ class ResolvedExtension
     }
 
     /**
+     * Returns a unique identifier for the extension, such as: Vendor/Name
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->innerExtension->getId();
+    }
+
+    /**
      * Returns the extension name (the class short name).
      *
      * @return string
@@ -59,6 +69,16 @@ class ResolvedExtension
     public function getNamespace()
     {
         return $this->innerExtension->getNamespace();
+    }
+
+    /**
+     * Returns the root directory for the extension.
+     *
+     * @return \Bolt\Filesystem\Handler\DirectoryInterface
+     */
+    public function getBaseDirectory()
+    {
+        return $this->innerExtension->getBaseDirectory();
     }
 
     /**

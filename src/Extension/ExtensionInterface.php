@@ -64,6 +64,13 @@ interface ExtensionInterface
     public function getRelativeUrl();
 
     /**
+     * Returns a unique identifier for the extension, such as: Vendor/Name
+     *
+     * @return string
+     */
+    public function getId();
+
+    /**
      * Returns the extension name (the class short name).
      *
      * @return string

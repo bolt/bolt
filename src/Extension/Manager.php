@@ -11,7 +11,6 @@ use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Legacy\ExtensionsTrait;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Translation\Translator as Trans;
-use Cocur\Slugify\Slugify;
 use Silex\Application;
 
 /**
@@ -26,9 +25,7 @@ class Manager
     /** @var ResolvedExtension[] */
     protected $extensions = [];
     /** @var string[] */
-    protected $map = [];
-    /** @var array */
-    protected $autoload;
+    protected $composerNames = [];
 
     /** @var FilesystemInterface */
     private $filesystem;
@@ -97,24 +94,30 @@ class Manager
         if ($this->registered) {
             throw new \RuntimeException(Trans::__('Can not add extensions after they are registered.'));
         }
-        if ($composerName === null) {
-            $composerName = Slugify::create()->slugify($extension->getVendor() . '/' . $extension->getName(), '/');
-        }
-
-        // Map PHP name to internal (potentially Composer) name
-        $this->map[$extension->getName()] = $composerName;
-
-        // Determine if enabled
-        $extConfig = $this->config->get('extensions', []);
-        $enabled = isset($extConfig[$composerName]) && $extConfig[$composerName] === false ? false : true;
 
         // Set paths in the extension
-        $extension->setBaseDirectory($baseDir)->setRelativeUrl($relativeUrl);
+        $extension
+            ->setBaseDirectory($baseDir)
+            ->setRelativeUrl($relativeUrl)
+        ;
+
+        // Determine if enabled
+        $enabled = $this->config->get('extensions/' . $extension->getId(), true);
+
+        if ($composerName !== null) {
+            // Map composer name to ID
+            $this->composerNames[$composerName] = $extension->getId();
+
+            // Check if enabled by composer name
+            $enabled = $this->config->get("extensions/$composerName", $enabled);
+        }
 
         // Instantiate resolved extension and mark enabled/disabled
-        $resolved = (new ResolvedExtension($extension))->setEnabled($enabled);
+        $resolved = (new ResolvedExtension($extension))
+            ->setEnabled($enabled)
+        ;
 
-        return $this->extensions[$composerName] = $resolved;
+        return $this->extensions[$extension->getId()] = $resolved;
     }
 
     /**
@@ -130,29 +133,32 @@ class Manager
     /**
      * Get an installed extension class.
      *
-     * @param string|null $name
+     * @param string|null $id The extension ID or composer name
      *
      * @return ExtensionInterface|null
      */
-    public function get($name)
+    public function get($id)
     {
-        if ($key = $this->getMappedKey($name)) {
-            return $this->extensions[$key]->getInnerExtension();
-        }
+        $resolved = $this->getResolved($id);
+        return $resolved ? $resolved->getInnerExtension() : null;
     }
 
     /**
      * Get the resolved form of an installed extension class.
      *
-     * @param string|null $name
+     * @param string|null $id The extension ID or composer name
      *
      * @return ResolvedExtension|null
      */
-    public function getResolved($name)
+    public function getResolved($id)
     {
-        if ($key = $this->getMappedKey($name)) {
-            return $this->extensions[$key];
+        if (isset($this->extensions[$id])) {
+            return $this->extensions[$id];
+        } elseif (isset($this->composerNames[$id])) {
+            return $this->extensions[$this->composerNames[$id]];
         }
+
+        return null;
     }
 
     /**
@@ -177,25 +183,6 @@ class Manager
 
         // @deprecated Deprecated since 3.0, to be removed in 4.0.
         $this->app = $app;
-    }
-
-    /**
-     * Resolve a Composer or PHP extension name to the stored key.
-     *
-     * @param string $name
-     *
-     * @return string|null
-     */
-    private function getMappedKey($name)
-    {
-        $key = null;
-        if (isset($this->map[$name])) {
-            $key = $this->map[$name];
-        } elseif (isset($this->extensions[$name])) {
-            $key = $name;
-        }
-
-        return $key;
     }
 
     /**
