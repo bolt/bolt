@@ -140,10 +140,15 @@ class Manager
      */
     private function setResolved(ExtensionInterface $extension, $internalName)
     {
-        $this->extensions[$internalName] = new ResolvedExtension($extension);
+        // Map PHP name to internal (postentially Composer) name
         $this->map[$extension->getName()] = $internalName;
 
-        return $this->extensions[$internalName];
+        // Instantiate resolved extension and mark enabled/disabled
+        $extConfig = $this->config->get('extensions', []);
+        $enabled = isset($extConfig[$internalName]) && $extConfig[$internalName] === false ? false : true;
+        $resolved = (new ResolvedExtension($extension))->setEnabled($enabled);
+
+        return $this->extensions[$internalName] = $resolved;
     }
 
     /**
@@ -159,8 +164,10 @@ class Manager
             throw new \RuntimeException(Trans::__('Can not re-register extensions.'));
         }
         foreach ($this->extensions as $extension) {
-            $extension->getInnerExtension()->setContainer($app);
-            $app->register($extension->getInnerExtension()->getServiceProvider());
+            if ($extension->isEnabled()) {
+                $extension->getInnerExtension()->setContainer($app);
+                $app->register($extension->getInnerExtension()->getServiceProvider());
+            }
         }
         $this->registered = true;
 
@@ -217,14 +224,8 @@ class Manager
     {
         $descriptors = $this->loadCache();
         foreach ($descriptors as $descriptor) {
-            $composerName = $descriptor->getName();
+            // Skip loading if marked invalid
             if ($descriptor->isValid() === false) {
-                // Skip loading if marked invalid
-                continue;
-            }
-            $extConfig = $this->config->get('extensions', []);
-            if (isset($extConfig[$composerName]) && $extConfig[$composerName] === false) {
-                // Skip loading if marked disabled
                 continue;
             }
             $this->loadExtension($descriptor);
