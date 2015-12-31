@@ -2,6 +2,7 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Helpers\Str;
 use Pimple as Container;
 use Silex\Application;
@@ -15,6 +16,8 @@ abstract class AbstractExtension implements ExtensionInterface
 {
     /** @var Container */
     protected $container;
+    /** @var DirectoryInterface */
+    protected $directory;
     /** @var string */
     private $path;
     /** @var string */
@@ -30,6 +33,22 @@ abstract class AbstractExtension implements ExtensionInterface
     public function setContainer(Container $container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDirectory(DirectoryInterface $directory)
+    {
+        $this->directory = $directory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDirectory()
+    {
+        return $this->directory;
     }
 
     /**

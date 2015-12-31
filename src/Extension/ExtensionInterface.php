@@ -2,6 +2,7 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Pimple as Container;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -28,6 +29,23 @@ interface ExtensionInterface
     public function setContainer(Container $container);
 
     /**
+     * Sets the root directory for the extension
+     * with filesystem configured in core.
+     *
+     * @param DirectoryInterface $directory
+     */
+    public function setDirectory(DirectoryInterface $directory);
+
+    /**
+     * Returns the root directory for the extension.
+     *
+     * This should be used instead of getPath().
+     *
+     * @return DirectoryInterface
+     */
+    public function getDirectory();
+
+    /**
      * Returns the extension name (the class short name).
      *
      * @return string
@@ -50,6 +68,8 @@ interface ExtensionInterface
 
     /**
      * Returns the extensions root directory path.
+     *
+     * This should only be used by core to configure root directory.
      *
      * The path should always be returned as a Unix path (with /).
      *
