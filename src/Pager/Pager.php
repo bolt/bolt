@@ -116,4 +116,18 @@ class Pager extends AbstractPager
     {
         return $this->manager->makeLink($linkFor);
     }
+
+    /**
+     * For v2 and v3 BC reasons
+     *
+     * @return array
+     */
+    public function asArray()
+    {
+        $a = get_object_vars($this);
+        $a['showing_from'] = $this->showingFrom;
+        $a['showing_to'] = $this->showingTo;
+
+        return $a;
+    }
 }
