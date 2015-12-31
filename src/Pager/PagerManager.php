@@ -65,7 +65,7 @@ class PagerManager implements \ArrayAccess
      *          the link will be built for the first initialized pager object found.
      * @return string GET query string
      */
-    public function makelink($linkFor = '')
+    public function makeLink($linkFor = '')
     {
         /*
          * If link set directly that forces using it rather than build
@@ -101,9 +101,9 @@ class PagerManager implements \ArrayAccess
      * @param $contextId
      * @return string
      */
-    public function makeParameterId($contextId = '')
+    public function makeParameterId($contextId = null)
     {
-        $contextId = ($contextId !== '') ? '_'.$contextId : '';
+        $contextId = ($contextId) ? '_'.$contextId : '';
 
         return self::PAGE.$contextId;
     }
@@ -118,10 +118,9 @@ class PagerManager implements \ArrayAccess
             if (strpos($key, self::PAGE) === 0) {
                 $chunks = explode('_', $key);
                 $contextId = end($chunks);
-                $values[$key] = new Pager(
-                    ['current' => $parameter, 'for' => $contextId, 'manager' => $this],
-                    \ArrayObject::ARRAY_AS_PROPS
-                );
+                $pager = new Pager($this);
+                $pager->setFor($contextId)->setCurrent($parameter);
+                $values[$key] = $pager;
             }
         }
 
@@ -166,12 +165,13 @@ class PagerManager implements \ArrayAccess
      * Set the Pager object
      *
      * @param mixed $contextId
-     * @param mixed $pager
+     * @param Pager $pager
      */
     public function offsetSet($contextId, $pager)
     {
-        $pager = ($pager instanceof Pager) ?: new Pager($pager, \ArrayObject::ARRAY_AS_PROPS);
-        $pager['manager'] = $this;
+        if (!$pager->manager) {
+            $pager->setManager($this);
+        }
         $this->pagers[$this->makeParameterId($contextId)] = $pager;
     }
 
@@ -240,13 +240,24 @@ class PagerManager implements \ArrayAccess
     }
 
     /**
+     * Factory method creating a Pager object
+     *
+     * @param null $contextId[optional]
+     * @return Pager
+     */
+    public function createPager($contextId = null)
+    {
+        return $this->pagers[$this->makeParameterId($contextId)] = new Pager($this);
+    }
+
+    /**
      * Gets the explicitly indexed pager or finds a completely initialized one.
      * Pager is initialized if its _$totalpages_ attribute set.
      *
      * @param string $contextId [optional]
      * @return mixed
      */
-    public function getPager($contextId = '')
+    public function getPager($contextId = null)
     {
         return ($contextId) ? $this->pagers[$this->makeParameterId($contextId)] : $this->pagers[$this->findInitializedPagerId()];
     }
@@ -255,11 +266,11 @@ class PagerManager implements \ArrayAccess
      * @param string $contextId
      * @return Pager|int
      */
-    public function getCurrentPage($contextId = '')
+    public function getCurrentPage($contextId = null)
     {
         $pager = $this->offsetGet($contextId) ?: $this->offsetGet('');
 
-        return ($pager) ? $pager['current'] : 1;
+        return ($pager) ? $pager->current : 1;
     }
 
     /**
@@ -276,7 +287,7 @@ class PagerManager implements \ArrayAccess
      * @param string $contextId [optional]
      * @return int|string
      */
-    protected function findPagerId($contextId = '')
+    protected function findPagerId($contextId = null)
     {
         return ($contextId) ? $this->makeParameterId($contextId) : $this->findInitializedPagerId();
     }
@@ -290,7 +301,7 @@ class PagerManager implements \ArrayAccess
     {
         return array_map(
             function ($pageEl) {
-                return $pageEl['current'];
+                return $pageEl->current;
             },
             $this->pagers
         );
@@ -304,7 +315,7 @@ class PagerManager implements \ArrayAccess
     protected function findInitializedPagerId()
     {
         foreach ($this->pagers as $key => $pager) {
-            if (array_key_exists('totalpages', $pager)) {
+            if (isset($pager->totalpages)) {
                 return $key;
             }
         }
