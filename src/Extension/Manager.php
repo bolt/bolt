@@ -6,6 +6,7 @@ use Bolt\Composer\EventListener\PackageDescriptor;
 use Bolt\Config;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\FilesystemInterface;
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Legacy\ExtensionsTrait;
 use Bolt\Logger\FlashLoggerInterface;
@@ -85,11 +86,36 @@ class Manager
      * This should only be used during bootstrap… You probably don't want to use this function.
      *
      * @param ExtensionInterface $extension
+     * @param DirectoryInterface $baseDir
+     * @param string             $relativeUrl
+     * @param string|null        $composerName
+     *
+     * @throws \RuntimeException
+     *
+     * @return ResolvedExtension
      */
-    public function add(ExtensionInterface $extension)
+    public function add(ExtensionInterface $extension, DirectoryInterface $baseDir, $relativeUrl, $composerName = null)
     {
-        $internalName = Slugify::create()->slugify($extension->getVendor() . '/' . $extension->getName(), '/');
-        $this->setResolved($extension, $internalName);
+        if ($this->registered) {
+            throw new \RuntimeException(Trans::__('Can not add extensions after they are registered.'));
+        }
+        if ($composerName === null) {
+            $composerName = Slugify::create()->slugify($extension->getVendor() . '/' . $extension->getName(), '/');
+        }
+
+        // Map PHP name to internal (potentially Composer) name
+        $this->map[$extension->getName()] = $composerName;
+
+        // Determine if enabled
+        $extConfig = $this->config->get('extensions', []);
+        $enabled = isset($extConfig[$composerName]) && $extConfig[$composerName] === false ? false : true;
+
+        // Instantiate resolved extension and mark enabled/disabled
+        $resolved = (new ResolvedExtension($extension))
+            ->setEnabled($enabled)
+        ;
+
+        return $this->extensions[$composerName] = $resolved;
     }
 
     /**
@@ -128,27 +154,6 @@ class Manager
         if ($key = $this->getMappedKey($name)) {
             return $this->extensions[$key];
         }
-    }
-
-    /**
-     * Add an extension as resolved to the class.
-     *
-     * @param ExtensionInterface $extension
-     * @param string             $internalName
-     *
-     * @return ResolvedExtension
-     */
-    private function setResolved(ExtensionInterface $extension, $internalName)
-    {
-        // Map PHP name to internal (postentially Composer) name
-        $this->map[$extension->getName()] = $internalName;
-
-        // Instantiate resolved extension and mark enabled/disabled
-        $extConfig = $this->config->get('extensions', []);
-        $enabled = isset($extConfig[$internalName]) && $extConfig[$internalName] === false ? false : true;
-        $resolved = (new ResolvedExtension($extension))->setEnabled($enabled);
-
-        return $this->extensions[$internalName] = $resolved;
     }
 
     /**
@@ -253,7 +258,10 @@ class Manager
         /** @var ExtensionInterface $extension */
         $extension = new $className();
         if ($extension instanceof ExtensionInterface) {
-            $this->setResolved($extension, $descriptor->getName())->setDescriptor($descriptor);
+            $baseDir = $this->filesystem->getDir($descriptor->getPath());
+            $this->add($extension, $baseDir, $baseDir, $descriptor->getName())
+                ->setDescriptor($descriptor)
+            ;
         } else {
             $this->flashLogger->error(Trans::__("Extension package %NAME% base class '%CLASS%' does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.", ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
         }
