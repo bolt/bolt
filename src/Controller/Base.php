@@ -311,14 +311,15 @@ abstract class Base implements ControllerProviderInterface
      *
      * @param string $textquery
      * @param array  $parameters
+     * @param array  $pager
      * @param array  $whereparameters
      *
      * @return \Bolt\Legacy\Content|\Bolt\Legacy\Content[]
      * @see \Bolt\Legacy\Storage::getContent()
      */
-    protected function getContent($textquery, $parameters = [], $whereparameters = [])
+    protected function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
-        return $this->storage()->getContent($textquery, $parameters, $whereparameters);
+        return $this->storage()->getContent($textquery, $parameters, $pager, $whereparameters);
     }
 
     /**
