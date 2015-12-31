@@ -31,7 +31,7 @@ abstract class PagerManagerTestBase extends BoltUnitTest
         $app = $this->getApp();
         $app['request'] = $request;
         $app['request_stack'] = new RequestStack();
-        
+
         if ($request) {
             $app['request_stack']->push($request);
         }

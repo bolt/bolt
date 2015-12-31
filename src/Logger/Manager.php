@@ -106,7 +106,7 @@ class Manager
 
         /** @var \Bolt\Pager\PagerManager $manager */
         $manager = $this->app['pager'];
-        $pager = $manager->createPager('activity')
+        $manager->createPager('activity')
             ->setCount($rowcount)
             ->setTotalpages(ceil($rowcount / $amount))
             ->setCurrent($page)
