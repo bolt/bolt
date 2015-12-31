@@ -74,7 +74,6 @@ class Manager
         $this->filesystem->includeFile('vendor/autoload.php');
 
         // Load managed extensions
-        $this->loadCache();
         $this->loadExtensions();
 
         $this->loaded = true;
@@ -152,11 +151,15 @@ class Manager
      *
      * @param ExtensionInterface $extension
      * @param string             $internalName
+     *
+     * @return ResolvedExtension
      */
     private function setResolved(ExtensionInterface $extension, $internalName)
     {
         $this->extensions[$internalName] = new ResolvedExtension($extension);
         $this->map[$extension->getName()] = $internalName;
+
+        return $this->extensions[$internalName];
     }
 
     /**
@@ -202,21 +205,25 @@ class Manager
 
     /**
      * Load the extension autoload.json cache file and build the PackageDescriptor array.
+     *
+     * @return PackageDescriptor[]
      */
     private function loadCache()
     {
+        $descriptors = [];
         try {
             /** @var JsonFile $autoload */
             $autoload = $this->filesystem->get('vendor/autoload.json');
         } catch (FileNotFoundException $e) {
-            return;
+            return $descriptors;
         }
-        $autoloadJson = (array) $autoload->parse();
 
         // Get extensions we're managing via the autoloader
-        foreach ($autoloadJson as $name => $loader) {
-            $this->autoload[$name] = PackageDescriptor::create($loader);
+        foreach ((array) $autoload->parse() as $name => $loader) {
+            $descriptors[$name] = PackageDescriptor::create($loader);
         }
+
+        return $descriptors;
     }
 
     /**
@@ -224,10 +231,10 @@ class Manager
      */
     private function loadExtensions()
     {
-        /** @var PackageDescriptor $loader */
-        foreach ((array) $this->autoload as $loader) {
-            $composerName = $loader->getName();
-            if ($loader->isValid() === false) {
+        $descriptors = $this->loadCache();
+        foreach ($descriptors as $descriptor) {
+            $composerName = $descriptor->getName();
+            if ($descriptor->isValid() === false) {
                 // Skip loading if marked invalid
                 continue;
             }
@@ -236,24 +243,23 @@ class Manager
                 // Skip loading if marked disabled
                 continue;
             }
-            $this->loadExtension($loader->getClass(), $composerName, $loader->getType());
+            $this->loadExtension($descriptor);
         }
     }
 
     /**
      * Load a single extension.
      *
-     * @param string $className
-     * @param string $composerName
-     * @param string $type
+     * @param PackageDescriptor $descriptor
      */
-    private function loadExtension($className, $composerName, $type)
+    private function loadExtension(PackageDescriptor $descriptor)
     {
+        $className = $descriptor->getClass();
         if (class_exists($className) === false) {
-            if ($type === 'local' && class_exists('Wikimedia\Composer\MergePlugin') === false) {
-                $this->flashLogger->error(Trans::__("Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
+            if ($descriptor->getType() === 'local' && class_exists('Wikimedia\Composer\MergePlugin') === false) {
+                $this->flashLogger->error(Trans::__("Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.", ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
             } else {
-                $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
+                $this->flashLogger->error(Trans::__("Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.", ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
             }
 
             return;
@@ -262,9 +268,9 @@ class Manager
         /** @var ExtensionInterface $extension */
         $extension = new $className();
         if ($extension instanceof ExtensionInterface) {
-            $this->setResolved($extension, $composerName);
+            $this->setResolved($extension, $descriptor->getName())->setDescriptor($descriptor);
         } else {
-            $this->flashLogger->error(Trans::__("Extension package %NAME% base class '%CLASS%' does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.", ['%NAME%' => $composerName, '%CLASS%' => $className]));
+            $this->flashLogger->error(Trans::__("Extension package %NAME% base class '%CLASS%' does not implement \\Bolt\\Extension\\ExtensionInterface and has been skipped.", ['%NAME%' => $descriptor->getName(), '%CLASS%' => $className]));
         }
     }
 

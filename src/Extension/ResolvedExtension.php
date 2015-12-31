@@ -2,6 +2,8 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Composer\EventListener\PackageDescriptor;
+
 /**
  * This wraps an extension and provides additional functionality
  * that does not belong in the extension itself.
@@ -16,6 +18,8 @@ class ResolvedExtension
     protected $innerExtension;
     /** @var bool */
     protected $enabled;
+    /** @var PackageDescriptor */
+    protected $descriptor;
 
     /**
      * Constructor.
@@ -79,12 +83,37 @@ class ResolvedExtension
     }
 
     /**
+     * Return the extension's package descriptor.
+     *
+     * @return PackageDescriptor
+     */
+    public function getDescriptor()
+    {
+        return $this->descriptor;
+    }
+
+    /**
+     * Set the extension's package descriptor.
+     *
+     * @param PackageDescriptor $descriptor
+     *
+     * @return ResolvedExtension
+     */
+    public function setDescriptor($descriptor)
+    {
+        $this->descriptor = $descriptor;
+
+        return $this;
+    }
+
+    /**
      * Return the extension's install type, either 'composer' or 'local'.
      *
      * @return string
      */
     public function getInstallType()
     {
+        return $this->descriptor->getType();
     }
 
     /**
@@ -101,9 +130,13 @@ class ResolvedExtension
      * Enable or disable an extension at runtime.
      *
      * @param bool|int $enabled
+     *
+     * @return ResolvedExtension
      */
     public function setEnabled($enabled)
     {
         $this->enabled = (bool) $enabled;
+
+        return $this;
     }
 }
