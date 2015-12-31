@@ -82,18 +82,6 @@ class ResolvedExtension
     }
 
     /**
-     * Returns the extension's directory path.
-     *
-     * The path should always be returned as a Unix path (with /).
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->innerExtension->getPath();
-    }
-
-    /**
      * Returns the extension's directory path relative to the extension root.
      *
      * @return string

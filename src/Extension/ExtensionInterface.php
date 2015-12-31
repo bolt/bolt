@@ -41,8 +41,6 @@ interface ExtensionInterface
     /**
      * Returns the root directory for the extension.
      *
-     * This should be used instead of getPath().
-     *
      * @return DirectoryInterface
      */
     public function getBaseDirectory();
@@ -90,15 +88,4 @@ interface ExtensionInterface
      * @return string
      */
     public function getNamespace();
-
-    /**
-     * Returns the extensions root directory path.
-     *
-     * This should only be used by core to configure root directory.
-     *
-     * The path should always be returned as a Unix path (with /).
-     *
-     * @return string
-     */
-    public function getPath();
 }
