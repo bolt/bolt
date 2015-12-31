@@ -19,6 +19,8 @@ abstract class AbstractExtension implements ExtensionInterface
     /** @var DirectoryInterface */
     protected $directory;
     /** @var string */
+    protected $relativeUrl;
+    /** @var string */
     private $path;
     /** @var string */
     private $name;
@@ -38,17 +40,37 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function setDirectory(DirectoryInterface $directory)
+    public function setBaseDirectory(DirectoryInterface $directory)
     {
         $this->directory = $directory;
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getDirectory()
+    public function getBaseDirectory()
     {
         return $this->directory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setRelativeUrl($relativeUrl)
+    {
+        $this->relativeUrl = $relativeUrl;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRelativeUrl()
+    {
+        return $this->relativeUrl;
     }
 
     /**
@@ -114,16 +136,6 @@ abstract class AbstractExtension implements ExtensionInterface
         }
 
         return $this->path;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUrl()
-    {
-        $path = explode('/', $this->getPath());
-
-        return '/' . implode('/', array_slice($path, -4)) . '/';
     }
 
     /**

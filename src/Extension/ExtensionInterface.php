@@ -33,8 +33,10 @@ interface ExtensionInterface
      * with filesystem configured in core.
      *
      * @param DirectoryInterface $directory
+     *
+     * @return ExtensionInterface
      */
-    public function setDirectory(DirectoryInterface $directory);
+    public function setBaseDirectory(DirectoryInterface $directory);
 
     /**
      * Returns the root directory for the extension.
@@ -43,7 +45,23 @@ interface ExtensionInterface
      *
      * @return DirectoryInterface
      */
-    public function getDirectory();
+    public function getBaseDirectory();
+
+    /**
+     * Sets the extension's relative URL.
+     *
+     * @param string
+     *
+     * @return ExtensionInterface
+     */
+    public function setRelativeUrl($relativeUrl);
+
+    /**
+     * Returns the extension's relative URL.
+     *
+     * @return string
+     */
+    public function getRelativeUrl();
 
     /**
      * Returns the extension name (the class short name).
@@ -76,11 +94,4 @@ interface ExtensionInterface
      * @return string
      */
     public function getPath();
-
-    /**
-     * Returns the extension's relative URL.
-     *
-     * @return string
-     */
-    public function getUrl();
 }

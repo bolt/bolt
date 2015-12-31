@@ -81,9 +81,7 @@ class Manager
     }
 
     /**
-     * Insert an extension.
-     *
-     * This should only be used during bootstrap… You probably don't want to use this function.
+     * Add an extension to be registered.
      *
      * @param ExtensionInterface $extension
      * @param DirectoryInterface $baseDir
@@ -110,10 +108,11 @@ class Manager
         $extConfig = $this->config->get('extensions', []);
         $enabled = isset($extConfig[$composerName]) && $extConfig[$composerName] === false ? false : true;
 
+        // Set paths in the extension
+        $extension->setBaseDirectory($baseDir)->setRelativeUrl($relativeUrl);
+
         // Instantiate resolved extension and mark enabled/disabled
-        $resolved = (new ResolvedExtension($extension))
-            ->setEnabled($enabled)
-        ;
+        $resolved = (new ResolvedExtension($extension))->setEnabled($enabled);
 
         return $this->extensions[$composerName] = $resolved;
     }
@@ -259,7 +258,7 @@ class Manager
         $extension = new $className();
         if ($extension instanceof ExtensionInterface) {
             $baseDir = $this->filesystem->getDir($descriptor->getPath());
-            $this->add($extension, $baseDir, $baseDir, $descriptor->getName())
+            $this->add($extension, $baseDir, $descriptor->getPath(), $descriptor->getName())
                 ->setDescriptor($descriptor)
             ;
         } else {
