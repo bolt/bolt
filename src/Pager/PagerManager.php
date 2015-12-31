@@ -247,7 +247,10 @@ class PagerManager implements \ArrayAccess
      */
     public function createPager($contextId = null)
     {
-        return $this->pagers[$this->makeParameterId($contextId)] = new Pager($this);
+        $pager = new Pager($this);
+        $pager->setFor($contextId);
+
+        return $this->pagers[$this->makeParameterId($contextId)] = $pager;
     }
 
     /**

@@ -995,14 +995,15 @@ class Storage
 
         // Set up the $pager array with relevant values.
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
-        $this->app['pager']['search'] = [
-            'for'          => 'search',
-            'count'        => $rowcount['count'],
-            'totalpages'   => ceil($rowcount['count'] / $limit),
-            'current'      => $page,
-            'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to'   => ($page - 1) * $limit + count($content),
-        ];
+
+        /** @var \Bolt\Pager\PagerManager $manager */
+        $manager = $this->app['pager'];
+        $manager->createPager('search')
+            ->setCount($rowcount['count'])
+            ->setTotalpages(ceil($rowcount['count'] / $limit))
+            ->setCurrent($page)
+            ->setShowingFrom(($page - 1) * $limit + 1)
+            ->setShowingTo(($page - 1) * $limit + count($content));
 
         return $content;
     }
@@ -1085,14 +1086,15 @@ class Storage
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
 
         $pagefor = $taxonomytype['singular_slug'].'_'.$slug;
-        $this->app['pager'][$pagefor] = [
-            'for'          => $pagefor,
-            'count'        => $rowcount['count'],
-            'totalpages'   => ceil($rowcount['count'] / $limit),
-            'current'      => $page,
-            'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to'   => ($page - 1) * $limit + count($taxorows),
-        ];
+
+        /** @var \Bolt\Pager\PagerManager $manager */
+        $manager = $this->app['pager'];
+        $manager->createPager($pagefor)
+            ->setCount($rowcount['count'])
+            ->setTotalpages(ceil($rowcount['count'] / $limit))
+            ->setCurrent($page)
+            ->setShowingFrom(($page - 1) * $limit + 1)
+            ->setShowingTo(($page - 1) * $limit + count($taxorows));
 
         return $content;
     }
@@ -1903,15 +1905,17 @@ class Storage
         // Set up the $pager array with relevant values, but only if we requested paging.
         if (isset($decoded['parameters']['paging'])) {
             $pagerName = implode('_', $decoded['contenttypes']);
-            $this->app['pager'][$pagerName] = [
-                'for'          => $pagerName,
-                'count'        => $totalResults,
-                'totalpages'   => ceil($totalResults / $decoded['parameters']['limit']),
-                'current'      => $decoded['parameters']['page'],
-                'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
-                'showing_to'   => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results),
-            ];
-            $this->app['twig']->addGlobal('pager', $this->app['pager']);
+
+            /** @var \Bolt\Pager\PagerManager $manager */
+            $manager = $this->app['pager'];
+            $pager = $manager->createPager($pagerName)
+                ->setCount($totalResults)
+                ->setTotalpages(ceil($totalResults / $decoded['parameters']['limit']))
+                ->setCurrent($decoded['parameters']['page'])
+                ->setShowingFrom(($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1)
+                ->setShowingTo(($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results));
+
+            $this->app['twig']->addGlobal('pager', $pager);
         }
 
         $this->app['stopwatch']->stop('bolt.getcontent');
