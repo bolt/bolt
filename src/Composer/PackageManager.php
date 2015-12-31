@@ -240,15 +240,19 @@ class PackageManager
         foreach ($installed as $composerPackage) {
             $package = Package::createFromComposerPackage($composerPackage['package']);
             $name = $package->getName();
-            $extension = $this->app['extensions']->get($name);
-            $title = $extension ? $extension->getName() : $name;
+            $extension = $this->app['extensions']->getResolved($name);
+
             // Handle non-Bolt packages
-            if (isset($extensions[$name])) {
-                $constraint = $extensions[$name]->getDescriptor()->getConstraint() ?: $this->app['bolt_version'];
-                $valid = $extensions[$name]->isValid();
+            if ($extension) {
+                $title = $extension->getName();
+                $constraint = $extension->getDescriptor()->getConstraint() ?: $this->app['bolt_version'];
+                $valid = $extension->isValid();
+                $enabled = $extension->isEnabled();
             } else {
-                $constraint =  $this->app['bolt_version'];
+                $title = $name;
+                $constraint = $this->app['bolt_version'];
                 $valid = true;
+                $enabled = true;
             }
 
             $package->setStatus('installed');
@@ -257,7 +261,7 @@ class PackageManager
             $package->setConfigLink($this->linkConfig($name));
             $package->setConstraint($constraint);
             $package->setValid($valid);
-            $package->setEnabled($this->isEnabled($name));
+            $package->setEnabled($enabled);
 
             $collection->add($package);
         }
@@ -276,7 +280,7 @@ class PackageManager
             $package->setReadmeLink($this->linkReadMe($name));
             $package->setConfigLink($this->linkConfig($name));
             $package->setValid($extension->isValid());
-            $package->setEnabled($this->isEnabled($name));
+            $package->setEnabled($extension->isEnabled());
 
             $collection->add($package);
         }
@@ -300,23 +304,6 @@ class PackageManager
         }
 
         return $collection;
-    }
-
-    /**
-     * Check if an extension is enabled/disabled by admin.
-     *
-     * @param $name
-     *
-     * @return bool
-     */
-    private function isEnabled($name)
-    {
-        $extConfig = $this->app['config']->get('extensions', []);
-        if (isset($extConfig[$name])) {
-            return $extConfig[$name];
-        }
-
-        return true;
     }
 
     /**
