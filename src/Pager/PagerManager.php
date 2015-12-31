@@ -114,13 +114,16 @@ class PagerManager implements \ArrayAccess
     public function decodeHttpQuery()
     {
         $values = [];
-        foreach ($this->app['request']->query->all() as $key => $parameter) {
-            if (strpos($key, self::PAGE) === 0) {
-                $chunks = explode('_', $key);
-                $contextId = end($chunks);
-                $pager = new Pager($this);
-                $pager->setFor($contextId)->setCurrent($parameter);
-                $values[$key] = $pager;
+        $request = $this->app['request_stack']->getCurrentRequest();
+        if ($request) {
+            foreach ($request->query->all() as $key => $parameter) {
+                if (strpos($key, self::PAGE) === 0) {
+                    $chunks = explode('_', $key);
+                    $contextId = end($chunks);
+                    $pager = new Pager($this);
+                    $pager->setFor($contextId)->setCurrent($parameter);
+                    $values[$key] = $pager;
+                }
             }
         }
 
