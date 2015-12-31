@@ -250,7 +250,7 @@ class Application extends Silex\Application
      */
     public function initExtensions()
     {
-        $this['extensions']->load();
+        $this['extensions']->addManagedExtensions();
         $this['extensions']->register($this);
     }
 

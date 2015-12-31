@@ -55,26 +55,44 @@ class Manager
     }
 
     /**
-     * Load a collection of extension classes.
+     * Get all installed extensions.
+     *
+     * @return ResolvedExtension[]
      */
-    public function load()
+    public function all()
     {
-        if ($this->loaded) {
-            throw new \RuntimeException(Trans::__('Extensions already loaded.'));
+        return $this->extensions;
+    }
+
+    /**
+     * Get an installed extension class.
+     *
+     * @param string|null $id The extension ID or composer name
+     *
+     * @return ExtensionInterface|null
+     */
+    public function get($id)
+    {
+        $resolved = $this->getResolved($id);
+        return $resolved ? $resolved->getInnerExtension() : null;
+    }
+
+    /**
+     * Get the resolved form of an installed extension class.
+     *
+     * @param string|null $id The extension ID or composer name
+     *
+     * @return ResolvedExtension|null
+     */
+    public function getResolved($id)
+    {
+        if (isset($this->extensions[$id])) {
+            return $this->extensions[$id];
+        } elseif (isset($this->composerNames[$id])) {
+            return $this->extensions[$this->composerNames[$id]];
         }
 
-        // Include the extensions autoload file
-        if ($this->filesystem->has('vendor/autoload.php') === false) {
-            $this->loaded = true;
-
-            return;
-        }
-        $this->filesystem->includeFile('vendor/autoload.php');
-
-        // Load managed extensions
-        $this->loadExtensions();
-
-        $this->loaded = true;
+        return null;
     }
 
     /**
@@ -121,44 +139,33 @@ class Manager
     }
 
     /**
-     * Get all installed extensions.
-     *
-     * @return ResolvedExtension[]
+     * Load a collection of extension classes.
      */
-    public function all()
+    public function addManagedExtensions()
     {
-        return $this->extensions;
-    }
-
-    /**
-     * Get an installed extension class.
-     *
-     * @param string|null $id The extension ID or composer name
-     *
-     * @return ExtensionInterface|null
-     */
-    public function get($id)
-    {
-        $resolved = $this->getResolved($id);
-        return $resolved ? $resolved->getInnerExtension() : null;
-    }
-
-    /**
-     * Get the resolved form of an installed extension class.
-     *
-     * @param string|null $id The extension ID or composer name
-     *
-     * @return ResolvedExtension|null
-     */
-    public function getResolved($id)
-    {
-        if (isset($this->extensions[$id])) {
-            return $this->extensions[$id];
-        } elseif (isset($this->composerNames[$id])) {
-            return $this->extensions[$this->composerNames[$id]];
+        if ($this->loaded) {
+            throw new \RuntimeException(Trans::__('Extensions already loaded.'));
         }
 
-        return null;
+        // Include the extensions autoload file
+        if ($this->filesystem->has('vendor/autoload.php') === false) {
+            $this->loaded = true;
+
+            return;
+        }
+
+        $this->filesystem->includeFile('vendor/autoload.php');
+
+        $descriptors = $this->loadPackageDescriptors();
+        foreach ($descriptors as $descriptor) {
+            // Skip loading if marked invalid
+            if ($descriptor->isValid() === false) {
+                continue;
+            }
+            $this->addManagedExtension($descriptor);
+        }
+
+        $this->loaded = true;
     }
 
     /**
@@ -190,7 +197,7 @@ class Manager
      *
      * @return PackageDescriptor[]
      */
-    private function loadCache()
+    private function loadPackageDescriptors()
     {
         $descriptors = [];
         try {
@@ -209,26 +216,11 @@ class Manager
     }
 
     /**
-     * Load managed extensions.
-     */
-    private function loadExtensions()
-    {
-        $descriptors = $this->loadCache();
-        foreach ($descriptors as $descriptor) {
-            // Skip loading if marked invalid
-            if ($descriptor->isValid() === false) {
-                continue;
-            }
-            $this->loadExtension($descriptor);
-        }
-    }
-
-    /**
      * Load a single extension.
      *
      * @param PackageDescriptor $descriptor
      */
-    private function loadExtension(PackageDescriptor $descriptor)
+    private function addManagedExtension(PackageDescriptor $descriptor)
     {
         $className = $descriptor->getClass();
         if (class_exists($className) === false) {
