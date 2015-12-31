@@ -872,11 +872,7 @@ class Storage
         ];
     }
 
-    /**
-     * @param array $parameters
-     * @return array
-     */
-    public function searchAllContentTypes(array $parameters = [])
+    public function searchAllContentTypes(array $parameters = [], &$pager = [])
     {
         // Note: we can only apply this kind of results aggregating when we don't
         // use LIMIT and OFFSET! If we'd want to use it, this should be rewritten.
@@ -884,7 +880,7 @@ class Storage
         $result = [];
 
         foreach ($this->getContentTypes() as $contenttype) {
-            $contentTypeSearchResults = $this->searchContentType($contenttype, $parameters);
+            $contentTypeSearchResults = $this->searchContentType($contenttype, $parameters, $pager);
             foreach ($contentTypeSearchResults as $searchresult) {
                 $result[] = $searchresult;
             }
@@ -893,13 +889,7 @@ class Storage
         return $result;
     }
 
-    /**
-     * @param $contenttypename
-     * @param array $parameters
-     * @return array
-     * @throws \Exception
-     */
-    public function searchContentType($contenttypename, array $parameters = [])
+    public function searchContentType($contenttypename, array $parameters = [], &$pager = [])
     {
         $where = [];
         $tablename = $this->getContenttypeTablename($contenttypename);
@@ -1660,6 +1650,29 @@ class Storage
     }
 
     /**
+     * Decodes contextual page number from current request url if found.
+     *
+     * @param string $context      Pager id/name in url which value we find
+     * @param array  $inParameters
+     *
+     * @return mixed Page number in context
+     * @deprecated Not used in core anymore
+     */
+    protected function decodePageParameter($context = '', $inParameters = null)
+    {
+        if (isset($inParameters['page']) && $inParameters['page'] !== null) {
+            return $inParameters['page'];
+        } else {
+            $param = Pager::makeParameterId($context);
+            /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
+            $query = $this->app['request']->query;
+            $page = ($query) ? $query->get($param, $query->get('page', 1)) : 1;
+        }
+
+        return $page;
+    }
+
+    /**
      * Hydrate database rows into objects.
      *
      * @param array|string $contenttype
@@ -1819,11 +1832,12 @@ class Storage
      *
      * @param string $textquery
      * @param string $parameters
+     * @param array  $pager
      * @param array  $whereparameters
      *
      * @return array
      */
-    public function getContent($textquery, $parameters = '', $whereparameters = [])
+    public function getContent($textquery, $parameters = '', &$pager = [], $whereparameters = [])
     {
         // Start the 'stopwatch' for the profiler.
         $this->app['stopwatch']->start('bolt.getcontent', 'doctrine');
@@ -2921,8 +2935,39 @@ class Storage
     }
 
     /**
-     * @return bool
+     * Setter for pager storage element.
+     *
+     * @param array|Pager $pager
+     * @return $this
+     *
+     * @deprecated Just for keep BC
      */
+    public function setPager($name, $pager)
+    {
+        $pg = $this->app['pager']->createPager($name);
+
+        foreach ($pager as $prop => $value) {
+            $pg->$prop = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Getter of a pager element. Pager can hold a paging snapshot map.
+     *
+     * @param string $name Optional name of a pager element. Whole pager map returns if no name given.
+     * @return array
+     *
+     * @deprecated Just for keep BC
+     */
+    public function &getPager($name = null)
+    {
+        return $this->app['pager']
+            ->getPager($name)
+            ->asArray();
+    }
+
     public function isEmptyPager()
     {
         return $this->app['pager']->isEmptyPager();
