@@ -400,16 +400,17 @@ class Frontend extends ConfigurableBase
 
         $result = $this->storage()->searchContent($q, $contenttypes, $filters, $limit, $offset);
 
-        $this->app['pager'][$context] = [
-            'for'          => $context,
-            'count'        => $result['no_of_results'],
-            'totalpages'   => ceil($result['no_of_results'] / $pageSize),
-            'current'      => $page,
-            'showing_from' => $offset + 1,
-            'showing_to'   => $offset + count($result['results']),
-        ];
+        /** @var \Bolt\Pager\PagerManager $manager */
+        $manager = $this->app['pager'];
+        $manager
+            ->createPager($context)
+            ->setCount($result['no_of_results'])
+            ->setTotalpages(ceil($result['no_of_results'] / $pageSize))
+            ->setCurrent($page)
+            ->setShowingFrom($offset + 1)
+            ->setShowingTo($offset + count($result['results']));
 
-        $this->app['pager']->setLink($this->generateUrl('search', ['q' => $q]).'&page_search=');
+        $manager->setLink($this->generateUrl('search', ['q' => $q]).'&page_search=');
 
         $globals = [
             'records'      => $result['results'],

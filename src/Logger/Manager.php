@@ -103,14 +103,15 @@ class Manager
         }
 
         // Set up the pager
-        $this->app['pager']['activity'] = [
-            'for'          => 'activity',
-            'count'        => $rowcount,
-            'totalpages'   => ceil($rowcount / $amount),
-            'current'      => $page,
-            'showing_from' => ($page - 1) * $amount + 1,
-            'showing_to'   => ($page - 1) * $amount + count($rows),
-        ];
+
+        /** @var \Bolt\Pager\PagerManager $manager */
+        $manager = $this->app['pager'];
+        $pager = $manager->createPager('activity')
+            ->setCount($rowcount)
+            ->setTotalpages(ceil($rowcount / $amount))
+            ->setCurrent($page)
+            ->setShowingFrom(($page - 1) * $amount + 1)
+            ->setShowingTo(($page - 1) * $amount + count($rows));
 
         return $rows;
     }
