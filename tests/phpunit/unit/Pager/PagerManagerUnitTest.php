@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Pager;
 
-use Bolt\Pager\Pager;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -63,8 +62,8 @@ class PagerManagerUnitTest extends PagerManagerTestBase
             ->getMock();
 
         $expected = $decoded = [
-            'page' => new Pager(['current' => 2, 'for' => 'page', 'manager' => $manager]),
-            'page_wine' => new Pager(['current' => 9999, 'for' => 'wine', 'manager' => $manager]),
+            'page' => $this->createPager(['current' => 2, 'for' => 'page', 'manager' => $manager]),
+            'page_wine' => $this->createPager(['current' => 9999, 'for' => 'wine', 'manager' => $manager]),
         ];
 
         $manager->expects($this->once())
@@ -93,9 +92,11 @@ class PagerManagerUnitTest extends PagerManagerTestBase
             ->getMock();
 
         $base = ['current' => 123];
-        $manager['some'] = $base;
+        $manager['some'] = $this->createPager($base);
 
-        $expected['page_some'] = new Pager(array_merge($base, ['manager' => $manager]));
+        $expected = [];
+        $expected['page_some'] = $this->createPager($base);
+        $expected['page_some']->setManager($manager);
         $this->assertEquals($expected, \PHPUnit_Framework_Assert::readAttribute($manager, 'pagers'));
     }
 
@@ -162,7 +163,7 @@ class PagerManagerUnitTest extends PagerManagerTestBase
     {
         return [
             [
-                [],
+                [[]],
                 '',
             ],
             [
@@ -206,7 +207,9 @@ class PagerManagerUnitTest extends PagerManagerTestBase
             ->getMock();
 
         $pagers = &$this->getProtectedAttrRef($manager, 'pagers');
-        $pagers = $data;
+        foreach ($data as $key => $value) {
+            $pagers[$key] = $this->createPager($value);
+        }
         $result = $this->methodInvoker($manager, 'findInitializedPagerId', []);
 
         $this->assertEquals($expected, $result);
@@ -219,9 +222,9 @@ class PagerManagerUnitTest extends PagerManagerTestBase
             ->getMock();
         $pagers = &$this->getProtectedAttrRef($manager, 'pagers');
         $pagers = [
-            'A' => new Pager(['for' => 'A', 'current' => 1]),
-            'B' => new Pager(['for' => 'B', 'current' => 2]),
-            'C' => new Pager(['for' => 'C', 'current' => 3]),
+            'A' => $this->createPager(['for' => 'A', 'current' => 1]),
+            'B' => $this->createPager(['for' => 'B', 'current' => 2]),
+            'C' => $this->createPager(['for' => 'C', 'current' => 3]),
         ];
         $result = $this->methodInvoker($manager, 'remapPagers', []);
 
@@ -236,8 +239,8 @@ class PagerManagerUnitTest extends PagerManagerTestBase
 
         $expected = 'some=thing&page=2&page_wine=9999';
         $decoded = [
-            'page' => new Pager(['current' => 2, 'for' => 'page', 'manager' => $manager]),
-            'page_wine' => new Pager(['current' => 9999, 'for' => 'wine', 'manager' => $manager]),
+            'page' => $this->createPager(['current' => 2, 'for' => 'page']),
+            'page_wine' => $this->createPager(['current' => 9999, 'for' => 'wine']),
         ];
 
         $manager->expects($this->any())
