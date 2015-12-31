@@ -134,7 +134,7 @@ class UploadTest extends ControllerUnitTest
         ));
 
         // Not properly implemented as yet, this will need to be revisited on implementation
-        $this->setExpectedException('League\Flysystem\FileNotFoundException', 'File not found at path: logo.png');
+        $this->setExpectedException('Bolt\Filesystem\Exception\FileNotFoundException', 'File not found at path: logo.png');
         $this->controller()->uploadNamespace($this->getRequest(), 'files');
     }
 
