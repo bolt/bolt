@@ -2,8 +2,6 @@
 
 namespace Bolt\Controller\Backend;
 
-use Bolt\Composer\Package;
-use Bolt\Composer\PackageCollection;
 use Bolt\Exception\PackageManagerException;
 use Bolt\Translation\Translator as Trans;
 use Silex;
@@ -269,13 +267,12 @@ class Extend extends BackendBase
         $version = $request->get('version');
         $response = $this->manager()->showPackage('installed', $package, $version);
 
-        if ($response) {
-            $collection = new PackageCollection();
-            foreach ($response as $package) {
-                $collection->add(Package::createFromComposerPackage($package['package']));
-            }
-
-            return $this->json($collection);
+        if (isset($response[$package]['package'])) {
+            return $this->json([
+                'name'        => $package,
+                'version'     => $response[$package]['package']->getPrettyVersion(),
+                'type'        => $response[$package]['package']->getType(),
+            ]);
         } else {
             throw new PackageManagerException(Trans::__('Unable to get installation information for %PACKAGE% %VERSION%.', ['%PACKAGE%' => $package, '%VERSION%' => $version]));
         }
