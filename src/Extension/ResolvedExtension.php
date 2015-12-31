@@ -149,4 +149,14 @@ class ResolvedExtension
 
         return $this;
     }
+
+    /**
+     * Check if the extension is valid.
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        return $this->descriptor->isValid();
+    }
 }
