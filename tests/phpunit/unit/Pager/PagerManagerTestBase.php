@@ -2,6 +2,7 @@
 
 namespace Bolt\Tests\Pager;
 
+use Bolt\Pager\Pager;
 use Bolt\Pager\PagerManager;
 use Bolt\Tests\BoltUnitTest;
 
@@ -53,5 +54,16 @@ abstract class PagerManagerTestBase extends BoltUnitTest
         $invoker = $closure->bindTo($object, $object);
 
         return $invoker($method, $args);
+    }
+
+    protected function createPager($array = [])
+    {
+        $pager = new Pager();
+
+        foreach ($array as $key => $item) {
+            $pager->$key = $item;
+        }
+
+        return $pager;
     }
 }

@@ -66,7 +66,7 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
         $mirror = new PagerManager($this->getApp());
         foreach ($expected as $parid => $pager) {
             if ($pager) {
-                $mirror[$parid] = $pager;
+                $mirror[$parid] = $this->createPager($pager);
             }
         }
         $this->assertEquals($mirror->getPagers(), $manager->decodeHttpQuery());
@@ -113,7 +113,7 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
     public function testMakelink($linkFor, $query, $expected)
     {
         $manager = $this->createPagerManager(Request::create($query));
-        $this->assertEquals($expected, $manager->makelink($linkFor));
+        $this->assertEquals($expected, $manager->makeLink($linkFor));
     }
 
 
@@ -148,10 +148,10 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
     {
         $manager = $this->createPagerManager(Request::create($query));
         foreach ($pagers as $ctxid => $pager) {
-            $manager[$ctxid] = $pager;
+            $manager[$ctxid] = $this->createPager($pager);
         }
-        $expected['manager'] = $manager;
-        $expected = new Pager($expected);
+        $expected = $this->createPager($expected);
+        $expected->setManager($manager);
         $this->assertEquals($expected, $manager->getPager($contextId));
     }
 
