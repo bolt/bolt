@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Pager;
+namespace Bolt\Legacy;
 
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 
