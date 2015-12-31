@@ -62,16 +62,6 @@ class ResolvedExtension
     }
 
     /**
-     * Returns the extension namespace.
-     *
-     * @return string
-     */
-    public function getNamespace()
-    {
-        return $this->innerExtension->getNamespace();
-    }
-
-    /**
      * Returns the root directory for the extension.
      *
      * @return \Bolt\Filesystem\Handler\DirectoryInterface

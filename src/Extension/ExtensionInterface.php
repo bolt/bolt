@@ -81,11 +81,4 @@ interface ExtensionInterface
      * @return string
      */
     public function getVendor();
-
-    /**
-     * Returns the extension namespace.
-     *
-     * @return string
-     */
-    public function getNamespace();
 }
