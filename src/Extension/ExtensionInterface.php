@@ -56,4 +56,11 @@ interface ExtensionInterface
      * @return string
      */
     public function getPath();
+
+    /**
+     * Returns the extension's relative URL.
+     *
+     * @return string
+     */
+    public function getUrl();
 }

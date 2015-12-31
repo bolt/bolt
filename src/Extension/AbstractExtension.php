@@ -98,6 +98,16 @@ abstract class AbstractExtension implements ExtensionInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getUrl()
+    {
+        $path = explode('/', $this->getPath());
+
+        return '/' . implode('/', array_slice($path, -4)) . '/';
+    }
+
+    /**
      * Return the container.
      *
      * Note: This is allows traits to access app without losing coding completion
