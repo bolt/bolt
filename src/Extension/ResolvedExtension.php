@@ -62,7 +62,7 @@ class ResolvedExtension
     }
 
     /**
-     * Returns the extensions directory path.
+     * Returns the extension's directory path.
      *
      * The path should always be returned as a Unix path (with /).
      *
@@ -71,6 +71,16 @@ class ResolvedExtension
     public function getPath()
     {
         return $this->innerExtension->getPath();
+    }
+
+    /**
+     * Returns the extension's directory path relative to the extension root.
+     *
+     * @return string
+     */
+    public function getRelativePath()
+    {
+        return $this->descriptor->getPath();
     }
 
     /**
