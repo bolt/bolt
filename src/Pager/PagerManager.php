@@ -249,7 +249,7 @@ class PagerManager implements \ArrayAccess
     /**
      * Factory method creating a Pager object
      *
-     * @param null $contextId [optional]
+     * @param string $contextId [optional]
      * @return Pager
      */
     public function createPager($contextId = null)
