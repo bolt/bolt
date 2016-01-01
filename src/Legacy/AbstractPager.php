@@ -36,7 +36,7 @@ abstract class AbstractPager
     protected function getCamelPropName($name)
     {
         $prop = $this->camelize($name);
-        if (!property_exists(__CLASS__, $prop)) {
+        if (!property_exists($this, $prop)) {
             throw new NoSuchPropertyException();
         }
 
