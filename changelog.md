@@ -1,10 +1,12 @@
 Bolt 2.2.16
 -----------
 
-Not yet released. Notable changes:
+Released 2016-01-01. Notable changes:
 
  - Change: Updating .gitignore. Add PHPstorm cruft. (See #4621)
  - Change: Themes use `theme.yml` now, fallback to old `config.yml` (See #4414)
+ - Fixed: Fixed a 'Catchable Error' in the `record.twig` template for the old 'default' theme (#4645)
+ - Updated: A few Bower / Grunt modules were updated, and all JS / CSS rebuilt (See #4647)
 
 Bolt 2.2.15
 -----------
