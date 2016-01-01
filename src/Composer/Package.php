@@ -58,7 +58,7 @@ final class Package implements JsonSerializable
         $class = new self();
         $class->type = $composerJson['type'];
         $class->name = $composerJson['name'];
-        $class->description = $composerJson['description'];
+        $class->description = isset($composerJson['description']) ? $composerJson['description'] : '';
         $class->version = isset($composerJson['version']) ? $composerJson['version'] : 'local';
         $class->authors = isset($composerJson['authors']) ? $composerJson['authors'] : [];
         $class->keywords = isset($composerJson['keywords']) ? $composerJson['keywords'] : [];
