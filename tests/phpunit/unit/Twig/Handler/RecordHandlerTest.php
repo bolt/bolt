@@ -493,15 +493,14 @@ GRINGALET;
     public function testPagerEmptyPager()
     {
         $app = $this->getApp();
-        $app['request'] = Request::create('/');
 
-        $storage = $this->getMock('\Bolt\Legacy\Storage', ['isEmptyPager'], [$app]);
-        $storage
-            ->expects($this->atLeastOnce())
+        $pager = $this->getMock('\Bolt\Pager\PagerManager', ['isEmptyPager'], [$app]);
+        $pager
+            ->expects($this->once())
             ->method('isEmptyPager')
             ->will($this->returnValue(true))
         ;
-        $app['storage'] = $storage;
+        $app['pager'] = $pager;
 
         $handler = new RecordHandler($app);
         $env = $app['twig'];
@@ -517,27 +516,27 @@ GRINGALET;
     public function testPager()
     {
         $app = $this->getApp();
-        $app['request'] = Request::create('/');
 
-        $storage = $this->getMock('\Bolt\Legacy\Storage', ['isEmptyPager', 'getPager'], [$app]);
-        $storage
+        $manager = $this->getMock('\Bolt\Pager\PagerManager', ['isEmptyPager', 'getPager'], [$app]);
+
+        $pager = $this->getMock('\Bolt\Pager\Pager');
+        $pager->for = $pagerName = 'Clippy';
+        $pager->totalpages = $surr = 2;
+
+        $manager
             ->expects($this->atLeastOnce())
             ->method('isEmptyPager')
             ->will($this->returnValue(false))
         ;
-        $storage
+        $manager
             ->expects($this->atLeastOnce())
             ->method('getPager')
-            ->will($this->returnValue([
-                'Clippy' => ['totalpages' => 42]
-            ]))
+            ->will($this->returnValue($pager))
         ;
-        $app['storage'] = $storage;
+        $app['pager'] = $manager;
 
         $handler = new RecordHandler($app);
         $env = $app['twig'];
-        $pagerName = 'Clippy';
-        $surr = 2;
         $template = 'backend';
         $class = '';
 
