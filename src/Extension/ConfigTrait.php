@@ -3,6 +3,7 @@
 namespace Bolt\Extension;
 
 use Bolt\Filesystem\Exception\RuntimeException;
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\YamlFile;
 use Bolt\Helpers\Arr;
 use Pimple as Container;
@@ -93,10 +94,9 @@ trait ConfigTrait
     {
         $app = $this->getContainer();
         $filesystem = $app['filesystem']->getFilesystem('extensions');
-        $relativePath = $filesystem->getAdapter()->removePathPrefix($this->getPath());
 
         /** @var YamlFile $distFile */
-        $distFile = $filesystem->get(sprintf('%s/config.yml.dist', $relativePath), new YamlFile());
+        $distFile = $filesystem->get(sprintf('%s/config/config.yml.dist', $this->getBaseDirectory()->getPath()), new YamlFile());
         if (!$distFile->exists()) {
             return;
         }
@@ -113,8 +113,8 @@ trait ConfigTrait
     /** @return string */
     abstract public function getVendor();
 
-    /** @return string */
-    abstract protected function getPath();
+    /** @return DirectoryInterface */
+    abstract protected function getBaseDirectory();
 
     /** @return Container */
     abstract protected function getContainer();

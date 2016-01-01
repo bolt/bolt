@@ -2,10 +2,11 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Twig\DynamicExtension;
 use Pimple as Container;
 use Silex\Application;
-use Twig_Loader_Filesystem as LoaderFilesystem;
+use Twig_Loader_Filesystem as FilesystemLoader;
 use Twig_SimpleFilter as SimpleFilter;
 use Twig_SimpleFunction as SimpleFunction;
 
@@ -165,17 +166,18 @@ trait TwigTrait
     private function addTwigPath($path, array $options = [])
     {
         $app = $this->getContainer();
-        $filesystem = $app['filesystem']->getFilesystem('extensions');
-        $relativePath = $filesystem->getAdapter()->removePathPrefix($this->getPath());
-        $options = array_merge(['position' => 'append', 'namespace' => LoaderFilesystem::MAIN_NAMESPACE], $options);
 
-        if ($app['filesystem']->getFilesystem('extensions')->has(sprintf('%s/%s', $relativePath, $path))) {
-            $twigPath = sprintf('%s/%s', $this->getPath(), $path);
-            if ($options['position'] === 'prepend') {
-                $app['twig.loader.filesystem']->prependPath($twigPath, $options['namespace']);
-            } else {
-                $app['twig.loader.filesystem']->addPath($twigPath, $options['namespace']);
-            }
+        $position = isset($options['position']) ? $options['position'] : 'append';
+        $namespace = isset($options['namespace']) ? $options['namespace'] : FilesystemLoader::MAIN_NAMESPACE;
+
+        $dir = $this->getBaseDirectory()->getDir($path);
+        if (!$dir->exists()) {
+            return;
+        }
+        if ($position === 'prepend') {
+            $app['twig.loader.bolt_filesystem']->prependDir($dir, $namespace);
+        } else {
+            $app['twig.loader.bolt_filesystem']->addDir($dir, $namespace);
         }
     }
 
@@ -274,6 +276,6 @@ trait TwigTrait
     /** @return string */
     abstract public function getName();
 
-    /** @return string */
-    abstract protected function getPath();
+    /** @return DirectoryInterface */
+    abstract protected function getBaseDirectory();
 }

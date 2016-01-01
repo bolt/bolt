@@ -10,6 +10,7 @@ use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Snippet\SnippetAssetInterface;
 use Bolt\Asset\Widget\Widget;
 use Bolt\Asset\Widget\WidgetAssetInterface;
+use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Response\BoltResponse;
 use Pimple as Container;
 
@@ -245,16 +246,17 @@ trait AssetTrait
     private function getAssetPath($fileName)
     {
         $app = $this->getContainer();
-        if (file_exists($this->getPath() . '/web/' . $fileName)) {
-            return $this->getBaseUrl() . $fileName;
-        } elseif (file_exists($app['resources']->getPath('themepath/' . $fileName))) {
+        $filesystem = $app['filesystem'];
+        if ($filesystem->has(sprintf('extensions://%s/web/%s', $this->getBaseDirectory()->getPath(), $fileName))) {
+            return $this->getRelativeUrl() . $fileName;
+        } elseif ($filesystem->has(sprintf('theme://%s', $fileName))) {
             return $app['resources']->getUrl('theme') . $fileName;
         }
 
         $message = sprintf(
             "Couldn't add file asset '%s': File does not exist in either %s or %s directories.",
             $fileName,
-            $this->getBaseUrl(),
+            $this->getRelativeUrl(),
             $app['resources']->getUrl('theme')
         );
         $app['logger.system']->error($message, ['event' => 'extensions']);
@@ -333,29 +335,15 @@ trait AssetTrait
         return $options;
     }
 
-    /**
-     * Get the extensions base URL.
-     *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     *
-     * @return string
-     */
-    private function getBaseUrl()
-    {
-        $app = $this->getContainer();
-        $extPath = $app['resources']->getPath('extensions');
-        $extUrl = $app['resources']->getUrl('extensions');
-        $relative = str_replace($extPath, '', $this->getPath());
-
-        return $extUrl . ltrim($relative, '/') . '/web/';
-    }
-
     /** @return Container */
     abstract protected function getContainer();
 
     /** @return string */
     abstract protected function getName();
 
+    /** @return DirectoryInterface */
+    abstract protected function getBaseDirectory();
+
     /** @return string */
-    abstract protected function getPath();
+    abstract protected function getRelativeUrl();
 }
