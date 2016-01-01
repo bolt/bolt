@@ -114,8 +114,10 @@ class PagerManager implements \ArrayAccess
     public function decodeHttpQuery()
     {
         $values = [];
-        if (array_key_exists('request_stack', $this->app)) {
+
+        if ($this->app->offsetExists('request_stack')) {
             $request = $this->app['request_stack']->getCurrentRequest();
+
             if ($request) {
                 foreach ($request->query->all() as $key => $parameter) {
                     if (strpos($key, self::PAGE) === 0) {
