@@ -24,6 +24,8 @@ trait TwigTrait
     private $safeTwigExtension;
     /** @var bool */
     private $loadedTwig = false;
+    /** @var bool */
+    private $pathAdded = false;
 
     /**
      * Returns a list of twig functions to register.
@@ -165,6 +167,10 @@ trait TwigTrait
      */
     private function addTwigPath($path, array $options = [])
     {
+        if ($path === 'templates' && $this->pathAdded) {
+            return;
+        }
+
         $app = $this->getContainer();
 
         $position = isset($options['position']) ? $options['position'] : 'append';
@@ -266,6 +272,11 @@ trait TwigTrait
     protected function renderTemplate($template, array $context = [])
     {
         $app = $this->getContainer();
+
+        if ($this->pathAdded === false) {
+            $this->addTwigPath('templates');
+            $this->pathAdded = true;
+        }
 
         return $app['twig']->render($template, $context);
     }
