@@ -89,15 +89,37 @@
  #}
 {% macro select(opt) %}
     {% spaceless %}
+        {% set options = opt.options|default([]) %}
+        {% set multiple = opt.multiple|default(false) %}
+
+        {# Add an empty option for non multiple selects if not already there #}
+        {% if not multiple %}
+            {% set has_empty_val = false %}
+            {% set has_selected_val = false %}
+
+            {% for option in options %}
+                {% if option.value == '' %}
+                    {% set has_empty_val = true %}
+                {% endif %}
+                {% if option.selected %}
+                    {% set has_selected_val = true %}
+                {% endif %}
+            {% endfor %}
+
+            {% if not has_empty_val %}
+                {% set options = [{value: '', text: '', selected: not has_selected_val}]|merge(options) %}
+            {% endif %}
+        {% endif %}
+
         {% set conf = {
             'all':       opt.all|default(false),
             'class':     opt.class|default(),
             'clear':     opt.clear|default(false),
             'disabled':  opt.disabled|default(false),
             'id':        opt.id|default(opt['name+id']|default('')),
-            'multiple':  opt.multiple|default(false),
+            'multiple':  multiple,
             'name':      opt.name|default(opt['name+id']|default('')),
-            'options':   opt.options|default([]),
+            'options':   options,
             'required':  opt.required|default(false),
         } %}
 
