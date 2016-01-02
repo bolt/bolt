@@ -155,7 +155,7 @@
                             {% set optattr = {
                                 'value!':   option.value,
                                 'selected': option.selected|default(false),
-                                'label':    option.value == '' and opttext == '' ? '-' : false,
+                                'label':    option.value == '' and opttext == '' ? '–' : false,
                             } %}
                             <option{{ hattr(optattr) }}>{{ opttext }}</option>
                         {% endfor %}
