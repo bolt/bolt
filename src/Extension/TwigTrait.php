@@ -5,7 +5,6 @@ namespace Bolt\Extension;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Twig\DynamicExtension;
 use Pimple as Container;
-use Silex\Application;
 use Twig_Loader_Filesystem as FilesystemLoader;
 use Twig_SimpleFilter as SimpleFilter;
 use Twig_SimpleFunction as SimpleFunction;

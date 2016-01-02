@@ -323,7 +323,7 @@ trait AssetTrait
             return [
                 'late'     => isset($args[1]) ? $args[1] : false,
                 'priority' => isset($args[2]) ? $args[2] : 0,
-                'attrib'   => []
+                'attrib'   => [],
             ];
         }
 

@@ -68,7 +68,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
         return [
             ControllerEvents::MOUNT => [
                 ['onMountRoutes', 0],
-                ['onMountControllers', 0]
+                ['onMountControllers', 0],
             ],
         ];
     }

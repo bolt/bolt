@@ -74,6 +74,7 @@ class Manager
     public function get($id)
     {
         $resolved = $this->getResolved($id);
+
         return $resolved ? $resolved->getInnerExtension() : null;
     }
 
@@ -171,9 +172,10 @@ class Manager
     /**
      * Call register() for each extension.
      *
-     * @throws \RuntimeException
      *
      * @param Application $app
+     *
+     * @throws \RuntimeException
      */
     public function register(Application $app)
     {

@@ -4,7 +4,6 @@ namespace Bolt\Extension;
 
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Pimple as Container;
-use Silex\Application;
 use Silex\ServiceProviderInterface;
 
 /**

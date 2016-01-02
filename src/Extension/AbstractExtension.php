@@ -5,7 +5,6 @@ namespace Bolt\Extension;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Helpers\Str;
 use Pimple as Container;
-use Silex\Application;
 
 /**
  * Defined some base functionality for extensions.
