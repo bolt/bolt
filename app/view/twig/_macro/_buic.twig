@@ -135,10 +135,6 @@
             <div>
                 <div>
                     <select{{ hattr(attributes) }}>
-                        {% if not conf.multiple %}
-                            <option value="" label="–"></option>
-                        {% endif %}
-
                         {% set last_optgroup = false %}
 
                         {% for option in conf.options %}
@@ -155,8 +151,13 @@
                             {% endif %}
 
                             {# option #}
-                            {% set optattr = {'value': option.value, 'selected': option.selected|default(false) } %}
-                            <option{{ hattr(optattr) }}>{{ option.text|default(option.value)|striptags|e }}</option>
+                            {% set opttext = option.text|default(option.value)|striptags|e %}
+                            {% set optattr = {
+                                'value!':   option.value,
+                                'selected': option.selected|default(false),
+                                'label':    option.value == '' and opttext == '' ? '-' : false,
+                            } %}
+                            <option{{ hattr(optattr) }}>{{ opttext }}</option>
                         {% endfor %}
 
                         {# Close open optgroup #}
