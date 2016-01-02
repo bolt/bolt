@@ -47,21 +47,6 @@ class BoltLibraryTest extends BoltUnitTest
         $this->assertEquals('%252F..%252F..%252Fsecretfile.txt', Library::safeFilename($urlparams));
     }
 
-    public function testTemplateParser()
-    {
-        $app = $this->getApp();
-        $loader = $app['twig.loader'];
-        $app['twig']->render('error.twig', ['context' => [
-            'class'   => 'BoltResponse',
-            'message' => 'Clippy is bent out of shape',
-            'code'    => '1555',
-            'trace'   => []
-        ]]);
-        $templates = Library::parseTwigTemplates($loader);
-
-        $this->assertEquals(1, count($templates));
-    }
-
     public function testPath()
     {
         $app = $this->getApp();
