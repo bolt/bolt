@@ -587,8 +587,7 @@ class Content implements \ArrayAccess
             return false;
         }
 
-        if ((!$this->contenttype['viewless'])
-            && (!empty($this['templatefields']))
+        if ((!empty($this['templatefields']))
             && ($templateFieldsConfig = $this->app['config']->get('theme/templatefields'))) {
                 $template = $this->app['templatechooser']->record($this);
                 if (array_key_exists($template, $templateFieldsConfig)) {
