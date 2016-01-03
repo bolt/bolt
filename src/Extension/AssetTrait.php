@@ -126,11 +126,9 @@ trait AssetTrait
     /**
      * Add an file, snippet or widget asset to the render queue.
      *
-     * @internal Will be made private in 4.0. Use registerAssets() instead.
-     *
      * @param AssetInterface $asset
      */
-    protected function addAsset(AssetInterface $asset)
+    private function addAsset(AssetInterface $asset)
     {
         if ($asset instanceof FileAssetInterface) {
             $asset->setFileName($this->getAssetPath($asset));
