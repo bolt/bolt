@@ -28,7 +28,7 @@
 {% endfor %}
 
 {# BUIC options #}
-{% set buico_select = {
+{% set buic_opt_select = {
     'name':     'relation[' ~ relcontenttype ~ '][]',
     'id':       'relation-' ~ relcontenttype,
     'multiple': relation.multiple is defined and relation.multiple == 1,
@@ -50,6 +50,6 @@
     {% from '@bolt/_buic/_select.twig' import buic_select %}
 
     <div class="col-sm-8">
-        {{ buic_select(buico_select) }}
+        {{ buic_select(buic_opt_select) }}
     </div>
 {% endblock fieldset_controls %}

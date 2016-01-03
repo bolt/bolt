@@ -8,14 +8,12 @@
 
 {#=== INIT ===========================================================================================================#}
 
-{% set buico = {
-    checkbox: {
-        checked:  context.content.get(contentkey),
-        id:       buid(),
-        info:     option.label_main ? '' : option.info,
-        label:    option.label_sub,
-        name:     name,
-    }
+{% set buic_opt_checkbox = {
+    checked:  context.content.get(contentkey),
+    id:       buid(),
+    info:     option.label_main ? '' : option.info,
+    label:    option.label_sub,
+    name:     name,
 } %}
 
 {% set controls_class = 'col-md-9 ' ~ (option.label_main ? '' : 'col-sm-offset-3') %}
@@ -29,12 +27,12 @@
 {% block fieldset_label_text  option.label_main %}
 {% block fieldset_label_info  option.info %}
 {% block fieldset_label_class 'col-md-3' %}
-{% block fieldset_label_for   buico.checkbox.id %}
+{% block fieldset_label_for   buic_opt_checkbox.id %}
 
 {% block fieldset_controls %}
     {% from '@bolt/_buic/_checkbox.twig' import buic_checkbox %}
 
     <div class="{{ controls_class }}">
-        {{ buic_checkbox(buico.checkbox) }}
+        {{ buic_checkbox(buic_opt_checkbox) }}
     </div>
 {% endblock fieldset_controls %}
