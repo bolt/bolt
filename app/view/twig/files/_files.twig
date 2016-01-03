@@ -1,3 +1,5 @@
+{% from '@bolt/_buic/_moment.twig' import buic_moment %}
+
 <table class="dashboardlisting">
     <thead>
         <tr>
@@ -67,7 +69,7 @@
                 </td>
                 {# Column: Modified #}
                 <td style="min-width: 140px;" class="hidden-xs hidden-sm">
-                    {{ buic.moment(file.timestamp) }}
+                    {{ buic_moment(file.timestamp) }}
                 </td>
                 {# Column: Thumbnail #}
                 <td class="listthumb">

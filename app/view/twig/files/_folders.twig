@@ -1,3 +1,5 @@
+{% from '@bolt/_buic/_moment.twig' import buic_moment %}
+
 <table class="dashboardlisting">
     <thead>
         <tr>
@@ -16,7 +18,7 @@
                     </a>
                 </td>
                 <td>
-                    {{ buic.moment(directory.timestamp) }}
+                    {{ buic_moment(directory.timestamp) }}
                 </td>
                 <td class="actions">
                 {% if context.form != false %}

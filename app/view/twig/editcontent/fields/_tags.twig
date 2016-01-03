@@ -11,7 +11,7 @@
 {% endfor %}
 
 {# BUIC options #}
-{% set buico_select = {
+{% set buic_opt_select = {
     'clear':     true,
     'id':        'taxonomy-' ~ taxonomy.slug,
     'multiple':  true,
@@ -35,8 +35,10 @@
 {% block fieldset_label_class 'col-sm-3' %}
 
 {% block fieldset_controls %}
+    {% from '@bolt/_buic/_select.twig' import buic_select %}
+
     <div class="col-sm-9">
-        {{ buic.select(buico_select) }}
+        {{ buic_select(buic_opt_select) }}
         {% if taxonomy.tagcloud %}
             <div class="tagcloud"></div>
         {% endif %}

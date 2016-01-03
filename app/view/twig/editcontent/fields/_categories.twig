@@ -11,7 +11,7 @@
 {% endfor %}
 
 {# BUIC options #}
-{% set buico_select = {
+{% set buic_opt_select = {
     'all':       true,
     'clear':     true,
     'id':        'taxonomy-' ~ taxonomy.slug,
@@ -32,7 +32,9 @@
 {% block fieldset_label_for   'taxonomy-' ~ taxonomy.slug %}
 
 {% block fieldset_controls %}
+    {% from '@bolt/_buic/_select.twig' import buic_select %}
+
     <div class="col-sm-9">
-        {{ buic.select(buico_select) }}
+        {{ buic_select(buic_opt_select) }}
     </div>
 {% endblock fieldset_controls %}
