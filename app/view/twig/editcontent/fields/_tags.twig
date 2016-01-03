@@ -21,6 +21,8 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
+{% from '@bolt/_buic/_select.twig' import buic_select %}
+
 {% extends '@bolt/_base/_fieldset.twig' %}
 
 {% block fieldset_type 'tags' %}
@@ -36,7 +38,7 @@
 
 {% block fieldset_controls %}
     <div class="col-sm-9">
-        {{ buic.select(buico_select) }}
+        {{ buic_select(buico_select) }}
         {% if taxonomy.tagcloud %}
             <div class="tagcloud"></div>
         {% endif %}
