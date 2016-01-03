@@ -84,7 +84,7 @@
 
     <tr class="header">
         {% block listing_header %}
-            {% from '@bolt/_macro/_buic-listing.twig' import sortable_link %}
+            {% from '@bolt/_buic/_listing.twig' import buic_listing_slink %}
 
             {# COLUMN: Select #}
             {% if prop.extended and modifiable %}
@@ -109,16 +109,16 @@
             {% endif %}
 
             {# COLUMN: ID #}
-            <th class="hidden-xs">{{ sortable_link('id', __('Id'))}}</th>
+            <th class="hidden-xs">{{ buic_listing_slink('id', __('Id'))}}</th>
 
             {# COLUMN: Content #}
-            <th style="width:80%">{{ sortable_link(content.TitleColumnName()|first, __('Title') ~ ' / ' ~ __('Excerpt')) }}</th>
+            <th style="width:80%">{{ buic_listing_slink(content.TitleColumnName()|first, __('Title') ~ ' / ' ~ __('Excerpt')) }}</th>
 
             {# COLUMN: Thumbnail #}
             <th class="listthumb"></th>
 
             {# COLUMN: Meta #}
-            <th class="username hidden-sm hidden-xs">{{ sortable_link('datecreated', __('Meta'))}}</th>
+            <th class="username hidden-sm hidden-xs">{{ buic_listing_slink('datecreated', __('Meta'))}}</th>
 
             {# COLUMN: Action #}
             <th class="hidden-xs">{{ __('Actions') }}</th>
