@@ -56,6 +56,8 @@
 {% block fieldset_label_class 'col-xs-12' ~ (context.has.tabs ? '' : ' hidden') %}
 
 {% block fieldset_controls %}
+    {% from '@bolt/_buic/_moment.twig' import buic_moment %}
+
     <div class="col-xs-12">
         {% if not context.has.tabs %}
             <h3>
