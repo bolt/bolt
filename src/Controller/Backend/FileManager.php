@@ -197,8 +197,8 @@ class FileManager extends BackendBase
                 $formview = $form->createView();
             }
 
-            $files = $filesystem->find()->in($path)->files()->toArray();
-            $directories = $filesystem->find()->in($path)->directories()->toArray();
+            $files = $filesystem->find()->in($path)->files()->depth(0)->toArray();
+            $directories = $filesystem->find()->in($path)->directories()->depth(0)->toArray();
         }
 
         // Select the correct template to render this. If we've got 'CKEditor' in the title, it's a dialog
