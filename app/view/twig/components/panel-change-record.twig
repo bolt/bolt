@@ -13,14 +13,14 @@
 {% block panel_head __('contenttypes.generic.recent-changes-one',{'%contenttype%': context.contenttype}) %}
 
 {% block panel_body %}
-    {% import '@bolt/_macro/_buic.twig' as buic %}
+    {% from '@bolt/_buic/_moment.twig' import buic_moment %}
 
     <div id="changeholder">
         <div class="row">
             <div class="col-xs-12">
             {% for item in context.entries %}
                 <p>- <a href="{{ path('changelogrecordsingle', {'contenttype': item.contenttype, 'contentid': item.contentid, 'id': item.id}) }}">
-                    {{ buic.moment(item.date) }}
+                    {{ buic_moment(item.date) }}
                     </a> changed by <em>{{ macro.userlink(item.ownerid|default('')) }}</em>
                 </p>
             {% else %}

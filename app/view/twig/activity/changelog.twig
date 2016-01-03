@@ -9,9 +9,8 @@
 {% block page_main %}
 
     {% from '@bolt/_macro/_pager.twig' import pager %}
-
+    {% from '@bolt/_buic/_moment.twig' import buic_moment %}
     {% import '@bolt/_macro/_macro.twig' as macro %}
-    {% import '@bolt/_macro/_buic.twig' as buic %}
 
     <div class="row">
         <div class="col-xs-12">
@@ -67,7 +66,7 @@
                             <em>{{ macro.userlink(entry.ownerid) }}</em>
                         </td>
                         <td>
-                            {{ buic.moment(entry.date) }}
+                            {{ buic_oment(entry.date) }}
                         </td>
                     </tr>
                 {% endfor %}

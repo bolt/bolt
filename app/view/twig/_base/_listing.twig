@@ -1,5 +1,5 @@
 {% import '@bolt/_macro/_macro.twig' as macro %}
-{% import '@bolt/_macro/_buic.twig' as buic %}
+{% from '@bolt/_buic/_moment.twig' import buic_moment %}
 {% from _self import tbody_beg, tbody_end %}
 
 {% macro tbody_beg(local, modifiable) %}
@@ -193,7 +193,7 @@
                     <s>{{ content.values.ownerid|trimtext(15) }}</s>
                 {% endif %}<br>
                 {% if content.status == 'timed' %}
-                    <i class="fa fa-clock-o status-timed fa-fw"></i> {{ buic.moment(content.datepublish) }}<br>
+                    <i class="fa fa-clock-o status-timed fa-fw"></i> {{ buic_moment(content.datepublish) }}<br>
                 {% else %}
                     <i class="fa fa-circle status-{{ content.status }} fa-fw"></i> {{ content.datepublish|localdate('%x') }}<br>
                 {% endif %}

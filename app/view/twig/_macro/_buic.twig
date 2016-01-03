@@ -56,16 +56,6 @@
 {% endmacro %}
 
 {##
- # Renders a datetime that displays relative time.
- #
- # @param string datetime ISO-datetime ('Y-m-d H:i:s') to display.
- #}
-{% macro moment(datetime) -%}
-    {%- set dt = datetime|date('Y-m-d\\TH:i:sP') -%}
-    <time class="buic-moment" data-bolt-widget="buicMoment" datetime="{{ dt }}">{{ dt }}</time>
-{%- endmacro %}
-
-{##
  # Renders a select component.
  #
  # Options:
