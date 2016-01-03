@@ -22,6 +22,8 @@
 
 {#=== FIELDSET =======================================================================================================#}
 
+{% from '@bolt/_buic/_moment.twig' import buic_checkbox %}
+
 {% extends '@bolt/_base/_fieldset.twig' %}
 
 {% block fieldset_type 'checkbox' %}
@@ -33,6 +35,6 @@
 
 {% block fieldset_controls %}
     <div class="{{ controls_class }}">
-        {{ buic.checkbox(buico.checkbox) }}
+        {{ buic_checkbox(buico.checkbox) }}
     </div>
 {% endblock fieldset_controls %}
