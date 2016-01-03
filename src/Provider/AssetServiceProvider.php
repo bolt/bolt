@@ -74,9 +74,7 @@ class AssetServiceProvider implements ServiceProviderInterface
                     $app['asset.injector'],
                     $app['cache'],
                     $app['config'],
-                    $app['resources'],
-                    $app['request_stack'],
-                    $app['logger.system']
+                    $app['resources']
                 );
 
                 return $queue;

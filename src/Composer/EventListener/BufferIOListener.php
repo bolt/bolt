@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Composer\EventListener;
 
 use Bolt\Composer\PackageManager;
@@ -6,9 +7,10 @@ use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Installer\PackageEvent;
 use Composer\Installer\PackageEvents;
 use Composer\IO\BufferIO;
+use Psr\Log\LoggerInterface;
 
 /**
- * General routing listeners.
+ * Composer action listeners.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -16,15 +18,18 @@ class BufferIOListener implements EventSubscriberInterface
 {
     /** @var \Bolt\Composer\PackageManager $manager */
     protected $manager;
+    /** @var LoggerInterface */
+    protected $logger;
 
     /**
      * Constructor function.
      *
      * @param PackageManager $manager
      */
-    public function __construct(PackageManager $manager)
+    public function __construct(PackageManager $manager, LoggerInterface $logger)
     {
         $this->manager = $manager;
+        $this->logger = $logger;
     }
 
     /**
@@ -35,7 +40,7 @@ class BufferIOListener implements EventSubscriberInterface
     public function onPrePackage(PackageEvent $event)
     {
         if ($event->getIO() instanceof BufferIO) {
-            $this->manager->setOutput($event->getIO()->getOutput());
+            $this->logger->debug($event->getIO()->getOutput(), ['event' => 'extensions']);
         }
     }
 
@@ -47,7 +52,7 @@ class BufferIOListener implements EventSubscriberInterface
     public function onPostPackage(PackageEvent $event)
     {
         if ($event->getIO() instanceof BufferIO) {
-            $this->manager->setOutput($event->getIO()->getOutput());
+            $this->logger->debug($event->getIO()->getOutput(), ['event' => 'extensions']);
         }
     }
 

@@ -2,8 +2,6 @@
 
 namespace Bolt\Composer\Action;
 
-use Composer\Json\JsonFile;
-
 /**
  * Checks for installable, or upgradeable packages.
  *
@@ -23,9 +21,11 @@ final class CheckPackage extends BaseAction
         // Get known installed packages
         $rootpack = $this->app['extend.action']['show']->execute('installed');
 
+        /** @var \Bolt\Filesystem\Handler\JsonFile $jsonFile */
+        $jsonFile = $this->getOptions()->composerJson();
+
         // Get the packages that a set as "required" in the JSON file
-        $file = new JsonFile($this->getOption('composerjson'));
-        $json = $file->read();
+        $json = $jsonFile->parse();
         $jsonpack = $json['require'];
 
         // Find the packages that are NOT part of the root install yet and mark

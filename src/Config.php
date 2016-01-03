@@ -72,14 +72,13 @@ class Config
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
+    }
+
+    public function initialize()
+    {
         $this->fields = new Storage\Field\Manager();
         $this->defaultConfig = $this->getDefaults();
 
-        $this->initialize();
-    }
-
-    protected function initialize()
-    {
         if (!$this->loadCache()) {
             $this->data = $this->getConfig();
             $this->parseTemplatefields();
@@ -223,7 +222,7 @@ class Config
         $config['menu']         = $this->parseConfigYaml('menu.yml');
         $config['routing']      = $this->parseConfigYaml('routing.yml');
         $config['permissions']  = $this->parseConfigYaml('permissions.yml');
-        $config['extensions']   = [];
+        $config['extensions']   = $this->parseConfigYaml('extensions.yml');
 
         // fetch the theme config. requires special treatment due to the path being dynamic
         $this->app['resources']->initializeConfig($config);
@@ -363,7 +362,7 @@ class Config
         $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
         foreach ($tempContentTypes as $key => $contentType) {
             $contentType = $this->parseContentType($key, $contentType, $generalConfig);
-            $contentTypes[$contentType['slug']] = $contentType;
+            $contentTypes[$key] = $contentType;
         }
 
         return $contentTypes;
@@ -449,6 +448,12 @@ class Config
         }
         if (!isset($contentType['singular_name']) && !isset($contentType['singular_slug'])) {
             $error = sprintf("In contenttype <code>%s</code>, neither 'singular_name' nor 'singular_slug' is set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
+            throw new LowlevelException($error);
+        }
+
+        // Contenttypes without fields make no sense.
+        if (!isset($contentType['fields'])) {
+            $error = sprintf("In contenttype <code>%s</code>, no 'fields' are set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
             throw new LowlevelException($error);
         }
 
@@ -1080,6 +1085,7 @@ class Config
             file_exists($dir . '/menu.yml') ? filemtime($dir . '/menu.yml') : 10000000000,
             file_exists($dir . '/routing.yml') ? filemtime($dir . '/routing.yml') : 10000000000,
             file_exists($dir . '/permissions.yml') ? filemtime($dir . '/permissions.yml') : 10000000000,
+            file_exists($dir . '/extensions.yml') ? filemtime($dir . '/extensions.yml') : 10000000000,
             file_exists($dir . '/config_local.yml') ? filemtime($dir . '/config_local.yml') : 0,
         ];
         if (file_exists($this->app['resources']->getPath('cache/config_cache.php'))) {

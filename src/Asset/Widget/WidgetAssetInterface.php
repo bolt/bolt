@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Asset\Widget;
 
 use Bolt\Asset\AssetInterface;
@@ -25,22 +26,6 @@ interface WidgetAssetInterface extends AssetInterface, \ArrayAccess
      * @return WidgetAssetInterface
      */
     public function setKey();
-
-    /**
-     * Get the widget's zone / type, either 'frontend' or 'backend'
-     *
-     * @return string|null
-     */
-    public function getZone();
-
-    /**
-     * Set the widget zone / type, either 'frontend' or 'backend'.
-     *
-     * @param string $zone
-     *
-     * @return WidgetAssetInterface
-     */
-    public function setZone($zone);
 
     /**
      * Get the widget's target location.

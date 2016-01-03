@@ -13,6 +13,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BoltLibraryTest extends BoltUnitTest
 {
+    protected function tearDown()
+    {
+        parent::tearDown();
+        // Clear the queue of LowlevelExceptions or they get needlessly reported at the end of the test run.
+        // @deprcated remove with new error handling.
+        LowlevelException::$screen = null;
+    }
+
     public function testFormatFilesize()
     {
         $b = 300;
@@ -45,21 +53,6 @@ class BoltLibraryTest extends BoltUnitTest
         // Test urlparams get encoded
         $urlparams = '%2F..%2F..%2Fsecretfile.txt';
         $this->assertEquals('%252F..%252F..%252Fsecretfile.txt', Library::safeFilename($urlparams));
-    }
-
-    public function testTemplateParser()
-    {
-        $app = $this->getApp();
-        $loader = $app['twig.loader'];
-        $app['twig']->render('error.twig', ['context' => [
-            'class'   => 'BoltResponse',
-            'message' => 'Clippy is bent out of shape',
-            'code'    => '1555',
-            'trace'   => []
-        ]]);
-        $templates = Library::parseTwigTemplates($loader);
-
-        $this->assertEquals(1, count($templates));
     }
 
     public function testPath()

@@ -250,16 +250,15 @@ class General extends AsyncBase
      */
     public function readme($filename)
     {
-        $filename = $this->resources()->getPath('extensions/vendor/' . $filename);
+        $filename = $this->resources()->getPath("extensions/$filename");
 
-        // don't allow viewing of anything but "readme.md" files.
+        // Don't allow viewing of anything but "readme.md" files.
         if (strtolower(basename($filename)) != 'readme.md') {
             $this->abort(Response::HTTP_UNAUTHORIZED, 'Not allowed');
         }
         if (!is_readable($filename)) {
             $this->abort(Response::HTTP_UNAUTHORIZED, 'Not readable');
         }
-
         $readme = file_get_contents($filename);
 
         // Parse the field as Markdown, return HTML

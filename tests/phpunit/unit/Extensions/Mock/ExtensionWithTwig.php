@@ -8,11 +8,6 @@ namespace Bolt\Tests\Extensions\Mock;
  */
 class ExtensionWithTwig extends Extension
 {
-    public function getName()
-    {
-        return 'extensionwithtwig';
-    }
-
     public function getTwigExtensions()
     {
         return [

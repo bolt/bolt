@@ -2,6 +2,7 @@
 
 namespace Bolt\Filesystem;
 
+use Bolt\Config;
 use Bolt\Library as Lib;
 use Silex\Application;
 
@@ -12,8 +13,8 @@ use Silex\Application;
  */
 class FilePermissions
 {
-    /** @var \Silex\Application */
-    protected $app;
+    /** @var Config */
+    protected $config;
     /** @var string[] List of Filesystem prefixes that are editable. */
     protected $allowedPrefixes = [];
     /** @var array Regex list represented editable resources. */
@@ -26,11 +27,11 @@ class FilePermissions
     /**
      * Constructor, initialize filters rules.
      *
-     * @param Application $app
+     * @param Config $config
      */
-    public function __construct(Application $app)
+    public function __construct(Config $config)
     {
-        $this->app = $app;
+        $this->config = $config;
 
         $this->allowedPrefixes = [
             'config',
@@ -106,7 +107,7 @@ class FilePermissions
      */
     public function getAllowedUploadExtensions()
     {
-        return $this->app['config']->get('general/accept_file_types');
+        return $this->config->get('general/accept_file_types');
     }
 
     /**

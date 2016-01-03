@@ -24,7 +24,7 @@ class Application extends Silex\Application
     public function __construct(array $values = [])
     {
         $values['bolt_version'] = '3.0.0';
-        $values['bolt_name'] = 'alpha 1';
+        $values['bolt_name'] = 'alpha 3';
         $values['bolt_released'] = false; // `true` for stable releases, `false` for alpha, beta and RC.
         $values['bolt_long_version'] = function ($app) {
             return $app['bolt_version'] . ' ' . $app['bolt_name'];
@@ -49,6 +49,9 @@ class Application extends Silex\Application
             $this['classloader'] = $this['resources']->getClassLoader();
         }
 
+        // Register a PHP shutdown function to catch fatal errors with the application object
+        register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrors'], $this);
+
         $this['resources']->setApp($this);
         $this->initConfig();
         $this->initLogger();
@@ -72,6 +75,7 @@ class Application extends Silex\Application
         $this->register(new Provider\DatabaseSchemaServiceProvider())
             ->register(new Provider\ConfigServiceProvider())
         ;
+        $this['config']->initialize();
     }
 
     protected function initSession()
@@ -242,10 +246,13 @@ class Application extends Silex\Application
         );
     }
 
+    /**
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see ControllerEvents::MOUNT} instead.
+     */
     public function initExtensions()
     {
-        $this['extensions']->checkLocalAutoloader();
-        $this['extensions']->initialize();
+        $this['extensions']->addManagedExtensions();
+        $this['extensions']->register($this);
     }
 
     /**

@@ -13,7 +13,7 @@
 
 {# start with '..' if there are more than surr+1 before currentpage.. #}
 {% if pager.current > surr+2 %}
-    <li class="disabled"><a href="#">...</a></li>
+    <li class="disabled"><a>…</a></li>
 {% endif %}
 
 {% for i in max(1, pager.current-surr)..min(pager.current+surr, pager.totalpages) %}
@@ -22,7 +22,7 @@
 
 {# end with '..' if there are more than surr+1 after currentpage.. #}
 {% if pager.current < (pager.totalpages - surr - 1) %}
-    <li class="disabled"><a href="#">...</a></li>
+    <li class="disabled"><a>…</a></li>
 {% endif %}
 
 {# 'next' and 'last' #}

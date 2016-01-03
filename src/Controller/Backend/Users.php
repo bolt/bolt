@@ -5,6 +5,12 @@ use Bolt\AccessControl\Permissions;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
@@ -385,13 +391,13 @@ class Users extends BackendBase
     private function getUserForm(Entity\Users $user, $addusername = false)
     {
         // Start building the form
-        $form = $this->createFormBuilder('form', $user);
+        $form = $this->createFormBuilder(FormType::class, $user);
 
         // Username goes first
         if ($addusername) {
             $form->add(
                 'username',
-                'text',
+                TextType::class,
                 [
                     'constraints' => [new Assert\NotBlank(), new Assert\Length(['min' => 2, 'max' => 32])],
                     'label'       => Trans::__('page.edit-users.label.username'),
@@ -404,10 +410,10 @@ class Users extends BackendBase
 
         // Add the other fields
         $form
-            ->add('id', 'hidden')
+            ->add('id', HiddenType::class)
             ->add(
                 'password',
-                'password',
+                PasswordType::class,
                 [
                     'required' => false,
                     'label'    => Trans::__('page.edit-users.label.password'),
@@ -418,7 +424,7 @@ class Users extends BackendBase
             )
             ->add(
                 'password_confirmation',
-                'password',
+                PasswordType::class,
                 [
                     'required' => false,
                     'label'    => Trans::__('page.edit-users.label.password-confirm'),
@@ -429,7 +435,7 @@ class Users extends BackendBase
             )
             ->add(
                 'email',
-                'text',
+                TextType::class,
                 [
                     'constraints' => new Assert\Email(),
                     'label'       => Trans::__('page.edit-users.label.email'),
@@ -438,7 +444,7 @@ class Users extends BackendBase
             )
             ->add(
                 'displayname',
-                'text',
+                TextType::class,
                 [
                     'constraints' => [new Assert\NotBlank(), new Assert\Length(['min' => 2, 'max' => 32])],
                     'label'       => Trans::__('page.edit-users.label.display-name'),
@@ -505,7 +511,7 @@ class Users extends BackendBase
         if ($currentUser->getId() != $id) {
             $form->add(
                 'enabled',
-                'choice',
+                ChoiceType::class,
                 [
                     'choices'     => $enabledoptions,
                     'expanded'    => false,
@@ -518,7 +524,7 @@ class Users extends BackendBase
         $form
             ->add(
                 'roles',
-                'choice',
+                ChoiceType::class,
                 [
                     'choices'  => $roles,
                     'expanded' => true,
@@ -528,7 +534,7 @@ class Users extends BackendBase
             )
             ->add(
                 'lastseen',
-                'datetime',
+                DateTimeType::class,
                 [
                     'widget'   => 'single_text',
                     'format'   => 'yyyy-MM-dd HH:mm:ss',
@@ -538,7 +544,7 @@ class Users extends BackendBase
             )
             ->add(
                 'lastip',
-                'text',
+                TextType::class,
                 [
                     'disabled' => true,
                     'label'    => Trans::__('page.edit-users.label.last-ip'),

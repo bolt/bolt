@@ -2,9 +2,9 @@
 
 namespace Bolt\Composer\Action;
 
+use Bolt\Exception\PackageManagerException;
 use Composer\DependencyResolver\Pool;
 use Composer\Factory;
-use Composer\IO\BufferIO;
 use Composer\Package\Version\VersionSelector;
 use Silex\Application;
 
@@ -47,17 +47,17 @@ abstract class BaseAction
     /**
      * Get a single option.
      *
-     * @param string $key
-     *
-     * @return string|boolean|null
+     * @return Options
      */
-    protected function getOption($key)
+    protected function getOptions()
     {
-        return $this->app['extend.action.options'][$key];
+        return $this->app['extend.action.options'];
     }
 
     /**
      * Get a Composer object.
+     *
+     * @throws \Exception
      *
      * @return \Composer\Composer
      */
@@ -65,20 +65,23 @@ abstract class BaseAction
     {
         if (!$this->composer) {
             // Set working directory
-            chdir($this->getOption('basedir'));
+            chdir($this->getOptions()->baseDir());
 
-            // Use the factory to get a new Composer object
             try {
-                $this->composer = Factory::create($this->getIO(), $this->getOption('composerjson'), true);
-
-                // Add the event subscriber
-                $this->composer->getEventDispatcher()->addSubscriber($this->app['extend.listener']);
-
-                if (!$this->app['extend.manager']->useSsl()) {
-                    $this->setAllowSslDowngrade(true);
-                }
+                // Use the factory to get a new Composer object
+                $this->composer = Factory::create($this->getIO(), $this->getOptions()->composerJson()->getPath(), false);
+            } catch (\InvalidArgumentException $e) {
+                throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
             } catch (\Exception $e) {
                 $this->app['logger.system']->critical($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
+                throw $e;
+            }
+
+            // Add the event subscriber
+            $this->composer->getEventDispatcher()->addSubscriber($this->app['extend.listener']);
+
+            if (!$this->app['extend.manager']->useSsl()) {
+                $this->setAllowSslDowngrade(true);
             }
         }
 
@@ -92,11 +95,7 @@ abstract class BaseAction
      */
     protected function getIO()
     {
-        if (!$this->io) {
-            $this->io = new BufferIO();
-        }
-
-        return $this->io;
+        return $this->app['extend.action.io'];
     }
 
     /**

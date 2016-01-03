@@ -3,6 +3,8 @@
 namespace Bolt\Configuration;
 
 use Bolt\Cache;
+use Bolt\Exception\PackageManagerException;
+use Pimple;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -15,6 +17,8 @@ class Environment
 {
     /** @var Cache */
     protected $cache;
+    /** @var Pimple */
+    protected $actions;
     /** @var Filesystem */
     protected $filesystem;
     /** @var string */
@@ -32,14 +36,16 @@ class Environment
      * @param string $appPath
      * @param string $viewPath
      * @param Cache  $cache
+     * @param Pimple $actions
      * @param string $boltVersion
      */
-    public function __construct($appPath, $viewPath, Cache $cache, $boltVersion)
+    public function __construct($appPath, $viewPath, Cache $cache, Pimple $actions, $boltVersion)
     {
         $this->filesystem = new Filesystem();
         $this->appPath = rtrim($appPath, '/');
         $this->viewPath = rtrim($viewPath, '/');
         $this->cache = $cache;
+        $this->actions = $actions;
         $this->boltVersion = $boltVersion;
     }
 
@@ -54,6 +60,7 @@ class Environment
         }
         $this->syncView();
         $this->cache->doFlush();
+        $this->updateAutoloader();
         $this->updateCacheVersion();
     }
 
@@ -119,6 +126,18 @@ class Environment
         }
 
         return false;
+    }
+
+    /**
+     * Uppdate the extension autoloader.
+     */
+    protected function updateAutoloader()
+    {
+        try {
+            $this->actions['autoload']->execute();
+        } catch (PackageManagerException $e) {
+            // Write access is potentially disabled
+        }
     }
 
     /**

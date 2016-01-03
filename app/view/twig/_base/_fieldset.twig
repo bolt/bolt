@@ -1,4 +1,4 @@
-{% import '@bolt/_macro/_buic.twig' as buic %}
+{% from '@bolt/_buic/_info.twig' import buic_info %}
 
 {#=== INIT ===========================================================================================================#}
 
@@ -23,7 +23,7 @@
 } %}
 
 {% if block('fieldset_label_info') %}
-    {% set field_info = buic.info(block('fieldset_label_text'), block('fieldset_label_info')) %}
+    {% set field_info = buic_info(block('fieldset_label_text'), block('fieldset_label_info')) %}
 {% endif %}
 
 {#=== OUTPUT =========================================================================================================#}

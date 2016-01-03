@@ -1,6 +1,6 @@
 {% if not context.contenttype.viewless|default(false) %}{# don't show for viewless contenttypes. #}
 <div class="btn-group">
-    <button type="button" class="btn btn-default" id="sidebarpreviewbutton">
+    <button type="button" class="btn btn-default" id="sidebarpreviewbutton" data-url="{{ path('preview', {'contenttypeslug': context.contenttype.singular_slug}) }}">
         <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
     </button>
 

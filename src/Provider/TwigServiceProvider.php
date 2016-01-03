@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
+use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\Handler;
 use Bolt\Twig\TwigExtension;
 use Silex\Application;
@@ -13,6 +14,32 @@ class TwigServiceProvider implements ServiceProviderInterface
         if (!isset($app['twig'])) {
             $app->register(new \Silex\Provider\TwigServiceProvider());
         }
+
+        $app['twig.loader.bolt_filesystem'] = $app->share(
+            function ($app) {
+                $loader = new FilesystemLoader($app['filesystem']);
+
+                $loader->addPath('app://view/twig', 'bolt');
+
+                /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
+                $loader->addPath('app://view/twig');
+
+                return $loader;
+            }
+        );
+
+        // Insert our filesystem loader before native one
+        $app['twig.loader'] = $app->share(
+            function ($app) {
+                return new \Twig_Loader_Chain(
+                    [
+                        $app['twig.loader.array'],
+                        $app['twig.loader.bolt_filesystem'],
+                        $app['twig.loader.filesystem'],
+                    ]
+                );
+            }
+        );
 
         // Handlers
         $app['twig.handlers'] = $app->share(
@@ -79,7 +106,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                 'debug'            => true,
                 'cache'            => $cache,
                 'strict_variables' => $app['config']->get('general/strict_variables'),
-                'autoescape'       => true,
+                'autoescape'       => 'html',
             ];
         };
 

@@ -43,7 +43,7 @@
                 link: path('overview', {'contenttypeslug': slug})
             } %}
 
-            {% set key = contenttype.show_in_menu ?: 'Other content' %}
+            {% set key = contenttype.show_in_menu ?: __('Other content') %}
             {% if definedSubs[key] is defined %}
                 {% for submenuName, submenudef in definedSubs %}
                     {% if key == submenuName %}

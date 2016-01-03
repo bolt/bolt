@@ -1,5 +1,9 @@
 <?php
+
 namespace Bolt\Asset;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Interface for asset queues.
@@ -11,11 +15,10 @@ interface QueueInterface
     /**
      * Insert all queued assets into HTML response.
      *
-     * @param $html
-     *
-     * @return string
+     * @param Request  $request
+     * @param Response $response
      */
-    public function process($html);
+    public function process(Request $request, Response $response);
 
     /**
      * Get the assets in this queue.

@@ -11,11 +11,6 @@ use Bolt\BaseExtension;
  */
 class ExtendedExtension extends BaseExtension
 {
-    public function getName()
-    {
-        return 'mockExtended';
-    }
-
     public function initialize()
     {
     }

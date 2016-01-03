@@ -45,7 +45,7 @@
 {% endfor %}
 
 {# BUIC options #}
-{% set buico_select = {
+{% set buic_opt_select = {
     'all':       option.multiple,
     'clear':     true,
     'id':        key,
@@ -71,7 +71,9 @@
 {% block fieldset_label_for   key %}
 
 {% block fieldset_controls %}
+    {% from '@bolt/_buic/_select.twig' import buic_select %}
+
     <div class="col-sm-9">
-        {{ buic.select(buico_select) }}
+        {{ buic_select(buic_opt_select) }}
     </div>
 {% endblock fieldset_controls %}

@@ -139,9 +139,6 @@ class ControllerServiceProvider implements ServiceProviderInterface, EventSubscr
 
         /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
         $dispatcher->addListener(ControllerEvents::MOUNT, [$app, 'initMountpoints'], -10);
-
-        $event = new MountEvent($app, $app['controllers']);
-        $dispatcher->dispatch(ControllerEvents::MOUNT, $event);
     }
 
     public function onMountFrontend(MountEvent $event)

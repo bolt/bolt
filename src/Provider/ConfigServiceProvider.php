@@ -28,6 +28,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
                     $appPath,
                     $viewPath,
                     $app['cache'],
+                    $app['extend.action'],
                     $app['bolt_long_version']
                 );
 

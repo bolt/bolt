@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Asset;
 
 /**
@@ -30,4 +31,20 @@ interface AssetInterface
      * @return AssetInterface
      */
     public function setPriority($priority);
+
+    /**
+     * Get the asset's zone. Either 'frontend' or 'backend'
+     *
+     * @return string|null
+     */
+    public function getZone();
+
+    /**
+     * Set the asset zone. Either 'frontend' or 'backend'.
+     *
+     * @param string $zone
+     *
+     * @return AssetInterface
+     */
+    public function setZone($zone);
 }

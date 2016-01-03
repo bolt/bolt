@@ -5,7 +5,7 @@
 {% set package_item %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <em class="%TYPE%" title="%TYPE%">%TITLE%</em>
+            <em class="%TYPE%" title="%TYPE%">%TITLE%%STATUS%%ENABLED%</em>
             <div><em>%VERSION%</em><small>%NAME%</small></div>
         </div>
 
@@ -13,6 +13,7 @@
             %DESCRIPTION%
             %KEYWORDS%
             %AUTHORS%
+            %CONSTRAINT%
         </div>
 
         <div class="panel-footer">

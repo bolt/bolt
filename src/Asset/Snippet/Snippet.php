@@ -1,14 +1,15 @@
 <?php
+
 namespace Bolt\Asset\Snippet;
 
-use Bolt\Asset\AssetInterface;
+use Bolt\Controller\Zone;
 
 /**
  * Snippet objects.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class Snippet implements AssetInterface
+class Snippet implements SnippetAssetInterface
 {
     /** @var integer */
     protected $priority;
@@ -20,13 +21,19 @@ class Snippet implements AssetInterface
     protected $callbackArguments;
     /** @var string */
     protected $extension = 'core';
+    /** @var string */
+    protected $zone = Zone::FRONTEND;
 
     /**
      * {@inheritdoc}
      */
     public function __toString()
     {
-        return (string) $this->callback;
+        try {
+            return (string) $this->getCallableResult();
+        } catch (\Exception $e) {
+            return '<!-- An exception occurred creating snippet -->';
+        }
     }
 
     /**
@@ -38,11 +45,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Set the priority.
-     *
-     * @param integer $priority
-     *
-     * @return Snippet
+     * {@inheritdoc}
      */
     public function setPriority($priority)
     {
@@ -52,9 +55,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Get location.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getLocation()
     {
@@ -62,11 +63,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Set location.
-     *
-     * @param string $location
-     *
-     * @return Snippet
+     * {@inheritdoc}
      */
     public function setLocation($location)
     {
@@ -76,9 +73,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Get callback or HTML string.
-     *
-     * @return callable|string
+     * {@inheritdoc}
      */
     public function getCallback()
     {
@@ -86,11 +81,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Set callback or HTML string.
-     *
-     * @param callable|string $callback
-     *
-     * @return Snippet
+     * {@inheritdoc}
      */
     public function setCallback($callback)
     {
@@ -100,9 +91,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Get the callback arguments.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getCallbackArguments()
     {
@@ -110,11 +99,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Set the callback arguments.
-     *
-     * @param array $callbackArguments
-     *
-     * @return Snippet
+     * {@inheritdoc}
      */
     public function setCallbackArguments($callbackArguments)
     {
@@ -124,9 +109,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Get the extension name that this connects to.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getExtension()
     {
@@ -134,11 +117,7 @@ class Snippet implements AssetInterface
     }
 
     /**
-     * Set the extension name that this connects to.
-     *
-     * @param string $extensionName
-     *
-     * @return Snippet
+     * {@inheritdoc}
      */
     public function setExtension($extensionName)
     {
@@ -155,5 +134,66 @@ class Snippet implements AssetInterface
     public function isCore()
     {
         return $this->extension === 'core';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getZone()
+    {
+        return $this->zone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setZone($zone)
+    {
+        $this->zone = $zone;
+
+        return $this;
+    }
+
+    /**
+     * Get the output from the callback.
+     *
+     * @throws \RuntimeException
+     *
+     * @return string
+     */
+    private function getCallableResult()
+    {
+        if ($this->extension === 'core' && is_callable($this->callback)) {
+            // Snippet is a callback in the 'global scope'
+            return call_user_func_array($this->callback, (array) $this->callbackArguments);
+        } elseif ($callable = $this->getCallable()) {
+            // Snippet is defined in the extension itself.
+            return call_user_func_array($callable, (array) $this->callbackArguments);
+        } elseif (is_string($this->callback) || $this->callback instanceof \Twig_Markup) {
+            // Insert the 'callback' as a string.
+            return (string) $this->callback;
+        }
+
+        try {
+            $msg = sprintf('Snippet loading failed for %s with callable %s', $this->extension, serialize($this->callback));
+        } catch (\Exception $e) {
+            $msg = sprintf('Snippet loading failed for %s with an unknown callback.', $this->extension);
+        }
+
+        throw new \RuntimeException($msg);
+    }
+
+    /**
+     * Check for a valid snippet callback.
+     *
+     * @return callable|null
+     */
+    private function getCallable()
+    {
+        if (is_callable($this->callback)) {
+            return $this->callback;
+        } elseif (is_callable([$this->extension, $this->callback])) {
+            return [$this->extension, $this->callback];
+        }
     }
 }

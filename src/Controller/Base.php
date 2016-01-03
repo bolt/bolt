@@ -7,6 +7,7 @@ use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
@@ -90,7 +91,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return Form
      */
-    protected function createForm($type = 'form', $data = null, array $options = [])
+    protected function createForm($type = FormType::class, $data = null, array $options = [])
     {
         return $this->app['form.factory']->create($type, $data, $options);
     }
@@ -104,7 +105,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @return FormBuilderInterface The form builder
      */
-    protected function createFormBuilder($type = 'form', $data = null, array $options = [])
+    protected function createFormBuilder($type = FormType::class, $data = null, array $options = [])
     {
         return $this->app['form.factory']->createBuilder($type, $data, $options);
     }

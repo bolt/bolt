@@ -57,13 +57,10 @@ class GeneralListener implements EventSubscriberInterface
     }
 
     /**
-     * No Mail transport has been set. We should gently nudge the user to set
+     * No mail transport has been set. We should gently nudge the user to set
      * the mail configuration.
      *
-     * For now, we only pester the user, if an extension needs to be able to
-     * send mail, but it's not been set up.
-     *
-     * @see: the issue at https://github.com/bolt/bolt/issues/2908
+     * @see https://github.com/bolt/bolt/issues/2908
      *
      * @param Request $request
      */
@@ -73,8 +70,8 @@ class GeneralListener implements EventSubscriberInterface
             return;
         }
 
-        if ($this->app['users']->getCurrentuser() && !$this->app['config']->get('general/mailoptions') && $this->app['extensions']->hasMailSenders()) {
-            $error = "One or more installed extensions need to be able to send email. Please set up the 'mailoptions' in config.yml.";
+        if (!$this->app['config']->get('general/mailoptions') && $this->app['users']->getCurrentuser() && $this->app['users']->isAllowed('files:config')) {
+            $error = "The mail configuration parameters have not been set up. This may interfere with password resets, and extension functionality. Please set up the 'mailoptions' in config.yml.";
             $this->app['logger.flash']->error(Trans::__($error));
         }
     }

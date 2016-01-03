@@ -1,3 +1,5 @@
+{% from '@bolt/_buic/_moment.twig' import buic_moment %}
+
 <div class="form-group hidden-xs">
     <div class="col-xs-12">
 
@@ -37,7 +39,7 @@
         {# Preview (Don't show for viewless contenttypes.) #}
         {% if not context.contenttype.viewless|default(false) %}
             <div class="btn-group">
-                <button type="button" class="btn btn-default" id="previewbutton">
+                <button type="button" class="btn btn-default" id="previewbutton" data-url="{{ path('preview', {'contenttypeslug': context.contenttype.singular_slug}) }}">
                     <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
                 </button>
                 {# Dropdown #}
@@ -62,7 +64,7 @@
             {% if context.content.id != 0 %}
                 {{ __('Saved on:') }}
                 <strong>{{ context.content.datechanged|localdate("%c") }}</strong>
-                <small>({{ buic.moment(context.content.datechanged) }})</small>
+                <small>({{ buic_moment(context.content.datechanged) }})</small>
             {% else %}
                 {{ __('contenttypes.generic.not-saved-yet', {'%contenttype%': context.contenttype.slug}) }}
             {% endif %}

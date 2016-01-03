@@ -1,3 +1,5 @@
+{% from '@bolt/_buic/_moment.twig' import buic_moment %}
+
 <div class="table-responsive">
     <table class="table table-striped dashboardlisting">
         <thead>
@@ -15,10 +17,10 @@
                 <tr>
                     <td>{{ session.username }}</td>
                     <td>
-                        {{ buic.moment(session.lastseen) }}
+                        {{ buic_moment(session.lastseen) }}
                     </td>
                     <td>
-                        {{ buic.moment(session.validity) }}
+                        {{ buic_moment(session.validity) }}
                     </td>
                     <td>
                         {{ session.ip }}

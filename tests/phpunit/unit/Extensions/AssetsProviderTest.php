@@ -3,8 +3,12 @@ namespace Bolt\Tests\Extensions;
 
 use Bolt\Asset\File\JavaScript;
 use Bolt\Asset\File\Stylesheet;
+use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
+use Bolt\Controller\Zone;
 use Bolt\Extensions;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class to test correct operation and locations of assets provider.
@@ -169,6 +173,19 @@ HTML;
 </html>
 HTML;
 
+    public $snippetException = <<<HTML
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="existing.css" media="screen">
+<!-- An exception occurred creating snippet -->
+</head>
+<body>
+<script src="existing.js"></script>
+</body>
+</html>
+HTML;
+
     protected function getApp($boot = true)
     {
         $app = parent::getApp();
@@ -182,28 +199,18 @@ HTML;
     public function testBadExtensionSnippets()
     {
         $app = $this->getApp();
-        $logger = $this->getMock('\Monolog\Logger', ['critical'], ['testlogger']);
-        $logger->expects($this->atLeastOnce())
-            ->method('critical')
-            ->will($this->returnCallback(function ($message) {
-                    \PHPUnit_Framework_Assert::assertSame(
-                        'Snippet loading failed for Bolt\Tests\Extensions\Mock\BadExtensionSnippets with callable a:2:{i:0;O:47:"Bolt\Tests\Extensions\Mock\BadExtensionSnippets":0:{}i:1;s:18:"badSnippetCallBack";}',
-                        $message);
-                }
-            ))
-        ;
         $app['asset.queue.snippet'] = new \Bolt\Asset\Snippet\Queue(
             $app['asset.injector'],
             $app['cache'],
             $app['config'],
             $app['resources'],
-            $app['request_stack'],
-            $logger
+            $app['request_stack']
         );
-        $app['extensions']->register(new Mock\BadExtensionSnippets($app));
+        new Mock\BadExtensionSnippets($app);
+        $response = new Response($this->template);
 
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->template), $this->html($html));
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->snippetException), $this->html($response->getContent()));
     }
 
     public function testAddCss()
@@ -227,15 +234,19 @@ HTML;
     public function testEmptyProcessAssetsFile()
     {
         $app = $this->getApp();
-        $html = $app['asset.queue.file']->process('html');
-        $this->assertEquals('html', $html);
+        $response = new Response('html');
+
+        $app['asset.queue.file']->process($this->getRequest(), $response);
+        $this->assertEquals('html', $response->getContent());
     }
 
     public function testEmptyProcessAssetsSnippets()
     {
         $app = $this->getApp();
-        $html = $app['asset.queue.snippet']->process('html');
-        $this->assertEquals('html', $html);
+        $response = new Response('html');
+
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals('html', $response->getContent());
     }
 
     public function testJsProcessAssets()
@@ -243,8 +254,13 @@ HTML;
         $app = $this->getApp();
         $javaScript = (new JavaScript())->setFileName('testfile.js');
         $app['asset.queue.file']->add($javaScript);
-        $html = $app['asset.queue.file']->process($this->template);
-        $this->assertEquals($this->html($this->expectedJs), $this->html($html));
+        $app = $this->getApp();
+
+        $response = new Response($this->template);
+
+
+        $app['asset.queue.file']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedJs), $this->html($response->getContent()));
     }
 
     public function testLateJs()
@@ -255,8 +271,10 @@ HTML;
             ->setLate(true)
         ;
         $app['asset.queue.file']->add($javaScript);
-        $html = $app['asset.queue.file']->process($this->template);
-        $this->assertEquals($this->html($this->expectedLateJs),  $this->html($html));
+        $response = new Response($this->template);
+
+        $app['asset.queue.file']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedLateJs),  $this->html($response->getContent()));
     }
 
     public function testCssProcessAssets()
@@ -264,8 +282,10 @@ HTML;
         $app = $this->getApp();
         $stylesheet = (new Stylesheet())->setFileName('testfile.css');
         $app['asset.queue.file']->add($stylesheet);
-        $html = $app['asset.queue.file']->process($this->template);
-        $this->assertEquals($this->html($this->expectedCss), $this->html($html));
+        $response = new Response($this->template);
+
+        $app['asset.queue.file']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedCss), $this->html($response->getContent()));
     }
 
     public function testLateCss()
@@ -276,8 +296,10 @@ HTML;
             ->setLate(true)
         ;
         $app['asset.queue.file']->add($stylesheet);
-        $html = $app['asset.queue.file']->process($this->template);
-        $this->assertEquals($this->html($this->expectedLateCss), $this->html($html));
+        $response = new Response($this->template);
+
+        $app['asset.queue.file']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedLateCss), $this->html($response->getContent()));
     }
 
     // This method normalises the html so that differeing whitespace doesn't effect the strings.
@@ -304,79 +326,88 @@ HTML;
         $app = $this->getApp();
 
         // Test snippet inserts at top of <head>
-        $app['asset.queue.snippet']->add(Target::START_OF_HEAD, '<meta name="test-snippet" />');
-
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->expectedStartOfHead), $this->html($html));
+        $response = new Response($this->template);
+        $app['asset.queue.snippet']->add($this->getSnippet(Target::START_OF_HEAD, '<meta name="test-snippet" />'));
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedStartOfHead), $this->html($response->getContent()));
 
         // Test snippet inserts at end of <head>
+        $response = new Response($this->template);
         $app['asset.queue.snippet']->clear();
-        $app['asset.queue.snippet']->add(Target::END_OF_HEAD, '<meta name="test-snippet" />');
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($html));
+        $app['asset.queue.snippet']->add($this->getSnippet(Target::END_OF_HEAD, '<meta name="test-snippet" />'));
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($response->getContent()));
 
         // Test snippet inserts at end of body
+        $response = new Response($this->template);
         $app['asset.queue.snippet']->clear();
-        $app['asset.queue.snippet']->add(Target::START_OF_BODY, '<p class="test-snippet"></p>');
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->expectedStartOfBody), $this->html($html));
+        $app['asset.queue.snippet']->add($this->getSnippet(Target::START_OF_BODY, '<p class="test-snippet"></p>'));
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedStartOfBody), $this->html($response->getContent()));
 
         // Test snippet inserts at end of </html>
+        $response = new Response($this->template);
         $app['asset.queue.snippet']->clear();
-        $app['asset.queue.snippet']->add(Target::END_OF_HTML, '<p class="test-snippet"></p>');
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->expectedEndOfHtml), $this->html($html));
+        $app['asset.queue.snippet']->add($this->getSnippet(Target::END_OF_HTML, '<p class="test-snippet"></p>'));
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedEndOfHtml), $this->html($response->getContent()));
 
         // Test snippet inserts before existing css
+        $response = new Response($this->template);
         $app['asset.queue.snippet']->clear();
-        $app['asset.queue.snippet']->add(Target::BEFORE_CSS, '<meta name="test-snippet" />');
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->expectedBeforeCss), $this->html($html));
+        $app['asset.queue.snippet']->add($this->getSnippet(Target::BEFORE_CSS, '<meta name="test-snippet" />'));
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedBeforeCss), $this->html($response->getContent()));
 
         // Test snippet inserts after existing css
+        $response = new Response($this->template);
         $app['asset.queue.snippet']->clear();
-        $app['asset.queue.snippet']->add(Target::AFTER_CSS, '<meta name="test-snippet" />');
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->expectedAfterCss), $this->html($html));
+        $app['asset.queue.snippet']->add($this->getSnippet(Target::AFTER_CSS, '<meta name="test-snippet" />'));
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedAfterCss), $this->html($response->getContent()));
 
         // Test snippet inserts after existing meta tags
+        $response = new Response($this->template);
         $app['asset.queue.snippet']->clear();
-        $app['asset.queue.snippet']->add(Target::AFTER_META, '<meta name="test-snippet" />');
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->expectedAfterMeta), $this->html($html));
+        $app['asset.queue.snippet']->add($this->getSnippet(Target::AFTER_META, '<meta name="test-snippet" />'));
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedAfterMeta), $this->html($response->getContent()));
     }
 
     public function testSnippetsWithCallback()
     {
         $app = $this->getApp();
-        $app['extensions']->register(new Mock\SnippetCallbackExtension($app));
+        new Mock\SnippetCallbackExtension($app);
+        $response = new Response($this->template);
 
         // Test snippet inserts at top of <head>
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->expectedStartOfHead), $this->html($html));
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedStartOfHead), $this->html($response->getContent()));
     }
 
     public function testSnippetsWithGlobalCallback()
     {
         $app = $this->getApp();
-        $app['asset.queue.snippet']->add(
+        $app['asset.queue.snippet']->add($this->getSnippet(
             Target::AFTER_META,
             '\Bolt\Tests\Extensions\globalAssetsSnippet',
             'core',
             ["\n"]
-        );
+        ));
 
         // Test snippet inserts at top of <head>
-        $html = $app['asset.queue.snippet']->process('<html></html>');
-        $this->assertEquals('<html></html><br />' . PHP_EOL . PHP_EOL, $html);
+        $response = new Response('<html></html>');
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals('<html></html><br />' . PHP_EOL . PHP_EOL, $response->getContent());
     }
 
     public function testExtensionSnippets()
     {
         $app = $this->getApp();
-        $app['extensions']->register(new Mock\Extension($app));
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($html));
+        new Mock\Extension($app);
+        $response = new Response($this->template);
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertEquals($this->html($this->expectedEndOfHead), $this->html($response->getContent()));
     }
 
     public function testAddJquery()
@@ -386,12 +417,14 @@ HTML;
 
         $app = $this->getApp();
         $app['config']->set('general/add_jquery', true);
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertContains('js/jquery', $html);
+        $response = new Response($this->template);
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertContains('js/jquery', $response->getContent());
 
         $app['config']->set('general/add_jquery', false);
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $this->assertNotContains('js/jquery', $html);
+        $response = new Response($this->template);
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $this->assertNotContains('js/jquery', $response->getContent());
     }
 
     public function testAddJqueryOnlyOnce()
@@ -399,8 +432,9 @@ HTML;
         $app = $this->getApp();
         $app->initialize();
         $app['config']->set('general/add_jquery', true);
-        $html = $app['asset.queue.snippet']->process($this->template);
-        $html = $app['asset.queue.snippet']->process($html);
+        $response = new Response($this->template);
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
+        $app['asset.queue.snippet']->process($this->getRequest(), $response);
     }
 
     public function testSnippetsWorkWithBadHtml()
@@ -422,10 +456,38 @@ HTML;
             $app = $this->getApp();
             $template = '<invalid></invalid>';
             $snip = '<meta name="test-snippet" />';
-            $app['asset.queue.snippet']->add($location, $snip);
-            $html = $app['asset.queue.snippet']->process($template);
-            $this->assertEquals($template . $snip . PHP_EOL, $html);
+            $app['asset.queue.snippet']->add($this->getSnippet($location, $snip));
+
+            $response = new Response($template);
+            $app['asset.queue.snippet']->process($this->getRequest(), $response);
+            //$html = $app['asset.queue.snippet']->process($template);
+            $this->assertEquals($template . $snip . PHP_EOL, $response->getContent());
         }
+    }
+
+    /**
+     * @return Request
+     */
+    protected function getRequest()
+    {
+        $request = Request::createFromGlobals();
+        $request->attributes->set(Zone::KEY, Zone::FRONTEND);
+        return $request;
+    }
+
+    /**
+     * @return Snippet
+     */
+    private function getSnippet($location, $callback, $extensionName = 'core', $callbackArguments = [])
+    {
+        $snippet = (new Snippet())
+            ->setLocation($location)
+            ->setCallback($callback)
+            ->setExtension($extensionName)
+            ->setCallbackArguments($callbackArguments)
+        ;
+
+        return $snippet;
     }
 }
 

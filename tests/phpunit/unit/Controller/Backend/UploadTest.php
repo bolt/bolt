@@ -29,6 +29,7 @@ class UploadTest extends ControllerUnitTest
 
     public function testResponses()
     {
+        $this->getApp()->flush();
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',
@@ -48,6 +49,7 @@ class UploadTest extends ControllerUnitTest
 
     public function testUpload()
     {
+        $this->getApp()->flush();
         $request = $this->getFileRequest();
         $response = $this->controller()->uploadNamespace($request, 'files');
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
@@ -58,6 +60,7 @@ class UploadTest extends ControllerUnitTest
 
     public function testInvalidFiletype()
     {
+        $this->getApp()->flush();
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',
@@ -85,6 +88,7 @@ class UploadTest extends ControllerUnitTest
 
     public function testBadDefaultLocation()
     {
+        $this->getApp()->flush();
         $this->getService('resources')->setPath('files', '/path/to/nowhere');
         $this->getFileRequest();
 
@@ -95,6 +99,7 @@ class UploadTest extends ControllerUnitTest
 
     public function testHandlerParsing()
     {
+        $this->getApp()->flush();
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',
@@ -117,6 +122,7 @@ class UploadTest extends ControllerUnitTest
 
     public function testMultipleHandlerParsing()
     {
+        $this->getApp()->flush();
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',
@@ -140,6 +146,7 @@ class UploadTest extends ControllerUnitTest
 
     public function testFileObjectUploads()
     {
+        $this->getApp()->flush();
         $this->setRequest(Request::create(
             '/upload/files',
             'POST',

@@ -2278,12 +2278,16 @@ class Storage
             $contenttype = $this->app['config']->get('contenttypes/' . $contenttypeslug);
         } else {
             foreach ($this->app['config']->get('contenttypes') as $key => $ct) {
-                if (isset($ct['singular_slug']) && ($contenttypeslug == $ct['singular_slug'])) {
-                    $contenttype = $this->app['config']->get('contenttypes/' . $key);
+                if (isset($ct['slug']) && ($contenttypeslug === $ct['slug'])) {
+                    $contenttype = $ct;
                     break;
                 }
-                if ($contenttypeslug == $this->app['slugify']->slugify($ct['singular_name']) || $contenttypeslug == $this->app['slugify']->slugify($ct['name'])) {
-                    $contenttype = $this->app['config']->get('contenttypes/' . $key);
+                if (isset($ct['singular_slug']) && ($contenttypeslug === $ct['singular_slug'])) {
+                    $contenttype = $ct;
+                    break;
+                }
+                if ($contenttypeslug === $this->app['slugify']->slugify($ct['singular_name']) || $contenttypeslug == $this->app['slugify']->slugify($ct['name'])) {
+                    $contenttype = $ct;
                     break;
                 }
             }

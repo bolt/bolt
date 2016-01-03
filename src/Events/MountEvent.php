@@ -22,6 +22,8 @@ class MountEvent extends Event
     protected $collection;
 
     /**
+     * Constructor.
+     *
      * @param Application          $app
      * @param ControllerCollection $collection
      */

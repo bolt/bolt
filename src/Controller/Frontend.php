@@ -284,6 +284,12 @@ class Frontend extends ConfigurableBase
         $page = $this->app['pager']->getCurrentPage($context);
         // Theme value takes precedence over default config @see https://github.com/bolt/bolt/issues/3951
         $amount = $this->getOption('theme/listing_records', false) ?: $this->getOption('general/listing_records');
+
+        // Handle case where listing records has been override for specific taxonomy
+        if (array_key_exists('listing_records', $taxonomy) && is_int($taxonomy['listing_records'])) {
+            $amount = $taxonomy['listing_records'];
+        }
+
         $order = $this->getOption('theme/listing_sort', false) ?: $this->getOption('general/listing_sort');
         $content = $this->storage()->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
 

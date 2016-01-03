@@ -33,6 +33,7 @@ GRINGALET;
     public function testCurrentEmptyParameter()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/');
@@ -47,6 +48,7 @@ GRINGALET;
     public function testCurrentHomeConfigured()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/clippy-inc');
@@ -66,6 +68,7 @@ GRINGALET;
     public function testCurrentHomeMenu()
     {
         $app = $this->getApp();
+        $app->flush();
         $app['config']->set('general/homepage', '/');
         $this->addDefaultUser($app);
         $this->addSomeContent();
@@ -92,6 +95,7 @@ GRINGALET;
     public function testCurrentContentNameInRoute()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
@@ -111,6 +115,7 @@ GRINGALET;
     public function testCurrentLinkToCheckArray()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
@@ -130,6 +135,7 @@ GRINGALET;
     public function testCurrentNoMatchingSlugs()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
@@ -149,6 +155,7 @@ GRINGALET;
     public function testCurrentLinkToCheckContentObject()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
@@ -173,6 +180,7 @@ GRINGALET;
     public function testCurrentLinkToCheckString()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
@@ -192,6 +200,7 @@ GRINGALET;
     public function testCurrentLinkToCheckStringWithQuery()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/pages/koala?page=42');
@@ -211,6 +220,7 @@ GRINGALET;
     public function testCurrentLinkToCheckStringSeparateRoute()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/');
@@ -231,6 +241,7 @@ GRINGALET;
     {
         $this->resetDb();
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
@@ -252,6 +263,7 @@ GRINGALET;
     public function testCurrentContentTypeSlugContentSlug()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/pages/koala');
@@ -271,6 +283,7 @@ GRINGALET;
     public function testCurrentTheFinalCountdown()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/gum-tree/koala');
@@ -297,6 +310,7 @@ GRINGALET;
     public function testCurrentTheFinalCountdownRadioEdit()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/gum-trees/koala');
@@ -323,6 +337,7 @@ GRINGALET;
     public function testCurrentFalse()
     {
         $app = $this->getApp();
+        $app->flush();
         $this->addDefaultUser($app);
         $this->addSomeContent();
         $request = (new Request())->create('/gum-tree/koala');

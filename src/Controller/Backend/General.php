@@ -9,6 +9,9 @@ use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -152,8 +155,8 @@ class General extends BackendBase
         }
 
         // Create the form
-        $form = $this->createFormBuilder('form')
-            ->add('contenttypes', 'choice', [
+        $form = $this->createFormBuilder(FormType::class)
+            ->add('contenttypes', ChoiceType::class, [
                 'choices'  => $choices,
                 'multiple' => true,
                 'expanded' => true,
@@ -204,10 +207,10 @@ class General extends BackendBase
         $data = $this->getTranslationData($tr);
 
         // Create the form
-        $form = $this->createFormBuilder('form', $data)
+        $form = $this->createFormBuilder(FormType::class, $data)
             ->add(
                 'contents',
-                'textarea',
+                TextareaType::class,
                 [
                     'constraints' => [
                         new Assert\NotBlank(),

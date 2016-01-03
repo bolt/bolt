@@ -62,7 +62,7 @@
 {% block fieldset_controls %}
     <div class="col-sm-12">
         <div class="input-group {{ mode }}">
-            <span class="input-group-addon">/{{ context.content.contenttype }}/</span>
+            <span class="input-group-addon">/{{ context.contenttype.slug }}/</span>
 
             <input{{ macro.attr(attributes.slug) }}>
 

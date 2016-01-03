@@ -85,9 +85,9 @@ class FilesystemManager extends AsyncBase
             $this->flashes()->error($msg);
         }
 
-        $files = $filesystem->find()->in($path)->files()->toArray();
-        $directories = $filesystem->find()->in($path)->directories()->toArray();
-
+        $files = $filesystem->find()->in($path)->files()->depth(0)->toArray();
+        $directories = $filesystem->find()->in($path)->directories()->depth(0)->toArray();
+ 
         $context = [
             'namespace'    => $namespace,
             'files'        => $files,
