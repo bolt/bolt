@@ -14,7 +14,7 @@
  #}
 {% macro buic_checkbox(opt) %}
     {% spaceless %}
-        {% from _self import info %}
+        {% from '@bolt/_buic/_moment.twig' import buic_info %}
 
         {% set id = opt.label|default('') and not opt.id|default('') ? buid() : opt.id|default('') %}
 
@@ -33,7 +33,7 @@
             <input{{ hattr(attributes) }}>
             <button type="button"></button>
             {% if opt.label|default('') %}
-                <label for="{{ id }}">{{ opt.label }}{% if opt.info|default('') %}{{ info('', opt.info) }}{% endif %}</label>
+                <label for="{{ id }}">{{ opt.label }}{% if opt.info|default('') %}{{ buic_info('', opt.info) }}{% endif %}</label>
             {% endif %}
         </div>
     {% endspaceless %}
