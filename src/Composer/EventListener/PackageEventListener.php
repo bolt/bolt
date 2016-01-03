@@ -6,6 +6,7 @@ use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UpdateOperation;
 use Composer\Installer\PackageEvent;
 use Composer\Script\Event;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -43,9 +44,9 @@ class PackageEventListener
 
         // Copy package assets to main web path
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
-        $dest = realpath($rootExtra['bolt-web-path'] . '/extensions/' . $packageAssets);
+        $dest = $rootExtra['bolt-web-path'] . '/extensions/' . $packageAssets;
 
-        self::mirror($packageAssets, $dest);
+        self::mirror($packageAssets, $dest, $event);
     }
 
     /**
@@ -73,18 +74,24 @@ class PackageEventListener
     }
 
     /**
-     * Mirror a directory if the two directories don't match
+     * Mirror a directory if the two directories don't match.
      *
-     * @param string $source
-     * @param string $dest
+     * @param string       $source
+     * @param string       $dest
+     * @param PackageEvent $event
      */
-    public static function mirror($source, $dest)
+    public static function mirror($source, $dest, PackageEvent $event)
     {
         if (realpath($source) === realpath($dest)) {
             return;
         }
         $fs = new Filesystem();
-        $fs->mirror($source, $dest);
+        try {
+            $fs->mirror($source, $dest);
+        } catch (IOException $e) {
+            $event->getIO()->writeError(sprintf('Mirroring %s to %s failed:', $source, $dest));
+            $event->getIO()->writeError($e->getMessage());
+        }
     }
 
     /**
