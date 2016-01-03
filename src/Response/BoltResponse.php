@@ -159,11 +159,7 @@ class BoltResponse extends Response
         try {
             return $this->getContent();
         } catch (\Exception $e) {
-            // the __toString method isn't allowed to throw exceptions
-            // so we turn them into an error instead
-            trigger_error($e->getMessage() . "\n" . $e->getTraceAsString(), E_USER_ERROR);
-
-            return '';
+            return $this->handleException($e);
         }
     }
 
@@ -205,5 +201,22 @@ class BoltResponse extends Response
         if ($this->stopwatch) {
             $this->stopwatch->stop('bolt.render');
         }
+    }
+
+    /**
+     * The __toString method isn't allowed to throw exceptions so we turn them into an error instead
+     *
+     * @param \Exception $e
+     *
+     * @return string
+     */
+    private function handleException(\Exception $e)
+    {
+        trigger_error($e->getMessage() . "\n" . $e->getTraceAsString(), E_USER_WARNING);
+        if ($e instanceof \Twig_Error) {
+            return '<strong>' . $e->getRawMessage() . '</strong>';
+        }
+
+        return '';
     }
 }
