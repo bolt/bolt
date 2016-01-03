@@ -24,7 +24,8 @@ class FileManagerTest extends ControllerUnitTest
 
     public function testManage()
     {
-        $this->removeCSRF($this->getApp());
+        $app = $this->getApp();
+        $this->removeCSRF($app);
         $this->setRequest(Request::create('/bolt/files'));
 
         $response = $this->controller()->manage($this->getRequest(), 'files', '');
@@ -35,7 +36,7 @@ class FileManagerTest extends ControllerUnitTest
         $this->assertEquals([], $context['context']['files']);
 
         // Try and upload a file
-        $perms = $this->getMock('Bolt\Filesystem\FilePermissions', ['allowedUpload'], [$this->getApp()]);
+        $perms = $this->getMock('Bolt\Filesystem\FilePermissions', ['allowedUpload'], [$app['config']]);
         $perms->expects($this->any())
             ->method('allowedUpload')
             ->will($this->returnValue(true));
