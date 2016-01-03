@@ -5,6 +5,7 @@ namespace Bolt\Extension;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Twig\DynamicExtension;
 use Pimple as Container;
+use Twig_Error_Loader as LoaderError;
 use Twig_Loader_Filesystem as FilesystemLoader;
 use Twig_SimpleFilter as SimpleFilter;
 use Twig_SimpleFunction as SimpleFunction;
@@ -179,10 +180,14 @@ trait TwigTrait
         if (!$dir->exists()) {
             return;
         }
-        if ($position === 'prepend') {
-            $app['twig.loader.bolt_filesystem']->prependDir($dir, $namespace);
-        } else {
-            $app['twig.loader.bolt_filesystem']->addDir($dir, $namespace);
+        try {
+            if ($position === 'prepend') {
+                $app['twig.loader.bolt_filesystem']->prependDir($dir, $namespace);
+            } else {
+                $app['twig.loader.bolt_filesystem']->addDir($dir, $namespace);
+            }
+        } catch (LoaderError $e) {
+            $app['logger.system']->critical(sprintf('%s was unable to add the Twig path %s. %s', $this->getName(), $path, $e->getMessage()), ['event' => 'exception', 'exception' => $e]);
         }
     }
 
