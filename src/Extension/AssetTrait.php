@@ -133,7 +133,7 @@ trait AssetTrait
     protected function addAsset(AssetInterface $asset)
     {
         if ($asset instanceof FileAssetInterface) {
-            $asset->setFileName($this->getAssetPath($asset->getFileName()));
+            $asset->setFileName($this->getAssetPath($asset));
         }
         $this->assets[] = $asset;
     }
@@ -151,7 +151,7 @@ trait AssetTrait
         if (!$fileAsset instanceof FileAssetInterface) {
             $fileAsset = $this->setupAsset(new Stylesheet(), $fileAsset, func_get_args());
         }
-        $fileAsset->setFileName($this->getAssetPath($fileAsset->getFileName()));
+        $fileAsset->setFileName($this->getAssetPath($fileAsset));
         $this->assets[] = $fileAsset;
     }
 
@@ -168,7 +168,7 @@ trait AssetTrait
         if (!$fileAsset instanceof FileAssetInterface) {
             $fileAsset = $this->setupAsset(new JavaScript(), $fileAsset, func_get_args());
         }
-        $fileAsset->setFileName($this->getAssetPath($fileAsset->getFileName()));
+        $fileAsset->setFileName($this->getAssetPath($fileAsset));
         $this->assets[] = $fileAsset;
     }
 
@@ -239,12 +239,17 @@ trait AssetTrait
     /**
      * Get the relative path to the asset file.
      *
-     * @param string $fileName
+     * @param FileAssetInterface $asset
      *
      * @return string|null
      */
-    private function getAssetPath($fileName)
+    private function getAssetPath(FileAssetInterface $asset)
     {
+        $fileName = $asset->getFileName();
+        if($fileName === null) {
+            throw new \RuntimeException('Extension file assets must have a file name set.');
+        }
+
         $app = $this->getContainer();
         $filesystem = $app['filesystem'];
         if ($filesystem->has(sprintf('extensions://%s/web/%s', $this->getBaseDirectory()->getPath(), $fileName))) {
