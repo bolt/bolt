@@ -1,10 +1,11 @@
 <?php
 namespace Bolt\Tests\Extensions\Mock;
 
-use Bolt\Application;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\BaseExtension;
+use Pimple as Container;
+use Silex\Application;
 
 /**
  * Class to test correct operation and locations of composer configuration.
@@ -15,7 +16,6 @@ class Extension extends BaseExtension
 {
     public function __construct(Application $app)
     {
-
         $snippet = (new Snippet())
             ->setLocation(Target::END_OF_HEAD)
             ->setCallback([$this, 'snippetCallBack'])
@@ -24,7 +24,7 @@ class Extension extends BaseExtension
         $app['asset.queue.snippet']->add($snippet);
     }
 
-    public function initialize()
+    public function initialize(Container $app)
     {
     }
 

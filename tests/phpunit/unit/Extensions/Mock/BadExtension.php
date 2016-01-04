@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Tests\Extensions\Mock;
 
+use Pimple as Container;
+
 /**
  * Class to test correct operation and locations of composer configuration.
  *
@@ -8,7 +10,7 @@ namespace Bolt\Tests\Extensions\Mock;
  */
 class BadExtension extends Extension
 {
-    public function initialize()
+    public function initialize(Container $app)
     {
         throw new \Exception('BadExtension', 1);
     }
