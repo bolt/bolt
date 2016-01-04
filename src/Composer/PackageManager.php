@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer;
 
+use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\Exception\ParseException;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Translation\Translator as Trans;
@@ -244,19 +245,23 @@ class PackageManager
             if ($extension) {
                 $title = $extension->getName();
                 $constraint = $extension->getDescriptor()->getConstraint() ?: $this->app['bolt_version'];
+                $readme = $this->linkReadMe($extension);
+                $config = $this->linkConfig($extension);
                 $valid = $extension->isValid();
                 $enabled = $extension->isEnabled();
             } else {
                 $title = $name;
                 $constraint = $this->app['bolt_version'];
+                $readme = null;
+                $config = null;
                 $valid = true;
                 $enabled = true;
             }
 
             $package->setStatus('installed');
             $package->setTitle($title);
-            $package->setReadmeLink($this->linkReadMe($name));
-            $package->setConfigLink($this->linkConfig($name));
+            $package->setReadmeLink($readme);
+            $package->setConfigLink($config);
             $package->setConstraint($constraint);
             $package->setValid($valid);
             $package->setEnabled($enabled);
@@ -275,8 +280,8 @@ class PackageManager
             $package = Package::createFromComposerJson($composerJson->parse());
             $package->setStatus('local');
             $package->setTitle($extension->getName());
-            $package->setReadmeLink($this->linkReadMe($name));
-            $package->setConfigLink($this->linkConfig($name));
+            $package->setReadmeLink($this->linkReadMe($extension));
+            $package->setConfigLink($this->linkConfig($extension));
             $package->setValid($extension->isValid());
             $package->setEnabled($extension->isEnabled());
 
@@ -293,8 +298,8 @@ class PackageManager
             $package->setStatus('pending');
             $package->setName($name);
             $package->setTitle($name);
-            $package->setReadmeLink($this->linkReadMe($name));
-            $package->setConfigLink($this->linkConfig($name));
+            $package->setReadmeLink(null);
+            $package->setConfigLink(null);
             $package->setVersion($version);
             $package->setType('unknown');
             $package->setDescription(Trans::__('Not yet installed.'));
@@ -308,53 +313,43 @@ class PackageManager
     /**
      * Return the URI for a package's readme.
      *
-     * @param string $name
+     * @param ResolvedExtension $extension
      *
      * @return string
      */
-    private function linkReadMe($name)
+    private function linkReadMe(ResolvedExtension $extension)
     {
-        $extension = $this->app['extensions']->getResolved($name);
-        if ($extension === null) {
-            return;
-        }
-
-        $base = $this->app['resources']->getPath('extensionspath/' . $extension->getRelativePath());
-        $location = strpos($extension->getRelativePath(), 'local') === false ? 'vendor' : 'local';
         $readme = null;
+        $filesystem = $this->app['filesystem']->getFilesystem('extensions');
 
-        if (is_readable($base . '/README.md')) {
-            $readme = $name . '/README.md';
-        } elseif (is_readable($base . '/readme.md')) {
-            $readme = $name . '/readme.md';
+        if ($filesystem->has(sprintf('%s/README.md', $extension->getRelativePath()))) {
+            $readme = $extension->getRelativePath() . '/README.md';
+        } elseif ($filesystem->has(sprintf('%s/readme.md', $extension->getRelativePath()))) {
+            $readme = $extension->getRelativePath() . '/readme.md';
         }
 
         if (!$readme) {
             return;
         }
 
-        return $this->app['url_generator']->generate('readme', ['location' => $location, 'filename' => $readme]);
+        return $this->app['url_generator']->generate('readme', ['filename' => $readme]);
     }
 
     /**
      * Return the URI for a package's config file edit window.
      *
-     * @param string $name
+     * @param ResolvedExtension $extension
      *
      * @return string
      */
-    private function linkConfig($name)
+    private function linkConfig(ResolvedExtension $extension)
     {
-        // Generate the configFileName from the extension $name
-        $configFileName = join('.', array_reverse(explode('/', $name))) . '.yml';
-
-        // Check if we have a config file, and if it's readable. (yet)
-        $configFilePath = $this->app['resources']->getPath('extensionsconfig/' . $configFileName);
-        if (!is_readable($configFilePath)) {
-            return;
+        $configFileName = sprintf('extensions/%s.%s.yml', strtolower($extension->getInnerExtension()->getName()), strtolower($extension->getInnerExtension()->getVendor()));
+        if ($this->app['filesystem']->getFilesystem('config')->has($configFileName)) {
+            return $this->app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => $configFileName]);
         }
 
-        return $this->app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'extensions/' . $configFileName]);
+        return;
     }
 
     /**

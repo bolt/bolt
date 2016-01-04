@@ -41,7 +41,7 @@ class General extends AsyncBase
         $c->get('/omnisearch', 'omnisearch')
             ->bind('omnisearch');
 
-        $c->get('/readme/{location}/{filename}', 'readme')
+        $c->get('/readme/{filename}', 'readme')
             ->assert('filename', '.+')
             ->bind('readme');
 
@@ -247,14 +247,13 @@ class General extends AsyncBase
     /**
      * Render an extension's README.md file.
      *
-     * @param string $location
      * @param string $filename
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function readme($location, $filename)
+    public function readme($filename)
     {
-        $filename = $this->resources()->getPath("extensions/$location/$filename");
+        $filename = $this->resources()->getPath("extensions/$filename");
 
         // Don't allow viewing of anything but "readme.md" files.
         if (strtolower(basename($filename)) != 'readme.md') {
