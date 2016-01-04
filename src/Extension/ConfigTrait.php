@@ -49,7 +49,11 @@ trait ConfigTrait
         $filesystem->getFile(sprintf('config://extensions/%s.%s.yml', strtolower($this->getName()), strtolower($this->getVendor())), $file);
 
         if (!$file->exists()) {
-            $this->copyDistFile($file);
+            try {
+                $this->copyDistFile($file);
+            } catch (\RuntimeException $e) {
+                return $this->config;
+            }
         }
 
         $this->addConfig($file);
@@ -98,7 +102,7 @@ trait ConfigTrait
         /** @var YamlFile $distFile */
         $distFile = $filesystem->get(sprintf('%s/config/config.yml.dist', $this->getBaseDirectory()->getPath()), new YamlFile());
         if (!$distFile->exists()) {
-            return;
+            throw new \RuntimeException(sprintf('No config.yml.dist file found at extensions://%s', $this->getBaseDirectory()->getPath()));
         }
         $file->write($distFile->read());
         $app['logger.system']->info(
