@@ -3,6 +3,7 @@
 namespace Bolt\Pager;
 
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class PagerManager
@@ -45,13 +46,19 @@ class PagerManager implements \ArrayAccess
 {
     const PAGE = 'page';
 
-    protected $app;
     protected $link;
     protected $pagers = [];
+    protected $request;
 
-    public function __construct(Application $app)
+    /**
+     * Initializer of pager objects from request query parameters
+     *
+     * @param Request $request
+     * @throws PagerOverrideException
+     */
+    public function initialize(Request $request)
     {
-        $this->app = $app;
+        $this->request = $request;
         $this->pagers = $this->decodeHttpQuery();
     }
 
@@ -64,8 +71,9 @@ class PagerManager implements \ArrayAccess
      * @param string $linkFor [optional] Id of pager the link should be built for. With empty argument passing
      *          the link will be built for the first initialized pager object found.
      * @return string GET query string
+     * @throw \RuntimeException
      */
-    public function makeLink($linkFor = '')
+    public function makeLink($linkFor = null)
     {
         /*
          * If link set directly that forces using it rather than build
@@ -74,11 +82,12 @@ class PagerManager implements \ArrayAccess
             return $this->link;
         }
 
+        $qparams = $this->getRequest()->query->all();
+
         $pagerid = $this->findPagerId($linkFor);
         $saved = $this->pagers[$pagerid];
         unset($this->pagers[$pagerid]);
 
-        $qparams = $this->app['request']->query->all();
         unset($qparams[$pagerid]);
 
         $chunks = [];
@@ -115,19 +124,16 @@ class PagerManager implements \ArrayAccess
     {
         $values = [];
 
-        if ($this->app->offsetExists('request_stack')) {
-            $request = $this->app['request_stack']->getCurrentRequest();
-
-            if ($request) {
-                foreach ($request->query->all() as $key => $parameter) {
-                    if (strpos($key, self::PAGE) === 0) {
-                        $chunks = explode('_', $key);
-                        $contextId = end($chunks);
-                        $pager = new Pager($this);
-                        $pager->setFor($contextId)->setCurrent($parameter);
-                        $values[$key] = $pager;
-                    }
+        foreach ($this->getRequest()->query->all() as $key => $parameter) {
+            if (strpos($key, self::PAGE) === 0) {
+                $chunks = explode('_', $key);
+                $contextId = end($chunks);
+                if (array_key_exists($key, $this->pagers)) {
+                    throw new PagerOverrideException();
                 }
+                $pager = new Pager($this);
+                $pager->setFor($contextId)->setCurrent($parameter);
+                $values[$key] = $pager;
             }
         }
 
@@ -142,7 +148,7 @@ class PagerManager implements \ArrayAccess
      */
     public function encodeHttpQuery($qparams = null)
     {
-        $qparams = ($qparams === null) ? $this->app['request']->query->all() : $qparams;
+        $qparams = ($qparams === null) ? $this->getRequest()->query->all() : $qparams;
 
         return http_build_query(array_merge($qparams, $this->remapPagers()));
     }
@@ -289,6 +295,21 @@ class PagerManager implements \ArrayAccess
     public function getPagers()
     {
         return $this->pagers;
+    }
+
+    /**
+     * Strict getter for request property
+     *
+     * @return Request
+     * @throws \RuntimeException
+     */
+    public function getRequest()
+    {
+        if (!$this->request) {
+            throw new \RuntimeException('Invalid request scope.');
+        }
+
+        return $this->request;
     }
 
     /**

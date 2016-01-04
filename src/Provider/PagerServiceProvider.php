@@ -19,8 +19,8 @@ class PagerServiceProvider implements ServiceProviderInterface
     {
         // the provider
         $app['pager'] = $app->share(
-            function () use ($app) {
-                return new PagerManager($app);
+            function () {
+                return new PagerManager();
             }
         );
     }
