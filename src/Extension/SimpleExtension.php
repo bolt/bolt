@@ -3,6 +3,7 @@
 namespace Bolt\Extension;
 
 use Bolt\Events\ControllerEvents;
+use Pimple as Container;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -32,6 +33,17 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
         $this->extendMenuService();
         $this->extendAssetServices();
         $this->extendNutService();
+
+        $this->initialize($app);
+    }
+
+    /**
+     * Legacy function to configure the extension.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     */
+    protected function initialize()
+    {
     }
 
     /**

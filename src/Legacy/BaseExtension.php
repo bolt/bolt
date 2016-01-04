@@ -22,11 +22,6 @@ abstract class BaseExtension extends SimpleExtension
     private $composerJson;
 
     /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    abstract protected function initialize();
-
-    /**
      * @param Application $app
      */
     public function __construct(Application $app)
