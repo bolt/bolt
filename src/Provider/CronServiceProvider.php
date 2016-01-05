@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Bolt\Controllers\Cron;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class CronServiceProvider implements ServiceProviderInterface
 {
@@ -12,7 +13,7 @@ class CronServiceProvider implements ServiceProviderInterface
     {
         $app['cron'] = $app->share(
             function ($app) {
-                $cron = new Cron($app);
+                $cron = new Cron($app, new BufferedOutput());
 
                 return $cron;
             }
