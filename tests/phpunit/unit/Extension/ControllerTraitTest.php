@@ -3,6 +3,8 @@
 namespace Bolt\Tests\Extension;
 
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Extension\Mock\ControllerExtension;
+use Bolt\Tests\Extension\Mock\NormalExtension;
 
 /**
  * Class to test Bolt\Extension\ControllerTrait
@@ -11,8 +13,25 @@ use Bolt\Tests\BoltUnitTest;
  */
 class ControllerTraitTest extends BoltUnitTest
 {
-    public function test()
+    public function testRoutesDefault()
     {
+        $app = $this->getApp();
+        $event = $this->getMock('Bolt\Events\MountEvent', ['mount'], [$app, $app['controllers']]);
+        $event->expects($this->exactly(2))->method('mount');
 
+        $ext = new NormalExtension();
+        $ext->setContainer($app);
+        $ext->onMountRoutes($event);
+    }
+
+    public function testRoutes()
+    {
+        $app = $this->getApp();
+        $event = $this->getMock('Bolt\Events\MountEvent', ['mount'], [$app, $app['controllers']]);
+        $event->expects($this->exactly(2))->method('mount');
+
+        $ext = new ControllerExtension();
+        $ext->setContainer($app);
+        $ext->onMountRoutes($event);
     }
 }
