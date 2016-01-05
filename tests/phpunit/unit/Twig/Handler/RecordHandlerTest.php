@@ -509,7 +509,7 @@ GRINGALET;
     {
         $app = $this->getApp();
 
-        $pager = $this->getMock('\Bolt\Pager\PagerManager', ['isEmptyPager'], [$app]);
+        $pager = $this->getMock('\Bolt\Pager\PagerManager', ['isEmptyPager'], []);
         $pager
             ->expects($this->once())
             ->method('isEmptyPager')
@@ -532,7 +532,7 @@ GRINGALET;
     {
         $app = $this->getApp();
 
-        $manager = $this->getMock('\Bolt\Pager\PagerManager', ['isEmptyPager', 'getPager'], [$app]);
+        $manager = $this->getMock('\Bolt\Pager\PagerManager', ['isEmptyPager', 'getPager'], []);
 
         $pager = $this->getMock('\Bolt\Pager\Pager');
         $pager->for = $pagerName = 'Clippy';
