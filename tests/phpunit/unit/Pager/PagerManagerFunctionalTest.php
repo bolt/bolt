@@ -62,14 +62,20 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
      */
     public function testDecodeHttpQuery($query, $expected)
     {
-        $manager = $this->createPagerManager(Request::create($query));
-        $mirror = new PagerManager($this->getApp());
+        $manager = new PagerManager();
+        $manager->initialize(Request::create($query));
+
+        $mirror = new PagerManager();
+        $req = &$this->getProtectedAttrRef($mirror, 'request');
+        $req = Request::create($query);
+
         foreach ($expected as $parid => $pager) {
             if ($pager) {
                 $mirror[$parid] = $this->createPager($pager);
             }
         }
-        $this->assertEquals($mirror->getPagers(), $manager->decodeHttpQuery());
+
+        $this->assertEquals($mirror->getPagers(), $manager->getPagers());
     }
 
     /**
@@ -112,7 +118,8 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
      */
     public function testMakelink($linkFor, $query, $expected)
     {
-        $manager = $this->createPagerManager(Request::create($query));
+        $manager = $this->createPagerManager();
+        $manager->initialize(Request::create($query));
         $this->assertEquals($expected, $manager->makeLink($linkFor));
     }
 
@@ -146,7 +153,8 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
      */
     public function testGetPager($query, $pagers, $contextId, $expected)
     {
-        $manager = $this->createPagerManager(Request::create($query));
+        $manager = $this->createPagerManager();
+        $manager->initialize(Request::create($query));
         foreach ($pagers as $ctxid => $pager) {
             $manager[$ctxid] = $this->createPager($pager);
         }
@@ -186,7 +194,8 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
      */
     public function testGetCurrentPage($query, $contextId, $expected)
     {
-        $manager = $this->createPagerManager(Request::create($query));
+        $manager = $this->createPagerManager();
+        $manager->initialize(Request::create($query));
         $this->assertEquals($expected, $manager->getCurrentPage($contextId));
     }
 }

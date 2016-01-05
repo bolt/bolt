@@ -30,13 +30,14 @@ class PagerManagerUnitTest extends PagerManagerTestBase
      */
     public function testMakeParameterId($expected, $suffix)
     {
-        $manager = $this->createPagerManager(Request::create('/'));
+        $manager = $this->createPagerManager();
         $this->assertEquals($expected, $manager->makeParameterId($suffix));
     }
 
     public function testMakelink()
     {
-        $builder = $this->createPagerManagerMockBuilder(Request::create('/'));
+        $builder = $this->createPagerManagerMockBuilder();
+        $this->initApp();
 
         $manager = $builder
             ->setMethods(['findPagerId', 'encodeHttpQuery'])
@@ -60,6 +61,7 @@ class PagerManagerUnitTest extends PagerManagerTestBase
         $manager = $this->createPagerManagerMockBuilder()
             ->setMethods(['decodeHttpQuery'])
             ->getMock();
+        $this->initApp();
 
         $expected = $decoded = [
             'page' => $this->createPager(['current' => 2, 'for' => 'page', 'manager' => $manager]),
@@ -75,16 +77,17 @@ class PagerManagerUnitTest extends PagerManagerTestBase
 
     public function testEncodeHttpQuery()
     {
-        list($manager, $expected) = $this->prepareEncodeHttpQuery();
-        $this->assertEquals($expected, $manager->encodeHttpQuery());
+        list($manager, $expected, $parms) = $this->prepareEncodeHttpQuery();
+        $this->assertEquals($expected, $manager->encodeHttpQuery($parms));
     }
 
     public function testToString()
     {
-        list($manager, $expected) = $this->prepareEncodeHttpQuery();
+        $app = $this->initApp(Request::create('/?some=thing'));
+        list($manager, $expected, $parms) = $this->prepareEncodeHttpQuery();
+        $manager->initialize($app['request']);
         $this->assertEquals('?'.$expected, (string) $manager);
     }
-
     public function testOffsetSet()
     {
         $manager = $this->createPagerManagerMockBuilder()
@@ -155,7 +158,6 @@ class PagerManagerUnitTest extends PagerManagerTestBase
         $pagers = $refdata;
         $this->assertEquals($refkeys, $manager->keys());
     }
-
     /**
      * @return array
      */
@@ -203,7 +205,6 @@ class PagerManagerUnitTest extends PagerManagerTestBase
     public function testFindInitializedPagerId($data, $expected)
     {
         $manager = $this->createPagerManagerMockBuilder()
-            ->setMethods(['decodeHttpQuery'])
             ->getMock();
 
         $pagers = &$this->getProtectedAttrRef($manager, 'pagers');
@@ -218,7 +219,6 @@ class PagerManagerUnitTest extends PagerManagerTestBase
     public function testRemapPagers()
     {
         $manager = $this->createPagerManagerMockBuilder()
-            ->setMethods(['decodeHttpQuery'])
             ->getMock();
         $pagers = &$this->getProtectedAttrRef($manager, 'pagers');
         $pagers = [
@@ -233,7 +233,7 @@ class PagerManagerUnitTest extends PagerManagerTestBase
 
     private function prepareEncodeHttpQuery()
     {
-        $manager = $this->createPagerManagerMockBuilder(Request::create('/?some=thing'))
+        $manager = $this->createPagerManagerMockBuilder()
             ->setMethods(['decodeHttpQuery', 'remapPagers'])
             ->getMock();
 
@@ -251,6 +251,6 @@ class PagerManagerUnitTest extends PagerManagerTestBase
             ->method('remapPagers')
             ->willReturn(['page' => 2, 'page_wine' => 9999]);
 
-        return [$manager, $expected];
+        return [$manager, $expected, [ 'some' => 'thing']];
     }
 }
