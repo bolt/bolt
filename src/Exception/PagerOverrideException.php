@@ -10,5 +10,4 @@ namespace Bolt\Exception;
  */
 class PagerOverrideException extends \Exception
 {
-
 }

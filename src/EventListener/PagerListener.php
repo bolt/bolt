@@ -1,6 +1,7 @@
 <?php
 
 namespace Bolt\EventListener;
+
 use Bolt\Pager\PagerManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -32,6 +33,10 @@ class PagerListener implements EventSubscriberInterface
      */
     public function onRequest(GetResponseEvent $event)
     {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
         $request = $event->getRequest();
         // because of vaious type of requests fires event (Frontend/Async/Thumbs/etc.)
         // we're just listening to which has page parameter
