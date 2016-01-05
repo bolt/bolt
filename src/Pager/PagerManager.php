@@ -2,6 +2,7 @@
 
 namespace Bolt\Pager;
 
+use Bolt\Exception\PagerOverrideException;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -51,6 +52,18 @@ class PagerManager implements \ArrayAccess
     protected $request;
 
     /**
+     * @param Request $request
+     * @return bool
+     */
+    public static function isPagingRequest(Request $request)
+    {
+        $matches = [];
+        $found = preg_match('/page_[A-Za-z0-9_]+=\d+/', $request->getRequestUri(), $matches);
+
+        return (bool) $found;
+    }
+
+    /**
      * Initializer of pager objects from request query parameters
      *
      * @param Request $request
@@ -58,8 +71,17 @@ class PagerManager implements \ArrayAccess
      */
     public function initialize(Request $request)
     {
-        $this->request = $request;
-        $this->pagers = $this->decodeHttpQuery();
+        // prevent reinit
+        if (!$this->request) {
+            $this->request = $request;
+            $pagers = $this->decodeHttpQuery();
+            // prevent pager override
+            if (array_intersect_key($pagers, $this->pagers)) {
+                throw new PagerOverrideException();
+            }
+
+            $this->pagers = $pagers;
+        }
     }
 
     /**
@@ -82,13 +104,16 @@ class PagerManager implements \ArrayAccess
             return $this->link;
         }
 
-        $qparams = $this->getRequest()->query->all();
+        $qparams = ($this->request) ? $this->request->query->all() : [];
 
         $pagerid = $this->findPagerId($linkFor);
-        $saved = $this->pagers[$pagerid];
-        unset($this->pagers[$pagerid]);
 
-        unset($qparams[$pagerid]);
+        $saved = false;
+        if (!empty($this->pagers) && array_key_exists($pagerid, $this->pagers)) {
+            $saved = $this->pagers[$pagerid];
+            unset($this->pagers[$pagerid]);
+            unset($qparams[$pagerid]);
+        }
 
         $chunks = [];
         $chunks[] = $this->encodeHttpQuery($qparams);
@@ -97,7 +122,9 @@ class PagerManager implements \ArrayAccess
         }
         $link = '?'.implode('&', $chunks);
 
-        $this->pagers[$pagerid] = $saved;
+        if ($saved) {
+            $this->pagers[$pagerid] = $saved;
+        }
 
         return $link;
     }
@@ -128,9 +155,6 @@ class PagerManager implements \ArrayAccess
             if (strpos($key, self::PAGE) === 0) {
                 $chunks = explode('_', $key);
                 $contextId = end($chunks);
-                if (array_key_exists($key, $this->pagers)) {
-                    throw new PagerOverrideException();
-                }
                 $pager = new Pager($this);
                 $pager->setFor($contextId)->setCurrent($parameter);
                 $values[$key] = $pager;

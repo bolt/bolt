@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Pager;
+namespace Bolt\Exception;
 
 /**
  * Class PagerOverrideException
