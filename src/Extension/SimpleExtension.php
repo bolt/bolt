@@ -58,9 +58,9 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     /**
      * {@inheritdoc}
      */
-    public function getServiceProvider()
+    public function getServiceProviders()
     {
-        return $this;
+        return [$this];
     }
 
     /**

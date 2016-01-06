@@ -183,9 +183,12 @@ class Manager
             throw new \RuntimeException(Trans::__('Can not re-register extensions.'));
         }
         foreach ($this->extensions as $extension) {
-            if ($extension->isEnabled()) {
-                $extension->getInnerExtension()->setContainer($app);
-                $app->register($extension->getInnerExtension()->getServiceProvider());
+            if ($extension->isEnabled() !== true) {
+                continue;
+            }
+            $extension->getInnerExtension()->setContainer($app);
+            foreach ($extension->getInnerExtension()->getServiceProviders() as $provider) {
+                $app->register($provider);
             }
         }
         $this->registered = true;

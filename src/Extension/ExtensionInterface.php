@@ -16,9 +16,9 @@ interface ExtensionInterface
     /**
      * Returns the service provider.
      *
-     * @return ServiceProviderInterface
+     * @return ServiceProviderInterface[]
      */
-    public function getServiceProvider();
+    public function getServiceProviders();
 
     /**
      * Sets the container.
