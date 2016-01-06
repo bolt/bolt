@@ -41,9 +41,9 @@ class SimpleExtensionTest extends BoltUnitTest
     {
         $ext = new NormalExtension();
 
-        $this->assertInstanceOf('Bolt\Extension\AbstractExtension', $ext->getServiceProvider());
-        $this->assertInstanceOf('Silex\ServiceProviderInterface', $ext->getServiceProvider());
-        $this->assertInstanceOf('Symfony\Component\EventDispatcher\EventSubscriberInterface', $ext->getServiceProvider());
+        $this->assertInstanceOf('Bolt\Extension\AbstractExtension', $ext->getServiceProviders());
+        $this->assertInstanceOf('Silex\ServiceProviderInterface', $ext->getServiceProviders());
+        $this->assertInstanceOf('Symfony\Component\EventDispatcher\EventSubscriberInterface', $ext->getServiceProviders());
     }
 
     public function testGetSubscribedEvents()

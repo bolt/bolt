@@ -14,9 +14,9 @@ class BasicExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getServiceProvider()
+    public function getServiceProviders()
     {
-        return $this;
+        return [$this];
     }
 
     /**
