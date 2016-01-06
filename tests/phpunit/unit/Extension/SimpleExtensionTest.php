@@ -19,6 +19,7 @@ class SimpleExtensionTest extends BoltUnitTest
         $mock = $this->getMock('Bolt\Tests\Extension\Mock\NormalExtension', ['getContainer']);
         $mock->expects($this->atLeast(4))->method('getContainer')->willReturn($app);
 
+        /** @var NormalExtension $mock */
         $mock->setContainer($app);
         $mock->register($app);
     }
@@ -41,9 +42,10 @@ class SimpleExtensionTest extends BoltUnitTest
     {
         $ext = new NormalExtension();
 
-        $this->assertInstanceOf('Bolt\Extension\AbstractExtension', $ext->getServiceProviders());
-        $this->assertInstanceOf('Silex\ServiceProviderInterface', $ext->getServiceProviders());
-        $this->assertInstanceOf('Symfony\Component\EventDispatcher\EventSubscriberInterface', $ext->getServiceProviders());
+        $providers = $ext->getServiceProviders();
+        $this->assertInstanceOf('Bolt\Extension\AbstractExtension', $providers[0]);
+        $this->assertInstanceOf('Silex\ServiceProviderInterface', $providers[0]);
+        $this->assertInstanceOf('Symfony\Component\EventDispatcher\EventSubscriberInterface', $providers[0]);
     }
 
     public function testGetSubscribedEvents()
