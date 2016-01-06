@@ -25,10 +25,8 @@ class DeprecatedAssetExtension extends SimpleExtension
     /**
      * {@inheritdoc}
      */
-    public function registerHelper(Application $app)
+    protected function initialize()
     {
-        parent::register($app);
-
         call_user_func_array([$this, $this->registerFunction], $this->registerParameters);
     }
 
