@@ -14,7 +14,7 @@ use Pimple as Container;
 trait MenuTrait
 {
     /** @var MenuEntry[] */
-    private $menuEntries = [];
+    private $menuEntries;
 
     /**
      * Returns a list of menu entries to register.
@@ -39,7 +39,8 @@ trait MenuTrait
             $app->extend(
                 'menu.admin',
                 function (MenuEntry $menus) {
-                    $menu = $menus->get('extend');
+                    /** @var MenuEntry $menus */
+                    $extendMenu = $menus->get('extend');
 
                     foreach ($this->registerMenuEntries() as $menuEntry) {
                         if (!$menuEntry instanceof MenuEntry) {
@@ -50,7 +51,10 @@ trait MenuTrait
                             ));
                         }
 
-                        $menu->add($menuEntry->getName(), $menuEntry->getUri());
+                        $extendMenu->add($menuEntry);
+                    }
+                    foreach ((array) $this->menuEntries as $menuEntry) {
+                        $extendMenu->add($menuEntry);
                     }
 
                     return $menus;
@@ -62,7 +66,7 @@ trait MenuTrait
     /**
      * Add a menu option to backend menu.
      *
-     * @internal Will be made private in 4.0. Use registerMenuEntries() instead.
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use registerMenuEntries() instead.
      *
      * @param string $label
      * @param string $path
