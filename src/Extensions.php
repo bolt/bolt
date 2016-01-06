@@ -214,7 +214,7 @@ class Extensions
             return;
         }
 
-        if (!$force && $this->app['filesystem']->has('app://cache/.local.autoload.built')) {
+        if (!$force && $this->app['filesystem']->has('cache://.local.autoload.built')) {
             return;
         }
 
@@ -268,7 +268,7 @@ class Extensions
         $boltJson['autoload']['psr-4'] = $boltPsr4;
         $composerJsonFile->write($boltJson);
         $this->app['extend.manager']->dumpautoload();
-        $this->app['filesystem']->put('app://cache/.local.autoload.built', time());
+        $this->app['filesystem']->put('cache://.local.autoload.built', time());
     }
 
     /**

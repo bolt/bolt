@@ -20,6 +20,7 @@ class Manager extends MountManager
             array(
                 'root'       => $app['resources']->getPath('root'),
                 'app'        => $app['resources']->getPath('app'),
+                'cache'      => $app['resources']->getPath('cache'),
                 'default'    => $app['resources']->getPath('files'),
                 'files'      => $app['resources']->getPath('files'),
                 'config'     => $app['resources']->getPath('config'),
