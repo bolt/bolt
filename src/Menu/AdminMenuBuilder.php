@@ -54,91 +54,102 @@ final class AdminMenuBuilder
     protected function addConfiguration(Application $app)
     {
         // Main configuration
-        $configEntry = $this->rootEntry->add('config', 'config')
-            ->setLabel(Trans::__('Configuration'))
-            ->setIcon('fa:cogs')
-            ->setPermission('settings')
-        ;
+        $configEntry = $this->rootEntry->add(
+            (new MenuEntry('config', 'config'))
+                ->setLabel(Trans::__('Configuration'))
+                ->setIcon('fa:cogs')
+                ->setPermission('settings')
+        );
 
         // Users & Permssions
         $path = $this->rootEntry->getUri() . '/users';
-        $configEntry->add('users', $path)
-            ->setLabel(Trans::__('Users & Permissions'))
-            ->setIcon('fa:group')
-            ->setPermission('users')
-        ;
+        $configEntry->add(
+            (new MenuEntry('users', $path))
+                ->setLabel(Trans::__('Users & Permissions'))
+                ->setIcon('fa:group')
+                ->setPermission('users')
+        );
 
         // Main configuration
         $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'config.yml']);
-        $configEntry->add('config_main', $path)
-            ->setLabel(Trans::__('Main configuration'))
-            ->setIcon('fa:cog')
-            ->setPermission('files:config')
-        ;
+        $configEntry->add(
+            (new MenuEntry('config_main', $path))
+                ->setLabel(Trans::__('Main configuration'))
+                ->setIcon('fa:cog')
+                ->setPermission('files:config')
+        );
 
         // ContentTypes
         $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'contenttypes.yml']);
-        $configEntry->add('config_contenttypes', $path)
-            ->setLabel(Trans::__('Contenttypes'))
-            ->setIcon('fa:paint-brush')
-            ->setPermission('files:config')
-        ;
+        $configEntry->add(
+            (new MenuEntry('config_contenttypes', $path))
+                ->setLabel(Trans::__('Contenttypes'))
+                ->setIcon('fa:paint-brush')
+                ->setPermission('files:config')
+        );
 
         // Taxonomy
         $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'taxonomy.yml']);
-        $configEntry->add('config_taxonomy', $path)
-            ->setLabel(Trans::__('Taxonomy'))
-            ->setIcon('fa:tags')
-            ->setPermission('files:config')
-        ;
+        $configEntry->add(
+            (new MenuEntry('config_taxonomy', $path))
+                ->setLabel(Trans::__('Taxonomy'))
+                ->setIcon('fa:tags')
+                ->setPermission('files:config')
+        );
 
         // Menus
         $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'menu.yml']);
-        $configEntry->add('config_menu', $path)
+        $configEntry->add(
+            (new MenuEntry('config_menu', $path))
             ->setLabel(Trans::__('Menu setup'))
             ->setIcon('fa:list')
             ->setPermission('files:config')
-        ;
+        );
 
         // Routing
         $path = $app['url_generator']->generate('fileedit', ['namespace' => 'config', 'file' => 'routing.yml']);
-        $configEntry->add('config_routing', $path)
-            ->setLabel(Trans::__('menu.configuration.routing'))
-            ->setIcon('fa:random')
-            ->setPermission('files:config')
-        ;
+        $configEntry->add(
+            (new MenuEntry('config_routing', $path))
+                ->setLabel(Trans::__('menu.configuration.routing'))
+                ->setIcon('fa:random')
+                ->setPermission('files:config')
+        );
 
         // Database checks
         $path = $this->rootEntry->getUri() . '/dbcheck';
-        $configEntry->add('dbcheck', $path)
-            ->setLabel(Trans::__('Check database'))
-            ->setIcon('fa:database')
-            ->setPermission('dbupdate')
-        ;
+        $configEntry->add(
+            (new MenuEntry('dbcheck', $path))
+                ->setLabel(Trans::__('Check database'))
+                ->setIcon('fa:database')
+                ->setPermission('dbupdate')
+        );
 
         // Cache flush
         $path = $this->rootEntry->getUri() . '/clearcache';
-        $configEntry->add('clearcache', $path)
-            ->setLabel(Trans::__('Clear the cache'))
-            ->setIcon('fa:eraser')
-            ->setPermission('clearcache')
-        ;
+        $configEntry->add(
+            (new MenuEntry('clearcache', $path))
+                ->setLabel(Trans::__('Clear the cache'))
+                ->setIcon('fa:eraser')
+                ->setPermission('clearcache')
+        );
 
         // Change log
         $path = $this->rootEntry->getUri() . '/changelog';
-        $configEntry->add('log_change', $path)
-            ->setLabel(Trans::__('logs.change-log'))
-            ->setIcon('fa:archive')
-            ->setPermission('changelog')
-        ;
+        $configEntry->add(
+            (new MenuEntry('log_change', $path))
+                ->setLabel(Trans::__('logs.change-log'))
+                ->setIcon('fa:archive')
+                ->setPermission('changelog')
+        );
 
         // System log
         $path = $this->rootEntry->getUri() . '/systemlog';
-        $configEntry->add('log_system', $path)
+        $configEntry->add(
+            (new MenuEntry('log_system', $path))
             ->setLabel(Trans::__('logs.system-log'))
             ->setIcon('fa:archive')
             ->setPermission('systemlog')
-        ;
+        );
     }
 
     /**
@@ -148,27 +159,30 @@ final class AdminMenuBuilder
      */
     protected function addFileManagement(Application $app)
     {
-        $fileEntry = $this->rootEntry->add('files', 'files')
-            ->setLabel(Trans::__('Extensions'))
-            ->setIcon('fa:cubes')
-            ->setPermission('extensions')
-        ;
+        $fileEntry = $this->rootEntry->add(
+            (new MenuEntry('files', 'files'))
+                ->setLabel(Trans::__('Extensions'))
+                ->setIcon('fa:cubes')
+                ->setPermission('extensions')
+        );
 
         // Uploaded files
         $path = $app['url_generator']->generate('files', ['namespace' => 'files', 'path' => '']);
-        $fileEntry->add('files_uploads', $path)
-            ->setLabel(Trans::__('Uploaded files'))
-            ->setIcon('fa:folder-open-o')
-            ->setPermission('files:uploads')
-        ;
+        $fileEntry->add(
+            (new MenuEntry('files_uploads', $path))
+                ->setLabel(Trans::__('Uploaded files'))
+                ->setIcon('fa:folder-open-o')
+                ->setPermission('files:uploads')
+        );
 
         // Themes
         $path = $app['url_generator']->generate('files', ['namespace' => 'themes', 'path' => '']);
-        $fileEntry->add('files_themes', $path)
-            ->setLabel(Trans::__('View/edit Templates'))
-            ->setIcon('fa:desktop')
-            ->setPermission('files:theme')
-        ;
+        $fileEntry->add(
+            (new MenuEntry('files_themes', $path))
+                ->setLabel(Trans::__('View/edit Templates'))
+                ->setIcon('fa:desktop')
+                ->setPermission('files:theme')
+        );
     }
 
     /**
@@ -178,34 +192,38 @@ final class AdminMenuBuilder
      */
     protected function addTranslations(Application $app)
     {
-        $translationEntry = $this->rootEntry->add('translations', 'tr')
-            ->setLabel(Trans::__('Translations'))
-            ->setPermission('translation')
-        ;
+        $translationEntry = $this->rootEntry->add(
+            (new MenuEntry('translations', 'tr'))
+                ->setLabel(Trans::__('Translations'))
+                ->setPermission('translation')
+        );
 
         // Messages
         $path = $app['url_generator']->generate('translation', ['domain' => 'messages']);
-        $translationEntry->add('tr_messages', $path)
-            ->setLabel(Trans::__('Messages'))
-            ->setIcon('fa:flag')
-            ->setPermission('translation')
-        ;
+        $translationEntry->add(
+            (new MenuEntry('tr_messages', $path))
+                ->setLabel(Trans::__('Messages'))
+                ->setIcon('fa:flag')
+                ->setPermission('translation')
+        );
 
         // Long messages
         $path = $app['url_generator']->generate('translation', ['domain' => 'infos']);
-        $translationEntry->add('tr_long_messages', $path)
-            ->setLabel(Trans::__('Long messages'))
-            ->setIcon('fa:flag')
-            ->setPermission('translation')
-        ;
+        $translationEntry->add(
+            (new MenuEntry('tr_long_messages', $path))
+                ->setLabel(Trans::__('Long messages'))
+                ->setIcon('fa:flag')
+                ->setPermission('translation')
+        );
 
         // Contenttypes
         $path = $app['url_generator']->generate('translation', ['domain' => 'contenttypes']);
-        $translationEntry->add('tr_contenttypes', $path)
-            ->setLabel(Trans::__('Contenttypes'))
-            ->setIcon('fa:flag')
-            ->setPermission('translation')
-        ;
+        $translationEntry->add(
+            (new MenuEntry('tr_contenttypes', $path))
+                ->setLabel(Trans::__('Contenttypes'))
+                ->setIcon('fa:flag')
+                ->setPermission('translation')
+        );
     }
 
     /**
@@ -213,10 +231,11 @@ final class AdminMenuBuilder
      */
     protected function addExtend()
     {
-        $this->rootEntry->add('extend', 'extend')
-            ->setLabel(Trans::__('Extensions'))
-            ->setIcon('fa:cubes')
-            ->setPermission('extensions')
-        ;
+        $this->rootEntry->add(
+            (new MenuEntry('extend', 'extend'))
+                ->setLabel(Trans::__('Extensions'))
+                ->setIcon('fa:cubes')
+                ->setPermission('extensions')
+        );
     }
 }

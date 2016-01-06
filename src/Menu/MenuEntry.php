@@ -139,15 +139,15 @@ class MenuEntry
     /**
      * Add child menu entry.
      *
-     * @param string    $name
-     * @param string    $uri
+     * @param MenuEntry $menu
      *
      * @return MenuEntry
      */
-    public function add($name, $uri)
+    public function add(MenuEntry $menu)
     {
-        $this->children[$name] = new MenuEntry($name, $uri);
-        $this->children[$name]->setParent($this);
+        $name = $menu->getName();
+        $menu->setParent($this);
+        $this->children[$name] = $menu;
 
         return $this->children[$name];
     }
@@ -175,7 +175,7 @@ class MenuEntry
     }
 
     /**
-     * Set the menu entry's children name.
+     * Set the menu entry's parent object.
      *
      * @param MenuEntry $parent
      *
