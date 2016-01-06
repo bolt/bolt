@@ -43,7 +43,7 @@ class ContainerProxy extends Container
     public function offsetGet($id)
     {
         if (!in_array($id, $this->serviceWhiteList)) {
-            throw new \LogicException('You cannot retrieve services until the app has been booted.');
+            throw new \LogicException(sprintf('You cannot retrieve services until the app has been booted. Attempting to access %s', $id));
         }
         return $this->container->offsetGet($id);
     }
