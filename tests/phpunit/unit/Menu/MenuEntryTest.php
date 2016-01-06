@@ -31,11 +31,12 @@ class MenuEntryTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $rootEntry = new MenuEntry('root', $app['config']->get('general/branding/path'));
-        $extendEntry = $rootEntry->add('dropbear', 'drop-bears')
+        $extendEntry = $rootEntry->add(
+            (new MenuEntry('dropbear', 'drop-bears'))
             ->setLabel('Furry Animals')
             ->setIcon('fa:koala')
             ->setPermission('strict')
-        ;
+        );
 
         $this->assertSame('/bolt/drop-bears', $extendEntry->getUri());
         $this->assertSame('dropbear', $extendEntry->getName());
