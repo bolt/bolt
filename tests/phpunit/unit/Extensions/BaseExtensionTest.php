@@ -509,7 +509,7 @@ class ExtensionAssetMocker extends BaseExtension
         $this->basepath = PHPUNIT_ROOT . '/resources';
     }
 
-    public function initialize(\Pimple $app)
+    public function initialize()
     {
     }
 }

@@ -24,7 +24,7 @@ class Extension extends BaseExtension
         $app['asset.queue.snippet']->add($snippet);
     }
 
-    public function initialize(Container $app)
+    public function initialize()
     {
     }
 

@@ -10,7 +10,7 @@ use Pimple as Container;
  */
 class BadExtension extends Extension
 {
-    public function initialize(Container $app)
+    public function initialize()
     {
         throw new \Exception('BadExtension', 1);
     }

@@ -17,7 +17,7 @@ class ExtendedExtension extends BaseExtension
         return 'mockExtended';
     }
 
-    public function initialize(Container $app)
+    public function initialize()
     {
     }
 }
