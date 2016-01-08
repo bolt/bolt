@@ -50,15 +50,13 @@ var init = {
                 $('#form_contents').val(editor.getValue());
             }
 
-            // Ping @rarila: How the heck would I get bolt.data('editcontent.msg.saving') here?
-            var saving = "Saving …",
-                savedon = $('p.lastsaved').html(),
+            var savedon = $('p.lastsaved').html(),
                 msgNotSaved = "Not saved";
 
             // Disable the buttons, to indicate stuff is being done.
             $('#saveeditfile').addClass('disabled');
             $('#saveeditfile i').addClass('fa-spin fa-spinner');
-            $('p.lastsaved').text(saving);
+            $('p.lastsaved').text(Bolt.data('editcontent.msg.saving'));
 
             $.post('?returnto=ajax', $('#editfile').serialize())
                 .done(function (data) {
