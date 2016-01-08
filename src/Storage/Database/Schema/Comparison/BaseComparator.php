@@ -23,8 +23,12 @@ abstract class BaseComparator
     protected $connection;
     /** @var \Bolt\Storage\Database\Schema\Manager */
     protected $manager;
-    /** @var \Pimple */
+    /** @var string */
+    protected $prefix;
+    /** @var Pimple */
     protected $schemaTables;
+    /** @var array */
+    protected $contentTables;
     /** @var \Psr\Log\LoggerInterface */
     protected $systemLog;
 
@@ -46,14 +50,18 @@ abstract class BaseComparator
      *
      * @param Connection      $connection
      * @param Manager         $manager
+     * @param string          $prefix
      * @param Pimple          $schemaTables
+     * @param array           $contentTables
      * @param LoggerInterface $systemLog
      */
-    public function __construct(Connection $connection, Manager $manager, Pimple $schemaTables, LoggerInterface $systemLog)
+    public function __construct(Connection $connection, Manager $manager, $prefix, Pimple $schemaTables, array $contentTables, LoggerInterface $systemLog)
     {
         $this->connection = $connection;
         $this->manager = $manager;
+        $this->prefix = $prefix;
         $this->schemaTables = $schemaTables;
+        $this->contentTables = $contentTables;
         $this->systemLog = $systemLog;
         $this->setIgnoredChanges();
     }
@@ -215,13 +223,27 @@ abstract class BaseComparator
     {
         $diffUpdater = new DiffUpdater($this->ignoredChanges);
 
-        /** @var $diff TableDiff */
+        /** @var TableDiff $tableDiff */
         foreach ($this->diffs as $tableName => $tableDiff) {
+            $this->adjustContentTypeDiffs($tableDiff);
             $this->diffs[$tableName] = $diffUpdater->adjustDiff($tableDiff);
             if ($this->diffs[$tableName] === false) {
                 unset($this->diffs[$tableName]);
                 continue;
             }
+        }
+    }
+
+    /**
+     * Clear 'removedColumns' attribute from ContentType table diffs to prevent accidental data removal.
+     *
+     * @param TableDiff $tableDiff
+     */
+    protected function adjustContentTypeDiffs(TableDiff $tableDiff)
+    {
+        $alias = str_replace($this->prefix, '', $tableDiff->fromTable->getName());
+        if (in_array($alias, $this->contentTables)) {
+            $tableDiff->removedColumns = array();
         }
     }
 
