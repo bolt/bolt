@@ -34,7 +34,9 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
         $this->extendAssetServices();
         $this->extendNutService();
 
-        $this->initialize($app);
+        $app['dispatcher']->addSubscriber($this);
+
+        $this->initialize();
     }
 
     /**
@@ -68,7 +70,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
      */
     public function boot(Application $app)
     {
-        $this->container['dispatcher']->addSubscriber($this);
+        $this->container = $app;
         $this->subscribe($this->container['dispatcher']);
     }
 
