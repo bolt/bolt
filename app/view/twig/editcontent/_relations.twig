@@ -26,7 +26,13 @@
                     'compact':       true,
                     'content':       record,
                     'excerptlength': 280,
-                    'permissions':   {'edit': editable},
+                    'permissions':   {
+                        'edit': isallowed('edit', record),
+                        'create': isallowed('create', record),
+                        'publish': isallowed('publish', record),
+                        'delete': isallowed('delete', record),
+                        'depublish':isallowed('depublish', record)
+                    },
                     'thumbsize':     54,
                 } %}
                 {% include ['@bolt/_sub/_listing.twig'] with listing_vars %}
