@@ -418,6 +418,12 @@ class Config
             throw new LowlevelException($error);
         }
 
+        // Contenttypes without fields make no sense.
+        if (!isset($contentType['fields'])) {
+            $error = sprintf("In contenttype <code>%s</code>, no 'fields' are set. Please edit <code>contenttypes.yml</code>, and correct this.", $key);
+            throw new LowlevelException($error);
+        }
+
         if (!isset($contentType['slug'])) {
             $contentType['slug'] = Slugify::create()->slugify($contentType['name']);
         }
