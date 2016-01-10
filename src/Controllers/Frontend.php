@@ -301,6 +301,11 @@ class Frontend
         $order = $app['config']->get('general/listing_sort');
         $content = $app['storage']->getContentByTaxonomy($taxonomytype, $slug, array('limit' => $amount, 'order' => $order, 'page' => $page));
 
+        // Handle case where listing records has been override for specific taxonomy
+        if (array_key_exists('listing_records', $taxonomy) && is_int($taxonomy['listing_records'])) {
+            $amount = $taxonomy['listing_records'];
+        }
+
         // See https://github.com/bolt/bolt/pull/2310
         if (
                 ($taxonomy['behaves_like'] === 'tags' && !$content) ||
