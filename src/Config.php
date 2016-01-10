@@ -72,14 +72,13 @@ class Config
     public function __construct(Silex\Application $app)
     {
         $this->app = $app;
+    }
+
+    public function initialize()
+    {
         $this->fields = new Storage\Field\Manager();
         $this->defaultConfig = $this->getDefaults();
 
-        $this->initialize();
-    }
-
-    protected function initialize()
-    {
         if (!$this->loadCache()) {
             $this->data = $this->getConfig();
             $this->parseTemplatefields();
