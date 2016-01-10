@@ -34,8 +34,6 @@ return call_user_func(
         foreach ($autodetectionMappings as $autoloadPath => $configType) {
             if (file_exists($autoloadPath)) {
                 $loader = require $autoloadPath;
-                // Register a PHP shutdown function to catch early fatal errors
-                register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrorsEarly']);
                 // Instantiate the configuration class
                 $configClass = '\\Bolt\\Configuration\\' . $configType;
                 $config = new $configClass($loader);
@@ -59,9 +57,6 @@ return call_user_func(
 
         // Create the 'Bolt application'
         $app = new Application(['resources' => $config]);
-
-        // Register a PHP shutdown function to catch fatal errors with the application object
-        register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrors'], $app);
 
         // Initialize the 'Bolt application': Set up all routes, providers, database, templating, etc..
         $app->initialize();
