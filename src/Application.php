@@ -49,6 +49,9 @@ class Application extends Silex\Application
             $this['classloader'] = $this['resources']->getClassLoader();
         }
 
+        // Register a PHP shutdown function to catch fatal errors with the application object
+        register_shutdown_function(['\Bolt\Exception\LowlevelException', 'catchFatalErrors'], $this);
+
         $this['resources']->setApp($this);
         $this->initConfig();
         $this->initLogger();
@@ -72,6 +75,7 @@ class Application extends Silex\Application
         $this->register(new Provider\DatabaseSchemaServiceProvider())
             ->register(new Provider\ConfigServiceProvider())
         ;
+        $this['config']->initialize();
     }
 
     protected function initSession()
