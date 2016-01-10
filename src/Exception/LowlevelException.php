@@ -123,6 +123,12 @@ HTML;
      */
     public static function catchFatalErrors(Application $app, $flush = true)
     {
+        if (self::$screen !== null) {
+            echo self::$screen;
+
+            return;
+        }
+
         // Get last error, if any
         $error = error_get_last();
 
