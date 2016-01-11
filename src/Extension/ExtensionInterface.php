@@ -80,4 +80,11 @@ interface ExtensionInterface
      * @return string
      */
     public function getVendor();
+
+    /**
+     * Returns the human friendly extension name.
+     *
+     * @return string
+     */
+    public function getDisplayName();
 }

@@ -243,7 +243,7 @@ class PackageManager
 
             // Handle non-Bolt packages
             if ($extension) {
-                $title = $extension->getName();
+                $title = $extension->getDisplayName();
                 $constraint = $extension->getDescriptor()->getConstraint() ?: $this->app['bolt_version'];
                 $readme = $this->linkReadMe($extension);
                 $config = $this->linkConfig($extension);
@@ -279,7 +279,7 @@ class PackageManager
             $composerJson = $extension->getBaseDirectory()->get('composer.json');
             $package = Package::createFromComposerJson($composerJson->parse());
             $package->setStatus('local');
-            $package->setTitle($extension->getName());
+            $package->setTitle($extension->getDisplayName());
             $package->setReadmeLink($this->linkReadMe($extension));
             $package->setConfigLink($this->linkConfig($extension));
             $package->setValid($extension->isValid());

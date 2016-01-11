@@ -81,7 +81,7 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    final public function getName()
     {
         if ($this->name === null) {
             // Get name from class name without Extension suffix
@@ -105,7 +105,7 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getVendor()
+    final public function getVendor()
     {
         if ($this->vendor === null) {
             $namespace = $this->getNamespace();
@@ -128,6 +128,14 @@ abstract class AbstractExtension implements ExtensionInterface
         }
 
         return $this->namespace;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisplayName()
+    {
+        return $this->getName();
     }
 
     /**

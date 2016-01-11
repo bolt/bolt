@@ -62,6 +62,16 @@ class ResolvedExtension
     }
 
     /**
+     * Returns the extension hman friendly name.
+     *
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->innerExtension->getDisplayName();
+    }
+
+    /**
      * Returns the root directory for the extension.
      *
      * @return \Bolt\Filesystem\Handler\DirectoryInterface
