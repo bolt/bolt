@@ -27,6 +27,7 @@ class ExtendTest extends ControllerUnitTest
 
     public function testMethodsReturnTemplates()
     {
+        $this->getApp()->flush();
         $this->getService('twig.loader.filesystem')->prependPath(TEST_ROOT . '/app/view/twig');
 
         $this->setRequest(Request::create('/bolt/extend'));
@@ -67,6 +68,7 @@ class ExtendTest extends ControllerUnitTest
 
     public function testOverview()
     {
+        $this->getApp()->flush();
         $this->allowLogin($this->getApp());
         $this->setRequest(Request::create('/bolt/extend'));
         $this->checkTwigForTemplate($this->getApp(), '@bolt/extend/extend.twig');
@@ -78,6 +80,7 @@ class ExtendTest extends ControllerUnitTest
 
     public function testInstallPackage()
     {
+        $this->getApp()->flush();
         $this->allowLogin($this->getApp());
         $this->setRequest(Request::create('/bolt/extend/installPackage'));
         $this->checkTwigForTemplate($this->getApp(), '@bolt/extend/install-package.twig');
@@ -89,6 +92,7 @@ class ExtendTest extends ControllerUnitTest
 
     public function testInstallInfo()
     {
+        $this->getApp()->flush();
         $mockInfo = $this->getMock('Bolt\Composer\Satis\QueryService', ['info'], [], 'MockInfoService', false);
         $mockInfo->expects($this->once())
             ->method('info')
