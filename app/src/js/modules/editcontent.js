@@ -50,7 +50,7 @@
         initSave();
         initSaveNew();
         initSaveContinue(data);
-        initPreview(data.singularSlug);
+        initPreview();
         initLiveEditor();
         initDelete();
         initTabGroups();
@@ -126,13 +126,11 @@
      * @static
      * @function initPreview
      * @memberof Bolt.editcontent
-     *
-     * @param {string} slug - Contenttype singular slug.
      */
-    function initPreview(slug) {
+    function initPreview() {
         // To preview the page, we set the target of the form to a new URL, and open it in a new window.
         $('#previewbutton, #sidebarpreviewbutton').bind('click', function (e) {
-            var newAction = bolt.conf('paths.root') + 'preview/' + slug;
+            var newAction = $(e.target).data('url');
 
             e.preventDefault();
             $('#editcontent').attr('action', newAction).attr('target', '_blank').submit();
