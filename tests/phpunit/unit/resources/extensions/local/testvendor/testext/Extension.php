@@ -9,11 +9,6 @@ class MockLocalExtension extends BaseExtension
         $this->app = $app;
     }
 
-    public function getName()
-    {
-        return 'testlocal';
-    }
-
     public function initialize()
     {
     }

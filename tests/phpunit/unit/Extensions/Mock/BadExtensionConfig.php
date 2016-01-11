@@ -12,9 +12,4 @@ class BadExtensionConfig extends Extension
     {
         throw new \Exception('BadExtensionConfig', 1);
     }
-
-    public function getName()
-    {
-        return 'badextensionconfig';
-    }
 }

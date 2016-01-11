@@ -22,11 +22,6 @@ class SnippetCallbackExtension extends Extension
         $app['asset.queue.snippet']->add($snippet);
     }
 
-    public function getName()
-    {
-        return 'snippetcallback';
-    }
-
     public function snippetCallBack()
     {
         return '<meta name="test-snippet" />';

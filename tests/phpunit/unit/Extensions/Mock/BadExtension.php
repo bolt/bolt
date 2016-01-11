@@ -1,8 +1,6 @@
 <?php
 namespace Bolt\Tests\Extensions\Mock;
 
-use Pimple as Container;
-
 /**
  * Class to test correct operation and locations of composer configuration.
  *
@@ -18,10 +16,5 @@ class BadExtension extends Extension
     public function getSnippets()
     {
         throw new \Exception('BadExtensionSnippets', 1);
-    }
-
-    public function getName()
-    {
-        return 'badextension';
     }
 }

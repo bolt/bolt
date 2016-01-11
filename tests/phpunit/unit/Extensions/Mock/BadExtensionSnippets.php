@@ -25,9 +25,4 @@ class BadExtensionSnippets extends Extension
     public function getSnippets()
     {
     }
-
-    public function getName()
-    {
-        return 'badextensionsnippets';
-    }
 }

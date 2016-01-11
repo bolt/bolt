@@ -4,7 +4,6 @@ namespace Bolt\Tests\Extensions\Mock;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\BaseExtension;
-use Pimple as Container;
 use Silex\Application;
 
 /**
@@ -44,10 +43,5 @@ class Extension extends BaseExtension
     public function getExtensionConfig()
     {
         return [];
-    }
-
-    public function getName()
-    {
-        return 'testext';
     }
 }

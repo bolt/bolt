@@ -2,7 +2,6 @@
 namespace Bolt\Tests\Extensions\Mock;
 
 use Bolt\BaseExtension;
-use Pimple as Container;
 
 /**
  * Simple mock of extended extension. Solves the problem that PHPUnit cannot mock
@@ -12,11 +11,6 @@ use Pimple as Container;
  */
 class ExtendedExtension extends BaseExtension
 {
-    public function getName()
-    {
-        return 'mockExtended';
-    }
-
     public function initialize()
     {
     }
