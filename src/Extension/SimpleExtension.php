@@ -3,7 +3,6 @@
 namespace Bolt\Extension;
 
 use Bolt\Events\ControllerEvents;
-use Pimple as Container;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -33,8 +32,6 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
         $this->extendMenuService();
         $this->extendAssetServices();
         $this->extendNutService();
-
-        $app['dispatcher']->addSubscriber($this);
 
         $this->initialize();
     }
@@ -71,6 +68,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     public function boot(Application $app)
     {
         $this->container = $app;
+        $this->container['dispatcher']->addSubscriber($this);
         $this->subscribe($this->container['dispatcher']);
     }
 
