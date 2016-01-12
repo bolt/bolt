@@ -2,6 +2,7 @@
 
 namespace Bolt;
 
+use Bolt;
 use Bolt\Controller\Zone;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Arr;
@@ -1151,7 +1152,7 @@ class Config
 
             // Check to make sure the version is still the same. If not, effectively invalidate the
             // cached config to force a reload.
-            if (!isset($this->data['version']) || ($this->data['version'] != $this->app['bolt_long_version'])) {
+            if (!isset($this->data['version']) || Bolt\Version::compare($this->data['version'], '!=')) {
                 // The logger and the flashbags aren't available yet, so we set a flag to notify the user later.
                 $this->notify_update = true;
 
@@ -1174,7 +1175,7 @@ class Config
     protected function saveCache()
     {
         // Store the version number along with the config.
-        $this->data['version'] = $this->app['bolt_long_version'];
+        $this->data['version'] = Bolt\Version::VERSION;
         $configCache = $this->app['resources']->getPath('cache/config-cache.json');
         $fs = new Filesystem();
 

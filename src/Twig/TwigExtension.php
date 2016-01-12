@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig;
 
+use Bolt;
 use Bolt\Controller\Zone;
 use Silex;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -170,8 +171,9 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
 
         // Structured to allow PHPStorm's SymfonyPlugin to provide code completion
         return [
-            'bolt_name'    => $this->app['bolt_name'],
-            'bolt_version' => $this->app['bolt_version'],
+            'bolt_name'    => Bolt\Version::name(),
+            'bolt_version' => Bolt\Version::VERSION,
+            'bolt_stable'  => Bolt\Version::isStable(),
             'frontend'     => $zone === Zone::FRONTEND,
             'backend'      => $zone === Zone::BACKEND,
             'async'        => $zone === Zone::ASYNC,

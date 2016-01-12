@@ -2,6 +2,7 @@
 
 namespace Bolt\Controller\Backend;
 
+use Bolt;
 use Bolt\Exception\PackageManagerException;
 use Bolt\Translation\Translator as Trans;
 use Silex;
@@ -221,7 +222,7 @@ class Extend extends BackendBase
     {
         $package = $request->get('package');
         $versions = ['dev' => [], 'stable' => []];
-        $info = $this->app['extend.info']->info($package, $this->app['bolt_version']);
+        $info = $this->app['extend.info']->info($package, Bolt\Version::VERSION);
 
         if (isset($info->version) && is_array($info->version)) {
             foreach ($info->version as $version) {

@@ -2,6 +2,7 @@
 
 namespace Bolt\Profiler;
 
+use Bolt;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,9 +36,7 @@ class BoltDataCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = [
-            'version'     => $this->app['bolt_version'],
-            'name'        => $this->app['bolt_name'],
-            'fullversion' => 'Version: ' . $this->app['bolt_long_version'],
+            'version'     => Bolt\Version::VERSION,
             'payoff'      => 'Sophisticated, lightweight & simple CMS',
             'aboutlink'   => sprintf('<a href="%s">%s</a>', $this->app['url_generator']->generate('about'), 'About'),
             'branding'    => null,
@@ -68,26 +67,6 @@ class BoltDataCollector extends DataCollector
     public function getVersion()
     {
         return $this->data['version'];
-    }
-
-    /**
-     * Getter for fullversion.
-     *
-     * @return string
-     */
-    public function getFullVersion()
-    {
-        return $this->data['fullversion'];
-    }
-
-    /**
-     * Getter for name.
-     *
-     * @return string
-     */
-    public function getVersionName()
-    {
-        return $this->data['name'];
     }
 
     /**
