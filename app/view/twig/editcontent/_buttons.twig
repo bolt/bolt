@@ -33,7 +33,7 @@
 
         {% if not context.contenttype.viewless|default(false) %}{# don't show for viewless contenttypes. #}
             <div class="btn-group">
-                <button type="button" class="btn btn-default" id="previewbutton">
+                <button type="button" class="btn btn-default" id="previewbutton" data-url="{{ path('preview', {'contenttypeslug': context.contenttype.singular_slug}) }}">
                     <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
                 </button>
                 {% if context.content.status == "published" and context.content.link is defined %}
