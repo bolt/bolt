@@ -181,6 +181,8 @@ class Application extends Silex\Application
             $this->register(new WhoopsServiceProvider());
         }
 
+        $this->register(new Provider\DumperServiceProvider());
+
         // Initialize Web Profiler providers
         $this->initProfiler();
     }
