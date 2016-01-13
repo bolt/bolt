@@ -13,6 +13,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BoltLibraryTest extends BoltUnitTest
 {
+    protected function tearDown()
+    {
+        parent::tearDown();
+        // Clear the queue of LowlevelExceptions or they get needlessly reported at the end of the test run.
+        // @deprcated remove with new error handling.
+        LowlevelException::$screen = null;
+    }
+
     public function testFormatFilesize()
     {
         $b = 300;
