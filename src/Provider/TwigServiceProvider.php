@@ -79,7 +79,7 @@ class TwigServiceProvider implements ServiceProviderInterface
                 'debug'            => true,
                 'cache'            => $cache,
                 'strict_variables' => $app['config']->get('general/strict_variables'),
-                'autoescape'       => true,
+                'autoescape'       => 'html',
             ];
         };
 

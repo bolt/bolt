@@ -11,12 +11,15 @@ use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * Backend controller for file/directory management routes.
@@ -89,8 +92,8 @@ class FileManager extends BackendBase
         }
 
         /** @var Form $form */
-        $form = $this->createFormBuilder('form', $data)
-            ->add('contents', 'textarea')
+        $form = $this->createFormBuilder(FormType::class, $data)
+            ->add('contents', TextareaType::class)
             ->getForm();
 
         // Handle the POST and check if it's valid.
@@ -171,10 +174,10 @@ class FileManager extends BackendBase
 
         if ($validFolder) {
             // Define the "Upload here" form.
-            $form = $this->createFormBuilder('form')
+            $form = $this->createFormBuilder(FormType::class)
                 ->add(
                     'FileUpload',
-                    'file',
+                    FileType::class,
                     [
                         'label'    => Trans::__('Upload a file to this folder'),
                         'multiple' => true,
