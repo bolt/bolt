@@ -1,5 +1,5 @@
 # This file defines the contenttypes on the website. See the documentation for
-# details: http://docs.bolt.cm/content#defining-contenttypes
+# details: https://docs.bolt.cm/contenttypes-and-records#defining-contenttypes
 
 # Pages can be used for the more 'static' pages on your site. Things like
 # 'about us', 'contact' or a 'disclaimer'. This content-type has a 'templateselect'
