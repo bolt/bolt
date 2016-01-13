@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Controller\Zone;
@@ -67,8 +68,14 @@ class GeneralTest extends ControllerUnitTest
         $app = $this->getApp();
         $testGuzzle = $this->getMock('GuzzleHttp\Client', ['get'], []);
 
-        $guzzleInterface = $this->getMock('GuzzleHttp\Message\RequestInterface');
-        $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
+        if ($app['guzzle.api_version'] === 5) {
+            $guzzleInterface = $this->getMock('GuzzleHttp\Message\RequestInterface');
+            $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
+        } else {
+            $guzzleInterface = $this->getMock('Psr\Http\Message\RequestInterface');
+            $testGuzzle->expects($this->at(0))->method('get')->will($this->throwException(new RequestException('Mock Fail', $guzzleInterface)));
+        }
+
         $app['guzzle.client'] = $testGuzzle;
 
         $changeRepository = $this->getService('storage')->getRepository('Bolt\Storage\Entity\LogChange');
