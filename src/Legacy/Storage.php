@@ -936,7 +936,7 @@ class Storage
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
 
         // If we're allowed to use pagination, use the 'page' parameter.
-        if (!empty($parameters['paging']) && $this->app->raw('request') instanceof Request) {
+        if (!empty($parameters['paging']) && $this->app['request_stack']->getCurrentRequest() !== null) {
             $page = $this->app['pager']->getPager();
         }
 
