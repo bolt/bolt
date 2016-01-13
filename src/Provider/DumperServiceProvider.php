@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Debug\Caster;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
@@ -50,6 +51,7 @@ class DumperServiceProvider implements ServiceProviderInterface
         $app['dumper.cloner'] = $app->share(
             function () {
                 $cloner = new VarCloner();
+                $cloner->addCasters(Caster\FilesystemCasters::getCasters());
 
                 return $cloner;
             }
