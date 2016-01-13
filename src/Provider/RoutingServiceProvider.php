@@ -6,6 +6,7 @@ use Bolt\Routing\CallbackResolver;
 use Bolt\Routing\ControllerCollection;
 use Bolt\Routing\ControllerResolver;
 use Bolt\Routing\LazyUrlGenerator;
+use Bolt\Routing\RootControllerCollection;
 use Bolt\Routing\UrlGeneratorFragmentWrapper;
 use Bolt\Routing\UrlMatcher;
 use Silex\Application;
@@ -20,6 +21,12 @@ class RoutingServiceProvider implements ServiceProviderInterface
         $app['controllers_factory'] = function ($app) {
             return new ControllerCollection($app['route_factory']);
         };
+
+        $app['controllers'] = $app->share(
+            function ($app) {
+                return new RootControllerCollection($app, $app['dispatcher'], $app['route_factory']);
+            }
+        );
 
         $app['url_matcher'] = $app->share(
             function ($app) {

@@ -27,6 +27,9 @@ class Extend extends BackendBase
         $c->get('/check', 'check')
             ->bind('check');
 
+        $c->get('/dumpAutoload', 'dumpAutoload')
+            ->bind('dumpAutoload');
+
         $c->get('/update', 'update')
             ->bind('update');
 
@@ -80,6 +83,25 @@ class Extend extends BackendBase
     public function check()
     {
         return $this->json($this->manager()->checkPackage());
+    }
+
+    /**
+     * Dumps the autoloader.
+     *
+     * @throws PackageManagerException
+     *
+     * @return Response
+     */
+    public function dumpAutoload()
+    {
+        $response = $this->manager()->dumpAutoload();
+        if ($response === 0) {
+            $this->app['logger.system']->info($this->manager()->getOutput(), ['event' => 'extensions']);
+
+            return new Response($this->manager()->getOutput());
+        } else {
+            throw new PackageManagerException($this->manager()->getOutput(), $response);
+        }
     }
 
     /**
@@ -235,6 +257,8 @@ class Extend extends BackendBase
      *
      * @param Request $request
      *
+     * @throws PackageManagerException]
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function packageInfo(Request $request)
@@ -243,7 +267,15 @@ class Extend extends BackendBase
         $version = $request->get('version');
         $response = $this->manager()->showPackage('installed', $package, $version);
 
-        return $this->json($this->manager()->formatPackageResponse($response));
+        if (isset($response[$package]['package'])) {
+            return $this->json([
+                'name'        => $package,
+                'version'     => $response[$package]['package']->getPrettyVersion(),
+                'type'        => $response[$package]['package']->getType(),
+            ]);
+        } else {
+            throw new PackageManagerException(Trans::__('Unable to get installation information for %PACKAGE% %VERSION%.', ['%PACKAGE%' => $package, '%VERSION%' => $version]));
+        }
     }
 
     /**

@@ -1,10 +1,10 @@
 # app/resources/translations/en_GB/messages.en_GB.yml – generated on 2016-01-05 17:38:29 Europe/Amsterdam
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the 
-#          repository are automatically mapped to the new scheme. Be aware that there 
-#          can be a race condition between that process and your PR so that it's 
-#          eventually necessary to remap your translations. If you're planning on 
+#          at the moment. This is an ongoing process. Translations currently in the
+#          repository are automatically mapped to the new scheme. Be aware that there
+#          can be a race condition between that process and your PR so that it's
+#          eventually necessary to remap your translations. If you're planning on
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
@@ -638,6 +638,7 @@ page:
         user-edit: "Edit an existing user account, using the form below. Leave the password fields empty, unless you wish to change the password."
     extend:
         button:
+            autoload-dump: "Rebuild Autoloader"
             browse-versions: "Browse Versions"
             config: "Config"
             copy-to-theme-folder: "Copy to theme folder"
@@ -669,6 +670,7 @@ page:
             version: "Version"
         message:
             add-extension-with-form: "Add a new extension using the form below."
+            autoload-dump: "This will rebuild both the autoload files and cache."
             bad-json: "Malformed JSON response. Ensure no debugging or other code is being added to the response"
             before-theme-start: "Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here."
             check-for-updates: "Check for updates"

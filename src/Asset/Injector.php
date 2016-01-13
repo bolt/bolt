@@ -2,6 +2,7 @@
 namespace Bolt\Asset;
 
 use Bolt\Helpers\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class for matching HTML elements and injecting text.
@@ -50,18 +51,11 @@ class Injector
     /**
      * @param AssetInterface $asset
      * @param string         $location
-     * @param string         $html
-     *
-     * @return string
+     * @param Response       $response
      */
-    public function inject(AssetInterface $asset, $location, $html)
+    public function inject(AssetInterface $asset, $location, Response $response)
     {
-        // Don't inject 'empty' assets, which lead to empty lines in output.
-        $test = trim((string) $asset); // For PHP 5.4
-        if (empty($test)) {
-            return $html;
-        }
-
+        $html = $response->getContent();
         $functionMap = $this->getMap();
         if (isset($functionMap[$location])) {
             $html = $this->{$functionMap[$location]}($asset, $html);
@@ -69,7 +63,7 @@ class Injector
             $html .= "$asset\n";
         }
 
-        return $html;
+        $response->setContent($html);
     }
 
     /**

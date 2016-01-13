@@ -27,13 +27,15 @@ class ExtensionsAutoloader extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = $this->app['extensions']->checkLocalAutoloader(true);
+        $output->write("\n<info>Updating autoloaders… </info>");
 
+        $result = $this->app['extend.action']['autoload']->execute();
         if ($result === 0) {
+            $output->write("<info>[DONE]</info>\n");
             $this->auditLog(__CLASS__, 'Autoloaders updated');
+        } else {
+            $output->write("<error>[FAILED]</error>\n");
         }
-
-        $output->writeln("\n<info>[Done] Autoloaders updated</info>\n");
-        $output->writeln($result, OutputInterface::OUTPUT_PLAIN);
+        $output->writeln(sprintf('<comment>%s</comment>', $this->app['extend.action.io']->getOutput()));
     }
 }

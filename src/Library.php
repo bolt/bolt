@@ -92,32 +92,6 @@ class Library
     }
 
     /**
-     * parse the used .twig templates from the Twig Loader object, using regular expressions.
-     *
-     * We use this for showing them in the debug toolbar.
-     *
-     * @param \Twig_LoaderInterface $obj
-     *
-     * @return array
-     */
-    public static function parseTwigTemplates($obj)
-    {
-        $app = ResourceManager::getApp();
-
-        $str = print_r($obj, true);
-
-        preg_match_all('| => (.+\.twig)|i', $str, $matches);
-
-        $templates = [];
-
-        foreach ($matches[1] as $match) {
-            $templates[] = str_replace($app['resources']->getPath('rootpath'), '', $match);
-        }
-
-        return $templates;
-    }
-
-    /**
      * Simple wrapper for $app['url_generator']->generate().
      *
      * @param string $path

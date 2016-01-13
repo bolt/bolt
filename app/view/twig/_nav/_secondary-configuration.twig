@@ -1,58 +1,59 @@
+{% set config_menu = app['menu.admin'].get('config') %}
 {% set sub = [
     {
-        icon: 'fa:group',
-        label: __('Users & Permissions'),
-        link: path('users'),
-        isallowed: 'users'
+        icon: config_menu.get('users').icon,
+        label: config_menu.get('users').label,
+        link: config_menu.get('users').uri,
+        isallowed: config_menu.get('users').permission
     }, {
-        icon: 'fa:cog',
-        label: __('Main configuration'),
-        link: path('fileedit', {'namespace': 'config', 'file': 'config.yml'}),
-        isallowed: 'files:config'
+        icon: config_menu.get('config_main').icon,
+        label: config_menu.get('config_main').label,
+        link: config_menu.get('config_main').uri,
+        isallowed: config_menu.get('config_main').permission
     }, {
-        icon: 'fa:paint-brush',
-        label: __('Contenttypes'),
-        link: path('fileedit', {'namespace': 'config', 'file': 'contenttypes.yml'}),
-        isallowed: 'files:config'
+        icon: config_menu.get('config_contenttypes').icon,
+        label: config_menu.get('config_contenttypes').label,
+        link: config_menu.get('config_contenttypes').uri,
+        isallowed: config_menu.get('config_contenttypes').permission
     }, {
-        icon: 'fa:tags',
-        label: __('Taxonomy'),
-        link: path('fileedit', {'namespace': 'config', 'file': 'taxonomy.yml'}),
-        isallowed: 'files:config'
+        icon: config_menu.get('config_taxonomy').icon,
+        label: config_menu.get('config_taxonomy').label,
+        link: config_menu.get('config_taxonomy').uri,
+        isallowed: config_menu.get('config_taxonomy').permission
     },
     '-',
     {
-        icon: 'fa:list',
-        label: __('Menu setup'),
-        link: path('fileedit', {'namespace': 'config', 'file': 'menu.yml'}),
-        isallowed: 'files:config'
+        icon: config_menu.get('config_menu').icon,
+        label: config_menu.get('config_menu').label,
+        link: config_menu.get('config_menu').uri,
+        isallowed: config_menu.get('config_menu').permission
     }, {
-        icon: 'fa:random',
-        label: __('menu.configuration.routing'),
-        link: path('fileedit', {'namespace': 'config', 'file': 'routing.yml'}),
-        isallowed: 'files:config'
+        icon: config_menu.get('config_routing').icon,
+        label: config_menu.get('config_routing').label,
+        link: config_menu.get('config_routing').uri,
+        isallowed: config_menu.get('config_routing').permission
     },
     '-',
     {
-        icon: 'fa:database',
-        label: __('Check database'),
-        link: path('dbcheck'),
-        isallowed: 'dbupdate'
+        icon: config_menu.get('dbcheck').icon,
+        label: config_menu.get('dbcheck').label,
+        link: config_menu.get('dbcheck').uri,
+        isallowed: config_menu.get('dbcheck').permission
     }, {
-        icon: 'fa:eraser',
-        label: __('Clear the cache'),
-        link: path('clearcache'),
-        isallowed: 'clearcache'
+        icon: config_menu.get('clearcache').icon,
+        label: config_menu.get('clearcache').label,
+        link: config_menu.get('clearcache').uri,
+        isallowed: config_menu.get('clearcache').permission
     }, {
-        icon: 'fa:archive',
-        label: __('logs.change-log'),
-        link: path('changelog'),
-        isallowed: 'changelog'
+        icon: config_menu.get('log_change').icon,
+        label: config_menu.get('log_change').label,
+        link: config_menu.get('log_change').uri,
+        isallowed: config_menu.get('log_change').permission
     }, {
-        icon: 'fa:archive',
-        label: __('logs.system-log'),
-        link: path('systemlog'),
-        isallowed: 'systemlog'
+        icon: config_menu.get('log_system').icon,
+        label: config_menu.get('log_system').label,
+        link: config_menu.get('log_system').uri,
+        isallowed: config_menu.get('log_system').permission
     }
 ] %}
 

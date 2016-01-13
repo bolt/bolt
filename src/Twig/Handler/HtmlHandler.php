@@ -167,18 +167,14 @@ class HtmlHandler
             return null;
         }
 
-        /** @var \Bolt\Helpers\Menu $menu */
+        /** @var \Bolt\Menu\Menu $menu */
         $menu = $this->app['menu']->menu($identifier);
 
         $twigvars = [
             'name' => $menu->getName(),
             'menu' => $menu->getItems(),
         ];
-
-        // If $params is not empty, merge it with twigvars.
-        if (!empty($params) && is_array($params)) {
-            $twigvars = $twigvars + $params;
-        }
+        $twigvars += (array) $params;
 
         return $env->render($template, $twigvars);
     }

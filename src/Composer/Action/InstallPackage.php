@@ -24,30 +24,28 @@ final class InstallPackage extends BaseAction
         /** @var $composer \Composer\Composer */
         $composer = $this->getComposer();
         $io = $this->getIO();
-
-        $install = Installer::create($io, $composer);
         $config = $composer->getConfig();
-        $optimize = $config->get('optimize-autoloader');
 
-        // Set preferred install method
-        $prefer = $this->getPreferedTarget($config->get('preferred-install'));
+        $optimize = $this->getOptions()->optimizeAutoloader() || $config->get('optimize-autoloader');
+        $authoritative = $this->getOptions()->classmapAuthoritative() || $config->get('classmap-authoritative');
+
+        $install = Installer::create($io, $composer)
+            ->setDryRun($this->getOptions()->dryRun())
+            ->setVerbose($this->getOptions()->verbose())
+            ->setPreferSource($this->getOptions()->preferSource())
+            ->setPreferDist($this->getOptions()->preferDist())
+            ->setDevMode(!$this->getOptions()->noDev())
+            ->setDumpAutoloader(!$this->getOptions()->noAutoloader())
+            ->setRunScripts(!$this->getOptions()->noScripts())
+            ->setOptimizeAutoloader($optimize)
+            ->setClassMapAuthoritative($authoritative)
+            ->setIgnorePlatformRequirements($this->getOptions()->ignorePlatformReqs())
+        ;
 
         try {
-            $install
-                ->setDryRun($this->getOption('dryrun'))
-                ->setVerbose($this->getOption('verbose'))
-                ->setPreferSource($prefer['source'])
-                ->setPreferDist($prefer['dist'])
-                ->setDevMode(!$this->getOption('nodev'))
-                ->setDumpAutoloader(!$this->getOption('noautoloader'))
-                ->setRunScripts(!$this->getOption('noscripts'))
-                ->setOptimizeAutoloader($optimize)
-                ->setIgnorePlatformRequirements($this->getOption('ignoreplatformreqs'))
-                ->setUpdate(true);
-
             return $install->run();
         } catch (\Exception $e) {
-            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $msg = sprintf('%s recieved an error from Composer: %s in %s::%s', __METHOD__, $e->getMessage(), $e->getFile(), $e->getLine());
             $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
             throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
         }

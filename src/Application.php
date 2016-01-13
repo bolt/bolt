@@ -245,10 +245,13 @@ class Application extends Silex\Application
         );
     }
 
+    /**
+     * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see ControllerEvents::MOUNT} instead.
+     */
     public function initExtensions()
     {
-        $this['extensions']->checkLocalAutoloader();
-        $this['extensions']->initialize();
+        $this['extensions']->addManagedExtensions();
+        $this['extensions']->register($this);
     }
 
     /**

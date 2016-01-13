@@ -13,6 +13,10 @@ final class DumpAutoload extends BaseAction
 {
     /**
      * Dump autoloaders.
+     *
+     * @throws \Bolt\Exception\PackageManagerException
+     *
+     * @return int 0 on success or a positive error code on failure
      */
     public function execute()
     {
@@ -23,21 +27,29 @@ final class DumpAutoload extends BaseAction
         $package = $composer->getPackage();
         $config = $composer->getConfig();
 
-        if ($this->getOption('optimizeautoloader')) {
-            // Generating optimized autoload files
+        $optimize = $this->getOptions()->optimize() || $this->getOptions()->optimizeAutoloader();
+        $authoritative = $this->getOptions()->classmapAuthoritative() || $config->get('classmap-authoritative');
+
+        if ($optimize || $authoritative) {
+            $this->getIO()->writeError('<info>Generating optimized autoload files</info>');
         } else {
-            // Generating autoload files
+            $this->getIO()->writeError('<info>Generating autoload files</info>');
         }
 
+        $generator = $composer->getAutoloadGenerator();
+        $generator->setDevMode(!$this->getOptions()->noDev());
+        $generator->setClassMapAuthoritative($authoritative);
+        $generator->setRunScripts(!$this->getOptions()->noScripts());
+
         try {
-            $generator = $composer->getAutoloadGenerator();
-            $generator->setDevMode(!$this->getOption('nodev'));
-            $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $this->getOption('optimizeautoloader'));
+            $generator->dump($config, $localRepo, $package, $installationManager, 'composer', $optimize);
         } catch (\Exception $e) {
-            $msg = __CLASS__ . '::' . __FUNCTION__ . ' recieved an error from Composer: ' . $e->getMessage() . ' in ' . $e->getFile() . '::' . $e->getLine();
+            $msg = sprintf('%s recieved an error from Composer: %s in %s::%s', __METHOD__, $e->getMessage(), $e->getFile(), $e->getLine());
             $this->app['logger.system']->critical($msg, ['event' => 'exception', 'exception' => $e]);
 
             throw new PackageManagerException($e->getMessage(), $e->getCode(), $e);
         }
+
+        return 0;
     }
 }

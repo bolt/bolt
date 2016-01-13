@@ -7,7 +7,7 @@
 
 namespace Bolt\Composer;
 
-use Composer\Script\CommandEvent;
+use Composer\Script\Event;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ScriptHandler
@@ -15,45 +15,42 @@ class ScriptHandler
     /**
      * Install basic assets and create needed directories.
      *
-     * @param CommandEvent $event
-     * @param array|bool   $options
+     * @param Event      $event
+     * @param array|bool $options
      */
-    public static function installAssets(CommandEvent $event, $options = false)
+    public static function installAssets(Event $event, $options = false)
     {
+        $filesystem = new Filesystem();
+
         if (false === $options) {
             $options = self::getOptions($event);
         }
         $webDir = $options['bolt-web-dir'];
-        $dirMode = $options['bolt-dir-mode'];
-        if (is_string($dirMode)) {
-            $dirMode = octdec($dirMode);
-        }
-
+        $dirMode = is_string($options['bolt-dir-mode']) ? octdec($options['bolt-dir-mode']) : $options['bolt-dir-mode'];
         umask(0777 - $dirMode);
 
+        // Set up target directory
+        $targetDir = $webDir . '/bolt-public/';
+        $filesystem->remove($targetDir);
+        $filesystem->mkdir($targetDir, $dirMode);
+
         if (!is_dir($webDir)) {
-            echo 'The bolt-web-dir (' . $webDir . ') specified in composer.json was not found in ' . getcwd() . ', can not install assets.' . PHP_EOL;
+            $event->getIO()->write(sprintf('<error>The bolt-web-dir (%s) specified in composer.json was not found in %s, can not install assets.</error>', $webDir, getcwd()));
 
             return;
         }
 
-        $targetDir = $webDir . '/bolt-public/';
-
-        $filesystem = new Filesystem();
-        $filesystem->remove($targetDir);
-        $filesystem->mkdir($targetDir, $dirMode);
-
         foreach (['css', 'fonts', 'img', 'js'] as $dir) {
-            $filesystem->mirror(__DIR__ . '/../../app/view/' . $dir, $targetDir . '/view/' . $dir);
+            $filesystem->mirror(__DIR__ . '/../../app/view/' . $dir, $targetDir . '/view/' . $dir, ['override' => true]);
         }
 
         if (!$filesystem->exists($webDir . '/files/')) {
-            $filesystem->mirror(__DIR__ . '/../../files', $webDir . '/files');
+            $filesystem->mirror(__DIR__ . '/../../files', $webDir . '/files', ['override' => true]);
         }
 
         if (!$filesystem->exists($webDir . '/theme/')) {
             $filesystem->mkdir($webDir . '/theme/', $dirMode);
-            $filesystem->mirror(__DIR__ . '/../../theme', $webDir . '/theme');
+            $filesystem->mirror(__DIR__ . '/../../theme', $webDir . '/theme', ['override' => true]);
         }
 
         // The first check handles the case where the bolt-web-dir is different to the root.
@@ -76,12 +73,17 @@ class ScriptHandler
         }
     }
 
-    public static function bootstrap(CommandEvent $event)
+    /**
+     * Bootstrap a new Composer based install.
+     *
+     * @param Event $event
+     */
+    public static function bootstrap(Event $event)
     {
-        $webroot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', false);
+        $webroot = $event->getIO()->askConfirmation('<question>Do you want your web directory to be a separate folder to root? [y/n] </question>', false);
 
         if ($webroot) {
-            $webname  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
+            $webname  = $event->getIO()->ask('<question>What do you want your public directory to be named? [default: public] </question>', 'public');
             $webname  = trim($webname, '/');
             $assetDir = './' . $webname;
         } else {
@@ -99,11 +101,11 @@ class ScriptHandler
     /**
      * Get a default set of options.
      *
-     * @param CommandEvent $event
+     * @param Event $event
      *
      * @return array
      */
-    protected static function getOptions(CommandEvent $event)
+    protected static function getOptions(Event $event)
     {
         $options = array_merge(
             [

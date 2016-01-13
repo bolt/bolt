@@ -213,6 +213,29 @@
         e.preventDefault();
     };
 
+    var autoloadDump = function (e) {
+        var target = find('.update-output');
+
+        find('.update-container').show();
+        activeConsole = target;
+        activeConsole.html(bolt.data('extend.text.install-all'));
+
+        $.get(bolt.data('extend.baseurl') + 'dumpAutoload', function (data) {
+                target.html(data);
+                delay(function () {
+                    find('.update-container').hide();
+                }, 7000);
+
+                checkInstalled();
+            })
+            .fail(function(data) {
+                formatErrorLog(data);
+            });
+
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
     var checkInstalled = function () {
         find('.installed-container').each(function(){
             var target = $(this).find('.installed-list');
@@ -234,21 +257,9 @@
 
                 var nadda = true;
 
-                // Render installed packages.
-                if (data.installed.length) {
-                    html += renderPackage(data.installed, true);
-                    nadda = false;
-                }
-
-                // Render pacakges pending install.
-                if (data.pending.length) {
-                    html += renderPackage(data.pending, true);
-                    nadda = false;
-                }
-
-                // Render locally installed packages.
-                if (data.local.length) {
-                    html += renderPackage(data.local, false);
+                // Render packages
+                if (typeof data === 'object') {
+                    html += renderPackage(data);
                     nadda = false;
                 }
 
@@ -267,7 +278,7 @@
         });
     };
 
-    var renderPackage = function (data, composer) {
+    var renderPackage = function (data) {
         var html = '';
 
         for (var e in data) {
@@ -298,7 +309,10 @@
                 var available = '',
                     uninstall = '';
 
-                if (composer) {
+                if (ext.name === 'wikimedia/composer-merge-plugin') {
+                    ext.title = 'Local Extension Helper';
+                }
+                if (ext.status === 'installed') {
                     available = conf.avail_button.subst({
                         '%NAME%': ext.name
                     });
@@ -307,6 +321,9 @@
                         '%NAME%': ext.name
                     });
                 }
+                var invalid = ' — [INVALID] ';
+                var disabled = ' — [DISABLED] ';
+                var constraint = '<i class="fa fa-cog fa-fw"></i>';
 
                 // Generate the HTML for a package item.
                 html += conf.item.subst({
@@ -316,13 +333,17 @@
                     '%AUTHORS%':     authors,
                     '%TYPE%':        ext.type,
                     '%AVAILABLE%':   available,
-                    '%README%':      ext.readme ? conf.readme_button.subst({'%README%': ext.readme}) : '',
-                    '%CONFIG%':      ext.config ? conf.config_button.subst({'%CONFIG%': ext.config}) : '',
+                    '%README%':      ext.readmeLink ? conf.readme_button.subst({'%README%': ext.readmeLink}) : '',
+                    '%CONFIG%':      ext.configLink ? conf.config_button.subst({'%CONFIG%': ext.configLink}) : '',
                     '%THEME%':       ext.type === 'bolt-theme' ? conf.theme_button.subst({'%NAME%': ext.name}) : '',
                     '%BASEURL%':     bolt.data('extend.baseurl'),
                     '%UNINSTALL%':   uninstall,
-                    '%DESCRIPTION%': ext.descrip ? conf.description.subst({'%DESCRIPTION%': ext.descrip}) : '',
-                    '%KEYWORDS%':    keywords});
+                    '%DESCRIPTION%': ext.description ? conf.description.subst({'%DESCRIPTION%': ext.description}) : '',
+                    '%KEYWORDS%':    keywords,
+                    '%STATUS%':      ext.valid === false ? invalid : '',
+                    '%ENABLED%':     ext.enabled === false ? disabled : '',
+                    '%CONSTRAINT%':  ext.constraint !== null ? constraint + ' Requires Bolt ' + ext.constraint : ''
+                });
             }
         }
 
@@ -445,11 +466,11 @@
             {'package': packageName, 'version': packageVersion}
         )
         .done(function(data) {
-            if (data[0].type === 'bolt-extension') {
-                extensionPostInstall(data[0]);
+            if (data.type === 'bolt-extension') {
+                extensionPostInstall(data);
             }
-            if (data[0].type === 'bolt-theme') {
-                themePostInstall(data[0]);
+            if (data.type === 'bolt-theme') {
+                themePostInstall(data);
             }
         })
         .fail(function(data) {
@@ -683,6 +704,7 @@
                 case 'install-package':   install(e.originalEvent); break;
                 case 'prefill-package':   prefill(e.originalEvent); break;
                 case 'install-run':       installRun(e.originalEvent); break;
+                case 'autoload-dump':     autoloadDump(e.originalEvent); break;
                 case 'generate-theme':    generateTheme(e.originalEvent); break;
                 case 'package-available': packageAvailable(e.originalEvent); break;
                 case 'package-copy':      copyTheme(e.originalEvent); break;

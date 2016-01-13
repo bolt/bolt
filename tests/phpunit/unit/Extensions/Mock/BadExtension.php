@@ -17,9 +17,4 @@ class BadExtension extends Extension
     {
         throw new \Exception('BadExtensionSnippets', 1);
     }
-
-    public function getName()
-    {
-        return 'badextension';
-    }
 }

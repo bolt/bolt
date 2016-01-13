@@ -223,8 +223,8 @@ class Content implements \ArrayAccess
 
             try {
                 return $this->app['safe_render']->render($snippet, $this->getTemplateContext());
-            } catch (\Exception $e) {
-                $message = 'Rendering a record Twig snippet failed.';
+            } catch (\Twig_Error $e) {
+                $message = sprintf('Rendering a record Twig snippet failed: %s', $e->getRawMessage());
                 $this->app['logger.system']->critical($message, ['event' => 'exception', 'exception' => $e]);
 
                 return $message;

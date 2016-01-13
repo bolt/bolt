@@ -1,19 +1,20 @@
+{% set tr_menu = app['menu.admin'].get('translations') %}
 {% set sub = [
     {
-        icon: 'fa:flag',
-        label: __('Messages'),
-        link: path('translation', {'domain': 'messages'}),
-        isallowed: 'translation'
+        icon: tr_menu.get('tr_messages').icon,
+        label: tr_menu.get('tr_messages').label,
+        link: tr_menu.get('tr_messages').uri,
+        isallowed: tr_menu.get('tr_messages').permission
     }, {
-        icon: 'fa:flag',
-        label: __('Long messages'),
-        link: path('translation', {'domain': 'infos'}),
-        isallowed: 'translation'
+        icon: tr_menu.get('tr_long_messages').icon,
+        label: tr_menu.get('tr_long_messages').label,
+        link: tr_menu.get('tr_long_messages').uri,
+        isallowed: tr_menu.get('tr_long_messages').permission
     }, {
-        icon: 'fa:flag',
-        label: __('Contenttypes'),
-        link: path('translation', {'domain': 'contenttypes'}),
-        isallowed: 'translation'
+        icon: tr_menu.get('tr_contenttypes').icon,
+        label: tr_menu.get('tr_contenttypes').label,
+        link: tr_menu.get('tr_contenttypes').uri,
+        isallowed: tr_menu.get('tr_contenttypes').permission
     }
 ] %}
 

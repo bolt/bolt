@@ -10,6 +10,8 @@ use Bolt\Asset\Target;
 use Bolt\Controller\Zone;
 use Bolt\Render;
 use Doctrine\Common\Cache\CacheProvider;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Widget queue processor.
@@ -93,16 +95,14 @@ class Queue implements QueueInterface
     /**
      * {@inheritdoc}
      */
-    public function process($html)
+    public function process(Request $request, Response $response)
     {
         /** @var WidgetAssetInterface $widget */
         foreach ($this->queue as $widget) {
             if ($widget->getZone() === Zone::FRONTEND && $widget->isDeferred()) {
-                $html = $this->addDeferredJavaScript($widget, $html);
+                $this->addDeferredJavaScript($widget, $response);
             }
         }
-
-        return $html;
     }
 
     /**
@@ -206,7 +206,7 @@ class Queue implements QueueInterface
 
         restore_error_handler();
 
-        if ($e) {
+        if ($e instanceof \Exception) {
             throw $e;
         }
         if ($widget->getCacheDuration() !== null) {
@@ -220,14 +220,12 @@ class Queue implements QueueInterface
      * Insert a snippet of Javascript to fetch the actual widget's contents.
      *
      * @param WidgetAssetInterface $widget
-     * @param string               $html
-     *
-     * @return string
+     * @param Response             $response
      */
-    protected function addDeferredJavaScript(WidgetAssetInterface $widget, $html)
+    protected function addDeferredJavaScript(WidgetAssetInterface $widget, Response $response)
     {
         if ($this->deferAdded) {
-            return $html;
+            return;
         }
 
         $javaScript = $this->render->render(
@@ -243,6 +241,6 @@ class Queue implements QueueInterface
 
         $this->deferAdded = true;
 
-        return $this->injector->inject($snippet, Target::AFTER_BODY_JS, $html);
+        $this->injector->inject($snippet, Target::AFTER_BODY_JS, $response);
     }
 }
