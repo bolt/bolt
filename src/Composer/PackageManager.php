@@ -110,7 +110,11 @@ class PackageManager
         }
 
         try {
-            ClientUtils::getDefaultCaBundle();
+            if ($this->app['guzzle.api_version'] === 5) {
+                ClientUtils::getDefaultCaBundle();
+            } else {
+                \GuzzleHttp\default_ca_bundle();
+            }
 
             return $this->useSsl = true;
         } catch (\RuntimeException $e) {
