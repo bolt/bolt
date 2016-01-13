@@ -60,23 +60,6 @@ class UtilsHandler
     }
 
     /**
-     * Output pretty-printed arrays / objects.
-     *
-     * @param mixed   $var
-     * @param boolean $safe
-     *
-     * @return string
-     */
-    public function printDump($var, $safe)
-    {
-        if ($safe || !$this->app['debug']) {
-            return null;
-        }
-
-        return VarDumper::dump($var);
-    }
-
-    /**
      * Send debug data to the developers FirePHP instance in-browser.
      *
      * @param mixed   $var  The data to be dumped into FirePHP

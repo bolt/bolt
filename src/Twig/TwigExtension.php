@@ -458,11 +458,11 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     }
 
     /**
-     * @see \Bolt\Twig\Handler\UtilsHandler::printDump()
+     * Just for safe_twig. Main twig overrides this function.
      */
-    public function printDump($var)
+    public function printDump()
     {
-        return $this->handlers['utils']->printDump($var, $this->safe);
+        return null;
     }
 
     /**
