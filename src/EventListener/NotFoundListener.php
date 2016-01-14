@@ -58,6 +58,7 @@ class NotFoundListener implements EventSubscriberInterface
         if ($this->render->hasTemplate($this->notFoundPage)) {
             $response = $this->render->render($this->notFoundPage);
             $event->setResponse($response);
+
             return;
         }
 

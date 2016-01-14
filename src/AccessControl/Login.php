@@ -48,8 +48,8 @@ class Login extends AccessChecker
      * Attempt to login a user with the given password. Accepts username or
      * email.
      *
-     * @param string  $userName
-     * @param string  $password
+     * @param string $userName
+     * @param string $password
      *
      * @throws AccessControlException
      *

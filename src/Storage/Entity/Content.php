@@ -63,7 +63,7 @@ class Content extends Entity
      * Setter for content values.
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function set($key, $value)
     {

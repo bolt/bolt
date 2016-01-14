@@ -195,7 +195,7 @@ class Frontend extends ConfigurableBase
         $content = $this->storage()->getContentObject($contenttypeslug);
 
         if ($id = $request->get('id')) {
-            $content = $this->storage()->getContent($contenttype['slug'], array('id' => $id, 'returnsingle' => true));
+            $content = $this->storage()->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true]);
         }
 
         $content->setFromPost($request->request->all(), $contenttype);
@@ -454,10 +454,10 @@ class Frontend extends ConfigurableBase
     /**
      * Returns an array of the parameters used in getContent for listing pages.
      *
-     * @param  Request $request         The Symfony Request
-     * @param  string  $contenttypeslug The content type slug
+     * @param Request $request         The Symfony Request
+     * @param string  $contenttypeslug The content type slug
      *
-     * @return array                    Parameters to use in getContent
+     * @return array Parameters to use in getContent
      */
     private function getListingParameters(Request $request, $contenttypeslug)
     {
@@ -465,7 +465,7 @@ class Frontend extends ConfigurableBase
 
         // If the contenttype is 'viewless', don't show the listing / record page.
         if (isset($contenttype['viewless']) && $contenttype['viewless'] === true) {
-            $this->abort(Response::HTTP_NOT_FOUND, "Page " . $contenttype['slug'] . " not found.");
+            $this->abort(Response::HTTP_NOT_FOUND, 'Page ' . $contenttype['slug'] . ' not found.');
         }
 
         // Build the pager

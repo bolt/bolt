@@ -119,6 +119,7 @@ class FilesystemLoader extends \Twig_Loader_Filesystem
     {
         try {
             $timestamp = $this->findTemplate($name)->getTimestamp();
+
             return $timestamp <= $time;
         } catch (ExceptionInterface $e) {
             return false;

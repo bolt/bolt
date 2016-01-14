@@ -50,7 +50,7 @@ class Relations extends ArrayCollection
                     'from_contenttype' => (string) $entity->getContenttype(),
                     'from_id'          => $entity->getId(),
                     'to_contenttype'   => $field,
-                    'to_id'            => $val
+                    'to_id'            => $val,
                 ]);
                 $this->add($newentity);
             }

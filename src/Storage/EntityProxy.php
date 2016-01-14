@@ -35,7 +35,7 @@ class EntityProxy
     {
         $this->load();
 
-        return call_user_func_array(array($this->proxy, $method), $args);
+        return call_user_func_array([$this->proxy, $method], $args);
     }
 
     public function __get($attribute)
