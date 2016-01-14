@@ -41,16 +41,16 @@ class ScriptHandler
         }
 
         foreach (['css', 'fonts', 'img', 'js'] as $dir) {
-            $filesystem->mirror(__DIR__ . '/../../app/view/' . $dir, $targetDir . '/view/' . $dir, ['override' => true]);
+            $filesystem->mirror(__DIR__ . '/../../app/view/' . $dir, $targetDir . '/view/' . $dir, null, ['override' => true]);
         }
 
         if (!$filesystem->exists($webDir . '/files/')) {
-            $filesystem->mirror(__DIR__ . '/../../files', $webDir . '/files', ['override' => true]);
+            $filesystem->mirror(__DIR__ . '/../../files', $webDir . '/files', null, ['override' => true]);
         }
 
         if (!$filesystem->exists($webDir . '/theme/')) {
             $filesystem->mkdir($webDir . '/theme/', $dirMode);
-            $filesystem->mirror(__DIR__ . '/../../theme', $webDir . '/theme', ['override' => true]);
+            $filesystem->mirror(__DIR__ . '/../../theme', $webDir . '/theme', null, ['override' => true]);
         }
 
         // The first check handles the case where the bolt-web-dir is different to the root.
