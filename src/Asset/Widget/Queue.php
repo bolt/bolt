@@ -194,6 +194,7 @@ class Queue implements QueueInterface
             return $html;
         }
 
+        /** @var \Exception $e */
         $e = null;
         set_error_handler(
             function ($errno, $errstr) use (&$e) {
