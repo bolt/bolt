@@ -73,6 +73,8 @@ class Target
     /**
      * Returns all possible target locations (which are constants).
      *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     *
      * @return array
      */
     public function listAll()
