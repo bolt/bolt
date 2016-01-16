@@ -118,15 +118,15 @@ class BackendDeveloperCest
      */
     public function editTemplateTest(\AcceptanceTester $I)
     {
-        $I->wantTo("See that the 'developer' user can edit and save the _footer.twig template file.");
+        $I->wantTo("See that the 'developer' user can edit and save the _base.twig template file.");
 
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('/bolt/file/edit/themes/base-2014/_footer.twig');
+        $I->amOnPage('/bolt/file/edit/themes/base-2016/_base.twig');
 
         // Put _footer.twig into edit mode
-        $I->see('<footer class="large-12 columns">', 'textarea');
+        $I->see('<footer class="flex margin">', 'textarea');
 
         // Edit the field
         $twig = $I->grabTextFrom('#form_contents', 'textarea');
@@ -135,12 +135,12 @@ class BackendDeveloperCest
 
         // Save it
         $token = $I->grabValueFrom('#form__token');
-        $I->sendAjaxPostRequest('/bolt/file/edit/themes/base-2014/_footer.twig', [
+        $I->sendAjaxPostRequest('/bolt/file/edit/themes/base-2016/_base.twig', [
             'form[_token]'   => $token,
             'form[contents]' => $twig
         ]);
 
-        $I->amOnPage('/bolt/file/edit/themes/base-2014/_footer.twig');
+        $I->amOnPage('/bolt/file/edit/themes/base-2016/_base.twig');
         $I->see('Built with Bolt, tested with Codeception', '#form_contents');
     }
 

@@ -11,7 +11,7 @@
 
     {% from _self import display_menu_item %}
 
-    <li class="index-{{ loop.index }}
+    <li class="index-{{ loop.index -}}
         {{ loop.first ? ' first' -}}
         {{ loop.last ? ' last' -}}
         {{ item.submenu|default(false) ? ' dropdown sub-menu' -}}

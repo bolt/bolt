@@ -42,8 +42,6 @@ class FrontendCest
 
         $I->see('A sample site');
         $I->see('Recent Pages');
-        $I->see('Recent Entries');
-        $I->see('Recent Showcases');
         $I->dontSee('Recent Resources');
 
         $I->see('A Page I Made', 'h1');
