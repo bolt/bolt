@@ -230,9 +230,9 @@ class Permissions
         }
 
         if (is_array($item) && isset($item['username'])) {
-            $itemStr = sprintf(' for user "%s"', $item['username']);
+            $itemStr = sprintf(' for user <tt>%s</tt>', $item['username']);
         } elseif ($item) {
-            $itemStr = " for $item";
+            $itemStr = " for <tt>$item</tt>";
         } else {
             $itemStr = '';
         }
@@ -241,7 +241,7 @@ class Permissions
         if (in_array(self::ROLE_ROOT, $roleNames)) {
             $this->audit(
                 sprintf(
-                    'Granting "%s"%s to root user',
+                    'Granting <tt>%s</tt>%s to root user',
                     $permissionName,
                     $itemStr
                 )
@@ -253,7 +253,7 @@ class Permissions
             if ($this->checkRolePermission($roleName, $permissionName, $type ?: 'global', $item)) {
                 $this->audit(
                     sprintf(
-                        'Granting "%s"%s based on role %s',
+                        'Granting <tt>%s</tt>%s based on role <tt>%s</tt>',
                         $permissionName,
                         $itemStr,
                         $roleName
@@ -265,7 +265,7 @@ class Permissions
         }
         $this->audit(
             sprintf(
-                'Denying "%s"%s; available roles: %s',
+                'Denying <tt>%s</tt>%s; available roles: <tt>%s</tt>',
                 $permissionName,
                 $itemStr,
                 implode(', ', $roleNames)
@@ -521,7 +521,15 @@ class Permissions
             $contenttypeSlug = $content;
         }
 
-        $this->audit("Checking permission query '$what' for user '{$user['username']}' with contenttype '$contenttypeSlug' and contentid '$contentId'");
+        $auditline = sprintf(
+            "Checking permission query <tt>%s</tt> for user <tt>%s</tt>",
+            $what,
+            !empty($user['username']) ? $user['username'] : '(none)'
+        );
+        if(!empty($contenttypeSlug)) {
+            $auditline .= sprintf('with contenttype <tt>%s</tt> and contentid <tt>%s</tt>', $contenttypeSlug, $contentId);
+        }
+        $this->audit($auditline);
 
         // First, let's see if we have the check in the per-request cache.
         $rqCacheKey = $user['id'] . '//' . $what . '//' . $contenttypeSlug . '//' . $contentId;

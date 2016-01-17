@@ -98,7 +98,7 @@
                         </td>
                         <td>
                             {% spaceless %}
-                            <b>{{ entry.message }}</b>
+                            <b>{{ entry.message|raw }}</b>
                             {% if entry.source %}
                             <span class="info-pop pull-right" style="background-color: inherit !important;"
                                   data-content="{{ _self.trace_info_html(entry.source) }}"
