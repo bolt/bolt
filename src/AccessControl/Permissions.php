@@ -531,7 +531,7 @@ class Permissions
             $what,
             !empty($user['username']) ? $user['username'] : '(none)'
         );
-        if(!empty($contenttypeSlug)) {
+        if (!empty($contenttypeSlug)) {
             $auditline .= sprintf('with contenttype <tt>%s</tt> and contentid <tt>%s</tt>', $contenttypeSlug, $contentId);
         }
         $this->audit($auditline);
