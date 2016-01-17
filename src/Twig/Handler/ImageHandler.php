@@ -114,15 +114,19 @@ class ImageHandler
         $title = $title ?: $thumb->getTitle() ?: sprintf('%s: %s', Trans::__('Image'), $thumb->getFileName());
         $altTitle = $thumb->getAltTitle() ?: $title;
 
-        $output = sprintf(
-            '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s" alt="%s"></a>',
-            $this->getThubnailUri($largeThumb),
-            $title,
-            $this->getThubnailUri($thumb),
-            $thumb->getWidth(),
-            $thumb->getHeight(),
-            $altTitle
-        );
+        if ($this->getThumbnailUri($largeThumb)) {
+            $output = sprintf(
+                '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s" alt="%s"></a>',
+                $this->getThumbnailUri($largeThumb),
+                $title,
+                $this->getThumbnailUri($thumb),
+                $thumb->getWidth(),
+                $thumb->getHeight(),
+                $altTitle
+            );
+        } else {
+            $output = '';
+        }
 
         return $output;
     }
@@ -165,7 +169,7 @@ class ImageHandler
 
         return sprintf(
             '<img src="%s" width="%s" height="%s" alt="%s">',
-            $this->getThubnailUri($thumb),
+            $this->getThumbnailUri($thumb),
             $thumb->getWidth(),
             $thumb->getHeight(),
             $thumb->getAltTitle()
@@ -188,7 +192,7 @@ class ImageHandler
     {
         $thumb = $this->getThumbnail($fileName, $width, $height, $zoomcrop);
 
-        return $this->getThubnailUri($thumb);
+        return $this->getThumbnailUri($thumb);
     }
 
     /**
@@ -219,12 +223,12 @@ class ImageHandler
      *
      * @param Thumbnail $thumb
      *
-     * @return string
+     * @return mixed
      */
-    private function getThubnailUri(Thumbnail $thumb)
+    private function getThumbnailUri(Thumbnail $thumb)
     {
-        if ($thumb->getFileName() === null) {
-            return;
+        if ($thumb->getFileName() == null) {
+            return false;
         }
 
         return $this->app['url_generator']->generate(
