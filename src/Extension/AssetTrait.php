@@ -244,7 +244,7 @@ trait AssetTrait
     private function getAssetPath(FileAssetInterface $asset)
     {
         $fileName = $asset->getFileName();
-        if($fileName === null) {
+        if ($fileName === null) {
             throw new \RuntimeException('Extension file assets must have a file name set.');
         }
 

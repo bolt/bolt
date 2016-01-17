@@ -5,7 +5,6 @@ namespace Bolt\Legacy;
 use Bolt;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
-use Silex\Application;
 
 /**
  * Deprecated Bolt\Extensions class.

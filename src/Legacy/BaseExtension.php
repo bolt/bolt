@@ -5,7 +5,6 @@ namespace Bolt\Legacy;
 use Bolt\Extension\SimpleExtension;
 use Composer\Json\JsonFile;
 use Silex\Application;
-use Symfony\Component\Yaml;
 
 /**
  * @deprecated Deprecated since 3.0, to be removed in 4.0.

@@ -11,6 +11,7 @@ use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Form;
@@ -19,7 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * Backend controller for file/directory management routes.

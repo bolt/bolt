@@ -243,7 +243,7 @@ abstract class BaseComparator
     {
         $alias = str_replace($this->prefix, '', $tableDiff->fromTable->getName());
         if (in_array($alias, $this->contentTables)) {
-            $tableDiff->removedColumns = array();
+            $tableDiff->removedColumns = [];
         }
     }
 

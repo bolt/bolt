@@ -90,7 +90,7 @@ class DoctrineListener implements EventSubscriber
     {
         return [
             Events::postConnect,
-            'failConnect'
+            'failConnect',
         ];
     }
 }

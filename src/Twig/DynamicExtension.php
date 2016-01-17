@@ -2,8 +2,8 @@
 
 namespace Bolt\Twig;
 
-use \Twig_SimpleFunction as SimpleFunction;
-use \Twig_SimpleFilter as SimpleFilter;
+use Twig_SimpleFilter as SimpleFilter;
+use Twig_SimpleFunction as SimpleFunction;
 
 /**
  * Dynamic Twig Extension for Bolt Extensions.
