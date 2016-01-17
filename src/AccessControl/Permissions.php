@@ -360,6 +360,11 @@ class Permissions
      */
     private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype)
     {
+        // Actions on non-existing contenttypes are not allowed.
+        if (!$this->app['storage']->getContentType($contenttype)) {
+            return false;
+        }
+
         $roles = $this->getRolesByContentTypePermission($permissionName, $contenttype);
 
         return in_array($roleName, $roles);
