@@ -1,0 +1,53 @@
+{% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'ownerid', 'templatefields'] %}
+
+    {% if record.fieldtype(key) == "imagelist" and value is not empty %}
+
+        {% set list = attribute(record, key) %}
+        <div class="images">
+            {% for item in list %}
+                <div class="imageholder">
+                    {{ popup(item.filename) }}
+                </div>
+            {% endfor %}
+        </div>
+
+    {% elseif record.fieldtype(key) == "image" %}
+
+        {{ popup(value, 440, 0) }}
+
+    {% elseif record.fieldtype(key) == "video" and value.responsive is defined %}
+
+        {{ value.responsive }}
+
+    {% elseif record.fieldtype(key) == "geolocation" and value.latitude is defined %}
+
+        <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;
+        markers={{ value.latitude }},{{ value.longitude }}">
+
+    {% elseif record.fieldtype(key) in ['html', 'markdown', 'textarea', 'text'] %}
+
+        <div data-bolt-field="{{key}}">{{ attribute(record, key) }}</div>
+
+    {% elseif record.fieldtype(key) == "select" and value is not empty %}
+
+        <p><strong>{{ key }}: </strong>
+            {{ attribute(record, key)|join(", ") }}
+        </p>
+
+    {% elseif record.fieldtype(key) == "checkbox" %}
+
+            <p>Checkbox: {{value ? "checked" : "not checked"}}</p>
+
+    {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" and value is not empty  %}
+
+        <p><strong>{{ key }}: </strong>
+            {% if attribute(record, key) is iterable %}
+                {{ dump(attribute(record, key)) }}
+            {% else %}
+                {{ attribute(record, key) }}
+            {% endif %}
+        </p>
+
+    {%  endif %}
+
+{% endfor %}

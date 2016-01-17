@@ -136,6 +136,32 @@ class RecordHandler
     }
 
     /**
+     * Output all (relevant) fields to the browser. Convenient for dumping the
+     * content in order in, say, a `record.twig` template, without having to
+     * iterate over them in the browser.
+     */
+    public function fields(\Twig_Environment $env, $record = null, $contentonly = true, $template = '_sub_fields.twig', $exclude = null)
+    {
+        // If $record is empty, we must get it from the global scope in Twig.
+        if (!$record instanceof \Bolt\Legacy\Content) {
+            $globals = $env->getGlobals();
+            $record = $globals['record'];
+        }
+
+        if (!is_array($exclude)) {
+            $exclude = array_map('trim', explode(',', $exclude));
+        }
+
+        $context = [
+            'record' => $record,
+            'contentonly' => $contentonly,
+            'exclude' => $exclude
+        ];
+
+        return new \Twig_Markup($env->render($template, $context), 'utf-8');
+    }
+
+    /**
      * Trims the given string to a particular length. Deprecated, use excerpt
      * instead.
      *

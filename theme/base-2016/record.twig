@@ -7,6 +7,12 @@
         <article class="eight s-twelve record">
             {{ widgets('main_top') }}
             <h1 data-bolt-field="title">{{ record.title }}</h1>
+
+            {{ fields() }}
+
+            <hr>
+            <hr>
+
             {% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'title', 'subtitle', 'ownerid', 'templatefields'] %}
                 {% if record.fieldtype(key) == "imagelist" and value is not empty %}
                     {% set list = attribute(record, key) %}
