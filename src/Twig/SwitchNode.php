@@ -6,15 +6,17 @@ namespace Bolt\Twig;
  * Represents a switch node.
  *
  * @package    twig
+ *
  * @author     Dsls
  * @author     maxgalbu
+ *
  * @see        https://gist.github.com/maxgalbu/9409182
  */
 class SwitchNode extends \Twig_Node
 {
     public function __construct(\Twig_NodeInterface $value, \Twig_NodeInterface $cases, \Twig_NodeInterface $default = null, $lineno = 0, $tag = null)
     {
-        parent::__construct(array('value' => $value, 'cases' => $cases, 'default' => $default), array(), $lineno, $tag);
+        parent::__construct(['value' => $value, 'cases' => $cases, 'default' => $default], [], $lineno, $tag);
     }
 
     /**
@@ -26,7 +28,7 @@ class SwitchNode extends \Twig_Node
     {
         $compiler->addDebugInfo($this);
         $compiler
-            ->write("switch (")
+            ->write('switch (')
             ->subcompile($this->getNode('value'))
             ->raw(") {\n")
             ->indent

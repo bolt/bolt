@@ -35,7 +35,7 @@ class SwitchTokenParser extends \Twig_TokenParser
         $stream = $parser->getStream();
 
         $default = null;
-        $cases = array();
+        $cases = [];
         $end = false;
 
         $name = $parser->getExpressionParser()->parseExpression();
@@ -47,13 +47,13 @@ class SwitchTokenParser extends \Twig_TokenParser
             switch ($v->getValue()) {
                 case 'default':
                     $stream->expect(\Twig_Token::BLOCK_END_TYPE);
-                    $default = $parser->subparse(array($this, 'decideIfEnd'));
+                    $default = $parser->subparse([$this, 'decideIfEnd']);
                     break;
 
                 case 'case':
                     $expr = $parser->getExpressionParser()->parseExpression();
                     $stream->expect(\Twig_Token::BLOCK_END_TYPE);
-                    $body = $parser->subparse(array($this, 'decideIfFork'));
+                    $body = $parser->subparse([$this, 'decideIfFork']);
                     $cases[] = $expr;
                     $cases[] = $body;
                     break;
@@ -74,12 +74,12 @@ class SwitchTokenParser extends \Twig_TokenParser
 
     public function decideIfFork($token)
     {
-        return $token->test(array('case', 'default', 'endswitch'));
+        return $token->test(['case', 'default', 'endswitch']);
     }
 
     public function decideIfEnd($token)
     {
-        return $token->test(array('endswitch'));
+        return $token->test(['endswitch']);
     }
 
     /**
