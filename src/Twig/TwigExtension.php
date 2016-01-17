@@ -186,6 +186,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
         $parsers = [];
         if (!$this->safe) {
             $parsers[] = new SetcontentTokenParser();
+            $parsers[] = new SwitchTokenParser();
         }
 
         return $parsers;
