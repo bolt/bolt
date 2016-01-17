@@ -114,15 +114,19 @@ class ImageHandler
         $title = $title ?: $thumb->getTitle() ?: sprintf('%s: %s', Trans::__('Image'), $thumb->getFileName());
         $altTitle = $thumb->getAltTitle() ?: $title;
 
-        $output = sprintf(
-            '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s" alt="%s"></a>',
-            $this->getThumbnailUri($largeThumb),
-            $title,
-            $this->getThumbnailUri($thumb),
-            $thumb->getWidth(),
-            $thumb->getHeight(),
-            $altTitle
-        );
+        if ($this->getThumbnailUri($largeThumb)) {
+            $output = sprintf(
+                '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s" alt="%s"></a>',
+                $this->getThumbnailUri($largeThumb),
+                $title,
+                $this->getThumbnailUri($thumb),
+                $thumb->getWidth(),
+                $thumb->getHeight(),
+                $altTitle
+            );
+        } else {
+            $output = '';
+        }
 
         return $output;
     }
