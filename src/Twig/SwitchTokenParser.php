@@ -8,7 +8,7 @@ namespace Bolt\Twig;
  * Usage:
  *
  * {% set foo = 1 %}
- * {% switch test %}
+ * {% switch foo %}
  *     {% case 1 %}
  *         Foo was equal to the number one.
  *     {% case 2 %}
