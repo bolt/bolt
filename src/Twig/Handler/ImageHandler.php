@@ -116,9 +116,9 @@ class ImageHandler
 
         $output = sprintf(
             '<a href="%s" class="magnific" title="%s"><img src="%s" width="%s" height="%s" alt="%s"></a>',
-            $this->getThubnailUri($largeThumb),
+            $this->getThumbnailUri($largeThumb),
             $title,
-            $this->getThubnailUri($thumb),
+            $this->getThumbnailUri($thumb),
             $thumb->getWidth(),
             $thumb->getHeight(),
             $altTitle
@@ -165,7 +165,7 @@ class ImageHandler
 
         return sprintf(
             '<img src="%s" width="%s" height="%s" alt="%s">',
-            $this->getThubnailUri($thumb),
+            $this->getThumbnailUri($thumb),
             $thumb->getWidth(),
             $thumb->getHeight(),
             $thumb->getAltTitle()
@@ -188,7 +188,7 @@ class ImageHandler
     {
         $thumb = $this->getThumbnail($fileName, $width, $height, $zoomcrop);
 
-        return $this->getThubnailUri($thumb);
+        return $this->getThumbnailUri($thumb);
     }
 
     /**
@@ -221,7 +221,7 @@ class ImageHandler
      *
      * @return string
      */
-    private function getThubnailUri(Thumbnail $thumb)
+    private function getThumbnailUri(Thumbnail $thumb)
     {
         if ($thumb->getFileName() === null) {
             return;
