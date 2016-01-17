@@ -12,7 +12,7 @@ namespace Bolt\Twig;
  */
 class SwitchNode extends \Twig_Node
 {
-    public function __construct(\Twig_NodeInterface $value, \Twig_NodeInterface $cases, \Twig_NodeInterface $default = null, $lineno, $tag = null)
+    public function __construct(\Twig_NodeInterface $value, \Twig_NodeInterface $cases, \Twig_NodeInterface $default = null, $lineno = 0, $tag = null)
     {
         parent::__construct(array('value' => $value, 'cases' => $cases, 'default' => $default), array(), $lineno, $tag);
     }

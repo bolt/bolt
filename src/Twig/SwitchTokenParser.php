@@ -42,8 +42,7 @@ class SwitchTokenParser extends \Twig_TokenParser
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
         $stream->expect(\Twig_Token::TEXT_TYPE);
         $stream->expect(\Twig_Token::BLOCK_START_TYPE);
-        while (!$end)
-        {
+        while (!$end) {
             $v = $stream->next();
             switch ($v->getValue()) {
                 case 'default':
@@ -70,7 +69,7 @@ class SwitchTokenParser extends \Twig_TokenParser
 
         $stream->expect(\Twig_Token::BLOCK_END_TYPE);
 
-        return new SwitchNode($name,new \Twig_Node($cases), $default, $token->getLine(), $this->getTag());
+        return new SwitchNode($name, new \Twig_Node($cases), $default, $token->getLine(), $this->getTag());
     }
 
     public function decideIfFork($token)
