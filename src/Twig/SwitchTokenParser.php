@@ -5,6 +5,19 @@ namespace Bolt\Twig;
 /*
  * Adapted from code originally in Twig/extensions.
  *
+ * Usage:
+ *
+ * {% set foo = 1 %}
+ * {% switch test %}
+ *     {% case 1 %}
+ *         Foo was equal to the number one.
+ *     {% case 2 %}
+ *         Foo was two.
+ *     {% default %}
+ *         This is the default fallback.
+ * {% endswitch %}
+ *
+ *
  * @see: https://gist.github.com/maxgalbu/9409182
  */
 class SwitchTokenParser extends \Twig_TokenParser
