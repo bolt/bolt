@@ -219,12 +219,12 @@ class ImageHandler
      *
      * @param Thumbnail $thumb
      *
-     * @return string
+     * @return mixed
      */
     private function getThumbnailUri(Thumbnail $thumb)
     {
-        if ($thumb->getFileName() === null) {
-            return;
+        if ($thumb->getFileName() == null) {
+            return false;
         }
 
         return $this->app['url_generator']->generate(
