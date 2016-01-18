@@ -50,8 +50,7 @@ var init = {
                 $('#form_contents').val(editor.getValue());
             }
 
-            var savedon = $('p.lastsaved').html(),
-                msgNotSaved = "Not saved";
+            var msgNotSaved = "Not saved";
 
             // Disable the buttons, to indicate stuff is being done.
             $('#saveeditfile').addClass('disabled');
