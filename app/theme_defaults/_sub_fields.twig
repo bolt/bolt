@@ -24,6 +24,9 @@
 
     {% elseif record.fieldtype(key) == "imagelist" and value is not empty %}
 
+        {# We do something tricky here: we need to get value of the list the proper way, so the value
+           is actually returned as a list. Using {{ record.key }} won't work, because there is no
+           value 'key'. In your own templates you will be able to use {{ record.yourfieldname }}. #}
         {% set list = attribute(record, key) %}
         <div class="bolt-imagelist">
             {% for item in list %}
@@ -42,6 +45,7 @@
 
         {% elseif record.fieldtype(key) == "select" and value is not empty %}
 
+            {# Special case for 'select' fields: if it's a multiple select, the value is an array. #}
             <p><strong>{{ key }}: </strong>
                 {{ attribute(record, key)|join(", ") }}
             </p>
@@ -52,6 +56,8 @@
 
         {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" and value is not empty  %}
 
+            {# No special case defined for this type of field. We just output it, if it's
+               a simple scalar, and 'dump' it otherwise. #}
             <p><strong>{{ key }}: </strong>
                 {% if attribute(record, key) is iterable %}
                     {{ dump(attribute(record, key)) }}
