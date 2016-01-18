@@ -48,7 +48,7 @@
      */
     app.gMapsApiReady = function () {
         gMapsApiLoaded = true;
-        $(bolt).trigger('done.bolt.fields.gmaps');
+        $(bolt).trigger('done.bolt.gmapsapi.load');
     };
 
     /**
@@ -176,21 +176,21 @@
     function initHandler() {
         $(bolt)
             // Google Maps API loading
-            // - start.bolt.fields.gmaps: request API loading.
-            // - done.bolt.fields.gmaps:  API loaded successfully.
-            // - fail.bolt.fields.gmaps:  loading failed.
-            .on('start.bolt.fields.gmaps', function () {
+            // - start.bolt.gmapsapi.load: request API loading.
+            // - done.bolt.gmapsapi.load:  API loaded successfully.
+            // - fail.bolt.gmapsapi.load:  loading failed.
+            .on('start.bolt.gmapsapi.load', function () {
                 if (gMapsApiLoaded === undefined) {
                     // Request loading Google Maps API.
                     gMapsApiLoaded = false;
                     $.getScript('https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.gMapsApiReady')
                         .fail(function () {
                             gMapsApiLoaded = undefined;
-                            $(bolt).trigger('fail.bolt.fields.gmaps');
+                            $(bolt).trigger('fail.bolt.gmapsapi.load');
                         });
                 } else if (gMapsApiLoaded === true) {
                     // Already loaded, signal it.
-                    $(bolt).trigger('done.bolt.fields.gmaps');
+                    $(bolt).trigger('done.bolt.gmapsapi.load');
                 }
             });
     }

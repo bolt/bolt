@@ -98,18 +98,18 @@
             });
 
             $(bolt) 
-                .one('done.bolt.fields.gmaps', function () {
+                .one('done.bolt.gmapsapi.load', function () {
                     self._initGoogleMap(self.options.latitude, self.options.longitude);
                  })
-                .on('fail.bolt.fields.gmaps', function () {
+                .on('fail.bolt.gmapsapi.load', function () {
                     self._ui.spinner.removeClass('fa-spinner fa-spin').addClass('fa-refresh').one('click', function () {
                         self._ui.spinner.removeClass('fa-refresh').addClass('fa-spinner fa-spin');
-                        $(bolt).trigger('start.bolt.fields.gmaps');
+                        $(bolt).trigger('start.bolt.gmapsapi.load');
                     });
                 });
 
             // Request loading of Google Maps API.
-            $(bolt).trigger('start.bolt.fields.gmaps');
+            $(bolt).trigger('start.bolt.gmapsapi.load');
         },
 
         /**
