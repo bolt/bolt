@@ -10,6 +10,7 @@ use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Pager;
+use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Doctrine\DBAL\DBALException;
@@ -982,6 +983,7 @@ class Storage
         // Make sure all content has their taxonomies and relations
         $this->getTaxonomy($content);
         $this->getRelation($content);
+        $this->getRepeaters($content);
 
         // Set up the $pager array with relevant values.
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
@@ -1690,6 +1692,8 @@ class Storage
         foreach ($rows as $row) {
             $objects[$row['id']] = $this->getContentObject($contenttype, $row);
         }
+
+        $this->getRepeaters($objects);
 
         if ($getTaxoAndRel) {
             // Make sure all content has their taxonomies and relations
@@ -2653,6 +2657,38 @@ class Storage
         foreach ($rows as $row) {
             $content[$row['to_id']]->setRelation($row['from_contenttype'], $row['from_id']);
         }
+    }
+
+    public function getRepeaters($content)
+    {
+
+        $ids = util::array_pluck($content, 'id');
+
+        if (empty($ids)) {
+            return;
+        }
+
+        // Get the contenttype from first $content
+        $contenttypeslug = $content[util::array_first_key($content)]->contenttype['slug'];
+        $contenttype = $this->getContentType($contenttypeslug);
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\FieldValue');
+
+        foreach ($ids as $id) {
+            foreach ($contenttype['fields'] as $fieldkey => $field) {
+                if ($field['type'] == 'repeater') {
+                    $collection = new RepeatingFieldCollection($this->app['storage'], $field);
+                    $existingFields = $repo->getExistingFields($id, $contenttypeslug, $fieldkey) ?: [];
+                    foreach ($existingFields as $group => $ids) {
+                        $collection->addFromReferences($ids, $group);
+                    }
+                    $content[$id]->setValue($fieldkey, $collection);
+                }
+            }
+
+        }
+
+
+
     }
 
     /**

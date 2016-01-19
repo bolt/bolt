@@ -171,31 +171,9 @@ class RepeaterType extends FieldTypeBase
      */
     protected function getExistingFields($entity)
     {
-        $query = $this->em->createQueryBuilder()
-            ->select('grouping, id', 'name')
-            ->from($this->mapping['tables']['field_value'])
-            ->where('content_id = :id')
-            ->andWhere('contenttype = :contenttype')
-            ->andWhere('name = :name')
-            ->setParameters([
-                'id'          => $entity->id,
-                'contenttype' => $entity->getContenttype(),
-                'name'        => $this->mapping['fieldname'],
-            ]);
+        $repo = $this->em->getRepository('Bolt\Storage\Entity\FieldValue');
 
-        $results = $query->execute()->fetchAll();
-
-        $fields = [];
-
-        if (!$results) {
-            return $fields;
-        }
-
-        foreach ($results as $result) {
-            $fields[$result['grouping']][] = $result['id'];
-        }
-
-        return $fields;
+        return $repo->getExistingFields($entity->getId(), $entity->getContenttype(), $this->mapping['fieldname']);
     }
 
     /**
