@@ -2653,6 +2653,38 @@ class Storage
         }
     }
 
+    public function getRepeaters($content)
+    {
+
+        $ids = util::array_pluck($content, 'id');
+
+        if (empty($ids)) {
+            return;
+        }
+
+        // Get the contenttype from first $content
+        $contenttypeslug = $content[util::array_first_key($content)]->contenttype['slug'];
+        $contenttype = $this->getContentType($contenttypeslug);
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\FieldValue');
+
+        foreach ($ids as $id) {
+            foreach ($contenttype['fields'] as $fieldkey => $field) {
+                if ($field['type'] == 'repeater') {
+                    $collection = new RepeatingFieldCollection($app['storage'], $this->mapping);
+                    $existingFields = $repo->getExistingFields($id, $contenttypeslug, $fieldkey) ?: [];
+                    foreach ($existingFields as $group => $ids) {
+                        $collection->addFromReferences($ids, $group);
+                    }
+                    $content[$id]->setValue($field, $collection);
+                }
+            }
+
+        }
+
+
+
+    }
+
     /**
      * Update / insert relation for a given content-unit.
      *
