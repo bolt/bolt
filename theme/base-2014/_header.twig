@@ -58,7 +58,7 @@
 
             {# You can either hardcode the filename for the header, or take a value from the current
                content in 'record', or - as we do in this example - take a random one from the list
-               in the /theme/base-2014/config.yml file. #}
+               in the /theme/base-2014/theme.yml file. #}
             {% set headerimage = paths.theme ~ 'images/' ~ random(theme.headerimage) %}
             <img src="{{ headerimage }} " alt="" />
 
