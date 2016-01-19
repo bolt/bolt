@@ -10,7 +10,6 @@
     ],
     "license" : "MIT",
     "require" : {
-        "bolt/dumper" : "~2.0",
         "bolt/filesystem" : "^2.0@dev",
         "bolt/package-wrapper": "^3.0",
         "bolt/pathogen" : "~0.6",
