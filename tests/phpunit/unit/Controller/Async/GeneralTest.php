@@ -162,7 +162,7 @@ class GeneralTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/async/latestactivity'));
 
-        $response = $this->controller()->latestActivity($this->getRequest());
+        $response = $this->controller()->latestActivity();
 
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('@bolt/components/panel-activity.twig', $response->getTemplateName());

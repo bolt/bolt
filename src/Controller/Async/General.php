@@ -138,15 +138,12 @@ class General extends AsyncBase
     /**
      * Get the 'latest activity' for the dashboard.
      *
-     * @param Request $request
-     *
      * @return \Bolt\Response\BoltResponse
      */
-    public function latestActivity(Request $request)
+    public function latestActivity()
     {
         // Test/get page number
-        $param = Pager::makeParameterId('activity');
-        $page = ($request->query) ? $request->query->get($param, $request->query->get('page', 1)) : 1;
+        $page = $this->app['pager']->getCurrentPage('activity');
 
         $change = $this->app['logger.manager']->getActivity('change', $page, 8);
         $system = $this->app['logger.manager']->getActivity('system', $page, 8, ['context' => ['authentication', 'security']]);
