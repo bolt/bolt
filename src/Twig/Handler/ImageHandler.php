@@ -2,10 +2,7 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Filesystem\Handler\Image\Dimensions;
-use Bolt\Filesystem\Handler\Image\Exif;
-use Bolt\Filesystem\Handler\Image\Info;
-use Bolt\Filesystem\Handler\Image\Type;
+use Bolt\Filesystem\Handler\NullableImage;
 use Bolt\Helpers\Image\Thumbnail;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
@@ -65,17 +62,13 @@ class ImageHandler
      *
      * @param string $filename
      *
-     * @return \Bolt\Filesystem\Handler\Image
+     * @return \Bolt\Filesystem\Handler\ImageInterface
      */
     public function imageInfo($filename)
     {
-        $image = $this->app['filesystem']->getImage('files://' . $filename);
+        $image = $this->app['filesystem']->getFile('files://' . $filename, new NullableImage());
 
-        if (!$image->exists()) {
-            return new Info(new Dimensions(0, 0), Type::getById(IMAGETYPE_UNKNOWN), 0, 0, null, new Exif([]));
-        }
-
-        return $image->getInfo();
+        return $image;
     }
 
     /**
@@ -155,7 +148,7 @@ class ImageHandler
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
         if ($width === null || $height === null) {
-            $info = $this->imageInfo($thumb->getFileName(), false);
+            $info = $this->imageInfo($thumb->getFileName(), false)->getInfo();
 
             if ($width !== null) {
                 $thumb->setHeight(round($width / $info->getAspectRatio()));
