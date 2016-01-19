@@ -17,7 +17,7 @@
                             </div>
                         {% endfor %}
                     </div>
-                {% elseif record.fieldtype(key) == "image" %}
+                {% elseif record.fieldtype(key) == "image" and value is not empty %}
                     {{ popup(value, 440, 0) }}
                 {% elseif record.fieldtype(key) == "video" and value.responsive is defined %}
                     {{ value.responsive }}
