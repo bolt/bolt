@@ -23,7 +23,7 @@
         "erusev/parsedown-extra" : "~0.2",
         "ext-mbstring" : "*",
         "ext-pdo" : "*",
-        "filp/whoops" : "~1.1",
+        "filp/whoops" : "~2.0",
         "ircmaxell/random-lib" : "~1.1",
         "monolog/monolog" : "~1.12",
         "nesbot/carbon" : "^1.20",
