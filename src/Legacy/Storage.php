@@ -10,6 +10,7 @@ use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Pager;
+use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Doctrine\DBAL\DBALException;
