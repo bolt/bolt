@@ -2679,7 +2679,7 @@ class Storage
                     foreach ($existingFields as $group => $ids) {
                         $collection->addFromReferences($ids, $group);
                     }
-                    $content[$id]->setValue($field, $collection);
+                    $content[$id]->setValue($fieldkey, $collection);
                 }
             }
 
