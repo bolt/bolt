@@ -2674,7 +2674,7 @@ class Storage
         foreach ($ids as $id) {
             foreach ($contenttype['fields'] as $fieldkey => $field) {
                 if ($field['type'] == 'repeater') {
-                    $collection = new RepeatingFieldCollection($app['storage'], $this->mapping);
+                    $collection = new RepeatingFieldCollection($this->app['storage'], $field);
                     $existingFields = $repo->getExistingFields($id, $contenttypeslug, $fieldkey) ?: [];
                     foreach ($existingFields as $group => $ids) {
                         $collection->addFromReferences($ids, $group);
