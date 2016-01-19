@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig\Handler;
 
+use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Filesystem\Handler\NullableImage;
 use Bolt\Helpers\Image\Thumbnail;
 use Bolt\Library as Lib;
@@ -66,6 +67,10 @@ class ImageHandler
      */
     public function imageInfo($filename)
     {
+        if ($filename instanceof ImageInterface) {
+            return $filename;
+        }
+
         $image = $this->app['filesystem']->getFile('files://' . $filename, new NullableImage());
 
         return $image;
