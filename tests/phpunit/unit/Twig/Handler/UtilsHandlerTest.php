@@ -86,39 +86,6 @@ class UtilsHandlerTest extends BoltUnitTest
         $this->assertArrayHasKey('class', $result[0]);
     }
 
-    public function testPrintDumpSafeDebugOn()
-    {
-        $app = $this->getApp();
-        $app['debug'] = true;
-        $handler = new UtilsHandler($app);
-
-        $result = $handler->printDump($this, true);
-        $this->assertNull($result);
-    }
-
-    public function testPrintDumpNoSafeDebugOff()
-    {
-        $app = $this->getApp();
-        $app['debug'] = false;
-        $handler = new UtilsHandler($app);
-
-        $result = $handler->printDump($this, false);
-        $this->assertNull($result);
-    }
-
-    public function testPrintDumpNoSafeDebugOn()
-    {
-        $this->stubVarDumper();
-
-        $app = $this->getApp();
-        $app['debug'] = true;
-        $handler = new UtilsHandler($app);
-
-        $result = $handler->printDump($this, false);
-        $this->assertCount(1, $result);
-        $this->assertInstanceOf('Bolt\Tests\Twig\UtilsHandlerTest', $result);
-    }
-
     public function testPrintFirebugSafeDebugOn()
     {
         $app = $this->getApp();

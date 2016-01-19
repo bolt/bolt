@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
+use Bolt\Twig\DumpExtension;
 use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\Handler;
 use Bolt\Twig\TwigExtension;
@@ -72,6 +73,9 @@ class TwigServiceProvider implements ServiceProviderInterface
                 'twig',
                 function (\Twig_Environment $twig, $app) {
                     $twig->addExtension(new TwigExtension($app, $app['twig.handlers'], false));
+                    if ($app['debug'] && isset($app['dump'])) {
+                        $twig->addExtension(new DumpExtension($app['dumper.cloner'], $app['dumper.html']));
+                    }
 
                     return $twig;
                 }
