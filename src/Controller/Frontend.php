@@ -247,15 +247,16 @@ class Frontend extends ConfigurableBase
     {
         $listingparameters = $this->getListingParameters($request, $contenttypeslug);
         $content = $this->getContent($contenttypeslug, $listingparameters);
+        $contenttype = $this->getContentType($contenttypeslug);
 
-        $template = $this->templateChooser()->listing($content->contenttype);
+        $template = $this->templateChooser()->listing($contenttype);
 
         // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
         $globals = [
             'records'        => $content,
             $contenttypeslug => $content,
-            'contenttype'    => $content->contenttype['name'],
+            'contenttype'    => $contenttype['name'],
         ];
 
         return $this->render($template, [], $globals);
