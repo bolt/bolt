@@ -417,7 +417,7 @@ class Frontend extends ConfigurableBase
             ->setShowingFrom($offset + 1)
             ->setShowingTo($offset + count($result['results']));
 
-        $manager->setLink($this->generateUrl('search', ['q' => $q]).'&page_search=');
+        $manager->setLink($this->generateUrl('search', ['q' => $q]) . '&page_search=');
 
         $globals = [
             'records'      => $result['results'],

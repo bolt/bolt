@@ -8,7 +8,6 @@ use Silex\ServiceProviderInterface;
 
 class PagerServiceProvider implements ServiceProviderInterface
 {
-
     /**
      * Registers services on the given app.
      *

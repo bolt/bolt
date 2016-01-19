@@ -380,7 +380,7 @@ class ResourceManager
 
         $url = sprintf('%s%s', $this->getRequest('canonical'), $current);
         if (PagerManager::isPagingRequest($request)) {
-            $url .= '?'.http_build_query($request->query->all());
+            $url .= '?' . http_build_query($request->query->all());
         }
         $this->setUrl('canonicalurl', $url);
     }

@@ -3,7 +3,6 @@
 namespace Bolt\Pager;
 
 use Bolt\Exception\PagerOverrideException;
-use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -53,6 +52,7 @@ class PagerManager implements \ArrayAccess
 
     /**
      * @param Request $request
+     *
      * @return bool
      */
     public static function isPagingRequest(Request $request)
@@ -67,6 +67,7 @@ class PagerManager implements \ArrayAccess
      * Initializer of pager objects from request query parameters
      *
      * @param Request $request
+     *
      * @throws PagerOverrideException
      */
     public function initialize(Request $request)
@@ -91,7 +92,8 @@ class PagerManager implements \ArrayAccess
      * Against deprecated Pager::makelink() this is will build link based on initialized pagers.
      *
      * @param string $linkFor [optional] Id of pager the link should be built for. With empty argument passing
-     *          the link will be built for the first initialized pager object found.
+     *                        the link will be built for the first initialized pager object found.
+     *
      * @return string GET query string
      * @throw \RuntimeException
      */
@@ -120,7 +122,7 @@ class PagerManager implements \ArrayAccess
         if ($pagerid) {
             $chunks[] = "{$pagerid}=";
         }
-        $link = '?'.implode('&', $chunks);
+        $link = '?' . implode('&', $chunks);
 
         if ($saved) {
             $this->pagers[$pagerid] = $saved;
@@ -135,13 +137,14 @@ class PagerManager implements \ArrayAccess
      * to its context.
      *
      * @param $contextId
+     *
      * @return string
      */
     public function makeParameterId($contextId = null)
     {
-        $contextId = ($contextId) ? '_'.$contextId : '';
+        $contextId = ($contextId) ? '_' . $contextId : '';
 
-        return self::PAGE.$contextId;
+        return self::PAGE . $contextId;
     }
 
     /**
@@ -168,6 +171,7 @@ class PagerManager implements \ArrayAccess
      * Encodes Http GET query string from actual parts of query parameters and from 'current' values of pager objects
      *
      * @param array|null $qparams [optional] Optional parameters where actual values to be merged into
+     *
      * @return string Encoded query string
      */
     public function encodeHttpQuery($qparams = null)
@@ -184,13 +188,14 @@ class PagerManager implements \ArrayAccess
      */
     public function __toString()
     {
-        return '?'.$this->encodeHttpQuery();
+        return '?' . $this->encodeHttpQuery();
     }
 
     /**
      * Pager element object existence check at a specific context id
      *
      * @param mixed $contextId Context Id of pager object
+     *
      * @return bool
      */
     public function offsetExists($contextId)
@@ -224,6 +229,7 @@ class PagerManager implements \ArrayAccess
 
     /**
      * @param mixed $contextId
+     *
      * @return Pager
      */
     public function offsetGet($contextId)
@@ -267,6 +273,7 @@ class PagerManager implements \ArrayAccess
      * Set pager manager link value directly forcing link build.
      *
      * @param string $link Link to force
+     *
      * @return $this
      */
     public function setLink($link)
@@ -280,6 +287,7 @@ class PagerManager implements \ArrayAccess
      * Factory method creating a Pager object
      *
      * @param string $contextId [optional]
+     *
      * @return Pager
      */
     public function createPager($contextId = null)
@@ -295,6 +303,7 @@ class PagerManager implements \ArrayAccess
      * Pager is initialized if its _$totalpages_ attribute set.
      *
      * @param string $contextId [optional]
+     *
      * @return mixed
      */
     public function getPager($contextId = null)
@@ -304,6 +313,7 @@ class PagerManager implements \ArrayAccess
 
     /**
      * @param string $contextId
+     *
      * @return Pager|int
      */
     public function getCurrentPage($contextId = null)
@@ -324,8 +334,9 @@ class PagerManager implements \ArrayAccess
     /**
      * Strict getter for request property
      *
-     * @return Request
      * @throws \RuntimeException
+     *
+     * @return Request
      */
     public function getRequest()
     {
@@ -340,6 +351,7 @@ class PagerManager implements \ArrayAccess
      * Gets a parameter id of an explicit context id or gets a valid one
      *
      * @param string $contextId [optional]
+     *
      * @return int|string
      */
     protected function findPagerId($contextId = null)

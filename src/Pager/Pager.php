@@ -32,6 +32,7 @@ class Pager extends AbstractPager
 
     /**
      * @param mixed $for
+     *
      * @return Pager
      */
     public function setFor($for)
@@ -43,6 +44,7 @@ class Pager extends AbstractPager
 
     /**
      * @param mixed $count
+     *
      * @return Pager
      */
     public function setCount($count)
@@ -54,6 +56,7 @@ class Pager extends AbstractPager
 
     /**
      * @param mixed $totalpages
+     *
      * @return Pager
      */
     public function setTotalpages($totalpages)
@@ -65,6 +68,7 @@ class Pager extends AbstractPager
 
     /**
      * @param mixed $current
+     *
      * @return Pager
      */
     public function setCurrent($current)
@@ -76,6 +80,7 @@ class Pager extends AbstractPager
 
     /**
      * @param mixed $showingFrom
+     *
      * @return Pager
      */
     public function setShowingFrom($showingFrom)
@@ -87,6 +92,7 @@ class Pager extends AbstractPager
 
     /**
      * @param mixed $showingTo
+     *
      * @return Pager
      */
     public function setShowingTo($showingTo)
@@ -98,6 +104,7 @@ class Pager extends AbstractPager
 
     /**
      * @param PagerManager $manager
+     *
      * @return Pager
      */
     public function setManager($manager)
@@ -108,8 +115,8 @@ class Pager extends AbstractPager
     }
 
     /**
-     *
      * @param string $linkFor
+     *
      * @return mixed
      */
     public function makeLink($linkFor = '')
