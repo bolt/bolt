@@ -985,6 +985,7 @@ class Storage
         // Make sure all content has their taxonomies and relations
         $this->getTaxonomy($content);
         $this->getRelation($content);
+        $this->getRepeaters($content);
 
         // Set up the $pager array with relevant values.
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
@@ -1689,6 +1690,8 @@ class Storage
         foreach ($rows as $row) {
             $objects[$row['id']] = $this->getContentObject($contenttype, $row);
         }
+
+        $this->getRepeaters($objects);
 
         if ($getTaxoAndRel) {
             // Make sure all content has their taxonomies and relations
