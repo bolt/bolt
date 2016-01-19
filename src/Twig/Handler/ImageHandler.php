@@ -62,13 +62,16 @@ class ImageHandler
      * Get an image.
      *
      * @param string $filename
+     * @param string $safe
      *
      * @return \Bolt\Filesystem\Handler\ImageInterface
      */
-    public function imageInfo($filename)
+    public function imageInfo($filename, $safe)
     {
         if ($filename instanceof ImageInterface) {
             return $filename;
+        } elseif ($safe) {
+            return null;
         }
 
         $image = $this->app['filesystem']->getFile('files://' . $filename, new NullableImage());

@@ -333,7 +333,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
      */
     public function imageInfo($filename)
     {
-        return $this->handlers['image']->imageInfo($filename);
+        return $this->handlers['image']->imageInfo($filename, $this->safe);
     }
 
     /**
