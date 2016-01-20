@@ -1,7 +1,6 @@
 {% extends '_base.twig' %}
 {% block body %}
-{% set image = random(theme.images) %}
-<div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
+<div class="headerimage" style="background-image:url({{image(records|first.getImage(), 1920, 1080)}})"></div>
 <div class="flex container margin padding popUppers">
     <section class="eight s-twelve">
         {{ widgets('main_top') }}
@@ -33,10 +32,9 @@
             </h1>
         {% endif %}
         {% for record in records %}
-            {% set image = record.image ?: random(theme.images) %}
             <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
+            {{ popup(record.getImage(), 440, 0) }}
             {# display something introduction-like.. #}
-            {{ popup(image, 440, 0) }}
             {% if record.introduction %}
                 {{ record.introduction }}
             {% elseif record.teaser %}

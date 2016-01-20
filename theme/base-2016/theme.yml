@@ -2,19 +2,11 @@
 # Note: If variables do not immediately show up, clear the cache, in the Bolt Backend.
 foo: bar
 
-# Choose which image is shown on the frontpage, will be overridden if your homepage record has an image
+# Choose which image is shown on the frontpage, set to false to use an image from the content
 frontpage_image: base-2016/images/image1.jpg
 
-# Choose which contenttypes are listed on the frontpage
-frontpage_contenttypes:
-    - entries
-    - pages
-
-# Choose which images are used on listings and record views where the record has no image
-images:
-    - base-2016/images/image2.jpg
-    - base-2016/images/image3.jpg
-    - base-2016/images/image4.jpg
+# Choose which content to list in the frontpage sidebar
+sidebar_content: entries
 
 # Template filenames. If you 're creating a theme for distribution, you can specify
 # the filenames of the templates here. The templates you will set in this config
