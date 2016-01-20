@@ -96,9 +96,9 @@ class ImageHandler
      *
      * @return string HTML output
      */
-    public function popup($fileName = null, $width = 100, $height = 100, $crop = null, $title = null)
+    public function popup($fileName = '', $width = 100, $height = 100, $crop = null, $title = null)
     {
-        if ($fileName === null) {
+        if (empty($fileName)) {
             return '&nbsp;';
         }
 
@@ -147,9 +147,9 @@ class ImageHandler
      *
      * @return string HTML output
      */
-    public function showImage($fileName = null, $width = null, $height = null, $crop = null)
+    public function showImage($fileName = '', $width = null, $height = null, $crop = null)
     {
-        if ($fileName === null) {
+        if (empty($fileName)) {
             return '&nbsp;';
         }
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
