@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% if record is defined %}
-            <title>{{ record.title ? (app.config.get('general/sitename') ~ ' | ' ~ record.title|excerpt(55)) : app.config.get('general/sitename') }}</title>
-            <meta name="description" content="{{ record.body|excerpt(160) ?: app.config.get('general/payoff') }}">
+            <title>{{ record.getTitle() ? (app.config.get('general/sitename') ~ ' | ' ~ record.getTitle()|excerpt(55)) : app.config.get('general/sitename') }}</title>
+            <meta name="description" content="{{ record.getExcerpt(160, false) ?: app.config.get('general/payoff') }}">
         {% else %}
             <title>{{ app.config.get('general/sitename') }}</title>
             <meta name="description" content="{{ app.config.get('general/payoff') }}">
@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="{{ paths.theme }}css/style.combined.css">
         <link rel="stylesheet" href="{{ paths.theme }}css/custom.css">
     </head>
-    <body class="{% if app.request.pathInfo == "/" %}homepage{% endif %}{{app.request.pathInfo|split("/")|join(" ")}}">
+    <body>
         <header class="flex margin">
             <div class="four m-six logo align center left">
                 <a href="/">

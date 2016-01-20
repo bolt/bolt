@@ -33,7 +33,7 @@
         {% endif %}
         {% for record in records %}
             <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
-            {{ popup(record.getImage(), 440, 0) }}
+            {{ popup(record.image, 440, 0) }}
             {# display something introduction-like.. #}
             {% if record.introduction %}
                 {{ record.introduction }}
