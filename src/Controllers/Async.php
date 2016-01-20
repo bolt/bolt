@@ -127,24 +127,27 @@ class Async implements ControllerProviderInterface
                 base64_encode($hostname)
             );
 
+            // Define guzzle options
+            $guzzleOptions['config']['curl'] = array();
+            $curlOptions = &$guzzleOptions['config']['curl'];
+
             // Options valid if using a proxy
             if ($app['config']->get('general/httpProxy')) {
-                $curlOptions = array(
-                    'CURLOPT_PROXY'        => $app['config']->get('general/httpProxy/host'),
-                    'CURLOPT_PROXYTYPE'    => 'CURLPROXY_HTTP',
-                    'CURLOPT_PROXYUSERPWD' => $app['config']->get('general/httpProxy/user') . ':' .
-                                                $app['config']->get('general/httpProxy/password')
-                );
+                $curlOptions[CURLOPT_PROXY] = $app['config']->get('general/httpProxy/host');
+                $curlOptions[CURLOPT_PROXYTYPE] = 'CURLPROXY_HTTP';
+                $curlOptions[CURLOPT_PROXYUSERPWD] = $app['config']->get('general/httpProxy/user') . ':' .
+                                                       $app['config']->get('general/httpProxy/password')
+                ;
             }
 
             // Standard option(s)
-            $curlOptions['CURLOPT_CONNECTTIMEOUT'] = 5;
+            $curlOptions[CURLOPT_CONNECTTIMEOUT] = 5;
 
             try {
                 if ($app['deprecated.php']) {
-                    $fetchedNewsData = $app['guzzle.client']->get($url, null, $curlOptions)->send()->getBody(true);
+                    $fetchedNewsData = $app['guzzle.client']->get($url, $guzzleOptions)->send()->getBody(true);
                 } else {
-                    $fetchedNewsData = $app['guzzle.client']->get($url, array(), $curlOptions)->getBody(true);
+                    $fetchedNewsData = $app['guzzle.client']->get($url, $guzzleOptions)->getBody(true);
                 }
 
                 $fetchedNewsItems = json_decode($fetchedNewsData);
