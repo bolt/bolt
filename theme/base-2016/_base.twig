@@ -3,10 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {% if record is defined %}
-            <title>{{ record.getTitle() ? (app.config.get('general/sitename') ~ ' | ' ~ record.getTitle()|excerpt(55)) : app.config.get('general/sitename') }}</title>
-            <meta name="description" content="{{ record.getExcerpt(160, false) ?: app.config.get('general/payoff') }}">
-        {% else %}
+        {% if record is defined -%}
+            <title>{{ record.getTitle()|excerpt(55) }} | {{ app.config.get('general/sitename') }}</title>
+            <meta name="description" content="{{ record.getExcerpt(160) }}">
+        {% else -%}
             <title>{{ app.config.get('general/sitename') }}</title>
             <meta name="description" content="{{ app.config.get('general/payoff') }}">
         {% endif %}
