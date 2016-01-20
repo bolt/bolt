@@ -1,17 +1,18 @@
 {% extends '_base.twig' %}
+
 {% block body %}
 {# Make sure we can get info from both listings and single records: #}
 {% if records.id is defined and record is defined %}
     {% set records = [record] %}
 {% endif %}
-<div class="headerimage" style="background-image:url({{image(theme.frontpage_image ?: records|first.getImage(), 1920, 1080)}})"></div>
+<div class="headerimage" style="background-image:url({{ image(theme.frontpage_image ?: records|first.getImage(), 1920, 1080) }})"></div>
 <div class="flex container margin padding popUppers">
     <main class="eight s-twelve">
         {{ widgets('main_top') }}
         {% for record in records %}
             <article>
-                <h1>{{record.title}}</h1>
-                {{record.body}}
+                <h1>{{ record.title }}</h1>
+                {{ record.body }}
             </article>
         {% endfor %}
         {{ widgets('main_bottom') }}
@@ -24,13 +25,13 @@
                 {% if loop.first %}
                     <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': record.contenttype.name}) }}</h2>
                 {% endif %}
-                <h3><a href="{{record.link}}">{{ record.title }}</a></h3>
+                <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
                 <p>
                     {{ showimage(record.getImage(), 440, 0) }}
-                    {{record.body|excerpt(250)}}
+                    {{ record.body|excerpt(250) }}
                 </p>
                 {% if loop.last %}
-                    <p><a href="{{ paths.root }}{{record.contenttype.slug}}">{{ __('contenttypes.generic.overview',{'%contenttypes%': record.contenttype.name}) }} &raquo;</a></p>
+                    <p><a href="{{ paths.root }}{{ record.contenttype.slug }}">{{ __('contenttypes.generic.overview',{'%contenttypes%': record.contenttype.name}) }} &raquo;</a></p>
                 {% endif %}
             {% endfor %}
             {{ widgets('aside_bottom') }}

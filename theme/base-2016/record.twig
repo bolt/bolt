@@ -1,6 +1,7 @@
 {% extends '_base.twig' %}
+
 {% block body %}
-<div class="headerimage" style="background-image:url({{image(record.getImage(), 1920, 1080)}})"></div>
+<div class="headerimage" style="background-image:url({{ image(record.getImage(), 1920, 1080) }})"></div>
 <div class="flex container margin padding popUppers">
         <article class="eight s-twelve record">
             {{ widgets('main_top') }}
