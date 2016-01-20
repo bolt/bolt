@@ -30,7 +30,7 @@
                     {{record.body|excerpt(250)}}
                 </p>
                 {% if loop.last %}
-                    <p><a href="{{ paths.root }}/entries">{{ __('contenttypes.generic.overview',{'%contenttypes%': record.contenttype.name}) }} &raquo;</a></p>
+                    <p><a href="{{ paths.root }}{{record.contenttype.slug}}">{{ __('contenttypes.generic.overview',{'%contenttypes%': record.contenttype.name}) }} &raquo;</a></p>
                 {% endif %}
             {% endfor %}
             {{ widgets('aside_bottom') }}
