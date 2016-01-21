@@ -134,7 +134,7 @@ class Async implements ControllerProviderInterface
             // Options valid if using a proxy
             if ($app['config']->get('general/httpProxy')) {
                 $curlOptions[CURLOPT_PROXY] = $app['config']->get('general/httpProxy/host');
-                $curlOptions[CURLOPT_PROXYTYPE] = 'CURLPROXY_HTTP';
+                $curlOptions[CURLOPT_PROXYTYPE] = CURLPROXY_HTTP;
                 $curlOptions[CURLOPT_PROXYUSERPWD] = $app['config']->get('general/httpProxy/user') . ':' .
                                                        $app['config']->get('general/httpProxy/password')
                 ;
