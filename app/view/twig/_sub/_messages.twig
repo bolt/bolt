@@ -29,3 +29,10 @@
 {% else %}
     {{ self.flashbag }}
 {% endif %}
+
+{# No Javascript #}
+<noscript>
+    <div class="alert alert-danger">
+        <p>{{ __('generic.noscript.message') }}</p>
+    </div>
+</noscript>
