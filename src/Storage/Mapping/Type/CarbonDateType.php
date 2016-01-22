@@ -17,6 +17,10 @@ class CarbonDateType extends DateType
             return $value;
         }
 
+        if (empty($value)) {
+            return null;
+        }
+
         return Carbon::instance(parent::convertToPHPValue($value, $platform));
     }
 }
