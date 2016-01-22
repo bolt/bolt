@@ -46,6 +46,11 @@
                         {{ rcontext.field.postfix|markdown }}
                     </div>
                 {% endif %}
+
+                {# Divider #}
+                {% if rcontext.field.separator is defined and rcontext.field.separator == true %}
+                    <hr>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
