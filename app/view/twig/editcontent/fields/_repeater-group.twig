@@ -31,7 +31,21 @@
                 }
             } %}
             <div class="col-xs-12">
+                {# Prefix #}
+                {% if rcontext.field.prefix is defined and rcontext.field.prefix is not empty %}
+                    <div class="prefix">
+                        {{ rcontext.field.prefix|markdown }}
+                    </div>
+                {% endif %}
+
                 {% include context.fields[rfield.type].template with rcontext %}
+
+                {# Postfix #}
+                {% if rcontext.field.postfix is defined and rcontext.field.postfix is not empty %}
+                    <div class="postfix">
+                        {{ rcontext.field.postfix|markdown }}
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
