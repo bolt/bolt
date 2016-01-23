@@ -239,6 +239,10 @@ class Save
     {
         // Save the record
         $repo = $this->em->getRepository($contentType['slug']);
+
+        // Update the date modified timestamp
+        $content->setDatechanged('now');
+
         $repo->save($content);
         $id = $content->getId();
 
