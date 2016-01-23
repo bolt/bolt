@@ -62,10 +62,9 @@ class Records extends BackendBase
 
         // Save the POSTed record
         if ($request->isMethod('POST')) {
-            $this->flashes()->error(sprintf('Anti CSRF token functionality still disabled in %s::%s', __CLASS__, __FUNCTION__));
-//             if ($this->users()->checkAntiCSRFToken()) {
-//                 $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
-//             }
+            if (!$this->checkAntiCSRFToken()) {
+                $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
+            }
 
             $formValues = $request->request->all();
             $returnTo = $request->get('returnto');
