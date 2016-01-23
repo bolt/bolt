@@ -41,17 +41,22 @@ var init = {
      *
      * @param {object} data
      * @returns {undefined}
+     * 
+     * @fires start.bolt.file.save
+     * @fires done.bolt.file.save
+     * @fires fail.bolt.file.save
+     * @fires always.bolt.file.save
      */
     bindEditFile: function (data) {
         $('#saveeditfile').bind('click', function (e) {
+            $(Bolt).trigger('start.bolt.file.save');
 
             // If not on mobile (i.e. Codemirror is present), copy back to the textarea.
             if (typeof(CodeMirror) !== 'undefined') {
                 $('#form_contents').val(editor.getValue());
             }
 
-            var savedon = $('p.lastsaved').html(),
-                msgNotSaved = "Not saved";
+            var msgNotSaved = "Not saved";
 
             // Disable the buttons, to indicate stuff is being done.
             $('#saveeditfile').addClass('disabled');
@@ -62,13 +67,19 @@ var init = {
                 .done(function (data) {
                     if (!data.ok) {
                         alert(data.msg);
+                        $(Bolt).trigger('fail.bolt.file.save', data);
+                    }else{
+                        $(Bolt).trigger('done.bolt.file.save', data);
                     }
                     $('p.lastsaved').html(data.msg);
                 })
                 .fail(function(){
+                    $(Bolt).trigger('fail.bolt.file.save');
                     alert(msgNotSaved);
                 })
                 .always(function(){
+                    $(Bolt).trigger('always.bolt.file.save');
+
                     // Re-enable buttons
                     window.setTimeout(function(){
                         $('#saveeditfile').removeClass('disabled').blur();
