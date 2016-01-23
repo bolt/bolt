@@ -480,7 +480,7 @@ field:
 generic:
     noscript:
         headline: "JavaScript är avstängt"
-        message: "JavaScript är avstängt i din webbläsare. Bolt kan fungera utan det, men många funktioner kräver eller underlättas ifall du aktiverar det. Vänligen aktivera JavaScript."
+        message: "JavaScript är avstängt i din webbläsare. Bolt kräver JavaScript för att fungera korrekt och ifall du fortsätter utan JavaScript så kan du förlora data."
 
 page:
     extend:

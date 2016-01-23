@@ -557,7 +557,7 @@ field:
 generic:
     noscript:
         headline: "JavaScript disabled"
-        message: "JavaScript is currently disabled in your browser. Most functionality in Bolt will work without it, but for greater ease of use we recommend you enable JavaScript in your browser."
+        message: "JavaScript is currently disabled in your browser. Bolt requires JavaScript to function properly and continuing without it might corrupt or erase data."
 
 menu:
     configuration:
