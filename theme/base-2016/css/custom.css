@@ -104,14 +104,6 @@ header {
     color: #333;
 }
 
-header a {
-    text-decoration: none;
-}
-
-.menu a:hover {
-    text-decoration: underline;
-}
-
 .headerimage {
     height: 70vh;
     min-height: 300px;
@@ -168,15 +160,13 @@ footer ul {
     margin-top: -30vh;
 }
 
-.popUppers >:nth-child(2),
-.popUppers >:nth-child(3) {
+.popUppers >:nth-child(2){
     background-color: #fff;
     margin-top: -15vh;
 }
 
 @media (max-width: 800px) {
-    .popUppers >:nth-child(2),
-    .popUppers >:nth-child(3) {
+    .popUppers >:nth-child(2){
         margin-top: 0;
     }
 }

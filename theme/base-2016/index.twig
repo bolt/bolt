@@ -1,44 +1,41 @@
 {% extends '_base.twig' %}
+
 {% block body %}
 {# Make sure we can get info from both listings and single records: #}
-{% if record is not defined and records is defined %}
-    {% set record = records|first %}
+{% if records.id is defined and record is defined %}
+    {% set records = [record] %}
 {% endif %}
-{% if record %}
-    {% set image = record.image ?: theme.frontpage_image %}
-{% else %}
-    {% set image = theme.frontpage_image %}
-{% endif %}
-<div class="headerimage" style="background-image:url({{image(image, 1920, 1080)}})"></div>
+<div class="headerimage" style="background-image:url({{ image(theme.frontpage_image ?: records|first.getImage(), 1920, 1080) }})"></div>
 <div class="flex container margin padding popUppers">
-    {% if record %}
-        <article class="six s-twelve">
-            {{ widgets('main_top') }}
-                <h1>{{record.title}}</h1>
-                {{record.body}}
-            {{ widgets('main_bottom') }}
-        </article>
+    <main class="eight s-twelve">
+        {{ widgets('main_top') }}
+        {% for record in records %}
+            <article>
+                <h1>{{ record.title }}</h1>
+                {{ record.body }}
+            </article>
+        {% endfor %}
+        {{ widgets('main_bottom') }}
+    </main>
+    {% setcontent sidebar_content = theme.sidebar_content %}
+    {% if sidebar_content or (haswidgets('aside_top') or haswidgets('aside_top')) %}
+        <aside class="four s-twelve">
+            {{ widgets('aside_top') }}
+            {% for record in sidebar_content %}
+                {% if loop.first %}
+                    <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': record.contenttype.name}) }}</h2>
+                {% endif %}
+                <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
+                <p>
+                    {{ showimage(record.getImage(), 440, 0) }}
+                    {{ record.body|excerpt(250) }}
+                </p>
+                {% if loop.last %}
+                    <p><a href="{{ paths.root }}{{ record.contenttype.slug }}">{{ __('contenttypes.generic.overview',{'%contenttypes%': record.contenttype.name}) }} &raquo;</a></p>
+                {% endif %}
+            {% endfor %}
+            {{ widgets('aside_bottom') }}
+        </aside>
     {% endif %}
-    {% for ct in theme.frontpage_contenttypes %}
-        {% setcontent records = ct ~ "/latest/2" %}
-            {% if records %}
-                <div class="three s-twelve">
-                    {% for record in records %}
-                        {% set image = record.image ?: random(theme.images) %}
-                        {% if loop.first %}
-                            {{ widgets('aside_top') }}
-                            <h2>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct}) }}</h2>
-                        {% endif %}
-                        <h3><a href="{{record.link}}">{{ record.title }}</a></h3>
-                        {{ showimage(image, 440, 0) }}
-                        <p>{{record.body|excerpt(250)}}</p>
-                        {% if loop.last %}
-                            <p><a href="{{ paths.root }}{{ct}}">{{ __('contenttypes.generic.overview',{'%contenttypes%': ct}) }} &raquo;</a></p>
-                            {{ widgets('aside_bottom') }}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endif %}
-    {% endfor %}
 </div>
 {% endblock %}
