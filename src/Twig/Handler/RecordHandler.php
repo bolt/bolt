@@ -140,7 +140,7 @@ class RecordHandler
      * content in order in, say, a `record.twig` template, without having to
      * iterate over them in the browser.
      */
-    public function fields(\Twig_Environment $env, $record = null, $contentonly = true, $template = '_sub_fields.twig', $exclude = null)
+    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $template = '_sub_fields.twig', $exclude = null)
     {
         // If $record is empty, we must get it from the global scope in Twig.
         if (!$record instanceof \Bolt\Legacy\Content) {
@@ -154,7 +154,9 @@ class RecordHandler
 
         $context = [
             'record' => $record,
-            'contentonly' => $contentonly,
+            'common' => $common,
+            'extended' => $extended,
+            'repeaters' => $repeaters,
             'exclude' => $exclude
         ];
 

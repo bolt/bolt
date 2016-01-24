@@ -1,3 +1,22 @@
+{% macro textlike(value, key) %}
+    <div data-bolt-field="{{key}}">{{ value|raw }}</div>
+{% endmacro %}
+
+{% macro imagelist(value) %}
+    {% if value is not empty}
+        <div class="bolt-imagelist">
+            {% for item in list %}
+                <div class="bolt-imageholder">
+                    {{ popup(item.filename) }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% import _self as macro %}
+
+
 {% set omittedkeys = ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'ownerid', 'templatefields'] %}
 
 {% if record.contenttype.fields.slug.uses is iterable %}
@@ -8,35 +27,33 @@
     {% set omittedkeys = omittedkeys|merge(exclude) %}
 {% endif %}
 
+{{ dump(record.values.repeater) }}
+
 {% for key, value in record.values if (key not in omittedkeys) %}
 
-    {% if record.fieldtype(key) in ['html', 'markdown', 'textarea', 'text'] %}
+    {# Fields that are considered 'common': 'html', 'markdown', 'textarea', 'text', 'image', 'video' and 'imagelist' #}
+    {% if common == true %}
 
-        <div data-bolt-field="{{key}}">{{ attribute(record, key) }}</div>
+        {% if record.fieldtype(key) in ['html', 'markdown', 'textarea', 'text'] %}
+            {{ macro.textlike(value, key) }}
+        {% endif %}
 
-    {% elseif record.fieldtype(key) == "image" %}
+        {% if record.fieldtype(key) == "image" %}
+            {{ popup(value, 440, 0) }}
+        {% endif %}
 
-        {{ popup(value, 440, 0) }}
+        {% if record.fieldtype(key) == "video" and value.responsive is defined %}
+            {{ value.responsive }}
+        {% endif %}
 
-    {% elseif record.fieldtype(key) == "video" and value.responsive is defined %}
+        {% if record.fieldtype(key) == "imagelist" %}
+            {{ macro.imagelist(value) }}
+        {% endif %}
 
-        {{ value.responsive }}
+    {% endif %}
 
-    {% elseif record.fieldtype(key) == "imagelist" and value is not empty %}
-
-        {# We do something tricky here: we need to get value of the list the proper way, so the value
-           is actually returned as a list. Using {{ record.key }} won't work, because there is no
-           value 'key'. In your own templates you will be able to use {{ record.yourfieldname }}. #}
-        {% set list = attribute(record, key) %}
-        <div class="bolt-imagelist">
-            {% for item in list %}
-                <div class="bolt-imageholder">
-                    {{ popup(item.filename) }}
-                </div>
-            {% endfor %}
-        </div>
-
-    {% elseif not contentonly %}
+    {# The rest of the built-in fieldtypes #}
+    {% if extended == true %}
 
         {% if record.fieldtype(key) == "geolocation" and value.latitude is defined %}
 
@@ -70,4 +87,19 @@
 
     {% endif %}
 
+    {# Finally, the repeaters #}
+    {% if repeaters == true %}
+
+        {# Todo: output repeaters here. #}
+        {# dump(record.values.repeater) #}
+
+    {% endif %}
+
 {% endfor %}
+
+
+
+
+
+
+

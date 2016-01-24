@@ -7,8 +7,9 @@
             {{ widgets('main_top') }}
             <h1 data-bolt-field="title">{{ record.title }}</h1>
 
-            {{ fields() }}
-
+<hr>
+            {{ fields(common = true, extended = false, repeaters = true) }}
+<hr>
             {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
             {{ dump(record) }}
             #}
