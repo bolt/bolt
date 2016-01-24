@@ -223,6 +223,7 @@ class SessionServiceProvider implements ServiceProviderInterface
                     'save_handler'    => 'files',
                     'save_path'       => '/tmp',
                     'name'            => 'PHPSESSID',
+                    'lazy_write'      => true,
                     //'auto_start' => false,
                     //'serialize_handler' => null,
                     'gc_probability'  => 1,

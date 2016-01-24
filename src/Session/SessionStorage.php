@@ -2,6 +2,7 @@
 namespace Bolt\Session;
 
 use Bolt\Session\Generator\GeneratorInterface;
+use Bolt\Session\Handler\LazyWriteHandlerInterface;
 use Bolt\Session\Serializer\SerializerInterface;
 use SessionHandlerInterface as HandlerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
@@ -43,6 +44,13 @@ class SessionStorage implements SessionStorageInterface
      * @var array
      */
     protected $data = [];
+
+    /**
+     * MD5 hash of initial data if the "lazy_write" option is enabled.
+     *
+     * @var string
+     */
+    protected $dataHash;
 
     /** @var HandlerInterface */
     protected $handler;
@@ -172,7 +180,16 @@ class SessionStorage implements SessionStorageInterface
         }
 
         $data = $this->serializer->serialize($this->data);
-        $this->handler->write($this->id, $data);
+
+        if ($this->options->getBoolean('lazy_write', false) &&
+            $this->handler instanceof LazyWriteHandlerInterface &&
+            md5($data) === $this->dataHash
+        ) {
+            $this->handler->updateTimestamp($this->id, $data);
+        } else {
+            $this->handler->write($this->id, $data);
+        }
+
         $this->handler->close();
 
         $this->closed = true;
@@ -289,6 +306,11 @@ class SessionStorage implements SessionStorageInterface
         $this->handler->open(null, $this->id);
 
         $data = $this->handler->read($this->id);
+
+        if ($this->options->getBoolean('lazy_write', false)) {
+            $this->dataHash = md5($data);
+        }
+
         try {
             $this->data = $this->serializer->unserialize($data);
         } catch (\Exception $e) {
