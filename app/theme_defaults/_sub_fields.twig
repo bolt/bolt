@@ -1,9 +1,9 @@
 {% macro textlike(value, key) %}
-    <div data-bolt-field="{{key}}">{{ value|raw }}</div>
+    <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value|raw }}</div>
 {% endmacro %}
 
 {% macro imagelist(value) %}
-    {% if value is not empty}
+    {% if value is not empty %}
         <div class="bolt-imagelist">
             {% for item in list %}
                 <div class="bolt-imageholder">
@@ -88,10 +88,32 @@
     {% endif %}
 
     {# Finally, the repeaters #}
-    {% if repeaters == true %}
+    {% if repeaters == true and record.fieldtype(key) == "repeater" %}
 
-        {# Todo: output repeaters here. #}
-        {# dump(record.values.repeater) #}
+        {% for repeater in value %}
+
+            {% for repeaterfield in repeater %}
+
+                {% if repeaterfield.getFieldtype() in ['html', 'markdown', 'textarea', 'text'] %}
+                    {{ macro.textlike(repeaterfield.getValue()) }}
+                {% endif %}
+
+                {% if repeaterfield.getFieldtype() == "image" %}
+                    {{ popup(repeaterfield.getValue(), 440, 0) }}
+                {% endif %}
+
+                {% if repeaterfield.getFieldtype() == "video" %}
+                    {% set value = repeaterfield.getValue() %}
+                    {{ value.responsive|default('') }}
+                {% endif %}
+
+                {% if repeaterfield.getFieldtype() == "imagelist" %}
+                    {{ macro.imagelist(repeaterfield.getValue()) }}
+                {% endif %}
+
+            {% endfor %}
+
+        {% endfor %}
 
     {% endif %}
 
