@@ -101,7 +101,7 @@
                 {% set fieldtype = repeaterfield.getFieldtype() %}
                 {% set value = repeaterfield.getValue() %}
                 {{ macro.commonfields('', value, fieldtype) }}
-                {{ macro.extendedfields(key, value, fieldtype) }}
+                {{ macro.extendedfields('', value, fieldtype) }}
 
             {% endfor %}
 
