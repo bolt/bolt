@@ -1,17 +1,66 @@
-{% macro textlike(value, key) %}
-    <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value|raw }}</div>
+
+{% macro commonfields(key, value, fieldtype) %}
+
+        {# HTML, Markdown, Textarea, Text fields #}
+        {% if fieldtype in ['html', 'markdown', 'textarea', 'text'] %}
+            <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value|raw }}</div>
+        {% endif %}
+
+        {# Image fields #}
+        {% if fieldtype == "image" %}
+            {{ popup(value, 440, 0) }}
+        {% endif %}
+
+        {# Video fields #}
+        {% if fieldtype == "video" and value.responsive is defined %}
+            {{ value.responsive }}
+        {% endif %}
+
+        {# Imagelist fields #}
+        {% if fieldtype == "imagelist" and value is not empty %}
+            <div class="bolt-imagelist">
+                {% for item in value %}
+                    <div class="bolt-imageholder">
+                        {{ popup(item.filename) }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
 {% endmacro %}
 
-{% macro imagelist(value) %}
-    {% if value is not empty %}
-        <div class="bolt-imagelist">
-            {% for item in list %}
-                <div class="bolt-imageholder">
-                    {{ popup(item.filename) }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+
+{% macro extendedfields(key, value, fieldtype) %}
+
+        {# Geolocation field #}
+        {% if fieldtype == "geolocation" and value.latitude is defined %}
+            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;markers={{ value.latitude }},{{ value.longitude }}">
+        {% endif %}
+
+        {# Special case for 'select' fields: if it's a multiple select, the value is an array. #}
+        {% if fieldtype == "select" and value is not empty %}
+            <p><strong>{{ key }}: </strong>
+                {{ value|join(", ") }}
+            </p>
+        {% endif %}
+
+        {# Checkbox fields #}
+        {% if fieldtype == "checkbox" %}
+                <p>Checkbox: {{value ? "checked" : "not checked"}}</p>
+        {% endif %}
+
+        {# No special case defined for this type of field. We just output them, if it's
+           a simple scalar, and 'dump' them otherwise. #}
+        {% if fieldtype in [ 'filelist', 'datetime', 'date', 'integer', 'float' ] and value is not empty  %}
+            <p><strong>{{ key }}: </strong>
+                {% if value is iterable %}
+                    {{ dump(value) }}
+                {% else %}
+                    {{ value }}
+                {% endif %}
+            </p>
+        {% endif %}
+
 {% endmacro %}
 
 {% import _self as macro %}
@@ -27,63 +76,21 @@
     {% set omittedkeys = omittedkeys|merge(exclude) %}
 {% endif %}
 
-{{ dump(record.values.repeater) }}
-
 {% for key, value in record.values if (key not in omittedkeys) %}
 
     {# Fields that are considered 'common': 'html', 'markdown', 'textarea', 'text', 'image', 'video' and 'imagelist' #}
     {% if common == true %}
 
-        {% if record.fieldtype(key) in ['html', 'markdown', 'textarea', 'text'] %}
-            {{ macro.textlike(value, key) }}
-        {% endif %}
-
-        {% if record.fieldtype(key) == "image" %}
-            {{ popup(value, 440, 0) }}
-        {% endif %}
-
-        {% if record.fieldtype(key) == "video" and value.responsive is defined %}
-            {{ value.responsive }}
-        {% endif %}
-
-        {% if record.fieldtype(key) == "imagelist" %}
-            {{ macro.imagelist(value) }}
-        {% endif %}
+        {% set fieldtype = record.fieldtype(key) %}
+        {{ macro.commonfields(key, value, fieldtype) }}
 
     {% endif %}
 
     {# The rest of the built-in fieldtypes #}
     {% if extended == true %}
 
-        {% if record.fieldtype(key) == "geolocation" and value.latitude is defined %}
-
-            <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ value.latitude }},{{ value.longitude }}&amp;zoom=14&amp;size=617x300&amp;sensor=false&amp;
-            markers={{ value.latitude }},{{ value.longitude }}">
-
-        {% elseif record.fieldtype(key) == "select" and value is not empty %}
-
-            {# Special case for 'select' fields: if it's a multiple select, the value is an array. #}
-            <p><strong>{{ key }}: </strong>
-                {{ attribute(record, key)|join(", ") }}
-            </p>
-
-        {% elseif record.fieldtype(key) == "checkbox" %}
-
-                <p>Checkbox: {{value ? "checked" : "not checked"}}</p>
-
-        {% elseif record.fieldtype(key) not in ['templateselect'] and value != "" and value is not empty  %}
-
-            {# No special case defined for this type of field. We just output it, if it's
-               a simple scalar, and 'dump' it otherwise. #}
-            <p><strong>{{ key }}: </strong>
-                {% if attribute(record, key) is iterable %}
-                    {{ dump(attribute(record, key)) }}
-                {% else %}
-                    {{ attribute(record, key) }}
-                {% endif %}
-            </p>
-
-        {%  endif %}
+        {% set fieldtype = record.fieldtype(key) %}
+        {{ macro.extendedfields(key, value, fieldtype) }}
 
     {% endif %}
 
@@ -94,22 +101,10 @@
 
             {% for repeaterfield in repeater %}
 
-                {% if repeaterfield.getFieldtype() in ['html', 'markdown', 'textarea', 'text'] %}
-                    {{ macro.textlike(repeaterfield.getValue()) }}
-                {% endif %}
-
-                {% if repeaterfield.getFieldtype() == "image" %}
-                    {{ popup(repeaterfield.getValue(), 440, 0) }}
-                {% endif %}
-
-                {% if repeaterfield.getFieldtype() == "video" %}
-                    {% set value = repeaterfield.getValue() %}
-                    {{ value.responsive|default('') }}
-                {% endif %}
-
-                {% if repeaterfield.getFieldtype() == "imagelist" %}
-                    {{ macro.imagelist(repeaterfield.getValue()) }}
-                {% endif %}
+                {% set fieldtype = repeaterfield.getFieldtype() %}
+                {% set value = repeaterfield.getValue() %}
+                {{ macro.commonfields('', value, fieldtype) }}
+                {{ macro.extendedfields(key, value, fieldtype) }}
 
             {% endfor %}
 
