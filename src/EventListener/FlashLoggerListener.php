@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class SessionListener implements EventSubscriberInterface
+class FlashLoggerListener implements EventSubscriberInterface
 {
     /** @var FlashBagAttachableInterface */
     protected $flashLogger;
@@ -21,7 +21,7 @@ class SessionListener implements EventSubscriberInterface
     protected $debug;
 
     /**
-     * SessionListener constructor.
+     * Constructor.
      *
      * @param FlashBagAttachableInterface $flashLogger
      * @param boolean                     $debug

@@ -58,11 +58,11 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['listener.session'] = $app->share(
+        $app['listener.flash_logger'] = $app->share(
             function ($app) {
                 $debug = $app['debug'] && $app['config']->get('general/debug_show_loggedoff', false);
 
-                return new Listener\SessionListener($app['logger.flash'], $debug);
+                return new Listener\FlashLoggerListener($app['logger.flash'], $debug);
             }
         );
 
@@ -100,7 +100,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $dispatcher->addSubscriber($app['listener.not_found']);
         $dispatcher->addSubscriber($app['listener.snippet']);
         $dispatcher->addSubscriber($app['listener.redirect']);
-        $dispatcher->addSubscriber($app['listener.session']);
+        $dispatcher->addSubscriber($app['listener.flash_logger']);
         $dispatcher->addSubscriber($app['listener.zone_guesser']);
         $dispatcher->addSubscriber($app['listener.pager']);
     }
