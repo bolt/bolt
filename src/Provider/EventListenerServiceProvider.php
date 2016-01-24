@@ -66,6 +66,12 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['listener.pager'] = $app->share(
+            function ($app) {
+                return new Listener\PagerListener($app->raw('pager'));
+            }
+        );
+
         $app['listener.snippet'] = $app->share(
             function ($app) {
                 return new Listener\SnippetListener(
@@ -96,5 +102,6 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $dispatcher->addSubscriber($app['listener.redirect']);
         $dispatcher->addSubscriber($app['listener.session']);
         $dispatcher->addSubscriber($app['listener.zone_guesser']);
+        $dispatcher->addSubscriber($app['listener.pager']);
     }
 }

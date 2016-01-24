@@ -3,6 +3,13 @@ namespace Bolt;
 
 use Silex;
 
+/**
+ * Class Pager
+ *
+ * @author Rix Beck <rix@neologik.hu>
+ *
+ * @deprecated
+ */
 class Pager extends \ArrayObject
 {
     public $for;

@@ -1,12 +1,5 @@
 {% import '@bolt/_macro/_panels.twig' as panels %}
 
-<noscript>
-    <section>
-        <h2>{{ __('generic.noscript.headline') }}</h2>
-        <p>{{ __('generic.noscript.message') }}</p>
-    </section>
-</noscript>
-
 {{ render(path('dashboardnews')) }}
 
 {{ panels.stack(7) }}

@@ -10,7 +10,6 @@
     ],
     "license" : "MIT",
     "require" : {
-        "bolt/dumper" : "~2.0",
         "bolt/filesystem" : "^2.0@dev",
         "bolt/package-wrapper": "^3.0",
         "bolt/pathogen" : "~0.6",
@@ -23,7 +22,7 @@
         "erusev/parsedown-extra" : "~0.2",
         "ext-mbstring" : "*",
         "ext-pdo" : "*",
-        "filp/whoops" : "~1.1",
+        "filp/whoops" : "~2.0",
         "ircmaxell/random-lib" : "~1.1",
         "monolog/monolog" : "~1.12",
         "nesbot/carbon" : "^1.20",

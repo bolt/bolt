@@ -228,6 +228,11 @@
      * @static
      * @function initSaveContinue
      * @memberof Bolt.editcontent
+     * 
+     * @fires start.bolt.content.save
+     * @fires done.bolt.content.save
+     * @fires fail.bolt.content.save
+     * @fires always.bolt.content.save
      *
      * @param {BindData} data - Editcontent configuration data
      */
@@ -259,10 +264,14 @@
             } else {
                 watchChanges();
 
+                $(Bolt).trigger('start.bolt.content.save');
+
                 // Existing record. Do an 'ajaxy' post to update the record.
                 // Let the controller know we're calling AJAX and expecting to be returned JSON.
                 $.post('?returnto=ajax', $('#editcontent').serialize())
                     .done(function (data) {
+                        $(Bolt).trigger('done.bolt.content.save', data);
+
                         $('p.lastsaved')
                             .html(savedon)
                             .find('strong')
@@ -316,9 +325,12 @@
                         watchChanges();
                     })
                     .fail(function(){
+                        $(Bolt).trigger('fail.bolt.content.save');
                         $('p.lastsaved').text(msgNotSaved);
                     })
                     .always(function(){
+                        $(Bolt).trigger('always.bolt.content.save');
+
                         // Re-enable buttons
                         window.setTimeout(function(){
                             $('#sidebarsavecontinuebutton, #savecontinuebutton').removeClass('disabled');

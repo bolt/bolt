@@ -247,15 +247,16 @@ class Frontend extends ConfigurableBase
     {
         $listingparameters = $this->getListingParameters($request, $contenttypeslug);
         $content = $this->getContent($contenttypeslug, $listingparameters);
+        $contenttype = $this->getContentType($contenttypeslug);
 
-        $template = $this->templateChooser()->listing($content->contenttype);
+        $template = $this->templateChooser()->listing($contenttype);
 
         // Make sure we can also access it as {{ pages }} for pages, etc. We set these in the global scope,
         // So that they're also available in menu's and templates rendered by extensions.
         $globals = [
             'records'        => $content,
             $contenttypeslug => $content,
-            'contenttype'    => $content->contenttype['name'],
+            'contenttype'    => $contenttype['name'],
         ];
 
         return $this->render($template, [], $globals);
@@ -281,10 +282,7 @@ class Frontend extends ConfigurableBase
         }
         // First, get some content
         $context = $taxonomy['singular_slug'] . '_' . $slug;
-        $pagerid = Pager::makeParameterId($context);
-         /* @var $query \Symfony\Component\HttpFoundation\ParameterBag */
-        $query = $request->query;
-        $page = $query->get($pagerid, $query->get('page', 1));
+        $page = $this->app['pager']->getCurrentPage($context);
         // Theme value takes precedence over default config @see https://github.com/bolt/bolt/issues/3951
         $amount = $this->getOption('theme/listing_records', false) ?: $this->getOption('general/listing_records');
 
@@ -375,8 +373,7 @@ class Frontend extends ConfigurableBase
         }
         $q = Input::cleanPostedData($q, false);
 
-        $param = Pager::makeParameterId($context);
-        $page = $request->query->get($param, $request->query->get('page', 1));
+        $page = $this->app['pager']->getCurrentPage($context);
 
         // Theme value takes precedence over default config @see https://github.com/bolt/bolt/issues/3951
         $pageSize = $this->getOption('theme/search_results_records', false);
@@ -410,17 +407,17 @@ class Frontend extends ConfigurableBase
 
         $result = $this->storage()->searchContent($q, $contenttypes, $filters, $limit, $offset);
 
-        $pager = [
-            'for'          => $context,
-            'count'        => $result['no_of_results'],
-            'totalpages'   => ceil($result['no_of_results'] / $pageSize),
-            'current'      => $page,
-            'showing_from' => $offset + 1,
-            'showing_to'   => $offset + count($result['results']),
-            'link'         => $this->generateUrl('search', ['q' => $q]) . '&page_search=',
-        ];
+        /** @var \Bolt\Pager\PagerManager $manager */
+        $manager = $this->app['pager'];
+        $manager
+            ->createPager($context)
+            ->setCount($result['no_of_results'])
+            ->setTotalpages(ceil($result['no_of_results'] / $pageSize))
+            ->setCurrent($page)
+            ->setShowingFrom($offset + 1)
+            ->setShowingTo($offset + count($result['results']));
 
-        $this->storage()->setPager($context, $pager);
+        $manager->setLink($this->generateUrl('search', ['q' => $q]) . '&page_search=');
 
         $globals = [
             'records'      => $result['results'],
@@ -469,8 +466,7 @@ class Frontend extends ConfigurableBase
         }
 
         // Build the pager
-        $pagerid = Pager::makeParameterId($contenttype['slug']);
-        $page = $request->query->get($pagerid, $request->query->get('page', 1));
+        $page = $this->app['pager']->getCurrentPage($contenttype['slug']);
 
         // Theme value takes precedence over CT & default config
         // @see https://github.com/bolt/bolt/issues/3951

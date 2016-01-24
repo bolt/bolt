@@ -181,6 +181,8 @@ class Application extends Silex\Application
             $this->register(new WhoopsServiceProvider());
         }
 
+        $this->register(new Provider\DumperServiceProvider());
+
         // Initialize Web Profiler providers
         $this->initProfiler();
     }
@@ -233,6 +235,7 @@ class Application extends Silex\Application
             ->register(new Provider\AssetServiceProvider())
             ->register(new Provider\FormServiceProvider())
             ->register(new Provider\MailerServiceProvider())
+            ->register(new Provider\PagerServiceProvider())
         ;
 
         $this['paths'] = $this['resources']->getPaths();

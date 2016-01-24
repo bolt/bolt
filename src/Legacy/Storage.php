@@ -10,6 +10,7 @@ use Bolt\Helpers\Arr;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Pager;
+use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Connection as DoctrineConn;
 use Doctrine\DBAL\DBALException;
@@ -43,9 +44,6 @@ class Storage
 
     /** @var bool Test to indicate if we're inside a dispatcher. */
     private $inDispatcher = false;
-
-    /** @var array */
-    protected static $pager = [];
 
     public function __construct(Application $app)
     {
@@ -939,8 +937,8 @@ class Storage
         $page = !empty($parameters['page']) ? $parameters['page'] : 1;
 
         // If we're allowed to use pagination, use the 'page' parameter.
-        if (!empty($parameters['paging']) && $this->app->raw('request') instanceof Request) {
-            $page = $this->app['request']->get('page', $page);
+        if (!empty($parameters['paging']) && $this->app['request_stack']->getCurrentRequest() !== null) {
+            $page = $this->app['pager']->getPager();
         }
 
         $queryparams = "";
@@ -985,17 +983,19 @@ class Storage
         // Make sure all content has their taxonomies and relations
         $this->getTaxonomy($content);
         $this->getRelation($content);
+        $this->getRepeaters($content);
 
         // Set up the $pager array with relevant values.
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
-        $pager = [
-            'for'          => 'search',
-            'count'        => $rowcount['count'],
-            'totalpages'   => ceil($rowcount['count'] / $limit),
-            'current'      => $page,
-            'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to'   => ($page - 1) * $limit + count($content),
-        ];
+
+        /** @var \Bolt\Pager\PagerManager $manager */
+        $manager = $this->app['pager'];
+        $manager->createPager('search')
+            ->setCount($rowcount['count'])
+            ->setTotalpages(ceil($rowcount['count'] / $limit))
+            ->setCurrent($page)
+            ->setShowingFrom(($page - 1) * $limit + 1)
+            ->setShowingTo(($page - 1) * $limit + count($content));
 
         return $content;
     }
@@ -1076,16 +1076,17 @@ class Storage
 
         // Set up the $pager array with relevant values.
         $rowcount = $this->app['db']->executeQuery($pagerquery)->fetch();
-        $pager = [
-            'for'          => $taxonomytype['singular_slug'] . '_' . $slug,
-            'count'        => $rowcount['count'],
-            'totalpages'   => ceil($rowcount['count'] / $limit),
-            'current'      => $page,
-            'showing_from' => ($page - 1) * $limit + 1,
-            'showing_to'   => ($page - 1) * $limit + count($taxorows),
-        ];
 
-        $this->app['storage']->setPager($taxonomytype['singular_slug'] . '_' . $slug, $pager);
+        $pagefor = $taxonomytype['singular_slug'].'_'.$slug;
+
+        /** @var \Bolt\Pager\PagerManager $manager */
+        $manager = $this->app['pager'];
+        $manager->createPager($pagefor)
+            ->setCount($rowcount['count'])
+            ->setTotalpages(ceil($rowcount['count'] / $limit))
+            ->setCurrent($page)
+            ->setShowingFrom(($page - 1) * $limit + 1)
+            ->setShowingTo(($page - 1) * $limit + count($taxorows));
 
         return $content;
     }
@@ -1502,7 +1503,8 @@ class Storage
 
         // $decoded['contettypes'] gotten here
         // get page nr. from url if has
-        $metaParameters['page'] = $this->decodePageParameter(implode('_', $decoded['contenttypes']), $inParameters);
+
+        $metaParameters['page'] = $this->app['pager']->getCurrentPage(implode('_', $decoded['contenttypes']));
 
         $this->prepareDecodedQueryForUse($decoded, $metaParameters, $ctypeParameters);
 
@@ -1656,6 +1658,7 @@ class Storage
      * @param array  $inParameters
      *
      * @return mixed Page number in context
+     * @deprecated Not used in core anymore
      */
     protected function decodePageParameter($context = '', $inParameters = null)
     {
@@ -1689,6 +1692,8 @@ class Storage
         foreach ($rows as $row) {
             $objects[$row['id']] = $this->getContentObject($contenttype, $row);
         }
+
+        $this->getRepeaters($objects);
 
         if ($getTaxoAndRel) {
             // Make sure all content has their taxonomies and relations
@@ -1918,16 +1923,17 @@ class Storage
         // Set up the $pager array with relevant values, but only if we requested paging.
         if (isset($decoded['parameters']['paging'])) {
             $pagerName = implode('_', $decoded['contenttypes']);
-            $pager = [
-                'for'          => $pagerName,
-                'count'        => $totalResults,
-                'totalpages'   => ceil($totalResults / $decoded['parameters']['limit']),
-                'current'      => $decoded['parameters']['page'],
-                'showing_from' => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1,
-                'showing_to'   => ($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results),
-            ];
-            $this->setPager($pagerName, $pager);
-            $this->app['twig']->addGlobal('pager', $this->getPager());
+
+            /** @var \Bolt\Pager\PagerManager $manager */
+            $manager = $this->app['pager'];
+            $pager = $manager->createPager($pagerName)
+                ->setCount($totalResults)
+                ->setTotalpages(ceil($totalResults / $decoded['parameters']['limit']))
+                ->setCurrent($decoded['parameters']['page'])
+                ->setShowingFrom(($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + 1)
+                ->setShowingTo(($decoded['parameters']['page'] - 1) * $decoded['parameters']['limit'] + count($results));
+
+            $this->app['twig']->addGlobal('pager', $pager);
         }
 
         $this->app['stopwatch']->stop('bolt.getcontent');
@@ -2653,6 +2659,38 @@ class Storage
         }
     }
 
+    public function getRepeaters($content)
+    {
+
+        $ids = util::array_pluck($content, 'id');
+
+        if (empty($ids)) {
+            return;
+        }
+
+        // Get the contenttype from first $content
+        $contenttypeslug = $content[util::array_first_key($content)]->contenttype['slug'];
+        $contenttype = $this->getContentType($contenttypeslug);
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\FieldValue');
+
+        foreach ($ids as $id) {
+            foreach ($contenttype['fields'] as $fieldkey => $field) {
+                if ($field['type'] == 'repeater') {
+                    $collection = new RepeatingFieldCollection($this->app['storage'], $field);
+                    $existingFields = $repo->getExistingFields($id, $contenttypeslug, $fieldkey) ?: [];
+                    foreach ($existingFields as $group => $ids) {
+                        $collection->addFromReferences($ids, $group);
+                    }
+                    $content[$id]->setValue($fieldkey, $collection);
+                }
+            }
+
+        }
+
+
+
+    }
+
     /**
      * Update / insert relation for a given content-unit.
      *
@@ -2939,12 +2977,18 @@ class Storage
     /**
      * Setter for pager storage element.
      *
-     * @param string      $name
      * @param array|Pager $pager
+     * @return $this
+     *
+     * @deprecated Just for keep BC
      */
     public function setPager($name, $pager)
     {
-        static::$pager[$name] = ($pager instanceof Pager) ? $pager : new Pager($pager, $this->app);
+        $pg = $this->app['pager']->createPager($name);
+
+        foreach ($pager as $prop => $value) {
+            $pg->$prop = $value;
+        }
 
         return $this;
     }
@@ -2953,24 +2997,19 @@ class Storage
      * Getter of a pager element. Pager can hold a paging snapshot map.
      *
      * @param string $name Optional name of a pager element. Whole pager map returns if no name given.
-     *
      * @return array
+     *
+     * @deprecated Just for keep BC
      */
     public function &getPager($name = null)
     {
-        if ($name) {
-            if (array_key_exists($name, static::$pager)) {
-                return static::$pager[$name];
-            } else {
-                return false;
-            }
-        } else {
-            return static::$pager;
-        }
+        return $this->app['pager']
+            ->getPager($name)
+            ->asArray();
     }
 
     public function isEmptyPager()
     {
-        return (count(static::$pager) === 0);
+        return $this->app['pager']->isEmptyPager();
     }
 }

@@ -7,7 +7,7 @@
 
 {# The 'recursive' macro, for inserting one menu item. If it has a submenu, it
    invokes itself to insert the items of the submenus. #}
-{% macro display_menu_item(item, loop) %}
+{% macro display_menu_item(item, loop, show_submenus) %}
 
     {% from _self import display_menu_item %}
 
@@ -21,7 +21,7 @@
             {{ item.label|default('-') }}
         </a>
 
-        {% if item.submenu is defined %}
+        {% if item.submenu is defined and show_submenus %}
             <ul class="sub-menu-items">
                 {% for submenu in item.submenu %}{{ display_menu_item(submenu, loop) }}{% endfor %}
             </ul>
@@ -35,7 +35,7 @@
 {# The main menu loop: Iterates over the items, calling `display_menu_item` #}
 {% for item in menu %}
     {% if item.label is defined %}
-        {{ display_menu_item(item, loop) }}
+        {{ display_menu_item(item, loop, show_submenus) }}
     {% endif %}
 {% endfor %}
 

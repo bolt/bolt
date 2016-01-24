@@ -97,19 +97,19 @@
                 'click.compress': self._onExpand
             });
 
-            $(bolt)
-                .one('bolt:gmaps-loaded', function () {
+            $(bolt) 
+                .one('done.bolt.googlemapsapi.load', function () {
                     self._initGoogleMap(self.options.latitude, self.options.longitude);
                  })
-                .on('bolt:gmaps-failed', function () {
+                .on('fail.bolt.googlemapsapi.load', function () {
                     self._ui.spinner.removeClass('fa-spinner fa-spin').addClass('fa-refresh').one('click', function () {
                         self._ui.spinner.removeClass('fa-refresh').addClass('fa-spinner fa-spin');
-                        $(bolt).trigger('bolt:gmaps-load');
+                        $(bolt).trigger('start.bolt.googlemapsapi.load');
                     });
                 });
 
             // Request loading of Google Maps API.
-            $(bolt).trigger('bolt:gmaps-load');
+            $(bolt).trigger('start.bolt.googlemapsapi.load');
         },
 
         /**

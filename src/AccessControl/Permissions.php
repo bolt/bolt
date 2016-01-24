@@ -527,7 +527,7 @@ class Permissions
         }
 
         $auditline = sprintf(
-            "Checking permission query <tt>%s</tt> for user <tt>%s</tt>",
+            'Checking permission query <tt>%s</tt> for user <tt>%s</tt>',
             $what,
             !empty($user['username']) ? $user['username'] : '(none)'
         );

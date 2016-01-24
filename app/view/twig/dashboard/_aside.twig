@@ -1,13 +1,5 @@
 {% import '@bolt/_macro/_panels.twig' as panels %}
 
-{# No Javascript #}
-<noscript>
-    <section>
-        <h2>{{ __('generic.noscript.headline') }}</h2>
-        <p>{{ __('generic.noscript.message') }}</p>
-    </section>
-</noscript>
-
 {# If we're running a development version, show annoying message. #}
 {% if app.bolt_released == false %}
 <div class="panel panel-default panel-news">

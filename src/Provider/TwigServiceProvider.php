@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
+use Bolt\Twig\DumpExtension;
 use Bolt\Twig\FilesystemLoader;
 use Bolt\Twig\Handler;
 use Bolt\Twig\TwigExtension;
@@ -19,9 +20,13 @@ class TwigServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $loader = new FilesystemLoader($app['filesystem']);
 
+                $loader->addPath('theme://', 'theme');
+                $loader->addPath('app://theme_defaults', 'theme');
                 $loader->addPath('app://view/twig', 'bolt');
 
                 /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
+                $loader->addPath('theme://');
+                $loader->addPath('app://theme_defaults');
                 $loader->addPath('app://view/twig');
 
                 return $loader;
@@ -68,6 +73,9 @@ class TwigServiceProvider implements ServiceProviderInterface
                 'twig',
                 function (\Twig_Environment $twig, $app) {
                     $twig->addExtension(new TwigExtension($app, $app['twig.handlers'], false));
+                    if ($app['debug'] && isset($app['dump'])) {
+                        $twig->addExtension(new DumpExtension($app['dumper.cloner'], $app['dumper.html']));
+                    }
 
                     return $twig;
                 }

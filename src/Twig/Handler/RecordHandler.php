@@ -241,14 +241,12 @@ class RecordHandler
      */
     public function pager(\Twig_Environment $env, $pagerName = '', $surr = 4, $template = '_sub_pager.twig', $class = '')
     {
-        if ($this->app['storage']->isEmptyPager()) {
+        if ($this->app['pager']->isEmptyPager()) {
             // nothing to page.
             return '';
         }
 
-        $pager = $this->app['storage']->getPager();
-
-        $thisPager = empty($pagerName) ? array_pop($pager) : $pager[$pagerName];
+        $thisPager = $this->app['pager']->getPager($pagerName);
 
         $context = [
             'pager' => $thisPager,

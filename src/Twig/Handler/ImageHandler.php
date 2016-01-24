@@ -2,10 +2,8 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Filesystem\Handler\Image\Dimensions;
-use Bolt\Filesystem\Handler\Image\Exif;
-use Bolt\Filesystem\Handler\Image\Info;
-use Bolt\Filesystem\Handler\Image\Type;
+use Bolt\Filesystem\Handler\ImageInterface;
+use Bolt\Filesystem\Handler\NullableImage;
 use Bolt\Helpers\Image\Thumbnail;
 use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
@@ -64,18 +62,21 @@ class ImageHandler
      * Get an image.
      *
      * @param string $filename
+     * @param string $safe
      *
-     * @return \Bolt\Filesystem\Handler\Image
+     * @return \Bolt\Filesystem\Handler\ImageInterface
      */
-    public function imageInfo($filename)
+    public function imageInfo($filename, $safe)
     {
-        $image = $this->app['filesystem']->getImage('files://' . $filename);
-
-        if (!$image->exists()) {
-            return new Info(new Dimensions(0, 0), Type::getById(IMAGETYPE_UNKNOWN), 0, 0, null, new Exif([]));
+        if ($filename instanceof ImageInterface) {
+            return $filename;
+        } elseif ($safe) {
+            return null;
         }
 
-        return $image->getInfo();
+        $image = $this->app['filesystem']->getFile('files://' . $filename, new NullableImage());
+
+        return $image;
     }
 
     /**
@@ -98,7 +99,7 @@ class ImageHandler
      */
     public function popup($fileName = null, $width = 100, $height = 100, $crop = null, $title = null)
     {
-        if ($fileName === null) {
+        if (empty($fileName)) {
             return '&nbsp;';
         }
 
@@ -149,13 +150,13 @@ class ImageHandler
      */
     public function showImage($fileName = null, $width = null, $height = null, $crop = null)
     {
-        if ($fileName === null) {
+        if (empty($fileName)) {
             return '&nbsp;';
         }
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
         if ($width === null || $height === null) {
-            $info = $this->imageInfo($thumb->getFileName(), false);
+            $info = $this->imageInfo($thumb->getFileName(), false)->getInfo();
 
             if ($width !== null) {
                 $thumb->setHeight(round($width / $info->getAspectRatio()));

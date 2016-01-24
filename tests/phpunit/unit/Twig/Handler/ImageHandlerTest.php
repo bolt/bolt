@@ -2,6 +2,8 @@
 
 namespace Bolt\Tests\Twig;
 
+use Bolt\Filesystem\Handler\Image;
+use Bolt\Filesystem\Handler\ImageInterface;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\ImageHandler;
 use Symfony\Component\Filesystem\Filesystem;
@@ -97,17 +99,9 @@ class ImageHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new ImageHandler($app);
 
-        $result = $handler->imageInfo('koala.jpg', false);
-        $this->assertInstanceOf('Bolt\Filesystem\Handler\Image\Info', $result);
-        $this->assertSame(0, $result->getWidth());
-        $this->assertSame(0, $result->getHeight());
-        $this->assertSame('UNKNOWN', (string) $result->getType());
-        $this->assertNull($result->getMime());
-        $this->assertSame(0.0, $result->getAspectRatio());
-        $this->assertInstanceOf('Bolt\Filesystem\Handler\Image\Exif', $result->getExif());
-        $this->assertFalse($result->isLandscape());
-        $this->assertTrue($result->isPortrait());
-        $this->assertFalse($result->isSquare());
+        $image = $handler->imageInfo('koala.jpg', false);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+        $this->assertInstanceOf(Image\Info::class, $image->getInfo());
     }
 
     public function testImageInfo()
@@ -115,21 +109,9 @@ class ImageHandlerTest extends BoltUnitTest
         $app = $this->getApp();
         $handler = new ImageHandler($app);
 
-        $result = $handler->imageInfo('generic-logo.png', false);
-        $this->assertInstanceOf('Bolt\Filesystem\Handler\Image\Info', $result);
-        $this->assertSame(624, $result->getWidth());
-        $this->assertSame(351, $result->getHeight());
-        $this->assertSame('JPEG', (string) $result->getType());
-        $this->assertSame('image/jpeg', $result->getMime());
-        $this->assertRegExp('#1.7777#', (string) $result->getAspectRatio());
-        $this->assertFalse($result->getExif()->getLatitude());
-        $this->assertFalse($result->getExif()->getLongitude());
-        $this->assertFalse($result->getExif()->getDatetime());
-        $this->assertFalse($result->getExif()->getOrientation());
-        $this->assertRegExp('#1.7777#', (string) $result->getExif()->getAspectRatio());
-        $this->asserttrue($result->isLandscape());
-        $this->assertFalse($result->isPortrait());
-        $this->assertFalse($result->isSquare());
+        $image = $handler->imageInfo('generic-logo.png', false);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+        $this->assertInstanceOf(Image\Info::class, $image->getInfo());
     }
 
     public function testPopupEmptyFileName()
