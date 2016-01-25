@@ -83,7 +83,8 @@ class ScriptHandler
         $webroot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', $defaultOptions['bolt-separate-web-dir']);
 
         if ($webroot) {
-            $webname  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', $defaultOptions['bolt-web-dir']);
+            $defaultDir = $defaultOptions['bolt-web-dir'];
+            $webname  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: '.$defaultDir.'] </info>', $defaultDir);
             $webname  = trim($webname, '/');
             $assetDir = './' . $webname;
         } else {
