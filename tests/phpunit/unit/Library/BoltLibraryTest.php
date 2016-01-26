@@ -171,7 +171,7 @@ class BoltLibraryTest extends BoltUnitTest
             $this->assertRegExp('/Error opening file/', $e->getMessage());
             $this->assertRegExp('/Could not lock/', $e->getMessage());
             $this->assertRegExp('/Try logging in with your FTP client and check to see if it is chmodded to be readable by the webuser/', $e->getMessage());
-            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+            $this->assertRegExp('/Bolt - Fatal error/', $e::$screen);
         }
     }
 
@@ -201,7 +201,7 @@ class BoltLibraryTest extends BoltUnitTest
             $this->fail('Bolt\Exception\LowlevelException not thrown');
         } catch (LowlevelException $e) {
             $this->assertRegExp('/File is not readable!/', $e->getMessage());
-            $this->assertRegExp('/Bolt - Fatal Error/', $e::$screen);
+            $this->assertRegExp('/Bolt - Fatal error/', $e::$screen);
         }
     }
 
