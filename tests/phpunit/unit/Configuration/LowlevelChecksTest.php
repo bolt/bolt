@@ -393,7 +393,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['core']));
 
-        $this->expectOutputRegex('/PHP Fatal error: Bolt Core/');
+        $this->expectOutputRegex('/PHP Fatal error: Bolt core/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
@@ -408,7 +408,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->will($this->returnValue($this->errorResponses['vendor']));
 
         $app = $this->getApp();
-        $this->expectOutputRegex('/PHP Fatal error: Vendor Library/');
+        $this->expectOutputRegex('/PHP Fatal error: Vendor library/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
@@ -419,7 +419,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['extension']));
 
-        $this->expectOutputRegex('/PHP Fatal error: Bolt Extensions/');
+        $this->expectOutputRegex('/PHP Fatal error: Bolt extensions/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
@@ -433,7 +433,7 @@ class LowlevelChecksTest extends BoltUnitTest
             ->method('error_get_last')
             ->will($this->returnValue($this->errorResponses['unknown']));
 
-        $this->expectOutputRegex('/PHP Fatal error: Bolt Generic/');
+        $this->expectOutputRegex('/PHP Fatal error: Bolt generic/');
         LowlevelException::catchFatalErrors($this->getApp(), false);
     }
 
