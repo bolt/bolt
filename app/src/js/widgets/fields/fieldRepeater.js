@@ -121,6 +121,7 @@
             this._ui.slot.append(newSet);
             this._setCount(1);
             this._renumber();
+            bolt.app.run();
         },
 
         /**
