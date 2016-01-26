@@ -69,7 +69,7 @@ class NotFoundListener implements EventSubscriberInterface
         }
 
         $template = $this->templateChooser->record($content);
-        $response = $this->render->render($template, $content->getTemplateContext());
+        $response = $this->render->render($template, [], $content->getTemplateContext());
 
         $event->setResponse($response);
     }
