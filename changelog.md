@@ -1,9 +1,24 @@
-Bolt 2.3 DEV-head
+Bolt 3.0 DEV-head
 -----------------
 
 Not yet released.
 
  - Lots (list needs to be compiled)
+
+Bolt 2.2.17
+-----------
+
+Released 2016-01-27. Notable changes:
+
+ - Fix: No href around '…'-placeholdersin pagers. (See #4650)
+ - Fix: Templatefields in 'Viewless' records work correctly now (#4653)
+ - Change: Move `NutSP::addCommand` to `$app['nut.commands.add']`` so it's not "static" (#4662)
+ - Fix: Don't whitescreen on a response with a Twig exception (#4668)
+ - Fix: Don't try writing to vendor on composer installs (#4677)
+ - Added: Added capability to set an amount of requested records for specific kind of taxonomy. (#4691)
+ - Change: Generate preview route from url generator. (See #4697)
+ - Change: Add JS events to editfile/editcontent ajax saving. (#4720)
+ - Fix: Block access to .git folders in .htaccess (#4749)
 
 Bolt 2.2.16
 -----------
