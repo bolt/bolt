@@ -76,7 +76,7 @@ HTML;
         $html = self::$html;
         $info = self::$info;
 
-        $output = str_replace('%error_title%', 'Bolt - Fatal Error', $html);
+        $output = str_replace('%error_title%', 'Bolt - Fatal error', $html);
         $message = nl2br($message);
         $output = str_replace('%error%', $message, $output);
         $output = str_replace('%info%', $info, $output);
@@ -156,11 +156,11 @@ HTML;
             $errorblock .= '<code>Line:  ' . $error['line'] . '</code><br><br>';
 
             if ($isBoltCoreError === 0) {
-                $html = str_replace('%error_title%', 'PHP Fatal Error: Bolt Core', $html);
+                $html = str_replace('%error_title%', 'PHP Fatal error: Bolt core', $html);
                 $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             } elseif ($isVendorError === 0) {
-                $html = str_replace('%error_title%', 'PHP Fatal Error: Vendor Library', $html);
+                $html = str_replace('%error_title%', 'PHP Fatal error: Vendor library', $html);
                 $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             } elseif ($isExtensionError === 0) {
@@ -170,7 +170,7 @@ HTML;
 
                 $delete = 'extensions' . DIRECTORY_SEPARATOR . $parts[0] . DIRECTORY_SEPARATOR . $parts[1] . DIRECTORY_SEPARATOR . $parts[2];
 
-                $html = str_replace('%error_title%', 'PHP Fatal Error: Bolt Extensions', $html);
+                $html = str_replace('%error_title%', 'PHP Fatal error: Bolt extensions', $html);
                 $html = str_replace(
                     '%info%',
                     '<p>You will only be able to continue by manually deleting the extension that is installed at:</p>' .
@@ -182,7 +182,7 @@ HTML;
                 $message .= $errorblock;
             } else {
                 // Unknown
-                $html = str_replace('%error_title%', 'PHP Fatal Error: Bolt Generic', $html);
+                $html = str_replace('%error_title%', 'PHP Fatal error: Bolt generic', $html);
                 $html = str_replace('%info%', '', $html);
                 $message = $errorblock;
             }

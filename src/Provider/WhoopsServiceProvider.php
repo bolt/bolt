@@ -49,6 +49,7 @@ class WhoopsServiceProvider implements ServiceProviderInterface
                 $handler = new PrettyPageHandler();
                 $handler->addDataTableCallback('Bolt Application', $app['whoops.handler.page.app_info']);
                 $handler->addDataTableCallback('Request', $app['whoops.handler.page.request_info']);
+                $handler->setPageTitle('Bolt - Fatal error.');
 
                 return $handler;
             }
