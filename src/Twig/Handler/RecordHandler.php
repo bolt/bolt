@@ -148,6 +148,11 @@ class RecordHandler
             $record = $globals['record'];
         }
 
+        // Still no record? Nothing to do here, then.
+        if (!$record instanceof \Bolt\Legacy\Content) {
+            return;
+        }
+
         if (!is_array($exclude)) {
             $exclude = array_map('trim', explode(',', $exclude));
         }
