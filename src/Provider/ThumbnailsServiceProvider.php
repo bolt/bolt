@@ -28,7 +28,7 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
 
         $app['thumbnails.filesystems'] = [
             'files',
-            'themebase',
+            'themes',
         ];
         $app['thumbnails.filesystem_cache'] = $app->share(function ($app) {
             if (!$app['filesystem']->hasFilesystem('web')) {
@@ -42,13 +42,13 @@ class ThumbnailsServiceProvider implements ServiceProviderInterface
         });
 
         $app['thumbnails.default_image'] = $app->share(function ($app) {
-            $finder = new Thumbs\Finder($app['filesystem'], ['app', 'themebase', 'files'], new Image());
+            $finder = new Thumbs\Finder($app['filesystem'], ['app', 'themes', 'files'], new Image());
 
             return $finder->find($app['config']->get('general/thumbnails/notfound_image'));
         });
 
         $app['thumbnails.error_image'] = $app->share(function ($app) {
-            $finder = new Thumbs\Finder($app['filesystem'], ['app', 'themebase', 'files'], new Image());
+            $finder = new Thumbs\Finder($app['filesystem'], ['app', 'themes', 'files'], new Image());
 
             return $finder->find($app['config']->get('general/thumbnails/error_image'));
         });
