@@ -27,6 +27,11 @@ class ExtensionTables extends BaseBuilder
     public function getSchemaTables(Schema $schema)
     {
         $tables = [];
+
+        foreach ($this->tables->keys() as $name) {
+            $tables[$name] = $this->tables[$name]->buildTable($schema, $this->prefix . $name, $name, $this->charset, $this->collate);
+        }
+
         foreach ($this->tableGenerators as $generator) {
             $table = call_user_func($generator, $schema);
 
@@ -52,6 +57,8 @@ class ExtensionTables extends BaseBuilder
 
     /**
      * This method allows extensions to register their own tables.
+     *
+     * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @param callable $generator A generator function that takes the Schema
      *                            instance and returns a table or an array of
