@@ -21,6 +21,7 @@ class Sqlite extends BaseComparator
     {
         $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'date', 'date');
         $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'datetime', 'datetime');
+        $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'string', 'guid');
         $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'text', 'json_array');
     }
 
