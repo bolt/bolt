@@ -21,12 +21,14 @@ class MailerServiceProvider implements ServiceProviderInterface
         if (!isset($app['swiftmailer.options'])) {
             $app->register(new SwiftmailerServiceProvider());
         }
-
-        if ($options = $app['config']->get('general/mailoptions')) {
+        
+        $options = $app['config']->get('general/mailoptions');
+        if ($options) {
             $app['swiftmailer.options'] = $options;
         }
-
-        if ($spool = $app['config']->get('general/mailoptions/spool') !== null) {
+        
+        $spool = $app['config']->get('general/mailoptions/spool');
+        if ($spool !== null) {
             $app['swiftmailer.use_spool'] = $spool;
         }
 
