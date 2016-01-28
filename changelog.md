@@ -18,7 +18,7 @@ Released 2016-01-27. Notable changes:
  - Added: Added capability to set an amount of requested records for specific kind of taxonomy. (#4691)
  - Change: Generate preview route from url generator. (See #4697)
  - Change: Add JS events to editfile/editcontent ajax saving. (#4720)
- - Fix: Block access to .git folders in .htaccess (#4749)
+ - Fix: Block access to `.git` folders in `.htaccess`. (#4749)
 
 Bolt 2.2.16
 -----------
