@@ -1,3 +1,18 @@
+
+{# Set up the array of fieldnames that should be iterated. We do this by looping
+   over _all_ the fields, and skipping those in the 'omittedkeys' array. #}
+{% set omittedkeys = ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'ownerid', 'templatefields'] %}
+
+{% if record.contenttype.fields.slug.uses is iterable %}
+    {% set omittedkeys = omittedkeys|merge(record.contenttype.fields.slug.uses) %}
+{% endif %}
+
+{% if exclude is iterable %}
+    {% set omittedkeys = omittedkeys|merge(exclude) %}
+{% endif %}
+
+
+{# Macro for "basic" fields like HTML, Markdown, Textarea and Text #}
 {% macro commonfields(key, value, fieldtype) %}
 
         {# HTML, Markdown, Textarea, Text fields #}
@@ -28,6 +43,7 @@
 
 {% endmacro %}
 
+{# Macro for other field types, like Geo, Select, Checkbox and others. #}
 {% macro extendedfields(key, value, fieldtype) %}
 
         {# Geolocation field #}
@@ -63,16 +79,7 @@
 
 {% import _self as macro %}
 
-{% set omittedkeys = ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'ownerid', 'templatefields'] %}
-
-{% if record.contenttype.fields.slug.uses is iterable %}
-    {% set omittedkeys = omittedkeys|merge(record.contenttype.fields.slug.uses) %}
-{% endif %}
-
-{% if exclude is iterable %}
-    {% set omittedkeys = omittedkeys|merge(exclude) %}
-{% endif %}
-
+{# The actual looping is done here. #}
 {% for key, value in record.values if (key not in omittedkeys) %}
 
     {# Fields that are considered 'common': 'html', 'markdown', 'textarea', 'text', 'image', 'video' and 'imagelist' #}

@@ -139,6 +139,16 @@ class RecordHandler
      * Output all (relevant) fields to the browser. Convenient for dumping the
      * content in order in, say, a `record.twig` template, without having to
      * iterate over them in the browser.
+     *
+     * @param \Twig_Environment $env
+     * @param \Bolt\Legacy\Content $record
+     * @param bool                 $common
+     * @param bool                 $extended
+     * @param bool                 $repeaters
+     * @param string               $template
+     * @param string|array         $exclude
+     *
+     * @return string
      */
     public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $template = '_sub_fields.twig', $exclude = null)
     {
