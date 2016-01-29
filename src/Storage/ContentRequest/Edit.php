@@ -144,7 +144,7 @@ class Edit
             'has'                => $contextHas,
             'values'             => $contextValues,
             'relations_list'     => $this->getRelationsList($contentType),
-            'relations'          => $this->getBidirectionalRelations($content, $this->getRelationsList($contentType))
+            'relations'          => $this->getBidirectionalRelations($content, $contentType['relations'])
         ];
 
         return $context;
@@ -177,6 +177,7 @@ class Edit
 
     private function getBidirectionalRelations($content, $relations)
     {
+        $original = $content->getRelation();
 
     }
 
