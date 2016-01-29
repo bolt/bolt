@@ -3,7 +3,6 @@
 namespace Bolt\Filesystem\Handler;
 
 use Bolt\Filesystem\Exception\IOException;
-use Bolt\Filesystem\Handler\Image;
 
 /**
  * Image used for twig where exceptions cannot be caught.
