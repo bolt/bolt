@@ -55,6 +55,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('dump',               [$this, 'printDump']),
             new \Twig_SimpleFunction('excerpt',            [$this, 'excerpt'],     $safe),
             new \Twig_SimpleFunction('fancybox',           [$this, 'popup'],       $safe + $deprecated + ['alternative' => 'popup']),
+            new \Twig_SimpleFunction('fields',             [$this, 'fields'],      $env + $safe),
             new \Twig_SimpleFunction('file_exists',        [$this, 'fileExists']),
             new \Twig_SimpleFunction('firebug',            [$this, 'printFirebug']),
             new \Twig_SimpleFunction('first',              'twig_first',           $env + $deprecated),
@@ -254,6 +255,14 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function excerpt($content, $length = 200)
     {
         return $this->handlers['record']->excerpt($content, $length);
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\RecordHandler::fields()
+     */
+    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $template = '_sub_fields.twig', $exclude = null)
+    {
+        return $this->handlers['record']->fields($env, $record, $common, $extended, $repeaters, $template, $exclude);
     }
 
     /**
