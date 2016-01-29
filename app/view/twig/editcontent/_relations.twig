@@ -14,7 +14,7 @@
 
 {# Output 'incoming' relations #}
 {% set incomingrelations = context.content.relation.incoming(context.content) %}
-{% if incomingrelations is iterable %}
+{% if context.has.incoming_relations %}
     <p>{{ __('This record is related to:') }}</p>
     <div class="buic-listing" data-bolt-widget="buicListing">
         <table class="table dashboardlisting listing">
