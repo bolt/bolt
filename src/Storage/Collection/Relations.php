@@ -131,10 +131,17 @@ class Relations extends ArrayCollection
      *
      * @param $fieldname
      *
+     * @param bool $biDirectional
      * @return Relations
      */
-    public function getField($fieldname)
+    public function getField($fieldname, $biDirectional = false)
     {
+        if ($biDirectional) {
+            return $this->filter(function ($el) use ($entity) {
+                return $el->getTo_contenttype() == $fieldname || $el->getFrom_contenttype() == $fieldname;
+            });
+        }
+
         return $this->filter(function ($el) use ($fieldname) {
             return $el->getTo_contenttype() == $fieldname;
         });
