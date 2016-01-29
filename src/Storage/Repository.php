@@ -6,6 +6,7 @@ use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Storage\Entity\Builder;
+use Bolt\Storage\Entity\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -44,7 +45,7 @@ class Repository implements ObjectRepository
      *
      * @param array $params
      *
-     * @return Content
+     * @return Entity
      */
     public function create($params = [], ClassMetadata $metadata = null)
     {
