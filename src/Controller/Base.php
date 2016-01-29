@@ -115,7 +115,7 @@ abstract class Base implements ControllerProviderInterface
      *
      * @param string $name          The name of the route
      * @param array  $params        An array of parameters
-     * @param bool   $referenceType The type of reference to be generated (one of the constants)
+     * @param int    $referenceType The type of reference to be generated (one of the constants)
      *
      * @return string
      */
@@ -209,7 +209,7 @@ abstract class Base implements ControllerProviderInterface
     /**
      * Gets the \Bolt\Extensions object.
      *
-     * @return \Bolt\Extensions
+     * @return \Bolt\Extension\Manager
      */
     protected function extensions()
     {
@@ -341,6 +341,8 @@ abstract class Base implements ControllerProviderInterface
      *
      * @param string             $contentTypeSlug
      * @param array|Entity\Users $user
+     *
+     * @return boolean[]
      */
     protected function getContentTypeUserPermissions($contentTypeSlug, $user = null)
     {
