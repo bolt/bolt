@@ -143,8 +143,7 @@ class Edit
             'can'                => $contextCan,
             'has'                => $contextHas,
             'values'             => $contextValues,
-            'relations_list'     => $this->getRelationsList($contentType),
-            'relations'          => $this->getBidirectionalRelations($content, $contentType['relations'])
+            'relations_list'     => $this->getRelationsList($contentType)
         ];
 
         return $context;
@@ -173,12 +172,6 @@ class Edit
         }
 
         return $list;
-    }
-
-    private function getBidirectionalRelations($content, $relations)
-    {
-        $original = $content->getRelation();
-
     }
 
     /**

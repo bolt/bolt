@@ -137,7 +137,7 @@ class Relations extends ArrayCollection
     public function getField($fieldname, $biDirectional = false)
     {
         if ($biDirectional) {
-            return $this->filter(function ($el) use ($entity) {
+            return $this->filter(function ($el) use ($fieldname) {
                 return $el->getTo_contenttype() == $fieldname || $el->getFrom_contenttype() == $fieldname;
             });
         }
