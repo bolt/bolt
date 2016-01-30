@@ -1,7 +1,7 @@
 {#=== INIT ===========================================================================================================#}
 
 {# We set the 'format' for the rendering of each <option>. With fallback to a sensible default. #}
-{% set format = context.content.relation.format|default("{{ title|escape }} (№ {{ id }})") %}
+{% set format = relation.format|default("{{ item.title|escape }} (№ {{ item.id }})") %}
 
 {# Use option groups #}
 {% set groupby = relation.groupby|default(false) %}
@@ -21,7 +21,7 @@
 
     {% set options = options|merge([{
         value:    item.id,
-        text:     format|twig({'title': item.title, 'id': item.id}),
+        text:     format|twig({'item' : item, 'title' : item.title, 'id' : item.id}),
         group:    groupby ? item.values[groupby]|default(false) : false,
         selected: (item.id in relselect) or selectedbyrelation,
     }]) %}
