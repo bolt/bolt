@@ -19,7 +19,7 @@ class Relations extends Entity
         $this->invert = true;
     }
 
-    public function getToId()
+    public function getTo_id()
     {
         if ($this->invert === true) {
             return $this->from_id;
