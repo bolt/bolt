@@ -18,9 +18,9 @@
     <p>{{ __('This record is related to:') }}</p>
     <div class="buic-listing" data-bolt-widget="buicListing">
         <table class="table dashboardlisting listing">
-        {% for incoming in incomingrelations %}
+        {% for incoming in incomingrelations if not incoming.isInverted %}
             {% setcontent record = incoming.from_contenttype ~ '/' ~ incoming.from_id %}
-            {% if record and not record.isInverted %}
+            {% if record %}
                 {% set editable = isallowed('edit', record) %}
                 {% set listing_vars = {
                     'compact':       true,
