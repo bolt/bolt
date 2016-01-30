@@ -79,8 +79,6 @@
 
                     return false;
                 }
-                // Submitting, disable warning.
-                window.onbeforeunload = null;
             }
         );
 
@@ -275,6 +273,9 @@
                     .done(function (data) {
                         // Trigger save done event
                         $(Bolt).trigger('done.bolt.content.save', data);
+                        
+                        // Submit was successful, disable warning.
+                        window.onbeforeunload = null;
 
                         $('p.lastsaved').html(savedon);
                         $('p.lastsaved').find('strong').text(moment(data.datechanged).format('MMM D, HH:mm'));
@@ -367,13 +368,6 @@
                 },
                 1000
             );
-
-            // Initialize handler for 'closing window'
-            window.onbeforeunload = function () {
-                if ((hasChanged()) || (bolt.liveEditor.active)) {
-                    return bolt.data('editcontent.msg.change_quit');
-                 }
-            };
         }
     }
 
@@ -429,6 +423,12 @@
                 }
             }
         });
+        // Initialize handler for 'closing window'
+        window.onbeforeunload = function () {
+            if ((hasChanged()) || (bolt.liveEditor.active)) {
+                return bolt.data('editcontent.msg.change_quit');
+            }
+        };
     }
 
     /**
