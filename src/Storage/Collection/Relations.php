@@ -138,7 +138,13 @@ class Relations extends ArrayCollection
     {
         if ($biDirectional) {
             return $this->filter(function ($el) use ($fieldname) {
-                return $el->getTo_contenttype() == $fieldname || $el->getFrom_contenttype() == $fieldname;
+                if ($el->getTo_contenttype() == $fieldname) {
+                    return true;
+                }
+                if ($el->getFrom_contenttype() == $fieldname) {
+                    $el->actAsInverse();
+                    return true;
+                }
             });
         }
 
