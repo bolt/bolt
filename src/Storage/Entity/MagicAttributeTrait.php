@@ -53,7 +53,7 @@ trait MagicAttributeTrait
         if (strncasecmp($method, 'get', 3) == 0) {
             if ($this->has($var) && property_exists($this, $var)) {
                 return $this->$var;
-            } elseif ($this->has($underscored) && property_exists($this, $underscored) ){
+            } elseif ($this->has($underscored) && property_exists($this, $underscored)) {
                 return $this->$underscored;
             } elseif ($this->has($var)) {
                 return $this->_fields[$var];
