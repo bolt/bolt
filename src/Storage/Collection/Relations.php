@@ -116,7 +116,7 @@ class Relations extends ArrayCollection
                     $collectionItem->to_contenttype == $inverseItem['from_contenttype'] &&
                     $collectionItem->to_id == $inverseItem['from_id']
                 ) {
-                    $this->remove($collectionItem);
+                    $this->removeElement($collectionItem);
                 }
             }
         }
