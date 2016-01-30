@@ -20,7 +20,7 @@
         <table class="table dashboardlisting listing">
         {% for incoming in incomingrelations %}
             {% setcontent record = incoming.from_contenttype ~ '/' ~ incoming.from_id %}
-            {% if record %}
+            {% if record and not record.isInverted %}
                 {% set editable = isallowed('edit', record) %}
                 {% set listing_vars = {
                     'compact':       true,

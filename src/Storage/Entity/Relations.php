@@ -27,4 +27,9 @@ class Relations extends Entity
 
         return $this->to_id;
     }
+
+    public function isInverted()
+    {
+        return $this->invert;
+    }
 }
