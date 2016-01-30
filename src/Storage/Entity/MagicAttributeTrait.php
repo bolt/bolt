@@ -48,10 +48,13 @@ trait MagicAttributeTrait
     public function __call($method, $arguments)
     {
         $var = lcfirst(substr($method, 3));
+        $underscored = $this->underscore($var);
 
         if (strncasecmp($method, 'get', 3) == 0) {
             if ($this->has($var) && property_exists($this, $var)) {
                 return $this->$var;
+            } elseif ($this->has($underscored) && property_exists($this, $underscored)) {
+                return $this->$underscored;
             } elseif ($this->has($var)) {
                 return $this->_fields[$var];
             }
@@ -66,6 +69,8 @@ trait MagicAttributeTrait
         if (strncasecmp($method, 'set', 3) == 0) {
             if ($this->has($var) && property_exists($this, $var)) {
                 $this->$var = $arguments[0];
+            } elseif ($this->has($underscored) && property_exists($this, $underscored)) {
+                $this->$underscored = $arguments[0];
             } else {
                 $this->_fields[$var] = $arguments[0];
             }
@@ -105,4 +110,29 @@ trait MagicAttributeTrait
     {
         return in_array($field, $this->getFields());
     }
+
+    /**
+     * Converts a string from underscored to Camel Case.
+     *
+     * @param string $id A string to camelize
+     *
+     * @return string The camelized string
+     */
+    public function camelize($id)
+    {
+        return strtr(ucwords(strtr($id, array('_' => ' ', '.' => '_ ', '\\' => '_ '))), array(' ' => ''));
+    }
+
+    /**
+     * Converts a string from camel case to underscored.
+     *
+     * @param string $id The string to underscore
+     *
+     * @return string The underscored string
+     */
+    public function underscore($id)
+    {
+        return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'), array('\\1_\\2', '\\1_\\2'), str_replace('_', '.', $id)));
+    }
+
 }

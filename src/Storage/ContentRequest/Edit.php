@@ -143,7 +143,7 @@ class Edit
             'can'                => $contextCan,
             'has'                => $contextHas,
             'values'             => $contextValues,
-            'relations_list'     => $this->getRelationsList($contentType),
+            'relations_list'     => $this->getRelationsList($contentType)
         ];
 
         return $context;
