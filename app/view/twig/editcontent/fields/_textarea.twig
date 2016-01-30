@@ -1,12 +1,13 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
-    class:     ('form-control ' ~ field.class)|trim,
-    height:    field.height|default(''),
-    label:     field.label,
-    info:      field.info|default(''),
-    required:  field.required|default(false),
-    errortext: field.error|default(''),
+    class:       ('form-control ' ~ field.class)|trim,
+    height:      field.height|default(''),
+    label:       field.label,
+    info:        field.info|default(''),
+    required:    field.required|default(false),
+    errortext:   field.error|default(''),
+    placeholder: field.placeholder|default(''),
 } %}
 
 {#=== INIT ===========================================================================================================#}
