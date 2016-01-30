@@ -302,8 +302,14 @@
                                     // so we're catching arrays and ignoring
                                     // them, someone else can fix this!
                                 } else {
-                                    // Either an input or a textarea, so get by ID
-                                    $('#' + index).val(item);
+                                    var field = $('#' + index);
+                                    if (field.attr('type') === 'checkbox') {
+                                        // A checkbox, so set with prop
+                                        field.prop('checked', (item == "on"));
+                                    } else {
+                                        // Either an input or a textarea, so set with val
+                                        field.val(item);
+                                    }
 
                                     // If there is a CKEditor attached to our element, update it
                                     if (ckeditor && ckeditor.instances[index]) {
