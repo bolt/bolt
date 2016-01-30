@@ -123,8 +123,10 @@ class RelationType extends FieldTypeBase
 
         // Fetch existing relations and create two sets of records, updates and deletes.
         $existingDB = $this->getExistingRelations($entity) ?: [];
+        $existingInverse = $this->getInverseRelations($entity) ?: [];
         $collection = $this->em->createCollection('Bolt\Storage\Entity\Relations');
         $collection->setFromDatabaseValues($existingDB);
+        $collection->filterInverseValues($existingInverse);
         $toDelete = $collection->update($relations);
         $repo = $this->em->getRepository('Bolt\Storage\Entity\Relations');
 
@@ -170,6 +172,29 @@ class RelationType extends FieldTypeBase
                 'from_id'          => $entity->id,
                 'from_contenttype' => $entity->getContenttype(),
                 'to_contenttype'   => $this->mapping['fieldname'],
+            ]);
+        $result = $query->execute()->fetchAll();
+
+        return $result ?: [];
+    }
+
+    /**
+     * Get inverse relationship records. That is ones where the definition happened on the opposite record
+     *
+     * @param mixed $entity
+     *
+     * @return array
+     */
+    protected function getInverseRelations($entity)
+    {
+        $query = $this->em->createQueryBuilder()
+            ->select('*')
+            ->from($this->mapping['target'])
+            ->where('to_id = :to_id')
+            ->andWhere('to_contenttype = :to_contenttype')
+            ->setParameters([
+                'to_id'          => $entity->id,
+                'to_contenttype' => $entity->getContenttype()
             ]);
         $result = $query->execute()->fetchAll();
 
