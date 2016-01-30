@@ -387,27 +387,33 @@ abstract class BaseExtension implements ExtensionInterface
     /**
      * Add a Twig Function.
      *
-     * @param string $name
-     * @param string $callback
-     * @param array  $options
+     * @param string        $name
+     * @param string|array  $callback
+     * @param array         $options
      */
     public function addTwigFunction($name, $callback, $options = array())
     {
+        if (is_string($callback)) {
+            $callback = array($this, $callback);
+        }
         $this->initializeTwig();
-        $this->twigExtension->addTwigFunction(new \Twig_SimpleFunction($name, array($this, $callback), $options));
+        $this->twigExtension->addTwigFunction(new \Twig_SimpleFunction($name, $callback, $options));
     }
 
     /**
      * Add a Twig Filter.
      *
-     * @param string $name
-     * @param string $callback
-     * @param array  $options
+     * @param string        $name
+     * @param string|array  $callback
+     * @param array         $options
      */
     public function addTwigFilter($name, $callback, $options = array())
     {
+        if (is_string($callback)) {
+            $callback = array($this, $callback);
+        }
         $this->initializeTwig();
-        $this->twigExtension->addTwigFilter(new \Twig_SimpleFilter($name, array($this, $callback), $options));
+        $this->twigExtension->addTwigFilter(new \Twig_SimpleFilter($name, $callback, $options));
     }
 
     protected function initializeTwig()
