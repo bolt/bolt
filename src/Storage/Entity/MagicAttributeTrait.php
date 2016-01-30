@@ -48,10 +48,13 @@ trait MagicAttributeTrait
     public function __call($method, $arguments)
     {
         $var = lcfirst(substr($method, 3));
+        $underscored = $this->underscore($var);
 
         if (strncasecmp($method, 'get', 3) == 0) {
             if ($this->has($var) && property_exists($this, $var)) {
                 return $this->$var;
+            } elseif ($this->has($underscored) && property_exists($this, $underscored) ){
+                return $this->$underscored;
             } elseif ($this->has($var)) {
                 return $this->_fields[$var];
             }
@@ -66,6 +69,8 @@ trait MagicAttributeTrait
         if (strncasecmp($method, 'set', 3) == 0) {
             if ($this->has($var) && property_exists($this, $var)) {
                 $this->$var = $arguments[0];
+            } elseif ($this->has($underscored) && property_exists($this, $underscored)) {
+                $this->$underscored = $arguments[0];
             } else {
                 $this->_fields[$var] = $arguments[0];
             }

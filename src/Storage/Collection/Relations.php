@@ -136,10 +136,10 @@ class Relations extends ArrayCollection
     {
         foreach ($this as $k => $existing) {
             if (
-                $existing->getFrom_id() == $entity->getFrom_id() &&
-                $existing->getFrom_contenttype() == $entity->getFrom_contenttype() &&
-                $existing->getTo_contenttype() == $entity->getTo_contenttype() &&
-                $existing->getTo_id() == $entity->getTo_id()
+                $existing->getFromId() == $entity->getFromId() &&
+                $existing->getFromContenttype() == $entity->getFromContenttype() &&
+                $existing->getToContenttype() == $entity->getToContenttype() &&
+                $existing->getTo_id() == $entity->getToId()
             ) {
                 return $existing;
             }
