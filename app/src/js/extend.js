@@ -447,6 +447,7 @@ var BoltExtender = Object.extend(Object, {
         controller.find('.extension-postinstall .ext-link').attr('href', extension.source);
         controller.find('.extension-postinstall').show();
         controller.find('.extension-postinstall .modal-success').show();
+        controller.find('.extension-postinstall [data-readme]').attr('data-readme', extension.readme);
     },
 
     extensionFailedInstall: function(extension) {
@@ -465,6 +466,7 @@ var BoltExtender = Object.extend(Object, {
         var name = extension.name.split(/\/+/).pop();
         controller.find('.theme-postinstall .theme-generator').data('theme', extension.name);
         controller.find('.theme-postinstall #theme-name').val(name);
+        controller.find('.theme-postinstall [data-readme]').attr('data-readme', extension.readme);
     },
 
     generateTheme: function (e) {
