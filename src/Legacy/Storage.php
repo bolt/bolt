@@ -2795,8 +2795,8 @@ class Storage
         $id = intval($id);
         $slug = $this->app['slugify']->slugify($title);
 
-        // Don't allow strictly numeric slugs.
-        if (is_numeric($slug)) {
+        // Don't allow strictly numeric slugs, unless allow_numeric_slugs options is set
+        if (is_numeric($slug) && $contenttype['allow_numeric_slugs'] != 'true') {
             $slug = $contenttype['singular_slug'] . "-" . $slug;
         }
 
