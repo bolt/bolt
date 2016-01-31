@@ -30,7 +30,7 @@
         step:            option.step,
         title:           option.title,
         type:            'number',
-        value:           0 + context.content.get(contentkey),
+        value:           1 * context.content.get(contentkey)|default(field.default)|default(0),
     }
 } %}
 
