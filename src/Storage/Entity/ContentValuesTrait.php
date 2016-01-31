@@ -198,6 +198,8 @@ trait ContentValuesTrait
                     case 'select':
                         if (is_array($this->values[$field])) {
                             $newvalue[$field] = json_encode($this->values[$field]);
+                        } else {
+                            $newvalue[$field] = $this->values[$field];
                         }
                         break;
 
