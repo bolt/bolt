@@ -71,6 +71,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('isallowed',          [$this, 'isAllowed']),
             new \Twig_SimpleFunction('ischangelogenabled', [$this, 'isChangelogEnabled'], $deprecated),
             new \Twig_SimpleFunction('ismobileclient',     [$this, 'isMobileClient']),
+            new \Twig_SimpleFunction('ispath',             [$this, 'isPath']),
             new \Twig_SimpleFunction('last',               'twig_last',            $env + $deprecated),
             new \Twig_SimpleFunction('listcontent',        [$this, 'listContent']),
             new \Twig_SimpleFunction('listtemplates',      [$this, 'listTemplates']),
@@ -360,6 +361,14 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function isChangelogEnabled()
     {
         return $this->handlers['admin']->isChangelogEnabled();
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\RecordHandler::isPath()
+     */
+    public function isPath($name, $parameters = array(), $relative = false)
+    {
+        return $this->handlers['record']->isPath($name, $parameters, $relative);
     }
 
     /**

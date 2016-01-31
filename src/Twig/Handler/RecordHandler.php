@@ -3,6 +3,7 @@
 namespace Bolt\Twig\Handler;
 
 use Bolt\Helpers\Html;
+use \Bolt\Library;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
@@ -312,5 +313,27 @@ class RecordHandler
         }
 
         return $retval;
+    }
+
+    /**
+     * Return whether or not a given path resolves, i.e. if it has a defined route.
+     *
+     * @param string $name
+     * @param array  $parameters
+     * @param bool   $relative
+     *
+     * @return bool
+     */
+    public function isPath($name, $parameters = array(), $relative = false)
+    {
+        $success = true;
+
+        try {
+            $path = Library::path($name, $parameters, $relative);
+        } catch (\Exception $e) {
+            $success = false;
+        }
+
+        return $success;
     }
 }
