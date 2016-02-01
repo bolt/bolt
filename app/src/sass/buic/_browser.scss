@@ -223,4 +223,12 @@
     .type-text:before {
         content: "\f0f6"; // fa-file-text-o
     }
+
+    .padded {
+        padding: 0 2px;
+    }
+
+    .syntax {
+        opacity: 0.7;
+    }
 }

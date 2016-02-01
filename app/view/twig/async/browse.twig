@@ -108,7 +108,7 @@
                                 <td class="info">
                                     {{ file.size|e|number_format(0, '.', '<small>&thinsp;</small>')|raw }}
                                     {% if file.image %}
-                                        <br><small style="color: #717171;">{{ file.dimensions|e|replace({'px' : '', ' × ' : '<span style="color: #aaa; padding: 0 2px;">×</span>'})|trim|raw }}</small>
+                                        <br><small class="syntax">{{ file.dimensions|e|replace({'px' : '', ' × ' : '<span class="syntax padded">×</span>'})|trim|raw }}</small>
                                     {% endif %}
                                 </td>
 
