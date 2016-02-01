@@ -224,11 +224,13 @@
         content: "\f0f6"; // fa-file-text-o
     }
 
-    .padded {
-        padding: 0 2px;
+    .image-dimensions{
+        color: #AEAEAE;
+        font-size: 85%;
     }
 
-    .syntax {
-        opacity: 0.7;
+    .times {
+        color: #d5d5d5;
+        padding: 0 1px;
     }
 }
