@@ -76,7 +76,7 @@
                 loaded: function (evt, modal) {
                     // Set data structures
                     modal.body.find('.entry').each(function () {
-                        var tr = this.closest('tr'),
+                        var tr = $(this).closest('tr'),
                             name = $(this).text().trim(),
                             ext = name.match(/\.(.+?[^/])$/);
 
