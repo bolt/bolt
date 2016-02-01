@@ -328,7 +328,7 @@ class RecordHandler
         $success = true;
 
         try {
-            $path = $this->app['url_generator']->generate($name, $parameters);
+            $this->app['url_generator']->generate($name, $parameters);
         } catch (RouteNotFoundException $e) {
             $success = false;
         }
