@@ -7,6 +7,7 @@ use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation
@@ -312,5 +313,26 @@ class RecordHandler
         }
 
         return $retval;
+    }
+
+    /**
+     * Return whether or not a given path resolves, i.e. if it has a defined route.
+     *
+     * @param string $name
+     * @param array  $parameters
+     *
+     * @return bool
+     */
+    public function hasRoute($name, $parameters = array())
+    {
+        $success = true;
+
+        try {
+            $this->app['url_generator']->generate($name, $parameters);
+        } catch (RouteNotFoundException $e) {
+            $success = false;
+        }
+
+        return $success;
     }
 }
