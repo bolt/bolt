@@ -3,11 +3,11 @@
 namespace Bolt\Twig\Handler;
 
 use Bolt\Helpers\Html;
-use \Bolt\Library;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation
@@ -320,17 +320,16 @@ class RecordHandler
      *
      * @param string $name
      * @param array  $parameters
-     * @param bool   $relative
      *
      * @return bool
      */
-    public function isPath($name, $parameters = array(), $relative = false)
+    public function hasRoute($name, $parameters = array())
     {
         $success = true;
 
         try {
-            $path = Library::path($name, $parameters, $relative);
-        } catch (\Exception $e) {
+            $path = $this->app['url_generator']->generate($name, $parameters);
+        } catch (RouteNotFoundException $e) {
             $success = false;
         }
 
