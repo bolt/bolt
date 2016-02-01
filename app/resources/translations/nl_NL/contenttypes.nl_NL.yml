@@ -67,7 +67,7 @@ contenttypes:
             actions-all: "Handelingen voor pagina's"
             actions-one: "Handelingen voor deze pagina"
             created: "De pagina is aangemaakt"
-            delete: "Verwijdere pagina"
+            delete: "Verwijder pagina"
             duplicate: "Dupliceer pagina"
             duplicated-finalize: "De pagina is gedupliceerd. Klik op 'Pagina opslaan' om de nieuwe pagina op te slaan."
             edit: "Pagina bewerken"
