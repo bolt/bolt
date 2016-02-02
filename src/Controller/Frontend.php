@@ -172,9 +172,6 @@ class Frontend extends ConfigurableBase
 
             $url = $this->app['resources']->getUrl('rooturl') . $link;
         }
-
-
-
         $this->app['resources']->setUrl('canonicalurl', $url);
 
         // Setting the editlink
