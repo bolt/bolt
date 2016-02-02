@@ -39,7 +39,7 @@
         {# Preview (Don't show for viewless contenttypes.) #}
         {% if not context.contenttype.viewless|default(false) %}
             <div class="btn-group">
-                {% if hasroute('preview', {'contenttypeslug': context.contenttype.singular_slug}) %}
+                {% if app.routes.get('preview') %}
                     <button type="button" class="btn btn-default" id="previewbutton" data-url="{{ path('preview', {'contenttypeslug': context.contenttype.singular_slug}) }}">
                         <i class="fa fa-external-link-square"></i> {{ __('Preview') }}
                     </button>

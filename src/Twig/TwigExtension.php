@@ -71,7 +71,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('isallowed',          [$this, 'isAllowed']),
             new \Twig_SimpleFunction('ischangelogenabled', [$this, 'isChangelogEnabled'], $deprecated),
             new \Twig_SimpleFunction('ismobileclient',     [$this, 'isMobileClient']),
-            new \Twig_SimpleFunction('hasroute',           [$this, 'hasRoute']),
             new \Twig_SimpleFunction('last',               'twig_last',            $env + $deprecated),
             new \Twig_SimpleFunction('listcontent',        [$this, 'listContent']),
             new \Twig_SimpleFunction('listtemplates',      [$this, 'listTemplates']),
@@ -296,14 +295,6 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function getWidgets()
     {
         return $this->handlers['widget']->getWidgets();
-    }
-
-    /**
-     * @see \Bolt\Twig\Handler\RecordHandler::hasRoute()
-     */
-    public function hasRoute($name, $parameters = array())
-    {
-        return $this->handlers['record']->hasRoute($name, $parameters);
     }
 
     /**
