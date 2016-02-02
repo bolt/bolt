@@ -62,7 +62,8 @@
 {% block fieldset_controls %}
     <div class="col-sm-12">
         <div class="input-group {{ mode }}">
-            <span class="input-group-addon">/{{ context.contenttype.slug }}/</span>
+                                            {#- https://github.com/bolt/bolt/pull/4766 #}
+            <span class="input-group-addon">{{ field.route_prefix|default('/' ~ context.contenttype.slug ~ '/') }}</span>
 
             <input{{ macro.attr(attributes.slug) }}>
 
