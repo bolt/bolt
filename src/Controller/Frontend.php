@@ -163,6 +163,12 @@ class Frontend extends ConfigurableBase
         } else {
             $url = $this->app['resources']->getUrl('rooturl') . ltrim($content->link(), '/');
         }
+
+        // In Symfony / Silex, links can be fetched as `/contenttype/1` as well as `/index.php/contenttype/1`.
+        // We won't rewrite the latter, but we don't want it to show up in the canonical either to prevent
+        // duplicate content in Google. @see: https://moz.com/learn/seo/duplicate-content
+        $url = str_replace('index.php/', '', $url);
+
         $this->app['resources']->setUrl('canonicalurl', $url);
 
         // Setting the editlink
