@@ -55,10 +55,14 @@ class SessionListener implements EventSubscriberInterface
             $request->setSession($this->session);
         }
 
-        $cookies = $event->getRequest()->cookies;
         $name = $this->session->getName();
-        if ($cookies->has($name)) {
-            $this->session->setId($cookies->get($name));
+        if ($this->options->getBoolean('restrict_realm')) {
+            $name .= md5($request->getHttpHost() . $request->getBaseUrl());
+            $this->session->setName($name);
+        }
+
+        if ($request->cookies->has($name)) {
+            $this->session->setId($request->cookies->get($name));
             $this->session->start();
         }
     }

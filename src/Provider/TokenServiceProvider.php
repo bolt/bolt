@@ -18,14 +18,6 @@ class TokenServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['token.session.name'] = $app->share(
-            function ($app) {
-                $name = 'bolt_session_' . md5($app['resources']->getRequest('hostname') . $app['resources']->getUrl('root'));
-
-                return $name;
-            }
-        );
-
         $app['token.authentication.name'] = $app->share(
             function ($app) {
                 $name = 'bolt_authtoken_' . md5($app['resources']->getRequest('hostname') . $app['resources']->getUrl('root'));

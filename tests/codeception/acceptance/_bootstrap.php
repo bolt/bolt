@@ -66,6 +66,6 @@ Fixtures::add('backups', [
 
 // Session and authentication tokens
 Fixtures::add('tokenNames', [
-    'session'   => 'bolt_session_' . md5('localhost:8123/'),
-    'authtoken' => 'bolt_authtoken_' . md5('localhost:8123/'),
+    'session'   => 'bolt_session_' . md5('localhost:8123'),
+    'authtoken' => 'bolt_authtoken_' . md5('localhost:8123'),
 ]);

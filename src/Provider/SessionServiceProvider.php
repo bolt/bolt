@@ -89,13 +89,14 @@ class SessionServiceProvider implements ServiceProviderInterface
             'cookie_domain'   => $app['config']->get('general/cookies_domain'),
             'cookie_secure'   => $app['config']->get('general/enforce_ssl'),
             'cookie_httponly' => true,
+            'restrict_realm'  => true,
         ];
         $app['sessions.options'] = [
             'main' => [
-                'name' => $app['token.session.name'],
+                'name' => 'bolt_session_',
             ],
             'csrf' => [
-                'name'                 => $app['token.session.name'] . '_csrf',
+                'name'                 => 'bolt_session_csrf_',
                 'cookie_restrict_path' => true,
                 'cookie_lifetime'      => 0,
             ],
@@ -240,6 +241,7 @@ class SessionServiceProvider implements ServiceProviderInterface
                     // We don't have a way to force that, should we?
                     //'cache_limiter' => 'nocache',
                     //'cache_expire'  => 180,
+                    'restrict_realm'  => false,
                 ];
 
                 if (isset($app['session.options.import_from_ini']) && $app['session.options.import_from_ini']) {
