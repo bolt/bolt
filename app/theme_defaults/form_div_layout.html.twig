@@ -69,7 +69,7 @@
 {% spaceless %}
     <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
         {% if empty_value is not none %}
-            <option {% if required %} disabled="disabled"{% if value is empty %} selected="selected"{% endif %}{% else %} value=""{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
+            <option {% if required %} disabled="disabled"{% if value is empty %} selected="selected"{% endif %}{% else %} value=""{% endif %}>{{ empty_value|trans }}</option>
         {% endif %}
         {% if preferred_choices|length > 0 %}
             {% set options = preferred_choices %}
@@ -88,12 +88,12 @@
 {% spaceless %}
     {% for group_label, choice in options %}
         {% if choice is iterable %}
-            <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+            <optgroup label="{{ group_label|trans }}">
                 {% set options = choice %}
                 {{ block('choice_widget_options') }}
             </optgroup>
         {% else %}
-            <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+            <option value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans }}</option>
         {% endif %}
     {% endfor %}
 {% endspaceless %}
@@ -223,7 +223,7 @@
     {% if label is empty %}
         {% set label = name|humanize %}
     {% endif %}
-    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans }}</button>
 {% endspaceless %}
 {% endblock button_widget %}
 
@@ -255,7 +255,7 @@
         {% if label is empty %}
             {% set label = name|humanize %}
         {% endif %}
-        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans }}</label>
     {% endif %}
 {% endspaceless %}
 {% endblock form_label %}
@@ -371,7 +371,7 @@
 {% block widget_attributes %}
 {% spaceless %}
     id="{{ id }}" name="{{ full_name }}"{% if read_only %} readonly="readonly"{% endif %}{% if disabled %} disabled="disabled"{% endif %}{% if required %} required="required"{% endif %}{% if max_length %} maxlength="{{ max_length }}"{% endif %}{% if pattern %} pattern="{{ pattern }}"{% endif %}
-    {% for attrname, attrvalue in attr %}{% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}
+    {% for attrname, attrvalue in attr %}{% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}
 {% endspaceless %}
 {% endblock widget_attributes %}
 
