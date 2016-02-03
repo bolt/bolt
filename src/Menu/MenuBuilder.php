@@ -198,7 +198,7 @@ class MenuBuilder
     private function populateItemFromRecord(array $item, $path)
     {
         /** @var \Bolt\Legacy\Content $content */
-        $content = $this->app['storage']->getContent($path);
+        $content = $this->app['storage']->getContent($path, array('hydrate' => false));
 
         if ($content) {
             if (empty($item['label'])) {
