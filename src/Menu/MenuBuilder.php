@@ -3,8 +3,8 @@
 namespace Bolt\Menu;
 
 use Bolt\Translation\Translator as Trans;
-use GuzzleHttp\Url;
 use Silex\Application;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class MenuBuilder
@@ -182,6 +182,8 @@ class MenuBuilder
                 ),
                 ['event' => 'config']
             );
+        } catch (MethodNotAllowedException $e) {
+            // Route is probably a GET and we're currently in a POST
         }
 
         return $item;
