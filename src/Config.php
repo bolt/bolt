@@ -492,6 +492,9 @@ class Config
         } else {
             $contentType['tablename'] = Slugify::create()->slugify($contentType['tablename'], '_');
         }
+        if (!isset($contentType['allow_numeric_slugs'])) {
+            $contentType['allow_numeric_slugs'] = false;
+        }
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $generalConfig);
         $contentType['fields'] = $fields;
