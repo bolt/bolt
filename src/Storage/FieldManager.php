@@ -80,9 +80,9 @@ class FieldManager
     /**
      * Links the field name found in the config to a callable handler.
      * @param $class
-     * @param callable $handler
+     * @param callable|object $handler
      */
-    public function setHandler($class, callable $handler)
+    public function setHandler($class, $handler)
     {
         $this->handlers[$class] = $handler;
     }
