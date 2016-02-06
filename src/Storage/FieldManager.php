@@ -102,7 +102,10 @@ class FieldManager
     }
 
     /**
+     * Note, this method is for Bolt use only, as a way to distinguish which fields have been added outside of the
+     * core system. It will be removed in a future version.
      * @param $name
+     * @internal
      * @return bool
      */
     public function hasCustomHandler($name)
