@@ -22,7 +22,7 @@ class FieldManager
      * @param array $typemap
      * @param Config $config
      */
-    public function __construct($typemap = [], Config $config)
+    public function __construct(array $typemap, Config $config)
     {
         $this->typemap = $typemap;
         $this->boltConfig = $config;
