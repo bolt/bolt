@@ -15,7 +15,7 @@ class MySql extends BaseComparator
     protected $platform = 'mysql';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setIgnoredChanges()
     {
@@ -26,7 +26,7 @@ class MySql extends BaseComparator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function removeIgnoredChanges(TableDiff $diff)
     {

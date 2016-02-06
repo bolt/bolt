@@ -201,7 +201,7 @@ class UsersRepository extends Repository
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function save($entity, $silent = null)
     {

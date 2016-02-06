@@ -192,7 +192,7 @@ class Relations extends ArrayCollection
     /**
      * Overrides the default to allow fetching a sub-selection.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function offsetGet($offset)
     {

@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SetupSync extends BaseCommand
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -24,7 +24,7 @@ class SetupSync extends BaseCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
