@@ -137,7 +137,7 @@ class Snippet implements SnippetAssetInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getZone()
     {
@@ -145,7 +145,7 @@ class Snippet implements SnippetAssetInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setZone($zone)
     {

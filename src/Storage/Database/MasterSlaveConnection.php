@@ -15,7 +15,7 @@ use Doctrine\DBAL\DBALException;
 class MasterSlaveConnection extends \Doctrine\DBAL\Connections\MasterSlaveConnection
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function connect($connectionName = null)
     {

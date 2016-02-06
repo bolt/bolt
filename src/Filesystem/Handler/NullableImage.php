@@ -12,7 +12,7 @@ use Bolt\Filesystem\Exception\IOException;
 class NullableImage extends Image
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getInfo($cache = true)
     {

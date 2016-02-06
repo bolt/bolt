@@ -15,7 +15,7 @@ use Doctrine\DBAL\DBALException;
 class Connection extends \Doctrine\DBAL\Connection
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function connect()
     {

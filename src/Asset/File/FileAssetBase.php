@@ -80,7 +80,7 @@ abstract class FileAssetBase implements FileAssetInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPriority()
     {
@@ -148,7 +148,7 @@ abstract class FileAssetBase implements FileAssetInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getZone()
     {
@@ -156,7 +156,7 @@ abstract class FileAssetBase implements FileAssetInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setZone($zone)
     {

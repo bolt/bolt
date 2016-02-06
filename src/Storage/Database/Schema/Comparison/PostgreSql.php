@@ -15,7 +15,7 @@ class PostgreSql extends BaseComparator
     protected $platform = 'postgresql';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setIgnoredChanges()
     {
@@ -26,7 +26,7 @@ class PostgreSql extends BaseComparator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function removeIgnoredChanges(TableDiff $diff)
     {

@@ -106,6 +106,7 @@ class Relations extends ArrayCollection
      * so for backwards compatibility we allow an incoming relation to behave as an outgoing one, but we don't want
      * to overwrite it in the database. This method takes any affected entity out of the collection before the write
      * to the database.
+     *
      * @param $inverse
      */
     public function filterInverseValues($inverse)
@@ -152,8 +153,8 @@ class Relations extends ArrayCollection
      * Gets a specific relation type name from the overall collection
      *
      * @param $fieldname
-     *
      * @param bool $biDirectional
+     *
      * @return Relations
      */
     public function getField($fieldname, $biDirectional = false)
@@ -165,6 +166,7 @@ class Relations extends ArrayCollection
                 }
                 if ($el->getFrom_contenttype() == $fieldname) {
                     $el->actAsInverse();
+
                     return true;
                 }
             });
@@ -192,7 +194,7 @@ class Relations extends ArrayCollection
     /**
      * Overrides the default to allow fetching a sub-selection.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function offsetGet($offset)
     {

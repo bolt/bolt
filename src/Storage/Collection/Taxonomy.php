@@ -164,7 +164,7 @@ class Taxonomy extends ArrayCollection
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filter(Closure $p)
     {
@@ -178,7 +178,7 @@ class Taxonomy extends ArrayCollection
     /**
      * Required by interface ArrayAccess.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function offsetGet($offset)
     {
