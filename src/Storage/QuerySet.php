@@ -104,4 +104,13 @@ class QuerySet extends \ArrayIterator
     {
         $this->parentId = $parentId;
     }
+
+    /**
+     * A helper method to get the primary database query from a set. Normally this points to the first in the set
+     * @return QueryBuilder
+     */
+    public function getPrimary()
+    {
+        return $this[0];
+    }
 }
