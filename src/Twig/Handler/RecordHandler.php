@@ -7,7 +7,6 @@ use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * Bolt specific Twig functions and filters that provide \Bolt\Legacy\Content manipulation
@@ -141,7 +140,7 @@ class RecordHandler
      * content in order in, say, a `record.twig` template, without having to
      * iterate over them in the browser.
      *
-     * @param \Twig_Environment $env
+     * @param \Twig_Environment    $env
      * @param \Bolt\Legacy\Content $record
      * @param bool                 $common
      * @param bool                 $extended
@@ -169,11 +168,11 @@ class RecordHandler
         }
 
         $context = [
-            'record' => $record,
-            'common' => $common,
-            'extended' => $extended,
+            'record'    => $record,
+            'common'    => $common,
+            'extended'  => $extended,
             'repeaters' => $repeaters,
-            'exclude' => $exclude
+            'exclude'   => $exclude,
         ];
 
         return new \Twig_Markup($env->render($template, $context), 'utf-8');
