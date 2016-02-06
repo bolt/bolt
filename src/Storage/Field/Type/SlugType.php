@@ -30,4 +30,12 @@ class SlugType extends FieldTypeBase
         }
         parent::persist($queries, $entity);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStorageType()
+    {
+        return Type::getType('string');
+    }
 }
