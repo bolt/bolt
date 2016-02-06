@@ -118,9 +118,10 @@ class MenuBuilder
             if (!empty($add) && $add[0] !== '?') {
                 $add = '?' . $add;
             }
-            $url = Url::fromString($add);
-            $param = array_merge($param, $url->getQuery()->toArray());
-            $param['#'] = $url->getFragment();
+
+            parse_str(parse_url($add, PHP_URL_QUERY), $query);
+            $param = array_merge($param, $query);
+            $param['#'] = parse_url($add, PHP_URL_FRAGMENT);
         }
 
         return $this->app['url_generator']->generate($item['route'], $param);
