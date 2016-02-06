@@ -271,12 +271,12 @@ trait ContentValuesTrait
          * This Block starts introducing new-style hydration into the legacy content object.
          * To do this we fetch the new field from the manager and hydrate a temporary entity.
          *
-         * We don't return at this point so continue to let other transforms happen below so hopefully
-         * old behaviour should still happen where adjusted.
+         * We don't return at this point so continue to let other transforms happen below so the
+         * old behaviour will still happen where adjusted.
          */
 
-        $newFieldType = $this->app['storage.field_manager']->getFieldFor($this->contenttype['fields'][$key]['type']);
-        if ($newFieldType) {
+        if ($this->app['storage.field_manager']->hasCustomHandler($this->contenttype['fields'][$key]['type'])) {
+            $newFieldType = $this->app['storage.field_manager']->getFieldFor($this->contenttype['fields'][$key]['type']);
             $newFieldType->mapping['fieldname'] = $key;
             $entity = new Content();
             $newFieldType->hydrate([$key => $value], $entity);

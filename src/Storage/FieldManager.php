@@ -13,6 +13,7 @@ class FieldManager
     protected $handlers = [];
     protected $typemap;
     protected $boltConfig;
+    protected $customHandlers = [];
 
     /**
      * Constructor.
@@ -96,7 +97,17 @@ class FieldManager
     public function addFieldType($name, $handler)
     {
         $this->setHandler($name, $handler);
+        $this->customHandlers[] = $name;
         $this->boltConfig->getFields()->addField($handler);
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    public function hasCustomHandler($name)
+    {
+        return in_array($name, $this->customHandlers);
     }
 
 }
