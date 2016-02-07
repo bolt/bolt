@@ -4,6 +4,7 @@ namespace Bolt\Tests\Extension\Mock;
 
 use Bolt\Extension\SimpleExtension;
 use Bolt\Menu\MenuEntry;
+use Silex\Application;
 
 /**
  * Mock extension that extends SimpleExtension for testing the MenuTrait.
@@ -15,7 +16,7 @@ class MenuExtension extends SimpleExtension
     /**
      * {@inheritdoc}
      */
-    public function initialize()
+    protected function registerServices(Application $app)
     {
         $this->addMenuEntry('Drop Bear', 'look-up-live', 'fa-thumbs-o-down', 'dangerous');
     }

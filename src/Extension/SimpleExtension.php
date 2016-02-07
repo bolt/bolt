@@ -28,20 +28,30 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
      */
     final public function register(Application $app)
     {
+        $this->extendConfigService();
         $this->extendTwigService();
         $this->extendMenuService();
         $this->extendAssetServices();
         $this->extendNutService();
 
-        $this->initialize();
+        $this->registerServices($app);
     }
 
     /**
-     * Legacy function to configure the extension.
+     * Register additional services for the extension.
      *
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
+     * Example:
+     * <pre>
+     *   $app['koala'] = $app->share(
+     *       function ($app) {
+     *           return new Koala($app['drop.bear']);
+     *       }
+     *   );
+     * </pre>
+     *
+     * @param Application $app
      */
-    protected function initialize()
+    protected function registerServices(Application $app)
     {
     }
 

@@ -2,10 +2,12 @@
 
 namespace Bolt\Extension;
 
+use Bolt\Config;
 use Bolt\Filesystem\Exception\RuntimeException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\YamlFile;
 use Bolt\Helpers\Arr;
+use Bolt\Storage\Field\FieldInterface;
 use Pimple as Container;
 
 /**
@@ -17,6 +19,36 @@ trait ConfigTrait
 {
     /** @var array */
     private $config;
+
+    /**
+     * Register a list of Bolt fields.
+     *
+     * Example:
+     * <pre>
+     *  return [
+     *      new ColourPickField(),
+     *  ];
+     * </pre>
+     *
+     * @return FieldInterface[]
+     */
+    protected function registerFields()
+    {
+        return [];
+    }
+
+    /**
+     * Call this in register method.
+     */
+    protected function extendConfigService()
+    {
+        $app = $this->getContainer();
+        foreach ((array) $this->registerFields() as $fieldClass) {
+            if ($fieldClass instanceof FieldInterface) {
+                $app['config']->getFields()->addField($fieldClass);
+            }
+        }
+    }
 
     /**
      * Override this to provide a default configuration,
