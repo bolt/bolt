@@ -151,7 +151,7 @@ HTML;
             $isExtensionError = strpos($error['file'], $app['resources']->getPath('extensions'));
 
             // Assemble error trace
-            $errorblock  = '<code>Error: ' . $error['message'] . '</code><br>';
+            $errorblock  = '<code style="display:block; white-space: pre-wrap;">Error: ' . $error['message'] . '</code><br>';
             $errorblock .= '<code>File:  ' . $error['file'] . '</code><br>';
             $errorblock .= '<code>Line:  ' . $error['line'] . '</code><br><br>';
 
@@ -168,13 +168,12 @@ HTML;
                 $parts = explode(DIRECTORY_SEPARATOR, ltrim($base, '/'));
                 $package = $parts[1] . '/' . $parts[2];
 
-                $delete = 'extensions' . DIRECTORY_SEPARATOR . $parts[0] . DIRECTORY_SEPARATOR . $parts[1] . DIRECTORY_SEPARATOR . $parts[2];
-
                 $html = str_replace('%error_title%', 'PHP Fatal error: Bolt extensions', $html);
                 $html = str_replace(
                     '%info%',
-                    '<p>You will only be able to continue by manually deleting the extension that is installed at:</p>' .
-                    '<code>' . $delete . '</code><br><br>',
+                    '<p>You will only be able to continue by disabling the extension by adding the following to app/config/extensions.yml:</p>' .
+                    '<p><code style="display:block;">' . $parts[1] . ':<br>' .
+                    '&nbsp;&nbsp;&nbsp;&nbsp;' . $parts[2] . ': false</code></p>',
                     $html
                 );
                 $message  = '<h4>There is a fatal error in the \'' . $package . '\' extension ' .
