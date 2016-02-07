@@ -78,10 +78,13 @@ class ScriptHandler
 
     public static function bootstrap(CommandEvent $event)
     {
-        $webroot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', false);
+        $defaultOptions = self::getOptions($event);
+
+        $webroot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', $defaultOptions['bolt-separate-web-dir']);
 
         if ($webroot) {
-            $webname  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: public] </info>', 'public');
+            $defaultDir = $defaultOptions['bolt-web-dir'];
+            $webname  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: '.$defaultDir.'] </info>', $defaultDir);
             $webname  = trim($webname, '/');
             $assetDir = './' . $webname;
         } else {
@@ -91,7 +94,7 @@ class ScriptHandler
 
         $generator = new BootstrapGenerator($webroot, $webname);
         $generator->create();
-        $options = array_merge(self::getOptions($event), array('bolt-web-dir' => $assetDir));
+        $options = array_merge($defaultOptions, array('bolt-web-dir' => $assetDir));
         self::installAssets($event, $options);
         $event->getIO()->write('<info>Your project has been setup</info>');
     }
@@ -107,7 +110,8 @@ class ScriptHandler
     {
         $options = array_merge(
             array(
-                'bolt-web-dir'  => 'web',
+                'bolt-separate-web-dir' => true,
+                'bolt-web-dir'  => 'public',
                 'bolt-app-dir'  => 'app',
                 'bolt-dir-mode' => 0777
             ),
