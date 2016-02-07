@@ -80,20 +80,22 @@ class ScriptHandler
      */
     public static function bootstrap(Event $event)
     {
-        $webroot = $event->getIO()->askConfirmation('<question>Do you want your web directory to be a separate folder to root? [y/n] </question>', false);
+        $defaultOptions = self::getOptions($event);
+        $webRoot = $event->getIO()->askConfirmation('<info>Do you want your web directory to be a separate folder to root? [y/n] </info>', $defaultOptions['bolt-separate-web-dir']);
 
-        if ($webroot) {
-            $webname  = $event->getIO()->ask('<question>What do you want your public directory to be named? [default: public] </question>', 'public');
-            $webname  = trim($webname, '/');
-            $assetDir = './' . $webname;
+        if ($webRoot) {
+            $defaultDir = $defaultOptions['bolt-web-dir'];
+            $webDirName  = $event->getIO()->ask('<info>What do you want your public directory to be named? [default: ' . $defaultDir . '] </info>', $defaultDir);
+            $webDirName  = trim($webDirName, '/');
+            $assetDir = './' . $webDirName;
         } else {
-            $webname  = null;
+            $webDirName  = null;
             $assetDir = '.';
         }
 
-        $generator = new BootstrapGenerator($webroot, $webname);
+        $generator = new BootstrapGenerator($webRoot, $webDirName);
         $generator->create();
-        $options = array_merge(self::getOptions($event), ['bolt-web-dir' => $assetDir]);
+        $options = array_merge($defaultOptions, ['bolt-web-dir' => $assetDir]);
         self::installAssets($event, $options);
         $event->getIO()->write('<info>Your project has been setup</info>');
     }
@@ -109,9 +111,10 @@ class ScriptHandler
     {
         $options = array_merge(
             [
-                'bolt-web-dir'  => 'web',
-                'bolt-app-dir'  => 'app',
-                'bolt-dir-mode' => 0777,
+                'bolt-separate-web-dir' => true,
+                'bolt-web-dir'          => 'public',
+                'bolt-app-dir'          => 'app',
+                'bolt-dir-mode'         => 0777,
             ],
             $event->getComposer()->getPackage()->getExtra()
         );
