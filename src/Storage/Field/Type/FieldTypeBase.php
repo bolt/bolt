@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Field\FieldInterface;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\QueryInterface;
 use Bolt\Storage\QuerySet;
@@ -15,7 +16,7 @@ use Doctrine\DBAL\Types\Type;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-abstract class FieldTypeBase implements FieldTypeInterface
+abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
 {
     public $mapping;
 
@@ -144,6 +145,25 @@ abstract class FieldTypeBase implements FieldTypeInterface
     public function getStorageType()
     {
         return Type::getType($this->mapping['type']);
+    }
+
+    /**
+     * @deprecated
+     * Here to maintain compatibility with the old interface
+     */
+    public function getStorageOptions()
+    {
+        return [];
+    }
+
+    /**
+     * Provides a template that is able to render the field
+     * @deprecated
+     *
+     */
+    public function getTemplate()
+    {
+        return '@bolt/editcontent/fields/_' . $this->getName() . '.twig';
     }
 
     /**

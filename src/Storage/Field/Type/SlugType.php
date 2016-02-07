@@ -2,6 +2,7 @@
 namespace Bolt\Storage\Field\Type;
 
 use Bolt\Storage\QuerySet;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -29,5 +30,13 @@ class SlugType extends FieldTypeBase
             $entity->setSlug('slug-' . md5(mt_rand()));
         }
         parent::persist($queries, $entity);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStorageType()
+    {
+        return Type::getType('string');
     }
 }
