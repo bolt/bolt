@@ -148,17 +148,17 @@
     {% block listing_content %}
         {# COLUMN: Content #}
         <td class="excerpt {% if prop.extended %}large{% endif %}">
-            {% set title = content.getTitle|default("<em>(" ~ __("no title …") ~ ")</em>")|raw %}
+            {% set title = content.getTitle(true)|default("<em>(" ~ __("no title …") ~ ")</em>") %}
             <span>
                 <strong class="visible-xs">№ {{ content.id }}. </strong>
                 <strong>
                     {% if modifiable %}
                         <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}" title="Slug: {{ content.slug }}">
-                            {{ title }}
+                            {{ title|raw }}
                         </a>
                     {% else %}
                         <strong>
-                            {{ title }}
+                            {{ title|raw }}
                         </strong>
                      {% endif %}
                 </strong>

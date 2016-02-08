@@ -534,19 +534,27 @@ trait ContentValuesTrait
      *
      * @return string
      */
-    public function getTitle()
+    public function getTitle($allowBasicTags = false)
     {
         $titleParts = [];
 
+        if ($allowBasicTags === true) {
+            $allowedTags = "<b><del><em><i><strong><s>";
+        } else {
+            $allowedTags = "";
+        }
+
         foreach ($this->getTitleColumnName() as $fieldName) {
-            $titleParts[] = strip_tags($this->values[$fieldName]);
+            if (strip_tags($this->values[$fieldName], $allowedTags) !== '') {
+                $titleParts[] = strip_tags($this->values[$fieldName], $allowedTags);
+            }
         }
 
         if (!empty($titleParts)) {
             $title = implode(' ', $titleParts);
         } else {
             // nope, no title was found.
-            $title = '(untitled)';
+            $title = '';
         }
 
         return $title;
