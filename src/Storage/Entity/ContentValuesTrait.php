@@ -67,6 +67,10 @@ trait ContentValuesTrait
      */
     public function getExcerpt($length = 200, $includetitle = false, $focus = null)
     {
+//        $excerpter = new \Bolt\Helpers\Excerpt($this);
+//        $excerpt = $excerpter->getExcerpt($length, $includetitle, $focus);
+//        return new \Twig_Markup($excerpt, 'UTF-8');
+
         if ($includetitle) {
             $title = Html::trimText(strip_tags($this->getTitle()), $length);
             $length = $length - strlen($title);
@@ -106,7 +110,7 @@ trait ContentValuesTrait
             $excerpt = '<b>' . $title . '</b> ' . $excerpt;
         }
 
-        return new \Twig_Markup($excerpt, 'UTF-8');
+         return new \Twig_Markup($excerpt, 'UTF-8');
     }
 
     /**

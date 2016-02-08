@@ -93,7 +93,7 @@ class RecordHandler
      *
      * @return string Resulting excerpt
      */
-    public function excerpt($content, $length = 200)
+    public function excerpt($content, $length = 200, $focus = null)
     {
         // If it's an content object, let the object handle it.
         if (is_object($content)) {
