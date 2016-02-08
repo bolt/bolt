@@ -52,9 +52,9 @@ trait ContentValuesTrait
     /**
      * Alias for getExcerpt()
      */
-    public function excerpt($length = 200, $includetitle = false)
+    public function excerpt($length = 200, $includetitle = false, $focus = null)
     {
-        return $this->getExcerpt($length, $includetitle);
+        return $this->getExcerpt($length, $includetitle, $focus);
     }
 
     /**
@@ -65,12 +65,14 @@ trait ContentValuesTrait
      *
      * @return \Twig_Markup
      */
-    public function getExcerpt($length = 200, $includetitle = false)
+    public function getExcerpt($length = 200, $includetitle = false, $focus = null)
     {
         if ($includetitle) {
             $title = Html::trimText(strip_tags($this->getTitle()), $length);
             $length = $length - strlen($title);
         }
+
+//        dump("focus:");
 
         if ($length > 0) {
             $excerptParts = [];
@@ -94,6 +96,7 @@ trait ContentValuesTrait
             }
 
             $excerpt = implode(' ', $excerptParts);
+//            dump($focus);
             $excerpt = Html::trimText(strip_tags($excerpt), $length);
         } else {
             $excerpt = '';

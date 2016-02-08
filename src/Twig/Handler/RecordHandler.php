@@ -130,6 +130,7 @@ class RecordHandler
         }
 
         $output = str_replace('>', '> ', $output);
+//        dump($focus);
         $output = Html::trimText(strip_tags($output), $length);
 
         return $output;
