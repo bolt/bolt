@@ -277,7 +277,7 @@ trait ContentValuesTrait
          * old behaviour will still happen where adjusted.
          */
 
-        if ($this->app['storage.field_manager']->hasCustomHandler($this->contenttype['fields'][$key]['type'])) {
+        if (isset($this->contenttype['fields'][$key]['type']) && $this->app['storage.field_manager']->hasCustomHandler($this->contenttype['fields'][$key]['type'])) {
             $newFieldType = $this->app['storage.field_manager']->getFieldFor($this->contenttype['fields'][$key]['type']);
             $newFieldType->mapping['fieldname'] = $key;
             $entity = new Content();
