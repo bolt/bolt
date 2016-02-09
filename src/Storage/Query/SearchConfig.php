@@ -127,7 +127,7 @@ class SearchConfig
 
         foreach ($fields as $field => $options) {
             if (in_array($options['type'], ['text', 'textarea', 'html', 'markdown']) ||
-                (isset($options['searchable']) && $options['searchable'] == true)) {
+                (isset($options['searchable']) && $options['searchable'] === true)) {
                 if (isset($options['searchweight'])) {
                     $weight = (int) $options['searchweight'];
                 } elseif (isset($fields['slug']['uses']) && in_array($field, (array) $fields['slug']['uses'])) {
