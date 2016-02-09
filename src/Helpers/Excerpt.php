@@ -11,7 +11,7 @@ class Excerpt
     public function __construct($body, $title = null)
     {
         $this->body = $body;
-        $this->title = $title;
+        $this->title = trim($title);
     }
 
     /**
@@ -25,7 +25,7 @@ class Excerpt
      */
     public function getExcerpt($length = 200, $includetitle = false, $focus = null)
     {
-        if ($includetitle && !empty($this->title)) {
+        if ($includetitle && ($this->title !== '')) {
             $title = Html::trimText(strip_tags($this->title), $length);
             $length = $length - strlen($title);
         } else {
@@ -67,7 +67,7 @@ class Excerpt
             $excerpt = $this->extractRelevant($focus, strip_tags($excerpt), $length);
         }
 
-        if (!empty($title)) {
+        if ($title !== '') {
             $excerpt = '<b>' . $title . '</b> ' . $excerpt;
         }
 
