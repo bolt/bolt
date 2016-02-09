@@ -56,13 +56,13 @@
                 {% endif %}
 
                 {# display something introduction-like.. #}
-                {#{% if record.introduction %}#}
-                    {#{{ record.introduction }}#}
-                {#{% elseif record.teaser %}#}
-                    {#{{ record.teaser }}#}
-                {#{% else %}#}
+                {% if record.introduction %}
+                    {{ record.introduction }}
+                {% elseif record.teaser %}
+                    {{ record.teaser }}
+                {% else %}
                     <p>{{ record.excerpt(300, false, search|default('')) }}</p>
-                {#{% endif %}#}
+                {% endif %}
 
                 {% include '_recordfooter.twig' with {'record': record} %}
 
