@@ -84,13 +84,13 @@ class Excerpt
      * @param $fulltext
      * @return array
      */
-    function _extractLocations($words, $fulltext)
+    private function extractLocations($words, $fulltext)
     {
         $locations = array();
-        foreach($words as $word) {
+        foreach ($words as $word) {
             $wordlen = strlen($word);
             $loc = stripos($fulltext, $word);
-            while($loc !== FALSE) {
+            while ($loc !== false) {
                 $locations[] = $loc;
                 $loc = stripos($fulltext, $word, $loc + $wordlen);
             }
@@ -113,7 +113,7 @@ class Excerpt
      * @param $prevcount
      * @return int
      */
-    function _determineSnipLocation($locations, $prevcount)
+    private function determineSnipLocation($locations, $prevcount)
     {
         // If we only have 1 match we don't actually do the for loop so set to the first
         $startpos = $locations[0];
@@ -123,15 +123,14 @@ class Excerpt
         // If we only have 2, skip as it's probably equally relevant
         if(count($locations) > 2) {
             // skip the first as we check 1 behind
-            for($i=1; $i < $loccount; $i++) {
-                if($i == $loccount-1) { // at the end
+            for ($i=1; $i < $loccount; $i++) {
+                if ($i === $loccount-1) { // at the end
                     $diff = $locations[$i] - $locations[$i-1];
-                }
-                else {
+                } else {
                     $diff = $locations[$i+1] - $locations[$i];
                 }
 
-                if($smallestdiff > $diff) {
+                if ($smallestdiff > $diff) {
                     $smallestdiff = $diff;
                     $startpos = $locations[$i];
                 }
@@ -153,7 +152,7 @@ class Excerpt
      * @param int          $rellength
      * @return mixed|string
      */
-    function extractRelevant($words, $fulltext, $rellength=300)
+    public function extractRelevant($words, $fulltext, $rellength = 300)
     {
         if (!is_array($words)) {
             $words = explode(' ', $words);
@@ -166,36 +165,35 @@ class Excerpt
         $indicator = '…';
 
         $textlength = strlen($fulltext);
-        if($textlength <= $rellength) {
+        if ($textlength <= $rellength) {
             return $fulltext;
         }
 
-        $locations = $this->_extractLocations($words, $fulltext);
-        $startpos  = $this->_determineSnipLocation($locations,$prevcount);
+        $locations = $this->extractLocations($words, $fulltext);
+        $startpos  = $this->determineSnipLocation($locations, $prevcount);
 
         // if we are going to snip too much...
-        if($textlength - $startpos < $rellength) {
+        if ($textlength - $startpos < $rellength) {
             $startpos = $startpos - ($textlength-$startpos)/2;
         }
 
         $reltext = substr($fulltext, $startpos, $rellength);
 
         // check to ensure we dont snip the last word if thats the match
-        if( $startpos + $rellength < $textlength) {
+        if ($startpos + $rellength < $textlength) {
             $reltext = substr($reltext, 0, strrpos($reltext, " ")).$indicator; // remove last word
         }
 
-        // If we trimmed from the front add …
-        if($startpos != 0) {
+        // If we trimmed from the front add '…'
+        if ($startpos != 0) {
             $reltext = $indicator.substr($reltext, strpos($reltext, " ") + 1); // remove first word
         }
 
         // Highlight the words, using the `<mark>` tag.
-        foreach($words as $word) {
+        foreach ($words as $word) {
             $reltext = preg_replace('/\b(' . $word . ')\b/i', '<mark>$1</mark>', $reltext);
         }
 
         return $reltext;
     }
-
 }
