@@ -66,12 +66,17 @@ class Excerpt
     }
 
 
-
-
-// find the locations of each of the words
-// Nothing exciting here. The array_unique is required
-// unless you decide to make the words unique before passing in
-    function _extractLocations($words, $fulltext) {
+    /**
+     * Find the locations of each of the words.
+     * Nothing exciting here. The array_unique is required, unless you decide
+     * to make the words unique before passing in.
+     *
+     * @param $words
+     * @param $fulltext
+     * @return array
+     */
+    function _extractLocations($words, $fulltext)
+    {
         $locations = array();
         foreach($words as $word) {
             $wordlen = strlen($word);
@@ -87,19 +92,26 @@ class Excerpt
         return $locations;
     }
 
-// Work out which is the most relevant portion to display
-// This is done by looping over each match and finding the smallest distance between two found
-// strings. The idea being that the closer the terms are the better match the snippet would be.
-// When checking for matches we only change the location if there is a better match.
-// The only exception is where we have only two matches in which case we just take the
-// first as will be equally distant.
-    function _determineSnipLocation($locations, $prevcount) {
-        // If we only have 1 match we dont actually do the for loop so set to the first
+    /**
+     * Work out which is the most relevant portion to display
+     * This is done by looping over each match and finding the smallest distance between two found
+     * strings. The idea being that the closer the terms are the better match the snippet would be.
+     * When checking for matches we only change the location if there is a better match.
+     * The only exception is where we have only two matches in which case we just take the
+     * first as will be equally distant.
+     *
+     * @param $locations
+     * @param $prevcount
+     * @return int
+     */
+    function _determineSnipLocation($locations, $prevcount)
+    {
+        // If we only have 1 match we don't actually do the for loop so set to the first
         $startpos = $locations[0];
         $loccount = count($locations);
         $smallestdiff = PHP_INT_MAX;
 
-        // If we only have 2 skip as its probably equally relevant
+        // If we only have 2, skip as it's probably equally relevant
         if(count($locations) > 2) {
             // skip the first as we check 1 behind
             for($i=1; $i < $loccount; $i++) {
@@ -118,10 +130,21 @@ class Excerpt
         }
 
         $startpos = $startpos > $prevcount ? $startpos - $prevcount : 0;
+
         return $startpos;
     }
 
-    function extractRelevant($words, $fulltext, $rellength=300, $prevcount = null, $indicator='...')
+    /**
+     * Center on, and highlight search terms in excerpts.
+     *
+     * @see: http://www.boyter.org/2013/04/building-a-search-result-extract-generator-in-php/
+     *
+     * @param string|array $words
+     * @param string       $fulltext
+     * @param int          $rellength
+     * @return mixed|string
+     */
+    function extractRelevant($words, $fulltext, $rellength=300)
     {
         if (!is_array($words)) {
             $words = explode(' ', $words);
@@ -129,9 +152,9 @@ class Excerpt
 
         // 1/6 ratio on prevcount tends to work pretty well and puts the terms
         // in the middle of the extract
-        if ($prevcount === null) {
-            $prevcount = floor($rellength / 6);
-        }
+        $prevcount = floor($rellength / 6);
+
+        $indicator = '…';
 
         $textlength = strlen($fulltext);
         if($textlength <= $rellength) {
@@ -153,7 +176,7 @@ class Excerpt
             $reltext = substr($reltext, 0, strrpos($reltext, " ")).$indicator; // remove last word
         }
 
-        // If we trimmed from the front add ...
+        // If we trimmed from the front add …
         if($startpos != 0) {
             $reltext = $indicator.substr($reltext, strpos($reltext, " ") + 1); // remove first word
         }
