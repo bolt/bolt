@@ -95,45 +95,10 @@ class RecordHandler
      */
     public function excerpt($content, $length = 200, $focus = null)
     {
-        // If it's an content object, let the object handle it.
-        if (is_object($content)) {
-            if (method_exists($content, 'excerpt')) {
-                return $content->excerpt($length);
-            } else {
-                $output = $content;
-            }
-        } elseif (is_array($content)) {
-            // Assume it's an array, strip some common fields that we don't need, implode the rest.
-            $stripKeys = [
-                'id',
-                'slug',
-                'datecreated',
-                'datechanged',
-                'username',
-                'ownerid',
-                'title',
-                'contenttype',
-                'status',
-                'taxonomy',
-            ];
+        $excerpter = new \Bolt\Helpers\Excerpt($content);
+        $excerpt = $excerpter->getExcerpt($length, false, $focus);
 
-            foreach ($stripKeys as $key) {
-                unset($content[$key]);
-            }
-            $output = implode(' ', $content);
-        } elseif (is_string($content)) {
-            // otherwise we just use the string.
-            $output = $content;
-        } else {
-            // Nope, got nothing.
-            $output = '';
-        }
-
-        $output = str_replace('>', '> ', $output);
-//        dump($focus);
-        $output = Html::trimText(strip_tags($output), $length);
-
-        return $output;
+        return $excerpt;
     }
 
     /**

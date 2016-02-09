@@ -67,50 +67,29 @@ trait ContentValuesTrait
      */
     public function getExcerpt($length = 200, $includetitle = false, $focus = null)
     {
-//        $excerpter = new \Bolt\Helpers\Excerpt($this);
-//        $excerpt = $excerpter->getExcerpt($length, $includetitle, $focus);
-//        return new \Twig_Markup($excerpt, 'UTF-8');
+        $excerptParts = [];
 
-        if ($includetitle) {
-            $title = Html::trimText(strip_tags($this->getTitle()), $length);
-            $length = $length - strlen($title);
-        }
-
-//        dump("focus:");
-
-        if ($length > 0) {
-            $excerptParts = [];
-
-            if (!empty($this->contenttype['fields'])) {
-                foreach ($this->contenttype['fields'] as $key => $field) {
-                    // Skip empty fields, and fields used as 'title'.
-                    if (!isset($this->values[$key]) || in_array($key, $this->getTitleColumnName())) {
-                        continue;
-                    }
-
-                    // add 'text', 'html' and 'textarea' fields.
-                    if (in_array($field['type'], ['text', 'html', 'textarea'])) {
-                        $excerptParts[] = $this->values[$key];
-                    }
-                    // add 'markdown' field
-                    if ($field['type'] === 'markdown') {
-                        $excerptParts[] = $this->app['markdown']->text($this->values[$key]);
-                    }
+        if (!empty($this->contenttype['fields'])) {
+            foreach ($this->contenttype['fields'] as $key => $field) {
+                // Skip empty fields, and fields used as 'title'.
+                if (!isset($this->values[$key]) || in_array($key, $this->getTitleColumnName())) {
+                    continue;
+                }
+                // add 'text', 'html' and 'textarea' fields.
+                if (in_array($field['type'], ['text', 'html', 'textarea'])) {
+                    $excerptParts[] = $this->values[$key];
+                }
+                // add 'markdown' field
+                if ($field['type'] === 'markdown') {
+                    $excerptParts[] = $this->app['markdown']->text($this->values[$key]);
                 }
             }
-
-            $excerpt = implode(' ', $excerptParts);
-//            dump($focus);
-            $excerpt = Html::trimText(strip_tags($excerpt), $length);
-        } else {
-            $excerpt = '';
         }
 
-        if (!empty($title)) {
-            $excerpt = '<b>' . $title . '</b> ' . $excerpt;
-        }
+        $excerpter = new \Bolt\Helpers\Excerpt(implode(' ', $excerptParts), $this->getTitle());
+        $excerpt = $excerpter->getExcerpt($length, $includetitle, $focus);
 
-         return new \Twig_Markup($excerpt, 'UTF-8');
+        return new \Twig_Markup($excerpt, 'UTF-8');
     }
 
     /**
