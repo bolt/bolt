@@ -162,7 +162,7 @@
                         </strong>
                      {% endif %}
                 </strong>
-                {{ content.excerpt(excerptlength - title|length) }}
+                {{ content.excerpt(excerptlength - title|length, false, filter) }}
             </span>
         </td>
 

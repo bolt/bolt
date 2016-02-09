@@ -14,6 +14,15 @@ class Excerpt
         $this->title = $title;
     }
 
+    /**
+     * Get the excerpt of a given piece of text.
+     *
+     * @param int  $length
+     * @param bool $includetitle
+     * @param null $focus
+     *
+     * @return mixed|null|string
+     */
     public function getExcerpt($length = 200, $includetitle = false, $focus = null)
     {
         if ($includetitle && !empty($this->title)) {
@@ -165,7 +174,7 @@ class Excerpt
         $startpos  = $this->_determineSnipLocation($locations,$prevcount);
 
         // if we are going to snip too much...
-        if($textlength-$startpos < $rellength) {
+        if($textlength - $startpos < $rellength) {
             $startpos = $startpos - ($textlength-$startpos)/2;
         }
 
@@ -181,7 +190,7 @@ class Excerpt
             $reltext = $indicator.substr($reltext, strpos($reltext, " ") + 1); // remove first word
         }
 
-        // Highlight the words
+        // Highlight the words, using the `<mark>` tag.
         foreach($words as $word) {
             $reltext = preg_replace('/\b(' . $word . ')\b/i', '<mark>$1</mark>', $reltext);
         }
