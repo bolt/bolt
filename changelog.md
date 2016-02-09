@@ -1,3 +1,17 @@
+Bolt 2.2.18
+-----------
+
+Released 2016-02-08. Notable changes:
+
+ - Fix: Fix select fields in templatefields (See #4759)
+ - Fix: Now possible to set a page size for a taxonomy listing (see #4822)
+ - Fix: Viewing a preview of a record clears the unsaved record warning (See #4640)
+ - Fix: Don't use value on checkbox, and set with prop (See #4777)
+ - Change: Allow to set context for custom Twig functions and filters (See #4779)
+ - Change: Update `MenuBuilder.php`, don't do unneeded hydration on menu items. (See #4791)
+ - Fix: Fixes "non-interactive configuration" of composer-install by providing extra vars in composer.json (see #4750)
+ - Fix: Update form_div_layout.html.twig (see #4795)
+
 Bolt 2.2.17
 -----------
 
