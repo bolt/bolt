@@ -129,9 +129,16 @@ class SessionStorage implements SessionStorageInterface
         if ($destroy) {
             $this->metadataBag->stampNew($lifetime);
             $this->handler->destroy($this->id);
+        } else {
+            $this->write();
         }
+        $this->handler->close();
 
         $this->id = $this->generator->generateId();
+
+        $this->handler->open(null, $this->name);
+        // read is required to make new session data at this point
+        $this->handler->read($this->id);
 
         return true;
     }
@@ -182,16 +189,7 @@ class SessionStorage implements SessionStorageInterface
             throw new \RuntimeException('Trying to save a session that was not started yet or was already closed');
         }
 
-        $data = $this->serializer->serialize($this->data);
-
-        if ($this->options->getBoolean('lazy_write', false) &&
-            $this->handler instanceof LazyWriteHandlerInterface &&
-            md5($data) === $this->dataHash
-        ) {
-            $this->handler->updateTimestamp($this->id, $data);
-        } else {
-            $this->handler->write($this->id, $data);
-        }
+        $this->write();
 
         $this->handler->close();
 
@@ -373,6 +371,20 @@ class SessionStorage implements SessionStorageInterface
     {
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
             throw new \InvalidArgumentException(sprintf('The session name "%s" contains invalid characters.', $name));
+        }
+    }
+
+    protected function write()
+    {
+        $data = $this->serializer->serialize($this->data);
+
+        if ($this->options->getBoolean('lazy_write', false) &&
+            $this->handler instanceof LazyWriteHandlerInterface &&
+            md5($data) === $this->dataHash
+        ) {
+            $this->handler->updateTimestamp($this->id, $data);
+        } else {
+            $this->handler->write($this->id, $data);
         }
     }
 }
