@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Storage\Entity;
 
-use Bolt\Helpers\Html;
+use Bolt\Helpers\Excerpt;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 
@@ -52,20 +52,21 @@ trait ContentValuesTrait
     /**
      * Alias for getExcerpt()
      */
-    public function excerpt($length = 200, $includetitle = false, $focus = null)
+    public function excerpt($length = 200, $includeTitle = false, $focus = null)
     {
-        return $this->getExcerpt($length, $includetitle, $focus);
+        return $this->getExcerpt($length, $includeTitle, $focus);
     }
 
     /**
      * Create an excerpt for the content.
      *
-     * @param integer $length
-     * @param boolean $includetitle
+     * @param integer      $length
+     * @param boolean      $includeTitle
+     * @param string|array $focus
      *
      * @return \Twig_Markup
      */
-    public function getExcerpt($length = 200, $includetitle = false, $focus = null)
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
     {
         $excerptParts = [];
 
@@ -86,8 +87,8 @@ trait ContentValuesTrait
             }
         }
 
-        $excerpter = new \Bolt\Helpers\Excerpt(implode(' ', $excerptParts), $this->getTitle());
-        $excerpt = $excerpter->getExcerpt($length, $includetitle, $focus);
+        $excerpter = new Excerpt(implode(' ', $excerptParts), $this->getTitle());
+        $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus);
 
         return new \Twig_Markup($excerpt, 'UTF-8');
     }

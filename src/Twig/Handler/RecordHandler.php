@@ -2,7 +2,7 @@
 
 namespace Bolt\Twig\Handler;
 
-use Bolt\Helpers\Html;
+use Bolt\Helpers\Excerpt;
 use Silex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
@@ -90,12 +90,13 @@ class RecordHandler
      *
      * @param \Bolt\Legacy\Content|array|string $content
      * @param integer                           $length  Defaults to 200 characters
+     * @param string|array                      $focus
      *
      * @return string Resulting excerpt
      */
     public function excerpt($content, $length = 200, $focus = null)
     {
-        $excerpter = new \Bolt\Helpers\Excerpt($content);
+        $excerpter = new Excerpt($content);
         $excerpt = $excerpter->getExcerpt($length, false, $focus);
 
         return $excerpt;

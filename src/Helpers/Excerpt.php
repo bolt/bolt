@@ -4,10 +4,17 @@ namespace Bolt\Helpers;
 
 class Excerpt
 {
+    /** @var string */
+    protected $body;
+    /** @var string */
+    protected $title;
 
-    protected $body = null;
-    protected $title = null;
-
+    /**
+     * Constructor.
+     *
+     * @param string      $body
+     * @param string|null $title
+     */
     public function __construct($body, $title = null)
     {
         $this->body = $body;
@@ -17,15 +24,15 @@ class Excerpt
     /**
      * Get the excerpt of a given piece of text.
      *
-     * @param int  $length
-     * @param bool $includetitle
-     * @param null $focus
+     * @param int          $length
+     * @param bool         $includeTitle
+     * @param string|array $focus
      *
-     * @return mixed|null|string
+     * @return string|null
      */
-    public function getExcerpt($length = 200, $includetitle = false, $focus = null)
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
     {
-        if ($includetitle && ($this->title !== '')) {
+        if ($includeTitle && ($this->title !== '')) {
             $title = Html::trimText(strip_tags($this->title), $length);
             $length = $length - strlen($title);
         } else {
@@ -74,25 +81,25 @@ class Excerpt
         return $excerpt;
     }
 
-
     /**
      * Find the locations of each of the words.
      * Nothing exciting here. The array_unique is required, unless you decide
      * to make the words unique before passing in.
      *
-     * @param $words
-     * @param $fulltext
+     * @param array  $words
+     * @param string $fulltext
+     *
      * @return array
      */
-    private function extractLocations($words, $fulltext)
+    private function extractLocations(array $words, $fulltext)
     {
-        $locations = array();
+        $locations = [];
         foreach ($words as $word) {
-            $wordlen = strlen($word);
+            $wordLen = strlen($word);
             $loc = stripos($fulltext, $word);
             while ($loc !== false) {
                 $locations[] = $loc;
-                $loc = stripos($fulltext, $word, $loc + $wordlen);
+                $loc = stripos($fulltext, $word, $loc + $wordLen);
             }
         }
         $locations = array_unique($locations);
@@ -109,37 +116,38 @@ class Excerpt
      * The only exception is where we have only two matches in which case we just take the
      * first as will be equally distant.
      *
-     * @param $locations
-     * @param $prevcount
+     * @param array   $locations
+     * @param integer $prevCount
+     *
      * @return int
      */
-    private function determineSnipLocation($locations, $prevcount)
+    private function determineSnipLocation(array $locations, $prevCount)
     {
         // If we only have 1 match we don't actually do the for loop so set to the first
-        $startpos = $locations[0];
+        $startPos = $locations[0];
         $loccount = count($locations);
-        $smallestdiff = PHP_INT_MAX;
+        $smallestDiff = PHP_INT_MAX;
 
         // If we only have 2, skip as it's probably equally relevant
         if (count($locations) > 2) {
             // skip the first as we check 1 behind
-            for ($i=1; $i < $loccount; $i++) {
-                if ($i === $loccount-1) { // at the end
-                    $diff = $locations[$i] - $locations[$i-1];
+            for ($i = 1; $i < $loccount; $i++) {
+                if ($i === $loccount - 1) { // at the end
+                    $diff = $locations[$i] - $locations[$i - 1];
                 } else {
-                    $diff = $locations[$i+1] - $locations[$i];
+                    $diff = $locations[$i + 1] - $locations[$i];
                 }
 
-                if ($smallestdiff > $diff) {
-                    $smallestdiff = $diff;
-                    $startpos = $locations[$i];
+                if ($smallestDiff > $diff) {
+                    $smallestDiff = $diff;
+                    $startPos = $locations[$i];
                 }
             }
         }
 
-        $startpos = $startpos > $prevcount ? $startpos - $prevcount : 0;
+        $startPos = $startPos > $prevCount ? $startPos - $prevCount : 0;
 
-        return $startpos;
+        return $startPos;
     }
 
     /**
@@ -149,10 +157,11 @@ class Excerpt
      *
      * @param string|array $words
      * @param string       $fulltext
-     * @param int          $rellength
+     * @param integer      $relLength
+     *
      * @return mixed|string
      */
-    public function extractRelevant($words, $fulltext, $rellength = 300)
+    public function extractRelevant($words, $fulltext, $relLength = 300)
     {
         if (!is_array($words)) {
             $words = explode(' ', $words);
@@ -160,40 +169,40 @@ class Excerpt
 
         // 1/6 ratio on prevcount tends to work pretty well and puts the terms
         // in the middle of the extract
-        $prevcount = floor($rellength / 6);
+        $prevCount = floor($relLength / 6);
 
         $indicator = '…';
 
         $textlength = strlen($fulltext);
-        if ($textlength <= $rellength) {
+        if ($textlength <= $relLength) {
             return $fulltext;
         }
 
         $locations = $this->extractLocations($words, $fulltext);
-        $startpos  = $this->determineSnipLocation($locations, $prevcount);
+        $startPos  = $this->determineSnipLocation($locations, $prevCount);
 
         // if we are going to snip too much...
-        if ($textlength - $startpos < $rellength) {
-            $startpos = $startpos - ($textlength-$startpos)/2;
+        if ($textlength - $startPos < $relLength) {
+            $startPos = $startPos - ($textlength - $startPos) / 2;
         }
 
-        $reltext = substr($fulltext, $startpos, $rellength);
+        $relText = substr($fulltext, $startPos, $relLength);
 
         // check to ensure we dont snip the last word if thats the match
-        if ($startpos + $rellength < $textlength) {
-            $reltext = substr($reltext, 0, strrpos($reltext, " ")).$indicator; // remove last word
+        if ($startPos + $relLength < $textlength) {
+            $relText = substr($relText, 0, strrpos($relText, ' ')) . $indicator; // remove last word
         }
 
         // If we trimmed from the front add '…'
-        if ($startpos != 0) {
-            $reltext = $indicator.substr($reltext, strpos($reltext, " ") + 1); // remove first word
+        if ($startPos != 0) {
+            $relText = $indicator . substr($relText, strpos($relText, ' ') + 1); // remove first word
         }
 
         // Highlight the words, using the `<mark>` tag.
         foreach ($words as $word) {
-            $reltext = preg_replace('/\b(' . $word . ')\b/i', '<mark>$1</mark>', $reltext);
+            $relText = preg_replace('/\b(' . $word . ')\b/i', '<mark>$1</mark>', $relText);
         }
 
-        return $reltext;
+        return $relText;
     }
 }
