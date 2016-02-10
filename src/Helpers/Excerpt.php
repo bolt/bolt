@@ -2,6 +2,8 @@
 
 namespace Bolt\Helpers;
 
+use Bolt\Legacy\Content;
+
 class Excerpt
 {
     /** @var string */
@@ -12,8 +14,8 @@ class Excerpt
     /**
      * Constructor.
      *
-     * @param string      $body
-     * @param string|null $title
+     * @param Content|array|string $body
+     * @param string|null          $title
      */
     public function __construct($body, $title = null)
     {
@@ -32,11 +34,14 @@ class Excerpt
      */
     public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
     {
-        if ($includeTitle && ($this->title !== '')) {
+        $title = null;
+        if ($includeTitle && $this->title !== null) {
             $title = Html::trimText(strip_tags($this->title), $length);
             $length = $length - strlen($title);
-        } else {
-            $title = '';
+        }
+
+        if ($this->body instanceof \Bolt\Legacy\Content) {
+            $this->body = $this->body->getValues();
         }
 
         if (is_array($this->body)) {
@@ -52,6 +57,7 @@ class Excerpt
                 'contenttype',
                 'status',
                 'taxonomy',
+                'templatefields',
             ];
 
             foreach ($stripKeys as $key) {
@@ -74,7 +80,7 @@ class Excerpt
             $excerpt = $this->extractRelevant($focus, strip_tags($excerpt), $length);
         }
 
-        if ($title !== '') {
+        if ($title !== null) {
             $excerpt = '<b>' . $title . '</b> ' . $excerpt;
         }
 
