@@ -90,7 +90,7 @@ class RecordHandler
      *
      * @param \Bolt\Legacy\Content|array|string $content
      * @param integer                           $length  Defaults to 200 characters
-     * @param string|array                      $focus
+     * @param array|string|null                 $focus
      *
      * @return string Resulting excerpt
      */

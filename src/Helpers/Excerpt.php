@@ -6,7 +6,7 @@ use Bolt\Legacy\Content;
 
 class Excerpt
 {
-    /** @var string */
+    /** @var Content|array|string */
     protected $body;
     /** @var string */
     protected $title;
@@ -26,9 +26,9 @@ class Excerpt
     /**
      * Get the excerpt of a given piece of text.
      *
-     * @param int          $length
-     * @param bool         $includeTitle
-     * @param string|array $focus
+     * @param int               $length
+     * @param bool              $includeTitle
+     * @param array|string|null $focus
      *
      * @return string|null
      */
@@ -40,7 +40,7 @@ class Excerpt
             $length = $length - strlen($title);
         }
 
-        if ($this->body instanceof \Bolt\Legacy\Content) {
+        if ($this->body instanceof Content) {
             $this->body = $this->body->getValues();
         }
 
