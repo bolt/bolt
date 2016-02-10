@@ -161,7 +161,7 @@ class Excerpt
      *
      * @return mixed|string
      */
-    public function extractRelevant($words, $fulltext, $relLength = 300)
+    private function extractRelevant($words, $fulltext, $relLength = 300)
     {
         if (!is_array($words)) {
             $words = explode(' ', $words);
