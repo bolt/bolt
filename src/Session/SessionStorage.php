@@ -23,7 +23,7 @@ class SessionStorage implements SessionStorageInterface
     protected $id = '';
 
     /** @var string */
-    protected $name;
+    protected $name = 'PHPSESSID';
 
     /** @var boolean */
     protected $started = false;
