@@ -100,8 +100,13 @@ class JsonManager
     private function setJsonDefaults(array $json)
     {
         $extensionsPath = $this->app['resources']->getPath('extensions');
+        $srcPath = $this->app['resources']->getPath('src');
         $webPath = $this->app['resources']->getPath('web');
         $pathToWeb = $this->app['resources']->findRelativePath($extensionsPath, $webPath);
+        $eventPath = sprintf(
+            '%sComposer/EventListener',
+            $this->app['resources']->findRelativePath($extensionsPath, $srcPath)
+        );
 
         // Enforce standard settings
         $defaults = [
@@ -129,7 +134,7 @@ class JsonManager
             ],
             'autoload' => [
                 'psr-4' => [
-                    'Bolt\\Composer\\EventListener\\' => $this->app['resources']->getPath('src/Composer/EventListener'),
+                    'Bolt\\Composer\\EventListener\\' => $eventPath,
                 ],
             ],
             'scripts' => [
