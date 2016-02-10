@@ -35,7 +35,7 @@ class RedisHandler implements \SessionHandlerInterface, LazyWriteHandlerInterfac
     /**
      * {@inheritdoc}
      */
-    public function open($savePath, $sessionId)
+    public function open($savePath, $sessionName)
     {
         return true;
     }

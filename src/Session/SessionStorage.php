@@ -304,7 +304,7 @@ class SessionStorage implements SessionStorageInterface
 
     protected function initializeSession()
     {
-        $this->handler->open(null, $this->id);
+        $this->handler->open(null, $this->name);
 
         $data = $this->handler->read($this->id);
 

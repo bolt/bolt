@@ -75,13 +75,7 @@ class FileHandler implements \SessionHandlerInterface, LazyWriteHandlerInterface
      */
     public function open($savePath, $sessionName)
     {
-        try {
-            $this->fs->touch($this->getSessionFileName($sessionName));
-
-            return true;
-        } catch (IOException $e) {
-            return false;
-        }
+        return true;
     }
 
     /**
