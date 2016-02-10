@@ -106,13 +106,7 @@ class SessionStorage implements SessionStorageInterface
             return true;
         }
 
-        if (empty($this->id)) {
-            $this->id = $this->generator->generateId();
-        }
-
         $this->initializeSession();
-
-        $this->collectGarbage();
 
         $this->initializeBags();
 
@@ -313,6 +307,12 @@ class SessionStorage implements SessionStorageInterface
     protected function initializeSession()
     {
         $this->handler->open(null, $this->name);
+
+        if (empty($this->id)) {
+            $this->id = $this->generator->generateId();
+        }
+
+        $this->collectGarbage(); // Must be done before read
 
         $data = $this->handler->read($this->id);
 
