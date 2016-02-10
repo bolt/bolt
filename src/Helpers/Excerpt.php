@@ -64,9 +64,9 @@ class Excerpt
                 unset($this->body[$key]);
             }
             $excerpt = implode(' ', $this->body);
-        } elseif (is_string($this->body)) {
+        } elseif (is_string($this->body) || (is_object($this->body) && method_exists($this->body, '__toString'))) {
             // otherwise we just use the string.
-            $excerpt = $this->body;
+            $excerpt = (string) $this->body;
         } else {
             // Nope, got nothing.
             $excerpt = '';
