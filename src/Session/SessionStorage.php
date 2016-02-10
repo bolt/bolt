@@ -4,6 +4,8 @@ namespace Bolt\Session;
 use Bolt\Session\Generator\GeneratorInterface;
 use Bolt\Session\Handler\LazyWriteHandlerInterface;
 use Bolt\Session\Serializer\SerializerInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use SessionHandlerInterface as HandlerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
@@ -64,6 +66,9 @@ class SessionStorage implements SessionStorageInterface
     /** @var OptionsBag */
     protected $options;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
     /**
      * Constructor.
      *
@@ -71,6 +76,7 @@ class SessionStorage implements SessionStorageInterface
      * @param HandlerInterface    $handler
      * @param GeneratorInterface  $generator
      * @param SerializerInterface $serializer
+     * @param LoggerInterface     $logger
      * @param MetadataBag         $metadataBag
      */
     public function __construct(
@@ -78,6 +84,7 @@ class SessionStorage implements SessionStorageInterface
         HandlerInterface $handler,
         GeneratorInterface $generator,
         SerializerInterface $serializer,
+        LoggerInterface $logger = null,
         MetadataBag $metadataBag = null
     ) {
         $this->options = $options;
@@ -86,6 +93,7 @@ class SessionStorage implements SessionStorageInterface
         $this->setHandler($handler);
         $this->generator = $generator;
         $this->serializer = $serializer;
+        $this->logger = $logger ?: new NullLogger();
         $this->setMetadataBag($metadataBag);
     }
 
