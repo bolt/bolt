@@ -167,6 +167,7 @@ class SessionStorage implements SessionStorageInterface
      */
     public function setName($name)
     {
+        $this->validateName($name);
         $this->name = $name;
     }
 
@@ -344,6 +345,20 @@ class SessionStorage implements SessionStorageInterface
         $rand = mt_rand(0, $divisor);
         if ($rand < $probability) {
             $this->handler->gc($this->options->getInt('gc_maxlifetime'));
+        }
+    }
+
+    /**
+     * Validate session name which needs to be a valid cookie name.
+     *
+     * Regex pulled from {@see Symfony\Component\HttpFoundation\Cookie}
+     *
+     * @param string $name
+     */
+    protected function validateName($name)
+    {
+        if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
+            throw new \InvalidArgumentException(sprintf('The session name "%s" contains invalid characters.', $name));
         }
     }
 }
