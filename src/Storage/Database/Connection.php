@@ -44,7 +44,11 @@ class Connection extends \Doctrine\DBAL\Connection
      */
     public function fetchAll($sql, array $params = array(), $types = array())
     {
-        return $this->executeQuery($sql, $params, $types, $this->_queryCacheProfile)->fetchAll();
+        $stmt = $this->executeQuery($sql, $params, $types, $this->_queryCacheProfile);
+        $result = $stmt->fetchAll();
+        $stmt->closeCursor();
+
+        return $result;
     }
 
     public function setQueryCacheProfile(QueryCacheProfile $profile)
