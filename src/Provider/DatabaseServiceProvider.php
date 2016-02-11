@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\EventListener\DoctrineListener;
 use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
