@@ -29,6 +29,8 @@ class DatabaseServiceProvider implements ServiceProviderInterface
             $app->extend('db',
                 function($db) use($app) {
                     $db->setQueryCacheProfile($app['db.query_cache']);
+
+                    return $db;
                 }
             )
         );
