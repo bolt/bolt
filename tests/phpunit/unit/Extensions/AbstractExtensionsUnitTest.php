@@ -33,8 +33,8 @@ abstract class AbstractExtensionsUnitTest extends BoltUnitTest
         \PHPUnit_Extension_FunctionMocker::tearDown();
 
         $fs = new Filesystem();
-        if ($fs->exists(PHPUNIT_WEBROOT . '/app/cache/config_cache.php')) {
-            $fs->remove(PHPUNIT_WEBROOT . '/app/cache/config_cache.php');
+        if ($fs->exists(PHPUNIT_WEBROOT . '/app/cache/config-cache.json')) {
+            $fs->remove(PHPUNIT_WEBROOT . '/app/cache/config-cache.json');
         }
         if ($fs->exists(PHPUNIT_WEBROOT . '/extensions/local/')) {
             $fs->remove(PHPUNIT_WEBROOT . '/extensions/local/');
