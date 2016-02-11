@@ -26,16 +26,6 @@ class DatabaseServiceProvider implements ServiceProviderInterface
             );
         }
 
-        $app['db'] = $app->share(
-            $app->extend('db',
-                function($db) use($app) {
-                    $db->setQueryCacheProfile($app['db.query_cache']);
-
-                    return $db;
-                }
-            )
-        );
-
         $app['db.config'] = $app->share(
             $app->extend('db.config',
                 function ($config) use ($app) {
@@ -77,6 +67,16 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 
                 return new QueryCacheProfile(0, 'bolt.db');
             }
+        );
+
+        $app['db'] = $app->share(
+            $app->extend('db',
+                function($db) use($app) {
+                    $db->setQueryCacheProfile($app['db.query_cache']);
+
+                    return $db;
+                }
+            )
         );
     }
 
