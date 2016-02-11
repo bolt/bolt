@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\EventListener\DoctrineListener;
+use Doctrine\Common\Cache\ArrayCache;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
