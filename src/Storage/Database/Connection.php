@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Database;
 
 use Bolt\Events\FailedConnectionEvent;
+use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\DBALException;
 
 /**
@@ -14,6 +15,9 @@ use Doctrine\DBAL\DBALException;
  */
 class Connection extends \Doctrine\DBAL\Connection
 {
+
+    protected $_queryCacheProfile;
+
     /**
      * {@inheritdoc}
      */
@@ -27,5 +31,24 @@ class Connection extends \Doctrine\DBAL\Connection
                 $this->_eventManager->dispatchEvent('failConnect', $eventArgs);
             }
         }
+    }
+
+    /**
+     * Prepares and executes an SQL query and returns the result as an associative array.
+     *
+     * @param string $sql    The SQL query.
+     * @param array  $params The query parameters.
+     * @param array  $types  The query parameter types.
+     *
+     * @return array
+     */
+    public function fetchAll($sql, array $params = array(), $types = array())
+    {
+        return $this->executeQuery($sql, $params, $types, $this->_queryCacheProfile)->fetchAll();
+    }
+
+    public function setQueryCacheProfile(QueryCacheProfile $profile)
+    {
+        $this->_queryCacheProfile = $profile;
     }
 }
