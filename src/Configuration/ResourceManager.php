@@ -221,19 +221,12 @@ class ResourceManager
      */
     public function hasPath($name)
     {
-        $parts = [];
         if (strpos($name, '/') !== false) {
             $parts = explode('/', $name);
             $name = array_shift($parts);
         }
 
-        if (array_key_exists($name . 'path', $this->paths)) {
-            return true;
-        } elseif (array_key_exists($name, $this->paths)) {
-            return true;
-        } else {
-            return false;
-        }
+        return array_key_exists($name, $this->paths) || array_key_exists($name . 'path', $this->paths);
     }
 
     /**
@@ -308,12 +301,7 @@ class ResourceManager
      */
     public function getPaths()
     {
-        $paths = array_map(
-            function ($item) {
-                return (string) $item;
-            },
-            $this->paths
-        );
+        $paths = array_map('strval', $this->paths);
 
         return array_merge($paths, $this->urls, $this->request);
     }
