@@ -2,6 +2,9 @@
 
 namespace Bolt\Controller;
 
+use Bolt\Asset\File\JavaScript;
+use Bolt\Asset\File\Stylesheet;
+use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
 use Bolt\Pager;
@@ -202,11 +205,19 @@ class Frontend extends ConfigurableBase
 
         $liveEditor = $request->get('_live-editor-preview');
         if (!empty($liveEditor)) {
-            $jsFile = $this->app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js';
-            $cssFile = $this->app['resources']->getUrl('app') . 'view/css/liveeditor.css';
-            $this->app['asset.queue.snippet']->add(Target::BEFORE_HEAD_JS, '<script>window.boltIsEditing = true;</script>');
-            $this->app['asset.queue.file']->add('javascript', $jsFile, ['late' => false, 'priority' => 1]);
-            $this->app['asset.queue.file']->add('stylesheet', $cssFile, ['late' => false, 'priority' => 5]);
+            $jsFile = (new JavaScript($this->app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js'))
+                ->setPriority(1)
+                ->setLate(false);
+            $cssFile = (new Stylesheet($this->app['resources']->getUrl('app') . 'view/css/liveeditor.css'))
+                ->setPriority(5)
+                ->setLate(false);
+            $snippet = (new Snippet())
+                ->setCallback('<script>window.boltIsEditing = true;</script>')
+                ->setLocation(Target::BEFORE_HEAD_JS);
+
+            $this->app['asset.queue.snippet']->add($snippet);
+            $this->app['asset.queue.file']->add($jsFile);
+            $this->app['asset.queue.file']->add($cssFile);
         }
 
         // Then, select which template to use, based on our 'cascading templates rules'
