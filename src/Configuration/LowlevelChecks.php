@@ -190,7 +190,9 @@ class LowlevelChecks
 
         if ($driver == 'pdo_mysql' && !$this->mysqlLoaded) {
             throw LowLevelDatabaseException::missingDriver('MySQL', 'pdo_mysql');
-        } elseif ($driver == 'pdo_pgsql' && !$this->postgresLoaded) {
+        }
+
+        if ($driver == 'pdo_pgsql' && !$this->postgresLoaded) {
             throw LowLevelDatabaseException::missingDriver('PostgreSQL', 'pdo_pgsql');
         }
 
@@ -262,7 +264,9 @@ class LowlevelChecks
                 htmlspecialchars($this->config->getPath('config'), ENT_QUOTES)
             );
             throw new LowlevelException($error);
-        } elseif (!file_exists($ymlname)) {
+        }
+
+        if (!file_exists($ymlname)) {
             // Try and copy from the .dist config file
             try {
                 copy($distname, $ymlname);
