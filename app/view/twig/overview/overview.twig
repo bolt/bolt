@@ -28,7 +28,7 @@
 
             {{ widgets('overview_below_header', 'backend') }}
 
-            {{ list(context.contenttype, context.multiplecontent, context.permissions, '') }}
+            {{ list(context.contenttype, context.multiplecontent, context.permissions, '', '', context.filter|join(' ')) }}
 
             {{ widgets('overview_bottom', 'backend') }}
 

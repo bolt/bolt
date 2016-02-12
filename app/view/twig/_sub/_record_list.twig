@@ -1,4 +1,4 @@
-{% macro record_list(contenttype, multiplecontent, permissions, extra_classes, async) %}
+{% macro record_list(contenttype, multiplecontent, permissions, extra_classes, async, filter) %}
     {% set async = async|default(false) %}
     {% set lastgroup = "----" %}
     {% set any_deletable = false %}
@@ -50,7 +50,8 @@
                     'thumbsize':     80,
                     'internal': {
                         'selection_toolbar': selection_toolbar
-                    }
+                    },
+                    'filter':        filter
                 } %}
                 {% include includes with listing_vars %}
 

@@ -252,9 +252,9 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\RecordHandler::excerpt()
      */
-    public function excerpt($content, $length = 200)
+    public function excerpt($content, $length = 200, $focus = null)
     {
-        return $this->handlers['record']->excerpt($content, $length);
+        return $this->handlers['record']->excerpt($content, $length, $focus);
     }
 
     /**
