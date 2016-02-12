@@ -24,7 +24,7 @@ class UploadTest extends ControllerUnitTest
 
     public function tearDown()
     {
-        @unlink(TEST_ROOT . '/app/cache/config_cache.php');
+        @unlink(TEST_ROOT . '/app/cache/config-cache.json');
     }
 
     public function testResponses()

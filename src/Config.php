@@ -6,12 +6,16 @@ use Bolt\Controller\Zone;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Str;
-use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Translation\Translator;
 use Cocur\Slugify\Slugify;
 use Eloquent\Pathogen\PathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
 use Silex;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
@@ -1073,7 +1077,9 @@ class Config
     /**
      * Attempt to load cached configuration files.
      *
-     * @return boolean
+     * @throws LowlevelException
+     *
+     * @return bool
      */
     protected function loadCache()
     {
@@ -1091,14 +1097,32 @@ class Config
             file_exists($dir . '/extensions.yml') ? filemtime($dir . '/extensions.yml') : 10000000000,
             file_exists($dir . '/config_local.yml') ? filemtime($dir . '/config_local.yml') : 0,
         ];
-        if (file_exists($this->app['resources']->getPath('cache/config_cache.php'))) {
-            $this->cachetimestamp = filemtime($this->app['resources']->getPath('cache/config_cache.php'));
-        } else {
-            $this->cachetimestamp = 0;
-        }
+        $configCache = $this->app['resources']->getPath('cache/config-cache.json');
+        $this->cachetimestamp = file_exists($configCache) ? filemtime($configCache) : 0;
 
         if ($this->cachetimestamp > max($timestamps)) {
-            $this->data = Lib::loadSerialize($this->app['resources']->getPath('cache/config_cache.php'));
+            $finder = new Finder();
+            $finder->files()
+                ->in($this->app['resources']->getPath('cache'))
+                ->name('config-cache.json')
+                ->depth('== 0')
+            ;
+            /** @var SplFileInfo $file */
+            foreach ($finder as $file) {
+                try {
+                    $this->data = json_decode($file->getContents(), true);
+                } catch (\RuntimeException $e) {
+                    $part = Translator::__(
+                        'Try logging in with your ftp-client and make the file readable. ' .
+                        'Else try to go <a>back</a> to the last page.'
+                    );
+                    $message = '<p>' . Translator::__('The following file could not be read:') . '</p>' .
+                        '<pre>' . htmlspecialchars($configCache) . '</pre>' .
+                        '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
+
+                    throw new LowlevelException(Translator::__('File is not readable!' . $message));
+                }
+            }
 
             // Check if we loaded actual data.
             if (count($this->data) < 4 || empty($this->data['general'])) {
@@ -1131,14 +1155,29 @@ class Config
     {
         // Store the version number along with the config.
         $this->data['version'] = $this->app['bolt_long_version'];
+        $configCache = $this->app['resources']->getPath('cache/config-cache.json');
+        $fs = new Filesystem();
 
         if ($this->get('general/caching/config')) {
-            Lib::saveSerialize($this->app['resources']->getPath('cache/config_cache.php'), $this->data);
+            try {
+                $fs->dumpFile($configCache, json_encode($this->data), 0666);
 
-            return;
+                return;
+            } catch (IOException $e) {
+                $message = 'Error opening file<br/><br/>' .
+                    'The file <b>' . $configCache . '</b> could not be written! <br /><br />' .
+                    'Try logging in with your FTP client and check to see if it is chmodded to be readable by ' .
+                    'the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
+                    'Current path: ' . getcwd() . '.';
+                throw new LowlevelException($message);
+            }
         }
 
-        @unlink($this->app['resources']->getPath('cache/config_cache.php'));
+        try {
+            $fs->remove($configCache);
+        } catch (IOException $e) {
+            // We were unable to remove the file… time to retire this class
+        };
     }
 
     /**
@@ -1157,10 +1196,17 @@ class Config
         // Note: we need to check if it exists, _and_ it's too old. Not _or_, hence the '0'
         $configTimestamp = file_exists($themeConfigFile) ? filemtime($themeConfigFile) : 0;
 
-        if ($this->cachetimestamp <= $configTimestamp) {
-            // Invalidate cache for next request.
-            @unlink($this->app['resources']->getPath('cache/config_cache.php'));
+        if ($this->cachetimestamp > $configTimestamp) {
+            return;
         }
+
+        // Invalidate cache for next request.
+        try {
+            $fs = new Filesystem();
+            $fs->remove($this->app['resources']->getPath('cache/config-cache.json'));
+        } catch (IOException $e) {
+            // We were unable to remove the file… time to retire this class
+        };
     }
 
     /**
