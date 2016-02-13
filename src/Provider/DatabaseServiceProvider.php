@@ -3,6 +3,8 @@
 namespace Bolt\Provider;
 
 use Bolt\EventListener\DoctrineListener;
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -26,7 +28,8 @@ class DatabaseServiceProvider implements ServiceProviderInterface
         }
 
         $app['db.config'] = $app->share(
-            $app->extend('db.config',
+            $app->extend(
+                'db.config',
                 function ($config) use ($app) {
                     $config->setFilterSchemaAssetsExpression($app['schema.tables_filter']);
 
@@ -54,6 +57,33 @@ class DatabaseServiceProvider implements ServiceProviderInterface
                     }
 
                     return $managers;
+                }
+            )
+        );
+
+        $app['db.query_cache'] = $app->share(
+            function ($app) {
+                $cache = ($app['config']->get('general/caching/database') == true) ? $app['cache'] : new ArrayCache();
+
+                return $cache;
+            }
+        );
+
+        $app['db.query_cache_profile'] = $app->share(
+            function ($app) {
+                $lifetime = $app['config']->get('general/caching/duration') ?: 0;
+
+                return new QueryCacheProfile($lifetime, 'bolt.db', $app['db.query_cache']);
+            }
+        );
+
+        $app['db'] = $app->share(
+            $app->extend(
+                'db',
+                function ($db) use ($app) {
+                    $db->setQueryCacheProfile($app['db.query_cache_profile']);
+
+                    return $db;
                 }
             )
         );

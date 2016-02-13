@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Database;
 
 use Bolt\Events\FailedConnectionEvent;
+use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\DBALException;
 
 /**
@@ -14,6 +15,9 @@ use Doctrine\DBAL\DBALException;
  */
 class Connection extends \Doctrine\DBAL\Connection
 {
+
+    protected $_queryCacheProfile;
+
     /**
      * {@inheritdoc}
      */
@@ -27,5 +31,58 @@ class Connection extends \Doctrine\DBAL\Connection
                 $this->_eventManager->dispatchEvent('failConnect', $eventArgs);
             }
         }
+    }
+
+    /**
+     * This method wraps the native fetchAll method to pass in the configured QueryCacheProfile.
+     * If the profile is set to null then operation will continue identically to the standard, otherwise
+     * the existence of a cache profile will result in the executeQueryCache() method being called.
+     *
+     *
+     * @param string $sql    The SQL query.
+     * @param array  $params The query parameters.
+     * @param array  $types  The query parameter types.
+     *
+     * @return array
+     */
+    public function fetchAll($sql, array $params = array(), $types = array())
+    {
+        $stmt = $this->executeQuery($sql, $params, $types, $this->_queryCacheProfile);
+        $result = $stmt->fetchAll();
+        $stmt->closeCursor();
+
+        return $result;
+    }
+
+    /**
+     * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
+     * and returns the number of affected rows.
+     *
+     * This method supports PDO binding types as well as DBAL mapping types.
+     *
+     * @param string $query  The SQL query.
+     * @param array  $params The query parameters.
+     * @param array  $types  The parameter types.
+     *
+     * @return integer The number of affected rows.
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function executeUpdate($query, array $params = array(), array $types = array())
+    {
+        $result = parent::executeUpdate($query, $params, $types);
+        $this->_queryCacheProfile->getResultCacheDriver()->flushAll();
+
+        return $result;
+    }
+
+
+    /**
+     * Sets an optional Query Cache handler on the connection class
+     * @param QueryCacheProfile $profile
+     */
+    public function setQueryCacheProfile(QueryCacheProfile $profile)
+    {
+        $this->_queryCacheProfile = $profile;
     }
 }
