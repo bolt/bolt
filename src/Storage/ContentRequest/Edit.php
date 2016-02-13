@@ -178,19 +178,21 @@ class Edit
      * Test write access for uploadable fields.
      * Autocreates the desired directory if it does not exist.
      *
+     * Note that in cases where an array is passed then true will be set if at least some of the directories can
+     * be written to.
+     *
      * @param array $fields
      *
      * @return array
      */
     private function setCanUpload($fields)
     {
-        $filesystem = $this->filesystem->getFilesystem('files');
-
         foreach ($fields as &$values) {
             if (isset($values['upload'])) {
                 foreach ((array)$values['upload'] as $path) {
-                    $can = $can || (($this->filesystem->has($path) || $filesystem->createDir($path)) && $filesystem->getVisibility($path));
+                    $can = $can || (($this->filesystem->has($path) || $this->filesystem->createDir($path)) && $this->filesystem->getVisibility($path));
                 }
+                $values['canUpload'] = $can;
             } else {
                 $values['canUpload'] = true;
             }
