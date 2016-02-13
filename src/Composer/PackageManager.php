@@ -556,11 +556,15 @@ class PackageManager
         try {
             /** @deprecated remove when PHP 5.3 support is dropped */
             if ($this->app['deprecated.php']) {
+                /** @var \Guzzle\Service\Client $client */
+                $client = $this->app['guzzle.client'];
                 /** @var $response \Guzzle\Http\Message\Response  */
-                $response = $this->app['guzzle.client']->head($uri, $guzzleOptions)->send();
+                $response = $client->head($uri, null, $guzzleOptions)->send();
             } else {
-                /** @var $reponse \GuzzleHttp\Message\Response */
-                $response = $this->app['guzzle.client']->head($uri, $guzzleOptions);
+                /** @var \GuzzleHttp\Client $client */
+                $client = $this->app['guzzle.client'];
+                /** @var $response \GuzzleHttp\Message\Response */
+                $response = $client->head($uri, $guzzleOptions);
             }
 
             return $response->getStatusCode();

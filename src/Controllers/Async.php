@@ -127,29 +127,37 @@ class Async implements ControllerProviderInterface
                 base64_encode($hostname)
             );
 
-            // Define guzzle options
-            $guzzleOptions['config']['curl'] = array();
-            $curlOptions = &$guzzleOptions['config']['curl'];
-
             // Options valid if using a proxy
             if ($app['config']->get('general/httpProxy')) {
-                $curlOptions[CURLOPT_PROXY] = $app['config']->get('general/httpProxy/host');
-                $curlOptions[CURLOPT_PROXYTYPE] = CURLPROXY_HTTP;
-                $curlOptions[CURLOPT_PROXYUSERPWD] = $app['config']->get('general/httpProxy/user') . ':' .
-                                                       $app['config']->get('general/httpProxy/password')
-                ;
+                $guzzleOptions = array(
+                    'config' => array(
+                        'curl' => array(
+                            CURLOPT_PROXY     => $app['config']->get('general/httpProxy/host'),
+                            CURLOPT_PROXYTYPE => CURLPROXY_HTTP,
+                            CURLOPT_PROXYUSERPWD => sprintf(
+                                '%s:%s',
+                                $app['config']->get('general/httpProxy/user'),
+                                $app['config']->get('general/httpProxy/password')
+                            )
+                        )
+                    )
+                );
             }
-
-            // Standard option(s)
-            $curlOptions[CURLOPT_CONNECTTIMEOUT] = 5;
+            $guzzleOptions['config']['curl'][CURLOPT_CONNECTTIMEOUT] = 5;
 
             try {
+                /** @deprecated remove when PHP 5.3 support is dropped */
                 if ($app['deprecated.php']) {
-                    $fetchedNewsData = $app['guzzle.client']->get($url, $guzzleOptions)->send()->getBody(true);
+                    /** @var \Guzzle\Service\Client $client */
+                    $client = $app['guzzle.client'];
+                    /** @var $fetchedNewsData \Guzzle\Http\Message\Response  */
+                    $fetchedNewsData = $client->get($url, null, $guzzleOptions)->send()->getBody(true);
                 } else {
-                    $fetchedNewsData = $app['guzzle.client']->get($url, $guzzleOptions)->getBody(true);
+                    /** @var \GuzzleHttp\Client $client */
+                    $client = $app['guzzle.client'];
+                    /** @var $fetchedNewsData \GuzzleHttp\Message\Response */
+                    $fetchedNewsData = $client->get($url, $guzzleOptions)->getBody(true);
                 }
-
                 $fetchedNewsItems = json_decode($fetchedNewsData);
 
                 if ($fetchedNewsItems) {
