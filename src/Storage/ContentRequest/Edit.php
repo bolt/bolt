@@ -188,7 +188,9 @@ class Edit
 
         foreach ($fields as &$values) {
             if (isset($values['upload'])) {
-                $values['canUpload'] = ($filesystem->has($values['upload']) || $filesystem->createDir($values['upload'])) && $filesystem->getVisibility($values['upload']);
+                foreach ((array)$values['upload'] as $path) {
+                    $can = $can || (($this->filesystem->has($path) || $filesystem->createDir($path)) && $filesystem->getVisibility($path));
+                }
             } else {
                 $values['canUpload'] = true;
             }
