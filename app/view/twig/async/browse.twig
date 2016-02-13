@@ -106,9 +106,9 @@
                                 </td>
 
                                 <td class="info">
-                                    <div class="filesize">{{ file.size|e|number_format(0, '.', '<small>&thinsp;</small>')|raw }}</div>
+                                    <div class="filesize">{{ file.sizeformatted }}</div>
                                     {% if file.image %}
-                                        <div class="image-dimensions">{{ file.dimensions|e|replace({'px' : '', ' × ' : '<span class="times">×</span>'})|trim|raw }}</div>
+                                        <div class="image-dimensions">{{ file.dimensions|e|replace({' × ' : '<span class="times">×</span>'})|trim|raw }}</div>
                                     {% endif %}
                                 </td>
 
