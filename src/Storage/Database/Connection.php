@@ -54,6 +54,27 @@ class Connection extends \Doctrine\DBAL\Connection
         return $result;
     }
 
+    /**
+     * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
+     * and returns the number of affected rows.
+     *
+     * This method supports PDO binding types as well as DBAL mapping types.
+     *
+     * @param string $query  The SQL query.
+     * @param array  $params The query parameters.
+     * @param array  $types  The parameter types.
+     *
+     * @return integer The number of affected rows.
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function executeUpdate($query, array $params = array(), array $types = array()) {
+        $result = parent::executeUpdate($query, $params, $types);
+        $this->_queryCacheProfile->getResultCacheDriver()->flushAll();
+        
+        return $result;
+    }
+
 
     /**
      * Sets an optional Query Cache handler on the connection class
