@@ -34,7 +34,10 @@ class Connection extends \Doctrine\DBAL\Connection
     }
 
     /**
-     * Prepares and executes an SQL query and returns the result as an associative array.
+     * This method wraps the native fetchAll method to pass in the configured QueryCacheProfile.
+     * If the profile is set to null then operation will continue identically to the standard, otherwise
+     * the existence of a cache profile will result in the executeQueryCache() method being called.
+     *
      *
      * @param string $sql    The SQL query.
      * @param array  $params The query parameters.
@@ -51,6 +54,11 @@ class Connection extends \Doctrine\DBAL\Connection
         return $result;
     }
 
+
+    /**
+     * Sets an optional Query Cache handler on the connection class
+     * @param QueryCacheProfile $profile
+     */
     public function setQueryCacheProfile(QueryCacheProfile $profile)
     {
         $this->_queryCacheProfile = $profile;
