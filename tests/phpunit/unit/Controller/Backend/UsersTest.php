@@ -81,8 +81,8 @@ class UsersTest extends ControllerUnitTest
                     'username'    => $user['username'],
                     'email'       => $user['email'],
                     'displayname' => 'Admin Test',
-                    '_token'      => 'xyz'
-                ]
+                    '_token'      => 'xyz',
+                ],
             ]
         ));
 
@@ -129,8 +129,8 @@ class UsersTest extends ControllerUnitTest
                     'displayname'           => 'Admin',
                     'password'              => 'password',
                     'password_confirmation' => 'password',
-                    '_token'                => 'xyz'
-                ]
+                    '_token'                => 'xyz',
+                ],
             ]
         );
         $this->setRequest($request);
@@ -295,8 +295,8 @@ class UsersTest extends ControllerUnitTest
                     'password_confirmation' => '',
                     'email'                 => $user['email'],
                     'displayname'           => 'Admin Test',
-                    '_token'                => 'xyz'
-                ]
+                    '_token'                => 'xyz',
+                ],
             ]
         ));
 
@@ -332,8 +332,8 @@ class UsersTest extends ControllerUnitTest
                     'username'    => 'admin2',
                     'email'       => $user['email'],
                     'displayname' => $user['displayname'],
-                    '_token'      => 'xyz'
-                ]
+                    '_token'      => 'xyz',
+                ],
             ]
         ));
         $response = $this->controller()->edit($this->getRequest(), 1);

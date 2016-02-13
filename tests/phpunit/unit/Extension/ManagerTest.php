@@ -13,6 +13,5 @@ class ManagerTest extends BoltUnitTest
 {
     public function test()
     {
-
     }
 }

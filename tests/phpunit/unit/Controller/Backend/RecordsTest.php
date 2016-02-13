@@ -193,7 +193,7 @@ class RecordsTest extends ControllerUnitTest
             'GET',
             [
                 'filter'            => 'Lorem',
-                'taxonomy-chapters' => 'main'
+                'taxonomy-chapters' => 'main',
             ]
         ));
         $response = $this->controller()->overview($this->getRequest(), 'pages');

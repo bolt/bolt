@@ -65,16 +65,16 @@ class CacheTest extends BoltUnitTest
         return [
             [
                 'bar',
-                'bar'
+                'bar',
             ],
             [
                 ['foo' => 'bar', 'baz' => 'meh'],
-                ['foo' => 'bar', 'baz' => 'meh']
+                ['foo' => 'bar', 'baz' => 'meh'],
             ],
             [
                 new FooObject(),
-                new FooObject()
-            ]
+                new FooObject(),
+            ],
         ];
     }
 

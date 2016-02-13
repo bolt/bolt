@@ -30,7 +30,7 @@ class MenuExtension extends SimpleExtension
             (new MenuEntry('koala', 'koalas-are-us'))
                 ->setLabel('Koalas')
                 ->setIcon('fa-thumbs-o-up')
-                ->setPermission('config')
+                ->setPermission('config'),
         ];
     }
 }

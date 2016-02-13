@@ -26,7 +26,7 @@ class UserAddTest extends BoltUnitTest
                 'displayname' => 'Test',
                 'email'       => 'test@example.com',
                 'password'    => 'testPass',
-                'role'        => 'admin'
+                'role'        => 'admin',
             ]
         );
         $result = $tester->getDisplay();
@@ -53,7 +53,7 @@ class UserAddTest extends BoltUnitTest
                 'displayname' => 'Test',
                 'email'       => 'test@example.com',
                 'password'    => 'test',
-                'role'        => 'admin'
+                'role'        => 'admin',
             ]
         );
         $result = $tester->getDisplay();
@@ -74,7 +74,7 @@ class UserAddTest extends BoltUnitTest
                 'displayname' => '',
                 'email'       => '',
                 'password'    => '',
-                'role'        => ''
+                'role'        => '',
             ]
         );
         $result = $tester->getDisplay();

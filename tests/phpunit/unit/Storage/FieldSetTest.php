@@ -31,7 +31,7 @@ class FieldSetTest extends BoltUnitTest
         $entity->setTemplate('extrafields.twig');
         $entity->setTemplateFields([
             'section_1' => 'val1',
-            'image'     => ['file' => 'path-to-image.jpg', 'title' => 'An awesome image']
+            'image'     => ['file' => 'path-to-image.jpg', 'title' => 'An awesome image'],
         ]);
         $repo->save($entity);
 

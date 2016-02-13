@@ -31,8 +31,8 @@ class NativeSearchTest extends BoltUnitTest
                 ['table' => 'bolt_pages', 'alias' => 'pages'],
                 [
                     'table' => "(SELECT *, setweight(to_tsvector(pages.title), 'A') || setweight(to_tsvector(pages.teaser), 'B') || setweight(to_tsvector(pages.body), 'B') AS document FROM bolt_pages pages GROUP BY pages.id)",
-                    'alias' => 'bsearch'
-                ]
+                    'alias' => 'bsearch',
+                ],
             ],
             $query->getQueryPart('from')
         );

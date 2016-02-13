@@ -13,6 +13,5 @@ class NutTraitTest extends BoltUnitTest
 {
     public function test()
     {
-
     }
 }

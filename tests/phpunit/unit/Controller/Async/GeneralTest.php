@@ -193,7 +193,7 @@ class GeneralTest extends ControllerUnitTest
     public function testOmnisearch()
     {
         $this->setRequest(Request::create('/async/omnisearch', 'GET', [
-            'q' => 'sho'
+            'q' => 'sho',
         ]));
 
         $response = $this->controller()->omnisearch($this->getRequest());
@@ -270,6 +270,6 @@ class GeneralTest extends ControllerUnitTest
             'rock', 'romance', 'rpg', 'satire', 'science', 'sciencefiction', 'scifi', 'security', 'self-help',
             'series', 'software', 'space', 'spirituality', 'sports', 'story', 'suspense', 'technology', 'teen',
             'television', 'terrorism', 'thriller', 'travel', 'tv', 'uk', 'urban', 'us', 'usa', 'vampire', 'video',
-            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies'];
+            'videogames', 'war', 'web', 'women', 'world', 'writing', 'wtf', 'zombies', ];
     }
 }

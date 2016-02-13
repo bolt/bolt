@@ -13,6 +13,5 @@ class TwigTraitTest extends BoltUnitTest
 {
     public function test()
     {
-
     }
 }

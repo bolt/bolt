@@ -103,7 +103,7 @@ class DeprecatedAssetTraitTest extends BoltUnitTest
         $ext->setRegisterFunction('addSnippet', [
             Zone::FRONTEND,
             'snippetCallback',
-            5
+            5,
         ]);
         $ext->setBaseDirectory(new Directory());
         $ext->setContainer($app);
@@ -126,7 +126,7 @@ class DeprecatedAssetTraitTest extends BoltUnitTest
         $ext->setRegisterFunction('addSnippet', [
             Zone::FRONTEND,
             [$ext, 'snippetCallback'],
-            42
+            42,
         ]);
         $ext->setBaseDirectory(new Directory());
         $ext->setContainer($app);

@@ -65,7 +65,7 @@ class BoltResponseTest extends BoltUnitTest
             'class'   => 'BoltResponse',
             'message' => 'Clippy is bent out of shape',
             'code'    => '1555',
-            'trace'   => []
+            'trace'   => [],
         ]];
     }
 }

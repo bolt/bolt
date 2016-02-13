@@ -31,7 +31,7 @@ class DatabaseRepairTest extends BoltUnitTest
         $app = $this->getApp();
         $app['config']->set('contenttypes/newcontent', [
             'tablename' => 'newcontent',
-            'fields'    => ['title' => ['type' => 'text']]
+            'fields'    => ['title' => ['type' => 'text']],
         ]);
         /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
         $platform = $app['db']->getDatabasePlatform();

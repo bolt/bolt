@@ -166,8 +166,8 @@ class GeneralTest extends ControllerUnitTest
             [
                 'form' => [
                     'contents' => 'test content at least 10 chars',
-                    '_token'   => 'xyz'
-                ]
+                    '_token'   => 'xyz',
+                ],
             ]
         ));
 
@@ -185,8 +185,8 @@ class GeneralTest extends ControllerUnitTest
             [
                 'form' => [
                     'contents' => '- this is invalid yaml markup: *thisref',
-                    '_token'   => 'xyz'
-                ]
+                    '_token'   => 'xyz',
+                ],
             ]
         ));
         $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');

@@ -35,7 +35,7 @@ class RecordChangeHandlerTest extends BoltUnitTest
                 'id'          => 1,
                 'old'         => ['title' => 'test'],
                 'new'         => ['title' => 'test2'],
-                'comment'     => 'foo'
+                'comment'     => 'foo',
             ]
         );
         $this->assertEquals('bolt_log_change', \PHPUnit_Framework_Assert::readAttribute($handler, 'tablename'));
@@ -74,7 +74,7 @@ class RecordChangeHandlerTest extends BoltUnitTest
                 'id'          => 1,
                 'old'         => ['title' => 'test'],
                 'new'         => ['title' => 'test2'],
-                'comment'     => 'An Update'
+                'comment'     => 'An Update',
             ]
         );
     }

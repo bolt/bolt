@@ -3,7 +3,6 @@ namespace Bolt\Tests\Extensions;
 
 use Bolt\Extensions;
 use Bolt\Extensions\Snippets\Location as SnippetLocation;
-use Bolt\Storage\Entity;
 
 /**
  * Class to test correct operation and locations of extensions.
@@ -253,17 +252,17 @@ HTML;
     // This method does a simple minification of the HTML, as it removes whitespace between tags.
     protected function minify($html)
     {
-        $search = array(
+        $search = [
             '/\>[^\S]+/s', // strip whitespaces after tags, except space
             '/[^\S]+\</s', // strip whitespaces before tags, except space
-            '/(\s)+/s'     // shorten multiple whitespace sequences
-        );
+            '/(\s)+/s',     // shorten multiple whitespace sequences
+        ];
 
-        $replace = array(
+        $replace = [
             '>',
             '<',
-            '\\1'
-        );
+            '\\1',
+        ];
 
         $html = preg_replace($search, $replace, $this->html($html));
 
@@ -418,7 +417,7 @@ HTML;
             SnippetLocation::BEFORE_JS,
             SnippetLocation::AFTER_CSS,
             SnippetLocation::AFTER_JS,
-            'madeuplocation'
+            'madeuplocation',
         ];
         foreach ($locations as $location) {
             $app = $this->getApp();

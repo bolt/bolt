@@ -114,7 +114,7 @@ class RepositoryTest extends BoltUnitTest
             'password'    => 'dr0pbe@r',
             'email'       => 'koala@dropbear.com.au',
             'displayname' => 'Test User',
-            'lastip'      => '127.0.0.1'
+            'lastip'      => '127.0.0.1',
         ];
 
         $entity = new $entityName($newUser);

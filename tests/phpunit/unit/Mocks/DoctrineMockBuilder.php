@@ -15,7 +15,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
         $mock = $this->getAbstractMock(
             'Doctrine\DBAL\Platforms\AbstractPlatform',
             [
-                'getName'
+                'getName',
             ]
         );
 
@@ -45,7 +45,7 @@ class DoctrineMockBuilder extends \PHPUnit_Framework_TestCase
                     'getDatabasePlatform',
                     'createQueryBuilder',
                     'connect',
-                    'insert'
+                    'insert',
                 ]
             )
             ->getMock();

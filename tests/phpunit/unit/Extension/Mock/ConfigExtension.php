@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Extension\Mock;
 
-
 use Bolt\Extension\SimpleExtension;
 
 /**
@@ -17,7 +16,7 @@ class ConfigExtension extends SimpleExtension
     protected function getDefaultConfig()
     {
         return [
-            'blame' => 'koala'
+            'blame' => 'koala',
         ];
     }
 

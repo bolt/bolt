@@ -41,32 +41,32 @@ class LowlevelChecksTest extends BoltUnitTest
                 'type'    => E_ERROR,
                 'file'    => TEST_ROOT . '/src',
                 'line'    => 16,
-                'message' => 'src error'
+                'message' => 'src error',
             ],
             'extensions' => [
                 'type'    => E_ERROR,
                 'file'    => PHPUNIT_WEBROOT . '/extensions',
                 'line'    => 1,
-                'message' => 'extension error'
+                'message' => 'extension error',
             ],
             'extension' => [
                 'type'    => E_ERROR,
                 'file'    => PHPUNIT_WEBROOT . '/extensions/vendor/gawain/clippy',
                 'line'    => 1,
-                'message' => 'extension error'
+                'message' => 'extension error',
             ],
             'vendor' => [
                 'type'    => E_ERROR,
                 'file'    => TEST_ROOT . '/vendor',
                 'line'    => 1,
-                'message' => 'vendor error'
+                'message' => 'vendor error',
             ],
             'unknown' => [
                 'type'    => E_ERROR,
                 'file'    => TEST_ROOT,
                 'line'    => 1,
-                'message' => 'unknown error'
-            ]
+                'message' => 'unknown error',
+            ],
         ];
     }
 

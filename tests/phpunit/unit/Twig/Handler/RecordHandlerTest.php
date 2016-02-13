@@ -55,7 +55,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => '',
-            'contenttypeslug' => ''
+            'contenttypeslug' => '',
         ]);
         $app['request'] = $request;
 
@@ -76,7 +76,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => '',
-            'contenttypeslug' => ''
+            'contenttypeslug' => '',
         ]);
         $app['request'] = $request;
 
@@ -102,7 +102,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'pages'
+            'contenttypeslug' => 'pages',
         ]);
         $app['request'] = $request;
 
@@ -122,7 +122,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'pages'
+            'contenttypeslug' => 'pages',
         ]);
         $app['request'] = $request;
 
@@ -142,7 +142,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'pages'
+            'contenttypeslug' => 'pages',
         ]);
         $app['request'] = $request;
 
@@ -162,7 +162,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'pages'
+            'contenttypeslug' => 'pages',
         ]);
         $app['request'] = $request;
 
@@ -187,7 +187,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'pages'
+            'contenttypeslug' => 'pages',
         ]);
         $app['request'] = $request;
 
@@ -207,7 +207,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'pages'
+            'contenttypeslug' => 'pages',
         ]);
         $app['request'] = $request;
 
@@ -227,7 +227,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'pages'
+            'contenttypeslug' => 'pages',
         ]);
         $app['request'] = $request;
 
@@ -248,7 +248,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => null,
-            'contenttypeslug' => null
+            'contenttypeslug' => null,
         ]);
         $app['request'] = $request;
         $repo = $app['storage']->getRepository('pages');
@@ -270,7 +270,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'pages'
+            'contenttypeslug' => 'pages',
         ]);
         $app['request'] = $request;
 
@@ -290,7 +290,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'gum-tree'
+            'contenttypeslug' => 'gum-tree',
         ]);
         $app['request'] = $request;
 
@@ -299,8 +299,8 @@ GRINGALET;
             'slug'        => 'koala',
             'contenttype' => [
                 'slug'          => 'gum-trees',
-                'singular_slug' => 'gum-tree'
-            ]
+                'singular_slug' => 'gum-tree',
+            ],
         ];
 
         $result = $handler->current($content);
@@ -317,7 +317,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'gum-trees'
+            'contenttypeslug' => 'gum-trees',
         ]);
         $app['request'] = $request;
 
@@ -326,8 +326,8 @@ GRINGALET;
             'slug'        => 'koala',
             'contenttype' => [
                 'slug'          => 'gum-trees',
-                'singular_slug' => 'gum-tree'
-            ]
+                'singular_slug' => 'gum-tree',
+            ],
         ];
 
         $result = $handler->current($content);
@@ -344,7 +344,7 @@ GRINGALET;
         $request->query->set('_route_params', [
             'zone'            => 'frontend',
             'slug'            => 'koala',
-            'contenttypeslug' => 'gum-tree'
+            'contenttypeslug' => 'gum-tree',
         ]);
         $app['request'] = $request;
 
@@ -490,7 +490,7 @@ GRINGALET;
             'clippy' => [
                 'name'     => 'clippy.twig',
                 'filename' => 'clippy.twig',
-            ]
+            ],
         ]);
         $handler = new RecordHandler($app);
 

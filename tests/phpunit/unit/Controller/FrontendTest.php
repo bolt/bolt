@@ -394,7 +394,7 @@ class FrontendTest extends ControllerUnitTest
             'search'          => 'Lorem',
             'pages_title'     => 1,
             'showcases_title' => 1,
-            'pages_body'      => 1
+            'pages_body'      => 1,
         ]));
 
         $response = $this->controller()->search($this->getRequest());

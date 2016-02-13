@@ -70,9 +70,9 @@ class UploadTest extends ControllerUnitTest
                 'files' => [
                     [
                         'tmp_name' => PHPUNIT_ROOT . '/resources/generic-logo-evil.exe',
-                        'name'     => 'logo.exe'
-                    ]
-                ]
+                        'name'     => 'logo.exe',
+                    ],
+                ],
             ],
             []
         ));
@@ -109,9 +109,9 @@ class UploadTest extends ControllerUnitTest
                 'files' => [
                     [
                         'tmp_name' => PHPUNIT_ROOT . '/resources/generic-logo.png',
-                        'name'     => 'logo.png'
-                    ]
-                ]
+                        'name'     => 'logo.png',
+                    ],
+                ],
             ],
             []
         ));
@@ -132,9 +132,9 @@ class UploadTest extends ControllerUnitTest
                 'files' => [
                     [
                         'tmp_name' => __DIR__ . '/resources/generic-logo.png',
-                        'name'     => 'logo.png'
-                    ]
-                ]
+                        'name'     => 'logo.png',
+                    ],
+                ],
             ],
             []
         ));
@@ -153,7 +153,7 @@ class UploadTest extends ControllerUnitTest
             [],
             [],
             [
-                'files' => [new UploadedFile(PHPUNIT_ROOT . '/resources/generic-logo.png', 'logo.png')]
+                'files' => [new UploadedFile(PHPUNIT_ROOT . '/resources/generic-logo.png', 'logo.png')],
             ],
             []
         ));
@@ -173,9 +173,9 @@ class UploadTest extends ControllerUnitTest
                 'files' => [
                     [
                         'tmp_name' => PHPUNIT_ROOT . '/resources/generic-logo.png',
-                        'name'     => 'logo.png'
-                    ]
-                ]
+                        'name'     => 'logo.png',
+                    ],
+                ],
             ],
             []
         ));
