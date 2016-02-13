@@ -66,7 +66,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 'driver' => 'pdo_sqlite',
                 'prefix' => 'bolt_',
                 'user'   => 'test',
-                'path'   => PHPUNIT_WEBROOT . '/app/database/bolt.db'
+                'path'   => PHPUNIT_WEBROOT . '/app/database/bolt.db',
+                'wrapperClass' => '\Bolt\Storage\Database\Connection',
             ]
         );
 
