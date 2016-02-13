@@ -68,10 +68,11 @@ class Connection extends \Doctrine\DBAL\Connection
      *
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function executeUpdate($query, array $params = array(), array $types = array()) {
+    public function executeUpdate($query, array $params = array(), array $types = array())
+    {
         $result = parent::executeUpdate($query, $params, $types);
         $this->_queryCacheProfile->getResultCacheDriver()->flushAll();
-        
+
         return $result;
     }
 

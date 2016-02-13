@@ -28,7 +28,8 @@ class DatabaseServiceProvider implements ServiceProviderInterface
         }
 
         $app['db.config'] = $app->share(
-            $app->extend('db.config',
+            $app->extend(
+                'db.config',
                 function ($config) use ($app) {
                     $config->setFilterSchemaAssetsExpression($app['schema.tables_filter']);
 
@@ -77,7 +78,8 @@ class DatabaseServiceProvider implements ServiceProviderInterface
         );
 
         $app['db'] = $app->share(
-            $app->extend('db',
+            $app->extend(
+                'db',
                 function ($db) use ($app) {
                     $db->setQueryCacheProfile($app['db.query_cache_profile']);
 
