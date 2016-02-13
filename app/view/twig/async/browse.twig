@@ -106,7 +106,10 @@
                                 </td>
 
                                 <td class="info">
-                                    <div class="filesize">{{ file.sizeformatted }}</div>
+                                    <div class="filesize">
+                                        <span class="buic-moment" title="{{ file.size }} bytes ({{ file.sizeformatted(true, false) }})">
+                                            <b>{{ file.sizeformatted(true, true) }}</b></span>
+                                    </div>
                                     {% if file.image %}
                                         <div class="image-dimensions">{{ file.dimensions|e|replace({' × ' : '<span class="times">×</span>'})|trim|raw }}</div>
                                     {% endif %}
