@@ -185,13 +185,13 @@ class Upload extends BackendBase
         $this->app['upload.prefix'] = $prefix;
 
         // Do the upload
-        $result = $this->handleUploadFiles($request, $namespace);
+        $fullResult = $this->handleUploadFiles($request, $namespace);
 
         array_shift($handler);
         $original = $namespace;
 
-        if (count($result)) {
-            $result = $result[0];
+        if (count($fullResult)) {
+            $result = $fullResult[0];
             foreach ($handler as $copy) {
                 list($namespace, $prefix) = $this->parser($copy);
 
@@ -202,6 +202,6 @@ class Upload extends BackendBase
             }
         }
 
-        return $this->json($result, Response::HTTP_OK, ['Content-Type' => 'text/plain']);
+        return $this->json($fullResult, Response::HTTP_OK, ['Content-Type' => 'text/plain']);
     }
 }
