@@ -15,7 +15,6 @@ use Doctrine\DBAL\DBALException;
  */
 class Connection extends \Doctrine\DBAL\Connection
 {
-
     protected $_queryCacheProfile;
 
     /**
@@ -45,7 +44,7 @@ class Connection extends \Doctrine\DBAL\Connection
      *
      * @return array
      */
-    public function fetchAll($sql, array $params = array(), $types = array())
+    public function fetchAll($sql, array $params = [], $types = [])
     {
         $stmt = $this->executeQuery($sql, $params, $types, $this->_queryCacheProfile);
         $result = $stmt->fetchAll();
@@ -64,11 +63,11 @@ class Connection extends \Doctrine\DBAL\Connection
      * @param array  $params The query parameters.
      * @param array  $types  The parameter types.
      *
-     * @return integer The number of affected rows.
-     *
      * @throws \Doctrine\DBAL\DBALException
+     *
+     * @return integer The number of affected rows.
      */
-    public function executeUpdate($query, array $params = array(), array $types = array())
+    public function executeUpdate($query, array $params = [], array $types = [])
     {
         $result = parent::executeUpdate($query, $params, $types);
         $this->_queryCacheProfile->getResultCacheDriver()->flushAll();
@@ -76,9 +75,9 @@ class Connection extends \Doctrine\DBAL\Connection
         return $result;
     }
 
-
     /**
      * Sets an optional Query Cache handler on the connection class
+     *
      * @param QueryCacheProfile $profile
      */
     public function setQueryCacheProfile(QueryCacheProfile $profile)
