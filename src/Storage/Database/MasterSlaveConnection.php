@@ -15,6 +15,7 @@ use Doctrine\DBAL\DBALException;
  */
 class MasterSlaveConnection extends \Doctrine\DBAL\Connections\MasterSlaveConnection
 {
+    /** @var QueryCacheProfile */
     protected $_queryCacheProfile;
 
     /**
