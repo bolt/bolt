@@ -50,7 +50,7 @@ class ContentRepository extends Repository
             $direction = 'DESC';
         }
 
-        $neededFields = array_unshift($neededFields, 'id', $this->getTitleColumnName($contentType) . ' as title');
+        array_unshift($neededFields, 'id', $this->getTitleColumnName($contentType) . ' as title');
 
         $qb = $this->createQueryBuilder($contentType['tablename']);
         $qb->select(implode(', ', $neededFields));
