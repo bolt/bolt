@@ -3,37 +3,171 @@ namespace Bolt\Storage\Entity;
 
 /**
  * Entity for change logs.
- *
- * @method integer   getId()
- * @method \DateTime getDate()
- * @method integer   getOwnerid()
- * @method string    getTitle()
- * @method string    getContenttype()
- * @method integer   getContentid()
- * @method string    getMutationType()
- * @method array     getDiff()
- * @method string    getComment()
- * @method setId($id)
- * @method setDate(\DateTime $date)
- * @method setOwnerid($ownerid)
- * @method setTitle($title)
- * @method setContenttype($contenttype)
- * @method setContentid($contentid)
- * @method setMutationType($mutationType)
- * @method setDiff($diff)
- * @method setComment($comment)
  */
 class LogChange extends Entity
 {
+    /** @var int */
     protected $id;
+    /** @var \DateTime */
     protected $date;
+    /** @var int */
     protected $ownerid;
+    /** @var string */
     protected $title;
+    /** @var string */
     protected $contenttype;
+    /** @var int */
     protected $contentid;
+    /** @var string */
     protected $mutationType;
+    /** @var array */
     protected $diff;
+    /** @var string */
     protected $comment;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param \DateTime $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOwnerid()
+    {
+        return $this->ownerid;
+    }
+
+    /**
+     * @param int $ownerid
+     */
+    public function setOwnerid($ownerid)
+    {
+        $this->ownerid = $ownerid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContenttype()
+    {
+        return $this->contenttype;
+    }
+
+    /**
+     * @param string $contenttype
+     */
+    public function setContenttype($contenttype)
+    {
+        $this->contenttype = $contenttype;
+    }
+
+    /**
+     * @return int
+     */
+    public function getContentid()
+    {
+        return $this->contentid;
+    }
+
+    /**
+     * @param int $contentid
+     */
+    public function setContentid($contentid)
+    {
+        $this->contentid = $contentid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMutationType()
+    {
+        return $this->mutationType;
+    }
+
+    /**
+     * @param string $mutationType
+     */
+    public function setMutationType($mutationType)
+    {
+        $this->mutationType = $mutationType;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDiff()
+    {
+        return $this->diff;
+    }
+
+    /**
+     * @param array $diff
+     */
+    public function setDiff($diff)
+    {
+        $this->diff = $diff;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param string $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
 
     /**
      * Get changed fields.
