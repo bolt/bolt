@@ -15,6 +15,7 @@ use Doctrine\DBAL\DBALException;
  */
 class Connection extends \Doctrine\DBAL\Connection
 {
+    /** @var QueryCacheProfile */
     protected $_queryCacheProfile;
 
     /**
@@ -29,6 +30,8 @@ class Connection extends \Doctrine\DBAL\Connection
                 $eventArgs = new FailedConnectionEvent($this, $e);
                 $this->_eventManager->dispatchEvent('failConnect', $eventArgs);
             }
+
+            return false;
         }
     }
 

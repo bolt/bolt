@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Database;
 
 use Bolt\Events\FailedConnectionEvent;
+use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\DBALException;
 
 /**
@@ -14,6 +15,7 @@ use Doctrine\DBAL\DBALException;
  */
 class MasterSlaveConnection extends \Doctrine\DBAL\Connections\MasterSlaveConnection
 {
+    /** @var QueryCacheProfile */
     protected $_queryCacheProfile;
 
     /**
@@ -28,6 +30,8 @@ class MasterSlaveConnection extends \Doctrine\DBAL\Connections\MasterSlaveConnec
                 $eventArgs = new FailedConnectionEvent($this, $e);
                 $this->_eventManager->dispatchEvent('failConnect', $eventArgs);
             }
+
+            return false;
         }
     }
 
