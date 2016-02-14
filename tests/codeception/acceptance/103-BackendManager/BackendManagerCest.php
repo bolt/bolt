@@ -106,8 +106,6 @@ class BackendManagerCest
     {
         $I->wantTo("Publish the 'Contact' page with 'templatefields' as 'manager' user");
 
-        $scenario->skip('Update Required');
-
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);

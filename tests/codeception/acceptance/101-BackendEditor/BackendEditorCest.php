@@ -131,8 +131,6 @@ class BackendEditorCest
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('/bolt/editcontent/pages/1');
 
-        $scenario->skip('Update Required');
-
         $I->seeInField('#title',  'A PAGE I MADE');
         $I->see('Snuck in to teaser during PRE_SAVE on create');
         $I->see('Snuck in to body during POST_SAVE on create');
@@ -182,8 +180,6 @@ class BackendEditorCest
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('/bolt/editcontent/pages/1');
-
-        $scenario->skip('Update Required');
 
         $I->seeInField('#title',  'A Page I Made');
         $I->see('Added to teaser during PRE_SAVE on save');
@@ -249,8 +245,6 @@ class BackendEditorCest
     public function checkTemplateFieldsTest(\AcceptanceTester $I, \Codeception\Scenario $scenario)
     {
         $I->wantTo('Create a contact page with templatefields');
-
-        $scenario->skip('Update Required');
 
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);

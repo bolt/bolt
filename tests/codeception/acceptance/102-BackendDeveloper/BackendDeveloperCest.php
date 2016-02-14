@@ -270,15 +270,13 @@ class BackendDeveloperCest
     {
         $I->wantTo("See that the 'developer' user can configure installed extensions.");
 
-        $scenario->skip('Update Required');
-
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('/bolt/files/config/extensions');
 
-        $I->see('tester-events.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/tester-events.bolt.yml'));
-        $I->click('tester-events.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/tester-events.bolt.yml'));
+        $I->see('testerevents.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/testerevents.bolt.yml'));
+        $I->click('testerevents.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/testerevents.bolt.yml'));
 
         $I->see('# Sit back and breathe', 'textarea');
         $I->see('its_nice_to_know_you_work_alone: true', 'textarea');
@@ -291,11 +289,11 @@ class BackendDeveloperCest
         $I->fillField('#form_contents', $twig);
 
         $token = $I->grabValueFrom('#form__token');
-        $I->sendAjaxPostRequest('/bolt/file/edit/config/extensions/tester-events.bolt.yml', [
+        $I->sendAjaxPostRequest('/bolt/file/edit/config/extensions/testerevents.bolt.yml', [
             'form[_token]'   => $token,
             'form[contents]' => $twig
         ]);
-        $I->amOnPage('/bolt/file/edit/config/extensions/tester-events.bolt.yml');
+        $I->amOnPage('/bolt/file/edit/config/extensions/testerevents.bolt.yml');
 
         $I->see("# Let's make this perfectly clear", 'textarea');
         $I->see('theres_no_secrets_this_year: true', 'textarea');
