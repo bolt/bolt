@@ -160,14 +160,14 @@
 
         &:before {
             display: inline-block;
-            margin-right: 10px;
-            width: 25px;
+            margin-right: 5px;
+            width: 1.2em;
             vertical-align: middle;
             text-align: center;
             font-family: FontAwesome;
-            font-size: 200%;
+            font-size: 120%;
             font-weight: normal;
-            color: #000;
+            color: #555;
         }
     }
 
@@ -225,12 +225,11 @@
     }
 
     .image-dimensions{
-        color: #AEAEAE;
-        font-size: 85%;
+        color: #999;
+        font-size: 90%;
     }
 
     .times {
-        color: #d5d5d5;
-        padding: 0 1px;
+        padding: 0 2px;
     }
 }

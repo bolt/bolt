@@ -25,8 +25,12 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ file.sizeformatted }}<br>
-                        {% if file.type == 'image' %}{{ file.info.width }} x {{ file.info.height }} px {{ __('page.ckeditor-browse-server.pixel') }}{% endif %}
+                        <span class="buic-moment" title="{{ file.size }} bytes ({{ file.sizeformatted(true, false) }})">
+                            <b>{{ file.sizeformatted(true, true) }}</b></span>
+                        <br>
+                        {% if file.image %}
+                            <div class="image-dimensions">{{ file.dimensions }}</div>
+                        {% endif %}
                     </td>
                     <td>
                         {{ file.path|showimage(54, 40, 'c') }}

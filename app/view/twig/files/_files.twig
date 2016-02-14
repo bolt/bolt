@@ -4,8 +4,7 @@
     <thead>
         <tr>
             <th>{{ __('page.ckeditor-browse-server.files') }}</th>
-            <th class="hidden-xs hidden-sm">{{ __('page.ckeditor-browse-server.size') }}</th>
-            <th class="hidden-xs hidden-sm">{{ __('page.ckeditor-browse-server.modified') }}</th>
+            <th class="hidden-xs hidden-sm">{{ __('page.ckeditor-browse-server.size') }} / {{ __('page.ckeditor-browse-server.modified') }}</th>
             <th colspan="2"></th>
         </tr>
     </thead>
@@ -60,16 +59,14 @@
                         {% endif %}
                     {% endif %}
                 </td>
-                {# Column: Filesize #}
+                {# Column: Filesize / Modified #}
                 <td style="min-width: 120px;" class="hidden-xs hidden-sm">
-                    {{ file.sizeformatted }}
-                    {% if file.image %}
-                        <br> {{ file.dimensions }}
-                    {% endif %}
-                </td>
-                {# Column: Modified #}
-                <td style="min-width: 140px;" class="hidden-xs hidden-sm">
+                    <span class="buic-moment" title="{{ file.size }} bytes ({{ file.sizeformatted(true, false) }})">
+                        <b>{{ file.sizeformatted(true, true) }}</b></span>,
                     {{ buic_moment(file.timestamp) }}
+                    {% if file.image %}
+                        <div class="image-dimensions">{{ file.dimensions }}</div>
+                    {% endif %}
                 </td>
                 {# Column: Thumbnail #}
                 <td class="listthumb">
