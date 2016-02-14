@@ -75,6 +75,7 @@ abstract class BaseTable
         $this->addColumns();
         $this->addIndexes();
         $this->setPrimaryKey();
+        $this->addForeignKeyConstraints();
 
         return $this->table;
     }
@@ -139,4 +140,11 @@ abstract class BaseTable
      * Set the table's primary key.
      */
     abstract protected function setPrimaryKey();
+
+    /**
+     * Set the table's foreign key constraints.
+     */
+    protected function addForeignKeyConstraints()
+    {
+    }
 }
