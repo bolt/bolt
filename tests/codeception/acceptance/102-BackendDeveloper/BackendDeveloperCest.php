@@ -91,7 +91,7 @@ class BackendDeveloperCest
         $I->amOnPage('/bolt/files/themes');
 
         // Inspect the landing page
-        $dir  = 'base-2014';
+        $dir  = 'base-2016';
         $I->see('Create folder', Locator::find('a', ['href' => '#']));
         $I->see($dir,            Locator::href("/bolt/files/themes/$dir"));
         $I->see("Rename $dir",   Locator::find('a', ['href' => '#']));
