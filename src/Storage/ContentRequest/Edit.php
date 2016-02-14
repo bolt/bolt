@@ -8,6 +8,7 @@ use Bolt\Filesystem\Manager;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Users;
 use Cocur\Slugify\Slugify;
@@ -166,13 +167,36 @@ class Edit
         }
 
         foreach ($contentType['relations'] as $relationName => $relationValues) {
+            /** @var Repository\ContentRepository $repo */
             $repo = $this->em->getRepository($relationName);
             $relationConfig = $this->config->get('contenttypes/' . $relationName, []);
+            $neededFields = $this->neededFields($relationValues, $relationConfig);
 
-            $list[$relationName] = $repo->getSelectList($relationConfig, $relationValues['order']);
+            $list[$relationName] = $repo->getSelectList($relationConfig, $relationValues['order'], $neededFields);
         }
 
         return $list;
+    }
+
+    /**
+     * Get an array of fields mentioned in the 'format:' for a relationship in contenttypes.
+     *
+     * @param array $relationValues
+     * @param array $relationConfig
+     *
+     * @return array
+     */
+    private function neededFields($relationValues, $relationConfig)
+    {
+        $fields = [];
+
+        // Regex the 'format' for things that look like 'item.foo', and intersect with the actual fields in the contenttype.
+        if (!empty($relationValues['format'])) {
+            preg_match_all('/\bitem\.([a-z0-9_]+)\b/i', $relationValues['format'], $matches);
+            $fields = array_intersect($matches[1], array_keys($relationConfig['fields']));
+        }
+
+        return $fields;
     }
 
     /**
