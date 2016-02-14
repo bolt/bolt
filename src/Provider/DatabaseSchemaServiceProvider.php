@@ -64,17 +64,18 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
             function (Application $app) {
                 /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
                 $platform = $app['db']->getDatabasePlatform();
+                $prefix = $app['schema.prefix'];
 
                 // @codingStandardsIgnoreStart
                 return new \Pimple([
-                    'authtoken'   => $app->share(function () use ($platform) { return new Table\AuthToken($platform); }),
-                    'cron'        => $app->share(function () use ($platform) { return new Table\Cron($platform); }),
-                    'field_value' => $app->share(function () use ($platform) { return new Table\FieldValue($platform); }),
-                    'log_change'  => $app->share(function () use ($platform) { return new Table\LogChange($platform); }),
-                    'log_system'  => $app->share(function () use ($platform) { return new Table\LogSystem($platform); }),
-                    'relations'   => $app->share(function () use ($platform) { return new Table\Relations($platform); }),
-                    'taxonomy'    => $app->share(function () use ($platform) { return new Table\Taxonomy($platform); }),
-                    'users'       => $app->share(function () use ($platform) { return new Table\Users($platform); }),
+                    'authtoken'   => $app->share(function () use ($platform, $prefix) { return new Table\AuthToken($platform, $prefix); }),
+                    'cron'        => $app->share(function () use ($platform, $prefix) { return new Table\Cron($platform, $prefix); }),
+                    'field_value' => $app->share(function () use ($platform, $prefix) { return new Table\FieldValue($platform, $prefix); }),
+                    'log_change'  => $app->share(function () use ($platform, $prefix) { return new Table\LogChange($platform, $prefix); }),
+                    'log_system'  => $app->share(function () use ($platform, $prefix) { return new Table\LogSystem($platform, $prefix); }),
+                    'relations'   => $app->share(function () use ($platform, $prefix) { return new Table\Relations($platform, $prefix); }),
+                    'taxonomy'    => $app->share(function () use ($platform, $prefix) { return new Table\Taxonomy($platform, $prefix); }),
+                    'users'       => $app->share(function () use ($platform, $prefix) { return new Table\Users($platform, $prefix); }),
                 ]);
                 // @codingStandardsIgnoreEnd
             }
@@ -85,6 +86,7 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
             function (Application $app) {
                 /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
                 $platform = $app['db']->getDatabasePlatform();
+                $prefix = $app['schema.prefix'];
 
                 $contentTypes = $app['config']->get('contenttypes');
                 $acne = new \Pimple();
@@ -92,7 +94,7 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                 foreach (array_keys($contentTypes) as $contentType) {
                     // @codingStandardsIgnoreStart
                     $tableName = $contentTypes[$contentType]['tablename'];
-                    $acne[$tableName] = $app->share(function () use ($platform) { return new Table\ContentType($platform); });
+                    $acne[$tableName] = $app->share(function () use ($platform, $prefix) { return new Table\ContentType($platform, $prefix); });
                     // @codingStandardsIgnoreEnd
                 }
 
