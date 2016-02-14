@@ -2,6 +2,7 @@
 
 namespace Bolt\Controller\Backend;
 
+use Silex\Application;
 use Silex\ControllerCollection;
 use Sirius\Upload\Result\Collection;
 use Sirius\Upload\Result\File;
@@ -21,9 +22,22 @@ class Upload extends BackendBase
         $c->match('/{namespace}', 'uploadNamespace')
             ->before([$this, 'before'])
             ->value('namespace', 'files')
-            ->bind('upload');
+            ->bind('upload')
+        ;
 
         return $c;
+    }
+
+    /**
+     * @param Request     $request
+     * @param Application $app
+     * @param null        $roleRoute
+     *
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function before(Request $request, Application $app, $roleRoute = null)
+    {
+        return parent::before($request, $app, 'files:uploads');
     }
 
     /**
