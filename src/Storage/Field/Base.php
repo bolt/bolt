@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Field;
 
+use Doctrine\DBAL\Types\Type;
+
 class Base implements FieldInterface
 {
     /** @var string */
@@ -42,7 +44,7 @@ class Base implements FieldInterface
      */
     public function getStorageType()
     {
-        return 'text';
+        return Type::getType('text');
     }
 
     /**
