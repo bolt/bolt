@@ -190,7 +190,7 @@ class Edit
 
         // Regex the 'format' for things that look like 'item.foo', and intersect with the actual fields in the contenttype.
         if (!empty($relationValues['format'])) {
-            preg_match_all('/item.([a-z0-9_]+)/i', $relationValues['format'], $matches);
+            preg_match_all('/\bitem\.([a-z0-9_]+)\b/i', $relationValues['format'], $matches);
             $fields = array_intersect($matches[1], array_keys($relationConfig['fields']));
         }
 
