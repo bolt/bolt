@@ -19,6 +19,8 @@ abstract class BaseTable
     /** @var \Doctrine\DBAL\Schema\Table */
     protected $table;
     /** @var string */
+    protected $tablePrefix;
+    /** @var string */
     protected $tableName;
     /** @var string */
     protected $aliasName;
@@ -27,10 +29,12 @@ abstract class BaseTable
      * Constructor.
      *
      * @param AbstractPlatform $platform
+     * @param string           $tablePrefix
      */
-    public function __construct(AbstractPlatform $platform)
+    public function __construct(AbstractPlatform $platform, $tablePrefix)
     {
         $this->platform = $platform;
+        $this->tablePrefix = $tablePrefix;
     }
 
     /**
@@ -53,15 +57,15 @@ abstract class BaseTable
      * Get the table's schema object.
      *
      * @param Schema $schema
-     * @param string $tableName
      * @param string $aliasName
      * @param string $charset
      * @param string $collate
      *
      * @return \Doctrine\DBAL\Schema\Table
      */
-    public function buildTable(Schema $schema, $tableName, $aliasName, $charset, $collate)
+    public function buildTable(Schema $schema, $aliasName, $charset, $collate)
     {
+        $tableName = $this->tablePrefix . $aliasName;
         $this->table = $schema->createTable($tableName);
         $this->table->addOption('alias', $aliasName);
         $this->table->addOption('charset', $charset);
@@ -71,6 +75,7 @@ abstract class BaseTable
         $this->addColumns();
         $this->addIndexes();
         $this->setPrimaryKey();
+        $this->addForeignKeyConstraints();
 
         return $this->table;
     }
@@ -135,4 +140,11 @@ abstract class BaseTable
      * Set the table's primary key.
      */
     abstract protected function setPrimaryKey();
+
+    /**
+     * Set the table's foreign key constraints.
+     */
+    protected function addForeignKeyConstraints()
+    {
+    }
 }

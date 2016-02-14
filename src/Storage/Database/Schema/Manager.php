@@ -182,6 +182,9 @@ class Manager
             return $this->schemaTables;
         }
 
+        /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
+        $this->app['schema.builder']['extensions']->addPrefix($this->app['schema.prefix']);
+
         $schema = new Schema();
         $tables = array_merge(
             $this->app['schema.builder']['base']->getSchemaTables($schema),

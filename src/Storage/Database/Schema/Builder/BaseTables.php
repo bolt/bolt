@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Database\Schema\Builder;
 
+use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
@@ -22,7 +23,9 @@ class BaseTables extends BaseBuilder
     {
         $tables = [];
         foreach ($this->tables->keys() as $name) {
-            $tables[$name] = $this->tables[$name]->buildTable($schema, $this->prefix . $name, $name, $this->charset, $this->collate);
+            /** @var BaseTable $table */
+            $table = $this->tables[$name];
+            $tables[$name] = $table->buildTable($schema, $name, $this->charset, $this->collate);
         }
 
         return $tables;

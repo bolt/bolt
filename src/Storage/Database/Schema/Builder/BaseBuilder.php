@@ -22,8 +22,6 @@ abstract class BaseBuilder
     /** @var \Pimple */
     protected $tables;
     /** @var string */
-    protected $prefix;
-    /** @var string */
     protected $charset;
     /** @var string */
     protected $collate;
@@ -38,18 +36,16 @@ abstract class BaseBuilder
      * @param Connection           $connection
      * @param Manager              $manager
      * @param Pimple               $tables
-     * @param string               $prefix
      * @param string               $charset
      * @param string               $collate
      * @param LoggerInterface      $systemLog
      * @param FlashLoggerInterface $flashLogger
      */
-    public function __construct(Connection $connection, Manager $manager, Pimple $tables, $prefix, $charset, $collate, LoggerInterface $systemLog, FlashLoggerInterface $flashLogger)
+    public function __construct(Connection $connection, Manager $manager, Pimple $tables, $charset, $collate, LoggerInterface $systemLog, FlashLoggerInterface $flashLogger)
     {
         $this->connection = $connection;
         $this->manager = $manager;
         $this->tables = $tables;
-        $this->prefix = $prefix;
         $this->charset = $charset;
         $this->collate = $collate;
         $this->systemLog = $systemLog;
