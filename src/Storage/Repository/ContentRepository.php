@@ -26,9 +26,9 @@ class ContentRepository extends Repository
      *
      * @return array|false
      */
-    public function getSelectList(array $contentType, $order)
+    public function getSelectList(array $contentType, $order, $neededFields = [])
     {
-        $query = $this->querySelectList($contentType, $order);
+        $query = $this->querySelectList($contentType, $order, $neededFields);
 
         return $query->execute()->fetchAll();
     }
@@ -41,7 +41,7 @@ class ContentRepository extends Repository
      *
      * @return QueryBuilder
      */
-    public function querySelectList(array $contentType, $order = null)
+    public function querySelectList(array $contentType, $order = null, $neededFields = [])
     {
         if (strpos($order, '-') === 0) {
             $direction = 'ASC';
@@ -50,8 +50,10 @@ class ContentRepository extends Repository
             $direction = 'DESC';
         }
 
+        $neededFields = array_unshift($neededFields, 'id', $this->getTitleColumnName($contentType) . ' as title');
+
         $qb = $this->createQueryBuilder($contentType['tablename']);
-        $qb->select('id, ' . $this->getTitleColumnName($contentType) . ' as title');
+        $qb->select(implode(', ', $neededFields));
 
         if ($order !== null) {
             $qb->orderBy($order, $direction);
