@@ -33,9 +33,10 @@ class DatabaseCheckTest extends BoltUnitTest
         ]);
         /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
         $platform = $app['db']->getDatabasePlatform();
+        $prefix = $app['schema.prefix'];
         $app['schema.content_tables']['newcontent'] = $app->share(
-            function () use ($platform) {
-                return new Table\ContentType($platform);
+            function () use ($platform, $prefix) {
+                return new Table\ContentType($platform, $prefix);
             }
         );
 
