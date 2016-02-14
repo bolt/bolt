@@ -68,7 +68,7 @@ class BackendDeveloperCest
         $I->see('Create folder', Locator::find('a', ['href' => '#']));
         $I->see($file, Locator::href("/thumbs/1000x1000r/$file"));
 
-        $I->see('66.23 KiB', 'td');
+        $I->see('45.6 KB', 'td');
         $I->see('800 × 533 px', 'td');
         $I->see('Place on stack',  Locator::find('a', ['href' => '#']));
         $I->see("Rename $file",    Locator::find('a', ['href' => '#']));
