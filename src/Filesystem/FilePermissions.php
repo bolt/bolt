@@ -123,6 +123,8 @@ class FilePermissions
             if (($uploadMax > 0) && ($uploadMax < $size)) {
                 $size = $uploadMax;
             } else {
+                // This reduces the reported max size by a small amount to take account of the difference between
+                // the uploaded file size and the size of the eventual post including other data.
                 $size = $size * 0.995;
             }
 
