@@ -122,6 +122,8 @@ class FilePermissions
             $uploadMax = Lib::filesizeToBytes(ini_get('upload_max_filesize'));
             if (($uploadMax > 0) && ($uploadMax < $size)) {
                 $size = $uploadMax;
+            } else {
+                $size = $size * 0.995;
             }
 
             $this->maxUploadSize = $size;
