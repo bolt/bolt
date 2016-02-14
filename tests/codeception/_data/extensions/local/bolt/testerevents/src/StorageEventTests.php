@@ -2,17 +2,24 @@
 
 namespace Bolt\Extension\Bolt\TesterEvents;
 
-use Bolt\Application;
 use Bolt\Events\StorageEvent;
+use Bolt\Storage\Entity\Content;
+use Bolt\Storage\EntityManager;
+use Silex\Application;
 
 class StorageEventTests
 {
-    /** @var Bolt\Application */
-    private $app;
+    /** @var Application */
+    private $entityManager;
 
-    public function __construct(Application $app)
+    /**
+     * Constructor.
+     *
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
     {
-        $this->app = $app;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -22,10 +29,10 @@ class StorageEventTests
      */
     public function eventPreSave(StorageEvent $event)
     {
-        $contenttype = $event->getContentType();
+        $contentType = $event->getContentType();
 
-        if ($contenttype === 'pages') {
-            $repo = $this->app['storage']->getRepository($contenttype);
+        if ($contentType === 'pages') {
+            /** @var Content $record */
             $record = $event->getContent();
             $values = $record->serialize();
 
@@ -52,10 +59,11 @@ class StorageEventTests
      */
     public function eventPostSave(StorageEvent $event)
     {
-        $contenttype = $event->getContentType();
+        $contentType = $event->getContentType();
 
-        if ($contenttype === 'pages') {
-            $repo = $this->app['storage']->getRepository($contenttype);
+        if ($contentType === 'pages') {
+            $repo = $this->entityManager->getRepository($contentType);
+            /** @var Content $record */
             $record = $event->getContent();
             $values = $record->serialize();
 

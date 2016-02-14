@@ -87,8 +87,6 @@ class FrontendCest
     {
         $I->wantTo('see that the contact page and templatefields works');
 
-        $scenario->skip('Update Required');
-
         $I->amOnPage('/contact');
 
         $I->seeInSource('This is the contact text');
