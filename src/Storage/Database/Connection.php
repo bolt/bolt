@@ -29,6 +29,8 @@ class Connection extends \Doctrine\DBAL\Connection
                 $eventArgs = new FailedConnectionEvent($this, $e);
                 $this->_eventManager->dispatchEvent('failConnect', $eventArgs);
             }
+
+            return false;
         }
     }
 

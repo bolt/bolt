@@ -29,6 +29,8 @@ class MasterSlaveConnection extends \Doctrine\DBAL\Connections\MasterSlaveConnec
                 $eventArgs = new FailedConnectionEvent($this, $e);
                 $this->_eventManager->dispatchEvent('failConnect', $eventArgs);
             }
+
+            return false;
         }
     }
 
