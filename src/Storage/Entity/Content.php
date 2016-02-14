@@ -8,18 +8,6 @@ use Carbon\Carbon;
 
 /**
  * Entity for Content.
- *
- * @method integer   getId()
- * @method string    getSlug()
- * @method \DateTime getDatepublish()
- * @method \DateTime getDatedepublish()
- * @method integer   getOwnerid()
- * @method string    getStatus()
- * @method setId(integer $id)
- * @method setSlug(string $slug)
- * @method setOwnerid(integer $ownerid)
- * @method setUsername(string $userName)
- * @method setStatus(string $status)
  */
 class Content extends Entity
 {
@@ -27,16 +15,27 @@ class Content extends Entity
     use ContentTypeTitleTrait;
 
     protected $contenttype;
+    /** @var ContentLegacyService */
     protected $_legacy;
+    /** @var int */
     protected $id;
+    /** @var string */
     protected $slug;
+    /** @var \DateTime */
     protected $datecreated;
+    /** @var \DateTime */
     protected $datechanged;
-    protected $datepublish = null;
-    protected $datedepublish = null;
+    /** @var \DateTime */
+    protected $datepublish;
+    /** @var \DateTime */
+    protected $datedepublish;
+    /** @var int */
     protected $ownerid;
+    /** @var string */
     protected $status;
+    /** @var Collection\Relations */
     protected $relation;
+    /** @var Collection\Taxonomy */
     protected $taxonomy;
 
     /** @var array @deprecated Deprecated since 3.0, to be removed in 4.0. */
@@ -183,6 +182,9 @@ class Content extends Entity
         $this->contenttype = $value;
     }
 
+    /**
+     * @return Collection\Relations
+     */
     public function getRelation()
     {
         if (!$this->relation instanceof Collection\Relations) {
@@ -192,6 +194,9 @@ class Content extends Entity
         return $this->relation;
     }
 
+    /**
+     * @param Collection\Relations $rel
+     */
     public function setRelation(Collection\Relations $rel)
     {
         $this->relation = $rel;
@@ -207,6 +212,9 @@ class Content extends Entity
         $this->templatefields = $value;
     }
 
+    /**
+     * @return Collection\Taxonomy
+     */
     public function getTaxonomy()
     {
         if (!$this->taxonomy instanceof Collection\Taxonomy) {
@@ -216,11 +224,17 @@ class Content extends Entity
         return $this->taxonomy;
     }
 
+    /**
+     * @param Collection\Taxonomy $taxonomy
+     */
     public function setTaxonomy(Collection\Taxonomy $taxonomy)
     {
         $this->taxonomy = $taxonomy;
     }
 
+    /**
+     * @param ContentLegacyService $service
+     */
     public function setLegacyService(ContentLegacyService $service)
     {
         $this->_legacy = $service;
