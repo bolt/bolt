@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Database;
 
 use Bolt\Events\FailedConnectionEvent;
+use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\DBALException;
 
 /**
