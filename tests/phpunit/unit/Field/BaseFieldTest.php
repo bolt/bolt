@@ -13,12 +13,13 @@ class BaseFieldTest extends BoltUnitTest
 {
     public function testFieldSetup()
     {
+        /** @var Base $field */
         $field = $this->getMock('Bolt\Storage\Field\Base', null, ['test', 'test.twig']);
         $this->assertEquals('test', $field->getName());
         $this->assertEquals('test.twig', $field->getTemplate());
 
         // This tests the default returns for base
-        $this->assertEquals('text', $field->getStorageType());
+        $this->assertEquals('Text', (string) $field->getStorageType());
         $this->assertEquals([], $field->getStorageOptions());
     }
 }
