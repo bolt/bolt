@@ -3,6 +3,7 @@
 namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
+use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Manager;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
@@ -175,8 +176,7 @@ class Edit
     }
 
     /**
-     * Test write access for uploadable fields.
-     * Autocreates the desired directory if it does not exist.
+     * Determine write access for upload fields, and auto-create the desired directory if it does not exist.
      *
      * Note that in cases where an array is passed then true will be set if at least some of the directories can
      * be written to.
@@ -187,10 +187,11 @@ class Edit
      */
     private function setCanUpload($fields)
     {
+        $can = false;
         foreach ($fields as &$values) {
             if (isset($values['upload'])) {
                 foreach ((array)$values['upload'] as $path) {
-                    $can = $can || (($this->filesystem->has($path) || $this->filesystem->createDir($path)) && $this->filesystem->getVisibility($path));
+                    $can = $can || $this->checkUploadDirectory($path);
                 }
                 $values['canUpload'] = $can;
             } else {
@@ -199,6 +200,27 @@ class Edit
         }
 
         return $fields;
+    }
+
+    /**
+     * Check a given upload path to see if it is 'public' or 'private' access, create if required.
+     *
+     * @param $path
+     *
+     * @return boolean
+     */
+    private function checkUploadDirectory($path)
+    {
+        if ($this->filesystem->has($path)) {
+            return $this->filesystem->getVisibility($path) === 'public';
+        }
+        try {
+            $this->filesystem->createDir($path);
+
+            return $this->filesystem->getVisibility($path) === 'public';
+        } catch (IOException $e) {
+            return false;
+        }
     }
 
     /**
