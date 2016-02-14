@@ -366,6 +366,7 @@ class Config
         $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
         foreach ($tempContentTypes as $key => $contentType) {
             $contentType = $this->parseContentType($key, $contentType, $generalConfig);
+            $key = $contentType['slug'];
             $contentTypes[$key] = $contentType;
         }
 
