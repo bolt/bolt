@@ -8,6 +8,7 @@ use Bolt\Filesystem\Manager;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Users;
 use Cocur\Slugify\Slugify;
@@ -166,6 +167,7 @@ class Edit
         }
 
         foreach ($contentType['relations'] as $relationName => $relationValues) {
+            /** @var Repository\ContentRepository $repo */
             $repo = $this->em->getRepository($relationName);
             $relationConfig = $this->config->get('contenttypes/' . $relationName, []);
             $neededFields = $this->neededFields($relationValues, $relationConfig);
