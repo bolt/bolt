@@ -31,7 +31,7 @@ class MySql extends BaseComparator
     protected function removeIgnoredChanges(TableDiff $diff)
     {
         // Work around reserved column name removal
-        if ($diff->fromTable->getName() === $this->manager->getTablename('cron')) {
+        if ($diff->fromTable->getName() === $this->prefix . 'cron') {
             foreach ($diff->renamedColumns as $key => $col) {
                 if ($col->getName() === 'interim') {
                     $diff->addedColumns[] = $col;

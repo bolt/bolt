@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Database\Schema;
 
+use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Doctrine\DBAL\Schema\Schema;
 use Silex\Application;
 
@@ -46,6 +47,9 @@ class Manager
 
     /**
      * @deprecated Deprecated since 3.0, to be removed in 4.0. This is a place holder to prevent fatal errors.
+     *
+     * @param string $name
+     * @param mixed  $args
      */
     public function __call($name, $args)
     {
@@ -54,6 +58,8 @@ class Manager
 
     /**
      * @deprecated Deprecated since 3.0, to be removed in 4.0. This is a place holder to prevent fatal errors.
+     *
+     * @param string $name
      */
     public function __get($name)
     {
@@ -69,9 +75,14 @@ class Manager
      */
     public function getTableName($name)
     {
+        $tableName = null;
         if (isset($this->app['schema.tables'][$name])) {
-            return $this->app['schema.tables'][$name]->getTableName();
+            /** @var BaseTable $table */
+            $table = $this->app['schema.tables'][$name];
+            $tableName = $table->getTableName();
         }
+
+        return $tableName;
     }
 
     /**
@@ -92,7 +103,9 @@ class Manager
      */
     public function isUpdateRequired()
     {
-        $pending = $this->getSchemaComparator()->hasPending();
+        $fromTables = $this->getInstalledTables();
+        $toTables = $this->getSchemaTables();
+        $pending = $this->getSchemaComparator()->hasPending($fromTables, $toTables, $this->app['schema.content_tables']->keys());
 
         if (!$pending) {
             $this->getSchemaTimer()->setCheckExpiry();
@@ -108,7 +121,9 @@ class Manager
      */
     public function check()
     {
-        $response = $this->getSchemaComparator()->compare();
+        $fromTables = $this->getInstalledTables();
+        $toTables = $this->getSchemaTables();
+        $response = $this->getSchemaComparator()->compare($fromTables, $toTables, $this->app['schema.content_tables']->keys());
         if (!$response->hasResponses()) {
             $this->getSchemaTimer()->setCheckExpiry();
         }
@@ -124,7 +139,9 @@ class Manager
     public function update()
     {
         // Do the initial check
-        $this->getSchemaComparator()->compare();
+        $fromTables = $this->getInstalledTables();
+        $toTables = $this->getSchemaTables();
+        $this->getSchemaComparator()->compare($fromTables, $toTables, $this->app['schema.content_tables']->keys());
         $response = $this->getSchemaComparator()->getResponse();
         $creates = $this->getSchemaComparator()->getCreates();
         $alters = $this->getSchemaComparator()->getAlters();
@@ -134,8 +151,10 @@ class Manager
         $modifier->alterTables($alters, $response);
 
         // Recheck now that we've processed
-        $this->getSchemaComparator()->compare();
-        if (!$this->getSchemaComparator()->hasPending()) {
+        $fromTables = $this->getInstalledTables();
+        $toTables = $this->getSchemaTables();
+        $this->getSchemaComparator()->compare($fromTables, $toTables, $this->app['schema.content_tables']->keys());
+        if (!$this->getSchemaComparator()->hasPending($fromTables, $toTables, $this->app['schema.content_tables']->keys())) {
             $this->getSchemaTimer()->setCheckExpiry();
         }
 
