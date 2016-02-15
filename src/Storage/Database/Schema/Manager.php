@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Database\Schema;
 
+use Bolt\Storage\Database\Schema\Table\BaseTable;
 use Doctrine\DBAL\Schema\Schema;
 use Silex\Application;
 
@@ -46,6 +47,9 @@ class Manager
 
     /**
      * @deprecated Deprecated since 3.0, to be removed in 4.0. This is a place holder to prevent fatal errors.
+     *
+     * @param string $name
+     * @param mixed  $args
      */
     public function __call($name, $args)
     {
@@ -54,6 +58,8 @@ class Manager
 
     /**
      * @deprecated Deprecated since 3.0, to be removed in 4.0. This is a place holder to prevent fatal errors.
+     *
+     * @param string $name
      */
     public function __get($name)
     {
@@ -69,9 +75,14 @@ class Manager
      */
     public function getTableName($name)
     {
+        $tableName = null;
         if (isset($this->app['schema.tables'][$name])) {
-            return $this->app['schema.tables'][$name]->getTableName();
+            /** @var BaseTable $table */
+            $table = $this->app['schema.tables'][$name];
+            $tableName = $table->getTableName();
         }
+
+        return $tableName;
     }
 
     /**
