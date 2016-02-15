@@ -80,7 +80,7 @@ class Excerpt
             $excerpt = $this->extractRelevant($focus, strip_tags($excerpt), $length);
         }
 
-        if ($title !== null) {
+        if (!empty($title)) {
             $excerpt = '<b>' . $title . '</b> ' . $excerpt;
         }
 
