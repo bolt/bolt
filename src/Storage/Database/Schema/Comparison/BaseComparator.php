@@ -154,6 +154,16 @@ abstract class BaseComparator
     }
 
     /**
+     * Get the unmodified table diffs.
+     *
+     * @return TableDiff[]
+     */
+    public function getDiffs()
+    {
+        return $this->diffs;
+    }
+
+    /**
      * Create a list of changes this platform will ignore.
      */
     abstract protected function setIgnoredChanges();
