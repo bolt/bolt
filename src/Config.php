@@ -516,6 +516,10 @@ class Config
                 if ($relkey != Slugify::create()->slugify($relkey)) {
                     $contentType['relations'][Slugify::create()->slugify($relkey)] = $contentType['relations'][$relkey];
                     unset($contentType['relations'][$relkey]);
+                    if (!isset($contentType[$relkey])) {
+                        $error = sprintf("In contenttype <code>%s</code>, a relation is set to %s which does not exist. Please edit <code>contenttypes.yml</code>, and correct this.", $key, $relkey);
+                        throw new LowlevelException($error);
+                    }
                 }
             }
         }
