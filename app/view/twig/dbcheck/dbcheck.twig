@@ -31,7 +31,14 @@
                 {{ list(__('Hints:'), hints) }}
 
                 <form action="{{ path('dbupdate') }}" method="post">
-                    <p><button type="submit" class="btn btn-primary">{{ __('Update the database') }}</button></p>
+                    <p>
+                        <button type="submit" class="btn btn-primary">{{ __('Update the database') }}</button>
+                        {% if app.debug %}
+                            <a href="{{ path('dbcheck', {'debug': 1}) }}" class="btn btn-tertiary">
+                                {{ __('Show proposed alterations') }}
+                            </a>
+                        {% endif %}
+                    </p>
                 </form>
 
             {% else %}
