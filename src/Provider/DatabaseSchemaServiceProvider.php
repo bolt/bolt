@@ -208,7 +208,6 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
                 return new $comparator(
                     $app['db'],
                     $app['schema.prefix'],
-                    $app['schema.tables'],
                     $app['schema.content_tables']->keys(),
                     $app['logger.system']
                 );

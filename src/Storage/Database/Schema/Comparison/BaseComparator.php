@@ -8,7 +8,6 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
-use Pimple;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -22,10 +21,8 @@ abstract class BaseComparator
     protected $connection;
     /** @var string */
     protected $prefix;
-    /** @var Pimple */
-    protected $schemaTables;
     /** @var array */
-    protected $contentTables;
+    protected $contentTableNames;
     /** @var \Psr\Log\LoggerInterface */
     protected $systemLog;
 
@@ -47,15 +44,14 @@ abstract class BaseComparator
      *
      * @param Connection      $connection
      * @param string          $prefix
-     * @param Pimple          $schemaTables
-     * @param array           $contentTables
+     * @param array           $contentTableNames
      * @param LoggerInterface $systemLog
      */
-    public function __construct(Connection $connection, $prefix, Pimple $schemaTables, array $contentTables, LoggerInterface $systemLog)
+    public function __construct(Connection $connection, $prefix, array $contentTableNames, LoggerInterface $systemLog)
     {
         $this->connection = $connection;
-        $this->schemaTables = $schemaTables;
-        $this->contentTables = $contentTables;
+        $this->prefix = $prefix;
+        $this->contentTableNames = $contentTableNames;
         $this->systemLog = $systemLog;
         $this->setIgnoredChanges();
     }
@@ -241,7 +237,7 @@ abstract class BaseComparator
     protected function adjustContentTypeDiffs(TableDiff $tableDiff)
     {
         $alias = str_replace($this->prefix, '', $tableDiff->fromTable->getName());
-        if (in_array($alias, $this->contentTables)) {
+        if (in_array($alias, $this->contentTableNames)) {
             $tableDiff->removedColumns = [];
         }
     }
