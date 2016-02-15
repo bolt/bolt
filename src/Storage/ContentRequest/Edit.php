@@ -235,6 +235,9 @@ class Edit
      */
     private function checkUploadDirectory($path)
     {
+        if (strpos('://', $path) === false) {
+            $path = sprintf('files://%s', $path);
+        }
         if ($this->filesystem->has($path)) {
             return $this->filesystem->getVisibility($path) === 'public';
         }
