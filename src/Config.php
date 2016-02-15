@@ -871,7 +871,8 @@ class Config
                             ['%contenttype%' => $key, '%relation%' => $relKey]
                         );
                         $this->app['logger.flash']->error($error);
-                        unset($ct['relations'][$relKey]);
+                        
+                        unset($this->data['contenttypes'][$key]['relations'][$relKey]);
                     }
                 }
             }
