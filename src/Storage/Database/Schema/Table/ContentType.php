@@ -215,6 +215,6 @@ class ContentType extends BaseTable
      */
     private function columnText($fieldName)
     {
-        $this->table->addColumn($fieldName, 'text', ['default' => $this->getTextDefault()]);
+        $this->table->addColumn($fieldName, 'text', ['default' => $this->getTextDefault(), 'notnull' => false]);
     }
 }

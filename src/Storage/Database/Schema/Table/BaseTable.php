@@ -119,11 +119,7 @@ abstract class BaseTable
      */
     protected function getTextDefault()
     {
-        if ($this->platform instanceof SqlitePlatform || $this->platform instanceof PostgreSqlPlatform) {
-            return '';
-        }
-
-        return null;
+        return '';
     }
 
     /**
