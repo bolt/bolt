@@ -46,6 +46,7 @@ class Database extends BackendBase
             'debug'   => $request->query->has('debug'),
             'alters'  => $this->app['schema.comparator']->getAlters(),
             'creates' => $this->app['schema.comparator']->getCreates(),
+            'diffs'   => $this->app['schema.comparator']->getDiffs(),
         ];
 
         return $this->render('@bolt/dbcheck/dbcheck.twig', $context);
@@ -79,6 +80,9 @@ class Database extends BackendBase
             'changes' => $output,
             'check'   => null,
             'debug'   => false,
+            'alters'  => null,
+            'creates' => null,
+            'diffs'   => null,
         ];
 
         return $this->render('@bolt/dbcheck/dbcheck.twig', $context);
