@@ -369,31 +369,10 @@ class Config
             $key = $contentType['slug'];
             $contentTypes[$key] = $contentType;
         }
-        $this->validateContenttypes($contentTypes);
 
         return $contentTypes;
     }
 
-
-    /**
-     * Adds a pass of the final compiled contenttypes to check validity.
-     *
-     * @param $contentTypes
-     * @throws LowlevelException
-     */
-    protected function validateContenttypes($contentTypes)
-    {
-        foreach($contentTypes as $key => $data) {
-            if (isset($data['relations'])) {
-                foreach ($data['relations'] as $relKey => $relData) {
-                    if (!isset($contentTypes[$relKey])) {
-                        $error = sprintf("In contenttype <code>%s</code>, a relation is set to %s which does not exist. Please edit <code>contenttypes.yml</code>, and correct this.", $key, $relKey);
-                        throw new LowlevelException($error);
-                    }
-                }
-            }
-        }
-    }
 
     /**
      * Read and parse the current theme's config.yml configuration file.
@@ -877,6 +856,22 @@ class Config
                     );
                     $this->app['logger.flash']->error($error);
                     unset($ct['fields'][$fieldname]);
+                }
+            }
+
+            /**
+             * Make sure any contenttype that has a 'relation' defined points to a contenttype that exists.
+             *
+             */
+            if (isset($ct['relations'])) {
+                foreach ($ct['relations'] as $relKey => $relData) {
+                    if (!isset($this->data['contenttypes'][$relKey])) {
+                        $error = Trans::__(
+                            'contenttypes.generic.invalid-relation',
+                            ['%contenttype%' => $key, '%relation%' => $relKey]
+                        );
+                        $this->app['logger.flash']->error($error);
+                    }
                 }
             }
 
