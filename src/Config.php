@@ -377,7 +377,7 @@ class Config
 
     /**
      * Adds a pass of the final compiled contenttypes to check validity.
-     * 
+     *
      * @param $contentTypes
      * @throws LowlevelException
      */
@@ -385,7 +385,7 @@ class Config
     {
         foreach($contentTypes as $key => $data) {
             if (isset($data['relations'])) {
-                foreach ($data['relations'] as $relKey, $relData) {
+                foreach ($data['relations'] as $relKey => $relData) {
                     if (!isset($contentTypes[$relKey])) {
                         $error = sprintf("In contenttype <code>%s</code>, a relation is set to %s which does not exist. Please edit <code>contenttypes.yml</code>, and correct this.", $key, $relKey);
                         throw new LowlevelException($error);
