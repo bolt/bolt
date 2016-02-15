@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Database\Schema\Comparison;
 
-use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Database\Schema\SchemaCheck;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -21,8 +20,6 @@ abstract class BaseComparator
 {
     /** @var \Doctrine\DBAL\Connection */
     protected $connection;
-    /** @var \Bolt\Storage\Database\Schema\Manager */
-    protected $manager;
     /** @var string */
     protected $prefix;
     /** @var Pimple */
@@ -49,17 +46,14 @@ abstract class BaseComparator
      * Constructor.
      *
      * @param Connection      $connection
-     * @param Manager         $manager
      * @param string          $prefix
      * @param Pimple          $schemaTables
      * @param array           $contentTables
      * @param LoggerInterface $systemLog
      */
-    public function __construct(Connection $connection, Manager $manager, $prefix, Pimple $schemaTables, array $contentTables, LoggerInterface $systemLog)
+    public function __construct(Connection $connection, $prefix, Pimple $schemaTables, array $contentTables, LoggerInterface $systemLog)
     {
         $this->connection = $connection;
-        $this->manager = $manager;
-        $this->prefix = $prefix;
         $this->schemaTables = $schemaTables;
         $this->contentTables = $contentTables;
         $this->systemLog = $systemLog;
@@ -69,14 +63,17 @@ abstract class BaseComparator
     /**
      * Are database updates required.
      *
+     * @param Table[] $fromTables
+     * @param Table[] $toTables
+     *
      * @return boolean
      */
-    public function hasPending()
+    public function hasPending($fromTables, $toTables)
     {
         if ($this->pending !== null) {
             return $this->pending;
         }
-        $this->compare();
+        $this->compare($fromTables, $toTables);
 
         return $this->pending;
     }
@@ -84,17 +81,19 @@ abstract class BaseComparator
     /**
      * Run the update checks and flag if we need an update.
      *
-     * @param boolean $force
+     * @param Table[] $fromTables
+     * @param Table[] $toTables
+     * @param bool    $force
      *
      * @return SchemaCheck
      */
-    public function compare($force = false)
+    public function compare($fromTables, $toTables, $force = false)
     {
         if ($this->response !== null && $force === false) {
             return $this->getResponse();
         }
 
-        $this->checkTables();
+        $this->checkTables($fromTables, $toTables);
 
         // If we have diffs, check if they need to be modified
         if ($this->diffs !== null) {
@@ -176,12 +175,12 @@ abstract class BaseComparator
     /**
      * Run the checks on the tables to see if they firstly exist, then if they
      * require update.
+     *
+     * @param Table[] $fromTables
+     * @param Table[] $toTables
      */
-    protected function checkTables()
+    protected function checkTables($fromTables, $toTables)
     {
-        $fromTables = $this->manager->getInstalledTables();
-        $toTables = $this->manager->getSchemaTables();
-
         /** @var $fromTable Table */
         foreach ($toTables as $toTableAlias => $toTable) {
             $tableName = $toTable->getName();

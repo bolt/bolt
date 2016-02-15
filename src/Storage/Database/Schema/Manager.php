@@ -92,7 +92,9 @@ class Manager
      */
     public function isUpdateRequired()
     {
-        $pending = $this->getSchemaComparator()->hasPending();
+        $fromTables = $this->getInstalledTables();
+        $toTables = $this->getSchemaTables();
+        $pending = $this->getSchemaComparator()->hasPending($fromTables, $toTables);
 
         if (!$pending) {
             $this->getSchemaTimer()->setCheckExpiry();
@@ -108,7 +110,9 @@ class Manager
      */
     public function check()
     {
-        $response = $this->getSchemaComparator()->compare();
+        $fromTables = $this->getInstalledTables();
+        $toTables = $this->getSchemaTables();
+        $response = $this->getSchemaComparator()->compare($fromTables, $toTables);
         if (!$response->hasResponses()) {
             $this->getSchemaTimer()->setCheckExpiry();
         }
@@ -124,7 +128,9 @@ class Manager
     public function update()
     {
         // Do the initial check
-        $this->getSchemaComparator()->compare();
+        $fromTables = $this->getInstalledTables();
+        $toTables = $this->getSchemaTables();
+        $this->getSchemaComparator()->compare($fromTables, $toTables);
         $response = $this->getSchemaComparator()->getResponse();
         $creates = $this->getSchemaComparator()->getCreates();
         $alters = $this->getSchemaComparator()->getAlters();
@@ -134,8 +140,10 @@ class Manager
         $modifier->alterTables($alters, $response);
 
         // Recheck now that we've processed
-        $this->getSchemaComparator()->compare();
-        if (!$this->getSchemaComparator()->hasPending()) {
+        $fromTables = $this->getInstalledTables();
+        $toTables = $this->getSchemaTables();
+        $this->getSchemaComparator()->compare($fromTables, $toTables);
+        if (!$this->getSchemaComparator()->hasPending($fromTables, $toTables)) {
             $this->getSchemaTimer()->setCheckExpiry();
         }
 
