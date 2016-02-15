@@ -21,8 +21,6 @@ abstract class BaseComparator
     protected $connection;
     /** @var string */
     protected $prefix;
-    /** @var array */
-    protected $contentTableNames;
     /** @var \Psr\Log\LoggerInterface */
     protected $systemLog;
 
@@ -44,14 +42,12 @@ abstract class BaseComparator
      *
      * @param Connection      $connection
      * @param string          $prefix
-     * @param array           $contentTableNames
      * @param LoggerInterface $systemLog
      */
-    public function __construct(Connection $connection, $prefix, array $contentTableNames, LoggerInterface $systemLog)
+    public function __construct(Connection $connection, $prefix, LoggerInterface $systemLog)
     {
         $this->connection = $connection;
         $this->prefix = $prefix;
-        $this->contentTableNames = $contentTableNames;
         $this->systemLog = $systemLog;
         $this->setIgnoredChanges();
     }
@@ -61,15 +57,16 @@ abstract class BaseComparator
      *
      * @param Table[] $fromTables
      * @param Table[] $toTables
+     * @param array   $protectedTableNames
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasPending($fromTables, $toTables)
+    public function hasPending($fromTables, $toTables, array $protectedTableNames)
     {
         if ($this->pending !== null) {
             return $this->pending;
         }
-        $this->compare($fromTables, $toTables);
+        $this->compare($fromTables, $toTables, $protectedTableNames);
 
         return $this->pending;
     }
@@ -79,11 +76,12 @@ abstract class BaseComparator
      *
      * @param Table[] $fromTables
      * @param Table[] $toTables
+     * @param array   $protectedTableNames
      * @param bool    $force
      *
      * @return SchemaCheck
      */
-    public function compare($fromTables, $toTables, $force = false)
+    public function compare($fromTables, $toTables, array $protectedTableNames, $force = false)
     {
         if ($this->response !== null && $force === false) {
             return $this->getResponse();
@@ -93,7 +91,7 @@ abstract class BaseComparator
 
         // If we have diffs, check if they need to be modified
         if ($this->diffs !== null) {
-            $this->adjustDiffs();
+            $this->adjustDiffs($protectedTableNames);
             $this->addAlterResponses();
         }
 
@@ -213,14 +211,16 @@ abstract class BaseComparator
 
     /**
      * Platform specific adjustments to table/column diffs.
+     *
+     * @param array $protectedTableNames
      */
-    protected function adjustDiffs()
+    protected function adjustDiffs(array $protectedTableNames)
     {
         $diffUpdater = new DiffUpdater($this->ignoredChanges);
 
         /** @var TableDiff $tableDiff */
         foreach ($this->diffs as $tableName => $tableDiff) {
-            $this->adjustContentTypeDiffs($tableDiff);
+            $this->adjustContentTypeDiffs($tableDiff, $protectedTableNames);
             $this->diffs[$tableName] = $diffUpdater->adjustDiff($tableDiff);
             if ($this->diffs[$tableName] === false) {
                 unset($this->diffs[$tableName]);
@@ -233,11 +233,12 @@ abstract class BaseComparator
      * Clear 'removedColumns' attribute from ContentType table diffs to prevent accidental data removal.
      *
      * @param TableDiff $tableDiff
+     * @param array     $protectedTableNames
      */
-    protected function adjustContentTypeDiffs(TableDiff $tableDiff)
+    protected function adjustContentTypeDiffs(TableDiff $tableDiff, array $protectedTableNames)
     {
         $alias = str_replace($this->prefix, '', $tableDiff->fromTable->getName());
-        if (in_array($alias, $this->contentTableNames)) {
+        if (in_array($alias, $protectedTableNames)) {
             $tableDiff->removedColumns = [];
         }
     }
