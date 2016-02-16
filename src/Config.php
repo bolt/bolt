@@ -373,6 +373,7 @@ class Config
         return $contentTypes;
     }
 
+
     /**
      * Read and parse the current theme's config.yml configuration file.
      *
@@ -855,6 +856,24 @@ class Config
                     );
                     $this->app['logger.flash']->error($error);
                     unset($ct['fields'][$fieldname]);
+                }
+            }
+
+            /**
+             * Make sure any contenttype that has a 'relation' defined points to a contenttype that exists.
+             *
+             */
+            if (isset($ct['relations'])) {
+                foreach ($ct['relations'] as $relKey => $relData) {
+                    if (!isset($this->data['contenttypes'][$relKey])) {
+                        $error = Trans::__(
+                            'contenttypes.generic.invalid-relation',
+                            ['%contenttype%' => $key, '%relation%' => $relKey]
+                        );
+                        $this->app['logger.flash']->error($error);
+
+                        unset($this->data['contenttypes'][$key]['relations'][$relKey]);
+                    }
                 }
             }
 
