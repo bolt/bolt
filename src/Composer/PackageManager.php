@@ -544,14 +544,27 @@ class PackageManager
             $query = array();
         }
 
+        $guzzleOptions = array(
+            'query' => $query,
+            'config' => array(
+                'curl' => array(
+                    CURLOPT_CONNECTTIMEOUT => 5
+                )
+            )
+        );
+
         try {
             /** @deprecated remove when PHP 5.3 support is dropped */
             if ($this->app['deprecated.php']) {
+                /** @var \Guzzle\Service\Client $client */
+                $client = $this->app['guzzle.client'];
                 /** @var $response \Guzzle\Http\Message\Response  */
-                $response = $this->app['guzzle.client']->head($uri, null, array('query' => $query))->send();
+                $response = $client->head($uri, null, $guzzleOptions)->send();
             } else {
-                /** @var $reponse \GuzzleHttp\Message\Response */
-                $response = $this->app['guzzle.client']->head($uri, array(), array('query' => $query));
+                /** @var \GuzzleHttp\Client $client */
+                $client = $this->app['guzzle.client'];
+                /** @var $response \GuzzleHttp\Message\Response */
+                $response = $client->head($uri, $guzzleOptions);
             }
 
             return $response->getStatusCode();
