@@ -2,9 +2,9 @@
     "name": "base-2014",
     "version": "0.1.0",
     "devDependencies": {
-        "node-sass": "^0.7.0",
-        "grunt": "~0.4.1",
-        "grunt-contrib-watch": "^0.5.3",
-        "grunt-sass": "^0.8.1"
+        "node-sass": "^3.4.2",
+        "grunt": "~0.4.5",
+        "grunt-contrib-watch": "^0.6.1",
+        "grunt-sass": "^1.1.0"
     }
 }
