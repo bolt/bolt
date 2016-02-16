@@ -147,7 +147,7 @@ class FlashLogger implements FlashLoggerInterface, FlashBagAttachableInterface
         // and we shouldn't wipe them.
         foreach ($this->flashes as $type => $messages) {
             foreach ($messages as $message) {
-                $flashBag->add($type, $message);
+                $flashBag->add($type, (string) $message);
             }
             unset($this->flashes[$type]);
         }
