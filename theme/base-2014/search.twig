@@ -19,6 +19,18 @@
             {% endif %}
         </h1>
 
+        {# Perhaps we post a small teaser, stored in the 'block' named 'search' #}
+        {% setcontent block = "block/search-teaser" %}
+        {# check if we have a title. If so, we know we have a page. Otherwise, still
+           print a text, telling us to create the 'about' page. #}
+        {% if block.content is defined %}
+            {{ block.content }}
+        {% endif %}
+
+        <form method="get" action="{{ paths.root }}search" id="searchform-inline" enctype="text/plain">
+            <input type="search" value="{% if search is defined %}{{ search|escape }}{% endif %}" placeholder="{{ __("Search …") }}" name="search" >
+            <button type="submit" class="button">{{ __("Search") }}</button>
+        </form>
 
         {% for record in records %}
             <article>
