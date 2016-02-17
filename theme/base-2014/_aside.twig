@@ -14,8 +14,8 @@
                'about-us'-block, if it exists. First, attempt to fetch the block with slug 'about-us' #}
             {% setcontent block = "block/about-us" %}
 
-            {# check if we have a title. If so, we know we have a page. Otherwise, still
-               print a text, telling us to create the 'about' page. #}
+            {# check if we have a title. If so, we know we have content to display. Otherwise, we will
+               output a default text, telling the user to create the 'blocks' in the backend. #}
             {% if block.title is defined %}
 
                 <h5>{{ block.title }}</h5>
