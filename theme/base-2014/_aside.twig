@@ -12,17 +12,20 @@
         <div class="panel">
             {# The next section attempts to fill the panel in the sidebar with the contents of the
                'about-us'-block, if it exists. First, attempt to fetch the block with slug 'about-us' #}
-            {% setcontent about = "block/about-us" %}
+            {% setcontent block = "block/about-us" %}
 
             {# check if we have a title. If so, we know we have a page. Otherwise, still
                print a text, telling us to create the 'about' page. #}
-            {% if about.title is defined %}
+            {% if block.title is defined %}
 
-                <h5>{{ about.title }}</h5>
-                {{ about.content }}
+                <h5>{{ block.title }}</h5>
+                {{ block.content }}
 
-                {% if link(about.contentlink) %}
-                    <p>{{ link(about.contentlink, __('Read more')) }}</p>
+                {% if link(block.contentlink) or block.editlink() %}
+                    <p>
+                        {{ link(block.contentlink, __('Read more')) }} /
+                        <a href="{{ block.editlink() }}">{{ __('Edit') }}</a>
+                    </p>
                 {% endif %}
 
             {% else %}
