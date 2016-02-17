@@ -72,6 +72,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('ischangelogenabled', [$this, 'isChangelogEnabled'], $deprecated),
             new \Twig_SimpleFunction('ismobileclient',     [$this, 'isMobileClient']),
             new \Twig_SimpleFunction('last',               'twig_last',            $env + $deprecated),
+            new \Twig_SimpleFunction('link',               [$this, 'link'],        $safe),
             new \Twig_SimpleFunction('listcontent',        [$this, 'listContent']),
             new \Twig_SimpleFunction('listtemplates',      [$this, 'listTemplates']),
             new \Twig_SimpleFunction('markdown',           [$this, 'markdown'],    $safe),
@@ -376,6 +377,14 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function jsonDecode($string)
     {
         return $this->handlers['text']->jsonDecode($string);
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\HtmlHandler::link()
+     */
+    public function link($location, $label = '[link]')
+    {
+        return $this->handlers['html']->link($location, $label);
     }
 
     /**

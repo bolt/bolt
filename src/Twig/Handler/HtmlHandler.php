@@ -151,6 +151,29 @@ class HtmlHandler
     }
 
     /**
+     * Create an HTML link to a given URL or contenttype/slug pair.
+     *
+     * @param string $location
+     * @param string $label
+     *
+     * @return string
+     */
+    public function link($location, $label = '[link]')
+    {
+        if ((string)$location === '') {
+            return '';
+        }
+
+        if (Html::isURL($location)) {
+            $location = Html::addScheme($location);
+        } else if ($record = $this->app['storage']->getContent($location)) {
+            $location = $record->link();
+        }
+
+        return sprintf('<a href="%s">%s</a>', $location, $label);
+    }
+
+    /**
      * Output a menu.
      *
      * @param \Twig_Environment $env

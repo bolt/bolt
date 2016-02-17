@@ -47,4 +47,36 @@ class Html
 
         return $str;
     }
+
+    /**
+     * Check if a given string looks like it could be a URL, with or without the protocol.
+     *
+     * @see  http://blog.mattheworiordan.com/post/13174566389/url-regular-expression-for-links-with-or-without
+     *
+     * @param string $str
+     *
+     * @return boolean
+     */
+    public static function isURL($str)
+    {
+        $pattern = '/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/i';
+
+        return preg_match($pattern, $str);
+    }
+
+    /**
+     * Add 'http://' to a link, if it has no protocol already.
+     *
+     * @param string $url
+     * @param string $scheme
+     *
+     * @return string
+     */
+    public static function addScheme($url, $scheme = 'http://')
+    {
+        $url = parse_url($url, PHP_URL_SCHEME) === null ? $scheme . $url : $url;
+
+        return $url;
+    }
+
 }
