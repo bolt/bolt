@@ -10,24 +10,26 @@
 
         {# This part is only shown if there are no widgets in the 'aside_top' widgets slot. #}
         <div class="panel">
-            {# The next section attempts to fill the panel in the sidebar with part of the
-               'about'-page, if it exists. First, attempt to fetch a page with slug 'about' #}
-            {% setcontent about = "page/about" %}
+            {# The next section attempts to fill the panel in the sidebar with the contents of the
+               'about-us'-block, if it exists. First, attempt to fetch the block with slug 'about-us' #}
+            {% setcontent about = "block/about-us" %}
 
             {# check if we have a title. If so, we know we have a page. Otherwise, still
                print a text, telling us to create the 'about' page. #}
             {% if about.title is defined %}
 
                 <h5>{{ about.title }}</h5>
-                {{ about.teaser }}
+                {{ about.content }}
 
-                <a href="{{ about.link }}">{{ __('Read more') }} &raquo;</a>
+                {% if link(about.contentlink) %}
+                    <p>{{ link(about.contentlink, __('Read more')) }}</p>
+                {% endif %}
 
             {% else %}
 
                 <h5>{{ __('Alas, no about!') }}</h5>
 
-                <p>{{ __("If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.") }}</p>
+                <p>{{ __("If there was a Block with 'about-us' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder. In the Bolt backend, go to 'check database' and 'Add some sample Records', to create these automatically.") }}</p>
 
             {% endif %}
 
