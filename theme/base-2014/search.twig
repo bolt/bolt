@@ -1,0 +1,74 @@
+{% include '_header.twig' %}
+
+<!-- Main Page Content and Sidebar -->
+
+    <!-- Main Blog Content -->
+    <div class="large-8 columns" role="content">
+
+        {{ widgets('main_top') }}
+
+        {# This template is used for search results. If 'search' is defined,
+           we display an appropriate title. The 'records' array contains all of the
+           records matching the current query. If there are no results, the
+           code in the 'else' part of the for-loop is used. #}
+        <h1>
+            {% if search is not empty %}
+                {{ __('Search results for <b>%search%</b>.', { '%search%': search|escape }) }}
+            {% else %}
+                {{ __('Search') }}
+            {% endif %}
+        </h1>
+
+
+        {% for record in records %}
+            <article>
+
+                <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
+
+                {% if record.image!="" %}
+                    <div class="large-4 imageholder">
+                        <a href="{{ image(record.image) }}">
+                            <img src="{{ thumbnail(record.image, 400, 260) }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                {# display something introduction-like.. #}
+                {% if record.introduction %}
+                    {{ record.introduction }}
+                {% elseif record.teaser %}
+                    {{ record.teaser }}
+                {% else %}
+                    <p>{{ record.excerpt(300, false, search|default('')) }}</p>
+                {% endif %}
+
+                {% include '_recordfooter.twig' with {'record': record} %}
+
+            </article>
+
+            <hr>
+
+        {% else %}
+            <article>
+
+                <p>
+                    {{ __("No results found for '%SEARCHTERM%'. Please try another search.", { '%SEARCHTERM%': search|escape }) }}
+                </p>
+
+            </article>
+        {% endfor %}
+
+        {# If there are more records than will fit on one page, the pager is shown. #}
+        {{ pager() }}
+
+        {{ widgets('main_bottom') }}
+
+    </div>
+
+    <!-- End Main Content -->
+
+    {% include '_aside.twig' %}
+
+<!-- End Main Content and Sidebar -->
+
+{% include '_footer.twig' %}

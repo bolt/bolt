@@ -8,12 +8,12 @@
         {{ widgets('main_top') }}
 
         {# This template is used for 'listings': Generic pages that list a number of
-           records from orderby, $ordera certain contenttype. These records are available as an array
+           records from a certain contenttype. These records are available as an array
            called 'records'. In the for-loop below, we iterate over the records that
            are on this page. It can be used for overview pages like 'all entries', or
-           'all records tagged with kittens' as well as search result. #}
+           'all records tagged with kittens'. #}
 
-        {# If used for listing a taxonomy: #}
+        {# If used for listing a taxonomy, we add a heading.: #}
         {% if taxonomytype is defined %}
             <h1>
                 {{ __('Overview for') }}
@@ -30,17 +30,6 @@
                 {% set records = records|order(app.config.get('general/listing_sort')) %}
             {% endif %}
         {% endif %}
-
-        {# This is also the default template for searchresults. If 'search' is defined,
-           we display an appropriate title. The 'records' array contains all of the
-           records matching the current query. If there are no results, the
-           code in the 'else' part of the for-loop is used. #}
-        {% if search is defined %}
-            <h1>
-                {{ __('Search results for <b> %search% </b>.', { '%search%': search|escape }) }}
-            </h1>
-        {% endif %}
-
 
         {% for record in records %}
             <article>
@@ -73,22 +62,11 @@
         {% else %}
             <article>
 
+                <h2>{{ __("No content found.") }}</h2>
 
-                {% if search is defined %}
-
-                    <p>
-                        {{ __("No results found for '%SEARCHTERM%'. Please try another search.", { '%SEARCHTERM%': search|escape }) }}
-                    </p>
-
-                {% else %}
-
-                    <h2>{{ __("No content found.") }}</h2>
-
-                    <p>
-                        {{ __("Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.", {'%paths_root%': paths.root} ) }}
-                    </p>
-
-                {% endif %}
+                <p>
+                    {{ __("Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.", {'%paths_root%': paths.root} ) }}
+                </p>
 
                 {#
                 optionally, you can redirect the browser to another page. Just uncomment the next line to do so.
@@ -103,7 +81,6 @@
 
         {{ widgets('main_bottom') }}
 
-
     </div>
 
     <!-- End Main Content -->
@@ -111,7 +88,5 @@
     {% include '_aside.twig' %}
 
 <!-- End Main Content and Sidebar -->
-
-
 
 {% include '_footer.twig' %}
