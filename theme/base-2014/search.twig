@@ -22,7 +22,7 @@
         {# Perhaps we post a small teaser, stored in the 'block' named 'Search teaser' #}
         {% setcontent block = "block/search-teaser" %}
 
-        {# check if we have a title. If so, we know we have have content to display. #}
+        {# check if we have 'content'. If so, we know we have have a teaser to display. #}
         {% if block.content is defined %}
             {{ block.content }}
         {% endif %}
