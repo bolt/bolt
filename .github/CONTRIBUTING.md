@@ -4,6 +4,11 @@ Contributing to Bolt
 If you are reading this, you must be considering opening an issue for help with
 a bug, to suggest a new feature or help out with a Pull Request. Great!
 
+For questions about working with Bolt or support issues, please post on the
+[forum](https://discuss.bolt.cm) instead. If you post these kinds of topics there,
+we can keep the _issues_ list organized, with actual issues that need to be
+handled in the Bolt source code itself.
+
 To streamline this process, we've made this small document, to help you report
 your issue or feature more efficiently. We did our best to keep it brief, so
 please read it carefully.
@@ -23,7 +28,7 @@ author can look into it.
 ----------------------
 
 If you think you've found a bug, try to make sure it's actually a bug, and not
-the result of something else going wrong. For example, make sure your webserver
+the result of something else going wrong. For example, make sure your web server
 is functioning correctly, and try the issue in another browser, if possible. Be
 sure to **search for similar bugs**. Perhaps somebody has already reported the
 issue. If so, you should add any additional information to the existing bug. It
@@ -41,14 +46,15 @@ When posting your bug, please include the following:
     _think_ the solution might be.
  2. **Specifics**: Mention the URL where this bug occurs, if applicable. What
     version of Bolt are you using (down to the very last digit!), and what
-    method did you use to install it? What browser and version are you using?
-    Please mention if you've checked it in other browsers as well.
+    method  did you use to install it? What browser and version are you using?
+    Please mention if you've checked it in other browsers as well. Please
+    include *full error messages* and *screenshots* if possible.
  3. **Steps to reproduce**: Clearly mention the steps to reproduce the bug.
  4. **Expected result**: What did you _expect_ that would happen on your Bolt
     site? Describe the intended outcome after you did the steps mentioned
     before.
  5. **Actual result**: What is the actual result of the above steps? So,
-    describe the behavior of the bug. Please, please include **Error messages**
+    describe the behaviour of the bug. Please, please include **Error messages**
     and screenshots. They might mean nothing to you, but they are _very_ helpful
     to us.
 
@@ -95,8 +101,8 @@ merge your Pull Request, please make sure you follow these points:
     is "Fixes problem [x] by doing [y]. Fixes #1555"
  3. If you're doing a PR for a non-trivial new feature, _please_ make an `RFC`
     issue first, as described above.
- 4. Do not edit compiled asset files such as `bolt.min.js` or `bolt.css`.
-    Instead, edit the source javascript and Sass files inside the `/app/src/`
+ 4. Do not edit compiled asset files such as `bolt.js` or `bolt.css`.
+    Instead, edit the source JavaScript and Sass files inside the `/app/src/`
     directory. We'll handle the updated compiled files.
  5. For any change that you make, **please try to also add a test case(s)** in
     the `tests` directory.
@@ -115,5 +121,4 @@ Thank you for your contributions!
 And finally, **one last tip**: Mention that you do not like
 [brown M&M's](http://www.snopes.com/music/artists/vanhalen.asp). If you do,
 we'll know you've read this page. ;-)
-
 

@@ -3,7 +3,7 @@ consider if it should be on our forum at http://discuss.bolt.cm instead.]
 
 A brief description of the issue goes here. If you haven't yet done so, please
 read the 'contributing guidelines' thoroughly. See:
-https://github.com/bolt/bolt/blob/master/contributing.md
+https://github.com/bolt/bolt/blob/master/.github/CONTRIBUTING.md
 
 
 Details
@@ -22,7 +22,19 @@ Reproduction
 If you're filing a bug, please describe how to reproduce it. Include as much
 relevant information as possible, such as:
 
- - Describe the consecutive steps to reproduce the issue.
- - Include error messages, and screenshots, if possible
- - Try to describe the _facts_, instead of the perceived cause of the issue.
-
+ 1. **Bug summary**: Write a short summary of the bug. Try to pinpoint it as
+    much a possible. Try to state the _actual problem_, and not just what you
+    _think_ the solution might be.
+ 2. **Specifics**: Mention the URL where this bug occurs, if applicable. What
+    version of Bolt are you using (down to the very last digit!), and what
+    method did you use to install it? What browser and version are you using?
+    Please mention if you've checked it in other browsers as well. Please
+    include *full error messages* and *screenshots* if possible.
+ 3. **Steps to reproduce**: Clearly mention the steps to reproduce the bug.
+ 4. **Expected result**: What did you _expect_ that would happen on your Bolt
+    site? Describe the intended outcome after you did the steps mentioned
+    before.
+ 5. **Actual result**: What is the actual result of the above steps? So,
+    describe the behavior of the bug. Please, please include **Error messages**
+    and screenshots. They might mean nothing to you, but they are _very_ helpful
+    to us.

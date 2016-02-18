@@ -2,7 +2,7 @@
 
 A brief description of the Pull Request goes here. If you haven't yet done so,
 please read the 'contributing guidelines' thoroughly. See:
-https://github.com/bolt/bolt/blob/master/contributing.md
+https://github.com/bolt/bolt/blob/master/.github/CONTRIBUTING.md
 
 Fixes: #1555 (please refer to an existing issue number, that this PR fixes)
 
