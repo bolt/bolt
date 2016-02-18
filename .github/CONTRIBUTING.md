@@ -28,7 +28,7 @@ author can look into it.
 ----------------------
 
 If you think you've found a bug, try to make sure it's actually a bug, and not
-the result of something else going wrong. For example, make sure your webserver
+the result of something else going wrong. For example, make sure your web server
 is functioning correctly, and try the issue in another browser, if possible. Be
 sure to **search for similar bugs**. Perhaps somebody has already reported the
 issue. If so, you should add any additional information to the existing bug. It
@@ -54,7 +54,7 @@ When posting your bug, please include the following:
     site? Describe the intended outcome after you did the steps mentioned
     before.
  5. **Actual result**: What is the actual result of the above steps? So,
-    describe the behavior of the bug. Please, please include **Error messages**
+    describe the behaviour of the bug. Please, please include **Error messages**
     and screenshots. They might mean nothing to you, but they are _very_ helpful
     to us.
 
@@ -102,7 +102,7 @@ merge your Pull Request, please make sure you follow these points:
  3. If you're doing a PR for a non-trivial new feature, _please_ make an `RFC`
     issue first, as described above.
  4. Do not edit compiled asset files such as `bolt.js` or `bolt.css`.
-    Instead, edit the source javascript and Sass files inside the `/app/src/`
+    Instead, edit the source JavaScript and Sass files inside the `/app/src/`
     directory. We'll handle the updated compiled files.
  5. For any change that you make, **please try to also add a test case(s)** in
     the `tests` directory.
@@ -121,5 +121,3 @@ Thank you for your contributions!
 And finally, **one last tip**: Mention that you do not like
 [brown M&M's](http://www.snopes.com/music/artists/vanhalen.asp). If you do,
 we'll know you've read this page. ;-)
-
-

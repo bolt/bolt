@@ -35,6 +35,6 @@ relevant information as possible, such as:
     site? Describe the intended outcome after you did the steps mentioned
     before.
  5. **Actual result**: What is the actual result of the above steps? So,
-    describe the behavior of the bug. Please, please include **Error messages**
+    describe the behaviour of the bug. Please, please include **Error messages**
     and screenshots. They might mean nothing to you, but they are _very_ helpful
     to us.
