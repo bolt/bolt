@@ -45,7 +45,8 @@ class Storage
     /** @var bool Test to indicate if we're inside a dispatcher. */
     private $inDispatcher = false;
 
-    private $preferredTitles = ['About Us', 'Address', 'Search', '404 Not Found'];
+    /** @var array */
+    private $preferredTitles = [];
 
     public function __construct(Application $app)
     {
@@ -103,7 +104,7 @@ class Storage
     {
         $output = '';
 
-        // get a list of images.
+        // Get a list of images.
         $images = $this->app['filesystem']
             ->find()
             ->in('files://')
@@ -111,6 +112,9 @@ class Storage
             ->name('*.png')
             ->toArray()
         ;
+
+        // Set the 'Preferred titles' for filling the 'blocks' contenttype.
+        $this->preferredTitles = ['About Us', 'Address', 'Search', '404 Not Found'];
 
         $emptyOnly = empty($contenttypes);
 
