@@ -17,4 +17,3 @@ Please list any details for the PR, that might be relevant. Some pointers:
    better off as an extension.
  - Make sure you're doing the PR to the correct branch: 'master' for 3.0, or
    'release/2.2' for Bolt 2.2.x.
-
