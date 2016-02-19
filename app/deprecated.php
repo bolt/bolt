@@ -10,6 +10,7 @@
 
 // Class aliases for BC
 class_alias('\Bolt\Asset\Target', '\Bolt\Extensions\Snippets\Location');
+class_alias('\Bolt\Controller\Routing', '\Bolt\Controllers\Routing');
 class_alias('\Bolt\Menu\Menu', '\Bolt\Helpers\Menu');
 class_alias('\Bolt\Menu\MenuBuilder', '\Bolt\Helpers\MenuBuilder');
 class_alias('\Bolt\Legacy\BaseExtension', '\Bolt\BaseExtension');
