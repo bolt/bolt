@@ -111,7 +111,7 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/prefill'));
         $response = $this->controller()->prefill($this->getRequest());
         $context = $response->getContext();
-        $this->assertEquals(3, count($context['context']['contenttypes']));
+        $this->assertEquals(4, count($context['context']['contenttypes']));
         $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
 
         // Test the post
