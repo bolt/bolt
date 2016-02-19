@@ -49,7 +49,7 @@
 "Updated user '%s'.": "Usuários atualizados '%s'."
 "User %s could not be saved, or nothing was changed.": "Usuário %s não pode ser gravado."
 "User %s has been saved.": "Usuário %s gravado."
-"User is enabled": "Usuário está desabilitado."
+"User is enabled": "Usuário está habilitado."
 "Version:": "Versão:"
 "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing.": "Você está usando SQLite para criar o primeiro usuário. Se você deseja usar o MySQL ou PostgreSQL, edite o arquivo de configuração em <tt>'app/config/config.yml'</tt> e Bolt irá configurar as tabelas na base de dados para você. Certifique-se de recarregar esta página antes de continuar."
 "field.geolocation.label.address-lookup:": "Buscar endereço:"
