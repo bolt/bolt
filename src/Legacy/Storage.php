@@ -114,7 +114,7 @@ class Storage
         ;
 
         // Set the 'Preferred titles' for filling the 'blocks' contenttype.
-        $this->preferredTitles = ['About Us', 'Address', 'Search', '404 Not Found'];
+        $this->preferredTitles = ['About Us', 'Address', 'Search Teaser', '404 Not Found'];
 
         $emptyOnly = empty($contenttypes);
 
