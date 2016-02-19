@@ -191,6 +191,25 @@ HTML;
         $this->assertSame($html, $result);
     }
 
+    public function testLink()
+    {
+        $app = $this->getApp();
+        $handler = new HtmlHandler($app);
+
+        $result = $handler->link('http://google.com', 'click');
+        $this->assertSame('<a href="http://google.com">click</a>', $result);
+
+        $result = $handler->link('google.com');
+        $this->assertSame('<a href="http://google.com">[link]</a>', $result);
+
+        $result = $handler->link('mailto:bob@bolt.cm', 'mail');
+        $this->assertSame('<a href="mailto:bob@bolt.cm">mail</a>', $result);
+
+        $result = $handler->link('gooblycook', 'click');
+        $this->assertSame('<a href="gooblycook">click</a>', $result);
+    }
+
+
     public function testMenuSafe()
     {
         $app = $this->getApp();
