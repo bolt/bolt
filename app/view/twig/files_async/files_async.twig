@@ -54,7 +54,7 @@
                                 <i class="fa fa-fw fa-file-image-o"></i>
 
                                 {% if file.readable %}
-                                    <a href="#" data-action="Bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class="file">
+                                    <a href="#" data-action="Bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}', true);" class="file">
                                         <b>{{ file.filename|excerpt(80)|shy }}</b>
                                     </a>
                                 {% else %}
@@ -71,6 +71,7 @@
 
                             <td class="listthumb">
                                 {{ file.newpath|showimage(54, 40, 'c') }}
+                                <input type="checkbox" class="file-checkbox" onclick="Bolt.stack.checkFileToAdd('{{ file.relativepath }}')" />
                             </td>
 
                         </tr>
@@ -104,6 +105,8 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
+            <button type="button" class="btn btn-primary" data-action="Bolt.stack.addMultipleFiles('{{ context.key }}')">{{ __('Add Selected') }}</button>
+            <button type="button" class="btn btn-primary" data-action="Bolt.stack.toggleCheckAll('{{ context.key }}')">{{ __('Check/Uncheck all') }}</button>
         </div>
 
     </body>
