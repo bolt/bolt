@@ -1280,7 +1280,7 @@ class Users
      *
      * @param array $user
      */
-    private function loginFailed($user)
+    protected function loginFailed($user)
     {
         $this->session->getFlashBag()->add('error', Trans::__('Username or password not correct. Please check your input.'));
         $this->app['logger.system']->info("Failed login attempt for '" . $user['displayname'] . "'.", array('event' => 'authentication'));
