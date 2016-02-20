@@ -47,8 +47,9 @@ before_install:
   - if [[ $TRAVIS_PHP_VERSION =~ ^7 ]]; then perl -p -i -e 's/nobody/travis/g' $PHP_BASE/etc/php-fpm.d/www.conf ; fi
   - if [[ $TRAVIS_PHP_VERSION =~ ^[57] ]]; then sudo $PHP_BASE/sbin/php-fpm ; fi
   # Set up Nginx
-  - PWD=$(pwd) ; perl -p -i -e 's/%ROOTDIR%/$ENV{PWD}/g' tests/travis/nginx.conf
-  - sudo cp tests/travis/nginx.conf /etc/nginx/nginx.conf
+  - cat tests/travis/nginx.conf > nginx.conf
+  - PWD=$(pwd) ; perl -p -i -e 's/%ROOTDIR%/$ENV{PWD}/g' nginx.conf
+  - sudo rm -f /etc/nginx/nginx.conf && sudo mv nginx.conf /etc/nginx/nginx.conf
   - sudo service nginx restart
   # Start postfix
   - sudo service postfix restart
@@ -100,6 +101,12 @@ script:
   # Remove git installed stuff
   - rm ./* -rf ; rm .git* -rf
   - mv .tmp/* .
+  # Set up Nginx
+  - find . -name '*nginx*'
+  - cat vendor/bolt/bolt/tests/travis/nginx.conf > nginx.conf
+  - PWD=$(pwd) ; perl -p -i -e 's/%ROOTDIR%/$ENV{PWD}\/public/g' nginx.conf
+  - sudo rm -f /etc/nginx/nginx.conf && sudo mv nginx.conf /etc/nginx/nginx.conf
+  - sudo service nginx restart
   # Set up MySQL
   - mysql -e "DROP DATABASE bolt_travis;" -u root
   - mysql -e "CREATE DATABASE IF NOT EXISTS bolt_travis;" -u root
