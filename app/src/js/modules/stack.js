@@ -221,8 +221,6 @@
      * @static
      * @function addMultipleFiles
      * @memberof Bolt.stack
-     *
-     * @param {string} key - Id of the file selector
      */
     stack.addMultipleFiles = function (key) {
       for (var i = 0; i < multipleFiles.length; i++) {
