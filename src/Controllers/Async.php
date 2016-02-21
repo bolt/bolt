@@ -593,7 +593,7 @@ class Async implements ControllerProviderInterface
             'folders'      => $folders,
             'pathsegments' => $pathsegments,
             'key'          => $key,
-						'multiselect'  => $multiselect
+            'multiselect'  => $multiselect
         );
 
         return $app['render']->render('files_async/files_async.twig', array('context' => $context));
