@@ -329,7 +329,7 @@ class FilesystemManager extends AsyncBase
             $this->filesystem()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
 
             return $this->json(null, Response::HTTP_OK);
-        } catch (\Exception $e) {
+        } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]);
 
             $this->app['logger.system']->error(
