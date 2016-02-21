@@ -201,15 +201,21 @@ class FilesystemManager extends AsyncBase
 
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
-        $extensionPos = strrpos($filename, '.');
-        $destination = substr($filename, 0, $extensionPos) . '_copy' . substr($filename, $extensionPos);
+        // If the filename doesn't have an extension $extensionPos will be equal to its length, so that$fileBase will
+        // contain the entire filename. This also accounts for dotfiles.
+        $extensionPos = strrpos($filename, '.') ?: strlen($filename);
+
+        $fileBase = substr($filename, 0, $extensionPos) . '_copy';
+        $fileExtension = substr($filename, $extensionPos + 1);
+
         $n = 1;
 
-        while ($filesystem->has($destination)) {
-            $extensionPos = strrpos($destination, '.');
-            $destination = substr($destination, 0, $extensionPos) . "$n" . substr($destination, $extensionPos);
-            $n = rand(0, 1000);
+        // Increase $n until filename_copy$n.ext doesn't exist
+        while ($filesystem->has($fileBase . $n . $fileExtension)) {
+            $n++;
         }
+
+        $destination = $fileBase . $n . $fileExtension;
 
         try {
             $filesystem->copy($filename, $destination);
