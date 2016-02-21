@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 class FilesystemManagerTest extends ControllerUnitTest
 {
+    const FOLDER_NAME = '__phpunit_test_folder_delete_me';
+
     public function testBrowse()
     {
         $this->setRequest(Request::create('/async/browse'));
@@ -31,7 +33,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/createfolder', 'POST', [
             'namespace'  => 'files',
             'parent'     => '',
-            'foldername' => '__phpunit_test_delete_me',
+            'foldername' => '' . self::FOLDER_NAME,
         ]));
         $response = $this->controller()->createFolder($this->getRequest());
 
@@ -96,7 +98,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/removefolder', 'POST', [
             'namespace'  => 'files',
             'parent'     => '',
-            'foldername' => '__phpunit_test_delete_me',
+            'foldername' => self::FOLDER_NAME,
         ]));
         $this->controller()->createFolder($this->getRequest());
         $response = $this->controller()->removeFolder($this->getRequest());
