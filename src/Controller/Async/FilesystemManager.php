@@ -168,8 +168,15 @@ class FilesystemManager extends AsyncBase
 
             return $this->json(null, Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
+            $msg = Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]);
+
+            $this->app['logger.system']->critical(
+                $msg . ': ' . $e->getMessage(),
+                ['event' => 'exception', 'exception' => $e]
+            );
+
             return $this->json(
-                Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]),
+                $msg,
                 $e instanceof FileNotFoundException ? Response::HTTP_NOT_FOUND : Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
