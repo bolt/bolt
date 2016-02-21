@@ -298,7 +298,7 @@ class FilesystemManager extends AsyncBase
 
             $this->logException($msg, $e);
 
-            return $this->json($msg, Response::HTTP_FORBIDDEN);
+            return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
