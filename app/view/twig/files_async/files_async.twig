@@ -43,9 +43,9 @@
                     <th>{{ __('page.ckeditor-browse-server.files') }}</th>
                     <th style="min-width: 102px;">{{ __('page.ckeditor-browse-server.size') }}</th>
                     <th>&nbsp;</th>
-            				{% if context.multiselect == 1 %}
-            					<th>&nbsp;</th>
-										{% endif %}
+                    {% if context.multiselect == 1 %}
+                        <th>&nbsp;</th>
+                    {% endif %}
                 </tr>
 
                 {% for file in context.files %}
@@ -74,11 +74,11 @@
                             <td class="listthumb">
                                 {{ file.newpath|showimage(54, 40, 'c') }}
                             </td>
-														{% if context.multiselect == 1 %}
+                            {% if context.multiselect == 1 %}
                                 <td>
-																	<input type="checkbox" class="file-checkbox" onclick="Bolt.stack.checkFileToAdd('{{ file.relativepath }}')" />
-                            		</td>
-														{% endif %}
+                                    <input type="checkbox" class="file-checkbox" onclick="Bolt.stack.checkFileToAdd('{{ file.relativepath }}')" />
+                                </td>
+                            {% endif %}
                         </tr>
                     {% else %}
 
@@ -110,10 +110,10 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-						{% if context.multiselect == 1 and context.files|length > 0 %}
-							<button type="button" class="btn btn-primary disabled" id="addMultipleFiles" data-action="Bolt.stack.addMultipleFiles('{{ context.key }}')">{{ __('Add Selected') }}</button>
-							<button type="button" class="btn btn-primary" data-action="Bolt.stack.toggleCheckAll('{{ context.key }}')">{{ __('Check/Uncheck all') }}</button>
-						{% endif %}
+            {% if context.multiselect == 1 and context.files|length > 0 %}
+                <button type="button" class="btn btn-primary disabled" id="addMultipleFiles" data-action="Bolt.stack.addMultipleFiles('{{ context.key }}')">{{ __('Add Selected') }}</button>
+                <button type="button" class="btn btn-primary" data-action="Bolt.stack.toggleCheckAll('{{ context.key }}')">{{ __('Check/Uncheck all') }}</button>
+            {% endif %}
         </div>
 
     </body>

@@ -176,8 +176,8 @@
         }
 
         if(last === true) {
-          // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
-          $('.in, .open').removeClass('in open');
+            // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
+            $('.in, .open').removeClass('in open');
         }
     };
 
@@ -207,17 +207,17 @@
      * @param {string} path - Path to the selected file
      */
     stack.checkFileToAdd = function (path) {
-      var fileIndex = multipleFiles.indexOf(path);
-      if(fileIndex != -1) {
-        multipleFiles.splice(fileIndex, 1);
-      } else {
-        multipleFiles.push(path);
-      }
-			if(multipleFiles.length) {
-				$('#addMultipleFiles').removeClass('disabled');
-			} else {
-				$('#addMultipleFiles').addClass('disabled');
-			}
+        var fileIndex = multipleFiles.indexOf(path);
+        if(fileIndex != -1) {
+            multipleFiles.splice(fileIndex, 1);
+        } else {
+            multipleFiles.push(path);
+        }
+        if(multipleFiles.length) {
+            $('#addMultipleFiles').removeClass('disabled');
+        } else {
+            $('#addMultipleFiles').addClass('disabled');
+        }
     };
 
     /**
@@ -228,12 +228,12 @@
      * @memberof Bolt.stack
      */
     stack.addMultipleFiles = function (key) {
-      for (var i = 0; i < multipleFiles.length; i++) {
-        this.selectFromPulldown(key, multipleFiles[i], i === multipleFiles.length ? true : false);
-      }
-			$('#selectModal-' + key + ' .modal-content .file-checkbox').prop('checked', false);
-			$('#addMultipleFiles').addClass('disabled');
-			multipleFiles.length = 0;
+        for (var i = 0; i < multipleFiles.length; i++) {
+            this.selectFromPulldown(key, multipleFiles[i], i === multipleFiles.length ? true : false);
+        }
+        $('#selectModal-' + key + ' .modal-content .file-checkbox').prop('checked', false);
+        $('#addMultipleFiles').addClass('disabled');
+        multipleFiles.length = 0;
     };
 
     /**
@@ -244,23 +244,23 @@
      * @memberof Bolt.stack
      */
     stack.toggleCheckAll = function (key) {
-      var fileCheckboxes = $('#selectModal-' + key + ' .modal-content .file-checkbox');
-      if(multipleFiles.length === 0) {
-        fileCheckboxes.trigger('click');
-        allFilesChecked = true;
-      } else {
-        multipleFiles.length = 0;
-        fileCheckboxes.prop('checked', false);
-        if(!allFilesChecked) {
-          fileCheckboxes.trigger('click');
+        var fileCheckboxes = $('#selectModal-' + key + ' .modal-content .file-checkbox');
+        if(multipleFiles.length === 0) {
+            fileCheckboxes.trigger('click');
+            allFilesChecked = true;
+        } else {
+            multipleFiles.length = 0;
+            fileCheckboxes.prop('checked', false);
+            if(!allFilesChecked) {
+                fileCheckboxes.trigger('click');
+            }
+            allFilesChecked = !allFilesChecked;
         }
-        allFilesChecked = !allFilesChecked;
-      }
-			if(multipleFiles.length) {
-				$('#addMultipleFiles').removeClass('disabled');
-			} else {
-				$('#addMultipleFiles').addClass('disabled');
-			}
+        if(multipleFiles.length) {
+            $('#addMultipleFiles').removeClass('disabled');
+        } else {
+            $('#addMultipleFiles').addClass('disabled');
+        }
     };
 
     // Apply mixin container
