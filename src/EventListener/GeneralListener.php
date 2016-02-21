@@ -77,8 +77,12 @@ class GeneralListener implements EventSubscriberInterface
         }
     }
 
-    protected function gdCheck() {
-        if (1 || !function_exists('imagecreatetruecolor')) {
+    /**
+     * Check whether or not the GD-library can be used in PHP. Needed for making thumbnails.
+     */
+    protected function gdCheck()
+    {
+        if (!function_exists('imagecreatetruecolor')) {
             $notice = "The current version of PHP doesn't have the GD library enabled. Without this, Bolt will not be able to generate thumbnails. Please enable <tt>php-gd</tt>, or ask your system-administrator to do so.";
             $this->app['logger.flash']->configuration(Trans::__($notice));
         }
