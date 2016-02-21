@@ -142,6 +142,7 @@
      *
      * @param {string} key - Id of the file selector
      * @param {string} path - Path to the selected file
+     * @param {boolean} last - If this the last item to add, then close the modal
      */
     stack.selectFromPulldown = function (key, path, last) {
         // For "normal" file and image fields.
@@ -208,12 +209,12 @@
      */
     stack.checkFileToAdd = function (path) {
         var fileIndex = multipleFiles.indexOf(path);
-        if(fileIndex != -1) {
+        if (fileIndex != -1) {
             multipleFiles.splice(fileIndex, 1);
         } else {
             multipleFiles.push(path);
         }
-        if(multipleFiles.length) {
+        if (multipleFiles.length) {
             $('#addMultipleFiles').removeClass('disabled');
         } else {
             $('#addMultipleFiles').addClass('disabled');
@@ -245,18 +246,18 @@
      */
     stack.toggleCheckAll = function (key) {
         var fileCheckboxes = $('#selectModal-' + key + ' .modal-content .file-checkbox');
-        if(multipleFiles.length === 0) {
+        if (multipleFiles.length === 0) {
             fileCheckboxes.trigger('click');
             allFilesChecked = true;
         } else {
             multipleFiles.length = 0;
             fileCheckboxes.prop('checked', false);
-            if(!allFilesChecked) {
+            if (!allFilesChecked) {
                 fileCheckboxes.trigger('click');
             }
             allFilesChecked = !allFilesChecked;
         }
-        if(multipleFiles.length) {
+        if (multipleFiles.length) {
             $('#addMultipleFiles').removeClass('disabled');
         } else {
             $('#addMultipleFiles').addClass('disabled');
