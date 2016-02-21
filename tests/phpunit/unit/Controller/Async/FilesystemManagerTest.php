@@ -30,7 +30,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testCreateFolder()
     {
-        $this->setRequest(Request::create('/async/createfolder', 'POST', [
+        $this->setRequest(Request::create('/async/folder/create', 'POST', [
             'namespace'  => 'files',
             'parent'     => '',
             'foldername' => '' . self::FOLDER_NAME,
@@ -66,7 +66,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     public function testFileBrowser()
     {
         //$this->setSessionUser(new Entity\Users($this->getService('users')->getUser('admin')));
-        $this->setRequest(Request::create('/async/filebrowser'));
+        $this->setRequest(Request::create('/async/recordbrowser'));
 
         $response = $this->controller()->recordBrowser();
 
@@ -95,7 +95,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRemoveFolder()
     {
-        $this->setRequest(Request::create('/async/removefolder', 'POST', [
+        $this->setRequest(Request::create('/async/folder/delete', 'POST', [
             'namespace'  => 'files',
             'parent'     => '',
             'foldername' => self::FOLDER_NAME,
@@ -122,7 +122,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRenameFolder()
     {
-        //         $this->setRequest(Request::create('/async/renamefolder', 'POST', [
+        //         $this->setRequest(Request::create('/async/folder/rename', 'POST', [
 //             'namespace' => 'files',
 //             'parent'    => '',
 //             'oldname'   => 'foo',
