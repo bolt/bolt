@@ -2,6 +2,8 @@
 
 namespace Bolt;
 
+use Bolt\Events\AccessControlEvent;
+use Bolt\Events\AccessControlEvents;
 use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\DBALException;
 use Hautelook\Phpass\PasswordHash;
@@ -721,10 +723,11 @@ class Users
         $query = sprintf('SELECT * FROM %s WHERE shadowtoken = ? AND shadowvalidity > ?', $this->usertable);
         $query = $this->app['db']->getDatabasePlatform()->modifyLimitQuery($query, 1);
         $user = $this->db->executeQuery($query, array($token, $now), array(\PDO::PARAM_STR))->fetch();
+        $event = new AccessControlEvent($this->app['request_stack']->getCurrentRequest());
 
         if (!empty($user)) {
 
-            // allright, we can reset this user.
+            // alright, we can reset this user.
             $this->app['session']->getFlashBag()->add('success', Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
 
             $update = array(
@@ -734,11 +737,13 @@ class Users
                 'shadowvalidity' => null
             );
             $this->db->update($this->usertable, $update, array('id' => $user['id']));
+            $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_SUCCESS, $event);
         } else {
 
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['logger.system']->error('Somebody tried to reset a password with an invalid token.', array('event' => 'authentication'));
             $this->app['session']->getFlashBag()->add('error', Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
+            $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_FAILURE, $event);
         }
     }
 
