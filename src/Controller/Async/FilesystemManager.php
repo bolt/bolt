@@ -210,11 +210,18 @@ class FilesystemManager extends AsyncBase
             $destination = substr($destination, 0, $extensionPos) . "$n" . substr($destination, $extensionPos);
             $n = rand(0, 1000);
         }
-        if ($filesystem->copy($filename, $destination)) {
-            return true;
-        }
 
-        return false;
+        try {
+            $filesystem->copy($filename, $destination);
+
+            return $this->json(null, Response::HTTP_OK);
+        } catch (IOException $e) {
+            $msg = Trans::__('Unable to duplicate file: %FILE%', ['%FILE%' => $filename]);
+
+            $this->logException($msg, $e);
+
+            return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
