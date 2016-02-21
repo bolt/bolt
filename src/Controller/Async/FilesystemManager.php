@@ -85,7 +85,7 @@ class FilesystemManager extends AsyncBase
         } catch (IOException $e) {
             $msg = Trans::__("Folder '%s' could not be found, or is not readable.", ['%s' => $path]);
 
-            $this->app['logger.system']->critical(
+            $this->app['logger.system']->error(
                 $msg . ': ' . $e->getMessage(),
                 ['event' => 'exception', 'exception' => $e]
             );
@@ -154,7 +154,7 @@ class FilesystemManager extends AsyncBase
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]);
 
-            $this->app['logger.system']->critical(
+            $this->app['logger.system']->error(
                 $msg . ': ' . $e->getMessage(),
                 ['event' => 'exception', 'exception' => $e]
             );
@@ -182,7 +182,7 @@ class FilesystemManager extends AsyncBase
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]);
 
-            $this->app['logger.system']->critical(
+            $this->app['logger.system']->error(
                 $msg . ': ' . $e->getMessage(),
                 ['event' => 'exception', 'exception' => $e]
             );
@@ -332,7 +332,7 @@ class FilesystemManager extends AsyncBase
         } catch (\Exception $e) {
             $msg = Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]);
 
-            $this->app['logger.system']->critical(
+            $this->app['logger.system']->error(
                 $msg . ': ' . $e->getMessage(),
                 ['event' => 'status', 'status' => $e]
             );
@@ -370,7 +370,7 @@ class FilesystemManager extends AsyncBase
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to rename directory: %DIR%', ['%DIR%' => $oldName]);
 
-            $this->app['logger.system']->critical(
+            $this->app['logger.system']->error(
                 $msg . ': ' . $e->getMessage(),
                 ['event' => 'status', 'status' => $e]
             );
