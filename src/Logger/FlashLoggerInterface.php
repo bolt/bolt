@@ -10,11 +10,12 @@ namespace Bolt\Logger;
  */
 interface FlashLoggerInterface
 {
-    const DANGER  = 'danger';
-    const ERROR   = 'error';
-    const INFO    = 'info';
-    const SUCCESS = 'success';
-    const WARNING = 'warning';
+    const DANGER        = 'danger';
+    const ERROR         = 'error';
+    const INFO          = 'info';
+    const SUCCESS       = 'success';
+    const WARNING       = 'warning';
+    const CONFIGURATION = 'configuration';
 
     /**
      * Display a 'danger' message.
@@ -50,6 +51,13 @@ interface FlashLoggerInterface
      * @param string $message
      */
     public function warning($message);
+
+    /**
+     * Display a 'configuration needed' message.
+     *
+     * @param string $message
+     */
+    public function configuration($message);
 
     /**
      * Add a message.
