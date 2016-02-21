@@ -320,13 +320,26 @@ class FilesystemManager extends AsyncBase
         }
 
         try {
-            if ($this->filesystem()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName")) {
-                return $this->json(null, Response::HTTP_OK);
+            $this->filesystem()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
+
+            return $this->json(null, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            $msg = Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]);
+
+            $this->app['logger.system']->critical(
+                $msg . ': ' . $e->getMessage(),
+                ['event' => 'status', 'status' => $e]
+            );
+
+            if ($e instanceof FileExistsException) {
+                $status = Response::HTTP_CONFLICT;
+            } elseif ($e instanceof FileNotFoundException) {
+                $status = Response::HTTP_NOT_FOUND;
+            } else {
+                $status = Response::HTTP_INTERNAL_SERVER_ERROR;
             }
 
-            return $this->json(Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]), Response::HTTP_FORBIDDEN);
-        } catch (\Exception $e) {
-            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json($msg, $status);
         }
     }
 
