@@ -141,13 +141,18 @@ class FilesystemManager extends AsyncBase
         $filename = $request->request->get('filename');
 
         try {
-            if ($this->filesystem()->put("$namespace://$parentPath/$filename", ' ')) {
-                return $this->json(null, Response::HTTP_OK);
-            }
+            $this->filesystem()->put("$namespace://$parentPath/$filename", ' ');
 
-            return $this->json(Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]), Response::HTTP_FORBIDDEN);
-        } catch (\Exception $e) {
-            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json(null, Response::HTTP_OK);
+        } catch (IOException $e) {
+            $msg = Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]);
+
+            $this->app['logger.system']->critical(
+                $msg . ': ' . $e->getMessage(),
+                ['event' => 'exception', 'exception' => $e]
+            );
+
+            return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
