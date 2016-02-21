@@ -85,10 +85,7 @@ class FilesystemManager extends AsyncBase
         } catch (IOException $e) {
             $msg = Trans::__("Folder '%s' could not be found, or is not readable.", ['%s' => $path]);
 
-            $this->app['logger.system']->error(
-                $msg . ': ' . $e->getMessage(),
-                ['event' => 'exception', 'exception' => $e]
-            );
+            $this->logException($msg, $e);
 
             $this->flashes()->error($msg);
         }
@@ -130,10 +127,7 @@ class FilesystemManager extends AsyncBase
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]);
 
-            $this->app['logger.system']->error(
-                $msg . ': ' . $e->getMessage(),
-                ['event' => 'exception', 'exception' => $e]
-            );
+            $this->logException($msg, $e);
 
             return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -159,10 +153,7 @@ class FilesystemManager extends AsyncBase
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]);
 
-            $this->app['logger.system']->error(
-                $msg . ': ' . $e->getMessage(),
-                ['event' => 'exception', 'exception' => $e]
-            );
+            $this->logException($msg, $e);
 
             return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -187,10 +178,7 @@ class FilesystemManager extends AsyncBase
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]);
 
-            $this->app['logger.system']->error(
-                $msg . ': ' . $e->getMessage(),
-                ['event' => 'exception', 'exception' => $e]
-            );
+            $this->logException($msg, $e);
 
             return $this->json(
                 $msg,
@@ -308,10 +296,7 @@ class FilesystemManager extends AsyncBase
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]);
 
-            $this->app['logger.system']->error(
-                $msg . ': ' . $e->getMessage(),
-                ['event' => 'exception', 'exception' => $e]
-            );
+            $this->logException($msg, $e);
 
             return $this->json($msg, Response::HTTP_FORBIDDEN);
         }
@@ -419,5 +404,21 @@ class FilesystemManager extends AsyncBase
         }
 
         return false;
+    }
+
+    /**
+     * Log an exception to the system log
+     *
+     * @param string $message A formatted error message
+     * @param string $exception The exception that has been thrown
+     *
+     * @return Boolean Whether the record has been processed
+     */
+    private function logException($message, $exception)
+    {
+        return $this->app['logger.system']->error(
+            $message . ': ' . $exception->getMessage(),
+            ['event' => 'exception', 'exception' => $exception]
+        );
     }
 }
