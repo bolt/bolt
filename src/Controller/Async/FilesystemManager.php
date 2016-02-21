@@ -305,7 +305,7 @@ class FilesystemManager extends AsyncBase
             $this->filesystem()->deleteDir("$namespace://$parentPath$folderName");
 
             return $this->json(null, Response::HTTP_OK);
-        } catch (IOException $e) {
+        } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]);
 
             $this->app['logger.system']->error(
