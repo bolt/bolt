@@ -13,10 +13,17 @@
 
 
 {# Macro for "basic" fields like HTML, Markdown, Textarea and Text #}
-{% macro commonfields(key, value, fieldtype) %}
+{% macro commonfields(key, value, fieldtype, contenttype) %}
 
         {# HTML, Markdown, Textarea, Text fields #}
         {% if fieldtype in ['html', 'markdown', 'textarea', 'text'] %}
+
+            {# If 'allowtwig' is true for this field, we'll need to parse it as Twig here. Note, that we're
+               doing this inside a macro, so the snippet has a limited scope. No global variables, etc. #}
+            {% if contenttype.fields[key].allowtwig is defined and contenttype.fields[key].allowtwig == true %}
+                {% set value = value|twig %}
+            {% endif %}
+
             <div {% if key is not empty %}data-bolt-field="{{key}}"{% endif %}>{{ value|raw }}</div>
         {% endif %}
 
@@ -86,7 +93,7 @@
     {% if common == true %}
 
         {% set fieldtype = record.fieldtype(key) %}
-        {{ macro.commonfields(key, value, fieldtype) }}
+        {{ macro.commonfields(key, value, fieldtype, record.contenttype) }}
 
     {% endif %}
 
