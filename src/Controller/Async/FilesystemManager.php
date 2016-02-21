@@ -306,9 +306,14 @@ class FilesystemManager extends AsyncBase
 
             return $this->json(null, Response::HTTP_OK);
         } catch (IOException $e) {
-            return $this->json(Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
-        } catch (\Exception $e) {
-            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            $msg = Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]);
+
+            $this->app['logger.system']->error(
+                $msg . ': ' . $e->getMessage(),
+                ['event' => 'exception', 'exception' => $e]
+            );
+
+            return $this->json($msg, Response::HTTP_FORBIDDEN);
         }
     }
 
