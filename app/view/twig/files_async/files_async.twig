@@ -111,7 +111,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
 						{% if context.multiselect == 1 %}
-							<button type="button" class="btn btn-primary" data-action="Bolt.stack.addMultipleFiles('{{ context.key }}')">{{ __('Add Selected') }}</button>
+							<button type="button" class="btn btn-primary disabled" id="addMultipleFiles" data-action="Bolt.stack.addMultipleFiles('{{ context.key }}')">{{ __('Add Selected') }}</button>
 							<button type="button" class="btn btn-primary" data-action="Bolt.stack.toggleCheckAll('{{ context.key }}')">{{ __('Check/Uncheck all') }}</button>
 						{% endif %}
         </div>

@@ -213,6 +213,11 @@
       } else {
         multipleFiles.push(path);
       }
+			if(multipleFiles.length) {
+				$('#addMultipleFiles').removeClass('disabled');
+			} else {
+				$('#addMultipleFiles').addClass('disabled');
+			}
     };
 
     /**
@@ -226,6 +231,9 @@
       for (var i = 0; i < multipleFiles.length; i++) {
         this.selectFromPulldown(key, multipleFiles[i], i === multipleFiles.length ? true : false);
       }
+			$('#selectModal-' + key + ' .modal-content .file-checkbox').prop('checked', false);
+			$('#addMultipleFiles').addClass('disabled');
+			multipleFiles.length = 0;
     };
 
     /**
@@ -248,6 +256,11 @@
         }
         allFilesChecked = !allFilesChecked;
       }
+			if(multipleFiles.length) {
+				$('#addMultipleFiles').removeClass('disabled');
+			} else {
+				$('#addMultipleFiles').addClass('disabled');
+			}
     };
 
     // Apply mixin container
