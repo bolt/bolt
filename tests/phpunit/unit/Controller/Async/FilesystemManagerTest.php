@@ -18,6 +18,7 @@ class FilesystemManagerTest extends ControllerUnitTest
 {
     const FILESYSTEM = 'files';
 
+    const FILE_NAME = '__phpunit_test_file_delete_me';
     const FOLDER_NAME = '__phpunit_test_folder_delete_me';
 
     public function testBrowse()
@@ -44,6 +45,22 @@ class FilesystemManagerTest extends ControllerUnitTest
 
         // Test whether the new folder actually exists
         $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FOLDER_NAME));
+    }
+
+    public function testCreateFile()
+    {
+        $this->setRequest(Request::create('/async/file/create', 'POST', [
+            'namespace'  => self::FILESYSTEM,
+            'parentPath' => '',
+            'filename'   => self::FILE_NAME,
+        ]));
+        $response = $this->controller()->createFile($this->getRequest());
+
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        // Test whether the new folder actually exists
+        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
     }
 
     public function testDeleteFile()
