@@ -3,6 +3,7 @@ namespace Bolt\Tests\Controller\Async;
 
 use Bolt\Filesystem\Handler\HandlerInterface;
 use Bolt\Response\BoltResponse;
+use Bolt\Session\Handler\FileHandler;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,7 +41,13 @@ class FilesystemManagerTest extends ControllerUnitTest
      */
     public function restoreFileList()
     {
-        $newFiles = array_diff($this->getService('filesystem')->listContents(self::FILESYSTEM . '://'), $this->oldFiles);
+        $newFiles = array_udiff(
+            $this->getService('filesystem')->listContents(self::FILESYSTEM . '://'),
+            $this->oldFiles,
+            function (HandlerInterface $file1, HandlerInterface $file2) {
+                return strcmp($file2->getPath(), $file2->getPath());
+            }
+        );
         /** @var HandlerInterface $file */
         foreach ($newFiles as $file) {
             $file->delete();
