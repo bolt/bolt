@@ -20,6 +20,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     const FILE_NAME = '__phpunit_test_file_delete_me';
     const FILE_NAME_2 = '__phpunit_test_file_2_delete_me';
     const FOLDER_NAME = '__phpunit_test_folder_delete_me';
+    const FOLDER_NAME_2 = '__phpunit_test_folder_2_delete_me';
 
     public function testBrowse()
     {
@@ -119,87 +120,6 @@ class FilesystemManagerTest extends ControllerUnitTest
         }
     }
 
-    public function testRenameFile()
-    {
-        // Create the file
-        $this->setRequest(Request::create('/async/file/create', 'POST', [
-            'namespace' => 'files',
-            'parent'    => '',
-            'filename'   => self::FILE_NAME
-        ]));
-        $this->controller()->createFile($this->getRequest());
-        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
-
-        // Rename the file
-        $this->setRequest(Request::create('/async/file/rename', 'POST', [
-            'namespace' => 'files',
-            'parent'    => '',
-            'oldname'   => self::FILE_NAME,
-            'newname'   => self::FILE_NAME_2
-        ]));
-
-        $response = $this->controller()->renameFile($this->getRequest());
-        $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-
-        $this->assertFalse($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
-        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME_2));
-    }
-
-    /**
-     * Test the error handling when attempting to rename non existent files and when attemtping to rename to a filename
-     * that already exists.
-     */
-    public function testRenameInvalidFile()
-    {
-        // Create the file
-        $this->setRequest(Request::create('/async/file/create', 'POST', [
-            'namespace' => 'files',
-            'parent'    => '',
-            'filename'   => self::FILE_NAME
-        ]));
-        $this->controller()->createFile($this->getRequest());
-        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
-
-        /*
-         * File doesn't exist
-         */
-        $this->setRequest(Request::create('/async/file/rename', 'POST', [
-            'namespace' => 'files',
-            'parent'    => '',
-            'oldname'   => self::FILE_NAME . '_nonexistent',
-            'newname'   => self::FILE_NAME_2
-        ]));
-
-        $response = $this->controller()->renameFile($this->getRequest());
-        $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
-
-        /*
-         * Destination already exists
-         */
-        // Create the files
-        foreach ([static::FILE_NAME, static::FILE_NAME_2] as $filename) {
-            $this->setRequest(Request::create('/async/file/create', 'POST', [
-                'namespace' => 'files',
-                'parent'    => '',
-                'filename'  => $filename
-            ]));
-            $this->controller()->createFile($this->getRequest());
-        }
-
-        $this->setRequest(Request::create('/async/file/rename', 'POST', [
-            'namespace' => 'files',
-            'parent'    => '',
-            'oldname'   => self::FILE_NAME,
-            'newname'   => self::FILE_NAME_2
-        ]));
-
-        $response = $this->controller()->renameFile($this->getRequest());
-        $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
-    }
-
     public function testDeleteFile()
     {
         $this->setRequest(Request::create('/async/file/delete', 'POST', [
@@ -223,6 +143,147 @@ class FilesystemManagerTest extends ControllerUnitTest
         $response = $this->controller()->deleteFile($this->getRequest());
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    /**
+     * Test renaming both files and folders, since the controller actions have the same signature and output
+     */
+    public function testRename()
+    {
+        $definitions = [
+            'file'   => ['old' => self::FILE_NAME, 'new' => self::FILE_NAME_2],
+            'folder' => ['old' => self::FOLDER_NAME, 'new' => self::FOLDER_NAME_2]
+        ];
+        foreach ($definitions as $object => $data) {
+            // Create the object
+            $this->setRequest(Request::create("/async/$object/create", 'POST', [
+                'namespace'  => 'files',
+                'parent'     => '',
+                'filename'   => $data['old'],
+                'foldername' => $data['old']
+            ]));
+            switch ($object) {
+                case 'file':
+                    $this->controller()->createFile($this->getRequest());
+                    break;
+                case 'folder':
+                    $this->controller()->createFolder($this->getRequest());
+                    break;
+            }
+            $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . $data['old']));
+
+            // Rename the object
+            $this->setRequest(Request::create("/async/$object/rename", 'POST', [
+                'namespace' => 'files',
+                'parent'    => '',
+                'oldname'   => $data['old'],
+                'newname'   => $data['new']
+            ]));
+
+            switch ($object) {
+                case 'file':
+                    $response = $this->controller()->renameFile($this->getRequest());
+                    break;
+                case 'folder':
+                    $response = $this->controller()->renameFolder($this->getRequest());
+                    break;
+            }
+            $this->assertInstanceOf(JsonResponse::class, $response);
+            $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+            $this->assertFalse($this->getService('filesystem')->has(self::FILESYSTEM . '://' . $data['old']));
+            $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . $data['new']));
+        }
+    }
+
+    /**
+     * Test the error handling when attempting to rename non existent files and folders and when attemtping to rename to
+     * a filename that already exists.
+     */
+    public function testInvalidRename()
+    {
+        $definitions = [
+            'file'   => ['old' => self::FILE_NAME, 'new' => self::FILE_NAME_2],
+            'folder' => ['old' => self::FOLDER_NAME, 'new' => self::FOLDER_NAME_2]
+        ];
+        foreach ($definitions as $object => $data) {
+            /*
+             * Object doesn't exist
+             */
+            // Create the Object
+            $this->setRequest(Request::create("/async/$object/create", 'POST', [
+                'namespace'  => 'files',
+                'parent'     => '',
+                'filename'   => $data['old'],
+                'foldername' => $data['old']
+            ]));
+            switch ($object) {
+                case 'file':
+                    $this->controller()->createFile($this->getRequest());
+                    break;
+                case 'folder':
+                    $this->controller()->createFolder($this->getRequest());
+                    break;
+            }
+            $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . $data['old']));
+
+            $this->setRequest(Request::create("/async/$object/rename", 'POST', [
+                'namespace' => 'files',
+                'parent'    => '',
+                'oldname'   => $data['old'] . '_nonexistent',
+                'newname'   => $data['new']
+            ]));
+
+            switch ($object) {
+                case 'file':
+                    $response = $this->controller()->renameFile($this->getRequest());
+                    break;
+                case 'folder':
+                    $response = $this->controller()->renameFolder($this->getRequest());
+                    break;
+            }
+            $this->assertInstanceOf(JsonResponse::class, $response);
+            $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+
+            /*
+             * Destination already exists
+             */
+            // Create the objects
+            foreach ([$data['old'], $data['old']] as $filename) {
+                $this->setRequest(Request::create("/async/$object/create", 'POST', [
+                    'namespace'  => 'files',
+                    'parent'     => '',
+                    'filename'   => $filename,
+                    'foldername' => $data['old']
+                ]));
+                switch ($object) {
+                    case 'file':
+                        $this->controller()->renameFile($this->getRequest());
+                        break;
+                    case 'folder':
+                        $this->controller()->createFolder($this->getRequest());
+                        break;
+                }
+            }
+
+            $this->setRequest(Request::create("/async/$object/rename", 'POST', [
+                'namespace' => 'files',
+                'parent'    => '',
+                'oldname'   => $data['old'],
+                'newname'   => $data['new']
+            ]));
+
+            switch ($object) {
+                case 'file':
+                    $response = $this->controller()->renameFile($this->getRequest());
+                    break;
+                case 'folder':
+                    $response = $this->controller()->renameFolder($this->getRequest());
+                    break;
+            }
+            $this->assertInstanceOf(JsonResponse::class, $response);
+            $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
+        }
     }
 
     public function testFilesAutoComplete()
