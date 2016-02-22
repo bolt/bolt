@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Tests\Controller\Async;
 
+use Bolt\Filesystem\Handler\HandlerInterface;
 use Bolt\Response\BoltResponse;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
@@ -21,6 +22,30 @@ class FilesystemManagerTest extends ControllerUnitTest
     const FILE_NAME_2 = '__phpunit_test_file_2_delete_me';
     const FOLDER_NAME = '__phpunit_test_folder_delete_me';
     const FOLDER_NAME_2 = '__phpunit_test_folder_2_delete_me';
+
+    private $oldFiles = [];
+
+    /**
+     * Store the list of files in the files folder so we can delete any added files after we're done testing
+     * @before
+     */
+    public function storeFileList()
+    {
+        $this->oldFiles = $this->getService('filesystem')->listContents(self::FILESYSTEM . '://');
+    }
+
+    /**
+     * Remove any files added during the test
+     * @after
+     */
+    public function restoreFileList()
+    {
+        $newFiles = array_diff($this->getService('filesystem')->listContents(self::FILESYSTEM . '://'), $this->oldFiles);
+        /** @var HandlerInterface $file */
+        foreach ($newFiles as $file) {
+            $file->delete();
+        }
+    }
 
     public function testBrowse()
     {
