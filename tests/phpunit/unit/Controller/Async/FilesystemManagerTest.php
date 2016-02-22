@@ -23,9 +23,9 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/browse'));
         $response = $this->controller()->browse($this->getRequest(), 'files', '/');
 
-        $this->assertTrue($response instanceof BoltResponse);
+        $this->assertInstanceOf(BoltResponse::class, $response);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertSame('@bolt/async/browse.twig', $response->getTemplateName());
+        $this->assertEquals('@bolt/async/browse.twig', $response->getTemplateName());
     }
 
     public function testCreateFolder()
@@ -33,7 +33,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/folder/create', 'POST', [
             'namespace'  => 'files',
             'parent'     => '',
-            'foldername' => '' . self::FOLDER_NAME,
+            'foldername' => self::FOLDER_NAME,
         ]));
         $response = $this->controller()->createFolder($this->getRequest());
 
