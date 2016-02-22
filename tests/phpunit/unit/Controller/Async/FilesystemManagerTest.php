@@ -36,7 +36,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/folder/create', 'POST', [
             'namespace'  => self::FILESYSTEM,
             'parent'     => '',
-            'foldername' => self::FOLDER_NAME,
+            'foldername' => self::FOLDER_NAME
         ]));
         $response = $this->controller()->createFolder($this->getRequest());
 
@@ -52,7 +52,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/file/create', 'POST', [
             'namespace'  => self::FILESYSTEM,
             'parentPath' => '',
-            'filename'   => self::FILE_NAME,
+            'filename'   => self::FILE_NAME
         ]));
         $response = $this->controller()->createFile($this->getRequest());
 
@@ -65,13 +65,23 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testDeleteFile()
     {
-        //         $this->setRequest(Request::create('/async/file/delete', 'POST', [
-//             'namespace' => 'files',
-//             'filename'  => 'foo.txt',
-//         ]));
-//         $response = $this->controller()->deleteFile($this->getRequest());
+        $this->setRequest(Request::create('/async/file/delete', 'POST', [
+            'namespace' => 'files',
+            'filename'  => self::FILE_NAME
+        ]));
 
-//         $this->assertTrue($response);
+        $response = $this->controller()->deleteFile($this->getRequest());
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        // The file shouldn't exist anymore
+        $this->assertFalse($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
+
+        // Attempting to delete the same file twice (or simply attempting to remove a file that doesn't exist) should
+        // return a 404 Not Found status code
+        $response = $this->controller()->deleteFile($this->getRequest());
+        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
     public function testDuplicateFile()
