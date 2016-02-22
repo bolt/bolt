@@ -40,7 +40,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         ]));
         $response = $this->controller()->createFolder($this->getRequest());
 
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         // Test whether the new folder actually exists
@@ -56,11 +56,48 @@ class FilesystemManagerTest extends ControllerUnitTest
         ]));
         $response = $this->controller()->createFile($this->getRequest());
 
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         // Test whether the new folder actually exists
         $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
+    }
+
+    /**
+     * Duplicating a file five times should create FILENAME_copy1-5.EXT. This should work for both regular filenames
+     * and dotfiles.
+     */
+    public function testDuplicateFile()
+    {
+        $filenames = ['__phpunit_test_file_delete_me.extension', '.__phpunit_test_dotfile_delete_me'];
+
+        foreach($filenames as $filename) {
+            // Create the file
+            $this->getService('filesystem')->put(self::FILESYSTEM . '://' . $filename, '');
+
+            $extensionPos = strrpos($filename, '.') ?: strlen($filename);
+            $fileBase = substr($filename, 0, $extensionPos) . '_copy';
+            $fileExtension = substr($filename, $extensionPos);
+
+            for ($i = 1; $i <= 5; $i++) {
+                $destination = $fileBase . $i . $fileExtension;
+
+                // The file shouldn't exist yet
+                $this->assertFalse($this->getService('filesystem')->has(self::FILESYSTEM . '://' . $destination));
+
+                $this->setRequest(Request::create('/async/file/duplicate', 'POST', [
+                    'namespace' => self::FILESYSTEM,
+                    'filename'  => $filename
+                ]));
+
+                $response = $this->controller()->duplicateFile($this->getRequest());
+                $this->assertInstanceOf(JsonResponse::class, $response);
+                $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+                // The copy should now have been created
+                $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . $destination));
+            }
+        }
     }
 
     public function testDeleteFile()
@@ -71,7 +108,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         ]));
 
         $response = $this->controller()->deleteFile($this->getRequest());
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         // The file shouldn't exist anymore
@@ -80,19 +117,8 @@ class FilesystemManagerTest extends ControllerUnitTest
         // Attempting to delete the same file twice (or simply attempting to remove a file that doesn't exist) should
         // return a 404 Not Found status code
         $response = $this->controller()->deleteFile($this->getRequest());
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
-    }
-
-    public function testDuplicateFile()
-    {
-        //         $this->setRequest(Request::create('/async/file/duplicate', 'POST', [
-//             'namespace' => 'files',
-//             'filename'  => 'foo.txt',
-//         ]));
-//         $response = $this->controller()->duplicateFile($this->getRequest());
-
-//         $this->assertTrue($response);
     }
 
     public function testFileBrowser()
@@ -135,7 +161,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->controller()->createFolder($this->getRequest());
         $response = $this->controller()->removeFolder($this->getRequest());
 
-        $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+        $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
