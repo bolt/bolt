@@ -263,15 +263,16 @@ class FilesystemManager extends AsyncBase
     {
         $results = [];
 
-        foreach ($this->storage()->getContentTypes() as $contenttype) {
-            if ($this->app['config']->get("contenttypes/{$contenttype}/viewless")) {
+        foreach ($this->app['config']->get('contenttypes') as $contenttype) {
+            if ($contenttype['viewless']) {
                 // Skip viewless ContentTypes
                 continue;
             }
-            $records = $this->getContent($contenttype, ['published' => true, 'hydrate' => false]);
 
+            $slug = $contenttype['slug'];
+            $records = $this->getContent($slug, ['published' => true, 'hydrate' => false]);
             foreach ($records as $record) {
-                $results[$contenttype][] = [
+                $results[$slug][] = [
                     'title' => $record->getTitle(),
                     'id'    => $record->id,
                     'link'  => $record->link(),
@@ -279,9 +280,7 @@ class FilesystemManager extends AsyncBase
             }
         }
 
-        $context = [
-            'results' => $results,
-        ];
+        $context = ['results' => $results];
 
         return $this->render('@bolt/recordbrowser/recordbrowser.twig', ['context' => $context]);
     }
