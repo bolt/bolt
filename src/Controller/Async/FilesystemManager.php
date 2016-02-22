@@ -206,7 +206,7 @@ class FilesystemManager extends AsyncBase
         $extensionPos = strrpos($filename, '.') ?: strlen($filename);
 
         $fileBase = substr($filename, 0, $extensionPos) . '_copy';
-        $fileExtension = substr($filename, $extensionPos + 1);
+        $fileExtension = substr($filename, $extensionPos);
 
         $n = 1;
 
