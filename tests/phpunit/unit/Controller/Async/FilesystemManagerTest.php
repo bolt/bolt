@@ -47,6 +47,25 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FOLDER_NAME));
     }
 
+    public function testRemoveFolder()
+    {
+        $this->setRequest(Request::create('/async/folder/delete', 'POST', [
+            'namespace'  => self::FILESYSTEM,
+            'parent'     => '',
+            'foldername' => self::FOLDER_NAME,
+        ]));
+
+        // The folder should exist before deleting
+        $this->controller()->createFolder($this->getRequest());
+        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FOLDER_NAME));
+
+        $response = $this->controller()->removeFolder($this->getRequest());
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $this->assertFalse($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FOLDER_NAME));
+    }
+
     public function testCreateFile()
     {
         $this->setRequest(Request::create('/async/file/create', 'POST', [
@@ -169,20 +188,6 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('@bolt/recordbrowser/recordbrowser.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-    }
-
-    public function testRemoveFolder()
-    {
-        $this->setRequest(Request::create('/async/folder/delete', 'POST', [
-            'namespace'  => self::FILESYSTEM,
-            'parent'     => '',
-            'foldername' => self::FOLDER_NAME,
-        ]));
-        $this->controller()->createFolder($this->getRequest());
-        $response = $this->controller()->removeFolder($this->getRequest());
-
-        $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testRenameFile()
