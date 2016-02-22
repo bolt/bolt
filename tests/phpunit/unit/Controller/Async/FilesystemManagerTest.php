@@ -91,7 +91,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     {
         $filenames = ['__phpunit_test_file_delete_me.extension', '.__phpunit_test_dotfile_delete_me'];
 
-        foreach($filenames as $filename) {
+        foreach ($filenames as $filename) {
             // Create the file
             $this->getService('filesystem')->put(self::FILESYSTEM . '://' . $filename, '');
 
@@ -224,7 +224,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $response = $this->controller()->filesAutoComplete($this->getRequest());
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertCount($count*count($extensions), json_decode($response->getContent()));
+        $this->assertCount($count * count($extensions), json_decode($response->getContent()));
 
         // Filtering by one extension should return only $count files
         $this->setRequest(Request::create('/async/file/autocomplete', 'GET', [
