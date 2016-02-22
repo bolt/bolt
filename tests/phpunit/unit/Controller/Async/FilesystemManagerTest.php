@@ -107,6 +107,9 @@ class FilesystemManagerTest extends ControllerUnitTest
             'filename'  => self::FILE_NAME
         ]));
 
+        // The file should still exist before deleting
+        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
+
         $response = $this->controller()->deleteFile($this->getRequest());
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
