@@ -4,7 +4,6 @@ namespace Bolt\Tests\Controller\Async;
 use Bolt\Response\BoltResponse;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +18,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     const FILESYSTEM = 'files';
 
     const FILE_NAME = '__phpunit_test_file_delete_me';
+    const FILE_NAME_2 = '__phpunit_test_file_2_delete_me';
     const FOLDER_NAME = '__phpunit_test_folder_delete_me';
 
     public function testBrowse()
@@ -119,6 +119,33 @@ class FilesystemManagerTest extends ControllerUnitTest
         }
     }
 
+    public function testRenameFile()
+    {
+        // Create the file
+        $this->setRequest(Request::create('/async/file/create', 'POST', [
+            'namespace' => 'files',
+            'parent'    => '',
+            'filename'   => self::FILE_NAME
+        ]));
+        $this->controller()->createFile($this->getRequest());
+        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
+
+        // Rename the file
+        $this->setRequest(Request::create('/async/file/rename', 'POST', [
+            'namespace' => 'files',
+            'parent'    => '',
+            'oldname'   => self::FILE_NAME,
+            'newname'   => self::FILE_NAME_2
+        ]));
+
+        $response = $this->controller()->renameFile($this->getRequest());
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        $this->assertFalse($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
+        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME_2));
+    }
+
     public function testDeleteFile()
     {
         $this->setRequest(Request::create('/async/file/delete', 'POST', [
@@ -188,19 +215,6 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('@bolt/recordbrowser/recordbrowser.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-    }
-
-    public function testRenameFile()
-    {
-        //         $this->setRequest(Request::create('/async/file/rename', 'POST', [
-//             'namespace' => 'files',
-//             'parent'    => '',
-//             'oldname'   => 'foo.txt',
-//             'newname'   => 'bar.txt',
-//         ]));
-//         $response = $this->controller()->renameFile($this->getRequest());
-
-//         $this->assertTrue($response);
     }
 
     public function testRenameFolder()
