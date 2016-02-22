@@ -192,7 +192,7 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return boolean
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function duplicateFile(Request $request)
     {
