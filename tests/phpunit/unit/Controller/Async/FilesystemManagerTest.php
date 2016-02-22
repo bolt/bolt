@@ -155,22 +155,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'folder' => ['old' => self::FOLDER_NAME, 'new' => self::FOLDER_NAME_2]
         ];
         foreach ($definitions as $object => $data) {
-            // Create the object
-            $this->setRequest(Request::create("/async/$object/create", 'POST', [
-                'namespace'  => 'files',
-                'parent'     => '',
-                'filename'   => $data['old'],
-                'foldername' => $data['old']
-            ]));
-            switch ($object) {
-                case 'file':
-                    $this->controller()->createFile($this->getRequest());
-                    break;
-                case 'folder':
-                    $this->controller()->createFolder($this->getRequest());
-                    break;
-            }
-            $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . $data['old']));
+            $this->createObject($object, $data['old']);
 
             // Rename the object
             $this->setRequest(Request::create("/async/$object/rename", 'POST', [
@@ -210,22 +195,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             /*
              * Object doesn't exist
              */
-            // Create the Object
-            $this->setRequest(Request::create("/async/$object/create", 'POST', [
-                'namespace'  => 'files',
-                'parent'     => '',
-                'filename'   => $data['old'],
-                'foldername' => $data['old']
-            ]));
-            switch ($object) {
-                case 'file':
-                    $this->controller()->createFile($this->getRequest());
-                    break;
-                case 'folder':
-                    $this->controller()->createFolder($this->getRequest());
-                    break;
-            }
-            $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . $data['old']));
+            $this->createObject($object, $data['old']);
 
             $this->setRequest(Request::create("/async/$object/rename", 'POST', [
                 'namespace' => 'files',
@@ -249,21 +219,8 @@ class FilesystemManagerTest extends ControllerUnitTest
              * Destination already exists
              */
             // Create the objects
-            foreach ([$data['old'], $data['old']] as $filename) {
-                $this->setRequest(Request::create("/async/$object/create", 'POST', [
-                    'namespace'  => 'files',
-                    'parent'     => '',
-                    'filename'   => $filename,
-                    'foldername' => $data['old']
-                ]));
-                switch ($object) {
-                    case 'file':
-                        $this->controller()->renameFile($this->getRequest());
-                        break;
-                    case 'folder':
-                        $this->controller()->createFolder($this->getRequest());
-                        break;
-                }
+            foreach ([$data['old'], $data['new']] as $filename) {
+                $this->createObject($object, $filename);
             }
 
             $this->setRequest(Request::create("/async/$object/rename", 'POST', [
@@ -343,6 +300,29 @@ class FilesystemManagerTest extends ControllerUnitTest
 //         $response = $this->controller()->renameFolder($this->getRequest());
 
 //         $this->assertTrue($response);
+    }
+
+    /**
+     * @param string $object The type of the object, either 'file' or 'folder'
+     * @param string $name The name of the new object
+     */
+    private function createObject($object, $name)
+    {
+        $this->setRequest(Request::create("/async/$object/create", 'POST', [
+            'namespace'  => 'files',
+            'parent'     => '',
+            'filename'   => $name,
+            'foldername' => $name
+        ]));
+        switch ($object) {
+            case 'file':
+                $this->controller()->createFile($this->getRequest());
+                break;
+            case 'folder':
+                $this->controller()->createFolder($this->getRequest());
+                break;
+        }
+        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . $name));
     }
 
     /**
