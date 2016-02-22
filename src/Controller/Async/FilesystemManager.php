@@ -243,12 +243,9 @@ class FilesystemManager extends AsyncBase
         $extensions = implode('|', explode(',', $request->query->get('ext', '.*')));
         $regex = sprintf('/.*(%s).*\.(%s)$/', $term, $extensions);
 
-        $files = $this->filesystem()
-            ->find()
-            ->in('files://')
-            ->name($regex)
-        ;
+        $files = $this->filesystem()->find()->in('files://')->name($regex);
 
+        $result = [];
         /** @var \Bolt\Filesystem\Handler\File $file */
         foreach ($files as $file) {
             $result[] = $file->getPath();
