@@ -121,6 +121,40 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
+    public function testFilesAutoComplete()
+    {
+        // First create a bunch of files named FOLDER/$i.EXTENSION
+        $prefix = 'autocomplete';
+        $extensions = ['ext1', 'ext2'];
+        $count = 5;
+
+        for ($i = 1; $i <= $count; $i++) {
+            foreach ($extensions as $extension) {
+                $this->getService('filesystem')->put(self::FILESYSTEM . '://' . $prefix . $i . '.' . $extension, '');
+            }
+        }
+
+        // Querying should return all files
+        $this->setRequest(Request::create('/async/file/autocomplete', 'GET', [
+            'term' => $prefix,
+            'ext'  => '.*'
+        ]));
+
+        $response = $this->controller()->filesAutoComplete($this->getRequest());
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertCount($count*count($extensions), json_decode($response->getContent()));
+
+        // Filtering by one extension should return only $count files
+        $this->setRequest(Request::create('/async/file/autocomplete', 'GET', [
+            'term' => $prefix,
+            'ext'  => $extensions[0]
+        ]));
+
+        $response = $this->controller()->filesAutoComplete($this->getRequest());
+        $this->assertCount($count, json_decode($response->getContent()));
+    }
+
     public function testFileBrowser()
     {
         //$this->setSessionUser(new Entity\Users($this->getService('users')->getUser('admin')));
@@ -131,24 +165,6 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->assertTrue($response instanceof BoltResponse);
         $this->assertSame('@bolt/recordbrowser/recordbrowser.twig', $response->getTemplateName());
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-    }
-
-    public function testFilesAutoComplete()
-    {
-        $fs = new Filesystem();
-        $fs->mirror(TEST_ROOT . '/files', PHPUNIT_WEBROOT . '/files');
-
-        $this->setRequest(Request::create('/async/file/autocomplete', 'GET', [
-            'term' => 'blu',
-        ]));
-
-        $response = $this->controller()->filesAutoComplete($this->getRequest());
-        $fs->remove(PHPUNIT_WEBROOT . '/files');
-
-        $this->assertTrue($response instanceof JsonResponse);
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertRegExp('/blur-breakfast-coffee-271.jpg/', (string) $response);
-        $this->assertRegExp('/blur-flowers-home-1093.jpg/', (string) $response);
     }
 
     public function testRemoveFolder()
