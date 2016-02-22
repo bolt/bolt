@@ -16,12 +16,14 @@ use Symfony\Component\HttpFoundation\Response;
  **/
 class FilesystemManagerTest extends ControllerUnitTest
 {
+    const FILESYSTEM = 'files';
+
     const FOLDER_NAME = '__phpunit_test_folder_delete_me';
 
     public function testBrowse()
     {
         $this->setRequest(Request::create('/async/browse'));
-        $response = $this->controller()->browse($this->getRequest(), 'files', '/');
+        $response = $this->controller()->browse($this->getRequest(), self::FILESYSTEM, '/');
 
         $this->assertInstanceOf(BoltResponse::class, $response);
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -31,7 +33,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     public function testCreateFolder()
     {
         $this->setRequest(Request::create('/async/folder/create', 'POST', [
-            'namespace'  => 'files',
+            'namespace'  => self::FILESYSTEM,
             'parent'     => '',
             'foldername' => self::FOLDER_NAME,
         ]));
@@ -39,6 +41,9 @@ class FilesystemManagerTest extends ControllerUnitTest
 
         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+
+        // Test whether the new folder actually exists
+        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FOLDER_NAME));
     }
 
     public function testDeleteFile()
@@ -96,7 +101,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     public function testRemoveFolder()
     {
         $this->setRequest(Request::create('/async/folder/delete', 'POST', [
-            'namespace'  => 'files',
+            'namespace'  => self::FILESYSTEM,
             'parent'     => '',
             'foldername' => self::FOLDER_NAME,
         ]));
