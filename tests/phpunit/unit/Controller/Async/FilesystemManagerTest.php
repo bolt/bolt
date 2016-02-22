@@ -158,21 +158,8 @@ class FilesystemManagerTest extends ControllerUnitTest
             $this->createObject($object, $data['old']);
 
             // Rename the object
-            $this->setRequest(Request::create("/async/$object/rename", 'POST', [
-                'namespace' => 'files',
-                'parent'    => '',
-                'oldname'   => $data['old'],
-                'newname'   => $data['new']
-            ]));
+            $response = $this->renameObject($object, $data['old'], $data['new']);
 
-            switch ($object) {
-                case 'file':
-                    $response = $this->controller()->renameFile($this->getRequest());
-                    break;
-                case 'folder':
-                    $response = $this->controller()->renameFolder($this->getRequest());
-                    break;
-            }
             $this->assertInstanceOf(JsonResponse::class, $response);
             $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
@@ -196,22 +183,8 @@ class FilesystemManagerTest extends ControllerUnitTest
              * Object doesn't exist
              */
             $this->createObject($object, $data['old']);
+            $response = $this->renameObject($object, $data['old'] . '_nonexistent', $data['new']);
 
-            $this->setRequest(Request::create("/async/$object/rename", 'POST', [
-                'namespace' => 'files',
-                'parent'    => '',
-                'oldname'   => $data['old'] . '_nonexistent',
-                'newname'   => $data['new']
-            ]));
-
-            switch ($object) {
-                case 'file':
-                    $response = $this->controller()->renameFile($this->getRequest());
-                    break;
-                case 'folder':
-                    $response = $this->controller()->renameFolder($this->getRequest());
-                    break;
-            }
             $this->assertInstanceOf(JsonResponse::class, $response);
             $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
 
@@ -223,21 +196,7 @@ class FilesystemManagerTest extends ControllerUnitTest
                 $this->createObject($object, $filename);
             }
 
-            $this->setRequest(Request::create("/async/$object/rename", 'POST', [
-                'namespace' => 'files',
-                'parent'    => '',
-                'oldname'   => $data['old'],
-                'newname'   => $data['new']
-            ]));
-
-            switch ($object) {
-                case 'file':
-                    $response = $this->controller()->renameFile($this->getRequest());
-                    break;
-                case 'folder':
-                    $response = $this->controller()->renameFolder($this->getRequest());
-                    break;
-            }
+            $response = $this->renameObject($object, $data['old'], $data['new']);
             $this->assertInstanceOf(JsonResponse::class, $response);
             $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
         }
@@ -289,19 +248,6 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
     }
 
-    public function testRenameFolder()
-    {
-        //         $this->setRequest(Request::create('/async/folder/rename', 'POST', [
-//             'namespace' => 'files',
-//             'parent'    => '',
-//             'oldname'   => 'foo',
-//             'newname'   => 'bar',
-//         ]));
-//         $response = $this->controller()->renameFolder($this->getRequest());
-
-//         $this->assertTrue($response);
-    }
-
     /**
      * @param string $object The type of the object, either 'file' or 'folder'
      * @param string $name The name of the new object
@@ -323,6 +269,33 @@ class FilesystemManagerTest extends ControllerUnitTest
                 break;
         }
         $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . $name));
+    }
+
+    /**
+     * @param string $object The type of the object, either 'file' or 'folder'
+     * @param string $old
+     * @param string $new
+     *
+     * @return JsonResponse
+     */
+    private function renameObject($object, $old, $new)
+    {
+        $this->setRequest(Request::create("/async/$object/rename", 'POST', [
+            'namespace' => 'files',
+            'parent'    => '',
+            'oldname'   => $old,
+            'newname'   => $new
+        ]));
+        switch ($object) {
+            case 'file':
+                $response = $this->controller()->renameFile($this->getRequest());
+                break;
+            case 'folder':
+                $response = $this->controller()->renameFolder($this->getRequest());
+                break;
+        }
+
+        return $response;
     }
 
     /**
