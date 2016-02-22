@@ -336,10 +336,7 @@ class FilesystemManager extends AsyncBase
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]);
 
-            $this->app['logger.system']->error(
-                $msg . ': ' . $e->getMessage(),
-                ['event' => 'status', 'status' => $e]
-            );
+            $this->logException($msg, $e);
 
             if ($e instanceof FileExistsException) {
                 $status = Response::HTTP_CONFLICT;
@@ -374,10 +371,7 @@ class FilesystemManager extends AsyncBase
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to rename directory: %DIR%', ['%DIR%' => $oldName]);
 
-            $this->app['logger.system']->error(
-                $msg . ': ' . $e->getMessage(),
-                ['event' => 'status', 'status' => $e]
-            );
+            $this->logException($msg, $e);
 
             if ($e instanceof FileExistsException) {
                 $status = Response::HTTP_CONFLICT;
