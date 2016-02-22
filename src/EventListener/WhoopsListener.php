@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Run as Whoops;
@@ -60,8 +61,14 @@ class WhoopsListener implements EventSubscriberInterface
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
+        // We (generally) do not want to show Whoops! screens when the user isn't logged on.
         $hasUser = $this->session->isStarted() && $this->session->has('authentication');
         if (!$hasUser && !$this->showWhileLoggedOff) {
+            return;
+        }
+
+        // We don't want to show Whoops! screens for requests that trigger a 404.
+        if ($event->getException() instanceof NotFoundHttpException) {
             return;
         }
 
