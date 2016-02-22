@@ -410,7 +410,7 @@ class FilesystemManager extends AsyncBase
      * Log an exception to the system log
      *
      * @param string $message A formatted error message
-     * @param string $exception The exception that has been thrown
+     * @param \Exception $exception The exception that has been thrown
      *
      * @return Boolean Whether the record has been processed
      */
