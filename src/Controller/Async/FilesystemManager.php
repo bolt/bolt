@@ -408,11 +408,8 @@ class FilesystemManager extends AsyncBase
 
         $oldFile = new \SplFileInfo($oldName);
         $newFile = new \SplFileInfo($newName);
-        if ($oldFile->getExtension() === $newFile->getExtension()) {
-            return true;
-        }
 
-        return false;
+        return $oldFile->getExtension() === $newFile->getExtension();
     }
 
     /**
