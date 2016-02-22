@@ -123,7 +123,7 @@ class FilesystemManager extends AsyncBase
         try {
             $this->filesystem()->createDir("$namespace://$parentPath$folderName");
 
-            return $this->json(null, Response::HTTP_OK);
+            return $this->json("$parentPath$folderName", Response::HTTP_OK);
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]);
 
@@ -149,7 +149,7 @@ class FilesystemManager extends AsyncBase
         try {
             $this->filesystem()->put("$namespace://$parentPath/$filename", ' ');
 
-            return $this->json(null, Response::HTTP_OK);
+            return $this->json("$parentPath/$filename", Response::HTTP_OK);
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]);
 
@@ -174,7 +174,7 @@ class FilesystemManager extends AsyncBase
         try {
             $this->filesystem()->delete("$namespace://$filename");
 
-            return $this->json(null, Response::HTTP_OK);
+            return $this->json($filename, Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]);
 
@@ -220,7 +220,7 @@ class FilesystemManager extends AsyncBase
         try {
             $filesystem->copy($filename, $destination);
 
-            return $this->json(null, Response::HTTP_OK);
+            return $this->json($destination, Response::HTTP_OK);
         } catch (IOException $e) {
             $msg = Trans::__('Unable to duplicate file: %FILE%', ['%FILE%' => $filename]);
 
@@ -301,7 +301,7 @@ class FilesystemManager extends AsyncBase
         try {
             $this->filesystem()->deleteDir("$namespace://$parentPath$folderName");
 
-            return $this->json(null, Response::HTTP_OK);
+            return $this->json("$parentPath$folderName", Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]);
 
@@ -332,7 +332,7 @@ class FilesystemManager extends AsyncBase
         try {
             $this->filesystem()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
 
-            return $this->json(null, Response::HTTP_OK);
+            return $this->json("$parentPath/$newName", Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]);
 
@@ -367,7 +367,7 @@ class FilesystemManager extends AsyncBase
         try {
             $this->filesystem()->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
 
-            return $this->json(null, Response::HTTP_OK);
+            return $this->json("$parentPath$newName", Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to rename directory: %DIR%', ['%DIR%' => $oldName]);
 
