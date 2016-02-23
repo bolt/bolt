@@ -306,7 +306,7 @@
                                     var field = $('#' + index);
                                     if (field.attr('type') === 'checkbox') {
                                         // A checkbox, so set with prop
-                                        field.prop('checked', (item == "on"));
+                                        field.prop('checked', item === "on");
                                     } else {
                                         // Either an input or a textarea, so set with val
                                         field.val(item);

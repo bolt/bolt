@@ -88,12 +88,15 @@ class FilesystemManager extends AsyncBase
 
         $files = $filesystem->find()->in($path)->files()->depth(0)->toArray();
         $directories = $filesystem->find()->in($path)->directories()->depth(0)->toArray();
+        
+        $multiselect = $request->get('multiselect');
 
         $context = [
             'namespace'    => $namespace,
             'files'        => $files,
             'directories'  => $directories,
             'pathsegments' => $pathsegments,
+            'multiselect' => $multiselect,
         ];
 
         return $this->render(

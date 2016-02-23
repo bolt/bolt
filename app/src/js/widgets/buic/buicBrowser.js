@@ -29,7 +29,8 @@
          */
         options: {
             namespace: '',
-            path: ''
+            path: '',
+            multiselect: false
         },
 
         /**
@@ -65,7 +66,8 @@
          */
         _browse: function () {
             var self = this,
-                data = {};
+                data = {},
+                files = [];
 
             $('body').buicModal({
                 size: 'large',
@@ -119,6 +121,20 @@
                         })
                         .keyup('input[name="filter"]', function () {
                             self._filter(modal);
+                        })
+                        .on('change', '.file-checkbox', function (evt) {
+                            evt.preventDefault();
+                            this.files.push($(this).data('fbrowser-select'));
+                            console.log(files);
+                        })
+                        .on('click.bolt', '[data-fbrowser-check-all]', function (evt) {
+                            evt.preventDefault();
+                            modal.body.find('.file-checkbox').each(function() {
+                                this.files.push($(this).data('fbrowser-select'));
+                            });
+                        })
+                        .on('click.bolt', '[data-add-checked]', function (evt) {
+                            evt.preventDefault();
                         });
                 }
             });

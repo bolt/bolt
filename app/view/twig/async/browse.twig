@@ -71,6 +71,7 @@
 
                     {# Files #}
                     <tbody class="files">
+                       {{dump(context)}}
                         {% for file in context.files %}
                             {% if file.extension in ['jpeg', 'jpg', 'png', 'gif', 'ico', 'svg'] %}
                                 {% set type = 'type-image' %}
@@ -120,6 +121,11 @@
                                         {{ file.path|showimage(54, 40, 'c') }}
                                     {% endif %}
                                 </td>
+                                {% if context.multiselect == 1 %}
+                                    <td>
+                                        <input type="checkbox" class="file-checkbox" {{ hattr({ 'data-add-checked': file.path }) }} />
+                                    </td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     <tbody>
@@ -128,7 +134,11 @@
         {% endif %}
     </main>
 
-    {#<footer>
-        .<button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-    </footer>#}
+    <footer>
+        {% if context.multiselect == 1 and context.files|length > 0 %}
+            <button type="button" class="btn btn-primary disabled" id="addMultipleFiles" data-action="Bolt.stack.addMultipleFiles('{{ context.key }}')">{{ __('Add Selected') }}</button>
+            <button type="button" class="btn btn-primary" data-action="Bolt.stack.toggleCheckAll('{{ context.key }}')">{{ __('Check/Uncheck all') }}</button>
+        {% endif %}
+        {#<button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>#}
+    </footer>
 </div>
