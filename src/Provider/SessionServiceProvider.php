@@ -9,9 +9,10 @@ use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
 use Bolt\Session\SessionListener;
 use Bolt\Session\SessionStorage;
-use GuzzleHttp\Url;
+use GuzzleHttp\Psr7\Uri;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -297,48 +298,60 @@ class SessionServiceProvider implements ServiceProviderInterface
     {
         if (isset($options['host']) || isset($options['port'])) {
             $options['connections'][] = $options;
+        } elseif ($options['connection']) {
+            $options['connections'][] = $options['connection'];
         }
 
-        /** @var Url[] $toParse */
+        /** @var ParameterBag[] $toParse */
         $toParse = [];
         if (isset($options['connections'])) {
             foreach ((array) $options['connections'] as $alias => $conn) {
                 if (is_string($conn)) {
                     $conn = ['host' => $conn];
                 }
-                $scheme = isset($conn['scheme']) ? $conn['scheme'] : 'tcp';
-                $host = isset($conn['host']) ? $conn['host'] : $defaultHost;
-                $url = new Url($scheme, $host);
-                $url->setPort(isset($conn['port']) ? $conn['port'] : $defaultPort);
-                if (isset($conn['path'])) {
-                    $url->setPath($conn['path']);
+                $conn += [
+                    'scheme' => 'tcp',
+                    'host'   => $defaultHost,
+                    'port'   => $defaultPort,
+                ];
+                $conn = new ParameterBag($conn);
+
+                if ($conn->has('password')) {
+                    $conn->set('pass', $conn->get('password'));
+                    $conn->remove('password');
                 }
-                if (isset($conn['password'])) {
-                    $url->setPassword($conn['password']);
-                }
-                $url->getQuery()->replace($conn);
-                $toParse[] = $url;
+                $conn->set('uri', Uri::fromParts($conn->all()));
+
+                $toParse[] = $conn;
             }
         } elseif (isset($options['save_path'])) {
             foreach (explode(',', $options['save_path']) as $conn) {
-                $toParse[] = Url::fromString($conn);
+                $conn = new ParameterBag($conn);
+                $conn->set('uri', new Uri($conn));
+                $toParse[] = $conn;
             }
         }
 
         $connections = [];
-        foreach ($toParse as $url) {
+        foreach ($toParse as $conn) {
+            /** @var Uri $uri */
+            $uri = $conn->get('uri');
+
+            $parts = explode(':', $uri->getUserInfo(), 2);
+            $password = isset($parts[1]) ? $parts[1] : null;
+
             $connections[] = [
-                'scheme'     => $url->getScheme(),
-                'host'       => $url->getHost(),
-                'port'       => $url->getPort(),
-                'path'       => $url->getPath(),
-                'alias'      => $url->getQuery()->get('alias'),
-                'prefix'     => $url->getQuery()->get('prefix'),
-                'password'   => $url->getPassword(),
-                'database'   => $url->getQuery()->get('database'),
-                'persistent' => $url->getQuery()->get('persistent'),
-                'weight'     => $url->getQuery()->get('weight'),
-                'timeout'    => $url->getQuery()->get('timeout'),
+                'scheme'     => $uri->getScheme(),
+                'host'       => $uri->getHost(),
+                'port'       => $uri->getPort(),
+                'path'       => $uri->getPath(),
+                'alias'      => $conn->get('alias'),
+                'prefix'     => $conn->get('prefix'),
+                'password'   => $password,
+                'database'   => $conn->get('database'),
+                'persistent' => $conn->get('persistent'),
+                'weight'     => $conn->get('weight'),
+                'timeout'    => $conn->get('timeout'),
             ];
         }
 
