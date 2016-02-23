@@ -84,9 +84,7 @@ class FilesystemManager extends AsyncBase
             $filesystem->listContents($path);
         } catch (IOException $e) {
             $msg = Trans::__("Folder '%s' could not be found, or is not readable.", ['%s' => $path]);
-
             $this->logException($msg, $e);
-
             $this->flashes()->error($msg);
         }
 
@@ -126,7 +124,6 @@ class FilesystemManager extends AsyncBase
             return $this->json("$parentPath$folderName", Response::HTTP_OK);
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]);
-
             $this->logException($msg, $e);
 
             return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -152,7 +149,6 @@ class FilesystemManager extends AsyncBase
             return $this->json("$parentPath/$filename", Response::HTTP_OK);
         } catch (IOException $e) {
             $msg = Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]);
-
             $this->logException($msg, $e);
 
             return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -177,7 +173,6 @@ class FilesystemManager extends AsyncBase
             return $this->json($filename, Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]);
-
             $this->logException($msg, $e);
 
             return $this->json(
@@ -243,7 +238,11 @@ class FilesystemManager extends AsyncBase
         $extensions = implode('|', explode(',', $request->get('ext', '.*')));
         $regex = sprintf('/.*(%s).*\.(%s)$/', $term, $extensions);
 
-        $files = $this->filesystem()->find()->in('files://')->name($regex);
+        $files = $this->filesystem()
+            ->find()
+            ->in('files://')
+            ->name($regex)
+        ;
 
         $result = [];
         /** @var \Bolt\Filesystem\Handler\File $file */
@@ -335,7 +334,6 @@ class FilesystemManager extends AsyncBase
             return $this->json("$parentPath/$newName", Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]);
-
             $this->logException($msg, $e);
 
             if ($e instanceof FileExistsException) {
@@ -370,7 +368,6 @@ class FilesystemManager extends AsyncBase
             return $this->json("$parentPath$newName", Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to rename directory: %DIR%', ['%DIR%' => $oldName]);
-
             $this->logException($msg, $e);
 
             if ($e instanceof FileExistsException) {
@@ -409,7 +406,7 @@ class FilesystemManager extends AsyncBase
     /**
      * Log an exception to the system log
      *
-     * @param string $message A formatted error message
+     * @param string     $message   A formatted error message
      * @param \Exception $exception The exception that has been thrown
      *
      * @return Boolean Whether the record has been processed
