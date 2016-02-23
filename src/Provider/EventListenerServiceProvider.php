@@ -33,7 +33,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $app['listener.not_found'] = $app->share(
             function ($app) {
                 return new Listener\NotFoundListener(
-                    $app['config']->get('theme/notfound') ?: $app['config']->get('theme/notfound'),
+                    $app['config']->get('theme/notfound') ?: $app['config']->get('general/notfound'),
                     $app['storage.legacy'],
                     $app['templatechooser'],
                     $app['render']
