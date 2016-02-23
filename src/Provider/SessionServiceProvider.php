@@ -2,7 +2,6 @@
 
 namespace Bolt\Provider;
 
-use Bolt\Session\CookiePathRestrictionListener;
 use Bolt\Session\Generator\RandomGenerator;
 use Bolt\Session\Handler\FileHandler;
 use Bolt\Session\Handler\RedisHandler;
@@ -29,19 +28,49 @@ class SessionServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $this->registerSessions($app);
-        $this->registerListeners($app);
+        $app['session'] = $app->share(
+            function ($app) {
+                return new Session(
+                    $app['session.storage'],
+                    $app['session.bag.attribute'],
+                    $app['session.bag.flash']
+                );
+            }
+        );
+
+        $app['session.storage'] = $app->share(
+            function ($app) {
+                $options = $app['session.options_bag'];
+
+                $handler = $app['session.handler_factory']($options['save_handler'], $options);
+
+                return new SessionStorage(
+                    $options,
+                    $handler,
+                    $app['session.generator'],
+                    $app['session.serializer']
+                );
+            }
+        );
+
+        $app['session.listener'] = $app->share(
+            function ($app) {
+                return new SessionListener($app['session'], $app['session.options_bag']);
+            }
+        );
+
         $this->registerOptions($app);
+
         $this->registerHandlers($app);
 
-        $app['session.storage.generator'] = $app->share(
+        $app['session.generator'] = $app->share(
             function () use ($app) {
                 return new RandomGenerator($app['randomgenerator'], $app['session.generator.bytes_length']);
             }
         );
         $app['session.generator.bytes_length'] = 32;
 
-        $app['session.storage.serializer'] = $app->share(
+        $app['session.serializer'] = $app->share(
             function () {
                 return new NativeSerializer();
             }
@@ -64,17 +93,7 @@ class SessionServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        $listeners = $app['sessions.listener'];
-        foreach ($listeners->keys() as $name) {
-            $app['dispatcher']->addSubscriber($listeners[$name]);
-        }
-        foreach ($app['sessions.options'] as $options) {
-            /** @var $options OptionsBag */
-            if ($options->getBoolean('cookie_restrict_path')) {
-                $listener = $app['session.cookie_path_restriction_listener.factory']($options);
-                $app['dispatcher']->addSubscriber($listener);
-            }
-        }
+        $app['dispatcher']->addSubscriber($app['session.listener']);
     }
 
     /**
@@ -84,144 +103,33 @@ class SessionServiceProvider implements ServiceProviderInterface
      */
     public function configure(Application $app)
     {
-        $app['session.default_options'] = [
+        $app['session.options'] = [
+            'name'            => 'bolt_session_',
+            'restrict_realm'  => true,
             'cookie_lifetime' => $app['config']->get('general/cookies_lifetime'),
             'cookie_path'     => $app['resources']->getUrl('root'),
             'cookie_domain'   => $app['config']->get('general/cookies_domain'),
             'cookie_secure'   => $app['config']->get('general/enforce_ssl'),
             'cookie_httponly' => true,
-            'restrict_realm'  => true,
         ];
-        $app['sessions.options'] = [
-            'main' => [
-                'name' => 'bolt_session_',
-            ],
-            'csrf' => [
-                'name'                 => 'bolt_session_csrf_',
-                'cookie_restrict_path' => true,
-                'cookie_lifetime'      => 0,
-            ],
-        ];
-    }
-
-    protected function registerSessions(Application $app)
-    {
-        $app['sessions'] = $app->share(
-            function () use ($app) {
-                $app['sessions.options.initializer']();
-
-                $sessions = new \Pimple();
-                foreach ($app['sessions.options'] as $name => $options) {
-                    $sessions[$name] = $app->share(
-                        function () use ($options, $app) {
-                            return $app['session.factory']($options);
-                        }
-                    );
-                }
-
-                return $sessions;
-            }
-        );
-
-        $app['session.factory'] = $app->protect(
-            function ($options) use ($app) {
-                return new Session(
-                    $app['session.storage.factory']($options),
-                    $app['session.bag.attribute'],
-                    $app['session.bag.flash']
-                );
-            }
-        );
-
-        $app['session.storage.factory'] = $app->protect(
-            function ($options) use ($app) {
-                return new SessionStorage(
-                    $options,
-                    $app['session.storage.handler.factory']($options['save_handler'], $options),
-                    $app['session.storage.generator'],
-                    $app['session.storage.serializer']
-                );
-            }
-        );
-
-        $app['session'] = $app->share(
-            function ($app) {
-                // Sessions needs to be called first so sessions.default is initialized
-                $sessions = $app['sessions'];
-
-                return $sessions[$app['sessions.default']];
-            }
-        );
-    }
-
-    protected function registerListeners(Application $app)
-    {
-        $app['sessions.listener'] = $app->share(
-            function () use ($app) {
-                $app['sessions.options.initializer']();
-
-                $listeners = new \Pimple();
-                foreach ($app['sessions']->keys() as $name) {
-                    $setToRequest = $name === $app['sessions.default'];
-                    $listeners[$name] = $app->share(
-                        function () use ($app, $name, $setToRequest) {
-                            $session = $app['sessions'][$name];
-                            $options = $app['sessions.options'][$name];
-
-                            return $app['session.listener.factory']($session, $options, $setToRequest);
-                        }
-                    );
-                }
-
-                return $listeners;
-            }
-        );
-
-        $app['session.listener.factory'] = $app->protect(
-            function ($session, $options, $setToRequest = false) {
-                return new SessionListener($session, $options, $setToRequest);
-            }
-        );
-
-        $app['session.listener'] = $app->share(
-            function ($app) {
-                return $app['session.listeners'][$app['sessions.default']];
-            }
-        );
-
-        $app['session.cookie_path_restriction_listener.factory'] = $app->protect(
-            function ($options) {
-                return new CookiePathRestrictionListener($options);
-            }
-        );
     }
 
     protected function registerOptions(Application $app)
     {
-        $app['session.default_options'] = [];
+        $app['session.options'] = [];
         $app['session.options.import_from_ini'] = true;
 
-        $app['sessions.options.initializer'] = $app->protect(
+        $app['session.options_bag'] = $app->share(
             function () use ($app) {
-                static $initialized = false;
-
-                if ($initialized) {
-                    return;
-                }
-                $initialized = true;
-
                 /*
-                 * Ok this does several things.
-                 * 1) Merges options together for each session. Precedence is as follows:
-                 *    - Options from individual session
-                 *    - Options from "session.default_options"
+                 * This does two things.
+                 * 1) Merges options together. Precedence is as follows:
+                 *    - Options from session.options
                  *    - Options from ini (if enabled with "session.options.import_from_ini")
                  *    - Options hardcoded below
-                 * 2) Converts "session.options" shortcut to sessions.options['default']
-                 * 3) Sets "sessions.default" value to first session key in "sessions.options"
-                 * 4) Converts options for each session to an OptionsBag instance
+                 * 2) Converts options to an OptionsBag instance
                  */
-                $actualDefaults = [
+                $defaults = [
                     'save_handler'    => 'files',
                     'save_path'       => '/tmp',
                     'name'            => 'PHPSESSID',
@@ -245,42 +153,30 @@ class SessionServiceProvider implements ServiceProviderInterface
                     'restrict_realm'  => false,
                 ];
 
-                if (isset($app['session.options.import_from_ini']) && $app['session.options.import_from_ini']) {
-                    foreach ($actualDefaults as $key => $value) {
-                        $actualDefaults[$key] = ini_get('session.' . $key);
+                $options = new OptionsBag($defaults);
+
+                if ($app['session.options.import_from_ini']) {
+                    foreach ($options as $key => $value) {
+                        $options[$key] = ini_get('session.' . $key);
                     }
                 }
-                $app['session.default_options'] = array_replace($actualDefaults, $app['session.default_options']);
 
-                // Maintain BC for "session.storage.options"
                 if (isset($app['session.storage.options'])) {
-                    $app['session.default_options'] = array_replace($app['session.default_options'], $app['session.storage.options']);
+                    $options->add($app['session.storage.options']);
                 }
 
-                if (!isset($app['sessions.options'])) {
-                    $app['sessions.options'] = [
-                        'default' => isset($app['session.options']) ? $app['session.options'] : [],
-                    ];
-                }
+                $options->add($app['session.options']);
 
-                $options = [];
-                foreach ($app['sessions.options'] as $name => $opts) {
-                    if (!isset($app['sessions.default'])) {
-                        $app['sessions.default'] = $name;
-                    }
-                    $opts = array_replace($app['session.default_options'], (array) $opts);
-                    $options[$name] = new OptionsBag($opts);
-                }
-                $app['sessions.options'] = $options;
+                return $options;
             }
         );
     }
 
     protected function registerHandlers(Application $app)
     {
-        $app['session.storage.handler.factory'] = $app->protect(
+        $app['session.handler_factory'] = $app->protect(
             function ($handler, $options) use ($app) {
-                $key = 'session.storage.handler.factory.' . $handler;
+                $key = 'session.handler_factory.' . $handler;
                 if (isset($app[$key])) {
                     return $app[$key]($options);
                 }
@@ -288,19 +184,23 @@ class SessionServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['session.storage.handler.factory.files'] = $app->protect(
-            function ($options) use ($app) {
-                return new FileHandler($options['save_path'], $app['logger.system']);
-            }
-        );
-
+        $this->registerFilesHandler($app);
         $this->registerMemcacheHandler($app);
         $this->registerRedisHandler($app);
     }
 
+    protected function registerFilesHandler(Application $app)
+    {
+        $app['session.handler_factory.files'] = $app->protect(
+            function ($options) use ($app) {
+                return new FileHandler($options['save_path'], $app['logger.system']);
+            }
+        );
+    }
+
     protected function registerMemcacheHandler(Application $app)
     {
-        $app['session.storage.handler.factory.backing_memcache'] = $app->protect(
+        $app['session.handler_factory.backing_memcache'] = $app->protect(
             function ($connections) {
                 $memcache = new \Memcache();
 
@@ -318,10 +218,10 @@ class SessionServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['session.storage.handler.factory.memcache'] = $app->protect(
+        $app['session.handler_factory.memcache'] = $app->protect(
             function ($options, $key = 'memcache') use ($app) {
                 $connections = $this->parseConnections($options, 'localhost', 11211);
-                $memcache = $app['session.storage.handler.factory.backing_' . $key]($connections);
+                $memcache = $app['session.handler_factory.backing_' . $key]($connections);
 
                 $handlerOptions = [];
                 if (isset($options['expiretime'])) {
@@ -339,16 +239,16 @@ class SessionServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['session.storage.handler.factory.memcached'] = $app->protect(
+        $app['session.handler_factory.memcached'] = $app->protect(
             function ($options) use ($app) {
-                return $app['session.storage.handler.factory.memcache']($options, 'memcached');
+                return $app['session.handler_factory.memcache']($options, 'memcached');
             }
         );
     }
 
     protected function registerRedisHandler(Application $app)
     {
-        $app['session.storage.handler.factory.backing_redis'] = $app->protect(
+        $app['session.handler_factory.backing_redis'] = $app->protect(
             function ($connections) {
                 if (class_exists('Redis')) {
                     $redis = new \Redis();
@@ -383,10 +283,10 @@ class SessionServiceProvider implements ServiceProviderInterface
             }
         );
 
-        $app['session.storage.handler.factory.redis'] = $app->protect(
+        $app['session.handler_factory.redis'] = $app->protect(
             function ($options) use ($app) {
                 $connections = $this->parseConnections($options, 'localhost', 6379);
-                $redis = $app['session.storage.handler.factory.backing_redis']($connections);
+                $redis = $app['session.handler_factory.backing_redis']($connections);
 
                 return new RedisHandler($redis, $options['gc_maxlifetime']);
             }
