@@ -2,6 +2,7 @@
 namespace Bolt\Controller\Async;
 
 use Bolt\Filesystem\Exception\ExceptionInterface;
+use Bolt\Filesystem\Exception\FileExistsException;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Translation\Translator as Trans;
@@ -81,8 +82,11 @@ class FilesystemManager extends AsyncBase
 
         try {
             $filesystem->listContents($path);
-        } catch (\Exception $e) {
+        } catch (IOException $e) {
             $msg = Trans::__("Folder '%s' could not be found, or is not readable.", ['%s' => $path]);
+
+            $this->logException($msg, $e);
+
             $this->flashes()->error($msg);
         }
 
@@ -112,18 +116,20 @@ class FilesystemManager extends AsyncBase
      */
     public function createFolder(Request $request)
     {
-        $namespace = $request->request->get('namespace');
-        $parentPath = $request->request->get('parent');
-        $folderName = $request->request->get('foldername');
+        $namespace = $request->get('namespace');
+        $parentPath = $request->get('parent');
+        $folderName = $request->get('foldername');
 
         try {
             $this->filesystem()->createDir("$namespace://$parentPath$folderName");
 
-            return $this->json(null, Response::HTTP_OK);
+            return $this->json("$parentPath$folderName", Response::HTTP_OK);
         } catch (IOException $e) {
-            return $this->json(Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
-        } catch (\Exception $e) {
-            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            $msg = Trans::__('Unable to create directory: %DIR%', ['%DIR%' => $folderName]);
+
+            $this->logException($msg, $e);
+
+            return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -136,18 +142,20 @@ class FilesystemManager extends AsyncBase
      */
     public function createFile(Request $request)
     {
-        $namespace = $request->request->get('namespace');
-        $parentPath = $request->request->get('parentPath');
-        $filename = $request->request->get('filename');
+        $namespace = $request->get('namespace');
+        $parentPath = $request->get('parentPath');
+        $filename = $request->get('filename');
 
         try {
-            if ($this->filesystem()->put("$namespace://$parentPath/$filename", ' ')) {
-                return $this->json(null, Response::HTTP_OK);
-            }
+            $this->filesystem()->put("$namespace://$parentPath/$filename", ' ');
 
-            return $this->json(Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]), Response::HTTP_FORBIDDEN);
-        } catch (\Exception $e) {
-            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json("$parentPath/$filename", Response::HTTP_OK);
+        } catch (IOException $e) {
+            $msg = Trans::__('Unable to create file: %FILE%', ['%FILE%' => $filename]);
+
+            $this->logException($msg, $e);
+
+            return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -160,20 +168,17 @@ class FilesystemManager extends AsyncBase
      */
     public function deleteFile(Request $request)
     {
-        $namespace = $request->request->get('namespace');
-        $filename = $request->request->get('filename');
+        $namespace = $request->get('namespace');
+        $filename = $request->get('filename');
 
         try {
             $this->filesystem()->delete("$namespace://$filename");
 
-            return $this->json(null, Response::HTTP_OK);
+            return $this->json($filename, Response::HTTP_OK);
         } catch (ExceptionInterface $e) {
             $msg = Trans::__('Unable to delete file: %FILE%', ['%FILE%' => $filename]);
 
-            $this->app['logger.system']->critical(
-                $msg . ': ' . $e->getMessage(),
-                ['event' => 'exception', 'exception' => $e]
-            );
+            $this->logException($msg, $e);
 
             return $this->json(
                 $msg,
@@ -187,29 +192,42 @@ class FilesystemManager extends AsyncBase
      *
      * @param Request $request
      *
-     * @return boolean
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function duplicateFile(Request $request)
     {
-        $namespace = $request->request->get('namespace');
-        $filename = $request->request->get('filename');
+        $namespace = $request->get('namespace');
+        $filename = $request->get('filename');
 
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
-        $extensionPos = strrpos($filename, '.');
-        $destination = substr($filename, 0, $extensionPos) . '_copy' . substr($filename, $extensionPos);
+        // If the filename doesn't have an extension $extensionPos will be equal to its length, so that$fileBase will
+        // contain the entire filename. This also accounts for dotfiles.
+        $extensionPos = strrpos($filename, '.') ?: strlen($filename);
+
+        $fileBase = substr($filename, 0, $extensionPos) . '_copy';
+        $fileExtension = substr($filename, $extensionPos);
+
         $n = 1;
 
-        while ($filesystem->has($destination)) {
-            $extensionPos = strrpos($destination, '.');
-            $destination = substr($destination, 0, $extensionPos) . "$n" . substr($destination, $extensionPos);
-            $n = rand(0, 1000);
-        }
-        if ($filesystem->copy($filename, $destination)) {
-            return true;
+        // Increase $n until filename_copy$n.ext doesn't exist
+        while ($filesystem->has($fileBase . $n . $fileExtension)) {
+            $n++;
         }
 
-        return false;
+        $destination = $fileBase . $n . $fileExtension;
+
+        try {
+            $filesystem->copy($filename, $destination);
+
+            return $this->json($destination, Response::HTTP_OK);
+        } catch (IOException $e) {
+            $msg = Trans::__('Unable to duplicate file: %FILE%', ['%FILE%' => $filename]);
+
+            $this->logException($msg, $e);
+
+            return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -222,15 +240,12 @@ class FilesystemManager extends AsyncBase
     public function filesAutoComplete(Request $request)
     {
         $term = $request->get('term', '.*');
-        $extensions = implode('|', explode(',', $request->query->get('ext', '.*')));
+        $extensions = implode('|', explode(',', $request->get('ext', '.*')));
         $regex = sprintf('/.*(%s).*\.(%s)$/', $term, $extensions);
 
-        $files = $this->filesystem()
-            ->find()
-            ->in('files://')
-            ->name($regex)
-        ;
+        $files = $this->filesystem()->find()->in('files://')->name($regex);
 
+        $result = [];
         /** @var \Bolt\Filesystem\Handler\File $file */
         foreach ($files as $file) {
             $result[] = $file->getPath();
@@ -248,15 +263,16 @@ class FilesystemManager extends AsyncBase
     {
         $results = [];
 
-        foreach ($this->storage()->getContentTypes() as $contenttype) {
-            if ($this->app['config']->get("contenttypes/{$contenttype}/viewless")) {
+        foreach ($this->app['config']->get('contenttypes') as $contenttype) {
+            if ($contenttype['viewless']) {
                 // Skip viewless ContentTypes
                 continue;
             }
-            $records = $this->getContent($contenttype, ['published' => true, 'hydrate' => false]);
 
+            $slug = $contenttype['slug'];
+            $records = $this->getContent($slug, ['published' => true, 'hydrate' => false]);
             foreach ($records as $record) {
-                $results[$contenttype][] = [
+                $results[$slug][] = [
                     'title' => $record->getTitle(),
                     'id'    => $record->id,
                     'link'  => $record->link(),
@@ -264,9 +280,7 @@ class FilesystemManager extends AsyncBase
             }
         }
 
-        $context = [
-            'results' => $results,
-        ];
+        $context = ['results' => $results];
 
         return $this->render('@bolt/recordbrowser/recordbrowser.twig', ['context' => $context]);
     }
@@ -280,18 +294,20 @@ class FilesystemManager extends AsyncBase
      */
     public function removeFolder(Request $request)
     {
-        $namespace = $request->request->get('namespace');
-        $parentPath = $request->request->get('parent');
-        $folderName = $request->request->get('foldername');
+        $namespace = $request->get('namespace');
+        $parentPath = $request->get('parent');
+        $folderName = $request->get('foldername');
 
         try {
             $this->filesystem()->deleteDir("$namespace://$parentPath$folderName");
 
-            return $this->json(null, Response::HTTP_OK);
-        } catch (IOException $e) {
-            return $this->json(Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]), Response::HTTP_FORBIDDEN);
-        } catch (\Exception $e) {
-            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json("$parentPath$folderName", Response::HTTP_OK);
+        } catch (ExceptionInterface $e) {
+            $msg = Trans::__('Unable to delete directory: %DIR%', ['%DIR%' => $folderName]);
+
+            $this->logException($msg, $e);
+
+            return $this->json($msg, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -304,23 +320,33 @@ class FilesystemManager extends AsyncBase
      */
     public function renameFile(Request $request)
     {
-        $namespace  = $request->request->get('namespace');
-        $parentPath = $request->request->get('parent');
-        $oldName    = $request->request->get('oldname');
-        $newName    = $request->request->get('newname');
+        $namespace = $request->get('namespace');
+        $parentPath = $request->get('parent');
+        $oldName = $request->get('oldname');
+        $newName = $request->get('newname');
 
         if (!$this->isMatchingExtension($oldName, $newName)) {
             return $this->json(Trans::__('Only root can change file extensions.'), Response::HTTP_FORBIDDEN);
         }
 
         try {
-            if ($this->filesystem()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName")) {
-                return $this->json(null, Response::HTTP_OK);
+            $this->filesystem()->rename("$namespace://$parentPath/$oldName", "$parentPath/$newName");
+
+            return $this->json("$parentPath/$newName", Response::HTTP_OK);
+        } catch (ExceptionInterface $e) {
+            $msg = Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]);
+
+            $this->logException($msg, $e);
+
+            if ($e instanceof FileExistsException) {
+                $status = Response::HTTP_CONFLICT;
+            } elseif ($e instanceof FileNotFoundException) {
+                $status = Response::HTTP_NOT_FOUND;
+            } else {
+                $status = Response::HTTP_INTERNAL_SERVER_ERROR;
             }
 
-            return $this->json(Trans::__('Unable to rename file: %FILE%', ['%FILE%' => $oldName]), Response::HTTP_FORBIDDEN);
-        } catch (\Exception $e) {
-            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json($msg, $status);
         }
     }
 
@@ -333,19 +359,29 @@ class FilesystemManager extends AsyncBase
      */
     public function renameFolder(Request $request)
     {
-        $namespace  = $request->request->get('namespace');
-        $parentPath = $request->request->get('parent');
-        $oldName    = $request->request->get('oldname');
-        $newName    = $request->request->get('newname');
+        $namespace = $request->get('namespace');
+        $parentPath = $request->get('parent');
+        $oldName = $request->get('oldname');
+        $newName = $request->get('newname');
 
         try {
-            if ($this->filesystem()->rename("$namespace://$parentPath$oldName", "$parentPath$newName")) {
-                return $this->json(null, Response::HTTP_OK);
+            $this->filesystem()->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
+
+            return $this->json("$parentPath$newName", Response::HTTP_OK);
+        } catch (ExceptionInterface $e) {
+            $msg = Trans::__('Unable to rename directory: %DIR%', ['%DIR%' => $oldName]);
+
+            $this->logException($msg, $e);
+
+            if ($e instanceof FileExistsException) {
+                $status = Response::HTTP_CONFLICT;
+            } elseif ($e instanceof FileNotFoundException) {
+                $status = Response::HTTP_NOT_FOUND;
+            } else {
+                $status = Response::HTTP_INTERNAL_SERVER_ERROR;
             }
 
-            return $this->json(Trans::__('Unable to rename directory: %DIR%', ['%DIR%' => $oldName]), Response::HTTP_FORBIDDEN);
-        } catch (\Exception $e) {
-            return $this->json($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json($msg, $status);
         }
     }
 
@@ -366,10 +402,23 @@ class FilesystemManager extends AsyncBase
 
         $oldFile = new \SplFileInfo($oldName);
         $newFile = new \SplFileInfo($newName);
-        if ($oldFile->getExtension() === $newFile->getExtension()) {
-            return true;
-        }
 
-        return false;
+        return $oldFile->getExtension() === $newFile->getExtension();
+    }
+
+    /**
+     * Log an exception to the system log
+     *
+     * @param string $message A formatted error message
+     * @param \Exception $exception The exception that has been thrown
+     *
+     * @return Boolean Whether the record has been processed
+     */
+    private function logException($message, $exception)
+    {
+        return $this->app['logger.system']->error(
+            $message . ': ' . $exception->getMessage(),
+            ['event' => 'exception', 'exception' => $exception]
+        );
     }
 }
