@@ -114,9 +114,9 @@ class FilesystemManager extends AsyncBase
      */
     public function createFolder(Request $request)
     {
-        $namespace = $request->get('namespace');
-        $parentPath = $request->get('parent');
-        $folderName = $request->get('foldername');
+        $namespace = $request->request->get('namespace');
+        $parentPath = $request->request->get('parent');
+        $folderName = $request->request->get('foldername');
 
         try {
             $this->filesystem()->createDir("$namespace://$parentPath$folderName");
@@ -139,9 +139,9 @@ class FilesystemManager extends AsyncBase
      */
     public function createFile(Request $request)
     {
-        $namespace = $request->get('namespace');
-        $parentPath = $request->get('parentPath');
-        $filename = $request->get('filename');
+        $namespace = $request->request->get('namespace');
+        $parentPath = $request->request->get('parentPath');
+        $filename = $request->request->get('filename');
 
         try {
             $this->filesystem()->put("$namespace://$parentPath/$filename", ' ');
@@ -164,8 +164,8 @@ class FilesystemManager extends AsyncBase
      */
     public function deleteFile(Request $request)
     {
-        $namespace = $request->get('namespace');
-        $filename = $request->get('filename');
+        $namespace = $request->request->get('namespace');
+        $filename = $request->request->get('filename');
 
         try {
             $this->filesystem()->delete("$namespace://$filename");
@@ -191,8 +191,8 @@ class FilesystemManager extends AsyncBase
      */
     public function duplicateFile(Request $request)
     {
-        $namespace = $request->get('namespace');
-        $filename = $request->get('filename');
+        $namespace = $request->request->get('namespace');
+        $filename = $request->request->get('filename');
 
         $filesystem = $this->filesystem()->getFilesystem($namespace);
 
@@ -234,8 +234,8 @@ class FilesystemManager extends AsyncBase
      */
     public function filesAutoComplete(Request $request)
     {
-        $term = $request->get('term', '.*');
-        $extensions = implode('|', explode(',', $request->get('ext', '.*')));
+        $term = $request->request->get('term', '.*');
+        $extensions = implode('|', explode(',', $request->request->get('ext', '.*')));
         $regex = sprintf('/.*(%s).*\.(%s)$/', $term, $extensions);
 
         $files = $this->filesystem()
@@ -293,9 +293,9 @@ class FilesystemManager extends AsyncBase
      */
     public function removeFolder(Request $request)
     {
-        $namespace = $request->get('namespace');
-        $parentPath = $request->get('parent');
-        $folderName = $request->get('foldername');
+        $namespace = $request->request->get('namespace');
+        $parentPath = $request->request->get('parent');
+        $folderName = $request->request->get('foldername');
 
         try {
             $this->filesystem()->deleteDir("$namespace://$parentPath$folderName");
@@ -319,10 +319,10 @@ class FilesystemManager extends AsyncBase
      */
     public function renameFile(Request $request)
     {
-        $namespace = $request->get('namespace');
-        $parentPath = $request->get('parent');
-        $oldName = $request->get('oldname');
-        $newName = $request->get('newname');
+        $namespace = $request->request->get('namespace');
+        $parentPath = $request->request->get('parent');
+        $oldName = $request->request->get('oldname');
+        $newName = $request->request->get('newname');
 
         if (!$this->isMatchingExtension($oldName, $newName)) {
             return $this->json(Trans::__('Only root can change file extensions.'), Response::HTTP_FORBIDDEN);
@@ -357,10 +357,10 @@ class FilesystemManager extends AsyncBase
      */
     public function renameFolder(Request $request)
     {
-        $namespace = $request->get('namespace');
-        $parentPath = $request->get('parent');
-        $oldName = $request->get('oldname');
-        $newName = $request->get('newname');
+        $namespace = $request->request->get('namespace');
+        $parentPath = $request->request->get('parent');
+        $oldName = $request->request->get('oldname');
+        $newName = $request->request->get('newname');
 
         try {
             $this->filesystem()->rename("$namespace://$parentPath$oldName", "$parentPath$newName");
