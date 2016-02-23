@@ -45,6 +45,9 @@ class Storage
     /** @var bool Test to indicate if we're inside a dispatcher. */
     private $inDispatcher = false;
 
+    /** @var array */
+    private $preferredTitles = [];
+
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -101,7 +104,7 @@ class Storage
     {
         $output = '';
 
-        // get a list of images.
+        // Get a list of images.
         $images = $this->app['filesystem']
             ->find()
             ->in('files://')
@@ -109,6 +112,9 @@ class Storage
             ->name('*.png')
             ->toArray()
         ;
+
+        // Set the 'Preferred titles' for filling the 'blocks' contenttype.
+        $this->preferredTitles = ['About Us', 'Address', 'Search Teaser', '404 Not Found'];
 
         $emptyOnly = empty($contenttypes);
 
@@ -165,7 +171,18 @@ class Storage
         foreach ($contenttype['fields'] as $field => $values) {
             switch ($values['type']) {
                 case 'text':
-                    $content[$field] = trim(strip_tags($this->app['prefill']->get('/1/veryshort')));
+                    if ($contenttype['slug'] === 'blocks' && $field === 'title') {
+                        // Special case: if we're prefilling a 'blocks' contenttype add some
+                        // sensible titles to get started.
+                        $content[$field] = $this->getBlocksTitle();
+                    } else if (strpos($field, 'link') !== false) {
+                        // Another special case: If the field contains 'link', we guess it'll be used
+                        // as a link, so don't prefill it with "text", but leave it blank instead.
+                        $content[$field] = '';
+                    } else {
+                        $content[$field] = trim(strip_tags($this->app['prefill']->get('/1/veryshort')));
+                    }
+
                     if (empty($title)) {
                         $title = $content[$field];
                     }
@@ -180,7 +197,7 @@ class Storage
                 case 'html':
                 case 'textarea':
                 case 'markdown':
-                    if (in_array($field, ['teaser', 'introduction', 'excerpt', 'intro'])) {
+                    if (in_array($field, ['teaser', 'introduction', 'excerpt', 'intro', 'content'])) {
                         $params = '/medium/decorate/link/1';
                     } else {
                         $params = '/medium/decorate/link/ol/ul/3';
@@ -267,6 +284,27 @@ class Storage
         $picked = array_slice($tags, 0, $num);
 
         return $picked;
+    }
+
+    /**
+     * Get the title for a 'Block' contenttype. Check if the desired ones aren't present in the
+     * database yet, and return them in order.
+     *
+     * @return string
+     */
+    private function getBlocksTitle()
+    {
+        $title = array_shift($this->preferredTitles);
+
+        // Prevent 'Fatal error: Uncaught Error: Cannot pass parameter 3 by reference in …'
+        $pager = [];
+
+        // If we're out of preferredTitles or if the record already exists.
+        if ($title === null || $this->getContent('blocks', '', $pager, ['title' => $title])) {
+            $title = trim(strip_tags($this->app['prefill']->get('/1/veryshort')));
+        }
+
+        return $title;
     }
 
     /**

@@ -89,7 +89,7 @@ homepage_template: index.twig
 # Note 2: If you are logged on, and debug is set to 'true', you will NOT see the
 #         404 page!
 # Note 3: This may also point to a template without a record, eg 'error404.twig'
-notfound: page/not-found
+notfound: block/404-not-found
 
 # The default template and amount of records to use for listing-pages on the
 # site.
@@ -130,7 +130,7 @@ taxonomy_sort: DESC
 # Note: If you've changed the filename, and your changes do not show up on the
 #       website, be sure to check for a config.yml file in your theme's folder.
 #       If a template is set there, it will override the setting here.
-search_results_template: listing.twig
+search_results_template: search.twig
 search_results_records: 10
 
 # Add jQuery to the rendered HTML, whether or not it's added by an extension.
