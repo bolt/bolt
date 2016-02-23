@@ -56,10 +56,17 @@ class WhoopsListener implements EventSubscriberInterface
     /**
      * Handle errors thrown in the application.
      *
+     * Note:
+     *   - We don't want to show Whoops! screens for requests that trigger a 404.
+     *   - Our priority is set just above Symfony's, as we are giving up and
+     *     displaying the error to the user, so that should be a low priority
+     *     compared to error handlers that do something else.
+     *
      * @param GetResponseForExceptionEvent $event
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
+        // We (generally) do not want to show Whoops! screens when the user isn't logged on.
         $hasUser = $this->session->isStarted() && $this->session->has('authentication');
         if (!$hasUser && !$this->showWhileLoggedOff) {
             return;
@@ -87,7 +94,7 @@ class WhoopsListener implements EventSubscriberInterface
     {
         return [
             KernelEvents::REQUEST   => 'onRequest',
-            KernelEvents::EXCEPTION => ['onKernelException', 512],
+            KernelEvents::EXCEPTION => ['onKernelException', -7],
         ];
     }
 }
