@@ -71,7 +71,6 @@
 
                     {# Files #}
                     <tbody class="files">
-                       {{dump(context)}}
                         {% for file in context.files %}
                             {% if file.extension in ['jpeg', 'jpg', 'png', 'gif', 'ico', 'svg'] %}
                                 {% set type = 'type-image' %}

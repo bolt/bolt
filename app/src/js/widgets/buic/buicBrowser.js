@@ -159,8 +159,12 @@
 								addSelectedBtn.addClass('disabled');
 							}
                         })
-                        .on('click.bolt', '[data-add-checked]', function (evt) {
+                        .on('click.bolt', '#addMultipleFiles', function (evt) {
                             evt.preventDefault();
+                            files.forEach(function(filePath) {
+                                self._trigger('selected', null, {path: filePath});
+                            });
+                            modal.close();
                         });
                 }
             });
