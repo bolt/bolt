@@ -67,6 +67,11 @@ trait ContentRelationTrait
                 }
             }
 
+            // Only get published items, unless specifically stated otherwise.
+            if (!isset($where['status'])) {
+                $where['status'] = 'published';
+            }
+
             $tempResult = $this->app['storage']->getContent($contenttype, $params, $dummy, $where);
 
             if (empty($tempResult)) {
