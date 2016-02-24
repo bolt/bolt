@@ -37,6 +37,10 @@
             {% endif %}
 
             <form method="post" class="form-horizontal" autocomplete="off">
+                {# Google Chrome, Firefox, MS Edge all require this trick to prevent password fields from auto-filling.
+                   @see http://stackoverflow.com/questions/15738259/disabling-chrome-autofill #}
+                <input type="text" style="display:none;" />
+                <input type="password" style="display:none;" />
 
                 {{ form_widget(context.form) }}
 
