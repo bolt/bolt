@@ -77,6 +77,10 @@
                     data: data
                 },
                 loaded: function (evt, modal) {
+                    
+                    //Find the add selected button
+                    var addSelectedBtn = $('#addMultipleFiles');
+                    
                     // Set data structures
                     modal.body.find('.entry').each(function () {
                         var tr = $(this).closest('tr'),
@@ -127,19 +131,33 @@
                             var fileIndex = files.indexOf($(this).data('fbrowser-check'));
                             if (fileIndex > -1) {
                                 files.splice(fileIndex, 1);
+								allChecked = false;
+								if (files.length === 0) {
+                                    addSelectedBtn.removeClass('disabled');
+								}
                             } else {
                                 files.push($(this).data('fbrowser-check'));
+								addSelectedBtn.removeClass('disabled');
                             }
-                            console.log(files);
                         });
                     modal.footer
                         .on('click.bolt', '.toggle-all', function (evt) {
-                            console.log('test');
                             evt.preventDefault();
-                            modal.body.find('[data-fbrowser-check]').each(function() {
-                                $(this).prop('checked', 'checked');
-                                //files.push($(this).data('fbrowser-select'));
-                            });
+							if (!allChecked) {
+								modal.body.find('[data-fbrowser-check]').each(function() {
+									$(this).prop('checked', true);
+									files.push($(this).data('fbrowser-check'));
+								});
+								allChecked = true;
+								addSelectedBtn.removeClass('disabled');
+							} else {
+								modal.body.find('[data-fbrowser-check]').each(function() {
+									$(this).prop('checked', false);
+								});
+								files.length = 0;
+								allChecked = false;
+								addSelectedBtn.addClass('disabled');
+							}
                         })
                         .on('click.bolt', '[data-add-checked]', function (evt) {
                             evt.preventDefault();
