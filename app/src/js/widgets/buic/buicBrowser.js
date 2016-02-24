@@ -67,7 +67,8 @@
         _browse: function () {
             var self = this,
                 data = {},
-                files = [];
+                files = [],
+                allChecked = false;
 
             $('body').buicModal({
                 size: 'large',
@@ -122,15 +123,22 @@
                         .keyup('input[name="filter"]', function () {
                             self._filter(modal);
                         })
-                        .on('change', '.file-checkbox', function (evt) {
-                            evt.preventDefault();
-                            this.files.push($(this).data('fbrowser-select'));
+                        .on('change', '[data-fbrowser-check]', function () {
+                            var fileIndex = files.indexOf($(this).data('fbrowser-check'));
+                            if (fileIndex > -1) {
+                                files.splice(fileIndex, 1);
+                            } else {
+                                files.push($(this).data('fbrowser-check'));
+                            }
                             console.log(files);
-                        })
-                        .on('click.bolt', '[data-fbrowser-check-all]', function (evt) {
+                        });
+                    modal.footer
+                        .on('click.bolt', '.toggle-all', function (evt) {
+                            console.log('test');
                             evt.preventDefault();
-                            modal.body.find('.file-checkbox').each(function() {
-                                this.files.push($(this).data('fbrowser-select'));
+                            modal.body.find('[data-fbrowser-check]').each(function() {
+                                $(this).prop('checked', 'checked');
+                                //files.push($(this).data('fbrowser-select'));
                             });
                         })
                         .on('click.bolt', '[data-add-checked]', function (evt) {
