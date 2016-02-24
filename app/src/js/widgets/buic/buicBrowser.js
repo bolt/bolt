@@ -131,33 +131,33 @@
                             var fileIndex = files.indexOf($(this).data('fbrowser-check'));
                             if (fileIndex > -1) {
                                 files.splice(fileIndex, 1);
-								allChecked = false;
-								if (files.length === 0) {
+                                allChecked = false;
+                                if (files.length === 0) {
                                     addSelectedBtn.removeClass('disabled');
-								}
+                                }
                             } else {
                                 files.push($(this).data('fbrowser-check'));
-								addSelectedBtn.removeClass('disabled');
+                                addSelectedBtn.removeClass('disabled');
                             }
                         });
                     modal.footer
                         .on('click.bolt', '.toggle-all', function (evt) {
                             evt.preventDefault();
-							if (!allChecked) {
-								modal.body.find('[data-fbrowser-check]').each(function() {
-									$(this).prop('checked', true);
-									files.push($(this).data('fbrowser-check'));
-								});
-								allChecked = true;
-								addSelectedBtn.removeClass('disabled');
-							} else {
-								modal.body.find('[data-fbrowser-check]').each(function() {
-									$(this).prop('checked', false);
-								});
-								files.length = 0;
-								allChecked = false;
-								addSelectedBtn.addClass('disabled');
-							}
+                            if (!allChecked) {
+                                modal.body.find('[data-fbrowser-check]').each(function() {
+                                    $(this).prop('checked', true);
+                                    files.push($(this).data('fbrowser-check'));
+                                });
+                                allChecked = true;
+                                addSelectedBtn.removeClass('disabled');
+                            } else {
+                                modal.body.find('[data-fbrowser-check]').each(function() {
+                                    $(this).prop('checked', false);
+                                });
+                                files.length = 0;
+                                allChecked = false;
+                                addSelectedBtn.addClass('disabled');
+                            }
                         })
                         .on('click.bolt', '#addMultipleFiles', function (evt) {
                             evt.preventDefault();
