@@ -132,8 +132,9 @@
                             if (fileIndex > -1) {
                                 files.splice(fileIndex, 1);
                                 allChecked = false;
+                                console.log(files.length);
                                 if (files.length === 0) {
-                                    addSelectedBtn.removeClass('disabled');
+                                    addSelectedBtn.addClass('disabled');
                                 }
                             } else {
                                 files.push($(this).data('fbrowser-check'));
@@ -159,7 +160,7 @@
                                 addSelectedBtn.addClass('disabled');
                             }
                         })
-                        .on('click.bolt', '[data-fbrowser-add-checked]', function (evt) {
+                        .on('click.bolt', '[data-fbrowser-add-checked]:not(.disabled)', function (evt) {
                             evt.preventDefault();
                             files.forEach(function(filePath) {
                                 self._trigger('selected', null, {path: filePath});

@@ -65,6 +65,10 @@
                                 </td>
                                 <td class="info"></td>
                                 <td class="thumb"></td>
+                                {% if context.multiselect %}
+                                    <td>
+                                    </td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -120,7 +124,7 @@
                                         {{ file.path|showimage(54, 40, 'c') }}
                                     {% endif %}
                                 </td>
-                                {% if context.multiselect == 1 %}
+                                {% if context.multiselect %}
                                     <td>
                                         <input type="checkbox" {{ hattr({ 'data-fbrowser-check': file.path }) }} />
                                     </td>
