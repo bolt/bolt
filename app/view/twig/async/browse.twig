@@ -138,7 +138,7 @@
     </main>
 
     <footer>
-        {% if context.multiselect == 1 and context.files|length > 0 %}
+        {% if context.multiselect and context.files|length > 0 %}
             <button type="button" class="btn btn-primary disabled" data-fbrowser-add-checked="">{{ __('Add Selected') }}</button>
             <button type="button" class="btn btn-primary toggle-all">{{ __('Check/Uncheck all') }}</button>
         {% endif %}
