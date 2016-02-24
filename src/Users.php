@@ -103,7 +103,7 @@ class Users
         if ($token === $this->getAntiCSRFToken()) {
             return true;
         } else {
-            $this->app['logger.flash']->error('The security token was incorrect. Please try again.');
+            $this->app['logger.flash']->warning('The security token was incorrect. Please try again.');
 
             return false;
         }
@@ -129,7 +129,7 @@ class Users
         $user = $this->repository->find($id);
 
         if (!$user) {
-            $this->app['logger.flash']->error(Trans::__('That user does not exist.'));
+            $this->app['logger.flash']->warning(Trans::__('That user does not exist.'));
 
             return false;
         }

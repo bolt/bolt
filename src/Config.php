@@ -823,7 +823,7 @@ class Config
                         'contenttypes.generic.reserved-name',
                         ['%contenttype%' => $key, '%field%' => $fieldname]
                     );
-                    $this->app['logger.flash']->error($error);
+                    $this->app['logger.flash']->danger($error);
 
                     return;
                 }
@@ -837,7 +837,7 @@ class Config
                                 'contenttypes.generic.wrong-use-field',
                                 ['%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField]
                             );
-                            $this->app['logger.flash']->error($error);
+                            $this->app['logger.flash']->warning($error);
 
                             return;
                         }
@@ -854,7 +854,7 @@ class Config
                             '%type%'        => $field['type'],
                         ]
                     );
-                    $this->app['logger.flash']->error($error);
+                    $this->app['logger.flash']->warning($error);
                     unset($ct['fields'][$fieldname]);
                 }
             }
@@ -898,7 +898,7 @@ class Config
                     "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
                     ['%taxonomytype%' => $key, '%slug%' => $taxo['slug']]
                 );
-                $this->app['logger.flash']->error($error);
+                $this->app['logger.flash']->warning($error);
 
                 return;
             }
@@ -912,7 +912,7 @@ class Config
                         "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
                         ['%slug%' => $slug]
                     );
-                    $this->app['logger.flash']->error($error);
+                    $this->app['logger.flash']->warning($error);
 
                     return;
                 }
@@ -1062,7 +1062,7 @@ class Config
             }
 
             $error = "Template folder 'theme/" . $relativethemepath . "' does not exist, or is not writable.";
-            $this->app['logger.flash']->error($error);
+            $this->app['logger.flash']->danger($error);
         }
 
         // We add these later, because the order is important: By having theme/ourtheme first,

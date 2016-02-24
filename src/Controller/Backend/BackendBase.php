@@ -74,7 +74,7 @@ abstract class BackendBase extends Base
                 ]
             );
             $app['logger.system']->notice(strip_tags($notice), ['event' => 'config']);
-            $app['logger.flash']->info($notice);
+            $app['logger.flash']->warning($notice);
         }
 
         // Check for first user set up
