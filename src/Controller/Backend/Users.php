@@ -408,7 +408,8 @@ class Users extends BackendBase
             );
         }
 
-        // Add the other fields
+        // Add the other fields. Regarding the autocomplete on the passwords,
+        // see: https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c150
         $form
             ->add('id', HiddenType::class)
             ->add(
@@ -418,7 +419,8 @@ class Users extends BackendBase
                     'required' => false,
                     'label'    => Trans::__('page.edit-users.label.password'),
                     'attr'     => [
-                        'placeholder' => Trans::__('page.edit-users.placeholder.password'),
+                        'placeholder'  => Trans::__('page.edit-users.placeholder.password'),
+                        'autocomplete' => 'new-password',
                     ],
                 ]
             )
@@ -430,6 +432,7 @@ class Users extends BackendBase
                     'label'    => Trans::__('page.edit-users.label.password-confirm'),
                     'attr'     => [
                         'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm'),
+                        'autocomplete' => 'new-password',
                     ],
                 ]
             )
