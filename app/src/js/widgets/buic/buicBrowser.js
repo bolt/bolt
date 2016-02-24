@@ -79,7 +79,7 @@
                 loaded: function (evt, modal) {
                     
                     //Find the add selected button
-                    var addSelectedBtn = $('#addMultipleFiles');
+                    var addSelectedBtn = modal.footer.find('[data-fbrowser-add-checked]');
                     
                     // Set data structures
                     modal.body.find('.entry').each(function () {
@@ -159,7 +159,7 @@
                                 addSelectedBtn.addClass('disabled');
                             }
                         })
-                        .on('click.bolt', '#addMultipleFiles', function (evt) {
+                        .on('click.bolt', '[data-fbrowser-add-checked]', function (evt) {
                             evt.preventDefault();
                             files.forEach(function(filePath) {
                                 self._trigger('selected', null, {path: filePath});

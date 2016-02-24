@@ -122,7 +122,7 @@
                                 </td>
                                 {% if context.multiselect == 1 %}
                                     <td>
-                                        <input type="checkbox" class="file-checkbox" {{ hattr({ 'data-fbrowser-check': file.path }) }} />
+                                        <input type="checkbox" {{ hattr({ 'data-fbrowser-check': file.path }) }} />
                                     </td>
                                 {% endif %}
                             </tr>
@@ -135,7 +135,7 @@
 
     <footer>
         {% if context.multiselect == 1 and context.files|length > 0 %}
-            <button type="button" class="btn btn-primary disabled" id="addMultipleFiles" {{ hattr({ 'data-fbrowser-add-checked': '' }) }}>{{ __('Add Selected') }}</button>
+            <button type="button" class="btn btn-primary disabled" data-fbrowser-add-checked="">{{ __('Add Selected') }}</button>
             <button type="button" class="btn btn-primary toggle-all">{{ __('Check/Uncheck all') }}</button>
         {% endif %}
         {#<button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>#}
