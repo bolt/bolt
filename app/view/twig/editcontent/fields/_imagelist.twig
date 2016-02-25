@@ -86,7 +86,7 @@
         {# Buttons #}
         {% set can_upload = context.can.upload and option.can_upload %}
         <div class="clearfix">
-            {{ macro.upload_buttons('image', attributes.fileupload, option.upload, can_upload) }}
+            {{ macro.upload_buttons('image', attributes.fileupload, option.upload, can_upload, true) }}
 
             <textarea name="{{ name }}" class="hide">{{ list|json_encode() }}</textarea>
         </div>
