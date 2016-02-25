@@ -138,11 +138,11 @@
         {% endif %}
     </main>
 
-    <footer>
-        {% if multiselect %}
+    {% if multiselect %}
+        <footer>
             <button type="button" class="btn btn-primary disabled" data-fbrowser-add-checked="">{{ __('Add Selected') }}</button>
             <button type="button" class="btn btn-primary toggle-all">{{ __('Check/Uncheck all') }}</button>
-        {% endif %}
         {#<button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>#}
-    </footer>
+        </footer>
+    {% endif %}
 </div>
