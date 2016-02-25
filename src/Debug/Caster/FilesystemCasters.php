@@ -2,6 +2,7 @@
 
 namespace Bolt\Debug\Caster;
 
+use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Filesystem\Handler\HandlerInterface;
@@ -36,15 +37,27 @@ class FilesystemCasters extends AbstractCasterProvider
         $a[Caster::PREFIX_PROTECTED . 'fullPath'] = $handler->getFullPath();
         $a[Caster::PREFIX_PROTECTED . 'dirname'] = $handler->getDirname();
         $a[Caster::PREFIX_PROTECTED . 'filename'] = $handler->getFilename();
-        $a[Caster::PREFIX_PROTECTED . 'exists'] = $handler->exists();
-        $a[Caster::PREFIX_PROTECTED . 'type'] = $handler->getType();
-        $a[Caster::PREFIX_PROTECTED . 'timestamp'] = $handler->getTimestamp();
-        $a[Caster::PREFIX_PROTECTED . 'visibility'] = $handler->getVisibility();
+        $a[Caster::PREFIX_PROTECTED . 'exists'] = $exists = $handler->exists();
+
+        if ($exists) {
+            $a[Caster::PREFIX_PROTECTED . 'type'] = $handler->getType();
+            $a[Caster::PREFIX_PROTECTED . 'timestamp'] = $handler->getTimestamp();
+            $a[Caster::PREFIX_PROTECTED . 'visibility'] = $handler->getVisibility();
+        } else {
+            unset($a[Caster::PREFIX_PROTECTED . 'type']);
+            unset($a[Caster::PREFIX_PROTECTED . 'timestamp']);
+            unset($a[Caster::PREFIX_PROTECTED . 'visibility']);
+        }
 
         // Some methods return results instead of setting properties, show these as virtual.
         if ($ext = $handler->getExtension()) {
             $a[Caster::PREFIX_VIRTUAL . 'extension'] = $ext;
         }
+
+        if (!$exists) {
+            return $a;
+        }
+
         $a[Caster::PREFIX_VIRTUAL . 'dir'] = $handler->isDir();
         $a[Caster::PREFIX_VIRTUAL . 'file'] = $handler->isFile();
         $a[Caster::PREFIX_VIRTUAL . 'image'] = $handler->isImage();
@@ -58,9 +71,14 @@ class FilesystemCasters extends AbstractCasterProvider
 
     public static function castFile(FileInterface $file, array $a, Stub $stub, $isNested, $filter = 0)
     {
-        $a[Caster::PREFIX_PROTECTED . 'mimetype'] = $file->getMimeType();
-        $a[Caster::PREFIX_PROTECTED . 'size'] = $file->getSize();
-        $a[Caster::PREFIX_VIRTUAL . 'sizeFormatted'] = $file->getSizeFormatted();
+        if ($file->exists()) {
+            $a[Caster::PREFIX_PROTECTED . 'mimetype'] = $file->getMimeType();
+            $a[Caster::PREFIX_PROTECTED . 'size'] = $file->getSize();
+            $a[Caster::PREFIX_VIRTUAL . 'sizeFormatted'] = $file->getSizeFormatted();
+        } else {
+            unset($a[Caster::PREFIX_PROTECTED . 'mimetype']);
+            unset($a[Caster::PREFIX_PROTECTED . 'size']);
+        }
 
         return $a;
     }
@@ -74,7 +92,10 @@ class FilesystemCasters extends AbstractCasterProvider
 
     public static function castImage(Image $image, array $a, Stub $stub, $isNested, $filter = 0)
     {
-        $a[Caster::PREFIX_PROTECTED . 'info'] = $image->getInfo();
+        try {
+            $a[Caster::PREFIX_PROTECTED . 'info'] = $image->getInfo();
+        } catch (IOException $e) {
+        }
 
         return $a;
     }
