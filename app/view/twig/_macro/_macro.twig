@@ -161,8 +161,9 @@
  # @param string type Either 'image' or 'other,document'
  # @param string attr_upload Attributes for the file upload button
  # @param string uploadpath Relative upload path
+ # @param bool   multi If true allows uploading multiple files
  #}
-{% macro upload_buttons(type, attr_upload, uploadpath, canUpload) %}
+{% macro upload_buttons(type, attr_upload, uploadpath, canUpload, multi) %}
     {% from _self import attr %}
 
     {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
@@ -192,6 +193,7 @@
                 buicBrowser: {
                     namespace: 'files',
                     path: uploadpath,
+                    multiselect: multi
                 },
             },
             'type': 'button',

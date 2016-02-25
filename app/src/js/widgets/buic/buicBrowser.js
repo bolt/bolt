@@ -29,7 +29,8 @@
          */
         options: {
             namespace: '',
-            path: ''
+            path: '',
+            multiselect: false
         },
 
         /**
@@ -65,7 +66,11 @@
          */
         _browse: function () {
             var self = this,
-                data = {};
+                data = {
+                    multiselect: this.options.multiselect
+                },
+                files = [],
+                allChecked = false;
 
             $('body').buicModal({
                 size: 'large',
@@ -74,6 +79,10 @@
                     data: data
                 },
                 loaded: function (evt, modal) {
+
+                    // Find the add selected button
+                    var addSelectedBtn = modal.footer.find('[data-fbrowser-add-checked]');
+
                     // Set data structures
                     modal.body.find('.entry').each(function () {
                         var tr = $(this).closest('tr'),
@@ -119,6 +128,46 @@
                         })
                         .keyup('input[name="filter"]', function () {
                             self._filter(modal);
+                        })
+                        .on('change', '[data-fbrowser-check]', function () {
+                            var fileIndex = files.indexOf($(this).data('fbrowser-check'));
+                            if (fileIndex > -1) {
+                                files.splice(fileIndex, 1);
+                                allChecked = false;
+                                console.log(files.length);
+                                if (files.length === 0) {
+                                    addSelectedBtn.addClass('disabled');
+                                }
+                            } else {
+                                files.push($(this).data('fbrowser-check'));
+                                addSelectedBtn.removeClass('disabled');
+                            }
+                        });
+                    modal.footer
+                        .on('click.bolt', '.toggle-all', function (evt) {
+                            evt.preventDefault();
+                            if (!allChecked) {
+                                modal.body.find('[data-fbrowser-check]').each(function() {
+                                    $(this).prop('checked', true);
+                                    files.push($(this).data('fbrowser-check'));
+                                });
+                                allChecked = true;
+                                addSelectedBtn.removeClass('disabled');
+                            } else {
+                                modal.body.find('[data-fbrowser-check]').each(function() {
+                                    $(this).prop('checked', false);
+                                });
+                                files.length = 0;
+                                allChecked = false;
+                                addSelectedBtn.addClass('disabled');
+                            }
+                        })
+                        .on('click.bolt', '[data-fbrowser-add-checked]:not(.disabled)', function (evt) {
+                            evt.preventDefault();
+                            files.forEach(function(filePath) {
+                                self._trigger('selected', null, {path: filePath});
+                            });
+                            modal.close();
                         });
                 }
             });

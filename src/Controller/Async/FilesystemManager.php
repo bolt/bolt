@@ -96,6 +96,7 @@ class FilesystemManager extends AsyncBase
             'files'        => $files,
             'directories'  => $directories,
             'pathsegments' => $pathsegments,
+            'multiselect'  => $request->get('multiselect') === 'true',
         ];
 
         return $this->render(

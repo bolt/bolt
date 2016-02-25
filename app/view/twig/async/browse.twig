@@ -58,6 +58,10 @@
                     <tbody class="folders">
                     {% for directory in context.directories %}
                             <tr class="directory">
+                                {% if context.multiselect %}
+                                    <td>
+                                    </td>
+                                {% endif %}
                                 <td class="name">
                                     <a{{ hattr({'class': 'entry type-folder', 'href': '#', 'data-fbrowser-chdir': path('asyncbrowse', {'namespace': context.namespace, 'path': directory.path}) }) }}>
                                         {{ directory.path }}/
@@ -95,6 +99,12 @@
                             {% endif %}
 
                             <tr{{ hattr({'class': file.public ? '' : 'locked'}) }}>
+                                {% if context.multiselect %}
+                                    <td>
+                                        <input type="checkbox" {{ hattr({ 'data-fbrowser-check': file.path }) }} />
+                                    </td>
+                                {% endif %}
+
                                 <td class="name">
                                     {% if file.public %}
                                         <a{{ hattr({'class': 'entry ' ~ type, 'href': '#', 'data-fbrowser-select': file.path}) }}>
@@ -128,7 +138,11 @@
         {% endif %}
     </main>
 
-    {#<footer>
-        .<button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
-    </footer>#}
+    <footer>
+        {% if context.multiselect and context.files|length > 0 %}
+            <button type="button" class="btn btn-primary disabled" data-fbrowser-add-checked="">{{ __('Add Selected') }}</button>
+            <button type="button" class="btn btn-primary toggle-all">{{ __('Check/Uncheck all') }}</button>
+        {% endif %}
+        {#<button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>#}
+    </footer>
 </div>

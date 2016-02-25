@@ -52,7 +52,7 @@
         <div class="buic-progress" data-bolt-widget="buicProgress"></div>
 
         {# Uploadbuttons #}
-        {{ macro.upload_buttons('file', attributes.upload, option.upload, can_upload) }}
+        {{ macro.upload_buttons('file', attributes.upload, option.upload, can_upload, false) }}
 
         {# Infotext #}
         {% if not ismobileclient() %}
