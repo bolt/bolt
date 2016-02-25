@@ -77,10 +77,10 @@
                     data: data
                 },
                 loaded: function (evt, modal) {
-                    
-                    //Find the add selected button
+
+                    // Find the add selected button
                     var addSelectedBtn = modal.footer.find('[data-fbrowser-add-checked]');
-                    
+
                     // Set data structures
                     modal.body.find('.entry').each(function () {
                         var tr = $(this).closest('tr'),
