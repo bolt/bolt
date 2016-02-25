@@ -66,7 +66,9 @@
          */
         _browse: function () {
             var self = this,
-                data = {},
+                data = {
+                    multiselect: this.options.multiselect
+                },
                 files = [],
                 allChecked = false;
 
