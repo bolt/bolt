@@ -120,6 +120,17 @@
             vertical-align: middle;
             width: 110px;
             min-width: 110px;
+
+            div {
+                float: left;
+                clear: both;
+            }
+
+            .filesize {
+                border-bottom: 1px dashed #bbb;
+                line-height: 1.1;
+                margin-bottom: 3px;
+            }
         }
 
         // Thumbnail column
