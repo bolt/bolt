@@ -7,6 +7,8 @@
     $dialog-margin:   2 * 30px;
     $header-vpadding: 6px;
     $header-height:   37px + 2 * $header-vpadding;
+    $footer-vpadding: 12px;
+    $footer-height:   26px + 2 * $footer-vpadding;
     $body-padding:    15px;
     $thead-height:    21px;
     $thead-vpadding:  10px;
@@ -17,9 +19,13 @@
     }
 
     div.list {
-        height: calc(#{$screen-height} - #{4px + $dialog-margin + $header-height + 2 * $body-padding + $thead-height +  2* $thead-vpadding});
         overflow-y: scroll;
         margin: 0;
+        height: calc(#{$screen-height} - #{4px + $dialog-margin + $header-height + 2 * $body-padding + $thead-height + 2* $thead-vpadding});
+
+        &.multi {
+            height: calc(#{$screen-height} - #{4px + $dialog-margin + $header-height + 2 * $body-padding + $footer-height + $thead-height + 2* $thead-vpadding});
+        }
     }
 
     table {
@@ -30,6 +36,11 @@
     // Modal header
     .modal-header {
         padding: $header-vpadding 15px;
+    }
+
+    // Modal footer
+    .modal-footer {
+        padding: $footer-vpadding 15px;
     }
 
     h4 {
@@ -109,12 +120,33 @@
             vertical-align: middle;
             width: 110px;
             min-width: 110px;
+
+            div {
+                float: left;
+                clear: both;
+            }
+
+            .filesize {
+                border-bottom: 1px dashed #bbb;
+                line-height: 1.1;
+            }
+
+            .dimensions {
+                margin-top: 3px;
+                color: #999;
+                font-size: 90%;
+            }
         }
 
         // Thumbnail column
         td.thumb {
             width: 70px;
             min-width: 70px;
+        }
+
+        // Selection column
+        td.select {
+            padding: 2px 0 0 0;
         }
 
         @media (max-width: 640px) {
