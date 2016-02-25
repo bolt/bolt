@@ -106,13 +106,6 @@ class NutServiceProvider implements ServiceProviderInterface
                 );
             }
         );
-
-        // Maintain backwards compatibility
-        $app['console'] = $app->share(
-            function ($app) {
-                return $app['nut'];
-            }
-        );
     }
 
     public function boot(Application $app)
