@@ -29,4 +29,16 @@ class NullableImage extends Image
 
         return $this->info;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        try {
+            return parent::getType();
+        } catch (IOException $e) {
+            return null;
+        }
+    }
 }
