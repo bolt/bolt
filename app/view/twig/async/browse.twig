@@ -6,6 +6,7 @@
         {% endif %}
     {% endfor %}
     {% set extensions = extensions|sort %}
+    {% set multiselect = context.multiselect and context.files|length > 0 %}
 
     <header>
         {# Closer #}
@@ -58,7 +59,7 @@
                     <tbody class="folders">
                     {% for directory in context.directories %}
                             <tr class="directory">
-                                {% if context.multiselect %}
+                                {% if multiselect %}
                                     <td class="select"></td>
                                 {% endif %}
                                 <td class="name">
@@ -98,7 +99,7 @@
                             {% endif %}
 
                             <tr{{ hattr({'class': file.public ? '' : 'locked'}) }}>
-                                {% if context.multiselect %}
+                                {% if multiselect %}
                                     <td class="select">
                                         <input type="checkbox" {{ hattr({ 'data-fbrowser-check': file.path }) }} />
                                     </td>
@@ -138,7 +139,7 @@
     </main>
 
     <footer>
-        {% if context.multiselect and context.files|length > 0 %}
+        {% if multiselect %}
             <button type="button" class="btn btn-primary disabled" data-fbrowser-add-checked="">{{ __('Add Selected') }}</button>
             <button type="button" class="btn btn-primary toggle-all">{{ __('Check/Uncheck all') }}</button>
         {% endif %}
