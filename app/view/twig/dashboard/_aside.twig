@@ -18,6 +18,9 @@
 {# News #}
 {{ render(path('dashboardnews')) }}
 
+{# Configuration notices #}
+{% include '@bolt/_sub/_configuration_notices.twig' %}
+
 {# Stack #}
 {{ panels.stack(7, true) }}
 

@@ -177,9 +177,9 @@ class PasswordTest extends BoltUnitTest
         $this->addDefaultUser($app);
         $app['config']->set('general/mailoptions', null);
 
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['danger']);
         $logger->expects($this->atLeastOnce())
-            ->method('error')
+            ->method('danger')
             ->with($this->equalTo("The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."));
         $app['logger.flash'] = $logger;
 

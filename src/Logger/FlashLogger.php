@@ -63,6 +63,14 @@ class FlashLogger implements FlashLoggerInterface, FlashBagAttachableInterface
     /**
      * {@inheritdoc}
      */
+    public function configuration($message)
+    {
+        $this->add(self::CONFIGURATION, $message);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function has($type)
     {
         if ($this->flashBag) {

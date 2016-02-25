@@ -111,7 +111,7 @@ trait ConfigTrait
         try {
             $newConfig = $file->parse();
         } catch (RuntimeException $e) {
-            $app['logger.flash']->error($e->getMessage());
+            $app['logger.flash']->danger($e->getMessage());
             $app['logger.system']->error($e->getMessage(), ['event' => 'exception', 'exception' => $e]);
             throw $e;
         }

@@ -79,7 +79,7 @@ class PackageManager
             try {
                 $this->updateJson();
             } catch (ParseException $e) {
-                $this->app['logger.flash']->error(Trans::__('Error reading extensions/composer.json file: %ERROR%', ['%ERROR%' => $e->getMessage()]));
+                $this->app['logger.flash']->danger(Trans::__('Error reading extensions/composer.json file: %ERROR%', ['%ERROR%' => $e->getMessage()]));
                 $this->started = false;
 
                 return;

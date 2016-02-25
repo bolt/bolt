@@ -404,7 +404,7 @@ class TranslationFile
 
                 return $flattened;
             } catch (ParseException $e) {
-                $this->app['logger.flash']->error('<strong>Unable to parse the YAML translations</strong><br>' . $e->getMessage());
+                $this->app['logger.flash']->danger('Unable to parse the YAML translations' . $e->getMessage());
                 // Todo: do something better than just returning an empty array
             }
         }
@@ -428,7 +428,7 @@ class TranslationFile
             list($path) = $this->buildPath('infos', reset($localeFallbacks));
 
             if (!file_exists($path)) {
-                $this->app['logger.flash']->error('Locale infos yml file not found. Fallback also not found.');
+                $this->app['logger.flash']->danger('Locale infos yml file not found. Fallback also not found.');
 
                 // fallback failed
                 return null;
