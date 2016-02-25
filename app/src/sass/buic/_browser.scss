@@ -175,53 +175,53 @@
         color: #7e94a5;
 
         &:before {
-            content: "\f114"; // fa-folder-o
+            content: $fa-var-folder-o;
             color: #7e94a5;
         }
     }
 
     .type-file:before {
-        content: "\f016"; // fa-file-o
+        content: $fa-var-file-o;
     }
 
     .type-image:before {
-        content: "\f1c5"; // fa-file-image-o
+        content: $fa-var-file-image-o;
     }
 
     .type-video:before {
-        content: "\f1c8"; // fa-file-video-o
+        content: $fa-var-file-video-o;
     }
 
     .type-audio:before {
-        content: "\f1c7"; // fa-file-audio-o
+        content: $fa-var-file-audio-o;
     }
 
     .type-archive:before {
-        content: "\f1c6"; // fa-file-archive-o
+        content: $fa-var-file-archive-o;
     }
 
     .type-pdf:before {
-        content: "\f1c1"; // fa-file-pdf-o
+        content: $fa-var-file-pdf-o;
     }
 
     .type-powerpoint:before {
-        content: "\f1c4"; // fa-file-powerpoint-o
+        content: $fa-var-file-powerpoint-o;
     }
 
     .type-excel:before {
-        content: "\f1c3"; // fa-file-excel-o
+        content: $fa-var-file-excel-o;
     }
 
     .type-word:before {
-        content: "\f1c2"; // fa-file-word-o
+        content: $fa-var-file-word-o;
     }
 
     .type-code:before {
-        content: "\f1c9"; // fa-file-code-o
+        content: $fa-var-file-code-o;
     }
 
     .type-text:before {
-        content: "\f0f6"; // fa-file-text-o
+        content: $fa-var-file-text-o;
     }
 
     .image-dimensions{
