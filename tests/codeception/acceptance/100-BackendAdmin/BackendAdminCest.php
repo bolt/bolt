@@ -318,9 +318,13 @@ class BackendAdminCest
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
-        $I->amOnPage('/bolt/dbcheck');
-
+        $I->amOnPage('/bolt');
         $I->see('The database needs to be updated/repaired');
+
+        $I->see('Check Database', 'a');
+        $I->click('Check Database', 'a');
+
+        // We are now on '/bolt/dbcheck'.
         $I->see('is not present');
         $I->see('Update the database', Locator::find('button', ['type' => 'submit']));
 
