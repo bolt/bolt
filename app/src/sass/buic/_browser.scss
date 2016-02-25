@@ -129,7 +129,12 @@
             .filesize {
                 border-bottom: 1px dashed #bbb;
                 line-height: 1.1;
-                margin-bottom: 3px;
+            }
+
+            .dimensions {
+                margin-top: 3px;
+                color: #999;
+                font-size: 90%;
             }
         }
 
