@@ -22,6 +22,45 @@ class TranslationServiceProvider implements ServiceProviderInterface
             );
         }
 
+        $app['translator'] = $app->share(
+            $app->extend(
+                'translator',
+                function ($translator, $app) {
+                    foreach ($app['translator.loaders'] as $format => $loader) {
+                        $translator->addLoader($format, $loader);
+                    }
+
+                    return $translator;
+                }
+            )
+        );
+
+        $app['translator.loaders'] = $app->share(
+            function () {
+                return [
+                    'yml' => new TranslationLoader\YamlFileLoader(),
+                    'xlf' => new TranslationLoader\XliffFileLoader(),
+                ];
+            }
+        );
+
+        $app['translator.resources'] = $app->extend(
+            'translator.resources',
+            function (array $resources, $app) {
+                $locale = $app['locale'];
+
+                $resources = array_merge($resources, static::addResources($app, $locale));
+
+                foreach ($app['locale_fallbacks'] as $fallback) {
+                    if ($locale !== $fallback) {
+                        $resources = array_merge($resources, static::addResources($app, $fallback));
+                    }
+                }
+
+                return $resources;
+            }
+        );
+
         $locales = (array) $app['config']->get('general/locale');
 
         // Add fallback locales to list if they are not already there
@@ -41,29 +80,10 @@ class TranslationServiceProvider implements ServiceProviderInterface
     }
 
     /**
-     * Bootstraps the application.
-     *
-     * This method is called after all services are registers
-     * and should be used for "dynamic" configuration (whenever
-     * a service must be requested).
-     *
-     * @param \Silex\Application $app
+     * {@inheritdoc}
      */
     public function boot(Application $app)
     {
-        if (isset($app['translator'])) {
-            $app['translator']->addLoader('yml', new TranslationLoader\YamlFileLoader());
-            $app['translator']->addLoader('xlf', new TranslationLoader\XliffFileLoader());
-
-            static::addResources($app, $app['locale']);
-
-            // Load fallbacks
-            foreach ($app['locale_fallbacks'] as $fallback) {
-                if ($app['locale'] !== $fallback) {
-                    static::addResources($app, $fallback);
-                }
-            }
-        }
     }
 
     /**
@@ -71,6 +91,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
      *
      * @param Application $app
      * @param string      $locale
+     *
+     * @return array
      */
     public static function addResources(Application $app, $locale)
     {
@@ -83,6 +105,8 @@ class TranslationServiceProvider implements ServiceProviderInterface
         );
 
         $needsSecondPass = true;
+
+        $resources = [];
 
         foreach ($transDirs as $transDir) {
             if (!is_dir($transDir) || !is_readable($transDir)) {
@@ -98,14 +122,16 @@ class TranslationServiceProvider implements ServiceProviderInterface
                     continue;
                 }
                 list($domain) = explode('.', $fileInfo->getFilename());
-                $app['translator']->addResource($ext, $fileInfo->getRealPath(), $locale, $domain);
+                $resources[] = [$ext, $fileInfo->getRealPath(), $locale, $domain];
                 $needsSecondPass = false;
             }
         }
 
         if ($needsSecondPass && strlen($locale) === 5) {
-            static::addResources($app, substr($locale, 0, 2));
+            $resources = array_merge($resources, static::addResources($app, substr($locale, 0, 2)));
         }
+
+        return $resources;
     }
 
     /**
