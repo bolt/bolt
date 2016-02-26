@@ -12,6 +12,8 @@
 (function (bolt, $, moment) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Collection of input elements.
      *
@@ -32,6 +34,24 @@
      * @type {Object}
      */
     var datetime = {};
+
+     /**
+     * Indicates if 24h or 12h time format should be used.
+     *
+     * @private
+     * @type {boolean}
+     * @memberof Bolt.datetime
+     */
+    var is24h;
+
+     /**
+     * Hold info on used DateTime/Date input combos.
+     *
+     * @private
+     * @type {Array}
+     * @memberof Bolt.datetime
+     */
+    var fields = [];
 
     /**
      * Initialize the datetime and date input combos.
@@ -86,24 +106,6 @@
         }
     };
 
-     /**
-     * Indicates if 24h or 12h time format should be used.
-     *
-     * @private
-     * @type {boolean}
-     * @memberof Bolt.datetime
-     */
-    var is24h;
-
-     /**
-     * Hold info on used DateTime/Date input combos.
-     *
-     * @private
-     * @type {Array}
-     * @memberof Bolt.datetime
-     */
-    var fields = [];
-
     /**
      * Evaluate the value(s) from the input field(s) and writes it to the data field
      *
@@ -123,9 +125,9 @@
 
         // Process time field
         if (field.time.exists) {
-            /* jshint ignore:start,-W101 */
+            /* jshint -W101 */
             res = field.time.val().match(/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/i);
-            /* jshint ignore:end,+W101 */
+            /* jshint +W101 */
             if (res) {
                 hours = parseInt(res[1] ? res[1] :res[3]);
                 minutes = parseInt(res[2] ? res[2] :res[4]);

@@ -14,6 +14,8 @@
 (function (bolt, $, window, moment, bootbox, ckeditor) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Bind data.
      *
@@ -226,7 +228,7 @@
      * @static
      * @function initSaveContinue
      * @memberof Bolt.editcontent
-     * 
+     *
      * @fires start.bolt.content.save
      * @fires done.bolt.content.save
      * @fires fail.bolt.content.save

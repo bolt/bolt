@@ -11,6 +11,8 @@
 (function (bolt, $, window) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Bolt.secmenu mixin container.
      *

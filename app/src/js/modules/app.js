@@ -12,6 +12,8 @@
 (function (bolt, $, moment, init) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Bolt.app mixin container.
      *

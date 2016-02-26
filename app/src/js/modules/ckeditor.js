@@ -11,6 +11,8 @@
 (function (bolt, $, cke) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Bolt.ckeditor mixin container.
      *

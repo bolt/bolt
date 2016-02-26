@@ -41,22 +41,40 @@ var init = {
      *
      * @param {object} data
      * @returns {undefined}
-     * 
+     *
      * @fires start.bolt.file.save
      * @fires done.bolt.file.save
      * @fires fail.bolt.file.save
      * @fires always.bolt.file.save
      */
     bindEditFile: function (data) {
-        $('#saveeditfile').bind('click', function () {
+        var editor;
+
+        if (typeof CodeMirror !== 'undefined') {
+            editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+                lineNumbers: true,
+                autofocus: true,
+                tabSize: 4,
+                indentUnit: 4,
+                indentWithTabs: false,
+                readOnly: data.readonly
+            });
+            var newheight = $(window).height() - 312;
+            if (newheight < 200) {
+                newheight = 200;
+            }
+            editor.setSize(null, newheight);
+        }
+
+        $('#saveeditfile').on('click', function () {
             $(Bolt).trigger('start.bolt.file.save');
 
-            // If not on mobile (i.e. Codemirror is present), copy back to the textarea.
-            if (typeof CodeMirror !== 'undefined') {
-                $('#form_contents').val(editor.getValue());
+            // Copy back to the textarea.
+            if (editor) {
+                editor.save();
             }
 
-            var msgNotSaved = "Not saved";
+            var msgNotSaved = 'Not saved';
 
             // Disable the buttons, to indicate stuff is being done.
             $('#saveeditfile').addClass('disabled');
@@ -68,7 +86,7 @@ var init = {
                     if (!data.ok) {
                         alert(data.msg);
                         $(Bolt).trigger('fail.bolt.file.save', data);
-                    }else{
+                    } else {
                         $(Bolt).trigger('done.bolt.file.save', data);
                     }
                     $('p.lastsaved').html(data.msg);
@@ -87,23 +105,6 @@ var init = {
                     }, 300);
                 });
         });
-
-        if (typeof CodeMirror !== 'undefined') {
-            var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
-                lineNumbers: true,
-                autofocus: true,
-                tabSize: 4,
-                indentUnit: 4,
-                indentWithTabs: false,
-                readOnly: data.readonly
-            });
-            var newheight = $(window).height() - 312;
-            if (newheight < 200) {
-                newheight = 200;
-            }
-            editor.setSize(null, newheight);
-        }
-
     },
 
     /*
