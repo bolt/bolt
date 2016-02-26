@@ -41,7 +41,7 @@ var init = {
      *
      * @param {object} data
      * @returns {undefined}
-     * 
+     *
      * @fires start.bolt.file.save
      * @fires done.bolt.file.save
      * @fires fail.bolt.file.save

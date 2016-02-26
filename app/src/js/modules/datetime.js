@@ -12,6 +12,8 @@
 (function (bolt, $, moment) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Collection of input elements.
      *
