@@ -11,7 +11,7 @@
            print a text, telling us to create the 'about' page. #}
         {% if about.title is defined %}
 
-            <h5>{{ about.title }}</h5>
+            <h5>{{ about.title|escape }}</h5>
             {{ about.teaser }}
 
             <a href="{{ about.link }}">{{ __('Read more') }} &raquo;</a>
@@ -42,7 +42,7 @@
         <h5>{{ __('contenttypes.generic.recent', {'%contenttypes%': ct.slug}) }}</h5>
         <ul>
             {% for record in records %}
-                <li><a href="{{ record.link }}">{{ record.title }}</a></li>
+                <li><a href="{{ record.link }}">{{ record.title|escape }}</a></li>
             {% else %}
                 <li>{{ __('contenttypes.generic.no-recent', {'%contenttype%': ct.slug}) }}</li>
             {% endfor %}

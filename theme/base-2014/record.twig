@@ -7,10 +7,10 @@
 
         <article>
 
-            <h2 data-bolt-field="title">{{ record.title }}</h2>
+            <h2 data-bolt-field="title">{{ record.title|escape }}</h2>
 
             {% if record.subtitle %}
-                <h3 data-bolt-field="subtitle">{{ record.subtitle }}</h3>
+                <h3 data-bolt-field="subtitle">{{ record.subtitle|escape }}</h3>
             {% endif %}
 
             {% for key,value in record.values if key not in ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'title', 'subtitle', 'ownerid', 'templatefields'] %}
@@ -54,7 +54,7 @@
 
                 {% elseif record.fieldtype(key) in ['html', 'markdown', 'textarea'] %}
 
-                    <div data-bolt-field="{{ key }}">{{ attribute(record, key) }}</div>
+                    <div data-bolt-field="{{ key }}">{{ attribute(record, key)|escape }}</div>
 
                 {% elseif record.fieldtype(key) == "select" %}
 
@@ -88,12 +88,12 @@
             <p class="meta">
                 {% set previous = record.previous('id') %}
                 {% if previous %}
-                    <a href="{{ previous.link }}">&laquo; {{ previous.title }}</a>
+                    <a href="{{ previous.link }}">&laquo; {{ previous.title|escape }}</a>
                 {% endif %}
                 -
                 {% set next = record.next('id') %}
                 {% if next %}
-                    <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
+                    <a href="{{ next.link }}">{{ next.title|escape }} &raquo;</a>
                 {% endif %}
             </p>
 
@@ -102,7 +102,7 @@
                 <p class="meta">{{ __('Related content:') }}
                 <ul>
                     {% for related in relatedrecords %}
-                        <li><a href="{{ related.link }}">{{ related.title }}</a></li>
+                        <li><a href="{{ related.link }}">{{ related.title|escape }}</a></li>
                     {%  endfor %}
                 </ul>
                 </p>
