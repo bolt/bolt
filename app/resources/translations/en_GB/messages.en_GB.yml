@@ -558,7 +558,7 @@ page:
             username-used: "This username is already in use. Choose another username."
             password-different-username: "Password must not match the username."
             password-different-displayname: "Password must not be a part of the display name."
-			password-weak: "Password should have 8 characters or more and include at least 1 capital, 1 letter and 1 number."
+            password-weak: "Password should have 8 characters or more and include at least 1 capital, 1 letter and 1 number."
         label:
             assigned-roles: "Assigned roles"
             display-name: "Display name"
