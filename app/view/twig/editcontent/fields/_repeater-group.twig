@@ -15,7 +15,8 @@
             class:      '',
             label:      '',
             variant:    '',
-            canUpload:  field.canUpload
+            canUpload:  field.canUpload,
+            default:    null
         } %}
         {% for rkey, rfield in field.fields %}
             {% set rfield = defaults|merge(rfield) %}
