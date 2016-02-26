@@ -71,7 +71,7 @@ var init = {
 
             // Copy back to the textarea.
             if (editor) {
-                $('#form_contents').val(editor.getValue());
+                editor.save();
             }
 
             var msgNotSaved = "Not saved";
