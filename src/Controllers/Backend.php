@@ -2225,12 +2225,11 @@ class Backend implements ControllerProviderInterface
 
                 // If adding a new user (empty $id) or if the password is not empty (indicating we want to change it),
                 // then make sure it's at least 8 characters long and include at least one Capital, one letter and one number.
-                
-				$uppercase = preg_match('@[A-Z]@', $pass1);
-				$lowercase = preg_match('@[a-z]@', $pass1);
-				$number    = preg_match('@[0-9]@', $pass1);
+                $uppercase = preg_match('@[A-Z]@', $pass1);
+                $lowercase = preg_match('@[a-z]@', $pass1);
+                $number    = preg_match('@[0-9]@', $pass1);
 
-				if ((empty($id) || !empty($pass1)) && (!$uppercase || !$lowercase || !$number || strlen($pass1) < 8)) {
+                if ((empty($id) || !empty($pass1)) && (!$uppercase || !$lowercase || !$number || strlen($pass1) < 8)) {
                     // screw it. Let's just not translate this message for now. Damn you, stupid non-cooperative
                     // translation thingy. $error = new FormError("This value is too short. It should have {{ limit }}
                     // characters or more.", array('{{ limit }}' => 8), 2);
