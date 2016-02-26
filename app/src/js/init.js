@@ -48,11 +48,29 @@ var init = {
      * @fires always.bolt.file.save
      */
     bindEditFile: function (data) {
+        var editor;
+
+        if (typeof CodeMirror !== 'undefined') {
+            editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+                lineNumbers: true,
+                autofocus: true,
+                tabSize: 4,
+                indentUnit: 4,
+                indentWithTabs: false,
+                readOnly: data.readonly
+            });
+            var newheight = $(window).height() - 312;
+            if (newheight < 200) {
+                newheight = 200;
+            }
+            editor.setSize(null, newheight);
+        }
+
         $('#saveeditfile').bind('click', function () {
             $(Bolt).trigger('start.bolt.file.save');
 
-            // If not on mobile (i.e. Codemirror is present), copy back to the textarea.
-            if (typeof CodeMirror !== 'undefined') {
+            // Copy back to the textarea.
+            if (editor) {
                 $('#form_contents').val(editor.getValue());
             }
 
@@ -87,23 +105,6 @@ var init = {
                     }, 300);
                 });
         });
-
-        if (typeof CodeMirror !== 'undefined') {
-            var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
-                lineNumbers: true,
-                autofocus: true,
-                tabSize: 4,
-                indentUnit: 4,
-                indentWithTabs: false,
-                readOnly: data.readonly
-            });
-            var newheight = $(window).height() - 312;
-            if (newheight < 200) {
-                newheight = 200;
-            }
-            editor.setSize(null, newheight);
-        }
-
     },
 
     /*
