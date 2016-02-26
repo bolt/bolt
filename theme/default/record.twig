@@ -11,7 +11,7 @@ templates. 'entry.twig' is much more straightforward.
 
 <article>
 
-    <h1><a href="{{ record.link }}">{{ record.title }}</a></h1>
+    <h1><a href="{{ record.link }}">{{ record.title|escape }}</a></h1>
 
     {% if record.subtitle %}
     <h2>{{ record.subtitle }}</h2>
@@ -65,7 +65,7 @@ templates. 'entry.twig' is much more straightforward.
         <p>Related content:</p>
         <ul>
             {% for related in relatedrecords %}
-                <li><a href="{{ related.link }}">{{ related.title }}</a></li>
+                <li><a href="{{ related.link }}">{{ related.title|escape }}</a></li>
             {%  endfor %}
         </ul>
     {% endif %}
@@ -76,12 +76,12 @@ templates. 'entry.twig' is much more straightforward.
     <p class="meta">
         {% set previous = record.previous() %}
         {% if previous %}
-            <a href="{{ previous.link }}">&laquo; {{ previous.title }}</a>
+            <a href="{{ previous.link }}">&laquo; {{ previous.title|escape }}</a>
         {% endif %}
 
         {% set next = record.next() %}
         {% if next %}
-            <a href="{{ next.link }}">{{ next.title }} &raquo;</a>
+            <a href="{{ next.link }}">{{ next.title|escape }} &raquo;</a>
         {% endif %}
     </p>
 
