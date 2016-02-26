@@ -563,6 +563,8 @@ class Async implements ControllerProviderInterface
         // $key is linked to the fieldname of the original field, so we can
         // Set the selected value in the proper field
         $key = $request->query->get('key');
+        // $multiselect is to determine whether we should should checkboxes
+        $multiselect = $request->query->get('multiselect');
 
         // Get the pathsegments, so we can show the path.
         $pathsegments = array();
@@ -590,7 +592,8 @@ class Async implements ControllerProviderInterface
             'files'        => $files,
             'folders'      => $folders,
             'pathsegments' => $pathsegments,
-            'key'          => $key
+            'key'          => $key,
+            'multiselect'  => $multiselect
         );
 
         return $app['render']->render('files_async/files_async.twig', array('context' => $context));
@@ -905,7 +908,7 @@ class Async implements ControllerProviderInterface
     private function isMatchingExtension(Silex\Application $app, $oldName, $newName)
     {
         $user = $app['users']->getCurrentUser();
-        if ($app['users']->hasRole($user['id'], 'root')) {
+        if ($app['users']->hasRole($user['id'], 'root') && $app['config']->get('general/file/changeExtensions')) {
             return true;
         }
 
