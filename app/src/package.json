@@ -43,7 +43,7 @@
         "napa": "~2.2.0",
         "node-sass": "~3.4.2",
         "postcss-single-charset": "~1.0.0",
-        "request": "~2.67.0",
+        "request": "~2.69.0",
         "select2": "~4.0.1",
         "underscore": "~1.8.3"
     },
