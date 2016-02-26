@@ -3,6 +3,7 @@ namespace Bolt\Tests\Provider;
 
 use Bolt\Provider\NutServiceProvider;
 use Bolt\Tests\BoltUnitTest;
+use Symfony\Component\Console;
 use Symfony\Component\Console\Command\Command;
 
 /**
@@ -19,8 +20,7 @@ class NutServiceProviderTest extends BoltUnitTest
         $app->register(new NutServiceProvider());
         $app->boot();
 
-        $this->assertInstanceOf('Symfony\Component\Console\Application', $app['nut']);
-        $this->assertInstanceOf('Symfony\Component\Console\Application', $app['console']);
+        $this->assertInstanceOf(Console\Application::class, $app['nut']);
         $this->assertTrue(is_array($app['nut.commands']));
     }
 
