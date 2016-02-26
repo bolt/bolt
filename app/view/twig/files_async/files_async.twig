@@ -11,12 +11,12 @@
             {% if context.pathsegments|length > 0 %}
                 <p>
                     {{ __('Path:') }}
-                    <a href="#" data-action="Bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'key': context.key}) }}');" class="folder">
+                    <a href="#" data-action="Bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'key': context.key, 'multiselect': context.multiselect}) }}');" class="folder">
                         {{ context.namespace|excerpt(40)|shy -}}
                     </a> /
                     {% for path, segment in context.pathsegments %}
                     {% if not loop.first %} / {% endif %}
-                    <a href="#" data-action="Bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': path, 'key': context.key}) }}');" class="folder">{{ segment|default('…')|excerpt(40)|shy }}</a>
+                    <a href="#" data-action="Bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': path, 'key': context.key, 'multiselect': context.multiselect}) }}');" class="folder">{{ segment|default('…')|excerpt(40)|shy }}</a>
                     {% endfor %}
                 </p>
             {% endif %}
@@ -30,17 +30,19 @@
                     {% for folder in context.folders %}
                         <tr style="height: 30px;">
                             <td> <i class="fa fa-fw fa-folder-open-o"></i>
-                                <a href="#" data-action="Bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath, 'key': context.key}) }}');" class="folder"><b>{{ folder.foldername|excerpt(40)|shy }}/</b>
+                                <a href="#" data-action="Bolt.stack.changeFolder('{{ context.key }}', '{{ path('asyncbrowse', {'namespace': context.namespace, 'path': folder.newpath, 'key': context.key, 'multiselect': context.multiselect}) }}');" class="folder"><b>{{ folder.foldername|excerpt(40)|shy }}/</b>
                                 </a>
                             </td>
                         </tr>
                     {% endfor %}
                 </table>
             {% endif %}
-
             {% if context.files|length > 0 %}
             <table class="dashboardlisting">
                 <tr>
+                    {% if context.multiselect == 1 %}
+                        <th>&nbsp;</th>
+                    {% endif %}
                     <th>{{ __('page.ckeditor-browse-server.files') }}</th>
                     <th style="min-width: 102px;">{{ __('page.ckeditor-browse-server.size') }}</th>
                     <th>&nbsp;</th>
@@ -49,12 +51,17 @@
                 {% for file in context.files %}
                     {% if file.type in ['jpeg', 'jpg', 'png', 'gif'] %}
                         <tr>
+                            {% if context.multiselect == 1 %}
+                                <td>
+                                    <input type="checkbox" class="file-checkbox" onclick="Bolt.stack.checkFileToAdd('{{ file.relativepath }}')" />
+                                </td>
+                            {% endif %}
                             <td>
 
                                 <i class="fa fa-fw fa-file-image-o"></i>
 
                                 {% if file.readable %}
-                                    <a href="#" data-action="Bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}');" class="file">
+                                    <a href="#" data-action="Bolt.stack.selectFromPulldown('{{ context.key }}', '{{ file.relativepath }}', true);" class="file">
                                         <b>{{ file.filename|excerpt(80)|shy }}</b>
                                     </a>
                                 {% else %}
@@ -72,7 +79,6 @@
                             <td class="listthumb">
                                 {{ file.newpath|showimage(54, 40, 'c') }}
                             </td>
-
                         </tr>
                     {% else %}
 
@@ -104,6 +110,10 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Cancel') }}</button>
+            {% if context.multiselect == 1 and context.files|length > 0 %}
+                <button type="button" class="btn btn-primary disabled" id="addMultipleFiles" data-action="Bolt.stack.addMultipleFiles('{{ context.key }}')">{{ __('Add Selected') }}</button>
+                <button type="button" class="btn btn-primary" data-action="Bolt.stack.toggleCheckAll('{{ context.key }}')">{{ __('Check/Uncheck all') }}</button>
+            {% endif %}
         </div>
 
     </body>

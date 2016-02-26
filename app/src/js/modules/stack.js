@@ -16,6 +16,21 @@
      */
     var stack = {};
 
+    /**
+     * Multiple file array.
+     *
+     * @private
+     * @type {Array}
+     */
+    var multipleFiles = [];
+
+    /**
+     * All files in folder checked
+     *
+     * @private
+     * @type {Boolean}
+     */
+    var allFilesChecked = false;
 
     /**
      * Initializes the mixin.
@@ -127,8 +142,9 @@
      *
      * @param {string} key - Id of the file selector
      * @param {string} path - Path to the selected file
+     * @param {boolean} last - If this the last item to add, then close the modal
      */
-    stack.selectFromPulldown = function (key, path) {
+    stack.selectFromPulldown = function (key, path, last) {
         // For "normal" file and image fields.
         if ($('#field-' + key).is('*')) {
             $('#field-' + key).val(path);
@@ -160,8 +176,10 @@
             bolt.stack.addToStack(path);
         }
 
-        // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
-        $('.in, .open').removeClass('in open');
+        if(last === true) {
+            // Make sure the dropdown menu is closed. (Using the "blunt axe" method)
+            $('.in, .open').removeClass('in open');
+        }
     };
 
     /**
@@ -178,6 +196,72 @@
         $('#selectModal-' + key + ' .modal-content').load(folderUrl, function() {
             bolt.actions.init();
         });
+    };
+
+    /**
+     * Adds file to multipleFiles array.
+     *
+     * @static
+     * @function checkFileToAdd
+     * @memberof Bolt.stack
+     *
+     * @param {string} path - Path to the selected file
+     */
+    stack.checkFileToAdd = function (path) {
+        var fileIndex = multipleFiles.indexOf(path);
+        if (fileIndex != -1) {
+            multipleFiles.splice(fileIndex, 1);
+        } else {
+            multipleFiles.push(path);
+        }
+        if (multipleFiles.length) {
+            $('#addMultipleFiles').removeClass('disabled');
+        } else {
+            $('#addMultipleFiles').addClass('disabled');
+        }
+    };
+
+    /**
+     * Adds multiple files.
+     *
+     * @static
+     * @function addMultipleFiles
+     * @memberof Bolt.stack
+     */
+    stack.addMultipleFiles = function (key) {
+        for (var i = 0; i < multipleFiles.length; i++) {
+            this.selectFromPulldown(key, multipleFiles[i], i === multipleFiles.length ? true : false);
+        }
+        $('#selectModal-' + key + ' .modal-content .file-checkbox').prop('checked', false);
+        $('#addMultipleFiles').addClass('disabled');
+        multipleFiles.length = 0;
+    };
+
+    /**
+     * Toggles all files in current folder
+     *
+     * @static
+     * @function toggleCheckAll
+     * @memberof Bolt.stack
+     */
+    stack.toggleCheckAll = function (key) {
+        var fileCheckboxes = $('#selectModal-' + key + ' .modal-content .file-checkbox');
+        if (multipleFiles.length === 0) {
+            fileCheckboxes.trigger('click');
+            allFilesChecked = true;
+        } else {
+            multipleFiles.length = 0;
+            fileCheckboxes.prop('checked', false);
+            if (!allFilesChecked) {
+                fileCheckboxes.trigger('click');
+            }
+            allFilesChecked = !allFilesChecked;
+        }
+        if (multipleFiles.length) {
+            $('#addMultipleFiles').removeClass('disabled');
+        } else {
+            $('#addMultipleFiles').addClass('disabled');
+        }
     };
 
     // Apply mixin container

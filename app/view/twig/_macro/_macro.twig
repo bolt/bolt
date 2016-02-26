@@ -197,12 +197,11 @@
  # @param string attr_upload Attributes for the file upload button
  # @param string uploadpath Relative upload path
  #}
-{% macro upload_buttons(type, key, attr_upload, uploadpath, canUpload) %}
+{% macro upload_buttons(type, key, attr_upload, uploadpath, canUpload, multiselect) %}
     {% from _self import attr %}
 
     {% set items = stackitems(7, (type == 'image') ?  'image' : 'other,document') %}
-    {% set href = paths.async ~ 'browse/files' ~ (uploadpath ? '/' ~ uploadpath : '' ) ~ '?key=' ~ key %}
-
+    {% set href = paths.async ~ 'browse/files' ~ (uploadpath ? '/' ~ uploadpath : '' ) ~ '?key=' ~ key ~ (multiselect ? '&multiselect=' ~ multiselect : '') %}
     <div class="button-wrap fileselectbuttongroup">
 
         {# Button: Upload #}
