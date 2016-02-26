@@ -35,6 +35,24 @@
      */
     var datetime = {};
 
+     /**
+     * Indicates if 24h or 12h time format should be used.
+     *
+     * @private
+     * @type {boolean}
+     * @memberof Bolt.datetime
+     */
+    var is24h;
+
+     /**
+     * Hold info on used DateTime/Date input combos.
+     *
+     * @private
+     * @type {Array}
+     * @memberof Bolt.datetime
+     */
+    var fields = [];
+
     /**
      * Initialize the datetime and date input combos.
      *
@@ -87,24 +105,6 @@
             }
         }
     };
-
-     /**
-     * Indicates if 24h or 12h time format should be used.
-     *
-     * @private
-     * @type {boolean}
-     * @memberof Bolt.datetime
-     */
-    var is24h;
-
-     /**
-     * Hold info on used DateTime/Date input combos.
-     *
-     * @private
-     * @type {Array}
-     * @memberof Bolt.datetime
-     */
-    var fields = [];
 
     /**
      * Evaluate the value(s) from the input field(s) and writes it to the data field
