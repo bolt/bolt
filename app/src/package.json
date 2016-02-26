@@ -27,7 +27,7 @@
         "grunt-contrib-watch": "~0.6.1",
         "grunt-endline": "~0.4.1",
         "grunt-eol": "~0.2.0",
-        "grunt-html": "~5.0.1",
+        "grunt-html": "~6.0.0",
         "grunt-jsdoc": "~1.1.0",
         "grunt-phpdocumentor": "~0.4.1",
         "grunt-postcss": "~0.7.1",
