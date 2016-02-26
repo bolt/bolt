@@ -125,9 +125,9 @@
 
         // Process time field
         if (field.time.exists) {
-            /* jshint ignore:start,-W101 */
+            /* jshint -W101 */
             res = field.time.val().match(/^\s*(?:(?:([01]?[0-9]|2[0-3])[:,.]([0-5]?[0-9]))|(1[012]|0?[1-9])[:,.]([0-5]?[0-9])(?:\s*([AP])[. ]?M\.?))\s*$/i);
-            /* jshint ignore:end,+W101 */
+            /* jshint +W101 */
             if (res) {
                 hours = parseInt(res[1] ? res[1] :res[3]);
                 minutes = parseInt(res[2] ? res[2] :res[4]);
