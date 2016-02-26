@@ -8,7 +8,7 @@
         "url": "https://github.com/bolt/bolt.git"
     },
     "devDependencies": {
-        "autoprefixer": "~6.2.3",
+        "autoprefixer": "~6.3.3",
         "backbone": "~1.2.3",
         "blueimp-file-upload": "9.11.2",
         "bootbox": "~4.4.0",
