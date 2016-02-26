@@ -908,7 +908,7 @@ class Async implements ControllerProviderInterface
     private function isMatchingExtension(Silex\Application $app, $oldName, $newName)
     {
         $user = $app['users']->getCurrentUser();
-        if ($app['users']->hasRole($user['id'], 'root')) {
+        if ($app['users']->hasRole($user['id'], 'root') && $app['config']->get('general/file/changeExtensions')) {
             return true;
         }
 

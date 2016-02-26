@@ -12,7 +12,7 @@
                    user in config.yml #}
                 {% set home = record %}
                 {% if home.title is defined and home.title is not empty %}
-                    <h1>{{ home.title }}</h1>
+                    <h1>{{ home.title|escape }}</h1>
                 {% endif %}
 
                 {% if home.image is defined and home.image is not empty %}
@@ -67,7 +67,7 @@
                     </div>
                 {% endif %}
 
-                <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
+                <h3><a href="{{ record.link }}">{{ record.title|escape }}</a></h3>
 
                 <p>{{ record.excerpt(220) }}</p>
 

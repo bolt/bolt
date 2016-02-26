@@ -10,7 +10,7 @@
         </div>
     {% endif %}
 
-    <h2><a href="{{ entry.link }}">{{ entry.title }}</a></h2>
+    <h2><a href="{{ entry.link }}">{{ entry.title|escape }}</a></h2>
 
     {{ entry.teaser }}
 
