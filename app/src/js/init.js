@@ -66,7 +66,7 @@ var init = {
             editor.setSize(null, newheight);
         }
 
-        $('#saveeditfile').bind('click', function () {
+        $('#saveeditfile').on('click', function () {
             $(Bolt).trigger('start.bolt.file.save');
 
             // Copy back to the textarea.
@@ -74,7 +74,7 @@ var init = {
                 editor.save();
             }
 
-            var msgNotSaved = "Not saved";
+            var msgNotSaved = 'Not saved';
 
             // Disable the buttons, to indicate stuff is being done.
             $('#saveeditfile').addClass('disabled');
@@ -86,7 +86,7 @@ var init = {
                     if (!data.ok) {
                         alert(data.msg);
                         $(Bolt).trigger('fail.bolt.file.save', data);
-                    }else{
+                    } else {
                         $(Bolt).trigger('done.bolt.file.save', data);
                     }
                     $('p.lastsaved').html(data.msg);
