@@ -14,6 +14,19 @@
      */
     var events = {};
 
+    /**
+     * Fires an event.
+     *
+     * @static
+     * @function init
+     * @memberof Bolt.events
+     *
+     * @param {string} event - Event type
+     */
+    events.fire = function (event) {
+        $(this).trigger(event);
+    };
+
     // Apply mixin container
     bolt.events = events;
 
