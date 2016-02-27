@@ -9,6 +9,7 @@
  * @mixes Bolt.conf
  * @mixes Bolt.data
  * @mixes Bolt.datetime
+ * @mixes Bolt.editcontent
  * @mixes Bolt.events
  * @mixes Bolt.extend
  * @mixes Bolt.files
