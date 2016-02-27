@@ -83,6 +83,11 @@
                     {% else %}
 
                         <tr>
+                            {% if context.multiselect == 1 %}
+                                <td>
+                                    <input type="checkbox" class="file-checkbox" onclick="Bolt.stack.checkFileToAdd('{{ file.relativepath }}')" />
+                                </td>
+                            {% endif %}
                             <td>
 
                                 <i class="fa fa-fw fa-file-image-o"></i>
