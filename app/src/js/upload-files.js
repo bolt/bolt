@@ -288,8 +288,11 @@ var FilelistHolder = Backbone.View.extend({
         });
 
         $holder.find("div.list").on('blur', 'input', function (e) {
-            if (e.target.tagName.toLowerCase() !== "input") {
-                $this.doneSort();
+            if (e.relatedTarget !== null) {
+                if (e.relatedTarget.tagName.toLowerCase() !== "input" &&
+                    !$(e.relatedTarget).parent().is('.list-item')) {
+                    $this.doneSort();
+                }
             }
         });
 
