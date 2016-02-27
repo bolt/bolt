@@ -1,5 +1,8 @@
 {% import '@bolt/_macro/_panels.twig' as panels %}
 
+{# Configuration notices #}
+{% include '@bolt/_sub/_configuration_notices.twig' %}
+
 {# If we're running a development version, show annoying message. #}
 {% if app.bolt_released == false %}
 <div class="panel panel-default panel-news">
@@ -17,9 +20,6 @@
 
 {# News #}
 {{ render(path('dashboardnews')) }}
-
-{# Configuration notices #}
-{% include '@bolt/_sub/_configuration_notices.twig' %}
 
 {# Stack #}
 {{ panels.stack(7, true) }}
