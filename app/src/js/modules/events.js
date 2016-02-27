@@ -11,6 +11,9 @@
 
     /*
      * Bolt.events mixin container.
+     *
+     * @private
+     * @type {Object}
      */
     var events = {};
 
@@ -18,7 +21,7 @@
      * Fires an event.
      *
      * @static
-     * @function init
+     * @function fire
      * @memberof Bolt.events
      *
      * @param {string} event       - Event type
@@ -32,7 +35,7 @@
      * Attach an event handler.
      *
      * @static
-     * @function init
+     * @function on
      * @memberof Bolt.events
      *
      * @param {string}   event   - Event type
