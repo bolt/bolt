@@ -21,10 +21,11 @@
      * @function init
      * @memberof Bolt.events
      *
-     * @param {string} event - Event type
+     * @param {string} event       - Event type
+     * @param {object} [parameter] - Additional parameters to pass along to the event handler
      */
-    events.fire = function (event) {
-        $(this).trigger(event);
+    events.fire = function (event, parameter) {
+        $(this).trigger(event, parameter);
     };
 
     /**
