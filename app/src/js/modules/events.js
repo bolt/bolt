@@ -36,7 +36,7 @@
      * @param {object} [parameter] - Additional parameters to pass along to the event handler
      */
     events.fire = function (event, parameter) {
-        broker.trigger(event, parameter);
+        broker.triggerHandler(event, parameter);
     };
 
     /**
