@@ -4,6 +4,16 @@
  * @mixin
  * @namespace Bolt.events
  *
+ * eventType has to be "event.<bolt|extensionname>[.subnamespace(s)]"
+ *
+ * Available events:
+ *
+ * + On saving content:
+ *   - "start.bolt.content.save"   : Before saving content
+ *   - "done.bolt.content.save"    : Content was saved successfully
+ *   - "fail.bolt.content.save"    : Saving content failed
+ *   - "always.bolt.content.save"  : After saving content (failed or succeeded)
+ *
  * @param {Object} bolt - The Bolt module.
  */
 (function (bolt) {
