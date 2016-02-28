@@ -17,6 +17,14 @@
      */
     var events = {};
 
+    /*
+     * Event broker object.
+     *
+     * @private
+     * @type {Object}
+     */
+    var broker = $();
+
     /**
      * Fires an event.
      *
@@ -28,7 +36,7 @@
      * @param {object} [parameter] - Additional parameters to pass along to the event handler
      */
     events.fire = function (event, parameter) {
-        $(this).trigger(event, parameter);
+        broker.trigger(event, parameter);
     };
 
     /**
@@ -42,7 +50,7 @@
      * @param {function} handler - Event handler
      */
     events.on = function (event, handler) {
-        $(this).on(event, handler);
+        broker.on(event, handler);
     };
 
     // Apply mixin container
