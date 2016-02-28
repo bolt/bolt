@@ -9,16 +9,21 @@
  * Available events:
  *
  * + On saving content:
- *   - "start.bolt.content.save"   : Before saving content
- *   - "done.bolt.content.save"    : Content was saved successfully
- *   - "fail.bolt.content.save"    : Saving content failed
- *   - "always.bolt.content.save"  : After saving content (failed or succeeded)
+ *   - "start.bolt.content.save"         : Before saving content
+ *   - "done.bolt.content.save"          : Content was saved successfully
+ *   - "fail.bolt.content.save"          : Saving content failed
+ *   - "always.bolt.content.save"        : After saving content (failed or succeeded)
  *
  * + On saving an edited file:
- *   - "start.bolt.file.save"     : Before saving file
- *   - "done.bolt.file.save"      : File was saved successfully
- *   - "fail.bolt.file.save"      : Saving file failed
- *   - "always.bolt.file.save"    : After saving file (failed or succeeded)
+ *   - "start.bolt.file.save"            : Before saving file
+ *   - "done.bolt.file.save"             : File was saved successfully
+ *   - "fail.bolt.file.save"             : Saving file failed
+ *   - "always.bolt.file.save"           : After saving file (failed or succeeded)
+ *
+ * + Loading GoogleMaps API:
+ *   - "start.bolt.googlemapsapi.load"   : Request loading API loading
+ *   - "done.bolt.googlemapsapi.load"    : API loaded successfully
+ *   - "fail.bolt.googlemapsapi.load"    : Loading failed
  *
  * @param {Object} bolt - The Bolt module.
  */
