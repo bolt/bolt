@@ -53,6 +53,20 @@
         broker.on(eventType, handler);
     };
 
+    /**
+     * Remove an event handler.
+     *
+     * @static
+     * @function off
+     * @memberof Bolt.events
+     *
+     * @param {string}   eventType - Event type
+     * @param {function} handler   - Event handler
+     */
+    events.off = function (eventType, handler) {
+        broker.off(eventType, handler);
+    };
+
     // Apply mixin container
     bolt.events = events;
 
