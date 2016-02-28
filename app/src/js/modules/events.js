@@ -64,7 +64,9 @@
      * @param {function} handler   - Event handler
      */
     events.off = function (eventType, handler) {
-        broker.off(eventType, handler);
+        if (typeof eventType === 'string' && eventType !== '' && typeof handler === 'function') {
+            broker.off(eventType, handler);
+        }
     };
 
     // Apply mixin container
