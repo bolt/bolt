@@ -14,6 +14,12 @@
  *   - "fail.bolt.content.save"    : Saving content failed
  *   - "always.bolt.content.save"  : After saving content (failed or succeeded)
  *
+ * + On saving an edited file:
+ *   - "start.bolt.file.save"     : Before saving file
+ *   - "done.bolt.file.save"      : File was saved successfully
+ *   - "fail.bolt.file.save"      : Saving file failed
+ *   - "always.bolt.file.save"    : After saving file (failed or succeeded)
+ *
  * @param {Object} bolt - The Bolt module.
  */
 (function (bolt) {
