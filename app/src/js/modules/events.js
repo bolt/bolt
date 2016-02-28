@@ -32,11 +32,11 @@
      * @function fire
      * @memberof Bolt.events
      *
-     * @param {string} event       - Event type
+     * @param {string} eventType   - Event type
      * @param {object} [parameter] - Additional parameters to pass along to the event handler
      */
-    events.fire = function (event, parameter) {
-        broker.triggerHandler(event, parameter);
+    events.fire = function (eventType, parameter) {
+        broker.triggerHandler(eventType, parameter);
     };
 
     /**
@@ -46,11 +46,11 @@
      * @function on
      * @memberof Bolt.events
      *
-     * @param {string}   event   - Event type
-     * @param {function} handler - Event handler
+     * @param {string}   eventType - Event type
+     * @param {function} handler   - Event handler
      */
-    events.on = function (event, handler) {
-        broker.on(event, handler);
+    events.on = function (eventType, handler) {
+        broker.on(eventType, handler);
     };
 
     // Apply mixin container
