@@ -33,7 +33,7 @@
      * @memberof Bolt.events
      *
      * @param {string} eventType   - Event type
-     * @param {object} [parameter] - Additional parameters to pass along to the event handler
+     * @param {Object} [parameter] - Additional parameters to pass along to the event handler
      */
     events.fire = function (eventType, parameter) {
         broker.triggerHandler(eventType, parameter);
