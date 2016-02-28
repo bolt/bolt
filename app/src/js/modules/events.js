@@ -23,7 +23,7 @@
      * @private
      * @type {Object}
      */
-    var broker = $();
+    var broker = $({});
 
     /**
      * Fires an event.
