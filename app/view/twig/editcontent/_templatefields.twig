@@ -4,9 +4,9 @@
     </h3>
 {% endif %}
 
-{% set templatefields = context.content.get('templatefields').contenttype %}
-{% if templatefields.fields is not empty %}
-    {% for templatekey, templatefield in templatefields.fields %}
+{% set templatefields = context.content.get('templatefields') %}
+{% if templatefields.contenttype.fields is defined and templatefields.contenttype.fields is not empty %}
+    {% for templatekey, templatefield in templatefields.contenttype.fields %}
 
             <div data-bolt-fieldset="{{ templatefield.type }}">
                 {# Prefix #}
@@ -23,7 +23,7 @@
                     field: templatefield,
                     key: 'templatefields-' ~ templatekey,
                     contentkey: templatekey,
-                    context: context|merge({ content: context.content.get('templatefields') }),
+                    context: context|merge({ content: templatefields }),
                     name: 'templatefields[' ~ templatekey ~ ']',
                     labelkey:  templatelabelkey
                 } %}
