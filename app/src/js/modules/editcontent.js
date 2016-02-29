@@ -264,13 +264,14 @@
             } else {
                 watchChanges();
 
-                $(Bolt).trigger('start.bolt.content.save');
+                // Trigger save started event
+                bolt.events.fire('start.bolt.content.save');
 
                 // Existing record. Do an 'ajaxy' post to update the record.
                 // Let the controller know we're calling AJAX and expecting to be returned JSON.
                 $.post('?returnto=ajax', $('#editcontent').serialize())
                     .done(function (data) {
-                        $(Bolt).trigger('done.bolt.content.save', data);
+                        bolt.events.fire('done.bolt.content.save', data);
 
                         // Submit was successful, disable warning.
                         window.onbeforeunload = null;
@@ -334,11 +335,12 @@
                         watchChanges();
                     })
                     .fail(function(){
-                        $(Bolt).trigger('fail.bolt.content.save');
+                        bolt.events.fire('fail.bolt.content.save');
+
                         $('p.lastsaved').text(msgNotSaved);
                     })
                     .always(function(){
-                        $(Bolt).trigger('always.bolt.content.save');
+                        bolt.events.fire('always.bolt.content.save');
 
                         // Re-enable buttons
                         window.setTimeout(function(){

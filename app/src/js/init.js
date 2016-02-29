@@ -67,7 +67,7 @@ var init = {
         }
 
         $('#saveeditfile').on('click', function () {
-            $(Bolt).trigger('start.bolt.file.save');
+            Bolt.events.fire('start.bolt.file.save');
 
             // Copy back to the textarea.
             if (editor) {
@@ -85,18 +85,18 @@ var init = {
                 .done(function (data) {
                     if (!data.ok) {
                         alert(data.msg);
-                        $(Bolt).trigger('fail.bolt.file.save', data);
+                        Bolt.events.fire('fail.bolt.file.save', data);
                     } else {
-                        $(Bolt).trigger('done.bolt.file.save', data);
+                        Bolt.events.fire('done.bolt.file.save', data);
                     }
                     $('p.lastsaved').html(data.msg);
                 })
                 .fail(function(){
-                    $(Bolt).trigger('fail.bolt.file.save');
+                    Bolt.events.fire('fail.bolt.file.save');
                     alert(msgNotSaved);
                 })
                 .always(function(){
-                    $(Bolt).trigger('always.bolt.file.save');
+                    Bolt.events.fire('always.bolt.file.save');
 
                     // Re-enable buttons
                     window.setTimeout(function(){
