@@ -4,6 +4,7 @@ namespace Bolt\Provider;
 
 use Bolt\Session\Generator\RandomGenerator;
 use Bolt\Session\Handler\FileHandler;
+use Bolt\Session\Handler\FilesystemHandler;
 use Bolt\Session\Handler\RedisHandler;
 use Bolt\Session\OptionsBag;
 use Bolt\Session\Serializer\NativeSerializer;
@@ -186,6 +187,7 @@ class SessionServiceProvider implements ServiceProviderInterface
         );
 
         $this->registerFilesHandler($app);
+        $this->registerFilesystemHandler($app);
         $this->registerMemcacheHandler($app);
         $this->registerRedisHandler($app);
     }
@@ -195,6 +197,17 @@ class SessionServiceProvider implements ServiceProviderInterface
         $app['session.handler_factory.files'] = $app->protect(
             function ($options) use ($app) {
                 return new FileHandler($options['save_path'], $app['logger.system']);
+            }
+        );
+    }
+
+    protected function registerFilesystemHandler(Application $app)
+    {
+        $app['session.handler_factory.filesystem'] = $app->protect(
+            function ($options) use ($app) {
+                $dir = $app['filesystem']->getDir($options['save_path']);
+
+                return new FilesystemHandler($dir);
             }
         );
     }
