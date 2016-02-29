@@ -87,7 +87,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('stacked',            [$this, 'stacked']),
             new \Twig_SimpleFunction('stackitems',         [$this, 'stackItems']),
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
-            new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated),
+            new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated + ['alternative' => 'csrf_token']),
             new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFunction('widgets',            [$this, 'widgets'],      $safe),
             // @codingStandardsIgnoreEnd
