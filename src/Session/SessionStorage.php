@@ -306,6 +306,9 @@ class SessionStorage implements SessionStorageInterface
 
     protected function initializeSession()
     {
+        $this->data = [];
+        $this->dataHash = null;
+
         $this->handler->open(null, $this->name);
 
         if (empty($this->id)) {
@@ -315,6 +318,9 @@ class SessionStorage implements SessionStorageInterface
         $this->collectGarbage(); // Must be done before read
 
         $data = $this->handler->read($this->id);
+        if (!$data) { // Intentionally catch falsely values
+            return;
+        }
 
         if ($this->options->getBoolean('lazy_write', false)) {
             $this->dataHash = md5($data);
