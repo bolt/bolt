@@ -112,12 +112,13 @@ class RecordHandler
      * @param bool                 $common
      * @param bool                 $extended
      * @param bool                 $repeaters
+     * @param bool                 $templatefields
      * @param string               $template
      * @param string|array         $exclude
      *
      * @return string
      */
-    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $template = '_sub_fields.twig', $exclude = null)
+    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $templatefields = true, $template = '_sub_fields.twig', $exclude = null)
     {
         // If $record is empty, we must get it from the global scope in Twig.
         if (!$record instanceof \Bolt\Legacy\Content) {
@@ -135,11 +136,12 @@ class RecordHandler
         }
 
         $context = [
-            'record'    => $record,
-            'common'    => $common,
-            'extended'  => $extended,
-            'repeaters' => $repeaters,
-            'exclude'   => $exclude,
+            'record'         => $record,
+            'common'         => $common,
+            'extended'       => $extended,
+            'repeaters'      => $repeaters,
+            'templatefields' => $templatefields,
+            'exclude'        => $exclude,
         ];
 
         return new \Twig_Markup($env->render($template, $context), 'utf-8');
