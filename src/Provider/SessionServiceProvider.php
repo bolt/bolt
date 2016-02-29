@@ -36,9 +36,10 @@ class SessionServiceProvider implements ServiceProviderInterface
 
         $app['session.storage.generator'] = $app->share(
             function () use ($app) {
-                return new RandomGenerator($app['randomgenerator']);
+                return new RandomGenerator($app['randomgenerator'], $app['session.generator.bytes_length']);
             }
         );
+        $app['session.generator.bytes_length'] = 32;
 
         $app['session.storage.serializer'] = $app->share(
             function () {
