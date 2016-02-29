@@ -50,7 +50,7 @@ class Records extends BackendBase
         $new = empty($id);
 
         // Test the access control
-        if ($response = $this->checkEditAccess($request, $contenttypeslug, $id)) {
+        if ($response = $this->checkEditAccess($contenttypeslug, $id)) {
             return $response;
         }
 
@@ -62,9 +62,7 @@ class Records extends BackendBase
 
         // Save the POSTed record
         if ($request->isMethod('POST')) {
-            if (!$this->checkAntiCSRFToken()) {
-                $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
-            }
+            $this->validateCsrfToken();
 
             $formValues = $request->request->all();
             $returnTo = $request->get('returnto');
@@ -201,24 +199,17 @@ class Records extends BackendBase
     }
 
     /**
-     * Check that the user has a valid GSRF token and the required access control
-     * to action the record.
+     * Check that the user is allowed to edit the record.
      *
-     * @param Request $request
      * @param string  $contenttypeslug
      * @param integer $id
      *
      * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    private function checkEditAccess(Request $request, $contenttypeslug, $id)
+    private function checkEditAccess($contenttypeslug, $id)
     {
         // Is the record new or existing
         $new = empty($id) ?: false;
-
-        // Check for a valid CSRF token
-        if ($request->isMethod('POST') && !$this->checkAntiCSRFToken()) {
-            $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
-        }
 
         /*
          * Check the user is allowed to create/edit this record, based on:
