@@ -8,6 +8,7 @@ use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 /**
  * Class to handle things dealing with users.
@@ -88,7 +89,7 @@ class Users
      */
     public function getAntiCSRFToken()
     {
-        return $this->app['form.csrf_provider']->getToken('bolt')->getValue();
+        return $this->app['csrf']->getToken('bolt')->getValue();
     }
 
     /**
@@ -100,7 +101,8 @@ class Users
             $token = $this->app['request']->get('bolt_csrf_token');
         }
 
-        if ($token === $this->getAntiCSRFToken()) {
+        $token = new CsrfToken('bolt', $token);
+        if ($this->app['csrf']->isTokenValid($token)) {
             return true;
         } else {
             $this->app['logger.flash']->warning('The security token was incorrect. Please try again.');
