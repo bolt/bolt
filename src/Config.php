@@ -1180,7 +1180,7 @@ class Config
 
         if ($this->get('general/caching/config')) {
             try {
-                $fs->dumpFile($configCache, json_encode($this->data), 0666);
+                $fs->dumpFile($configCache, json_encode($this->data));
 
                 return;
             } catch (IOException $e) {
