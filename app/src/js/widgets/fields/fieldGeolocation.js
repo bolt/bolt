@@ -13,8 +13,9 @@
      *
      * @class fieldGeolocation
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldGeolocation', /** @lends jQuery.widget.bolt.fieldGeolocation.prototype */ {
+    $.widget('bolt.fieldGeolocation', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldGeolocation.prototype */ {
         /**
          * Default options.
          *

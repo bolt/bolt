@@ -5,18 +5,17 @@
     'use strict';
 
     /**
-     * Text field widget.
+     * Base field widget.
      *
      * @license http://opensource.org/licenses/mit-license.php MIT License
      * @author rarila
      *
-     * @class fieldText
+     * @class baseField
      * @memberOf jQuery.widget.bolt
-     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldText', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldText.prototype */ {
+    $.widget('bolt.baseField', /** @lends jQuery.widget.bolt.baseField.prototype */ {
         /**
-         * The constructor of the text field widget.
+         * The constructor of the base field widget.
          *
          * @private
          */

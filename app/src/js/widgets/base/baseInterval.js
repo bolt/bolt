@@ -44,7 +44,7 @@
         },
 
         /**
-         * The constructor of the activity panel  widget.
+         * The constructor of the base interval widget.
          *
          * @private
          */
