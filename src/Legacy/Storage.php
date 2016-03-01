@@ -3,6 +3,7 @@
 namespace Bolt\Legacy;
 
 use Bolt;
+use Bolt\Controller\Zone;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Exception\StorageException;
@@ -17,7 +18,6 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
 use utilphp\util;
 
 /**
@@ -1399,8 +1399,10 @@ class Storage
 
         // When using from the frontend, we assume (by default) that we only want published items,
         // unless something else is specified explicitly
-        if (isset($this->app['end']) && $this->app['end'] != "backend" && empty($ctypeParameters['status'])) {
-            $ctypeParameters['status'] = "published";
+        $request = $this->app['request_stack']->getCurrentRequest();
+        $isBackend = $request ? Zone::isBackend($request) : false;
+        if (!$isBackend && empty($ctypeParameters['status'])) {
+            $ctypeParameters['status'] = 'published';
         }
 
         if (isset($metaParameters['returnsingle'])) {
