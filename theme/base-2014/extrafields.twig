@@ -9,26 +9,7 @@
 
             <h2 data-bolt-field="title">{{ record.title }}</h2>
 
-            {% if record.subtitle %}
-                <h3 data-bolt-field="subtitle">{{ record.subtitle }}</h3>
-            {% endif %}
-
-            <div data-bolt-field="body">
-                {{ record.body }}
-            </div>
-
-        </article>
-
-        <article data-bolt-field="templatefields[section_1]">{{ record.templatefields.section_1 }}</article>
-        <article data-bolt-field="templatefields[section_2]">{{ record.templatefields.section_2 }}</article>
-        <article>
-            {% if record.templatefields.image is not empty %}
-                <a href="{{ image(record.templatefields.image) }}">
-                    <img src="{{ thumbnail(record.templatefields.image, 640, 480) }}">
-                </a>
-            {% endif %}
-        </article>
-
+            {{ fields(common = false, extended = false, repeaters = false, templatefields = true) }}
 
     </div>
 
