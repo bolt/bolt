@@ -13,7 +13,7 @@
                 <h3 data-bolt-field="subtitle">{{ record.subtitle }}</h3>
             {% endif %}
 
-            {{ fields(common = true, extended = false, repeaters = true, extrafields = true) }}
+            {{ fields(common = true, extended = false, repeaters = true, templatefields = true) }}
 
             {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
             {{ dump(record) }}
