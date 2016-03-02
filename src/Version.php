@@ -70,6 +70,17 @@ final class Version
     }
 
     /**
+     * Get a pseudo-unique version hash, to be used for cache-busting.
+     */
+    public static function uniqueVersionHash()
+    {
+        $key = static::VERSION . filemtime(__FILE__);
+        $hash = substr(md5($key), 0, 6);
+
+        return $hash;
+    }
+
+    /**
      * Must not be instantiated.
      */
     private function __construct()
