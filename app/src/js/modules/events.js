@@ -4,26 +4,26 @@
  * @mixin
  * @namespace Bolt.events
  *
- * eventType has to be "event.<bolt|extensionname>[.subnamespace(s)]"
+ * eventType has to be "namespace>domain>event>status"
  *
  * Available events:
  *
  * + On saving content:
- *   - "start.bolt.content.save"         : Before saving content
- *   - "done.bolt.content.save"          : Content was saved successfully
- *   - "fail.bolt.content.save"          : Saving content failed
- *   - "always.bolt.content.save"        : After saving content (failed or succeeded)
+ *   - "bolt>content>save>start"         : Before saving content
+ *   - "bolt>content>save>done"          : Content was saved successfully
+ *   - "bolt>content>save>fail"          : Saving content failed
+ *   - "bolt>content>save>always"        : After saving content (failed or succeeded)
  *
  * + On saving an edited file:
- *   - "start.bolt.file.save"            : Before saving file
- *   - "done.bolt.file.save"             : File was saved successfully
- *   - "fail.bolt.file.save"             : Saving file failed
- *   - "always.bolt.file.save"           : After saving file (failed or succeeded)
+ *   - "bolt>file>save>start"            : Before saving file
+ *   - "bolt>file>save>done"             : File was saved successfully
+ *   - "bolt>file>save>fail"             : Saving file failed
+ *   - "bolt>file>save>always"           : After saving file (failed or succeeded)
  *
  * + Loading GoogleMaps API:
- *   - "start.bolt.googlemapsapi.load"   : Request loading API loading
- *   - "done.bolt.googlemapsapi.load"    : API loaded successfully
- *   - "fail.bolt.googlemapsapi.load"    : Loading failed
+ *   - "bolt>googlemapsapi>load>start"   : Request loading API loading
+ *   - "bolt>googlemapsapi>load>done"    : API loaded successfully
+ *   - "bolt>googlemapsapi>load>fail"    : Loading failed
  *
  * @param {Object} bolt - The Bolt module.
  */
