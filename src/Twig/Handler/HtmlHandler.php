@@ -5,6 +5,7 @@ namespace Bolt\Twig\Handler;
 use Bolt\Helpers\Html;
 use Bolt\Helpers\Str;
 use Bolt\Legacy\Content;
+use Bolt\Version;
 use Maid\Maid;
 use Silex;
 
@@ -239,4 +240,13 @@ class HtmlHandler
     {
         return $this->app['safe_render']->render($snippet, $extravars)->getContent();
     }
+
+    /**
+     * Get a pseudo-unique version hash, to be used for cache-busting.
+     */
+    public function versionHash()
+    {
+        return Version::uniqueVersionHash();
+    }
+
 }
