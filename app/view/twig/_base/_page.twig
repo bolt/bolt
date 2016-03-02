@@ -70,11 +70,11 @@
 
     <title>{{ page_title|striptags|trim|raw }} – {{ app.config.get('general/branding/name') }}</title>
 
-    <link rel="stylesheet" href="{{ paths.app }}view/css/lib.css">
-    <link rel="stylesheet" href="{{ paths.app }}view/css/bolt.css">
+    <link rel="stylesheet" href="{{ cachehash(paths.app ~ 'view/css/lib.css') }}">
+    <link rel="stylesheet" href="{{ cachehash(paths.app ~ 'view/css/bolt.css') }}">
 
     {% for script in page_scripts_inc -%}
-        <script src="{{ paths.app ~ script }}"></script>
+        <script src="{{ cachehash(paths.app ~ script) }}"></script>
     {% endfor %}
 
     <link rel="shortcut icon" href="{% if app.config.get('general/branding/favicon') %}{{ app.config.get('general/branding/favicon') }}{% else %}{{ paths.app }}view/img/favicon-bolt.ico{% endif %}">
@@ -129,7 +129,7 @@
                         ? config.get('general/wysiwyg/filebrowser') : false,
     },
 } %}
-<script src="{{ paths.app }}view/js/bolt.js" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>
+<script src="{{ cachehash(paths.app ~ 'view/js/bolt.js') }}" data-config="{{ bconfig|json_encode }}" data-jsdata="{{ app.jsdata|json_encode }}"></script>
 
 {% block page_script %}
 {% endblock page_script %}
