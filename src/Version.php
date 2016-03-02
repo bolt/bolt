@@ -49,7 +49,7 @@ final class Version
         }
 
         $parts = explode(' ', static::VERSION, 2);
-        $version = $parts[0] . '@' . $parts[1];
+        $version = $parts[0] . '-' . $parts[1];
         $version = str_replace(' ', '', strtolower($version));
 
         return $version;
