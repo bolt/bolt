@@ -164,7 +164,16 @@ class Frontend extends ConfigurableBase
         if ($content->isHome() && ($template === $this->getOption('general/homepage_template'))) {
             $url = $this->app['resources']->getUrl('rooturl');
         } else {
-            $url = $this->app['resources']->getUrl('rooturl') . ltrim($content->link(), '/');
+            $link = ltrim($content->link(), '/');
+
+            // In Symfony / Silex, links can be fetched as `/contenttype/1` as well as `/index.php/contenttype/1`.
+            // We won't rewrite the latter, but we don't want it to show up in the canonical either to prevent
+            // duplicate content in Google. @see: https://moz.com/learn/seo/duplicate-content
+            if (strpos($link, 'index.php/') === 0) {
+                $link = str_replace('index.php/', '', $link);
+            }
+
+            $url = $this->app['resources']->getUrl('rooturl') . $link;
         }
         $this->app['resources']->setUrl('canonicalurl', $url);
 
