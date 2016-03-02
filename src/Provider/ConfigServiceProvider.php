@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt;
 use Bolt\Config;
 use Bolt\Configuration\Environment;
 use Silex\Application;
@@ -29,7 +30,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
                     $viewPath,
                     $app['cache'],
                     $app['extend.action'],
-                    $app['bolt_long_version']
+                    Bolt\Version::VERSION
                 );
 
                 return $environment;

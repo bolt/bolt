@@ -28,10 +28,6 @@
             <strong>Bolt {{ collector.version }}</strong>
         </span>
 
-        {% if collector.versionname is not empty %}
-            <span class="sf-toolbar-value sf-toolbar-status-yellow">{{ collector.versionname }}</span>
-        {% endif %}
-
     {% endset %}
 
     {% set text %}
@@ -44,7 +40,7 @@
 
         <div class="sf-toolbar-info-piece">
             <span>
-                {{ collector.fullversion }} - {{ collector.aboutlink|raw }} - Visit <a href="http://bolt.cm" target="_blank">Bolt.cm</a>
+                Version: {{ collector.version }} - {{ collector.aboutlink|raw }} - Visit <a href="http://bolt.cm" target="_blank">Bolt.cm</a>
             </span>
         </div>
 

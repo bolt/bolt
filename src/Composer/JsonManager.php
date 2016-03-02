@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer;
 
+use Bolt;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Helpers\Arr;
@@ -127,7 +128,7 @@ class JsonManager
                 'preferred-install' => 'dist',
             ],
             'provide' => [
-                'bolt/bolt' => $this->app['bolt_version'],
+                'bolt/bolt' => Bolt\Version::forComposer(),
             ],
             'extra' => [
                 'bolt-web-path' => $pathToWeb,

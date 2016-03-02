@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer;
 
+use Bolt;
 use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\Exception\ParseException;
 use Bolt\Filesystem\Handler\JsonFile;
@@ -248,14 +249,14 @@ class PackageManager
             // Handle non-Bolt packages
             if ($extension) {
                 $title = $extension->getDisplayName();
-                $constraint = $extension->getDescriptor()->getConstraint() ?: $this->app['bolt_version'];
+                $constraint = $extension->getDescriptor()->getConstraint() ?: Bolt\Version::VERSION;
                 $readme = $this->linkReadMe($extension);
                 $config = $this->linkConfig($extension);
                 $valid = $extension->isValid();
                 $enabled = $extension->isEnabled();
             } else {
                 $title = $name;
-                $constraint = $this->app['bolt_version'];
+                $constraint = Bolt\Version::VERSION;
                 $readme = null;
                 $config = null;
                 $valid = true;
@@ -380,8 +381,7 @@ class PackageManager
         }
         if ($addQuery) {
             $query = [
-                'bolt_ver'  => $this->app['bolt_version'],
-                'bolt_name' => $this->app['bolt_name'],
+                'bolt_ver'  => Bolt\Version::VERSION,
                 'php'       => phpversion(),
                 'www'       => $www,
             ];
