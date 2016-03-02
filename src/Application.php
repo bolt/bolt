@@ -83,7 +83,6 @@ class Application extends Silex\Application
     protected function initSession()
     {
         $this
-            ->register(new Provider\TokenServiceProvider())
             ->register(new Provider\SessionServiceProvider())
         ;
     }

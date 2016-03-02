@@ -3,6 +3,7 @@
 namespace Bolt\Twig\Handler;
 
 use Silex;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 /**
  * Bolt specific Twig functions and filters that provide user functionality
@@ -84,13 +85,12 @@ class UserHandler
     /**
      * Get a simple Anti-CSRF-like token.
      *
-     * @see \Bolt\Users::getAntiCSRFToken()
      * @deprecated Deprecated since 3.0, to be removed in 4.0. Use Symfony forms instead.
      *
-     * @return string
+     * @return CsrfToken
      */
     public function token()
     {
-        return $this->app['users']->getAntiCSRFToken();
+        return $this->app['csrf']->getToken('bolt');
     }
 }

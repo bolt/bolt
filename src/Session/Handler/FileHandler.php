@@ -13,7 +13,7 @@ use Symfony\Component\Finder\Finder;
  * @author Carson Full <carsonfull@gmail.com>
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FileHandler implements \SessionHandlerInterface
+class FileHandler implements \SessionHandlerInterface, LazyWriteHandlerInterface
 {
     /** @var integer */
     protected $depth;
@@ -75,13 +75,7 @@ class FileHandler implements \SessionHandlerInterface
      */
     public function open($savePath, $sessionName)
     {
-        try {
-            $this->fs->touch($this->getSessionFileName($sessionName));
-
-            return true;
-        } catch (IOException $e) {
-            return false;
-        }
+        return true;
     }
 
     /**
@@ -120,6 +114,17 @@ class FileHandler implements \SessionHandlerInterface
         }
 
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateTimestamp($sessionId, $data)
+    {
+        try {
+            $this->fs->touch($this->getSessionFileName($sessionId));
+        } catch (IOException $e) {
+        }
     }
 
     /**

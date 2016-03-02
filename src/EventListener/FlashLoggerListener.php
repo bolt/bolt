@@ -13,23 +13,27 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>
  */
-class SessionListener implements EventSubscriberInterface
+class FlashLoggerListener implements EventSubscriberInterface
 {
     /** @var FlashBagAttachableInterface */
     protected $flashLogger;
     /** @var boolean */
     protected $debug;
+    /** @var string */
+    protected $profilerMountPrefix;
 
     /**
-     * SessionListener constructor.
+     * Constructor.
      *
      * @param FlashBagAttachableInterface $flashLogger
      * @param boolean                     $debug
+     * @param string                      $profilerMountPrefix
      */
-    public function __construct(FlashBagAttachableInterface $flashLogger, $debug)
+    public function __construct(FlashBagAttachableInterface $flashLogger, $debug, $profilerMountPrefix)
     {
         $this->flashLogger = $flashLogger;
         $this->debug = $debug;
+        $this->profilerMountPrefix = $profilerMountPrefix;
     }
 
     /**
@@ -45,8 +49,9 @@ class SessionListener implements EventSubscriberInterface
 
         $request = $event->getRequest();
         $session = $request->getSession();
-        if (($this->debug || $request->hasPreviousSession()) && !$session->isStarted()) {
-            $session->start();
+
+        $isProfilerRoute = strpos($request->getPathInfo(), $this->profilerMountPrefix) === 0;
+        if (!$isProfilerRoute && ($this->debug || $request->hasPreviousSession()) && !$session->isStarted()) {
             $this->attachFlashBag($session);
         }
     }

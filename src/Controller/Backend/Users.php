@@ -208,8 +208,8 @@ class Users extends BackendBase
      */
     public function modify($action, $id)
     {
-        if (!$this->checkAntiCSRFToken()) {
-            $this->flashes()->info(Trans::__('An error occurred.'));
+        if (!$this->isCsrfTokenValid()) {
+            $this->flashes()->error(Trans::__('Something went wrong'));
 
             return $this->redirectToRoute('users');
         }
@@ -256,7 +256,7 @@ class Users extends BackendBase
                 break;
 
             case 'delete':
-                if ($this->checkAntiCSRFToken() && $this->users()->deleteUser($id)) {
+                if ($this->isCsrfTokenValid() && $this->users()->deleteUser($id)) {
                     $this->app['logger.system']->info("Deleted user '{$user->getDisplayname()}'.", ['event' => 'security']);
                     $this->flashes()->info(Trans::__("User '%s' is deleted.", ['%s' => $user->getDisplayname()]));
                 } else {

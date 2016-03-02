@@ -16,13 +16,18 @@ class NativeSerializer implements SerializerInterface
      */
     public function unserialize($data)
     {
-        // @codingStandardsIgnoreStart
-        set_error_handler(function () {});
-        // @codingStandardsIgnoreEnd
+        $ex = null;
+        set_error_handler(
+            function () use (&$ex) {
+                $ex = new \RuntimeException('Unable to unserialize session data.');
+            }
+        );
+
         $session = unserialize($data);
         restore_error_handler();
-        if ($session === false) {
-            throw new \RuntimeException('Unserialization failure');
+
+        if ($ex instanceof \Exception) {
+            throw $ex;
         }
 
         return $session;

@@ -17,6 +17,6 @@ class NativeGeneratorTest extends BoltUnitTest
         $daveGrohl = $fooFighters->generateId();
 
         $this->assertNotSame('Nirvana', $daveGrohl);
-        $this->assertSame(64, strlen($daveGrohl));
+        $this->assertSame(32, strlen($daveGrohl));
     }
 }

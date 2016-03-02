@@ -2,7 +2,10 @@
 namespace Bolt\Session;
 
 use Bolt\Session\Generator\GeneratorInterface;
+use Bolt\Session\Handler\LazyWriteHandlerInterface;
 use Bolt\Session\Serializer\SerializerInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use SessionHandlerInterface as HandlerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
@@ -22,7 +25,7 @@ class SessionStorage implements SessionStorageInterface
     protected $id = '';
 
     /** @var string */
-    protected $name;
+    protected $name = 'PHPSESSID';
 
     /** @var boolean */
     protected $started = false;
@@ -44,6 +47,13 @@ class SessionStorage implements SessionStorageInterface
      */
     protected $data = [];
 
+    /**
+     * MD5 hash of initial data if the "lazy_write" option is enabled.
+     *
+     * @var string
+     */
+    protected $dataHash;
+
     /** @var HandlerInterface */
     protected $handler;
 
@@ -56,6 +66,9 @@ class SessionStorage implements SessionStorageInterface
     /** @var OptionsBag */
     protected $options;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
     /**
      * Constructor.
      *
@@ -63,6 +76,7 @@ class SessionStorage implements SessionStorageInterface
      * @param HandlerInterface    $handler
      * @param GeneratorInterface  $generator
      * @param SerializerInterface $serializer
+     * @param LoggerInterface     $logger
      * @param MetadataBag         $metadataBag
      */
     public function __construct(
@@ -70,6 +84,7 @@ class SessionStorage implements SessionStorageInterface
         HandlerInterface $handler,
         GeneratorInterface $generator,
         SerializerInterface $serializer,
+        LoggerInterface $logger = null,
         MetadataBag $metadataBag = null
     ) {
         $this->options = $options;
@@ -78,6 +93,7 @@ class SessionStorage implements SessionStorageInterface
         $this->setHandler($handler);
         $this->generator = $generator;
         $this->serializer = $serializer;
+        $this->logger = $logger ?: new NullLogger();
         $this->setMetadataBag($metadataBag);
     }
 
@@ -90,13 +106,7 @@ class SessionStorage implements SessionStorageInterface
             return true;
         }
 
-        if (empty($this->id)) {
-            $this->id = $this->generator->generateId();
-        }
-
         $this->initializeSession();
-
-        $this->collectGarbage();
 
         $this->initializeBags();
 
@@ -119,9 +129,16 @@ class SessionStorage implements SessionStorageInterface
         if ($destroy) {
             $this->metadataBag->stampNew($lifetime);
             $this->handler->destroy($this->id);
+        } else {
+            $this->write();
         }
+        $this->handler->close();
 
         $this->id = $this->generator->generateId();
+
+        $this->handler->open(null, $this->name);
+        // read is required to make new session data at this point
+        $this->handler->read($this->id);
 
         return true;
     }
@@ -159,6 +176,7 @@ class SessionStorage implements SessionStorageInterface
      */
     public function setName($name)
     {
+        $this->validateName($name);
         $this->name = $name;
     }
 
@@ -171,8 +189,8 @@ class SessionStorage implements SessionStorageInterface
             throw new \RuntimeException('Trying to save a session that was not started yet or was already closed');
         }
 
-        $data = $this->serializer->serialize($this->data);
-        $this->handler->write($this->id, $data);
+        $this->write();
+
         $this->handler->close();
 
         $this->closed = true;
@@ -286,9 +304,26 @@ class SessionStorage implements SessionStorageInterface
 
     protected function initializeSession()
     {
-        $this->handler->open(null, $this->id);
+        $this->data = [];
+        $this->dataHash = null;
+
+        $this->handler->open(null, $this->name);
+
+        if (empty($this->id)) {
+            $this->id = $this->generator->generateId();
+        }
+
+        $this->collectGarbage(); // Must be done before read
 
         $data = $this->handler->read($this->id);
+        if (!$data) { // Intentionally catch falsely values
+            return;
+        }
+
+        if ($this->options->getBoolean('lazy_write', false)) {
+            $this->dataHash = md5($data);
+        }
+
         try {
             $this->data = $this->serializer->unserialize($data);
         } catch (\Exception $e) {
@@ -322,6 +357,34 @@ class SessionStorage implements SessionStorageInterface
         $rand = mt_rand(0, $divisor);
         if ($rand < $probability) {
             $this->handler->gc($this->options->getInt('gc_maxlifetime'));
+        }
+    }
+
+    /**
+     * Validate session name which needs to be a valid cookie name.
+     *
+     * Regex pulled from {@see Symfony\Component\HttpFoundation\Cookie}
+     *
+     * @param string $name
+     */
+    protected function validateName($name)
+    {
+        if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
+            throw new \InvalidArgumentException(sprintf('The session name "%s" contains invalid characters.', $name));
+        }
+    }
+
+    protected function write()
+    {
+        $data = $this->serializer->serialize($this->data);
+
+        if ($this->options->getBoolean('lazy_write', false) &&
+            $this->handler instanceof LazyWriteHandlerInterface &&
+            md5($data) === $this->dataHash
+        ) {
+            $this->handler->updateTimestamp($this->id, $data);
+        } else {
+            $this->handler->write($this->id, $data);
         }
     }
 }

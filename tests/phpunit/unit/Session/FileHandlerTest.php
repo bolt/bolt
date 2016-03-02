@@ -45,7 +45,6 @@ class FileHandlerTest extends BoltUnitTest
 
         $result = $fsh->open($this->savePath, $this->sessionName);
         $this->assertTrue($result);
-        $this->assertFileExists($this->sessionFile);
     }
 
     public function testClose()

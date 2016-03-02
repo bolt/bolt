@@ -5,6 +5,7 @@ namespace Bolt\Provider;
 use Bolt\AccessControl;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class AccessControlServiceProvider implements ServiceProviderInterface
 {
@@ -63,6 +64,15 @@ class AccessControlServiceProvider implements ServiceProviderInterface
                 $password = new AccessControl\Password($app);
 
                 return $password;
+            }
+        );
+
+        $app['token.authentication.name'] = $app->share(
+            function ($app) {
+                $request = $app['request_stack']->getCurrentRequest() ?: Request::createFromGlobals();
+                $name = 'bolt_authtoken_' . md5($request->getHttpHost() . $request->getBaseUrl());
+
+                return $name;
             }
         );
     }

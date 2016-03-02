@@ -20,23 +20,17 @@ class SessionListener implements EventSubscriberInterface
     protected $session;
     /** @var OptionsBag */
     protected $options;
-    /** @var boolean */
-    protected $setToRequest;
 
     /**
      * Constructor.
      *
      * @param SessionInterface $session
      * @param OptionsBag       $options
-     * @param boolean          $setToRequest Whether this session should be set in the Request.
-     *                                       Typically this should be the main session, as
-     *                                       Request can only handle one.
      */
-    public function __construct(SessionInterface $session, OptionsBag $options, $setToRequest = false)
+    public function __construct(SessionInterface $session, OptionsBag $options)
     {
         $this->session = $session;
         $this->options = $options;
-        $this->setToRequest = $setToRequest;
     }
 
     /**
@@ -51,14 +45,16 @@ class SessionListener implements EventSubscriberInterface
         }
 
         $request = $event->getRequest();
-        if ($this->setToRequest) {
-            $request->setSession($this->session);
+        $request->setSession($this->session);
+
+        $name = $this->session->getName();
+        if ($this->options->getBoolean('restrict_realm')) {
+            $name .= md5($request->getHttpHost() . $request->getBaseUrl());
+            $this->session->setName($name);
         }
 
-        $cookies = $event->getRequest()->cookies;
-        $name = $this->session->getName();
-        if ($cookies->has($name)) {
-            $this->session->setId($cookies->get($name));
+        if ($request->cookies->has($name)) {
+            $this->session->setId($request->cookies->get($name));
             $this->session->start();
         }
     }
