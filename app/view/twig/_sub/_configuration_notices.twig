@@ -1,0 +1,32 @@
+{##
+ # Sidebar-Panel-Item: Displays the 'Configuration needed' items
+ #}
+{% set messages = app['logger.flash'].get('configuration') %}
+
+{% extends (messages is not empty) ? '@bolt/_base/_panel.twig' : '@bolt/_base/_nothing.twig' %}
+
+{% block panel_class 'panel-configuration' %}
+
+{% block panel_alert %}
+    class="progress-bar progress-bar-info progress-bar-striped active"
+    style="width: 100%; text-align: left; color: #333; padding: 10px 14px; margin-bottom: 15px;"
+{% endblock panel_alert %}
+
+{% block panel_icon 'fa-bullhorn' %}
+
+{% block panel_head %}<b>Configuration Notices</b>{% endblock %}
+
+{% block panel_body %}
+    {% set shown = [] %}
+    <p>
+        {{ __('Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:') }}
+    </p>
+    <ul>
+    {% for msg in messages %}
+        {% if msg not in shown %}
+            <li>{{ msg|ymllink }}</li>
+            {% set shown = shown|merge([msg]) %}
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% endblock panel_body %}

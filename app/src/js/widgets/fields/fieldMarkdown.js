@@ -13,8 +13,9 @@
      *
      * @class fieldMarkdown
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldMarkdown', /** @lends jQuery.widget.bolt.fieldMarkdown.prototype */ {
+    $.widget('bolt.fieldMarkdown', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldMarkdown.prototype */ {
         /**
          * The constructor of the markdown field widget.
          *

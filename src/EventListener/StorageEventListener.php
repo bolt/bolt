@@ -3,6 +3,7 @@ namespace Bolt\EventListener;
 
 use Bolt\AccessControl\Permissions;
 use Bolt\Config;
+use Bolt\Configuration\ResourceManager;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
@@ -120,7 +121,14 @@ class StorageEventListener implements EventSubscriberInterface
         $session = $event->getRequest()->getSession();
         $validSession = $session->isStarted() && $session->get('authentication');
         $expired = $this->schemaManager->isCheckRequired();
-        if ($validSession && $expired && $this->schemaManager->isUpdateRequired()) {
+
+        // Don't show the check if we're in the dbcheck already.
+        $notInCheck = !in_array(
+            $event->getRequest()->get('_route'),
+            ['dbcheck', 'dbupdate_result', 'dbupdate']
+        );
+
+        if ($validSession && $expired && $this->schemaManager->isUpdateRequired() && $notInCheck) {
             $msg = Trans::__(
                 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.",
                 ['%link%' => $this->urlGenerator->generate('dbcheck')]

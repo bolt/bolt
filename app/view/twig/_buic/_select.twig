@@ -84,7 +84,7 @@
                             {% endif %}
 
                             {# option #}
-                            {% set opttext = option.text|default(option.value)|striptags|e %}
+                            {% set opttext = option.text|default(option.value)|striptags %}
                             {% set optattr = {
                                 'value!':   option.value,
                                 'selected': option.selected|default(false),

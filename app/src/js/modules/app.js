@@ -12,6 +12,8 @@
 (function (bolt, $, moment, init) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Bolt.app mixin container.
      *
@@ -45,10 +47,12 @@
      *
      * @function gMapsApiReady
      * @memberof Bolt.app
+     *
+     * @fires done.bolt.googlemapsapi.load
      */
     app.gMapsApiReady = function () {
         gMapsApiLoaded = true;
-        $(bolt).trigger('done.bolt.googlemapsapi.load');
+        bolt.events.fire('done.bolt.googlemapsapi.load');
     };
 
     /**
@@ -172,27 +176,26 @@
      * @static
      * @function initHandler
      * @memberof Bolt.app
+     *
+     * @fires done.bolt.googlemapsapi.load
+     * @fires fail.bolt.googlemapsapi.load
+     * @listens start.bolt.googlemapsapi.load
      */
     function initHandler() {
-        $(bolt)
-            // Google Maps API loading
-            // - start.bolt.googlemapsapi.load: request API loading.
-            // - done.bolt.googlemapsapi.load:  API loaded successfully.
-            // - fail.bolt.googlemapsapi.load:  loading failed.
-            .on('start.bolt.googlemapsapi.load', function () {
-                if (gMapsApiLoaded === undefined) {
-                    // Request loading Google Maps API.
-                    gMapsApiLoaded = false;
-                    $.getScript('https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.gMapsApiReady')
-                        .fail(function () {
-                            gMapsApiLoaded = undefined;
-                            $(bolt).trigger('fail.bolt.googlemapsapi.load');
-                        });
-                } else if (gMapsApiLoaded === true) {
-                    // Already loaded, signal it.
-                    $(bolt).trigger('done.bolt.googlemapsapi.load');
-                }
-            });
+        bolt.events.on('start.bolt.googlemapsapi.load', function () {
+            if (gMapsApiLoaded === undefined) {
+                // Request loading Google Maps API.
+                gMapsApiLoaded = false;
+                $.getScript('https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.gMapsApiReady')
+                    .fail(function () {
+                        gMapsApiLoaded = undefined;
+                        bolt.events.fire('fail.bolt.googlemapsapi.load');
+                    });
+            } else if (gMapsApiLoaded === true) {
+                // Already loaded, signal it.
+                bolt.events.fire('done.bolt.googlemapsapi.load');
+            }
+        });
     }
 
     /**

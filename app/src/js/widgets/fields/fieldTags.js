@@ -13,8 +13,9 @@
      *
      * @class fieldTags
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldTags', /** @lends jQuery.widget.bolt.fieldTags.prototype */ {
+    $.widget('bolt.fieldTags', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldTags.prototype */ {
         /**
          * Default options.
          *

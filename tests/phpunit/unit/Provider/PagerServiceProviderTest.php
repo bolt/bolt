@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class PagerServiceProviderTest
  *
  * @package Bolt\Tests\Provider
+ *
  * @author Rix Beck <rix@neologik.hu>
  */
 class PagerServiceProviderTest extends BoltUnitTest

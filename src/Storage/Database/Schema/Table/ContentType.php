@@ -191,7 +191,7 @@ class ContentType extends BaseTable
      */
     private function columnStringNormal($fieldName)
     {
-        $this->table->addColumn($fieldName, 'string', ['length' => 256, 'default' => '']);
+        $this->table->addColumn($fieldName, 'string', ['length' => 256, 'default' => '', 'notnull' => false]);
     }
 
     /**
@@ -215,6 +215,6 @@ class ContentType extends BaseTable
      */
     private function columnText($fieldName)
     {
-        $this->table->addColumn($fieldName, 'text', ['default' => $this->getTextDefault()]);
+        $this->table->addColumn($fieldName, 'text', ['default' => $this->getTextDefault(), 'notnull' => false]);
     }
 }

@@ -3,6 +3,7 @@ namespace Bolt\Controller;
 
 use Bolt\Routing\DefaultControllerClassAwareInterface;
 use Bolt\Storage\Entity;
+use Bolt\Translation\Translator as Trans;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\Application;
 use Silex\ControllerCollection;
@@ -14,7 +15,10 @@ use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 /**
  * Base class for all controllers which mainly provides shortcut methods for
@@ -48,6 +52,8 @@ abstract class Base implements ControllerProviderInterface
      * @param integer $statusCode The HTTP status code
      * @param string  $message    The status message
      * @param array   $headers    An array of HTTP headers
+     *
+     * @throws HttpExceptionInterface
      */
     protected function abort($statusCode, $message = '', array $headers = [])
     {
@@ -195,15 +201,34 @@ abstract class Base implements ControllerProviderInterface
     }
 
     /**
-     * Shortcut for {@see \Bolt\Users::checkAntiCSRFToken}
+     * Validates CSRF token and throws HttpException if not.
      *
-     * @param string $token
+     * @param string|null $value The token value or null to use "bolt_csrf_token" parameter from request.
+     * @param string      $id    The token ID.
+     *
+     * @throws HttpExceptionInterface
+     */
+    protected function validateCsrfToken($value = null, $id = 'bolt')
+    {
+        if (!$this->isCsrfTokenValid($value, $id)) {
+            //$this->app['logger.flash']->warning('The security token was incorrect. Please try again.');
+            $this->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
+        }
+    }
+
+    /**
+     * Check if csrf token is valid.
+     *
+     * @param string|null $value The token value or null to use "bolt_csrf_token" parameter from request.
+     * @param string      $id    The token ID. 
      *
      * @return bool
      */
-    protected function checkAntiCSRFToken($token = '')
+    protected function isCsrfTokenValid($value = null, $id = 'bolt')
     {
-        return $this->users()->checkAntiCSRFToken($token);
+        $token = new CsrfToken($id, $value ?: $this->app['request']->get('bolt_csrf_token'));
+
+        return $this->app['csrf']->isTokenValid($token);
     }
 
     /**

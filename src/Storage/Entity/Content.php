@@ -8,18 +8,6 @@ use Carbon\Carbon;
 
 /**
  * Entity for Content.
- *
- * @method integer   getId()
- * @method string    getSlug()
- * @method \DateTime getDatepublish()
- * @method \DateTime getDatedepublish()
- * @method integer   getOwnerid()
- * @method string    getStatus()
- * @method setId(integer $id)
- * @method setSlug(string $slug)
- * @method setOwnerid(integer $ownerid)
- * @method setUsername(string $userName)
- * @method setStatus(string $status)
  */
 class Content extends Entity
 {
@@ -27,20 +15,32 @@ class Content extends Entity
     use ContentTypeTitleTrait;
 
     protected $contenttype;
+    /** @var ContentLegacyService */
     protected $_legacy;
+    /** @var int */
     protected $id;
+    /** @var string */
     protected $slug;
+    /** @var \DateTime */
     protected $datecreated;
+    /** @var \DateTime */
     protected $datechanged;
-    protected $datepublish = null;
-    protected $datedepublish = null;
+    /** @var \DateTime */
+    protected $datepublish;
+    /** @var \DateTime */
+    protected $datedepublish;
+    /** @var int */
     protected $ownerid;
+    /** @var string */
     protected $status;
+    /** @var Collection\Relations */
     protected $relation;
+    /** @var Collection\Taxonomy */
     protected $taxonomy;
 
     /** @var array @deprecated Deprecated since 3.0, to be removed in 4.0. */
     protected $group;
+    /** @var int */
     protected $sortorder;
 
     /**
@@ -75,34 +75,51 @@ class Content extends Entity
     }
 
     /**
-     * Helper to set an array of values
-     *
-     * @param array $values
+     * @return int
      */
-    public function setValues(array $values)
+    public function getSortorder()
     {
-        foreach ($values as $key => $value) {
-            $this->set($key, $value);
-        }
+        return $this->sortorder;
     }
 
     /**
-     * Getter for a record's 'title' field.
-     *
-     * If there is no field called 'title' then we just return the first text
-     * type field.
-     *
+     * @param int $sortorder
+     */
+    public function setSortorder($sortorder)
+    {
+        $this->sortorder = $sortorder;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
      * @return string
      */
-    public function getTitle()
+    public function getSlug()
     {
-        if (isset($this->_fields['title'])) {
-            return $this->_fields['title'];
-        }
+        return $this->slug;
+    }
 
-        $fieldName = $this->getTitleColumnName($this->contenttype);
-
-        return $this->$fieldName;
+    /**
+     * @param string $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
     }
 
     /**
@@ -154,6 +171,14 @@ class Content extends Entity
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getDatepublish()
+    {
+        return $this->datepublish;
+    }
+
+    /**
      * Set published date.
      *
      * @param \DateTime|string|null $date
@@ -161,6 +186,14 @@ class Content extends Entity
     public function setDatepublish($date)
     {
         $this->datepublish = $this->getValidDateObject($date);
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDatedepublish()
+    {
+        return $this->datedepublish;
     }
 
     /**
@@ -173,16 +206,41 @@ class Content extends Entity
         $this->datedepublish = $this->getValidDateObject($date);
     }
 
-    public function getContenttype()
+    /**
+     * @return int
+     */
+    public function getOwnerid()
     {
-        return $this->contenttype;
+        return $this->ownerid;
     }
 
-    public function setContenttype($value)
+    /**
+     * @param int $ownerid
+     */
+    public function setOwnerid($ownerid)
     {
-        $this->contenttype = $value;
+        $this->ownerid = $ownerid;
     }
 
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return Collection\Relations
+     */
     public function getRelation()
     {
         if (!$this->relation instanceof Collection\Relations) {
@@ -192,9 +250,89 @@ class Content extends Entity
         return $this->relation;
     }
 
+    /**
+     * @param Collection\Relations $rel
+     */
     public function setRelation(Collection\Relations $rel)
     {
         $this->relation = $rel;
+    }
+
+    /**
+     * @return Collection\Taxonomy
+     */
+    public function getTaxonomy()
+    {
+        if (!$this->taxonomy instanceof Collection\Taxonomy) {
+            $this->taxonomy = new Collection\Taxonomy();
+        }
+
+        return $this->taxonomy;
+    }
+
+    /**
+     * @param Collection\Taxonomy $taxonomy
+     */
+    public function setTaxonomy(Collection\Taxonomy $taxonomy)
+    {
+        $this->taxonomy = $taxonomy;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @param array $group
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+    }
+
+    /**
+     * Helper to set an array of values
+     *
+     * @param array $values
+     */
+    public function setValues(array $values)
+    {
+        foreach ($values as $key => $value) {
+            $this->set($key, $value);
+        }
+    }
+
+    /**
+     * Getter for a record's 'title' field.
+     *
+     * If there is no field called 'title' then we just return the first text
+     * type field.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        if (isset($this->_fields['title'])) {
+            return $this->_fields['title'];
+        }
+
+        $fieldName = $this->getTitleColumnName($this->contenttype);
+
+        return $this->$fieldName;
+    }
+
+    public function getContenttype()
+    {
+        return $this->contenttype;
+    }
+
+    public function setContenttype($value)
+    {
+        $this->contenttype = $value;
     }
 
     public function getTemplatefields()
@@ -207,20 +345,17 @@ class Content extends Entity
         $this->templatefields = $value;
     }
 
-    public function getTaxonomy()
+    /**
+     * @return ContentLegacyService
+     */
+    public function getLegacy()
     {
-        if (!$this->taxonomy instanceof Collection\Taxonomy) {
-            $this->taxonomy = new Collection\Taxonomy();
-        }
-
-        return $this->taxonomy;
+        return $this->_legacy;
     }
 
-    public function setTaxonomy(Collection\Taxonomy $taxonomy)
-    {
-        $this->taxonomy = $taxonomy;
-    }
-
+    /**
+     * @param ContentLegacyService $service
+     */
     public function setLegacyService(ContentLegacyService $service)
     {
         $this->_legacy = $service;

@@ -10,7 +10,7 @@ use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Legacy\ExtensionsTrait;
 use Bolt\Logger\FlashLoggerInterface;
-use Bolt\Translation\Translator as Trans;
+use Bolt\Translation\LazyTranslator as Trans;
 use Silex\Application;
 
 /**
@@ -111,7 +111,7 @@ class Manager
     public function add(ExtensionInterface $extension, DirectoryInterface $baseDir, $relativeUrl, $composerName = null)
     {
         if ($this->registered) {
-            throw new \RuntimeException(Trans::__('Can not add extensions after they are registered.'));
+            throw new \RuntimeException('Can not add extensions after they are registered.');
         }
 
         // Set paths in the extension
@@ -145,7 +145,7 @@ class Manager
     public function addManagedExtensions()
     {
         if ($this->loaded) {
-            throw new \RuntimeException(Trans::__('Extensions already loaded.'));
+            throw new \RuntimeException('Extensions already loaded.');
         }
 
         // Include the extensions autoload file
@@ -180,7 +180,7 @@ class Manager
     public function register(Application $app)
     {
         if ($this->registered) {
-            throw new \RuntimeException(Trans::__('Can not re-register extensions.'));
+            throw new \RuntimeException('Can not re-register extensions.');
         }
         foreach ($this->extensions as $extension) {
             if ($extension->isEnabled() !== true) {
@@ -242,7 +242,7 @@ class Manager
         $extension = new $className();
         if ($extension instanceof ExtensionInterface) {
             $baseDir = $this->filesystem->getDir($descriptor->getPath());
-            $relativeUrl = sprintf('/extensions/%s/web/', $descriptor->getPath());
+            $relativeUrl = sprintf('/extensions/%s/web/', str_replace('\\', '/', $descriptor->getPath()));
             $this->add($extension, $baseDir, $relativeUrl, $descriptor->getName())
                 ->setDescriptor($descriptor)
             ;

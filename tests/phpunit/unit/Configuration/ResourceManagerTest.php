@@ -20,7 +20,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         $container = new \Pimple(
             [
                 'rootpath'    => PHPUNIT_WEBROOT,
-                'pathmanager' => new PlatformFileSystemPathFactory()
+                'pathmanager' => new PlatformFileSystemPathFactory(),
             ]
         );
         $config = new ResourceManager($container);
@@ -33,7 +33,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -56,7 +56,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -68,7 +68,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
         return [
             [''],
             ['FAKE_PATH'],
-            ['FAKE_PATH/test']
+            ['FAKE_PATH/test'],
         ];
     }
 
@@ -78,7 +78,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -95,7 +95,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -109,7 +109,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -131,7 +131,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -142,7 +142,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [''],
-            ['FAKE_URL']
+            ['FAKE_URL'],
         ];
     }
 
@@ -152,7 +152,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -172,7 +172,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -194,7 +194,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -205,7 +205,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [''],
-            ['FAKE_REQUEST']
+            ['FAKE_REQUEST'],
         ];
     }
 
@@ -219,7 +219,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             [],
             [
                 'HTTP_HOST'       => 'test.dev',
-                'SERVER_PROTOCOL' => 'https'
+                'SERVER_PROTOCOL' => 'https',
             ]
         );
         $config = new ResourceManager(
@@ -227,7 +227,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'request'     => $request,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -249,7 +249,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             [
                 'SCRIPT_NAME'     => '/sub/directory/index.php',
                 'PHP_SELF'        => '/sub/directory/index.php',
-                'SCRIPT_FILENAME' => '/path/to/sub/directory/index.php'
+                'SCRIPT_FILENAME' => '/path/to/sub/directory/index.php',
             ]
         );
 
@@ -258,7 +258,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'request'     => $request,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -277,7 +277,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -292,7 +292,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -314,7 +314,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             [
                 'SCRIPT_NAME'     => '/sub/directory/index.php',
                 'PHP_SELF'        => '/sub/directory/index.php',
-                'SCRIPT_FILENAME' => '/path/to/sub/directory/index.php'
+                'SCRIPT_FILENAME' => '/path/to/sub/directory/index.php',
             ]
         );
 
@@ -323,7 +323,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
                     'request'     => $request,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -343,7 +343,7 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
             new \Pimple(
                 [
                     'rootpath'    => PHPUNIT_WEBROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );

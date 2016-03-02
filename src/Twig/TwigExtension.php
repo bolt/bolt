@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig;
 
+use Bolt;
 use Bolt\Controller\Zone;
 use Silex;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -72,6 +73,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('ischangelogenabled', [$this, 'isChangelogEnabled'], $deprecated),
             new \Twig_SimpleFunction('ismobileclient',     [$this, 'isMobileClient']),
             new \Twig_SimpleFunction('last',               'twig_last',            $env + $deprecated),
+            new \Twig_SimpleFunction('link',               [$this, 'link'],        $safe),
             new \Twig_SimpleFunction('listcontent',        [$this, 'listContent']),
             new \Twig_SimpleFunction('listtemplates',      [$this, 'listTemplates']),
             new \Twig_SimpleFunction('markdown',           [$this, 'markdown'],    $safe),
@@ -86,7 +88,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
             new \Twig_SimpleFunction('stacked',            [$this, 'stacked']),
             new \Twig_SimpleFunction('stackitems',         [$this, 'stackItems']),
             new \Twig_SimpleFunction('thumbnail',          [$this, 'thumbnail']),
-            new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated),
+            new \Twig_SimpleFunction('token',              [$this, 'token'],       $deprecated + ['alternative' => 'csrf_token']),
             new \Twig_SimpleFunction('trimtext',           [$this, 'trim'],        $safe + $deprecated + ['alternative' => 'excerpt']),
             new \Twig_SimpleFunction('widgets',            [$this, 'widgets'],      $safe),
             // @codingStandardsIgnoreEnd
@@ -169,8 +171,9 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
 
         // Structured to allow PHPStorm's SymfonyPlugin to provide code completion
         return [
-            'bolt_name'    => $this->app['bolt_name'],
-            'bolt_version' => $this->app['bolt_version'],
+            'bolt_name'    => Bolt\Version::name(),
+            'bolt_version' => Bolt\Version::VERSION,
+            'bolt_stable'  => Bolt\Version::isStable(),
             'frontend'     => $zone === Zone::FRONTEND,
             'backend'      => $zone === Zone::BACKEND,
             'async'        => $zone === Zone::ASYNC,
@@ -252,17 +255,17 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\RecordHandler::excerpt()
      */
-    public function excerpt($content, $length = 200)
+    public function excerpt($content, $length = 200, $focus = null)
     {
-        return $this->handlers['record']->excerpt($content, $length);
+        return $this->handlers['record']->excerpt($content, $length, $focus);
     }
 
     /**
      * @see \Bolt\Twig\Handler\RecordHandler::fields()
      */
-    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $template = '_sub_fields.twig', $exclude = null)
+    public function fields(\Twig_Environment $env, $record = null, $common = true, $extended = false, $repeaters = true, $templatefields = true, $template = '_sub_fields.twig', $exclude = null)
     {
-        return $this->handlers['record']->fields($env, $record, $common, $extended, $repeaters, $template, $exclude);
+        return $this->handlers['record']->fields($env, $record, $common, $extended, $repeaters, $templatefields, $template, $exclude);
     }
 
     /**
@@ -376,6 +379,14 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     public function jsonDecode($string)
     {
         return $this->handlers['text']->jsonDecode($string);
+    }
+
+    /**
+     * @see \Bolt\Twig\Handler\HtmlHandler::link()
+     */
+    public function link($location, $label = '[link]')
+    {
+        return $this->handlers['html']->link($location, $label);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Bolt\Composer;
 
+use Bolt;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Handler\JsonFile;
 use Bolt\Helpers\Arr;
@@ -100,8 +101,13 @@ class JsonManager
     private function setJsonDefaults(array $json)
     {
         $extensionsPath = $this->app['resources']->getPath('extensions');
+        $srcPath = $this->app['resources']->getPath('src');
         $webPath = $this->app['resources']->getPath('web');
         $pathToWeb = $this->app['resources']->findRelativePath($extensionsPath, $webPath);
+        $eventPath = sprintf(
+            '%sComposer/EventListener',
+            $this->app['resources']->findRelativePath($extensionsPath, $srcPath)
+        );
 
         // Enforce standard settings
         $defaults = [
@@ -122,14 +128,14 @@ class JsonManager
                 'preferred-install' => 'dist',
             ],
             'provide' => [
-                'bolt/bolt' => $this->app['bolt_version'],
+                'bolt/bolt' => Bolt\Version::forComposer(),
             ],
             'extra' => [
                 'bolt-web-path' => $pathToWeb,
             ],
             'autoload' => [
                 'psr-4' => [
-                    'Bolt\\Composer\\EventListener\\' => $this->app['resources']->getPath('src/Composer/EventListener'),
+                    'Bolt\\Composer\\EventListener\\' => $eventPath,
                 ],
             ],
             'scripts' => [

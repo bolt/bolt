@@ -208,8 +208,8 @@ class Users extends BackendBase
      */
     public function modify($action, $id)
     {
-        if (!$this->checkAntiCSRFToken()) {
-            $this->flashes()->info(Trans::__('An error occurred.'));
+        if (!$this->isCsrfTokenValid()) {
+            $this->flashes()->error(Trans::__('Something went wrong'));
 
             return $this->redirectToRoute('users');
         }
@@ -256,7 +256,7 @@ class Users extends BackendBase
                 break;
 
             case 'delete':
-                if ($this->checkAntiCSRFToken() && $this->users()->deleteUser($id)) {
+                if ($this->isCsrfTokenValid() && $this->users()->deleteUser($id)) {
                     $this->app['logger.system']->info("Deleted user '{$user->getDisplayname()}'.", ['event' => 'security']);
                     $this->flashes()->info(Trans::__("User '%s' is deleted.", ['%s' => $user->getDisplayname()]));
                 } else {
@@ -364,7 +364,7 @@ class Users extends BackendBase
         $token = $this->session()->get('authentication');
         if ($login && $token) {
             $this->flashes()->clear();
-            $this->flashes()->info(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity->getDisplayname()]));
+            $this->flashes()->success(Trans::__('Welcome to your new Bolt site, %USER%.', ['%USER%' => $userEntity->getDisplayname()]));
 
             $response = $this->setAuthenticationCookie($this->redirectToRoute('dashboard'), (string) $token);
 
@@ -408,7 +408,8 @@ class Users extends BackendBase
             );
         }
 
-        // Add the other fields
+        // Add the other fields. Regarding the autocomplete on the passwords,
+        // see: https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c150
         $form
             ->add('id', HiddenType::class)
             ->add(
@@ -418,7 +419,8 @@ class Users extends BackendBase
                     'required' => false,
                     'label'    => Trans::__('page.edit-users.label.password'),
                     'attr'     => [
-                        'placeholder' => Trans::__('page.edit-users.placeholder.password'),
+                        'placeholder'  => Trans::__('page.edit-users.placeholder.password'),
+                        'autocomplete' => 'new-password',
                     ],
                 ]
             )
@@ -430,6 +432,7 @@ class Users extends BackendBase
                     'label'    => Trans::__('page.edit-users.label.password-confirm'),
                     'attr'     => [
                         'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm'),
+                        'autocomplete' => 'new-password',
                     ],
                 ]
             )

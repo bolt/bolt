@@ -4,6 +4,10 @@ namespace Bolt\Tests\Twig;
 
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Handler\UserHandler;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
  * Class to test Bolt\Twig\Handler\UserHandler
@@ -143,15 +147,10 @@ class UserHandlerTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $handler = new UserHandler($app);
-        $users = $this->getMock('Bolt\Users', ['getAntiCSRFToken'], [$app]);
-        $users
-            ->expects($this->atLeastOnce())
-            ->method('getAntiCSRFToken')
-            ->will($this->returnValue('koala'))
-        ;
-        $app['users'] = $users;
+        $tokenManager = new CsrfTokenManager(null, new SessionTokenStorage(new Session(new MockArraySessionStorage())));
+        $app['csrf'] = $tokenManager;
+        $token = $tokenManager->refreshToken('bolt');
 
-        $result = $handler->token();
-        $this->assertSame('koala', $result);
+        $this->assertSame($token->getValue(), $handler->token()->getValue());
     }
 }

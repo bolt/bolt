@@ -23,12 +23,14 @@ class Application extends Silex\Application
      */
     public function __construct(array $values = [])
     {
-        $values['bolt_version'] = '3.0.0';
-        $values['bolt_name'] = 'alpha 3';
-        $values['bolt_released'] = false; // `true` for stable releases, `false` for alpha, beta and RC.
-        $values['bolt_long_version'] = function ($app) {
-            return $app['bolt_version'] . ' ' . $app['bolt_name'];
-        };
+        /** @deprecated since 3.0, to be removed in 4.0. */
+        $values['bolt_version'] = Version::VERSION;
+        /** @deprecated since 3.0, to be removed in 4.0. */
+        $values['bolt_name'] = Version::name();
+        /** @deprecated since 3.0, to be removed in 4.0. */
+        $values['bolt_released'] = Version::isStable();
+        /** @deprecated since 3.0, to be removed in 4.0. */
+        $values['bolt_long_version'] = Version::VERSION;
 
         /** @internal Parameter to track a deprecated PHP version */
         $values['deprecated.php'] = version_compare(PHP_VERSION, '5.5.9', '<');
@@ -81,7 +83,6 @@ class Application extends Silex\Application
     protected function initSession()
     {
         $this
-            ->register(new Provider\TokenServiceProvider())
             ->register(new Provider\SessionServiceProvider())
         ;
     }
@@ -321,16 +322,14 @@ class Application extends Silex\Application
     /**
      * Get the Bolt version string
      *
-     * @param boolean $long TRUE returns 'version name', FALSE 'version'
-     *
      * @return string
      *
      * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *             Use parameters in application instead
      */
-    public function getVersion($long = true)
+    public function getVersion()
     {
-        return $this[$long ? 'bolt_long_version' : 'bolt_version'];
+        return Version::VERSION;
     }
 
     /**

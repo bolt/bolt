@@ -1,6 +1,9 @@
 <?php
 namespace Bolt\Storage\Field;
 
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Types\Type;
+
 /**
  * Interface implemented by content fields.
  *
@@ -25,7 +28,9 @@ interface FieldInterface
     /**
      * Returns the storage type.
      *
-     * @return string A Valid Storage Type
+     * @throws DBALException
+     *
+     * @return Type A Valid Storage Type
      */
     public function getStorageType();
 

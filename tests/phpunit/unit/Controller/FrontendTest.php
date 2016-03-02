@@ -384,7 +384,7 @@ class FrontendTest extends ControllerUnitTest
         $response = $this->controller()->search($this->getRequest());
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('listing.twig', $response->getTemplateName());
+        $this->assertSame('search.twig', $response->getTemplateName());
         $this->assertNotEmpty($response->getGlobalContext());
     }
 
@@ -394,13 +394,13 @@ class FrontendTest extends ControllerUnitTest
             'search'          => 'Lorem',
             'pages_title'     => 1,
             'showcases_title' => 1,
-            'pages_body'      => 1
+            'pages_body'      => 1,
         ]));
 
         $response = $this->controller()->search($this->getRequest());
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame('listing.twig', $response->getTemplateName());
+        $this->assertSame('search.twig', $response->getTemplateName());
         $this->assertNotEmpty($response->getGlobalContext());
     }
 

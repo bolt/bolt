@@ -1,6 +1,8 @@
 <?php
 namespace Bolt\Storage;
 
+use Bolt\Config;
+
 /**
  * Uses a typemap to construct an instance of a Field
  */
@@ -10,15 +12,21 @@ class FieldManager
     protected $em;
     protected $handlers = [];
     protected $typemap;
+    protected $boltConfig;
+    protected $customHandlers = [];
 
     /**
      * Constructor.
+     * Requires access to legacy Config class so that it can add fields to the old-style manager
+     * This can be removed once the templating has migrated to the new system.
      *
      * @param array $typemap
+     * @param Config $config
      */
-    public function __construct($typemap = [])
+    public function __construct(array $typemap, Config $config)
     {
         $this->typemap = $typemap;
+        $this->boltConfig = $config;
     }
 
     /**
@@ -57,7 +65,6 @@ class FieldManager
      * Looks up a type from the typemap and returns a field class.
      *
      * @param $type
-     * @param array $mapping
      *
      * @return bool|mixed
      */
@@ -71,8 +78,39 @@ class FieldManager
         return $this->get($class, ['type' => $type]);
     }
 
-    public function setHandler($class, callable $handler)
+    /**
+     * Links the field name found in the config to a callable handler.
+     * @param $class
+     * @param callable|object $handler
+     */
+    public function setHandler($class, $handler)
     {
         $this->handlers[$class] = $handler;
     }
+
+    /**
+     * Shorthand to add a field to both the new and legacy managers.
+     *
+     * @param $name
+     * @param $handler
+     */
+    public function addFieldType($name, $handler)
+    {
+        $this->setHandler($name, $handler);
+        $this->customHandlers[] = $name;
+        $this->boltConfig->getFields()->addField($handler);
+    }
+
+    /**
+     * Note, this method is for Bolt use only, as a way to distinguish which fields have been added outside of the
+     * core system. It will be removed in a future version.
+     * @param $name
+     * @internal
+     * @return bool
+     */
+    public function hasCustomHandler($name)
+    {
+        return in_array($name, $this->customHandlers);
+    }
+
 }

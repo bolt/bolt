@@ -138,11 +138,9 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
         }
 
         // Install the local extension
-        //$this->writeln('Installing local extension');
-        //$fs->mirror(CODECEPTION_DATA . '/extensions/local/', INSTALL_ROOT . '/extensions/local/', null, ['override' => true, 'delete' => true]);
-        dump('Local extension installation disabled!');
-        dump(sprintf('Class: %s::%s', __CLASS__, __FUNCTION__));
-        dump(sprintf('File %s:%s', __FILE__, __LINE__));
+        $this->writeln('Installing local extension');
+        $fs->mirror(CODECEPTION_DATA . '/extensions/local/bolt/testerevents/', INSTALL_ROOT . '/extensions/local/bolt/testerevents/', null, ['override' => true, 'delete' => true]);
+        system('php ' . NUT_PATH . ' extensions:setup');
 
         // Empty the cache
         system('php ' . NUT_PATH . ' cache:clear');
@@ -199,20 +197,27 @@ class CodeceptionEventsExtension extends \Codeception\Platform\Extension
         }
 
         // Events tester local extension
-        if ($fs->exists(INSTALL_ROOT . '/extensions/local/bolt/tester-events/')) {
-            $this->writeln('Removing extensions/local/bolt/tester-events/');
-            $fs->remove(INSTALL_ROOT . '/extensions/local/bolt/tester-events/');
+        if ($fs->exists(INSTALL_ROOT . '/extensions/local/bolt/testerevents/')) {
+            $this->writeln('Removing extensions/local/bolt/testerevents/');
+            $fs->remove(INSTALL_ROOT . '/extensions/local/bolt/testerevents/');
 
             $finder = new Finder();
             $finder->files()->in(INSTALL_ROOT . '/extensions/local/bolt/');
             if ($finder->count() === 0) {
+                $this->writeln('Removing extensions/local/bolt/');
                 $fs->remove(INSTALL_ROOT . '/extensions/local/bolt/');
             }
             $finder = new Finder();
             $finder->files()->in(INSTALL_ROOT . '/extensions/local/');
             if ($finder->count() === 0) {
+                $this->writeln('Removing extensions/local/');
                 $fs->remove(INSTALL_ROOT . '/extensions/local/');
+                $this->writeln('Uninstalling wikimedia/composer-merge-plugin');
+                system('php ' . NUT_PATH . ' extensions:uninstall wikimedia/composer-merge-plugin');
             }
+        }
+        if ($fs->exists(INSTALL_ROOT . '/app/config/extensions/testerevents.bolt.yml')) {
+            $fs->remove(INSTALL_ROOT . '/app/config/extensions/testerevents.bolt.yml');
         }
     }
 

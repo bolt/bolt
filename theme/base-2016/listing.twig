@@ -41,7 +41,7 @@
             {% elseif record.teaser %}
                 {{ record.teaser }}
             {% else %}
-                <p>{{ record.excerpt(300) }}</p>
+                <p>{{ record.excerpt(300, false, search|default('')) }}</p>
             {% endif %}
             {% include '_recordfooter.twig' with {'record': record} %}
             {% if not loop.last %}<hr>{% endif %}

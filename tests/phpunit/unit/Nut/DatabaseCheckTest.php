@@ -29,13 +29,14 @@ class DatabaseCheckTest extends BoltUnitTest
         $app = $this->getApp();
         $app['config']->set('contenttypes/newcontent', [
             'tablename' => 'newcontent',
-            'fields'    => ['title' => ['type' => 'text']]
+            'fields'    => ['title' => ['type' => 'text']],
         ]);
         /** @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform */
         $platform = $app['db']->getDatabasePlatform();
+        $prefix = $app['schema.prefix'];
         $app['schema.content_tables']['newcontent'] = $app->share(
-            function () use ($platform) {
-                return new Table\ContentType($platform);
+            function () use ($platform, $prefix) {
+                return new Table\ContentType($platform, $prefix);
             }
         );
 

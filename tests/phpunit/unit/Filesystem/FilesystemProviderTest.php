@@ -17,7 +17,7 @@ class FilesystemProviderTest extends BoltUnitTest
             new \Pimple(
                 [
                     'rootpath'    => TEST_ROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );
@@ -34,7 +34,7 @@ class FilesystemProviderTest extends BoltUnitTest
             new \Pimple(
                 [
                     'rootpath'    => TEST_ROOT,
-                    'pathmanager' => new PlatformFileSystemPathFactory()
+                    'pathmanager' => new PlatformFileSystemPathFactory(),
                 ]
             )
         );

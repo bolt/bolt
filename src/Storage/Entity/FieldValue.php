@@ -6,13 +6,19 @@ namespace Bolt\Storage\Entity;
  */
 class FieldValue extends Entity
 {
+    /** @var int */
     protected $id;
+    /** @var mixed */
     protected $value;
+    /** @var string */
     protected $name;
     protected $grouping;
+    /** @var string */
     protected $fieldname;
+    /** @var string */
     protected $fieldtype;
     protected $contenttype;
+    /** @var int */
     protected $content_id;
 
     /**
@@ -23,6 +29,9 @@ class FieldValue extends Entity
         return $this->value;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function setValue($value)
     {
         $this->value = $value;
@@ -34,7 +43,7 @@ class FieldValue extends Entity
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -42,7 +51,7 @@ class FieldValue extends Entity
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -50,10 +59,11 @@ class FieldValue extends Entity
     }
 
     /**
-     *  When the entity needs to be persisted the value has to be copied to  a field specific to the storage type
-     *  To do this we need a field type so we lookup the correct column to write to.
+     * When the entity needs to be persisted the value has to be copied to a field specific to the storage type
      *
-     * @param $fieldObject
+     * To do this we need a field type so we lookup the correct column to write to.
+     *
+     * @param \Bolt\Storage\Field\Base $fieldObject
      */
     public function handleStorage($fieldObject)
     {

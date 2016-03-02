@@ -18,7 +18,7 @@ class AuthenticationTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/login', 'POST', [
             'action'   => 'login',
             'username' => 'test',
-            'password' => 'pass'
+            'password' => 'pass',
         ]));
 
         $app = $this->getApp();
@@ -41,7 +41,7 @@ class AuthenticationTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/login', 'POST', [
             'action'   => 'login',
             'username' => 'test@example.com',
-            'password' => 'pass'
+            'password' => 'pass',
         ]));
 
         $app = $this->getApp();
@@ -64,7 +64,7 @@ class AuthenticationTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/login', 'POST', [
             'action'   => 'login',
             'username' => 'test',
-            'password' => 'pass'
+            'password' => 'pass',
         ]));
 
         $app = $this->getApp();

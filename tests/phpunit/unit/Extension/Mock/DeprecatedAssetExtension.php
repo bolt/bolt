@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Extension\Mock;
 
-
 use Bolt\Extension\SimpleExtension;
 use Silex\Application;
 
@@ -25,7 +24,7 @@ class DeprecatedAssetExtension extends SimpleExtension
     /**
      * {@inheritdoc}
      */
-    protected function initialize()
+    protected function registerServices(Application $app)
     {
         call_user_func_array([$this, $this->registerFunction], $this->registerParameters);
     }

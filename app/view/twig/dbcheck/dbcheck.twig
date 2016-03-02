@@ -31,7 +31,14 @@
                 {{ list(__('Hints:'), hints) }}
 
                 <form action="{{ path('dbupdate') }}" method="post">
-                    <p><button type="submit" class="btn btn-primary">{{ __('Update the database') }}</button></p>
+                    <p>
+                        <button type="submit" class="btn btn-primary">{{ __('Update the database') }}</button>
+                        {% if app.debug %}
+                            <a href="{{ path('dbcheck', {'debug': 1}) }}" class="btn btn-tertiary">
+                                {{ __('Show proposed alterations') }}
+                            </a>
+                        {% endif %}
+                    </p>
                 </form>
 
             {% else %}
@@ -55,30 +62,32 @@
             {% if context.debug %}
 
                 {% if context.creates is not empty %}
-                	<hr>
-                	<h4>Table Creations</h4>
+                    <hr>
+                    <h4>Table Creations</h4>
                     {% for table, create in context.creates %}
-                    	<h5>{{ table }}</h5>
-                    	<ol>
-    					{% for sql in create %}
-                        	<li>{{ sql }}</li>
+                        <h5>{{ table }}</h5>
+                        <ol>
+                        {% for sql in create %}
+                            <li>{{ sql }}</li>
                         {% endfor %}
                         </ol>
+                        {{ dump(context.diffs[table]) }}
                     {% endfor %}
-            	{% endif %}
+                {% endif %}
 
-            	{% if context.alters is not empty %}
-                	<hr>
-                	<h4>Table Alterations</h4>
+                {% if context.alters is not empty %}
+                    <hr>
+                    <h4>Table Alterations</h4>
                     {% for table, alter in context.alters %}
-                    	<h5>{{ table }}</h5>
-                    	<ol>
-    					{% for sql in alter %}
-                        	<li>{{ sql }}</li>
+                        <h5>{{ table }}</h5>
+                        <ol>
+                        {% for sql in alter %}
+                            <li>{{ sql }}</li>
                         {% endfor %}
                         </ol>
+                        {{ dump(context.diffs[table]) }}
                     {% endfor %}
-            	{% endif %}
+                {% endif %}
 
             {% endif %}
         </div>

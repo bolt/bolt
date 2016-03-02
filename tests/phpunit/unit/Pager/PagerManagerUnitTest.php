@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
  *  is intended for testing Bolt\Pager\PagerManager methods in separated way so it is testing ONE method at once.
  *
  * @package Bolt\Tests\Pager
+ *
  * @author Rix Beck <rix@neologik.hu>
  */
 class PagerManagerUnitTest extends PagerManagerTestBase
@@ -64,7 +65,7 @@ class PagerManagerUnitTest extends PagerManagerTestBase
         $this->initApp();
 
         $expected = $decoded = [
-            'page' => $this->createPager(['current' => 2, 'for' => 'page', 'manager' => $manager]),
+            'page'      => $this->createPager(['current' => 2, 'for' => 'page', 'manager' => $manager]),
             'page_wine' => $this->createPager(['current' => 9999, 'for' => 'wine', 'manager' => $manager]),
         ];
 
@@ -86,7 +87,7 @@ class PagerManagerUnitTest extends PagerManagerTestBase
         $app = $this->initApp(Request::create('/?some=thing'));
         list($manager, $expected, $parms) = $this->prepareEncodeHttpQuery();
         $manager->initialize($app['request']);
-        $this->assertEquals('?'.$expected, (string) $manager);
+        $this->assertEquals('?' . $expected, (string) $manager);
     }
     public function testOffsetSet()
     {
@@ -239,7 +240,7 @@ class PagerManagerUnitTest extends PagerManagerTestBase
 
         $expected = 'some=thing&page=2&page_wine=9999';
         $decoded = [
-            'page' => $this->createPager(['current' => 2, 'for' => 'page']),
+            'page'      => $this->createPager(['current' => 2, 'for' => 'page']),
             'page_wine' => $this->createPager(['current' => 9999, 'for' => 'wine']),
         ];
 

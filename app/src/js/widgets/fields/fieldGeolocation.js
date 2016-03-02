@@ -13,8 +13,9 @@
      *
      * @class fieldGeolocation
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldGeolocation', /** @lends jQuery.widget.bolt.fieldGeolocation.prototype */ {
+    $.widget('bolt.fieldGeolocation', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldGeolocation.prototype */ {
         /**
          * Default options.
          *
@@ -88,6 +89,10 @@
              * @name _timeout
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
+             *
+             * @fires start.bolt.googlemapsapi.load
+             * @listens done.bolt.googlemapsapi.load
+             * @listens fail.bolt.googlemapsapi.load
              */
             this._timeout = 0;
 
@@ -97,19 +102,18 @@
                 'click.compress': self._onExpand
             });
 
-            $(bolt) 
-                .one('done.bolt.googlemapsapi.load', function () {
-                    self._initGoogleMap(self.options.latitude, self.options.longitude);
-                 })
-                .on('fail.bolt.googlemapsapi.load', function () {
-                    self._ui.spinner.removeClass('fa-spinner fa-spin').addClass('fa-refresh').one('click', function () {
-                        self._ui.spinner.removeClass('fa-refresh').addClass('fa-spinner fa-spin');
-                        $(bolt).trigger('start.bolt.googlemapsapi.load');
-                    });
+            bolt.events.one('done.bolt.googlemapsapi.load', function () {
+                self._initGoogleMap(self.options.latitude, self.options.longitude);
+            });
+            bolt.events.on('fail.bolt.googlemapsapi.load', function () {
+                self._ui.spinner.removeClass('fa-spinner fa-spin').addClass('fa-refresh').one('click', function () {
+                    self._ui.spinner.removeClass('fa-refresh').addClass('fa-spinner fa-spin');
+                    bolt.events.fire('start.bolt.googlemapsapi.load');
                 });
+            });
 
             // Request loading of Google Maps API.
-            $(bolt).trigger('start.bolt.googlemapsapi.load');
+            bolt.events.fire('start.bolt.googlemapsapi.load');
         },
 
         /**

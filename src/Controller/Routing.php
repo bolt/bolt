@@ -1,7 +1,5 @@
 <?php
-namespace Bolt\Controllers;
-
-use Bolt\Controller\Requirement;
+namespace Bolt\Controller;
 
 /**
  * @deprecated Deprecated since 3.0, to be removed in 4.0. Use {@see Bolt\Controller\Requirement} instead.

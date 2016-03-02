@@ -12,7 +12,7 @@ class ExtensionWithTwig extends Extension
     {
         return [
             new TwigExtension(),
-            new BadTwigExtension()
+            new BadTwigExtension(),
         ];
     }
 }

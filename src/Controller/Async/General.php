@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller\Async;
 
+use Bolt;
 use Bolt\Pager;
 use GuzzleHttp\Exception\RequestException;
 use Silex\ControllerCollection;
@@ -335,11 +336,10 @@ class General extends AsyncBase
 
                     // Iterate over the items, pick the first news-item that
                     // applies and the first alert we need to show
-                    $version = $this->app['bolt_version'];
                     foreach ($fetchedNewsItems as $item) {
                         $type = ($item->type === 'alert') ? 'alert' : 'information';
                         if (!isset($news[$type])
-                            && (empty($item->target_version) || version_compare($item->target_version, $version, '>'))
+                            && (empty($item->target_version) || Bolt\Version::compare($item->target_version, '>'))
                         ) {
                             $news[$type] = $item;
                         }
@@ -377,7 +377,7 @@ class General extends AsyncBase
         $url = sprintf(
             '%s?v=%s&p=%s&db=%s&name=%s',
             $source,
-            rawurlencode($this->app['bolt_version']),
+            rawurlencode(Bolt\Version::VERSION),
             phpversion(),
             $driver,
             base64_encode($hostname)

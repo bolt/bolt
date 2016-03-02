@@ -14,6 +14,8 @@
 (function (bolt, $, window, moment, bootbox, ckeditor) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Bind data.
      *
@@ -226,7 +228,7 @@
      * @static
      * @function initSaveContinue
      * @memberof Bolt.editcontent
-     * 
+     *
      * @fires start.bolt.content.save
      * @fires done.bolt.content.save
      * @fires fail.bolt.content.save
@@ -262,13 +264,14 @@
             } else {
                 watchChanges();
 
-                $(Bolt).trigger('start.bolt.content.save');
+                // Trigger save started event
+                bolt.events.fire('start.bolt.content.save');
 
                 // Existing record. Do an 'ajaxy' post to update the record.
                 // Let the controller know we're calling AJAX and expecting to be returned JSON.
                 $.post('?returnto=ajax', $('#editcontent').serialize())
                     .done(function (data) {
-                        $(Bolt).trigger('done.bolt.content.save', data);
+                        bolt.events.fire('done.bolt.content.save', data);
 
                         // Submit was successful, disable warning.
                         window.onbeforeunload = null;
@@ -306,7 +309,7 @@
                                     var field = $('#' + index);
                                     if (field.attr('type') === 'checkbox') {
                                         // A checkbox, so set with prop
-                                        field.prop('checked', (item == "on"));
+                                        field.prop('checked', item === "on");
                                     } else {
                                         // Either an input or a textarea, so set with val
                                         field.val(item);
@@ -332,11 +335,12 @@
                         watchChanges();
                     })
                     .fail(function(){
-                        $(Bolt).trigger('fail.bolt.content.save');
+                        bolt.events.fire('fail.bolt.content.save');
+
                         $('p.lastsaved').text(msgNotSaved);
                     })
                     .always(function(){
-                        $(Bolt).trigger('always.bolt.content.save');
+                        bolt.events.fire('always.bolt.content.save');
 
                         // Re-enable buttons
                         window.setTimeout(function(){

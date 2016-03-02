@@ -10,6 +10,8 @@
 (function (bolt, $) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Bolt.files mixin container.
      *

@@ -3,6 +3,7 @@
 namespace Bolt\Legacy;
 
 use Bolt;
+use Bolt\Controller\Zone;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;
 use Bolt\Exception\StorageException;
@@ -17,7 +18,6 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
 use utilphp\util;
 
 /**
@@ -44,6 +44,9 @@ class Storage
 
     /** @var bool Test to indicate if we're inside a dispatcher. */
     private $inDispatcher = false;
+
+    /** @var array */
+    private $preferredTitles = [];
 
     public function __construct(Application $app)
     {
@@ -101,7 +104,7 @@ class Storage
     {
         $output = '';
 
-        // get a list of images.
+        // Get a list of images.
         $images = $this->app['filesystem']
             ->find()
             ->in('files://')
@@ -109,6 +112,9 @@ class Storage
             ->name('*.png')
             ->toArray()
         ;
+
+        // Set the 'Preferred titles' for filling the 'blocks' contenttype.
+        $this->preferredTitles = ['About Us', 'Address', 'Search Teaser', '404 Not Found'];
 
         $emptyOnly = empty($contenttypes);
 
@@ -165,7 +171,18 @@ class Storage
         foreach ($contenttype['fields'] as $field => $values) {
             switch ($values['type']) {
                 case 'text':
-                    $content[$field] = trim(strip_tags($this->app['prefill']->get('/1/veryshort')));
+                    if ($contenttype['slug'] === 'blocks' && $field === 'title') {
+                        // Special case: if we're prefilling a 'blocks' contenttype add some
+                        // sensible titles to get started.
+                        $content[$field] = $this->getBlocksTitle();
+                    } else if (strpos($field, 'link') !== false) {
+                        // Another special case: If the field contains 'link', we guess it'll be used
+                        // as a link, so don't prefill it with "text", but leave it blank instead.
+                        $content[$field] = '';
+                    } else {
+                        $content[$field] = trim(strip_tags($this->app['prefill']->get('/1/veryshort')));
+                    }
+
                     if (empty($title)) {
                         $title = $content[$field];
                     }
@@ -180,7 +197,7 @@ class Storage
                 case 'html':
                 case 'textarea':
                 case 'markdown':
-                    if (in_array($field, ['teaser', 'introduction', 'excerpt', 'intro'])) {
+                    if (in_array($field, ['teaser', 'introduction', 'excerpt', 'intro', 'content'])) {
                         $params = '/medium/decorate/link/1';
                     } else {
                         $params = '/medium/decorate/link/ol/ul/3';
@@ -267,6 +284,27 @@ class Storage
         $picked = array_slice($tags, 0, $num);
 
         return $picked;
+    }
+
+    /**
+     * Get the title for a 'Block' contenttype. Check if the desired ones aren't present in the
+     * database yet, and return them in order.
+     *
+     * @return string
+     */
+    private function getBlocksTitle()
+    {
+        $title = array_shift($this->preferredTitles);
+
+        // Prevent 'Fatal error: Uncaught Error: Cannot pass parameter 3 by reference in …'
+        $pager = [];
+
+        // If we're out of preferredTitles or if the record already exists.
+        if ($title === null || $this->getContent('blocks', '', $pager, ['title' => $title])) {
+            $title = trim(strip_tags($this->app['prefill']->get('/1/veryshort')));
+        }
+
+        return $title;
     }
 
     /**
@@ -581,7 +619,7 @@ class Storage
 
         if (!$this->isValidColumn($field, $contenttype)) {
             $error = Trans::__('contenttypes.generic.invalid-field', ['%field%' => $field, '%contenttype%' => $contenttype]);
-            $this->app['logger.flash']->error($error);
+            $this->app['logger.flash']->danger($error);
 
             return false;
         }
@@ -1316,7 +1354,10 @@ class Storage
             // like 'entry/12' or '/page/12345'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
             $decoded['return_single'] = true;
-            $ctypeParameters['id'] = $match[2];
+            // if allow_numeric_slug option is set on contenttype, interpret number as slug instead of id
+            $contenttype = $this->getContentType($decoded['contenttypes'][0]);
+            $field = ($contenttype['allow_numeric_slugs'] === true ? 'slug' : 'id');
+            $ctypeParameters[$field] = $match[2];
         } elseif (preg_match('#^/?([a-z0-9_(\),-]+)/search(/([0-9]+))?$#i', $textquery, $match)) {
             // like 'page/search or '(entry,page)/search'
             $decoded['contenttypes'] = $this->decodeContentTypesFromText($match[1]);
@@ -1358,8 +1399,10 @@ class Storage
 
         // When using from the frontend, we assume (by default) that we only want published items,
         // unless something else is specified explicitly
-        if (isset($this->app['end']) && $this->app['end'] != "backend" && empty($ctypeParameters['status'])) {
-            $ctypeParameters['status'] = "published";
+        $request = $this->app['request_stack']->getCurrentRequest();
+        $isBackend = $request ? Zone::isBackend($request) : false;
+        if (!$isBackend && empty($ctypeParameters['status'])) {
+            $ctypeParameters['status'] = 'published';
         }
 
         if (isset($metaParameters['returnsingle'])) {
@@ -2833,8 +2876,8 @@ class Storage
         $id = intval($id);
         $slug = $this->app['slugify']->slugify($title);
 
-        // Don't allow strictly numeric slugs.
-        if (is_numeric($slug)) {
+        // Don't allow strictly numeric slugs, unless allow_numeric_slugs options is set
+        if (is_numeric($slug) && $contenttype['allow_numeric_slugs'] !== true) {
             $slug = $contenttype['singular_slug'] . "-" . $slug;
         }
 

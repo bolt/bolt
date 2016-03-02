@@ -13,8 +13,9 @@
      *
      * @class fieldVideo
      * @memberOf jQuery.widget.bolt
+     * @extends jQuery.widget.bolt.baseField
      */
-    $.widget('bolt.fieldVideo', /** @lends jQuery.widget.bolt.fieldVideo.prototype */ {
+    $.widget('bolt.fieldVideo', $.bolt.baseField, /** @lends jQuery.widget.bolt.fieldVideo.prototype */ {
         /**
          * The constructor of the video field widget.
          *

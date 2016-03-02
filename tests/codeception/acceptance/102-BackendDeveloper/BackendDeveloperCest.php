@@ -68,8 +68,10 @@ class BackendDeveloperCest
         $I->see('Create folder', Locator::find('a', ['href' => '#']));
         $I->see($file, Locator::href("/thumbs/1000x1000r/$file"));
 
-        $I->see('66.23 KiB', 'td');
-        $I->see('800 × 533 px', 'td');
+        // sleep(10000);
+
+        $I->see('45.6 KB', 'td');
+        $I->see('800×533 px', 'td');
         $I->see('Place on stack',  Locator::find('a', ['href' => '#']));
         $I->see("Rename $file",    Locator::find('a', ['href' => '#']));
         $I->see("Delete $file",    Locator::find('a', ['href' => '#']));
@@ -91,24 +93,24 @@ class BackendDeveloperCest
         $I->amOnPage('/bolt/files/themes');
 
         // Inspect the landing page
-        $dir  = 'base-2014';
+        $dir  = 'base-2016';
         $I->see('Create folder', Locator::find('a', ['href' => '#']));
         $I->see($dir,            Locator::href("/bolt/files/themes/$dir"));
         $I->see("Rename $dir",   Locator::find('a', ['href' => '#']));
         $I->see("Delete $dir",   Locator::find('a', ['href' => '#']));
 
         // Navigate into the theme and check the results
-        $I->click("$dir/",      Locator::href("/bolt/files/themes/$dir"));
-        $I->see('css/',         Locator::href("/bolt/files/themes/$dir/css"));
-        $I->see('images/',      Locator::href("/bolt/files/themes/$dir/images"));
-        $I->see('javascripts/', Locator::href("/bolt/files/themes/$dir/javascripts"));
-        $I->see('theme.yml',    Locator::href("/bolt/file/edit/themes/$dir/theme.yml"));
-        $I->see('entry.twig',   Locator::href("/bolt/file/edit/themes/$dir/entry.twig"));
-        $I->see('index.twig',   Locator::href("/bolt/file/edit/themes/$dir/index.twig"));
+        $I->click("$dir/",     Locator::href("/bolt/files/themes/$dir"));
+        $I->see('css/',        Locator::href("/bolt/files/themes/$dir/css"));
+        $I->see('images/',     Locator::href("/bolt/files/themes/$dir/images"));
+        $I->see('js/',         Locator::href("/bolt/files/themes/$dir/js"));
+        $I->see('theme.yml',   Locator::href("/bolt/file/edit/themes/$dir/theme.yml"));
+        $I->see('record.twig', Locator::href("/bolt/file/edit/themes/$dir/record.twig"));
+        $I->see('index.twig',  Locator::href("/bolt/file/edit/themes/$dir/index.twig"));
 
         // Navigate into a subdirectory
-        $I->click('css/',  Locator::href("/bolt/files/themes/$dir/css"));
-        $I->see('app.css', Locator::href("/bolt/file/edit/themes/$dir/css/app.css"));
+        $I->click('css/',     Locator::href("/bolt/files/themes/$dir/css"));
+        $I->see('custom.css', Locator::href("/bolt/file/edit/themes/$dir/css/custom.css"));
     }
 
     /**
@@ -270,15 +272,13 @@ class BackendDeveloperCest
     {
         $I->wantTo("See that the 'developer' user can configure installed extensions.");
 
-        $scenario->skip('Update Required');
-
         // Set up the browser
         $I->setCookie($this->tokenNames['authtoken'], $this->cookies[$this->tokenNames['authtoken']]);
         $I->setCookie($this->tokenNames['session'], $this->cookies[$this->tokenNames['session']]);
         $I->amOnPage('/bolt/files/config/extensions');
 
-        $I->see('tester-events.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/tester-events.bolt.yml'));
-        $I->click('tester-events.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/tester-events.bolt.yml'));
+        $I->see('testerevents.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/testerevents.bolt.yml'));
+        $I->click('testerevents.bolt.yml', Locator::href('/bolt/file/edit/config/extensions/testerevents.bolt.yml'));
 
         $I->see('# Sit back and breathe', 'textarea');
         $I->see('its_nice_to_know_you_work_alone: true', 'textarea');
@@ -291,11 +291,11 @@ class BackendDeveloperCest
         $I->fillField('#form_contents', $twig);
 
         $token = $I->grabValueFrom('#form__token');
-        $I->sendAjaxPostRequest('/bolt/file/edit/config/extensions/tester-events.bolt.yml', [
+        $I->sendAjaxPostRequest('/bolt/file/edit/config/extensions/testerevents.bolt.yml', [
             'form[_token]'   => $token,
             'form[contents]' => $twig
         ]);
-        $I->amOnPage('/bolt/file/edit/config/extensions/tester-events.bolt.yml');
+        $I->amOnPage('/bolt/file/edit/config/extensions/testerevents.bolt.yml');
 
         $I->see("# Let's make this perfectly clear", 'textarea');
         $I->see('theres_no_secrets_this_year: true', 'textarea');

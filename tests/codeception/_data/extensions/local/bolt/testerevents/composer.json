@@ -1,5 +1,5 @@
 {
-    "name" : "bolt/tester-events",
+    "name" : "bolt/testerevents",
     "description" : "A tester for Bolt event dispatchers",
     "type" : "bolt-extension",
     "keywords" : [
@@ -8,7 +8,7 @@
         "dispatchers"
     ],
     "require" : {
-        "bolt/bolt" : ">=2.0.0,<3.0.0"
+        "bolt/bolt" : "^3.0"
     },
     "license" : "MIT",
     "authors" : [{
@@ -17,14 +17,11 @@
         }
     ],
     "autoload" : {
-        "files" : [
-            "init.php"
-        ],
         "psr-4" : {
-            "Bolt\\Extension\\Bolt\\TesterEvents\\" : [
-                "",
-                "src/"
-            ]
+            "Bolt\\Extension\\Bolt\\TesterEvents\\" : "src/"
         }
+    },
+    "extra": {
+        "bolt-class": "Bolt\\Extension\\Bolt\\TesterEvents\\TesterEventsExtension"
     }
 }

@@ -1,7 +1,10 @@
 {% import '@bolt/_macro/_panels.twig' as panels %}
 
+{# Configuration notices #}
+{% include '@bolt/_sub/_configuration_notices.twig' %}
+
 {# If we're running a development version, show annoying message. #}
-{% if app.bolt_released == false %}
+{% if not bolt_stable %}
 <div class="panel panel-default panel-news">
     <div class="progress-bar progress-bar-warning progress-bar-striped active" style="width: 100%; text-align: left; color: #333; padding: 10px 14px; margin-bottom: 15px;">
         <b><i class="fa fa-fw fa-bullhorn"></i> Warning: Development version </b>

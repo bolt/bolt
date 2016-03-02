@@ -12,7 +12,7 @@ class Config
         'driver'   => 'pdo_mysql',
         'user'     => 'test',
         'password' => 'test',
-        'dbname'   => 'test'
+        'dbname'   => 'test',
     ];
 
     public $value;

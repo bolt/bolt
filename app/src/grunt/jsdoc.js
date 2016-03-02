@@ -12,7 +12,6 @@ module.exports = {
             // Bolt module
             '<%= path.src.js %>/bolt.js',
             '<%= path.src.js %>/modules/*.js',
-            '<%= path.src.js %>/modules/fields/*.js',
             '<%= path.src.js %>/widgets/**/*.js'
         ],
         dest: '<%= path.doc.js %>',

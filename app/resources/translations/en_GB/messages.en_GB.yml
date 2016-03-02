@@ -494,6 +494,7 @@ contenttypes:
             template: "Template"
             ungrouped: "Ungrouped"
         invalid-field: "Can't set %field% in %contenttype%: Not a valid field."
+        invalid-relation: "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
         last-modified: "Last modified %contenttypes%"
         new: "New %contenttype%"
         no-latest: "No latest %contenttype%"

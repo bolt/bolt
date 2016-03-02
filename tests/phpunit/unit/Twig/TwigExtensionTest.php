@@ -37,6 +37,7 @@ class TwigExtensionTest extends BoltUnitTest
         $response = $twig->getGlobals();
         $this->assertArrayHasKey('bolt_name', $response);
         $this->assertArrayHasKey('bolt_version', $response);
+        $this->assertArrayHasKey('bolt_stable', $response);
         $this->assertArrayHasKey('frontend', $response);
         $this->assertArrayHasKey('backend', $response);
         $this->assertArrayHasKey('async', $response);

@@ -1,7 +1,7 @@
 <?php
 namespace Bolt\Storage\Entity;
 
-use Bolt\Helpers\Html;
+use Bolt\Helpers\Excerpt;
 use Bolt\Helpers\Input;
 use Bolt\Library as Lib;
 
@@ -52,56 +52,43 @@ trait ContentValuesTrait
     /**
      * Alias for getExcerpt()
      */
-    public function excerpt($length = 200, $includetitle = false)
+    public function excerpt($length = 200, $includeTitle = false, $focus = null)
     {
-        return $this->getExcerpt($length, $includetitle);
+        return $this->getExcerpt($length, $includeTitle, $focus);
     }
 
     /**
      * Create an excerpt for the content.
      *
-     * @param integer $length
-     * @param boolean $includetitle
+     * @param integer      $length
+     * @param boolean      $includeTitle
+     * @param string|array $focus
      *
      * @return \Twig_Markup
      */
-    public function getExcerpt($length = 200, $includetitle = false)
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
     {
-        if ($includetitle) {
-            $title = Html::trimText(strip_tags($this->getTitle()), $length);
-            $length = $length - strlen($title);
-        }
+        $excerptParts = [];
 
-        if ($length > 0) {
-            $excerptParts = [];
-
-            if (!empty($this->contenttype['fields'])) {
-                foreach ($this->contenttype['fields'] as $key => $field) {
-                    // Skip empty fields, and fields used as 'title'.
-                    if (!isset($this->values[$key]) || in_array($key, $this->getTitleColumnName())) {
-                        continue;
-                    }
-
-                    // add 'text', 'html' and 'textarea' fields.
-                    if (in_array($field['type'], ['text', 'html', 'textarea'])) {
-                        $excerptParts[] = $this->values[$key];
-                    }
-                    // add 'markdown' field
-                    if ($field['type'] === 'markdown') {
-                        $excerptParts[] = $this->app['markdown']->text($this->values[$key]);
-                    }
+        if (!empty($this->contenttype['fields'])) {
+            foreach ($this->contenttype['fields'] as $key => $field) {
+                // Skip empty fields, and fields used as 'title'.
+                if (!isset($this->values[$key]) || in_array($key, $this->getTitleColumnName())) {
+                    continue;
+                }
+                // add 'text', 'html' and 'textarea' fields.
+                if (in_array($field['type'], ['text', 'html', 'textarea'])) {
+                    $excerptParts[] = $this->values[$key];
+                }
+                // add 'markdown' field
+                if ($field['type'] === 'markdown') {
+                    $excerptParts[] = $this->app['markdown']->text($this->values[$key]);
                 }
             }
-
-            $excerpt = implode(' ', $excerptParts);
-            $excerpt = Html::trimText(strip_tags($excerpt), $length);
-        } else {
-            $excerpt = '';
         }
 
-        if (!empty($title)) {
-            $excerpt = '<b>' . $title . '</b> ' . $excerpt;
-        }
+        $excerpter = new Excerpt(implode(' ', $excerptParts), $this->getTitle());
+        $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus);
 
         return new \Twig_Markup($excerpt, 'UTF-8');
     }
@@ -267,6 +254,22 @@ trait ContentValuesTrait
         $allowedcolumns[] = 'taxonomy';
         if (!isset($this->contenttype['fields'][$key]) && !in_array($key, $allowedcolumns)) {
             return;
+        }
+
+        /**
+         * This Block starts introducing new-style hydration into the legacy content object.
+         * To do this we fetch the new field from the manager and hydrate a temporary entity.
+         *
+         * We don't return at this point so continue to let other transforms happen below so the
+         * old behaviour will still happen where adjusted.
+         */
+
+        if (isset($this->contenttype['fields'][$key]['type']) && $this->app['storage.field_manager']->hasCustomHandler($this->contenttype['fields'][$key]['type'])) {
+            $newFieldType = $this->app['storage.field_manager']->getFieldFor($this->contenttype['fields'][$key]['type']);
+            $newFieldType->mapping['fieldname'] = $key;
+            $entity = new Content();
+            $newFieldType->hydrate([$key => $value], $entity);
+            $value = $entity->$key;
         }
 
         if (in_array($key, ['datecreated', 'datechanged', 'datepublish', 'datedepublish'])) {
@@ -518,19 +521,27 @@ trait ContentValuesTrait
      *
      * @return string
      */
-    public function getTitle()
+    public function getTitle($allowBasicTags = false)
     {
         $titleParts = [];
 
+        if ($allowBasicTags === true) {
+            $allowedTags = "<b><del><em><i><strong><s>";
+        } else {
+            $allowedTags = "";
+        }
+
         foreach ($this->getTitleColumnName() as $fieldName) {
-            $titleParts[] = strip_tags($this->values[$fieldName]);
+            if (strip_tags($this->values[$fieldName], $allowedTags) !== '') {
+                $titleParts[] = strip_tags($this->values[$fieldName], $allowedTags);
+            }
         }
 
         if (!empty($titleParts)) {
             $title = implode(' ', $titleParts);
         } else {
             // nope, no title was found.
-            $title = '(untitled)';
+            $title = '';
         }
 
         return $title;

@@ -177,13 +177,13 @@ class PasswordTest extends BoltUnitTest
         $this->addDefaultUser($app);
         $app['config']->set('general/mailoptions', null);
 
-        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['error']);
+        $logger = $this->getMock('\Bolt\Logger\FlashLogger', ['danger']);
         $logger->expects($this->atLeastOnce())
-            ->method('error')
+            ->method('danger')
             ->with($this->equalTo("The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."));
         $app['logger.flash'] = $logger;
 
-        $mailer = $this->getMock('\Swift_Mailer', array('send'), array($app['swiftmailer.transport']));
+        $mailer = $this->getMock('\Swift_Mailer', ['send'], [$app['swiftmailer.transport']]);
         $mailer->expects($this->atLeastOnce())
             ->method('send')
             ->will($this->returnValue(true));
@@ -207,7 +207,7 @@ class PasswordTest extends BoltUnitTest
             ->with($this->equalTo("A password reset link has been sent to 'sneakykoala'."));
         $app['logger.flash'] = $logger;
 
-        $mailer = $this->getMock('\Swift_Mailer', array('send'), array($app['swiftmailer.transport']));
+        $mailer = $this->getMock('\Swift_Mailer', ['send'], [$app['swiftmailer.transport']]);
         $mailer->expects($this->atLeastOnce())
             ->method('send')
             ->will($this->returnValue(true));
@@ -237,7 +237,7 @@ class PasswordTest extends BoltUnitTest
             ->with($this->equalTo("Failed to send password request sent to 'Admin'."));
         $app['logger.system'] = $logger;
 
-        $mailer = $this->getMock('\Swift_Mailer', array('send'), array($app['swiftmailer.transport']));
+        $mailer = $this->getMock('\Swift_Mailer', ['send'], [$app['swiftmailer.transport']]);
         $mailer->expects($this->atLeastOnce())
             ->method('send')
             ->will($this->returnValue(false));

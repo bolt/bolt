@@ -1,10 +1,11 @@
 {#=== OPTIONS ========================================================================================================#}
 
 {% set option = {
+    info:      field.info|default(''),
     label:     field.label,
     multiple:  (field.multiple is defined and field.multiple),
+    required:  field.required|default(false),
     values:    field.values|default([]),
-    info:      field.info|default('')
 } %}
 
 {#=== INIT ===========================================================================================================#}
@@ -52,6 +53,7 @@
     'multiple':  option.multiple,
     'name':      option.multiple ? name ~ '[]' : name,
     'options':   options,
+    'required':  option.required,
 } %}
 
 {#=== FIELDSET =======================================================================================================#}

@@ -3,8 +3,8 @@
 namespace Bolt\Menu;
 
 use Bolt\Translation\Translator as Trans;
-use GuzzleHttp\Url;
 use Silex\Application;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class MenuBuilder
@@ -118,9 +118,10 @@ class MenuBuilder
             if (!empty($add) && $add[0] !== '?') {
                 $add = '?' . $add;
             }
-            $url = Url::fromString($add);
-            $param = array_merge($param, $url->getQuery()->toArray());
-            $param['#'] = $url->getFragment();
+
+            parse_str(parse_url($add, PHP_URL_QUERY), $query);
+            $param = array_merge($param, $query);
+            $param['#'] = parse_url($add, PHP_URL_FRAGMENT);
         }
 
         return $this->app['url_generator']->generate($item['route'], $param);
@@ -182,6 +183,8 @@ class MenuBuilder
                 ),
                 ['event' => 'config']
             );
+        } catch (MethodNotAllowedException $e) {
+            // Route is probably a GET and we're currently in a POST
         }
 
         return $item;
@@ -198,7 +201,7 @@ class MenuBuilder
     private function populateItemFromRecord(array $item, $path)
     {
         /** @var \Bolt\Legacy\Content $content */
-        $content = $this->app['storage']->getContent($path);
+        $content = $this->app['storage']->getContent($path, ['hydrate' => false]);
 
         if ($content) {
             if (empty($item['label'])) {

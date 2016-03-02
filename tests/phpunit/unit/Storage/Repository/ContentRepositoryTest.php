@@ -28,11 +28,11 @@ class ContentRepositoryTest extends BoltUnitTest
         $em = $app['storage'];
         $repo = $em->getRepository('showcases');
 
-        $showcase = new Content(array(
+        $showcase = new Content([
             'title'  => 'Test Showcase',
             'slug'   => 'test-showcase',
-            'status' => 'published'
-        ));
+            'status' => 'published',
+        ]);
         $res = $repo->save($showcase);
         $this->assertNotEmpty($res);
     }
@@ -83,11 +83,11 @@ class ContentRepositoryTest extends BoltUnitTest
         $em = $app['storage'];
 
         $repo = $em->getRepository('showcases');
-        $record = $repo->create(array(
+        $record = $repo->create([
             'title'  => 'New Test Showcase',
             'slug'   => 'new-test-showcase',
-            'status' => 'published'
-        ));
+            'status' => 'published',
+        ]);
 
         $this->assertInstanceOf('Bolt\Storage\Entity\Content', $record);
     }

@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Extension\Mock;
 
-
 use Bolt\Extension\SimpleExtension;
 
 /**

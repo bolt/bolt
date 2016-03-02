@@ -137,7 +137,7 @@ class Password
 
         $mailoptions = $this->app['config']->get('general/mailoptions'); // PHP 5.4 compatibility
         if (empty($mailoptions)) {
-            $this->app['logger.flash']->error(Trans::__("The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."));
+            $this->app['logger.flash']->danger(Trans::__("The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."));
         }
 
         // Sent the password reset notification

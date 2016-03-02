@@ -2,16 +2,21 @@
 
 namespace Bolt;
 
+use Bolt;
 use Bolt\Controller\Zone;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Str;
-use Bolt\Library as Lib;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Translation\Translator;
 use Cocur\Slugify\Slugify;
 use Eloquent\Pathogen\PathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
 use Silex;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml;
 use Symfony\Component\Yaml\Parser;
@@ -362,11 +367,13 @@ class Config
         $tempContentTypes = $this->parseConfigYaml('contenttypes.yml');
         foreach ($tempContentTypes as $key => $contentType) {
             $contentType = $this->parseContentType($key, $contentType, $generalConfig);
+            $key = $contentType['slug'];
             $contentTypes[$key] = $contentType;
         }
 
         return $contentTypes;
     }
+
 
     /**
      * Read and parse the current theme's config.yml configuration file.
@@ -491,6 +498,9 @@ class Config
             $contentType['tablename'] = Slugify::create()->slugify($contentType['slug'], '_');
         } else {
             $contentType['tablename'] = Slugify::create()->slugify($contentType['tablename'], '_');
+        }
+        if (!isset($contentType['allow_numeric_slugs'])) {
+            $contentType['allow_numeric_slugs'] = false;
         }
 
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $generalConfig);
@@ -814,7 +824,7 @@ class Config
                         'contenttypes.generic.reserved-name',
                         ['%contenttype%' => $key, '%field%' => $fieldname]
                     );
-                    $this->app['logger.flash']->error($error);
+                    $this->app['logger.flash']->danger($error);
 
                     return;
                 }
@@ -828,7 +838,7 @@ class Config
                                 'contenttypes.generic.wrong-use-field',
                                 ['%contenttype%' => $key, '%field%' => $fieldname, '%uses%' => $useField]
                             );
-                            $this->app['logger.flash']->error($error);
+                            $this->app['logger.flash']->warning($error);
 
                             return;
                         }
@@ -845,8 +855,26 @@ class Config
                             '%type%'        => $field['type'],
                         ]
                     );
-                    $this->app['logger.flash']->error($error);
+                    $this->app['logger.flash']->warning($error);
                     unset($ct['fields'][$fieldname]);
+                }
+            }
+
+            /**
+             * Make sure any contenttype that has a 'relation' defined points to a contenttype that exists.
+             *
+             */
+            if (isset($ct['relations'])) {
+                foreach ($ct['relations'] as $relKey => $relData) {
+                    if (!isset($this->data['contenttypes'][$relKey])) {
+                        $error = Trans::__(
+                            'contenttypes.generic.invalid-relation',
+                            ['%contenttype%' => $key, '%relation%' => $relKey]
+                        );
+                        $this->app['logger.flash']->error($error);
+
+                        unset($this->data['contenttypes'][$key]['relations'][$relKey]);
+                    }
                 }
             }
 
@@ -871,7 +899,7 @@ class Config
                     "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.",
                     ['%taxonomytype%' => $key, '%slug%' => $taxo['slug']]
                 );
-                $this->app['logger.flash']->error($error);
+                $this->app['logger.flash']->warning($error);
 
                 return;
             }
@@ -885,7 +913,7 @@ class Config
                         "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.",
                         ['%slug%' => $slug]
                     );
-                    $this->app['logger.flash']->error($error);
+                    $this->app['logger.flash']->warning($error);
 
                     return;
                 }
@@ -1035,7 +1063,7 @@ class Config
             }
 
             $error = "Template folder 'theme/" . $relativethemepath . "' does not exist, or is not writable.";
-            $this->app['logger.flash']->error($error);
+            $this->app['logger.flash']->danger($error);
         }
 
         // We add these later, because the order is important: By having theme/ourtheme first,
@@ -1070,7 +1098,9 @@ class Config
     /**
      * Attempt to load cached configuration files.
      *
-     * @return boolean
+     * @throws LowlevelException
+     *
+     * @return bool
      */
     protected function loadCache()
     {
@@ -1088,14 +1118,32 @@ class Config
             file_exists($dir . '/extensions.yml') ? filemtime($dir . '/extensions.yml') : 10000000000,
             file_exists($dir . '/config_local.yml') ? filemtime($dir . '/config_local.yml') : 0,
         ];
-        if (file_exists($this->app['resources']->getPath('cache/config_cache.php'))) {
-            $this->cachetimestamp = filemtime($this->app['resources']->getPath('cache/config_cache.php'));
-        } else {
-            $this->cachetimestamp = 0;
-        }
+        $configCache = $this->app['resources']->getPath('cache/config-cache.json');
+        $this->cachetimestamp = file_exists($configCache) ? filemtime($configCache) : 0;
 
         if ($this->cachetimestamp > max($timestamps)) {
-            $this->data = Lib::loadSerialize($this->app['resources']->getPath('cache/config_cache.php'));
+            $finder = new Finder();
+            $finder->files()
+                ->in($this->app['resources']->getPath('cache'))
+                ->name('config-cache.json')
+                ->depth('== 0')
+            ;
+            /** @var SplFileInfo $file */
+            foreach ($finder as $file) {
+                try {
+                    $this->data = json_decode($file->getContents(), true);
+                } catch (\RuntimeException $e) {
+                    $part = Translator::__(
+                        'Try logging in with your ftp-client and make the file readable. ' .
+                        'Else try to go <a>back</a> to the last page.'
+                    );
+                    $message = '<p>' . Translator::__('The following file could not be read:') . '</p>' .
+                        '<pre>' . htmlspecialchars($configCache) . '</pre>' .
+                        '<p>' . str_replace('<a>', '<a href="javascript:history.go(-1)">', $part) . '</p>';
+
+                    throw new LowlevelException(Translator::__('File is not readable!' . $message));
+                }
+            }
 
             // Check if we loaded actual data.
             if (count($this->data) < 4 || empty($this->data['general'])) {
@@ -1104,7 +1152,7 @@ class Config
 
             // Check to make sure the version is still the same. If not, effectively invalidate the
             // cached config to force a reload.
-            if (!isset($this->data['version']) || ($this->data['version'] != $this->app['bolt_long_version'])) {
+            if (!isset($this->data['version']) || Bolt\Version::compare($this->data['version'], '!=')) {
                 // The logger and the flashbags aren't available yet, so we set a flag to notify the user later.
                 $this->notify_update = true;
 
@@ -1127,15 +1175,30 @@ class Config
     protected function saveCache()
     {
         // Store the version number along with the config.
-        $this->data['version'] = $this->app['bolt_long_version'];
+        $this->data['version'] = Bolt\Version::VERSION;
+        $configCache = $this->app['resources']->getPath('cache/config-cache.json');
+        $fs = new Filesystem();
 
         if ($this->get('general/caching/config')) {
-            Lib::saveSerialize($this->app['resources']->getPath('cache/config_cache.php'), $this->data);
+            try {
+                $fs->dumpFile($configCache, json_encode($this->data));
 
-            return;
+                return;
+            } catch (IOException $e) {
+                $message = 'Error opening file<br/><br/>' .
+                    'The file <b>' . $configCache . '</b> could not be written! <br /><br />' .
+                    'Try logging in with your FTP client and check to see if it is chmodded to be readable by ' .
+                    'the webuser (ie: 777 or 766, depending on the setup of your server). <br /><br />' .
+                    'Current path: ' . getcwd() . '.';
+                throw new LowlevelException($message);
+            }
         }
 
-        @unlink($this->app['resources']->getPath('cache/config_cache.php'));
+        try {
+            $fs->remove($configCache);
+        } catch (IOException $e) {
+            // We were unable to remove the file… time to retire this class
+        };
     }
 
     /**
@@ -1154,10 +1217,17 @@ class Config
         // Note: we need to check if it exists, _and_ it's too old. Not _or_, hence the '0'
         $configTimestamp = file_exists($themeConfigFile) ? filemtime($themeConfigFile) : 0;
 
-        if ($this->cachetimestamp <= $configTimestamp) {
-            // Invalidate cache for next request.
-            @unlink($this->app['resources']->getPath('cache/config_cache.php'));
+        if ($this->cachetimestamp > $configTimestamp) {
+            return;
         }
+
+        // Invalidate cache for next request.
+        try {
+            $fs = new Filesystem();
+            $fs->remove($this->app['resources']->getPath('cache/config-cache.json'));
+        } catch (IOException $e) {
+            // We were unable to remove the file… time to retire this class
+        };
     }
 
     /**

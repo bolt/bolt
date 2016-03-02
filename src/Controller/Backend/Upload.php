@@ -2,6 +2,7 @@
 
 namespace Bolt\Controller\Backend;
 
+use Silex\Application;
 use Silex\ControllerCollection;
 use Sirius\Upload\Result\Collection;
 use Sirius\Upload\Result\File;
@@ -21,9 +22,22 @@ class Upload extends BackendBase
         $c->match('/{namespace}', 'uploadNamespace')
             ->before([$this, 'before'])
             ->value('namespace', 'files')
-            ->bind('upload');
+            ->bind('upload')
+        ;
 
         return $c;
+    }
+
+    /**
+     * @param Request     $request
+     * @param Application $app
+     * @param null        $roleRoute
+     *
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function before(Request $request, Application $app, $roleRoute = null)
+    {
+        return parent::before($request, $app, 'files:uploads');
     }
 
     /**
@@ -185,13 +199,13 @@ class Upload extends BackendBase
         $this->app['upload.prefix'] = $prefix;
 
         // Do the upload
-        $result = $this->handleUploadFiles($request, $namespace);
+        $fullResult = $this->handleUploadFiles($request, $namespace);
 
         array_shift($handler);
         $original = $namespace;
 
-        if (count($result)) {
-            $result = $result[0];
+        if (count($fullResult)) {
+            $result = $fullResult[0];
             foreach ($handler as $copy) {
                 list($namespace, $prefix) = $this->parser($copy);
 
@@ -202,6 +216,6 @@ class Upload extends BackendBase
             }
         }
 
-        return $this->json($result, Response::HTTP_OK, ['Content-Type' => 'text/plain']);
+        return $this->json($fullResult, Response::HTTP_OK, ['Content-Type' => 'text/plain']);
     }
 }

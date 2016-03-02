@@ -10,6 +10,8 @@
 (function (bolt, $) {
     'use strict';
 
+    /*jshint latedef: nofunc */
+
     /**
      * Bolt.extend mixin container.
      *
@@ -17,6 +19,33 @@
      * @type {Object}
      */
     var extend = {};
+
+    var activeConsole;
+
+    var activeInterval;
+
+    var events = {
+        click: function (e) {
+            var request = $(e.target).data('request');
+
+            switch (request) {
+                case 'update-check':      updateCheck(); break;
+                case 'update-run':        updateRun(); break;
+                case 'update-package':    updatePackage(e.originalEvent); break;
+                case 'check-package':     checkPackage(e.originalEvent); break;
+                case 'uninstall-package': uninstall(e.originalEvent); break;
+                case 'install-package':   install(e.originalEvent); break;
+                case 'prefill-package':   prefill(e.originalEvent); break;
+                case 'install-run':       installRun(e.originalEvent); break;
+                case 'autoload-dump':     autoloadDump(e.originalEvent); break;
+                case 'generate-theme':    generateTheme(e.originalEvent); break;
+                case 'package-available': packageAvailable(e.originalEvent); break;
+                case 'package-copy':      copyTheme(e.originalEvent); break;
+                case 'package-readme':    packageReadme(e.originalEvent); break;
+                case 'show-all':          showAllVersions(e.originalEvent); break;
+            }
+        }
+    };
 
     /**
      * Initializes the mixin.
@@ -50,10 +79,6 @@
         }
     };
 
-    var activeConsole;
-
-    var activeInterval;
-
     /* jshint -W126 */
     var delay = (function () {
         var timer = 0;
@@ -65,11 +90,11 @@
     })();
     /* jshint +W126 */
 
-    var find = function (selector) {
+    function find(selector) {
         return $('.extend-bolt-container').find(selector);
-    };
+    }
 
-    var installReset = function () {
+    function installReset() {
         $('#installModal').on('hide.bs.modal', function () {
             find('.latest-version-container .installed-version-item')
                 .html('<tr><td colspan="3"><strong>' + bolt.data('extend.text.no-stable') + '</strong></td></tr>');
@@ -87,9 +112,9 @@
             find('.postinstall-footer').hide();
             find('#installModal .loader').show();
         });
-    };
+    }
 
-    var updateCheck = function () {
+    function updateCheck() {
         var target;
 
         find('.update-container').show();
@@ -145,9 +170,9 @@
         .fail(function(data) {
             formatErrorLog(data);
         });
-    };
+    }
 
-    var updateRun = function () {
+    function updateRun() {
         find('.update-container').show();
         var target = find('.update-output');
         activeConsole = target;
@@ -164,9 +189,9 @@
         .fail(function(data) {
             formatErrorLog(data);
         });
-    };
+    }
 
-    var updatePackage = function (e) {
+    function updatePackage(e) {
         var t = find('.update-output').html(bolt.data('extend.text.updating')),
             packageToUpdate = $(e.target).data('package');
 
@@ -188,9 +213,9 @@
         });
 
         e.preventDefault();
-    };
+    }
 
-    var installRun = function (e) {
+    function installRun(e) {
         var target = find('.update-output');
 
         find('.update-container').show();
@@ -211,9 +236,9 @@
 
         e.stopPropagation();
         e.preventDefault();
-    };
+    }
 
-    var autoloadDump = function (e) {
+    function autoloadDump(e) {
         var target = find('.update-output');
 
         find('.update-container').show();
@@ -234,9 +259,9 @@
 
         e.stopPropagation();
         e.preventDefault();
-    };
+    }
 
-    var checkInstalled = function () {
+    function checkInstalled() {
         find('.installed-container').each(function(){
             var target = $(this).find('.installed-list');
 
@@ -276,9 +301,9 @@
                 formatErrorLog(data);
             });
         });
-    };
+    }
 
-    var renderPackage = function (data) {
+    function renderPackage(data) {
         var html = '';
 
         for (var e in data) {
@@ -348,9 +373,9 @@
         }
 
         return html;
-    };
+    }
 
-    var checkPackage = function (e) {
+    function checkPackage(e) {
         // Depending on whether we 'autocompleted' an extension name or not, either
         // pick the value from the input itself, or from the data attribute.
         var ext = find('input[name="check-package"]').val(),
@@ -363,9 +388,9 @@
         installInfo(ext);
 
         e.preventDefault();
-    };
+    }
 
-    var installInfo = function (ext) {
+    function installInfo(ext) {
         activeConsole = find('.update-output');
 
         $.get(bolt.data('extend.baseurl') + 'installInfo?package=' + ext, function(data) {
@@ -398,14 +423,14 @@
         .fail(function(data) {
             formatErrorLog(data);
         });
-    };
+    }
 
-    var showAllVersions = function () {
+    function showAllVersions() {
         find('.install-latest-container').hide();
         find('.install-version-container').show();
-    };
+    }
 
-    var buildVersionTable = function (packages) {
+    function buildVersionTable(packages) {
         var tpl = '',
             version,
             aclass;
@@ -431,9 +456,9 @@
         }
 
         return tpl;
-    };
+    }
 
-    var install = function (e) {
+    function install(e) {
         var packageName = $(e.target).data('package'),
             packageVersion = $(e.target).data('version');
 
@@ -458,9 +483,9 @@
             formatErrorLog(data);
         });
         e.preventDefault();
-    };
+    }
 
-    var postInstall = function (packageName, packageVersion) {
+    function postInstall(packageName, packageVersion) {
         $.get(
             bolt.data('extend.baseurl') + 'packageInfo',
             {'package': packageName, 'version': packageVersion}
@@ -476,16 +501,16 @@
         .fail(function(data) {
             formatErrorLog(data);
         });
-    };
+    }
 
-    var extensionPostInstall = function (extension) {
+    function extensionPostInstall(extension) {
         find('.extension-postinstall').show();
         find('.extension-postinstall .modal-success').show();
         find('.postinstall-footer .ext-link').attr('href', extension.source);
         find('.postinstall-footer').show();
-    };
+    }
 
-    var themePostInstall = function (extension) {
+    function themePostInstall(extension) {
         var name = extension.name.split(/\/+/).pop();
 
         find('.install-response-container').hide();
@@ -494,9 +519,9 @@
         find('.theme-postinstall .theme-generator').data('theme', extension.name);
         find('.theme-postinstall #theme-name').val(name);
         find('.postinstall-footer').show();
-    };
+    }
 
-    var generateTheme = function (e) {
+    function generateTheme(e) {
         var trigger = $(e.target),
             theme = trigger.data('theme'),
             themename  = find('#theme-name').val();
@@ -514,9 +539,9 @@
         });
 
         e.preventDefault();
-    };
+    }
 
-    var copyTheme = function (e) {
+    function copyTheme(e) {
         // Magic goes here.
         var trigger = $(e.target),
             theme = trigger.data('theme'),
@@ -540,9 +565,9 @@
             });
         }
         e.preventDefault();
-    };
+    }
 
-    var packageReadme = function (e) {
+    function packageReadme(e) {
         $.get($(e.target).data('readme') )
         .done(function(data) {
             bootbox.dialog({
@@ -554,13 +579,13 @@
         });
 
         e.preventDefault();
-    };
+    }
 
-    var packageAvailable = function (e) {
+    function packageAvailable(e) {
         installInfo($(e.target).data('available'));
-    };
+    }
 
-    var uninstall = function (e) {
+    function uninstall(e) {
         var t = find('.installed-container .console').html(bolt.data('extend.text.removing'));
 
         if (confirm(bolt.data('extend.text.confirm-remove')) === false) {
@@ -587,9 +612,9 @@
         });
 
         e.preventDefault();
-    };
+    }
 
-    var liveSearch = function () {
+    function liveSearch() {
         var livesearch = find('input[name="check-package"]');
 
         livesearch.on('keyup', function () {
@@ -625,17 +650,17 @@
                 });
             }, 500);
         });
-    };
+    }
 
-    var prefill = function (e) {
+    function prefill(e) {
         var target = $(e.target);
 
         find('input[name="check-package"]').val(target.closest('a').text());
         find('input[name="check-package"]').data('packagename', target.data('packagename'));
         find('.auto-search').hide();
-    };
+    }
 
-    var formatErrorLog = function(data) {
+    function formatErrorLog(data) {
         var errObj = '',
             html = '',
             msg = '';
@@ -688,31 +713,7 @@
 
         $('.modal').modal('hide');
         bootbox.alert(html);
-
-    };
-
-    var events = {
-        click: function (e) {
-            var request = $(e.target).data('request');
-
-            switch (request) {
-                case 'update-check':      updateCheck(); break;
-                case 'update-run':        updateRun(); break;
-                case 'update-package':    updatePackage(e.originalEvent); break;
-                case 'check-package':     checkPackage(e.originalEvent); break;
-                case 'uninstall-package': uninstall(e.originalEvent); break;
-                case 'install-package':   install(e.originalEvent); break;
-                case 'prefill-package':   prefill(e.originalEvent); break;
-                case 'install-run':       installRun(e.originalEvent); break;
-                case 'autoload-dump':     autoloadDump(e.originalEvent); break;
-                case 'generate-theme':    generateTheme(e.originalEvent); break;
-                case 'package-available': packageAvailable(e.originalEvent); break;
-                case 'package-copy':      copyTheme(e.originalEvent); break;
-                case 'package-readme':    packageReadme(e.originalEvent); break;
-                case 'show-all':    showAllVersions(e.originalEvent); break;
-            }
-        }
-    };
+    }
 
     // Apply mixin container.
     bolt.extend = extend;

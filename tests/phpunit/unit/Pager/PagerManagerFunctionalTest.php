@@ -2,7 +2,6 @@
 
 namespace Bolt\Tests\Pager;
 
-use Bolt\Pager\Pager;
 use Bolt\Pager\PagerManager;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -10,11 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
  * PagerManagerFunctionalTest for class PagerManager
  *
  * @package Bolt\Tests\Pager
+ *
  * @author Rix Beck <rix@neologik.hu>
  */
 class PagerManagerFunctionalTest extends PagerManagerTestBase
 {
-
     /**
      * @return array
      */
@@ -45,12 +44,12 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
             ['?page_some=2&page=3&nopage',
                 [
                     'some' => ['for' => 'some', 'current' => 2],
-                    '' => ['for' => 'page', 'current' => 3],
+                    ''     => ['for' => 'page', 'current' => 3],
                 ],
             ],
             ['?page_some=2&page_others=3&nopage',
                 [
-                    'some' => ['for' => 'some', 'current' => 2],
+                    'some'   => ['for' => 'some', 'current' => 2],
                     'others' => ['for' => 'others', 'current' => 3],
                 ],
             ],
@@ -109,7 +108,6 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
             '?a=b&page_acategory=',
         ];
 
-
         return $tests;
     }
 
@@ -123,14 +121,13 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
         $this->assertEquals($expected, $manager->makeLink($linkFor));
     }
 
-
     public function getPagerProvider()
     {
         return [
             [
                 '?a=b&page_acategory=5',
                 [
-                    'some' => ['for' => 'some', 'current' => 2],
+                    'some'   => ['for' => 'some', 'current' => 2],
                     'others' => ['for' => 'others', 'current' => 3, 'totalpages' => 12],
                 ],
                 '',
@@ -139,7 +136,7 @@ class PagerManagerFunctionalTest extends PagerManagerTestBase
             [
                 '?a=b&page_acategory=5',
                 [
-                    'some' => ['for' => 'some', 'current' => 2],
+                    'some'   => ['for' => 'some', 'current' => 2],
                     'others' => ['for' => 'others', 'current' => 3, 'totalpages' => 12],
                 ],
                 'acategory',

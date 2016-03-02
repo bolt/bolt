@@ -4,6 +4,10 @@ namespace Bolt\Tests\Controller\Backend;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
  * Class to test correct operation of src/Controller/Backend/Users.
@@ -81,8 +85,8 @@ class UsersTest extends ControllerUnitTest
                     'username'    => $user['username'],
                     'email'       => $user['email'],
                     'displayname' => 'Admin Test',
-                    '_token'      => 'xyz'
-                ]
+                    '_token'      => 'xyz',
+                ],
             ]
         ));
 
@@ -129,8 +133,8 @@ class UsersTest extends ControllerUnitTest
                     'displayname'           => 'Admin',
                     'password'              => 'password',
                     'password_confirmation' => 'password',
-                    '_token'                => 'xyz'
-                ]
+                    '_token'                => 'xyz',
+                ],
             ]
         );
         $this->setRequest($request);
@@ -141,24 +145,29 @@ class UsersTest extends ControllerUnitTest
 
     public function testModifyBadCsrf()
     {
+        $csrf = $this->getMock(CsrfTokenManager::class, ['isTokenValid'], [null, new SessionTokenStorage(new Session(new MockArraySessionStorage()))]);
+        $csrf->expects($this->any())
+            ->method('isTokenValid')
+            ->will($this->returnValue(false));
+        $this->setService('csrf', $csrf);
+
         // First test should exit/redirect with no anti CSRF token
         $this->setRequest(Request::create('/bolt/user/disable/2'));
         $response = $this->controller()->modify('disable', 1);
-        $info = $this->getFlashBag()->get('info');
+        $info = $this->getFlashBag()->get('error');
 
-        $this->assertRegExp('/An error occurred/', $info[0]);
+        $this->assertRegExp('/Something went wrong/', $info[0]);
         $this->assertEquals('/bolt/users', $response->getTargetUrl());
     }
 
     public function testModifyValidCsrf()
     {
         // Now we mock the CSRF token to validate
-        $app = $this->getApp();
-        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
-        $users->expects($this->any())
-            ->method('checkAntiCSRFToken')
+        $csrf = $this->getMock(CsrfTokenManager::class, ['isTokenValid'], [null, new SessionTokenStorage(new Session(new MockArraySessionStorage()))]);
+        $csrf->expects($this->any())
+            ->method('isTokenValid')
             ->will($this->returnValue(true));
-        $this->setService('users', $users);
+        $this->setService('csrf', $csrf);
 
         $currentuser = $this->getService('users')->getUser(1);
         $this->setSessionUser(new Entity\Users($currentuser));
@@ -236,10 +245,13 @@ class UsersTest extends ControllerUnitTest
         $this->addNewUser($this->getApp(), 'editor', 'Editor', 'editor');
 
         // Now we mock the CSRF token to validate
-        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken', 'setEnabled', 'deleteUser'], [$this->getApp()]);
-        $users->expects($this->any())
-            ->method('checkAntiCSRFToken')
+        $csrf = $this->getMock(CsrfTokenManager::class, ['isTokenValid'], [null, new SessionTokenStorage(new Session(new MockArraySessionStorage()))]);
+        $csrf->expects($this->any())
+            ->method('isTokenValid')
             ->will($this->returnValue(true));
+        $this->setService('csrf', $csrf);
+
+        $users = $this->getMock('Bolt\Users', ['setEnabled', 'deleteUser'], [$this->getApp()]);
         $users->expects($this->any())
             ->method('setEnabled')
             ->will($this->returnValue(false));
@@ -295,8 +307,8 @@ class UsersTest extends ControllerUnitTest
                     'password_confirmation' => '',
                     'email'                 => $user['email'],
                     'displayname'           => 'Admin Test',
-                    '_token'                => 'xyz'
-                ]
+                    '_token'                => 'xyz',
+                ],
             ]
         ));
 
@@ -332,8 +344,8 @@ class UsersTest extends ControllerUnitTest
                     'username'    => 'admin2',
                     'email'       => $user['email'],
                     'displayname' => $user['displayname'],
-                    '_token'      => 'xyz'
-                ]
+                    '_token'      => 'xyz',
+                ],
             ]
         ));
         $response = $this->controller()->edit($this->getRequest(), 1);

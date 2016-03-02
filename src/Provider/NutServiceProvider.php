@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Provider;
 
+use Bolt;
 use Bolt\Nut;
 use Bolt\Nut\NutApplication;
 use LogicException;
@@ -17,9 +18,7 @@ class NutServiceProvider implements ServiceProviderInterface
                 $console = new NutApplication();
 
                 $console->setName('Bolt console tool - Nut');
-                if (isset($app['bolt_long_version'])) {
-                    $console->setVersion($app['bolt_long_version']);
-                }
+                $console->setVersion(Bolt\Version::VERSION);
 
                 $console->addCommands($app['nut.commands']);
 
@@ -104,13 +103,6 @@ class NutServiceProvider implements ServiceProviderInterface
                         }
                     )
                 );
-            }
-        );
-
-        // Maintain backwards compatibility
-        $app['console'] = $app->share(
-            function ($app) {
-                return $app['nut'];
             }
         );
     }

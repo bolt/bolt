@@ -194,7 +194,7 @@ class RelationType extends FieldTypeBase
             ->andWhere('to_contenttype = :to_contenttype')
             ->setParameters([
                 'to_id'          => $entity->id,
-                'to_contenttype' => $entity->getContenttype()
+                'to_contenttype' => $entity->getContenttype(),
             ]);
         $result = $query->execute()->fetchAll();
 

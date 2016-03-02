@@ -53,10 +53,10 @@ class FileManagerTest extends ControllerUnitTest
                         new UploadedFile(
                             PHPUNIT_ROOT . '/resources/generic-logo-evil.exe',
                             'logo.exe'
-                        )
+                        ),
                     ],
-                    '_token'     => 'xyz'
-                ]
+                    '_token'     => 'xyz',
+                ],
             ]
         ));
 

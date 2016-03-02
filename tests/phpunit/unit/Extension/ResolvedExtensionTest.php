@@ -13,6 +13,5 @@ class ResolvedExtensionTest extends BoltUnitTest
 {
     public function test()
     {
-
     }
 }

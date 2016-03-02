@@ -58,9 +58,7 @@ class Records extends AsyncBase
      */
     public function action(Request $request)
     {
-        //         if (!$this->checkAntiCSRFToken($request->get('bolt_csrf_token'))) {
-//             $this->app->abort(Response::HTTP_BAD_REQUEST, Trans::__('Something went wrong'));
-//         }
+        $this->validateCsrfToken();
 
         $contentType = $request->get('contenttype');
         $actionData = $request->get('actions');

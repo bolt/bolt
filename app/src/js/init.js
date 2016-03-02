@@ -41,55 +41,17 @@ var init = {
      *
      * @param {object} data
      * @returns {undefined}
-     * 
+     *
      * @fires start.bolt.file.save
      * @fires done.bolt.file.save
      * @fires fail.bolt.file.save
      * @fires always.bolt.file.save
      */
     bindEditFile: function (data) {
-        $('#saveeditfile').bind('click', function () {
-            $(Bolt).trigger('start.bolt.file.save');
-
-            // If not on mobile (i.e. Codemirror is present), copy back to the textarea.
-            if (typeof CodeMirror !== 'undefined') {
-                $('#form_contents').val(editor.getValue());
-            }
-
-            var msgNotSaved = "Not saved";
-
-            // Disable the buttons, to indicate stuff is being done.
-            $('#saveeditfile').addClass('disabled');
-            $('#saveeditfile i').addClass('fa-spin fa-spinner');
-            $('p.lastsaved').text(Bolt.data('editcontent.msg.saving'));
-
-            $.post('?returnto=ajax', $('#editfile').serialize())
-                .done(function (data) {
-                    if (!data.ok) {
-                        alert(data.msg);
-                        $(Bolt).trigger('fail.bolt.file.save', data);
-                    }else{
-                        $(Bolt).trigger('done.bolt.file.save', data);
-                    }
-                    $('p.lastsaved').html(data.msg);
-                })
-                .fail(function(){
-                    $(Bolt).trigger('fail.bolt.file.save');
-                    alert(msgNotSaved);
-                })
-                .always(function(){
-                    $(Bolt).trigger('always.bolt.file.save');
-
-                    // Re-enable buttons
-                    window.setTimeout(function(){
-                        $('#saveeditfile').removeClass('disabled').blur();
-                        $('#saveeditfile i').removeClass('fa-spin fa-spinner');
-                    }, 300);
-                });
-        });
+        var editor;
 
         if (typeof CodeMirror !== 'undefined') {
-            var editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
+            editor = CodeMirror.fromTextArea(document.getElementById('form_contents'), {
                 lineNumbers: true,
                 autofocus: true,
                 tabSize: 4,
@@ -104,6 +66,45 @@ var init = {
             editor.setSize(null, newheight);
         }
 
+        $('#saveeditfile').on('click', function () {
+            Bolt.events.fire('start.bolt.file.save');
+
+            // Copy back to the textarea.
+            if (editor) {
+                editor.save();
+            }
+
+            var msgNotSaved = 'Not saved';
+
+            // Disable the buttons, to indicate stuff is being done.
+            $('#saveeditfile').addClass('disabled');
+            $('#saveeditfile i').addClass('fa-spin fa-spinner');
+            $('p.lastsaved').text(Bolt.data('editcontent.msg.saving'));
+
+            $.post('?returnto=ajax', $('#editfile').serialize())
+                .done(function (data) {
+                    if (!data.ok) {
+                        alert(data.msg);
+                        Bolt.events.fire('fail.bolt.file.save', data);
+                    } else {
+                        Bolt.events.fire('done.bolt.file.save', data);
+                    }
+                    $('p.lastsaved').html(data.msg);
+                })
+                .fail(function(){
+                    Bolt.events.fire('fail.bolt.file.save');
+                    alert(msgNotSaved);
+                })
+                .always(function(){
+                    Bolt.events.fire('always.bolt.file.save');
+
+                    // Re-enable buttons
+                    window.setTimeout(function(){
+                        $('#saveeditfile').removeClass('disabled').blur();
+                        $('#saveeditfile i').removeClass('fa-spin fa-spinner');
+                    }, 300);
+                });
+        });
     },
 
     /*

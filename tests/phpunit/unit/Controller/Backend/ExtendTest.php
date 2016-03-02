@@ -130,7 +130,7 @@ class ExtendTest extends ControllerUnitTest
                         [
                           0 => '1.0.0',
                           1 => 'dev-master',
-                        ]
+                        ],
                 ],
             'version' =>
                 [
@@ -166,8 +166,8 @@ class ExtendTest extends ControllerUnitTest
                         'type'        => 'bolt-extension',
                         'stability'   => 'dev',
                         'buildStatus' => 'untested',
-                    ]
-                ]
+                    ],
+                ],
             ];
         // This just ensures that the data matches the internal format of json decoded responses
         return json_decode(json_encode($info));

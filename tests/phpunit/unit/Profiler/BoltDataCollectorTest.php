@@ -31,8 +31,6 @@ class BoltDataCollectorTest extends BoltUnitTest
         $data->collect($request, $response);
         $this->assertNotEmpty($data->getName());
         $this->assertNotEmpty($data->getVersion());
-        $this->assertNotEmpty($data->getFullVersion());
-        $this->assertNotNull($data->getVersionName());
         $this->assertNotEmpty($data->getPayoff());
         $this->assertNotEmpty($data->getAboutLink());
         $this->assertEmpty($data->getEditLink());

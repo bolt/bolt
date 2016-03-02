@@ -2,14 +2,12 @@
 
 namespace Bolt\Storage\Database\Schema\Comparison;
 
-use Bolt\Storage\Database\Schema\Manager;
 use Bolt\Storage\Database\Schema\SchemaCheck;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
-use Pimple;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -21,14 +19,8 @@ abstract class BaseComparator
 {
     /** @var \Doctrine\DBAL\Connection */
     protected $connection;
-    /** @var \Bolt\Storage\Database\Schema\Manager */
-    protected $manager;
     /** @var string */
     protected $prefix;
-    /** @var Pimple */
-    protected $schemaTables;
-    /** @var array */
-    protected $contentTables;
     /** @var \Psr\Log\LoggerInterface */
     protected $systemLog;
 
@@ -49,19 +41,13 @@ abstract class BaseComparator
      * Constructor.
      *
      * @param Connection      $connection
-     * @param Manager         $manager
      * @param string          $prefix
-     * @param Pimple          $schemaTables
-     * @param array           $contentTables
      * @param LoggerInterface $systemLog
      */
-    public function __construct(Connection $connection, Manager $manager, $prefix, Pimple $schemaTables, array $contentTables, LoggerInterface $systemLog)
+    public function __construct(Connection $connection, $prefix, LoggerInterface $systemLog)
     {
         $this->connection = $connection;
-        $this->manager = $manager;
         $this->prefix = $prefix;
-        $this->schemaTables = $schemaTables;
-        $this->contentTables = $contentTables;
         $this->systemLog = $systemLog;
         $this->setIgnoredChanges();
     }
@@ -69,14 +55,18 @@ abstract class BaseComparator
     /**
      * Are database updates required.
      *
-     * @return boolean
+     * @param Table[] $fromTables
+     * @param Table[] $toTables
+     * @param array   $protectedTableNames
+     *
+     * @return bool
      */
-    public function hasPending()
+    public function hasPending($fromTables, $toTables, array $protectedTableNames)
     {
         if ($this->pending !== null) {
             return $this->pending;
         }
-        $this->compare();
+        $this->compare($fromTables, $toTables, $protectedTableNames);
 
         return $this->pending;
     }
@@ -84,21 +74,24 @@ abstract class BaseComparator
     /**
      * Run the update checks and flag if we need an update.
      *
-     * @param boolean $force
+     * @param Table[] $fromTables
+     * @param Table[] $toTables
+     * @param array   $protectedTableNames
+     * @param bool    $force
      *
      * @return SchemaCheck
      */
-    public function compare($force = false)
+    public function compare($fromTables, $toTables, array $protectedTableNames, $force = false)
     {
         if ($this->response !== null && $force === false) {
             return $this->getResponse();
         }
 
-        $this->checkTables();
+        $this->checkTables($fromTables, $toTables);
 
         // If we have diffs, check if they need to be modified
         if ($this->diffs !== null) {
-            $this->adjustDiffs();
+            $this->adjustDiffs($protectedTableNames);
             $this->addAlterResponses();
         }
 
@@ -161,6 +154,16 @@ abstract class BaseComparator
     }
 
     /**
+     * Get the unmodified table diffs.
+     *
+     * @return TableDiff[]
+     */
+    public function getDiffs()
+    {
+        return $this->diffs;
+    }
+
+    /**
      * Create a list of changes this platform will ignore.
      */
     abstract protected function setIgnoredChanges();
@@ -176,12 +179,12 @@ abstract class BaseComparator
     /**
      * Run the checks on the tables to see if they firstly exist, then if they
      * require update.
+     *
+     * @param Table[] $fromTables
+     * @param Table[] $toTables
      */
-    protected function checkTables()
+    protected function checkTables($fromTables, $toTables)
     {
-        $fromTables = $this->manager->getInstalledTables();
-        $toTables = $this->manager->getSchemaTables();
-
         /** @var $fromTable Table */
         foreach ($toTables as $toTableAlias => $toTable) {
             $tableName = $toTable->getName();
@@ -218,14 +221,16 @@ abstract class BaseComparator
 
     /**
      * Platform specific adjustments to table/column diffs.
+     *
+     * @param array $protectedTableNames
      */
-    protected function adjustDiffs()
+    protected function adjustDiffs(array $protectedTableNames)
     {
         $diffUpdater = new DiffUpdater($this->ignoredChanges);
 
         /** @var TableDiff $tableDiff */
         foreach ($this->diffs as $tableName => $tableDiff) {
-            $this->adjustContentTypeDiffs($tableDiff);
+            $this->adjustContentTypeDiffs($tableDiff, $protectedTableNames);
             $this->diffs[$tableName] = $diffUpdater->adjustDiff($tableDiff);
             if ($this->diffs[$tableName] === false) {
                 unset($this->diffs[$tableName]);
@@ -238,11 +243,12 @@ abstract class BaseComparator
      * Clear 'removedColumns' attribute from ContentType table diffs to prevent accidental data removal.
      *
      * @param TableDiff $tableDiff
+     * @param array     $protectedTableNames
      */
-    protected function adjustContentTypeDiffs(TableDiff $tableDiff)
+    protected function adjustContentTypeDiffs(TableDiff $tableDiff, array $protectedTableNames)
     {
         $alias = str_replace($this->prefix, '', $tableDiff->fromTable->getName());
-        if (in_array($alias, $this->contentTables)) {
+        if (in_array($alias, $protectedTableNames)) {
             $tableDiff->removedColumns = [];
         }
     }

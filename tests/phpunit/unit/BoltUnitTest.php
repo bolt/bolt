@@ -63,10 +63,11 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
         $bolt['config']->set(
             'general/database',
             [
-                'driver' => 'pdo_sqlite',
-                'prefix' => 'bolt_',
-                'user'   => 'test',
-                'path'   => PHPUNIT_WEBROOT . '/app/database/bolt.db'
+                'driver'       => 'pdo_sqlite',
+                'prefix'       => 'bolt_',
+                'user'         => 'test',
+                'path'         => PHPUNIT_WEBROOT . '/app/database/bolt.db',
+                'wrapperClass' => '\Bolt\Storage\Database\Connection',
             ]
         );
 
@@ -207,7 +208,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
                 $app['logger.system'],
                 $app['permissions'],
                 $app['randomgenerator'],
-                $app['access_control.cookie.options']
+                $app['access_control.cookie.options'],
             ]
         );
 
@@ -236,7 +237,7 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
             $path,
             \Bolt\Cache::EXTENSION,
             0002,
-            $app['filesystem']
+            $app['filesystem'],
         ];
 
         $cache = $this->getMock('Bolt\Cache', ['doFlush'], $params);

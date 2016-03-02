@@ -41,6 +41,7 @@ class GeneralListener implements EventSubscriberInterface
         $request = $event->getRequest();
 
         $this->mailConfigCheck($request);
+        $this->gdCheck($request);
     }
 
     /**
@@ -71,8 +72,19 @@ class GeneralListener implements EventSubscriberInterface
         }
 
         if (!$this->app['config']->get('general/mailoptions') && $this->app['users']->getCurrentuser() && $this->app['users']->isAllowed('files:config')) {
-            $error = "The mail configuration parameters have not been set up. This may interfere with password resets, and extension functionality. Please set up the 'mailoptions' in config.yml.";
-            $this->app['logger.flash']->error(Trans::__($error));
+            $notice = "The mail configuration parameters have not been set up. This may interfere with password resets, and extension functionality. Please set up the 'mailoptions' in config.yml.";
+            $this->app['logger.flash']->configuration(Trans::__($notice));
+        }
+    }
+
+    /**
+     * Check whether or not the GD-library can be used in PHP. Needed for making thumbnails.
+     */
+    protected function gdCheck()
+    {
+        if (!function_exists('imagecreatetruecolor')) {
+            $notice = "The current version of PHP doesn't have the GD library enabled. Without this, Bolt will not be able to generate thumbnails. Please enable <tt>php-gd</tt>, or ask your system-administrator to do so.";
+            $this->app['logger.flash']->configuration(Trans::__($notice));
         }
     }
 

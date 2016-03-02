@@ -89,7 +89,7 @@ homepage_template: index.twig
 # Note 2: If you are logged on, and debug is set to 'true', you will NOT see the
 #         404 page!
 # Note 3: This may also point to a template without a record, eg 'error404.twig'
-notfound: page/not-found
+notfound: block/404-not-found
 
 # The default template and amount of records to use for listing-pages on the
 # site.
@@ -130,7 +130,7 @@ taxonomy_sort: DESC
 # Note: If you've changed the filename, and your changes do not show up on the
 #       website, be sure to check for a config.yml file in your theme's folder.
 #       If a template is set there, it will override the setting here.
-search_results_template: listing.twig
+search_results_template: search.twig
 search_results_records: 10
 
 # Add jQuery to the rendered HTML, whether or not it's added by an extension.
@@ -253,7 +253,7 @@ debug: true
 developer_notices: false
 debug_show_loggedoff: false
 debug_permission_audit_mode: false
-debug_error_level: 6135 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED
+debug_error_level: 8181 # equivalent to E_ALL &~ E_NOTICE &~ E_DEPRECATED &~ E_USER_DEPRECATED &~ E_WARNING
 # debug_error_level: 30719 # equivalent to E_ALL
 debug_enable_whoops: true # change this to false to use PHP's built-in error handling instead of Whoops
 
@@ -312,8 +312,8 @@ liveeditor: true
 # it, your mail might disappear into a black hole, without producing any errors.
 # Generally speaking, using 'smtp' is the better option, so use that if possible.
 #
-# Protip: If your webhost does not support SMTP, sign up for a (free) Mandrill
-# account at https://mandrill.com/ for sending emails reliably.
+# Protip: If your webhost does not support SMTP, sign up for a (free) Sendgrid
+# account at https://sendgrid.com/free for sending emails reliably.
 
 # mailoptions:
 #     transport: smtp

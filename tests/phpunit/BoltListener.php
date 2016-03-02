@@ -18,7 +18,7 @@ class BoltListener implements \PHPUnit_Framework_TestListener
         'menu'         => 'app/config/menu.yml.dist',
         'permissions'  => 'app/config/permissions.yml.dist',
         'routing'      => 'app/config/routing.yml.dist',
-        'taxonomy'     => 'app/config/taxonomy.yml.dist'
+        'taxonomy'     => 'app/config/taxonomy.yml.dist',
     ];
     /** @var string */
     protected $theme;

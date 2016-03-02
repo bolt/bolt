@@ -272,7 +272,7 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
             $app['cache'],
             $app['config'],
             $app['resources'],
-            $app['request_stack']
+            $app['request_stack'],
         ]);
 
         $handler->expects($this->once())
@@ -468,7 +468,7 @@ class BaseExtensionTest extends AbstractExtensionsUnitTest
         $handler = $this->getMock('Bolt\Asset\Widget\Queue', ['add'], [
             $app['asset.injector'],
             $app['cache'],
-            $app['render']
+            $app['render'],
         ]);
         $handler->expects($this->once())
             ->method('add')

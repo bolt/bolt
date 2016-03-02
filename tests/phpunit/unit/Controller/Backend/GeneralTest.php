@@ -111,7 +111,7 @@ class GeneralTest extends ControllerUnitTest
         $this->setRequest(Request::create('/bolt/prefill'));
         $response = $this->controller()->prefill($this->getRequest());
         $context = $response->getContext();
-        $this->assertEquals(3, count($context['context']['contenttypes']));
+        $this->assertEquals(4, count($context['context']['contenttypes']));
         $this->assertInstanceOf('Symfony\Component\Form\FormView', $context['context']['form']);
 
         // Test the post
@@ -166,8 +166,8 @@ class GeneralTest extends ControllerUnitTest
             [
                 'form' => [
                     'contents' => 'test content at least 10 chars',
-                    '_token'   => 'xyz'
-                ]
+                    '_token'   => 'xyz',
+                ],
             ]
         ));
 
@@ -185,8 +185,8 @@ class GeneralTest extends ControllerUnitTest
             [
                 'form' => [
                     'contents' => '- this is invalid yaml markup: *thisref',
-                    '_token'   => 'xyz'
-                ]
+                    '_token'   => 'xyz',
+                ],
             ]
         ));
         $this->controller()->translation($this->getRequest(), 'contenttypes', 'en_CY');

@@ -17,7 +17,7 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
         foreach ($actual_ as $a) {
             $actual[] = [
                 'type'    => $a['type'],
-                'capture' => $a['capture']
+                'capture' => $a['capture'],
             ];
         }
         $this->assertEquals($expected, $actual);
@@ -30,167 +30,167 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
             [
                 'this',
                 [
-                    ['type' => PermissionParser::T_QUERY, 'capture' => 'this']
-                ]
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'this'],
+                ],
             ],
             // Words follow a certain pattern
             [
                 'this:is:also:valid',
                 [
-                    ['type' => PermissionParser::T_QUERY, 'capture' => 'this:is:also:valid']
-                ]
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'this:is:also:valid'],
+                ],
             ],
             [
                 'so-is:this:6',
                 [
-                    ['type' => PermissionParser::T_QUERY, 'capture' => 'so-is:this:6']
-                ]
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'so-is:this:6'],
+                ],
             ],
             // Properly end words
             [
                 'this)',
                 [
                     ['type' => PermissionParser::T_QUERY, 'capture' => 'this'],
-                    ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null],
+                ],
             ],
             [
                 'this||',
                 [
                     ['type' => PermissionParser::T_QUERY, 'capture' => 'this'],
-                    ['type' => PermissionParser::T_OR, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_OR, 'capture' => null],
+                ],
             ],
             // Do not mistake this for "and"
             [
                 'andz',
                 [
-                    ['type' => PermissionParser::T_QUERY, 'capture' => 'andz']
-                ]
+                    ['type' => PermissionParser::T_QUERY, 'capture' => 'andz'],
+                ],
             ],
             // Variations of the "true" token
             [
                 'true',
                 [
-                    ['type' => PermissionParser::T_TRUE, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_TRUE, 'capture' => null],
+                ],
             ],
             [
                 'TRUE',
                 [
-                    ['type' => PermissionParser::T_TRUE, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_TRUE, 'capture' => null],
+                ],
             ],
             [
                 'True',
                 [
-                    ['type' => PermissionParser::T_TRUE, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_TRUE, 'capture' => null],
+                ],
             ],
             [
                 'trUe',
                 [
-                    ['type' => PermissionParser::T_TRUE, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_TRUE, 'capture' => null],
+                ],
             ],
             // Variations of the "false" token
             [
                 'false',
                 [
-                    ['type' => PermissionParser::T_FALSE, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_FALSE, 'capture' => null],
+                ],
             ],
             [
                 'FALSE',
                 [
-                    ['type' => PermissionParser::T_FALSE, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_FALSE, 'capture' => null],
+                ],
             ],
             [
                 'False',
                 [
-                    ['type' => PermissionParser::T_FALSE, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_FALSE, 'capture' => null],
+                ],
             ],
             [
                 'fAlsE',
                 [
-                    ['type' => PermissionParser::T_FALSE, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_FALSE, 'capture' => null],
+                ],
             ],
             // Variations of the "and" token
             [
                 'and',
                 [
-                    ['type' => PermissionParser::T_AND, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_AND, 'capture' => null],
+                ],
             ],
             [
                 'aNd',
                 [
-                    ['type' => PermissionParser::T_AND, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_AND, 'capture' => null],
+                ],
             ],
             [
                 '&',
                 [
-                    ['type' => PermissionParser::T_AND, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_AND, 'capture' => null],
+                ],
             ],
             // also skip over spaces
             [
                 '&& ',
                 [
-                    ['type' => PermissionParser::T_AND, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_AND, 'capture' => null],
+                ],
             ],
             // but treat space-separated tokens separately
             [
                 '& &',
                 [
                     ['type' => PermissionParser::T_AND, 'capture' => null],
-                    ['type' => PermissionParser::T_AND, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_AND, 'capture' => null],
+                ],
             ],
             // variations of "or"
             [
                 'or',
                 [
-                    ['type' => PermissionParser::T_OR, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_OR, 'capture' => null],
+                ],
             ],
             [
                 '|',
                 [
-                    ['type' => PermissionParser::T_OR, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_OR, 'capture' => null],
+                ],
             ],
             [
                 ' ||',
                 [
-                    ['type' => PermissionParser::T_OR, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_OR, 'capture' => null],
+                ],
             ],
             // combined "and" & "or"
             [
                 '&||',
                 [
                     ['type' => PermissionParser::T_AND, 'capture' => null],
-                    ['type' => PermissionParser::T_OR, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_OR, 'capture' => null],
+                ],
             ],
             // parens
             [
                 '(',
                 [
-                    ['type' => PermissionParser::T_OPEN_PARENS, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_OPEN_PARENS, 'capture' => null],
+                ],
             ],
             [
                 ')',
                 [
-                    ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null]
-                ]
+                    ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null],
+                ],
             ],
             // something complex, putting it all together
             [
@@ -206,7 +206,7 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                     ['type' => PermissionParser::T_QUERY, 'capture' => 'else'],
                     ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null],
                     ['type' => PermissionParser::T_CLOSE_PARENS, 'capture' => null],
-                ]
+                ],
             ],
         ];
     }
@@ -227,21 +227,21 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
             // A single query
             [
                 'this',
-                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
+                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
             ],
             // Parentheses around a single query should not make a difference.
             [
                 '(this)',
-                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
+                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
             ],
             [
                 '(((this)))',
-                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
+                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
             ],
             // Neither should whitespace.
             [
                 '(((    this) ))',
-                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this']
+                ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
             ],
             // OR query
             [
@@ -250,8 +250,8 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                     [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
-                    ]
-                ]
+                    ],
+                ],
             ],
             // AND query
             [
@@ -260,8 +260,8 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                     [
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
-                    ]
-                ]
+                    ],
+                ],
             ],
             // sequences of "ands" should collapse into one
             [
@@ -271,8 +271,8 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
-                    ]
-                ]
+                    ],
+                ],
             ],
             // combined AND/OR query with precedence ("or" binds tighter than "and")
             [
@@ -284,10 +284,10 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                             [
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
-                            ]
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             [
                 'this or that and something',
@@ -297,11 +297,11 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                             [
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'this'],
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
-                            ]
+                            ],
                         ],
                         ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
-                    ]
-                ]
+                    ],
+                ],
             ],
             // parentheses to override precedence explicitly
             [
@@ -313,10 +313,10 @@ class PermissionParserTest extends \PHPUnit_Framework_TestCase
                             [
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'that'],
                                 ['type' => PermissionParser::P_SIMPLE, 'value' => 'something'],
-                            ]
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }

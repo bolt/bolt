@@ -6,7 +6,6 @@ use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Controller\Zone;
-use Bolt\Extensions;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -258,7 +257,6 @@ HTML;
 
         $response = new Response($this->template);
 
-
         $app['asset.queue.file']->process($this->getRequest(), $response);
         $this->assertEquals($this->html($this->expectedJs), $this->html($response->getContent()));
     }
@@ -450,7 +448,7 @@ HTML;
             Target::BEFORE_JS,
             Target::AFTER_CSS,
             Target::AFTER_JS,
-            'madeuplocation'
+            'madeuplocation',
         ];
         foreach ($locations as $location) {
             $app = $this->getApp();
@@ -472,6 +470,7 @@ HTML;
     {
         $request = Request::createFromGlobals();
         $request->attributes->set(Zone::KEY, Zone::FRONTEND);
+
         return $request;
     }
 

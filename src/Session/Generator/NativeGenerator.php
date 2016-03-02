@@ -3,20 +3,32 @@
 namespace Bolt\Session\Generator;
 
 /**
- * Generator for session IDs with native functions.
- * This is probably only useful for testing.
+ * Generator for session IDs with native random_bytes() function.
  *
- * WARNING: This is NOT cryptographically secure.
+ * This requires PHP 7.0 or the "paragonie/random_compat" library.
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
 class NativeGenerator implements GeneratorInterface
 {
+    /** @var int */
+    private $length;
+
+    /**
+     * Constructor.
+     *
+     * @param int $length The length of the random string that should be returned in bytes.
+     */
+    public function __construct($length = 32)
+    {
+        $this->length = $length;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function generateId()
     {
-        return hash('sha256', uniqid(mt_rand()));
+        return random_bytes($this->length);
     }
 }

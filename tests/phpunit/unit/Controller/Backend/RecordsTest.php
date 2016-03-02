@@ -3,6 +3,10 @@ namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
  * Class to test correct operation of src/Controller/Backend/Records.
@@ -74,18 +78,17 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditCSRF()
     {
-        $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
-        $users->expects($this->any())
-            ->method('checkAntiCSRFToken')
+        $csrf = $this->getMock(CsrfTokenManager::class, ['isTokenValid'], [null, new SessionTokenStorage(new Session(new MockArraySessionStorage()))]);
+        $csrf->expects($this->any())
+            ->method('isTokenValid')
             ->will($this->returnValue(false));
+        $this->setService('csrf', $csrf);
 
         $permissions = $this->getMock('Bolt\AccessControl\Permissions', ['isAllowed'], [$this->getApp()]);
         $permissions->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(true));
         $this->setService('permissions', $permissions);
-
-        $this->setService('users', $users);
 
         $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST'));
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\HttpException', 'Something went wrong');
@@ -114,6 +117,12 @@ class RecordsTest extends ControllerUnitTest
 
     public function testEditPost()
     {
+        $csrf = $this->getMock(CsrfTokenManager::class, ['isTokenValid'], [null, new SessionTokenStorage(new Session(new MockArraySessionStorage()))]);
+        $csrf->expects($this->any())
+            ->method('isTokenValid')
+            ->will($this->returnValue(true));
+        $this->setService('csrf', $csrf);
+
         $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
         $users->expects($this->any())
             ->method('checkAntiCSRFToken')
@@ -127,14 +136,18 @@ class RecordsTest extends ControllerUnitTest
         $this->setService('permissions', $permissions);
 
         $this->setRequest(Request::create('/bolt/editcontent/showcases/3', 'POST', ['floatfield' => 1.2]));
-        //$original = $this->getService('storage')->getContent('showcases/3');
         $response = $this->controller()->edit($this->getRequest(), 'showcases', 3);
         $this->assertEquals('/bolt/overview/showcases', $response->getTargetUrl());
     }
 
     public function testEditPostAjax()
     {
-        $app = $this->getApp();
+        $csrf = $this->getMock(CsrfTokenManager::class, ['isTokenValid'], [null, new SessionTokenStorage(new Session(new MockArraySessionStorage()))]);
+        $csrf->expects($this->any())
+            ->method('isTokenValid')
+            ->will($this->returnValue(true));
+        $this->setService('csrf', $csrf);
+
         $users = $this->getMock('Bolt\Users', ['checkAntiCSRFToken'], [$this->getApp()]);
         $users->expects($this->any())
             ->method('checkAntiCSRFToken')
@@ -193,7 +206,7 @@ class RecordsTest extends ControllerUnitTest
             'GET',
             [
                 'filter'            => 'Lorem',
-                'taxonomy-chapters' => 'main'
+                'taxonomy-chapters' => 'main',
             ]
         ));
         $response = $this->controller()->overview($this->getRequest(), 'pages');

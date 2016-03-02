@@ -10,7 +10,7 @@ use Redis;
  *
  * @author Carson Full <carsonfull@gmail.com>
  */
-class RedisHandler implements \SessionHandlerInterface
+class RedisHandler implements \SessionHandlerInterface, LazyWriteHandlerInterface
 {
     /** @var Redis|Predis */
     protected $redis;
@@ -35,7 +35,7 @@ class RedisHandler implements \SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function open($savePath, $sessionId)
+    public function open($savePath, $sessionName)
     {
         return true;
     }
@@ -78,6 +78,14 @@ class RedisHandler implements \SessionHandlerInterface
         $this->redis->setex($sessionId, $this->ttl, $data);
 
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateTimestamp($sessionId, $data)
+    {
+        $this->redis->expire($sessionId, $this->ttl);
     }
 
     /**

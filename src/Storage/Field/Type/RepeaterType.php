@@ -101,6 +101,22 @@ class RepeaterType extends FieldTypeBase
     }
 
     /**
+     * The set method gets called directly by a new entity builder. For this field we never want to allow
+     * null values, rather we want an empty collection so this overrides the default and handles that.
+     *
+     * @param object $entity
+     * @param mixed $val
+     */
+    public function set($entity, $val)
+    {
+        if ($val === null) {
+            $val = new RepeatingFieldCollection($this->em, $this->mapping);
+        }
+
+        return parent::set($entity, $val);
+    }
+
+    /**
      * Normalize step ensures that we have correctly hydrated objects at the collection
      * and entity level.
      *

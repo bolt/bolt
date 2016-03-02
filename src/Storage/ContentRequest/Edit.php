@@ -3,10 +3,12 @@
 namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
+use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Manager;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Repository;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Users;
 use Cocur\Slugify\Slugify;
@@ -143,7 +145,7 @@ class Edit
             'can'                => $contextCan,
             'has'                => $contextHas,
             'values'             => $contextValues,
-            'relations_list'     => $this->getRelationsList($contentType)
+            'relations_list'     => $this->getRelationsList($contentType),
         ];
 
         return $context;
@@ -165,18 +167,43 @@ class Edit
         }
 
         foreach ($contentType['relations'] as $relationName => $relationValues) {
+            /** @var Repository\ContentRepository $repo */
             $repo = $this->em->getRepository($relationName);
             $relationConfig = $this->config->get('contenttypes/' . $relationName, []);
+            $neededFields = $this->neededFields($relationValues, $relationConfig);
 
-            $list[$relationName] = $repo->getSelectList($relationConfig, $relationValues['order']);
+            $list[$relationName] = $repo->getSelectList($relationConfig, $relationValues['order'], $neededFields);
         }
 
         return $list;
     }
 
     /**
-     * Test write access for uploadable fields.
-     * Autocreates the desired directory if it does not exist.
+     * Get an array of fields mentioned in the 'format:' for a relationship in contenttypes.
+     *
+     * @param array $relationValues
+     * @param array $relationConfig
+     *
+     * @return array
+     */
+    private function neededFields($relationValues, $relationConfig)
+    {
+        $fields = [];
+
+        // Regex the 'format' for things that look like 'item.foo', and intersect with the actual fields in the contenttype.
+        if (!empty($relationValues['format'])) {
+            preg_match_all('/\bitem\.([a-z0-9_]+)\b/i', $relationValues['format'], $matches);
+            $fields = array_intersect($matches[1], array_keys($relationConfig['fields']));
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Determine write access for upload fields, and auto-create the desired directory if it does not exist.
+     *
+     * Note that in cases where an array is passed then true will be set if at least some of the directories can
+     * be written to.
      *
      * @param array $fields
      *
@@ -184,17 +211,43 @@ class Edit
      */
     private function setCanUpload($fields)
     {
-        $filesystem = $this->filesystem->getFilesystem('files');
-
+        $can = false;
         foreach ($fields as &$values) {
             if (isset($values['upload'])) {
-                $values['canUpload'] = ($filesystem->has($values['upload']) || $filesystem->createDir($values['upload'])) && $filesystem->getVisibility($values['upload']);
+                foreach ((array)$values['upload'] as $path) {
+                    $can = $can || $this->checkUploadDirectory($path);
+                }
+                $values['canUpload'] = $can;
             } else {
                 $values['canUpload'] = true;
             }
         }
 
         return $fields;
+    }
+
+    /**
+     * Check a given upload path to see if it is 'public' or 'private' access, create if required.
+     *
+     * @param $path
+     *
+     * @return boolean
+     */
+    private function checkUploadDirectory($path)
+    {
+        if (strpos('://', $path) === false) {
+            $path = sprintf('files://%s', $path);
+        }
+        if ($this->filesystem->has($path)) {
+            return $this->filesystem->getVisibility($path) === 'public';
+        }
+        try {
+            $this->filesystem->createDir($path);
+
+            return $this->filesystem->getVisibility($path) === 'public';
+        } catch (IOException $e) {
+            return false;
+        }
     }
 
     /**

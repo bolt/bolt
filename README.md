@@ -26,14 +26,20 @@ Build status, code quality and other badges
 For continuously inspecting our code, we use Scrutinizer CI. You can find all
 runs on our code base [here](https://scrutinizer-ci.com/g/bolt/bolt/inspections).
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bolt/bolt/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/bolt/bolt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Piwik](https://stats.bolt.cm/piwik.php?idsite=1)](https://stats.bolt.cm)
-
 Installation
 ------------
 
 Detailed instructions can be found in the [Installation section in the documentation](http://docs.bolt.cm/installation).
+
+Support
+-------
+
+Have a question? Want to chat? Run into a problem?  
+
+ - There’s always some people willing to chat in our <strong>IRC channel</strong> on Freenode at <strong>#boltcms</strong>. No IRC client? Use <a href="/irc">our web-based client</a>.
+ - We also have a <strong>Slack channel</strong> at <a href="https://boltcms.slack.com">boltcms.slack.com</a>. To get in, get yourself an invite at <a href="https://slack.bolt.cm">slack.bolt.cm</a>.
+ - There's a <strong>Forum</strong> at <a href="https://discuss.bolt.cm">discuss.bolt.cm</a>, where we'll gladly help you sort out problems, or discuss other Bolt-related things.
+ - We’re pretty active on <strong>Twitter</strong>. Follow us, or say hello at <a href="https://twitter.com/boltcm">@BoltCM</a>.
 
 
 3rd Party Install Options

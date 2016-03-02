@@ -3,7 +3,7 @@ namespace Bolt\Storage;
 
 use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection\CollectionManager;
-use Bolt\Storage\Entity\Builder;
+use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
@@ -34,7 +34,7 @@ class EntityManager
     protected $mapping;
     /** @var LoggerInterface */
     protected $logger;
-    /** @var Builder */
+    /** @var Entity\Builder */
     protected $builder;
     /** @var FieldManager */
     protected $fieldManager;
@@ -85,10 +85,11 @@ class EntityManager
     /**
      * Creates an entity of the given class, with the data supplied.
      *
-     * @param string $className The type of entity to create
-     * @param array  $data      The data to use to hydrate the new entity
+     * @param string                 $className The type of entity to create
+     * @param array                  $data      The data to use to hydrate the new entity
+     * @param ClassMetadataInterface $metadata
      *
-     * @return Entity
+     * @return Entity\Entity
      */
     public function create($className, $data, ClassMetadataInterface $metadata = null)
     {
@@ -107,7 +108,7 @@ class EntityManager
      */
     public function getEntityBuilder($className = null, ClassMetadata $classMetadata = null)
     {
-        $builder = new Builder($this->getMapper(), $this->getFieldManager());
+        $builder = new Entity\Builder($this->getMapper(), $this->getFieldManager());
 
         if ($className !== null) {
             $builder->setClass($className);
@@ -123,11 +124,11 @@ class EntityManager
     /**
      * Set an entity builder instance.
      *
-     * @param Builder $builder
+     * @param Entity\Builder $builder
      *
      * @return Entity\Builder
      */
-    public function setEntityBuilder(Builder $builder)
+    public function setEntityBuilder(Entity\Builder $builder)
     {
         $this->builder = $builder;
     }
