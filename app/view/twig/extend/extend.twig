@@ -197,7 +197,7 @@
     {{ data('extend.text.updated',        __('page.extend.message.updated')) }}
 
     {{ data('extend.siteurl',             context.site) }}
-    {{ data('extend.baseurl',             paths.bolt ~ 'extend/') }}
+    {{ data('extend.baseurl',             '/' ~ app['controller.backend.extend.mount_prefix']|trim('/') ~ '/') }}
     {{ data('extend.rootpath',            paths.rootpath) }}
 
 {% endblock page_main %}
