@@ -7,6 +7,7 @@ use Bolt\Twig\Handler;
 use Bolt\Twig\TwigExtension;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Bridge\Twig\Extension\AssetExtension;
 
 class TwigServiceProvider implements ServiceProviderInterface
 {
@@ -73,6 +74,8 @@ class TwigServiceProvider implements ServiceProviderInterface
                 'twig',
                 function (\Twig_Environment $twig, $app) {
                     $twig->addExtension(new TwigExtension($app, $app['twig.handlers'], false));
+                    $twig->addExtension($app['twig.extension.asset']);
+
                     if ($app['debug'] && isset($app['dump'])) {
                         $twig->addExtension(new DumpExtension($app['dumper.cloner'], $app['dumper.html']));
                     }
@@ -80,6 +83,12 @@ class TwigServiceProvider implements ServiceProviderInterface
                     return $twig;
                 }
             )
+        );
+
+        $app['twig.extension.asset'] = $app->share(
+            function ($app) {
+                return new AssetExtension($app['asset.packages']);
+            }
         );
 
         $app['twig.loader.filesystem'] = $app->share(
