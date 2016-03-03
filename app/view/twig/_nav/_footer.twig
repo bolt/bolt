@@ -13,7 +13,7 @@
 {% else %}
 
     <footer id="bolt-footer" class="hidden-xs bolt-footer-mini {% if app.request.cookies.get('sidebar') %}bolt-footer-hidden{% endif %}">
-        <i class="fa fa-cog"></i> <a href="http://bolt.cm" target="_blank">Bolt {{ bolt_version }}</a> &ndash;
+        <i class="fa fa-cog"></i> <a href="http://bolt.cm" target="_blank">Bolt {{ bolt_version|replace({'alpha': 'α', ' beta ': 'β'}) }}</a> &ndash;
         <i class="fa fa-heart"></i > <a href="{{ path('about') }}">{{ __('general.about') }}</a>
     </footer>
 
