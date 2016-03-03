@@ -204,10 +204,10 @@ class Frontend extends ConfigurableBase
 
         $liveEditor = $request->get('_live-editor-preview');
         if (!empty($liveEditor)) {
-            $jsFile = (new JavaScript($this->app['resources']->getUrl('app') . 'view/js/ckeditor/ckeditor.js'))
+            $jsFile = (new JavaScript('js/ckeditor/ckeditor.js', 'bolt'))
                 ->setPriority(1)
                 ->setLate(false);
-            $cssFile = (new Stylesheet($this->app['resources']->getUrl('app') . 'view/css/liveeditor.css'))
+            $cssFile = (new Stylesheet('css/liveeditor.css', 'bolt'))
                 ->setPriority(5)
                 ->setLate(false);
             $snippet = (new Snippet())

@@ -13,7 +13,11 @@ abstract class FileAssetBase implements FileAssetInterface
     /** @var string */
     protected $type;
     /** @var string */
-    protected $fileName;
+    protected $path;
+    /** @var string */
+    protected $packageName;
+    /** @var string */
+    protected $url;
     /** @var boolean */
     protected $late;
     /** @var integer */
@@ -21,18 +25,18 @@ abstract class FileAssetBase implements FileAssetInterface
     /** @var array */
     protected $attributes;
     /** @var string */
-    protected $cacheHash;
-    /** @var string */
     protected $zone = Zone::FRONTEND;
 
     /**
      * Constructor.
      *
-     * @param string $fileName
+     * @param string $path
+     * @param string $packageName
      */
-    public function __construct($fileName = null)
+    public function __construct($path = null, $packageName = null)
     {
-        $this->fileName = $fileName;
+        $this->path = $path;
+        $this->packageName = $packageName;
     }
 
     /**
@@ -48,7 +52,7 @@ abstract class FileAssetBase implements FileAssetInterface
      */
     public function getFileName()
     {
-        return $this->fileName;
+        return $this->path;
     }
 
     /**
@@ -56,7 +60,67 @@ abstract class FileAssetBase implements FileAssetInterface
      */
     public function setFileName($fileName)
     {
-        $this->fileName = $fileName;
+        $this->path = $fileName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return FileAssetBase
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPackageName()
+    {
+        return $this->packageName;
+    }
+
+    /**
+     * @param string $packageName
+     *
+     * @return FileAssetBase
+     */
+    public function setPackageName($packageName)
+    {
+        $this->packageName = $packageName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return FileAssetBase
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
 
         return $this;
     }
@@ -125,24 +189,6 @@ abstract class FileAssetBase implements FileAssetInterface
     public function addAttribute($attribute)
     {
         $this->attributes[] = $attribute;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCacheHash()
-    {
-        return $this->cacheHash;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setCacheHash($cacheHash)
-    {
-        $this->cacheHash = $cacheHash;
 
         return $this;
     }

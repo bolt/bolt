@@ -19,20 +19,52 @@ interface FileAssetInterface extends AssetInterface
     public function getType();
 
     /**
-     * Get the asset's file name.
+     * Get the package name.
      *
      * @return string
      */
-    public function getFileName();
+    public function getPackageName();
 
     /**
-     * Set the file name for the asset.
+     * Set the package name.
      *
-     * @param string $fileName
+     * @param string $package
      *
      * @return FileAssetInterface
      */
-    public function setFileName($fileName);
+    public function setPackageName($package);
+
+    /**
+     * Get the asset's path.
+     *
+     * @return string
+     */
+    public function getPath();
+
+    /**
+     * Set the asset's path.
+     *
+     * @param string $path
+     *
+     * @return FileAssetInterface
+     */
+    public function setPath($path);
+
+    /**
+     * Get the asset's url.
+     *
+     * @return string
+     */
+    public function getUrl();
+
+    /**
+     * Set the asset's url.
+     *
+     * @param string $url
+     *
+     * @return FileAssetInterface
+     */
+    public function setUrl($url);
 
     /**
      * Check if the asset is set to load late.
@@ -76,20 +108,4 @@ interface FileAssetInterface extends AssetInterface
      * @return FileAssetInterface
      */
     public function addAttribute($attribute);
-
-    /**
-     * Get the cache hash string.
-     *
-     * @return string
-     */
-    public function getCacheHash();
-
-    /**
-     * Set the cache hash string.
-     *
-     * @param string $cacheHash
-     *
-     * @return AssetInterface
-     */
-    public function setCacheHash($cacheHash);
 }

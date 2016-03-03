@@ -2,8 +2,12 @@
 namespace Bolt\Provider;
 
 use Bolt\Asset;
+use Bolt\Filesystem\Exception\FileNotFoundException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
+use Symfony\Component\Asset\Context\RequestStackContext;
+use Symfony\Component\Asset\Packages;
+use Symfony\Component\Asset\PathPackage;
 
 /**
  * HTML asset service providers.
@@ -14,37 +18,57 @@ class AssetServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['asset.salt.factory'] = $app->protect(
-            function () use ($app) {
-                return $app['randomgenerator']->generateString(10);
+        $app['asset.packages'] = $app->share(
+            function ($app) {
+                $packages = new Packages();
+
+                $packages->addPackage('bolt', $app['asset.package_factory']('view'));
+                $packages->addPackage('extensions', $app['asset.package_factory']('extensions'));
+                $packages->addPackage('files', $app['asset.package_factory']('files'));
+                $packages->addPackage('theme', $app['asset.package_factory']('theme'));
+
+                return $packages;
             }
         );
+
+        $app['asset.package_factory'] = $app->protect(
+            function ($name) use ($app) {
+                return new PathPackage(
+                    $app['resources']->getUrl($name),
+                    $app['asset.version_strategy']($name),
+                    $app['asset.context']
+                );
+            }
+        );
+
+        $app['asset.version_strategy'] = $app->protect(
+            function ($name) use ($app) {
+                return new Asset\BoltVersionStrategy($app['filesystem']->getFilesystem($name), $app['asset.salt']);
+            }
+        );
+
+        $app['asset.context'] = $app->share(
+            function () use ($app) {
+                return new RequestStackContext($app['request_stack']);
+            }
+        );
+
+        $app['asset.salt.factory'] = function () use ($app) {
+            return $app['randomgenerator']->generateString(10);
+        };
 
         $app['asset.salt'] = $app->share(
             function ($app) {
-                $path = $app['resources']->getPath('cache/.assetsalt');
-                if (is_readable($path)) {
-                    $salt = file_get_contents($path);
-                } else {
-                    $salt = $app['asset.salt.factory']();
-                    file_put_contents($path, $salt);
+                $file = $app['filesystem']->getFile('cache://.assetsalt');
+
+                try {
+                    $salt = $file->read();
+                } catch (FileNotFoundException $e) {
+                    $salt = $app['asset.salt.factory'];
+                    $file->put($salt);
                 }
 
                 return $salt;
-            }
-        );
-
-        $app['asset.file.hash.factory'] = $app->protect(
-            function ($fileName) use ($app) {
-                $fullPath = $app['resources']->getPath('root') . '/' . $fileName;
-
-                if (is_readable($fullPath)) {
-                    return substr(md5($app['asset.salt'] . $fullPath . (string) filemtime($fullPath)), 0, 10);
-                } elseif (is_readable($fileName)) {
-                    return substr(md5($app['asset.salt'] . $fileName . (string) filemtime($fileName)), 0, 10);
-                } else {
-                    return substr(md5($app['asset.salt'] . $fileName . mt_rand()), 0, 10);
-                }
             }
         );
 
@@ -60,8 +84,7 @@ class AssetServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $queue = new Asset\File\Queue(
                     $app['asset.injector'],
-                    $app['cache'],
-                    $app['asset.file.hash.factory']
+                    $app['asset.packages']
                 );
 
                 return $queue;
