@@ -36,8 +36,8 @@ class TranslationServiceProviderTest extends BoltUnitTest
     public function testDefaultTranslationLoading()
     {
         $app = $this->makeApp();
-        $app->initialize();
         $this->registerTranslationServiceWithCachingDisabled($app);
+        $app->initialize();
         $app->boot();
         $this->assertEquals('About', $app['translator']->trans('general.about'));
     }
@@ -46,9 +46,9 @@ class TranslationServiceProviderTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $this->initializeFakeTranslationFiles('xx', 'general.about: "So very about"', $app['resources']);
+        $this->registerTranslationServiceWithCachingDisabled($app);
         $app->initialize();
         $app['locale'] = 'xx_XX';
-        $this->registerTranslationServiceWithCachingDisabled($app);
         $app->boot();
         $this->assertEquals('So very about', $app['translator']->trans('general.about'));
     }
@@ -57,8 +57,8 @@ class TranslationServiceProviderTest extends BoltUnitTest
     {
         $app = $this->makeApp();
         $this->initializeFakeTranslationFiles('en_GB', 'general.about: "Not so about"', $app['resources']);
-        $app->initialize();
         $this->registerTranslationServiceWithCachingDisabled($app);
+        $app->initialize();
         $app->boot();
         $this->assertEquals('Not so about', $app['translator']->trans('general.about'));
     }
