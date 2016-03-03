@@ -1,11 +1,10 @@
 {### Scripts ###}
 
-<script src="{{ cachehash(paths.app ~ 'view/js/uikit/uikit.min.js') }}"></script>
-<script src="{{ cachehash(paths.app ~ 'view/js/uikit/marked.js') }}"></script>
-<script src="{{ cachehash(paths.app ~ 'view/js/uikit/codemirror-compressed.js') }}"></script>
-<script src="{{ cachehash(paths.app ~ 'view/js/uikit/htmleditor.js') }}"></script>
+{% for file in ['uikit.min', 'marked', 'codemirror-compressed', 'htmleditor'] %}
+    <script src="{{ bolt('js/uikit/' ~ file ~'.js', 'bolt') }}"></script>
+{% endfor %}
 
 {### Stylesheet ###}
 
-<link rel="stylesheet" property="stylesheet" href="{{ cachehash(paths.app ~ 'view/js/ckeditor/plugins/codemirror/css/codemirror.min.css') }}">
-<link rel="stylesheet" property="stylesheet" href="{{ cachehash(paths.app ~ 'view/js/uikit/htmleditor.min.css') }}">
+<link rel="stylesheet" property="stylesheet" href="{{ asset('js/ckeditor/plugins/codemirror/css/codemirror.min.css', 'bolt') }}">
+<link rel="stylesheet" property="stylesheet" href="{{ asset('js/uikit/htmleditor.min.css', 'bolt') }}">
