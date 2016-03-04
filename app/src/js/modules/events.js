@@ -46,6 +46,41 @@
      */
     var broker = $({});
 
+    /*
+     * Regular expression to check valid event types and to split them.
+     *
+     * @private
+     * @type {Object}
+     */
+     var eventTypeRegex = /^(\w+)(?:>(\w+))?(?:>(\w+))?(?:>(\w+))?$/;
+
+    /**
+     * Bult an event object from an event type string.
+     *
+     * @private
+     * @static
+     * @function getEvent
+     * @memberof Bolt.files
+     *
+     * @param {string} eventType   - Event type
+     * @returns {Object|null} event - Parsed event type.
+     */
+    function getEvent(eventType) {
+        var res = eventTypeRegex.exec(eventType),
+            event = null;
+
+        if (res) {
+            event = {
+                namespace: res[1],
+                domain: res[2],
+                event: res[3],
+                status: res[4]
+            };
+        }
+
+        return event;
+    }
+
     /**
      * Fires an event.
      *
@@ -57,7 +92,11 @@
      * @param {Object} [parameter] - Additional parameters to pass along to the event handler
      */
     events.fire = function (eventType, parameter) {
-        broker.triggerHandler(eventType, parameter);
+        var event = getEvent(eventType);
+
+        if (event) {
+            broker.triggerHandler(eventType, parameter);
+        }
     };
 
     /**
@@ -71,7 +110,11 @@
      * @param {function} handler   - Event handler
      */
     events.on = function (eventType, handler) {
-        broker.on(eventType, handler);
+        var event = getEvent(eventType);
+
+        if (event) {
+            broker.on(eventType, handler);
+        }
     };
 
     /**
@@ -85,7 +128,11 @@
      * @param {function} handler   - Event handler
      */
     events.one = function (eventType, handler) {
-        broker.one(eventType, handler);
+        var event = getEvent(eventType);
+
+        if (event) {
+            broker.one(eventType, handler);
+        }
     };
 
     /**
