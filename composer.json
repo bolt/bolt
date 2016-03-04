@@ -16,7 +16,7 @@
         "bolt/thumbs" : "~3.0@dev",
         "brandonwamboldt/utilphp" : "~1.0",
         "cocur/slugify" : "~1.0",
-        "composer/composer" : "dev-master@dev",
+        "composer/composer" : "^1.0@beta",
         "doctrine/cache" : "^1.5",
         "doctrine/dbal" : "^2.5",
         "erusev/parsedown-extra" : "~0.2",
