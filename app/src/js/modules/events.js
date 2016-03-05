@@ -26,8 +26,9 @@
  *   - "bolt>googlemapsapi>load>fail"    : Loading failed
  *
  * @param {Object} bolt - The Bolt module.
+ * @param {Object} $ - jQuery
  */
-(function (bolt) {
+(function (bolt, $) {
     'use strict';
 
     /*
@@ -44,7 +45,7 @@
      * @private
      * @type {Object}
      */
-    var broker = $({});
+    var broker = {};
 
     /*
      * Regular expression to check valid event types and to split them.
@@ -91,11 +92,13 @@
      * @param {string} eventType   - Event type
      * @param {Object} [parameter] - Additional parameters to pass along to the event handler
      */
-    events.fire = function (eventType, parameter) {
+    events.fire = function (eventType/*, parameter*/) {
         var event = getEvent(eventType);
 
         if (event) {
-            broker.triggerHandler(eventType, parameter);
+            if (broker[eventType]) {
+                broker[eventType].fire();
+            }
         }
     };
 
@@ -113,7 +116,10 @@
         var event = getEvent(eventType);
 
         if (event) {
-            broker.on(eventType, handler);
+            if (!broker[eventType]) {
+                broker[eventType] = $.Callbacks();
+            }
+            broker[eventType].add(handler);
         }
     };
 
@@ -128,12 +134,16 @@
      * @param {function} handler   - Event handler
      */
     events.off = function (eventType, handler) {
-        if (typeof eventType === 'string' && eventType !== '' && typeof handler === 'function') {
-            broker.off(eventType, handler);
+        var event = getEvent(eventType);
+
+        if (event && typeof handler === 'function') {
+            if (broker[eventType]) {
+                broker[eventType].remove(handler);
+            }
         }
     };
 
     // Apply mixin container
     bolt.events = events;
 
-})(Bolt || {});
+})(Bolt || {}, jQuery);
