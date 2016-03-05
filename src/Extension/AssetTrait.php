@@ -25,8 +25,6 @@ trait AssetTrait
     private $assets = [];
     /** @var bool */
     private $loadedAssets = false;
-    /** @var  string */
-    private $basePath;
 
     /**
      * Returns a list of assets to register. Assets can be a file, snippet, or widget.
@@ -131,7 +129,7 @@ trait AssetTrait
     private function addAsset(AssetInterface $asset)
     {
         if ($asset instanceof FileAssetInterface) {
-            $asset->setFileName($this->getAssetPath($asset));
+            $this->normalizeAsset($asset);
         }
         $this->assets[] = $asset;
     }
@@ -149,7 +147,7 @@ trait AssetTrait
         if (!$fileAsset instanceof FileAssetInterface) {
             $fileAsset = $this->setupAsset(new Stylesheet(), $fileAsset, func_get_args());
         }
-        $fileAsset->setFileName($this->getAssetPath($fileAsset));
+        $this->normalizeAsset($fileAsset);
         $this->assets[] = $fileAsset;
     }
 
@@ -166,7 +164,7 @@ trait AssetTrait
         if (!$fileAsset instanceof FileAssetInterface) {
             $fileAsset = $this->setupAsset(new JavaScript(), $fileAsset, func_get_args());
         }
-        $fileAsset->setFileName($this->getAssetPath($fileAsset));
+        $this->normalizeAsset($fileAsset);
         $this->assets[] = $fileAsset;
     }
 
@@ -235,36 +233,37 @@ trait AssetTrait
     }
 
     /**
-     * Get the relative path to the asset file.
+     * Normalizes the path and package name of the asset file.
      *
      * @param FileAssetInterface $asset
-     *
-     * @return string|null
      */
-    private function getAssetPath(FileAssetInterface $asset)
+    private function normalizeAsset(FileAssetInterface $asset)
     {
-        $fileName = $asset->getFileName();
-        if ($fileName === null) {
-            throw new \RuntimeException('Extension file assets must have a file name set.');
+        $path = $asset->getPath();
+        if ($path === null) {
+            throw new \RuntimeException('Extension file assets must have a path set.');
+        }
+
+        $file = $this->getWebDirectory()->getFile($asset->getPath());
+        if ($file->exists()) {
+            $asset->setPackageName('extensions')->setPath($file->getPath());
+            return;
         }
 
         $app = $this->getContainer();
-        $filesystem = $app['filesystem'];
-        if ($filesystem->has(sprintf('extensions://%s/web/%s', $this->getBaseDirectory()->getPath(), $fileName))) {
-            return $this->getRelativeUrl() . $fileName;
-        } elseif ($filesystem->has(sprintf('theme://%s', $fileName))) {
-            return $app['resources']->getUrl('theme') . $fileName;
+
+        if ($app['filesystem']->has(sprintf('theme://%s', $path))) {
+            $asset->setPackageName('theme')->setPath($path);
+            return;
         }
 
         $message = sprintf(
             "Couldn't add file asset '%s': File does not exist in either %s or %s directories.",
-            $fileName,
-            $this->getRelativeUrl(),
+            $path,
+            $this->getWebDirectory()->getFullPath(),
             $app['resources']->getUrl('theme')
         );
         $app['logger.system']->error($message, ['event' => 'extensions']);
-
-        return $fileName;
     }
 
     /**
@@ -273,12 +272,12 @@ trait AssetTrait
      * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
      * @param FileAssetInterface $asset
-     * @param string             $fileName
+     * @param string             $path
      * @param array              $options
      *
      * @return FileAssetInterface
      */
-    private function setupAsset(FileAssetInterface $asset, $fileName, array $options)
+    private function setupAsset(FileAssetInterface $asset, $path, array $options)
     {
         $options = array_merge(
             [
@@ -290,10 +289,10 @@ trait AssetTrait
         );
 
         $asset
-            ->setFileName($fileName)
+            ->setPath($path)
             ->setLate($options['late'])
-            ->setPriority($options['priority'])
             ->setAttributes($options['attrib'])
+            ->setPriority($options['priority'])
         ;
 
         return $asset;
@@ -347,6 +346,6 @@ trait AssetTrait
     /** @return DirectoryInterface */
     abstract protected function getBaseDirectory();
 
-    /** @return string */
-    abstract protected function getRelativeUrl();
+    /** @return DirectoryInterface */
+    abstract protected function getWebDirectory();
 }

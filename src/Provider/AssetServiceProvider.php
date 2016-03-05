@@ -23,7 +23,7 @@ class AssetServiceProvider implements ServiceProviderInterface
                 $packages = new Packages();
 
                 $packages->addPackage('bolt', $app['asset.package_factory']('view'));
-                $packages->addPackage('extensions', $app['asset.package_factory']('extensions'));
+                $packages->addPackage('extensions', new PathPackage('', $app['asset.version_strategy']('web'), $app['asset.context']));
                 $packages->addPackage('files', $app['asset.package_factory']('files'));
                 $packages->addPackage('theme', $app['asset.package_factory']('theme'));
 
