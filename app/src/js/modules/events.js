@@ -118,24 +118,6 @@
     };
 
     /**
-     * Attach an one time event handler.
-     *
-     * @static
-     * @function one
-     * @memberof Bolt.events
-     *
-     * @param {string}   eventType - Event type
-     * @param {function} handler   - Event handler
-     */
-    events.one = function (eventType, handler) {
-        var event = getEvent(eventType);
-
-        if (event) {
-            broker.one(eventType, handler);
-        }
-    };
-
-    /**
      * Remove an event handler.
      *
      * @static
