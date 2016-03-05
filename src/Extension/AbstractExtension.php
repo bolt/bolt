@@ -15,10 +15,10 @@ abstract class AbstractExtension implements ExtensionInterface
 {
     /** @var Container */
     protected $container;
-    /** @var DirectoryInterface */
-    protected $baseDirectory;
-    /** @var string */
-    protected $relativeUrl;
+    /** @var DirectoryInterface|null */
+    private $baseDirectory;
+    /** @var DirectoryInterface|null */
+    private $webDirectory;
     /** @var string */
     private $name;
     /** @var string */
@@ -49,15 +49,19 @@ abstract class AbstractExtension implements ExtensionInterface
      */
     public function getBaseDirectory()
     {
+        if ($this->webDirectory === null) {
+            throw new \LogicException('Extension was not added with a base directory');
+        }
+
         return $this->baseDirectory;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setRelativeUrl($relativeUrl)
+    public function setWebDirectory(DirectoryInterface $directory)
     {
-        $this->relativeUrl = $relativeUrl;
+        $this->webDirectory = $directory;
 
         return $this;
     }
@@ -65,9 +69,13 @@ abstract class AbstractExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getRelativeUrl()
+    public function getWebDirectory()
     {
-        return $this->relativeUrl;
+        if ($this->webDirectory === null) {
+            throw new \LogicException('Extension was not added with a web directory');
+        }
+
+        return $this->webDirectory;
     }
 
     /**

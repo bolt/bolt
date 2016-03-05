@@ -28,7 +28,9 @@ class Manager
     protected $composerNames = [];
 
     /** @var FilesystemInterface */
-    private $filesystem;
+    private $extFs;
+    /** @var FilesystemInterface */
+    private $webFs;
     /** @var FlashLoggerInterface */
     private $flashLogger;
     /** @var Config */
@@ -43,13 +45,15 @@ class Manager
     /**
      * Constructor.
      *
-     * @param FilesystemInterface  $filesystem
+     * @param FilesystemInterface  $extensions
+     * @param FilesystemInterface  $web
      * @param FlashLoggerInterface $flashLogger
      * @param Config               $config
      */
-    public function __construct(FilesystemInterface $filesystem, FlashLoggerInterface $flashLogger, Config $config)
+    public function __construct(FilesystemInterface $extensions, FilesystemInterface $web, FlashLoggerInterface $flashLogger, Config $config)
     {
-        $this->filesystem = $filesystem;
+        $this->extFs = $extensions;
+        $this->webFs = $web;
         $this->flashLogger = $flashLogger;
         $this->config = $config;
     }
@@ -99,26 +103,28 @@ class Manager
     /**
      * Add an extension to be registered.
      *
-     * @param ExtensionInterface $extension
-     * @param DirectoryInterface $baseDir
-     * @param string             $relativeUrl
-     * @param string|null        $composerName
+     * @param ExtensionInterface      $extension
+     * @param DirectoryInterface|null $baseDir
+     * @param DirectoryInterface|null $webDir
+     * @param string|null             $composerName
      *
      * @throws \RuntimeException
      *
      * @return ResolvedExtension
      */
-    public function add(ExtensionInterface $extension, DirectoryInterface $baseDir, $relativeUrl, $composerName = null)
+    public function add(ExtensionInterface $extension, DirectoryInterface $baseDir = null, DirectoryInterface $webDir = null, $composerName = null)
     {
         if ($this->registered) {
             throw new \RuntimeException('Can not add extensions after they are registered.');
         }
 
         // Set paths in the extension
-        $extension
-            ->setBaseDirectory($baseDir)
-            ->setRelativeUrl($relativeUrl)
-        ;
+        if ($baseDir !== null) {
+            $extension->setBaseDirectory($baseDir);
+        }
+        if ($webDir !== null) {
+            $extension->setWebDirectory($webDir);
+        }
 
         // Determine if enabled
         $enabled = $this->config->get('extensions/' . $extension->getId(), true);
@@ -148,14 +154,13 @@ class Manager
             throw new \RuntimeException('Extensions already loaded.');
         }
 
-        // Include the extensions autoload file
-        if ($this->filesystem->has('vendor/autoload.php') === false) {
+        try {
+            $this->extFs->includeFile('vendor/autoload.php');
+        } catch (FileNotFoundException $e) {
             $this->loaded = true;
 
             return;
         }
-
-        $this->filesystem->includeFile('vendor/autoload.php');
 
         $descriptors = $this->loadPackageDescriptors();
         foreach ($descriptors as $descriptor) {
@@ -207,7 +212,7 @@ class Manager
         $descriptors = [];
         try {
             /** @var JsonFile $autoload */
-            $autoload = $this->filesystem->get('vendor/autoload.json');
+            $autoload = $this->extFs->get('vendor/autoload.json');
         } catch (FileNotFoundException $e) {
             return $descriptors;
         }
@@ -241,9 +246,9 @@ class Manager
         /** @var ExtensionInterface $extension */
         $extension = new $className();
         if ($extension instanceof ExtensionInterface) {
-            $baseDir = $this->filesystem->getDir($descriptor->getPath());
-            $relativeUrl = sprintf('/extensions/%s/web/', str_replace('\\', '/', $descriptor->getPath()));
-            $this->add($extension, $baseDir, $relativeUrl, $descriptor->getName())
+            $baseDir = $this->extFs->getDir($descriptor->getPath());
+            $webDir = $this->webFs->getDir($descriptor->getPath());
+            $this->add($extension, $baseDir, $webDir, $descriptor->getName())
                 ->setDescriptor($descriptor)
             ;
         } else {

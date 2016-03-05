@@ -40,25 +40,31 @@ interface ExtensionInterface
     /**
      * Returns the root directory for the extension.
      *
+     * @throws \LogicException If the extension has not been registered with a base directory.
+     *
      * @return DirectoryInterface
      */
     public function getBaseDirectory();
 
     /**
-     * Sets the extension's relative URL.
+     * Returns the web directory for the extension.
      *
-     * @param string
+     * The extension's assets should be installed in this folder.
+     *
+     * @throws \LogicException If the extension has not been registered with a web directory.
+     *
+     * @return DirectoryInterface
+     */
+    public function getWebDirectory();
+
+    /**
+     * Sets the web directory for the extension.
+     *
+     * @param DirectoryInterface $directory
      *
      * @return ExtensionInterface
      */
-    public function setRelativeUrl($relativeUrl);
-
-    /**
-     * Returns the extension's relative URL.
-     *
-     * @return string
-     */
-    public function getRelativeUrl();
+    public function setWebDirectory(DirectoryInterface $directory);
 
     /**
      * Returns a unique identifier for the extension, such as: Vendor/Name
