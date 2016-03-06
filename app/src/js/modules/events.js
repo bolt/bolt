@@ -40,12 +40,12 @@
     var events = {};
 
     /*
-     * Event broker object.
+     * Event callbacks object.
      *
      * @private
      * @type {Object}
      */
-    var broker = {};
+    var callbacks = {};
 
     /*
      * Regular expression to check valid event types and to split them.
@@ -96,8 +96,8 @@
         var event = getEvent(eventType);
 
         if (event) {
-            if (broker[eventType]) {
-                broker[eventType].fireWith(event, [parameter]);
+            if (callbacks[eventType]) {
+                callbacks[eventType].fireWith(event, [parameter]);
             }
         }
     };
@@ -116,10 +116,10 @@
         var event = getEvent(eventType);
 
         if (event) {
-            if (!broker[eventType]) {
-                broker[eventType] = $.Callbacks();
+            if (!callbacks[eventType]) {
+                callbacks[eventType] = $.Callbacks();
             }
-            broker[eventType].add(handler);
+            callbacks[eventType].add(handler);
         }
     };
 
@@ -137,8 +137,8 @@
         var event = getEvent(eventType);
 
         if (event && typeof handler === 'function') {
-            if (broker[eventType]) {
-                broker[eventType].remove(handler);
+            if (callbacks[eventType]) {
+                callbacks[eventType].remove(handler);
             }
         }
     };
