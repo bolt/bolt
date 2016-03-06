@@ -48,11 +48,11 @@
      * @function gMapsApiReady
      * @memberof Bolt.app
      *
-     * @fires bolt>googlemapsapi>load>done
+     * @fires bolt.googlemapsapi.load.done
      */
     app.gMapsApiReady = function () {
         gMapsApiLoaded = true;
-        bolt.events.fire('bolt>googlemapsapi>load>done');
+        bolt.events.fire('bolt.googlemapsapi.load.done');
     };
 
     /**
@@ -177,23 +177,23 @@
      * @function initHandler
      * @memberof Bolt.app
      *
-     * @fires bolt>googlemapsapi>load>done
-     * @fires bolt>googlemapsapi>load>fail
-     * @listens bolt>googlemapsapi>load>start
+     * @fires bolt.googlemapsapi.load.done
+     * @fires bolt.googlemapsapi.load.fail
+     * @listens bolt.googlemapsapi.load.start
      */
     function initHandler() {
-        bolt.events.on('bolt>googlemapsapi>load>start', function () {
+        bolt.events.on('bolt.googlemapsapi.load.start', function () {
             if (gMapsApiLoaded === undefined) {
                 // Request loading Google Maps API.
                 gMapsApiLoaded = false;
                 $.getScript('https://maps.google.com/maps/api/js?sensor=false&callback=Bolt.app.gMapsApiReady')
                     .fail(function () {
                         gMapsApiLoaded = undefined;
-                        bolt.events.fire('bolt>googlemapsapi>load>fail');
+                        bolt.events.fire('bolt.googlemapsapi.load.fail');
                     });
             } else if (gMapsApiLoaded === true) {
                 // Already loaded, signal it.
-                bolt.events.fire('bolt>googlemapsapi>load>done');
+                bolt.events.fire('bolt.googlemapsapi.load.done');
             }
         });
     }

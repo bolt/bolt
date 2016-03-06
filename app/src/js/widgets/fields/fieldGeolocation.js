@@ -90,9 +90,9 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              *
-             * @fires bolt>googlemapsapi>load>start
-             * @listens bolt>googlemapsapi>load>done
-             * @listens bolt>googlemapsapi>load>fail
+             * @fires bolt.googlemapsapi.load.start
+             * @listens bolt.googlemapsapi.load.done
+             * @listens bolt.googlemapsapi.load.fail
              */
             this._timeout = 0;
 
@@ -102,18 +102,18 @@
                 'click.compress': self._onExpand
             });
 
-            bolt.events.one('bolt>googlemapsapi>load>done', function () {
+            bolt.events.one('bolt.googlemapsapi.load.done', function () {
                 self._initGoogleMap(self.options.latitude, self.options.longitude);
             });
-            bolt.events.on('bolt>googlemapsapi>load>fail', function () {
+            bolt.events.on('bolt.googlemapsapi.load.fail', function () {
                 self._ui.spinner.removeClass('fa-spinner fa-spin').addClass('fa-refresh').one('click', function () {
                     self._ui.spinner.removeClass('fa-refresh').addClass('fa-spinner fa-spin');
-                    bolt.events.fire('bolt>googlemapsapi>load>start');
+                    bolt.events.fire('bolt.googlemapsapi.load.start');
                 });
             });
 
             // Request loading of Google Maps API.
-            bolt.events.fire('bolt>googlemapsapi>load>start');
+            bolt.events.fire('bolt.googlemapsapi.load.start');
         },
 
         /**

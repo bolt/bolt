@@ -9,21 +9,21 @@
  * Available events:
  *
  * + On saving content:
- *   - "bolt>content>save>start"         : Before saving content
- *   - "bolt>content>save>done"          : Content was saved successfully
- *   - "bolt>content>save>fail"          : Saving content failed
- *   - "bolt>content>save>always"        : After saving content (failed or succeeded)
+ *   - "bolt.content.save.start"         : Before saving content
+ *   - "bolt.content.save.done"          : Content was saved successfully
+ *   - "bolt.content.save.fail"          : Saving content failed
+ *   - "bolt.content.save.always"        : After saving content (failed or succeeded)
  *
  * + On saving an edited file:
- *   - "bolt>file>save>start"            : Before saving file
- *   - "bolt>file>save>done"             : File was saved successfully
- *   - "bolt>file>save>fail"             : Saving file failed
- *   - "bolt>file>save>always"           : After saving file (failed or succeeded)
+ *   - "bolt.file.save.start"            : Before saving file
+ *   - "bolt.file.save.done"             : File was saved successfully
+ *   - "bolt.file.save.fail"             : Saving file failed
+ *   - "bolt.file.save.always"           : After saving file (failed or succeeded)
  *
  * + Loading GoogleMaps API:
- *   - "bolt>googlemapsapi>load>start"   : Request loading API loading
- *   - "bolt>googlemapsapi>load>done"    : API loaded successfully
- *   - "bolt>googlemapsapi>load>fail"    : Loading failed
+ *   - "bolt.googlemapsapi.load.start"   : Request loading API loading
+ *   - "bolt.googlemapsapi.load.done"    : API loaded successfully
+ *   - "bolt.googlemapsapi.load.fail"    : Loading failed
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery
@@ -53,7 +53,7 @@
      * @private
      * @type {Object}
      */
-     var eventTypeRegex = /^(\w+)(?:>(\w+))?(?:>(\w+))?(?:>(\w+))?$/;
+     var eventTypeRegex = /^(\w+)(?:\.(\w+))?(?:\.(\w+))?(?:\.(\w+))?$/;
 
     /**
      * Fires an event.
@@ -83,7 +83,7 @@
                     );
                 }
                 // Remove last level.
-                eventType = eventType.replace(/>?\w+$/, '');
+                eventType = eventType.replace(/\.?\w+$/, '');
             }
         }
     };
