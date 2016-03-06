@@ -68,10 +68,10 @@ class Cache extends FilesystemCache
 
         if ($this->filesystem instanceof AggregateFilesystemInterface) {
             // Clear our own cache folder.
-            $this->flushFilesystemCache($this->filesystem->getFilesystem('cache'), $result);
+            $this->flushFilesystemCache($this->filesystem->getFilesystem('cache'), '/', $result);
 
             // Clear the thumbs folder.
-            $this->flushFilesystemCache($this->filesystem->getFilesystem('thumbs'), $result);
+            $this->flushFilesystemCache($this->filesystem->getFilesystem('web'), '/thumbs', $result);
         }
 
         return $result;
@@ -81,11 +81,17 @@ class Cache extends FilesystemCache
      * Helper function for doFlush().
      *
      * @param FilesystemInterface $filesystem
+     * @param string              $path
      * @param array               $result
      */
-    private function flushFilesystemCache(FilesystemInterface $filesystem, &$result)
+    private function flushFilesystemCache(FilesystemInterface $filesystem, $path, &$result)
     {
+        if (!$filesystem->has($path)) {
+            return;
+        }
+
         $files = $filesystem->find()
+            ->in($path)
             ->files()
             ->notName('index.html')
             ->ignoreDotFiles()
