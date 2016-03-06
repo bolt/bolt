@@ -101,7 +101,7 @@
     events.on = function (eventType, handler) {
         if (eventTypeRegex.exec(eventType)) {
             if (!callbacks[eventType]) {
-                callbacks[eventType] = $.Callbacks();
+                callbacks[eventType] = $.Callbacks('unique');
             }
             callbacks[eventType].add(handler);
         }
