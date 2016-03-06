@@ -56,33 +56,6 @@
      var eventTypeRegex = /^(\w+)(?:>(\w+))?(?:>(\w+))?(?:>(\w+))?$/;
 
     /**
-     * Bult an event object from an event type string.
-     *
-     * @private
-     * @static
-     * @function getEvent
-     * @memberof Bolt.files
-     *
-     * @param {string} eventType   - Event type
-     * @returns {Object|null} event - Parsed event type.
-     */
-    function getEvent(eventType) {
-        var res = eventTypeRegex.exec(eventType),
-            event = null;
-
-        if (res) {
-            event = {
-                namespace: res[1],
-                domain: res[2],
-                event: res[3],
-                status: res[4]
-            };
-        }
-
-        return event;
-    }
-
-    /**
      * Fires an event.
      *
      * @static
@@ -93,13 +66,23 @@
      * @param {Object} [parameter] - Additional parameters to pass along to the event handler
      */
     events.fire = function (eventType, parameter) {
-        var event = getEvent(eventType);
+        var level = eventTypeRegex.exec(eventType);
 
-        if (event && typeof event.status !== 'undefined') {
+        // If it's a valid event name and has four levels.
+        if (level && typeof level[4] !== 'undefined') {
             while (eventType) {
                 if (callbacks[eventType]) {
-                    callbacks[eventType].fireWith(event, [parameter]);
+                    callbacks[eventType].fireWith(
+                        {
+                            namespace: level[1],
+                            domain: level[2],
+                            event: level[3],
+                            status: level[4]
+                        },
+                        [parameter]
+                    );
                 }
+                // Remove last level.
                 eventType = eventType.replace(/>?\w+$/, '');
             }
         }
@@ -116,9 +99,7 @@
      * @param {function} handler   - Event handler
      */
     events.on = function (eventType, handler) {
-        var event = getEvent(eventType);
-
-        if (event) {
+        if (eventTypeRegex.exec(eventType)) {
             if (!callbacks[eventType]) {
                 callbacks[eventType] = $.Callbacks();
             }
@@ -137,12 +118,8 @@
      * @param {function} handler   - Event handler
      */
     events.off = function (eventType, handler) {
-        var event = getEvent(eventType);
-
-        if (event && typeof handler === 'function') {
-            if (callbacks[eventType]) {
-                callbacks[eventType].remove(handler);
-            }
+        if (eventTypeRegex.exec(eventType) && callbacks[eventType]) {
+            callbacks[eventType].remove(handler);
         }
     };
 
