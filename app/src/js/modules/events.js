@@ -96,8 +96,11 @@
         var event = getEvent(eventType);
 
         if (event && typeof event.status !== 'undefined') {
-            if (callbacks[eventType]) {
-                callbacks[eventType].fireWith(event, [parameter]);
+            while (eventType) {
+                if (callbacks[eventType]) {
+                    callbacks[eventType].fireWith(event, [parameter]);
+                }
+                eventType = eventType.replace(/>?\w+$/, '');
             }
         }
     };
