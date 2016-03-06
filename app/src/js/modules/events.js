@@ -92,12 +92,12 @@
      * @param {string} eventType   - Event type
      * @param {Object} [parameter] - Additional parameters to pass along to the event handler
      */
-    events.fire = function (eventType/*, parameter*/) {
+    events.fire = function (eventType, parameter) {
         var event = getEvent(eventType);
 
         if (event) {
             if (broker[eventType]) {
-                broker[eventType].fire();
+                broker[eventType].fireWith(event, [parameter]);
             }
         }
     };
