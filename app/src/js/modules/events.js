@@ -72,14 +72,14 @@
         if (level && typeof level[4] !== 'undefined') {
             while (eventType) {
                 if (callbacks[eventType]) {
-                    callbacks[eventType].fireWith(
+                    callbacks[eventType].fire(
                         {
                             namespace: level[1],
                             domain: level[2],
                             event: level[3],
                             status: level[4]
                         },
-                        [parameter]
+                        parameter
                     );
                 }
                 // Remove last level.
