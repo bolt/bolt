@@ -95,7 +95,7 @@
     events.fire = function (eventType, parameter) {
         var event = getEvent(eventType);
 
-        if (event) {
+        if (event && typeof event.status !== 'undefined') {
             if (callbacks[eventType]) {
                 callbacks[eventType].fireWith(event, [parameter]);
             }
