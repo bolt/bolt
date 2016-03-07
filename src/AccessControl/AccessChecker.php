@@ -143,9 +143,14 @@ class AccessChecker
      */
     public function revokeSession()
     {
-        if ($this->repositoryUsers->hasUsers()) {
-            // Only show this flash if there are users in the system. Not when we're about to get redirected to the "first users" screen.
-            $this->flashLogger->info(Trans::__('You have been logged out.'));
+        try {
+            // Only show this flash if there are users in the system.
+            // Not when we're about to get redirected to the "first users" screen.
+            if ($this->repositoryUsers->hasUsers()) {
+                $this->flashLogger->info(Trans::__('You have been logged out.'));
+            }
+        } catch (TableNotFoundException $e) {
+            // If we have no table, then we definitely have no users
         }
 
         // Remove all auth tokens when logging off a user
