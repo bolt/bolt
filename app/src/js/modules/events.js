@@ -53,7 +53,7 @@
      * @private
      * @type {Object}
      */
-     var eventTypeRegex = /^(\w+)(?:\.(\w+))?(?:\.(\w+))?(?:\.(\w+))?$/;
+     var eventTypeRegex = /^([a-zA-Z0-9_-]+)(?:\.([a-zA-Z0-9_-]+))?(?:\.([a-zA-Z0-9_-]+))?(?:\.([a-zA-Z0-9_-]+))?$/;
 
     /**
      * Fires an event.
@@ -87,7 +87,7 @@
                     );
                 }
                 // Remove last level.
-                eventType = eventType.replace(/\.?\w+$/, '');
+                eventType = eventType.replace(/\.?[a-zA-Z0-9_-]+$/, '');
             }
         }
     };
