@@ -104,9 +104,11 @@
 {% endset %}
 
 {% set package_error %}
-    <h3>%ERROR_TYPE%</h3>
-    <code>%ERROR_MESSAGE%</code>
-    <p>%ERROR_LOCATION%</p>
+    <div id="extension-error">
+        <h3>%ERROR_TYPE%</h3>
+        <code>%ERROR_MESSAGE%</code>
+        <p>%ERROR_LOCATION%</p>
+    </div>
 {% endset %}
 
 {{ data('extend.packages.empty',            package_empty|trim) }}
