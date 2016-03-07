@@ -59,7 +59,7 @@
      * Fires an event.
      *
      * @example
-     *      Bolt.event.fire('myext.sampledata.save.start');
+     *      Bolt.events.fire('myext.sampledata.save.start');
      *
      *
      * @static
@@ -96,17 +96,17 @@
      * Attach an event handler.
      *
      * @example
-     *      Bolt.event.on('myext.sampledata.save.done', function () {
+     *      Bolt.events.on('myext.sampledata.save.done', function () {
      *          ...;
      *      });
      *
      * @example
-     *      Bolt.event.on('myext.sampledata.save.done', function (event, data) {
+     *      Bolt.events.on('myext.sampledata.save.done', function (event, data) {
      *          console.log(data.foobar);
      *      });
      *
      * @example
-     *      Bolt.event.on('myext.sampledata.save', function (event) {
+     *      Bolt.events.on('myext.sampledata.save', function (event) {
      *          if (event.status === 'start') {
      *              ...
      *          }
@@ -138,9 +138,9 @@
      *      var handler = function () {
      *          ...;
      *      };
-     *      Bolt.event.on('myext.sampledata.save.done', handler);
+     *      Bolt.events.on('myext.sampledata.save.done', handler);
      *      ...;
-     *      Bolt.event.off('myext.sampledata.save.done', handler);
+     *      Bolt.events.off('myext.sampledata.save.done', handler);
      *
      * @static
      * @function off
