@@ -4,7 +4,7 @@
  * @mixin
  * @namespace Bolt.events
  *
- * eventType has to be "namespace>domain>event>status"
+ * eventType has to be in the form of: "namespace.domain.event.status"
  *
  * Available events:
  *
@@ -66,7 +66,7 @@
      * @function fire
      * @memberof Bolt.events
      *
-     * @param {string} eventType   - Event type
+     * @param {string} eventType   - Event type (all four levels have to be specified)
      * @param {Object} [parameter] - Additional parameters to pass along to the event handler
      */
     events.fire = function (eventType, parameter) {
@@ -119,7 +119,7 @@
      * @function on
      * @memberof Bolt.events
      *
-     * @param {string}   eventType - Event type
+     * @param {string}   eventType - Event type (less than four levels are allowed)
      * @param {function} handler   - Event handler
      */
     events.on = function (eventType, handler) {
@@ -146,7 +146,7 @@
      * @function off
      * @memberof Bolt.events
      *
-     * @param {string}   eventType - Event type
+     * @param {string}   eventType - Event type (less than four levels are allowed)
      * @param {function} handler   - Event handler
      */
     events.off = function (eventType, handler) {
