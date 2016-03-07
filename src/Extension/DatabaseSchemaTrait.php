@@ -35,10 +35,6 @@ trait DatabaseSchemaTrait
             $app->extend(
                 'schema.extension_tables',
                 function (\Pimple $tables) use ($app) {
-                    //foreach ($app['members.schema.table']->keys() as $baseName) {
-                    //    $tables[$baseName] = $app['members.schema.table'][$baseName];
-                    //}
-
                     foreach ((array) $this->registerExtensionTables() as $baseName => $table) {
                         $tables[$baseName] = $table;
                     }
