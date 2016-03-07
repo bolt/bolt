@@ -3,7 +3,7 @@
     "curly": true,
     "devel": true,
     "eqeqeq": true,
-    "es3": true,
+    "esversion": 3,
     "forin": true,
     "futurehostile": true,
     "immed": true,
