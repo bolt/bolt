@@ -71,7 +71,7 @@
                             <li>{{ sql }}</li>
                         {% endfor %}
                         </ol>
-                        {{ dump(context.diffs[table]) }}
+                        {{ dump(context.creates[table]) }}
                     {% endfor %}
                 {% endif %}
 
