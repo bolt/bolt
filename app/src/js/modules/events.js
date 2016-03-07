@@ -119,8 +119,8 @@
      * @function on
      * @memberof Bolt.events
      *
-     * @param {string}   eventType - Event type (less than four levels are allowed)
-     * @param {function} handler   - Event handler
+     * @param {string}              eventType - Event type (less than four levels are allowed)
+     * @param {function|function[]} handler   - Event handler
      */
     events.on = function (eventType, handler) {
         if (eventTypeRegex.exec(eventType)) {
@@ -146,8 +146,8 @@
      * @function off
      * @memberof Bolt.events
      *
-     * @param {string}   eventType - Event type (less than four levels are allowed)
-     * @param {function} handler   - Event handler
+     * @param {string}              eventType - Event type (less than four levels are allowed)
+     * @param {function|function[]} handler   - Event handler
      */
     events.off = function (eventType, handler) {
         if (eventTypeRegex.exec(eventType) && callbacks[eventType]) {
