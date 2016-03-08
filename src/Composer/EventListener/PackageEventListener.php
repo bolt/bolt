@@ -57,18 +57,23 @@ class PackageEventListener
     public static function dump(Event $event)
     {
         $composer = $event->getComposer();
-        $vendorDir = $composer->getConfig()->get('vendor-dir');
-        $finder = self::getInstalledComposerJson();
+
+        $extra = $event->getComposer()->getPackage()->getExtra();
+        $webDir = realpath($extra['bolt-web-path']) . '/';
+        $baseWebPath = str_replace($webDir, '', getcwd());
+
+        /** @var PackageDescriptor[] $extensions */
         $extensions = [];
 
-        /** @var SplFileInfo $jsonFile */
+        $finder = self::getInstalledComposerJson();
         foreach ($finder as $jsonFile) {
             $jsonData = json_decode($jsonFile->getContents(), true);
             if (isset($jsonData['type']) && $jsonData['type'] === 'bolt-extension') {
-                $extensions[$jsonData['name']] = PackageDescriptor::parse($composer, $jsonFile->getPath(), $jsonData);
+                $extensions[$jsonData['name']] = PackageDescriptor::parse($composer, $baseWebPath, $jsonFile->getPath(), $jsonData);
             }
         }
 
+        $vendorDir = $composer->getConfig()->get('vendor-dir');
         $fs = new Filesystem();
         $fs->dumpFile($vendorDir . '/autoload.json', json_encode($extensions, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
@@ -97,7 +102,7 @@ class PackageEventListener
     /**
      * Return all the installed extension composer.json files.
      *
-     * @return Finder
+     * @return Finder|SplFileInfo[]
      */
     private static function getInstalledComposerJson()
     {

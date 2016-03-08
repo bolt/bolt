@@ -24,6 +24,8 @@ final class PackageDescriptor implements JsonSerializable
     /** @var string */
     protected $path;
     /** @var string */
+    protected $webPath;
+    /** @var string */
     protected $constraint;
     /** @var bool */
     protected $valid;
@@ -35,15 +37,17 @@ final class PackageDescriptor implements JsonSerializable
      * @param string $type
      * @param string $class
      * @param string $path
+     * @param string $webPath
      * @param string $constraint
      * @param bool   $valid
      */
-    public function __construct($name, $type, $class, $path, $constraint, $valid)
+    public function __construct($name, $type, $class, $path, $webPath, $constraint, $valid)
     {
         $this->name = $name;
         $this->type = $type;
         $this->class = $class;
         $this->path = $path;
+        $this->webPath = $webPath;
         $this->constraint = $constraint;
         $this->valid = $valid;
     }
@@ -83,6 +87,14 @@ final class PackageDescriptor implements JsonSerializable
     /**
      * @return string
      */
+    public function getWebPath()
+    {
+        return $this->webPath;
+    }
+
+    /**
+     * @return string
+     */
     public function getConstraint()
     {
         return $this->constraint;
@@ -100,20 +112,22 @@ final class PackageDescriptor implements JsonSerializable
      * Create class from uncertain JSON data.
      *
      * @param Composer $composer
-     * @param          $path
+     * @param string   $baseWebPath
+     * @param string   $path
      * @param array    $jsonData
      *
      * @return PackageDescriptor
      */
-    public static function parse(Composer $composer, $path, array $jsonData)
+    public static function parse(Composer $composer, $baseWebPath, $path, array $jsonData)
     {
         $name = $jsonData['name'];
         $type = strpos($path, 'vendor') === 0 ? 'composer' : 'local';
-        $class = self::setClass($jsonData);
-        $constraint = self::setConstraint($jsonData);
-        $valid = self::getValid($composer, $class, $constraint);
+        $class = self::parseClass($jsonData);
+        $webPath = self::parseWebPath($baseWebPath, $path, $jsonData);
+        $constraint = self::parseConstraint($jsonData);
+        $valid = self::parseValid($composer, $class, $constraint);
 
-        return new self($name, $type, $class, $path, $constraint, $valid);
+        return new self($name, $type, $class, $path, $webPath, $constraint, $valid);
     }
 
     /**
@@ -125,7 +139,15 @@ final class PackageDescriptor implements JsonSerializable
      */
     public static function create(array $data)
     {
-        return new self($data['name'], $data['type'], $data['class'], $data['path'], $data['constraint'], $data['valid']);
+        return new self(
+            $data['name'],
+            $data['type'],
+            $data['class'],
+            $data['path'],
+            $data['webPath'],
+            $data['constraint'],
+            $data['valid']
+        );
     }
 
     /**
@@ -137,6 +159,7 @@ final class PackageDescriptor implements JsonSerializable
             'name'       => $this->name,
             'type'       => $this->type,
             'path'       => $this->path,
+            'webPath'    => $this->webPath,
             'class'      => $this->class,
             'constraint' => $this->constraint,
             'valid'      => $this->valid,
@@ -150,11 +173,32 @@ final class PackageDescriptor implements JsonSerializable
      *
      * @return string|null
      */
-    private static function setClass(array $jsonData)
+    private static function parseClass(array $jsonData)
     {
         if (isset($jsonData['extra']['bolt-class'])) {
             return $jsonData['extra']['bolt-class'];
         }
+
+        return null;
+    }
+
+    /**
+     * Parse the package's web path given the base web path, the relative package path and "bolt-assets".
+     *
+     * @param string $baseWebPath
+     * @param string $path
+     * @param array  $jsonData
+     *
+     * @return string
+     */
+    private static function parseWebPath($baseWebPath, $path, array $jsonData)
+    {
+        $assets = 'web';
+        if (isset($jsonData['extra']['bolt-assets'])) {
+            $assets = $jsonData['extra']['bolt-assets'];
+        }
+
+        return rtrim($baseWebPath . '/' . $path . '/' . ltrim($assets, '/'), '/');
     }
 
     /**
@@ -164,11 +208,13 @@ final class PackageDescriptor implements JsonSerializable
      *
      * @return string|null
      */
-    private static function setConstraint(array $jsonData)
+    private static function parseConstraint(array $jsonData)
     {
         if (isset($jsonData['require']['bolt/bolt'])) {
             return $jsonData['require']['bolt/bolt'];
         }
+
+        return null;
     }
 
     /**
@@ -180,7 +226,7 @@ final class PackageDescriptor implements JsonSerializable
      *
      * @return bool
      */
-    private static function getValid(Composer $composer, $class, $constraint)
+    private static function parseValid(Composer $composer, $class, $constraint)
     {
         $provides = $composer->getPackage()->getProvides();
         $boltVersion = isset($provides['bolt/bolt']) ? $provides['bolt/bolt'] : new Link('__root__', 'bolt/bolt', new Constraint('=', '0.0.0'));

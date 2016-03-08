@@ -247,7 +247,7 @@ class Manager
         $extension = new $className();
         if ($extension instanceof ExtensionInterface) {
             $baseDir = $this->extFs->getDir($descriptor->getPath());
-            $webDir = $this->webFs->getDir($descriptor->getPath());
+            $webDir = $this->webFs->getDir($descriptor->getWebPath());
             $this->add($extension, $baseDir, $webDir, $descriptor->getName())
                 ->setDescriptor($descriptor)
             ;
