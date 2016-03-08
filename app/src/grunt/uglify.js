@@ -31,8 +31,6 @@ module.exports = {
                 '<%= path.src.npm %>/jquery.tagcloud.js/jquery.tagcloud.js',
                 '<%= path.src.npm %>/bootbox/bootbox.js',
                 '<%= path.src.npm %>/magnific-popup/dist/jquery.magnific-popup.js',
-                '<%= path.src.npm %>/underscore/underscore.js',
-                '<%= path.src.npm %>/backbone/backbone.js',
                 '<%= path.src.npm %>/moment/moment.js'
             ],
             dest: '<%= path.tmp %>'

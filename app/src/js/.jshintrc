@@ -25,7 +25,6 @@
         "init": true,
         "JSON": true,
         "Modernizr": true,
-        "_": true,
         "bootbox": true,
         "google": true,
         "jQuery": true,

@@ -9,7 +9,6 @@
     },
     "devDependencies": {
         "autoprefixer": "~6.3.3",
-        "backbone": "~1.2.3",
         "blueimp-file-upload": "9.12.0",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.6",
@@ -44,8 +43,7 @@
         "node-sass": "~3.4.2",
         "postcss-single-charset": "~1.0.0",
         "request": "~2.69.0",
-        "select2": "~4.0.1",
-        "underscore": "~1.8.3"
+        "select2": "~4.0.1"
     },
     "scripts": {
         "install": "napa"
