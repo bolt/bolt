@@ -27,6 +27,14 @@
     ];
 
     /**
+     * Removes events bound to live editor.
+     *
+     * @private
+     * @function removeEvents
+     */
+    var removeEvents = null;
+
+    /**
      * Initializes the mixin.
      *
      * @static
@@ -161,7 +169,7 @@
         $('#editcontent').attr('action', '').attr('target', '_self');
         $('#editcontent *[name=_live-editor-preview]').val('');
 
-        liveEditor.removeEvents = function () {
+        removeEvents = function () {
             $('#live-editor-iframe').off('load', iframeReady);
             $('#navpage-primary .navbar-header a').off('click', preventClick);
         };
@@ -208,7 +216,7 @@
         bolt.liveEditor.active = false;
         $('body').removeClass('live-editor-active');
 
-        liveEditor.removeEvents();
+        removeEvents();
     };
 
     /**
@@ -262,14 +270,6 @@
      * @type {string}
      */
     liveEditor.slug = null;
-
-    /**
-     * Removes events bound to live editor
-     *
-     * @private
-     * @function removeEvents
-     */
-    liveEditor.removeEvents = null;
 
     bolt.liveEditor = liveEditor;
 })(Bolt || {}, jQuery, window, typeof CKEDITOR !== 'undefined' ? CKEDITOR : undefined);
