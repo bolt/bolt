@@ -3,7 +3,7 @@
    over _all_ the fields, and skipping those in the 'omittedkeys' array. #}
 {% set omittedkeys = ['id', 'slug', 'datecreated', 'datechanged', 'datepublish', 'datedepublish', 'username', 'status', 'ownerid', 'templatefields'] %}
 
-{% if record.contenttype.fields.slug.uses is iterable %}
+{% if record.contenttype.fields.slug.uses|default(null) is iterable %}
     {% set omittedkeys = omittedkeys|merge(record.contenttype.fields.slug.uses) %}
 {% endif %}
 
