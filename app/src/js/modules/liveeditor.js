@@ -190,7 +190,8 @@
                 fieldValue = $(this).html();
 
                 var fieldId = field.attr('id');
-                if (_.has(ckeditor.instances, fieldId)) {
+
+                if (ckeditor.instances.hasOwnProperty(fieldId)) {
                     ckeditor.instances[fieldId].setData(fieldValue);
                 }
             }else{
