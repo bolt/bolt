@@ -314,7 +314,7 @@ class ImageHandler
             $height = !empty($thumbconf['default_thumbnail'][1]) ? $thumbconf['default_thumbnail'][1] : 100;
         }
 
-        if (!in_array($crop, ['fit', 'f', 'resize', 'r', 'borders', 'b', 'crop', 'c'])) {
+        if (!in_array($crop, array('fit', 'f', 'resize', 'r', 'borders', 'b', 'crop', 'c'))) {
             $crop = $thumbconf['cropping'];
         }
 
