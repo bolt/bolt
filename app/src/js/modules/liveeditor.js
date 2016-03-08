@@ -63,6 +63,7 @@
     liveEditor.start = function () {
         // Validate form first
         var valid = bolt.validation.run($('#editcontent')[0]);
+
         if (!valid) {
             return;
         }
@@ -73,20 +74,24 @@
         };
 
         var iframeReady = function () {
-            var iframe = $('#live-editor-iframe')[0];
-            var win = iframe.contentWindow || iframe;
-            var doc = win.document;
-            var jq = $(doc);
+            var iframe = $('#live-editor-iframe')[0],
+                win = iframe.contentWindow || iframe,
+                doc = win.document,
+                jq = $(doc);
+
             jq.on('click', 'a', preventClick);
-            var cke = bolt.ckeditor.initcke(win.CKEDITOR);
-            var editorConfig = cke.editorConfig;
-            cke.editorConfig = function(config) {
+
+            var cke = bolt.ckeditor.initcke(win.CKEDITOR),
+                editorConfig = cke.editorConfig;
+
+            cke.editorConfig = function (config) {
                 editorConfig.bind(this)(config);
 
                 // Remove the source code viewer
                 for (var i in config.toolbar) {
                     if (config.toolbar[i].name === 'tools') {
                         var sourceIdx = config.toolbar[i].items.indexOf('Source');
+
                         if (sourceIdx > -1) {
                             delete config.toolbar[i].items[sourceIdx];
                         }
@@ -94,18 +99,15 @@
                 }
             };
 
-
-
             cke.disableAutoInline = false;
             jq.find('[data-bolt-field]').each(function() {
                 // Find form field
-                var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']');
-                var fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
+                var field = $('#editcontent *[name=' + liveEditor.escapejQuery($(this).data('bolt-field')) + ']'),
+                    fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
 
                 $(this).addClass('bolt-editable');
 
                 if (!$(this).data('no-edit') && editableTypes.indexOf(fieldType) !== -1) {
-
                     $(this).attr('contenteditable', true);
 
                     if (fieldType === 'html') {
@@ -115,6 +117,7 @@
                     } else {
                         $(this).on('paste', function(e) {
                             var content;
+
                             e.preventDefault();
                             if (e.originalEvent.clipboardData) {
                                 content = e.originalEvent.clipboardData.getData('text/plain');
@@ -158,7 +161,7 @@
         $('#editcontent').attr('action', '').attr('target', '_self');
         $('#editcontent *[name=_live-editor-preview]').val('');
 
-        liveEditor.removeEvents = function() {
+        liveEditor.removeEvents = function () {
             $('#live-editor-iframe').off('load', iframeReady);
             $('#navpage-primary .navbar-header a').off('click', preventClick);
         };
@@ -174,17 +177,17 @@
      * @memberof Bolt.liveEditor
      */
     liveEditor.stop = function () {
-        var iframe = $('#live-editor-iframe')[0];
-        var win = iframe.contentWindow || iframe;
-        var doc = win.document;
-        var jq = $(doc);
+        var iframe = $('#live-editor-iframe')[0],
+            win = iframe.contentWindow || iframe,
+            doc = win.document,
+            jq = $(doc);
 
         jq.find('[data-bolt-field]').each(function () {
             // Find form field
-            var fieldName = $(this).data('bolt-field');
-            var field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName) + ']');
-            var fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset');
-            var fieldValue = '';
+            var fieldName = $(this).data('bolt-field'),
+                field = $('#editcontent [name=' + liveEditor.escapejQuery(fieldName) + ']'),
+                fieldType = field.closest('[data-bolt-fieldset]').data('bolt-fieldset'),
+                fieldValue = '';
 
             if (fieldType === 'html') {
                 fieldValue = $(this).html();
@@ -194,7 +197,7 @@
                 if (ckeditor.instances.hasOwnProperty(fieldId)) {
                     ckeditor.instances[fieldId].setData(fieldValue);
                 }
-            }else{
+            } else {
                 fieldValue = liveEditor.cleanText($(this), fieldType);
             }
             field.val(fieldValue);
@@ -240,7 +243,7 @@
      *
      * @param {String} selector - Selector to escape
      */
-    liveEditor.escapejQuery = function(selector) {
+    liveEditor.escapejQuery = function (selector) {
         return selector.replace(/(:|\.|\[|\]|,)/g, "\\$1");
     };
 
