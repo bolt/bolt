@@ -271,7 +271,7 @@
                 // Let the controller know we're calling AJAX and expecting to be returned JSON.
                 $.post('?returnto=ajax', $('#editcontent').serialize())
                     .done(function (data) {
-                        bolt.events.fire('Bolt.Content.Save.Done', data);
+                        bolt.events.fire('Bolt.Content.Save.Done', {form: data});
 
                         // Submit was successful, disable warning.
                         window.onbeforeunload = null;

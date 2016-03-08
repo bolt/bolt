@@ -22,7 +22,7 @@
      * On saving content: content was saved successfully.
      *
      * @event "Bolt.Content.Save.Done"
-     * @property {Object} data - Saved form data.
+     * @property {Object} form - Saved form data.
      */
     /**
      * On saving content: saving of content failed.
