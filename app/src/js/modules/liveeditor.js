@@ -84,13 +84,14 @@
                 editorConfig.bind(this)(config);
 
                 // Remove the source code viewer
-                var ind;
                 for (var i in config.toolbar) {
                     if (config.toolbar[i].name === 'tools') {
-                        ind = i;
+                        var sourceIdx = config.toolbar[i].items.indexOf('Source');
+                        if (sourceIdx > -1) {
+                            delete config.toolbar[i].items[sourceIdx];
+                        }
                     }
                 }
-                config.toolbar[ind] = _.without(config.toolbar[ind], 'Source');
             };
 
 
