@@ -1,26 +1,8 @@
 /**
- * Events.
+ * Bolt events.
  *
  * eventType has to be in the form of: "namespace.domain.event.status"
- *
- * Available events:
- *
- * + On saving content:
- *   - "Bolt.Content.Save.Start"         : Before saving content
- *   - "Bolt.Content.Save.Done"          : Content was saved successfully
- *   - "Bolt.Content.Save.Fail"          : Saving content failed
- *   - "Bolt.Content.Save.Always"        : After saving content (failed or succeeded)
- *
- * + On saving an edited file:
- *   - "Bolt.File.Save.Start"            : Before saving file
- *   - "Bolt.File.Save.Done"             : File was saved successfully
- *   - "Bolt.File.Save.Fail"             : Saving file failed
- *   - "Bolt.File.Save.Always"           : After saving file (failed or succeeded)
- *
- * + Loading GoogleMaps API:
- *   - "Bolt.GoogleMapsAPI.Load.Start"   : Request loading API loading
- *   - "Bolt.GoogleMapsAPI.Load.Done"    : API loaded successfully
- *   - "Bolt.GoogleMapsAPI.Load.Fail"    : Loading failed
+ * Divider is ".", allowed characters are: "a"-"Z", "A"-"Z", "0"-"9", "_" and "-".
  *
  * @mixin
  * @namespace Bolt.events
@@ -30,6 +12,64 @@
  */
 (function (bolt, $) {
     'use strict';
+
+    /**
+     * On saving content: before saving of contents starts.
+     *
+     * @event "Bolt.Content.Save.Start"
+     */
+    /**
+     * On saving content: content was saved successfully.
+     *
+     * @event "Bolt.Content.Save.Done"
+     */
+    /**
+     * On saving content: saving of content failed.
+     *
+     * @event "Bolt.Content.Save.Fail"
+     */
+    /**
+     * On saving content: after saving content (both, failed or succeeded).
+     *
+     * @event "Bolt.Content.Save.Always"
+     */
+
+    /**
+     * On saving an edited file: before saving of the file starts.
+     *
+     * @event "Bolt.File.Save.Start"
+     */
+    /**
+     * On saving an edited file: the file was saved successfully.
+     *
+     * @event "Bolt.File.Save.Done"
+     */
+    /**
+     * On saving an edited file: saving of the file failed.
+     *
+     * @event "Bolt.File.Save.Fail"
+     */
+    /**
+     * On saving an edited file: after saving of the file (both, failed or succeeded).
+     *
+     * @event "Bolt.File.Save.Always"
+     */
+
+    /**
+     * Loading of GoogleMaps API: Request loading API loading.
+     *
+     * @event "Bolt.GoogleMapsAPI.Load.Start"
+     */
+    /**
+     * Loading of GoogleMaps API: API loaded successfully.
+     *
+     * @event "Bolt.GoogleMapsAPI.Load.Done"
+     */
+    /**
+     * Loading of GoogleMaps API: Loading failed.
+     *
+     * @event "Bolt.GoogleMapsAPI.Load.Fail"
+     */
 
     /*
      * Bolt.events mixin container.
