@@ -3,7 +3,7 @@
     "curly": true,
     "devel": true,
     "eqeqeq": true,
-    "es3": true,
+    "esversion": 3,
     "forin": true,
     "futurehostile": true,
     "immed": true,
@@ -19,7 +19,6 @@
     "unused": true,
     "globals": {
         "$": true,
-        "Backbone": true,
         "Bolt": true,
         "CKEDITOR": true,
         "CodeMirror": true,
@@ -27,15 +26,10 @@
         "JSON": true,
         "Modernizr": true,
         "_": true,
-        "baseurl": true,
-        "bindFileUpload": true,
         "bootbox": true,
-        "confirm": true,
         "google": true,
         "jQuery": true,
         "moment": true,
-        "rootpath": true,
-        "site": true,
         "UIkit": true
     },
     "exported": {
