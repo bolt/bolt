@@ -112,18 +112,17 @@ final class PackageDescriptor implements JsonSerializable
      * Create class from uncertain JSON data.
      *
      * @param Composer $composer
-     * @param string   $baseWebPath
+     * @param string   $webPath
      * @param string   $path
      * @param array    $jsonData
      *
      * @return PackageDescriptor
      */
-    public static function parse(Composer $composer, $baseWebPath, $path, array $jsonData)
+    public static function parse(Composer $composer, $webPath, $path, array $jsonData)
     {
         $name = $jsonData['name'];
         $type = strpos($path, 'vendor') === 0 ? 'composer' : 'local';
         $class = self::parseClass($jsonData);
-        $webPath = self::parseWebPath($baseWebPath, $path, $jsonData);
         $constraint = self::parseConstraint($jsonData);
         $valid = self::parseValid($composer, $class, $constraint);
 
@@ -180,25 +179,6 @@ final class PackageDescriptor implements JsonSerializable
         }
 
         return null;
-    }
-
-    /**
-     * Parse the package's web path given the base web path, the relative package path and "bolt-assets".
-     *
-     * @param string $baseWebPath
-     * @param string $path
-     * @param array  $jsonData
-     *
-     * @return string
-     */
-    private static function parseWebPath($baseWebPath, $path, array $jsonData)
-    {
-        $assets = 'web';
-        if (isset($jsonData['extra']['bolt-assets'])) {
-            $assets = $jsonData['extra']['bolt-assets'];
-        }
-
-        return rtrim($baseWebPath . '/' . $path . '/' . ltrim($assets, '/'), '/');
     }
 
     /**

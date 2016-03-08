@@ -100,9 +100,11 @@ class JsonManager
      */
     private function setJsonDefaults(array $json)
     {
+        $rootPath = $this->app['resources']->getPath('root');
         $extensionsPath = $this->app['resources']->getPath('extensions');
         $srcPath = $this->app['resources']->getPath('src');
         $webPath = $this->app['resources']->getPath('web');
+        $pathToRoot = $this->app['resources']->findRelativePath($extensionsPath, $rootPath);
         $pathToWeb = $this->app['resources']->findRelativePath($extensionsPath, $webPath);
         $eventPath = sprintf(
             '%sComposer/EventListener',
@@ -132,6 +134,7 @@ class JsonManager
             ],
             'extra' => [
                 'bolt-web-path' => $pathToWeb,
+                'bolt-root-path' => $pathToRoot,
             ],
             'autoload' => [
                 'psr-4' => [
