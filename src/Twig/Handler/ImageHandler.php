@@ -179,11 +179,11 @@ class ImageHandler
         } else {
             $thumbconf = $this->app['config']->get('general/thumbnails');
 
-            if ($width === 0){
+            if ($width === 0) {
                 $width = !empty($thumbconf['default_thumbnail'][0]) ? $thumbconf['default_thumbnail'][0] : 160;
             }
 
-            if ($height === 0){
+            if ($height === 0) {
                 $height = !empty($thumbconf['default_thumbnail'][1]) ? $thumbconf['default_thumbnail'][1] : 120;
             }
 
