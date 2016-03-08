@@ -179,11 +179,11 @@ class ImageHandler
         } else {
             $thumbconf = $this->app['config']->get('general/thumbnails');
 
-            if($width === 0){
+            if ($width === 0){
                 $width = !empty($thumbconf['default_thumbnail'][0]) ? $thumbconf['default_thumbnail'][0] : 160;
             }
 
-            if($height === 0){
+            if ($height === 0){
                 $height = !empty($thumbconf['default_thumbnail'][1]) ? $thumbconf['default_thumbnail'][1] : 120;
             }
 
@@ -255,11 +255,11 @@ class ImageHandler
                 $alt = '';
             }
 
-            if($width === 0 && $height === 0){
+            if ($width === 0 && $height === 0) {
                 $thumbconf = $this->app['config']->get('general/thumbnails');
                 $width = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
                 $height = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 750;
-            }elseif ($width === 0 xor $height === 0) {
+            } elseif ($width === 0 xor $height === 0) {
                 if (is_array($filename)) {
                     $filename = isset($filename['filename']) ? $filename['filename'] : $filename['file'];
                 }
@@ -314,7 +314,7 @@ class ImageHandler
             $height = !empty($thumbconf['default_thumbnail'][1]) ? $thumbconf['default_thumbnail'][1] : 100;
         }
 
-        if(!in_array($crop, ['fit', 'f', 'resize', 'r', 'borders', 'b', 'crop', 'c'])){
+        if (!in_array($crop, ['fit', 'f', 'resize', 'r', 'borders', 'b', 'crop', 'c'])) {
             $crop = $thumbconf['cropping'];
         }
 
