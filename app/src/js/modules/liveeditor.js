@@ -85,11 +85,11 @@
 
                 // Remove the source code viewer
                 var ind;
-                _.each(config.toolbar, function(ob, i) {
-                    if (ob.name === 'tools') {
+                for (var i in config.toolbar) {
+                    if (config.toolbar[i].name === 'tools') {
                         ind = i;
                     }
-                });
+                }
                 config.toolbar[ind] = _.without(config.toolbar[ind], 'Source');
             };
 
