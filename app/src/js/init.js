@@ -42,10 +42,10 @@ var init = {
      * @param {object} data
      * @returns {undefined}
      *
-     * @fires start.bolt.file.save
-     * @fires done.bolt.file.save
-     * @fires fail.bolt.file.save
-     * @fires always.bolt.file.save
+     * @fires "Bolt.File.Save.Start"
+     * @fires "Bolt.File.Save.Done"
+     * @fires "Bolt.File.Save.Fail"
+     * @fires "Bolt.File.Save.Always"
      */
     bindEditFile: function (data) {
         var editor;
@@ -67,7 +67,7 @@ var init = {
         }
 
         $('#saveeditfile').on('click', function () {
-            Bolt.events.fire('start.bolt.file.save');
+            Bolt.events.fire('Bolt.File.Save.Start');
 
             // Copy back to the textarea.
             if (editor) {
@@ -85,18 +85,18 @@ var init = {
                 .done(function (data) {
                     if (!data.ok) {
                         alert(data.msg);
-                        Bolt.events.fire('fail.bolt.file.save', data);
+                        Bolt.events.fire('Bolt.File.Save.Fail', data);
                     } else {
-                        Bolt.events.fire('done.bolt.file.save', data);
+                        Bolt.events.fire('Bolt.File.Save.Done', data);
                     }
                     $('p.lastsaved').html(data.msg);
                 })
                 .fail(function(){
-                    Bolt.events.fire('fail.bolt.file.save');
+                    Bolt.events.fire('Bolt.File.Save.Fail');
                     alert(msgNotSaved);
                 })
                 .always(function(){
-                    Bolt.events.fire('always.bolt.file.save');
+                    Bolt.events.fire('Bolt.File.Save.Always');
 
                     // Re-enable buttons
                     window.setTimeout(function(){
