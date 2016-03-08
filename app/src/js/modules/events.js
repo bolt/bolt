@@ -1,9 +1,6 @@
 /**
  * Events.
  *
- * @mixin
- * @namespace Bolt.events
- *
  * eventType has to be in the form of: "namespace.domain.event.status"
  *
  * Available events:
@@ -24,6 +21,9 @@
  *   - "Bolt.GoogleMapsAPI.Load.Start"   : Request loading API loading
  *   - "Bolt.GoogleMapsAPI.Load.Done"    : API loaded successfully
  *   - "Bolt.GoogleMapsAPI.Load.Fail"    : Loading failed
+ *
+ * @mixin
+ * @namespace Bolt.events
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery
