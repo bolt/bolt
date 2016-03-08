@@ -9,7 +9,7 @@ namespace Bolt;
  */
 final class Version
 {
-    const VERSION = '3.0.0 alpha 7';
+    const VERSION = '3.0.0 alpha 8';
 
     /**
      * Whether this release is a stable one.
