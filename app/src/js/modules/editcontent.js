@@ -229,10 +229,10 @@
      * @function initSaveContinue
      * @memberof Bolt.editcontent
      *
-     * @fires bolt.content.save.start
-     * @fires bolt.content.save.done
-     * @fires bolt.content.save.fail
-     * @fires bolt.content.save.always
+     * @fires Bolt.Content.Save.Start
+     * @fires Bolt.Content.Save.Done
+     * @fires Bolt.Content.Save.Fail
+     * @fires Bolt.Content.Save.Always
      *
      * @param {BindData} data - Editcontent configuration data
      */
@@ -265,13 +265,13 @@
                 watchChanges();
 
                 // Trigger save started event
-                bolt.events.fire('bolt.content.save.start');
+                bolt.events.fire('Bolt.Content.Save.Start');
 
                 // Existing record. Do an 'ajaxy' post to update the record.
                 // Let the controller know we're calling AJAX and expecting to be returned JSON.
                 $.post('?returnto=ajax', $('#editcontent').serialize())
                     .done(function (data) {
-                        bolt.events.fire('bolt.content.save.done', data);
+                        bolt.events.fire('Bolt.Content.Save.Done', data);
 
                         // Submit was successful, disable warning.
                         window.onbeforeunload = null;
@@ -335,12 +335,12 @@
                         watchChanges();
                     })
                     .fail(function(){
-                        bolt.events.fire('bolt.content.save.fail');
+                        bolt.events.fire('Bolt.Content.Save.Fail');
 
                         $('p.lastsaved').text(msgNotSaved);
                     })
                     .always(function(){
-                        bolt.events.fire('bolt.content.save.always');
+                        bolt.events.fire('Bolt.Content.Save.Always');
 
                         // Re-enable buttons
                         window.setTimeout(function(){

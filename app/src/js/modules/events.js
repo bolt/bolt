@@ -9,21 +9,21 @@
  * Available events:
  *
  * + On saving content:
- *   - "bolt.content.save.start"         : Before saving content
- *   - "bolt.content.save.done"          : Content was saved successfully
- *   - "bolt.content.save.fail"          : Saving content failed
- *   - "bolt.content.save.always"        : After saving content (failed or succeeded)
+ *   - "Bolt.Content.Save.Start"         : Before saving content
+ *   - "Bolt.Content.Save.Done"          : Content was saved successfully
+ *   - "Bolt.Content.Save.Fail"          : Saving content failed
+ *   - "Bolt.Content.Save.Always"        : After saving content (failed or succeeded)
  *
  * + On saving an edited file:
- *   - "bolt.file.save.start"            : Before saving file
- *   - "bolt.file.save.done"             : File was saved successfully
- *   - "bolt.file.save.fail"             : Saving file failed
- *   - "bolt.file.save.always"           : After saving file (failed or succeeded)
+ *   - "Bolt.File.Save.Start"            : Before saving file
+ *   - "Bolt.File.Save.Done"             : File was saved successfully
+ *   - "Bolt.File.Save.Fail"             : Saving file failed
+ *   - "Bolt.File.Save.Always"           : After saving file (failed or succeeded)
  *
  * + Loading GoogleMaps API:
- *   - "bolt.googlemapsapi.load.start"   : Request loading API loading
- *   - "bolt.googlemapsapi.load.done"    : API loaded successfully
- *   - "bolt.googlemapsapi.load.fail"    : Loading failed
+ *   - "Bolt.GoogleMapsAPI.Load.Start"   : Request loading API loading
+ *   - "Bolt.GoogleMapsAPI.Load.Done"    : API loaded successfully
+ *   - "Bolt.GoogleMapsAPI.Load.Fail"    : Loading failed
  *
  * @param {Object} bolt - The Bolt module.
  * @param {Object} $ - jQuery
