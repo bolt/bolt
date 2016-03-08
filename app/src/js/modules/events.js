@@ -58,7 +58,7 @@
     /**
      * Loading of GoogleMaps API: Request loading API loading.
      *
-     * @event "Bolt.GoogleMapsAPI.Load.Start"
+     * @event "Bolt.GoogleMapsAPI.Load.Request"
      */
     /**
      * Loading of GoogleMaps API: API loaded successfully.

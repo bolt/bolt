@@ -90,7 +90,7 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              *
-             * @fires "Bolt.GoogleMapsAPI.Load.Start"
+             * @fires "Bolt.GoogleMapsAPI.Load.Request"
              * @listens "Bolt.GoogleMapsAPI.Load.Done"
              * @listens "Bolt.GoogleMapsAPI.Load.Fail"
              */
@@ -108,12 +108,12 @@
             bolt.events.on('Bolt.GoogleMapsAPI.Load.Fail', function () {
                 self._ui.spinner.removeClass('fa-spinner fa-spin').addClass('fa-refresh').one('click', function () {
                     self._ui.spinner.removeClass('fa-refresh').addClass('fa-spinner fa-spin');
-                    bolt.events.fire('Bolt.GoogleMapsAPI.Load.Start');
+                    bolt.events.fire('Bolt.GoogleMapsAPI.Load.Request');
                 });
             });
 
             // Request loading of Google Maps API.
-            bolt.events.fire('Bolt.GoogleMapsAPI.Load.Start');
+            bolt.events.fire('Bolt.GoogleMapsAPI.Load.Request');
         },
 
         /**

@@ -179,10 +179,10 @@
      *
      * @fires "Bolt.GoogleMapsAPI.Load.Done"
      * @fires "Bolt.GoogleMapsAPI.Load.Fail"
-     * @listens "Bolt.GoogleMapsAPI.Load.Start"
+     * @listens "Bolt.GoogleMapsAPI.Load.Request"
      */
     function initHandler() {
-        bolt.events.on('Bolt.GoogleMapsAPI.Load.Start', function () {
+        bolt.events.on('Bolt.GoogleMapsAPI.Load.Request', function () {
             if (gMapsApiLoaded === undefined) {
                 // Request loading Google Maps API.
                 gMapsApiLoaded = false;
