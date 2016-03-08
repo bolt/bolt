@@ -42,10 +42,10 @@ var init = {
      * @param {object} data
      * @returns {undefined}
      *
-     * @fires Bolt.File.Save.Start
-     * @fires Bolt.File.Save.Done
-     * @fires Bolt.File.Save.Fail
-     * @fires Bolt.File.Save.Always
+     * @fires "Bolt.File.Save.Start"
+     * @fires "Bolt.File.Save.Done"
+     * @fires "Bolt.File.Save.Fail"
+     * @fires "Bolt.File.Save.Always"
      */
     bindEditFile: function (data) {
         var editor;

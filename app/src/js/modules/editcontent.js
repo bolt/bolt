@@ -229,10 +229,10 @@
      * @function initSaveContinue
      * @memberof Bolt.editcontent
      *
-     * @fires Bolt.Content.Save.Start
-     * @fires Bolt.Content.Save.Done
-     * @fires Bolt.Content.Save.Fail
-     * @fires Bolt.Content.Save.Always
+     * @fires "Bolt.Content.Save.Start"
+     * @fires "Bolt.Content.Save.Done"
+     * @fires "Bolt.Content.Save.Fail"
+     * @fires "Bolt.Content.Save.Always"
      *
      * @param {BindData} data - Editcontent configuration data
      */

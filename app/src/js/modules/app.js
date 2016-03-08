@@ -48,7 +48,7 @@
      * @function gMapsApiReady
      * @memberof Bolt.app
      *
-     * @fires Bolt.GoogleMapsAPI.Load.Done
+     * @fires "Bolt.GoogleMapsAPI.Load.Done"
      */
     app.gMapsApiReady = function () {
         gMapsApiLoaded = true;
@@ -177,9 +177,9 @@
      * @function initHandler
      * @memberof Bolt.app
      *
-     * @fires Bolt.GoogleMapsAPI.Load.Done
-     * @fires Bolt.GoogleMapsAPI.Load.Fail
-     * @listens Bolt.GoogleMapsAPI.Load.Start
+     * @fires "Bolt.GoogleMapsAPI.Load.Done"
+     * @fires "Bolt.GoogleMapsAPI.Load.Fail"
+     * @listens "Bolt.GoogleMapsAPI.Load.Start"
      */
     function initHandler() {
         bolt.events.on('Bolt.GoogleMapsAPI.Load.Start', function () {

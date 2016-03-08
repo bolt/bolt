@@ -90,9 +90,9 @@
              * @memberOf jQuery.widget.bolt.fieldSlug.prototype
              * @private
              *
-             * @fires Bolt.GoogleMapsAPI.Load.Start
-             * @listens Bolt.GoogleMapsAPI.Load.Done
-             * @listens Bolt.GoogleMapsAPI.Load.Fail
+             * @fires "Bolt.GoogleMapsAPI.Load.Start"
+             * @listens "Bolt.GoogleMapsAPI.Load.Done"
+             * @listens "Bolt.GoogleMapsAPI.Load.Fail"
              */
             this._timeout = 0;
 
