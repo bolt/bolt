@@ -44,7 +44,7 @@ class PackageEventListener
 
         // Copy package assets to main web path
         $rootExtra = $event->getComposer()->getPackage()->getExtra();
-        $dest = $rootExtra['bolt-web-path'] . '/extensions/' . $packageAssets;
+        $dest = $rootExtra['bolt-web-path'] . '/extensions/vendor/' . $package->getName();
 
         self::mirror($packageAssets, $dest, $event);
     }
