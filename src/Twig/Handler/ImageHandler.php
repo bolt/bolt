@@ -97,7 +97,7 @@ class ImageHandler
      *
      * @return string HTML output
      */
-    public function popup($fileName = null, $width = 100, $height = 100, $crop = null, $title = null)
+    public function popup($fileName, $width = null, $height = null, $crop = null, $title = null)
     {
         if (empty($fileName)) {
             return '&nbsp;';
@@ -105,7 +105,7 @@ class ImageHandler
 
         $thumbconf = $this->app['config']->get('general/thumbnails');
         $fullwidth = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
-        $fullheight = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 800;
+        $fullheight = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 750;
 
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
         $largeThumb = $this->getThumbnail($fileName, $fullwidth, $fullheight, 'r');
@@ -148,19 +148,27 @@ class ImageHandler
      *
      * @return string HTML output
      */
-    public function showImage($fileName = null, $width = null, $height = null, $crop = null)
+    public function showImage($fileName, $width = null, $height = null, $crop = null)
     {
         if (empty($fileName)) {
             return '&nbsp;';
         }
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
-        if ($width === null || $height === null) {
+        if($width === null && $height === null){
+            $thumbconf = $this->app['config']->get('general/thumbnails');
+            $width = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
+            $height = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 750;
+            $thumb->setWidth($width);
+            $thumb->setHeight($height);
+        }elseif ($width === null xor $height === null) {
             $info = $this->imageInfo($thumb->getFileName(), false)->getInfo();
 
             if ($width !== null) {
+                $width = min($width, $info->getWidth());
                 $thumb->setHeight(round($width / $info->getAspectRatio()));
             } elseif ($height !== null) {
+                $height = min($height, $info->getHeight());
                 $thumb->setWidth(round($height * $info->getAspectRatio()));
             } else {
                 $thumb->setWidth($info->getWidth());
@@ -183,15 +191,15 @@ class ImageHandler
      * @param string     $fileName Target filename
      * @param string|int $width    Target width
      * @param string|int $height   Target height
-     * @param string     $zoomcrop Zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
+     * @param string     $crop     Zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
      *                             Set width or height parameter to '0' for proportional scaling
      *                             Setting them to '' uses default values.
      *
      * @return string Relative URL of the thumbnail
      */
-    public function thumbnail($fileName, $width = null, $height = null, $zoomcrop = null)
+    public function thumbnail($fileName, $width = null, $height = null, $crop = null)
     {
-        $thumb = $this->getThumbnail($fileName, $width, $height, $zoomcrop);
+        $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
         return $this->getThumbnailUri($thumb);
     }
