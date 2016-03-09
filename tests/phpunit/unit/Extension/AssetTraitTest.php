@@ -92,26 +92,6 @@ class AssetTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $mockParams = [
-            'root'       => new Filesystem(new Local($app['resources']->getPath('root'))),
-            'web'        => new Filesystem(new Local($app['resources']->getPath('web'))),
-            'app'        => new Filesystem(new Local($app['resources']->getPath('app'))),
-            'view'       => new Filesystem(new Local($app['resources']->getPath('view'))),
-            'default'    => new Filesystem(new Local($app['resources']->getPath('files'))),
-            'files'      => new Filesystem(new Local($app['resources']->getPath('files'))),
-            'config'     => new Filesystem(new Local($app['resources']->getPath('config'))),
-            'themes'     => new Filesystem(new Local($app['resources']->getPath('themebase'))),
-            'theme'      => new Filesystem(new Local($app['resources']->getPath('themebase') . '/' . $app['config']->get('general/theme'))),
-            'extensions' => new Filesystem(new Local($app['resources']->getPath('extensions'))),
-            'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
-        ];
-        $mock = $this->getMock('\Bolt\Filesystem\Manager', ['has'], [$mockParams]);
-        $mock->expects($this->at(0))
-            ->method('has')
-            ->willReturn(true)
-            ->with('extensions://local/bolt/koala/web/test.js')
-        ;
-
         $dir = $app['filesystem']->getDir('extensions://');
         $dir->setPath('local/bolt/koala');
 
@@ -120,11 +100,23 @@ class AssetTraitTest extends BoltUnitTest
         $ext->setContainer($app);
         $ext->setBaseDirectory($dir);
 
-        $webDir = $app['filesystem']->getDir('extensions://');
-        $ext->setWebDirectory($webDir);
-        //$ext->setRelativeUrl('/extensions/local/bolt/koala/');
+        $mockFile = $this->getMock('\Bolt\Filesystem\Handler\File', ['exists', 'getPath']);
+        $mockFile
+            ->method('exists')
+            ->willReturn(true)
+        ;
+        $mockFile
+            ->method('getPath')
+            ->willReturn('/extensions/local/bolt/koala/test.js')
+        ;
+        $mockDir = $this->getMock('\Bolt\Filesystem\Handler\Directory', ['getFile']);
+        $mockDir
+            ->method('getFile')
+            ->willReturn($mockFile)
+        ;
+        $ext->setWebDirectory($mockDir);
 
-        $app['filesystem'] = $mock;
+        //$app['filesystem'] = $mock;
         $ext->register($app);
 
         $fileQueue = $app['asset.queue.file']->getQueue();
@@ -168,7 +160,6 @@ class AssetTraitTest extends BoltUnitTest
 
         $webDir = $app['filesystem']->getDir('extensions://');
         $ext->setWebDirectory($webDir);
-        //$ext->setRelativeUrl('/extensions/local/bolt/koala/');
 
         $app['filesystem'] = $mock;
         $ext->register($app);
@@ -177,7 +168,7 @@ class AssetTraitTest extends BoltUnitTest
 
         $queued = reset($fileQueue['javascript']);
         $this->assertInstanceOf('Bolt\Asset\File\JavaScript', $queued);
-        $this->assertSame('/theme/base-2014/js/test.js', $queued->getFileName());
+        $this->assertSame('js/test.js', $queued->getFileName());
     }
 
     public function testRegisterInvalidAssets()
