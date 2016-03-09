@@ -66,6 +66,7 @@ class FrontendTest extends ControllerUnitTest
 
         $storage = $this->getMock('Bolt\Storage', ['getContent'], [$app]);
         $content1 = new Content($app);
+        $content1->setValue('id', 42);
         $storage->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue($content1));
@@ -75,7 +76,7 @@ class FrontendTest extends ControllerUnitTest
         $globals = $response->getGlobalContext();
 
         $this->assertTrue($response instanceof BoltResponse);
-        $this->assertSame($content1, $globals['records']);
+        $this->assertSame([42 => $content1], $globals['records']);
     }
 
     public function testMultipleHomepages()

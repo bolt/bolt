@@ -99,17 +99,16 @@ class Frontend extends ConfigurableBase
         $content = $this->getContent($this->getOption('general/homepage'), $listingparameters);
 
         $template = $this->templateChooser()->homepage($content);
-
-        $globals = [
-            'records' => $content,
-        ];
+        $globals = [];
 
         if (is_array($content)) {
             $first = current($content);
             $globals[$first->contenttype['slug']] = $content;
+            $globals['records'] = $content;
         } elseif (!empty($content)) {
             $globals['record'] = $content;
             $globals[$content->contenttype['singular_slug']] = $content;
+            $globals['records'] = [$content->id => $content];
         }
 
         return $this->render($template, [], $globals);
