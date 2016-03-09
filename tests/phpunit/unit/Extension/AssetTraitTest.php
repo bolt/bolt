@@ -6,6 +6,8 @@ use Bolt\Asset\File\JavaScript;
 use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Widget\Widget;
+use Bolt\Filesystem\Adapter\Local;
+use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Handler\Directory;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\AssetExtension;
@@ -90,7 +92,20 @@ class AssetTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $mock = $this->getMock('\Bolt\Filesystem\Manager', ['has']);
+        $mockParams = [
+            'root'       => new Filesystem(new Local($app['resources']->getPath('root'))),
+            'web'        => new Filesystem(new Local($app['resources']->getPath('web'))),
+            'app'        => new Filesystem(new Local($app['resources']->getPath('app'))),
+            'view'       => new Filesystem(new Local($app['resources']->getPath('view'))),
+            'default'    => new Filesystem(new Local($app['resources']->getPath('files'))),
+            'files'      => new Filesystem(new Local($app['resources']->getPath('files'))),
+            'config'     => new Filesystem(new Local($app['resources']->getPath('config'))),
+            'themes'     => new Filesystem(new Local($app['resources']->getPath('themebase'))),
+            'theme'      => new Filesystem(new Local($app['resources']->getPath('themebase') . '/' . $app['config']->get('general/theme'))),
+            'extensions' => new Filesystem(new Local($app['resources']->getPath('extensions'))),
+            'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
+        ];
+        $mock = $this->getMock('\Bolt\Filesystem\Manager', ['has'], [$mockParams]);
         $mock->expects($this->at(0))
             ->method('has')
             ->willReturn(true)
@@ -104,6 +119,7 @@ class AssetTraitTest extends BoltUnitTest
         $ext->setAssets([new JavaScript('test.js')]);
         $ext->setContainer($app);
         $ext->setBaseDirectory($dir);
+
         $webDir = $app['filesystem']->getDir('extensions://');
         $ext->setWebDirectory($webDir);
         //$ext->setRelativeUrl('/extensions/local/bolt/koala/');
@@ -122,7 +138,20 @@ class AssetTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $mock = $this->getMock('\Bolt\Filesystem\Manager', ['has']);
+        $mockParams = [
+            'root'       => new Filesystem(new Local($app['resources']->getPath('root'))),
+            'web'        => new Filesystem(new Local($app['resources']->getPath('web'))),
+            'app'        => new Filesystem(new Local($app['resources']->getPath('app'))),
+            'view'       => new Filesystem(new Local($app['resources']->getPath('view'))),
+            'default'    => new Filesystem(new Local($app['resources']->getPath('files'))),
+            'files'      => new Filesystem(new Local($app['resources']->getPath('files'))),
+            'config'     => new Filesystem(new Local($app['resources']->getPath('config'))),
+            'themes'     => new Filesystem(new Local($app['resources']->getPath('themebase'))),
+            'theme'      => new Filesystem(new Local($app['resources']->getPath('themebase') . '/' . $app['config']->get('general/theme'))),
+            'extensions' => new Filesystem(new Local($app['resources']->getPath('extensions'))),
+            'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
+        ];
+        $mock = $this->getMock('\Bolt\Filesystem\Manager', ['has'], [$mockParams]);
         $mock->expects($this->at(1))
             ->method('has')
             ->willReturn(true)
@@ -185,7 +214,7 @@ class AssetTraitTest extends BoltUnitTest
         $ext->setBaseDirectory($dir);
         $ext->register($app);
 
-        $this->setExpectedException('RuntimeException', 'Extension file assets must have a file name set.');
+        $this->setExpectedException('RuntimeException', 'Extension file assets must have a path set.');
         $app['asset.queue.file']->getQueue();
     }
 }
