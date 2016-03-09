@@ -155,13 +155,13 @@ class ImageHandler
         }
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
-        if($width === null && $height === null){
+        if ($width === null && $height === null) {
             $thumbconf = $this->app['config']->get('general/thumbnails');
             $width = !empty($thumbconf['default_image'][0]) ? $thumbconf['default_image'][0] : 1000;
             $height = !empty($thumbconf['default_image'][1]) ? $thumbconf['default_image'][1] : 750;
             $thumb->setWidth($width);
             $thumb->setHeight($height);
-        }elseif ($width === null xor $height === null) {
+        } elseif ($width === null xor $height === null) {
             $info = $this->imageInfo($thumb->getFileName(), false)->getInfo();
 
             if ($width !== null) {
