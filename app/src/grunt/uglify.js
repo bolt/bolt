@@ -7,7 +7,7 @@ module.exports = {
      */
     prepareLibJs: {
         options: {
-            preserveComments: 'some',
+            preserveComments: /(?:^!|@(?:license|preserve|cc_on))/,
             sourceMap: '<%= sourcemap.js %>',
             sourceMapIncludeSources: true
         },
@@ -42,7 +42,7 @@ module.exports = {
      */
     installCodeMirror: {
         options: {
-            preserveComments: 'some'
+            preserveComments: /(?:^!|@(?:license|preserve|cc_on))/
         },
         files: [{
             expand: true,
@@ -68,7 +68,7 @@ module.exports = {
      */
     installLocaleDatepicker: {
         options: {
-            preserveComments: 'some'
+            preserveComments: /(?:^!|@(?:license|preserve|cc_on))/
         },
         files: [{
             expand: true,
@@ -89,7 +89,7 @@ module.exports = {
      */
     installLocaleSelect2: {
         options: {
-            preserveComments: 'some'
+            preserveComments: /(?:^!|@(?:license|preserve|cc_on))/
         },
         files: [{
             expand: true,
@@ -110,7 +110,7 @@ module.exports = {
      */
     installLocaleMoment: {
         options: {
-            preserveComments: 'some'
+            preserveComments: /(?:^!|@(?:license|preserve|cc_on))/
         },
         files: [{
             expand: true,
