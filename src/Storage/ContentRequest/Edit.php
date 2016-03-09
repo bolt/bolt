@@ -214,7 +214,7 @@ class Edit
         $can = false;
         foreach ($fields as &$values) {
             if (isset($values['upload'])) {
-                foreach ((array)$values['upload'] as $path) {
+                foreach ((array) $values['upload'] as $path) {
                     $can = $can || $this->checkUploadDirectory($path);
                 }
                 $values['canUpload'] = $can;

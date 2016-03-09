@@ -526,9 +526,9 @@ trait ContentValuesTrait
         $titleParts = [];
 
         if ($allowBasicTags === true) {
-            $allowedTags = "<b><del><em><i><strong><s>";
+            $allowedTags = '<b><del><em><i><strong><s>';
         } else {
-            $allowedTags = "";
+            $allowedTags = '';
         }
 
         foreach ($this->getTitleColumnName() as $fieldName) {

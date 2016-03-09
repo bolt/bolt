@@ -158,8 +158,8 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
 
     /**
      * Provides a template that is able to render the field
-     * @deprecated
      *
+     * @deprecated
      */
     public function getTemplate()
     {

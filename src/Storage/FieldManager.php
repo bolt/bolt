@@ -20,7 +20,7 @@ class FieldManager
      * Requires access to legacy Config class so that it can add fields to the old-style manager
      * This can be removed once the templating has migrated to the new system.
      *
-     * @param array $typemap
+     * @param array  $typemap
      * @param Config $config
      */
     public function __construct(array $typemap, Config $config)
@@ -80,6 +80,7 @@ class FieldManager
 
     /**
      * Links the field name found in the config to a callable handler.
+     *
      * @param $class
      * @param callable|object $handler
      */
@@ -104,13 +105,15 @@ class FieldManager
     /**
      * Note, this method is for Bolt use only, as a way to distinguish which fields have been added outside of the
      * core system. It will be removed in a future version.
+     *
      * @param $name
+     *
      * @internal
+     *
      * @return bool
      */
     public function hasCustomHandler($name)
     {
         return in_array($name, $this->customHandlers);
     }
-
 }

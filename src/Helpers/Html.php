@@ -66,7 +66,7 @@ class Html
             return false;
         }
 
-        return (bool) preg_match($pattern, $str.'/');
+        return (bool) preg_match($pattern, $str . '/');
     }
 
     /**
@@ -83,5 +83,4 @@ class Html
 
         return $url;
     }
-
 }

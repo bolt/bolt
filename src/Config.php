@@ -7,8 +7,8 @@ use Bolt\Controller\Zone;
 use Bolt\Exception\LowlevelException;
 use Bolt\Helpers\Arr;
 use Bolt\Helpers\Str;
-use Bolt\Translation\Translator as Trans;
 use Bolt\Translation\Translator;
+use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
 use Eloquent\Pathogen\PathInterface;
 use Eloquent\Pathogen\RelativePathInterface;
@@ -216,11 +216,12 @@ class Config
      * replaces placeholders in config values %foo% will be resolved to $app['foo'] from the container
      *
      * @param mixed $value
+     *
      * @return mixed
      */
     protected function doReplacements($value)
     {
-        if (!is_array($value) && ('%' !== substr($value,0,1) && '%' !== substr($value, -1, 1))) {
+        if (!is_array($value) && ('%' !== substr($value, 0, 1) && '%' !== substr($value, -1, 1))) {
             return $value;
         }
 
@@ -228,11 +229,12 @@ class Config
             foreach ($value as $k => $v) {
                 $value[$k] = $this->doReplacements($v);
             }
+
             return $value;
         }
 
         if (is_string($value)) {
-            return $this->app[substr($value, 1,strlen($value)-2)];
+            return $this->app[substr($value, 1, strlen($value) - 2)];
         }
 
         return $value;
@@ -399,7 +401,6 @@ class Config
 
         return $contentTypes;
     }
-
 
     /**
      * Read and parse the current theme's config.yml configuration file.
@@ -888,7 +889,6 @@ class Config
 
             /**
              * Make sure any contenttype that has a 'relation' defined points to a contenttype that exists.
-             *
              */
             if (isset($ct['relations'])) {
                 foreach ($ct['relations'] as $relKey => $relData) {
