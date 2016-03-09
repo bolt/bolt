@@ -3,7 +3,6 @@ namespace Bolt\EventListener;
 
 use Bolt\AccessControl\Permissions;
 use Bolt\Config;
-use Bolt\Configuration\ResourceManager;
 use Bolt\Events\HydrationEvent;
 use Bolt\Events\StorageEvent;
 use Bolt\Events\StorageEvents;

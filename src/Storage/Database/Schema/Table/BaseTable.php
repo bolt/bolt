@@ -3,8 +3,6 @@ namespace Bolt\Storage\Database\Schema\Table;
 
 use Bolt\Exception\StorageException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 
 /**

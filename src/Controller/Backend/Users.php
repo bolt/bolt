@@ -431,7 +431,7 @@ class Users extends BackendBase
                     'required' => false,
                     'label'    => Trans::__('page.edit-users.label.password-confirm'),
                     'attr'     => [
-                        'placeholder' => Trans::__('page.edit-users.placeholder.password-confirm'),
+                        'placeholder'  => Trans::__('page.edit-users.placeholder.password-confirm'),
                         'autocomplete' => 'new-password',
                     ],
                 ]

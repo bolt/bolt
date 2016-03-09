@@ -105,7 +105,7 @@ class RepeaterType extends FieldTypeBase
      * null values, rather we want an empty collection so this overrides the default and handles that.
      *
      * @param object $entity
-     * @param mixed $val
+     * @param mixed  $val
      */
     public function set($entity, $val)
     {

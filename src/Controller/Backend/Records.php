@@ -6,7 +6,6 @@ use Bolt\Storage\ContentRequest\ListingOptions;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Backend controller for record manipulation routes.

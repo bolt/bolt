@@ -3,7 +3,6 @@ namespace Bolt\Storage;
 
 use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection\CollectionManager;
-use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;

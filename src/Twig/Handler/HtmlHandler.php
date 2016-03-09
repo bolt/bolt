@@ -160,13 +160,13 @@ class HtmlHandler
      */
     public function link($location, $label = '[link]')
     {
-        if ((string)$location === '') {
+        if ((string) $location === '') {
             return '';
         }
 
         if (Html::isURL($location)) {
             $location = Html::addScheme($location);
-        } else if ($record = $this->app['storage']->getContent($location)) {
+        } elseif ($record = $this->app['storage']->getContent($location)) {
             $location = $record->link();
         }
 
