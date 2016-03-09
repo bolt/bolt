@@ -77,9 +77,11 @@ class ConfigTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $ext = new ConfigExtension();
-        $dir = new Directory();
-        $dir->setPath('local/bolt/config');
-        $ext->setBaseDirectory($dir);
+        $baseDir = $app['filesystem']->getDir('extensions://');
+        $baseDir->setPath('local/bolt/config');
+        $ext->setBaseDirectory($baseDir);
+        $webDir = $app['filesystem']->getDir('extensions://');
+        $ext->setWebDirectory($webDir);
 
         $refObj = new \ReflectionObject($ext);
         $method = $refObj->getMethod('getConfig');
@@ -99,15 +101,18 @@ class ConfigTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $ext = new ConfigExtension();
-        $dir = new Directory();
-        $dir->setPath('local/bolt/config');
-        $ext->setBaseDirectory($dir);
+        $baseDir = $app['filesystem']->getDir('extensions://');
+        $baseDir->setPath('local/bolt/config');
+        $ext->setBaseDirectory($baseDir);
+        $webDir = $app['filesystem']->getDir('extensions://');
+        $ext->setWebDirectory($webDir);
 
         $refObj = new \ReflectionObject($ext);
         $method = $refObj->getMethod('getConfig');
         $method->setAccessible(true);
 
         $ext->setContainer($app);
+        $ext->register($app);
         $filesystem = $app['filesystem'];
         $filesystem->delete('extensions://local/bolt/config/config/config.yml.dist');
 
@@ -119,9 +124,11 @@ class ConfigTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
         $ext = new ConfigExtension();
-        $dir = new Directory();
-        $dir->setPath('local/bolt/config');
-        $ext->setBaseDirectory($dir);
+        $baseDir = $app['filesystem']->getDir('extensions://');
+        $baseDir->setPath('local/bolt/config');
+        $ext->setBaseDirectory($baseDir);
+        $webDir = $app['filesystem']->getDir('extensions://');
+        $ext->setWebDirectory($webDir);
 
         $refObj = new \ReflectionObject($ext);
         $method = $refObj->getMethod('getConfig');
@@ -146,7 +153,7 @@ class ConfigTraitTest extends BoltUnitTest
         $file->put("\tever so slightly invalid yaml");
 
         $ext = new ConfigExtension();
-        $dir = new Directory();
+        $dir = $app['filesystem']->getDir('extensions://');
         $dir->setPath('local/bolt/config');
         $ext->setBaseDirectory($dir);
 

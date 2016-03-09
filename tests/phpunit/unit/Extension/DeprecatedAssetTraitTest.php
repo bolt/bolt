@@ -23,9 +23,12 @@ class DeprecatedAssetTraitTest extends BoltUnitTest
 
         $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
 
+        $baseDir = new Directory();
+        $webDir = $app['filesystem']->getDir('extensions://');
         $ext = new DeprecatedAssetExtension();
         $ext->setRegisterFunction('addCss', ['test.css']);
-        $ext->setBaseDirectory(new Directory());
+        $ext->setBaseDirectory($baseDir);
+        $ext->setWebDirectory($webDir);
         $ext->setContainer($app);
         $ext->register($app);
 
@@ -42,9 +45,12 @@ class DeprecatedAssetTraitTest extends BoltUnitTest
 
         $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
 
+        $baseDir = $app['filesystem']->getDir('extensions://');;
+        $webDir = $app['filesystem']->getDir('extensions://');
         $ext = new DeprecatedAssetExtension();
         $ext->setRegisterFunction('addCss', [new Stylesheet('test.css')]);
-        $ext->setBaseDirectory(new Directory());
+        $ext->setBaseDirectory($baseDir);
+        $ext->setWebDirectory($webDir);
         $ext->setContainer($app);
         $ext->register($app);
 
@@ -61,9 +67,12 @@ class DeprecatedAssetTraitTest extends BoltUnitTest
 
         $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
 
+        $baseDir = $app['filesystem']->getDir('extensions://');;
+        $webDir = $app['filesystem']->getDir('extensions://');
         $ext = new DeprecatedAssetExtension();
         $ext->setRegisterFunction('addJavascript', ['test.js']);
-        $ext->setBaseDirectory(new Directory());
+        $ext->setBaseDirectory($baseDir);
+        $ext->setWebDirectory($webDir);
         $ext->setContainer($app);
         $ext->register($app);
 
@@ -80,9 +89,12 @@ class DeprecatedAssetTraitTest extends BoltUnitTest
 
         $this->assertSame(['javascript' => [], 'stylesheet' => []], $app['asset.queue.file']->getQueue());
 
+        $baseDir = $app['filesystem']->getDir('extensions://');;
+        $webDir = $app['filesystem']->getDir('extensions://');
         $ext = new DeprecatedAssetExtension();
         $ext->setRegisterFunction('addJavascript', [new JavaScript('test.js')]);
-        $ext->setBaseDirectory(new Directory());
+        $ext->setBaseDirectory($baseDir);
+        $ext->setWebDirectory($webDir);
         $ext->setContainer($app);
         $ext->register($app);
 
@@ -105,7 +117,7 @@ class DeprecatedAssetTraitTest extends BoltUnitTest
             'snippetCallback',
             5,
         ]);
-        $ext->setBaseDirectory(new Directory());
+        $ext->setBaseDirectory($app['filesystem']->getDir('extensions://'));
         $ext->setContainer($app);
         $ext->register($app);
 
@@ -128,7 +140,7 @@ class DeprecatedAssetTraitTest extends BoltUnitTest
             [$ext, 'snippetCallback'],
             42,
         ]);
-        $ext->setBaseDirectory(new Directory());
+        $ext->setBaseDirectory($app['filesystem']->getDir('extensions://'));
         $ext->setContainer($app);
         $ext->register($app);
 
@@ -147,7 +159,7 @@ class DeprecatedAssetTraitTest extends BoltUnitTest
 
         $ext = new DeprecatedAssetExtension();
         $ext->setRegisterFunction('addWidget', [new Widget()]);
-        $ext->setBaseDirectory(new Directory());
+        $ext->setBaseDirectory($app['filesystem']->getDir('extensions://'));
         $ext->setContainer($app);
         $ext->register($app);
 

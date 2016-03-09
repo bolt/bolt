@@ -18,7 +18,7 @@ class AbstractExtensionTest extends BoltUnitTest
     {
         $this->assertClassHasAttribute('container', 'Bolt\Extension\AbstractExtension');
         $this->assertClassHasAttribute('baseDirectory', 'Bolt\Extension\AbstractExtension');
-        $this->assertClassHasAttribute('relativeUrl', 'Bolt\Extension\AbstractExtension');
+        $this->assertClassHasAttribute('webDirectory', 'Bolt\Extension\AbstractExtension');
         $this->assertClassHasAttribute('name', 'Bolt\Extension\AbstractExtension');
         $this->assertClassHasAttribute('vendor', 'Bolt\Extension\AbstractExtension');
         $this->assertClassHasAttribute('namespace', 'Bolt\Extension\AbstractExtension');
@@ -34,9 +34,12 @@ class AbstractExtensionTest extends BoltUnitTest
 
     public function testBaseDirectory()
     {
+        $app = $this->getApp();
+        $webDir = $app['filesystem']->getDir('extensions://');
         $dir = new Directory();
         $dir->setPath(__DIR__);
         $ext = new BasicExtension();
+        $ext->setWebDirectory($webDir);
 
         $this->assertInstanceOf('Bolt\Extension\AbstractExtension', $ext->setBaseDirectory($dir));
         $this->assertInstanceOf('Bolt\Filesystem\Handler\Directory', $ext->getBaseDirectory());
@@ -45,10 +48,12 @@ class AbstractExtensionTest extends BoltUnitTest
 
     public function testRelativeUrl()
     {
+        $app = $this->getApp();
+        $webDir = new Directory($app['filesystem']->getFilesystem('extensions'));
         $ext = new BasicExtension();
+        $ext->setWebDirectory($webDir);
 
-        $this->assertInstanceOf('Bolt\Extension\AbstractExtension', $ext->setRelativeUrl('/koalas'));
-        $this->assertSame('/koalas', $ext->getRelativeUrl());
+        $this->assertInstanceOf('Bolt\Filesystem\Handler\Directory', $ext->getWebDirectory());
     }
 
     public function testGetId()

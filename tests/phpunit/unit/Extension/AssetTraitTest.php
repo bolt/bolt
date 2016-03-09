@@ -61,7 +61,9 @@ class AssetTraitTest extends BoltUnitTest
         $this->assertSame([], $app['asset.queue.snippet']->getQueue());
         $this->assertSame([], $app['asset.queue.widget']->getQueue());
 
+        $webDir = new Directory($app['filesystem']->getFilesystem('extensions'));
         $ext = new AssetExtension();
+        $ext->setWebDirectory($webDir);
         $ext->setAssets(
             [
                 new JavaScript('test.js'),
@@ -71,7 +73,7 @@ class AssetTraitTest extends BoltUnitTest
             ]
         );
         $ext->setContainer($app);
-        $ext->setBaseDirectory(new Directory());
+        $ext->setBaseDirectory($app['filesystem']->getDir('extensions://'));
         $ext->register($app);
 
         $fileQueue = $app['asset.queue.file']->getQueue();
@@ -95,14 +97,16 @@ class AssetTraitTest extends BoltUnitTest
             ->with('extensions://local/bolt/koala/web/test.js')
         ;
 
-        $dir = new Directory();
+        $dir = $app['filesystem']->getDir('extensions://');
         $dir->setPath('local/bolt/koala');
 
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript('test.js')]);
         $ext->setContainer($app);
         $ext->setBaseDirectory($dir);
-        $ext->setRelativeUrl('/extensions/local/bolt/koala/');
+        $webDir = $app['filesystem']->getDir('extensions://');
+        $ext->setWebDirectory($webDir);
+        //$ext->setRelativeUrl('/extensions/local/bolt/koala/');
 
         $app['filesystem'] = $mock;
         $ext->register($app);
@@ -125,14 +129,17 @@ class AssetTraitTest extends BoltUnitTest
             ->with('theme://js/test.js')
         ;
 
-        $dir = new Directory();
+        $dir = $app['filesystem']->getDir('extensions://');
         $dir->setPath('local/bolt/koala');
 
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript('js/test.js')]);
         $ext->setContainer($app);
         $ext->setBaseDirectory($dir);
-        $ext->setRelativeUrl('/extensions/local/bolt/koala/');
+
+        $webDir = $app['filesystem']->getDir('extensions://');
+        $ext->setWebDirectory($webDir);
+        //$ext->setRelativeUrl('/extensions/local/bolt/koala/');
 
         $app['filesystem'] = $mock;
         $ext->register($app);
@@ -152,7 +159,7 @@ class AssetTraitTest extends BoltUnitTest
         $this->assertSame([], $app['asset.queue.snippet']->getQueue());
         $this->assertSame([], $app['asset.queue.widget']->getQueue());
 
-        $dir = new Directory();
+        $dir = $app['filesystem']->getDir('extensions://');
         $ext = new AssetExtension();
         $ext->setAssets('Turning our nightlights on in the daytime to scare');
         $ext->setContainer($app);
@@ -171,7 +178,7 @@ class AssetTraitTest extends BoltUnitTest
         $this->assertSame([], $app['asset.queue.snippet']->getQueue());
         $this->assertSame([], $app['asset.queue.widget']->getQueue());
 
-        $dir = new Directory();
+        $dir = $app['filesystem']->getDir('extensions://');
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript()]);
         $ext->setContainer($app);
