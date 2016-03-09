@@ -6,6 +6,7 @@ use Bolt\Filesystem\Exception\FileNotFoundException;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\Asset\Context\RequestStackContext;
+use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Asset\PathPackage;
 
@@ -20,7 +21,8 @@ class AssetServiceProvider implements ServiceProviderInterface
     {
         $app['asset.packages'] = $app->share(
             function ($app) {
-                $packages = new Packages();
+                $defaultPackage = new Package($app['asset.version_strategy']('view'));
+                $packages = new Packages($defaultPackage);
 
                 $packages->addPackage('bolt', $app['asset.package_factory']('view'));
                 $packages->addPackage('extensions', new PathPackage('', $app['asset.version_strategy']('web'), $app['asset.context']));
