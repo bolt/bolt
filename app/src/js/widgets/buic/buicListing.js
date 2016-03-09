@@ -71,10 +71,6 @@
             }
             msg = msg + '<br><br><b>' + bolt.data('recordlisting.confirm.no-undo') + '</b>';
 
-            // Remove when done:
-            msg = msg + '<hr><b style="color:red;">Anti CSRF token functionality still disabled ' +
-                'in Bolt\Controller\Async\Records::modify</b>';
-
             bootbox.dialog({
                 message: msg,
                 title: actions[action].name,
