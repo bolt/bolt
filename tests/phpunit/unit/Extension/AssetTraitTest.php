@@ -144,10 +144,9 @@ class AssetTraitTest extends BoltUnitTest
             'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
         ];
         $mock = $this->getMock('\Bolt\Filesystem\Manager', ['has'], [$mockParams]);
-        $mock->expects($this->at(1))
+        $mock->expects($this->any())
             ->method('has')
             ->willReturn(true)
-            ->with('theme://js/test.js')
         ;
 
         $dir = $app['filesystem']->getDir('extensions://');
