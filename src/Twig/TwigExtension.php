@@ -335,7 +335,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\ImageHandler::image()
      */
-    public function image($filename, $width = null, $height = null, $crop = null)
+    public function image($filename = null, $width = null, $height = null, $crop = null)
     {
         return $this->handlers['image']->image($filename, $width, $height, $crop);
     }
@@ -456,7 +456,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\ImageHandler::popup()
      */
-    public function popup($filename, $width = null, $height = null, $crop = null, $title = null)
+    public function popup($filename = null, $width = null, $height = null, $crop = null, $title = null)
     {
         return $this->handlers['image']->popup($filename, $width, $height, $crop, $title);
     }
@@ -536,7 +536,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\ImageHandler::showImage()
      */
-    public function showImage($filename, $width = null, $height = null, $crop = null)
+    public function showImage($filename = null, $width = null, $height = null, $crop = null)
     {
         return $this->handlers['image']->showImage($filename, $width, $height, $crop);
     }
@@ -592,7 +592,7 @@ class TwigExtension extends \Twig_Extension implements \Twig_Extension_GlobalsIn
     /**
      * @see \Bolt\Twig\Handler\ImageHandler::thumbnail()
      */
-    public function thumbnail($filename, $width = null, $height = null, $crop = null)
+    public function thumbnail($filename = null, $width = null, $height = null, $crop = null)
     {
         return $this->handlers['image']->thumbnail($filename, $width, $height, $crop);
     }

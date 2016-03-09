@@ -37,7 +37,7 @@ class ImageHandler
      *
      * @return string Image path
      */
-    public function image($filename, $width = null, $height = null, $crop = null)
+    public function image($filename = null, $width = null, $height = null, $crop = null)
     {
         if ($width || $height) {
             // You don't want the image, you just want a thumbnail.
@@ -97,7 +97,7 @@ class ImageHandler
      *
      * @return string HTML output
      */
-    public function popup($fileName, $width = null, $height = null, $crop = null, $title = null)
+    public function popup($fileName = null, $width = null, $height = null, $crop = null, $title = null)
     {
         if (empty($fileName)) {
             return '&nbsp;';
@@ -148,7 +148,7 @@ class ImageHandler
      *
      * @return string HTML output
      */
-    public function showImage($fileName, $width = null, $height = null, $crop = null)
+    public function showImage($fileName = null, $width = null, $height = null, $crop = null)
     {
         if (empty($fileName)) {
             return '&nbsp;';
@@ -197,7 +197,7 @@ class ImageHandler
      *
      * @return string Relative URL of the thumbnail
      */
-    public function thumbnail($fileName, $width = null, $height = null, $crop = null)
+    public function thumbnail($fileName = null, $width = null, $height = null, $crop = null)
     {
         $thumb = $this->getThumbnail($fileName, $width, $height, $crop);
 
@@ -214,7 +214,7 @@ class ImageHandler
      *
      * @return Thumbnail
      */
-    private function getThumbnail($fileName, $width = null, $height = null, $scale = null)
+    private function getThumbnail($fileName = null, $width = null, $height = null, $scale = null)
     {
         $thumb = new Thumbnail($this->app['config']->get('general/thumbnails'));
         $thumb
