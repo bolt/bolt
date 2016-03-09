@@ -105,9 +105,9 @@ class Frontend extends ConfigurableBase
             $globals[$first->contenttype['slug']] = $content;
             $globals['records'] = $content;
         } elseif (!empty($content)) {
-            $globals['records'] = [$content->id => $content];
             $globals['record'] = $content;
             $globals[$content->contenttype['singular_slug']] = $content;
+            $globals['records'] = [$content->id => $content];
         }
 
         return $this->render($template, [], $globals);
