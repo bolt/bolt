@@ -21,7 +21,9 @@ class FilesystemServiceProvider implements ServiceProviderInterface
                 $manager = new Manager(
                     [
                         'root'       => new Filesystem(new Local($app['resources']->getPath('root'))),
+                        'web'        => new Filesystem(new Local($app['resources']->getPath('web'))),
                         'app'        => new Filesystem(new Local($app['resources']->getPath('app'))),
+                        'view'       => new Filesystem(new Local($app['resources']->getPath('view'))),
                         'default'    => new Filesystem(new Local($app['resources']->getPath('files'))),
                         'files'      => new Filesystem(new Local($app['resources']->getPath('files'))),
                         'config'     => new Filesystem(new Local($app['resources']->getPath('config'))),

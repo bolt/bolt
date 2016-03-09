@@ -132,16 +132,6 @@ class TwigExtensionTest extends BoltUnitTest
         $twig->buid();
     }
 
-    public function testCacheHash()
-    {
-        $app = $this->getApp();
-        $handlers = $this->getTwigHandlers($app);
-        $handlers['html'] = $this->getMockHandler('HtmlHandler', 'cacheHash');
-        $twig = new TwigExtension($app, $handlers, true);
-
-        $twig->cacheHash(null);
-    }
-
     public function testCountWidgets()
     {
         $app = $this->getApp();

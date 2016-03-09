@@ -6,6 +6,8 @@ use Bolt\Asset\File\JavaScript;
 use Bolt\Asset\File\Stylesheet;
 use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Widget\Widget;
+use Bolt\Filesystem\Adapter\Local;
+use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\Handler\Directory;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Tests\Extension\Mock\AssetExtension;
@@ -61,7 +63,9 @@ class AssetTraitTest extends BoltUnitTest
         $this->assertSame([], $app['asset.queue.snippet']->getQueue());
         $this->assertSame([], $app['asset.queue.widget']->getQueue());
 
+        $webDir = new Directory($app['filesystem']->getFilesystem('extensions'));
         $ext = new AssetExtension();
+        $ext->setWebDirectory($webDir);
         $ext->setAssets(
             [
                 new JavaScript('test.js'),
@@ -71,7 +75,7 @@ class AssetTraitTest extends BoltUnitTest
             ]
         );
         $ext->setContainer($app);
-        $ext->setBaseDirectory(new Directory());
+        $ext->setBaseDirectory($app['filesystem']->getDir('extensions://'));
         $ext->register($app);
 
         $fileQueue = $app['asset.queue.file']->getQueue();
@@ -88,23 +92,31 @@ class AssetTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $mock = $this->getMock('\Bolt\Filesystem\Manager', ['has']);
-        $mock->expects($this->at(0))
-            ->method('has')
-            ->willReturn(true)
-            ->with('extensions://local/bolt/koala/web/test.js')
-        ;
-
-        $dir = new Directory();
+        $dir = $app['filesystem']->getDir('extensions://');
         $dir->setPath('local/bolt/koala');
 
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript('test.js')]);
         $ext->setContainer($app);
         $ext->setBaseDirectory($dir);
-        $ext->setRelativeUrl('/extensions/local/bolt/koala/');
 
-        $app['filesystem'] = $mock;
+        $mockFile = $this->getMock('\Bolt\Filesystem\Handler\File', ['exists', 'getPath']);
+        $mockFile
+            ->method('exists')
+            ->willReturn(true)
+        ;
+        $mockFile
+            ->method('getPath')
+            ->willReturn('/extensions/local/bolt/koala/test.js')
+        ;
+        $mockDir = $this->getMock('\Bolt\Filesystem\Handler\Directory', ['getFile']);
+        $mockDir
+            ->method('getFile')
+            ->willReturn($mockFile)
+        ;
+        $ext->setWebDirectory($mockDir);
+
+        //$app['filesystem'] = $mock;
         $ext->register($app);
 
         $fileQueue = $app['asset.queue.file']->getQueue();
@@ -118,21 +130,35 @@ class AssetTraitTest extends BoltUnitTest
     {
         $app = $this->getApp();
 
-        $mock = $this->getMock('\Bolt\Filesystem\Manager', ['has']);
-        $mock->expects($this->at(1))
+        $mockParams = [
+            'root'       => new Filesystem(new Local($app['resources']->getPath('root'))),
+            'web'        => new Filesystem(new Local($app['resources']->getPath('web'))),
+            'app'        => new Filesystem(new Local($app['resources']->getPath('app'))),
+            'view'       => new Filesystem(new Local($app['resources']->getPath('view'))),
+            'default'    => new Filesystem(new Local($app['resources']->getPath('files'))),
+            'files'      => new Filesystem(new Local($app['resources']->getPath('files'))),
+            'config'     => new Filesystem(new Local($app['resources']->getPath('config'))),
+            'themes'     => new Filesystem(new Local($app['resources']->getPath('themebase'))),
+            'theme'      => new Filesystem(new Local($app['resources']->getPath('themebase') . '/' . $app['config']->get('general/theme'))),
+            'extensions' => new Filesystem(new Local($app['resources']->getPath('extensions'))),
+            'cache'      => new Filesystem(new Local($app['resources']->getPath('cache'))),
+        ];
+        $mock = $this->getMock('\Bolt\Filesystem\Manager', ['has'], [$mockParams]);
+        $mock->expects($this->any())
             ->method('has')
             ->willReturn(true)
-            ->with('theme://js/test.js')
         ;
 
-        $dir = new Directory();
+        $dir = $app['filesystem']->getDir('extensions://');
         $dir->setPath('local/bolt/koala');
 
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript('js/test.js')]);
         $ext->setContainer($app);
         $ext->setBaseDirectory($dir);
-        $ext->setRelativeUrl('/extensions/local/bolt/koala/');
+
+        $webDir = $app['filesystem']->getDir('extensions://');
+        $ext->setWebDirectory($webDir);
 
         $app['filesystem'] = $mock;
         $ext->register($app);
@@ -141,7 +167,7 @@ class AssetTraitTest extends BoltUnitTest
 
         $queued = reset($fileQueue['javascript']);
         $this->assertInstanceOf('Bolt\Asset\File\JavaScript', $queued);
-        $this->assertSame('/theme/base-2014/js/test.js', $queued->getFileName());
+        $this->assertSame('js/test.js', $queued->getFileName());
     }
 
     public function testRegisterInvalidAssets()
@@ -152,7 +178,7 @@ class AssetTraitTest extends BoltUnitTest
         $this->assertSame([], $app['asset.queue.snippet']->getQueue());
         $this->assertSame([], $app['asset.queue.widget']->getQueue());
 
-        $dir = new Directory();
+        $dir = $app['filesystem']->getDir('extensions://');
         $ext = new AssetExtension();
         $ext->setAssets('Turning our nightlights on in the daytime to scare');
         $ext->setContainer($app);
@@ -171,14 +197,14 @@ class AssetTraitTest extends BoltUnitTest
         $this->assertSame([], $app['asset.queue.snippet']->getQueue());
         $this->assertSame([], $app['asset.queue.widget']->getQueue());
 
-        $dir = new Directory();
+        $dir = $app['filesystem']->getDir('extensions://');
         $ext = new AssetExtension();
         $ext->setAssets([new JavaScript()]);
         $ext->setContainer($app);
         $ext->setBaseDirectory($dir);
         $ext->register($app);
 
-        $this->setExpectedException('RuntimeException', 'Extension file assets must have a file name set.');
+        $this->setExpectedException('RuntimeException', 'Extension file assets must have a path set.');
         $app['asset.queue.file']->getQueue();
     }
 }

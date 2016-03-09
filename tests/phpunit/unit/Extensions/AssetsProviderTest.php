@@ -33,7 +33,7 @@ HTML;
 <html>
 <head>
 <meta charset="utf-8" />
-<link rel="stylesheet" href="testfile.css?v=5e544598b8d78644071a6f25fd8bba82" media="screen">
+<link rel="stylesheet" href="testfile.css?5e544598b8d78644071a6f25fd8bba82" media="screen">
 <link rel="stylesheet" href="existing.css" media="screen">
 </head>
 <body>
@@ -50,7 +50,7 @@ HTML;
 </head>
 <body>
 <script src="existing.js"></script>
-<link rel="stylesheet" href="testfile.css?v=5e544598b8d78644071a6f25fd8bba82" media="screen">
+<link rel="stylesheet" href="testfile.css?5e544598b8d78644071a6f25fd8bba82" media="screen">
 </body>
 </html>
 HTML;
@@ -63,7 +63,7 @@ HTML;
 </head>
 <body>
 <script src="existing.js"></script>
-<script src="testfile.js?v=289fc946f38fee1a3e947eca1d6208b6"></script>
+<script src="testfile.js?289fc946f38fee1a3e947eca1d6208b6"></script>
 </body>
 </html>
 HTML;
@@ -76,7 +76,7 @@ HTML;
 </head>
 <body>
 <script src="existing.js"></script>
-<script src="testfile.js?v=289fc946f38fee1a3e947eca1d6208b6"></script>
+<script src="testfile.js?289fc946f38fee1a3e947eca1d6208b6"></script>
 </body>
 </html>
 HTML;
@@ -188,8 +188,17 @@ HTML;
     protected function getApp($boot = true)
     {
         $app = parent::getApp();
-        $app['asset.file.hash.factory'] = $app->protect(function ($fileName) {
-            return md5($fileName);
+        $mock = $this->getMock('\Bolt\Asset\BoltVersionStrategy', ['getVersion'], [$app['filesystem']->getFilesystem('extensions'), $app['asset.salt']]);
+        $mock->expects($this->any())
+            ->method('getVersion')
+            ->will($this->returnCallback(
+                function($fileName) {
+                    return md5($fileName);
+                }
+            ))
+        ;
+        $app['asset.version_strategy'] = $app->protect(function () use ($mock) {
+            return $mock;
         });
 
         return $app;

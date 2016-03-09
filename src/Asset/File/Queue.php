@@ -6,8 +6,7 @@ use Bolt\Asset\Injector;
 use Bolt\Asset\QueueInterface;
 use Bolt\Asset\Target;
 use Bolt\Controller\Zone;
-use Closure;
-use Doctrine\Common\Cache\CacheProvider;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,10 +22,8 @@ class Queue implements QueueInterface
 
     /** @var \Bolt\Asset\Injector */
     protected $injector;
-    /** @var \Doctrine\Common\Cache\CacheProvider */
-    protected $cache;
-    /** @var \Closure */
-    protected $fileHasher;
+    /** @var Packages */
+    protected $packages;
 
     /** @var FileAssetInterface[] */
     private $stylesheet = [];
@@ -36,15 +33,13 @@ class Queue implements QueueInterface
     /**
      * Constructor.
      *
-     * @param Injector      $injector
-     * @param CacheProvider $cache
-     * @param Closure       $fileHasher
+     * @param Injector $injector
+     * @param Packages $packages
      */
-    public function __construct(Injector $injector, CacheProvider $cache, Closure $fileHasher)
+    public function __construct(Injector $injector, Packages $packages)
     {
         $this->injector = $injector;
-        $this->cache = $cache;
-        $this->fileHasher = $fileHasher;
+        $this->packages = $packages;
     }
 
     /**
@@ -56,14 +51,13 @@ class Queue implements QueueInterface
      */
     public function add(FileAssetInterface $asset)
     {
-        $fileHasher = $this->fileHasher;
-        $cacheHash = $fileHasher($asset->getFileName());
-        $asset->setCacheHash($cacheHash);
+        $url = $this->packages->getUrl($asset->getPath(), $asset->getPackageName());
+        $asset->setUrl($url);
 
         if ($asset->getType() === 'javascript') {
-            $this->javascript[$cacheHash] = $asset;
+            $this->javascript[$url] = $asset;
         } elseif ($asset->getType() === 'stylesheet') {
-            $this->stylesheet[$cacheHash] = $asset;
+            $this->stylesheet[$url] = $asset;
         } else {
             throw new \InvalidArgumentException(sprintf('Requested asset type %s is not valid.', $asset->getType()));
         }
