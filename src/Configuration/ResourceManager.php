@@ -552,7 +552,7 @@ class ResourceManager
     private function isPagingRequest(Request $request)
     {
         $matches = array();
-        $found = preg_match('/page_[A-Za-z0-9_]+=\d+/', $request->getRequestUri(), $matches);
+        $found = preg_match('/page_[A-Za-z0-9_]+=(?!1\b)\d+/', $request->getRequestUri(), $matches);
 
         return (bool) $found;
     }
