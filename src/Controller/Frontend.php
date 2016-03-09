@@ -99,6 +99,7 @@ class Frontend extends ConfigurableBase
         $content = $this->getContent($this->getOption('general/homepage'), $listingparameters);
 
         $template = $this->templateChooser()->homepage($content);
+        $globals = [];
 
         if (is_array($content)) {
             $first = current($content);
