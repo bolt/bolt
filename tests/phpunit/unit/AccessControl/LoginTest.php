@@ -3,6 +3,7 @@ namespace Bolt\Tests;
 
 use Bolt\AccessControl\Login;
 use Bolt\AccessControl\Token;
+use Bolt\Events\AccessControlEvent;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -34,7 +35,7 @@ class LoginTest extends BoltUnitTest
         $login = new Login($app);
 
         $this->setExpectedException('Bolt\Exception\AccessControlException', 'Invalid login parameters.');
-        $login->login();
+        $login->login(null, null, new AccessControlEvent(new Request()));
     }
 
     public function testLoginInvalidUsername()
@@ -51,7 +52,7 @@ class LoginTest extends BoltUnitTest
 
         $login = new Login($app);
 
-        $response = $login->login('koala', 'sneaky');
+        $response = $login->login('koala', 'sneaky', new AccessControlEvent(new Request()));
         $this->assertFalse($response);
     }
 
@@ -81,7 +82,7 @@ class LoginTest extends BoltUnitTest
 
         $login = new Login($app);
 
-        $response = $login->login('admin', 'sneaky');
+        $response = $login->login('admin', 'sneaky', new AccessControlEvent(new Request()));
         $this->assertFalse($response);
     }
 
@@ -106,7 +107,7 @@ class LoginTest extends BoltUnitTest
 
         $login = new Login($app);
 
-        $response = $login->login('admin', 'sneaky');
+        $response = $login->login('admin', 'sneaky', new AccessControlEvent(new Request()));
         $this->assertFalse($response);
     }
 
@@ -130,7 +131,7 @@ class LoginTest extends BoltUnitTest
 
         $login = new Login($app);
 
-        $response = $login->login('admin', 'password');
+        $response = $login->login('admin', 'password', new AccessControlEvent($request));
         $this->assertTrue($response);
     }
 
@@ -152,7 +153,7 @@ class LoginTest extends BoltUnitTest
 
         $login = new Login($app);
 
-        $response = $login->login();
+        $response = $login->login(null, null, new AccessControlEvent(new Request()));
         $this->assertFalse($response);
     }
 
@@ -186,7 +187,7 @@ class LoginTest extends BoltUnitTest
 
         $login = new Login($app);
 
-        $response = $login->login();
+        $response = $login->login(null, null, new AccessControlEvent(new Request()));
         $this->assertFalse($response);
     }
 
@@ -223,7 +224,7 @@ class LoginTest extends BoltUnitTest
 
         $login = new Login($app);
 
-        $response = $login->login();
+        $response = $login->login(null, null, new AccessControlEvent(new Request()));
         $this->assertFalse($response);
     }
 
@@ -283,7 +284,7 @@ class LoginTest extends BoltUnitTest
 
         $login = new Login($app);
 
-        $response = $login->login($request);
+        $response = $login->login(null, null, new AccessControlEvent(new Request()));
         $this->assertTrue($response);
     }
 }
