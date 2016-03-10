@@ -2,6 +2,8 @@
 namespace Bolt\AccessControl;
 
 use Bolt\AccessControl\Token\Token;
+use Bolt\Events\AccessControlEvent;
+use Bolt\Events\AccessControlEvents;
 use Bolt\Exception\AccessControlException;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
@@ -48,14 +50,14 @@ class Login extends AccessChecker
      * Attempt to login a user with the given password. Accepts username or
      * email.
      *
-     * @param string $userName
-     * @param string $password
+     * @param string             $userName
+     * @param string             $password
+     * @param AccessControlEvent $event
      *
+     * @return bool
      * @throws AccessControlException
-     *
-     * @return boolean
      */
-    public function login($userName = null, $password = null)
+    public function login($userName, $password, AccessControlEvent $event)
     {
         $authCookie = $this->requestStack->getCurrentRequest()->cookies->get($this->app['token.authentication.name']);
 
@@ -63,9 +65,9 @@ class Login extends AccessChecker
         $this->repositoryAuthtoken->deleteExpiredTokens();
 
         if ($userName !== null && $password !== null) {
-            return $this->loginCheckPassword($userName, $password);
+            return $this->loginCheckPassword($userName, $password, $event);
         } elseif ($authCookie !== null) {
-            return $this->loginCheckAuthtoken($authCookie);
+            return $this->loginCheckAuthtoken($authCookie, $event);
         }
 
         $this->systemLogger->error('Login function called with empty username/password combination, or no authentication token.', ['event' => 'security']);
@@ -75,29 +77,44 @@ class Login extends AccessChecker
     /**
      * Check a user login request for username/password combinations.
      *
-     * @param string $userName
-     * @param string $password
+     * @param string             $userName
+     * @param string             $password
+     * @param AccessControlEvent $event
      *
-     * @return boolean
+     * @return bool
      */
-    protected function loginCheckPassword($userName, $password)
+    protected function loginCheckPassword($userName, $password, AccessControlEvent $event)
     {
         if (!$userEntity = $this->getUserEntity($userName)) {
+            $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
+
             return false;
         }
 
         $userAuth = $this->repositoryUsers->getUserAuthData($userEntity->getId());
         if ($userAuth->getPassword() === null || $userAuth->getPassword() === '') {
-            $this->systemLogger->alert("Attempt to login to an account with empty password field '$userName'", ['event' => 'security']);
+            $this->systemLogger->alert("Attempt to login to an account with empty password field: '$userName'", ['event' => 'security']);
             $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_DISABLED));
+
+            return $this->loginFailed($userEntity);
+        }
+
+        if ((bool) $userEntity->getEnabled() === false) {
+            $this->systemLogger->alert("Attempt to login to a disabled account: '$userName'", ['event' => 'security']);
+            $this->flashLogger->error(Trans::__('Your account is disabled. Sorry about that.'));
+            $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_DISABLED));
 
             return $this->loginFailed($userEntity);
         }
 
         $check = (new PasswordLib())->verifyPasswordHash($password, $userAuth->getPassword());
         if (!$check) {
+            $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_PASSWORD));
+
             return $this->loginFailed($userEntity);
         }
+        $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
 
         return $this->loginFinish($userEntity);
     }
@@ -105,14 +122,16 @@ class Login extends AccessChecker
     /**
      * Attempt to login a user via the bolt_authtoken cookie.
      *
-     * @param string $authCookie
+     * @param string             $authCookie
+     * @param AccessControlEvent $event
      *
-     * @return boolean
+     * @return bool
      */
-    protected function loginCheckAuthtoken($authCookie)
+    protected function loginCheckAuthtoken($authCookie, AccessControlEvent $event)
     {
         if (!$userTokenEntity = $this->repositoryAuthtoken->getToken($authCookie, $this->getClientIp(), $this->getClientUserAgent())) {
             $this->flashLogger->error(Trans::__('Invalid login parameters.'));
+            $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
 
             return false;
         }
@@ -120,6 +139,8 @@ class Login extends AccessChecker
         $checksalt = $this->getAuthToken($userTokenEntity->getUsername(), $userTokenEntity->getSalt());
         if ($checksalt === $userTokenEntity->getToken()) {
             if (!$userEntity = $this->getUserEntity($userTokenEntity->getUsername())) {
+                $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
+
                 return false;
             }
 
@@ -127,10 +148,12 @@ class Login extends AccessChecker
             $userTokenEntity->setValidity(Carbon::create()->addSeconds($this->cookieOptions['lifetime']));
             $this->repositoryAuthtoken->save($userTokenEntity);
             $this->flashLogger->success(Trans::__('Session resumed.'));
+            $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
 
             return $this->loginFinish($userEntity);
         }
 
+        $this->app['dispatcher']->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
         $this->systemLogger->alert(sprintf('Attempt to login with an invalid token from %s', $this->getClientIp()), ['event' => 'security']);
 
         return false;

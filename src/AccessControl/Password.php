@@ -1,11 +1,14 @@
 <?php
 namespace Bolt\AccessControl;
 
+use Bolt\Events\AccessControlEvents;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Repository\UsersRepository;
 use Bolt\Translation\Translator as Trans;
 use Carbon\Carbon;
 use PasswordLib\PasswordLib;
 use Silex\Application;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Password handling.
@@ -42,7 +45,9 @@ class Password
     {
         $password = false;
 
-        if ($userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUser($username)) {
+        /** @var UsersRepository $repo */
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        if ($userEntity = $repo->getUser($username)) {
             $password = $this->app['randomgenerator']->generateString(12);
 
             $userEntity->setPassword($password);
@@ -66,14 +71,16 @@ class Password
      *
      * @param string $token
      * @param string $remoteIP
+     * @param Event  $event
      *
-     * @return boolean
+     * @return bool
      */
-    public function resetPasswordConfirm($token, $remoteIP)
+    public function resetPasswordConfirm($token, $remoteIP, Event $event)
     {
         // Hash the remote caller's IP with the token
         $tokenHash = md5($token . '-' . str_replace('.', '-', $remoteIP));
 
+        /** @var UsersRepository $repo */
         $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
         if ($userEntity = $repo->getUserShadowAuth($tokenHash)) {
             $userAuth = $repo->getUserAuthData($userEntity->getId());
@@ -87,12 +94,14 @@ class Password
 
             $this->app['logger.flash']->clear();
             $this->app['logger.flash']->success(Trans::__('Password reset successful! You can now log on with the password that was sent to you via email.'));
+            $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_SUCCESS, $event);
 
             return true;
         } else {
             // That was not a valid token, or too late, or not from the correct IP.
             $this->app['logger.system']->error('Somebody tried to reset a password with an invalid token.', ['event' => 'authentication']);
             $this->app['logger.flash']->error(Trans::__('Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.'));
+            $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_FAILURE, $event);
 
             return false;
         }
@@ -103,26 +112,30 @@ class Password
      *
      * @param string $username
      * @param string $remoteIP
+     * @param Event  $event
      *
-     * @return boolean
+     * @return bool
      */
-    public function resetPasswordRequest($username, $remoteIP)
+    public function resetPasswordRequest($username, $remoteIP, Event $event)
     {
-        $userEntity = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users')->getUser($username);
+        /** @var UsersRepository $repo */
+        $repo = $this->app['storage']->getRepository('Bolt\Storage\Entity\Users');
+        /** @var Entity\Users $userEntity */
+        $userEntity = $repo->getUser($username);
 
         if (!$userEntity) {
             // For safety, this is the message we display, regardless of whether user exists.
             $this->app['logger.flash']->clear();
             $this->app['logger.flash']->info(Trans::__("A password reset link has been sent to '%user%'.", ['%user%' => $username]));
+            $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_FAILURE, $event);
 
             return false;
         }
 
         // Generate shadow password and hash
         $crypt = new PasswordLib();
-        $cost = $this->app['access_control.hash.strength'];
         $shadowPassword = $this->app['randomgenerator']->generateString(12);
-        $shadowPasswordHash = $crypt->createPasswordHash($shadowPassword, '$2a$', ['cost' => $cost]);
+        $shadowPasswordHash = $crypt->createPasswordHash($shadowPassword, '$2a$');
 
         // Generate shadow token and hash
         $shadowToken = $this->app['randomgenerator']->generateString(32);
@@ -142,6 +155,7 @@ class Password
 
         // Sent the password reset notification
         $this->resetPasswordNotification($userEntity, $shadowPassword, $shadowToken);
+        $this->app['dispatcher']->dispatch(AccessControlEvents::RESET_REQUEST, $event);
 
         return true;
     }
@@ -184,7 +198,7 @@ class Password
             ->setSubject($subject)
             ->setFrom($from)
             ->setReplyTo($from)
-            ->setTo([$userEntity['email'] => $userEntity['displayname']])
+            ->setTo([$userEntity->getEmail() => $userEntity->getDisplayname()])
             ->setBody(strip_tags($mailhtml))
             ->addPart($mailhtml, 'text/html')
         ;

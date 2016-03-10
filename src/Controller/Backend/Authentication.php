@@ -1,6 +1,7 @@
 <?php
 namespace Bolt\Controller\Backend;
 
+use Bolt\Events\AccessControlEvent;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -73,14 +74,12 @@ class Authentication extends BackendBase
      */
     public function postLogin(Request $request)
     {
-        $username = trim($request->request->get('username'));
-        $password = $request->request->get('password');
         switch ($request->get('action')) {
             case 'login':
-                return $this->handlePostLogin($request, $username, $password);
+                return $this->handlePostLogin($request);
 
             case 'reset':
-                return $this->handlePostReset($request, $username);
+                return $this->handlePostReset($request);
         }
         // Let's not disclose any internal information.
         $this->abort(Response::HTTP_BAD_REQUEST, 'Invalid request');
@@ -125,7 +124,8 @@ class Authentication extends BackendBase
      */
     public function resetPassword(Request $request)
     {
-        $this->password()->resetPasswordConfirm($request->get('token'), $request->getClientIp());
+        $event = new AccessControlEvent($request);
+        $this->password()->resetPasswordConfirm($request->get('token'), $request->getClientIp(), $event);
 
         return $this->redirectToRoute('login', ['action' => 'login']);
     }
@@ -134,14 +134,16 @@ class Authentication extends BackendBase
      * Handle a login POST.
      *
      * @param Request $request
-     * @param string  $username
-     * @param string  $password
      *
      * @return RedirectResponse
      */
-    private function handlePostLogin(Request $request, $username, $password)
+    private function handlePostLogin(Request $request)
     {
-        if (!$this->login()->login($username, $password)) {
+        $event = new AccessControlEvent($request);
+        $username = trim($request->request->get('username'));
+        $password = $request->request->get('password');
+
+        if (!$this->login()->login($username, $password, $event)) {
             return $this->getLogin($request, true);
         }
 
@@ -155,6 +157,7 @@ class Authentication extends BackendBase
 
         // Log in, if credentials are correct.
         $this->app['logger.system']->info('Logged in: ' . $username, ['event' => 'authentication']);
+
         $retreat = $this->session()->get('retreat', ['route' => 'dashboard', 'params' => []]);
         $response = $this->setAuthenticationCookie($this->redirectToRoute($retreat['route'], $retreat['params']), (string) $token);
 
@@ -165,17 +168,19 @@ class Authentication extends BackendBase
      * Handle a password reset POST.
      *
      * @param Request $request
-     * @param string  $username
      *
      * @return RedirectResponse
      */
-    private function handlePostReset(Request $request, $username)
+    private function handlePostReset(Request $request)
     {
+        $event = new AccessControlEvent($request);
+        $username = trim($request->request->get('username'));
+
         // Send a password request mail, if username exists.
-        if (empty($username)) {
+        if ($username === null || $username === '') {
             $this->flashes()->error(Trans::__('Please provide a username'));
         } else {
-            $this->password()->resetPasswordRequest($username, $request->getClientIp());
+            $this->password()->resetPasswordRequest($username, $request->getClientIp(), $event);
             $response = $this->redirectToRoute('login');
             $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
 
