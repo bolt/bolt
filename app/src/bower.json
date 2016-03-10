@@ -12,16 +12,16 @@
         "tests"
     ],
     "dependencies": {
-        "jquery": "1.11.3"
+        "jquery": "1.12.1"
     },
     "devDependencies": {
-        "backbone": "~1.2.3",
+        "backbone": "~1.3.1",
         "bootbox.js": "https://github.com/makeusabrew/bootbox.git#4.4.0",
         "jquery.cookie": "https://github.com/carhartl/jquery-cookie.git#1.4.1",
         "jquery.formatDateTime": "https://github.com/agschwender/jquery.formatDateTime.git#1.1.6",
         "jquery.tagcloud.js": "https://github.com/addywaddy/jquery.tagcloud.js.git",
-        "magnific-popup": "~1.0.1",
-        "moment": "~2.11.2",
+        "magnific-popup": "~1.1.0",
+        "moment": "~2.12.0",
         "underscore": "~1.8.3"
     }
 }
