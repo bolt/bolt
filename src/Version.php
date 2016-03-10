@@ -17,7 +17,7 @@ final class Version
      *
      * e.g. versions for:
      *   Stable      — 3.0.0
-     *   Development — 3.1.0 beta 1
+     *   Development — 3.1.0 alpha 1
      */
     const VERSION = '3.0.0 alpha 8';
 
@@ -58,11 +58,9 @@ final class Version
             return static::VERSION;
         }
 
-        $parts = explode(' ', static::VERSION, 2);
-        $version = $parts[0] . '-' . $parts[1];
-        $version = str_replace(' ', '', strtolower($version));
+        $version = explode(' ', static::VERSION, 2);
 
-        return $version;
+        return $version[0];
     }
 
     /**

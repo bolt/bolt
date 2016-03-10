@@ -222,7 +222,7 @@ class Extend extends BackendBase
     {
         $package = $request->get('package');
         $versions = ['dev' => [], 'stable' => []];
-        $info = $this->app['extend.info']->info($package, Bolt\Version::VERSION);
+        $info = $this->app['extend.info']->info($package, Bolt\Version::forComposer());
 
         if (isset($info->version) && is_array($info->version)) {
             foreach ($info->version as $version) {
