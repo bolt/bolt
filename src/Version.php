@@ -9,6 +9,16 @@ namespace Bolt;
  */
 final class Version
 {
+    /**
+     * Bolt's version constant.
+     *
+     * This should take the form of:
+     *   x.y.z [[alpha|beta|RC|patch] n]
+     *
+     * e.g. versions for:
+     *   Stable      — 3.0.0
+     *   Development — 3.1.0 beta 1
+     */
     const VERSION = '3.0.0 alpha 8';
 
     /**
