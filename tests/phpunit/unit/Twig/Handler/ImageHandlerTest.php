@@ -129,7 +129,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->popup('generic-logo.png');
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/100x100c/generic-logo.png" width="100" height="100" alt="Image: generic-logo.png"></a>', $result);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
     }
 
     public function testPopupWidth()
@@ -138,7 +138,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->popup('generic-logo.png', 50);
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/50x100c/generic-logo.png" width="50" height="100" alt="Image: generic-logo.png"></a>', $result);
+        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/50x120c/generic-logo.png" width="50" height="120" alt="Image: generic-logo.png"></a>', $result);
     }
 
     public function testPopupHeight()
@@ -218,7 +218,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->showImage('generic-logo.png');
-        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
     }
 
     public function testShowImageWidth()
@@ -245,24 +245,24 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->showImage('generic-logo.png', null, null, 'f');
-        $this->assertSame('<img src="/thumbs/624x351f/generic-logo.png" width="624" height="351" alt="">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750f/generic-logo.png" width="1000" height="750" alt="">', $result);
         $result = $handler->showImage('generic-logo.png', null, null, 'fit');
-        $this->assertSame('<img src="/thumbs/624x351f/generic-logo.png" width="624" height="351" alt="">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750f/generic-logo.png" width="1000" height="750" alt="">', $result);
 
         $result = $handler->showImage('generic-logo.png', null, null, 'r');
-        $this->assertSame('<img src="/thumbs/624x351r/generic-logo.png" width="624" height="351" alt="">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750r/generic-logo.png" width="1000" height="750" alt="">', $result);
         $result = $handler->showImage('generic-logo.png', null, null, 'resize');
-        $this->assertSame('<img src="/thumbs/624x351r/generic-logo.png" width="624" height="351" alt="">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750r/generic-logo.png" width="1000" height="750" alt="">', $result);
 
         $result = $handler->showImage('generic-logo.png', null, null, 'b');
-        $this->assertSame('<img src="/thumbs/624x351b/generic-logo.png" width="624" height="351" alt="">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750b/generic-logo.png" width="1000" height="750" alt="">', $result);
         $result = $handler->showImage('generic-logo.png', null, null, 'borders');
-        $this->assertSame('<img src="/thumbs/624x351b/generic-logo.png" width="624" height="351" alt="">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750b/generic-logo.png" width="1000" height="750" alt="">', $result);
 
         $result = $handler->showImage('generic-logo.png', null, null, 'c');
-        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
         $result = $handler->showImage('generic-logo.png', null, null, 'crop');
-        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
     }
 
     public function testShowImageFileNameArrayWithTitle()
@@ -271,7 +271,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->showImage(['title' => 'Koala', 'filename' => 'generic-logo.png'], null, null, null, null);
-        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="Koala">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="Koala">', $result);
     }
 
     public function testShowImageFileNameArrayWithoutTitle()
@@ -280,7 +280,7 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->showImage(['filename' => 'generic-logo.png'], null, null, null, null);
-        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
     }
 
     public function testShowImageFileNameArrayWithAlt()
@@ -289,6 +289,6 @@ class ImageHandlerTest extends BoltUnitTest
         $handler = new ImageHandler($app);
 
         $result = $handler->showImage(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null, null);
-        $this->assertSame('<img src="/thumbs/624x351c/generic-logo.png" width="624" height="351" alt="Gum Leaves">', $result);
+        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="Gum Leaves">', $result);
     }
 }
