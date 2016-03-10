@@ -146,62 +146,6 @@ class Users
     }
 
     /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function login($user, $password)
-    {
-        return $this->app['access_control.login']->login($user, $password);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    protected function loginEmail($email, $password)
-    {
-        return $this->app['access_control.login']->login($email, $password);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function loginUsername($username, $password)
-    {
-        return $this->app['access_control.login']->login($username, $password);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function loginAuthtoken()
-    {
-        return $this->app['access_control.login']->login(null, null);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function resetPasswordRequest($username)
-    {
-        return $this->app['access_control.password']->resetPasswordRequest($username);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function resetPasswordConfirm($token)
-    {
-        return $this->app['access_control.password']->resetPasswordConfirm($token);
-    }
-
-    /**
-     * @deprecated Deprecated since 3.0, to be removed in 4.0.
-     */
-    public function logout()
-    {
-        return $this->app['access_control']->revokeSession();
-    }
-
-    /**
      * Create a stub for a new/empty user.
      *
      * @return array
