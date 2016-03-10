@@ -1,3 +1,24 @@
+Bolt 2.2.19
+-----------
+
+Released 2016-03-11. Notable changes:
+
+ - Updated: Updating bundled Javascript modules and libraries
+ - Updating dependencies (most notable, Foundation 5.5.3) (See #4856)
+ - Fix: Locking some more Symfony packages to Symfony 2.6.x, for PHP 5.3.3 compatibility (See #4984)
+ - Fix: Imagehandler updates and bugfixes (See #4973)
+ - Fix: Prevent duplicate content for paging requests (See #4981)
+ - Updated: Spanish Translation (See #4958)
+ - Updated: Set the Composer requirement to ^1.0@beta (See #4955)
+ - Fix: Fix Config Setting for certain options in config.yml (See #4940)
+ - Change: Set default error reporting to ignore 'warnings' (See #4926)
+ - Fix for image/file list blur (See #4923)
+ - Added: Multiple file select when "picking from server" (See #4879)
+ - Added the search dialog to the standalone file editor interface (See #4890)
+ - Fix: Add a default value for checkboxes (See #4869)
+ - Fix: PackageManager ping 504 Gateway Time-out (See #4735)
+ - Fix: Dashboardnews 504 Gateway Time-out (See #4734)
+
 Bolt 2.2.18
 -----------
 
