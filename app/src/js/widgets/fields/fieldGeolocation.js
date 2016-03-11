@@ -102,9 +102,11 @@
                 'click.compress': self._onExpand
             });
 
-            bolt.events.one('Bolt.GoogleMapsAPI.Load.Done', function () {
+            var onGmLoad = function () {
+                bolt.events.off('Bolt.GoogleMapsAPI.Load.Done', onGmLoad);
                 self._initGoogleMap(self.options.latitude, self.options.longitude);
-            });
+            };
+            bolt.events.on('Bolt.GoogleMapsAPI.Load.Done', onGmLoad);
             bolt.events.on('Bolt.GoogleMapsAPI.Load.Fail', function () {
                 self._ui.spinner.removeClass('fa-spinner fa-spin').addClass('fa-refresh').one('click', function () {
                     self._ui.spinner.removeClass('fa-refresh').addClass('fa-spinner fa-spin');
