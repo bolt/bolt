@@ -110,6 +110,7 @@ class Cache extends FilesystemCache
         }
 
         $dirs = $filesystem->find()
+            ->in($path)
             ->directories()
             ->depth('< 1')
         ;
