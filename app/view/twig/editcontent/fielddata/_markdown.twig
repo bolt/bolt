@@ -1,7 +1,7 @@
 {### Scripts ###}
 
 {% for file in ['uikit.min', 'marked', 'codemirror-compressed', 'htmleditor'] %}
-    <script src="{{ bolt('js/uikit/' ~ file ~'.js', 'bolt') }}"></script>
+    <script src="{{ asset('js/uikit/' ~ file ~'.js', 'bolt') }}"></script>
 {% endfor %}
 
 {### Stylesheet ###}
