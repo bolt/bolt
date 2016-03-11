@@ -59,7 +59,7 @@ class StorageEventListener implements EventSubscriberInterface
      */
     public function onPreSave(StorageEvent $event)
     {
-        /** @var Entity\Entity $entityRecord */
+        /** @var Entity\Users $entityRecord */
         $entityRecord = $event->getContent();
 
         if ($entityRecord instanceof Entity\Users) {
@@ -154,6 +154,8 @@ class StorageEventListener implements EventSubscriberInterface
      *
      * @param string $password
      *
+     * @throws AccessControlException
+     *
      * @return string
      */
     private function getValidHash($password)
@@ -168,7 +170,7 @@ class StorageEventListener implements EventSubscriberInterface
             throw new AccessControlException('Can not save a password with a length shorter than 6 characters!');
         }
 
-        return (new PasswordLib())->createPasswordHash($password, '$2y$', ['cost' => $this->hashStrength]);
+        return (new PasswordLib())->createPasswordHash($password, '$2y$');
     }
 
     /**
