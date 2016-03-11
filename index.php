@@ -1,6 +1,6 @@
 <?php
 /**
- * Bolt entry script
+ * Bolt entry script.
  *
  * Here we'll require in the first stage load script, which handles all the
  * tasks needed to return the app.  Once we get the app, we simply tell it
@@ -11,7 +11,6 @@
  *
  * Next, we'll check if the script is being run with PHP's built in web
  * server, and make sure static assets are handled gracefully.
- *
  */
 
 /**
@@ -26,11 +25,13 @@
  */
 if (version_compare(PHP_VERSION, '5.5.9', '<')) {
     require dirname(__FILE__) . '/app/legacy.php';
+
     return false;
 }
 
 /**
  * Return false if the requested file is available on the filesystem.
+ *
  * @see: http://silex.sensiolabs.org/doc/web_servers.html#php-5-4
  */
 if (php_sapi_name() === 'cli-server') {
@@ -41,8 +42,8 @@ if (php_sapi_name() === 'cli-server') {
     }
 }
 
-/**
- * @var \Silex\Application $app
- */
-$app = require_once __DIR__ . '/app/bootstrap.php';
+/** @var \Closure $bootstrap */
+$bootstrap = require_once __DIR__ . '/app/bootstrap.php';
+/** @var \Silex\Application $app */
+$app = $bootstrap();
 $app->run();
