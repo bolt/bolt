@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Provider;
 
 use Bolt\EventListener as Listener;
@@ -10,6 +11,16 @@ class EventListenerServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        $app['listener.access_control'] = $app->share(
+            function ($app) {
+                return new Listener\AccessControlListener(
+                    $app['filesystem'],
+                    $app['session.storage'],
+                    $app['storage']
+                );
+            }
+        );
+
         $app['listener.general'] = $app->share(
             function ($app) {
                 return new Listener\GeneralListener($app);
@@ -96,6 +107,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         /** @var EventDispatcherInterface $dispatcher */
         $dispatcher = $app['dispatcher'];
 
+        $dispatcher->addSubscriber($app['listener.access_control']);
         $dispatcher->addSubscriber($app['listener.general']);
         $dispatcher->addSubscriber($app['listener.exception']);
         $dispatcher->addSubscriber($app['listener.not_found']);
