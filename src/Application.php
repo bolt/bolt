@@ -46,7 +46,6 @@ class Application extends Silex\Application
         // must be defined for working properly
         if (!isset($this['resources'])) {
             $this['resources'] = new Configuration\ResourceManager($this);
-            $this['resources']->compat();
         } else {
             $this['classloader'] = $this['resources']->getClassLoader();
         }

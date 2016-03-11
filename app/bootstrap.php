@@ -65,7 +65,6 @@ return function (array $paths = []) {
 
     /** @var \Bolt\Configuration\ResourceManager $config */
     $config->verify();
-    $config->compat();
 
     // Create the 'Bolt application'
     $app = new Application(['resources' => $config]);
