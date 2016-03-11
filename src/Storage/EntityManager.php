@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * @method array getContentType($contenttypeslug)
  * @method void  publishTimedRecords($contenttype)
- * @method void  depublishTimedRecords($contenttype)
+ * @method void  depublishExpiredRecords($contenttype)
  */
 class EntityManager
 {

@@ -59,7 +59,7 @@ class StorageEventListener implements EventSubscriberInterface
      */
     public function onPreSave(StorageEvent $event)
     {
-        /** @var Entity\Entity $entityRecord */
+        /** @var Entity\Users $entityRecord */
         $entityRecord = $event->getContent();
 
         if ($entityRecord instanceof Entity\Users) {
@@ -153,6 +153,8 @@ class StorageEventListener implements EventSubscriberInterface
      * just return as is.
      *
      * @param string $password
+     *
+     * @throws AccessControlException
      *
      * @return string
      */
