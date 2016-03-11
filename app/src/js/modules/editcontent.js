@@ -306,7 +306,8 @@
                                     // so we're catching arrays and ignoring
                                     // them, someone else can fix this!
                                 } else {
-                                    var field = $('#' + index);
+                                    var field = $('#editcontent [name=' + index + ']');
+
                                     if (field.attr('type') === 'checkbox') {
                                         // A checkbox, so set with prop
                                         field.prop('checked', item === "on");
