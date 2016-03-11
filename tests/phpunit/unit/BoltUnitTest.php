@@ -5,7 +5,7 @@ use Bolt\AccessControl\Token;
 use Bolt\Application;
 use Bolt\Configuration as Config;
 use Bolt\Configuration\Standard;
-use Bolt\Storage;
+use Bolt\Legacy\Storage;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Twig\Handler\AdminHandler;
@@ -218,6 +218,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
     /**
      * @param \Silex\Application $app
      * @param array              $functions Defaults to ['login']
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject A mocked \Bolt\AccessControl\Login
      */
     protected function getLoginMock($app, $functions = ['login'])
     {
@@ -228,8 +230,8 @@ abstract class BoltUnitTest extends \PHPUnit_Framework_TestCase
 
     protected function getCacheMock($path = null)
     {
+        $app = $this->getApp();
         if ($path === null) {
-            $app = $this->getApp();
             $path = $app['resources']->getPath('cache');
         }
 

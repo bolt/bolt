@@ -2,8 +2,10 @@
 namespace Bolt\Tests;
 
 use Bolt\AccessControl\Password;
+use Bolt\Events\AccessControlEvent;
 use Carbon\Carbon;
 use PasswordLib\PasswordLib;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Test for AccessControl\Password
@@ -61,8 +63,9 @@ class PasswordTest extends BoltUnitTest
         $userEntity->setShadowvalidity(Carbon::create()->addHours(1));
         $repo->save($userEntity);
 
+        $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
-        $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8');
+        $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8', $event);
         $userEntity = $repo->getUser('admin');
 
         $this->assertTrue($result);
@@ -93,8 +96,9 @@ class PasswordTest extends BoltUnitTest
         $userEntity->setShadowvalidity(Carbon::create()->addHours(-1));
         $repo->save($userEntity);
 
+        $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
-        $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8');
+        $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8', $event);
 
         $this->assertFalse($result);
     }
@@ -121,8 +125,9 @@ class PasswordTest extends BoltUnitTest
         $userEntity->setShadowvalidity(Carbon::create()->addHours(2));
         $repo->save($userEntity);
 
+        $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
-        $result = $password->resetPasswordConfirm($shadowToken, '1.1.1.1');
+        $result = $password->resetPasswordConfirm($shadowToken, '1.1.1.1', $event);
 
         $this->assertFalse($result);
     }
@@ -148,8 +153,9 @@ class PasswordTest extends BoltUnitTest
         $userEntity->setShadowvalidity(Carbon::create()->addHours(2));
         $repo->save($userEntity);
 
+        $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
-        $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8');
+        $result = $password->resetPasswordConfirm($shadowToken, '8.8.8.8', $event);
 
         $this->assertFalse($result);
     }
@@ -165,8 +171,9 @@ class PasswordTest extends BoltUnitTest
             ->with($this->equalTo("A password reset link has been sent to 'sneakykoala'."));
         $app['logger.flash'] = $logger;
 
+        $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
-        $result = $password->resetPasswordRequest('sneakykoala', '8.8.8.8');
+        $result = $password->resetPasswordRequest('sneakykoala', '8.8.8.8', $event);
 
         $this->assertFalse($result);
     }
@@ -189,8 +196,9 @@ class PasswordTest extends BoltUnitTest
             ->will($this->returnValue(true));
         $app['mailer'] = $mailer;
 
+        $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
-        $result = $password->resetPasswordRequest('admin', '8.8.8.8');
+        $result = $password->resetPasswordRequest('admin', '8.8.8.8', $event);
 
         $this->assertTrue($result);
     }
@@ -213,8 +221,9 @@ class PasswordTest extends BoltUnitTest
             ->will($this->returnValue(true));
         $app['mailer'] = $mailer;
 
+        $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
-        $result = $password->resetPasswordRequest('admin', '8.8.8.8');
+        $result = $password->resetPasswordRequest('admin', '8.8.8.8', $event);
 
         $this->assertTrue($result);
     }
@@ -243,8 +252,9 @@ class PasswordTest extends BoltUnitTest
             ->will($this->returnValue(false));
         $app['mailer'] = $mailer;
 
+        $event = new AccessControlEvent(Request::createFromGlobals());
         $password = new Password($app);
-        $result = $password->resetPasswordRequest('admin', '8.8.8.8');
+        $result = $password->resetPasswordRequest('admin', '8.8.8.8', $event);
 
         $this->assertTrue($result);
     }

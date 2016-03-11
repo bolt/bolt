@@ -2,6 +2,7 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt\AccessControl\Permissions;
+use Bolt\Events\AccessControlEvent;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -360,7 +361,8 @@ class Users extends BackendBase
             return false;
         }
 
-        $login = $this->login()->login($userEntity->getUsername(), $form->get('password')->getData());
+        $event = new AccessControlEvent($request);
+        $login = $this->login()->login($userEntity->getUsername(), $form->get('password')->getData(), $event);
         $token = $this->session()->get('authentication');
         if ($login && $token) {
             $this->flashes()->clear();
