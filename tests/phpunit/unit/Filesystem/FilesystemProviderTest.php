@@ -21,7 +21,6 @@ class FilesystemProviderTest extends BoltUnitTest
                 ]
             )
         );
-        $config->compat();
         $bolt = $this->getApp();
 
         $this->assertNotNull($bolt['filesystem']);
@@ -38,7 +37,6 @@ class FilesystemProviderTest extends BoltUnitTest
                 ]
             )
         );
-        $config->compat();
         $bolt = $this->getApp();
         $this->assertInstanceOf('Bolt\Filesystem\Filesystem', $bolt['filesystem']->getFilesystem('root'));
         $this->assertInstanceOf('Bolt\Filesystem\Filesystem', $bolt['filesystem']->getFilesystem('config'));
