@@ -156,7 +156,6 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
                 ]
             )
         );
-        $config->compat();
 
         $app = new Application(['resources' => $config]);
         $this->assertEquals($config->getPaths(), $app['resources']->getPaths());
@@ -231,7 +230,6 @@ class ResourceManagerTest extends \PHPUnit_Framework_TestCase
                 ]
             )
         );
-        $config->compat();
         $app = new Application(['resources' => $config]);
         $this->assertEquals('https', $config->getRequest('protocol'));
         $this->assertEquals('test.dev', $config->getRequest('hostname'));

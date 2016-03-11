@@ -409,25 +409,6 @@ class ResourceManager
         $this->verifyDb();
     }
 
-    public function compat()
-    {
-        if (! defined('BOLT_COMPOSER_INSTALLED')) {
-            define('BOLT_COMPOSER_INSTALLED', false);
-        }
-        if (! defined('BOLT_PROJECT_ROOT_DIR')) {
-            define('BOLT_PROJECT_ROOT_DIR', $this->getPath('root'));
-        }
-        if (! defined('BOLT_WEB_DIR')) {
-            define('BOLT_WEB_DIR', $this->getPath('web'));
-        }
-        if (! defined('BOLT_CACHE_DIR')) {
-            define('BOLT_CACHE_DIR', $this->getPath('cache'));
-        }
-        if (! defined('BOLT_CONFIG_DIR')) {
-            define('BOLT_CONFIG_DIR', $this->getPath('config'));
-        }
-    }
-
     /**
      * This currently gets special treatment because of the processing order.
      * The theme path is needed before the app has constructed, so this is a shortcut to
