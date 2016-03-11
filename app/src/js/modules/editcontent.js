@@ -310,7 +310,7 @@
 
                                     if (field.attr('type') === 'checkbox') {
                                         // A checkbox, so set with prop
-                                        field.prop('checked', item === "on");
+                                        field.prop('checked', item === '1');
                                     } else {
                                         // Either an input or a textarea, so set with val
                                         field.val(item);
