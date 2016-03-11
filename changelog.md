@@ -18,6 +18,7 @@ Released 2016-03-11. Notable changes:
  - Fix: Add a default value for checkboxes (See #4869)
  - Fix: PackageManager ping 504 Gateway Time-out (See #4735)
  - Fix: Dashboardnews 504 Gateway Time-out (See #4734)
+ - [in PL1] Fixed: Checkbox displays wrong value directly after saving (See #4997)
 
 Bolt 2.2.18
 -----------
