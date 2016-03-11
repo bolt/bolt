@@ -41,6 +41,25 @@ class AccessControlListener implements EventSubscriberInterface
     }
 
     /**
+     * Remove sessions & authtokens when a user is disabled.
+     *
+     * @param StorageEvent $event
+     */
+    public function onStorageEventPostSave(StorageEvent $event)
+    {
+        /** @var Entity\Users $userEntity */
+        $userEntity = $event->getContent();
+        if (!$userEntity instanceof \Bolt\Storage\Entity\Users) {
+            return;
+        }
+
+        if (!$userEntity->isEnabled()) {
+            $this->deleteAuthtokens($userEntity);
+            $this->deleteSessions($userEntity);
+        }
+    }
+
+    /**
      * Remove sessions & authtokens when a user is deleted.
      *
      * @param StorageEvent $event
@@ -103,6 +122,7 @@ class AccessControlListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
+            StorageEvents::PRE_DELETE => 'onStorageEventPostSave',
             StorageEvents::PRE_DELETE => 'onStorageEventPreDelete',
         ];
     }
