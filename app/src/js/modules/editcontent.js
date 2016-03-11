@@ -228,7 +228,7 @@
      * @static
      * @function initSaveContinue
      * @memberof Bolt.editcontent
-     * 
+     *
      * @fires start.bolt.content.save
      * @fires done.bolt.content.save
      * @fires fail.bolt.content.save
@@ -273,7 +273,7 @@
                     .done(function (data) {
                         // Trigger save done event
                         $(Bolt).trigger('done.bolt.content.save', data);
-                        
+
                         // Submit was successful, disable warning.
                         window.onbeforeunload = null;
 
@@ -301,7 +301,7 @@
                                     var field = $('#' + index);
                                     if (field.attr('type') === 'checkbox') {
                                         // A checkbox, so set with prop
-                                        field.prop('checked', (item == "on"));
+                                        field.prop('checked', (item === "1"));
                                     } else {
                                         // Either an input or a textarea, so set with val
                                         field.val(item);
@@ -327,7 +327,7 @@
                         watchChanges();
                     })
                     .fail(function(){
-                        // Trigger save failed event 
+                        // Trigger save failed event
                         $(Bolt).trigger('fail.bolt.content.save');
 
                         $('p.lastsaved').text(msgNotSaved);
