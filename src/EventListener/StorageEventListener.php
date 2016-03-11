@@ -170,7 +170,7 @@ class StorageEventListener implements EventSubscriberInterface
             throw new AccessControlException('Can not save a password with a length shorter than 6 characters!');
         }
 
-        return (new PasswordLib())->createPasswordHash($password, '$2y$', ['cost' => $this->hashStrength]);
+        return (new PasswordLib())->createPasswordHash($password, '$2y$');
     }
 
     /**
