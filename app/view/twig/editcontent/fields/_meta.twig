@@ -12,7 +12,7 @@
     publish: {
         disabled: (not context.can.publish),
         id:       'datepublish',
-        value:    (context.content.datepublish == '') ? "now"|date('Y-m-d H:i:s') : context.content.datepublish),
+        value:    (context.content.datepublish == '') ? "now"|date('Y-m-d H:i:s') : context.content.datepublish,
     },
 
     depublish: {
