@@ -135,7 +135,7 @@ class Edit
             'change_ownership'   => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':change-ownership:' . $content->getId()),
         ];
         $contextHas = [
-            'incoming_relations' => count($content->getRelation()->incoming($content)),
+            'incoming_relations' => count($incomingNotInverted) > 0,
             'relations'          => isset($contentType['relations']),
             'tabs'               => $contentType['groups'] !== false,
             'taxonomy'           => isset($contentType['taxonomy']),
@@ -146,7 +146,6 @@ class Edit
             'datedepublish'      => $this->getPublishingDate($content->getDatedepublish()),
         ];
         $context = [
-            'inc'                => $content->getRelation()->incoming($content),
             'incoming_not_inv'   => $incomingNotInverted,
             'contenttype'        => $contentType,
             'content'            => $content,
