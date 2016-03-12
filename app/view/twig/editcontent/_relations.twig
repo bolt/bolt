@@ -24,28 +24,30 @@
 {% endfor %}
 
 {% if context.has.incoming_relations %}
-    <p>{{ __('This record is related to:') }}</p>
-    <div class="buic-listing" data-bolt-widget="buicListing">
-        <table class="table dashboardlisting listing">
-        {% for record in incoming_not_inverted %}
-            {% set editable = isallowed('edit', record) %}
-            {% set listing_vars = {
-                'compact':       true,
-                'content':       record,
-                'excerptlength': 280,
-                'permissions':   {
-                    'edit':      isallowed('edit', record),
-                    'create':    isallowed('create', record),
-                    'publish':   isallowed('publish', record),
-                    'delete':    isallowed('delete', record),
-                    'depublish': isallowed('depublish', record)
-                },
-                'thumbsize':     54,
-            } %}
-            {% include ['@bolt/_sub/_listing.twig'] with listing_vars %}
-        {% endfor %}
-        </table>
-    </div>
+    {% for incoming_contenttype, incoming_records in context.incoming_not_inv %}
+        <p>{{ __('This record is related to:') }}</p>
+        <div class="buic-listing" data-bolt-widget="buicListing">
+            <table class="table dashboardlisting listing">
+            {% for record in incoming_records %}
+                {% set editable = isallowed('edit', record) %}
+                {% set listing_vars = {
+                    'compact':       true,
+                    'content':       record,
+                    'excerptlength': 280,
+                    'permissions':   {
+                        'edit':      isallowed('edit', record),
+                        'create':    isallowed('create', record),
+                        'publish':   isallowed('publish', record),
+                        'delete':    isallowed('delete', record),
+                        'depublish': isallowed('depublish', record)
+                    },
+                    'thumbsize':     54,
+                } %}
+                {% include ['@bolt/_sub/_listing.twig'] with listing_vars %}
+            {% endfor %}
+            </table>
+        </div>
+    {% endfor %}
 {% endif %}
 
 {% if context.has.tabs and 'relations' in context.contenttype.groups %}
