@@ -108,6 +108,18 @@ class Edit
             $contentowner = $this->users->getUser($content->getOwnerid());
         }
 
+        // Build list of incoming non inverted related records.
+        $incomingNotInverted = [];
+        foreach ($content->getRelation()->incoming($content) as $relation) {
+            if (!$relation->isInverted()) {
+                $record = $this->em->getContent($relation['from_contenttype'] . '/' . $relation['from_id']);
+
+                if ($record) {
+                    $incomingNotInverted[$relation['from_contenttype']][] = $record;
+                }
+            }
+        }
+
         // Test write access for uploadable fields.
         $contentType['fields'] = $this->setCanUpload($contentType['fields']);
         $templateFields = $content->getTemplatefields();
@@ -134,6 +146,8 @@ class Edit
             'datedepublish'      => $this->getPublishingDate($content->getDatedepublish()),
         ];
         $context = [
+            'inc'                => $content->getRelation()->incoming($content),
+            'incoming_not_inv'   => $incomingNotInverted,
             'contenttype'        => $contentType,
             'content'            => $content,
             'allowed_status'     => $allowedStatuses,
