@@ -27,25 +27,22 @@
     <p>{{ __('This record is related to:') }}</p>
     <div class="buic-listing" data-bolt-widget="buicListing">
         <table class="table dashboardlisting listing">
-        {% for incoming in incomingrelations if not incoming.isInverted %}
-            {% setcontent record = incoming.from_contenttype ~ '/' ~ incoming.from_id %}
-            {% if record %}
-                {% set editable = isallowed('edit', record) %}
-                {% set listing_vars = {
-                    'compact':       true,
-                    'content':       record,
-                    'excerptlength': 280,
-                    'permissions':   {
-                        'edit':      isallowed('edit', record),
-                        'create':    isallowed('create', record),
-                        'publish':   isallowed('publish', record),
-                        'delete':    isallowed('delete', record),
-                        'depublish': isallowed('depublish', record)
-                    },
-                    'thumbsize':     54,
-                } %}
-                {% include ['@bolt/_sub/_listing.twig'] with listing_vars %}
-            {% endif %}
+        {% for record in incoming_not_inverted %}
+            {% set editable = isallowed('edit', record) %}
+            {% set listing_vars = {
+                'compact':       true,
+                'content':       record,
+                'excerptlength': 280,
+                'permissions':   {
+                    'edit':      isallowed('edit', record),
+                    'create':    isallowed('create', record),
+                    'publish':   isallowed('publish', record),
+                    'delete':    isallowed('delete', record),
+                    'depublish': isallowed('depublish', record)
+                },
+                'thumbsize':     54,
+            } %}
+            {% include ['@bolt/_sub/_listing.twig'] with listing_vars %}
         {% endfor %}
         </table>
     </div>
