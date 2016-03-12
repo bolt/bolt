@@ -103,6 +103,20 @@
                 self._renumber();
             });
 
+            self.element.on('click', '.move-up', function () {
+                var setToMove = $(this).closest('.repeater-group');
+
+                setToMove.insertBefore(setToMove.prev('.repeater-group'));
+                self._renumber();
+            });
+
+            self.element.on('click', '.move-down', function () {
+                var setToMove = $(this).closest('.repeater-group');
+
+                setToMove.insertAfter(setToMove.next('.repeater-group'));
+                self._renumber();
+            });
+
             // Add initial groups until minimum number is reached.
             while (self._count < self.options.minimum) {
                 self._append();
@@ -176,6 +190,18 @@
                     this.name = this.name.replace(re, name + '[' + index + ']');
                     //console.log('  - ' + this.name + ' => ' +this.name.replace(re, name + '[' + index + ']'));
                 });
+
+                if ($(group).is(':first-of-type')) {
+                    $(group).find('.move-up').addClass('disabled');
+                } else {
+                    $(group).find('.move-up').removeClass('disabled');
+                }
+
+                if ($(group).is(':last-of-type')) {
+                    $(group).find('.move-down').addClass('disabled');
+                } else {
+                    $(group).find('.move-down').removeClass('disabled');
+                }
             });
         },
 
