@@ -14,6 +14,15 @@
 
 {# Output 'incoming' relations #}
 {% set incomingrelations = context.content.relation.incoming(context.content) %}
+
+{% set incoming_not_inverted = [] %}
+{% for incoming in incomingrelations if not incoming.isInverted %}
+    {% setcontent record = incoming.from_contenttype ~ '/' ~ incoming.from_id %}
+    {% if record %}
+        {% set incoming_not_inverted = incoming_not_inverted|merge([record]) %}
+    {% endif %}
+{% endfor %}
+
 {% if context.has.incoming_relations %}
     <p>{{ __('This record is related to:') }}</p>
     <div class="buic-listing" data-bolt-widget="buicListing">
