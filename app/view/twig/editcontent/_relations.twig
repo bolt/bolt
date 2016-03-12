@@ -15,7 +15,9 @@
 {# Output 'incoming' relations #}
 {% if context.has.incoming_relations %}
     {% for incoming_contenttype, incoming_records in context.incoming_not_inv %}
-        <p>{{ __('This record is related to:') }}</p>
+        {% set name = __(['contenttypes', incoming_contenttype, 'name', 'plural'], {DEFAULT: incoming_contenttype}) %}
+
+        <p>{{ __('This record is related to the following %CTNAME%:', {'%CTNAME%': name}) }}</p>
         <div class="buic-listing" data-bolt-widget="buicListing">
             <table class="table dashboardlisting listing">
             {% for record in incoming_records %}
