@@ -30,9 +30,6 @@ class AuthenticationTest extends BoltUnitTest
         $this->user = ['id' => 2, 'username' => 'editor', 'email' => 'editor@example.com'];
     }
 
-    /**
-     * @covers Bolt\Users::login
-     */
     public function testLoginWithUsername()
     {
         // Setup test
@@ -51,9 +48,6 @@ class AuthenticationTest extends BoltUnitTest
         $this->assertEquals(true, $result);
     }
 
-    /**
-     * @covers Bolt\Users::login
-     */
     public function testLoginWithEmail()
     {
         // Setup test
