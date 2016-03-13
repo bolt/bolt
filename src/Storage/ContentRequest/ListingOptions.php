@@ -111,7 +111,7 @@ class ListingOptions
      */
     public function setFilter($filter)
     {
-        $this->filter = $filter ?: null;
+        $this->filter = $filter === '' ? null : $filter;
 
         return $this;
     }
