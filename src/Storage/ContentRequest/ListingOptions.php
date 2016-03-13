@@ -22,6 +22,8 @@ class ListingOptions
      * Set the order.
      *
      * @param string|null $order
+     *
+     * @return ListingOptions
      */
     public function setOrder($order)
     {
@@ -44,6 +46,8 @@ class ListingOptions
      * Set the page.
      *
      * @param integer|null $page
+     *
+     * @return ListingOptions
      */
     public function setPage($page)
     {
@@ -78,6 +82,8 @@ class ListingOptions
      * Set the taxonomies.
      *
      * @param array|null $taxonomies
+     *
+     * @return ListingOptions
      */
     public function setTaxonomies($taxonomies)
     {
@@ -100,10 +106,12 @@ class ListingOptions
      * Set the filter.
      *
      * @param string|null $filter
+     *
+     * @return ListingOptions
      */
     public function setFilter($filter)
     {
-        $this->filter = $filter;
+        $this->filter = $filter === '' ? null : $filter;
 
         return $this;
     }
