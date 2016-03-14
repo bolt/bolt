@@ -111,13 +111,14 @@ class Edit
         // Build list of incoming non inverted related records.
         $incomingNotInverted = [];
         foreach ($content->getRelation()->incoming($content) as $relation) {
-            if (!$relation->isInverted()) {
-                $fromContentType = $relation->getFromContenttype();
-                $record = $this->em->getContent($fromContentType . '/' . $relation['from_id']);
+            if ($relation->isInverted()) {
+                continue;
+            }
+            $fromContentType = $relation->getFromContenttype();
+            $record = $this->em->getContent($fromContentType . '/' . $relation['from_id']);
 
-                if ($record) {
-                    $incomingNotInverted[$fromContentType][] = $record;
-                }
+            if ($record) {
+                $incomingNotInverted[$fromContentType][] = $record;
             }
         }
 
