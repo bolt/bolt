@@ -108,6 +108,10 @@ class PackageManager
             return $this->useSsl = false;
         }
 
+        if (preg_match('{^http:}i', $this->app['extend.site'])) {
+            return $this->useSsl = false;
+        }
+
         try {
             if ($this->app['guzzle.api_version'] === 5) {
                 ClientUtils::getDefaultCaBundle();
