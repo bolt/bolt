@@ -63,7 +63,7 @@ class Excerpt
             ];
 
             $excerpt = '';
-            array_walk($this->body, function($value, $key) use (&$excerpt, $stripKeys) {
+            array_walk($this->body, function ($value, $key) use (&$excerpt, $stripKeys) {
                 if (is_string($value) && !in_array($key, $stripKeys)) {
                     $excerpt .= $value . ' ';
                 }
