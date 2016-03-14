@@ -1,4 +1,5 @@
 <?php
+
 namespace Bolt\Nut;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -9,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ExtensionsAutoloader extends BaseCommand
+class ExtensionsDumpAutoload extends BaseCommand
 {
     /**
      * {@inheritdoc}
@@ -17,8 +18,9 @@ class ExtensionsAutoloader extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('extensions:autoloader')
+            ->setName('extensions:dumpautoload')
             ->setDescription('Update the extensions autoloader.')
+            ->setAliases(['extensions:dump-autoload'])
         ;
     }
 
@@ -27,14 +29,14 @@ class ExtensionsAutoloader extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->write("\n<info>Updating autoloaders… </info>");
+        $output->write("\n<info>Rebuilding autoloaders… </info>");
 
         $result = $this->app['extend.action']['autoload']->execute();
         if ($result === 0) {
-            $output->write("<info>[DONE]</info>\n");
+            $output->writeln('<info>[DONE]</info>');
             $this->auditLog(__CLASS__, 'Autoloaders updated');
         } else {
-            $output->write("<error>[FAILED]</error>\n");
+            $output->writeln('<error>[FAILED]</error>');
         }
         $output->writeln(sprintf('<comment>%s</comment>', $this->app['extend.action.io']->getOutput()));
     }
