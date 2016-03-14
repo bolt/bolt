@@ -115,7 +115,7 @@ class Edit
                 continue;
             }
             $fromContentType = $relation->getFromContenttype();
-            $record = $this->em->getContent($fromContentType . '/' . $relation['from_id']);
+            $record = $this->em->getContent($fromContentType . '/' . $relation->getFromId());
 
             if ($record) {
                 $incomingNotInverted[$fromContentType][] = $record;
