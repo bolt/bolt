@@ -112,10 +112,11 @@ class Edit
         $incomingNotInverted = [];
         foreach ($content->getRelation()->incoming($content) as $relation) {
             if (!$relation->isInverted()) {
-                $record = $this->em->getContent($relation['from_contenttype'] . '/' . $relation['from_id']);
+                $fromContentType = $relation->getFromContenttype();
+                $record = $this->em->getContent($fromContentType . '/' . $relation['from_id']);
 
                 if ($record) {
-                    $incomingNotInverted[$relation['from_contenttype']][] = $record;
+                    $incomingNotInverted[$fromContentType][] = $record;
                 }
             }
         }
