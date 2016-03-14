@@ -152,9 +152,17 @@ abstract class BaseAction
         foreach ($repos as $repo) {
             $reflection = new \ReflectionClass($repo);
             $allowSslDowngrade = $reflection->getProperty('allowSslDowngrade');
-            $allowSslDowngrade->setAccessible($choice);
+            $allowSslDowngrade->setAccessible(true);
             $allowSslDowngrade->setValue($repo, $choice);
         }
+
+        $config = $this->getComposer()->getConfig();
+        $reflection = new \ReflectionClass($config);
+        $property = $reflection->getProperty('config');
+        $property->setAccessible(true);
+        $values = $property->getValue($config);
+        $values['secure-http'] = !$choice;
+        $property->setValue($config, $values);
     }
 
     /**
