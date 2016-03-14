@@ -2,16 +2,16 @@
 
 namespace Bolt\Tests\Nut;
 
-use Bolt\Nut\ExtensionsAutoloader;
+use Bolt\Nut\ExtensionsDumpAutoload;
 use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Class to test Bolt\Nut\ExtensionsAutoloader class.
+ * Class to test Bolt\Nut\ExtensionsDumpAutoload class.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class ExtensionsAutoloaderTest extends BoltUnitTest
+class ExtensionsDumpAutoloadTest extends BoltUnitTest
 {
     public function testRun()
     {
@@ -24,12 +24,13 @@ class ExtensionsAutoloaderTest extends BoltUnitTest
 
         $app['extend.manager'] = $runner;
 
-        $command = new ExtensionsAutoloader($app);
+        $command = new ExtensionsDumpAutoload($app);
         $tester = new CommandTester($command);
 
         $tester->execute([]);
         $result = $tester->getDisplay();
-        $this->assertRegExp('/Updating autoloaders… \[DONE\]/', $result);
+
+        $this->assertRegExp('/Rebuilding autoloaders… \[DONE\]/', $result);
         $this->assertRegExp('/Generating optimized autoload files/', $result);
         $this->assertRegExp('/PackageEventListener::dump/', $result);
     }
