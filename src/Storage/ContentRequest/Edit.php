@@ -108,6 +108,20 @@ class Edit
             $contentowner = $this->users->getUser($content->getOwnerid());
         }
 
+        // Build list of incoming non inverted related records.
+        $incomingNotInverted = [];
+        foreach ($content->getRelation()->incoming($content) as $relation) {
+            if ($relation->isInverted()) {
+                continue;
+            }
+            $fromContentType = $relation->getFromContenttype();
+            $record = $this->em->getContent($fromContentType . '/' . $relation->getFromId());
+
+            if ($record) {
+                $incomingNotInverted[$fromContentType][] = $record;
+            }
+        }
+
         // Test write access for uploadable fields.
         $contentType['fields'] = $this->setCanUpload($contentType['fields']);
         $templateFields = $content->getTemplatefields();
@@ -123,7 +137,7 @@ class Edit
             'change_ownership'   => $this->users->isAllowed('contenttype:' . $contentTypeSlug . ':change-ownership:' . $content->getId()),
         ];
         $contextHas = [
-            'incoming_relations' => count($content->getRelation()->incoming($content)),
+            'incoming_relations' => count($incomingNotInverted) > 0,
             'relations'          => isset($contentType['relations']),
             'tabs'               => $contentType['groups'] !== false,
             'taxonomy'           => isset($contentType['taxonomy']),
@@ -134,6 +148,7 @@ class Edit
             'datedepublish'      => $this->getPublishingDate($content->getDatedepublish()),
         ];
         $context = [
+            'incoming_not_inv'   => $incomingNotInverted,
             'contenttype'        => $contentType,
             'content'            => $content,
             'allowed_status'     => $allowedStatuses,

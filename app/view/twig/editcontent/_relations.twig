@@ -13,14 +13,14 @@
 {% endif %}
 
 {# Output 'incoming' relations #}
-{% set incomingrelations = context.content.relation.incoming(context.content) %}
 {% if context.has.incoming_relations %}
-    <p>{{ __('This record is related to:') }}</p>
-    <div class="buic-listing" data-bolt-widget="buicListing">
-        <table class="table dashboardlisting listing">
-        {% for incoming in incomingrelations if not incoming.isInverted %}
-            {% setcontent record = incoming.from_contenttype ~ '/' ~ incoming.from_id %}
-            {% if record %}
+    {% for incoming_contenttype, incoming_records in context.incoming_not_inv %}
+        {% set name = __(['contenttypes', incoming_contenttype, 'name', 'plural'], {DEFAULT: incoming_contenttype}) %}
+
+        <p>{{ __('This record is related to the following %CTNAME%:', {'%CTNAME%': name}) }}</p>
+        <div class="buic-listing" data-bolt-widget="buicListing">
+            <table class="table dashboardlisting listing">
+            {% for record in incoming_records %}
                 {% set editable = isallowed('edit', record) %}
                 {% set listing_vars = {
                     'compact':       true,
@@ -36,10 +36,10 @@
                     'thumbsize':     54,
                 } %}
                 {% include ['@bolt/_sub/_listing.twig'] with listing_vars %}
-            {% endif %}
-        {% endfor %}
-        </table>
-    </div>
+            {% endfor %}
+            </table>
+        </div>
+    {% endfor %}
 {% endif %}
 
 {% if context.has.tabs and 'relations' in context.contenttype.groups %}
