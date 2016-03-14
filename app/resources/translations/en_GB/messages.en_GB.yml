@@ -435,7 +435,7 @@
 "View site": "View site"
 "View/edit Templates": "View/edit Templates"
 "Warning": "Warning"
-"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "reinstalling.\""
+"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": "We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling."
 "Written by <em>%name%</em> on %date%": "Written by <em>%name%</em> on %date%"
 "You do not have the right privileges to edit that record.": "You do not have the right privileges to edit that record."
 "You do not have the right privileges to view that page.": "You do not have the right privileges to view that page."
