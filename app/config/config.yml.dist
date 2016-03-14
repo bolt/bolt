@@ -196,6 +196,10 @@ thumbnails:
     allow_upscale: false
     exif_orientation: true
 #    browser_cache_time: 2592000
+#    presets:
+#      default : [  160,  120 ]
+#      image   : [ 1000,  750 ]
+#      preview : [  300,    0 ]
 
 # Define the HTML tags and attributes that are allowed in 'cleaned' HTML. This
 # is used for sanitizing HTML, to make sure there are no undesirable elements
