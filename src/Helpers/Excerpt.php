@@ -49,6 +49,8 @@ class Excerpt
             $stripKeys = [
                 'id',
                 'slug',
+                'datepublish',
+                'datedepublish',
                 'datecreated',
                 'datechanged',
                 'username',
@@ -60,10 +62,12 @@ class Excerpt
                 'templatefields',
             ];
 
-            foreach ($stripKeys as $key) {
-                unset($this->body[$key]);
-            }
-            $excerpt = implode(' ', $this->body);
+            $excerpt = '';
+            array_walk($this->body, function ($value, $key) use (&$excerpt, $stripKeys) {
+                if (is_string($value) && !in_array($key, $stripKeys)) {
+                    $excerpt .= $value . ' ';
+                }
+            });
         } elseif (is_string($this->body) || (is_object($this->body) && method_exists($this->body, '__toString'))) {
             // otherwise we just use the string.
             $excerpt = (string) $this->body;
@@ -84,7 +88,7 @@ class Excerpt
             $excerpt = '<b>' . $title . '</b> ' . $excerpt;
         }
 
-        return $excerpt;
+        return trim($excerpt);
     }
 
     /**
