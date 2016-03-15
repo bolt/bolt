@@ -1,37 +1,20 @@
-# app/resources/translations/en_GB/contenttypes.en_GB.yml – generated on 2016-03-15 17:06:20 Europe/Berlin
+# app/resources/translations/en_GB/contenttypes.en_GB.yml – generated on 2016-03-15 19:27:51 Europe/Berlin
 
 # Warning: Translations are in the process of being moved to a new keyword-based translation
-#          at the moment. This is an ongoing process. Translations currently in the
-#          repository are automatically mapped to the new scheme. Be aware that there
-#          can be a race condition between that process and your PR so that it's
-#          eventually necessary to remap your translations. If you're planning on
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
 #          updating your translations, it's best to ask on IRC to time your contribution
 #          in order to prevent merge conflicts.
 
-#   3 unused messages
+#  no unused messages
 #  no untranslated messages
-#   8 untranslated keyword based messages
+#  no untranslated keyword based messages
 #  no translations
-# 100 keyword based translations
+# 108 keyword based translations
 
-#--- 3 unused messages --------------------------------------------------------
-
-"contenttypes.entries.text.error-saving": "There was an error saving this Entry."
-"contenttypes.pages.text.error-saving": "There was an error saving this Page."
-"contenttypes.showcases.text.error-saving": "There was an error saving this Showcase."
-
-#--- 8 untranslated keyword based messages ------------------------------------
-
-"contenttypes.entries.text.invalid-relation": # "In the contenttype for 'Entry', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.entries.text.recent-changes-one": # "Recent changes to this Entry"
-"contenttypes.pages.text.invalid-relation": # "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.pages.text.recent-changes-one": # "Recent changes to this Page"
-"contenttypes.showcases.group.repeats": #
-"contenttypes.showcases.group.template": #
-"contenttypes.showcases.text.invalid-relation": # "In the contenttype for 'Showcase', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
-"contenttypes.showcases.text.recent-changes-one": # "Recent changes to this Showcase"
-
-#--- 100 keyword based translations -------------------------------------------
+#--- 108 keyword based translations -------------------------------------------
 
 contenttypes.entries.description: "The **Entries** contenttype can be used for things like _'news'_ or _'blogpostings'_. They have a teaser, which can be used for a short blurb on listing-pages, allowing visitors to click-through to the rest of the entry. It also has fields for an image and an optional video. To change the fields that are in this contenttype, edit the file `contenttypes.yml` in the folder `app/config/`, using the editor of your choice, or by going to 'Configuration' » 'Contenttypes' in the menu on the left."
 contenttypes.entries.group.content: "Content"
@@ -46,6 +29,7 @@ contenttypes.entries.text.duplicate: "Duplicate Entry"
 contenttypes.entries.text.duplicated-finalize: "Content was duplicated. Click 'Save Entry' to finalize."
 contenttypes.entries.text.edit: "Edit Entry"
 contenttypes.entries.text.invalid-field: "Can't set %field% in Entry: Not a valid field."
+contenttypes.entries.text.invalid-relation: "In the contenttype for 'Entry', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 contenttypes.entries.text.last-modified: "Last modified Entries"
 contenttypes.entries.text.new: "New Entry"
 contenttypes.entries.text.no-latest: "No latest Entry"
@@ -57,6 +41,7 @@ contenttypes.entries.text.not-saved-yet: "This Entry has not been saved yet."
 contenttypes.entries.text.overview: "Entries overview"
 contenttypes.entries.text.publish: "Publish Entry"
 contenttypes.entries.text.recent: "Recent Entries"
+contenttypes.entries.text.recent-changes-one: "Recent change to this Entry"
 contenttypes.entries.text.recently-edited: "Recently edited Entries"
 contenttypes.entries.text.reserved-name: "In the contenttype for 'Entry', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
 contenttypes.entries.text.save: "Save Entry"
@@ -79,6 +64,7 @@ contenttypes.pages.text.duplicate: "Duplicate Page"
 contenttypes.pages.text.duplicated-finalize: "Content was duplicated. Click 'Save Page' to finalize."
 contenttypes.pages.text.edit: "Edit Page"
 contenttypes.pages.text.invalid-field: "Can't set %field% in Page: Not a valid field."
+contenttypes.pages.text.invalid-relation: "In the contenttype for 'Page', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 contenttypes.pages.text.last-modified: "Last modified Pages"
 contenttypes.pages.text.new: "New Page"
 contenttypes.pages.text.no-latest: "No latest Page"
@@ -90,6 +76,7 @@ contenttypes.pages.text.not-saved-yet: "This Page has not been saved yet."
 contenttypes.pages.text.overview: "Pages overview"
 contenttypes.pages.text.publish: "Publish Page"
 contenttypes.pages.text.recent: "Recent Pages"
+contenttypes.pages.text.recent-changes-one: "Recent change to this Page"
 contenttypes.pages.text.recently-edited: "Recently edited Pages"
 contenttypes.pages.text.reserved-name: "In the contenttype for 'Page', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
 contenttypes.pages.text.save: "Save Page"
@@ -104,6 +91,8 @@ contenttypes.showcases.description: "The **Showcases** contenttype is used to sh
 contenttypes.showcases.group.files: "Files"
 contenttypes.showcases.group.media: "Media"
 contenttypes.showcases.group.other: "Other"
+contenttypes.showcases.group.repeats: "Repeats"
+contenttypes.showcases.group.template: "Template"
 contenttypes.showcases.group.text: "Text"
 contenttypes.showcases.name.plural: "Showcases"
 contenttypes.showcases.name.singular: "Showcase"
@@ -115,6 +104,7 @@ contenttypes.showcases.text.duplicate: "Duplicate Showcase"
 contenttypes.showcases.text.duplicated-finalize: "Content was duplicated. Click 'Save Showcase' to finalize."
 contenttypes.showcases.text.edit: "Edit Showcase"
 contenttypes.showcases.text.invalid-field: "Can't set %field% in Showcase: Not a valid field."
+contenttypes.showcases.text.invalid-relation: "In the contenttype for 'Showcase', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 contenttypes.showcases.text.last-modified: "Last modified Showcases"
 contenttypes.showcases.text.new: "New Showcase"
 contenttypes.showcases.text.no-latest: "No latest Showcase"
@@ -126,6 +116,7 @@ contenttypes.showcases.text.not-saved-yet: "This Showcase has not been saved yet
 contenttypes.showcases.text.overview: "Showcases overview"
 contenttypes.showcases.text.publish: "Publish Showcase"
 contenttypes.showcases.text.recent: "Recent Showcases"
+contenttypes.showcases.text.recent-changes-one: "Recent change to this Showcase"
 contenttypes.showcases.text.recently-edited: "Recently edited Showcases"
 contenttypes.showcases.text.reserved-name: "In the contenttype for 'Showcase', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
 contenttypes.showcases.text.save: "Save Showcase"
