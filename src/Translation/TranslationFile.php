@@ -346,7 +346,7 @@ class TranslationFile
                         for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; $level++) {
                             if ($differs || $level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
                                 $differs = true;
-                                if ($level == 0) {
+                                if ($level === 0) {
                                     $content .= $linebreak;
                                     $linebreak = "\n";
                                 }
@@ -370,7 +370,7 @@ class TranslationFile
                 // Value
                 if ($tdata['trans'] === '') {
                     $thint = Trans::__($key);
-                    if ($thint == $key) {
+                    if ($thint === $key) {
                         $thint = isset($hinting[$key]) ? $hinting[$key] : '';
                     }
                     $content .= '#' . ($thint ? ' ' . Escaper::escapeWithDoubleQuotes($thint) : '') . "\n";
