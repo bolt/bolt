@@ -69,15 +69,13 @@ info:
 about:
     bolt: |
         <p>Bolt is a CMS that strives to be simple, fast, straightforward and enjoyable to use. Both for
-            developers and content-editors. Bolt is Open Source, and as such it uses other Open Source
-            components. If you are a developer you're very welcome to help in the further development of Bolt.
-        </p>
+        developers and content-editors. Bolt is Open Source, and as such it uses other Open Source
+        components. If you are a developer you're very welcome to help in the further development of Bolt.</p>
     licence: |
         <p>All parts of Bolt are free to use under the open-source MIT license. The full licensing text can be
-            found here, in the included <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
-        </p>
+        found here, in the included <a href="%paths_root%LICENSE.md">LICENSE.md</a>.</p>
 prefill:
     short_help: |
-        <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dummy content.<p>
+        <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dummy content.</p>
         <p>If all checkboxes are left unchecked, Bolt will only prefill the contenttypes that have no content yet.</p>
 

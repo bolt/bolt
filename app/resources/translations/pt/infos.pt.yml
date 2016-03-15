@@ -63,14 +63,12 @@ about:
     bolt: |
         <p>Bolt é um SGC (CMS) que se esforça para ser simples, rápido, e fácil de usar. Tanto para desenvolvedores
             e editores de conteúdo. Bolt é Open Source, e como tal utiliza outros componentes Open Source.
-            Se você é desenvolvedor, você será muito bem-vindo para ajudar no desenvolvimento de Bolt.
-        </p>
+            Se você é desenvolvedor, você será muito bem-vindo para ajudar no desenvolvimento de Bolt.</p>
     licence: |
         <p>Todas as partes do Bolt são livres para serem utilizadas sob a licença open-source MIT. O texto completo desta licença
-        pode ser encontrada aqui: <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
-        </p>
+        pode ser encontrada aqui: <a href="%paths_root%LICENSE.md">LICENSE.md</a>.</p>
 prefill:
     short_help: |
-        <p>Verifique os tipos de arquivo para cada um dos campos que precisa popular com conteúdo Lorem Ipsum.<p>
+        <p>Verifique os tipos de arquivo para cada um dos campos que precisa popular com conteúdo Lorem Ipsum.</p>
         <p>Se todos os checkboxes a esquerda estão desmarcados, Bolt somente irá pré-popular os contenttypes que ainda não possuem conteúdo.</p>
 

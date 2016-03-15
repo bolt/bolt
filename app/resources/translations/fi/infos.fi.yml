@@ -65,8 +65,7 @@ about:
             lähdekoodin komponentteja. Jos olet kehittäjä, olet tervetullut auttamaan Boltin jatkokehityksessä.</p>
     licence: |
             <p>Kaikki Boltin osat ovat vapaita käyttää avoimen lähdekoodin MIT lisenssin alaisuudessa. Täysi
-            lisenssiteksti teksti on luettavissa mukanatulevassa <a href="%paths_root%LICENSE.md">LICENSE.md</a> -tiedostossa.
-            </p>
+            lisenssiteksti teksti on luettavissa mukanatulevassa <a href="%paths_root%LICENSE.md">LICENSE.md</a> -tiedostossa.</p>
 prefill:
     short_help: |
             <p>Valitse sisältötyypit joihin haluat lisättäväan automaattisesti joitain tietueita täyteteksti sisällöllä.</p>

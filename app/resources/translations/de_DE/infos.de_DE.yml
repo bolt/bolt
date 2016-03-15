@@ -59,17 +59,13 @@ info:
         kann diese benutzt werden, um bestimmte Einträge zu gruppieren oder automatisch Links zu Einträgen mit dieser Klassifizierung zu erstellen.
 about:
     bolt: |
-        <p>
-            Bolt ist ein CMS, das einfach, schnell, zielorientiert und leicht zu benutzen sein möchte. Für beide -
-            Entwickler und Inhalt-Ersteller. Bolt ist Open Source, und benutzt daher andere Open Source Bestandteile.
-            Falls Sie ein Entwickler sind, so sind Sie herzlich dazu eingeladen, bei der zukünftigen Entwicklung von Bolt zu helfen.
-        </p>
+        <p>Bolt ist ein CMS, das einfach, schnell, zielorientiert und leicht zu benutzen sein möchte. Für beide -
+        Entwickler und Inhalt-Ersteller. Bolt ist Open Source, und benutzt daher andere Open Source Bestandteile.
+        Falls Sie ein Entwickler sind, so sind Sie herzlich dazu eingeladen, bei der zukünftigen Entwicklung von Bolt zu helfen.</p>
     licence: |
-        <p>
-            Alle Teile von Bolt sind frei benutzbar unter der Open-Source MIT-Lizenz. Der vollständige Lizenztext kann hier, in
-            der enthaltenen <a href="%paths_root%LICENSE.md">LICENSE.md</a>, eingesehen werden.
-        </p>
+        <p>Alle Teile von Bolt sind frei benutzbar unter der Open-Source MIT-Lizenz. Der vollständige Lizenztext kann hier, in
+        der enthaltenen <a href="%paths_root%LICENSE.md">LICENSE.md</a>, eingesehen werden.</p>
 prefill:
     short_help: |
-        <p>Wählen Sie die Datentypen, für die Sie automatisch ein paar Einträge mit Lorem Ipsum Dummy-Inhalten erstellen lassen möchten.<p>
+        <p>Wählen Sie die Datentypen, für die Sie automatisch ein paar Einträge mit Lorem Ipsum Dummy-Inhalten erstellen lassen möchten.</p>
         <p>Falls Sie kein Kontrollkästchen anwählen, wird Bolt nur die Datentypen befüllen, die bisher keine Inhalte haben.</p>

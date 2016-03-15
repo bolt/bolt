@@ -69,12 +69,10 @@ about:
         <p>A Bolt egy olyan tartalomkezelő rendszel, mely törekszik a gyorsaságra, az egyszerűségre, a
         következeteségre és élvezetes használhatóságra felhasználóknak és fejlesztőknek egyaránt.
         A Bolt nyílt forrású, ennek megfelelően nyílt forrású komponensek felhasználásával készült.
-        Ha ön pedig fejlesztő, örömmel fogadjuk a segítségét a további fejlesztésekben.
-        </p>
+        Ha ön pedig fejlesztő, örömmel fogadjuk a segítségét a további fejlesztésekben.</p>
     licence: |
         <p>A Bolt minden része szabadon felhasználható a nyílt MIT licenc keretében. A licenc teljes szövege megtalálható
-        itt a mellékelt <a href="%paths_app%LICENSE.txt">LICENSE.txt</a> fájlban.
-        </p>
+        itt a mellékelt <a href="%paths_app%LICENSE.txt">LICENSE.txt</a> fájlban.</p>
 prefill:
     short_help: |
         <p>Jelölje be a tartalomtípusokat, amiket automatikusan fel kíván tölteni Lorem Ipsum álszöveggel.</p>

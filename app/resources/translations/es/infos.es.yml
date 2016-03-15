@@ -78,13 +78,11 @@ about:
         <p>Bolt es un Sistema de Gestión de Contenidos (CMS) que quiere ser simple, rápido, sencillo y agradable de usar,
            tanto para los desarrolladores como para los editores de contenido. Bolt es Código Abierto (Open Source) y como tal
            utiliza otros componentes de Código Abierto. Si eres un desarrollador eres bienvenido a ayudar en el desarrollo
-           de Bolt.
-        </p>
+           de Bolt.</p>
 
     licence: |
         <p>Todas las partes de Bolt se pueden usar libremente bajo la licencia MIT de código abierto. El texto completo de la licencia
-           se encuentra aquí, en el fichero incluido <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
-        </p>
+           se encuentra aquí, en el fichero incluido <a href="%paths_root%LICENSE.md">LICENSE.md</a>.</p>
 
 prefill:
     short_help: |

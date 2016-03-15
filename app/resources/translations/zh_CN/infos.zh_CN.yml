@@ -52,12 +52,10 @@ info:
 about:
     bolt: |
         <p>Bolt 是一款力求保持简洁、快速、直接和乐于使用的CMS系统。同时为开发者和内容管理者而设计。
-            Bolt是开源项目，也用到了其他的开源组件。如果你是开发者，也欢迎你参与到Bolt的后续开发之中。
-        </p>
+            Bolt是开源项目，也用到了其他的开源组件。如果你是开发者，也欢迎你参与到Bolt的后续开发之中。</p>
     licence: |
         <p>Bolt的所有组件都可以在MIT开源协议下使用，协议文本可以在 <a href="%paths_root%LICENSE.md">LICENSE.md</a>
-        中找到。
-        </p>
+        中找到。</p>
 prefill:
     short_help: |
         <p>选中那些你想要自动生成Lorem Ipsum填充内容的内容格式。<p>

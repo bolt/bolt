@@ -66,13 +66,11 @@ about:
     bolt: |
         <p>Bolt est un CMS qui se veut simple, rapide et facile à utiliser, tant pour les développeurs que les
         rédacteurs. Bolt est Open Source, et en tant que tel, utilise d'autres composants Open Source. Si vous
-        êtes développeur, vous êtes cordialement invité à participer au développement de Bolt.
-        </p>
+        êtes développeur, vous êtes cordialement invité à participer au développement de Bolt.</p>
     licence: |
         <p>Le code de Bolt est publié sous licence MIT opensource. Le texte complet de la licence peut être lu
-        dans le fichier <a href="%paths_root%LICENSE.md">LICENSE.md</a>.
-        </p>
+        dans le fichier <a href="%paths_root%LICENSE.md">LICENSE.md</a>.</p>
 prefill:
     short_help: |
-        <p>Cocher les types de contenus pour lesquels doivent être générés des enregistrements de démonstration.<p>
+        <p>Cocher les types de contenus pour lesquels doivent être générés des enregistrements de démonstration.</p>
         <p>Si rien n'est coché, seuls les types de contenus sans contenu existant seront pré-remplis.</p>
