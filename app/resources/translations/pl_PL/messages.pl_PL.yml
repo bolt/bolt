@@ -397,7 +397,7 @@ page.extend.message.before-theme-start: "Zanim będziesz mógł zacząć korzyst
 page.extend.message.check-for-updates: "Sprawdź aktualizacje"
 page.extend.message.checking-installed-packages: "Sprawdzanie zainstalowanych pakietów"
 page.extend.message.checkung-for-updates: "Sprawdzanie dostępności aktualizacji (może to potrwać do 60 sekund)"
-page.extend.message.compatible-unstable-versions: "Wersje wymienione poniżej są kompatybilne z wersją Bolt, której używasz. Ponieważ są to wersje niestabilne, zalecane jest <strong>nie</ strong> korzystać z nich w systemach produkcyjnych."
+page.extend.message.compatible-unstable-versions: "Wersje wymienione poniżej są kompatybilne z wersją Bolt, której używasz. Ponieważ są to wersje niestabilne, zalecane jest <strong>nie</strong> korzystać z nich w systemach produkcyjnych."
 page.extend.message.confirm-remove: "Proszę potwierdzić czy chcesz usunąć to rozszerzenie?"
 page.extend.message.copying: "Kopiowanie assetów skórki …"
 page.extend.message.discover-by-visiting: "Możesz znaleźć nowe rozszerzenia, odwiedzając"
