@@ -1,9 +1,421 @@
-# app/resources/translations/nb/messages.nb.yml -- generated on 2013/12/19 02:14:45
-# no untranslated strings; good ;-)
+# app/resources/translations/nb/messages.nb.yml – generated on 2016-03-15 17:32:39 Europe/Berlin
 
-# 344 translated strings
+# Warning: Translations are in the process of being moved to a new keyword-based translation
+#          at the moment. This is an ongoing process. Translations currently in the 
+#          repository are automatically mapped to the new scheme. Be aware that there 
+#          can be a race condition between that process and your PR so that it's 
+#          eventually necessary to remap your translations. If you're planning on 
+#          updating your translations, it's best to ask on IRC to time your contribution
+#          in order to prevent merge conflicts.
+
+#  63 unused messages
+# 199 untranslated messages
+# 129 untranslated keyword based messages
+# 206 translations
+#  78 keyword based translations
+
+#--- 63 unused messages -------------------------------------------------------
 
 "%contenttypes%": "%contenttypes%"
+"Added user '%s'.": "La til bruker «%s»."
+"Assigned roles": "Tilordnede roler"
+"Browscap file updated.": "Browscap-fil oppdatert."
+"Clear Activitylog": "Tøm aktivitetslogg"
+"Content '%title%' could not be deleted.": "Klarte ikke slette «%title%»."
+"Content '%title%' has been deleted.": "Innholdet «%title%» er slettet."
+"Details are shown above. The importer will now try again with a different parser …": "Detaljer er vist ovenfor. Importeringsprogrammet vil nå forsøke igjen med en annen tolker …"
+"Display name": "Visningsnavn"
+"Email": "E-post"
+"File '%file%' could not be uploaded.": "Klarte ikke laste opp fila «%file%»."
+"Files: %path%": "Filer: %path%"
+"Filtering:": "Filtrering:"
+"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Hvis det var en side med «om» som slug, så ville den bli vist her. Du ser denne plassholderen fordi en slik side ikke fins."
+"Last IP": "Siste IP"
+"Logout %name%": "Logg ut %name%"
+"New user": "Ny bruker"
+"No such action for content.": "Ingen slik handling for innhold."
+"Oops! An error has occurred!": "Oppsann! En feil har oppstått!"
+"Page": "Side"
+"Password (confirmation)": "Passord (bekreftelse)"
+"Password": "Passord"
+"Passwords must match.": "Passordene må samsvare."
+"Permission denied": "Ingen adgang"
+"Preview video": "Forhåndsvis video"
+"Req. Bolt": "Foresp. Bolt"
+"Sitemap": "Nettstedskart"
+"Size:": "Størrelse:"
+"The file '%s' doesn't exist, or is not readable.": "Fila «%s» fins ikke eller er ikke lesbar."
+"The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.": "«name» og «singular_name» for «%contenttype%» er like (%name%). Rediger contenttypes.yml slik at de er forskjellig."
+"The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.": "«slug» og «singular_slug» for «%contenttype%» er like (%slug%). Rediger contenttypes.yml slik at de er forskjellig."
+"There was an error when reading this WXR file": "Det oppstod en feil under lesing av denne WXR-fila"
+"This does not appear to be a WXR file, missing/invalid WXR version number": "Dette ser ikke ut til å være en WXR-fil, WXR-versjonsnummer mangler eller er ugyldig."
+"This email address is already in use. Choose another email address.": "Epostadressen er allerede i bruk. Velg en annen epostadresse."
+"This record is related to %contenttype%": "Denne posten er ikke relatert til %contenttype%"
+"This username is already in use. Choose another username.": "Dette brukernavnet er allerede i bruk. Velg et annet brukernavn."
+"This value is too short. It should have 6 characters or more.": "Denne verdien er for kort. Den må ha 6 tegn eller mer."
+"To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "For å komme raskt i gang, legg til litt <a href='%url%'>Lorem Ipsum dummy-innhold</a>."
+"Trim Activitylog": "Forkort aktivitetslogg"
+"URL:": "URL:"
+"Upload a file to this folder:": "Last opp en fil til denne mappa:"
+"Upload files": "Last opp filer"
+"User %s could not be saved, or nothing was changed.": "Klarte ikke lagre brukeren %s eller så var ingenting endret."
+"User %s has been saved.": "Brukeren «%s» er lagret."
+"User is enabled": "Bruker er aktivert"
+"Version:": "Versjon:"
+"View file '%s'.": "Vis fil «%s»."
+"You do not have the right privileges to create a new record.": "Du har ikke rettigheter til å opprette en ny post."
+"contenttypes.generic.error-saving": "Det oppsto en feil under lagring av %contenttype%."
+"field.general.select-from-stack": "Velg fra bunke"
+"field.geolocation.label.address-lookup:": "Adresseoppslag:"
+"field.video.button.preview": "Forhåndsvis"
+"field.video.preview.button.close": "Lukk"
+"field.video.preview.no-url": "Ingen video-URL er satt, ingen video å vise."
+"in:": "i:"
+"no": "nei"
+"page.ckeditor-browse-server.pixel": "px."
+"page.edit-file.path": "Sti:"
+"panel.latest-activity.headline": "Siste aktivitet"
+"yes": "ja"
+"contenttypes.general.choose-an-entry": "Velg en oppføring"
+"general.bolt-documentation-on-github": "Bolt-dokumentasjonen på Github"
+"general.thanks": "Takk"
+
+#--- 199 untranslated messages ------------------------------------------------
+
+"(none)": #
+"Add Selected": #
+"Add a brief, optional comment to describe what's changed.": #
+"Add a comment:": #
+"Alt": #
+"An error occured while updating `%TABLE%`. The error is %ERROR%": #
+"Are you sure you want to delete %FILENAME%?": #
+"Are you sure you want to do this for %NUMBER% records?": #
+"Are you sure you want to do this for 1 record?": #
+"Are you sure you want to remove these files?": #
+"Are you sure you want to remove these images?": #
+"Are you sure you want to remove this file?": #
+"Are you sure you want to remove this image?": #
+"Are you sure you wish to delete this record? There is no undo.": #
+"At least %NUM% characters required": #
+"Author": #
+"Body": #
+"Bolt has detected one or more configuration issues. You should resolve these, for optimum performance:": #
+"Check/Uncheck all": #
+"Choose an entry": #
+"Clear Change Log": #
+"Clear System Log": #
+"Click to change current status.": #
+"Client error: %errormessage%": #
+"Close editor": #
+"Collapse sidebar": #
+"Content for home not found!": #
+"Create File": #
+"Create folder": #
+"Current (saved) status:": #
+"Date": #
+"Datetime": #
+"Default status": #
+"Delete": #
+"Delete %foldername%": #
+"Delete Set": #
+"Depublish": #
+"Depublish date is in the past. Change the status if you want to depublish now": #
+"Detail template": #
+"Details": #
+"Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
+"Do you really want to delete %FOLDERNAME%?": #
+"Draft": #
+"Duplicate Set": #
+"Edit Roles and Permissions": #
+"Error reading extensions/composer.json file: %ERROR%": #
+"Expand sidebar": #
+"Extension package %NAME% base class '%CLASS%' does not implement \\\\Bolt\\\\Extension\\\\ExtensionInterface and has been skipped.": #
+"Extension package %NAME% has an invalid class '%CLASS%' and has been skipped.": #
+"Extension server returned an error: %errormessage%": #
+"Extras": #
+"Failed to send password request. Please check the email settings.": #
+"Field “%FIELD_NAME%”:": #
+"File": #
+"File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": #
+"File '%s' could not be saved, because the form wasn't valid.": #
+"Filelist": # "File list"
+"Files could not be uploaded.": #
+"Filtering": #
+"Find": #
+"Floatfield": # "Float field"
+"Folder permissions insufficient": #
+"Generic failure while testing connection to extension server: %errormessage%": #
+"Geolocation": #
+"Has to be a floating point number!": #
+"Hints:": #
+"Html": #
+"Id": #
+"Id (№)": #
+"If there was a Block with 'about-us' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder. In the Bolt backend, go to 'check database' and 'Add some sample Records', to create these automatically.": #
+"Imagelist": # "Image list"
+"Integerfield": # "Integer field"
+"Invalid login parameters.": #
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": #
+"Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
+"Is required or needs to match a pattern!": #
+"Is required!": #
+"Keyword …": #
+"Listing template": #
+"Live Edit": #
+"Local extension set up incomplete. Please run 'Install all packages' on the Extensions page.": #
+"Logout": #
+"Main configuration": #
+"Markdown": #
+"Menu item property \"add\" is deprecated. Use \"#\" under \"param\" instead.": #
+"Move Down": #
+"Move Up": #
+"Multiselect": # "Multi-select"
+"New Bolt site has been set up": #
+"No Preview": #
+"No content found.": #
+"No files in the list, yet.": #
+"No images in the list, yet.": #
+"No relations found!": #
+"No theme name found. Theme is not generated.": #
+"None": #
+"Not published": #
+"Not yet installed.": #
+"Note:": #
+"Omnisearch": #
+"Only root can change file extensions.": #
+"Order": #
+"Other content": #
+"Others": #
+"Path to image file": #
+"Please enter a new file name!": #
+"Please enter a new folder name!": #
+"Profile": #
+"Publish": #
+"Published": #
+"Records": #
+"Related content:": #
+"Rename %foldername%": #
+"Repeat": #
+"Run PHP extension checks": #
+"Run all checks": #
+"Run directory checks": #
+"Run email checks": #
+"Save & create new record": #
+"Search for …": #
+"Search results for <b>%search%</b>.": #
+"Select file …": #
+"Select none": #
+"Selectentry": # "Select entry"
+"Selectfield": # "Select field"
+"Selection (#):": #
+"Show proposed alterations": #
+"Slug": #
+"Something went wrong": #
+"Something went wrong with logging in after first user creation!": #
+"Subsubtitle": #
+"Subtitle": #
+"System Configuration Checks": #
+"Teaser": #
+"Template": #
+"Testing connection to extension server failed: %errormessage%": #
+"Textarea": #
+"The Bolt extensions composer.json isn't readable.": #
+"The Bolt extensions composer.json isn't writable.": #
+"The change log has been cleared.": #
+"The change log has been trimmed.": #
+"The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset.": #
+"The field %field% has been changed to \"%newValue%\"": #
+"The file '%s' doesn't exist.": #
+"The file '%s' is not readable.": #
+"The folder '%s' could not be found, or is not readable.": #
+"The system log has been cleared.": #
+"The system log has been trimmed.": #
+"The value has to be at least “%MINVAL%”!": #
+"The value must not be greater than “%MAXVAL%”!": #
+"Theme successfully generated. You can now edit it directly from your theme folder.": #
+"There are no items on the Stack, yet.": #
+"There are no saved changes, yet.": #
+"There are no users present in the system. Please create the first user, which will be granted root privileges.": #
+"There is no undo!": #
+"This record is related to the following %CTNAME%:": #
+"This template adds new fields. Save, then refresh to see these changes.": #
+"Thumbnail": #
+"Time in 24h/12h format": #
+"Timed publish": #
+"Trim Change Log": #
+"Trim System Log": #
+"Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
+"Types": #
+"Unable to create directory: %DIR%": #
+"Unable to create file: %FILE%": #
+"Unable to delete directory: %DIR%": #
+"Unable to delete file: %FILE%": #
+"Unable to duplicate file: %FILE%": #
+"Unable to get installation information for %PACKAGE% %VERSION%.": #
+"Unable to rename directory: %DIR%": #
+"Unable to rename file: %FILE%": #
+"Unable to retrieve login session data. Please check your system's PHP session settings.": #
+"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
+"Upload a file to this folder": #
+"Upload not allowed": #
+"Users & Permissions": #
+"Video": #
+"View (saved version) on site": #
+"View Roles": #
+"View related content": #
+"Warning": #
+"We were unable to generate the theme. It is likely that your theme directory is not writable by Bolt. Check the permissions and try reinstalling.": #
+"Welcome to your new Bolt site, %USER%.": #
+"You cannot '%s' yourself.": #
+"You do not have the right privileges to edit that user.": #
+"You don't have correct permissions to edit the file '%s'.": #
+"You don't have the correct permissions to display the file or directory '%s'.": #
+"You have unfinished changes on this page. If you continue without saving, you will lose these changes.": #
+"You may lose some of your template fields with this change. Go to the template section and note down the values before doing this.": #
+"You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.": #
+"filtered by <em>'%filter%'</em>": #
+"general.bolt-documentation": # "Bolt documentation"
+"general.visit-bolt": # "Visit Bolt.cm"
+"logs.change-log": # "Change Log"
+"logs.system-log": # "System Log"
+"no content …": #
+"no title …": #
+"or": #
+
+#--- 129 untranslated keyword based messages ----------------------------------
+
+"component.changelog-pager.page": # "Page"
+"contenttypes.generic.group.template": # "Template"
+"contenttypes.generic.group.ungrouped": # "Ungrouped"
+"contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
+"contenttypes.generic.no-proper-type": # "In the contenttype for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
+"contenttypes.generic.saving-impossible": # "Could not save %contenttype%."
+"field.general.allowed-filetypes": # "Allowed file types are:"
+"field.general.stack": # "Stack"
+"field.geolocation.label.address-lookup": # "Address lookup"
+"field.geolocation.label.marker-placement": # "Marker placement"
+"field.geolocation.label.snap": # "Snap to nearest address"
+"field.geolocation.placeholder.address": # "Street, ZIP code, city or other location"
+"field.geolocation.title-pin": #
+"field.markdown.label.markedview": # "Markdown"
+"field.markdown.label.preview": # "Preview"
+"field.slug.button.edit": # "Edit"
+"field.slug.button.link": # "Link to:"
+"field.slug.button.lock": # "Lock"
+"field.slug.message.warning": # "Editing this field might break existing links to this record!"
+"field.slug.unique-alias": # "Unique alias"
+"field.video.height": #
+"field.video.label.preview": # "Preview image"
+"field.video.label.url": # "URL of video to embed"
+"field.video.matched-video": # "Matched video"
+"field.video.pixel": # "pixel"
+"field.video.placeholder.url": # "URL of video on Youtube, Vimeo or other video website"
+"field.video.width": #
+"page.edit-file.note-related": # "Note, this file has related files:"
+"page.edit-users.activated.no": # "no"
+"page.edit-users.activated.yes": # "yes"
+"page.edit-users.button.save": # "Save user"
+"page.edit-users.error.email-used": # "This email address is already in use. Choose another email address."
+"page.edit-users.error.password-different-displayname": # "Password must not be a part of the display name."
+"page.edit-users.error.password-different-username": # "Password must not match the username."
+"page.edit-users.error.password-mismatch": # "Passwords must match."
+"page.edit-users.error.password-short": # "This value is too short. It should have 6 characters or more."
+"page.edit-users.error.username-used": # "This username is already in use. Choose another username."
+"page.edit-users.label.assigned-roles": # "Assigned roles"
+"page.edit-users.label.display-name": # "Display name"
+"page.edit-users.label.email": # "Email"
+"page.edit-users.label.last-ip": # "Last IP"
+"page.edit-users.label.last-seen": # "Last seen"
+"page.edit-users.label.password": # "Password"
+"page.edit-users.label.password-confirm": # "Password (confirmation)"
+"page.edit-users.label.user-enabled": # "User account is enabled"
+"page.edit-users.label.username": # "Username"
+"page.edit-users.log.user-added": # "Added user account '%user%'."
+"page.edit-users.log.user-updated": # "Updated user account '%user%'."
+"page.edit-users.message.change-self": # "You've been logged off, because you changed your own username. Please log on again."
+"page.edit-users.message.saving-user": # "User %user% could not be saved, or nothing was changed."
+"page.edit-users.message.user-saved": # "User %user% has been saved."
+"page.edit-users.note-sqlite": # "You are currently using SQLite to set up the first user. If you wish to use MySQL or PostgreSQL instead, edit the configuration file at <tt>'app/config/config.yml'</tt> and Bolt will set up the database tables for you. Be sure to reload this page before continuing."
+"page.edit-users.placeholder.displayname": # "Pick a display name / alias"
+"page.edit-users.placeholder.email": # "Enter a valid email address"
+"page.edit-users.placeholder.password": # "Enter a password, longer than 6 chars"
+"page.edit-users.placeholder.password-confirm": # "Confirm your password"
+"page.edit-users.placeholder.username": # "Pick a username, lowercase only"
+"page.edit-users.title.profile": # "Profile"
+"page.edit-users.user-create": # "Create a new user account, using the form below. The password field is required."
+"page.edit-users.user-edit": # "Edit an existing user account, using the form below. Leave the password fields empty, unless you wish to change the password."
+"page.extend.button.autoload-dump": # "Rebuild Autoloader"
+"page.extend.button.browse-versions": # "Browse Versions"
+"page.extend.button.config": # "Config"
+"page.extend.button.copy-to-theme-folder": # "Copy to theme folder"
+"page.extend.button.info-help": # "More info/help"
+"page.extend.button.install-all": # "Install all Packages"
+"page.extend.button.install-package": # "Install Package"
+"page.extend.button.install-this-version": # "Install This Version"
+"page.extend.button.readme": # "Readme"
+"page.extend.button.show-all-versions": # "Show all versions"
+"page.extend.button.uninstall": # "Uninstall"
+"page.extend.button.update-all": # "Run all Updates"
+"page.extend.button.update-check": # "Run update check"
+"page.extend.button.update-package": # "Update Package"
+"page.extend.button.versions": # "Versions"
+"page.extend.headline.currently-installed": # "Your Currently Installed Extensions"
+"page.extend.headline.install-new-extension": # "Install a new Extension"
+"page.extend.headline.installation-complete": # "Installation complete"
+"page.extend.headline.installing-package": # "Installing package"
+"page.extend.headline.latest-version": # "Latest stable version"
+"page.extend.headline.stable-versions": # "Stable versions"
+"page.extend.headline.test-versions": # "Unstable test versions"
+"page.extend.headline.theme-installation-complete": # "Theme installation complete"
+"page.extend.headline.updates": # "Updates"
+"page.extend.listheader.extension": # "Extension"
+"page.extend.listheader.status": # "Status"
+"page.extend.listheader.version": # "Version"
+"page.extend.message.add-extension-with-form": # "Add a new extension using the form below."
+"page.extend.message.autoload-dump": # "This will rebuild both the autoload files and cache."
+"page.extend.message.bad-json": # "Malformed JSON response. Ensure no debugging or other code is being added to the response"
+"page.extend.message.before-theme-start": # "Before you can start using the theme on your site we need to make a copy to your theme folder. If you would like to give the theme an alternative name you can add one here."
+"page.extend.message.check-for-updates": # "Check for updates"
+"page.extend.message.checking-installed-packages": # "Checking installed packages"
+"page.extend.message.checkung-for-updates": # "Checking for available updates (this may take up to 60 seconds)"
+"page.extend.message.compatible-unstable-versions": # "The versions listed below are compatible with the version of Bolt you are using. Since they are unstable versions, we recommend you <strong>do not</strong> use these on production systems."
+"page.extend.message.confirm-remove": # "Please confirm that you want to remove this extension?"
+"page.extend.message.copying": # "Copying theme assets …"
+"page.extend.message.discover-by-visiting": # "You can discover new extensions by visiting"
+"page.extend.message.ext-dir-missing": # "The extensions directory (<code>%DIRECTORY%</code>) does not exist, or it is not writable. This means that you cannot manage Bolt extensions through the backend; consider managing extensions manually, or changing file permissions to allow Bolt write access to (<code>%DIRECTORY%</code>)."
+"page.extend.message.install-all": # "Running install of all packages …"
+"page.extend.message.installing": # "Preparing to install package …"
+"page.extend.message.installing-selected-package": # "Installing selected package version (this may take up to 60 seconds)."
+"page.extend.message.installs-all-listed-packages": # "This will make sure all packages listed are installed. Use this if you've recently moved to a new server or if you have manually added an extension."
+"page.extend.message.installs-updates": # "This will install all available updates."
+"page.extend.message.latest-version": # "The version listed below is the latest stable release as marked by the developer, which is compatible with the version of Bolt you are currently using."
+"page.extend.message.loading-disabled": # "Extensions loading has been disabled by an administrator in the %CONFIG% file. You may install, update and uninstall extensions but they will not load until this setting has been changed."
+"page.extend.message.maintenance": # "Maintenance"
+"page.extend.message.marked-as-stable": # "The versions listed below are marked as stable releases by the developer and are compatible with the version of Bolt you are currently using."
+"page.extend.message.no-bolt-extensions-installed": # "No Bolt Extensions installed."
+"page.extend.message.no-package-check-in-readmode": # "Cannot check installed packages in read-only mode"
+"page.extend.message.no-stable-versions-available": # "No Stable Versions Available"
+"page.extend.message.no-test-versions-available": # "No Test Versions Available"
+"page.extend.message.no-update-check-in-readmode": # "Cannot check for updates in read-only mode"
+"page.extend.message.overwrite": # "This will overwrite any existing files! Are you sure?"
+"page.extend.message.removing": # "Preparing to remove package …"
+"page.extend.message.running-update": # "Running update …"
+"page.extend.message.shows-updates": # "This won't install anything, just show you available updates"
+"page.extend.message.start-using-extension": # "You can now start using the installed extension, documentation and implementation instructions can be found using the link below."
+"page.extend.message.updated": # "Everything is up to date!"
+"page.extend.message.updating": # "Searching for available updates …"
+"page.extend.pagetitle": # "Extend %BOLTNAME%"
+"page.login.cookies-required": # "Note: Cookies are required to log on to Bolt. Please allow cookies."
+"page.login.title": # "Sign in to Bolt"
+"panel.latest-activity.change": # "Latest changes"
+"panel.latest-activity.created": # "Created"
+"panel.latest-activity.deleted": # "Deleted"
+"panel.latest-activity.system": # "Latest system activity"
+"panel.user-actions.button.add": # "Add a new user"
+
+#--- 206 translations ---------------------------------------------------------
+
 "%name% № %id%": "%name% № %id%"
 "%s files could not be deleted. You should delete them manually.": "Klarte ikke slette %s filer. Du bør slette dem manuelt."
 "(default template)": "(standard mal)"
@@ -13,17 +425,14 @@
 "Actions": "Handlinger"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-default'>eksempelinnhold med Loripsum-tekst</a>"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
-"Added user '%s'.": "La til bruker «%s»."
 "Alas, no about!": "Akk, ingen om!"
 "All content types": "Alle innholdstyper"
 "All users": "Alle brukere"
 "Anonymous": "Anonym"
 "Are you sure you want to delete %username%?": "Er du sikker på at du vil slette username%?"
-"Assigned roles": "Tilordnede roler"
 "Author:": "Forfatter:"
 "Below are the third party libraries that are used by Bolt.": "Nedenfor er tredjepartsbibliotekene som er brukt av Bolt. "
 "Bolt - Fatal error.": "Bolt - fatal feil."
-"Browscap file updated.": "Browscap-fil oppdatert."
 "Browser / platform": "Nettleser / plattform"
 "Built-in role, automatically granted at all times, even if no user is logged in": "Innebygd rolle, automatisk tildelt hele tiden, selv når ingen bruker er innlogget"
 "Built-in role, automatically granted to every registered user": "Innebygd rolle, automatisk tildelt alle registrerte brukere"
@@ -40,18 +449,15 @@
 "Check again": "Sjekk igjen"
 "Check database": "Sjekk database"
 "Class:": "Klasse:"
-"Clear Activitylog": "Tøm aktivitetslogg"
 "Clear cache again": "Tøm mellomlager igjen"
 "Clear filter": "Tøm filter"
 "Clear sort/filter": "Tøm sortering/filter"
 "Clear the cache": "Tøm mellomlageret"
 "Code:": "Kode:"
 "Configuration": "Oppsett"
-"Content '%title%' could not be deleted.": "Klarte ikke slette «%title%»."
-"Content '%title%' could not be modified.": "Klarte ikke endre innholdet «%title%»."
-"Content '%title%' has been deleted.": "Innholdet «%title%» er slettet."
-"Content Type Permissions": "Rettigheter etter innholdstype"
 "Content": "Innhold"
+"Content '%title%' could not be modified.": "Klarte ikke endre innholdet «%title%»."
+"Content Type Permissions": "Rettigheter etter innholdstype"
 "Contenttypes": "Innholdstyper"
 "Create the first user": "Lag den første brukeren"
 "Created on:": "Opprettet:"
@@ -64,86 +470,68 @@
 "Deleted %s files from cache.": "Slettet %s filer fra mellomlager."
 "Depublication date:": "Avpubliseringsdato:"
 "Deselect all": "Fravelg alle"
-"Details are shown above. The importer will now try again with a different parser …": "Detaljer er vist ovenfor. Importeringsprogrammet vil nå forsøke igjen med en annen tolker …"
 "Disable %username%": "Deaktiver %username%"
-"Display name": "Visningsnavn"
 "Done!": "Ferdig!"
 "Duplicate %filename%": "Dupliser %filename%"
-"Edit file": "Rediger fil"
 "Edit": "Rediger"
-"Email": "E-post"
+"Edit file": "Rediger fil"
 "Enable %username%": "Aktiver %username%"
 "Everybody": "Alle"
 "Excerpt": "Utdrag"
 "Extensions": "Utvidelser"
-"File '%file%' could not be uploaded.": "Klarte ikke laste opp fila «%file%»."
 "File '%file%' was uploaded successfully.": "Fila «%file%» er lastet opp."
 "File '%s' could not be saved, for some reason.": "Klarte ikke lagre fila «%s» av en eller annen grunn."
 "File '%s' could not be saved:": "Klarte ikke lagre fila «%s»:"
 "File '%s' has been saved.": "Fila «%s» er lagret."
 "File Management": "Filbehandling"
 "File is not readable!": "Fila kan ikke leses."
+"Files": "Filer"
 "Files in %s": "Filer i %s"
 "Files on the stack": "Filer i bunken"
-"Files": "Filer"
-"Files: %path%": "Filer: %path%"
 "Filesize": "Filstørrelse"
 "Fill the database with Dummy Content": "Fyll databasen med dummyinnhold"
 "Filter": "Filtrer"
-"Filtering:": "Filtrering:"
 "Folder '%s' could not be found, or is not readable.": "Klarte ikke finne mappa «%s» eller så er den ikke lesbar."
 "Folders": "Mapper"
 "Full list …": "Fullstendig liste …"
 "Global Permissions": "Globale rettigheter"
 "IP address": "IP-adresse"
-"If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "Hvis det var en side med «om» som slug, så ville den bli vist her. Du ser denne plassholderen fordi en slik side ikke fins."
 "Image": "Bilde"
 "Info": "Info"
-"Last IP": "Siste IP"
 "Last edited on:": "Sist endret:"
 "Last known IP": "Sist kjente IP"
 "Last seen": "Sist sett"
 "Latest entries": "Siste oppføringer"
 "Login": "Innlogging"
-"Logout %name%": "Logg ut %name%"
 "Long messages": "Lange meldinger"
 "Maintenance": "Vedlikehold"
 "Menu setup": "Menyoppsett"
 "Message:": "Melding:"
 "Messages": "Meldinger"
-"Meta information": "Metainformasjon"
 "Meta": "Meta"
+"Meta information": "Metainformasjon"
 "Modifications made to the database:": "Endringer gjort i databasen:"
 "Modifications needed:": "Endringer som trengs:"
 "Modified": "Endret"
-"New user": "Ny bruker"
 "No results found for '%SEARCHTERM%'. Please try another search.": "Ingen resultat funnet for «%SEARCHTERM%». Prøv et annet søk."
-"No such action for content.": "Ingen slik handling for innhold."
 "No such action for user '%s'.": "Ingen slik handling for bruker «%s»."
-"Oops! An error has occurred!": "Oppsann! En feil har oppstått!"
 "Options": "Innstillinger"
 "Order: %sort%": "Rekkefølge: %sort%"
-"Overview for": "Oversikt for"
 "Overview": "Oversikt"
+"Overview for": "Oversikt for"
 "Owner": "Eier"
 "Owner:": "Eier:"
-"Page": "Side"
-"Password (confirmation)": "Passord (bekreftelse)"
 "Password reset not successful! Either the token was incorrect, or you were too late, or you tried to reset the password from a different IP-address.": "Nullstilling av passord feilet. Enten var nøkkelen feil eller du var for sein eller du prøvde å nullstille fra en annen IP-adresse."
 "Password reset successful! You can now log on with the password that was sent to you via email.": "Passord nullstilt. Du kan nå logge inn med passordet som ble sendt til deg på epost."
-"Password": "Passord"
-"Passwords must match.": "Passordene må samsvare."
 "Path": "Sti"
 "Path:": "Sti:"
 "Permalink": "Permanent lenke"
-"Permission denied": "Ingen adgang"
 "Permissions": "Rettigheter"
 "Place on stack": "Putt i bunke"
 "Please choose the record you want to link to:": "Velg hvilken post to vil lenke til:"
 "Please log on.": "Logg på."
 "Please provide a username": "Oppgi et brukernavn"
 "Prefill database": "Forhåndsfyll databasen"
-"Preview video": "Forhåndsvis video"
 "Preview": "Forhåndsvis"
 "Provided by:": "Skaffet av:"
 "Publication date:": "Publiseringsdato:"
@@ -151,27 +539,24 @@
 "Read more": "Les mer"
 "Related content": "Relatert innhold"
 "Relationships": "Relasjoner"
-"Req. Bolt": "Foresp. Bolt"
-"Roles and Permissions": "Roller og rettigheter"
 "Roles": "Roller"
+"Roles and Permissions": "Roller og rettigheter"
 "Save & return to overview": "Lagre og gå tilbake til oversikt"
 "Saved on:": "Lagret:"
 "Saving …": "Lagrer …"
+"Search": "Søk"
 "Search results for <b> %search% </b>.": "Søkeresultat for <b> %search% </b>."
 "Search …": "Søk …"
-"Search": "Søk"
+"Select": "Velg"
 "Select a page": "Velg en side"
 "Select all": "Velg alle"
 "Select zero or more pages": "Velg null eller flere sider"
-"Select": "Velg"
 "Session expires": "Økt utgår"
 "Session resumed.": "Økt gjenopptatt."
 "Settings": "Innstillinger"
-"Showing %pager_for% %from% - %to% of %count%": "Viser %pager_for% %from% - %to% av %count%"
 "Showing": "Viser"
-"Sitemap": "Nettstedskart"
+"Showing %pager_for% %from% - %to% of %count%": "Viser %pager_for% %from% - %to% av %count%"
 "Size": "Størrelse"
-"Size:": "Størrelse:"
 "Skipped <tt>%key%</tt> (already has records)": "Hoppet over <tt>%key%</tt> (har allerede poster)"
 "Skipped <tt>%key%</tt> (not checked)": "Hoppet over <tt>%key%</tt> (ikke kontrollert)"
 "Slug:": "Slug:"
@@ -183,61 +568,41 @@
 "Taxonomy": "Taksonomi"
 "That user does not exist.": "Den brukeren eksisterer ikke."
 "The database needs to be updated/repaired. Go to 'Configuration' > '<a href=\"%link%\">Check Database</a>' to do this now.": "Databasen trenger å bli oppdatert / reparert. Gå til «Oppsett» > «<a href=\"%link%\">Sjekk database</a>» for å gjøre det nå. "
-"The file '%s' doesn't exist, or is not readable.": "Fila «%s» fins ikke eller er ikke lesbar."
 "The file '%s' is not writable. You will have to use your own editor to make modifications to this file.": "Fila «%s» er ikke skrivbar. Du må bruke ditt eget skriveprogram for å endre denne fila."
 "The following file could not be read:": "Klarte ikke lese følgende fil:"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifikator og slug for '%taxonomytype%' er ikke det samme ('%slug%' vs. '%taxonomytype%'). Endre taxonomy.yml slik at de samsvarer for å hindre inkonsistens mellom databaselager og dine maler."
-"The name and singular_name for '%contenttype%' are the same (%name%). Please edit contenttypes.yml, and make them distinct.": "«name» og «singular_name» for «%contenttype%» er like (%name%). Rediger contenttypes.yml slik at de er forskjellig."
 "The requested changelog entry doesn't exist.": "Den forespurte oppføringen i endringsloggen fins ikke."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Innstillinger for roller og rettigheter lagres i %permissions%."
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug-en '%slug%' brukes i mer enn en innholdstype. Rediger contenttypes.yml slik at alle er forskjellige."
-"The slug and singular_slug for '%contenttype%' are the same (%slug%). Please edit contenttypes.yml, and make them distinct.": "«slug» og «singular_slug» for «%contenttype%» er like (%slug%). Rediger contenttypes.yml slik at de er forskjellig."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Oversettelsesfila «%s» kan ikke opprettes. Du må bruke ditt eget skriveprogram for å endre denne fila."
 "The translations file '%s' is not readable.": "Oversettelsesfila «%s» er ikke lesbar."
 "There are no users in the database. Please create the first user.": "Det er ingen brukere i databasen. Lag den første brukeren."
 "There should always be at least one 'root' user. You have just been promoted. Congratulations!": "Det bør alltid være minst en «root»-bruker. Du har nettopp blitt forfremmet. Gratulerer."
-"There was an error when reading this WXR file": "Det oppstod en feil under lesing av denne WXR-fila"
-"This does not appear to be a WXR file, missing/invalid WXR version number": "Dette ser ikke ut til å være en WXR-fil, WXR-versjonsnummer mangler eller er ugyldig."
-"This email address is already in use. Choose another email address.": "Epostadressen er allerede i bruk. Velg en annen epostadresse."
 "This is a checkbox": "Dette er en avkrysningsboks"
-"This record is related to %contenttype%": "Denne posten er ikke relatert til %contenttype%"
-"This username is already in use. Choose another username.": "Dette brukernavnet er allerede i bruk. Velg et annet brukernavn."
-"This value is too short. It should have 6 characters or more.": "Denne verdien er for kort. Den må ha 6 tegn eller mer."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Dette nettstedet er <a href='%url%' target='_blank' title='Sofistikert, lett og enkelt CMS'>Bygd med Bolt</a>."
 "Tip:": "Tips:"
 "Title": "Tittel"
-"To get started quickly, add some <a href='%url%'>Lorem Ipsum dummy content</a>.": "For å komme raskt i gang, legg til litt <a href='%url%'>Lorem Ipsum dummy-innhold</a>."
 "Translations": "Oversettelser"
-"Trim Activitylog": "Forkort aktivitetslogg"
-"URL:": "URL:"
 "Update the database": "Oppdater databasen"
-"Upload a file to this folder:": "Last opp en fil til denne mappa:"
-"Upload file": "Last opp fil"
-"Upload files": "Last opp filer"
-"Upload image": "Last opp bilde"
 "Upload": "Last opp"
+"Upload file": "Last opp fil"
+"Upload image": "Last opp bilde"
 "Uploaded files": "Opplastede filer"
 "Uploading to this folder is not allowed.": "Opplastingen til denne mappa er ikke tillatt."
 "Used Libraries / Components": "Brukte bibliotek / komponenter"
-"User %s could not be saved, or nothing was changed.": "Klarte ikke lagre brukeren %s eller så var ingenting endret."
-"User %s has been saved.": "Brukeren «%s» er lagret."
 "User '%s' could not be deleted.": "Klarte ikke slette brukeren «%s»."
 "User '%s' could not be disabled.": "Klarte ikke deaktivere brukeren «%s»."
 "User '%s' could not be enabled.": "Klarte ikke aktivere brukeren «%s»."
 "User '%s' is deleted.": "Brukeren «%s» er slettet."
 "User '%s' is disabled.": "Brukeren «%s» er deaktivert."
 "User '%s' is enabled.": "Brukeren «%s» er aktivert."
-"User is enabled": "Bruker er aktivert"
-"Username or password not correct. Please check your input.": "Brukernavn eller passord er feil. Sjekk om du skrev feil."
 "Username": "Brukernavn"
+"Username or password not correct. Please check your input.": "Brukernavn eller passord er feil. Sjekk om du skrev feil."
 "Users": "Brukere"
-"Version:": "Versjon:"
-"View file '%s'.": "Vis fil «%s»."
 "View on site": "Vis på nettsted"
 "View site": "Vis nettsted"
 "View/edit Templates": "Vis / rediger maler"
 "Written by <em>%name%</em> on %date%": "Skrevet av <em>%name%</em> %date%"
-"You do not have the right privileges to create a new record.": "Du har ikke rettigheter til å opprette en ny post."
 "You do not have the right privileges to edit that record.": "Du har ikke rettigheter til å redigere denne posten."
 "You do not have the right privileges to view that page.": "Du har ikke rettigheter til å se på denne siden."
 "You have been logged out.": "Du er logget ut."
@@ -248,105 +613,108 @@
 "and edited": "og redigert"
 "back to editing": "tilbake til redigering"
 "by": "av"
-"component.changelog-detail.by": "av"
-"component.changelog-detail.field": "felt"
-"component.changelog-detail.value-new": "ny verdi"
-"component.changelog-detail.value-old": "gammel verdi"
-"contenttypes.generic.actions-all": "Handlinger for %contenttypes%"
-"contenttypes.generic.actions-one": "Handlinger for denne %contenttypes%"
-"contenttypes.generic.created": "%contenttype% ble opprettet"
-"contenttypes.generic.delete": "Slett %contenttype%"
-"contenttypes.generic.duplicate": "Dupliser %contenttype%"
-"contenttypes.generic.duplicated-finalize": "Innholdet er duplisert. Klikk 'Lagre %contenttype%' for å fullføre."
-"contenttypes.generic.edit": "Rediger %contenttype%"
-"contenttypes.generic.error-saving": "Det oppsto en feil under lagring av %contenttype%."
-"contenttypes.generic.group.meta": "Meta"
-"contenttypes.generic.group.relations": "Relasjoner"
-"contenttypes.generic.group.taxonomy": "Taksonomi"
-"contenttypes.generic.invalid-field": "Klarte ikke sette %field% i %contenttype%: Ugyldig felt."
-"contenttypes.generic.last-modified": "Sist endret %contenttypes%"
-"contenttypes.generic.new": "Ny %contenttype%"
-"contenttypes.generic.no-latest": "Ingen siste %contenttype%"
-"contenttypes.generic.no-recent": "Ingen siste %contenttype%."
-"contenttypes.generic.none-available": "Ingen %contenttypes% tilgjengelig."
-"contenttypes.generic.not-existing": "%contenttype%-en du ser etter fins ikke. Den ble sannsynligvis slettet, eller så har den aldri eksistert."
-"contenttypes.generic.not-saved-yet": "Denne %contenttype% er ikke lagret enda."
-"contenttypes.generic.overview": "oversikt over %contenttypes%"
-"contenttypes.generic.publish": "Publiser %contenttype%"
-"contenttypes.generic.recent": "Nye %contenttypes%"
-"contenttypes.generic.recently-edited": "Nylig redigerte %contenttypes%"
-"contenttypes.generic.reserved-name": "I innholdstypen for «%contenttype%» er feltet «%field%» definert, som er et reservert navn. Rediger contenttypes.yml og fiks dette."
-"contenttypes.generic.save": "Lagre %contenttype%"
-"contenttypes.generic.saved-changes": "Endringene for denne %contenttype% er lagret."
-"contenttypes.generic.saved-new": "Den nye %contenttype% er lagret."
-"contenttypes.generic.show-more": "Flere %contenttypes%"
-"contenttypes.generic.view": "Vis %contenttypes%"
-"contenttypes.generic.wrong-use-field": "I innholdstypen for «%contenttype%», har feltet «%field%» «uses: %uses%», men feltet «%uses%» fins ikke. Rediger contenttypes.yml og fiks dette."
-"field.general.select-from-server": "Velg fra tjener"
-"field.general.select-from-stack": "Velg fra bunke"
-"field.geolocation.label.address-lookup:": "Adresseoppslag:"
-"field.geolocation.label.latitude": "Breddegrad"
-"field.geolocation.label.longitude": "Lengdegrad"
-"field.geolocation.matched-address": "Funnet adresse:"
-"field.slug.permalink": "Permanent lenke"
-"field.video.button.preview": "Forhåndsvis"
-"field.video.label.size": "Størrelse"
-"field.video.preview.button.close": "Lukk"
-"field.video.preview.no-url": "Ingen video-URL er satt, ingen video å vise."
-"generic.noscript.headline": "Javascript er deaktivert"
-"generic.noscript.message": "Javascript er deaktivert i nettleseren din. Det meste av Bolt vil virke uten, men for lettere bruk anbefaler vi at du aktiverer Javascript i nettleseren din."
-"in:": "i:"
+"general.about": "Om"
+"general.about-bolt": "Om Bolt"
+"general.bolt-on-github": "Bolt på Github"
 "line": "linje"
-"no": "nei"
 "none": "ingen"
 "of": "av"
-"page.ckeditor-browse-server.files": "Filer"
-"page.ckeditor-browse-server.folders": "Mapper"
-"page.ckeditor-browse-server.modified": "Endret"
-"page.ckeditor-browse-server.pixel": "px."
-"page.ckeditor-browse-server.size": "Filstørrelse"
-"page.ckeditor-browse-server.title": "Filer"
-"page.dashboard.button.add": "Legg til …"
-"page.dashboard.empty-database": "Det ser ut til at det ikke er noe innhold i databasen."
-"page.dashboard.quickstart": "For å komme raskt i gang, <a href='%url%'>legg til litt Lorem Ipsum dummy-innhold</a>."
-"page.dashboard.title": "Dashbord"
-"page.edit-file.button.revert": "Tilbakestill endringer"
-"page.edit-file.button.save": "Lagre"
-"page.edit-file.confirm-revert": "Er du sikker på at du vil tilbakestille? Dine endringer vil bli mistet hvis du ikke lagrer dem."
-"page.edit-file.path": "Sti:"
-"page.edit-file.title.edit": "Rediger fil"
-"page.edit-file.title.view": "Vis fil"
-"page.edit-locale.button.save": "Lagre"
-"page.edit-locale.title.edit": "Rediger fil"
-"page.edit-locale.title.view": "Vis fil"
-"page.edit-users.error.displayname-used": "Dette visningsnavnet er allerede i bruk. Velg et annet visningsnavn."
-"page.edit-users.title.create": "Lag en ny bruker"
-"page.edit-users.title.edit": "Rediger bruker"
-"page.login.button.back": "Tilbake til innlogging"
-"page.login.button.forgot-password": "Jeg har glemt passordet mitt"
-"page.login.button.log-on": "Logg på"
-"page.login.button.reset-password": "Nullstill passordet mitt"
-"page.login.label.password": "Passord"
-"page.login.label.username": "Brukernavn / e-post"
-"page.login.password-hide": "Skjul"
-"page.login.password-show": "Vis"
-"page.login.placeholder.password": "Brukernavnet ditt"
-"panel.latest-activity.button.more": "mer aktivitet"
-"panel.latest-activity.by": "av"
-"panel.latest-activity.headline": "Siste aktivitet"
-"panel.latest-activity.logged-in": "logget inn"
-"panel.latest-activity.logged-out": "logget ut"
-"panel.latest-activity.saved": "Lagret"
-"panel.latest-activity.unknown": "ukjent"
 "show all": "vis alle"
-"yes": "ja"
-contenttypes.general.choose-an-entry: "Velg en oppføring"
-general.about-bolt: "Om Bolt"
-general.about: "Om"
-general.bolt-documentation-on-github: "Bolt-dokumentasjonen på Github"
-general.bolt-on-github: "Bolt på Github"
-general.thanks: "Takk"
+"users.actions-for-users": "Handlinger for brukere"
+"users.your-password": "Passordet ditt"
+
+#--- 78 keyword based translations --------------------------------------------
+
+component.changelog-detail.by: "av"
+component.changelog-detail.field: "felt"
+component.changelog-detail.value-new: "ny verdi"
+component.changelog-detail.value-old: "gammel verdi"
+
+contenttypes.generic.actions-all: "Handlinger for %contenttypes%"
+contenttypes.generic.actions-one: "Handlinger for denne %contenttypes%"
+contenttypes.generic.created: "%contenttype% ble opprettet"
+contenttypes.generic.delete: "Slett %contenttype%"
+contenttypes.generic.duplicate: "Dupliser %contenttype%"
+contenttypes.generic.duplicated-finalize: "Innholdet er duplisert. Klikk 'Lagre %contenttype%' for å fullføre."
+contenttypes.generic.edit: "Rediger %contenttype%"
+contenttypes.generic.group.meta: "Meta"
+contenttypes.generic.group.relations: "Relasjoner"
+contenttypes.generic.group.taxonomy: "Taksonomi"
+contenttypes.generic.invalid-field: "Klarte ikke sette %field% i %contenttype%: Ugyldig felt."
+contenttypes.generic.last-modified: "Sist endret %contenttypes%"
+contenttypes.generic.new: "Ny %contenttype%"
+contenttypes.generic.no-latest: "Ingen siste %contenttype%"
+contenttypes.generic.no-recent: "Ingen siste %contenttype%."
+contenttypes.generic.none-available: "Ingen %contenttypes% tilgjengelig."
+contenttypes.generic.not-existing: "%contenttype%-en du ser etter fins ikke. Den ble sannsynligvis slettet, eller så har den aldri eksistert."
+contenttypes.generic.not-saved-yet: "Denne %contenttype% er ikke lagret enda."
+contenttypes.generic.overview: "oversikt over %contenttypes%"
+contenttypes.generic.publish: "Publiser %contenttype%"
+contenttypes.generic.recent: "Nye %contenttypes%"
+contenttypes.generic.recently-edited: "Nylig redigerte %contenttypes%"
+contenttypes.generic.reserved-name: "I innholdstypen for «%contenttype%» er feltet «%field%» definert, som er et reservert navn. Rediger contenttypes.yml og fiks dette."
+contenttypes.generic.save: "Lagre %contenttype%"
+contenttypes.generic.saved-changes: "Endringene for denne %contenttype% er lagret."
+contenttypes.generic.saved-new: "Den nye %contenttype% er lagret."
+contenttypes.generic.show-more: "Flere %contenttypes%"
+contenttypes.generic.view: "Vis %contenttypes%"
+contenttypes.generic.wrong-use-field: "I innholdstypen for «%contenttype%», har feltet «%field%» «uses: %uses%», men feltet «%uses%» fins ikke. Rediger contenttypes.yml og fiks dette."
+
+field.general.select-from-server: "Velg fra tjener"
+
+field.geolocation.label.latitude: "Breddegrad"
+field.geolocation.label.longitude: "Lengdegrad"
+field.geolocation.matched-address: "Funnet adresse:"
+
+field.slug.permalink: "Permanent lenke"
+
+field.video.label.size: "Størrelse"
+
+generic.noscript.headline: "Javascript er deaktivert"
+generic.noscript.message: "Javascript er deaktivert i nettleseren din. Det meste av Bolt vil virke uten, men for lettere bruk anbefaler vi at du aktiverer Javascript i nettleseren din."
+
 menu.configuration.routing: "Rutingoppsett"
+
+page.ckeditor-browse-server.files: "Filer"
+page.ckeditor-browse-server.folders: "Mapper"
+page.ckeditor-browse-server.modified: "Endret"
+page.ckeditor-browse-server.size: "Filstørrelse"
+page.ckeditor-browse-server.title: "Filer"
+
+page.dashboard.button.add: "Legg til …"
+page.dashboard.empty-database: "Det ser ut til at det ikke er noe innhold i databasen."
+page.dashboard.quickstart: "For å komme raskt i gang, <a href='%url%'>legg til litt Lorem Ipsum dummy-innhold</a>."
+page.dashboard.title: "Dashbord"
+
+page.edit-file.button.revert: "Tilbakestill endringer"
+page.edit-file.button.save: "Lagre"
+page.edit-file.confirm-revert: "Er du sikker på at du vil tilbakestille? Dine endringer vil bli mistet hvis du ikke lagrer dem."
+page.edit-file.title.edit: "Rediger fil"
+page.edit-file.title.view: "Vis fil"
+
+page.edit-locale.button.save: "Lagre"
+page.edit-locale.title.edit: "Rediger fil"
+page.edit-locale.title.view: "Vis fil"
+
+page.edit-users.error.displayname-used: "Dette visningsnavnet er allerede i bruk. Velg et annet visningsnavn."
+page.edit-users.title.create: "Lag en ny bruker"
+page.edit-users.title.edit: "Rediger bruker"
+
 page.extend.listheader.actions: "Handlinger"
-users.actions-for-users: "Handlinger for brukere"
-users.your-password: "Passordet ditt"
+
+page.login.button.back: "Tilbake til innlogging"
+page.login.button.forgot-password: "Jeg har glemt passordet mitt"
+page.login.button.log-on: "Logg på"
+page.login.button.reset-password: "Nullstill passordet mitt"
+page.login.label.password: "Passord"
+page.login.label.username: "Brukernavn / e-post"
+page.login.password-hide: "Skjul"
+page.login.password-show: "Vis"
+page.login.placeholder.password: "Brukernavnet ditt"
+
+panel.latest-activity.button.more: "mer aktivitet"
+panel.latest-activity.by: "av"
+panel.latest-activity.logged-in: "logget inn"
+panel.latest-activity.logged-out: "logget ut"
+panel.latest-activity.saved: "Lagret"
+panel.latest-activity.unknown: "ukjent"
