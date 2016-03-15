@@ -324,6 +324,9 @@ class TranslationFile
             '#          in order to prevent merge conflicts.' . "\n\n";
         $content = '';
 
+        // Set this to true to get nested output.
+        $nested = true;
+
         foreach ($transByType as $type => $transData) {
             list($text, $translations) = $transData;
             // Header
@@ -338,19 +341,29 @@ class TranslationFile
             foreach ($translations as $key => $tdata) {
                 // Key
                 if ($type == 'DoneKey') {
-                    $differs = false;
-                    for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; $level++) {
-                        if ($differs || $level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
-                            $differs = true;
-                            if ($level == 0) {
-                                $content .= $linebreak;
-                                $linebreak = "\n";
+                    if ($nested) {
+                        $differs = false;
+                        for ($level = 0, $end = count($tdata['key']) - 1; $level < $end; $level++) {
+                            if ($differs || $level >= count($lastKey) - 1 || $lastKey[$level] != $tdata['key'][$level]) {
+                                $differs = true;
+                                if ($level == 0) {
+                                    $content .= $linebreak;
+                                    $linebreak = "\n";
+                                }
+                                $content .= str_repeat($indent, $level) . $tdata['key'][$level] . ':' . "\n";
                             }
-                            $content .= str_repeat($indent, $level) . $tdata['key'][$level] . ':' . "\n";
                         }
+                        $lastKey = $tdata['key'];
+                        $content .= str_repeat($indent, $level) . $tdata['key'][$level] . ': ';
+                    } else {
+                        $key2 = $tdata['key'][0] . (isset($tdata['key'][1]) ? '.' . $tdata['key'][1] : '');
+                        if ($key2 !== $lastKey) {
+                            $content .= $linebreak;
+                            $linebreak = "\n";
+                            $lastKey = $key2;
+                        }
+                        $content .= $key . ': ';
                     }
-                    $lastKey = $tdata['key'];
-                    $content .= str_repeat($indent, $level) . $tdata['key'][$level] . ': ';
                 } else {
                     $content .= Escaper::escapeWithDoubleQuotes($key) . ': ';
                 }
