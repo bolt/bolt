@@ -2,13 +2,13 @@ info:
     upload:
         image: |
             Käytä tätä kenttää lataaksesi kuvan. Klikkaa nappia lataaksesi kuvan koneeltasi, tai uusilla Chrome
-            ja Firefox selaimilla voi raahata kuvan koneeltasi tai toisesta selainikkunasta tähän. <br/>
+            ja Firefox selaimilla voi raahata kuvan koneeltasi tai toisesta selainikkunasta tähän.<br>
             Vaihtoehtoisesti voi käyttää aiemmin ladattua kuvaa. Valitaksesi aiemmin ladatun tiedoston, kirjoita
             (osa) tiedostonimestä kenttään ja se täydennetään automaattisesti.
         file: |
-            Käytä tätä kenttää lataaksesi tiedoston ladattavaksi tai sisällytettäväksi sivustolle. Klikkaa 
-            nappia lataaksesi tiedoston koneeltasi, tai uusilla Chrome ja Firefox selaimilla voi raahata tiedoston 
-            koneeltasi tai toisesta selainikkunasta tähän. <br/>
+            Käytä tätä kenttää lataaksesi tiedoston ladattavaksi tai sisällytettäväksi sivustolle. Klikkaa
+            nappia lataaksesi tiedoston koneeltasi, tai uusilla Chrome ja Firefox selaimilla voi raahata tiedoston
+            koneeltasi tai toisesta selainikkunasta tähän.<br>
             Vaihtoehtoisesti voi käyttää aiemmin ladattua tiedostoa. Valitaksesi aiemmin ladatun tiedoston, kirjoita
             (osa) tiedostonimestä kenttään ja se täydennetään automaattisesti.
         filelist: |
@@ -19,18 +19,18 @@ info:
             (osa) tiedostonimestä kenttään ja se täydennetään automaattisesti.
         imagelist: |
             Käytä tätä kenttää lataaksesi joukon kuvia. Klikkaa nappia lataaksesi kuvan koneeltasi, tai uusilla Chrome
-            ja Firefox selaimilla voi raahata kuvan koneeltasi tai toisesta selainikkunasta tähän. <br/>
-            Vaihtoehtoisesti voi käyttää aiemmin ladattuja kuvia <br/>
+            ja Firefox selaimilla voi raahata kuvan koneeltasi tai toisesta selainikkunasta tähän.<br>
+            Vaihtoehtoisesti voi käyttää aiemmin ladattuja kuvia<br>
             Voit järjestää kuvia raahamalla ja vaihtaa kuvien kuvauksia.
         video: |
             Käytä tätä kenttää upottaaksesi videon sivulle. Raahaa videosivun URL Youtubesta, Vimeosta tai melkein
-            mista tahansa videosivustolta. <br/>
+            mista tahansa videosivustolta.<br>
             Bolt hakee automaattisesti upotuskoodin oikean kokoisena ja alkuperäisella otsikolla. Jos haluat
             muuttaa leveyttä tai korkeutta, toinen arvo päivittyy sen mukaiseksi säilyttäen kuvasuhteen.
     geolocation: |
             Käytä tätä kenttää saadaksesi minkä tahansa osoitteen geosijainti tai sijoita merkki itse raahaamalla
             pinniä. Ensin anna (summittainen) osoite 'osoite'-kenttään ja vastaavat pituus- ja leveysasteet
-            saadaan Google Maps APIlta yhdessä Googlen löytämän lähimmän oikean osoitteen kanssa. <br>
+            saadaan Google Maps APIlta yhdessä Googlen löytämän lähimmän oikean osoitteen kanssa.<br>
             Jos haluat siirtää merkin eri sijaintiin, raahaa pinniä minikartalla. Pituus- ja leveysasteet
             päivittyvät automaattisesti.
     markdown: |

@@ -3,13 +3,13 @@ info:
         image: |
             Use este campo para fazer o upload de uma foto ou imagem. Clique no botão para enviar um arquivo
             de seu computador, ou caso você possua uma versão recente do Chrome ou Firefox, simplesmente arraste seu arquivo
-            de seu computador ou de uma outra janela<br/>
+            de seu computador ou de uma outra janela<br>
             Você também pode usar uma imagem previamente enviada. Para isto, digite parte do nome
             do arquivo no campo de texto e ele será auto-completado com os arquivos disponíveis.
         file: |
             Use este campo para enviar um arquivo para incluir como download ou para usar dentros das páginas do site.
             Clique no botão para enviar um arquivo de seu computador, ou caso você possua uma versão recente
-            do Chrome ou Firefox, simplesmente arraste seu arquivo de seu computador ou de uma outra janela<br/>
+            do Chrome ou Firefox, simplesmente arraste seu arquivo de seu computador ou de uma outra janela<br>
             Você também pode usar um arquivo previamente enviado. Para isto, digite parte do nome
             do arquivo no campo de texto e ele será auto-completado com os arquivos disponíveis.
         filesmall: |
@@ -18,19 +18,19 @@ info:
         imagelist: |
             Use este campo para enviar várias imagens ou fotos. Clique no botão para enviar um arquivo
             de seu computador, ou caso você possua uma versão recente do Chrome ou Firefox, simplesmente arraste seu arquivo
-            de seu computador ou de uma outra janela<br/>
-            Você também pode usar uma imagem previamente enviada. <br />
+            de seu computador ou de uma outra janela<br>
+            Você também pode usar uma imagem previamente enviada.<br>
             Você pode re-organizar as imagens arrastando-as. É possível alterar a descrição das imagens.
         video: |
             Use este campo para adicionar um vídeo a uma página do site. Basta copiar/colar a
-                  URL do vídeo no Youtube, Vimeo ou outro site de compartilhamento de vídeos. <br>
+                  URL do vídeo no Youtube, Vimeo ou outro site de compartilhamento de vídeos.<br>
                   O sistema automaticamente incorpora o código, com a largura e altura corretas além do título original.
                   Se você alterar a largura ou altura, a proporção será mantida.
     geolocation: |
         Use este campo para obter a geolocalização de qualquer endereço, ou adicione o marcador
             manualmente arrastando o marcador. Primeiramente informe o endereço e as coordenadas
             correspondentes serão obtidas usando a API do Google Maps,
-            junto com os endereços próximos, de acordo com o Google Maps. <br>
+            junto com os endereços próximos, de acordo com o Google Maps.<br>
             Se você desejar alterar a localização do marcador, arraste o mesmo no mini-mapa.
             As coordenadas serão ajustadas automaticamente.
     markdown: |
