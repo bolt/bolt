@@ -325,7 +325,7 @@ class TranslationFile
         $content = '';
 
         // Set this to true to get nested output.
-        $nested = true;
+        $nested = false;
 
         foreach ($transByType as $type => $transData) {
             list($text, $translations) = $transData;
