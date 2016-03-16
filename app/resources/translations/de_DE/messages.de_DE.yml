@@ -110,8 +110,8 @@
 "contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 "field.general.stack": # "Stack"
 "field.geolocation.label.snap": # "Snap to nearest address"
-"field.video.height": #
-"field.video.width": #
+"field.video.height": "Höhe"
+"field.video.width": "Breite"
 "page.extend.button.autoload-dump": # "Rebuild Autoloader"
 "page.extend.button.show-all-versions": # "Show all versions"
 "page.extend.headline.latest-version": # "Latest stable version"
