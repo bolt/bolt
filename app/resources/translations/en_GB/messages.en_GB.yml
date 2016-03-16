@@ -60,12 +60,6 @@
 "field.video.button.preview": "Preview"
 "field.video.preview.button.close": "Close"
 "field.video.preview.no-url": "No video url is set, no video to show."
-"Language coverage": #
-"Staff Position": #
-"Staff_position": #
-"Subject": #
-"Subjects": #
-"Text": #
 "The Bolt extensions file '%composerjson%' isn't readable.": #
 "An error occurred.": "An error occurred."
 "If there was a Page with 'about' for a slug, it would've been shown here. But there isn't one, so that's why you're seeing this placeholder.": "If there was a Page with 'about' for a slug, it would’ve been shown here. But there isn’t one, so that’s why you’re seeing this placeholder."
