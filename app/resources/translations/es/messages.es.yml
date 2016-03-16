@@ -654,7 +654,6 @@ field.geolocation.label.marker-placement: "Ubicación de marcador"
 field.geolocation.label.snap: "Ajustar a la dirección más cercana"
 field.geolocation.matched-address: "Dirección correspondiente:"
 field.geolocation.placeholder.address: "Calle, código postal, ciudad o población"
-field.geolocation.title-pin: "Pin"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Vista precia"

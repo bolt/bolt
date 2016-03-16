@@ -301,7 +301,6 @@
 "field.geolocation.label.marker-placement": # "Marker placement"
 "field.geolocation.label.snap": # "Snap to nearest address"
 "field.geolocation.placeholder.address": # "Street, ZIP code, city or other location"
-"field.geolocation.title-pin": #
 "field.markdown.label.markedview": # "Markdown"
 "field.markdown.label.preview": # "Preview"
 "field.slug.button.edit": # "Edit"

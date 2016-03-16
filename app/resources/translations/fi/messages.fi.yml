@@ -653,7 +653,6 @@ field.geolocation.label.marker-placement: "Merkin sijoitus"
 field.geolocation.label.snap: "Tarraa lähimpään osoitteeseen."
 field.geolocation.matched-address: "Vastaava osoite:"
 field.geolocation.placeholder.address: "Katu, postinumero, kaupunkin tai muu sijainti"
-field.geolocation.title-pin: "Pinni"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Esikatselu"

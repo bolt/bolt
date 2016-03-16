@@ -640,7 +640,6 @@ field.geolocation.label.longitude: "Longitude"
 field.geolocation.label.marker-placement: "Emplacement du marqueur"
 field.geolocation.matched-address: "Adresse correspondante"
 field.geolocation.placeholder.address: "Rue, code postal, ville ou autre indication géographique"
-field.geolocation.title-pin: "Epingle"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Aperçu"

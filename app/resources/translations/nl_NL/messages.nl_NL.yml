@@ -166,7 +166,6 @@
 "contenttypes.generic.invalid-relation": # "In the contenttype for '%contenttype%', the relation '%relation%' is defined, which is not a valid contenttype. Please edit contenttypes.yml, and correct this."
 "field.general.stack": # "Stack"
 "field.geolocation.label.snap": # "Snap to nearest address"
-"field.geolocation.title-pin": #
 "field.slug.button.edit": # "Edit"
 "field.slug.button.link": # "Link to:"
 "field.slug.button.lock": # "Lock"

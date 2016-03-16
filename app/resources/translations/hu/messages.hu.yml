@@ -150,7 +150,6 @@
 "contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
 "field.general.stack": # "Stack"
 "field.geolocation.label.snap": # "Snap to nearest address"
-"field.geolocation.title-pin": #
 "field.markdown.label.markedview": # "Markdown"
 "field.markdown.label.preview": # "Preview"
 "field.slug.button.edit": # "Edit"

@@ -528,7 +528,6 @@ field.geolocation.label.longitude: "Längengrad"
 field.geolocation.label.marker-placement: "Markierung setzen"
 field.geolocation.matched-address: "Gefundene Adresse"
 field.geolocation.placeholder.address: "Straße, Postleitzahl, Stadt oder Ortsangabe"
-field.geolocation.title-pin: "Pin"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Vorschau"

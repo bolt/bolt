@@ -15,7 +15,7 @@
 # 153 keyword based translations
 
 #--- 42 unused messages -------------------------------------------------------
- 
+
 "Add some sample <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>": "Добавить контент <a href='%url%' class='btn btn-tertiary'>Records with Loripsum text</a>"
 "An error occurred.": "Невозможно выполнить запрос."
 "Bolt Extension could not be found. Please check at %site% to ensure correct name.": "Расширение не было найдено. Пожалуйста пройдите по ссылке %site% чтобы проверить имя."
@@ -202,7 +202,6 @@
 "contenttypes.generic.recent-changes-one": # "Recent changes to this %contenttype%"
 "field.general.stack": # "Stack"
 "field.geolocation.label.snap": # "Snap to nearest address"
-"field.geolocation.title-pin": #
 "field.markdown.label.markedview": # "Markdown"
 "field.markdown.label.preview": # "Preview"
 "field.slug.button.edit": # "Edit"
